@@ -1,0 +1,669 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GDPR Cookie Consent\n"
+"POT-Creation-Date: 2019-07-31 10:50+0530\n"
+"PO-Revision-Date: 2019-07-31 10:50+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.3\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: gdpr-cookie-consent.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: admin/class-gdpr-cookie-consent-admin.php:163
+#: admin/class-gdpr-cookie-consent-admin.php:187
+msgid "Cookie Bar Shortcodes"
+msgstr "Kratki kodovi kolačića"
+
+#: admin/class-gdpr-cookie-consent-admin.php:164
+msgid ""
+"You can enter the shortcodes in the \"message\" field of the Cookie Consent "
+"bar. They add nicely formatted buttons and/or links into the cookie bar, "
+"without you having to add any HTML."
+msgstr ""
+"Možete unijeti kratica u polju \"poruka\" na traci pristanka kolačića. "
+"Dodaju lijepo oblikovane gumbe i/ili veze u traku kolačića, bez dodavanja "
+"bilo kojeg HTML-a."
+
+#: admin/class-gdpr-cookie-consent-admin.php:168
+msgid "This is the \"main button\" you customize below."
+msgstr "Ovo je \"glavni gumb\" koji možete prilagoditi u nastavku."
+
+#: admin/class-gdpr-cookie-consent-admin.php:172
+msgid "This is the cookie reject button shortcode."
+msgstr "Ovo je SHORTCODE gumba za odbacivanje kolačića."
+
+#: admin/class-gdpr-cookie-consent-admin.php:176
+msgid "This is the \"read more\" link you customize above."
+msgstr "To je veza \"Read više\" koju možete prilagoditi gore."
+
+#: admin/class-gdpr-cookie-consent-admin.php:180
+msgid "This is the cookie settings button shortcode."
+msgstr "Ovo je SHORTCODE gumba za postavke kolačića."
+
+#: admin/class-gdpr-cookie-consent-admin.php:194
+#: admin/class-gdpr-cookie-consent-admin.php:195
+msgid "Help &amp; Support"
+msgstr "Pomoć &amp; Podrška"
+
+#: admin/class-gdpr-cookie-consent-admin.php:196
+msgid ""
+"If you need help understanding, using, or extending GDPR Cookie Consent "
+"Plugin,"
+msgstr ""
+"Ako vam je potrebna pomoć pri razumijevanju, korištenju ili proširenju GDPR "
+"dodatka za kolačić"
+
+#: admin/class-gdpr-cookie-consent-admin.php:196
+msgid "please read our documentation."
+msgstr "Molimo pročitajte našu dokumentaciju."
+
+#: admin/class-gdpr-cookie-consent-admin.php:196
+msgid ""
+"You will find all kinds of resources including snippets, tutorials and more."
+msgstr "Naći ćete sve vrste resursa, uključujući isječke, tutoriali i više."
+
+#: admin/class-gdpr-cookie-consent-admin.php:197
+msgid "For further assistance with GDPR Cookie Consent plugin you can use the"
+msgstr "Za daljnju pomoć s GDPR-om dodatka za kolačiće možete koristiti"
+
+#: admin/class-gdpr-cookie-consent-admin.php:197
+msgid "community forum."
+msgstr "foruma zajednice."
+
+#: admin/class-gdpr-cookie-consent-admin.php:197
+msgid "If you need help with premium extensions sold by WPEka"
+msgstr "Ako vam je potrebna pomoć s Premium proširenja prodaje WPEka"
+
+#: admin/class-gdpr-cookie-consent-admin.php:197
+msgid "use our helpdesk."
+msgstr "koristiti našu pomoć."
+
+#: admin/class-gdpr-cookie-consent-admin.php:203
+#: admin/class-gdpr-cookie-consent-admin.php:204
+msgid "Found a bug?"
+msgstr "Našao si bubu?"
+
+#: admin/class-gdpr-cookie-consent-admin.php:205
+msgid ""
+"If you find a bug within GDPR Cookie Consent plugin you can create a ticket "
+"via"
+msgstr ""
+"Ako pronađete bug u GDPR kolačić pristanak čep možete stvoriti ulaznicu putem"
+
+#: admin/class-gdpr-cookie-consent-admin.php:205
+msgid "our helpdesk."
+msgstr "našu pomoć."
+
+#: admin/class-gdpr-cookie-consent-admin.php:209
+msgid "For more information:"
+msgstr "Za više informacija:"
+
+#: admin/class-gdpr-cookie-consent-admin.php:210
+msgid "About GDPR Cookie Consent"
+msgstr "O GDPR privolu za kolačiće"
+
+#: admin/class-gdpr-cookie-consent-admin.php:211
+msgid "WordPress.org project"
+msgstr "WordPress.org projekt"
+
+#: admin/class-gdpr-cookie-consent-admin.php:212
+msgid "WPEka Plugins"
+msgstr "WPEka plugins"
+
+#: admin/class-gdpr-cookie-consent-admin.php:231
+msgid "five star"
+msgstr "pet zvjezdica"
+
+#. Plugin Name of the plugin/theme
+#: admin/class-gdpr-cookie-consent-admin.php:242
+#: public/views/gdpr-cookie-consent-public-details.php:158
+msgid "GDPR Cookie Consent"
+msgstr "GDPR pristanak kolačića"
+
+#: admin/class-gdpr-cookie-consent-admin.php:243
+msgid "Cookie Settings"
+msgstr "Postavke kolačića"
+
+#: admin/class-gdpr-cookie-consent-admin.php:267
+msgid "You do not have sufficient permission to perform this operation"
+msgstr "Nemate dostatnu dozvolu za obavljanje ove operacije"
+
+#: admin/class-gdpr-cookie-consent-admin.php:286
+msgid "Settings Updated."
+msgstr "Postavke su ažurirane."
+
+#: admin/class-gdpr-cookie-consent-admin.php:321
+msgid "Extra Large"
+msgstr "Jako veliko"
+
+#: admin/class-gdpr-cookie-consent-admin.php:322
+msgid "Large"
+msgstr "veliki"
+
+#: admin/class-gdpr-cookie-consent-admin.php:323
+msgid "Medium"
+msgstr "Srednji"
+
+#: admin/class-gdpr-cookie-consent-admin.php:324
+msgid "Small"
+msgstr "Mali"
+
+#: admin/class-gdpr-cookie-consent-admin.php:338
+#: admin/views/admin-display-buttons.php:139
+msgid "Close Header"
+msgstr "Zatvori zaglavlje"
+
+#: admin/class-gdpr-cookie-consent-admin.php:339
+msgid "Open URL"
+msgstr "Otvori URL"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:58
+msgid "Incomplete"
+msgstr "nepotpun"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:59
+msgid "Completed"
+msgstr "dovršen"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:60
+msgid "Stopped"
+msgstr "Zaustavljen"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:77
+msgid "About Cookies Message"
+msgstr "O poruci o kolačićima"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:96
+msgid "Cookie List"
+msgstr "Popis kolačića"
+
+#: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:37
+msgid "Unable to handle your request."
+msgstr "Nije moguće obraditi vaš zahtjev."
+
+#: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:59
+msgid "Unable to add cookie"
+msgstr "Nije moguće dodati kolačić"
+
+#: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:88
+msgid "Cookie added successfully"
+msgstr "Kolačić je uspješno dodan"
+
+#: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:103
+msgid "Unable to update cookies"
+msgstr "Nije moguće ažurirati kolačiće"
+
+#: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:149
+msgid "Cookies updated successfully"
+msgstr "Kolačići su uspješno ažurirani"
+
+#: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:151
+msgid "No data was modified on the form."
+msgstr "Na obrascu nisu izmijenjeni podaci."
+
+#: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:167
+msgid "Unable to delete cookie"
+msgstr "Nije moguće izbrisati kolačić"
+
+#: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:177
+msgid "Cookie deleted successfully"
+msgstr "Cookie je uspješno izbrisana"
+
+#: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:200
+msgid "Success"
+msgstr "Uspjeh"
+
+#: admin/modules/cookie-custom/views/cookies.php:18
+msgid "Custom Cookies"
+msgstr "Prilagođeni kolačići"
+
+#: admin/modules/cookie-custom/views/cookies.php:30
+msgid "Add New Cookie"
+msgstr "Dodaj novi kolačić"
+
+#: admin/modules/cookie-custom/views/cookies.php:39
+#: admin/modules/cookie-custom/views/custom-cookie-list.php:29
+msgid "Cookie Name"
+msgstr "Naziv kolačića"
+
+#: admin/modules/cookie-custom/views/cookies.php:40
+#: admin/modules/cookie-custom/views/custom-cookie-list.php:30
+msgid "Cookie Domain"
+msgstr "Domena kolačića"
+
+#: admin/modules/cookie-custom/views/cookies.php:49
+msgid "Cookie Duration (in days)"
+msgstr "Trajanje kolačića (u danima)"
+
+#: admin/modules/cookie-custom/views/cookies.php:52
+#: admin/modules/cookie-custom/views/custom-cookie-list.php:42
+msgid "Cookie Purpose"
+msgstr "Namjena kolačića"
+
+#: admin/modules/cookie-custom/views/cookies.php:54
+msgid "Cancel"
+msgstr "Otkazati"
+
+#: admin/modules/cookie-custom/views/cookies.php:55
+msgid "Save"
+msgstr "Uštedjeti"
+
+#: admin/modules/cookie-custom/views/custom-cookie-list.php:39
+msgid "Cookie Duration"
+msgstr "Trajanje kolačića"
+
+#: admin/modules/cookie-custom/views/custom-cookie-list.php:44
+msgid "Delete Cookie"
+msgstr "Izbriši kolačić"
+
+#: admin/partials/gdpr-cookie-consent-admin-display.php:21
+msgid "Settings updated."
+msgstr "Postavke ažurirane."
+
+#: admin/partials/gdpr-cookie-consent-admin-display.php:22
+msgid "Unable to update Settings."
+msgstr "Nije moguće ažurirati postavke."
+
+#: admin/partials/gdpr-cookie-consent-admin-display.php:29
+msgid "General"
+msgstr "General"
+
+#: admin/partials/gdpr-cookie-consent-admin-display.php:30
+msgid "Customize Cookie Bar"
+msgstr "Prilagodba trake kolačića"
+
+#: admin/partials/gdpr-cookie-consent-admin-display.php:31
+msgid "Customize Buttons"
+msgstr "Prilagodi gumbe"
+
+#: admin/views/admin-display-buttons.php:19
+msgid "Accept Button"
+msgstr "Gumb Prihvati"
+
+#: admin/views/admin-display-buttons.php:20
+msgid "Reject Button"
+msgstr "Gumb za odbacivanje"
+
+#: admin/views/admin-display-buttons.php:21
+msgid "Read More Link"
+msgstr "Pročitaj više vezu"
+
+#: admin/views/admin-display-buttons.php:36
+msgid ""
+"This button/link can be customized to either simply close the cookie bar, or "
+"follow a link. You can also customize the colors and styles, and show it as "
+"a link or a button."
+msgstr ""
+"Ovaj gumb/veza može se prilagoditi ili jednostavno zatvoriti traku kolačića "
+"ili slijediti vezu. Također možete prilagoditi boje i stilove i prikazati ga "
+"kao vezu ili gumb."
+
+#: admin/views/admin-display-buttons.php:39
+#: admin/views/admin-display-buttons.php:105
+#: admin/views/admin-display-buttons.php:176
+msgid "Text"
+msgstr "Tekst"
+
+#: admin/views/admin-display-buttons.php:45
+#: admin/views/admin-display-buttons.php:111
+#: admin/views/admin-display-buttons.php:182
+msgid "Text color"
+msgstr "Boja teksta"
+
+#: admin/views/admin-display-buttons.php:53
+#: admin/views/admin-display-buttons.php:119
+#: admin/views/admin-display-buttons.php:190
+msgid "Show as"
+msgstr "Pokaži kao"
+
+#: admin/views/admin-display-buttons.php:55
+#: admin/views/admin-display-buttons.php:121
+#: admin/views/admin-display-buttons.php:192
+msgid "Button"
+msgstr "Dugme"
+
+#: admin/views/admin-display-buttons.php:56
+#: admin/views/admin-display-buttons.php:122
+#: admin/views/admin-display-buttons.php:194
+msgid "Link"
+msgstr "Veza"
+
+#: admin/views/admin-display-buttons.php:60
+#: admin/views/admin-display-buttons.php:126
+msgid "Background color"
+msgstr "Boja pozadine"
+
+#: admin/views/admin-display-buttons.php:68
+#: admin/views/admin-display-buttons.php:134
+msgid "Action"
+msgstr "Radnja"
+
+#: admin/views/admin-display-buttons.php:76
+#: admin/views/admin-display-buttons.php:146
+#: admin/views/admin-display-buttons.php:199
+msgid "URL"
+msgstr "URL"
+
+#: admin/views/admin-display-buttons.php:79
+#: admin/views/admin-display-buttons.php:149
+msgid "Button will only link to URL if Action = Open URL"
+msgstr "Gumb će se povezati samo s URL-om ako akcija = Otvori URL"
+
+#: admin/views/admin-display-buttons.php:84
+#: admin/views/admin-display-buttons.php:154
+#: admin/views/admin-display-buttons.php:206
+msgid "Open URL in new window?"
+msgstr "Otvaranje URL-a u novom prozoru?"
+
+#: admin/views/admin-display-buttons.php:86
+#: admin/views/admin-display-buttons.php:156
+#: admin/views/admin-display-buttons.php:208
+msgid "Yes"
+msgstr "Da"
+
+#: admin/views/admin-display-buttons.php:87
+#: admin/views/admin-display-buttons.php:157
+#: admin/views/admin-display-buttons.php:209
+msgid "No"
+msgstr "Ne"
+
+#: admin/views/admin-display-buttons.php:91
+#: admin/views/admin-display-buttons.php:161
+#: admin/views/admin-display-buttons.php:214
+msgid "Size"
+msgstr "Veličina"
+
+#: admin/views/admin-display-buttons.php:172
+msgid ""
+"This button/link can be used to provide a link out to your Privacy & Cookie "
+"Policy. You can customize it any way you like."
+msgstr ""
+"Ovaj gumb/link može se koristiti za pružanje veze na svoju privatnost i "
+"cookie pravila. Možete ga prilagoditi kako god želite."
+
+#: admin/views/admin-display-general.php:24
+msgid "Cookie Bar is currently:"
+msgstr "Bar Cookie trenutno je:"
+
+#: admin/views/admin-display-general.php:26
+#: admin/views/admin-display-general.php:33
+#: admin/views/admin-display-general.php:40
+msgid "On"
+msgstr "Uklj."
+
+#: admin/views/admin-display-general.php:27
+#: admin/views/admin-display-general.php:34
+#: admin/views/admin-display-general.php:41
+msgid "Off"
+msgstr "od"
+
+#: admin/views/admin-display-general.php:31
+msgid "Autotick for Non-Necessary Cookies:"
+msgstr "Autotick za Neneophodne kolačiće:"
+
+#: admin/views/admin-display-general.php:38
+msgid "Show Credits:"
+msgstr "Pokaži kredite:"
+
+#: admin/views/admin-display-general.php:45
+msgid "On hide"
+msgstr "Na Sakrij"
+
+#: admin/views/admin-display-general.php:50
+#: admin/views/admin-display-general.php:53
+msgid "Animate"
+msgstr "Animirati"
+
+#: admin/views/admin-display-general.php:51
+#: admin/views/admin-display-general.php:54
+msgid "Disappear"
+msgstr "Nestati"
+
+#: admin/views/admin-display-messagebar.php:22
+msgid "Message Heading"
+msgstr "Zaglavlje poruke"
+
+#: admin/views/admin-display-messagebar.php:25
+msgid "Leave it blank, If you do not need a heading"
+msgstr "Ostavite ga prazno, ako vam nije potreban naslov"
+
+#: admin/views/admin-display-messagebar.php:30
+msgid "Message"
+msgstr "Poruka"
+
+#: admin/views/admin-display-messagebar.php:36
+msgid "Shortcodes allowed: see the Help tab"
+msgstr "Shortcodes dopušteni: pogledajte karticu pomoć"
+
+#: admin/views/admin-display-messagebar.php:36
+msgid ""
+"Examples: \"We use cookies on this website [wpl_cookie_button] to find out "
+"how to delete cookies [wpl_cookie_link].\""
+msgstr ""
+"Primjeri: \"koristimo kolačiće na ovoj internetskoj stranici "
+"[wpl_cookie_button] kako bismo saznali kako izbrisati kolačiće "
+"[wpl_cookie_link].\""
+
+#: admin/views/admin-display-messagebar.php:40
+msgid "Cookie Bar Color"
+msgstr "Traka kolačića boja"
+
+#: admin/views/admin-display-messagebar.php:48
+msgid "Text Color"
+msgstr "Boja teksta"
+
+#: admin/views/admin-display-save-button.php:23
+msgid "Save All Cookies"
+msgstr "Spremi sve kolačiće"
+
+#: admin/views/admin-display-save-button.php:30
+msgid "Update"
+msgstr "ažuriranje"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:35
+msgid "HTTP Cookie"
+msgstr "HTTP kolačić"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:36
+msgid "HTML Local Storage"
+msgstr "HTML lokalno skladištenje"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:37
+msgid "Flash Local Shared Object"
+msgstr "Flash lokalni zajednički objekt"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:38
+msgid "Pixel Tracker"
+msgstr "Praćenje piksela"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:39
+msgid "IndexedDB"
+msgstr "IndexedDB"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:40
+msgid "Read More"
+msgstr "Čitaj više"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:41
+msgid "Reject"
+msgstr "Odbiti"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:42
+msgid "Accept"
+msgstr "Prihvatiti"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:43
+#: public/class-gdpr-cookie-consent-public.php:179
+msgid "Show Details"
+msgstr "Pokaži detalje"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:44
+#: public/class-gdpr-cookie-consent-public.php:180
+msgid "Hide Details"
+msgstr "Sakri detalje"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:45
+msgid "Necessary"
+msgstr "potreban"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:46
+msgid "Marketing"
+msgstr "Marketing"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:47
+msgid "Analytics"
+msgstr "Analitika"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:48
+msgid "Preferences"
+msgstr "Postavke"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:49
+msgid "Unclassified"
+msgstr "neklasifikovan"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:50
+msgid ""
+"Necessary cookies help make a website usable by enabling basic functions "
+"like page navigation and access to secure areas of the website. The website "
+"cannot function properly without these cookies."
+msgstr ""
+"Potrebni kolačići pomažu da web-mjesto bude upotrebljivo omogućavanjem "
+"osnovnih funkcija kao što su navigacija stranicom i pristup sigurnim "
+"područjima web stranice. Web-mjesto ne može ispravno funkcionirati bez tih "
+"kolačića."
+
+#: includes/class-gdpr-cookie-consent-i18n.php:51
+msgid ""
+"Marketing cookies are used to track visitors across websites. The intention "
+"is to display ads that are relevant and engaging for the individual user and "
+"thereby more valuable for publishers and third party advertisers."
+msgstr ""
+"Marketinški kolačići koriste se za praćenje posjetitelja preko web stranica. "
+"Namjera je prikazati oglase koji su relevantni i angažiranje za pojedinačnog "
+"korisnika i time vrjedniji za izdavače i oglašivače trećih strana."
+
+#: includes/class-gdpr-cookie-consent-i18n.php:52
+msgid ""
+"Analytics cookies help website owners to understand how visitors interact "
+"with websites by collecting and reporting information anonymously."
+msgstr ""
+"Analytics kolačići pomažu vlasnicima web stranica da razumiju kako "
+"posjetitelji komuniciraju s web-lokacijama prikupljanjem i izvješćivanjem "
+"anonimnog informacija."
+
+#: includes/class-gdpr-cookie-consent-i18n.php:53
+msgid ""
+"Preference cookies enable a website to remember information that changes the "
+"way the website behaves or looks, like your preferred language or the region "
+"that you are in."
+msgstr ""
+"Preferenci Kolačići omogućuju web-mjestu da zapamti informacije koje "
+"mijenjaju način na koji se web-mjesto ponaša ili izgleda, kao što je vaš "
+"željeni jezik ili regija u kojoj se nalazite."
+
+#: includes/class-gdpr-cookie-consent-i18n.php:54
+msgid ""
+"Unclassified cookies are cookies that we are in the process of classifying, "
+"together with the providers of individual cookies."
+msgstr ""
+"Neklasificirani kolačići su kolačići koje smo klasificirali, zajedno s "
+"pružateljima pojedinačnih kolačića."
+
+#: includes/class-gdpr-cookie-consent-i18n.php:55
+msgid ""
+"Cookies are small text files that can be used by websites to make a user's "
+"experience more efficient. The law states that we can store cookies on your "
+"device if they are strictly necessary for the operation of this site. For "
+"all other types of cookies we need your permission. This site uses different "
+"types of cookies. Some cookies are placed by third party services that "
+"appear on our pages."
+msgstr ""
+"Kolačići su male tekstualne datoteke koje web-mjesta mogu koristiti kako bi "
+"korisničko iskustvo bilo učinkovitije. Zakon kaže da možemo pohraniti "
+"kolačiće na vaš uređaj ako su strogo nužni za rad ove stranice. Za sve druge "
+"vrste kolačića trebamo vašu dozvolu. Ova stranica koristi različite vrste "
+"kolačića. Neke kolačiće stavljaju usluge trećih strana koje se pojavljuju na "
+"našim stranicama."
+
+#: public/views/gdpr-cookie-consent-public-details.php:21
+msgid "I consent to the use of following cookies:"
+msgstr "Pristajem na korištenje sljedećih kolačića:"
+
+#: public/views/gdpr-cookie-consent-public-details.php:50
+msgid "Cookie declaration"
+msgstr "Izjava o kolačićima"
+
+#: public/views/gdpr-cookie-consent-public-details.php:51
+msgid "About cookies"
+msgstr "O kolačićima"
+
+#: public/views/gdpr-cookie-consent-public-details.php:86
+msgid "Name"
+msgstr "Ime"
+
+#: public/views/gdpr-cookie-consent-public-details.php:87
+msgid "Domain"
+msgstr "Domene"
+
+#: public/views/gdpr-cookie-consent-public-details.php:88
+msgid "Purpose"
+msgstr "Svrhu"
+
+#: public/views/gdpr-cookie-consent-public-details.php:89
+msgid "Expiry"
+msgstr "istek"
+
+#: public/views/gdpr-cookie-consent-public-details.php:90
+msgid "Type"
+msgstr "Tip"
+
+#: public/views/gdpr-cookie-consent-public-details.php:101
+#: public/views/gdpr-cookie-consent-public-details.php:110
+#: public/views/gdpr-cookie-consent-public-details.php:124
+#: public/views/gdpr-cookie-consent-public-details.php:133
+msgid "---"
+msgstr "---"
+
+#: public/views/gdpr-cookie-consent-public-details.php:117
+msgid "Pending"
+msgstr "U tijeku"
+
+#: public/views/gdpr-cookie-consent-public-details.php:143
+msgid "We do not use cookies of this type."
+msgstr "Ne koristimo kolačiće ove vrste."
+
+#: public/views/gdpr-cookie-consent-public-details.php:158
+msgid "Powered by"
+msgstr "Pokreće"
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "https://club.wpeka.com"
+msgstr "https://club.wpeka.com"
+
+#. Description of the plugin/theme
+msgid ""
+"Cookie Consent will help you put up a subtle banner in the footer of your "
+"website to showcase compliance status regarding the EU Cookie law."
+msgstr ""
+"Suglasnost kolačića pomoći će vam da postavite suptilan transparent u "
+"podnožju web-lokacije kako biste pokazali status usklađenosti u pogledu "
+"zakona EU-a o kolačićima."
+
+#. Author of the plugin/theme
+msgid "wpeka"
+msgstr "wpeka"
