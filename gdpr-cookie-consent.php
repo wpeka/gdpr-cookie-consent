@@ -36,6 +36,9 @@ define( 'GDPR_COOKIE_CONSENT_DB_KEY_PREFIX', 'GDPRCookieConsent-' );
 define( 'GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER', '2.0' );
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_FIELD', GDPR_COOKIE_CONSENT_DB_KEY_PREFIX . GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_FILENAME', __FILE__ );
+define( 'GDPR_POLICY_DATA_POST_TYPE', 'gdprpolicies' );
+define( 'GDPR_CSV_DELIMITER', ',' );
+
 
 /**
  * Clean variables using sanitize_text_field. Arrays are cleaned recursively.
@@ -74,6 +77,8 @@ function deactivate_gdpr_cookie_consent() {
 
 register_activation_hook( __FILE__, 'activate_gdpr_cookie_consent' );
 register_deactivation_hook( __FILE__, 'deactivate_gdpr_cookie_consent' );
+
+require plugin_dir_path( __FILE__ ) . 'includes/class-gdpr-cookies-read-csv.php';
 
 /**
  * Delete all settings related to plugin.
