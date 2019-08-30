@@ -347,9 +347,14 @@ class Gdpr_Cookie_Consent_Admin {
 		return $js_actions;
 	}
 
+	/**
+	 * Gdpr Policies Import Page
+	 *
+	 * @since 1.9
+	 */
 	public function gdpr_policies_import_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( __( 'You do not have sufficient permissions to access this page.', 'gdpr-cookie-consent' ) );
+			wp_die( esc_attr( 'You do not have sufficient permissions to access this page.', 'gdpr-cookie-consent' ) );
 		}
 		include plugin_dir_path( __FILE__ ) . 'views/gdpr-policies-import-page.php';
 	}

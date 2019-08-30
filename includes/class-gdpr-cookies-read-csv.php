@@ -5,8 +5,10 @@
  * A class definition that includes attributes and functions used for csv read functionality.
  *
  * @link       https://club.wpeka.com
- * @since      1.0.1
- *
+ * @since      1.9
+ * @package    Gdpr_Cookie_Consent
+ * @subpackage Gdpr_Cookie_Consent/includes
+ * @author     wpeka <https://club.wpeka.com>
  */
 
 /**
@@ -14,8 +16,10 @@
  *
  * This is used to define hooks for rest api.
  *
- * @since      1.0.1
- * @author     wpeka <support@wpeka.com>
+ * @since      1.9
+ * @package    Gdpr_Cookie_Consent
+ * @subpackage Gdpr_Cookie_Consent/includes
+ * @author     wpeka <https://club.wpeka.com>
  */
 class Gdpr_Cookies_Read_Csv {
 	const FIELD_START    = 0;
@@ -28,28 +32,28 @@ class Gdpr_Cookies_Read_Csv {
 	/**
 	 * File to be processed.
 	 *
-	 * @since 1.0.1
+	 * @since 1.9
 	 * @var string $file Filename.
 	 */
 	private $file;
 	/**
 	 * Separator used for data.
 	 *
-	 * @since 1.0.1
+	 * @since 1.9
 	 * @var string $sep Separator.
 	 */
 	private $sep;
 	/**
 	 * End of File.
 	 *
-	 * @since 1.0.1
+	 * @since 1.9
 	 * @var bool $eof End of File.
 	 */
 	private $eof;
 	/**
 	 * Number of characters.
 	 *
-	 * @since 1.0.1
+	 * @since 1.9
 	 * @var bool|string $nc Number of characters.
 	 */
 	private $nc;
@@ -79,7 +83,7 @@ class Gdpr_Cookies_Read_Csv {
 	/**
 	 * Returns next character.
 	 *
-	 * @since 1.0.1
+	 * @since 1.9
 	 * @return bool|string
 	 */
 	private function next_char() {
@@ -92,7 +96,7 @@ class Gdpr_Cookies_Read_Csv {
 	/**
 	 * Get next record from CSV file.
 	 *
-	 * @since 1.0.1
+	 * @since 1.9
 	 * @return array|null
 	 */
 	public function get_row() {

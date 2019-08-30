@@ -73,7 +73,7 @@ class Gdpr_Cookie_Consent_Public {
 		add_shortcode( 'wpl_cookie_link', array( $this, 'gdprcookieconsent_shortcode_more_link' ) );            // a shortcode [wpl_cookie_link].
 		add_shortcode( 'wpl_cookie_button', array( $this, 'gdprcookieconsent_shortcode_main_button' ) );        // a shortcode [wpl_cookie_button].
 		add_shortcode( 'wpl_cookie_settings', array( $this, 'gdprcookieconsent_shortcode_settings_button' ) );        // a shortcode [wpl_cookie_settings].
-		if(!shortcode_exists('wpl_cookie_details')){
+		if ( ! shortcode_exists( 'wpl_cookie_details' ) ) {
 			add_shortcode( 'wpl_cookie_details', array( $this, 'gdprcookieconsent_shortcode_cookie_details' ) );         // a shortcode [wpl_cookie_details].
 		}
 	}
@@ -361,12 +361,18 @@ class Gdpr_Cookie_Consent_Public {
 		return $cookies_array;
 	}
 
+	/**
+	 * Returns policy data for shortcode wpl_cookie_details.
+	 *
+	 * @since 1.9
+	 * @return string
+	 */
 	public function gdprcookieconsent_shortcode_cookie_details() {
-		$args = array(
-			'numberposts'		=> -1,
-			'post_type'		=> 'gdprpolicies',
+		$args                = array(
+			'numberposts' => -1,
+			'post_type'   => 'gdprpolicies',
 		);
-		$wp_legalpolicy_data = get_posts($args);
+		$wp_legalpolicy_data = get_posts( $args );
 		$content             = '';
 		if ( is_array( $wp_legalpolicy_data ) && ! empty( $wp_legalpolicy_data ) ) {
 			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
@@ -380,7 +386,7 @@ class Gdpr_Cookie_Consent_Public {
 				$content .= '<tr>';
 				$content .= '<td>' . $policypost->post_title . '</td>';
 				$content .= '<td>' . $policypost->post_content . '</td>';
-				$links = get_post_meta($policypost->ID, '_gdpr_policies_links_editor');
+				$links    = get_post_meta( $policypost->ID, '_gdpr_policies_links_editor' );
 				$content .= '<td>' . $links[0] . '</td>';
 				$content .= '</tr>';
 			}
