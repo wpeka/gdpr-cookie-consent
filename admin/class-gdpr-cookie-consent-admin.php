@@ -179,6 +179,10 @@ class Gdpr_Cookie_Consent_Admin {
 									'<li>' .
 									'<div style="font-weight: bold;">[wpl_cookie_settings]</div>' .
 									__( 'This is the cookie settings button shortcode.', 'gdpr-cookie-consent' ) .
+									'</li>' .
+									'<li>' .
+									'<div style="font-weight: bold;">[wpl_cookie_details]</div>' .
+									__( 'Use this shortcode to display third-party cookie details on your privacy or cookie policy pages.', 'gdpr-cookie-consent' ) .
 									'</li>';
 		$gdpr_shortcode_content  = apply_filters( 'gdprcookieconsent_help_content', $gdpr_shortcode_content );
 		$gdpr_shortcode_content .= '</ul>';
