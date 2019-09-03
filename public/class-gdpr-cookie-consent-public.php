@@ -73,6 +73,9 @@ class Gdpr_Cookie_Consent_Public {
 		add_shortcode( 'wpl_cookie_link', array( $this, 'gdprcookieconsent_shortcode_more_link' ) );            // a shortcode [wpl_cookie_link].
 		add_shortcode( 'wpl_cookie_button', array( $this, 'gdprcookieconsent_shortcode_main_button' ) );        // a shortcode [wpl_cookie_button].
 		add_shortcode( 'wpl_cookie_settings', array( $this, 'gdprcookieconsent_shortcode_settings_button' ) );        // a shortcode [wpl_cookie_settings].
+		if ( ! shortcode_exists( 'wpl_cookie_details' ) ) {
+			add_shortcode( 'wpl_cookie_details', array( $this, 'gdprcookieconsent_shortcode_cookie_details' ) );         // a shortcode [wpl_cookie_details].
+		}
 	}
 
 	/**
@@ -356,6 +359,40 @@ class Gdpr_Cookie_Consent_Public {
 		$cookies_array = $cookie_custom->get_cookies();
 		$cookies_array = apply_filters( 'gdprcookieconsent_cookies', $cookies_array );
 		return $cookies_array;
+	}
+
+	/**
+	 * Returns policy data for shortcode wpl_cookie_details.
+	 *
+	 * @since 1.9
+	 * @return string
+	 */
+	public function gdprcookieconsent_shortcode_cookie_details() {
+		$args                = array(
+			'numberposts' => -1,
+			'post_type'   => 'gdprpolicies',
+		);
+		$wp_legalpolicy_data = get_posts( $args );
+		$content             = '';
+		if ( is_array( $wp_legalpolicy_data ) && ! empty( $wp_legalpolicy_data ) ) {
+			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
+			$content .= "<div style='overflow-x:scroll;overflow:auto;' class='wp_legalpolicy'>";
+			$content .= "<table style='width:100%;margin:0 auto;'>";
+			$content .= '<thead>';
+			$content .= '<th>Third Party Companies</th><th>Purpose</th><th>Applicable Privacy/Cookie Policy Link</th>';
+			$content .= '</thead>';
+			$content .= '<tbody>';
+			foreach ( $wp_legalpolicy_data as $policypost ) {
+				$content .= '<tr>';
+				$content .= '<td>' . $policypost->post_title . '</td>';
+				$content .= '<td>' . $policypost->post_content . '</td>';
+				$links    = get_post_meta( $policypost->ID, '_gdpr_policies_links_editor' );
+				$content .= '<td>' . $links[0] . '</td>';
+				$content .= '</tr>';
+			}
+			$content .= '</tbody></table></div>';
+		}
+		return $content;
 	}
 
 }

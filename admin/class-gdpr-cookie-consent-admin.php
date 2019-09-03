@@ -49,6 +49,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	private $modules = array(
 		'cookie-custom',
+		'policy-data',
 	);
 
 	/**
@@ -178,6 +179,10 @@ class Gdpr_Cookie_Consent_Admin {
 									'<li>' .
 									'<div style="font-weight: bold;">[wpl_cookie_settings]</div>' .
 									__( 'This is the cookie settings button shortcode.', 'gdpr-cookie-consent' ) .
+									'</li>' .
+									'<li>' .
+									'<div style="font-weight: bold;">[wpl_cookie_details]</div>' .
+									__( 'Use this shortcode to display third-party cookie details on your privacy or cookie policy pages.', 'gdpr-cookie-consent' ) .
 									'</li>';
 		$gdpr_shortcode_content  = apply_filters( 'gdprcookieconsent_help_content', $gdpr_shortcode_content );
 		$gdpr_shortcode_content .= '</ul>';
@@ -241,6 +246,8 @@ class Gdpr_Cookie_Consent_Admin {
 	public function admin_menu() {
 		add_menu_page( 'GDPR Cookie Consent', __( 'GDPR Cookie Consent', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'admin_settings_page' ), GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/gdpr_icon.png', 67 );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'admin_settings_page' ) );
+		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
+		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
 	}
 
 	/**
@@ -339,4 +346,17 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		return $js_actions;
 	}
+
+	/**
+	 * Gdpr Policies Import Page
+	 *
+	 * @since 1.9
+	 */
+	public function gdpr_policies_import_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr( 'You do not have sufficient permissions to access this page.', 'gdpr-cookie-consent' ) );
+		}
+		include plugin_dir_path( __FILE__ ) . 'views/gdpr-policies-import-page.php';
+	}
+
 }
