@@ -205,7 +205,9 @@ class Gdpr_Cookie_Consent_Policy_Data {
 			return;
 		}
 		$scan_import_menu = __( 'Import from CSV', 'gdpr-cookie-consent' );
+
 		$import_page      = admin_url( 'edit.php?page=gdpr-policies-import' );
+
 		?>
 		<script type="text/javascript">
 			jQuery(document).ready( function($)
