@@ -103,6 +103,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 		global $post;
 		$custom          = get_post_custom( $post->ID );
 		$policies_domain = ( isset( $custom['_gdpr_policies_domain'][0] ) ) ? $custom['_gdpr_policies_domain'][0] : '';
+		wp_nonce_field( 'gdpr_save_custom_metabox', '_gdpr_policies_domain_nonce' );
 		?>
 		<input id="_gdpr_policies_domain" name="_gdpr_policies_domain" value="<?php echo esc_attr( sanitize_text_field( $policies_domain ) ); ?>" />
 		<?php
@@ -118,6 +119,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 		$custom    = get_post_custom( $post->ID );
 		$content   = ( isset( $custom['_gdpr_policies_links_editor'][0] ) ) ? $custom['_gdpr_policies_links_editor'][0] : '';
 		$editor_id = '_gdpr_policies_links_editor';
+		wp_nonce_field( 'gdpr_save_custom_metabox', '_gdpr_policies_links_editor_nonce' );
 		wp_editor( $content, $editor_id );
 	}
 
@@ -128,10 +130,10 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 */
 	public function gdpr_save_custom_metabox() {
 		global $post;
-		if ( isset( $_POST['_gdpr_policies_domain'] ) && wp_verify_nonce( '_wpnonce' ) ) {
+		if ( isset( $_POST['_gdpr_policies_domain'] ) && check_admin_referer( 'gdpr_save_custom_metabox', '_gdpr_policies_domain_nonce' ) ) {
 			update_post_meta( $post->ID, '_gdpr_policies_domain', sanitize_text_field( wp_unslash( $_POST['_gdpr_policies_domain'] ) ) );
 		}
-		if ( isset( $_POST['_gdpr_policies_links_editor'] ) && wp_verify_nonce( '_wpnonce' ) ) {
+		if ( isset( $_POST['_gdpr_policies_links_editor'] ) && check_admin_referer( 'gdpr_save_custom_metabox', '_gdpr_policies_links_editor_nonce' ) ) {
 			$data = wp_kses_post( sanitize_text_field( wp_unslash( $_POST['_gdpr_policies_links_editor'] ) ) );
 			update_post_meta( $post->ID, '_gdpr_policies_links_editor', $data );
 		}
