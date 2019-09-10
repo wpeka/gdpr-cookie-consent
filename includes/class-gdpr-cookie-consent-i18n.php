@@ -40,6 +40,7 @@ class Gdpr_Cookie_Consent_I18n {
 		__( 'Read More', 'gdpr-cookie-consent' );
 		__( 'Reject', 'gdpr-cookie-consent' );
 		__( 'Accept', 'gdpr-cookie-consent' );
+		__( 'Accept All', 'gdpr-cookie-consent' );
 		__( 'Show Details', 'gdpr-cookie-consent' );
 		__( 'Hide Details', 'gdpr-cookie-consent' );
 		__( 'Necessary', 'gdpr-cookie-consent' );
