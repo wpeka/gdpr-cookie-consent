@@ -170,9 +170,9 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 							}
 							gdpr_user_preference_val = JSON.stringify( gdpr_user_preference );
 							GDPR_Cookie.set( 'wpl_user_preference',gdpr_user_preference_val,GDPR_ACCEPT_COOKIE_EXPIRE );
-							gdpr_viewed_cookie = GDPR_Cookie.read( 'wpl_viewed_cookie' );
+							gdpr_viewed_cookie   = GDPR_Cookie.read( 'wpl_viewed_cookie' );
 							gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
-							event              = new CustomEvent(
+							event                = new CustomEvent(
 								'GdprCookieConsentOnAcceptAll',
 								{detail: {
 									'wpl_user_preference': gdpr_user_preference,
