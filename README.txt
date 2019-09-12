@@ -96,6 +96,7 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 
 = 1.4 =
 * Added Accept All button on consent bar
+* Update Made compatible with Wordpress 5.2.3.
 
 = 1.3 =
 * Added custom post type for Cookie Policy Data
