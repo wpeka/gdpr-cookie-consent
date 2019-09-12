@@ -301,6 +301,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 				this.hide_settings_button.css( 'color',this.settings.button_2_link_color );
 
 				/*[wpl_cookie_button] */
+				this.main_button.css( 'display', 'none' );
 				this.main_button.css( 'color',this.settings.button_1_link_color );
 				if (this.settings.button_1_as_button) {
 					this.main_button.css( 'background-color',this.settings.button_1_button_color );
@@ -345,6 +346,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 				/* [wpl_cookie_reject] */
 				this.reject_link.css( 'color',this.settings.button_3_link_color );
 				if (this.settings.button_3_as_button) {
+					this.reject_link.css( 'display', 'inline-block' );
 					this.reject_link.css( 'background-color',this.settings.button_3_button_color );
 					this.reject_link.hover(
 						function () {
@@ -457,6 +459,8 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 				}
 			},
 			show_details:function() {
+				this.main_button.css( 'display', 'inline-block' );
+				this.main_button_accept_all.css( 'display', 'none' );
 				this.details_elm.show();
 				this.details_elm.css( 'border-top-color', GDPR.settings.border_color );
 				this.settings_button.css( 'display','none' );

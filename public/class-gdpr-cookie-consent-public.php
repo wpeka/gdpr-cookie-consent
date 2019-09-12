@@ -182,7 +182,7 @@ class Gdpr_Cookie_Consent_Public {
 		$settings     = wp_parse_args( Gdpr_Cookie_Consent::gdpr_get_settings(), $defaults );
 		update_option( 'gdpr_settings_enabled', 1 );
 
-		$link_tag  = '<a id="gdpr_action_settings" data-gdpr_action="show_settings" class="gdpr-plugin-main-link gdpr_action_button" style="display:inline-block;' . $margin_style . 'margin-right:0!important;" >' . esc_html__( 'Show Details', 'gdpr-cookie-consent' ) . '</a>';
+		$link_tag  = '<a id="gdpr_action_settings" data-gdpr_action="show_settings" class="gdpr-plugin-main-link gdpr_action_button" style="display:inline-block;' . $margin_style . 'margin-right:0!important;" >' . esc_html__( 'Select Cookies', 'gdpr-cookie-consent' ) . '</a>';
 		$link_tag .= '<a id="gdpr_action_hide_settings" data-gdpr_action="hide_settings" class="gdpr-plugin-main-link gdpr_action_button" style="display:none;' . $margin_style . 'margin-right:0!important;" >' . esc_html__( 'Hide Details', 'gdpr-cookie-consent' ) . '</a>';
 
 		return $link_tag;
