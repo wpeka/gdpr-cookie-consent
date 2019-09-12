@@ -10,11 +10,7 @@
  * Plugin Name:       GDPR Cookie Consent
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
-<<<<<<< HEAD
  * Version:           1.4
-=======
- * Version:           1.3
->>>>>>> 8133c1b062e6e142dcc17d57a259cd9ffc8ba2af
  * Author:            WPEkaClub
  * Author URI:        https://club.wpeka.com
  * License:           GPL-2.0+
