@@ -268,7 +268,7 @@ class Gdpr_Cookie_Consent_Public {
 		$defaults     = Gdpr_Cookie_Consent::gdpr_get_default_settings();
 		$settings     = wp_parse_args( Gdpr_Cookie_Consent::gdpr_get_settings(), $defaults );
 		$class        = '';
-		if ( $settings['button_4_as_button'] ) {
+		if ( 'false' !== $settings['button_4_as_button'] ) {
 			$class = ' class="' . $settings['button_4_button_size'] . ' gdpr-plugin-button gdpr-plugin-main-button-accept-all cookie_action_close_header gdpr_action_button"';
 		} else {
 			$class = ' class="gdpr-plugin-main-button-accept-all cookie_action_close_header gdpr_action_button" ';
