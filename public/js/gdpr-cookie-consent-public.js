@@ -316,7 +316,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 
 				/*[wpl_cookie_accept_all_button] */
 				this.main_button_accept_all.css( 'color',this.settings.button_4_link_color );
-				if (this.settings.button_4_as_button) {
+				if ('false' !== this.settings.button_4_as_button) {
 					this.main_button_accept_all.css( 'background-color',this.settings.button_4_button_color );
 					this.main_button_accept_all.hover(
 						function () {
