@@ -156,6 +156,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 							window.dispatchEvent( event );
 							GDPR.logConsent( button_action );
 						} else if (button_action == 'accept_all') {
+							var gdpr_user_preference_val;
 							// check all checkboxes.
 							$( '.gdpr_messagebar_body_button:checkbox:enabled' ).prop( 'checked', true );
 							GDPR.accept_all_close();
@@ -167,7 +168,10 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 									gdpr_user_preference[i] = "yes";
 								}
 							}
+							gdpr_user_preference_val = JSON.stringify( gdpr_user_preference );
+							GDPR_Cookie.set( 'wpl_user_preference',gdpr_user_preference_val,GDPR_ACCEPT_COOKIE_EXPIRE );
 							gdpr_viewed_cookie = GDPR_Cookie.read( 'wpl_viewed_cookie' );
+							gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
 							event              = new CustomEvent(
 								'GdprCookieConsentOnAcceptAll',
 								{detail: {
