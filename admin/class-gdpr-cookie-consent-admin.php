@@ -166,11 +166,7 @@ class Gdpr_Cookie_Consent_Admin {
 									'<ul>' .
 									'<li>' .
 									'<div style="font-weight: bold;">[wpl_cookie_button]</div>' .
-									__( 'This is the "accept selected cookies button" you customize below.', 'gdpr-cookie-consent' ) .
-									'</li>' .
-									'<li>' .
-									'<div style="font-weight: bold;">[wpl_cookie_accept_all_button]</div>' .
-									__( 'This is the "accept all cookies button" you customize below.', 'gdpr-cookie-consent' ) .
+									__( 'This is the "accept cookies button" you customize below.', 'gdpr-cookie-consent' ) .
 									'</li>' .
 									'<li>' .
 									'<div style="font-weight: bold;">[wpl_cookie_reject]</div>' .

@@ -39,7 +39,7 @@ class Gdpr_Cookie_Consent_I18n {
 		__( 'IndexedDB', 'gdpr-cookie-consent' );
 		__( 'Read More', 'gdpr-cookie-consent' );
 		__( 'Reject', 'gdpr-cookie-consent' );
-		__( 'Accept Selected Cookies', 'gdpr-cookie-consent' );
+		__( 'Accept Cookies', 'gdpr-cookie-consent' );
 		__( 'Accept All Cookies', 'gdpr-cookie-consent' );
 		__( 'Show Details', 'gdpr-cookie-consent' );
 		__( 'Hide Details', 'gdpr-cookie-consent' );

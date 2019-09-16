@@ -76,7 +76,6 @@ class Gdpr_Cookie_Consent_Public {
 		if ( ! shortcode_exists( 'wpl_cookie_details' ) ) {
 			add_shortcode( 'wpl_cookie_details', array( $this, 'gdprcookieconsent_shortcode_cookie_details' ) );         // a shortcode [wpl_cookie_details].
 		}
-		add_shortcode( 'wpl_cookie_accept_all_button', array( $this, 'gdprcookieconsent_shortcode_accept_all_button' ) ); // a shortcode [wpl_cookie_accept_all_button].
 
 	}
 
@@ -247,38 +246,6 @@ class Gdpr_Cookie_Consent_Public {
 		$link_tag  = '<a ' . $url . ' data-gdpr_action="accept" id="' . $this->gdprcookieconsent_remove_hash( $settings['button_1_action'] ) . '" ';
 		$link_tag .= ( $settings['button_1_new_win'] ) ? 'target="_blank" ' : '';
 		$link_tag .= $class . ' style="display:inline-block; ' . $margin_style . 'margin-left:0!important;">' . stripslashes( esc_attr( $settings['button_1_text'] ) ) . '</a>';
-
-		return $link_tag;
-	}
-
-	/**
-	 * Returns HTML for a generic button.
-	 *
-	 * @since 1.0
-	 * @param string $atts Shortcode parameters.
-	 *
-	 * @return string
-	 */
-	public function gdprcookieconsent_shortcode_accept_all_button( $atts ) {
-		$margin = '';
-		if ( isset( $atts['margin'] ) ) {
-			$margin = $atts['margin'];
-		}
-		$margin_style = '' !== $margin ? ' margin:' . $margin . '; ' : '';
-		$defaults     = Gdpr_Cookie_Consent::gdpr_get_default_settings();
-		$settings     = wp_parse_args( Gdpr_Cookie_Consent::gdpr_get_settings(), $defaults );
-		$class        = '';
-		if ( 'false' !== $settings['button_4_as_button'] ) {
-			$class = ' class="' . $settings['button_4_button_size'] . ' gdpr-plugin-button gdpr-plugin-main-button-accept-all cookie_action_close_header gdpr_action_button"';
-		} else {
-			$class = ' class="gdpr-plugin-main-button-accept-all cookie_action_close_header gdpr_action_button" ';
-		}
-
-		// If is action not URL then don't use URL!
-		$url       = ( 'CONSTANT_OPEN_URL' === $settings['button_4_action'] && '#' !== $settings['button_4_url'] ) ? "href='$settings[button_4_url]'" : '';
-		$link_tag  = '<a ' . $url . ' data-gdpr_action="accept_all" id="' . $this->gdprcookieconsent_remove_hash( $settings['button_4_action'] ) . '" ';
-		$link_tag .= ( $settings['button_4_new_win'] ) ? 'target="_blank" ' : '';
-		$link_tag .= $class . ' style="display:inline-block; ' . $margin_style . 'margin-left:0!important;">' . stripslashes( esc_attr( $settings['button_4_text'] ) ) . '</a>';
 
 		return $link_tag;
 	}
