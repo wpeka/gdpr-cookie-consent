@@ -112,6 +112,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 				this.reject_link            = jQuery( '.cookie_action_close_header_reject' );
 				this.settings_button        = jQuery( '#gdpr_action_settings' );
 				this.hide_settings_button   = jQuery( '#gdpr_action_hide_settings' );
+				this.main_selected_button   = jQuery( '#cookie_action_close_header' );
 
 				this.configBar();
 				this.toggleBar();
@@ -140,7 +141,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 						var button_action        = elm.attr( 'data-gdpr_action' );
 						var open_link            = elm[0].hasAttribute( "href" ) && elm.attr( "href" ) != '#' ? true : false;
 						var new_window           = false;
-						if (button_action == 'accept') {
+						if (button_action == 'accept-selected') {
 							GDPR.accept_close();
 							new_window           = GDPR.settings.button_1_new_win ? true : false;
 							gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
@@ -150,6 +151,32 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 								{detail: {
 									'wpl_user_preference': gdpr_user_preference,
 									'wpl_viewed_cookie' : gdpr_viewed_cookie,
+									}}
+							);
+							window.dispatchEvent( event );
+							GDPR.logConsent( button_action );
+						} else if (button_action == 'accept-all') {
+							var gdpr_user_preference_val;
+							// check all checkboxes.
+							$( '.gdpr_messagebar_body_button:checkbox:enabled' ).prop( 'checked', true );
+							GDPR.accept_all_close();
+							new_window           = GDPR.settings.button_4_new_win ? true : false;
+							gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
+							// set all values to yes.
+							for (var i in gdpr_user_preference) {
+								if (Object.hasOwnProperty.call( gdpr_user_preference, i )) {
+									gdpr_user_preference[i] = "yes";
+								}
+							}
+							gdpr_user_preference_val = JSON.stringify( gdpr_user_preference );
+							GDPR_Cookie.set( 'wpl_user_preference',gdpr_user_preference_val,GDPR_ACCEPT_COOKIE_EXPIRE );
+							gdpr_viewed_cookie   = GDPR_Cookie.read( 'wpl_viewed_cookie' );
+							gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
+							event                = new CustomEvent(
+								'GdprCookieConsentOnAcceptAll',
+								{detail: {
+										'wpl_user_preference': gdpr_user_preference,
+										'wpl_viewed_cookie' : gdpr_viewed_cookie,
 									}}
 							);
 							window.dispatchEvent( event );
@@ -274,7 +301,6 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 				this.hide_settings_button.css( 'color',this.settings.button_2_link_color );
 
 				/*[wpl_cookie_button] */
-				this.main_button.css( 'display', 'none' );
 				this.main_button.css( 'color',this.settings.button_1_link_color );
 				if (this.settings.button_1_as_button) {
 					this.main_button.css( 'background-color',this.settings.button_1_button_color );
@@ -360,6 +386,16 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 				}
 				return false;
 			},
+			accept_all_close:function()
+			{
+				GDPR_Cookie.set( GDPR_ACCEPT_COOKIE_NAME,'yes',GDPR_ACCEPT_COOKIE_EXPIRE );
+				if (this.settings.notify_animate_hide) {
+					this.bar_elm.slideUp( this.settings.animate_speed_hide );
+				} else {
+					this.bar_elm.hide();
+				}
+				return false;
+			},
 			reject_close:function()
 			{
 				GDPR.disableAllCookies();
@@ -408,13 +444,18 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 				}
 			},
 			show_details:function() {
-				this.main_button.css( 'display', 'inline-block' );
+				var selectText = this.settings.button_1_selected_text;
+				this.main_selected_button.text(selectText);
+				this.main_button.attr( 'data-gdpr_action' , 'accept-selected' );
 				this.details_elm.show();
 				this.details_elm.css( 'border-top-color', GDPR.settings.border_color );
 				this.settings_button.css( 'display','none' );
 				this.hide_settings_button.css( 'display','inline-block' );
 			},
 			hide_details:function() {
+				var text = this.settings.button_1_text;
+				this.main_selected_button.text(text);
+				this.main_button.attr( 'data-gdpr_action' , 'accept-all' );
 				this.details_elm.hide();
 				this.hide_settings_button.css( 'display','none' );
 				this.settings_button.css( 'display','inline-block' );

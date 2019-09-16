@@ -36,11 +36,17 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 			<p><?php esc_attr_e( 'This button/link can be customized to either simply close the cookie bar, or follow a link. You can also customize the colors and styles, and show it as a link or a button.', 'gdpr-cookie-consent' ); ?></p>
 			<table class="form-table">
 				<tr valign="top">
-					<th scope="row"><label for="button_1_text_field"><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?></label></th>
+					<th scope="row"><label for="button_1_text_field"><?php esc_attr_e( 'Accept All Cookies Text', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="text" name="button_1_text_field" value="<?php echo esc_html( stripslashes( $the_options['button_1_text'] ) ); ?>" />
 					</td>
 				</tr>
+                <tr valign="top">
+                    <th scope="row"><label for="button_1_selected_text_field"><?php esc_attr_e( 'Accept Selected Cookies Text', 'gdpr-cookie-consent' ); ?></label></th>
+                    <td>
+                        <input type="text" name="button_1_selected_text_field" value="<?php echo esc_html( stripslashes( $the_options['button_1_selected_text'] ) ); ?>" />
+                    </td>
+                </tr>
 				<tr valign="top">
 					<th scope="row"><label for="button_1_link_color_field"><?php esc_attr_e( 'Text color', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>

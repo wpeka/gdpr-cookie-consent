@@ -243,7 +243,7 @@ class Gdpr_Cookie_Consent_Public {
 
 		// If is action not URL then don't use URL!
 		$url       = ( 'CONSTANT_OPEN_URL' === $settings['button_1_action'] && '#' !== $settings['button_1_url'] ) ? "href='$settings[button_1_url]'" : '';
-		$link_tag  = '<a ' . $url . ' data-gdpr_action="accept" id="' . $this->gdprcookieconsent_remove_hash( $settings['button_1_action'] ) . '" ';
+		$link_tag  = '<a ' . $url . ' data-gdpr_action="accept-all" id="' . $this->gdprcookieconsent_remove_hash( $settings['button_1_action'] ) . '" ';
 		$link_tag .= ( $settings['button_1_new_win'] ) ? 'target="_blank" ' : '';
 		$link_tag .= $class . ' style="display:inline-block; ' . $margin_style . 'margin-left:0!important;">' . stripslashes( esc_attr( $settings['button_1_text'] ) ) . '</a>';
 
