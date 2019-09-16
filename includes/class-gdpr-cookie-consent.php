@@ -417,7 +417,7 @@ class Gdpr_Cookie_Consent {
 			'button_2_new_win'         => false,
 			'button_2_as_button'       => false,
 			'button_2_button_size'     => 'medium',
-			'button_3_text'            => 'Reject',
+			'button_3_text'            => 'Decline',
 			'button_3_url'             => '#',
 			'button_3_action'          => '#cookie_action_close_header_reject',
 			'button_3_link_color'      => '#fff',
@@ -433,7 +433,7 @@ class Gdpr_Cookie_Consent {
 			'show_credits'             => false,
 			'notify_animate_hide'      => true,
 			'notify_animate_show'      => false,
-			'notify_message'           => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.<br /><br />[wpl_cookie_button margin="5px"][wpl_cookie_reject margin="5px"][wpl_cookie_settings margin="5px"]' ),
+			'notify_message'           => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.<br /><br />[wpl_cookie_button margin="5px"][wpl_cookie_decline margin="5px"][wpl_cookie_settings margin="5px"]' ),
 			'notify_div_id'            => '#gdpr-cookie-consent-bar',
 			'notify_position_vertical' => 'bottom', // 'top' = header | 'bottom' = footer
 			'text'                     => '#000',

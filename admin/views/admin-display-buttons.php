@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 $buttons_sub_tab = array(
 	'accept-button'    => __( 'Accept Cookies Button', 'gdpr-cookie-consent' ),
-	'reject-button'    => __( 'Reject Button', 'gdpr-cookie-consent' ),
+	'reject-button'    => __( 'Decline Button', 'gdpr-cookie-consent' ),
 	'read-more-button' => __( 'Read More Link', 'gdpr-cookie-consent' ),
 );
 $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons_sub_tab );
@@ -105,7 +105,7 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 		</div>
 
 		<div class="gdpr_sub_tab_content" data-id="reject-button">
-			<h3><code>[wpl_cookie_reject]</code></h3>
+			<h3><code>[wpl_cookie_decline]</code></h3>
 			<table class="form-table" >
 				<tr valign="top">
 					<th scope="row"><label for="button_3_text_field"><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?></label></th>

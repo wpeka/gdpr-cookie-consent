@@ -19,9 +19,9 @@ GDPR Cookie Consent helps you comply in the following ways:
 
 - Provides an easy-to-use admin area in the WordPress dashboard, where you can add details of cookies used on your website. You can also classify cookies into 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified' categories.
 
-- Shows a cookie consent notice bar on the website. The cookie notice bar shows 'Accept' & 'Reject' buttons. Clicking on the 'Show Details' link, opens a detailed view, where a website visitor can see the cookies used on your website. The design of the cookie bar can be customised from the admin area.
+- Shows a cookie consent notice bar on the website. The cookie notice bar shows 'Accept' & 'Decline' buttons. Clicking on the 'Select Cookies' link, opens a detailed view, where a website visitor can see the cookies used on your website. The design of the cookie bar can be customised from the admin area.
 
-- Users can choose to 'Accept' or 'Reject' the use of cookies. They can also choose to consent to use of cookies from a specific category i.e 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified'.
+- Users can choose to 'Accept' or 'Decline' the use of cookies. They can also choose to consent to use of cookies from a specific category i.e 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified'.
 
 <blockquote>
 
