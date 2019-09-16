@@ -16,9 +16,9 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 $buttons_sub_tab = array(
-	'accept-button'     => __( 'Accept Cookies Button', 'gdpr-cookie-consent' ),
-	'reject-button'     => __( 'Reject Button', 'gdpr-cookie-consent' ),
-	'read-more-button'  => __( 'Read More Link', 'gdpr-cookie-consent' ),
+	'accept-button'    => __( 'Accept Cookies Button', 'gdpr-cookie-consent' ),
+	'reject-button'    => __( 'Reject Button', 'gdpr-cookie-consent' ),
+	'read-more-button' => __( 'Read More Link', 'gdpr-cookie-consent' ),
 );
 $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons_sub_tab );
 ?>
@@ -41,12 +41,12 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 						<input type="text" name="button_1_text_field" value="<?php echo esc_html( stripslashes( $the_options['button_1_text'] ) ); ?>" />
 					</td>
 				</tr>
-                <tr valign="top">
-                    <th scope="row"><label for="button_1_selected_text_field"><?php esc_attr_e( 'Accept Selected Cookies Text', 'gdpr-cookie-consent' ); ?></label></th>
-                    <td>
-                        <input type="text" name="button_1_selected_text_field" value="<?php echo esc_html( stripslashes( $the_options['button_1_selected_text'] ) ); ?>" />
-                    </td>
-                </tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_1_selected_text_field"><?php esc_attr_e( 'Accept Selected Cookies Text', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="text" name="button_1_selected_text_field" value="<?php echo esc_html( stripslashes( $the_options['button_1_selected_text'] ) ); ?>" />
+					</td>
+				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="button_1_link_color_field"><?php esc_attr_e( 'Text color', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
