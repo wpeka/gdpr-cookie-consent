@@ -329,7 +329,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 					);
 				}
 
-				/* [wpl_cookie_decline] */
+				/* [wpl_cookie_reject] */
 				this.reject_link.css( 'color',this.settings.button_3_link_color );
 				if (this.settings.button_3_as_button) {
 					this.reject_link.css( 'display', 'inline-block' );

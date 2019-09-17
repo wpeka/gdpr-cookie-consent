@@ -169,7 +169,7 @@ class Gdpr_Cookie_Consent_Admin {
 									__( 'This is the "accept cookies button" you customize below.', 'gdpr-cookie-consent' ) .
 									'</li>' .
 									'<li>' .
-									'<div style="font-weight: bold;">[wpl_cookie_decline]</div>' .
+									'<div style="font-weight: bold;">[wpl_cookie_reject]</div>' .
 									__( 'This is the cookie decline button shortcode.', 'gdpr-cookie-consent' ) .
 									'</li>' .
 									'<li>' .

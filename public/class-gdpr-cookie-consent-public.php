@@ -69,7 +69,7 @@ class Gdpr_Cookie_Consent_Public {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 
-		add_shortcode( 'wpl_cookie_decline', array( $this, 'gdprcookieconsent_shortcode_reject_button' ) );      // a shortcode [wpl_cookie_reject].
+		add_shortcode( 'wpl_cookie_reject', array( $this, 'gdprcookieconsent_shortcode_reject_button' ) );      // a shortcode [wpl_cookie_reject].
 		add_shortcode( 'wpl_cookie_link', array( $this, 'gdprcookieconsent_shortcode_more_link' ) );            // a shortcode [wpl_cookie_link].
 		add_shortcode( 'wpl_cookie_button', array( $this, 'gdprcookieconsent_shortcode_main_button' ) );        // a shortcode [wpl_cookie_button].
 		add_shortcode( 'wpl_cookie_settings', array( $this, 'gdprcookieconsent_shortcode_settings_button' ) );        // a shortcode [wpl_cookie_settings].
