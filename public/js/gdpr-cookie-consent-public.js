@@ -144,10 +144,12 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 						var new_window           = false;
 						if (button_action == 'accept-selected') {
 							GDPR.accept_close();
-							new_window           = GDPR.settings.button_1_new_win ? true : false;
-							gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
-							gdpr_viewed_cookie   = GDPR_Cookie.read( 'wpl_viewed_cookie' );
-							event                = new CustomEvent(
+							new_window               = GDPR.settings.button_1_new_win ? true : false;
+							gdpr_user_preference     = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
+							gdpr_user_preference_val = JSON.stringify( gdpr_user_preference );
+							GDPR_Cookie.set( 'wpl_user_preference',gdpr_user_preference_val,GDPR_ACCEPT_COOKIE_EXPIRE );
+							gdpr_viewed_cookie = GDPR_Cookie.read( 'wpl_viewed_cookie' );
+							event              = new CustomEvent(
 								'GdprCookieConsentOnAccept',
 								{detail: {
 									'wpl_user_preference': gdpr_user_preference,
@@ -213,19 +215,22 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 
 				jQuery( '#gdpr_messagebar_body_buttons_select_pane input' ).each(
 					function(){
-						var key                      = jQuery( this ).val();
-						var gdpr_user_preference_arr = {};
-						var gdpr_user_preference_val = '';
-						if (GDPR_Cookie.read( 'wpl_user_preference' )) {
-							gdpr_user_preference_arr = (JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) ));
+						var gdpr_viewed_cookie = GDPR_Cookie.read( 'wpl_viewed_cookie' );
+						if (gdpr_viewed_cookie !== 'yes') {
+							var key                      = jQuery( this ).val();
+							var gdpr_user_preference_arr = {};
+							var gdpr_user_preference_val = '';
+							if (GDPR_Cookie.read( 'wpl_user_preference' )) {
+								gdpr_user_preference_arr = (JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) ));
+							}
+							if (jQuery( this ).is( ':checked' )) {
+								gdpr_user_preference_arr[key] = 'yes';
+							} else {
+								gdpr_user_preference_arr[key] = 'no';
+							}
+							gdpr_user_preference_val = JSON.stringify( gdpr_user_preference_arr );
+							GDPR_Cookie.set( 'wpl_user_preference',gdpr_user_preference_val,GDPR_ACCEPT_COOKIE_EXPIRE );
 						}
-						if (jQuery( this ).is( ':checked' )) {
-							gdpr_user_preference_arr[key] = 'yes';
-						} else {
-							gdpr_user_preference_arr[key] = 'no';
-						}
-						gdpr_user_preference_val = JSON.stringify( gdpr_user_preference_arr );
-						GDPR_Cookie.set( 'wpl_user_preference',gdpr_user_preference_val,GDPR_ACCEPT_COOKIE_EXPIRE );
 					}
 				);
 				jQuery( document ).on(
