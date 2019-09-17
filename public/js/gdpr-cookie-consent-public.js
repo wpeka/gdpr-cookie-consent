@@ -456,7 +456,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 			hide_details:function() {
 				var text = this.settings.button_1_text;
 				this.main_selected_button.text( text );
-				this.main_button.attr( 'data-gdpr_action' , 'accept-all' );
+				this.main_accept_button.attr( 'data-gdpr_action' , 'accept-all' );
 				this.details_elm.hide();
 				this.hide_settings_button.css( 'display','none' );
 				this.settings_button.css( 'display','inline-block' );
