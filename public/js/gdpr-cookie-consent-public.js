@@ -161,7 +161,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 							// check all checkboxes.
 							$( '.gdpr_messagebar_body_button:checkbox:enabled' ).prop( 'checked', true );
 							GDPR.accept_all_close();
-							new_window           = GDPR.settings.button_4_new_win ? true : false;
+							new_window           = GDPR.settings.button_1_new_win ? true : false;
 							gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
 							// set all values to yes.
 							for (var i in gdpr_user_preference) {
