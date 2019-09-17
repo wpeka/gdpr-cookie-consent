@@ -236,7 +236,7 @@ class Gdpr_Cookie_Consent_Public {
 		$settings     = wp_parse_args( Gdpr_Cookie_Consent::gdpr_get_settings(), $defaults );
 		$class        = '';
 		if ( $settings['button_1_as_button'] ) {
-			$class = ' class="' . $settings['button_1_button_size'] . ' gdpr-plugin-button gdpr-plugin-main-button cookie_action_close_header gdpr_action_button"';
+			$class = ' class="' . $settings['button_1_button_size'] . ' accept-button gdpr-plugin-button gdpr-plugin-main-button cookie_action_close_header gdpr_action_button"';
 		} else {
 			$class = ' class="gdpr-plugin-main-button cookie_action_close_header gdpr_action_button" ';
 		}

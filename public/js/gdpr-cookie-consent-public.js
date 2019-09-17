@@ -113,6 +113,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 				this.settings_button      = jQuery( '#gdpr_action_settings' );
 				this.hide_settings_button = jQuery( '#gdpr_action_hide_settings' );
 				this.main_selected_button = jQuery( '#cookie_action_close_header' );
+				this.main_accept_button   = jQuery( '.accept-button' );
 
 				this.configBar();
 				this.toggleBar();
@@ -446,7 +447,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 			show_details:function() {
 				var selectText = this.settings.button_1_selected_text;
 				this.main_selected_button.text( selectText );
-				this.main_button.attr( 'data-gdpr_action' , 'accept-selected' );
+				this.main_accept_button.attr( 'data-gdpr_action' , 'accept-selected' );
 				this.details_elm.show();
 				this.details_elm.css( 'border-top-color', GDPR.settings.border_color );
 				this.settings_button.css( 'display','none' );
