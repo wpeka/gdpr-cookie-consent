@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '1.4';
+			$this->version = '1.5';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -400,7 +400,8 @@ class Gdpr_Cookie_Consent {
 			'animate_speed_hide'       => '500',
 			'animate_speed_show'       => '500',
 			'background'               => '#FFF',
-			'button_1_text'            => 'Accept Selected Cookies',
+			'button_1_text'            => 'Accept All Cookies',
+			'button_1_selected_text'   => 'Accept Selected Cookies',
 			'button_1_url'             => '#',
 			'button_1_action'          => '#cookie_action_close_header',
 			'button_1_link_color'      => '#fff',
@@ -416,7 +417,7 @@ class Gdpr_Cookie_Consent {
 			'button_2_new_win'         => false,
 			'button_2_as_button'       => false,
 			'button_2_button_size'     => 'medium',
-			'button_3_text'            => 'Reject',
+			'button_3_text'            => 'Decline',
 			'button_3_url'             => '#',
 			'button_3_action'          => '#cookie_action_close_header_reject',
 			'button_3_link_color'      => '#fff',
@@ -424,14 +425,6 @@ class Gdpr_Cookie_Consent {
 			'button_3_new_win'         => false,
 			'button_3_as_button'       => true,
 			'button_3_button_size'     => 'medium',
-			'button_4_text'            => 'Accept All Cookies',
-			'button_4_url'             => '#',
-			'button_4_action'          => '#cookie_action_close_header',
-			'button_4_link_color'      => '#fff',
-			'button_4_button_color'    => '#18a300',
-			'button_4_new_win'         => false,
-			'button_4_as_button'       => true,
-			'button_4_button_size'     => 'medium',
 			'font_family'              => 'inherit', // Pick the family, not the easy name (see helper function below).
 			'is_on'                    => true,
 			'is_ticked'                => false,
@@ -440,7 +433,7 @@ class Gdpr_Cookie_Consent {
 			'show_credits'             => false,
 			'notify_animate_hide'      => true,
 			'notify_animate_show'      => false,
-			'notify_message'           => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.<br /><br />[wpl_cookie_button margin="5px"][wpl_cookie_accept_all_button margin="5px"][wpl_cookie_reject margin="5px"][wpl_cookie_settings margin="5px"]' ),
+			'notify_message'           => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.<br /><br />[wpl_cookie_button margin="5px"][wpl_cookie_reject margin="5px"][wpl_cookie_settings margin="5px"]' ),
 			'notify_div_id'            => '#gdpr-cookie-consent-bar',
 			'notify_position_vertical' => 'bottom', // 'top' = header | 'bottom' = footer
 			'text'                     => '#000',
@@ -648,6 +641,8 @@ class Gdpr_Cookie_Consent {
 			'button_1_button_hover'    => ( self::gdpr_su_hex_shift( $settings['button_1_button_color'], 'down', 20 ) ),
 			'button_1_as_button'       => $settings['button_1_as_button'],
 			'button_1_new_win'         => $settings['button_1_new_win'],
+			'button_1_text'            => $settings['button_1_text'],
+			'button_1_selected_text'   => $settings['button_1_selected_text'],
 			'button_2_link_color'      => $settings['button_2_link_color'],
 			'button_2_button_color'    => $settings['button_2_button_color'],
 			'button_2_button_hover'    => ( self::gdpr_su_hex_shift( $settings['button_2_button_color'], 'down', 20 ) ),
@@ -658,11 +653,6 @@ class Gdpr_Cookie_Consent {
 			'button_3_button_hover'    => ( self::gdpr_su_hex_shift( $settings['button_3_button_color'], 'down', 20 ) ),
 			'button_3_as_button'       => $settings['button_3_as_button'],
 			'button_3_new_win'         => $settings['button_3_new_win'],
-			'button_4_link_color'      => $settings['button_4_link_color'],
-			'button_4_button_color'    => $settings['button_4_button_color'],
-			'button_4_button_hover'    => ( self::gdpr_su_hex_shift( $settings['button_4_button_color'], 'down', 20 ) ),
-			'button_4_as_button'       => $settings['button_4_as_button'],
-			'button_4_new_win'         => $settings['button_4_new_win'],
 			'font_family'              => $settings['font_family'],
 			'notify_animate_hide'      => $settings['notify_animate_hide'],
 			'notify_animate_show'      => $settings['notify_animate_show'],
