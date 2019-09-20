@@ -4,7 +4,7 @@ Donate link: 		https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: 				eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance
 Requires at least: 	3.3.1
 Tested up to: 		5.2.3
-Stable tag: 		1.4
+Stable tag: 		1.5
 Requires PHP:		7.0
 License: 			GPLv3
 License URI: 		http://www.gnu.org/licenses/gpl-3.0.html
@@ -19,9 +19,9 @@ GDPR Cookie Consent helps you comply in the following ways:
 
 - Provides an easy-to-use admin area in the WordPress dashboard, where you can add details of cookies used on your website. You can also classify cookies into 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified' categories.
 
-- Shows a cookie consent notice bar on the website. The cookie notice bar shows 'Accept' & 'Reject' buttons. Clicking on the 'Show Details' link, opens a detailed view, where a website visitor can see the cookies used on your website. The design of the cookie bar can be customised from the admin area.
+- Shows a cookie consent notice bar on the website. The cookie notice bar shows 'Accept' & 'Decline' buttons. Clicking on the 'Select Cookies' link, opens a detailed view, where a website visitor can see the cookies used on your website. The design of the cookie bar can be customised from the admin area.
 
-- Users can choose to 'Accept' or 'Reject' the use of cookies. They can also choose to consent to use of cookies from a specific category i.e 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified'.
+- Users can choose to 'Accept' or 'Decline' the use of cookies. They can also choose to consent to use of cookies from a specific category i.e 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified'.
 
 <blockquote>
 
@@ -94,6 +94,9 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 
 == Change Log ==
 
+= 1.5 =
+* Updated Accept All button on consent bar
+
 = 1.4 =
 * Added Accept All button on consent bar
 * Update Made compatible with Wordpress 5.2.3.
@@ -111,6 +114,9 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 * Initial version
 
 == Upgrade Notice ==
+
+= 1.5 =
+* Updated Accept All button on consent bar
 
 = 1.4 =
 * Added Accept All button on consent bar
