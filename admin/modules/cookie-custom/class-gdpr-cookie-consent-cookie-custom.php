@@ -215,7 +215,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	 */
 	public function settings_form() {
 		$post_cookie_list = $this->get_post_cookie_list();
-		wp_enqueue_script( 'gdprcookieconsent_cookie_custom', plugin_dir_url( __FILE__ ) . 'assets/js/cookie-custom.js', array(), GDPR_COOKIE_CONSENT_VERSION, true );
+		wp_enqueue_script( 'gdprcookieconsent_cookie_custom', plugin_dir_url( __FILE__ ) . 'assets/js/cookie-custom' . GDPR_CC_SUFFIX . '.js', array(), GDPR_COOKIE_CONSENT_VERSION, true );
 		$params = array(
 			'nonces'           => array(
 				'gdpr_cookie_custom' => wp_create_nonce( 'gdpr_cookie_custom' ),
