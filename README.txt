@@ -4,7 +4,7 @@ Donate link: 		https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: 				eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance
 Requires at least: 	3.3.1
 Tested up to: 		5.2.3
-Stable tag: 		1.5
+Stable tag: 		1.6
 Requires PHP:		7.0
 License: 			GPLv3
 License URI: 		http://www.gnu.org/licenses/gpl-3.0.html
@@ -94,6 +94,10 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 
 == Change Log ==
 
+= 1.6 =
+* Fix: Minor bug fixes.
+* Update: Added support for SCRIPT_DEBUG.
+
 = 1.5 =
 * Updated Accept All button on consent bar
 
@@ -114,6 +118,10 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 * Initial version
 
 == Upgrade Notice ==
+
+= 1.6 =
+* Fix: Minor bug fixes.
+* Update: Added support for SCRIPT_DEBUG.
 
 = 1.5 =
 * Updated Accept All button on consent bar

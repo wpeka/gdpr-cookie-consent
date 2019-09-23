@@ -98,7 +98,7 @@ class Gdpr_Cookie_Consent_Public {
 
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		if ( true === $the_options['is_on'] ) {
-			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public.css', array(), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 		}
 
 	}
@@ -122,7 +122,7 @@ class Gdpr_Cookie_Consent_Public {
 
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		if ( true === $the_options['is_on'] ) {
-			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js', array( 'jquery' ), $this->version, false );
 			wp_localize_script( $this->plugin_name, 'log_obj', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 		}
 	}
