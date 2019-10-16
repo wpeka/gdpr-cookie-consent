@@ -3,7 +3,7 @@ Contributors:		wpeka-club
 Donate link: 		https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: 				eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance
 Requires at least: 	3.3.1
-Tested up to: 		5.2.3
+Tested up to: 		5.2.4
 Stable tag: 		1.6
 Requires PHP:		7.0
 License: 			GPLv3
