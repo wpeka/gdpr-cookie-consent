@@ -102,6 +102,7 @@ module.exports = function (grunt) {
 					'!build/**',
 					'!.git/**',
 					'!Gruntfile.js',
+					'!README.md',
 					'!package.json',
 					'!package-lock.json',
 					'!.gitignore',
@@ -137,6 +138,14 @@ module.exports = function (grunt) {
 				}
 			},
 
+			wp_readme_to_markdown: {
+				your_target: {
+					files: {
+						'README.md': 'readme.txt'
+					}
+				},
+			},
+
 			makepot: {
 				target: {
 					options: {
@@ -163,8 +172,9 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-compress' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
-	grunt.registerTask( 'default', ['i18n'] );
+	grunt.registerTask( 'default', ['i18n', 'readme'] );
 	grunt.registerTask( 'i18n', ['addtextdomain', 'makepot'] );
+	grunt.registerTask( 'readme', ['wp_readme_to_markdown'] );
 	grunt.registerTask( 'build', ['clean:build', 'copy:build', 'uglify:admin', 'uglify:adminm', 'uglify:frontend', 'cssmin:admin', 'cssmin:frontend', 'compress:build'] );
 
 	grunt.util.linefeed = '\n';
