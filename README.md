@@ -1,17 +1,17 @@
-=== GDPR Cookie Consent - EU ICO Compliant ===
-Contributors: wpeka-club
-Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
-Tags: eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance
-Requires at least: 3.3.1
-Tested up to: 5.2.4
-Stable tag: 1.6
-Requires PHP: 7.0
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+# GDPR Cookie Consent - EU ICO Compliant #
+**Contributors:** [wpeka-club](https://profiles.wordpress.org/wpeka-club)  
+**Donate link:** https://club.wpeka.com/product/wp-gdpr-cookie-consent/  
+**Tags:** eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance  
+**Requires at least:** 3.3.1  
+**Tested up to:** 5.2.4  
+**Stable tag:** 1.6  
+**Requires PHP:** 7.0  
+**License:** GPLv3  
+**License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
 
 Get granular, category wise GDPR Cookie Consent as per EU GDPR/Cookie Law regulations. Style it to match your own website.
 
-== Description ==
+## Description ##
 
 Looking to comply with the GDPR Cookie Policy?
 
@@ -31,7 +31,7 @@ The GDPR Cookie Consent plugin is the closest that I have found to complying wit
 
 </blockquote>
 
-== Features ==
+## Features ##
 
 The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPress coding standards. It comes with the following features.
 
@@ -47,7 +47,7 @@ The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPr
 
 <blockquote>
 
-= GDPR Cookie Consent Pro Version Features =
+### GDPR Cookie Consent Pro Version Features ###
 
 &#9745; Manage cookie list (name, ID, description, duration, type & category).
 
@@ -69,7 +69,7 @@ For complete list of features and details, please visit the <a href="https://clu
 
 </blockquote>
 
-== Installation ==
+## Installation ##
 
 This section describes how to install the plugin and get it working.
 
@@ -79,18 +79,18 @@ This section describes how to install the plugin and get it working.
 
 NOTE: Installing this plugin does not alone make your website GDPR compliant. Every website has different cookie needs and needs to be configured accordingly.
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions ##
 
-= Will my website become GDPR compliant after installing the plugin?
+### Will my website become GDPR compliant after installing the plugin?
 Cookie consent is just one aspect of GDPR. Installing the plugin does not guarantee compliance. You’ll still need to implement other aspects of the GDPR regulation.
-
-= Will I have to add all the cookies manually?
+###
+### Will I have to add all the cookies manually?
 Yes, in the free version. The pro version of the GDPR Cookie Consent plugin has a one-click scanner, that’ll scan your website. It’ll also pre-populate cookie information for known cookies.
-
-= Do visitors now have to accept/reject cookies in order to use websites?
+###
+### Do visitors now have to accept/reject cookies in order to use websites?
 No. Only the ‘necessary’ cookies will be loaded until the user gives consent.
-
-== Screenshots ==
+###
+## Screenshots ##
 
 1. Cookie consent notice bar with default styles.
 2. Cookie consent notice bar with website's cookie details.
@@ -99,51 +99,51 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 5. Customise cookie consent notice bar buttons.
 6. Manage cookie list.
 
-== Change Log ==
+## Change Log ##
 
-= 1.6 =
+### 1.6 ###
 * Fix: Minor bug fixes.
 * Update: Added support for SCRIPT_DEBUG.
 
-= 1.5 =
+### 1.5 ###
 * Updated Accept All button on consent bar
 
-= 1.4 =
+### 1.4 ###
 * Added Accept All button on consent bar
 * Update Made compatible with Wordpress 5.2.3.
 
-= 1.3 =
+### 1.3 ###
 * Added custom post type for Cookie Policy Data
 
-= 1.2 =
+### 1.2 ###
 * Fixed previous settings migration issue.
 
-= 1.1 =
+### 1.1 ###
 * Fixed previous version settings issue (with respect to Pro Version).
 
-= 1.0 =
+### 1.0 ###
 * Initial version
 
-== Upgrade Notice ==
+## Upgrade Notice ##
 
-= 1.6 =
+### 1.6 ###
 * Fix: Minor bug fixes.
 * Update: Added support for SCRIPT_DEBUG.
 
-= 1.5 =
+### 1.5 ###
 * Updated Accept All button on consent bar
 
-= 1.4 =
+### 1.4 ###
 * Added Accept All button on consent bar
 
-= 1.3 =
+### 1.3 ###
 * Added custom post type for Cookie Policy Data
 
-= 1.2 =
+### 1.2 ###
 * Fixed previous settings migration issue.
 
-= 1.1 =
+### 1.1 ###
 * Fixed previous version settings issue (with respect to Pro Version).
 
-= 1.0 =
+### 1.0 ###
 * Initial version
