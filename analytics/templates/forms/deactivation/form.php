@@ -19,7 +19,7 @@ $slug = $as->get_slug();
 $show_deactivation_feedback_form = $VARS['show_deactivation_feedback_form'];
 $confirmation_message            = $VARS['uninstall_confirmation_message'];
 
-$is_anonymous                     = ( ! true );
+$is_anonymous                     = ( true );
 $anonymous_feedback_checkbox_html = '';
 
 $reasons_list_items_html = '';

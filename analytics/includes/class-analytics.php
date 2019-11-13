@@ -653,13 +653,19 @@ class Analytics {
 			$params['deactivation_reason'] = $reason['deactivation_reason'];
 			$params['reason_info']         = $reason['info'];
 			$params['platform_version']    = get_bloginfo( 'version' );
-			$params['user_nickname']       = $current_user->user_nicename;
-			$params['user_email']          = $current_user->user_email;
-			$params['slug']                = $this->_slug;
-			$params['site_url']            = get_site_url();
-			$params['product_name']        = $this->_product_name;
-			$params['version']             = $this->_version;
-			$params['module_type']         = $this->_module_type;
+			if ( $reason['is_anonymous'] ) {
+				$params['user_nickname'] = '';
+				$params['user_email']    = '';
+				$params['site_url']      = '';
+			} else {
+				$params['user_nickname'] = $current_user->user_nicename;
+				$params['user_email']    = $current_user->user_email;
+				$params['site_url']      = get_site_url();
+			}
+			$params['slug']         = $this->_slug;
+			$params['product_name'] = $this->_product_name;
+			$params['version']      = $this->_version;
+			$params['module_type']  = $this->_module_type;
 		}
 
 		$request = array(

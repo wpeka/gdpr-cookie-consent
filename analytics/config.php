@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WP_STAT__DOMAIN_PRODUCTION', '127.0.0.1:8081/astrademo' );
-define( 'WP_STAT__ADDRESS_PRODUCTION', 'http://' . WP_STAT__DOMAIN_PRODUCTION );
+define( 'WP_STAT__DOMAIN_PRODUCTION', 'feedback.cyberchimps.com' );
+define( 'WP_STAT__ADDRESS_PRODUCTION', 'https://' . WP_STAT__DOMAIN_PRODUCTION );
 
 if ( ! defined( 'WP_STAT__ADDRESS' ) ) {
 	define( 'WP_STAT__ADDRESS', ( WP_STAT__ADDRESS_PRODUCTION ) );
