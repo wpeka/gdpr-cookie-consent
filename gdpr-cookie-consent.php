@@ -24,6 +24,34 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+if ( ! function_exists( 'gcc_fs' ) ) {
+    // Helper function to access SDK
+    function gcc_fs() {
+        global $gcc_fs;
+
+        if ( ! isset( $gcc_fs ) ) {
+            // Include Analytics SDK.
+            require_once dirname(__FILE__) . '/analytics/start.php';
+
+            $gcc_fs = ras_dynamic_init( array(
+                'id'                  => '1',
+                'slug'                => 'gdpr-cookie-consent',
+                'product_name'        => 'GDPR Cookie Consent',
+                'module_type'         => 'plugin',
+                'version'             => '1.6',
+                'plugin_basename'     => 'gdpr-cookie-consent/gdpr-cookie-consent.php',
+            ) );
+        }
+
+        return $gcc_fs;
+    }
+
+    // Init Analytics.
+    gcc_fs();
+    // SDK initiated.
+    do_action( 'gcc_fs_loaded' );
+}
+
 /**
  * Currently plugin version.
  */
