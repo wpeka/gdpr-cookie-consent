@@ -185,6 +185,7 @@ as_enqueue_local_style( 'as_dialog_boxes', '/admin/dialog-boxes.css' );
 
 					if (0 === $radio.length) {
 						window.location.href = redirectLink;
+						return;
 					}
 
 					var $selected_reason = $radio.parents('li:first'),
