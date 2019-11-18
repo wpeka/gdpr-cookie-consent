@@ -10,7 +10,7 @@
  * Plugin Name:       GDPR Cookie Consent
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
- * Version:           1.6
+ * Version:           1.7
  * Author:            WPEkaClub
  * Author URI:        https://club.wpeka.com
  * License:           GPL-2.0+
@@ -25,37 +25,39 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! function_exists( 'gcc_fs' ) ) {
-    // Helper function to access SDK
-    function gcc_fs() {
-        global $gcc_fs;
+	// Helper function to access SDK
+	function gcc_fs() {
+		global $gcc_fs;
 
-        if ( ! isset( $gcc_fs ) ) {
-            // Include Analytics SDK.
-            require_once dirname(__FILE__) . '/analytics/start.php';
+		if ( ! isset( $gcc_fs ) ) {
+			// Include Analytics SDK.
+			require_once dirname( __FILE__ ) . '/analytics/start.php';
 
-            $gcc_fs = ras_dynamic_init( array(
-                'id'                  => '1',
-                'slug'                => 'gdpr-cookie-consent',
-                'product_name'        => 'GDPR Cookie Consent',
-                'module_type'         => 'plugin',
-                'version'             => '1.6',
-                'plugin_basename'     => 'gdpr-cookie-consent/gdpr-cookie-consent.php',
-            ) );
-        }
+			$gcc_fs = ras_dynamic_init(
+				array(
+					'id'              => '2',
+					'slug'            => 'gdpr-cookie-consent',
+					'product_name'    => 'GDPR Cookie Consent',
+					'module_type'     => 'plugin',
+					'version'         => '1.7',
+					'plugin_basename' => 'gdpr-cookie-consent/gdpr-cookie-consent.php',
+				)
+			);
+		}
 
-        return $gcc_fs;
-    }
+		return $gcc_fs;
+	}
 
-    // Init Analytics.
-    gcc_fs();
-    // SDK initiated.
-    do_action( 'gcc_fs_loaded' );
+	// Init Analytics.
+	gcc_fs();
+	// SDK initiated.
+	do_action( 'gcc_fs_loaded' );
 }
 
 /**
  * Currently plugin version.
  */
-define( 'GDPR_COOKIE_CONSENT_VERSION', '1.6' );
+define( 'GDPR_COOKIE_CONSENT_VERSION', '1.7' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_DEVELOPMENT_MODE', false );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
