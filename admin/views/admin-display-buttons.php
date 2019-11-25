@@ -204,7 +204,7 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 				<tr valign="top" class="gdpr-plugin-row">
 					<th scope="row"><label for="button_2_url_field"><?php esc_attr_e( 'URL', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<input type="text" name="button_2_url_field" id="button_2_url_field" value="<?php echo esc_attr( $the_options['button_2_as_button'] ); ?>" />
+						<input type="text" name="button_2_url_field" id="button_2_url_field" value="<?php echo esc_attr( $the_options['button_2_url'] ); ?>" />
 					</td>
 				</tr>
 
