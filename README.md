@@ -4,7 +4,7 @@
 **Tags:** eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance  
 **Requires at least:** 3.3.1  
 **Tested up to:** 5.3  
-**Stable tag:** 1.7  
+**Stable tag:** 1.7.1  
 **Requires PHP:** 7.0  
 **License:** GPLv3  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
@@ -101,6 +101,9 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 
 ## Change Log ##
 
+### 1.7.1 ###
+* Fixed - Read More URL is not rendered on Admin Dashboard
+
 ### 1.7 ###
 * Added - feedback form on plugin deactivation.
 
@@ -128,6 +131,9 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 * Initial version
 
 ## Upgrade Notice ##
+
+### 1.7.1 ###
+* Fixed - Read More URL is not rendered on Admin Dashboard
 
 ### 1.7 ###
 * Added - feedback form on plugin deactivation.
