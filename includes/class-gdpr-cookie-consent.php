@@ -663,7 +663,7 @@ class Gdpr_Cookie_Consent {
 			'cookie_bar_as'            => $settings['cookie_bar_as'],
 			'border_color'             => ( self::gdpr_su_hex_shift( $settings['text'], 'up', 40 ) ),
 			'background_color'         => ( self::gdpr_su_hex_shift( $settings['background'], 'down', 10 ) ),
-            'background_active_color'  => $settings['background'],
+			'background_active_color'  => $settings['background'],
 			'border_active_color'      => $settings['background'],
 			'logging_on'               => $settings['logging_on'],
 		);
