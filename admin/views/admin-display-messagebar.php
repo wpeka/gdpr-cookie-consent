@@ -37,6 +37,22 @@ if ( ! defined( 'WPINC' ) ) {
 			</td>
 		</tr>
 		<tr valign="top">
+			<th scope="row"><label for="notify_position_vertical_field"><?php esc_attr_e( 'Cookie Bar Position', 'gdpr-cookie-consent' ); ?></label></th>
+			<td>
+				<select name="notify_position_vertical_field" class="vvv_combobox">
+					<?php
+					if ( 'bottom' === $the_options['notify_position_vertical'] ) {
+						echo '<option value="bottom" selected="selected">' . esc_attr__( 'Bottom', 'gdpr-cookie-consent' ) . '</option>';
+						echo '<option value="top">' . esc_attr__( 'Top', 'gdpr-cookie-consent' ) . '</option>';
+					} else {
+						echo '<option value="bottom">' . esc_attr__( 'Bottom', 'gdpr-cookie-consent' ) . '</option>';
+						echo '<option value="top" selected="selected">' . esc_attr__( 'Top', 'gdpr-cookie-consent' ) . '</option>';
+					}
+					?>
+				</select>
+			</td>
+		</tr>
+		<tr valign="top">
 			<th scope="row"><label for="background_field"><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></th>
 			<td>
 				<?php
