@@ -28,7 +28,7 @@
 	box-sizing: border-box;
 	width:100%;
 	z-index: 9999;
-	box-shadow:rgba(0,0,0,.5) 0px 5px 50px;
+	box-shadow:rgba(142, 142, 142, 0.6) 1px 0px 5px 1px;
 	display: none;
 	left:0px;
 	font-weight:300;
