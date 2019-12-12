@@ -214,7 +214,7 @@ class Gdpr_Cookie_Consent_Public {
 		$link_tag   = '';
 		$link_tag  .= ' <a ' . $url_reject . ' id="' . $this->gdprcookieconsent_remove_hash( $settings['button_3_action'] ) . '" ';
 		$link_tag  .= ( $settings['button_3_new_win'] ) ? 'target="_blank" ' : '';
-		$link_tag  .= $classr . '  data-gdpr_action="reject"' . $margin_style . '>' . stripslashes( esc_attr( $settings['button_3_text'] ) ) . '</a>';
+		$link_tag  .= $classr . '  data-gdpr_action="reject"' . $margin_style . '>' . stripslashes( esc_attr__( $settings['button_3_text'], 'gdpr-cookie-consent' ) ) . '</a>'; // phpcs:ignore
 		return $link_tag;
 	}
 
@@ -245,7 +245,7 @@ class Gdpr_Cookie_Consent_Public {
 		$url       = ( 'CONSTANT_OPEN_URL' === $settings['button_1_action'] && '#' !== $settings['button_1_url'] ) ? "href='$settings[button_1_url]'" : '';
 		$link_tag  = '<a ' . $url . ' data-gdpr_action="accept-all" id="' . $this->gdprcookieconsent_remove_hash( $settings['button_1_action'] ) . '" ';
 		$link_tag .= ( $settings['button_1_new_win'] ) ? 'target="_blank" ' : '';
-		$link_tag .= $class . ' style="display:inline-block; ' . $margin_style . 'margin-left:0!important;">' . stripslashes( esc_attr( $settings['button_1_text'] ) ) . '</a>';
+		$link_tag .= $class . ' style="display:inline-block; ' . $margin_style . 'margin-left:0!important;">' . stripslashes( esc_attr__( $settings['button_1_text'], 'gdpr-cookie-consent' ) ) . '</a>'; // phpcs:ignore
 
 		return $link_tag;
 	}
@@ -279,7 +279,7 @@ class Gdpr_Cookie_Consent_Public {
 		$url_more  = ( 'CONSTANT_OPEN_URL' === $settings['button_2_action'] && '#' !== $settings['button_2_url'] ) ? "href='$settings[button_2_url]'" : '';
 		$link_tag  = '<a ' . $url_more . ' id="' . $this->gdprcookieconsent_remove_hash( $settings['button_2_action'] ) . '" ';
 		$link_tag .= ( $settings['button_2_new_win'] ) ? 'target="_blank" ' : '';
-		$link_tag .= $classm . ' style="display:inline-block;' . $margin_style . '" >' . $settings['button_2_text'] . '</a>';
+		$link_tag .= $classm . ' style="display:inline-block;' . $margin_style . '" >' . esc_attr__( $settings['button_2_text'], 'gdpr-cookie-consent' ) . '</a>'; // phpcs:ignore
 		return $link_tag;
 	}
 

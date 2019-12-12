@@ -38,7 +38,7 @@ if ( ! defined( 'WPINC' ) ) {
 						?>
 					value="<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
 					<?php endif; ?>
-					<label for="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>"><?php echo esc_attr( $category['gdpr_cookie_category_name'] ); ?></label>
+					<label for="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>"><?php echo esc_attr__( $category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></label>
 				</div>
 				<?php
 			endif;
@@ -62,7 +62,7 @@ if ( ! defined( 'WPINC' ) ) {
 							?>
 						<a data-target="gdpr_messagebar_detail_body_content_cookie_tabs_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" id="gdpr_messagebar_detail_body_content_overview_cookie_container_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_detail_body_content_overview_cookie_container_types
 							<?php if ( 'necessary' === $category['gdpr_cookie_category_slug'] ) : ?>
-							gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected<?php endif; ?>"><?php echo esc_attr( $category['gdpr_cookie_category_name'] ) . ' (' . esc_attr( $total ) . ')'; ?></a>
+							gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected<?php endif; ?>"><?php echo esc_attr__( $category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ) . ' (' . esc_attr( $total ) . ')'; // phpcs:ignore ?></a>
 						<?php endforeach; ?>
 					</div>
 					<div id="gdpr_messagebar_detail_body_content_overview_cookie_container_type_details">
@@ -76,7 +76,7 @@ if ( ! defined( 'WPINC' ) ) {
 							?>
 							<div id="gdpr_messagebar_detail_body_content_cookie_tabs_<?php echo esc_attr( $key ); ?>" style="<?php echo esc_attr( $style ); ?>" class="gdpr_messagebar_detail_body_content_cookie_type_details">
 								<div class="gdpr_messagebar_detail_body_content_cookie_type_intro">
-									<?php echo esc_attr( $cookies['desc'] ); ?>
+									<?php echo esc_attr__( $cookies['desc'], 'gdpr-cookie-consent' ); // phpcs:ignore ?>
 								</div>
 								<div class="gdpr_messagebar_detail_body_content_cookie_type_table_container">
 									<?php if ( $cookies['total'] > 0 ) : ?>
@@ -150,7 +150,7 @@ if ( ! defined( 'WPINC' ) ) {
 				</div>
 			</div>
 			<div id="gdpr_messagebar_detail_body_content_about" style="display:none;">
-				<?php echo esc_attr( $about_message ); ?>
+				<?php echo esc_attr__( $about_message, 'gdpr-cookie-consent' ); // phpcs:ignore ?>
 			</div>
 		</div>
 	</div>

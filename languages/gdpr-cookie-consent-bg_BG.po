@@ -1,27 +1,26 @@
-# Copyright (C) 2019 WPEkaClub
-# This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: GDPR Cookie Consent 1.6\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
-"consent\n"
-"POT-Creation-Date: 2019-11-05 10:44:23+00:00\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: GDPR Cookie Consent\n"
+"POT-Creation-Date: 2019-12-12 11:53+0530\n"
+"PO-Revision-Date: 2019-12-12 12:24+0530\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-12-02 11:01+0530\n"
-"Language-Team: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
-"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
-"esc_html_x:1,2c\n"
-"X-Poedit-Basepath: ..\n"
-"X-Textdomain-Support: yes\n"
 "X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: gdpr-cookie-consent.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Last-Translator: \n"
 "Language: bg_BG\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
 
 #: admin/class-gdpr-cookie-consent-admin.php:164
 #: admin/class-gdpr-cookie-consent-admin.php:192
@@ -141,6 +140,8 @@ msgid "five star"
 msgstr "пет звезди"
 
 #. Plugin Name of the plugin/theme
+#: admin/class-gdpr-cookie-consent-admin.php:247
+#: public/views/gdpr-cookie-consent-public-details.php:158
 msgid "GDPR Cookie Consent"
 msgstr "Съгласие за бисквитка от GDPR"
 
@@ -275,6 +276,7 @@ msgid "Cookie Purpose"
 msgstr "Цел \"бисквитки\""
 
 #: admin/modules/cookie-custom/views/cookies.php:53
+#: analytics/templates/forms/deactivation/form.php:91
 msgid "Cancel"
 msgstr "Отказ"
 
@@ -548,10 +550,24 @@ msgstr ""
 "разберем как да изтрием бисквитките [wpl_cookie_link]\"."
 
 #: admin/views/admin-display-messagebar.php:40
+msgid "Cookie Bar Position"
+msgstr "Позиция на лентата с бисквитки"
+
+#: admin/views/admin-display-messagebar.php:45
+#: admin/views/admin-display-messagebar.php:48
+msgid "Bottom"
+msgstr "Долу"
+
+#: admin/views/admin-display-messagebar.php:46
+#: admin/views/admin-display-messagebar.php:49
+msgid "Top"
+msgstr "Горе"
+
+#: admin/views/admin-display-messagebar.php:56
 msgid "Cookie Bar Color"
 msgstr "Цвят на бар бисквитка"
 
-#: admin/views/admin-display-messagebar.php:48
+#: admin/views/admin-display-messagebar.php:64
 msgid "Text Color"
 msgstr "Цвят на текста"
 
@@ -595,6 +611,59 @@ msgstr "CSV файл"
 msgid "Import"
 msgstr "Импорт"
 
+#: analytics/templates/forms/deactivation/form.php:63
+msgid "Anonymous feedback"
+msgstr "Анонимна обратна връзка"
+
+#: analytics/templates/forms/deactivation/form.php:69
+msgid "Deactivate"
+msgstr "Деактивирайте"
+
+#: analytics/templates/forms/deactivation/form.php:70
+msgid "Theme"
+msgstr "Тема"
+
+#: analytics/templates/forms/deactivation/form.php:71
+#, php-format
+msgid "Activate %s"
+msgstr "Активиране на %s"
+
+#: analytics/templates/forms/deactivation/form.php:82
+msgid "Quick Feedback"
+msgstr "Бърза обратна връзка"
+
+#: analytics/templates/forms/deactivation/form.php:86
+#, php-format
+msgid "If you have a moment, please let us know why you are %s"
+msgstr "Ако имате момент, моля да ни кажете защо сте %s"
+
+#: analytics/templates/forms/deactivation/form.php:86
+msgid "deactivating"
+msgstr "Деактивиране"
+
+#: analytics/templates/forms/deactivation/form.php:86
+msgid "switching"
+msgstr "Превключване"
+
+#: analytics/templates/forms/deactivation/form.php:253
+#, php-format
+msgid "Submit & %s"
+msgstr "Подаване на & %s"
+
+#: analytics/templates/forms/deactivation/form.php:274
+msgid "Kindly tell us the reason so we can improve."
+msgstr "Моля, кажете ни причината, за да можем да подобрим."
+
+#: analytics/templates/forms/deactivation/form.php:402
+#, php-format
+msgid "Yes - %s"
+msgstr "Да- %s"
+
+#: analytics/templates/forms/deactivation/form.php:415
+#, php-format
+msgid "Skip & %s"
+msgstr "Пропусни & %s"
+
 #: includes/class-gdpr-cookie-consent-i18n.php:35
 msgid "HTTP Cookie"
 msgstr "HTTP бисквитка"
@@ -632,35 +701,39 @@ msgid "Accept All Cookies"
 msgstr "Приеми всички бисквитки"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:44
+msgid "Accept Selected Cookies"
+msgstr "Приемане на избрани бисквитки"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:45
 msgid "Show Details"
 msgstr "Покажи детайли"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:45
+#: includes/class-gdpr-cookie-consent-i18n.php:46
 #: public/class-gdpr-cookie-consent-public.php:185
 msgid "Hide Details"
 msgstr "Скрии детайли"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:46
+#: includes/class-gdpr-cookie-consent-i18n.php:47
 msgid "Necessary"
 msgstr "Необходимо"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:47
+#: includes/class-gdpr-cookie-consent-i18n.php:48
 msgid "Marketing"
 msgstr "Маркетинг"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:48
+#: includes/class-gdpr-cookie-consent-i18n.php:49
 msgid "Analytics"
 msgstr "Анализ"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:49
+#: includes/class-gdpr-cookie-consent-i18n.php:50
 msgid "Preferences"
 msgstr "Опции"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:50
+#: includes/class-gdpr-cookie-consent-i18n.php:51
 msgid "Unclassified"
 msgstr "Некласифицирани"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:51
+#: includes/class-gdpr-cookie-consent-i18n.php:52
 msgid ""
 "Necessary cookies help make a website usable by enabling basic functions "
 "like page navigation and access to secure areas of the website. The website "
@@ -671,7 +744,7 @@ msgstr ""
 "защитени зони на уебсайта. Уебсайтът не може да функционира правилно без "
 "тези \"бисквитки\"."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:52
+#: includes/class-gdpr-cookie-consent-i18n.php:53
 msgid ""
 "Marketing cookies are used to track visitors across websites. The intention "
 "is to display ads that are relevant and engaging for the individual user and "
@@ -682,7 +755,7 @@ msgstr ""
 "ангажирани с индивидуалния потребител и по този начин по-ценни за издателите "
 "и рекламодателите от трети страни."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:53
+#: includes/class-gdpr-cookie-consent-i18n.php:54
 msgid ""
 "Analytics cookies help website owners to understand how visitors interact "
 "with websites by collecting and reporting information anonymously."
@@ -691,7 +764,7 @@ msgstr ""
 "как посетителите взаимодействат с уебсайтовете, като събират и докладват "
 "анонимно информация."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:54
+#: includes/class-gdpr-cookie-consent-i18n.php:55
 msgid ""
 "Preference cookies enable a website to remember information that changes the "
 "way the website behaves or looks, like your preferred language or the region "
@@ -701,7 +774,7 @@ msgstr ""
 "която променя начина на поведение или външен вид на уебсайта, като "
 "предпочитания от вас език или региона, в който се намират."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:55
+#: includes/class-gdpr-cookie-consent-i18n.php:56
 msgid ""
 "Unclassified cookies are cookies that we are in the process of classifying, "
 "together with the providers of individual cookies."
@@ -709,7 +782,7 @@ msgstr ""
 "Некласифицираните бисквитки са бисквитки, които сме в процес на "
 "класифициране, заедно с доставчиците на отделни бисквитки."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:56
+#: includes/class-gdpr-cookie-consent-i18n.php:57
 msgid ""
 "Cookies are small text files that can be used by websites to make a user's "
 "experience more efficient. The law states that we can store cookies on your "
@@ -725,6 +798,14 @@ msgstr ""
 "други видове бисквитки се нуждаем от вашето разрешение. Този сайт използва "
 "различни видове бисквитки. Някои бисквитки се поставят от услуги на трети "
 "страни, които се появяват на нашите страници."
+
+#: includes/class-gdpr-cookie-consent-i18n.php:58
+msgid ""
+"This website uses cookies to improve your experience. We'll assume you're ok "
+"with this, but you can opt-out if you wish."
+msgstr ""
+"Този уебсайт използва бисквитки, за да подобри практическата ви работа. Ще "
+"приемем, че сте добре с това, но можете да се откажете, ако желаете."
 
 #: public/class-gdpr-cookie-consent-public.php:184
 msgid "Select Cookies"

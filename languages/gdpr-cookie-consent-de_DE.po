@@ -1,27 +1,26 @@
-# Copyright (C) 2019 WPEkaClub
-# This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: GDPR Cookie Consent 1.6\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
-"consent\n"
-"POT-Creation-Date: 2019-11-05 10:44:23+00:00\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: GDPR Cookie Consent\n"
+"POT-Creation-Date: 2019-12-12 11:53+0530\n"
+"PO-Revision-Date: 2019-12-12 12:19+0530\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-12-02 11:53+0530\n"
-"Language-Team: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
-"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
-"esc_html_x:1,2c\n"
-"X-Poedit-Basepath: ..\n"
-"X-Textdomain-Support: yes\n"
 "X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: gdpr-cookie-consent.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
 
 #: admin/class-gdpr-cookie-consent-admin.php:164
 #: admin/class-gdpr-cookie-consent-admin.php:192
@@ -144,6 +143,8 @@ msgid "five star"
 msgstr "fünf Sterne"
 
 #. Plugin Name of the plugin/theme
+#: admin/class-gdpr-cookie-consent-admin.php:247
+#: public/views/gdpr-cookie-consent-public-details.php:158
 msgid "GDPR Cookie Consent"
 msgstr "GDPR Cookie Consent"
 
@@ -278,6 +279,7 @@ msgid "Cookie Purpose"
 msgstr "Cookie-Zweck"
 
 #: admin/modules/cookie-custom/views/cookies.php:53
+#: analytics/templates/forms/deactivation/form.php:91
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -552,10 +554,24 @@ msgstr ""
 "um herauszufinden, wie Cookies [wpl_cookie_link] gelöscht werden.\""
 
 #: admin/views/admin-display-messagebar.php:40
+msgid "Cookie Bar Position"
+msgstr "Cookie-Bar-Position"
+
+#: admin/views/admin-display-messagebar.php:45
+#: admin/views/admin-display-messagebar.php:48
+msgid "Bottom"
+msgstr "Unten"
+
+#: admin/views/admin-display-messagebar.php:46
+#: admin/views/admin-display-messagebar.php:49
+msgid "Top"
+msgstr "Oben"
+
+#: admin/views/admin-display-messagebar.php:56
 msgid "Cookie Bar Color"
 msgstr "Cookie-Leiste Farbe"
 
-#: admin/views/admin-display-messagebar.php:48
+#: admin/views/admin-display-messagebar.php:64
 msgid "Text Color"
 msgstr "Textfarbe"
 
@@ -601,6 +617,61 @@ msgstr "CSV Datei"
 msgid "Import"
 msgstr "Importieren"
 
+#: analytics/templates/forms/deactivation/form.php:63
+msgid "Anonymous feedback"
+msgstr "Anonymes Feedback"
+
+#: analytics/templates/forms/deactivation/form.php:69
+msgid "Deactivate"
+msgstr "Deaktivieren"
+
+#: analytics/templates/forms/deactivation/form.php:70
+msgid "Theme"
+msgstr "Theme"
+
+#: analytics/templates/forms/deactivation/form.php:71
+#, php-format
+msgid "Activate %s"
+msgstr "Aktiviere %s"
+
+#: analytics/templates/forms/deactivation/form.php:82
+msgid "Quick Feedback"
+msgstr "Schnelles Feedback"
+
+#: analytics/templates/forms/deactivation/form.php:86
+#, php-format
+msgid "If you have a moment, please let us know why you are %s"
+msgstr ""
+"Wenn Sie einen Moment haben, lassen Sie uns bitte wissen, warum Sie %s sind"
+
+#: analytics/templates/forms/deactivation/form.php:86
+msgid "deactivating"
+msgstr "Deaktivieren"
+
+#: analytics/templates/forms/deactivation/form.php:86
+msgid "switching"
+msgstr "Umschalten"
+
+#: analytics/templates/forms/deactivation/form.php:253
+#, php-format
+msgid "Submit & %s"
+msgstr "Einreichen & %s"
+
+#: analytics/templates/forms/deactivation/form.php:274
+msgid "Kindly tell us the reason so we can improve."
+msgstr ""
+"Teilen Sie uns bitte den Grund, damit wir es künftig verbessern können."
+
+#: analytics/templates/forms/deactivation/form.php:402
+#, php-format
+msgid "Yes - %s"
+msgstr "Ja - %s"
+
+#: analytics/templates/forms/deactivation/form.php:415
+#, php-format
+msgid "Skip & %s"
+msgstr "Überspringen & %s"
+
 #: includes/class-gdpr-cookie-consent-i18n.php:35
 msgid "HTTP Cookie"
 msgstr "HTTP-Cookie"
@@ -638,35 +709,39 @@ msgid "Accept All Cookies"
 msgstr "Akzeptieren Sie alle Cookies"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:44
+msgid "Accept Selected Cookies"
+msgstr "Ausgewählte Cookies akzeptieren"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:45
 msgid "Show Details"
 msgstr "Details anzeigen"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:45
+#: includes/class-gdpr-cookie-consent-i18n.php:46
 #: public/class-gdpr-cookie-consent-public.php:185
 msgid "Hide Details"
 msgstr "Details ausblenden"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:46
+#: includes/class-gdpr-cookie-consent-i18n.php:47
 msgid "Necessary"
 msgstr "Notwendige Cookies"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:47
+#: includes/class-gdpr-cookie-consent-i18n.php:48
 msgid "Marketing"
 msgstr "Marketing"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:48
+#: includes/class-gdpr-cookie-consent-i18n.php:49
 msgid "Analytics"
 msgstr "Analytics"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:49
+#: includes/class-gdpr-cookie-consent-i18n.php:50
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:50
+#: includes/class-gdpr-cookie-consent-i18n.php:51
 msgid "Unclassified"
 msgstr "Unklassifizierte"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:51
+#: includes/class-gdpr-cookie-consent-i18n.php:52
 msgid ""
 "Necessary cookies help make a website usable by enabling basic functions "
 "like page navigation and access to secure areas of the website. The website "
@@ -677,7 +752,7 @@ msgstr ""
 "sichere Bereiche der Website ermöglichen. Die Website funktioniert ohne "
 "diese Cookies nicht ordnungsgemäß."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:52
+#: includes/class-gdpr-cookie-consent-i18n.php:53
 msgid ""
 "Marketing cookies are used to track visitors across websites. The intention "
 "is to display ads that are relevant and engaging for the individual user and "
@@ -688,7 +763,7 @@ msgstr ""
 "relevant und ansprechend sind und damit für Publisher und Drittanbieter "
 "wertvoller sind."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:53
+#: includes/class-gdpr-cookie-consent-i18n.php:54
 msgid ""
 "Analytics cookies help website owners to understand how visitors interact "
 "with websites by collecting and reporting information anonymously."
@@ -696,7 +771,7 @@ msgstr ""
 "Analytics-Cookies helfen Website-Besitzern, zu verstehen, wie Besucher mit "
 "Websites interagieren, indem sie Informationen anonym sammeln und melden."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:54
+#: includes/class-gdpr-cookie-consent-i18n.php:55
 msgid ""
 "Preference cookies enable a website to remember information that changes the "
 "way the website behaves or looks, like your preferred language or the region "
@@ -706,7 +781,7 @@ msgstr ""
 "Verhalten oder Aussehen der Website ändern, wie Ihre bevorzugte Sprache oder "
 "die Region, in der Sie sich befinden."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:55
+#: includes/class-gdpr-cookie-consent-i18n.php:56
 msgid ""
 "Unclassified cookies are cookies that we are in the process of classifying, "
 "together with the providers of individual cookies."
@@ -714,7 +789,7 @@ msgstr ""
 "Nicht klassifizierte Cookies sind Cookies, die wir zusammen mit den "
 "Anbietern einzelner Cookies klassifizieren."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:56
+#: includes/class-gdpr-cookie-consent-i18n.php:57
 msgid ""
 "Cookies are small text files that can be used by websites to make a user's "
 "experience more efficient. The law states that we can store cookies on your "
@@ -730,6 +805,15 @@ msgstr ""
 "Cookies benötigen wir Ihre Erlaubnis. Diese Website verwendet verschiedene "
 "Arten von Cookies. Einige Cookies werden von Drittanbieterdiensten "
 "platziert, die auf unseren Seiten erscheinen."
+
+#: includes/class-gdpr-cookie-consent-i18n.php:58
+msgid ""
+"This website uses cookies to improve your experience. We'll assume you're ok "
+"with this, but you can opt-out if you wish."
+msgstr ""
+"Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern. Wir gehen "
+"davon aus, dass Sie damit einverstanden sind, aber Sie können sich abmelden, "
+"wenn Sie es wünschen."
 
 #: public/class-gdpr-cookie-consent-public.php:184
 msgid "Select Cookies"
