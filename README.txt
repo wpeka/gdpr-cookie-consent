@@ -4,7 +4,7 @@ Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance
 Requires at least: 3.3.1
 Tested up to: 5.3
-Stable tag: 1.7.4
+Stable tag: 1.7.5
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -100,46 +100,52 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 6. Manage cookie list.
 
 == Change Log ==
+= 1.7.5 =
+Fix: Frontend translation issues for Cookie Categories and description.
+
 = 1.7.4 =
-* Feature = Added Cookie Bar position.
+* Feature: Added Cookie Bar position.
 * Update: Improved Cookie Bar Frontend UI.
 
 = 1.7.3 =
 * Update: Updated language translations
 
 = 1.7.2 =
-* Fixed - Fatal error if Analytics SDK is included in two or more plugins
+* Fix: Fatal error if Analytics SDK is included in two or more plugins
 
 = 1.7.1 =
-* Fixed - Read More URL is not rendered on Admin Dashboard
+* Fix: Read More URL is not rendered on Admin Dashboard
 
 = 1.7 =
-* Added - feedback form on plugin deactivation.
+* Feature: Feedback form on plugin deactivation.
 
 = 1.6 =
 * Fix: Minor bug fixes.
 * Update: Added support for SCRIPT_DEBUG.
 
 = 1.5 =
-* Updated Accept All button on consent bar
+* Updat: Accept All button on consent bar
 
 = 1.4 =
-* Added Accept All button on consent bar
-* Update Made compatible with Wordpress 5.2.3.
+* Feature: Accept All button on consent bar
+* Update: Made compatible with Wordpress 5.2.3.
 
 = 1.3 =
-* Added custom post type for Cookie Policy Data
+* Feature: custom post type for Cookie Policy Data
 
 = 1.2 =
-* Fixed previous settings migration issue.
+* Fix: Previous settings migration issue.
 
 = 1.1 =
-* Fixed previous version settings issue (with respect to Pro Version).
+* Fix: Previous version settings issue (with respect to Pro Version).
 
 = 1.0 =
 * Initial version
 
 == Upgrade Notice ==
+= 1.7.5 =
+Fix: Frontend translation issues for Cookie Categories and description.
+
 = 1.7.4 =
 * Feature = Added Cookie Bar position.
 * Update: Improved Cookie Bar Frontend UI.
