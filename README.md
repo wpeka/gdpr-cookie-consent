@@ -4,7 +4,7 @@
 **Tags:** eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance  
 **Requires at least:** 3.3.1  
 **Tested up to:** 5.3  
-**Stable tag:** 1.7.5  
+**Stable tag:** 1.7.6  
 **Requires PHP:** 7.0  
 **License:** GPLv3  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
@@ -100,6 +100,9 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 6. Manage cookie list.
 
 ## Change Log ##
+### 1.7.6 ###
+Feature: Added wizard for user consent on plugin activation.
+
 ### 1.7.5 ###
 Fix: Frontend translation issues for Cookie Categories and description.
 
@@ -143,6 +146,9 @@ Fix: Frontend translation issues for Cookie Categories and description.
 * Initial version
 
 ## Upgrade Notice ##
+### 1.7.6 ###
+Feature: Added wizard for user consent on plugin activation.
+
 ### 1.7.5 ###
 Fix: Frontend translation issues for Cookie Categories and description.
 

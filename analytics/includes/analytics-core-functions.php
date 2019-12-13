@@ -241,6 +241,269 @@ if ( ! function_exists( 'as_enqueue_local_style' ) ) {
 	 * @param string $media Media.
 	 */
 	function as_enqueue_local_style( $handle, $path, $deps = array(), $ver = false, $media = 'all' ) {
-		wp_enqueue_style( $handle, as_asset_url( WP_STAT__DIR_CSS . '/' . trim( $path, '/' ) ), $deps, $ver, $media );
+		wp_enqueue_style( $handle, as_asset_url( WP_STAT__DIR_CSS . '/' . trim( $path, '/' ) ), $deps, '1.2.2', $media );
+	}
+}
+
+if ( ! function_exists( '_as_text_inline' ) ) {
+	/**
+	 * Retrieve an inline translated text by key.
+	 *
+	 * @author CyberChimps
+	 * @since  1.0.1
+	 *
+	 * @param string $text Translatable string.
+	 * @param string $key  String key for overrides.
+	 * @param string $slug Module slug for overrides.
+	 *
+	 * @return string
+	 *
+	 * @global       $fs_text_overrides
+	 */
+	function _as_text_inline( $text, $key = '', $slug = 'analytics' ) {
+		list( $text, $text_domain ) = as_text_and_domain( $text, $key, $slug );
+
+		// Avoid misleading Theme Check warning.
+		$fn = 'translate';
+
+		return $fn( $text, $text_domain );
+	}
+}
+
+if ( ! function_exists( 'as_text_and_domain' ) ) {
+	/**
+	 * Get a translatable text and its text domain.
+	 *
+	 * @author CyberChimps
+	 * @since  1.0.1
+	 *
+	 * @param string $text Translatable string.
+	 * @param string $key  String key for overrides.
+	 * @param string $slug Module slug for overrides.
+	 *
+	 * @return string[]
+	 */
+	function as_text_and_domain( $text, $key, $slug ) {
+		$override = as_text_override( $text, $key, $slug );
+
+		if ( false === $override ) {
+			// No override, use FS text domain.
+			$text_domain = 'analytics';
+		} else {
+			// Found an override.
+			$text = $override;
+			// Use the module's text domain.
+			$text_domain = $slug;
+		}
+
+		return array( $text, $text_domain );
+	}
+}
+if ( ! function_exists( 'as_text_override' ) ) {
+	/**
+	 * Get a translatable text override if exists, or `false`.
+	 *
+	 * @author CyberChimps
+	 * @since  1.0.1
+	 *
+	 * @param string $text Translatable string.
+	 * @param string $key  String key for overrides.
+	 * @param string $slug Module slug for overrides.
+	 *
+	 * @return string|false
+	 */
+	function as_text_override( $text, $key, $slug ) {
+		global $as_text_overrides;
+
+		/**
+		 * Check if string is overridden.
+		 */
+		if ( ! isset( $as_text_overrides[ $slug ] ) ) {
+			return false;
+		}
+
+		if ( empty( $key ) ) {
+			$key = strtolower( str_replace( ' ', '-', $text ) );
+		}
+
+		if ( isset( $as_text_overrides[ $slug ][ $key ] ) ) {
+			return $as_text_overrides[ $slug ][ $key ];
+		}
+
+		$lower_key = strtolower( $key );
+		if ( isset( $as_text_overrides[ $slug ][ $lower_key ] ) ) {
+			return $as_text_overrides[ $slug ][ $lower_key ];
+		}
+
+		return false;
+	}
+}
+
+if ( ! function_exists( 'as_enqueue_local_script' ) ) {
+	function as_enqueue_local_script( $handle, $path, $deps = array(), $ver = false, $in_footer = 'all' ) {
+		wp_enqueue_script( $handle, as_asset_url( WP_STAT__DIR_JS . '/' . trim( $path, '/' ) ), $deps, $ver, $in_footer );
+	}
+}
+
+if ( ! function_exists( 'as_text_inline' ) ) {
+	/**
+	 * Retrieve an inline translated text by key.
+	 *
+	 * @author CyberChimps
+	 * @since  1.0.1
+	 *
+	 * @param string $text Translatable string.
+	 * @param string $key  String key for overrides.
+	 * @param string $slug Module slug for overrides.
+	 *
+	 * @return string
+	 *
+	 * @global       $fs_text_overrides
+	 */
+	function as_text_inline( $text, $key = '', $slug = 'analytics' ) {
+		return _as_text_inline( $text, $key, $slug );
+	}
+}
+
+/**
+ * Retrieve an inline translated text by key with a context.
+ *
+ * @author CyberChimps
+ * @since  1.0.1
+ *
+ * @param string $text    Translatable string.
+ * @param string $context Context information for the translators.
+ * @param string $key     String key for overrides.
+ * @param string $slug    Module slug for overrides.
+ *
+ * @return string
+ *
+ * @global       $fs_text_overrides
+ */
+function _as_text_x_inline( $text, $context, $key = '', $slug = 'analytics' ) {
+	list( $text, $text_domain ) = as_text_and_domain( $text, $key, $slug );
+
+	// Avoid misleading Theme Check warning.
+	$fn = 'translate_with_gettext_context';
+
+	return $fn( $text, $context, $text_domain );
+}
+
+/**
+ * Retrieve an inline translated text by key with a context.
+ *
+ * @author CyberChimps
+ * @since  1.0.1
+ *
+ * @param string $text    Translatable string.
+ * @param string $context Context information for the translators.
+ * @param string $key     String key for overrides.
+ * @param string $slug    Module slug for overrides.
+ *
+ * @return string
+ *
+ * @global       $fs_text_overrides
+ */
+function as_text_x_inline( $text, $context, $key = '', $slug = 'analytics' ) {
+	return _as_text_x_inline( $text, $context, $key, $slug );
+}
+
+if ( ! function_exists( 'as_esc_html_echo_x_inline' ) ) {
+	/**
+	 * @author CyberChimps
+	 * @since  1.0.1
+	 *
+	 * @param string $text    Translatable string.
+	 * @param string $context Context information for the translators.
+	 * @param string $key     String key for overrides.
+	 * @param string $slug    Module slug for overrides.
+	 */
+	function as_esc_html_echo_x_inline( $text, $context, $key = '', $slug = 'analytics' ) {
+		echo esc_html( _as_text_x_inline( $text, $context, $key, $slug ) );
+	}
+}
+
+if ( ! function_exists( 'as_sort_by_priority' ) ) {
+	/**
+	 * Sorts an array by the value of the priority key.
+	 *
+	 * @author CyberChimps
+	 * @since  1.0.1
+	 *
+	 * @param $a
+	 * @param $b
+	 *
+	 * @return int
+	 */
+	function as_sort_by_priority( $a, $b ) {
+
+		// If b has a priority and a does not, b wins.
+		if ( ! isset( $a['priority'] ) && isset( $b['priority'] ) ) {
+			return 1;
+		} // If b has a priority and a does not, b wins.
+		elseif ( isset( $a['priority'] ) && ! isset( $b['priority'] ) ) {
+			return - 1;
+		} // If neither has a priority or both priorities are equal its a tie.
+		elseif ( ( ! isset( $a['priority'] ) && ! isset( $b['priority'] ) ) || $a['priority'] === $b['priority'] ) {
+			return 0;
+		}
+
+		// If both have priority return the winner.
+		return ( $a['priority'] < $b['priority'] ) ? - 1 : 1;
+	}
+}
+if ( ! function_exists( 'as_esc_html_echo_inline' ) ) {
+	/**
+	 * @author CyberChimps
+	 * @since  1.0.1
+	 *
+	 * @param string $text Translatable string.
+	 * @param string $key  String key for overrides.
+	 * @param string $slug Module slug for overrides.
+	 */
+	function as_esc_html_echo_inline( $text, $key = '', $slug = 'analytics' ) {
+		echo esc_html( _as_text_inline( $text, $key, $slug ) );
+	}
+}
+
+/**
+ * Output an inline translated text.
+ *
+ * @author CyberChimps
+ * @since  1.0.1
+ *
+ * @param string $text Translatable string.
+ * @param string $key  String key for overrides.
+ * @param string $slug Module slug for overrides.
+ */
+function as_echo_inline( $text, $key = '', $slug = 'analytics' ) {
+	echo _as_text_inline( $text, $key, $slug );
+}
+
+if ( ! function_exists( 'as_apply_filter' ) ) {
+	/**
+	 * Apply filter for specific plugin.
+	 *
+	 * @author CyberChimps
+	 * @since  1.0.1
+	 *
+	 * @param string $module_unique_affix Module's unique affix.
+	 * @param string $tag                 The name of the filter hook.
+	 * @param mixed  $value               The value on which the filters hooked to `$tag` are applied on.
+	 *
+	 * @return mixed The filtered value after all hooked functions are applied to it.
+	 *
+	 * @uses   apply_filters()
+	 */
+	function as_apply_filter( $module_unique_affix, $tag, $value ) {
+		$args = func_get_args();
+
+		return call_user_func_array(
+			'apply_filters',
+			array_merge(
+				array( "as_{$tag}_{$module_unique_affix}" ),
+				array_slice( $args, 2 )
+			)
+		);
 	}
 }
