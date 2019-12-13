@@ -1,0 +1,301 @@
+.analytics-setup {
+	text-align: center;
+	max-width: 700px;
+	margin: 65px auto 24px;
+	background: #f1f1f1;
+	box-shadow: none;
+}
+.analytics-setup-content {
+	box-shadow: 0 1px 3px rgba(0,0,0,.13);
+	padding: 2em;
+	margin: 20px auto;
+	background: #fff;
+	overflow: hidden;
+	zoom:1;text-align: left
+}
+.analytics-setup-content h1,.analytics-setup-content h2,.analytics-setup-content h3,.analytics-setup-content table {
+	margin: 0 0 20px;
+	border: 0;
+	padding: 0;
+	color: #666;
+	clear: none;
+	font-weight: 500
+}
+
+.analytics-setup-content p {
+	margin: 20px 0;
+	font-size: 1em;
+	line-height: 1.75;
+	color: #666
+}
+#analytics-logo {
+	border: 0;
+	margin: 0 0 24px;
+	padding: 0;
+	text-align: center
+}
+#as_connect {
+	width: 95%;
+	margin: 5px auto 5px;
+	-moz-box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+	box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+}
+@media screen and (max-width: 479px) {
+	#as_connect {
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		width: auto;
+		margin: 0 0 0 -10px}
+}
+#as_connect .as-content {
+	background: #fff;
+	padding: 15px 20px
+}
+#as_connect .as-content .as-error {
+	background: snow;
+	color: #d3135a;
+	border: 1px solid #d3135a;
+	-moz-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	text-align: center;
+	padding: 5px;
+	margin-bottom: 10px
+}
+#as_connect .as-content p {
+	margin: 20px 0;
+	padding: 0;
+	line-height: 1.75;
+	color: #666;
+	font-size: 1em
+}
+#as_connect .as-actions {
+	padding: 10px 20px;
+	background: #C0C7CA;
+	text-align: center
+}
+#as_connect .as-actions .button {
+	padding: 0 10px 1px;
+	line-height: 35px;
+	height: 37px;
+	font-size: 1em;
+	margin-bottom: 0
+}
+#as_connect .as-actions .button .dashicons {
+	font-size: 37px;
+	margin-left: -8px;
+	margin-right: 12px
+}
+#as_connect .as-actions .button.button-primary {
+	padding-right: 15px;
+	padding-left: 15px
+}
+#as_connect .as-actions .button.button-primary:after {
+	content: ' \279C'
+}
+#as_connect .as-actions .button.button-primary.as-loading:after {
+	content: ''
+}
+#as_connect .as-permissions {
+	padding: 10px 20px;
+	background: #FEFEFE;
+	-moz-transition: background 0.5s ease;
+	-o-transition: background 0.5s ease;
+	-ms-transition: background 0.5s ease;
+	-webkit-transition: background 0.5s ease;
+	transition: background 0.5s ease
+}
+#as_connect .as-permissions .as-trigger {
+	font-size: 0.9em;
+	text-decoration: none;
+	text-align: center;
+	display: block
+}
+#as_connect .as-permissions ul {
+	height: 0;
+	overflow: hidden;
+	margin: 0;
+	padding: 0px
+}
+#as_connect .as-permissions ul li {
+	margin-bottom: 12px
+}
+#as_connect .as-permissions ul li:last-child {
+	margin-bottom: 0
+}
+#as_connect .as-permissions ul li i.dashicons {
+	float: left;
+	font-size: 40px;
+	width: 40px;
+	height: 40px
+}
+#as_connect .as-permissions ul li div {
+	margin-left: 55px
+}
+#as_connect .as-permissions ul li div span {
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #23282d
+}
+#as_connect .as-permissions ul li div p {
+	margin: 2px 0 0 0
+}
+#as_connect .as-permissions.as-open {
+	background: #fff
+}
+#as_connect .as-permissions.as-open ul {
+	height: auto;
+	margin: 20px 20px 10px 20px;
+	list-style: none
+}
+@media screen and (max-width: 479px) {
+	#as_connect .as-permissions {
+		background: #fff
+	}
+	#as_connect .as-permissions .as-trigger {
+		display: none
+	}
+	#as_connect .as-permissions ul {
+		height: auto;
+		margin: 20px
+	}
+}
+#as_connect .as-visual {
+	padding: 12px;
+	line-height: 0;
+	background: #fafafa;
+	height: 80px;
+	position: relative;
+	text-align: center
+}
+#as_connect .as-visual .as-site-icon {
+	position: relative;
+}
+#as_connect .as-visual .as-connect-logo {
+	position: absolute;
+	right: 20px;
+	top: 10px
+}
+#as_connect .as-visual .as-plugin-icon {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	margin-left: -40px
+}
+#as_connect .as-visual .as-plugin-icon,#as_connect .as-visual .as-site-icon,#as_connect .as-visual img,#as_connect .as-visual object {
+	width: 80px;
+	height: 80px
+}
+#as_connect .as-visual .dashicons-wordpress {
+	font-size: 64px;
+	background: #01749a;
+	color: #fff;
+	width: 64px;
+	height: 64px;
+	padding: 8px
+}
+#as_connect .as-visual .dashicons-plus {
+	position: absolute;
+	top: 50%;
+	font-size: 30px;
+	margin-top: -10px;
+	color: #bbb
+}
+#as_connect .as-visual .dashicons-plus.as-first {
+	left: 28%
+}
+#as_connect .as-visual .dashicons-plus.as-second {
+	left: 65%
+}
+#as_connect .as-visual .as-plugin-icon,#as_connect .as-visual .as-connect-logo {
+	border: 1px solid #ccc;
+	padding: 1px;
+	background: #fff
+}
+#as_connect .as-terms {
+	text-align: center;
+	font-size: 0.85em;
+	padding: 5px;
+	background: rgba(0,0,0,0.05)
+}
+#as_connect .as-terms,#as_connect .as-terms a {
+	color: #999
+}
+#as_connect .as-terms a {
+	text-decoration: none
+}
+#as_theme_connect_wrapper {
+	position: fixed;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 99990;
+	background: rgba(0,0,0,0.75);
+	text-align: center;
+	overflow-y: auto
+}
+#as_theme_connect_wrapper:before {
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%
+}
+#as_theme_connect_wrapper>button.close {
+	color: white;
+	cursor: pointer;
+	height: 40px;
+	width: 40px;
+	position: absolute;
+	right: 0;
+	border: 0;
+	background-color: transparent;
+	top: 32px
+}
+#as_theme_connect_wrapper #as_connect {
+	top: 0;
+	text-align: left;
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: 52px;
+	margin-bottom: 20px
+}
+#as_theme_connect_wrapper #as_connect .as-terms {
+	background: rgba(140,140,140,0.64)
+}
+#as_theme_connect_wrapper #as_connect .as-terms,#as_theme_connect_wrapper #as_connect .as-terms a {
+	color: #c5c5c5
+}
+.wp-pointer-content #as_connect {
+	margin: 0;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none
+}
+.analytics-setup .as-actions .button {
+	font-weight: 300;
+	font-size: 16px;
+	padding: 1em 2em;
+	box-shadow: none;
+	margin-top: 10px;
+	line-height: 1;
+	margin-right: .5em;
+	margin-bottom: 2px;
+	height: auto;
+	border-radius: 4px
+}
+.analytics-setup .as-actions .button-primary {
+	background-color: #007cba;
+	border-color: #007cba;
+	color: #fff;
+	opacity: 1
+}
+.analytics-setup #skip_activation{
+	border: none;
+	text-decoration: underline;
+	color: #7b7b7b;
+}
+.analytics-setup #skip_activation:hover{
+	color: #00a0d2;
+}

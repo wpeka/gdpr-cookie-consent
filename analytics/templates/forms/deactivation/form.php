@@ -60,7 +60,7 @@ HTML;
 	if ( $is_anonymous ) {
 		$anonymous_feedback_checkbox_html = sprintf(
 			'<label class="anonymous-feedback-label"><input type="checkbox" class="anonymous-feedback-checkbox"> %s</label>',
-			__( 'Anonymous feedback', 'analytics' )
+			__( 'Send contact details for help', 'analytics' )
 		);
 	}
 }
@@ -250,7 +250,7 @@ as_enqueue_local_style( 'as_dialog_boxes', '/admin/dialog-boxes.css' );
                 $modal.find('.reason-input').remove();
                 $modal.find( '.internal-message' ).hide();
                 $modal.find('.button-deactivate').html('<?php echo esc_js( sprintf(
-                    __( 'Submit & %s', 'analytics' , $slug ),
+                    __( 'Submit & %s', 'analytics', $slug ),
                     $as->is_plugin() ?
                         $deactivate_text :
                         sprintf( $activate_x_text, $theme_text )
