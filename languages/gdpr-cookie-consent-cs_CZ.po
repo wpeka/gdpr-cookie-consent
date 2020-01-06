@@ -632,8 +632,8 @@ msgid "Cookie Bar is currently"
 msgstr "Panel souborů cookie je nyní"
 
 #: admin/views/admin-display-general.php:31
-msgid "Autotick for Non-Necessary Cookies:"
-msgstr "Automaticky zaškrtněte pro nepotřebné soubory cookie:"
+msgid "Autotick for Non-Necessary Cookies"
+msgstr "Automaticky zaškrtněte pro nepotřebné soubory cookie"
 
 #: admin/views/admin-display-general.php:38
 msgid "Show Credits"
