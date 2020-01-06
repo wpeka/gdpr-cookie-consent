@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 		<div class="gdpr_sub_tab_content" data-id="cookie-bar" style="display:block;">
 			<table class="form-table">
 				<tr valign="top">
-					<th scope="row"><label for="is_on_field"><?php esc_attr_e( 'Cookie Bar is currently:', 'gdpr-cookie-consent' ); ?></label></th>
+					<th scope="row"><label for="is_on_field"><?php esc_attr_e( 'Cookie Bar is currently', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="radio" id="is_on_field_yes" name="is_on_field" class="styled gdpr_bar_on" value="true" <?php echo ( true === $the_options['is_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
 						<input type="radio" id="is_on_field_no" name="is_on_field" class="styled" value="false" <?php echo ( false === $the_options['is_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
@@ -35,26 +35,24 @@ if ( ! defined( 'WPINC' ) ) {
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="show_credits_field"><?php esc_attr_e( 'Show Credits:', 'gdpr-cookie-consent' ); ?></label></th>
+					<th scope="row"><label for="show_credits_field"><?php esc_attr_e( 'Show Credits', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="radio" id="show_credits_field_yes" name="show_credits_field" class="styled gdpr_bar_on" value="true" <?php echo ( true === $the_options['show_credits'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
 						<input type="radio" id="show_credits_field_no" name="show_credits_field" class="styled" value="false" <?php echo ( false === $the_options['show_credits'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="notify_animate_hide_field"><?php esc_attr_e( 'On hide', 'gdpr-cookie-consent' ); ?></label></th>
+					<th scope="row"><label for="bar_heading_text_field"><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<select name="notify_animate_hide_field" class="vvv_combobox">
-							<?php
-							if ( true === $the_options['notify_animate_hide'] ) {
-								echo '<option value="true" selected="selected">' . esc_attr__( 'Animate', 'gdpr-cookie-consent' ) . '</option>';
-								echo '<option value="false">' . esc_attr__( 'Disappear', 'gdpr-cookie-consent' ) . '</option>';
-							} else {
-								echo '<option value="true">' . esc_attr__( 'Animate', 'gdpr-cookie-consent' ) . '</option>';
-								echo '<option value="false" selected="selected">' . esc_attr__( 'Disappear', 'gdpr-cookie-consent' ) . '</option>';
-							}
-							?>
-						</select>
+						<input type="text" name="bar_heading_text_field" value="<?php echo esc_attr( $the_options['bar_heading_text'] ); ?>" />
+						<span class="gdpr_form_help"><?php esc_attr_e( 'Leave it blank, If you do not need a heading', 'gdpr-cookie-consent' ); ?>
+				</span>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="notify_message_field"><?php esc_attr_e( 'Message', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<textarea name="notify_message_field" class="vvv_textbox"><?php echo wp_kses( apply_filters( 'format_to_edit', stripslashes( $the_options['notify_message'] ) ), Gdpr_Cookie_Consent::gdpr_allowed_html(), Gdpr_Cookie_Consent::gdpr_allowed_protocols() ); ?></textarea>
 					</td>
 				</tr>
 				<?php

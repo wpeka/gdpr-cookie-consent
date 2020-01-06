@@ -4,6 +4,8 @@
 vendor/
 release/
 package-lock.json
+composer.lock
+vendor/
 node_modules/
 languages/*.pot
 admin/css/*.min.css

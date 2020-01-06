@@ -44,6 +44,36 @@ class Gdpr_Cookie_Consent_Activator {
 			$default_options['notify_div_id'] = '#gdpr-cookie-consent-bar';
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $default_options );
 		}
+		// Update settings from Version 1.7.6.
+		$prev_gdpr_option = get_option( 'GDPRCookieConsent-2.0' );
+		if ( isset( $prev_gdpr_option['is_on'] ) ) {
+			unset( $prev_gdpr_option['button_1_selected_text'] );
+			$prev_gdpr_option['button_1_text']              = 'Accept';
+			$prev_gdpr_option['notify_message']             = addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' );
+			$prev_gdpr_option['opacity']                    = '0.80';
+			$prev_gdpr_option['template']                   = 'banner-default';
+			$prev_gdpr_option['banner_template']            = 'banner-default';
+			$prev_gdpr_option['popup_template']             = 'popup-default';
+			$prev_gdpr_option['widget_template']            = 'widget-default';
+			$prev_gdpr_option['button_1_is_on']             = true;
+			$prev_gdpr_option['button_2_is_on']             = true;
+			$prev_gdpr_option['button_3_is_on']             = true;
+			$prev_gdpr_option['notify_position_horizontal'] = false;
+			$prev_gdpr_option['bar_heading_text']           = 'This website uses cookies';
+
+			$prev_gdpr_option['button_4_text']         = 'Cookie Settings';
+			$prev_gdpr_option['button_4_url']          = '#';
+			$prev_gdpr_option['button_4_action']       = '#cookie_action_settings';
+			$prev_gdpr_option['button_4_link_color']   = '#fff';
+			$prev_gdpr_option['button_4_button_color'] = '#333';
+			$prev_gdpr_option['button_4_new_win']      = false;
+			$prev_gdpr_option['button_4_as_button']    = true;
+			$prev_gdpr_option['button_4_button_size']  = 'medium';
+			$prev_gdpr_option['button_4_is_on']        = true;
+			$prev_gdpr_option['button_4_as_popup']     = false;
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
+			delete_option( 'GDPRCookieConsent-2.0' );
+		}
 	}
 
 }

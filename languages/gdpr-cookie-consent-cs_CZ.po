@@ -1,72 +1,68 @@
+# Copyright (C) 2020 WPEkaClub
+# This file is distributed under the same license as the GDPR Cookie Consent plugin.
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
-"Project-Id-Version: GDPR Cookie Consent\n"
-"POT-Creation-Date: 2019-12-12 11:53+0530\n"
-"PO-Revision-Date: 2019-12-12 12:21+0530\n"
+"Project-Id-Version: GDPR Cookie Consent 1.7.6\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
+"consent\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2020-01-03T12:26:34+00:00\n"
+"PO-Revision-Date: 2020-01-03 19:45+0530\n"
 "X-Generator: Poedit 2.2.4\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: gdpr-cookie-consent.php\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Domain: gdpr-cookie-consent\n"
 "Last-Translator: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
 "Language: cs_CZ\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.min.js\n"
-"X-Poedit-SearchPathExcluded-1: node_modules\n"
+
+#. Plugin Name of the plugin
+#: admin/class-gdpr-cookie-consent-admin.php:216
+#: admin/class-gdpr-cookie-consent-admin.php:228
+#: public/class-gdpr-cookie-consent-public.php:299
+msgid "GDPR Cookie Consent"
+msgstr "Schválení souboru cookie GDPR"
+
+#. Plugin URI of the plugin
+msgid "https://club.wpeka.com/"
+msgstr "https://club.wpeka.com/"
+
+#. Description of the plugin
+msgid ""
+"Cookie Consent will help you put up a subtle banner in the footer of your "
+"website to showcase compliance status regarding the EU Cookie law."
+msgstr ""
+"Souhlas se souborem cookie vám pomůže vytvořit v zápatí vašeho webu jemnou "
+"skládku, která bude mít stav kompatibility s ohledem na zákon o koláči z EU."
+
+#. Author of the plugin
+msgid "WPEkaClub"
+msgstr "WPEkaClub"
+
+#. Author URI of the plugin
+msgid "https://club.wpeka.com"
+msgstr "https://club.wpeka.com"
 
 #: admin/class-gdpr-cookie-consent-admin.php:164
-#: admin/class-gdpr-cookie-consent-admin.php:192
+#: admin/class-gdpr-cookie-consent-admin.php:170
 msgid "Cookie Bar Shortcodes"
 msgstr "Krátké kódy pruhu souboru cookie"
 
 #: admin/class-gdpr-cookie-consent-admin.php:165
 msgid ""
-"You can enter the shortcodes in the \"message\" field of the Cookie Consent "
-"bar. They add nicely formatted buttons and/or links into the cookie bar, "
-"without you having to add any HTML."
+"Use the below shortcode to display third-party cookie details on your "
+"privacy or cookie policy pages."
 msgstr ""
-"Do pole \"zpráva\" v panelu souhlasu s cookie můžete zadat kódy. Do panelu "
-"souborů cookie přidávají pěkně formátovaná tlačítka nebo odkazy, aniž by "
-"bylo nutné přidat kód HTML."
-
-#: admin/class-gdpr-cookie-consent-admin.php:169
-msgid "This is the \"accept cookies button\" you customize below."
-msgstr "Toto je tlačítko přijmout soubory cookie, které upravíte níže."
-
-#: admin/class-gdpr-cookie-consent-admin.php:173
-msgid "This is the cookie decline button shortcode."
-msgstr "Toto je shortcode tlačítka pro odmítnutí souborů cookie."
+"Pomocí níže uvedeného kódu můžete zobrazit podrobnosti o souborech cookie "
+"jiných výrobců na stránkách zásad ochrany osobních údajů nebo souborů cookie."
 
 #: admin/class-gdpr-cookie-consent-admin.php:177
-msgid "This is the \"read more\" link you customize above."
-msgstr "Toto je odkaz pro další čtení, který jste přizpůsobili výše."
-
-#: admin/class-gdpr-cookie-consent-admin.php:181
-msgid "This is the cookie settings button shortcode."
-msgstr "Toto je kód tlačítka nastavení souborů cookie."
-
-#: admin/class-gdpr-cookie-consent-admin.php:185
-msgid ""
-"Use this shortcode to display third-party cookie details on your privacy or "
-"cookie policy pages."
-msgstr ""
-"Tento kód použijte pro zobrazení podrobností o souborech cookie jiných "
-"výrobců na stránkách zásad ochrany osobních údajů nebo souborů cookie."
-
-#: admin/class-gdpr-cookie-consent-admin.php:199
-#: admin/class-gdpr-cookie-consent-admin.php:200
+#: admin/class-gdpr-cookie-consent-admin.php:178
 msgid "Help &amp; Support"
 msgstr "Nápověda &amp; podpory"
 
-#: admin/class-gdpr-cookie-consent-admin.php:201
+#: admin/class-gdpr-cookie-consent-admin.php:179
 msgid ""
 "If you need help understanding, using, or extending GDPR Cookie Consent "
 "Plugin,"
@@ -74,40 +70,40 @@ msgstr ""
 "Potřebujete-li pomoc s porozuměním, používáním nebo rozšířením zásuvného "
 "modulu GDPR souhlasu,"
 
-#: admin/class-gdpr-cookie-consent-admin.php:201
+#: admin/class-gdpr-cookie-consent-admin.php:179
 msgid "please read our documentation."
 msgstr "prosím, přečtěte si naši dokumentaci."
 
-#: admin/class-gdpr-cookie-consent-admin.php:201
+#: admin/class-gdpr-cookie-consent-admin.php:179
 msgid ""
 "You will find all kinds of resources including snippets, tutorials and more."
 msgstr ""
 "Najdete zde všechny druhy zdrojů včetně výstřižků, výukových programů a "
 "dalších informací."
 
-#: admin/class-gdpr-cookie-consent-admin.php:202
+#: admin/class-gdpr-cookie-consent-admin.php:180
 msgid "For further assistance with GDPR Cookie Consent plugin you can use the"
 msgstr "Pro další pomoc s modulem pro souhlas se souborem GDPR, můžete použít"
 
-#: admin/class-gdpr-cookie-consent-admin.php:202
+#: admin/class-gdpr-cookie-consent-admin.php:180
 msgid "community forum."
-msgstr "Komunitní fórum."
+msgstr "komunitní fórum."
 
-#: admin/class-gdpr-cookie-consent-admin.php:202
+#: admin/class-gdpr-cookie-consent-admin.php:180
 msgid "If you need help with premium extensions sold by WPEka"
 msgstr ""
 "Pokud potřebujete pomoc s rozšířeními Premium prodávanými společností WPEka"
 
-#: admin/class-gdpr-cookie-consent-admin.php:202
+#: admin/class-gdpr-cookie-consent-admin.php:180
 msgid "use our helpdesk."
 msgstr "použít naši helpdesk."
 
-#: admin/class-gdpr-cookie-consent-admin.php:208
-#: admin/class-gdpr-cookie-consent-admin.php:209
+#: admin/class-gdpr-cookie-consent-admin.php:186
+#: admin/class-gdpr-cookie-consent-admin.php:187
 msgid "Found a bug?"
 msgstr "Našel jsi brouka?"
 
-#: admin/class-gdpr-cookie-consent-admin.php:210
+#: admin/class-gdpr-cookie-consent-admin.php:188
 msgid ""
 "If you find a bug within GDPR Cookie Consent plugin you can create a ticket "
 "via"
@@ -115,80 +111,78 @@ msgstr ""
 "Pokud naleznete chybu v rámci zásuvného modulu GDPR, můžete vytvořit lístek "
 "pomocí"
 
-#: admin/class-gdpr-cookie-consent-admin.php:210
+#: admin/class-gdpr-cookie-consent-admin.php:188
 msgid "our helpdesk."
 msgstr "naší helpdesk."
 
-#: admin/class-gdpr-cookie-consent-admin.php:214
+#: admin/class-gdpr-cookie-consent-admin.php:192
 msgid "For more information:"
 msgstr "Pro více informací:"
 
-#: admin/class-gdpr-cookie-consent-admin.php:215
+#: admin/class-gdpr-cookie-consent-admin.php:193
 msgid "About GDPR Cookie Consent"
 msgstr "O dohodě o souboru cookie GDPR"
 
-#: admin/class-gdpr-cookie-consent-admin.php:216
+#: admin/class-gdpr-cookie-consent-admin.php:194
 msgid "WordPress.org project"
 msgstr "Projekt WordPress.org"
 
-#: admin/class-gdpr-cookie-consent-admin.php:217
+#: admin/class-gdpr-cookie-consent-admin.php:195
 msgid "WPEka Plugins"
 msgstr "Zásuvné moduly WPEka"
 
-#: admin/class-gdpr-cookie-consent-admin.php:236
+#. translators: 1: GDPR Cookie Consent 2:: five stars
+#: admin/class-gdpr-cookie-consent-admin.php:215
+msgid ""
+"If you like %1$s please leave us a %2$s rating. A huge thanks in advance!"
+msgstr ""
+"Pokud se vám %1$s líbí, zanechte nám prosím %2$s hodnocení. Obrovské díky "
+"předem!"
+
+#: admin/class-gdpr-cookie-consent-admin.php:217
 msgid "five star"
 msgstr "pět hvězdiček"
 
-#. Plugin Name of the plugin/theme
-#: admin/class-gdpr-cookie-consent-admin.php:247
-#: public/views/gdpr-cookie-consent-public-details.php:158
-msgid "GDPR Cookie Consent"
-msgstr "Schválení souboru cookie GDPR"
-
-#: admin/class-gdpr-cookie-consent-admin.php:248
+#: admin/class-gdpr-cookie-consent-admin.php:229
 msgid "Cookie Settings"
 msgstr "Nastavení cookies"
 
-#: admin/class-gdpr-cookie-consent-admin.php:249
+#: admin/class-gdpr-cookie-consent-admin.php:230
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:46
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:48
 msgid "Policy Data"
 msgstr "Data zásad"
 
-#: admin/class-gdpr-cookie-consent-admin.php:250
+#: admin/class-gdpr-cookie-consent-admin.php:231
 msgid "Import Policies"
 msgstr "Importovat zásady"
 
-#: admin/class-gdpr-cookie-consent-admin.php:263
-msgid "You do not have sufficient permission to perform this operation"
-msgstr "K provedení této operace nemáte dostatečná oprávnění."
-
 #: admin/class-gdpr-cookie-consent-admin.php:282
+msgid "You do not have sufficient permission to perform this operation"
+msgstr "K provedení této operace nemáte dostatečná oprávnění"
+
+#: admin/class-gdpr-cookie-consent-admin.php:312
 msgid "Settings Updated."
 msgstr "Nastavení aktualizováno."
 
-#: admin/class-gdpr-cookie-consent-admin.php:317
-msgid "Extra Large"
-msgstr "Hodně velké"
-
-#: admin/class-gdpr-cookie-consent-admin.php:318
+#: admin/class-gdpr-cookie-consent-admin.php:347
 msgid "Large"
 msgstr "Velký"
 
-#: admin/class-gdpr-cookie-consent-admin.php:319
+#: admin/class-gdpr-cookie-consent-admin.php:348
 msgid "Medium"
 msgstr "Střední"
 
-#: admin/class-gdpr-cookie-consent-admin.php:320
+#: admin/class-gdpr-cookie-consent-admin.php:349
 msgid "Small"
 msgstr "Malý"
 
-#: admin/class-gdpr-cookie-consent-admin.php:334
-#: admin/views/admin-display-buttons.php:145
+#: admin/class-gdpr-cookie-consent-admin.php:363
+#: admin/views/admin-display-buttons.php:151
 msgid "Close Header"
 msgstr "Zavřít hlavičku"
 
-#: admin/class-gdpr-cookie-consent-admin.php:335
+#: admin/class-gdpr-cookie-consent-admin.php:364
 msgid "Open URL"
 msgstr "Otevřít adresu URL"
 
@@ -212,21 +206,46 @@ msgstr "Zpráva o souborech cookie"
 msgid "Cookie List"
 msgstr "Seznam souborů cookie"
 
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:168
+#: includes/class-gdpr-cookie-consent-i18n.php:35
+msgid "HTTP Cookie"
+msgstr "Soubor cookie protokolu HTTP"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:169
+#: includes/class-gdpr-cookie-consent-i18n.php:36
+msgid "HTML Local Storage"
+msgstr "Místní úložiště ve formátu HTML"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:170
+#: includes/class-gdpr-cookie-consent-i18n.php:37
+msgid "Flash Local Shared Object"
+msgstr "Místní sdílený objekt Flash"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:171
+#: includes/class-gdpr-cookie-consent-i18n.php:38
+msgid "Pixel Tracker"
+msgstr "Přehled obrazových bodů"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:172
+#: includes/class-gdpr-cookie-consent-i18n.php:39
+msgid "IndexedDB"
+msgstr "IndexedDB"
+
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:36
 msgid "Unable to handle your request."
 msgstr "Požadavek nelze zpracovat."
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:59
 msgid "Unable to add cookie"
-msgstr "Nelze přidat soubor cookie."
+msgstr "Nelze přidat soubor cookie"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:88
 msgid "Cookie added successfully"
-msgstr "Soubor cookie byl úspěšně přidán."
+msgstr "Soubor cookie byl úspěšně přidán"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:103
 msgid "Unable to update cookies"
-msgstr "Nelze aktualizovat soubory cookie."
+msgstr "Nelze aktualizovat soubory cookie"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:150
 msgid "No data was modified on the form."
@@ -238,11 +257,11 @@ msgstr "Soubory cookie byly úspěšně aktualizovány"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:170
 msgid "Unable to delete cookie"
-msgstr "Soubor cookie nelze odstranit."
+msgstr "Soubor cookie nelze odstranit"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:181
 msgid "Cookie deleted successfully"
-msgstr "Soubor cookie byl úspěšně odstraněn."
+msgstr "Soubor cookie byl úspěšně odstraněn"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:205
 msgid "Success"
@@ -276,7 +295,6 @@ msgid "Cookie Purpose"
 msgstr "Účel souboru cookie"
 
 #: admin/modules/cookie-custom/views/cookies.php:53
-#: analytics/templates/forms/deactivation/form.php:91
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -341,7 +359,7 @@ msgid "Links"
 msgstr "Odkazy"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:155
-#: public/views/gdpr-cookie-consent-public-details.php:87
+#: public/class-gdpr-cookie-consent-public.php:309
 msgid "Domain"
 msgstr "Doména"
 
@@ -362,30 +380,35 @@ msgid "Unable to update Settings."
 msgstr "Nelze aktualizovat nastavení."
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:29
+#: admin/views/admin-display-design.php:19
 msgid "General"
 msgstr "Obecné"
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:30
-msgid "Customize Cookie Bar"
-msgstr "Přizpůsobit panel souborů cookie"
+msgid "Design"
+msgstr "Design"
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:31
-msgid "Customize Buttons"
-msgstr "Vlastní tlačítka"
+msgid "Buttons"
+msgstr "Tlačítka"
 
 #: admin/views/admin-display-buttons.php:19
-msgid "Accept Cookies Button"
-msgstr "Tlačítko přijmout soubory cookie"
+msgid "Accept Button"
+msgstr "Tlačítko přijmout"
 
 #: admin/views/admin-display-buttons.php:20
 msgid "Decline Button"
 msgstr "Odmítnout tlačítko"
 
 #: admin/views/admin-display-buttons.php:21
+msgid "Settings Button"
+msgstr "Tlačítko nastavení"
+
+#: admin/views/admin-display-buttons.php:22
 msgid "Read More Link"
 msgstr "Přečtěte si další odkaz"
 
-#: admin/views/admin-display-buttons.php:36
+#: admin/views/admin-display-buttons.php:35
 msgid ""
 "This button/link can be customized to either simply close the cookie bar, or "
 "follow a link. You can also customize the colors and styles, and show it as "
@@ -395,90 +418,137 @@ msgstr ""
 "souborů cookie, nebo aby bylo možné provést odkaz. Můžete také přizpůsobit "
 "barvy a styly a zobrazit je jako odkaz nebo tlačítko."
 
-#: admin/views/admin-display-buttons.php:39
-msgid "Accept All Cookies Text"
-msgstr "Přijmout všechny soubory cookie"
+#: admin/views/admin-display-buttons.php:38
+#: admin/views/admin-display-buttons.php:106
+#: admin/views/admin-display-buttons.php:178
+#: admin/views/admin-display-buttons.php:243
+msgid "Enable"
+msgstr "Povolit"
+
+#: admin/views/admin-display-buttons.php:40
+#: admin/views/admin-display-buttons.php:108
+#: admin/views/admin-display-buttons.php:180
+#: admin/views/admin-display-buttons.php:245
+#: admin/views/admin-display-design.php:76
+#: admin/views/admin-display-general.php:26
+#: admin/views/admin-display-general.php:33
+#: admin/views/admin-display-general.php:40
+msgid "On"
+msgstr "Zapnuto"
+
+#: admin/views/admin-display-buttons.php:41
+#: admin/views/admin-display-buttons.php:109
+#: admin/views/admin-display-buttons.php:181
+#: admin/views/admin-display-buttons.php:246
+#: admin/views/admin-display-design.php:77
+#: admin/views/admin-display-general.php:27
+#: admin/views/admin-display-general.php:34
+#: admin/views/admin-display-general.php:41
+msgid "Off"
+msgstr "Vypnuto"
 
 #: admin/views/admin-display-buttons.php:45
-msgid "Accept Selected Cookies Text"
-msgstr "Přijmout vybraný text cookie"
+#: admin/views/admin-display-buttons.php:113
+#: admin/views/admin-display-buttons.php:185
+#: admin/views/admin-display-buttons.php:250
+msgid "Text"
+msgstr "Text"
 
 #: admin/views/admin-display-buttons.php:51
-#: admin/views/admin-display-buttons.php:117
-#: admin/views/admin-display-buttons.php:188
+#: admin/views/admin-display-buttons.php:119
+#: admin/views/admin-display-buttons.php:191
+#: admin/views/admin-display-buttons.php:256
 msgid "Text color"
 msgstr "Barva textu"
 
-#: admin/views/admin-display-buttons.php:59
+#: admin/views/admin-display-buttons.php:57
 #: admin/views/admin-display-buttons.php:125
-#: admin/views/admin-display-buttons.php:196
+#: admin/views/admin-display-buttons.php:197
+#: admin/views/admin-display-buttons.php:262
 msgid "Show as"
 msgstr "Zobrazit jako"
 
-#: admin/views/admin-display-buttons.php:61
+#: admin/views/admin-display-buttons.php:59
 #: admin/views/admin-display-buttons.php:127
-#: admin/views/admin-display-buttons.php:198
+#: admin/views/admin-display-buttons.php:199
+#: admin/views/admin-display-buttons.php:264
 msgid "Button"
 msgstr "Tlačítko"
 
-#: admin/views/admin-display-buttons.php:62
+#: admin/views/admin-display-buttons.php:60
 #: admin/views/admin-display-buttons.php:128
 #: admin/views/admin-display-buttons.php:200
+#: admin/views/admin-display-buttons.php:265
 msgid "Link"
 msgstr "Odkaz"
 
-#: admin/views/admin-display-buttons.php:66
+#: admin/views/admin-display-buttons.php:64
 #: admin/views/admin-display-buttons.php:132
+#: admin/views/admin-display-buttons.php:204
+#: admin/views/admin-display-buttons.php:269
 msgid "Background color"
 msgstr "Barva pozadí"
 
-#: admin/views/admin-display-buttons.php:74
-#: admin/views/admin-display-buttons.php:140
+#: admin/views/admin-display-buttons.php:70
+#: admin/views/admin-display-buttons.php:138
+#: admin/views/admin-display-buttons.php:210
+#: admin/views/admin-display-buttons.php:275
+msgid "Size"
+msgstr "Velikost"
+
+#: admin/views/admin-display-buttons.php:78
+#: admin/views/admin-display-buttons.php:146
 msgid "Action"
 msgstr "Akce"
 
-#: admin/views/admin-display-buttons.php:82
-#: admin/views/admin-display-buttons.php:152
-#: admin/views/admin-display-buttons.php:205
+#: admin/views/admin-display-buttons.php:86
+#: admin/views/admin-display-buttons.php:158
+#: admin/views/admin-display-buttons.php:283
 msgid "URL"
 msgstr "URL"
 
-#: admin/views/admin-display-buttons.php:85
-#: admin/views/admin-display-buttons.php:155
+#: admin/views/admin-display-buttons.php:89
+#: admin/views/admin-display-buttons.php:161
 msgid "Button will only link to URL if Action = Open URL"
 msgstr ""
 "Tlačítko bude odkazovat pouze na adresu URL, pokud akce = otevřít adresu URL"
 
-#: admin/views/admin-display-buttons.php:90
-#: admin/views/admin-display-buttons.php:160
-#: admin/views/admin-display-buttons.php:212
+#: admin/views/admin-display-buttons.php:94
+#: admin/views/admin-display-buttons.php:166
+#: admin/views/admin-display-buttons.php:290
 msgid "Open URL in new window?"
 msgstr "Otevřít adresu URL v novém okně?"
 
-#: admin/views/admin-display-buttons.php:92
-#: admin/views/admin-display-buttons.php:162
-#: admin/views/admin-display-buttons.php:214
+#: admin/views/admin-display-buttons.php:96
+#: admin/views/admin-display-buttons.php:168
+#: admin/views/admin-display-buttons.php:292
 msgid "Yes"
 msgstr "Ano"
 
-#: admin/views/admin-display-buttons.php:93
-#: admin/views/admin-display-buttons.php:163
-#: admin/views/admin-display-buttons.php:215
+#: admin/views/admin-display-buttons.php:97
+#: admin/views/admin-display-buttons.php:169
+#: admin/views/admin-display-buttons.php:293
 msgid "No"
 msgstr "Ne"
 
-#: admin/views/admin-display-buttons.php:97
-#: admin/views/admin-display-buttons.php:167
-#: admin/views/admin-display-buttons.php:220
-msgid "Size"
-msgstr "Velikost"
+#: admin/views/admin-display-buttons.php:218
+msgid "Cookie Settings Layout"
+msgstr "Rozložení nastavení souborů cookie"
 
-#: admin/views/admin-display-buttons.php:111
-#: admin/views/admin-display-buttons.php:182
-msgid "Text"
-msgstr "Text"
+#: admin/views/admin-display-buttons.php:224
+#: admin/views/admin-display-buttons.php:227
+#: admin/views/admin-display-design.php:41
+#: admin/views/admin-display-design.php:45
+#: admin/views/admin-display-design.php:49
+msgid "Popup"
+msgstr "Popup"
 
-#: admin/views/admin-display-buttons.php:178
+#: admin/views/admin-display-buttons.php:225
+#: admin/views/admin-display-buttons.php:228
+msgid "Extended Banner"
+msgstr "Rozšířený skládaný papír"
+
+#: admin/views/admin-display-buttons.php:239
 msgid ""
 "This button/link can be used to provide a link out to your Privacy & Cookie "
 "Policy. You can customize it any way you like."
@@ -486,89 +556,100 @@ msgstr ""
 "Toto tlačítko či odkaz lze použít k poskytnutí odkazu na zásady ochrany "
 "osobních údajů &. Můžete si ho přizpůsobit jakýmkoli způsobem."
 
+#: admin/views/admin-display-design.php:34
+msgid "Cookie Bar as"
+msgstr "Pruh se souborem cookie jako"
+
+#: admin/views/admin-display-design.php:40
+#: admin/views/admin-display-design.php:44
+#: admin/views/admin-display-design.php:48
+msgid "Banner"
+msgstr "Banner"
+
+#: admin/views/admin-display-design.php:42
+#: admin/views/admin-display-design.php:46
+#: admin/views/admin-display-design.php:50
+msgid "Widget"
+msgstr "Widget"
+
+#: admin/views/admin-display-design.php:56
+#: admin/views/admin-display-design.php:81
+msgid "Cookie Bar Position"
+msgstr "Umístění pruhu souboru cookie"
+
+#: admin/views/admin-display-design.php:62
+#: admin/views/admin-display-design.php:65
+msgid "Bottom"
+msgstr "Dole"
+
+#: admin/views/admin-display-design.php:63
+#: admin/views/admin-display-design.php:66
+msgid "Top"
+msgstr "Nahoře"
+
+#: admin/views/admin-display-design.php:74
+msgid "Add Overlay"
+msgstr "Přidat překryv"
+
+#: admin/views/admin-display-design.php:87
+#: admin/views/admin-display-design.php:90
+msgid "Left"
+msgstr "Vlevo"
+
+#: admin/views/admin-display-design.php:88
+#: admin/views/admin-display-design.php:91
+msgid "Right"
+msgstr "Vpravo"
+
+#: admin/views/admin-display-design.php:99
+msgid "On hide"
+msgstr "Při skrytí"
+
+#: admin/views/admin-display-design.php:105
+#: admin/views/admin-display-design.php:108
+msgid "Animate"
+msgstr "Animovat"
+
+#: admin/views/admin-display-design.php:106
+#: admin/views/admin-display-design.php:109
+msgid "Disappear"
+msgstr "Zmizí"
+
+#: admin/views/admin-display-design.php:117
+msgid "Cookie Bar Color"
+msgstr "Barva pruhu souboru cookie"
+
+#: admin/views/admin-display-design.php:123
+msgid "Cookie Bar Opacity"
+msgstr "Krytí pruhu souborů cookie"
+
+#: admin/views/admin-display-design.php:129
+msgid "Text Color"
+msgstr "Barva textu"
+
 #: admin/views/admin-display-general.php:24
-msgid "Cookie Bar is currently:"
-msgstr "Panel souborů cookie je nyní:"
-
-#: admin/views/admin-display-general.php:26
-#: admin/views/admin-display-general.php:33
-#: admin/views/admin-display-general.php:40
-msgid "On"
-msgstr "Zapnuto"
-
-#: admin/views/admin-display-general.php:27
-#: admin/views/admin-display-general.php:34
-#: admin/views/admin-display-general.php:41
-msgid "Off"
-msgstr "Vypnuto"
+msgid "Cookie Bar is currently"
+msgstr "Panel souborů cookie je nyní"
 
 #: admin/views/admin-display-general.php:31
 msgid "Autotick for Non-Necessary Cookies:"
 msgstr "Automaticky zaškrtněte pro nepotřebné soubory cookie:"
 
 #: admin/views/admin-display-general.php:38
-msgid "Show Credits:"
-msgstr "Zobrazit kredity:"
+msgid "Show Credits"
+msgstr "Zobrazit kredity"
 
 #: admin/views/admin-display-general.php:45
-msgid "On hide"
-msgstr "Při skrytí"
-
-#: admin/views/admin-display-general.php:50
-#: admin/views/admin-display-general.php:53
-msgid "Animate"
-msgstr "Animovat"
-
-#: admin/views/admin-display-general.php:51
-#: admin/views/admin-display-general.php:54
-msgid "Disappear"
-msgstr "Zmizí"
-
-#: admin/views/admin-display-messagebar.php:22
 msgid "Message Heading"
 msgstr "Záhlaví zprávy"
 
-#: admin/views/admin-display-messagebar.php:25
+#: admin/views/admin-display-general.php:48
 msgid "Leave it blank, If you do not need a heading"
 msgstr "Ponechte prázdné, pokud záhlaví nepotřebujete"
 
-#: admin/views/admin-display-messagebar.php:30
+#: admin/views/admin-display-general.php:53
 msgid "Message"
 msgstr "Zpráva"
-
-#: admin/views/admin-display-messagebar.php:36
-msgid "Shortcodes allowed: see the Help tab"
-msgstr "Povolené krátké kódy: viz karta Nápověda"
-
-#: admin/views/admin-display-messagebar.php:36
-msgid ""
-"Examples: \"We use cookies on this website [wpl_cookie_button] to find out "
-"how to delete cookies [wpl_cookie_link].\""
-msgstr ""
-"Příklady: \"pomocí souborů cookie na tomto webu [wpl_cookie_button] lze "
-"zjistit, jak odstranit soubory cookie [wpl_cookie_link].\""
-
-#: admin/views/admin-display-messagebar.php:40
-msgid "Cookie Bar Position"
-msgstr "Umístění pruhu souboru cookie"
-
-#: admin/views/admin-display-messagebar.php:45
-#: admin/views/admin-display-messagebar.php:48
-msgid "Bottom"
-msgstr "Dole"
-
-#: admin/views/admin-display-messagebar.php:46
-#: admin/views/admin-display-messagebar.php:49
-msgid "Top"
-msgstr "Nahoře"
-
-#: admin/views/admin-display-messagebar.php:56
-msgid "Cookie Bar Color"
-msgstr "Barva pruhu souboru cookie"
-
-#: admin/views/admin-display-messagebar.php:64
-msgid "Text Color"
-msgstr "Barva textu"
 
 #: admin/views/admin-display-save-button.php:23
 msgid "Save All Cookies"
@@ -611,79 +692,6 @@ msgstr "Soubor CSV"
 msgid "Import"
 msgstr "Import"
 
-#: analytics/templates/forms/deactivation/form.php:63
-msgid "Anonymous feedback"
-msgstr "Anonymní zpětná vazba"
-
-#: analytics/templates/forms/deactivation/form.php:69
-msgid "Deactivate"
-msgstr "Deaktivovat"
-
-#: analytics/templates/forms/deactivation/form.php:70
-msgid "Theme"
-msgstr "Šablona"
-
-#: analytics/templates/forms/deactivation/form.php:71
-#, php-format
-msgid "Activate %s"
-msgstr "Aktivovat %s"
-
-#: analytics/templates/forms/deactivation/form.php:82
-msgid "Quick Feedback"
-msgstr "Stručná zpětná vazba"
-
-#: analytics/templates/forms/deactivation/form.php:86
-#, php-format
-msgid "If you have a moment, please let us know why you are %s"
-msgstr "Pokud máte chvilku, dejte nám prosím vědět, proč jste %s"
-
-#: analytics/templates/forms/deactivation/form.php:86
-msgid "deactivating"
-msgstr "Deaktivace"
-
-#: analytics/templates/forms/deactivation/form.php:86
-msgid "switching"
-msgstr "Přepínání"
-
-#: analytics/templates/forms/deactivation/form.php:253
-#, php-format
-msgid "Submit & %s"
-msgstr "Odeslat & %s"
-
-#: analytics/templates/forms/deactivation/form.php:274
-msgid "Kindly tell us the reason so we can improve."
-msgstr "Laskavě nám řekněte důvod, abychom se mohli zlepšit."
-
-#: analytics/templates/forms/deactivation/form.php:402
-#, php-format
-msgid "Yes - %s"
-msgstr "Ano- %s"
-
-#: analytics/templates/forms/deactivation/form.php:415
-#, php-format
-msgid "Skip & %s"
-msgstr "Přeskočit & %s"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:35
-msgid "HTTP Cookie"
-msgstr "Soubor cookie protokolu HTTP"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:36
-msgid "HTML Local Storage"
-msgstr "Místní úložiště ve formátu HTML"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:37
-msgid "Flash Local Shared Object"
-msgstr "Místní sdílený objekt Flash"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:38
-msgid "Pixel Tracker"
-msgstr "Přehled obrazových bodů"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:39
-msgid "IndexedDB"
-msgstr "IndexedDB"
-
 #: includes/class-gdpr-cookie-consent-i18n.php:40
 msgid "Read More"
 msgstr "Číst více"
@@ -693,47 +701,30 @@ msgid "Decline"
 msgstr "Odmítnout"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:42
-msgid "Accept Cookies"
-msgstr "Přijmout soubory cookie"
+msgid "Accept"
+msgstr "Přijmout"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:43
-msgid "Accept All Cookies"
-msgstr "Přijmout všechny soubory cookie"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:44
-msgid "Accept Selected Cookies"
-msgstr "Přijmout vybrané soubory cookie"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:45
-msgid "Show Details"
-msgstr "Zobrazit detaily"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:46
-#: public/class-gdpr-cookie-consent-public.php:185
-msgid "Hide Details"
-msgstr "Skrýt detaily"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:47
 msgid "Necessary"
 msgstr "Nezbytné"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:48
+#: includes/class-gdpr-cookie-consent-i18n.php:44
 msgid "Marketing"
 msgstr "Marketing"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:49
+#: includes/class-gdpr-cookie-consent-i18n.php:45
 msgid "Analytics"
 msgstr "Analytiky"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:50
+#: includes/class-gdpr-cookie-consent-i18n.php:46
 msgid "Preferences"
 msgstr "Osobní nastavení"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:51
+#: includes/class-gdpr-cookie-consent-i18n.php:47
 msgid "Unclassified"
 msgstr "Neklasifikovano"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:52
+#: includes/class-gdpr-cookie-consent-i18n.php:48
 msgid ""
 "Necessary cookies help make a website usable by enabling basic functions "
 "like page navigation and access to secure areas of the website. The website "
@@ -743,7 +734,7 @@ msgstr ""
 "základní funkce, jako je navigace na stránce a přístup k zabezpečeným "
 "oblastem webu. Web nemůže bez těchto souborů cookie pracovat správně."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:53
+#: includes/class-gdpr-cookie-consent-i18n.php:49
 msgid ""
 "Marketing cookies are used to track visitors across websites. The intention "
 "is to display ads that are relevant and engaging for the individual user and "
@@ -754,7 +745,7 @@ msgstr ""
 "týkají individuálního uživatele, a tím hodnotnější pro vydavatele a inzeráty "
 "třetích stran."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:54
+#: includes/class-gdpr-cookie-consent-i18n.php:50
 msgid ""
 "Analytics cookies help website owners to understand how visitors interact "
 "with websites by collecting and reporting information anonymously."
@@ -762,7 +753,7 @@ msgstr ""
 "Soubory cookie služby Analytics pomáhají vlastníkům webů porozumět tomu, jak "
 "návštěvníci komunikují s weby shromažďováním a hlášením informací anonymně."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:55
+#: includes/class-gdpr-cookie-consent-i18n.php:51
 msgid ""
 "Preference cookies enable a website to remember information that changes the "
 "way the website behaves or looks, like your preferred language or the region "
@@ -772,7 +763,7 @@ msgstr ""
 "způsob chování nebo vzhledu webu, například upřednostňovaný jazyk nebo "
 "oblast, ve které se pracujete."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:56
+#: includes/class-gdpr-cookie-consent-i18n.php:52
 msgid ""
 "Unclassified cookies are cookies that we are in the process of classifying, "
 "together with the providers of individual cookies."
@@ -780,7 +771,7 @@ msgstr ""
 "Neklasifikované soubory cookie jsou soubory cookie, které se v procesu "
 "klasifikují, společně s poskytovateli jednotlivých souborů cookie."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:57
+#: includes/class-gdpr-cookie-consent-i18n.php:53
 msgid ""
 "Cookies are small text files that can be used by websites to make a user's "
 "experience more efficient. The law states that we can store cookies on your "
@@ -796,79 +787,57 @@ msgstr ""
 "používá různé typy souborů cookie. Některé soubory cookie jsou uloženy "
 "službami jiných dodavatelů, které se objevují na našich stránkách."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:58
+#: includes/class-gdpr-cookie-consent-i18n.php:54
+msgid "This website uses cookies"
+msgstr "Tento web používá soubory cookie"
+
+#: includes/class-gdpr-cookie-consent-i18n.php:55
 msgid ""
 "This website uses cookies to improve your experience. We'll assume you're ok "
 "with this, but you can opt-out if you wish."
-msgstr "Tato webová stránka používá cookies k vylepšení naši služby. "
+msgstr "Tato webová stránka používá cookies k vylepšení naši služby."
 
-#: public/class-gdpr-cookie-consent-public.php:184
-msgid "Select Cookies"
-msgstr "Vybrat soubory cookie"
+#. translators: 1: GDPR Cookie Consent
+#: public/class-gdpr-cookie-consent-public.php:298
+msgid "Powered by %1$s"
+msgstr "Poháněn %1$s"
 
-#: public/views/gdpr-cookie-consent-public-details.php:21
-msgid "I consent to the use of following cookies:"
-msgstr "Souhlasím s používáním následujících souborů cookie:"
-
-#: public/views/gdpr-cookie-consent-public-details.php:50
-msgid "Cookie declaration"
-msgstr "Deklarace souboru cookie"
-
-#: public/views/gdpr-cookie-consent-public-details.php:51
-msgid "About cookies"
+#: public/class-gdpr-cookie-consent-public.php:304
+msgid "About Cookies"
 msgstr "Soubory cookie"
 
-#: public/views/gdpr-cookie-consent-public-details.php:86
+#: public/class-gdpr-cookie-consent-public.php:305
+msgid "Cookie Declaration"
+msgstr "Deklarace souboru cookie"
+
+#: public/class-gdpr-cookie-consent-public.php:306
+msgid "Always Active"
+msgstr "Vždy aktivní"
+
+#: public/class-gdpr-cookie-consent-public.php:307
+msgid "Save And Accept"
+msgstr "Uložit a přijmout"
+
+#: public/class-gdpr-cookie-consent-public.php:308
 msgid "Name"
 msgstr "Jméno"
 
-#: public/views/gdpr-cookie-consent-public-details.php:88
+#: public/class-gdpr-cookie-consent-public.php:310
 msgid "Purpose"
 msgstr "Účel"
 
-#: public/views/gdpr-cookie-consent-public-details.php:89
+#: public/class-gdpr-cookie-consent-public.php:311
 msgid "Expiry"
 msgstr "Expirace"
 
-#: public/views/gdpr-cookie-consent-public-details.php:90
+#: public/class-gdpr-cookie-consent-public.php:312
 msgid "Type"
 msgstr "Typ"
 
-#: public/views/gdpr-cookie-consent-public-details.php:101
-#: public/views/gdpr-cookie-consent-public-details.php:110
-#: public/views/gdpr-cookie-consent-public-details.php:124
-#: public/views/gdpr-cookie-consent-public-details.php:133
-msgid "---"
-msgstr "---"
-
-#: public/views/gdpr-cookie-consent-public-details.php:117
-msgid "Pending"
-msgstr "Čekající"
-
-#: public/views/gdpr-cookie-consent-public-details.php:143
+#: public/class-gdpr-cookie-consent-public.php:313
 msgid "We do not use cookies of this type."
 msgstr "Soubory cookie tohoto typu nejsou používány."
 
-#: public/views/gdpr-cookie-consent-public-details.php:158
-msgid "Powered by"
-msgstr "Pohání"
-
-#. Plugin URI of the plugin/theme
-msgid "https://club.wpeka.com/"
-msgstr "https://club.wpeka.com/"
-
-#. Description of the plugin/theme
-msgid ""
-"Cookie Consent will help you put up a subtle banner in the footer of your "
-"website to showcase compliance status regarding the EU Cookie law."
-msgstr ""
-"Souhlas se souborem cookie vám pomůže vytvořit v zápatí vašeho webu jemnou "
-"skládku, která bude mít stav kompatibility s ohledem na zákon o koláči z EU."
-
-#. Author of the plugin/theme
-msgid "WPEkaClub"
-msgstr "WPEkaClub"
-
-#. Author URI of the plugin/theme
-msgid "https://club.wpeka.com"
-msgstr "https://club.wpeka.com"
+#: public/class-gdpr-cookie-consent-public.php:314
+msgid "I consent to the use of following cookies:"
+msgstr "Souhlasím s používáním následujících souborů cookie:"

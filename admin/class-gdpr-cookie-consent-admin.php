@@ -161,31 +161,9 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! $screen || 'toplevel_page_gdpr-cookie-consent' !== $screen->id ) {
 			return;
 		}
-		$gdpr_shortcode_content  = '<h2>' . __( 'Cookie Bar Shortcodes', 'gdpr-cookie-consent' ) . '</h2>' .
-									__( 'You can enter the shortcodes in the "message" field of the Cookie Consent bar. They add nicely formatted buttons and/or links into the cookie bar, without you having to add any HTML.', 'gdpr-cookie-consent' ) .
-									'<ul>' .
-									'<li>' .
-									'<div style="font-weight: bold;">[wpl_cookie_button]</div>' .
-									__( 'This is the "accept cookies button" you customize below.', 'gdpr-cookie-consent' ) .
-									'</li>' .
-									'<li>' .
-									'<div style="font-weight: bold;">[wpl_cookie_reject]</div>' .
-									__( 'This is the cookie decline button shortcode.', 'gdpr-cookie-consent' ) .
-									'</li>' .
-									'<li>' .
-									'<div style="font-weight: bold;">[wpl_cookie_link]</div>' .
-									__( 'This is the "read more" link you customize above.', 'gdpr-cookie-consent' ) .
-									'</li>' .
-									'<li>' .
-									'<div style="font-weight: bold;">[wpl_cookie_settings]</div>' .
-									__( 'This is the cookie settings button shortcode.', 'gdpr-cookie-consent' ) .
-									'</li>' .
-									'<li>' .
-									'<div style="font-weight: bold;">[wpl_cookie_details]</div>' .
-									__( 'Use this shortcode to display third-party cookie details on your privacy or cookie policy pages.', 'gdpr-cookie-consent' ) .
-									'</li>';
-		$gdpr_shortcode_content  = apply_filters( 'gdprcookieconsent_help_content', $gdpr_shortcode_content );
-		$gdpr_shortcode_content .= '</ul>';
+		$gdpr_shortcode_content = '<h2>' . __( 'Cookie Bar Shortcodes', 'gdpr-cookie-consent' ) . '</h2>' .
+									'<p>' . __( 'Use the below shortcode to display third-party cookie details on your privacy or cookie policy pages.', 'gdpr-cookie-consent' ) . '</p>' .
+									'<div style="font-weight: bold;">[wpl_cookie_details]</div>';
 		$screen->add_help_tab(
 			array(
 				'id'      => 'gdprcookieconsent_shortcodes',
@@ -232,9 +210,12 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! $screen || 'toplevel_page_gdpr-cookie-consent' !== $screen->id ) {
 			return $footer;
 		}
-		$footer = '<span id="footer-thankyou">' .
-					'If you like <b>GDPR Cookie Consent</b>, please leave us a  <a href="https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews?rate=5#new-post" target="_blank" aria-label="' . esc_attr__( 'five star', 'gdpr-cookie-consent' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. A huge thanks in advance!' .
-					'</span>';
+		$footer = sprintf(
+			/* translators: 1: GDPR Cookie Consent 2:: five stars */
+			__( 'If you like %1$s please leave us a %2$s rating. A huge thanks in advance!', 'gdpr-cookie-consent' ),
+			sprintf( '<strong>%s</strong>', esc_html__( 'GDPR Cookie Consent', 'gdpr-cookie-consent' ) ),
+			'<a href="https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews?rate=5#new-post" target="_blank" aria-label="' . esc_attr__( 'five star', 'gdpr-cookie-consent' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>'
+		);
 		return $footer;
 	}
 
@@ -248,6 +229,44 @@ class Gdpr_Cookie_Consent_Admin {
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'admin_settings_page' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
+	}
+
+	/**
+	 * Migrate previous settings.
+	 *
+	 * @since 1.7.6
+	 */
+	public function admin_init() {
+		// Update settings from Version 1.7.6.
+		$prev_gdpr_option = get_option( 'GDPRCookieConsent-2.0' );
+		if ( isset( $prev_gdpr_option['is_on'] ) ) {
+			unset( $prev_gdpr_option['button_1_selected_text'] );
+			$prev_gdpr_option['button_1_text']              = 'Accept';
+			$prev_gdpr_option['notify_message']             = addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' );
+			$prev_gdpr_option['opacity']                    = '0.80';
+			$prev_gdpr_option['template']                   = 'banner-default';
+			$prev_gdpr_option['banner_template']            = 'banner-default';
+			$prev_gdpr_option['popup_template']             = 'popup-default';
+			$prev_gdpr_option['widget_template']            = 'widget-default';
+			$prev_gdpr_option['button_1_is_on']             = true;
+			$prev_gdpr_option['button_2_is_on']             = true;
+			$prev_gdpr_option['button_3_is_on']             = true;
+			$prev_gdpr_option['notify_position_horizontal'] = false;
+			$prev_gdpr_option['bar_heading_text']           = 'This website uses cookies';
+
+			$prev_gdpr_option['button_4_text']         = 'Cookie Settings';
+			$prev_gdpr_option['button_4_url']          = '#';
+			$prev_gdpr_option['button_4_action']       = '#cookie_action_settings';
+			$prev_gdpr_option['button_4_link_color']   = '#fff';
+			$prev_gdpr_option['button_4_button_color'] = '#333';
+			$prev_gdpr_option['button_4_new_win']      = false;
+			$prev_gdpr_option['button_4_as_button']    = true;
+			$prev_gdpr_option['button_4_button_size']  = 'medium';
+			$prev_gdpr_option['button_4_is_on']        = true;
+			$prev_gdpr_option['button_4_as_popup']     = false;
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
+			delete_option( 'GDPRCookieConsent-2.0' );
+		}
 	}
 
 	/**
@@ -271,13 +290,24 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( 'update_admin_settings_form' === $_POST['gdpr_settings_ajax_update'] ) {
 				// module settings saving hook.
 				do_action( 'gdpr_module_save_settings' );
-
 				foreach ( $the_options as $key => $value ) {
 					if ( isset( $_POST[ $key . '_field' ] ) ) {
 						// Store sanitised values only.
 						$the_options[ $key ] = Gdpr_Cookie_Consent::gdpr_sanitise_settings( $key, wp_unslash( $_POST[ $key . '_field' ] ) ); // phpcs:ignore input var ok, CSRF ok, sanitization ok.
 					}
 				}
+				switch ( $the_options['cookie_bar_as'] ) {
+					case 'banner':
+						$the_options['template'] = $the_options['banner_template'];
+						break;
+					case 'popup':
+						$the_options['template'] = $the_options['popup_template'];
+						break;
+					case 'widget':
+						$the_options['template'] = $the_options['widget_template'];
+						break;
+				}
+				$the_options = apply_filters( 'gdpr_module_after_save_settings', $the_options );
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 				echo '<div class="updated"><p><strong>' . esc_attr__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
 			}
@@ -314,10 +344,9 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function get_button_sizes() {
 		$sizes = array(
-			__( 'Extra Large', 'gdpr-cookie-consent' ) => 'super',
-			__( 'Large', 'gdpr-cookie-consent' )       => 'large',
-			__( 'Medium', 'gdpr-cookie-consent' )      => 'medium',
-			__( 'Small', 'gdpr-cookie-consent' )       => 'small',
+			__( 'Large', 'gdpr-cookie-consent' )  => 'large',
+			__( 'Medium', 'gdpr-cookie-consent' ) => 'medium',
+			__( 'Small', 'gdpr-cookie-consent' )  => 'small',
 		);
 		$sizes = apply_filters( 'gdprcookieconsent_sizes', $sizes );
 		return $sizes;

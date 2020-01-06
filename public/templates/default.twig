@@ -1,0 +1,78 @@
+{% if cookie_bar_as == 'popup' %}
+<div class="modal fade" id="gdpr-{{ cookie_bar_as }}" role="dialog" data-keyboard="false" data-backdrop="{{ backdrop }}">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+{% endif %}
+<div id="{{ container_id }}" class="{{ container_class }}">
+    <div class="gdpr_messagebar_content">
+        {% if head != '' %}
+            <h3 class="gdpr_messagebar_head">{{ __( head, 'gdpr-cookie-consent' ) }}</h3>
+        {% endif %}
+        <p class="group-description" tabindex="0">{{ __( str, 'gdpr-cookie-consent' ) }}
+        {% if button_2_is_on %}
+            <a id="cookie_action_link" href="{{ button_2_url }}" class="{{ button_2_classes }}"
+                    {% if button_2_new_win %}
+                        target="_blank"
+                    {% endif %}
+                >{{ button_2_text }}</a>
+        {% endif %}
+        </p>
+            {% if button_1_is_on %}
+                <a id="cookie_action_accept" class="{{ button_1_classes }}"
+                        {% if button_1_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_1_url }}"
+                            {% if button_1_new_win %}
+                                target="_blank"
+                            {% endif %}
+                        {% endif %}
+                   data-gdpr_action="accept" >{{ __( button_1_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+            {% if button_3_is_on %}
+                <a id="cookie_action_reject" class="{{ button_3_classes }}"
+                    {% if button_3_action == 'CONSTANT_OPEN_URL' %}
+                        href="{{ button_3_url }}"
+                        {% if button_3_new_win %}
+                            target="_blank"
+                        {% endif %}
+                    {% endif %}
+                   data-gdpr_action="reject" >{{ __( button_3_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+            {% if button_4_is_on %}
+                <a id="cookie_action_settings" class="{{ button_4_classes }}"
+                    {% if not button_4_as_button %}
+                        href="#"
+                    {% endif %}
+                   {% if cookie_bar_as == 'banner' and not button_4_as_popup %}
+                       data-gdpr_action="show_settings"
+                   {% else %}
+                       data-gdpr_action="settings" data-toggle="modal" data-target="#gdpr-modal"
+                   {% endif %}
+                   >{{ __( button_4_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+    </div>
+    {% if cookie_data %}
+    {% if cookie_bar_as == 'banner' and not button_4_as_popup %}
+        <div class="gdpr_messagebar_detail" style="display:none;max-width:750px;">
+            {% include 'templates/banner.twig' with cookie_data %}
+        </div>
+    {% endif %}
+    {% endif %}
+</div>
+{% if cookie_bar_as == 'popup' %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if cookie_data %}
+        {% if cookie_bar_as == 'banner' and not button_4_as_popup %}
+
+        {% else %}
+            <div class="gdpr_messagebar_detail">
+            {% include 'templates/modal.twig' with cookie_data %}
+            </div>
+        {% endif %}
+
+{% endif %}

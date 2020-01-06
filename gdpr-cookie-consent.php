@@ -24,6 +24,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 if ( ! function_exists( 'gcc_fs' ) ) {
 	/**
 	 * Helper function to access SDK.
@@ -67,7 +69,7 @@ define( 'GDPR_COOKIE_CONSENT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_DB_KEY_PREFIX', 'GDPRCookieConsent-' );
-define( 'GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER', '2.0' );
+define( 'GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER', '3.0' );
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_FIELD', GDPR_COOKIE_CONSENT_DB_KEY_PREFIX . GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_FILENAME', __FILE__ );
 define( 'GDPR_POLICY_DATA_POST_TYPE', 'gdprpolicies' );

@@ -97,7 +97,6 @@ module.exports = function (grunt) {
 					src: [
 					'**',
 					'!node_modules/**',
-					'!vendor/**',
 					'!release/**',
 					'!build/**',
 					'!.git/**',
@@ -150,7 +149,7 @@ module.exports = function (grunt) {
 				target: {
 					options: {
 						domainPath: '/languages',
-						exclude: ['\.git/*', 'bin/*', 'node_modules/*', 'tests/*', 'vendor/**/*'],
+						exclude: ['\.git/*', 'bin/*', 'node_modules/*', 'tests/*', 'vendor/**/*', 'analytics/**/*'],
 						mainFile: 'gdpr-cookie-consent.php',
 						potFilename: 'gdpr-cookie-consent.pot',
 						potHeaders: {
