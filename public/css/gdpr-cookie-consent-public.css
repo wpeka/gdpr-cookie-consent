@@ -701,14 +701,16 @@ fieldset:disabled a.btn {
 	border-bottom: none;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container {
-	word-break: break-word;
-	word-wrap: break-word;
 	position: absolute;
+	width: 70%;
 	left: 30%;
 	float: left;
 	padding: 4%;
 	max-height: 100%;
 	overflow:scroll;
+}
+.gdpr_messagebar_detail .category-group .category-item .description-container .category-cookies-list-container {
+	overflow-x: auto;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container hr {
 	margin:0;
