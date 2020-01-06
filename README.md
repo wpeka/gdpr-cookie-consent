@@ -3,7 +3,7 @@
 **Donate link:** https://club.wpeka.com/product/wp-gdpr-cookie-consent/  
 **Tags:** eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance  
 **Requires at least:** 3.3.1  
-**Tested up to:** 5.3  
+**Tested up to:** 5.3.2  
 **Stable tag:** 1.7.6  
 **Requires PHP:** 7.0  
 **License:** GPLv3  
@@ -19,7 +19,7 @@ GDPR Cookie Consent helps you comply in the following ways:
 
 - Provides an easy-to-use admin area in the WordPress dashboard, where you can add details of cookies used on your website. You can also classify cookies into 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified' categories.
 
-- Shows a cookie consent notice bar on the website. The cookie notice bar shows 'Accept' & 'Decline' buttons. Clicking on the 'Select Cookies' link, opens a detailed view, where a website visitor can see the cookies used on your website. The design of the cookie bar can be customised from the admin area.
+- Shows a cookie consent notice on the website. The cookie notice shows 'Accept' & 'Decline' buttons.
 
 - Users can choose to 'Accept' or 'Decline' the use of cookies. They can also choose to consent to use of cookies from a specific category i.e 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified'.
 
@@ -39,11 +39,15 @@ The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPr
 
 - Categorise cookies into 'Necessary', 'Marketing', 'Analytics', 'Preferences', and 'Unclassified' categories.
 
-- Show a subtle, non-intrusive cookie consent notice bar on your website.
+- Show a subtle, non-intrusive cookie consent notice on your website.
 
-- Fully customisable cookie bar. Customise the text, colours and fonts to match your website's design.
+- Show cookie consent notice as a Banner, Popup, or Widget.
+
+- Fully customisable cookie consent notice. Customise the text, colours and fonts to match your website's design.
 
 - Get granular cookie consent for cookie categories of their choice.
+
+- Show cookie information on your privacy policy or any other page with an easy to use WordPress shortcode. `[wpl_cookie_details]`
 
 <blockquote>
 
@@ -62,6 +66,8 @@ The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPr
 &#9745; Geo-coding to detect visitor's location & optionally show/hide the cookie notice bar.
 
 &#9745; Fully customisable to match your website's design.
+
+&#9745; Ready to use, pre-designed templates for cookie consent notice.
 
 &#9745; Language support and translations for - French, Dutch, Czech, Spanish, Slovenian, Icelandic, Bulgaria, Deutsch, Danish, Croatian.
 
@@ -92,16 +98,21 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 ###
 ## Screenshots ##
 
-1. Cookie consent notice bar with default styles.
-2. Cookie consent notice bar with website's cookie details.
-3. General cookie notice bar options.
-4. Customise cookie consent notice bar.
-5. Customise cookie consent notice bar buttons.
+1. Cookie consent notice with default styles.
+2. Cookie consent notice with website's cookie details.
+3. General cookie notice options.
+4. Customise cookie consent notice.
+5. Customise cookie consent notice buttons.
 6. Manage cookie list.
 
 ## Change Log ##
 ### 1.7.6 ###
-Feature: Added wizard for user consent on plugin activation.
+Feature: Added multiple options to display Cookie consent notice on frontend - Banner/Popup/Widget.
+Feature: Added opacity option for Cookie consent notice.
+Feature: Customization options for Cookie Settings Button.
+Update: Display Cookie consent details for categories in Popup on frontend.
+Update: Updated translations.
+Update: Made compatible with WordPress 5.3.2.
 
 ### 1.7.5 ###
 Fix: Frontend translation issues for Cookie Categories and description.
@@ -147,7 +158,11 @@ Fix: Frontend translation issues for Cookie Categories and description.
 
 ## Upgrade Notice ##
 ### 1.7.6 ###
-Feature: Added wizard for user consent on plugin activation.
+Feature: Added multiple options to display Cookie consent notice on frontend - Banner/Popup/Widget.
+Feature: Added opacity option for Cookie consent notice.
+Update: Customization options for Cookie Settings Button.
+Update: Display Cookie consent details for categories in Popup on frontend.
+Update: Made compatible with WordPress 5.3.2.
 
 ### 1.7.5 ###
 Fix: Frontend translation issues for Cookie Categories and description.

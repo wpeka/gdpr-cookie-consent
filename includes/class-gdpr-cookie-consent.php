@@ -165,6 +165,7 @@ class Gdpr_Cookie_Consent {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 ); /* Adding admin menu */
 		$this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
 		$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init', 5 );
 		/**
 		 * Load admin modules
 		 */
@@ -397,50 +398,77 @@ class Gdpr_Cookie_Consent {
 	 */
 	public static function gdpr_get_default_settings( $key = '' ) {
 		$settings = array(
-			'animate_speed_hide'       => '500',
-			'animate_speed_show'       => '500',
-			'background'               => '#FFF',
-			'button_1_text'            => 'Accept All Cookies',
-			'button_1_selected_text'   => 'Accept Selected Cookies',
-			'button_1_url'             => '#',
-			'button_1_action'          => '#cookie_action_close_header',
-			'button_1_link_color'      => '#fff',
-			'button_1_button_color'    => '#18a300',
-			'button_1_new_win'         => false,
-			'button_1_as_button'       => true,
-			'button_1_button_size'     => 'medium',
-			'button_2_text'            => 'Read More',
-			'button_2_url'             => '#',
-			'button_2_action'          => 'CONSTANT_OPEN_URL',
-			'button_2_link_color'      => '#359bf5',
-			'button_2_button_color'    => '#333',
-			'button_2_new_win'         => false,
-			'button_2_as_button'       => false,
-			'button_2_button_size'     => 'medium',
-			'button_3_text'            => 'Decline',
-			'button_3_url'             => '#',
-			'button_3_action'          => '#cookie_action_close_header_reject',
-			'button_3_link_color'      => '#fff',
-			'button_3_button_color'    => '#333',
-			'button_3_new_win'         => false,
-			'button_3_as_button'       => true,
-			'button_3_button_size'     => 'medium',
-			'font_family'              => 'inherit', // Pick the family, not the easy name (see helper function below).
-			'is_on'                    => true,
-			'is_ticked'                => false,
-			'is_eu_on'                 => false,
-			'logging_on'               => false,
-			'show_credits'             => false,
-			'notify_animate_hide'      => true,
-			'notify_animate_show'      => false,
-			'notify_message'           => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.<br /><br />[wpl_cookie_button margin="5px"][wpl_cookie_reject margin="5px"][wpl_cookie_settings margin="5px"]' ),
-			'notify_div_id'            => '#gdpr-cookie-consent-bar',
-			'notify_position_vertical' => 'bottom', // 'top' = header | 'bottom' = footer
-			'text'                     => '#000',
-			'use_color_picker'         => true,
-			'bar_heading_text'         => '',
-			'cookie_bar_as'            => 'banner',
-			'about_message'            => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
+			'animate_speed_hide'         => '500',
+			'animate_speed_show'         => '500',
+
+			'background'                 => '#FFF',
+			'opacity'                    => '0.80',
+			'template'                   => 'banner-default',
+			'banner_template'            => 'banner-default',
+			'popup_template'             => 'popup-default',
+			'widget_template'            => 'widget-default',
+
+			'button_1_text'              => 'Accept',
+			'button_1_url'               => '#',
+			'button_1_action'            => '#cookie_action_close_header',
+			'button_1_link_color'        => '#fff',
+			'button_1_button_color'      => '#18a300',
+			'button_1_new_win'           => false,
+			'button_1_as_button'         => true,
+			'button_1_button_size'       => 'medium',
+			'button_1_is_on'             => true,
+
+			'button_2_text'              => 'Read More',
+			'button_2_url'               => '#',
+			'button_2_action'            => 'CONSTANT_OPEN_URL',
+			'button_2_link_color'        => '#359bf5',
+			'button_2_button_color'      => '#333',
+			'button_2_new_win'           => false,
+			'button_2_as_button'         => false,
+			'button_2_button_size'       => 'medium',
+			'button_2_is_on'             => true,
+
+			'button_3_text'              => 'Decline',
+			'button_3_url'               => '#',
+			'button_3_action'            => '#cookie_action_close_header_reject',
+			'button_3_link_color'        => '#fff',
+			'button_3_button_color'      => '#333',
+			'button_3_new_win'           => false,
+			'button_3_as_button'         => true,
+			'button_3_button_size'       => 'medium',
+			'button_3_is_on'             => true,
+
+			'button_4_text'              => 'Cookie Settings',
+			'button_4_url'               => '#',
+			'button_4_action'            => '#cookie_action_settings',
+			'button_4_link_color'        => '#fff',
+			'button_4_button_color'      => '#333',
+			'button_4_new_win'           => false,
+			'button_4_as_button'         => true,
+			'button_4_button_size'       => 'medium',
+			'button_4_is_on'             => true,
+			'button_4_as_popup'          => false,
+
+			'font_family'                => 'inherit', // Pick the family, not the easy name (see helper function below).
+
+			'is_on'                      => true,
+			'is_eu_on'                   => false,
+			'logging_on'                 => false,
+			'show_credits'               => false,
+			'is_ticked'                  => false,
+
+			'notify_animate_hide'        => true,
+			'notify_animate_show'        => false,
+			'notify_message'             => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
+			'notify_div_id'              => '#gdpr-cookie-consent-bar',
+			'notify_position_vertical'   => 'bottom', // 'top' = header | 'bottom' = footer.
+			'notify_position_horizontal' => 'left', // 'left' = left | 'right' = right.
+			'text'                       => '#000',
+			'use_color_picker'           => true,
+			'bar_heading_text'           => 'This website uses cookies',
+			'cookie_bar_as'              => 'banner', // banner | popup | widget.
+			'popup_overlay'              => true,
+			'about_message'              => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;
@@ -460,18 +488,27 @@ class Gdpr_Cookie_Consent {
 		switch ( $key ) {
 			// Convert all boolean values from text to bool.
 			case 'is_on':
-			case 'is_ticked':
 			case 'is_eu_on':
 			case 'logging_on':
 			case 'show_credits':
+			case 'is_ticked':
 			case 'notify_animate_hide':
+			case 'notify_animate_show':
 			case 'use_color_picker':
+			case 'popup_overlay':
 			case 'button_1_new_win':
 			case 'button_1_as_button':
+			case 'button_1_is_on':
 			case 'button_2_new_win':
 			case 'button_2_as_button':
+			case 'button_2_is_on':
 			case 'button_3_new_win':
 			case 'button_3_as_button':
+			case 'button_3_is_on':
+			case 'button_4_new_win':
+			case 'button_4_as_button':
+			case 'button_4_is_on':
+			case 'button_4_as_popup':
 				if ( 'true' === $value || true === $value ) {
 					$ret = true;
 				} elseif ( 'false' === $value || false === $value ) {
@@ -491,6 +528,8 @@ class Gdpr_Cookie_Consent {
 			case 'button_2_button_color':
 			case 'button_3_link_color':
 			case 'button_3_button_color':
+			case 'button_4_link_color':
+			case 'button_4_button_color':
 				if ( preg_match( '/^#[a-f0-9]{6}|#[a-f0-9]{3}$/i', $value ) ) {
 					// Was: '/^#([0-9a-fA-F]{1,2}){3}$/i' which allowed e.g. '#00dd' (error).
 					$ret = $value;
@@ -509,6 +548,7 @@ class Gdpr_Cookie_Consent {
 			case 'button_1_url':
 			case 'button_2_url':
 			case 'button_3_url':
+			case 'button_4_url':
 				$ret = esc_url( $value );
 				break;
 			// Basic sanitisation for all the rest.
@@ -633,39 +673,51 @@ class Gdpr_Cookie_Consent {
 
 		// Slim down JSON objects to the bare bones.
 		$slim_settings = array(
-			'animate_speed_hide'       => $settings['animate_speed_hide'],
-			'animate_speed_show'       => $settings['animate_speed_show'],
-			'background'               => $settings['background'],
-			'button_1_link_color'      => $settings['button_1_link_color'],
-			'button_1_button_color'    => $settings['button_1_button_color'],
-			'button_1_button_hover'    => ( self::gdpr_su_hex_shift( $settings['button_1_button_color'], 'down', 20 ) ),
-			'button_1_as_button'       => $settings['button_1_as_button'],
-			'button_1_new_win'         => $settings['button_1_new_win'],
-			'button_1_text'            => $settings['button_1_text'],
-			'button_1_selected_text'   => $settings['button_1_selected_text'],
-			'button_2_link_color'      => $settings['button_2_link_color'],
-			'button_2_button_color'    => $settings['button_2_button_color'],
-			'button_2_button_hover'    => ( self::gdpr_su_hex_shift( $settings['button_2_button_color'], 'down', 20 ) ),
-			'button_2_as_button'       => $settings['button_2_as_button'],
-			'button_2_new_win'         => $settings['button_2_new_win'],
-			'button_3_link_color'      => $settings['button_3_link_color'],
-			'button_3_button_color'    => $settings['button_3_button_color'],
-			'button_3_button_hover'    => ( self::gdpr_su_hex_shift( $settings['button_3_button_color'], 'down', 20 ) ),
-			'button_3_as_button'       => $settings['button_3_as_button'],
-			'button_3_new_win'         => $settings['button_3_new_win'],
-			'font_family'              => $settings['font_family'],
-			'notify_animate_hide'      => $settings['notify_animate_hide'],
-			'notify_animate_show'      => $settings['notify_animate_show'],
-			'notify_div_id'            => $settings['notify_div_id'],
-			'notify_position_vertical' => $settings['notify_position_vertical'],
-			'text'                     => $settings['text'],
-			'bar_heading_text'         => $settings['bar_heading_text'],
-			'cookie_bar_as'            => $settings['cookie_bar_as'],
-			'border_color'             => ( self::gdpr_su_hex_shift( $settings['text'], 'up', 40 ) ),
-			'background_color'         => ( self::gdpr_su_hex_shift( $settings['background'], 'down', 10 ) ),
-			'background_active_color'  => $settings['background'],
-			'border_active_color'      => $settings['background'],
-			'logging_on'               => $settings['logging_on'],
+			'animate_speed_hide'         => $settings['animate_speed_hide'],
+			'animate_speed_show'         => $settings['animate_speed_show'],
+			'background'                 => $settings['background'],
+			'opacity'                    => $settings['opacity'],
+			'template'                   => $settings['template'],
+			'button_1_link_color'        => $settings['button_1_link_color'],
+			'button_1_button_color'      => $settings['button_1_button_color'],
+			'button_1_button_hover'      => ( self::gdpr_su_hex_shift( $settings['button_1_button_color'], 'down', 20 ) ),
+			'button_1_as_button'         => $settings['button_1_as_button'],
+			'button_1_new_win'           => $settings['button_1_new_win'],
+			'button_1_is_on'             => $settings['button_1_is_on'],
+			'button_2_link_color'        => $settings['button_2_link_color'],
+			'button_2_button_color'      => $settings['button_2_button_color'],
+			'button_2_button_hover'      => ( self::gdpr_su_hex_shift( $settings['button_2_button_color'], 'down', 20 ) ),
+			'button_2_as_button'         => $settings['button_2_as_button'],
+			'button_2_new_win'           => $settings['button_2_new_win'],
+			'button_2_is_on'             => $settings['button_2_is_on'],
+			'button_3_link_color'        => $settings['button_3_link_color'],
+			'button_3_button_color'      => $settings['button_3_button_color'],
+			'button_3_button_hover'      => ( self::gdpr_su_hex_shift( $settings['button_3_button_color'], 'down', 20 ) ),
+			'button_3_as_button'         => $settings['button_3_as_button'],
+			'button_3_new_win'           => $settings['button_3_new_win'],
+			'button_3_is_on'             => $settings['button_3_is_on'],
+			'button_4_link_color'        => $settings['button_4_link_color'],
+			'button_4_button_color'      => $settings['button_4_button_color'],
+			'button_4_button_hover'      => ( self::gdpr_su_hex_shift( $settings['button_4_button_color'], 'down', 20 ) ),
+			'button_4_as_button'         => $settings['button_4_as_button'],
+			'button_4_new_win'           => $settings['button_4_new_win'],
+			'button_4_is_on'             => $settings['button_4_is_on'],
+			'button_4_as_popup'          => $settings['button_4_as_popup'],
+			'font_family'                => $settings['font_family'],
+			'notify_animate_hide'        => $settings['notify_animate_hide'],
+			'notify_animate_show'        => $settings['notify_animate_show'],
+			'notify_div_id'              => $settings['notify_div_id'],
+			'notify_position_vertical'   => $settings['notify_position_vertical'],
+			'notify_position_horizontal' => $settings['notify_position_horizontal'],
+			'text'                       => $settings['text'],
+			'cookie_bar_as'              => $settings['cookie_bar_as'],
+			'popup_overlay'              => $settings['popup_overlay'],
+			'border_color'               => ( self::gdpr_su_hex_shift( $settings['text'], 'up', 40 ) ),
+			'background_color'           => ( self::gdpr_su_hex_shift( $settings['background'], 'down', 10 ) ),
+			'background_active_color'    => $settings['background'],
+			'border_active_color'        => $settings['background'],
+			'logging_on'                 => $settings['logging_on'],
+			'is_ticked'                  => $settings['is_ticked'],
 		);
 		$slim_settings = apply_filters( 'gdprcookieconsent_json_settings', $slim_settings );
 		$str           = wp_json_encode( $slim_settings );

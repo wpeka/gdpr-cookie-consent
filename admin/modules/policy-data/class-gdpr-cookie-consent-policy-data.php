@@ -248,7 +248,6 @@ class Gdpr_Cookie_Consent_Policy_Data {
 		global $wpdb;
 
 		$wpdb->hide_errors();
-		set_time_limit( 0 );
 		if ( function_exists( 'apache_setenv' ) ) {
 			apache_setenv( 'no-gzip', 1 ); // @codingStandardsIgnoreLine
 		}

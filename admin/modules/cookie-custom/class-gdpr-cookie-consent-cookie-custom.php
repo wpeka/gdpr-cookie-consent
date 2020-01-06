@@ -61,7 +61,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 
 		add_filter( 'gdpr_module_settings_tabhead', array( __CLASS__, 'settings_tabhead' ) );
 		add_action( 'gdpr_module_settings_form', array( $this, 'settings_form' ) );
-		add_action( 'gdpr_module_settings_general', array( $this, 'settings_general' ), 10 );
+		add_action( 'gdpr_module_settings_general', array( $this, 'settings_general' ), 5 );
 	}
 
 	/**
@@ -165,11 +165,11 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	 */
 	public static function get_types() {
 		$types = array(
-			'HTTP'        => 'HTTP Cookie',
-			'HTML'        => 'HTML Local Storage',
-			'Flash Local' => 'Flash Local Shared Object',
-			'Pixel'       => 'Pixel Tracker',
-			'IndexedDB'   => 'IndexedDB',
+			'HTTP'        => __( 'HTTP Cookie', 'gdpr-cookie-consent' ),
+			'HTML'        => __( 'HTML Local Storage', 'gdpr-cookie-consent' ),
+			'Flash Local' => __( 'Flash Local Shared Object', 'gdpr-cookie-consent' ),
+			'Pixel'       => __( 'Pixel Tracker', 'gdpr-cookie-consent' ),
+			'IndexedDB'   => __( 'IndexedDB', 'gdpr-cookie-consent' ),
 		);
 		return $types;
 	}

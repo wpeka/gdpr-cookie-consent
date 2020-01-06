@@ -440,3 +440,6 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
 	background: #f8f8f8;
 	color: #aaa;
 }
+.gdpr-template-type td > img {
+	border: 1px solid #ced4da;
+}
