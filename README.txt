@@ -98,10 +98,10 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 
 == Screenshots ==
 
-1. Cookie consent notice with default styles.
+1. Cookie consent notice with classic styles - widget.
 2. Cookie consent notice with website's cookie details.
 3. General cookie notice options.
-4. Customise cookie consent notice.
+4. Customise cookie consent notice design.
 5. Customise cookie consent notice buttons.
 6. Manage cookie list.
 
