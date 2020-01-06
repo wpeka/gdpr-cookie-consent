@@ -629,8 +629,8 @@ msgid "Cookie Bar is currently"
 msgstr "Traka kolačića je trenutno"
 
 #: admin/views/admin-display-general.php:31
-msgid "Autotick for Non-Necessary Cookies:"
-msgstr "Autotick za Neneophodne kolačiće:"
+msgid "Autotick for Non-Necessary Cookies"
+msgstr "Autotick za Neneophodne kolačiće"
 
 #: admin/views/admin-display-general.php:38
 msgid "Show Credits"

@@ -634,8 +634,8 @@ msgid "Cookie Bar is currently"
 msgstr "Бисквитката бар е в момента"
 
 #: admin/views/admin-display-general.php:31
-msgid "Autotick for Non-Necessary Cookies:"
-msgstr "Автоматично отметка за Ненеобходимите бисквитки:"
+msgid "Autotick for Non-Necessary Cookies"
+msgstr "Автоматично отметка за Ненеобходимите бисквитки"
 
 #: admin/views/admin-display-general.php:38
 msgid "Show Credits"

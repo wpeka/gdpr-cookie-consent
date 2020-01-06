@@ -28,7 +28,7 @@ if ( ! defined( 'WPINC' ) ) {
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="is_ticked_field"><?php esc_attr_e( 'Autotick for Non-Necessary Cookies:', 'gdpr-cookie-consent' ); ?></label></th>
+					<th scope="row"><label for="is_ticked_field"><?php esc_attr_e( 'Autotick for Non-Necessary Cookies', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="radio" id="is_ticked_field_yes" name="is_ticked_field" class="styled gdpr_bar_on" value="true" <?php echo ( true === $the_options['is_ticked'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
 						<input type="radio" id="is_ticked_field_no" name="is_ticked_field" class="styled" value="false" <?php echo ( false === $the_options['is_ticked'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>

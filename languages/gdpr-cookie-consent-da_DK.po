@@ -631,8 +631,8 @@ msgid "Cookie Bar is currently"
 msgstr "Cookie Bar er i øjeblikket"
 
 #: admin/views/admin-display-general.php:31
-msgid "Autotick for Non-Necessary Cookies:"
-msgstr "Autotick for ikke-nødvendige cookies:"
+msgid "Autotick for Non-Necessary Cookies"
+msgstr "Autotick for ikke-nødvendige cookies"
 
 #: admin/views/admin-display-general.php:38
 msgid "Show Credits"
