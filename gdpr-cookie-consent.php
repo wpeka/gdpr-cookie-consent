@@ -10,7 +10,7 @@
  * Plugin Name:       GDPR Cookie Consent
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
- * Version:           1.7.6
+ * Version:           1.7.7
  * Author:            WPEkaClub
  * Author URI:        https://club.wpeka.com
  * License:           GPL-2.0+
@@ -25,6 +25,8 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 require_once __DIR__ . '/vendor/autoload.php';
+
+define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 if ( ! function_exists( 'gcc_fs' ) ) {
 	/**
@@ -45,8 +47,9 @@ if ( ! function_exists( 'gcc_fs' ) ) {
 					'slug'            => 'gdpr-cookie-consent',
 					'product_name'    => 'GDPR Cookie Consent',
 					'module_type'     => 'plugin',
-					'version'         => '1.7.6',
+					'version'         => '1.7.7',
 					'plugin_basename' => 'gdpr-cookie-consent/gdpr-cookie-consent.php',
+                    'plugin_url'      => GDPR_COOKIE_CONSENT_PLUGIN_URL,
 				)
 			);
 		}
@@ -63,11 +66,10 @@ if ( ! function_exists( 'gcc_fs' ) ) {
 /**
  * Currently plugin version.
  */
-define( 'GDPR_COOKIE_CONSENT_VERSION', '1.7.6' );
+define( 'GDPR_COOKIE_CONSENT_VERSION', '1.7.7' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_DEVELOPMENT_MODE', false );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_DB_KEY_PREFIX', 'GDPRCookieConsent-' );
 define( 'GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER', '3.0' );
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_FIELD', GDPR_COOKIE_CONSENT_DB_KEY_PREFIX . GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER );

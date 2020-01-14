@@ -4,7 +4,7 @@
 **Tags:** eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance  
 **Requires at least:** 3.3.1  
 **Tested up to:** 5.3.2  
-**Stable tag:** 1.7.6  
+**Stable tag:** 1.7.7  
 **Requires PHP:** 7.0  
 **License:** GPLv3  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
@@ -106,6 +106,9 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 6. Manage cookie list.
 
 ## Change Log ##
+### 1.7.7 ###
+Update: Minor plugin updates.
+
 ### 1.7.6 ###
 Feature: Added multiple options to display Cookie consent notice on frontend - Banner/Popup/Widget.
 Feature: Added opacity option for Cookie consent notice.
@@ -157,6 +160,9 @@ Fix: Frontend translation issues for Cookie Categories and description.
 * Initial version
 
 ## Upgrade Notice ##
+### 1.7.7 ###
+Update: Minor plugin updates.
+
 ### 1.7.6 ###
 Feature: Added multiple options to display Cookie consent notice on frontend - Banner/Popup/Widget.
 Feature: Added opacity option for Cookie consent notice.

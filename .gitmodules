@@ -1,0 +1,3 @@
+[submodule "analytics"]
+	path = analytics
+	url = git@bitbucket.org:cyberchimps/analytics.git
