@@ -380,7 +380,7 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 				this.bar_config['position'] = 'fixed';
 				if (this.settings.cookie_bar_as == 'banner') {
 					this.bar_config['opacity'] = this.settings.opacity;
-					this.bar_elm.find( '.gdpr_messagebar_content' ).css( 'max-width','750px' );
+					this.bar_elm.find( '.gdpr_messagebar_content' ).css( 'max-width','800px' );
 					if (this.settings.notify_position_vertical == 'bottom') {
 						this.bar_config['bottom'] = '0';
 					} else {
@@ -480,11 +480,13 @@ GDPR_ACCEPT_COOKIE_EXPIRE = (typeof GDPR_ACCEPT_COOKIE_EXPIRE !== 'undefined' ? 
 			},
 			show_details:function() {
 				this.details_elm.show();
+				this.bar_elm.css( 'opacity', 1 );
 				this.details_elm.css( 'border-top-color', GDPR.settings.border_color );
 				this.settings_button.attr( 'data-gdpr_action', 'hide_settings' );
 			},
 			hide_details:function() {
 				this.details_elm.hide();
+				this.bar_elm.css( 'opacity', GDPR.settings.opacity );
 				this.settings_button.attr( 'data-gdpr_action', 'show_settings' );
 			},
 			displayHeader:function()

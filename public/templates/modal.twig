@@ -19,7 +19,7 @@
                                     <div class="group-toggle">
                                         <h3 class="category-header" tabindex="0">{{ about }}</h3>
                                     </div>
-                                    <p class="group-description" tabindex="0">{{ __( msg, 'gdpr-cookie-consent' ) }}</p>
+                                    <div class="group-description" tabindex="0">{{ __( msg, 'gdpr-cookie-consent' ) }}</div>
                                 </div>
                             </li>
                             {% for category in categories %}
@@ -52,11 +52,11 @@
                                             </div>
                                         {% endif %}
                                     </div>
-                                    <p class="group-description" tabindex="0">{{ __( category['gdpr_cookie_category_description'], 'gdpr-cookie-consent' ) }}</p>
+                                    <div class="group-description" tabindex="0">{{ __( category['gdpr_cookie_category_description'], 'gdpr-cookie-consent' ) }}</div>
                                     <!-- sub groups -->
                                     <div class="category-cookies-list-container">
                                         {% if category['total'] >= '1' %}
-                                            <table class="table table-striped table-responsive">
+                                            <table class="table table-striped">
                                                 <thead class="thead-dark">
                                                 <tr>
                                                     <th>{{ name }}</th>
@@ -80,7 +80,7 @@
                                             </table>
                                         {% else %}
                                             <hr />
-                                            <p class="group-description" tabindex="0">{{ cookies_not_found }}</p>
+                                            <div class="group-description" tabindex="0">{{ cookies_not_found }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
