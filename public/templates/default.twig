@@ -5,12 +5,13 @@
         <div class="modal-content">
             <div class="modal-body">
 {% endif %}
+<!-- GDPR Cookie Consent – EU ICO Compliant v1.7.8 by WPEka Club - https://wordpress.org/plugins/gdpr-cookie-consent/ -->
 <div id="{{ container_id }}" class="{{ container_class }}">
     <div class="gdpr_messagebar_content">
         {% if head != '' %}
             <h3 class="gdpr_messagebar_head">{{ __( head, 'gdpr-cookie-consent' ) }}</h3>
         {% endif %}
-        <p class="group-description" tabindex="0">{{ __( str, 'gdpr-cookie-consent' ) }}
+        <div class="group-description" tabindex="0">{{ __( str, 'gdpr-cookie-consent' ) }}
         {% if button_2_is_on %}
             <a id="cookie_action_link" href="{{ button_2_url }}" class="{{ button_2_classes }}"
                     {% if button_2_new_win %}
@@ -18,7 +19,7 @@
                     {% endif %}
                 >{{ button_2_text }}</a>
         {% endif %}
-        </p>
+        </div>
             {% if button_1_is_on %}
                 <a id="cookie_action_accept" class="{{ button_1_classes }}"
                         {% if button_1_action == 'CONSTANT_OPEN_URL' %}
@@ -54,7 +55,7 @@
     </div>
     {% if cookie_data %}
     {% if cookie_bar_as == 'banner' and not button_4_as_popup %}
-        <div class="gdpr_messagebar_detail" style="display:none;max-width:750px;">
+        <div class="gdpr_messagebar_detail" style="display:none;max-width:800px;">
             {% include 'templates/banner.twig' with cookie_data %}
         </div>
     {% endif %}
