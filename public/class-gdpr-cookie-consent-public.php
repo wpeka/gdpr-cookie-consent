@@ -202,15 +202,16 @@ class Gdpr_Cookie_Consent_Public {
 			if ( in_array( $template, $default_array, true ) ) {
 				$template = 'default';
 			}
-			$template            = apply_filters( 'gdprcookieconsent_template', $template );
-			$the_options['str']  = $str;
-			$the_options['head'] = $head;
-
-			$the_options['container_id']       = $this->gdprcookieconsent_remove_hash( $the_options['notify_div_id'] );
-			$the_options['button_1_action_id'] = $this->gdprcookieconsent_remove_hash( $the_options['button_1_action'] );
-			$the_options['button_2_action_id'] = $this->gdprcookieconsent_remove_hash( $the_options['button_2_action'] );
-			$the_options['button_3_action_id'] = $this->gdprcookieconsent_remove_hash( $the_options['button_3_action'] );
-			$the_options['button_4_action_id'] = $this->gdprcookieconsent_remove_hash( $the_options['button_4_action'] );
+			$template                               = apply_filters( 'gdprcookieconsent_template', $template );
+			$the_options['str']                     = $str;
+			$the_options['head']                    = $head;
+			$the_options['version']                 = $this->version;
+			$the_options['show_again_container_id'] = $this->gdprcookieconsent_remove_hash( $the_options['show_again_div_id'] );
+			$the_options['container_id']            = $this->gdprcookieconsent_remove_hash( $the_options['notify_div_id'] );
+			$the_options['button_1_action_id']      = $this->gdprcookieconsent_remove_hash( $the_options['button_1_action'] );
+			$the_options['button_2_action_id']      = $this->gdprcookieconsent_remove_hash( $the_options['button_2_action'] );
+			$the_options['button_3_action_id']      = $this->gdprcookieconsent_remove_hash( $the_options['button_3_action'] );
+			$the_options['button_4_action_id']      = $this->gdprcookieconsent_remove_hash( $the_options['button_4_action'] );
 
 			$the_options['backdrop'] = $the_options['popup_overlay'] ? 'static' : 'false';
 
@@ -273,30 +274,37 @@ class Gdpr_Cookie_Consent_Public {
 				}
 			}
 
+            $categories         = Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true );
+            $cookies            = $this->get_cookies();
+            $categories_data    = array();
+            $preference_cookies = isset( $_COOKIE['wpl_user_preference'] ) ? json_decode( stripslashes( sanitize_text_field( wp_unslash( $_COOKIE['wpl_user_preference'] ) ) ), true ) : '';
+            foreach ( $categories as $category ) {
+                $total = 0;
+                $temp  = array();
+                foreach ( $cookies as $cookie ) {
+                    if ( $cookie['category_id'] === $category['id_gdpr_cookie_category'] ) {
+                        $total++;
+                        $temp[] = $cookie;
+                    }
+                }
+                $category['data']  = $temp;
+                $category['total'] = $total;
+                if ( isset( $preference_cookies[ $category['gdpr_cookie_category_slug'] ] ) && 'yes' === $preference_cookies[ $category['gdpr_cookie_category_slug'] ] ) {
+                    $category['is_ticked'] = true;
+                } else {
+                    $category['is_ticked'] = false;
+                }
+                $categories_data[] = $category;
+            }
+
 			if ( true === $the_options['button_4_is_on'] ) {
-				$cookie_data     = array();
-				$categories      = Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true );
-				$cookies         = $this->get_cookies();
-				$categories_data = array();
-				foreach ( $categories as $category ) {
-					$total = 0;
-					$temp  = array();
-					foreach ( $cookies as $cookie ) {
-						if ( $cookie['category_id'] === $category['id_gdpr_cookie_category'] ) {
-							$total++;
-							$temp[] = $cookie;
-						}
-					}
-					$category['data']  = $temp;
-					$category['total'] = $total;
-					$categories_data[] = $category;
-				}
+				$cookie_data        = array();
 				$cookie_data['categories'] = $categories_data;
 				$cookie_data['msg']        = $about_message;
 				$credit_link               = sprintf(
-					/* translators: 1: GDPR Cookie Consent */
+					/* translators: 1: GDPR Cookie Consent Plugin*/
 					__( 'Powered by %1$s', 'gdpr-cookie-consent' ),
-					'<a href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/" id="cookie_credit_link" target="_blank">' . __( 'GDPR Cookie Consent', 'gdpr-cookie-consent' ) . '</a>'
+					'<a href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/" id="cookie_credit_link" target="_blank">' . __( 'GDPR Cookie Consent Plugin', 'gdpr-cookie-consent' ) . '</a>'
 				);
 				$cookie_data['show_credits']      = $the_options['show_credits'];
 				$cookie_data['credits']           = $the_options['show_credits'] ? $credit_link : '';
@@ -327,6 +335,7 @@ class Gdpr_Cookie_Consent_Public {
 			?>
 			<script type="text/javascript">
 				/* <![CDATA[ */
+				gdpr_cookies_list = '<?php echo wp_json_encode( $categories_data ); ?>';
 				gdpr_cookiebar_settings='<?php echo Gdpr_Cookie_Consent::gdpr_get_json_settings(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
 				/* ]]> */
 			</script>

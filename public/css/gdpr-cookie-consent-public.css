@@ -2,7 +2,7 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
-#gdpr-cookie-consent-bar {
+#gdpr-cookie-consent-bar, #gdpr-cookie-consent-show-again {
 	margin: 0 auto;
 	padding: 5px 0;
 	position: absolute;
@@ -14,6 +14,10 @@
 	font-size: 13px;
 	line-height: 1.5;
 	font-weight:300;
+}
+#gdpr-cookie-consent-show-again {
+	padding: 5px 10px;
+	cursor: pointer;
 }
 #gdpr-cookie-consent-bar #cookie_credit_link {
 	border: unset !important;
@@ -44,7 +48,7 @@
 	text-align: justify;
 }
 #gdpr-cookie-consent-bar .gdpr_messagebar_content .gdpr_link_button {
-	display: contents;
+	display: inline;
 	font-family: inherit;
 	font-size: inherit;
 	line-height: inherit;
@@ -587,6 +591,7 @@ Bootstrap CSS for frontend UI
 	font-size: 13px;
 	line-height: 1.5;
 	border-radius: 0.25rem;
+	text-transform: initial;
 	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -854,7 +859,7 @@ fieldset:disabled a.btn {
 	.gdpr_messagebar_detail .modal-dialog .modal-content {
 		font-size: 11px;
 	}
-	#gdpr-cookie-consent-bar {
+	#gdpr-cookie-consent-bar, #gdpr-cookie-consent-show-again {
 		font-size: 11px;
 	}
 	#gdpr-cookie-consent-bar .gdpr_messagebar_content h3 {
@@ -872,4 +877,23 @@ fieldset:disabled a.btn {
 		left:unset !important;
 		padding-top:10px !important;
 	}
+}
+.wpl-iframe-placeholder {
+	background-image: url(../images/placeholder.svg);
+	background-size: 80px;
+	max-width:100%;
+	max-height:100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #b2b0b059;
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+}
+.wpl-iframe-placeholder .wpl-inner-text {
+	width: 100%;
+	text-align: center;
+	padding: 1rem 1rem;
+	border-radius: 400px;
 }

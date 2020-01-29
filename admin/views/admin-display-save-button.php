@@ -24,7 +24,9 @@ if ( ! defined( 'WPINC' ) ) {
 			<span class="spinner" style="margin-top:9px"></span>
 		</div>
 		<div class="right"></div>
-	<?php } else { ?>
+		<?php
+	} elseif ( ! isset( $need_submit_btn ) || 2 !== $need_submit_btn ) {
+		?>
 		<div class="left"></div>
 		<div class="right">
 			<input type="submit" name="update_admin_settings_form" value="<?php esc_attr_e( 'Update', 'gdpr-cookie-consent' ); ?>" class="button-primary" style="float:right;" onClick="return gdpr_store_settings_btn_click(this.name)" />

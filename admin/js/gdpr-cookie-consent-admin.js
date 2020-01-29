@@ -79,9 +79,10 @@
 			);
 			$( '.gdpr_sub_tab' ).each(
 				function(){
-					var template = $( 'input[name="gdpr_template"]' ).val();
-					var elm      = $( this ).children( 'li' ).eq( 0 );
-					if ( template && template != 'none' ) {
+					var template   = $( 'input[name="gdpr_template"]' ).val();
+					var active_tab = $( '.gdpr-cookie-consent-tab-head .nav-tab.nav-tab-active' ).html();
+					var elm        = $( this ).children( 'li' ).eq( 0 );
+					if ( active_tab == 'Design' && template && template != 'none' ) {
 						elm = $( this ).children( 'li' ).eq( 1 );
 					}
 					elm.click();
@@ -325,7 +326,7 @@
 							if (typeof prnt.attr( 'gdpr_frm_tgl-lvl' ) !== typeof undefined && prnt.attr( 'gdpr_frm_tgl-lvl' ) !== false) {
 								sub_lvl = prnt.attr( 'gdpr_frm_tgl-lvl' );
 							}
-							var lft_margin = sub_lvl * 15;
+							var lft_margin = sub_lvl;
 							$( this ).find( 'label' ).css( {'margin-left':'0px'} ).stop( true,true ).animate( {'margin-left':lft_margin + 'px'} );
 						}
 					);

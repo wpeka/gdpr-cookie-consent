@@ -52,7 +52,7 @@ $design_sub_tab = apply_filters( 'gdprcookieconsent_design_sub_tabs', $design_su
 						</select>
 					</td>
 				</tr>
-				<tr valign="top" class="gdpr-plugin-row gdpr-indent-15" gdpr_frm_tgl-id="gdpr_cookiebar_as" gdpr_frm_tgl-val="banner">
+				<tr valign="top" class="gdpr-plugin-row" gdpr_frm_tgl-id="gdpr_cookiebar_as" gdpr_frm_tgl-val="banner">
 					<th scope="row"><label for="notify_position_vertical_field"><?php esc_attr_e( 'Cookie Bar Position', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<select name="notify_position_vertical_field" class="vvv_combobox">
@@ -70,14 +70,14 @@ $design_sub_tab = apply_filters( 'gdprcookieconsent_design_sub_tabs', $design_su
 						</select>
 					</td>
 				</tr>
-				<tr valign="top" class="gdpr-plugin-row gdpr-indent-15" gdpr_frm_tgl-id="gdpr_cookiebar_as" gdpr_frm_tgl-val="popup">
+				<tr valign="top" class="gdpr-plugin-row" gdpr_frm_tgl-id="gdpr_cookiebar_as" gdpr_frm_tgl-val="popup">
 					<th scope="row"><label for="popup_overlay_field"><?php esc_attr_e( 'Add Overlay', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="radio" id="popup_overlay_field_yes" name="popup_overlay_field" class="styled gdpr_bar_on" value="true" <?php echo ( true === $the_options['popup_overlay'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
 						<input type="radio" id="popup_overlay_field_no" name="popup_overlay_field" class="styled" value="false" <?php echo ( false === $the_options['popup_overlay'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
-				<tr valign="top" class="gdpr-plugin-row gdpr-indent-15" gdpr_frm_tgl-id="gdpr_cookiebar_as" gdpr_frm_tgl-val="widget">
+				<tr valign="top" class="gdpr-plugin-row" gdpr_frm_tgl-id="gdpr_cookiebar_as" gdpr_frm_tgl-val="widget">
 					<th scope="row"><label for="notify_position_horizontal_field"><?php esc_attr_e( 'Cookie Bar Position', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<select name="notify_position_horizontal_field" class="vvv_combobox">
