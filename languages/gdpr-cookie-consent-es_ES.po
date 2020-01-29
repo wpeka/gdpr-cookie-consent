@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the GDPR Cookie Consent plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: GDPR Cookie Consent 1.7.6\n"
+"Project-Id-Version: GDPR Cookie Consent 1.7.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
 "consent\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-01-03T12:26:34+00:00\n"
-"PO-Revision-Date: 2020-01-03 19:44+0530\n"
+"POT-Creation-Date: 2020-01-29T13:24:52+00:00\n"
+"PO-Revision-Date: 2020-01-29 19:01+0530\n"
 "X-Generator: Poedit 2.2.4\n"
 "X-Domain: gdpr-cookie-consent\n"
 "Last-Translator: \n"
@@ -20,7 +20,6 @@ msgstr ""
 #. Plugin Name of the plugin
 #: admin/class-gdpr-cookie-consent-admin.php:216
 #: admin/class-gdpr-cookie-consent-admin.php:228
-#: public/class-gdpr-cookie-consent-public.php:299
 msgid "GDPR Cookie Consent"
 msgstr "Consentimiento de cookies del RGPD"
 
@@ -145,6 +144,7 @@ msgid "five star"
 msgstr "cinco estrellas"
 
 #: admin/class-gdpr-cookie-consent-admin.php:229
+#: includes/class-gdpr-cookie-consent-i18n.php:48
 msgid "Cookie Settings"
 msgstr "Ajustes Cookies"
 
@@ -158,32 +158,32 @@ msgstr "Datos de política"
 msgid "Import Policies"
 msgstr "Políticas de importación"
 
-#: admin/class-gdpr-cookie-consent-admin.php:282
+#: admin/class-gdpr-cookie-consent-admin.php:299
 msgid "You do not have sufficient permission to perform this operation"
 msgstr "No tiene permiso suficiente para realizar esta operación"
 
-#: admin/class-gdpr-cookie-consent-admin.php:312
+#: admin/class-gdpr-cookie-consent-admin.php:329
 msgid "Settings Updated."
 msgstr "Ajustes actualizados."
 
-#: admin/class-gdpr-cookie-consent-admin.php:347
+#: admin/class-gdpr-cookie-consent-admin.php:364
 msgid "Large"
 msgstr "Grande"
 
-#: admin/class-gdpr-cookie-consent-admin.php:348
+#: admin/class-gdpr-cookie-consent-admin.php:365
 msgid "Medium"
 msgstr "Mediano"
 
-#: admin/class-gdpr-cookie-consent-admin.php:349
+#: admin/class-gdpr-cookie-consent-admin.php:366
 msgid "Small"
 msgstr "Pequeño"
 
-#: admin/class-gdpr-cookie-consent-admin.php:363
+#: admin/class-gdpr-cookie-consent-admin.php:380
 #: admin/views/admin-display-buttons.php:151
 msgid "Close Header"
 msgstr "Cerrar encabezado"
 
-#: admin/class-gdpr-cookie-consent-admin.php:364
+#: admin/class-gdpr-cookie-consent-admin.php:381
 msgid "Open URL"
 msgstr "URL abierta"
 
@@ -360,7 +360,7 @@ msgid "Links"
 msgstr "Enlaces"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:155
-#: public/class-gdpr-cookie-consent-public.php:309
+#: public/class-gdpr-cookie-consent-public.php:317
 msgid "Domain"
 msgstr "Dominio"
 
@@ -382,6 +382,7 @@ msgstr "No se puede actualizar la configuración."
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:29
 #: admin/views/admin-display-design.php:19
+#: admin/views/admin-display-general.php:19
 msgid "General"
 msgstr "General"
 
@@ -431,9 +432,12 @@ msgstr "Habilitar"
 #: admin/views/admin-display-buttons.php:180
 #: admin/views/admin-display-buttons.php:245
 #: admin/views/admin-display-design.php:76
-#: admin/views/admin-display-general.php:26
-#: admin/views/admin-display-general.php:33
-#: admin/views/admin-display-general.php:40
+#: admin/views/admin-display-general.php:38
+#: admin/views/admin-display-general.php:68
+#: admin/views/admin-display-general.php:114
+#: admin/views/admin-display-general.php:121
+#: admin/views/admin-display-general.php:135
+#: admin/views/admin-display-general.php:147
 msgid "On"
 msgstr "Encendido"
 
@@ -442,9 +446,12 @@ msgstr "Encendido"
 #: admin/views/admin-display-buttons.php:181
 #: admin/views/admin-display-buttons.php:246
 #: admin/views/admin-display-design.php:77
-#: admin/views/admin-display-general.php:27
-#: admin/views/admin-display-general.php:34
-#: admin/views/admin-display-general.php:41
+#: admin/views/admin-display-general.php:39
+#: admin/views/admin-display-general.php:69
+#: admin/views/admin-display-general.php:115
+#: admin/views/admin-display-general.php:122
+#: admin/views/admin-display-general.php:136
+#: admin/views/admin-display-general.php:148
 msgid "Off"
 msgstr "Apagado"
 
@@ -593,11 +600,15 @@ msgstr "Añadir superposición"
 
 #: admin/views/admin-display-design.php:87
 #: admin/views/admin-display-design.php:90
+#: admin/views/admin-display-general.php:79
+#: admin/views/admin-display-general.php:82
 msgid "Left"
 msgstr "Izquierda"
 
 #: admin/views/admin-display-design.php:88
 #: admin/views/admin-display-design.php:91
+#: admin/views/admin-display-general.php:80
+#: admin/views/admin-display-general.php:83
 msgid "Right"
 msgstr "Derecha"
 
@@ -627,35 +638,76 @@ msgstr "Opacidad de la barra de cookies"
 msgid "Text Color"
 msgstr "Color del texto"
 
-#: admin/views/admin-display-general.php:24
+#: admin/views/admin-display-general.php:20
+#: admin/views/admin-display-general.php:66
+msgid "Show Again Tab"
+msgstr "Usar la pestaña Mostrar de nuevo"
+
+#: admin/views/admin-display-general.php:21
+msgid "Other"
+msgstr "Otro"
+
+#: admin/views/admin-display-general.php:36
 msgid "Cookie Bar is currently"
 msgstr "Cookie Bar es actualmente"
 
-#: admin/views/admin-display-general.php:31
-msgid "Autotick for Non-Necessary Cookies"
-msgstr "Autotick para cookies no necesarias"
-
-#: admin/views/admin-display-general.php:38
-msgid "Show Credits"
-msgstr "Mostrar créditos"
-
-#: admin/views/admin-display-general.php:45
+#: admin/views/admin-display-general.php:43
 msgid "Message Heading"
 msgstr "Encabezado del mensaje"
 
-#: admin/views/admin-display-general.php:48
+#: admin/views/admin-display-general.php:46
 msgid "Leave it blank, If you do not need a heading"
 msgstr "Déjelo en blanco, si no necesita un encabezamiento"
 
-#: admin/views/admin-display-general.php:53
+#: admin/views/admin-display-general.php:51
 msgid "Message"
 msgstr "Mensaje"
+
+#: admin/views/admin-display-general.php:73
+msgid "Show Again Tab Position"
+msgstr "Mostrar de nuevo la posición de la pestaña"
+
+#: admin/views/admin-display-general.php:91
+msgid "Show Again Tab Margin (in px or %)"
+msgstr "Mostrar de nuevo el margen de tabulación (en px o %)"
+
+#: admin/views/admin-display-general.php:97
+msgid "Show Again Text"
+msgstr "Mostrar de nuevo texto"
+
+#: admin/views/admin-display-general.php:112
+msgid "Autotick for Non-Necessary Cookies"
+msgstr "Autotick para cookies no necesarias"
+
+#: admin/views/admin-display-general.php:119
+msgid "Auto Hide (Accept)"
+msgstr "Ocultar automáticamente (Aceptar)"
+
+#: admin/views/admin-display-general.php:126
+msgid "Auto Hide Delay (in Milliseconds)"
+msgstr "Retardo de ocultación automática (en milisegundos)"
+
+#: admin/views/admin-display-general.php:129
+msgid "Specify milliseconds e.g. 5000 = 5 seconds"
+msgstr "Especifique los milisegundos, p. ej., 5000 a 5 segundos"
+
+#: admin/views/admin-display-general.php:133
+msgid "Auto Scroll (Accept)"
+msgstr "Desplazamiento automático (Aceptar)"
+
+#: admin/views/admin-display-general.php:137
+msgid "Use this option with discretion especially if you serve EU"
+msgstr "Utilice esta opción con discreción, especialmente si sirve a la UE"
+
+#: admin/views/admin-display-general.php:145
+msgid "Show Credits"
+msgstr "Mostrar créditos"
 
 #: admin/views/admin-display-save-button.php:23
 msgid "Save All Cookies"
 msgstr "Guardar todas las cookies"
 
-#: admin/views/admin-display-save-button.php:30
+#: admin/views/admin-display-save-button.php:32
 msgid "Update"
 msgstr "Actualizar"
 
@@ -725,7 +777,7 @@ msgstr "Preferencias"
 msgid "Unclassified"
 msgstr "No clasificada"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:48
+#: includes/class-gdpr-cookie-consent-i18n.php:49
 msgid ""
 "Necessary cookies help make a website usable by enabling basic functions "
 "like page navigation and access to secure areas of the website. The website "
@@ -736,7 +788,7 @@ msgstr ""
 "áreas seguras del sitio web. El sitio web no puede funcionar correctamente "
 "sin estas cookies."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:49
+#: includes/class-gdpr-cookie-consent-i18n.php:50
 msgid ""
 "Marketing cookies are used to track visitors across websites. The intention "
 "is to display ads that are relevant and engaging for the individual user and "
@@ -747,7 +799,7 @@ msgstr ""
 "atractivos para el usuario individual y, por lo que, más valiosos para los "
 "editores y los anunciantes de terceros."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:50
+#: includes/class-gdpr-cookie-consent-i18n.php:51
 msgid ""
 "Analytics cookies help website owners to understand how visitors interact "
 "with websites by collecting and reporting information anonymously."
@@ -756,7 +808,7 @@ msgstr ""
 "cómo interactúan los visitantes con los sitios web recopilando y informando "
 "información de forma anónima."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:51
+#: includes/class-gdpr-cookie-consent-i18n.php:52
 msgid ""
 "Preference cookies enable a website to remember information that changes the "
 "way the website behaves or looks, like your preferred language or the region "
@@ -766,7 +818,7 @@ msgstr ""
 "cambia la forma en que se comporta o se ve el sitio web, como su idioma "
 "preferido o la región en la que se encuentra."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:52
+#: includes/class-gdpr-cookie-consent-i18n.php:53
 msgid ""
 "Unclassified cookies are cookies that we are in the process of classifying, "
 "together with the providers of individual cookies."
@@ -774,7 +826,7 @@ msgstr ""
 "Las cookies no clasificadas son cookies que estamos en proceso de "
 "clasificación, junto con los proveedores de cookies individuales."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:53
+#: includes/class-gdpr-cookie-consent-i18n.php:54
 msgid ""
 "Cookies are small text files that can be used by websites to make a user's "
 "experience more efficient. The law states that we can store cookies on your "
@@ -791,11 +843,11 @@ msgstr ""
 "diferentes tipos de cookies. Algunas cookies son colocadas por servicios de "
 "terceros que aparecen en nuestras páginas."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:54
+#: includes/class-gdpr-cookie-consent-i18n.php:55
 msgid "This website uses cookies"
 msgstr "Este sitio web utiliza cookies"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:55
+#: includes/class-gdpr-cookie-consent-i18n.php:56
 msgid ""
 "This website uses cookies to improve your experience. We'll assume you're ok "
 "with this, but you can opt-out if you wish."
@@ -803,47 +855,51 @@ msgstr ""
 "Este sitio web utiliza cookies para mejorar su experiencia. Asumiremos que "
 "está de acuerdo con esto, pero puede optar por no participar si lo desea."
 
-#. translators: 1: GDPR Cookie Consent
-#: public/class-gdpr-cookie-consent-public.php:298
+#. translators: 1: GDPR Cookie Consent Plugin
+#: public/class-gdpr-cookie-consent-public.php:306
 msgid "Powered by %1$s"
 msgstr "Funciona con %1$s"
 
-#: public/class-gdpr-cookie-consent-public.php:304
+#: public/class-gdpr-cookie-consent-public.php:307
+msgid "GDPR Cookie Consent Plugin"
+msgstr "Plugin de consentimiento de cookies del RGPD"
+
+#: public/class-gdpr-cookie-consent-public.php:312
 msgid "About Cookies"
 msgstr "Acerca de las cookies"
 
-#: public/class-gdpr-cookie-consent-public.php:305
+#: public/class-gdpr-cookie-consent-public.php:313
 msgid "Cookie Declaration"
 msgstr "Declaración de cookies"
 
-#: public/class-gdpr-cookie-consent-public.php:306
+#: public/class-gdpr-cookie-consent-public.php:314
 msgid "Always Active"
 msgstr "Siempre activo"
 
-#: public/class-gdpr-cookie-consent-public.php:307
+#: public/class-gdpr-cookie-consent-public.php:315
 msgid "Save And Accept"
 msgstr "Guardar y aceptar"
 
-#: public/class-gdpr-cookie-consent-public.php:308
+#: public/class-gdpr-cookie-consent-public.php:316
 msgid "Name"
 msgstr "Nombre"
 
-#: public/class-gdpr-cookie-consent-public.php:310
+#: public/class-gdpr-cookie-consent-public.php:318
 msgid "Purpose"
 msgstr "Finalidad"
 
-#: public/class-gdpr-cookie-consent-public.php:311
+#: public/class-gdpr-cookie-consent-public.php:319
 msgid "Expiry"
 msgstr "Vencimiento"
 
-#: public/class-gdpr-cookie-consent-public.php:312
+#: public/class-gdpr-cookie-consent-public.php:320
 msgid "Type"
 msgstr "Tipo"
 
-#: public/class-gdpr-cookie-consent-public.php:313
+#: public/class-gdpr-cookie-consent-public.php:321
 msgid "We do not use cookies of this type."
 msgstr "No utilizamos cookies de este tipo."
 
-#: public/class-gdpr-cookie-consent-public.php:314
+#: public/class-gdpr-cookie-consent-public.php:322
 msgid "I consent to the use of following cookies:"
 msgstr "Doy mi consentimiento para el uso de las siguientes cookies:"

@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the GDPR Cookie Consent plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: GDPR Cookie Consent 1.7.6\n"
+"Project-Id-Version: GDPR Cookie Consent 1.7.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
 "consent\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-01-03T12:26:34+00:00\n"
-"PO-Revision-Date: 2020-01-03 19:41+0530\n"
+"POT-Creation-Date: 2020-01-29T13:24:52+00:00\n"
+"PO-Revision-Date: 2020-01-29 18:59+0530\n"
 "X-Generator: Poedit 2.2.4\n"
 "X-Domain: gdpr-cookie-consent\n"
 "Last-Translator: \n"
@@ -20,7 +20,6 @@ msgstr ""
 #. Plugin Name of the plugin
 #: admin/class-gdpr-cookie-consent-admin.php:216
 #: admin/class-gdpr-cookie-consent-admin.php:228
-#: public/class-gdpr-cookie-consent-public.php:299
 msgid "GDPR Cookie Consent"
 msgstr "GDPR Cookie Consent"
 
@@ -144,6 +143,7 @@ msgid "five star"
 msgstr "five Star"
 
 #: admin/class-gdpr-cookie-consent-admin.php:229
+#: includes/class-gdpr-cookie-consent-i18n.php:48
 msgid "Cookie Settings"
 msgstr "Cookie-indstillinger"
 
@@ -157,32 +157,32 @@ msgstr "Politik data"
 msgid "Import Policies"
 msgstr "Import politikker"
 
-#: admin/class-gdpr-cookie-consent-admin.php:282
+#: admin/class-gdpr-cookie-consent-admin.php:299
 msgid "You do not have sufficient permission to perform this operation"
 msgstr "Du har ikke tilstrækkelig tilladelse til at udføre denne operation"
 
-#: admin/class-gdpr-cookie-consent-admin.php:312
+#: admin/class-gdpr-cookie-consent-admin.php:329
 msgid "Settings Updated."
 msgstr "Indstillinger opdateret."
 
-#: admin/class-gdpr-cookie-consent-admin.php:347
+#: admin/class-gdpr-cookie-consent-admin.php:364
 msgid "Large"
 msgstr "Stor"
 
-#: admin/class-gdpr-cookie-consent-admin.php:348
+#: admin/class-gdpr-cookie-consent-admin.php:365
 msgid "Medium"
 msgstr "Medium"
 
-#: admin/class-gdpr-cookie-consent-admin.php:349
+#: admin/class-gdpr-cookie-consent-admin.php:366
 msgid "Small"
 msgstr "Lille"
 
-#: admin/class-gdpr-cookie-consent-admin.php:363
+#: admin/class-gdpr-cookie-consent-admin.php:380
 #: admin/views/admin-display-buttons.php:151
 msgid "Close Header"
 msgstr "Luk sidehoved"
 
-#: admin/class-gdpr-cookie-consent-admin.php:364
+#: admin/class-gdpr-cookie-consent-admin.php:381
 msgid "Open URL"
 msgstr "Åbn URL"
 
@@ -359,7 +359,7 @@ msgid "Links"
 msgstr "Links"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:155
-#: public/class-gdpr-cookie-consent-public.php:309
+#: public/class-gdpr-cookie-consent-public.php:317
 msgid "Domain"
 msgstr "Domæne"
 
@@ -381,6 +381,7 @@ msgstr "Die Einstellungen konnten nicht aktualisiert werden."
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:29
 #: admin/views/admin-display-design.php:19
+#: admin/views/admin-display-general.php:19
 msgid "General"
 msgstr "Generelt"
 
@@ -430,9 +431,12 @@ msgstr "Aktiver"
 #: admin/views/admin-display-buttons.php:180
 #: admin/views/admin-display-buttons.php:245
 #: admin/views/admin-display-design.php:76
-#: admin/views/admin-display-general.php:26
-#: admin/views/admin-display-general.php:33
-#: admin/views/admin-display-general.php:40
+#: admin/views/admin-display-general.php:38
+#: admin/views/admin-display-general.php:68
+#: admin/views/admin-display-general.php:114
+#: admin/views/admin-display-general.php:121
+#: admin/views/admin-display-general.php:135
+#: admin/views/admin-display-general.php:147
 msgid "On"
 msgstr "Til"
 
@@ -441,9 +445,12 @@ msgstr "Til"
 #: admin/views/admin-display-buttons.php:181
 #: admin/views/admin-display-buttons.php:246
 #: admin/views/admin-display-design.php:77
-#: admin/views/admin-display-general.php:27
-#: admin/views/admin-display-general.php:34
-#: admin/views/admin-display-general.php:41
+#: admin/views/admin-display-general.php:39
+#: admin/views/admin-display-general.php:69
+#: admin/views/admin-display-general.php:115
+#: admin/views/admin-display-general.php:122
+#: admin/views/admin-display-general.php:136
+#: admin/views/admin-display-general.php:148
 msgid "Off"
 msgstr "Fra"
 
@@ -592,11 +599,15 @@ msgstr "Tilføj overlejring"
 
 #: admin/views/admin-display-design.php:87
 #: admin/views/admin-display-design.php:90
+#: admin/views/admin-display-general.php:79
+#: admin/views/admin-display-general.php:82
 msgid "Left"
 msgstr "Venstre"
 
 #: admin/views/admin-display-design.php:88
 #: admin/views/admin-display-design.php:91
+#: admin/views/admin-display-general.php:80
+#: admin/views/admin-display-general.php:83
 msgid "Right"
 msgstr "Højre"
 
@@ -626,35 +637,76 @@ msgstr "Opacitet for cookie linje"
 msgid "Text Color"
 msgstr "Tekstfarve"
 
-#: admin/views/admin-display-general.php:24
+#: admin/views/admin-display-general.php:20
+#: admin/views/admin-display-general.php:66
+msgid "Show Again Tab"
+msgstr "Vis igen fanebladet"
+
+#: admin/views/admin-display-general.php:21
+msgid "Other"
+msgstr "Andet"
+
+#: admin/views/admin-display-general.php:36
 msgid "Cookie Bar is currently"
 msgstr "Cookie Bar er i øjeblikket"
 
-#: admin/views/admin-display-general.php:31
-msgid "Autotick for Non-Necessary Cookies"
-msgstr "Autotick for ikke-nødvendige cookies"
-
-#: admin/views/admin-display-general.php:38
-msgid "Show Credits"
-msgstr "Vis kreditter"
-
-#: admin/views/admin-display-general.php:45
+#: admin/views/admin-display-general.php:43
 msgid "Message Heading"
 msgstr "Überschrift"
 
-#: admin/views/admin-display-general.php:48
+#: admin/views/admin-display-general.php:46
 msgid "Leave it blank, If you do not need a heading"
 msgstr "Lassen Sie dieses Feld leer, wenn Sie keine Überschrift benötigen"
 
-#: admin/views/admin-display-general.php:53
+#: admin/views/admin-display-general.php:51
 msgid "Message"
 msgstr "Besked"
+
+#: admin/views/admin-display-general.php:73
+msgid "Show Again Tab Position"
+msgstr "Vis igen tabulatorplacering"
+
+#: admin/views/admin-display-general.php:91
+msgid "Show Again Tab Margin (in px or %)"
+msgstr "Vis tabulatormargen igen (i px eller %)"
+
+#: admin/views/admin-display-general.php:97
+msgid "Show Again Text"
+msgstr "Vis tekst igen"
+
+#: admin/views/admin-display-general.php:112
+msgid "Autotick for Non-Necessary Cookies"
+msgstr "Autotick for ikke-nødvendige cookies"
+
+#: admin/views/admin-display-general.php:119
+msgid "Auto Hide (Accept)"
+msgstr "Skjul automatisk (accept)"
+
+#: admin/views/admin-display-general.php:126
+msgid "Auto Hide Delay (in Milliseconds)"
+msgstr "Automatisk skjul forsinkelse (i Millisekunder)"
+
+#: admin/views/admin-display-general.php:129
+msgid "Specify milliseconds e.g. 5000 = 5 seconds"
+msgstr "Angiv millisekunder f.eks."
+
+#: admin/views/admin-display-general.php:133
+msgid "Auto Scroll (Accept)"
+msgstr "Automatisk rulning (accept)"
+
+#: admin/views/admin-display-general.php:137
+msgid "Use this option with discretion especially if you serve EU"
+msgstr "Brug denne mulighed med diskretion, især hvis du betjener EU"
+
+#: admin/views/admin-display-general.php:145
+msgid "Show Credits"
+msgstr "Vis kreditter"
 
 #: admin/views/admin-display-save-button.php:23
 msgid "Save All Cookies"
 msgstr "Gem alle cookies"
 
-#: admin/views/admin-display-save-button.php:30
+#: admin/views/admin-display-save-button.php:32
 msgid "Update"
 msgstr "Opdater"
 
@@ -724,7 +776,7 @@ msgstr "Indstillinger"
 msgid "Unclassified"
 msgstr "Uklassificeret"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:48
+#: includes/class-gdpr-cookie-consent-i18n.php:49
 msgid ""
 "Necessary cookies help make a website usable by enabling basic functions "
 "like page navigation and access to secure areas of the website. The website "
@@ -735,7 +787,7 @@ msgstr ""
 "områder af hjemmesiden. Hjemmesiden kan ikke fungere korrekt uden disse "
 "cookies."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:49
+#: includes/class-gdpr-cookie-consent-i18n.php:50
 msgid ""
 "Marketing cookies are used to track visitors across websites. The intention "
 "is to display ads that are relevant and engaging for the individual user and "
@@ -746,7 +798,7 @@ msgstr ""
 "enkelte bruger og dermed mere værdifuld for udgivere og "
 "tredjepartsannoncører."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:50
+#: includes/class-gdpr-cookie-consent-i18n.php:51
 msgid ""
 "Analytics cookies help website owners to understand how visitors interact "
 "with websites by collecting and reporting information anonymously."
@@ -754,7 +806,7 @@ msgstr ""
 "Analytics-cookies hjælper webstedsejere med at forstå, hvordan besøgende "
 "interagerer med websites ved at indsamle og rapportere oplysninger anonymt."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:51
+#: includes/class-gdpr-cookie-consent-i18n.php:52
 msgid ""
 "Preference cookies enable a website to remember information that changes the "
 "way the website behaves or looks, like your preferred language or the region "
@@ -764,7 +816,7 @@ msgstr ""
 "ændrer den måde, webstedet opfører sig eller ser ud på, såsom dit foretrukne "
 "sprog eller det område, du befinder dig i."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:52
+#: includes/class-gdpr-cookie-consent-i18n.php:53
 msgid ""
 "Unclassified cookies are cookies that we are in the process of classifying, "
 "together with the providers of individual cookies."
@@ -772,7 +824,7 @@ msgstr ""
 "Ikke-klassificerede cookies er cookies, som vi er i færd med at "
 "klassificere, sammen med udbyderne af individuelle cookies."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:53
+#: includes/class-gdpr-cookie-consent-i18n.php:54
 msgid ""
 "Cookies are small text files that can be used by websites to make a user's "
 "experience more efficient. The law states that we can store cookies on your "
@@ -788,11 +840,11 @@ msgstr ""
 "bruger forskellige typer af cookies. Nogle cookies placeres af "
 "tredjepartstjenester, der vises på vores sider."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:54
+#: includes/class-gdpr-cookie-consent-i18n.php:55
 msgid "This website uses cookies"
 msgstr "This website uses cookies"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:55
+#: includes/class-gdpr-cookie-consent-i18n.php:56
 msgid ""
 "This website uses cookies to improve your experience. We'll assume you're ok "
 "with this, but you can opt-out if you wish."
@@ -800,47 +852,56 @@ msgstr ""
 "Denne hjemmeside bruger cookies til at forbedre din oplevelse. Vi antager, "
 "at du er OK med dette, men du kan fravælge, hvis du ønsker det."
 
-#. translators: 1: GDPR Cookie Consent
-#: public/class-gdpr-cookie-consent-public.php:298
+#. translators: 1: GDPR Cookie Consent Plugin
+#: public/class-gdpr-cookie-consent-public.php:306
 msgid "Powered by %1$s"
 msgstr "Drevet af %1$s"
 
-#: public/class-gdpr-cookie-consent-public.php:304
+#: public/class-gdpr-cookie-consent-public.php:307
+#, fuzzy
+msgid "GDPR Cookie Consent Plugin"
+msgstr ""
+"Hvis du finder en fejl i GDPR cookie samtykke plugin kan du oprette en "
+"billet via"
+
+#: public/class-gdpr-cookie-consent-public.php:312
+#, fuzzy
 msgid "About Cookies"
 msgstr "Om cookies"
 
-#: public/class-gdpr-cookie-consent-public.php:305
+#: public/class-gdpr-cookie-consent-public.php:313
+#, fuzzy
 msgid "Cookie Declaration"
 msgstr "Cookie erklæring"
 
-#: public/class-gdpr-cookie-consent-public.php:306
+#: public/class-gdpr-cookie-consent-public.php:314
 msgid "Always Active"
 msgstr "Altid aktiv"
 
-#: public/class-gdpr-cookie-consent-public.php:307
+#: public/class-gdpr-cookie-consent-public.php:315
 msgid "Save And Accept"
 msgstr "Gem og Accepter"
 
-#: public/class-gdpr-cookie-consent-public.php:308
+#: public/class-gdpr-cookie-consent-public.php:316
 msgid "Name"
 msgstr "Navn"
 
-#: public/class-gdpr-cookie-consent-public.php:310
+#: public/class-gdpr-cookie-consent-public.php:318
 msgid "Purpose"
 msgstr "Formål"
 
-#: public/class-gdpr-cookie-consent-public.php:311
+#: public/class-gdpr-cookie-consent-public.php:319
 msgid "Expiry"
 msgstr "Udløb"
 
-#: public/class-gdpr-cookie-consent-public.php:312
+#: public/class-gdpr-cookie-consent-public.php:320
 msgid "Type"
 msgstr "Type"
 
-#: public/class-gdpr-cookie-consent-public.php:313
+#: public/class-gdpr-cookie-consent-public.php:321
 msgid "We do not use cookies of this type."
 msgstr "Vi bruger ikke cookies af denne type."
 
-#: public/class-gdpr-cookie-consent-public.php:314
+#: public/class-gdpr-cookie-consent-public.php:322
 msgid "I consent to the use of following cookies:"
 msgstr "Jeg accepterer brugen af følgende cookies:"

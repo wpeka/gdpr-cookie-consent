@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the GDPR Cookie Consent plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: GDPR Cookie Consent 1.7.6\n"
+"Project-Id-Version: GDPR Cookie Consent 1.7.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
 "consent\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-01-03T12:26:34+00:00\n"
-"PO-Revision-Date: 2020-01-03 19:48+0530\n"
+"POT-Creation-Date: 2020-01-29T13:24:52+00:00\n"
+"PO-Revision-Date: 2020-01-29 19:34+0530\n"
 "X-Generator: Poedit 2.2.4\n"
 "X-Domain: gdpr-cookie-consent\n"
 "Last-Translator: \n"
@@ -21,7 +21,6 @@ msgstr ""
 #. Plugin Name of the plugin
 #: admin/class-gdpr-cookie-consent-admin.php:216
 #: admin/class-gdpr-cookie-consent-admin.php:228
-#: public/class-gdpr-cookie-consent-public.php:299
 msgid "GDPR Cookie Consent"
 msgstr "Pristanak na GDPR kolačiće"
 
@@ -142,6 +141,7 @@ msgid "five star"
 msgstr "pet zvjezdica"
 
 #: admin/class-gdpr-cookie-consent-admin.php:229
+#: includes/class-gdpr-cookie-consent-i18n.php:48
 msgid "Cookie Settings"
 msgstr "Postavke kolačića"
 
@@ -155,32 +155,32 @@ msgstr "Podaci o politici"
 msgid "Import Policies"
 msgstr "Pravila uvoza"
 
-#: admin/class-gdpr-cookie-consent-admin.php:282
+#: admin/class-gdpr-cookie-consent-admin.php:299
 msgid "You do not have sufficient permission to perform this operation"
 msgstr "Nemate dovoljno dopuštenja za obavljanje ove operacije"
 
-#: admin/class-gdpr-cookie-consent-admin.php:312
+#: admin/class-gdpr-cookie-consent-admin.php:329
 msgid "Settings Updated."
 msgstr "Postavke su ažurirane."
 
-#: admin/class-gdpr-cookie-consent-admin.php:347
+#: admin/class-gdpr-cookie-consent-admin.php:364
 msgid "Large"
 msgstr "Veliko"
 
-#: admin/class-gdpr-cookie-consent-admin.php:348
+#: admin/class-gdpr-cookie-consent-admin.php:365
 msgid "Medium"
 msgstr "Srednje"
 
-#: admin/class-gdpr-cookie-consent-admin.php:349
+#: admin/class-gdpr-cookie-consent-admin.php:366
 msgid "Small"
 msgstr "Mali"
 
-#: admin/class-gdpr-cookie-consent-admin.php:363
+#: admin/class-gdpr-cookie-consent-admin.php:380
 #: admin/views/admin-display-buttons.php:151
 msgid "Close Header"
 msgstr "Zatvori zaglavlje"
 
-#: admin/class-gdpr-cookie-consent-admin.php:364
+#: admin/class-gdpr-cookie-consent-admin.php:381
 msgid "Open URL"
 msgstr "Otvori URL"
 
@@ -357,7 +357,7 @@ msgid "Links"
 msgstr "Linkovi"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:155
-#: public/class-gdpr-cookie-consent-public.php:309
+#: public/class-gdpr-cookie-consent-public.php:317
 msgid "Domain"
 msgstr "Domene"
 
@@ -379,6 +379,7 @@ msgstr "Postavke nije moguće ažurirati."
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:29
 #: admin/views/admin-display-design.php:19
+#: admin/views/admin-display-general.php:19
 msgid "General"
 msgstr "Općenito"
 
@@ -428,20 +429,26 @@ msgstr "Omogući"
 #: admin/views/admin-display-buttons.php:180
 #: admin/views/admin-display-buttons.php:245
 #: admin/views/admin-display-design.php:76
-#: admin/views/admin-display-general.php:26
-#: admin/views/admin-display-general.php:33
-#: admin/views/admin-display-general.php:40
+#: admin/views/admin-display-general.php:38
+#: admin/views/admin-display-general.php:68
+#: admin/views/admin-display-general.php:114
+#: admin/views/admin-display-general.php:121
+#: admin/views/admin-display-general.php:135
+#: admin/views/admin-display-general.php:147
 msgid "On"
-msgstr "Uklj."
+msgstr "Uklj"
 
 #: admin/views/admin-display-buttons.php:41
 #: admin/views/admin-display-buttons.php:109
 #: admin/views/admin-display-buttons.php:181
 #: admin/views/admin-display-buttons.php:246
 #: admin/views/admin-display-design.php:77
-#: admin/views/admin-display-general.php:27
-#: admin/views/admin-display-general.php:34
-#: admin/views/admin-display-general.php:41
+#: admin/views/admin-display-general.php:39
+#: admin/views/admin-display-general.php:69
+#: admin/views/admin-display-general.php:115
+#: admin/views/admin-display-general.php:122
+#: admin/views/admin-display-general.php:136
+#: admin/views/admin-display-general.php:148
 msgid "Off"
 msgstr "Isključeno"
 
@@ -590,11 +597,15 @@ msgstr "Dodaj prekrivanje"
 
 #: admin/views/admin-display-design.php:87
 #: admin/views/admin-display-design.php:90
+#: admin/views/admin-display-general.php:79
+#: admin/views/admin-display-general.php:82
 msgid "Left"
 msgstr "Lijevo"
 
 #: admin/views/admin-display-design.php:88
 #: admin/views/admin-display-design.php:91
+#: admin/views/admin-display-general.php:80
+#: admin/views/admin-display-general.php:83
 msgid "Right"
 msgstr "Desno"
 
@@ -624,35 +635,76 @@ msgstr "Kolačić bar opacity"
 msgid "Text Color"
 msgstr "Boja teksta"
 
-#: admin/views/admin-display-general.php:24
+#: admin/views/admin-display-general.php:20
+#: admin/views/admin-display-general.php:66
+msgid "Show Again Tab"
+msgstr "Kartica Prikaži ponovo"
+
+#: admin/views/admin-display-general.php:21
+msgid "Other"
+msgstr "Drugo"
+
+#: admin/views/admin-display-general.php:36
 msgid "Cookie Bar is currently"
 msgstr "Traka kolačića je trenutno"
 
-#: admin/views/admin-display-general.php:31
-msgid "Autotick for Non-Necessary Cookies"
-msgstr "Autotick za Neneophodne kolačiće"
-
-#: admin/views/admin-display-general.php:38
-msgid "Show Credits"
-msgstr "Pokaži kredite"
-
-#: admin/views/admin-display-general.php:45
+#: admin/views/admin-display-general.php:43
 msgid "Message Heading"
 msgstr "Zaglavlje poruke"
 
-#: admin/views/admin-display-general.php:48
+#: admin/views/admin-display-general.php:46
 msgid "Leave it blank, If you do not need a heading"
 msgstr "Ostavite prazno, ako vam ne treba naslov"
 
-#: admin/views/admin-display-general.php:53
+#: admin/views/admin-display-general.php:51
 msgid "Message"
 msgstr "Poruka"
+
+#: admin/views/admin-display-general.php:73
+msgid "Show Again Tab Position"
+msgstr "Prikaži ponovno položaj tabulatora"
+
+#: admin/views/admin-display-general.php:91
+msgid "Show Again Tab Margin (in px or %)"
+msgstr "Pokaži marginu tabulatora (u px ili%)"
+
+#: admin/views/admin-display-general.php:97
+msgid "Show Again Text"
+msgstr "Pokaži ponovno tekst"
+
+#: admin/views/admin-display-general.php:112
+msgid "Autotick for Non-Necessary Cookies"
+msgstr "Autotick za Neneophodne kolačiće"
+
+#: admin/views/admin-display-general.php:119
+msgid "Auto Hide (Accept)"
+msgstr "Automatski sakrij (Prihvati)"
+
+#: admin/views/admin-display-general.php:126
+msgid "Auto Hide Delay (in Milliseconds)"
+msgstr "Odgoda automatskog skrivanja (u milisekundama)"
+
+#: admin/views/admin-display-general.php:129
+msgid "Specify milliseconds e.g. 5000 = 5 seconds"
+msgstr "Navedite milisekunde npr. 5000 = 5 sekundi"
+
+#: admin/views/admin-display-general.php:133
+msgid "Auto Scroll (Accept)"
+msgstr "Automatsko pomicanje (Prihvati)"
+
+#: admin/views/admin-display-general.php:137
+msgid "Use this option with discretion especially if you serve EU"
+msgstr "Ovu opciju koristite s diskrecijom, posebno ako služite"
+
+#: admin/views/admin-display-general.php:145
+msgid "Show Credits"
+msgstr "Pokaži kredite"
 
 #: admin/views/admin-display-save-button.php:23
 msgid "Save All Cookies"
 msgstr "Spremi sve kolačiće"
 
-#: admin/views/admin-display-save-button.php:30
+#: admin/views/admin-display-save-button.php:32
 msgid "Update"
 msgstr "Ažuriraj"
 
@@ -722,7 +774,7 @@ msgstr "Postavke"
 msgid "Unclassified"
 msgstr "Nerazvrstan"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:48
+#: includes/class-gdpr-cookie-consent-i18n.php:49
 msgid ""
 "Necessary cookies help make a website usable by enabling basic functions "
 "like page navigation and access to secure areas of the website. The website "
@@ -733,7 +785,7 @@ msgstr ""
 "područjima web stranice. Web-mjesto ne može ispravno funkcionirati bez tih "
 "kolačića."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:49
+#: includes/class-gdpr-cookie-consent-i18n.php:50
 msgid ""
 "Marketing cookies are used to track visitors across websites. The intention "
 "is to display ads that are relevant and engaging for the individual user and "
@@ -743,7 +795,7 @@ msgstr ""
 "Namjera je prikazati oglase koji su relevantni i angažiranje za pojedinačnog "
 "korisnika i time vrjedniji za izdavače i oglašivače trećih strana."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:50
+#: includes/class-gdpr-cookie-consent-i18n.php:51
 msgid ""
 "Analytics cookies help website owners to understand how visitors interact "
 "with websites by collecting and reporting information anonymously."
@@ -752,7 +804,7 @@ msgstr ""
 "posjetitelji komuniciraju s web-lokacijama prikupljanjem i izvješćivanjem "
 "anonimnog informacija."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:51
+#: includes/class-gdpr-cookie-consent-i18n.php:52
 msgid ""
 "Preference cookies enable a website to remember information that changes the "
 "way the website behaves or looks, like your preferred language or the region "
@@ -762,7 +814,7 @@ msgstr ""
 "mijenjaju način na koji se web-mjesto ponaša ili izgleda, kao što je vaš "
 "željeni jezik ili regija u kojoj se nalazite."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:52
+#: includes/class-gdpr-cookie-consent-i18n.php:53
 msgid ""
 "Unclassified cookies are cookies that we are in the process of classifying, "
 "together with the providers of individual cookies."
@@ -770,7 +822,7 @@ msgstr ""
 "Nerazvrstani kolačići su kolačići koje smo u procesu klasificiranja, zajedno "
 "s pružateljima pojedinačnih kolačića."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:53
+#: includes/class-gdpr-cookie-consent-i18n.php:54
 msgid ""
 "Cookies are small text files that can be used by websites to make a user's "
 "experience more efficient. The law states that we can store cookies on your "
@@ -786,11 +838,11 @@ msgstr ""
 "kolačića. Neke kolačiće stavljaju usluge trećih strana koje se pojavljuju na "
 "našim stranicama."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:54
+#: includes/class-gdpr-cookie-consent-i18n.php:55
 msgid "This website uses cookies"
 msgstr "Ova web stranica koristi kolačiće"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:55
+#: includes/class-gdpr-cookie-consent-i18n.php:56
 msgid ""
 "This website uses cookies to improve your experience. We'll assume you're ok "
 "with this, but you can opt-out if you wish."
@@ -798,47 +850,51 @@ msgstr ""
 "Ova web stranica koristi kolačiće za poboljšanje vašeg iskustva. "
 "Pretpostavljamo da si u redu s ovim, ali možeš se odjaviti ako želiš."
 
-#. translators: 1: GDPR Cookie Consent
-#: public/class-gdpr-cookie-consent-public.php:298
+#. translators: 1: GDPR Cookie Consent Plugin
+#: public/class-gdpr-cookie-consent-public.php:306
 msgid "Powered by %1$s"
 msgstr "Powered by %1$s"
 
-#: public/class-gdpr-cookie-consent-public.php:304
+#: public/class-gdpr-cookie-consent-public.php:307
+msgid "GDPR Cookie Consent Plugin"
+msgstr "GDPR dodatak za kolačiće"
+
+#: public/class-gdpr-cookie-consent-public.php:312
 msgid "About Cookies"
 msgstr "O kolačićima"
 
-#: public/class-gdpr-cookie-consent-public.php:305
+#: public/class-gdpr-cookie-consent-public.php:313
 msgid "Cookie Declaration"
 msgstr "Izjava o kolačićima"
 
-#: public/class-gdpr-cookie-consent-public.php:306
+#: public/class-gdpr-cookie-consent-public.php:314
 msgid "Always Active"
 msgstr "Uvijek aktivno"
 
-#: public/class-gdpr-cookie-consent-public.php:307
+#: public/class-gdpr-cookie-consent-public.php:315
 msgid "Save And Accept"
 msgstr "Spremi i prihvati"
 
-#: public/class-gdpr-cookie-consent-public.php:308
+#: public/class-gdpr-cookie-consent-public.php:316
 msgid "Name"
 msgstr "Ime"
 
-#: public/class-gdpr-cookie-consent-public.php:310
+#: public/class-gdpr-cookie-consent-public.php:318
 msgid "Purpose"
 msgstr "Svrhu"
 
-#: public/class-gdpr-cookie-consent-public.php:311
+#: public/class-gdpr-cookie-consent-public.php:319
 msgid "Expiry"
 msgstr "Istek"
 
-#: public/class-gdpr-cookie-consent-public.php:312
+#: public/class-gdpr-cookie-consent-public.php:320
 msgid "Type"
 msgstr "Tip"
 
-#: public/class-gdpr-cookie-consent-public.php:313
+#: public/class-gdpr-cookie-consent-public.php:321
 msgid "We do not use cookies of this type."
 msgstr "Ne koristimo kolačiće ove vrste."
 
-#: public/class-gdpr-cookie-consent-public.php:314
+#: public/class-gdpr-cookie-consent-public.php:322
 msgid "I consent to the use of following cookies:"
 msgstr "Pristajem na korištenje sljedećih kolačića:"
