@@ -1,22 +1,20 @@
 <div>{{ consent_notice }}</div>
 <div id="gdpr_messagebar_body_buttons_select_pane">
     {% for category in categories %}
-        {% if category['gdpr_cookie_category_slug'] == 'unclassified' %}
-
-        {% else %}
-            <div class="gdpr_messagebar_body_buttons_wrapper">
-                {% if category['gdpr_cookie_category_slug'] == 'necessary' %}
-                    <input type="checkbox" id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_body_button gdpr_messagebar_body_button_disabled" disabled="disabled" checked="checked" value="{{ category['gdpr_cookie_category_slug'] }}">
-                {% else %}
-                    <input type="checkbox" id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_body_button"
-                    {% if is_ticked %}
-                        checked="checked"
-                    {% endif %}
-                    value="{{ category['gdpr_cookie_category_slug'] }}">
+        <div class="gdpr_messagebar_body_buttons_wrapper">
+            {% if category['gdpr_cookie_category_slug'] == 'necessary' %}
+                <input type="checkbox" id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_body_button gdpr_messagebar_body_button_disabled" disabled="disabled" checked="checked" value="{{ category['gdpr_cookie_category_slug'] }}">
+            {% else %}
+                <input type="checkbox" id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_body_button"
+                {% if is_ticked %}
+                    checked="checked"
+                {% elseif category['is_ticked'] %}
+                    checked="checked"
                 {% endif %}
-                <label for="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}">{{ __(category['gdpr_cookie_category_name'], 'gdpr-cookie-consent') }}</label>
-            </div>
-        {% endif %}
+                value="{{ category['gdpr_cookie_category_slug'] }}">
+            {% endif %}
+            <label for="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}">{{ __(category['gdpr_cookie_category_name'], 'gdpr-cookie-consent') }}</label>
+        </div>
     {% endfor %}
 </div>
 <div id="gdpr_messagebar_detail_body">

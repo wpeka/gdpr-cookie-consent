@@ -4,7 +4,7 @@
 **Tags:** eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance  
 **Requires at least:** 3.3.1  
 **Tested up to:** 5.3.2  
-**Stable tag:** 1.7.8  
+**Stable tag:** 1.7.9  
 **Requires PHP:** 7.0  
 **License:** GPLv3  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
@@ -46,6 +46,12 @@ The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPr
 - Fully customisable cookie consent notice. Customise the text, colours and fonts to match your website's design.
 
 - Get granular cookie consent for cookie categories of their choice.
+
+- Automatically accept cookie consent on scroll and close cookie notice (Option to configure - Allowed in some countries).
+
+- Auto-hide cookie notice after delay (Can be configured).
+
+- Provide option for user to change prior consent.
 
 - Show cookie information on your privacy policy or any other page with an easy to use WordPress shortcode. `[wpl_cookie_details]`
 
@@ -106,11 +112,13 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 6. Manage cookie list.
 
 ## Change Log ##
-### 1.7.8 ###
-Update: Improved frontend UI design.
+### 1.7.9 ###
+Feature: Automatically accept cookie consent on scroll and close cookie notice (Option to configure - Allowed in some countries).
+Feature: Auto-hide cookie notice after delay (Can be configured).
+Feature: Provide option for user to change prior consent.
 
-### 1.7.7 ###
-Update: Minor plugin updates.
+### 1.7.8 ###
+Update: Improvements in Cookie notice display design.
 
 ### 1.7.6 ###
 Feature: Added multiple options to display Cookie consent notice on frontend - Banner/Popup/Widget.
@@ -163,11 +171,13 @@ Fix: Frontend translation issues for Cookie Categories and description.
 * Initial version
 
 ## Upgrade Notice ##
-### 1.7.8 ###
-Update: Improved frontend UI design.
+### 1.7.9 ###
+Feature: Automatically accept cookie consent on scroll and close cookie notice (Option to configure - Allowed in some countries).
+Feature: Auto-hide cookie notice after delay (Can be configured).
+Feature: Provide option for user to change prior consent.
 
-### 1.7.7 ###
-Update: Minor plugin updates.
+### 1.7.8 ###
+Update: Improvements in Cookie notice display design.
 
 ### 1.7.6 ###
 Feature: Added multiple options to display Cookie consent notice on frontend - Banner/Popup/Widget.

@@ -42,7 +42,7 @@
                                                 <div class="toggle">
                                                     <div class="checkbox">
                                                         <!-- DYNAMICALLY GENERATE Input ID  -->
-                                                        <input {% if is_ticked %} checked="checked" {% endif %} id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" value="{{ category['gdpr_cookie_category_slug'] }}">
+                                                        <input {% if is_ticked %} checked="checked" {% elseif category['is_ticked'] %} checked="checked" {% endif %} id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" value="{{ category['gdpr_cookie_category_slug'] }}">
                                                         <label for="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}">
                                                             <span class="label-text">{{ category['gdpr_cookie_category_name'] }}</span>
                                                         </label>

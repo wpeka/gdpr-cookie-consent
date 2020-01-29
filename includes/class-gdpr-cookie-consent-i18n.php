@@ -45,6 +45,7 @@ class Gdpr_Cookie_Consent_I18n {
 		__( 'Analytics', 'gdpr-cookie-consent' );
 		__( 'Preferences', 'gdpr-cookie-consent' );
 		__( 'Unclassified', 'gdpr-cookie-consent' );
+		__( 'Cookie Settings', 'gdpr-cookie-consent' );
 		__( 'Necessary cookies help make a website usable by enabling basic functions like page navigation and access to secure areas of the website. The website cannot function properly without these cookies.', 'gdpr-cookie-consent' );
 		__( 'Marketing cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging for the individual user and thereby more valuable for publishers and third party advertisers.', 'gdpr-cookie-consent' );
 		__( 'Analytics cookies help website owners to understand how visitors interact with websites by collecting and reporting information anonymously.', 'gdpr-cookie-consent' );

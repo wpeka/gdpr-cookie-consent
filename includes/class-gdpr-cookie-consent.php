@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '1.7.3';
+			$this->version = '1.7.9';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -278,9 +278,20 @@ class Gdpr_Cookie_Consent {
 	 * @param string $error_message Error message.
 	 */
 	public static function gdpr_envelope_settings_tabcontent( $target_id, $view_file = '', $html = '', $variables = array(), $need_submit_btn = 0, $error_message = '' ) {
-		$post_cookie_list = array();
-		if ( isset( $variables['post_cookie_list'] ) ) {
-			$post_cookie_list = $variables['post_cookie_list'];
+		if ( 1 === $need_submit_btn ) {
+			$post_cookie_list = array();
+			if ( isset( $variables['post_cookie_list'] ) ) {
+				$post_cookie_list = $variables['post_cookie_list'];
+			}
+		} elseif ( 2 === $need_submit_btn ) {
+			$scripts_list  = array();
+			$category_list = array();
+			if ( isset( $variables['scripts_list'] ) ) {
+				$scripts_list = $variables['scripts_list'];
+			}
+			if ( isset( $variables['category_list'] ) ) {
+				$category_list = $variables['category_list'];
+			}
 		}
 		$the_options = self::gdpr_get_settings();
 		?>
@@ -456,7 +467,16 @@ class Gdpr_Cookie_Consent {
 			'logging_on'                 => false,
 			'show_credits'               => false,
 			'is_ticked'                  => false,
+			'show_again'                 => true,
+			'is_script_blocker_on'       => false,
+			'auto_hide'                  => false,
+			'auto_scroll'                => false,
 
+			'show_again_position'        => 'right', // 'left' = left | 'right' = right.
+			'show_again_text'            => 'Cookie Settings',
+			'show_again_margin'          => '5%',
+			'auto_hide_delay'            => '10000',
+			'show_again_div_id'          => '#gdpr-cookie-consent-show-again',
 			'notify_animate_hide'        => true,
 			'notify_animate_show'        => false,
 			'notify_message'             => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
@@ -489,6 +509,10 @@ class Gdpr_Cookie_Consent {
 			// Convert all boolean values from text to bool.
 			case 'is_on':
 			case 'is_eu_on':
+			case 'is_script_blocker_on':
+			case 'show_again':
+			case 'auto_hide':
+			case 'auto_scroll':
 			case 'logging_on':
 			case 'show_credits':
 			case 'is_ticked':
@@ -718,6 +742,15 @@ class Gdpr_Cookie_Consent {
 			'border_active_color'        => $settings['background'],
 			'logging_on'                 => $settings['logging_on'],
 			'is_ticked'                  => $settings['is_ticked'],
+			'is_script_blocker_on'       => $settings['is_script_blocker_on'],
+			'auto_scroll'                => $settings['auto_scroll'],
+			'auto_hide'                  => $settings['auto_hide'],
+			'auto_hide_delay'            => $settings['auto_hide_delay'],
+			'show_again'                 => $settings['show_again'],
+			'show_again_position'        => $settings['show_again_position'],
+			'show_again_text'            => $settings['show_again_text'],
+			'show_again_margin'          => $settings['show_again_margin'],
+			'show_again_div_id'          => $settings['show_again_div_id'],
 		);
 		$slim_settings = apply_filters( 'gdprcookieconsent_json_settings', $slim_settings );
 		$str           = wp_json_encode( $slim_settings );

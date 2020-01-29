@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-body">
 {% endif %}
-<!-- GDPR Cookie Consent – EU ICO Compliant v1.7.8 by WPEka Club - https://wordpress.org/plugins/gdpr-cookie-consent/ -->
+<!-- GDPR Cookie Consent – EU ICO Compliant v{{ version }} by WPEka Club - https://wordpress.org/plugins/gdpr-cookie-consent/ -->
 <div id="{{ container_id }}" class="{{ container_class }}">
     <div class="gdpr_messagebar_content">
         {% if head != '' %}
@@ -76,4 +76,9 @@
             </div>
         {% endif %}
 
+{% endif %}
+{% if show_again %}
+    <div id="{{ show_again_container_id }}">
+        <span>{{ show_again_text }}</span>
+    </div>
 {% endif %}
