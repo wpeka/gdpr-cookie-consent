@@ -4,7 +4,7 @@
 **Tags:** eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance  
 **Requires at least:** 3.3.1  
 **Tested up to:** 5.3.2  
-**Stable tag:** 1.7.9  
+**Stable tag:** 1.8.0  
 **Requires PHP:** 7.0  
 **License:** GPLv3  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
@@ -112,6 +112,9 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 6. Manage cookie list.
 
 ## Change Log ##
+### 1.8.0 ###
+Fix: Issue related to auto-tick for non-necessary cookies.
+
 ### 1.7.9 ###
 Feature: Automatically accept cookie consent on scroll and close cookie notice (Option to configure - Allowed in some countries).
 Feature: Auto-hide cookie notice after delay (Can be configured).
@@ -171,6 +174,9 @@ Fix: Frontend translation issues for Cookie Categories and description.
 * Initial version
 
 ## Upgrade Notice ##
+### 1.8.0 ###
+Fix: Issue related to auto-tick for non-necessary cookies.
+
 ### 1.7.9 ###
 Feature: Automatically accept cookie consent on scroll and close cookie notice (Option to configure - Allowed in some countries).
 Feature: Auto-hide cookie notice after delay (Can be configured).

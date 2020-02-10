@@ -6,7 +6,7 @@
                 <input type="checkbox" id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_body_button gdpr_messagebar_body_button_disabled" disabled="disabled" checked="checked" value="{{ category['gdpr_cookie_category_slug'] }}">
             {% else %}
                 <input type="checkbox" id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_body_button"
-                {% if is_ticked %}
+                {% if is_ticked and not viewed_cookie %}
                     checked="checked"
                 {% elseif category['is_ticked'] %}
                     checked="checked"
