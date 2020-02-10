@@ -274,31 +274,33 @@ class Gdpr_Cookie_Consent_Public {
 				}
 			}
 
-            $categories         = Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true );
-            $cookies            = $this->get_cookies();
-            $categories_data    = array();
-            $preference_cookies = isset( $_COOKIE['wpl_user_preference'] ) ? json_decode( stripslashes( sanitize_text_field( wp_unslash( $_COOKIE['wpl_user_preference'] ) ) ), true ) : '';
-            foreach ( $categories as $category ) {
-                $total = 0;
-                $temp  = array();
-                foreach ( $cookies as $cookie ) {
-                    if ( $cookie['category_id'] === $category['id_gdpr_cookie_category'] ) {
-                        $total++;
-                        $temp[] = $cookie;
-                    }
-                }
-                $category['data']  = $temp;
-                $category['total'] = $total;
-                if ( isset( $preference_cookies[ $category['gdpr_cookie_category_slug'] ] ) && 'yes' === $preference_cookies[ $category['gdpr_cookie_category_slug'] ] ) {
-                    $category['is_ticked'] = true;
-                } else {
-                    $category['is_ticked'] = false;
-                }
-                $categories_data[] = $category;
-            }
+			$categories                   = Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true );
+			$cookies                      = $this->get_cookies();
+			$categories_data              = array();
+			$preference_cookies           = isset( $_COOKIE['wpl_user_preference'] ) ? json_decode( stripslashes( sanitize_text_field( wp_unslash( $_COOKIE['wpl_user_preference'] ) ) ), true ) : '';
+			$viewed_cookie                = isset( $_COOKIE['wpl_viewed_cookie'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wpl_viewed_cookie'] ) ) : '';
+			$the_options['viewed_cookie'] = $viewed_cookie;
+			foreach ( $categories as $category ) {
+				$total = 0;
+				$temp  = array();
+				foreach ( $cookies as $cookie ) {
+					if ( $cookie['category_id'] === $category['id_gdpr_cookie_category'] ) {
+						$total++;
+						$temp[] = $cookie;
+					}
+				}
+				$category['data']  = $temp;
+				$category['total'] = $total;
+				if ( isset( $preference_cookies[ $category['gdpr_cookie_category_slug'] ] ) && 'yes' === $preference_cookies[ $category['gdpr_cookie_category_slug'] ] ) {
+					$category['is_ticked'] = true;
+				} else {
+					$category['is_ticked'] = false;
+				}
+				$categories_data[] = $category;
+			}
 
 			if ( true === $the_options['button_4_is_on'] ) {
-				$cookie_data        = array();
+				$cookie_data               = array();
 				$cookie_data['categories'] = $categories_data;
 				$cookie_data['msg']        = $about_message;
 				$credit_link               = sprintf(
