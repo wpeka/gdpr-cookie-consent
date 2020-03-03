@@ -186,7 +186,17 @@ class Gdpr_Cookie_Consent_Public {
 		if ( true === $the_options['is_on'] ) {
 			$timber = new Timber\Timber();
 			// Output the HTML in the footer.
-			$message       = nl2br( $the_options['notify_message'] );
+			if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
+				$message                    = nl2br( $the_options['notify_message'] );
+				$the_options['gdpr_notify'] = true;
+			}
+			if ( 'ccpa' === $the_options['cookie_usage_for'] ) {
+				$message                       = nl2br( $the_options['notify_message_ccpa'] );
+				$the_options['ccpa_notify']    = true;
+				$the_options['optout_text']    = __( 'Do you really wish to opt-out?', 'gdpr-cookie-consent' );
+				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
+				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
+			}
 			$about_message = stripslashes( nl2br( $the_options['about_message'] ) );
 			$message       = stripslashes( $message );
 			$str           = $message;
@@ -202,78 +212,125 @@ class Gdpr_Cookie_Consent_Public {
 			if ( in_array( $template, $default_array, true ) ) {
 				$template = 'default';
 			}
-			$template                               = apply_filters( 'gdprcookieconsent_template', $template );
-			$the_options['str']                     = $str;
-			$the_options['head']                    = $head;
-			$the_options['version']                 = $this->version;
-			$the_options['show_again_container_id'] = $this->gdprcookieconsent_remove_hash( $the_options['show_again_div_id'] );
-			$the_options['container_id']            = $this->gdprcookieconsent_remove_hash( $the_options['notify_div_id'] );
-			$the_options['button_1_action_id']      = $this->gdprcookieconsent_remove_hash( $the_options['button_1_action'] );
-			$the_options['button_2_action_id']      = $this->gdprcookieconsent_remove_hash( $the_options['button_2_action'] );
-			$the_options['button_3_action_id']      = $this->gdprcookieconsent_remove_hash( $the_options['button_3_action'] );
-			$the_options['button_4_action_id']      = $this->gdprcookieconsent_remove_hash( $the_options['button_4_action'] );
+			$template                                 = apply_filters( 'gdprcookieconsent_template', $template );
+			$the_options['str']                       = $str;
+			$the_options['head']                      = $head;
+			$the_options['version']                   = $this->version;
+			$the_options['show_again_container_id']   = $this->gdprcookieconsent_remove_hash( $the_options['show_again_div_id'] );
+			$the_options['container_id']              = $this->gdprcookieconsent_remove_hash( $the_options['notify_div_id'] );
+			$the_options['button_accept_action_id']   = $this->gdprcookieconsent_remove_hash( $the_options['button_accept_action'] );
+			$the_options['button_readmore_action_id'] = $this->gdprcookieconsent_remove_hash( $the_options['button_readmore_action'] );
+			$the_options['button_decline_action_id']  = $this->gdprcookieconsent_remove_hash( $the_options['button_decline_action'] );
+			$the_options['button_settings_action_id'] = $this->gdprcookieconsent_remove_hash( $the_options['button_settings_action'] );
 
 			$the_options['backdrop'] = $the_options['popup_overlay'] ? 'static' : 'false';
 
-			$the_options['button_1_classes'] = 'gdpr_action_button ';
-			if ( $the_options['button_1_as_button'] ) {
-				switch ( $the_options['button_1_button_size'] ) {
+			$wpl_pro_active = get_option( 'wpl_pro_active' );
+			if ( $wpl_pro_active ) {
+				$credit_link_href = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/';
+			} else {
+				$credit_link_href = 'https://wordpress.org/plugins/gdpr-cookie-consent/';
+			}
+			if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
+				$credit_link_text = __( 'GDPR Cookie Consent Plugin', 'gdpr-cookie-consent' );
+			} elseif ( 'ccpa' === $the_options['cookie_usage_for'] ) {
+				$credit_link_text = __( 'CCPA Cookie Notice Plugin', 'gdpr-cookie-consent' );
+			}
+			$credit_link = sprintf(
+				/* translators: 1: GDPR Cookie Consent Plugin*/
+				__( 'Powered by %1$s', 'gdpr-cookie-consent' ),
+				'<a href="' . esc_url( $credit_link_href ) . '" id="cookie_credit_link" rel="nofollow noopener" target="_blank">' . $credit_link_text . '</a>'
+			);
+			// Commented below code for future implementation.
+			// $the_options['credits']           = $the_options['show_credits'] ? $credit_link : '';
+
+			$the_options['button_accept_classes'] = 'gdpr_action_button ';
+			if ( $the_options['button_accept_as_button'] ) {
+				switch ( $the_options['button_accept_button_size'] ) {
 					case 'medium':
-						$the_options['button_1_classes'] .= 'btn';
+						$the_options['button_accept_classes'] .= 'btn';
 						break;
 					case 'large':
-						$the_options['button_1_classes'] .= 'btn btn-lg';
+						$the_options['button_accept_classes'] .= 'btn btn-lg';
 						break;
 					case 'small':
-						$the_options['button_1_classes'] .= 'btn btn-sm';
+						$the_options['button_accept_classes'] .= 'btn btn-sm';
 						break;
 				}
 			}
-			$the_options['button_2_classes'] = '';
-			if ( $the_options['button_2_as_button'] ) {
-				switch ( $the_options['button_2_button_size'] ) {
+			$the_options['button_readmore_classes'] = '';
+			if ( $the_options['button_readmore_as_button'] ) {
+				switch ( $the_options['button_readmore_button_size'] ) {
 					case 'medium':
-						$the_options['button_2_classes'] .= 'btn';
+						$the_options['button_readmore_classes'] .= 'btn';
 						break;
 					case 'large':
-						$the_options['button_2_classes'] .= 'btn btn-lg';
+						$the_options['button_readmore_classes'] .= 'btn btn-lg';
 						break;
 					case 'small':
-						$the_options['button_2_classes'] .= 'btn btn-sm';
+						$the_options['button_readmore_classes'] .= 'btn btn-sm';
 						break;
 				}
 			} else {
-				$the_options['button_2_classes'] = 'gdpr_link_button';
+				$the_options['button_readmore_classes'] = 'gdpr_link_button';
 			}
-			$the_options['button_3_classes'] = 'gdpr_action_button ';
-			if ( $the_options['button_3_as_button'] ) {
-				switch ( $the_options['button_3_button_size'] ) {
+			$the_options['button_decline_classes'] = 'gdpr_action_button ';
+			if ( $the_options['button_decline_as_button'] ) {
+				switch ( $the_options['button_decline_button_size'] ) {
 					case 'medium':
-						$the_options['button_3_classes'] .= 'btn';
+						$the_options['button_decline_classes'] .= 'btn';
 						break;
 					case 'large':
-						$the_options['button_3_classes'] .= 'btn btn-lg';
+						$the_options['button_decline_classes'] .= 'btn btn-lg';
 						break;
 					case 'small':
-						$the_options['button_3_classes'] .= 'btn btn-sm';
+						$the_options['button_decline_classes'] .= 'btn btn-sm';
 						break;
 				}
 			}
-			$the_options['button_4_classes'] = 'gdpr_action_button ';
-			if ( $the_options['button_4_as_button'] ) {
-				switch ( $the_options['button_4_button_size'] ) {
+			$the_options['button_settings_classes'] = 'gdpr_action_button ';
+			if ( $the_options['button_settings_as_button'] ) {
+				switch ( $the_options['button_settings_button_size'] ) {
 					case 'medium':
-						$the_options['button_4_classes'] .= 'btn';
+						$the_options['button_settings_classes'] .= 'btn';
 						break;
 					case 'large':
-						$the_options['button_4_classes'] .= 'btn btn-lg';
+						$the_options['button_settings_classes'] .= 'btn btn-lg';
 						break;
 					case 'small':
-						$the_options['button_4_classes'] .= 'btn btn-sm';
+						$the_options['button_settings_classes'] .= 'btn btn-sm';
 						break;
 				}
 			}
-
+			$the_options['button_donotsell_classes'] = 'gdpr_action_button gdpr_link_button';
+			$the_options['button_confirm_classes']   = 'gdpr_action_button ';
+			if ( $the_options['button_accept_as_button'] ) {
+				switch ( $the_options['button_confirm_button_size'] ) {
+					case 'medium':
+						$the_options['button_confirm_classes'] .= 'btn';
+						break;
+					case 'large':
+						$the_options['button_confirm_classes'] .= 'btn btn-lg';
+						break;
+					case 'small':
+						$the_options['button_confirm_classes'] .= 'btn btn-sm';
+						break;
+				}
+			}
+			$the_options['button_cancel_classes'] = 'gdpr_action_button ';
+			if ( $the_options['button_cancel_as_button'] ) {
+				switch ( $the_options['button_cancel_button_size'] ) {
+					case 'medium':
+						$the_options['button_cancel_classes'] .= 'btn';
+						break;
+					case 'large':
+						$the_options['button_cancel_classes'] .= 'btn btn-lg';
+						break;
+					case 'small':
+						$the_options['button_cancel_classes'] .= 'btn btn-sm';
+						break;
+				}
+			}
 			$categories                   = Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true );
 			$cookies                      = $this->get_cookies();
 			$categories_data              = array();
@@ -299,15 +356,10 @@ class Gdpr_Cookie_Consent_Public {
 				$categories_data[] = $category;
 			}
 
-			if ( true === $the_options['button_4_is_on'] ) {
-				$cookie_data               = array();
-				$cookie_data['categories'] = $categories_data;
-				$cookie_data['msg']        = $about_message;
-				$credit_link               = sprintf(
-					/* translators: 1: GDPR Cookie Consent Plugin*/
-					__( 'Powered by %1$s', 'gdpr-cookie-consent' ),
-					'<a href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/" id="cookie_credit_link" target="_blank">' . __( 'GDPR Cookie Consent Plugin', 'gdpr-cookie-consent' ) . '</a>'
-				);
+			if ( true === $the_options['button_settings_is_on'] ) {
+				$cookie_data                      = array();
+				$cookie_data['categories']        = $categories_data;
+				$cookie_data['msg']               = $about_message;
 				$cookie_data['show_credits']      = $the_options['show_credits'];
 				$cookie_data['credits']           = $the_options['show_credits'] ? $credit_link : '';
 				$cookie_data['backdrop']          = $the_options['backdrop'];

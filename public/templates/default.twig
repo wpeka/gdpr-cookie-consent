@@ -5,60 +5,71 @@
         <div class="modal-content">
             <div class="modal-body">
 {% endif %}
-<!-- GDPR Cookie Consent – EU ICO Compliant v{{ version }} by WPEka Club - https://wordpress.org/plugins/gdpr-cookie-consent/ -->
+<!-- WP Cookie Notice for GDPR, CCPA & ePrivacy Consent v{{ version }} by WPEka Club - https://wordpress.org/plugins/gdpr-cookie-consent/ -->
 <div id="{{ container_id }}" class="{{ container_class }}">
-    <div class="gdpr_messagebar_content">
-        {% if head != '' %}
-            <h3 class="gdpr_messagebar_head">{{ __( head, 'gdpr-cookie-consent' ) }}</h3>
-        {% endif %}
-        <div class="group-description" tabindex="0">{{ __( str, 'gdpr-cookie-consent' ) }}
-        {% if button_2_is_on %}
-            <a id="cookie_action_link" href="{{ button_2_url }}" class="{{ button_2_classes }}"
-                    {% if button_2_new_win %}
-                        target="_blank"
-                    {% endif %}
-                >{{ button_2_text }}</a>
-        {% endif %}
-        </div>
-            {% if button_1_is_on %}
-                <a id="cookie_action_accept" class="{{ button_1_classes }}"
-                        {% if button_1_action == 'CONSTANT_OPEN_URL' %}
-                            href="{{ button_1_url }}"
-                            {% if button_1_new_win %}
+    {% if gdpr_notify %}
+        <div class="gdpr_messagebar_content">
+            {% if head != '' %}
+                <h3 class="gdpr_messagebar_head">{{ __( head, 'gdpr-cookie-consent' ) }}</h3>
+            {% endif %}
+            <div class="group-description" tabindex="0">{{ __( str, 'gdpr-cookie-consent' ) }}
+                {% if button_readmore_is_on %}
+                    <a id="cookie_action_link" href="{{ button_readmore_url }}" class="{{ button_readmore_classes }}"
+                            {% if button_readmore_new_win %}
+                                target="_blank"
+                            {% endif %}
+                    >{{ __( button_readmore_text, 'gdpr-cookie-consent' ) }}</a>
+                {% endif %}
+            </div>
+            {% if button_accept_is_on %}
+                <a id="cookie_action_accept" class="{{ button_accept_classes }}"
+                        {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_accept_url }}"
+                            {% if button_accept_new_win %}
                                 target="_blank"
                             {% endif %}
                         {% endif %}
-                   data-gdpr_action="accept" >{{ __( button_1_text, 'gdpr-cookie-consent' ) }}</a>
+                   data-gdpr_action="accept" >{{ __( button_accept_text, 'gdpr-cookie-consent' ) }}</a>
             {% endif %}
-            {% if button_3_is_on %}
-                <a id="cookie_action_reject" class="{{ button_3_classes }}"
-                    {% if button_3_action == 'CONSTANT_OPEN_URL' %}
-                        href="{{ button_3_url }}"
-                        {% if button_3_new_win %}
-                            target="_blank"
+            {% if button_decline_is_on %}
+                <a id="cookie_action_reject" class="{{ button_decline_classes }}"
+                        {% if button_decline_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_decline_url }}"
+                            {% if button_decline_new_win %}
+                                target="_blank"
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                   data-gdpr_action="reject" >{{ __( button_3_text, 'gdpr-cookie-consent' ) }}</a>
+                   data-gdpr_action="reject" >{{ __( button_decline_text, 'gdpr-cookie-consent' ) }}</a>
             {% endif %}
-            {% if button_4_is_on %}
-                <a id="cookie_action_settings" class="{{ button_4_classes }}"
-                    {% if not button_4_as_button %}
-                        href="#"
-                    {% endif %}
-                   {% if cookie_bar_as == 'banner' and not button_4_as_popup %}
-                       data-gdpr_action="show_settings"
-                   {% else %}
-                       data-gdpr_action="settings" data-toggle="modal" data-target="#gdpr-modal"
-                   {% endif %}
-                   >{{ __( button_4_text, 'gdpr-cookie-consent' ) }}</a>
+            {% if button_settings_is_on %}
+                <a id="cookie_action_settings" class="{{ button_settings_classes }}"
+                        {% if not button_settings_as_button %}
+                            href="#"
+                        {% endif %}
+                        {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
+                            data-gdpr_action="show_settings"
+                        {% else %}
+                            data-gdpr_action="settings" data-toggle="modal" data-target="#gdpr-modal"
+                        {% endif %}
+                >{{ __( button_settings_text, 'gdpr-cookie-consent' ) }}</a>
             {% endif %}
-    </div>
-    {% if cookie_data %}
-    {% if cookie_bar_as == 'banner' and not button_4_as_popup %}
-        <div class="gdpr_messagebar_detail" style="display:none;max-width:800px;">
-            {% include 'templates/banner.twig' with cookie_data %}
         </div>
-    {% endif %}
+        {% if cookie_data %}
+            {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
+                <div class="gdpr_messagebar_detail" style="display:none;max-width:800px;">
+                    {% include 'templates/banner.twig' with cookie_data %}
+                </div>
+            {% endif %}
+        {% endif %}
+    {% elseif ccpa_notify %}
+        <div class="gdpr_messagebar_content">
+            <div class="group-description" tabindex="0">{{ __( str, 'gdpr-cookie-consent' ) }}
+                {% if button_donotsell_is_on %}
+                    <a data-toggle="modal" href="#" class="{{ button_donotsell_classes }}" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+                    >{{ __( button_donotsell_text, 'gdpr-cookie-consent' ) }}</a>
+                {% endif %}
+            </div>
+        </div>
     {% endif %}
 </div>
 {% if cookie_bar_as == 'popup' %}
@@ -67,18 +78,37 @@
     </div>
 </div>
 {% endif %}
-{% if cookie_data %}
-        {% if cookie_bar_as == 'banner' and not button_4_as_popup %}
+{% if gdpr_notify %}
+    {% if cookie_data %}
+        {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
 
         {% else %}
             <div class="gdpr_messagebar_detail">
-            {% include 'templates/modal.twig' with cookie_data %}
+                {% include 'templates/modal.twig' with cookie_data %}
             </div>
         {% endif %}
 
-{% endif %}
-{% if show_again %}
-    <div id="{{ show_again_container_id }}">
-        <span>{{ show_again_text }}</span>
+    {% endif %}
+    {% if show_again %}
+        <div id="{{ show_again_container_id }}">
+            <span>{{ __( show_again_text, 'gdpr-cookie-consent' ) }}</span>
+        </div>
+    {% endif %}
+{% elseif ccpa_notify %}
+    <div class="modal fade" id="gdpr-ccpa-modal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">{{ __( optout_text, 'gdpr-cookie-consent' ) }}</div>
+                <div class="modal-footer">
+                    {% if show_credits %}
+                        {% if credits %}
+                            <div class="powered-by-credits">{{ credits }}</div>
+                        {% endif %}
+                    {% endif %}
+                    <button id="cookie_action_cancel" type="button" class="{{ button_cancel_classes }}" data-gdpr_action="cancel" data-dismiss="modal">{{ __( cancel_button, 'gdpr-cookie-consent' ) }}</button>
+                    <button id="cookie_action_confirm" type="button" class="{{ button_confirm_classes }}" data-gdpr_action="confirm" data-dismiss="modal">{{ __( confirm_button, 'gdpr-cookie-consent' ) }}</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endif %}

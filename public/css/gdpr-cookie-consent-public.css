@@ -455,6 +455,9 @@ Bootstrap CSS for frontend UI
 		max-width: 500px;
 		margin: 1.75rem auto;
 	}
+	#gdpr-ccpa-modal .modal-dialog {
+		max-width: 400px;
+	}
 	.modal-dialog-scrollable {
 		max-height: calc(100% - 3.5rem);
 	}
@@ -660,6 +663,12 @@ fieldset:disabled a.btn {
 	color: white;
 	position:absolute;
 	left:2%;
+}
+#gdpr-ccpa-modal .modal-dialog .modal-footer .powered-by-credits {
+	position: absolute;
+	right: 3%;
+	font-size: .55em;
+	bottom: 0;
 }
 
 .gdpr_messagebar_detail .category-group {
