@@ -72,7 +72,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	public function settings_general() {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
-			<tr valign="top">
+			<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
 				<th scope="row"><label for="about_message_field"><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?></label></th>
 				<td>
 					<?php

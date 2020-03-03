@@ -34,21 +34,7 @@ $design_sub_tab = apply_filters( 'gdprcookieconsent_design_sub_tabs', $design_su
 					<th scope="row"><label for="cookie_bar_as_field"><?php esc_attr_e( 'Cookie Bar as', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<select name="cookie_bar_as_field" class="vvv_combobox gdpr_form_toggle" gdpr_frm_tgl-target="gdpr_cookiebar_as">
-							<?php
-							if ( 'banner' === $the_options['cookie_bar_as'] ) {
-								?>
-								<option value="banner" selected="selected"><?php echo esc_attr__( 'Banner', 'gdpr-cookie-consent' ); ?></option>
-								<option value="popup"><?php echo esc_attr__( 'Popup', 'gdpr-cookie-consent' ); ?></option>
-								<option value="widget"><?php echo esc_attr__( 'Widget', 'gdpr-cookie-consent' ); ?></option>
-							<?php } elseif ( 'popup' === $the_options['cookie_bar_as'] ) { ?>
-								<option value="banner"><?php echo esc_attr__( 'Banner', 'gdpr-cookie-consent' ); ?></option>
-								<option value="popup" selected="selected"><?php echo esc_attr__( 'Popup', 'gdpr-cookie-consent' ); ?></option>
-								<option value="widget"><?php echo esc_attr__( 'Widget', 'gdpr-cookie-consent' ); ?></option>
-							<?php } else { ?>
-								<option value="banner"><?php echo esc_attr__( 'Banner', 'gdpr-cookie-consent' ); ?></option>
-								<option value="popup"><?php echo esc_attr__( 'Popup', 'gdpr-cookie-consent' ); ?></option>
-								<option value="widget" selected="selected"><?php echo esc_attr__( 'Widget', 'gdpr-cookie-consent' ); ?></option>
-							<?php } ?>
+							<?php $this->print_combobox_options( $this->get_cookie_design_options(), $the_options['cookie_bar_as'] ); ?>
 						</select>
 					</td>
 				</tr>

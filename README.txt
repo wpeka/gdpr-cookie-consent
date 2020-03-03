@@ -1,10 +1,10 @@
-=== GDPR Cookie Consent - EU ICO Compliant ===
+=== WP Cookie Notice for GDPR, CCPA & ePrivacy Consent ===
 Contributors: wpeka-club
 Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
-Tags: eu cookie law, GDPR, cookie law, cookie consent, eu privacy directive, privacy directive, cookies, privacy, compliance
+Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify
 Requires at least: 3.3.1
 Tested up to: 5.3.2
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -112,6 +112,12 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 6. Manage cookie list.
 
 == Change Log ==
+= 1.8.1 =
+Feature: Plugin updated to address CCPA Do Not Sell Requirements.
+Feature: Option added to reload the page after accepting the notice.
+Feature: Option to set cookie expiry time for the GDPR consent given by users.
+Feature: Option to set on scroll offset.
+
 = 1.8.0 =
 Fix: Issue related to auto-tick for non-necessary cookies.
 
@@ -155,7 +161,7 @@ Fix: Frontend translation issues for Cookie Categories and description.
 * Update: Added support for SCRIPT_DEBUG.
 
 = 1.5 =
-* Updat: Accept All button on consent bar
+* Update: Accept All button on consent bar
 
 = 1.4 =
 * Feature: Accept All button on consent bar
@@ -174,6 +180,12 @@ Fix: Frontend translation issues for Cookie Categories and description.
 * Initial version
 
 == Upgrade Notice ==
+= 1.8.1 =
+Feature: Plugin updated to address CCPA Do Not Sell Requirements.
+Feature: Option added to reload the page after accepting the notice.
+Feature: Option to set cookie expiry time for the GDPR consent given by users.
+Feature: Option to set on scroll offset.
+
 = 1.8.0 =
 Fix: Issue related to auto-tick for non-necessary cookies.
 

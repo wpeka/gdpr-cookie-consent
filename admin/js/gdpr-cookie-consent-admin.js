@@ -239,7 +239,71 @@
 					$( '.gdpr_bar_state tr.gdpr_bar_off' ).show();
 				}
 			}
-			var gdpr_form_toggler =
+			var gdpr_tab_form_toggler = {
+				set:function() {
+					$( 'select.gdpr_tab_form_toggle' ).each(
+						function(){
+							gdpr_tab_form_toggler.toggle( $( this ) );
+						}
+					);
+					$( 'select.gdpr_tab_form_toggle' ).change(
+						function(){
+							gdpr_tab_form_toggler.toggle( $( this ) );
+						}
+					);
+				},
+				toggle:function(elm) {
+					var vl            = elm.val();
+					var gdpr_tab_head = $( '.gdpr-cookie-consent-tab-head' );
+					if ( vl == 'gdpr' ) {
+						gdpr_tab_head.find( "a[href='#gdpr-cookie-consent-cookie-list']" ).show();
+						gdpr_tab_head.find( "a[href='#gdpr-cookie-consent-script-blocker']" ).show();
+					} else if ( vl == 'ccpa' ) {
+						gdpr_tab_head.find( "a[href='#gdpr-cookie-consent-cookie-list']" ).hide();
+						gdpr_tab_head.find( "a[href='#gdpr-cookie-consent-script-blocker']" ).hide();
+					}
+					var trgt = elm.attr( 'gdpr_tab_frm_tgl-target' );
+					$( '[gdpr_tab_frm_tgl-id="' + trgt + '"]' ).hide();
+					var target_ids = $( '[gdpr_tab_frm_tgl-id="' + trgt + '"]' ).filter(
+						function(){
+							return $( '[gdpr_tab_frm_tgl-id="' + trgt + '"]' );
+						}
+					);
+					target_ids.each(
+						function(){
+							var target_id  = $( this ).attr( 'data-id' );
+							var target_elm = $( "li[data-target='" + target_id + "']" );
+							if (target_id == 'design-template') {
+								$( "li[data-target='design-general']" ).trigger( 'click' );
+							}
+							target_elm.hide();
+						}
+					);
+
+					var selcted_trget = $( '[gdpr_tab_frm_tgl-id="' + trgt + '"]' ).filter(
+						function(){
+							return $( this ).attr( 'gdpr_tab_frm_tgl-val' ) == vl;
+						}
+					);
+					selcted_trget.each(
+						function(){
+							var target_id  = $( this ).attr( 'data-id' );
+							var target_elm = $( "li[data-target='" + target_id + "']" );
+							target_elm.show();
+							if (target_id == 'confirm-button' || target_id == 'accept-button' ) {
+								target_elm.css( 'border-left','none' );
+								target_elm.css( 'padding-left','0px' );
+								target_elm.trigger( 'click' );
+							} else {
+								target_elm.css( 'border-left', 'solid 1px #ccc' );
+							}
+							// $(this).show();
+						}
+					);
+				}
+			}
+			gdpr_tab_form_toggler.set();
+			var gdpr_form_toggler     =
 			{
 				set:function()
 				{
@@ -319,18 +383,6 @@
 						}
 					);
 					selcted_trget.show();
-					selcted_trget.find( 'th' ).each(
-						function(){
-							var prnt    = $( this ).parent( 'tr' );
-							var sub_lvl = 1;
-							if (typeof prnt.attr( 'gdpr_frm_tgl-lvl' ) !== typeof undefined && prnt.attr( 'gdpr_frm_tgl-lvl' ) !== false) {
-								sub_lvl = prnt.attr( 'gdpr_frm_tgl-lvl' );
-							}
-							var lft_margin = sub_lvl;
-							$( this ).find( 'label' ).css( {'margin-left':'0px'} ).stop( true,true ).animate( {'margin-left':lft_margin + 'px'} );
-						}
-					);
-
 				}
 			}
 
