@@ -9,27 +9,61 @@
 **License:** GPLv3  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
 
-Get granular, category wise GDPR Cookie Consent as per EU GDPR/Cookie Law regulations. Style it to match your own website.
+The only WordPress plugin that helps you comply with the EU GDPR's cookie consent and CCPA's "Do Not Sell" Opt-Out regulations.
 
 ## Description ##
 
-Looking to comply with the GDPR Cookie Policy?
+The only WordPress plugin that helps you comply with the EU GDPR's cookie consent and CCPA's "Do Not Sell" Opt-Out regulations.
 
-GDPR Cookie Consent helps you comply in the following ways:
+- Get visitor consent for cookies using a fully customizable cookie consent bar on your website. Helps you comply with <acronym title="European Union General Data Protection Regulation">EU GDPR</acronym>.
+- Display a fully customizable notice with a 'Do Not Sell' link on your website. Helps you comply with <acronym title="California Consumer Protection Act">CCPA</acronym>.
+
+> This plugin is the closest that I have found to complying with all of the new regulation guidance and is the easiest to implement.
+>
+> <cite>Victoria Etherington, thewebsitementor.com</cite>
+
+### How can this plugin help you comply with GDPR? ###
+The cookies and [ePrivacy Directive](https://edps.europa.eu/data-protection/our-work/subjects/eprivacy-directive_en) was passed in 2002 and amended in 2009 by the EU. According to the directive &ndash;
+
+> Cookies when used to identify users, qualify as personal data and are therefore subject to the GDPR. Companies do have a right to process their users' data as long as they receive consent.
+>
+> <cite>[gdpr.eu](https://gdpr.eu/cookies/)</cite>
+
+Further the to comply with the regulations governing cookies and the ePrivacy directive you must &ndash;
+
+- Get consent from users before you use any cookies (other than necessary cookies).
+- Explain in plain language what cookies are used, and what information each cookie tracks, before getting consent.
+- Maintain a log of consent received from users.
+- Allow access to your website, even if users do not consent to non-necessary cookies.
+- Allow users to withdraw or change consent
+
+The WP Cookie Notice for GDPR, CCPA & ePrivacy Consent plugin helps you comply with the GDPR in the following ways:
 
 - Provides an easy-to-use admin area in the WordPress dashboard, where you can add details of cookies used on your website. You can also classify cookies into 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified' categories.
-
 - Shows a cookie consent notice on the website. The cookie notice shows 'Accept' & 'Decline' buttons.
+- Users can choose to 'Accept' or 'Decline' the use of cookies. Users can also choose to consent to use of cookies from a specific category.
+- Keeps a searchable log of consents given by all website users (Pro version only).
+- Allows users to withdraw or change their consent level (Pro version only).
 
-- Users can choose to 'Accept' or 'Decline' the use of cookies. They can also choose to consent to use of cookies from a specific category i.e 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified'.
+### How can this plugin help you comply with CCPA? ###
 
-<blockquote>
+The California Consumer Protection Act (CCPA) came into effect on 1<sup>st</sup> January 2020.
 
-The GDPR Cookie Consent plugin is the closest that I have found to complying with all of the new GDPR guidance and is the easiest to implement.
+Under CCPA and the Nevada Privacy Act,
 
-<cite>Victoria Etherington, thewebsitementor.com</cite>
+> A business that collects a consumer’s personal information shall, at or before the point of collection, inform consumers as to the categories of personal information to be collected and the purposes for which the categories of personal information shall be used.
 
-</blockquote>
+and,
+
+> Provide a clear and conspicuous link on the business’s Internet homepage, titled “Do Not Sell My Personal Information,” to an Internet Web page that enables a consumer, or a person authorized by the consumer, to opt-out of the sale of the consumer’s personal information.
+
+The WP Cookie Notice for GDPR, CCPA & ePrivacy Consent plugin helps you comply with the CCPA in the following ways:
+
+- Provides an easy-to-use admin area in the WordPress dashboard, where you can add details of cookies used on your website. You can also classify cookies into 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified' categories.
+- Displays the cookies in your CCPA privacy policy or anywhere on your website, along with categories with an easy to use WordPress shortcode.
+- Displays a “Do Not Sell My Personal Information” link on the homepage which can be pointed to a custom page, where a user can request to opt-out of the sale of the user’s personal information.
+- Keeps a searchable log of consents given by all website users (Pro version only).
+
 
 ## Features ##
 
@@ -55,31 +89,28 @@ The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPr
 
 - Show cookie information on your privacy policy or any other page with an easy to use WordPress shortcode. `[wpl_cookie_details]`
 
-<blockquote>
+> = GDPR Cookie Consent Pro Version Features =
+>
+> - Manage cookie list (name, ID, description, duration, type & category).
+>
+> - One-click cookie scan, so you don't have to manually enter cookie list details.
+>
+> - Automatically fills cookie information for all known cookies.
+>
+> - Continuously updated known cookie information database.
+>
+> - Log cookie consent and export consent log report as a csv file.
+>
+> - Geo-coding to detect visitor's location & optionally show/hide the cookie notice bar.
+>
+> - Fully customisable to match your website's design.
+>
+> - Ready to use, pre-designed templates for cookie consent notice.
+>
+> - Language support and translations for - French, Dutch, Czech, Spanish, Slovenian, Icelandic, Bulgaria, Deutsch, Danish, Croatian.
+>
+> See the [complete list of features here](https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=wporg&utm_campaign=gdpr-cookie-consent&utm_content=gdpr-cookie-consent-pro-plugin).
 
-### GDPR Cookie Consent Pro Version Features ###
-
-&#9745; Manage cookie list (name, ID, description, duration, type & category).
-
-&#9745; One-click cookie scan, so you don't have to manually enter cookie list details.
-
-&#9745; Automatically fills cookie information for all known cookies.
-
-&#9745; Continuously updated known cookie information database.
-
-&#9745; Log cookie consent and export consent log report as a csv file.
-
-&#9745; Geo-coding to detect visitor's location & optionally show/hide the cookie notice bar.
-
-&#9745; Fully customisable to match your website's design.
-
-&#9745; Ready to use, pre-designed templates for cookie consent notice.
-
-&#9745; Language support and translations for - French, Dutch, Czech, Spanish, Slovenian, Icelandic, Bulgaria, Deutsch, Danish, Croatian.
-
-For complete list of features and details, please visit the <a href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=wporg&utm_campaign=gdpr-cookie-consent&utm_content=gdpr-cookie-consent-pro-plugin">GDPR Cookie Consent Pro Plugin</a> product page.
-
-</blockquote>
 
 ## Installation ##
 
@@ -113,32 +144,32 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 
 ## Change Log ##
 ### 1.8.1 ###
-Feature: Plugin updated to address CCPA Do Not Sell Requirements.
-Feature: Option added to reload the page after accepting the notice.
-Feature: Option to set cookie expiry time for the GDPR consent given by users.
-Feature: Option to set on scroll offset.
+* Feature: Plugin updated to address CCPA Do Not Sell Requirements.
+* Feature: Option added to reload the page after accepting the notice.
+* Feature: Option to set cookie expiry time for the GDPR consent given by users.
+* Feature: Option to set on scroll offset.
 
 ### 1.8.0 ###
-Fix: Issue related to auto-tick for non-necessary cookies.
+* Fix: Issue related to auto-tick for non-necessary cookies.
 
 ### 1.7.9 ###
-Feature: Automatically accept cookie consent on scroll and close cookie notice (Option to configure - Allowed in some countries).
-Feature: Auto-hide cookie notice after delay (Can be configured).
-Feature: Provide option for user to change prior consent.
+* Feature: Automatically accept cookie consent on scroll and close cookie notice (Option to configure - Allowed in some countries).
+* Feature: Auto-hide cookie notice after delay (Can be configured).
+* Feature: Provide option for user to change prior consent.
 
 ### 1.7.8 ###
-Update: Improvements in Cookie notice display design.
+* Update: Improvements in Cookie notice display design.
 
 ### 1.7.6 ###
-Feature: Added multiple options to display Cookie consent notice on frontend - Banner/Popup/Widget.
-Feature: Added opacity option for Cookie consent notice.
-Feature: Customization options for Cookie Settings Button.
-Update: Display Cookie consent details for categories in Popup on frontend.
-Update: Updated translations.
-Update: Made compatible with WordPress 5.3.2.
+* Feature: Added multiple options to display Cookie consent notice on frontend - Banner/Popup/Widget.
+* Feature: Added opacity option for Cookie consent notice.
+* Feature: Customization options for Cookie Settings Button.
+* Update: Display Cookie consent details for categories in Popup on frontend.
+* Update: Updated translations.
+* Update: Made compatible with WordPress 5.3.2.
 
 ### 1.7.5 ###
-Fix: Frontend translation issues for Cookie Categories and description.
+* Fix: Frontend translation issues for Cookie Categories and description.
 
 ### 1.7.4 ###
 * Feature: Added Cookie Bar position.
@@ -181,31 +212,31 @@ Fix: Frontend translation issues for Cookie Categories and description.
 
 ## Upgrade Notice ##
 ### 1.8.1 ###
-Feature: Plugin updated to address CCPA Do Not Sell Requirements.
-Feature: Option added to reload the page after accepting the notice.
-Feature: Option to set cookie expiry time for the GDPR consent given by users.
-Feature: Option to set on scroll offset.
+* Feature: Plugin updated to address CCPA Do Not Sell Requirements.
+* Feature: Option added to reload the page after accepting the notice.
+* Feature: Option to set cookie expiry time for the GDPR consent given by users.
+* Feature: Option to set on scroll offset.
 
 ### 1.8.0 ###
-Fix: Issue related to auto-tick for non-necessary cookies.
+* Fix: Issue related to auto-tick for non-necessary cookies.
 
 ### 1.7.9 ###
-Feature: Automatically accept cookie consent on scroll and close cookie notice (Option to configure - Allowed in some countries).
-Feature: Auto-hide cookie notice after delay (Can be configured).
-Feature: Provide option for user to change prior consent.
+* Feature: Automatically accept cookie consent on scroll and close cookie notice (Option to configure - Allowed in some countries).
+* Feature: Auto-hide cookie notice after delay (Can be configured).
+* Feature: Provide option for user to change prior consent.
 
 ### 1.7.8 ###
-Update: Improvements in Cookie notice display design.
+* Update: Improvements in Cookie notice display design.
 
 ### 1.7.6 ###
-Feature: Added multiple options to display Cookie consent notice on frontend - Banner/Popup/Widget.
-Feature: Added opacity option for Cookie consent notice.
-Update: Customization options for Cookie Settings Button.
-Update: Display Cookie consent details for categories in Popup on frontend.
-Update: Made compatible with WordPress 5.3.2.
+* Feature: Added multiple options to display Cookie consent notice on frontend - Banner/Popup/Widget.
+* Feature: Added opacity option for Cookie consent notice.
+* Update: Customization options for Cookie Settings Button.
+* Update: Display Cookie consent details for categories in Popup on frontend.
+* Update: Made compatible with WordPress 5.3.2.
 
 ### 1.7.5 ###
-Fix: Frontend translation issues for Cookie Categories and description.
+* Fix: Frontend translation issues for Cookie Categories and description.
 
 ### 1.7.4 ###
 * Feature = Added Cookie Bar position.
