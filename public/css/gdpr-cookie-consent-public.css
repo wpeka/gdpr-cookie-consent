@@ -53,6 +53,15 @@
 	font-size: inherit;
 	line-height: inherit;
 }
+#gdpr-cookie-consent-bar.ccpa.gdpr-banner .gdpr_messagebar_content .group-description {
+	text-align: center;
+}
+#gdpr-cookie-consent-bar.ccpa.gdpr-popup .gdpr_messagebar_content .group-description {
+	padding: 0;
+}
+#gdpr-cookie-consent-bar.ccpa .gdpr_messagebar_content .group-description {
+	padding: 10px 0;
+}
 .gdpr-plugin-button, .gdpr-plugin-button:visited {
 	display: inline-block;
 	padding:10px 16px 10px;
