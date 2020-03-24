@@ -438,13 +438,13 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function get_cookie_expiry_options() {
 		$options = array(
-			__( 'An hour', 'gdpr-cookie-consent' )  => number_format( 1 / 24, 2 ),
-			__( '1 Day', 'gdpr-cookie-consent' )    => 1,
-			__( '1 Week', 'gdpr-cookie-consent' )   => 7,
-			__( '1 Month', 'gdpr-cookie-consent' )  => 30,
-			__( '3 Months', 'gdpr-cookie-consent' ) => 90,
-			__( '6 Months', 'gdpr-cookie-consent' ) => 180,
-			__( '1 Year', 'gdpr-cookie-consent' )   => 365,
+			__( 'An hour', 'gdpr-cookie-consent' )  => '' . number_format( 1 / 24, 2 ) . '',
+			__( '1 Day', 'gdpr-cookie-consent' )    => '1',
+			__( '1 Week', 'gdpr-cookie-consent' )   => '7',
+			__( '1 Month', 'gdpr-cookie-consent' )  => '30',
+			__( '3 Months', 'gdpr-cookie-consent' ) => '90',
+			__( '6 Months', 'gdpr-cookie-consent' ) => '180',
+			__( '1 Year', 'gdpr-cookie-consent' )   => '365',
 		);
 		$options = apply_filters( 'gdprcookieconsent_cookie_expiry_options', $options );
 		return $options;

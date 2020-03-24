@@ -200,20 +200,20 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 					<th scope="row"><label for="button_settings_as_button_field"><?php esc_attr_e( 'Show as', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="radio" id="button_settings_as_button_field_yes" name="button_settings_as_button_field" class="styled gdpr_form_toggle" gdpr_frm_tgl-target="gdpr_settings_type" value="true" <?php echo ( true === $the_options['button_settings_as_button'] ) ? ' checked="checked"' : ' '; ?>  /> <?php esc_attr_e( 'Button', 'gdpr-cookie-consent' ); ?>
-						<input type="radio" id="button_4_as_button_field_no" name="button_4_as_button_field" class="styled gdpr_form_toggle" gdpr_frm_tgl-target="gdpr_settings_type" value="false" <?php echo ( false === $the_options['button_4_as_button'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'Link', 'gdpr-cookie-consent' ); ?>
+						<input type="radio" id="button_settings_as_button_field_no" name="button_settings_as_button_field" class="styled gdpr_form_toggle" gdpr_frm_tgl-target="gdpr_settings_type" value="false" <?php echo ( false === $the_options['button_settings_as_button'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'Link', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_settings_type" gdpr_frm_tgl-val="true">
-					<th scope="row"><label for="button_4_button_color_field"><?php esc_attr_e( 'Background color', 'gdpr-cookie-consent' ); ?></label></th>
+					<th scope="row"><label for="button_settings_button_color_field"><?php esc_attr_e( 'Background color', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<input type="text" name="button_4_button_color_field" id="gdpr-color-btn-button-settings" value="<?php echo esc_attr( $the_options['button_4_button_color'] ); ?>" class="gdpr-color-field" />
+						<input type="text" name="button_settings_button_color_field" id="gdpr-color-btn-button-settings" value="<?php echo esc_attr( $the_options['button_settings_button_color'] ); ?>" class="gdpr-color-field" />
 					</td>
 				</tr>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_settings_type" gdpr_frm_tgl-val="true">
-					<th scope="row"><label for="button_4_button_size_field"><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?></label></th>
+					<th scope="row"><label for="button_settings_button_size_field"><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<select name="button_4_button_size_field" class="vvv_combobox">
-							<?php $this->print_combobox_options( $this->get_button_sizes(), $the_options['button_4_button_size'] ); ?>
+						<select name="button_settings_button_size_field" class="vvv_combobox">
+							<?php $this->print_combobox_options( $this->get_button_sizes(), $the_options['button_settings_button_size'] ); ?>
 						</select>
 					</td>
 				</tr>

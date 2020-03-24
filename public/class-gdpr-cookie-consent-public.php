@@ -338,12 +338,15 @@ class Gdpr_Cookie_Consent_Public {
 			$viewed_cookie                = isset( $_COOKIE['wpl_viewed_cookie'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wpl_viewed_cookie'] ) ) : '';
 			$the_options['viewed_cookie'] = $viewed_cookie;
 			foreach ( $categories as $category ) {
-				$total = 0;
-				$temp  = array();
+				$total     = 0;
+				$temp      = array();
+				$json_temp = array();
 				foreach ( $cookies as $cookie ) {
 					if ( $cookie['category_id'] === $category['id_gdpr_cookie_category'] ) {
 						$total++;
-						$temp[] = $cookie;
+						$temp[]                = $cookie;
+						$cookie['description'] = str_replace( '"', '\"', $cookie['description'] );
+						$json_temp[]           = $cookie;
 					}
 				}
 				$category['data']  = $temp;
@@ -353,7 +356,9 @@ class Gdpr_Cookie_Consent_Public {
 				} else {
 					$category['is_ticked'] = false;
 				}
-				$categories_data[] = $category;
+				$categories_data[]      = $category;
+				$category['data']       = $json_temp;
+				$categories_json_data[] = $category;
 			}
 
 			if ( true === $the_options['button_settings_is_on'] ) {
@@ -389,7 +394,7 @@ class Gdpr_Cookie_Consent_Public {
 			?>
 			<script type="text/javascript">
 				/* <![CDATA[ */
-				gdpr_cookies_list = '<?php echo wp_json_encode( $categories_data ); ?>';
+				gdpr_cookies_list = '<?php echo str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
 				gdpr_cookiebar_settings='<?php echo Gdpr_Cookie_Consent::gdpr_get_json_settings(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
 				/* ]]> */
 			</script>
