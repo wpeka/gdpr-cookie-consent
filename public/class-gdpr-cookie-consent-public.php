@@ -389,7 +389,7 @@ class Gdpr_Cookie_Consent_Public {
 			?>
 			<script type="text/javascript">
 				/* <![CDATA[ */
-				gdpr_cookies_list = '<?php echo wp_json_encode( $categories_data ); ?>';
+				gdpr_cookies_list = '<?php echo str_replace( "'", "\'", wp_json_encode( $categories_data ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
 				gdpr_cookiebar_settings='<?php echo Gdpr_Cookie_Consent::gdpr_get_json_settings(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
 				/* ]]> */
 			</script>
