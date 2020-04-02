@@ -36,7 +36,7 @@ $pro_link = sprintf(
 	</div>
 	<h2><?php esc_attr_e( '2. Customize the Cookie Banner Content', 'gdpr-cookie-consent' ); ?></h2>
 	<div>
-		<p><?php esc_attr_e( 'You can completely customize the cookie banner content to match your website’s content style. Set the consent notice usage to GDPR and control how and when the banner appears to website visitors.k.', 'gdpr-cookie-consent' ); ?></p>
+		<p><?php esc_attr_e( 'You can completely customize the cookie banner content to match your website’s content style. Set the consent notice usage to GDPR and control how and when the banner appears to website visitors.', 'gdpr-cookie-consent' ); ?></p>
 		<p><?php esc_attr_e( 'Note: Set the usage to CCPA and update the content accordingly to display the CCPA “Do Not Sell” notice.', 'gdpr-cookie-consent' ); ?></p>
 		<a class="button button-primary" href="<?php echo esc_url( admin_url() . 'admin.php?page=gdpr-cookie-consent' ); ?>" target="_blank"><?php esc_attr_e( 'Customize Content', 'gdpr-cookie-consent' ); ?></a>
 	</div>

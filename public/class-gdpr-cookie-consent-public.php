@@ -419,10 +419,21 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Returns policy data for shortcode wpl_cookie_details.
 	 *
-	 * @since 1.9
-	 * @return string
+	 * @param Array $atts Shortcode attributes.
+	 * @return string|void
 	 */
-	public function gdprcookieconsent_shortcode_cookie_details() {
+	public function gdprcookieconsent_shortcode_cookie_details( $atts ) {
+		if ( is_admin() ) {
+			return;
+		}
+		$atts                = shortcode_atts(
+			array(
+				'border_color' => '#767676',
+			),
+			$atts
+		);
+		$border_color        = isset( $atts['border_color'] ) ? $atts['border_color'] : '#767676';
+		$styles              = 'border: 1px solid ' . $border_color;
 		$args                = array(
 			'numberposts' => -1,
 			'post_type'   => 'gdprpolicies',
@@ -431,18 +442,18 @@ class Gdpr_Cookie_Consent_Public {
 		$content             = '';
 		if ( is_array( $wp_legalpolicy_data ) && ! empty( $wp_legalpolicy_data ) ) {
 			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
-			$content .= "<div style='overflow-x:scroll;overflow:auto;' class='wp_legalpolicy'>";
-			$content .= "<table style='width:100%;margin:0 auto;'>";
+			$content .= "<div class='wp_legalpolicy'>";
+			$content .= '<table>';
 			$content .= '<thead>';
-			$content .= '<th>Third Party Companies</th><th>Purpose</th><th>Applicable Privacy/Cookie Policy Link</th>';
+			$content .= "<th style='" . $styles . "'>Third Party Companies</th><th style='" . $styles . "'>Purpose</th><th style='" . $styles . "'>Applicable Privacy/Cookie Policy Link</th>";
 			$content .= '</thead>';
 			$content .= '<tbody>';
 			foreach ( $wp_legalpolicy_data as $policypost ) {
 				$content .= '<tr>';
-				$content .= '<td>' . $policypost->post_title . '</td>';
-				$content .= '<td>' . $policypost->post_content . '</td>';
+				$content .= "<td style='" . $styles . "'>" . $policypost->post_title . '</td>';
+				$content .= "<td style='" . $styles . "'>" . $policypost->post_content . '</td>';
 				$links    = get_post_meta( $policypost->ID, '_gdpr_policies_links_editor' );
-				$content .= '<td>' . $links[0] . '</td>';
+				$content .= "<td style='" . $styles . "'>" . $links[0] . '</td>';
 				$content .= '</tr>';
 			}
 			$content .= '</tbody></table></div>';

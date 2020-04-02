@@ -417,6 +417,8 @@ class Gdpr_Cookie_Consent_Admin {
 
 	/**
 	 * Getting started page.
+	 *
+	 * @since 1.8.4
 	 */
 	public function gdpr_getting_started() {
 		// Lock out non-admins.
@@ -426,6 +428,88 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_enqueue_style( $this->plugin_name );
 		require_once plugin_dir_path( __FILE__ ) . 'views/admin-display-getting-started.php';
 	}
+
+	/**
+	 * Register block.
+	 *
+	 * @since 1.8.4
+	 */
+	public function gdpr_register_block_type() {
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
+		}
+		wp_enqueue_style(
+			$this->plugin_name . '-block',
+			plugin_dir_url( __FILE__ ) . 'css/gdpr-admin-block' . WPADCENTER_SCRIPT_SUFFIX . '.css',
+			array(),
+			$this->version,
+			'all'
+		);
+		wp_enqueue_script(
+			$this->plugin_name . '-block',
+			plugin_dir_url( __FILE__ ) . 'js/blocks/gdpr-admin-block.js',
+			array(
+				'jquery',
+				'wp-blocks',
+				'wp-i18n',
+				'wp-editor',
+				'wp-element',
+				'wp-components',
+			),
+			$this->version,
+			false
+		);
+		register_block_type(
+			'gdpr/block',
+			array(
+				'editor_script'   => $this->plugin_name . '-block',
+				'render_callback' => array( $this, 'gdpr_block_render_callback' ),
+				'attributes'      => [
+					'borderColor' => [
+						'type' => 'string,',
+					],
+				],
+			)
+		);
+	}
+
+	/**
+	 * Render callback for block.
+	 *
+	 * @since 1.8.4
+	 * @param Array $atts Block attributes.
+	 * @return string
+	 */
+	public function gdpr_block_render_callback( $atts ) {
+		$border_color        = isset( $atts['borderColor'] ) ? $atts['borderColor'] : '#767676';
+		$styles              = 'border: 1px solid ' . $border_color;
+		$args                = array(
+			'numberposts' => -1,
+			'post_type'   => 'gdprpolicies',
+		);
+		$wp_legalpolicy_data = get_posts( $args );
+		$content             = '';
+		if ( is_array( $wp_legalpolicy_data ) && ! empty( $wp_legalpolicy_data ) ) {
+			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
+			$content .= "<div class='wp_legalpolicy'>";
+			$content .= '<table>';
+			$content .= '<thead>';
+			$content .= "<th style='" . $styles . "'>Third Party Companies</th><th style='" . $styles . "'>Purpose</th><th style='" . $styles . "'>Applicable Privacy/Cookie Policy Link</th>";
+			$content .= '</thead>';
+			$content .= '<tbody>';
+			foreach ( $wp_legalpolicy_data as $policypost ) {
+				$content .= '<tr>';
+				$content .= "<td style='" . $styles . "'>" . $policypost->post_title . '</td>';
+				$content .= "<td style='" . $styles . "'>" . $policypost->post_content . '</td>';
+				$links    = get_post_meta( $policypost->ID, '_gdpr_policies_links_editor' );
+				$content .= "<td style='" . $styles . "'>" . $links[0] . '</td>';
+				$content .= '</tr>';
+			}
+			$content .= '</tbody></table></div>';
+		}
+		return $content;
+	}
+
 	/**
 	 * Prints a combobox based on options and selected=match value.
 	 *
