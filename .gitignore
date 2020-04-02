@@ -7,7 +7,6 @@ package-lock.json
 composer.lock
 vendor/
 node_modules/
-languages/*.pot
 admin/css/*.min.css
 admin/js/*.min.js
 admin/modules/cookie-custom/assets/js/*.min.js

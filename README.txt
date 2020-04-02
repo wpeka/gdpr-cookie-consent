@@ -145,6 +145,7 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 == Change Log ==
 = 1.8.4 =
 * Update: Added Getting Started page.
+* Feature: Added Gutenberg block for Cookie details.
 
 = 1.8.3 =
 * Fix: Cookie Expiry and Settings Button option save functionality issue.
@@ -223,6 +224,7 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 == Upgrade Notice ==
 = 1.8.4 =
 * Update: Added Getting Started page.
+* Feature: Added Gutenberg block for Cookie details.
 
 = 1.8.3 =
 * Fix: Cookie Expiry and Settings Button option save functionality issue.

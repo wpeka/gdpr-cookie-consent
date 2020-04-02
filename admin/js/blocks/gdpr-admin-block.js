@@ -23,18 +23,7 @@
 			__( 'cookie' ),
 			__( 'cookie links' )
 			],
-			attributes:  {
-				borderColor : {
-					type: 'string',
-				}
-			},
 			edit( props ){
-				const attributes    = props.attributes;
-				const setAttributes = props.setAttributes;
-
-				function changeBorderColor(borderColor){
-					setAttributes( {borderColor} );
-				}
 				return createElement(
 					'div',
 					{},
@@ -46,30 +35,6 @@
 							block: 'gdpr/block',
 							key:'gdpr'
 						}
-					),
-					// Block inspector.
-					createElement(
-						InspectorControls,
-						{
-							key:'sidebar'
-						},
-						[
-							createElement(
-								PanelColorSettings,
-								{
-									title: 'Table Border',
-									colorSettings: [
-										{
-											value: attributes.borderColor,
-											label: 'Border color',
-											onChange: changeBorderColor,
-											key: 'bordercolor',
-									},
-									],
-									key: 'color',
-								}
-							)
-						]
 					)
 					]
 				)

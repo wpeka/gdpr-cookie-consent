@@ -438,13 +438,6 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
-		wp_enqueue_style(
-			$this->plugin_name . '-block',
-			plugin_dir_url( __FILE__ ) . 'css/gdpr-admin-block' . WPADCENTER_SCRIPT_SUFFIX . '.css',
-			array(),
-			$this->version,
-			'all'
-		);
 		wp_enqueue_script(
 			$this->plugin_name . '-block',
 			plugin_dir_url( __FILE__ ) . 'js/blocks/gdpr-admin-block.js',
@@ -464,11 +457,6 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'editor_script'   => $this->plugin_name . '-block',
 				'render_callback' => array( $this, 'gdpr_block_render_callback' ),
-				'attributes'      => [
-					'borderColor' => [
-						'type' => 'string,',
-					],
-				],
 			)
 		);
 	}
@@ -477,12 +465,13 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Render callback for block.
 	 *
 	 * @since 1.8.4
-	 * @param Array $atts Block attributes.
 	 * @return string
 	 */
-	public function gdpr_block_render_callback( $atts ) {
-		$border_color        = isset( $atts['borderColor'] ) ? $atts['borderColor'] : '#767676';
-		$styles              = 'border: 1px solid ' . $border_color;
+	public function gdpr_block_render_callback() {
+		$styles = '';
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			$styles = 'border: 1px solid #767676';
+		}
 		$args                = array(
 			'numberposts' => -1,
 			'post_type'   => 'gdprpolicies',
@@ -491,8 +480,8 @@ class Gdpr_Cookie_Consent_Admin {
 		$content             = '';
 		if ( is_array( $wp_legalpolicy_data ) && ! empty( $wp_legalpolicy_data ) ) {
 			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
-			$content .= "<div class='wp_legalpolicy'>";
-			$content .= '<table>';
+			$content .= "<div class='wp_legalpolicy' style='overflow-x:scroll;overflow:auto;'>";
+			$content .= '<table style="width:100%;margin:0 auto;border-collapse:collapse;">';
 			$content .= '<thead>';
 			$content .= "<th style='" . $styles . "'>Third Party Companies</th><th style='" . $styles . "'>Purpose</th><th style='" . $styles . "'>Applicable Privacy/Cookie Policy Link</th>";
 			$content .= '</thead>';
