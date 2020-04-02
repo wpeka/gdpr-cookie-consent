@@ -229,6 +229,7 @@ class Gdpr_Cookie_Consent_Admin {
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'admin_settings_page' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
+		add_submenu_page( 'gdpr-cookie-consent', 'Getting Started', __( 'Getting Started', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-getting-started', array( $this, 'gdpr_getting_started' ) );
 	}
 
 	/**
@@ -414,6 +415,17 @@ class Gdpr_Cookie_Consent_Admin {
 		require_once plugin_dir_path( __FILE__ ) . 'partials/gdpr-cookie-consent-admin-display.php';
 	}
 
+	/**
+	 * Getting started page.
+	 */
+	public function gdpr_getting_started() {
+		// Lock out non-admins.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'wpadcenter' ) );
+		}
+		wp_enqueue_style( $this->plugin_name );
+		require_once plugin_dir_path( __FILE__ ) . 'views/admin-display-getting-started.php';
+	}
 	/**
 	 * Prints a combobox based on options and selected=match value.
 	 *

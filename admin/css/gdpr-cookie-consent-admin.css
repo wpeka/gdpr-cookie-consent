@@ -521,3 +521,29 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
 .script-blocker-list .script_status_switch {
 	text-align: center;
 }
+/* Getting started page css */
+.gdpr-getting-started {
+	background: #fff;
+	padding: 2em;
+	border: 1px solid #f1f1f1;
+}
+.gdpr-getting-started > div {
+	padding-bottom: 1em;
+}
+.gdpr-getting-started p,
+.gdpr-getting-started a,
+.gdpr-getting-started ul li {
+	font-size: 14px;
+	line-height: 20px;
+}
+.gdpr-getting-started ul {
+	list-style: disc;
+	padding: 0 2em;
+}
+.gdpr-getting-started a:focus,
+.gdpr-getting-started button.focus,
+.gdpr-getting-started button:focus,
+.gdpr-getting-started button-primary.focus,
+.gdpr-getting-started button-primary:focus{
+	box-shadow: none !important;
+}
