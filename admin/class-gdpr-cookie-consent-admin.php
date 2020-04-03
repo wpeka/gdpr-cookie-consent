@@ -229,6 +229,7 @@ class Gdpr_Cookie_Consent_Admin {
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'admin_settings_page' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
+		add_submenu_page( 'gdpr-cookie-consent', 'Getting Started', __( 'Getting Started', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-getting-started', array( $this, 'gdpr_getting_started' ) );
 	}
 
 	/**
@@ -412,6 +413,95 @@ class Gdpr_Cookie_Consent_Admin {
 			exit();
 		}
 		require_once plugin_dir_path( __FILE__ ) . 'partials/gdpr-cookie-consent-admin-display.php';
+	}
+
+	/**
+	 * Getting started page.
+	 *
+	 * @since 1.8.4
+	 */
+	public function gdpr_getting_started() {
+		// Lock out non-admins.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'wpadcenter' ) );
+		}
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$styles      = '';
+		if ( isset( $the_options['cookie_usage_for'] ) && 'ccpa' === $the_options['cookie_usage_for'] ) {
+			$styles .= 'cursor:not-allowed;opacity:0.5;pointer-events:none;text-decoration:none;';
+		}
+		wp_enqueue_style( $this->plugin_name );
+		require_once plugin_dir_path( __FILE__ ) . 'views/admin-display-getting-started.php';
+	}
+
+	/**
+	 * Register block.
+	 *
+	 * @since 1.8.4
+	 */
+	public function gdpr_register_block_type() {
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
+		}
+		wp_enqueue_script(
+			$this->plugin_name . '-block',
+			plugin_dir_url( __FILE__ ) . 'js/blocks/gdpr-admin-block.js',
+			array(
+				'jquery',
+				'wp-blocks',
+				'wp-i18n',
+				'wp-editor',
+				'wp-element',
+				'wp-components',
+			),
+			$this->version,
+			false
+		);
+		register_block_type(
+			'gdpr/block',
+			array(
+				'editor_script'   => $this->plugin_name . '-block',
+				'render_callback' => array( $this, 'gdpr_block_render_callback' ),
+			)
+		);
+	}
+
+	/**
+	 * Render callback for block.
+	 *
+	 * @since 1.8.4
+	 * @return string
+	 */
+	public function gdpr_block_render_callback() {
+		$styles = '';
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			$styles = 'border: 1px solid #767676';
+		}
+		$args                = array(
+			'numberposts' => -1,
+			'post_type'   => 'gdprpolicies',
+		);
+		$wp_legalpolicy_data = get_posts( $args );
+		$content             = '';
+		if ( is_array( $wp_legalpolicy_data ) && ! empty( $wp_legalpolicy_data ) ) {
+			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
+			$content .= "<div class='wp_legalpolicy' style='overflow-x:scroll;overflow:auto;'>";
+			$content .= '<table style="width:100%;margin:0 auto;border-collapse:collapse;">';
+			$content .= '<thead>';
+			$content .= "<th style='" . $styles . "'>Third Party Companies</th><th style='" . $styles . "'>Purpose</th><th style='" . $styles . "'>Applicable Privacy/Cookie Policy Link</th>";
+			$content .= '</thead>';
+			$content .= '<tbody>';
+			foreach ( $wp_legalpolicy_data as $policypost ) {
+				$content .= '<tr>';
+				$content .= "<td style='" . $styles . "'>" . $policypost->post_title . '</td>';
+				$content .= "<td style='" . $styles . "'>" . $policypost->post_content . '</td>';
+				$links    = get_post_meta( $policypost->ID, '_gdpr_policies_links_editor' );
+				$content .= "<td style='" . $styles . "'>" . $links[0] . '</td>';
+				$content .= '</tr>';
+			}
+			$content .= '</tbody></table></div>';
+		}
+		return $content;
 	}
 
 	/**

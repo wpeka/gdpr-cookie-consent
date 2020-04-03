@@ -134,7 +134,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 			update_post_meta( $post->ID, '_gdpr_policies_domain', sanitize_text_field( wp_unslash( $_POST['_gdpr_policies_domain'] ) ) );
 		}
 		if ( isset( $_POST['_gdpr_policies_links_editor'] ) && check_admin_referer( 'gdpr_save_custom_metabox', '_gdpr_policies_links_editor_nonce' ) ) {
-			$data = wp_kses_post( sanitize_text_field( wp_unslash( $_POST['_gdpr_policies_links_editor'] ) ) );
+			$data = wp_kses_post( $_POST['_gdpr_policies_links_editor'] ); // phpcs:ignore input var ok, CSRF ok, sanitization ok.
 			update_post_meta( $post->ID, '_gdpr_policies_links_editor', $data );
 		}
 	}

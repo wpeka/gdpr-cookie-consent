@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the GDPR Cookie Consent plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: GDPR Cookie Consent 1.8.1\n"
+"Project-Id-Version: GDPR Cookie Consent 1.8.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
 "consent\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-03-03T11:58:27+00:00\n"
-"PO-Revision-Date: 2020-03-03 17:53+0530\n"
+"POT-Creation-Date: 2020-04-02T10:30:24+00:00\n"
+"PO-Revision-Date: 2020-04-02 16:13+0530\n"
 "X-Generator: Poedit 2.2.4\n"
 "X-Domain: gdpr-cookie-consent\n"
 "Last-Translator: \n"
@@ -157,82 +157,87 @@ msgstr "Politik data"
 msgid "Import Policies"
 msgstr "Import politikker"
 
-#: admin/class-gdpr-cookie-consent-admin.php:378
+#: admin/class-gdpr-cookie-consent-admin.php:232
+#: admin/views/admin-display-getting-started.php:27
+msgid "Getting Started"
+msgstr "Kom godt i gang"
+
+#: admin/class-gdpr-cookie-consent-admin.php:379
 msgid "You do not have sufficient permission to perform this operation"
 msgstr "Du har ikke tilstrækkelig tilladelse til at udføre denne operation"
 
-#: admin/class-gdpr-cookie-consent-admin.php:408
+#: admin/class-gdpr-cookie-consent-admin.php:409
 msgid "Settings Updated."
 msgstr "Indstillinger opdateret."
 
-#: admin/class-gdpr-cookie-consent-admin.php:441
+#: admin/class-gdpr-cookie-consent-admin.php:526
 msgid "An hour"
 msgstr "En time"
 
-#: admin/class-gdpr-cookie-consent-admin.php:442
+#: admin/class-gdpr-cookie-consent-admin.php:527
 msgid "1 Day"
 msgstr "1 dag"
 
-#: admin/class-gdpr-cookie-consent-admin.php:443
+#: admin/class-gdpr-cookie-consent-admin.php:528
 msgid "1 Week"
 msgstr "1 Week"
 
-#: admin/class-gdpr-cookie-consent-admin.php:444
+#: admin/class-gdpr-cookie-consent-admin.php:529
 msgid "1 Month"
 msgstr "1 måned"
 
-#: admin/class-gdpr-cookie-consent-admin.php:445
+#: admin/class-gdpr-cookie-consent-admin.php:530
 msgid "3 Months"
 msgstr "3 måneder"
 
-#: admin/class-gdpr-cookie-consent-admin.php:446
+#: admin/class-gdpr-cookie-consent-admin.php:531
 msgid "6 Months"
 msgstr "6 Måneder"
 
-#: admin/class-gdpr-cookie-consent-admin.php:447
+#: admin/class-gdpr-cookie-consent-admin.php:532
 msgid "1 Year"
 msgstr "1 år"
 
-#: admin/class-gdpr-cookie-consent-admin.php:460
+#: admin/class-gdpr-cookie-consent-admin.php:545
 msgid "GDPR"
 msgstr "GDPR"
 
-#: admin/class-gdpr-cookie-consent-admin.php:461
+#: admin/class-gdpr-cookie-consent-admin.php:546
 msgid "CCPA"
 msgstr "CCPA"
 
-#: admin/class-gdpr-cookie-consent-admin.php:474
+#: admin/class-gdpr-cookie-consent-admin.php:559
 msgid "Banner"
 msgstr "Banner"
 
-#: admin/class-gdpr-cookie-consent-admin.php:475
+#: admin/class-gdpr-cookie-consent-admin.php:560
 #: admin/views/admin-display-buttons.php:227
 #: admin/views/admin-display-buttons.php:230
 msgid "Popup"
 msgstr "Popup"
 
-#: admin/class-gdpr-cookie-consent-admin.php:476
+#: admin/class-gdpr-cookie-consent-admin.php:561
 msgid "Widget"
 msgstr "Widget"
 
-#: admin/class-gdpr-cookie-consent-admin.php:490
+#: admin/class-gdpr-cookie-consent-admin.php:575
 msgid "Large"
 msgstr "Stor"
 
-#: admin/class-gdpr-cookie-consent-admin.php:491
+#: admin/class-gdpr-cookie-consent-admin.php:576
 msgid "Medium"
 msgstr "Medium"
 
-#: admin/class-gdpr-cookie-consent-admin.php:492
+#: admin/class-gdpr-cookie-consent-admin.php:577
 msgid "Small"
 msgstr "Lille"
 
-#: admin/class-gdpr-cookie-consent-admin.php:506
+#: admin/class-gdpr-cookie-consent-admin.php:591
 #: admin/views/admin-display-buttons.php:154
 msgid "Close Header"
 msgstr "Luk sidehoved"
 
-#: admin/class-gdpr-cookie-consent-admin.php:507
+#: admin/class-gdpr-cookie-consent-admin.php:592
 msgid "Open URL"
 msgstr "Åbn URL"
 
@@ -411,7 +416,7 @@ msgid "Links"
 msgstr "Links"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:155
-#: public/class-gdpr-cookie-consent-public.php:371
+#: public/class-gdpr-cookie-consent-public.php:376
 msgid "Domain"
 msgstr "Domæne"
 
@@ -800,6 +805,141 @@ msgstr "Den tid, som cookien skal gemmes i."
 msgid "Show Credits"
 msgstr "Vis kreditter"
 
+#: admin/views/admin-display-getting-started.php:22
+msgid "pro version"
+msgstr "pro version"
+
+#: admin/views/admin-display-getting-started.php:28
+msgid "1. Add / Scan Website Cookies"
+msgstr "1. Tilføj / Scan website cookies"
+
+#: admin/views/admin-display-getting-started.php:31
+msgid ""
+"Before you can display the consent notice on your website, you need to add "
+"details of the cookies on your website. The plugin automatically scans the "
+"website for cookies and adds them."
+msgstr ""
+"Før du kan vise samtykkemeddelelsen på dit websted, skal du tilføje "
+"oplysninger om cookies på din hjemmeside. Plugin scanner automatisk "
+"hjemmesiden for cookies og tilføjer dem."
+
+#: admin/views/admin-display-getting-started.php:35
+msgid "Add Cookie Details"
+msgstr "Tilføj oplysninger om cookies"
+
+#: admin/views/admin-display-getting-started.php:37
+msgid "2. Customize the Cookie Banner Content"
+msgstr "2. Tilpas cookiebannerets indhold"
+
+#: admin/views/admin-display-getting-started.php:39
+msgid ""
+"You can completely customize the cookie banner content to match your "
+"website’s content style. Set the consent notice usage to GDPR and control "
+"how and when the banner appears to website visitors."
+msgstr ""
+"Du kan helt tilpasse cookie banner indhold til at matche din hjemmeside "
+"stil. Indstil brugen af samtykkemeddelelsen til GDPR, og styr, hvordan og "
+"hvornår banneret vises for besøgende på webstedet."
+
+#: admin/views/admin-display-getting-started.php:40
+msgid ""
+"Note: Set the usage to CCPA and update the content accordingly to display "
+"the CCPA “Do Not Sell” notice."
+msgstr ""
+"Bemærk: Indstil brugen til CCPA, og opdater indholdet i overensstemmelse "
+"hermed for at vise CCPA'ens \"Sælg ikke\"-meddelelse."
+
+#: admin/views/admin-display-getting-started.php:41
+#: admin/views/admin-display-getting-started.php:46
+msgid "Customize Content"
+msgstr "Tilpasse indhold"
+
+#: admin/views/admin-display-getting-started.php:43
+msgid "3. Customize the Cookie Banner Design"
+msgstr "3. Tilpas design af cookiebanneret"
+
+#: admin/views/admin-display-getting-started.php:45
+msgid ""
+"Just like the content you can completely customize the design of your cookie "
+"consent banner. Choose from different display styles, colors and animations."
+msgstr ""
+"Ligesom det indhold, du kan helt tilpasse udformningen af din cookie "
+"samtykke banner. Vælg mellem forskellige visningsformater, farver og "
+"animationer."
+
+#: admin/views/admin-display-getting-started.php:48
+msgid "4. Display the Cookie Details Table in your Cookie / Privacy policy"
+msgstr "4. Vis tabellen cookiedetaljer i din cookie-/privatlivspolitik"
+
+#: admin/views/admin-display-getting-started.php:50
+msgid ""
+"To embed a cookie details table: use shortcode [wpl_cookie_details] to "
+"display cookie policy data on the pages."
+msgstr ""
+"Sådan integrerer du en tabel med cookiedetaljer: Brug kortkode "
+"[wpl_cookie_details] til at vise cookiepolitikdata på siderne."
+
+#: admin/views/admin-display-getting-started.php:53
+msgid "5. Block Third-Party Cookie Scripts"
+msgstr "5. Bloker tredjeparts cookie scripts"
+
+#: admin/views/admin-display-getting-started.php:55
+msgid "5. Block Third-Party Cookie Scripts (Pro feature)"
+msgstr "5. Bloker tredjeparts cookie scripts (Pro funktion)"
+
+#: admin/views/admin-display-getting-started.php:58
+msgid ""
+"Automatically block known third-party cookies until your website visitor "
+"gives their preference. Once the visitor gives preference, the third-party "
+"features which depend on these cookies (like youtube videos) will be visible."
+msgstr ""
+"Bloker automatisk kendte tredjepartscookies, indtil din besøgende på "
+"webstedet giver deres præferencer. Når den besøgende giver fortrinsret, vil "
+"tredjepartsfunktioner, der afhænger af disse cookies (som youtube videoer) "
+"være synlige."
+
+#: admin/views/admin-display-getting-started.php:60
+msgid "Block Scripts"
+msgstr "Bloker scripts"
+
+#: admin/views/admin-display-getting-started.php:62
+msgid "Upgrade To Pro Version"
+msgstr "Opgrader til Pro-version"
+
+#: admin/views/admin-display-getting-started.php:65
+msgid "About WP Cookie Consent Plugin For GDPR & CCPA"
+msgstr "Om WP Cookie Consent Plugin for GDPR & CCPA"
+
+#: admin/views/admin-display-getting-started.php:67
+msgid ""
+"The WordPress Cookie Consent Plugin for GDPR & CCPA plugin helps you comply "
+"with the EU GDPR’s cookie consent and CCPA’s “Do Not Sell” opt-out "
+"regulations."
+msgstr ""
+"Plugin'et til Samtykke til WordPress Cookie for GDPR & CCPA hjælper dig med "
+"at overholde EU's GDPR's cookie-samtykke og CCPA's fravalgsregler \"Do Not "
+"Sell\"."
+
+#: admin/views/admin-display-getting-started.php:69
+msgid "Important Links"
+msgstr "Vigtige links"
+
+#: admin/views/admin-display-getting-started.php:72
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: admin/views/admin-display-getting-started.php:74
+msgid "Support"
+msgstr "Support"
+
+#: admin/views/admin-display-getting-started.php:76
+msgid "Forums"
+msgstr "Fora"
+
+#: admin/views/admin-display-getting-started.php:77
+msgid "Upgrade to the Pro version"
+msgstr "Opgrader til Pro-versionen"
+
 #: admin/views/admin-display-save-button.php:23
 msgid "Save All Cookies"
 msgstr "Gem alle cookies"
@@ -985,42 +1125,42 @@ msgstr "PLUG til CCPA Cookie-meddelelser"
 msgid "Powered by %1$s"
 msgstr "Drevet af %1$s"
 
-#: public/class-gdpr-cookie-consent-public.php:366
+#: public/class-gdpr-cookie-consent-public.php:371
 msgid "About Cookies"
 msgstr "Om cookies"
 
-#: public/class-gdpr-cookie-consent-public.php:367
+#: public/class-gdpr-cookie-consent-public.php:372
 msgid "Cookie Declaration"
 msgstr "Cookie erklæring"
 
-#: public/class-gdpr-cookie-consent-public.php:368
+#: public/class-gdpr-cookie-consent-public.php:373
 msgid "Always Active"
 msgstr "Altid aktiv"
 
-#: public/class-gdpr-cookie-consent-public.php:369
+#: public/class-gdpr-cookie-consent-public.php:374
 msgid "Save And Accept"
 msgstr "Gem og Accepter"
 
-#: public/class-gdpr-cookie-consent-public.php:370
+#: public/class-gdpr-cookie-consent-public.php:375
 msgid "Name"
 msgstr "Navn"
 
-#: public/class-gdpr-cookie-consent-public.php:372
+#: public/class-gdpr-cookie-consent-public.php:377
 msgid "Purpose"
 msgstr "Formål"
 
-#: public/class-gdpr-cookie-consent-public.php:373
+#: public/class-gdpr-cookie-consent-public.php:378
 msgid "Expiry"
 msgstr "Udløb"
 
-#: public/class-gdpr-cookie-consent-public.php:374
+#: public/class-gdpr-cookie-consent-public.php:379
 msgid "Type"
 msgstr "Type"
 
-#: public/class-gdpr-cookie-consent-public.php:375
+#: public/class-gdpr-cookie-consent-public.php:380
 msgid "We do not use cookies of this type."
 msgstr "Vi bruger ikke cookies af denne type."
 
-#: public/class-gdpr-cookie-consent-public.php:376
+#: public/class-gdpr-cookie-consent-public.php:381
 msgid "I consent to the use of following cookies:"
 msgstr "Jeg accepterer brugen af følgende cookies:"

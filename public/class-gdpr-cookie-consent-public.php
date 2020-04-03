@@ -419,10 +419,12 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Returns policy data for shortcode wpl_cookie_details.
 	 *
-	 * @since 1.9
-	 * @return string
+	 * @return string|void
 	 */
 	public function gdprcookieconsent_shortcode_cookie_details() {
+		if ( is_admin() ) {
+			return;
+		}
 		$args                = array(
 			'numberposts' => -1,
 			'post_type'   => 'gdprpolicies',
@@ -431,10 +433,10 @@ class Gdpr_Cookie_Consent_Public {
 		$content             = '';
 		if ( is_array( $wp_legalpolicy_data ) && ! empty( $wp_legalpolicy_data ) ) {
 			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
-			$content .= "<div style='overflow-x:scroll;overflow:auto;' class='wp_legalpolicy'>";
-			$content .= "<table style='width:100%;margin:0 auto;'>";
+			$content .= "<div class='wp_legalpolicy' style='overflow-x:scroll;overflow:auto;'>";
+			$content .= '<table style="width:100%;margin:0 auto;border-collapse:collapse;">';
 			$content .= '<thead>';
-			$content .= '<th>Third Party Companies</th><th>Purpose</th><th>Applicable Privacy/Cookie Policy Link</th>';
+			$content .= '<th>Third Party Companies</th><th>Purpose</th><thApplicable Privacy/Cookie Policy Link</th>';
 			$content .= '</thead>';
 			$content .= '<tbody>';
 			foreach ( $wp_legalpolicy_data as $policypost ) {
