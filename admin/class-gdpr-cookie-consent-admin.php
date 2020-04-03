@@ -425,6 +425,11 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'wpadcenter' ) );
 		}
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$styles      = '';
+		if ( isset( $the_options['cookie_usage_for'] ) && 'ccpa' === $the_options['cookie_usage_for'] ) {
+			$styles .= 'cursor:not-allowed;opacity:0.5;pointer-events:none;text-decoration:none;';
+		}
 		wp_enqueue_style( $this->plugin_name );
 		require_once plugin_dir_path( __FILE__ ) . 'views/admin-display-getting-started.php';
 	}
