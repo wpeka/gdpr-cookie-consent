@@ -443,7 +443,7 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
-		wp_enqueue_script(
+		wp_register_script(
 			$this->plugin_name . '-block',
 			plugin_dir_url( __FILE__ ) . 'js/blocks/gdpr-admin-block.js',
 			array(
@@ -455,7 +455,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'wp-components',
 			),
 			$this->version,
-			false
+			true
 		);
 		register_block_type(
 			'gdpr/block',
@@ -473,6 +473,15 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @return string
 	 */
 	public function gdpr_block_render_callback() {
+        if ( function_exists( 'get_current_screen' ) ) {
+            $screen = get_current_screen();
+            if ( method_exists( $screen, 'is_block_editor' ) ) {
+                wp_enqueue_script( $this->plugin_name . '-block' );
+            }
+        }
+        if ( has_block( 'gdpr/block', get_the_ID() ) ) {
+            wp_enqueue_script( $this->plugin_name . '-block' );
+        }
 		$styles = '';
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 			$styles = 'border: 1px solid #767676';
@@ -549,6 +558,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$options = array(
 			__( 'GDPR', 'gdpr-cookie-consent' ) => 'gdpr',
 			__( 'CCPA', 'gdpr-cookie-consent' ) => 'ccpa',
+            __( 'Both', 'gdpr-cookie-consent' ) => 'both',
 		);
 		$options = apply_filters( 'gdprcookieconsent_cookie_usage_for_options', $options );
 		return $options;

@@ -58,10 +58,11 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 			2 => __( 'Completed', 'gdpr-cookie-consent' ),
 			3 => __( 'Stopped', 'gdpr-cookie-consent' ),
 		);
-
-		add_filter( 'gdpr_module_settings_tabhead', array( __CLASS__, 'settings_tabhead' ) );
-		add_action( 'gdpr_module_settings_form', array( $this, 'settings_form' ) );
-		add_action( 'gdpr_module_settings_general', array( $this, 'settings_general' ), 5 );
+        if(Gdpr_Cookie_Consent::is_request('admin')) {
+            add_filter( 'gdpr_module_settings_tabhead', array( __CLASS__, 'settings_tabhead' ) );
+            add_action( 'gdpr_module_settings_form', array( $this, 'settings_form' ) );
+            add_action( 'gdpr_module_settings_general', array( $this, 'settings_general' ), 5 );
+        }
 	}
 
 	/**

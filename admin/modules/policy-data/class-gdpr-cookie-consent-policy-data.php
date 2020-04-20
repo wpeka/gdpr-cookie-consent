@@ -26,14 +26,16 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'gdpr_register_custom_post_type' ) );
-		add_action( 'add_meta_boxes', array( $this, 'gdpr_add_meta_box' ) );
-		add_action( 'save_post', array( $this, 'gdpr_save_custom_metabox' ) );
-		add_action( 'manage_edit-gdprpolicies_columns', array( $this, 'gdpr_manage_edit_columns' ) );
-		add_action( 'manage_posts_custom_column', array( $this, 'gdpr_manage_custom_columns' ) );
-		add_action( 'admin_head-edit.php', array( $this, 'gdpr_add_policies_import_button' ) );
-		add_action( 'admin_head-edit.php', array( $this, 'gdpr_add_policies_export_button' ) );
-		add_action( 'admin_post_gdpr_policies_export.csv', array( $this, 'gdpr_process_csv_export_policies' ) );
-		add_action( 'admin_init', array( $this, 'gdpr_process_csv_policies' ) );
+		if(Gdpr_Cookie_Consent::is_request('admin')) {
+            add_action( 'add_meta_boxes', array( $this, 'gdpr_add_meta_box' ) );
+            add_action( 'save_post', array( $this, 'gdpr_save_custom_metabox' ) );
+            add_action( 'manage_edit-gdprpolicies_columns', array( $this, 'gdpr_manage_edit_columns' ) );
+            add_action( 'manage_posts_custom_column', array( $this, 'gdpr_manage_custom_columns' ) );
+            add_action( 'admin_head-edit.php', array( $this, 'gdpr_add_policies_import_button' ) );
+            add_action( 'admin_head-edit.php', array( $this, 'gdpr_add_policies_export_button' ) );
+            add_action( 'admin_post_gdpr_policies_export.csv', array( $this, 'gdpr_process_csv_export_policies' ) );
+            add_action( 'admin_init', array( $this, 'gdpr_process_csv_policies' ) );
+        }
 	}
 
 	/**
