@@ -47,6 +47,9 @@
 	line-height: inherit;
 	text-align: justify;
 }
+#gdpr-cookie-consent-bar .gdpr_messagebar_content div.group-description p {
+	margin: 0;
+}
 #gdpr-cookie-consent-bar .gdpr_messagebar_content .gdpr_link_button {
 	display: inline;
 	font-family: inherit;

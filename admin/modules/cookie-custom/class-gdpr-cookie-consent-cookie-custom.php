@@ -58,11 +58,11 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 			2 => __( 'Completed', 'gdpr-cookie-consent' ),
 			3 => __( 'Stopped', 'gdpr-cookie-consent' ),
 		);
-        if(Gdpr_Cookie_Consent::is_request('admin')) {
-            add_filter( 'gdpr_module_settings_tabhead', array( __CLASS__, 'settings_tabhead' ) );
-            add_action( 'gdpr_module_settings_form', array( $this, 'settings_form' ) );
-            add_action( 'gdpr_module_settings_general', array( $this, 'settings_general' ), 5 );
-        }
+		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
+			add_filter( 'gdpr_module_settings_tabhead', array( __CLASS__, 'settings_tabhead' ) );
+			add_action( 'gdpr_module_settings_form', array( $this, 'settings_form' ) );
+			add_action( 'gdpr_module_settings_general', array( $this, 'settings_general' ), 5 );
+		}
 	}
 
 	/**
@@ -263,6 +263,10 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	 */
 	public function gdpr_install_tables() {
 		global $wpdb;
+        $collate = '';
+        if ( $wpdb->has_cap( 'collation' ) ) {
+            $collate = $wpdb->get_charset_collate();
+        }
 		$wild = '%';
 		// Creating post cookies table.
 		$table_name = $wpdb->prefix . $this->post_cookies_table;
@@ -280,7 +284,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 			    `category_id` INT NOT NULL,
 			    `description` TEXT NULL DEFAULT '',
 			    PRIMARY KEY(`id_gdpr_cookie_post_cookies`)
-			) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			) " . $collate . ";";
 			dbDelta( $create_table_sql );
 		}
 		// Creating categories table.
@@ -296,7 +300,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 				 `gdpr_cookie_category_description` TEXT  NULL,
 				 PRIMARY KEY(`id_gdpr_cookie_category`),
 				 UNIQUE `cookie` (`gdpr_cookie_category_name`)
-			 ) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			 ) " . $collate . ";";
 			dbDelta( $create_table_sql );
 		}
 		$this->gdpr_update_category_table();

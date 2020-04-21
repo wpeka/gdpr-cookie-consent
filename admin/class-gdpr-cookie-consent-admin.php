@@ -364,6 +364,13 @@ class Gdpr_Cookie_Consent_Admin {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-4.0' );
 		}
+		// update settings from Version 1.8.5.
+		$prev_gdpr_option = get_option( 'GDPRCookieConsent-5.0' );
+		if ( isset( $prev_gdpr_option['is_on'] ) && GDPR_COOKIE_CONSENT_VERSION >= '1.8.5' ) {
+			$prev_gdpr_option['is_ccpa_on'] = false;
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
+			delete_option( 'GDPRCookieConsent-5.0' );
+		}
 	}
 
 	/**
@@ -473,15 +480,15 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @return string
 	 */
 	public function gdpr_block_render_callback() {
-        if ( function_exists( 'get_current_screen' ) ) {
-            $screen = get_current_screen();
-            if ( method_exists( $screen, 'is_block_editor' ) ) {
-                wp_enqueue_script( $this->plugin_name . '-block' );
-            }
-        }
-        if ( has_block( 'gdpr/block', get_the_ID() ) ) {
-            wp_enqueue_script( $this->plugin_name . '-block' );
-        }
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+			if ( method_exists( $screen, 'is_block_editor' ) ) {
+				wp_enqueue_script( $this->plugin_name . '-block' );
+			}
+		}
+		if ( has_block( 'gdpr/block', get_the_ID() ) ) {
+			wp_enqueue_script( $this->plugin_name . '-block' );
+		}
 		$styles = '';
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 			$styles = 'border: 1px solid #767676';
@@ -558,7 +565,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$options = array(
 			__( 'GDPR', 'gdpr-cookie-consent' ) => 'gdpr',
 			__( 'CCPA', 'gdpr-cookie-consent' ) => 'ccpa',
-            __( 'Both', 'gdpr-cookie-consent' ) => 'both',
+			__( 'Both', 'gdpr-cookie-consent' ) => 'both',
 		);
 		$options = apply_filters( 'gdprcookieconsent_cookie_usage_for_options', $options );
 		return $options;

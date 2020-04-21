@@ -91,7 +91,7 @@ class Gdpr_Cookie_Consent_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-        wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 
 	}
 
@@ -111,8 +111,8 @@ class Gdpr_Cookie_Consent_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-        wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
-        wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js#async', array( 'jquery' ), $this->version, true );
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
+		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js#async', array( 'jquery' ), $this->version, true );
 	}
 
 	/**
@@ -166,14 +166,22 @@ class Gdpr_Cookie_Consent_Public {
 		return self::gdprcookieconsent_remove_hash( $str );
 	}
 
-	public function gdprcookieconsent_clean_async_url($url) {
-        if ( strpos( $url, '#async') === false )
-            return $url;
-        else if ( is_admin() )
-            return str_replace( '#async', '', $url );
-        else
-            return str_replace( '#async', '', $url )."' async='async";
-    }
+	/**
+	 * Parse enqueue url for async parameter.
+	 *
+	 * @since 1.8.5
+	 * @param string $url URL.
+	 * @return mixed|string
+	 */
+	public function gdprcookieconsent_clean_async_url( $url ) {
+		if ( strpos( $url, '#async' ) === false ) {
+			return $url;
+		} elseif ( is_admin() ) {
+			return str_replace( '#async', '', $url );
+		} else {
+			return str_replace( '#async', '', $url ) . "' async='async";
+		}
+	}
 
 	/**
 	 * Outputs the cookie control script in the footer.
@@ -184,27 +192,40 @@ class Gdpr_Cookie_Consent_Public {
 	public function gdprcookieconsent_inject_gdpr_script() {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		if ( true === $the_options['is_on'] ) {
-            wp_enqueue_style($this->plugin_name);
-            wp_enqueue_script($this->plugin_name);
-            wp_enqueue_script( $this->plugin_name . '-bootstrap-js');
-            wp_localize_script( $this->plugin_name, 'log_obj', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
-            add_filter('clean_url', array($this, 'gdprcookieconsent_clean_async_url'));
-			$timber = new Timber\Timber();
+			wp_enqueue_style( $this->plugin_name );
+			wp_enqueue_script( $this->plugin_name );
+			wp_enqueue_script( $this->plugin_name . '-bootstrap-js' );
+			wp_localize_script( $this->plugin_name, 'log_obj', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+			add_filter( 'clean_url', array( $this, 'gdprcookieconsent_clean_async_url' ) );
+			$timber       = new Timber\Timber();
+			$gdpr_message = '';
+			$ccpa_message = '';
 			// Output the HTML in the footer.
 			if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
-				$message                    = nl2br( $the_options['notify_message'] );
+				$gdpr_message               = nl2br( $the_options['notify_message'] );
 				$the_options['gdpr_notify'] = true;
 			}
 			if ( 'ccpa' === $the_options['cookie_usage_for'] ) {
-				$message                       = nl2br( $the_options['notify_message_ccpa'] );
+				$ccpa_message                  = nl2br( $the_options['notify_message_ccpa'] );
+				$the_options['ccpa_notify']    = true;
+				$the_options['optout_text']    = __( 'Do you really wish to opt-out?', 'gdpr-cookie-consent' );
+				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
+				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
+			}
+			if ( 'both' === $the_options['cookie_usage_for'] ) {
+				$gdpr_message                  = nl2br( $the_options['notify_message'] );
+				$ccpa_message                  = nl2br( $the_options['notify_message_ccpa'] );
+				$the_options['gdpr_notify']    = true;
 				$the_options['ccpa_notify']    = true;
 				$the_options['optout_text']    = __( 'Do you really wish to opt-out?', 'gdpr-cookie-consent' );
 				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
 				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
 			}
 			$about_message = stripslashes( nl2br( $the_options['about_message'] ) );
-			$message       = stripslashes( $message );
-			$str           = $message;
+			$gdpr_message  = stripslashes( $gdpr_message );
+			$ccpa_message  = stripslashes( $ccpa_message );
+			$gdpr_str      = $gdpr_message;
+			$ccpa_str      = $ccpa_message;
 			$head          = $the_options['bar_heading_text'];
 			$head          = trim( stripslashes( $head ) );
 			$default_array = array( 'none', 'default', 'classic' );
@@ -218,7 +239,8 @@ class Gdpr_Cookie_Consent_Public {
 				$template = 'default';
 			}
 			$template                                 = apply_filters( 'gdprcookieconsent_template', $template );
-			$the_options['str']                       = $str;
+			$the_options['gdpr_str']                  = $gdpr_str;
+			$the_options['ccpa_str']                  = $ccpa_str;
 			$the_options['head']                      = $head;
 			$the_options['version']                   = $this->version;
 			$the_options['show_again_container_id']   = $this->gdprcookieconsent_remove_hash( $the_options['show_again_div_id'] );
@@ -240,6 +262,8 @@ class Gdpr_Cookie_Consent_Public {
 				$credit_link_text = __( 'GDPR Cookie Consent Plugin', 'gdpr-cookie-consent' );
 			} elseif ( 'ccpa' === $the_options['cookie_usage_for'] ) {
 				$credit_link_text = __( 'CCPA Cookie Notice Plugin', 'gdpr-cookie-consent' );
+			} elseif ( 'both' === $the_options['cookie_usage_for'] ) {
+				$credit_link_text = __( 'GDPR & CCPA Notice plugin', 'gdpr-cookie-consent' );
 			}
 			$credit_link = sprintf(
 				/* translators: 1: GDPR Cookie Consent Plugin*/
@@ -386,18 +410,18 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['consent_notice']    = __( 'I consent to the use of following cookies:', 'gdpr-cookie-consent' );
 				$the_options['cookie_data']       = $cookie_data;
 			}
-            ob_start();
-            $notify_html = $timber->render( 'templates/' . $template . '.twig', $the_options );
-            ob_end_clean();
-            echo $notify_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            ?>
-            <script type="text/javascript">
-                /* <![CDATA[ */
-                gdpr_cookies_list = '<?php echo str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
-                gdpr_cookiebar_settings='<?php echo Gdpr_Cookie_Consent::gdpr_get_json_settings(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
-                /* ]]> */
-            </script>
-            <?php
+			ob_start();
+			$notify_html = $timber->render( 'templates/' . $template . '.twig', $the_options );
+			ob_end_clean();
+			echo $notify_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			?>
+			<script type="text/javascript">
+				/* <![CDATA[ */
+				gdpr_cookies_list = '<?php echo str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
+				gdpr_cookiebar_settings='<?php echo Gdpr_Cookie_Consent::gdpr_get_json_settings(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
+				/* ]]> */
+			</script>
+			<?php
 		}
 	}
 
