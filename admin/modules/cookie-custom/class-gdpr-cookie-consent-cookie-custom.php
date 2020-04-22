@@ -263,10 +263,10 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	 */
 	public function gdpr_install_tables() {
 		global $wpdb;
-        $collate = '';
-        if ( $wpdb->has_cap( 'collation' ) ) {
-            $collate = $wpdb->get_charset_collate();
-        }
+		$collate = '';
+		if ( $wpdb->has_cap( 'collation' ) ) {
+			$collate = $wpdb->get_charset_collate();
+		}
 		$wild = '%';
 		// Creating post cookies table.
 		$table_name = $wpdb->prefix . $this->post_cookies_table;
@@ -284,7 +284,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 			    `category_id` INT NOT NULL,
 			    `description` TEXT NULL DEFAULT '',
 			    PRIMARY KEY(`id_gdpr_cookie_post_cookies`)
-			) " . $collate . ";";
+			) " . $collate . ';';
 			dbDelta( $create_table_sql );
 		}
 		// Creating categories table.
@@ -300,7 +300,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 				 `gdpr_cookie_category_description` TEXT  NULL,
 				 PRIMARY KEY(`id_gdpr_cookie_category`),
 				 UNIQUE `cookie` (`gdpr_cookie_category_name`)
-			 ) " . $collate . ";";
+			 ) " . $collate . ';';
 			dbDelta( $create_table_sql );
 		}
 		$this->gdpr_update_category_table();
