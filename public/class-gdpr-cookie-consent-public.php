@@ -111,8 +111,8 @@ class Gdpr_Cookie_Consent_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
-		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js#async', array( 'jquery' ), $this->version, true );
 	}
 
 	/**
@@ -193,8 +193,8 @@ class Gdpr_Cookie_Consent_Public {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		if ( true === $the_options['is_on'] ) {
 			wp_enqueue_style( $this->plugin_name );
-			wp_enqueue_script( $this->plugin_name );
 			wp_enqueue_script( $this->plugin_name . '-bootstrap-js' );
+			wp_enqueue_script( $this->plugin_name );
 			wp_localize_script( $this->plugin_name, 'log_obj', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 			add_filter( 'clean_url', array( $this, 'gdprcookieconsent_clean_async_url' ) );
 			$timber       = new Timber\Timber();
@@ -270,8 +270,6 @@ class Gdpr_Cookie_Consent_Public {
 				__( 'Powered by %1$s', 'gdpr-cookie-consent' ),
 				'<a href="' . esc_url( $credit_link_href ) . '" id="cookie_credit_link" rel="nofollow noopener" target="_blank">' . $credit_link_text . '</a>'
 			);
-			// Commented below code for future implementation.
-			// $the_options['credits']           = $the_options['show_credits'] ? $credit_link : '';
 
 			$the_options['button_accept_classes'] = 'gdpr_action_button ';
 			if ( $the_options['button_accept_as_button'] ) {

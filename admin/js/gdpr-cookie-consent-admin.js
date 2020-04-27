@@ -294,7 +294,7 @@
 							var target_id  = $( this ).attr( 'data-id' );
 							var target_elm = $( "li[data-target='" + target_id + "']" );
 							target_elm.show();
-							if (target_id == 'confirm-button' || target_id == 'accept-button' ) {
+							if ( ( vl == 'both' && target_id == 'accept-button' ) || ( ( vl == 'gdpr' && target_id == 'accept-button' ) ) || ( vl == 'ccpa' && target_id == 'confirm-button' ) ) {
 								target_elm.css( 'border-left','none' );
 								target_elm.css( 'padding-left','0px' );
 								target_elm.trigger( 'click' );
