@@ -12,7 +12,7 @@
             {% if head != '' %}
                 <h3 class="gdpr_messagebar_head">{{ __( head, 'gdpr-cookie-consent' ) }}</h3>
             {% endif %}
-            <div class="group-description" tabindex="0">{{ __( str, 'gdpr-cookie-consent' ) }}
+            <div class="group-description" tabindex="0"><p class="gdpr">{{ __( gdpr_str, 'gdpr-cookie-consent' ) }}
                 {% if button_readmore_is_on %}
                     <a id="cookie_action_link" href="{{ button_readmore_url }}" class="{{ button_readmore_classes }}"
                             {% if button_readmore_new_win %}
@@ -20,39 +20,51 @@
                             {% endif %}
                     >{{ __( button_readmore_text, 'gdpr-cookie-consent' ) }}</a>
                 {% endif %}
+                </p>
+                {% if ccpa_notify %}
+                    <p class="ccpa">
+                    {{ __( ccpa_str, 'gdpr-cookie-consent' ) }}
+                    {% if button_donotsell_is_on %}
+                        <a data-toggle="modal" href="#" class="{{ button_donotsell_classes }}" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+                        >{{ __( button_donotsell_text, 'gdpr-cookie-consent' ) }}</a>
+                    {% endif %}
+                </p>
+                {% endif %}
             </div>
-            {% if button_accept_is_on %}
-                <a id="cookie_action_accept" class="{{ button_accept_classes }}"
-                        {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
-                            href="{{ button_accept_url }}"
-                            {% if button_accept_new_win %}
-                                target="_blank"
+            <div class="gdpr group-description-buttons">
+                {% if button_accept_is_on %}
+                    <a id="cookie_action_accept" class="{{ button_accept_classes }}"
+                            {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
+                                href="{{ button_accept_url }}"
+                                {% if button_accept_new_win %}
+                                    target="_blank"
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                   data-gdpr_action="accept" >{{ __( button_accept_text, 'gdpr-cookie-consent' ) }}</a>
-            {% endif %}
-            {% if button_decline_is_on %}
-                <a id="cookie_action_reject" class="{{ button_decline_classes }}"
-                        {% if button_decline_action == 'CONSTANT_OPEN_URL' %}
-                            href="{{ button_decline_url }}"
-                            {% if button_decline_new_win %}
-                                target="_blank"
+                       data-gdpr_action="accept" >{{ __( button_accept_text, 'gdpr-cookie-consent' ) }}</a>
+                {% endif %}
+                {% if button_decline_is_on %}
+                    <a id="cookie_action_reject" class="{{ button_decline_classes }}"
+                            {% if button_decline_action == 'CONSTANT_OPEN_URL' %}
+                                href="{{ button_decline_url }}"
+                                {% if button_decline_new_win %}
+                                    target="_blank"
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                   data-gdpr_action="reject" >{{ __( button_decline_text, 'gdpr-cookie-consent' ) }}</a>
-            {% endif %}
-            {% if button_settings_is_on %}
-                <a id="cookie_action_settings" class="{{ button_settings_classes }}"
-                        {% if not button_settings_as_button %}
-                            href="#"
-                        {% endif %}
-                        {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
-                            data-gdpr_action="show_settings"
-                        {% else %}
-                            data-gdpr_action="settings" data-toggle="modal" data-target="#gdpr-modal"
-                        {% endif %}
-                >{{ __( button_settings_text, 'gdpr-cookie-consent' ) }}</a>
-            {% endif %}
+                       data-gdpr_action="reject" >{{ __( button_decline_text, 'gdpr-cookie-consent' ) }}</a>
+                {% endif %}
+                {% if button_settings_is_on %}
+                    <a id="cookie_action_settings" class="{{ button_settings_classes }}"
+                            {% if not button_settings_as_button %}
+                                href="#"
+                            {% endif %}
+                            {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
+                                data-gdpr_action="show_settings"
+                            {% else %}
+                                data-gdpr_action="settings" data-toggle="modal" data-target="#gdpr-modal"
+                            {% endif %}
+                    >{{ __( button_settings_text, 'gdpr-cookie-consent' ) }}</a>
+                {% endif %}
+            </div>
         </div>
         {% if cookie_data %}
             {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
@@ -63,11 +75,12 @@
         {% endif %}
     {% elseif ccpa_notify %}
         <div class="gdpr_messagebar_content">
-            <div class="group-description" tabindex="0">{{ __( str, 'gdpr-cookie-consent' ) }}
+            <div class="group-description" tabindex="0"><p class="ccpa">{{ __( ccpa_str, 'gdpr-cookie-consent' ) }}
                 {% if button_donotsell_is_on %}
                     <a data-toggle="modal" href="#" class="{{ button_donotsell_classes }}" data-gdpr_action="donotsell" id="cookie_donotsell_link"
                     >{{ __( button_donotsell_text, 'gdpr-cookie-consent' ) }}</a>
                 {% endif %}
+                </p>
             </div>
         </div>
     {% endif %}
@@ -94,11 +107,14 @@
             <span>{{ __( show_again_text, 'gdpr-cookie-consent' ) }}</span>
         </div>
     {% endif %}
-{% elseif ccpa_notify %}
-    <div class="modal fade" id="gdpr-ccpa-modal" role="dialog">
+{% endif %}
+{% if ccpa_notify %}
+    <div class="modal fade" id="gdpr-ccpa-modal" role="dialog" data-keyboard="false" data-backdrop="{{ cookie_data['backdrop'] }}">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body">{{ __( optout_text, 'gdpr-cookie-consent' ) }}</div>
+                <div class="modal-body"><p>{{ __( optout_text, 'gdpr-cookie-consent' ) }}
+                        <button type="button" class="gdpr_action_button close" data-dismiss="modal" data-gdpr_action="ccpa_close"></button></p>
+                </div>
                 <div class="modal-footer">
                     {% if show_credits %}
                         {% if credits %}

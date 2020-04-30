@@ -255,7 +255,7 @@
 				toggle:function(elm) {
 					var vl            = elm.val();
 					var gdpr_tab_head = $( '.gdpr-cookie-consent-tab-head' );
-					if ( vl == 'gdpr' ) {
+					if ( vl == 'gdpr' || vl == 'both') {
 						gdpr_tab_head.find( "a[href='#gdpr-cookie-consent-cookie-list']" ).show();
 						gdpr_tab_head.find( "a[href='#gdpr-cookie-consent-script-blocker']" ).show();
 					} else if ( vl == 'ccpa' ) {
@@ -282,7 +282,11 @@
 
 					var selcted_trget = $( '[gdpr_tab_frm_tgl-id="' + trgt + '"]' ).filter(
 						function(){
-							return $( this ).attr( 'gdpr_tab_frm_tgl-val' ) == vl;
+							if (vl == 'both') {
+								return $( this ).attr( 'gdpr_tab_frm_tgl-val' ) == 'gdpr' || $( this ).attr( 'gdpr_tab_frm_tgl-val' ) == 'ccpa';
+							} else {
+								return $( this ).attr( 'gdpr_tab_frm_tgl-val' ) == vl;
+							}
 						}
 					);
 					selcted_trget.each(
@@ -290,7 +294,7 @@
 							var target_id  = $( this ).attr( 'data-id' );
 							var target_elm = $( "li[data-target='" + target_id + "']" );
 							target_elm.show();
-							if (target_id == 'confirm-button' || target_id == 'accept-button' ) {
+							if ( ( vl == 'both' && target_id == 'accept-button' ) || ( ( vl == 'gdpr' && target_id == 'accept-button' ) ) || ( vl == 'ccpa' && target_id == 'confirm-button' ) ) {
 								target_elm.css( 'border-left','none' );
 								target_elm.css( 'padding-left','0px' );
 								target_elm.trigger( 'click' );
@@ -379,7 +383,11 @@
 					$( '[gdpr_frm_tgl-id="' + trgt + '"]' ).hide();
 					var selcted_trget = $( '[gdpr_frm_tgl-id="' + trgt + '"]' ).filter(
 						function(){
-							return $( this ).attr( 'gdpr_frm_tgl-val' ) == vl;
+							if (vl == 'both') {
+								return $( this ).attr( 'gdpr_frm_tgl-val' ) == 'gdpr' || $( this ).attr( 'gdpr_frm_tgl-val' ) == 'ccpa';
+							} else {
+								return $( this ).attr( 'gdpr_frm_tgl-val' ) == vl;
+							}
 						}
 					);
 					selcted_trget.show();

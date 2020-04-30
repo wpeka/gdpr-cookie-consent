@@ -47,6 +47,9 @@
 	line-height: inherit;
 	text-align: justify;
 }
+#gdpr-cookie-consent-bar .gdpr_messagebar_content div.group-description p {
+	margin: 0;
+}
 #gdpr-cookie-consent-bar .gdpr_messagebar_content .gdpr_link_button {
 	display: inline;
 	font-family: inherit;
@@ -170,6 +173,7 @@
 	width: unset;
 }
 #gdpr-cookie-consent-bar .gdpr_messagebar_detail .gdpr_messagebar_body_buttons_wrapper label {
+	color: inherit;
 	font-size: inherit;
 	line-height: inherit;
 	margin: 0;
@@ -427,6 +431,9 @@ Bootstrap CSS for frontend UI
 	position: relative;
 	-ms-flex: 1 1 auto;
 	flex: 1 1 auto;
+}
+
+.modal-body #gdpr-cookie-consent-bar {
 	padding: 1rem;
 }
 
@@ -654,13 +661,15 @@ fieldset:disabled a.btn {
 	line-height: 1.5;
 }
 .gdpr_messagebar_detail .modal-dialog .modal-content .modal-body {
+	color: #000;
 	padding: 0;
 }
 .gdpr_messagebar_detail .modal-dialog .modal-header {
 	background-color: #343a40;
 	padding: 2rem;
 }
-.gdpr_messagebar_detail .modal-dialog .modal-header .close {
+.gdpr_messagebar_detail .modal-dialog .modal-header .close,
+#gdpr-ccpa-modal .modal-dialog .modal-body .close {
 	padding: 0.75rem;
 	background: url(../images/close.svg);
 }
@@ -679,7 +688,19 @@ fieldset:disabled a.btn {
 	font-size: .55em;
 	bottom: 0;
 }
-
+#gdpr-ccpa-modal .modal-body {
+	padding: 1rem;
+	color: #000;
+}
+#gdpr-ccpa-modal .modal-body p {
+	margin: 0;
+	padding: 0;
+}
+#gdpr-ccpa-modal .modal-body .gdpr_action_button.close {
+	position: absolute;
+	right: 0.5rem;
+	top: 0.5rem;
+}
 .gdpr_messagebar_detail .category-group {
 	margin: 0;
 	padding-left: 0;

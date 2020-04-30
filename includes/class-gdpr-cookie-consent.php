@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '1.8.4';
+			$this->version = '1.8.5';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -152,6 +152,25 @@ class Gdpr_Cookie_Consent {
 	}
 
 	/**
+	 * What type of request is this?
+	 *
+	 * @param  string $type admin, ajax, cron or frontend.
+	 * @return bool
+	 */
+	public static function is_request( $type ) {
+		switch ( $type ) {
+			case 'admin':
+				return is_admin();
+			case 'ajax':
+				return defined( 'DOING_AJAX' );
+			case 'cron':
+				return defined( 'DOING_CRON' );
+			case 'frontend':
+				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' ) && ! defined( 'REST_REQUEST' );
+		}
+	}
+
+	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
@@ -161,19 +180,19 @@ class Gdpr_Cookie_Consent {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Gdpr_Cookie_Consent_Admin( $this->get_plugin_name(), $this->get_version() );
-
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 ); /* Adding admin menu */
-		$this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
-		$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init', 5 );
-		$this->loader->add_action( 'init', $plugin_admin, 'gdpr_register_block_type' );
 		/**
-		 * Load admin modules
+		 * Load admin modules.
 		 */
 		$plugin_admin->admin_modules();
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
+		$this->loader->add_action( 'init', $plugin_admin, 'gdpr_register_block_type' );
+		if ( self::is_request( 'admin' ) ) {
+			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 ); /* Adding admin menu */
+			$this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
+			$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init', 5 );
+			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		}
 	}
 
 	/**
@@ -187,13 +206,14 @@ class Gdpr_Cookie_Consent {
 
 		$plugin_public = new Gdpr_Cookie_Consent_Public( $this->get_plugin_name(), $this->get_version() );
 		/**
-		 * Load admin modules
+		 * Load public modules.
 		 */
 		$plugin_public->public_modules();
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action( 'wp_footer', $plugin_public, 'gdprcookieconsent_inject_gdpr_script' );
-
+		if ( self::is_request( 'frontend' ) ) {
+			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+			$this->loader->add_action( 'wp_footer', $plugin_public, 'gdprcookieconsent_inject_gdpr_script' );
+		}
 	}
 
 	/**
@@ -484,6 +504,7 @@ class Gdpr_Cookie_Consent {
 
 			'is_on'                        => true,
 			'is_eu_on'                     => false,
+			'is_ccpa_on'                   => false,
 			'logging_on'                   => false,
 			'show_credits'                 => false,
 			'is_ticked'                    => false,
@@ -536,6 +557,7 @@ class Gdpr_Cookie_Consent {
 			// Convert all boolean values from text to bool.
 			case 'is_on':
 			case 'is_eu_on':
+			case 'is_ccpa_on':
 			case 'is_script_blocker_on':
 			case 'show_again':
 			case 'auto_hide':
@@ -622,7 +644,7 @@ class Gdpr_Cookie_Consent {
 				$ret = sanitize_text_field( $value );
 				break;
 		}
-		if ( ( 'is_eu_on' === $key || 'logging_on' === $key ) && 'fffffff' === $ret ) {
+		if ( 'fffffff' === $ret ) {
 			$ret = false;
 		}
 		return $ret;
@@ -797,6 +819,8 @@ class Gdpr_Cookie_Consent {
 			'background_active_color'      => $settings['background'],
 			'border_active_color'          => $settings['background'],
 			'logging_on'                   => $settings['logging_on'],
+			'is_eu_on'                     => $settings['is_eu_on'],
+			'is_ccpa_on'                   => $settings['is_ccpa_on'],
 			'is_ticked'                    => $settings['is_ticked'],
 			'is_script_blocker_on'         => $settings['is_script_blocker_on'],
 			'auto_scroll'                  => $settings['auto_scroll'],
@@ -825,6 +849,20 @@ class Gdpr_Cookie_Consent {
 		return $str;
 	}
 
+	/**
+	 * Returns array containing CCPA countries.
+	 *
+	 * @since 1.8.5
+	 * @return array
+	 */
+	public static function get_ccpa_countries() {
+		return apply_filters(
+			'gdprcookieconsent_ccpa_countrylist',
+			array(
+				'US',
+			)
+		);
+	}
 	/**
 	 * Returns array containing EU countries.
 	 *

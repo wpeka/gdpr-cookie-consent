@@ -47,6 +47,9 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 						</select>
 					</td>
 				</tr>
+				<?php
+				do_action( 'gdpr_module_settings_cookie_usage_for' );
+				?>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
 					<th scope="row"><label for="bar_heading_text_field"><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
@@ -55,7 +58,7 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 					</td>
 				</tr>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
-					<th scope="row"><label for="notify_message_field"><?php esc_attr_e( 'Message', 'gdpr-cookie-consent' ); ?></label></th>
+					<th scope="row"><label for="notify_message_field"><?php esc_attr_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<textarea id="notify_message_field" name="notify_message_field" class="vvv_textbox"><?php echo wp_kses( apply_filters( 'format_to_edit', stripslashes( $the_options['notify_message'] ) ), Gdpr_Cookie_Consent::gdpr_allowed_html(), Gdpr_Cookie_Consent::gdpr_allowed_protocols() ); ?></textarea>
 					</td>
@@ -121,6 +124,9 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 		<div class="gdpr_sub_tab_content" data-id="other-general">
 			<p></p>
 			<table class="form-table">
+				<?php
+				do_action( 'gdpr_module_before_other_general' );
+				?>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
 					<th scope="row"><label for="is_ticked_field"><?php esc_attr_e( 'Autotick for Non-Necessary Cookies', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
@@ -191,7 +197,7 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 						<span class="gdpr_form_help"><?php esc_attr_e( 'The amount of time that the cookie should be stored for.', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
-				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
+				<tr valign="top">
 					<th scope="row"><label for="show_credits_field"><?php esc_attr_e( 'Show Credits', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="radio" id="show_credits_field_yes" name="show_credits_field" class="styled gdpr_bar_on" value="true" <?php echo ( true === $the_options['show_credits'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>

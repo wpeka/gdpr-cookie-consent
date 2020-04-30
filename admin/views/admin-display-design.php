@@ -114,7 +114,7 @@ $design_sub_tab = apply_filters( 'gdprcookieconsent_design_sub_tabs', $design_su
 				<tr valign="top">
 					<th scope="row"><label for="text_field"><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<input type="text" name="text_field" id="gdpr-color-text" value="<?php esc_attr( $the_options['text'] ); ?>" class="gdpr-color-field" data-default-color="#000" />
+						<input type="text" name="text_field" id="gdpr-color-text" value="<?php echo esc_attr( $the_options['text'] ); ?>" class="gdpr-color-field" data-default-color="#000" />
 					</td>
 				</tr>
 				<?php
