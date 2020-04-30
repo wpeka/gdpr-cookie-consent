@@ -668,7 +668,8 @@ fieldset:disabled a.btn {
 	background-color: #343a40;
 	padding: 2rem;
 }
-.gdpr_messagebar_detail .modal-dialog .modal-header .close {
+.gdpr_messagebar_detail .modal-dialog .modal-header .close,
+#gdpr-ccpa-modal .modal-dialog .modal-body .close {
 	padding: 0.75rem;
 	background: url(../images/close.svg);
 }
@@ -690,6 +691,15 @@ fieldset:disabled a.btn {
 #gdpr-ccpa-modal .modal-body {
 	padding: 1rem;
 	color: #000;
+}
+#gdpr-ccpa-modal .modal-body p {
+	margin: 0;
+	padding: 0;
+}
+#gdpr-ccpa-modal .modal-body .gdpr_action_button.close {
+	position: absolute;
+	right: 0.5rem;
+	top: 0.5rem;
 }
 .gdpr_messagebar_detail .category-group {
 	margin: 0;

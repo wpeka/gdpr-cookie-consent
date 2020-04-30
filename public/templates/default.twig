@@ -109,10 +109,12 @@
     {% endif %}
 {% endif %}
 {% if ccpa_notify %}
-    <div class="modal fade" id="gdpr-ccpa-modal" role="dialog">
+    <div class="modal fade" id="gdpr-ccpa-modal" role="dialog" data-keyboard="false" data-backdrop="{{ cookie_data['backdrop'] }}">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body">{{ __( optout_text, 'gdpr-cookie-consent' ) }}</div>
+                <div class="modal-body"><p>{{ __( optout_text, 'gdpr-cookie-consent' ) }}
+                        <button type="button" class="gdpr_action_button close" data-dismiss="modal" data-gdpr_action="ccpa_close"></button></p>
+                </div>
                 <div class="modal-footer">
                     {% if show_credits %}
                         {% if credits %}

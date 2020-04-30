@@ -50,7 +50,7 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 				<?php
 				do_action( 'gdpr_module_settings_cookie_usage_for' );
 				?>
-				<tr valign="top">
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
 					<th scope="row"><label for="bar_heading_text_field"><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="text" name="bar_heading_text_field" value="<?php echo esc_attr( $the_options['bar_heading_text'] ); ?>" />
