@@ -396,6 +396,33 @@
 
 			gdpr_form_toggler.set();
 
+			$( document ).on(
+				'change',
+				'input[name="is_eu_on_field"]',
+				function(){
+					if (this.value == 'true') {
+						$( '.gdpr-maxmind-notice' ).show();
+					} else {
+						if ($( 'input[name="is_ccpa_on_field"]:checked' ).val() == 'false') {
+							$( '.gdpr-maxmind-notice' ).hide();
+						}
+					}
+				}
+			);
+			$( document ).on(
+				'change',
+				'input[name="is_ccpa_on_field"]',
+				function(){
+					if (this.value == 'true') {
+						$( '.gdpr-maxmind-notice' ).show();
+					} else {
+						if ($( 'input[name="is_eu_on_field"]:checked' ).val() == 'false') {
+							$( '.gdpr-maxmind-notice' ).hide();
+						}
+					}
+				}
+			);
+
 		}
 	);
 

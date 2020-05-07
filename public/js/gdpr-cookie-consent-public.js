@@ -117,7 +117,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			this.toggleBar();
 			this.attachEvents();
 			this.configButtons();
-			if (this.settings.pro_active) {
+			if (this.settings.pro_active && this.settings.maxmind_integrated == '2') {
 				this.check_ccpa_eu();
 			}
 			if ( this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'both' ) {
