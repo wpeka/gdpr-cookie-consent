@@ -4,7 +4,7 @@ Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify
 Requires at least: 3.3.1
 Tested up to: 5.4.1
-Stable tag: 1.8.6
+Stable tag: 1.8.7
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -143,6 +143,11 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 6. Manage cookie list.
 
 == Change Log ==
+= 1.8.7 =
+* Feature: Added WPML compatibility.
+* Update: Language translations.
+* Update: Keyboard accessibility.
+
 = 1.8.6 =
 * Update: WordPress 5.4.1 compatibility.
 * Fix: Database tables creation issue on plugin activation.
@@ -230,6 +235,11 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 * Initial version
 
 == Upgrade Notice ==
+= 1.8.7 =
+* Feature: Added WPML compatibility.
+* Update: Language translations.
+* Update: Keyboard accessibility.
+
 = 1.8.6 =
 * Update: WordPress 5.4.1 compatibility.
 * Fix: Database tables creation issue on plugin activation.

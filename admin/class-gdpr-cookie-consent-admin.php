@@ -430,7 +430,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_getting_started() {
 		// Lock out non-admins.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'wpadcenter' ) );
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$styles      = '';
