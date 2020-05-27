@@ -33,7 +33,7 @@
             </div>
             <div class="gdpr group-description-buttons">
                 {% if button_accept_is_on %}
-                    <a id="cookie_action_accept" class="{{ button_accept_classes }}"
+                    <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept" href="#"
                             {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
                                 href="{{ button_accept_url }}"
                                 {% if button_accept_new_win %}
@@ -43,7 +43,7 @@
                        data-gdpr_action="accept" >{{ __( button_accept_text, 'gdpr-cookie-consent' ) }}</a>
                 {% endif %}
                 {% if button_decline_is_on %}
-                    <a id="cookie_action_reject" class="{{ button_decline_classes }}"
+                    <a id="cookie_action_reject" class="{{ button_decline_classes }}" tabindex="0" aria-label="Reject" href="#"
                             {% if button_decline_action == 'CONSTANT_OPEN_URL' %}
                                 href="{{ button_decline_url }}"
                                 {% if button_decline_new_win %}
@@ -53,7 +53,7 @@
                        data-gdpr_action="reject" >{{ __( button_decline_text, 'gdpr-cookie-consent' ) }}</a>
                 {% endif %}
                 {% if button_settings_is_on %}
-                    <a id="cookie_action_settings" class="{{ button_settings_classes }}"
+                    <a id="cookie_action_settings" class="{{ button_settings_classes }}" tabindex="0" aria-label="Cookie Settings" href="#"
                             {% if not button_settings_as_button %}
                                 href="#"
                             {% endif %}
