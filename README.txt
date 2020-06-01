@@ -147,6 +147,7 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 * Feature: Added WPML compatibility.
 * Update: Language translations.
 * Update: Keyboard accessibility.
+* Fix: Slow query issue while updating admin/public modules in options table.
 
 = 1.8.6 =
 * Update: WordPress 5.4.1 compatibility.
@@ -239,6 +240,7 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 * Feature: Added WPML compatibility.
 * Update: Language translations.
 * Update: Keyboard accessibility.
+* Fix: Slow query issue while updating admin/public modules in options table.
 
 = 1.8.6 =
 * Update: WordPress 5.4.1 compatibility.

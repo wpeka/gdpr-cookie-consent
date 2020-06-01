@@ -123,15 +123,23 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 1.0
 	 */
 	public function admin_modules() {
+		$initialize_flag    = false;
+		$active_flag        = false;
+		$non_active_flag    = false;
 		$gdpr_admin_modules = get_option( 'gdpr_admin_modules' );
 		if ( false === $gdpr_admin_modules ) {
+			$initialize_flag    = true;
 			$gdpr_admin_modules = array();
 		}
 		foreach ( $this->modules as $module ) {
 			$is_active = 1;
 			if ( isset( $gdpr_admin_modules[ $module ] ) ) {
 				$is_active = $gdpr_admin_modules[ $module ]; // checking module status.
+				if ( 1 === $is_active ) {
+					$active_flag = true;
+				}
 			} else {
+				$active_flag                   = true;
 				$gdpr_admin_modules[ $module ] = 1; // default status is active.
 			}
 			$module_file = plugin_dir_path( __FILE__ ) . "modules/$module/class-gdpr-cookie-consent-$module.php";
@@ -139,16 +147,19 @@ class Gdpr_Cookie_Consent_Admin {
 				self::$existing_modules[] = $module; // this is for module_exits checking.
 				require_once $module_file;
 			} else {
+				$non_active_flag               = true;
 				$gdpr_admin_modules[ $module ] = 0;
 			}
 		}
-		$out = array();
-		foreach ( $gdpr_admin_modules as $k => $m ) {
-			if ( in_array( $k, $this->modules, true ) ) {
-				$out[ $k ] = $m;
+		if ( $initialize_flag || ( $active_flag && $non_active_flag ) ) {
+			$out = array();
+			foreach ( $gdpr_admin_modules as $k => $m ) {
+				if ( in_array( $k, $this->modules, true ) ) {
+					$out[ $k ] = $m;
+				}
 			}
+			update_option( 'gdpr_admin_modules', $out );
 		}
-		update_option( 'gdpr_admin_modules', $out );
 	}
 
 	/**
