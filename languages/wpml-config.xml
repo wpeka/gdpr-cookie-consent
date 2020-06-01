@@ -1,0 +1,117 @@
+<wpml-config>
+  <custom-types>
+    <custom-type translate="0">gdprpolicies</custom-type>
+  </custom-types>
+  <admin-texts>
+    <key name="analytics_activation_redirect_gdpr-cookie-consent"/>
+    <key name="gdpr_admin_modules">
+      <key name="cookie-custom"/>
+      <key name="policy-data"/>
+    </key>
+    <key name="gdpr_public_modules"/>
+    <key name="gdpr-cookie-consent-setup"/>
+    <key name="GDPRCookieConsent-6.0">
+      <key name="animate_speed_hide"/>
+      <key name="animate_speed_show"/>
+      <key name="background"/>
+      <key name="opacity"/>
+      <key name="template"/>
+      <key name="banner_template"/>
+      <key name="popup_template"/>
+      <key name="widget_template"/>
+      <key name="button_accept_text"/>
+      <key name="button_accept_url"/>
+      <key name="button_accept_action"/>
+      <key name="button_accept_link_color"/>
+      <key name="button_accept_button_color"/>
+      <key name="button_accept_new_win"/>
+      <key name="button_accept_as_button"/>
+      <key name="button_accept_button_size"/>
+      <key name="button_accept_is_on"/>
+      <key name="button_readmore_text"/>
+      <key name="button_readmore_url"/>
+      <key name="button_readmore_action"/>
+      <key name="button_readmore_link_color"/>
+      <key name="button_readmore_button_color"/>
+      <key name="button_readmore_new_win"/>
+      <key name="button_readmore_as_button"/>
+      <key name="button_readmore_button_size"/>
+      <key name="button_readmore_is_on"/>
+      <key name="button_decline_text"/>
+      <key name="button_decline_url"/>
+      <key name="button_decline_action"/>
+      <key name="button_decline_link_color"/>
+      <key name="button_decline_button_color"/>
+      <key name="button_decline_new_win"/>
+      <key name="button_decline_as_button"/>
+      <key name="button_decline_button_size"/>
+      <key name="button_decline_is_on"/>
+      <key name="button_settings_text"/>
+      <key name="button_settings_url"/>
+      <key name="button_settings_action"/>
+      <key name="button_settings_link_color"/>
+      <key name="button_settings_button_color"/>
+      <key name="button_settings_new_win"/>
+      <key name="button_settings_as_button"/>
+      <key name="button_settings_button_size"/>
+      <key name="button_settings_is_on"/>
+      <key name="button_settings_as_popup"/>
+      <key name="button_donotsell_text"/>
+      <key name="button_donotsell_link_color"/>
+      <key name="button_donotsell_as_button"/>
+      <key name="button_donotsell_is_on"/>
+      <key name="button_confirm_text"/>
+      <key name="button_confirm_button_color"/>
+      <key name="button_confirm_link_color"/>
+      <key name="button_confirm_as_button"/>
+      <key name="button_confirm_button_size"/>
+      <key name="button_confirm_is_on"/>
+      <key name="button_cancel_text"/>
+      <key name="button_cancel_button_color"/>
+      <key name="button_cancel_link_color"/>
+      <key name="button_cancel_as_button"/>
+      <key name="button_cancel_button_size"/>
+      <key name="button_cancel_is_on"/>
+      <key name="font_family"/>
+      <key name="is_on"/>
+      <key name="is_eu_on"/>
+      <key name="is_ccpa_on"/>
+      <key name="logging_on"/>
+      <key name="show_credits"/>
+      <key name="is_ticked"/>
+      <key name="show_again"/>
+      <key name="is_script_blocker_on"/>
+      <key name="auto_hide"/>
+      <key name="auto_scroll"/>
+      <key name="auto_scroll_reload"/>
+      <key name="accept_reload"/>
+      <key name="decline_reload"/>
+      <key name="show_again_position"/>
+      <key name="show_again_text"/>
+      <key name="show_again_margin"/>
+      <key name="auto_hide_delay"/>
+      <key name="auto_scroll_offset"/>
+      <key name="cookie_expiry"/>
+      <key name="show_again_div_id"/>
+      <key name="notify_animate_hide"/>
+      <key name="notify_animate_show"/>
+      <key name="notify_message"/>
+      <key name="notify_message_ccpa"/>
+      <key name="notify_div_id"/>
+      <key name="notify_position_vertical"/>
+      <key name="notify_position_horizontal"/>
+      <key name="text"/>
+      <key name="use_color_picker"/>
+      <key name="bar_heading_text"/>
+      <key name="cookie_bar_as"/>
+      <key name="cookie_usage_for"/>
+      <key name="popup_overlay"/>
+      <key name="about_message"/>
+    </key>
+  </admin-texts>
+  <shortcodes>
+    <shortcode>
+      <tag>wpl_cookie_details</tag>
+    </shortcode>
+  </shortcodes>
+</wpml-config>

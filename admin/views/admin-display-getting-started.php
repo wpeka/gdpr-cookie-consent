@@ -7,8 +7,8 @@
  * @link       https://club.wpeka.com
  * @since      1.0.0
  *
- * @package    Wpadcenter
- * @subpackage Wpadcenter/admin/views
+ * @package    Gdpr_Cookie_Consent
+ * @subpackage Gdpr_Cookie_Consent/admin/views
  */
 
 // If this file is called directly, abort.
