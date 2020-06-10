@@ -50,6 +50,14 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 				<?php
 				do_action( 'gdpr_module_settings_cookie_usage_for' );
 				?>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="ccpa">
+					<th scope="row"><label for="is_ccpa_iab_on_field"><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="radio" id="is_ccpa_iab_on_field_yes" name="is_ccpa_iab_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['is_ccpa_iab_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
+						<input type="radio" id="is_ccpa_iab_on_field_no" name="is_ccpa_iab_on_field" class="styled" value="false" <?php echo ( false === $the_options['is_ccpa_iab_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
+						<span class="gdpr_form_help"><?php esc_attr_e( 'Compatibility for the customization of advertising tracking preferences in case of CCPA.', 'gdpr-cookie-consent' ); ?>
+					</td>
+				</tr>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
 					<th scope="row"><label for="bar_heading_text_field"><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>

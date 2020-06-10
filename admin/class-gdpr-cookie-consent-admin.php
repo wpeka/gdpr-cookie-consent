@@ -123,15 +123,23 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 1.0
 	 */
 	public function admin_modules() {
+		$initialize_flag    = false;
+		$active_flag        = false;
+		$non_active_flag    = false;
 		$gdpr_admin_modules = get_option( 'gdpr_admin_modules' );
 		if ( false === $gdpr_admin_modules ) {
+			$initialize_flag    = true;
 			$gdpr_admin_modules = array();
 		}
 		foreach ( $this->modules as $module ) {
 			$is_active = 1;
 			if ( isset( $gdpr_admin_modules[ $module ] ) ) {
 				$is_active = $gdpr_admin_modules[ $module ]; // checking module status.
+				if ( 1 === $is_active ) {
+					$active_flag = true;
+				}
 			} else {
+				$active_flag                   = true;
 				$gdpr_admin_modules[ $module ] = 1; // default status is active.
 			}
 			$module_file = plugin_dir_path( __FILE__ ) . "modules/$module/class-gdpr-cookie-consent-$module.php";
@@ -139,16 +147,19 @@ class Gdpr_Cookie_Consent_Admin {
 				self::$existing_modules[] = $module; // this is for module_exits checking.
 				require_once $module_file;
 			} else {
+				$non_active_flag               = true;
 				$gdpr_admin_modules[ $module ] = 0;
 			}
 		}
-		$out = array();
-		foreach ( $gdpr_admin_modules as $k => $m ) {
-			if ( in_array( $k, $this->modules, true ) ) {
-				$out[ $k ] = $m;
+		if ( $initialize_flag || ( $active_flag && $non_active_flag ) ) {
+			$out = array();
+			foreach ( $gdpr_admin_modules as $k => $m ) {
+				if ( in_array( $k, $this->modules, true ) ) {
+					$out[ $k ] = $m;
+				}
 			}
+			update_option( 'gdpr_admin_modules', $out );
 		}
-		update_option( 'gdpr_admin_modules', $out );
 	}
 
 	/**
@@ -371,6 +382,14 @@ class Gdpr_Cookie_Consent_Admin {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-5.0' );
 		}
+		// update settings from Version 1.8.8.
+		$prev_gdpr_option = get_option( 'GDPRCookieConsent-6.0' );
+		if ( isset( $prev_gdpr_option['is_on'] ) && GDPR_COOKIE_CONSENT_VERSION >= '1.8.8' ) {
+			$prev_gdpr_option['is_ccpa_iab_on'] = false;
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
+			delete_option( 'GDPRCookieConsent-6.0' );
+		}
+
 	}
 
 	/**
@@ -430,7 +449,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_getting_started() {
 		// Lock out non-admins.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'wpadcenter' ) );
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$styles      = '';

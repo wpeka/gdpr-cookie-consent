@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '1.8.6';
+			$this->version = '1.8.8';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -505,6 +505,7 @@ class Gdpr_Cookie_Consent {
 			'is_on'                        => true,
 			'is_eu_on'                     => false,
 			'is_ccpa_on'                   => false,
+			'is_ccpa_iab_on'               => false,
 			'logging_on'                   => false,
 			'show_credits'                 => false,
 			'is_ticked'                    => false,
@@ -558,6 +559,7 @@ class Gdpr_Cookie_Consent {
 			case 'is_on':
 			case 'is_eu_on':
 			case 'is_ccpa_on':
+			case 'is_ccpa_iab_on':
 			case 'is_script_blocker_on':
 			case 'show_again':
 			case 'auto_hide':
@@ -821,6 +823,7 @@ class Gdpr_Cookie_Consent {
 			'logging_on'                   => $settings['logging_on'],
 			'is_eu_on'                     => $settings['is_eu_on'],
 			'is_ccpa_on'                   => $settings['is_ccpa_on'],
+			'is_ccpa_iab_on'               => $settings['is_ccpa_iab_on'],
 			'is_ticked'                    => $settings['is_ticked'],
 			'is_script_blocker_on'         => $settings['is_script_blocker_on'],
 			'auto_scroll'                  => $settings['auto_scroll'],

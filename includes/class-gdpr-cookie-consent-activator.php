@@ -177,6 +177,13 @@ class Gdpr_Cookie_Consent_Activator {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-5.0' );
 		}
+		// update settings from Version 1.8.8.
+		$prev_gdpr_option = get_option( 'GDPRCookieConsent-6.0' );
+		if ( isset( $prev_gdpr_option['is_on'] ) && GDPR_COOKIE_CONSENT_VERSION >= '1.8.8' ) {
+			$prev_gdpr_option['is_ccpa_iab_on'] = false;
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
+			delete_option( 'GDPRCookieConsent-6.0' );
+		}
 	}
 
 }
