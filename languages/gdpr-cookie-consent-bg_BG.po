@@ -2,26 +2,26 @@
 # This file is distributed under the same license as the GDPR Cookie Consent plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: GDPR Cookie Consent 1.8.7\n"
+"Project-Id-Version: GDPR Cookie Consent 1.8.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
 "consent\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-05-26T12:13:18+00:00\n"
-"PO-Revision-Date: 2020-05-26 17:59+0530\n"
-"X-Generator: Poedit 2.2.4\n"
+"POT-Creation-Date: 2020-06-10T07:03:43+00:00\n"
+"PO-Revision-Date: 2020-06-10 12:50+0530\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Domain: gdpr-cookie-consent\n"
 "Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: bg_BG\n"
 
 #. Plugin Name of the plugin
-#: admin/class-gdpr-cookie-consent-admin.php:216
-#: admin/class-gdpr-cookie-consent-admin.php:228
+#: admin/class-gdpr-cookie-consent-admin.php:227
+#: admin/class-gdpr-cookie-consent-admin.php:239
 msgid "GDPR Cookie Consent"
-msgstr "Съгласие за бисквитка от GDPR"
+msgstr "Съгласие за бисквитки на GDPR"
 
 #. Plugin URI of the plugin
 msgid "https://club.wpeka.com/"
@@ -32,9 +32,9 @@ msgid ""
 "Cookie Consent will help you put up a subtle banner in the footer of your "
 "website to showcase compliance status regarding the EU Cookie law."
 msgstr ""
-"\"Съгласието за бисквитките\" ще ви помогне да поставите тънък банер в "
-"долния колонтитул на уебсайта си, за да демонстрирате статус на съответствие "
-"по отношение на Закона за бисквитките на ЕС."
+"Съгласието за \"бисквитките\" ще Ви помогне да поставите неуловим банер в "
+"долния колонтитул на уебсайта си, за да покажете статуса на съответствие по "
+"отношение на законодателството на ЕС относно \"бисквитките\"."
 
 #. Author of the plugin
 msgid "WPEkaClub"
@@ -44,208 +44,208 @@ msgstr "WPEkaClub"
 msgid "https://club.wpeka.com"
 msgstr "https://club.wpeka.com"
 
-#: admin/class-gdpr-cookie-consent-admin.php:164
-#: admin/class-gdpr-cookie-consent-admin.php:170
+#: admin/class-gdpr-cookie-consent-admin.php:175
+#: admin/class-gdpr-cookie-consent-admin.php:181
 msgid "Cookie Bar Shortcodes"
-msgstr "Бисквитка бар кратки кодове"
+msgstr "Къси кодове за бисквитки"
 
-#: admin/class-gdpr-cookie-consent-admin.php:165
+#: admin/class-gdpr-cookie-consent-admin.php:176
 msgid ""
 "Use the below shortcode to display third-party cookie details on your "
 "privacy or cookie policy pages."
 msgstr ""
-"Използвайте кратката код по-долу, за да покажете информация за бисквитките "
-"на трети страни на вашите страници за поверителност или бисквитки."
+"Използвайте краткия кратък код по-долу, за да покажете подробности за "
+"бисквитките на трети страни на страниците си за поверителност или правила за "
+"бисквитки."
 
-#: admin/class-gdpr-cookie-consent-admin.php:177
-#: admin/class-gdpr-cookie-consent-admin.php:178
+#: admin/class-gdpr-cookie-consent-admin.php:188
+#: admin/class-gdpr-cookie-consent-admin.php:189
 msgid "Help &amp; Support"
 msgstr "Помощ и Поддръжка"
 
-#: admin/class-gdpr-cookie-consent-admin.php:179
+#: admin/class-gdpr-cookie-consent-admin.php:190
 msgid ""
 "If you need help understanding, using, or extending GDPR Cookie Consent "
 "Plugin,"
 msgstr ""
-"Ако имате нужда от помощ при разбирането, използването или удължаването на "
-"добавката за одобрение на бисквитки на GDPR,"
+"Ако имате нужда от помощ за разбирането, използването или разширяването на "
+"приставката за съгласие на"
 
-#: admin/class-gdpr-cookie-consent-admin.php:179
+#: admin/class-gdpr-cookie-consent-admin.php:190
 msgid "please read our documentation."
-msgstr "mоля, прочетете документацията ни."
+msgstr "моля, прочетете документацията ни."
 
-#: admin/class-gdpr-cookie-consent-admin.php:179
+#: admin/class-gdpr-cookie-consent-admin.php:190
 msgid ""
 "You will find all kinds of resources including snippets, tutorials and more."
-msgstr ""
-"Ще намерите всички видове ресурси, включително фрагменти, уроци и повече."
+msgstr "Ще намерите всички видове ресурси, включително отnippets, уроци и др."
 
-#: admin/class-gdpr-cookie-consent-admin.php:180
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "For further assistance with GDPR Cookie Consent plugin you can use the"
 msgstr ""
-"За допълнителна помощ с приставката за одобрение на бисквитките от GDPR "
-"можете да използвате"
+"За допълнителна помощ с приставката за съгласие на бисквитките на GDPR "
+"можете да"
 
-#: admin/class-gdpr-cookie-consent-admin.php:180
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "community forum."
-msgstr "форума на Общността."
+msgstr "форум на общността."
 
-#: admin/class-gdpr-cookie-consent-admin.php:180
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "If you need help with premium extensions sold by WPEka"
-msgstr "Ако имате нужда от помощ с премийните разширения, продавани от WPEka"
+msgstr "Ако имате нужда от помощ с премия разширения, продавани от WPEka"
 
-#: admin/class-gdpr-cookie-consent-admin.php:180
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "use our helpdesk."
-msgstr "използваме нашето информационно бюро."
+msgstr "да използваме нашия helpdesk."
 
-#: admin/class-gdpr-cookie-consent-admin.php:186
-#: admin/class-gdpr-cookie-consent-admin.php:187
+#: admin/class-gdpr-cookie-consent-admin.php:197
+#: admin/class-gdpr-cookie-consent-admin.php:198
 msgid "Found a bug?"
 msgstr "Открили сте нередност?"
 
-#: admin/class-gdpr-cookie-consent-admin.php:188
+#: admin/class-gdpr-cookie-consent-admin.php:199
 msgid ""
 "If you find a bug within GDPR Cookie Consent plugin you can create a ticket "
 "via"
 msgstr ""
-"Ако откриете бъг в приставката за одобрение на бисквитки на GDPR, можете да "
-"създадете билет чрез"
+"Ако откриете бъг в рамките на приставката за съгласие на бисквитките на "
+"GDPR, можете да създадете билет чрез"
 
-#: admin/class-gdpr-cookie-consent-admin.php:188
+#: admin/class-gdpr-cookie-consent-admin.php:199
 msgid "our helpdesk."
-msgstr "нашето бюро за помощ."
+msgstr "нашите бюра за помощ."
 
-#: admin/class-gdpr-cookie-consent-admin.php:192
+#: admin/class-gdpr-cookie-consent-admin.php:203
 msgid "For more information:"
 msgstr "За повече информация:"
 
-#: admin/class-gdpr-cookie-consent-admin.php:193
+#: admin/class-gdpr-cookie-consent-admin.php:204
 msgid "About GDPR Cookie Consent"
-msgstr "Всичко за съгласието на \"бисквитките\" на GDPR"
+msgstr "За съгласието на \"бисквитките\" на GDPR"
 
-#: admin/class-gdpr-cookie-consent-admin.php:194
+#: admin/class-gdpr-cookie-consent-admin.php:205
 msgid "WordPress.org project"
-msgstr "Проект WordPress.org"
+msgstr "WordPress.org проект"
 
-#: admin/class-gdpr-cookie-consent-admin.php:195
+#: admin/class-gdpr-cookie-consent-admin.php:206
 msgid "WPEka Plugins"
-msgstr "WPEka плъгини"
+msgstr "Приставки за WPEKA"
 
 #. translators: 1: GDPR Cookie Consent 2:: five stars
-#: admin/class-gdpr-cookie-consent-admin.php:215
+#: admin/class-gdpr-cookie-consent-admin.php:226
 msgid ""
 "If you like %1$s please leave us a %2$s rating. A huge thanks in advance!"
 msgstr ""
-"Ако искате %1$s, моля, оставете ни рейтинг %2$s. Огромна благодарност "
+"Ако искате %1$s, моля оставете ни %2$s рейтинг. Огромна благодарност "
 "предварително!"
 
-#: admin/class-gdpr-cookie-consent-admin.php:217
+#: admin/class-gdpr-cookie-consent-admin.php:228
 msgid "five star"
 msgstr "пет звезди"
 
-#: admin/class-gdpr-cookie-consent-admin.php:229
+#: admin/class-gdpr-cookie-consent-admin.php:240
 #: includes/class-gdpr-cookie-consent-i18n.php:50
 msgid "Cookie Settings"
 msgstr "Настройки на бисквитките"
 
-#: admin/class-gdpr-cookie-consent-admin.php:230
+#: admin/class-gdpr-cookie-consent-admin.php:241
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:48
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:50
 msgid "Policy Data"
-msgstr "Данни за политиката"
+msgstr "Данни за правилата"
 
-#: admin/class-gdpr-cookie-consent-admin.php:231
+#: admin/class-gdpr-cookie-consent-admin.php:242
 msgid "Import Policies"
 msgstr "Правила за импортиране"
 
-#: admin/class-gdpr-cookie-consent-admin.php:232
+#: admin/class-gdpr-cookie-consent-admin.php:243
 #: admin/views/admin-display-getting-started.php:27
 msgid "Getting Started"
 msgstr "Да започваме"
 
-#: admin/class-gdpr-cookie-consent-admin.php:386
-#: admin/class-gdpr-cookie-consent-admin.php:433
+#: admin/class-gdpr-cookie-consent-admin.php:405
+#: admin/class-gdpr-cookie-consent-admin.php:452
 msgid "You do not have sufficient permission to perform this operation"
-msgstr "Нямате достатъчно разрешение за извършване на тази операция"
+msgstr "Нямате достатъчно права за извършване на тази операция"
 
-#: admin/class-gdpr-cookie-consent-admin.php:416
+#: admin/class-gdpr-cookie-consent-admin.php:435
 msgid "Settings Updated."
-msgstr "Настройките са актуализирани."
+msgstr "Настройки актуализирани."
 
-#: admin/class-gdpr-cookie-consent-admin.php:547
+#: admin/class-gdpr-cookie-consent-admin.php:566
 msgid "An hour"
 msgstr "Един час"
 
-#: admin/class-gdpr-cookie-consent-admin.php:548
+#: admin/class-gdpr-cookie-consent-admin.php:567
 msgid "1 Day"
 msgstr "1 ден"
 
-#: admin/class-gdpr-cookie-consent-admin.php:549
+#: admin/class-gdpr-cookie-consent-admin.php:568
 msgid "1 Week"
 msgstr "1 Седмица"
 
-#: admin/class-gdpr-cookie-consent-admin.php:550
+#: admin/class-gdpr-cookie-consent-admin.php:569
 msgid "1 Month"
 msgstr "1 Месец"
 
-#: admin/class-gdpr-cookie-consent-admin.php:551
+#: admin/class-gdpr-cookie-consent-admin.php:570
 msgid "3 Months"
 msgstr "3 месеца"
 
-#: admin/class-gdpr-cookie-consent-admin.php:552
+#: admin/class-gdpr-cookie-consent-admin.php:571
 msgid "6 Months"
 msgstr "6 месеца"
 
-#: admin/class-gdpr-cookie-consent-admin.php:553
+#: admin/class-gdpr-cookie-consent-admin.php:572
 msgid "1 Year"
 msgstr "1 Година"
 
-#: admin/class-gdpr-cookie-consent-admin.php:566
+#: admin/class-gdpr-cookie-consent-admin.php:585
 msgid "GDPR"
-msgstr "Политика за защита на личните данни"
+msgstr "GDPR"
 
-#: admin/class-gdpr-cookie-consent-admin.php:567
+#: admin/class-gdpr-cookie-consent-admin.php:586
 msgid "CCPA"
-msgstr "ККП"
+msgstr "1000000"
 
-#: admin/class-gdpr-cookie-consent-admin.php:568
+#: admin/class-gdpr-cookie-consent-admin.php:587
 msgid "Both"
 msgstr "И двете"
 
-#: admin/class-gdpr-cookie-consent-admin.php:581
+#: admin/class-gdpr-cookie-consent-admin.php:600
 msgid "Banner"
 msgstr "Банер"
 
-#: admin/class-gdpr-cookie-consent-admin.php:582
+#: admin/class-gdpr-cookie-consent-admin.php:601
 #: admin/views/admin-display-buttons.php:227
 #: admin/views/admin-display-buttons.php:230
 msgid "Popup"
 msgstr "Изкачащ прозорец"
 
-#: admin/class-gdpr-cookie-consent-admin.php:583
+#: admin/class-gdpr-cookie-consent-admin.php:602
 msgid "Widget"
 msgstr "Джаджа"
 
-#: admin/class-gdpr-cookie-consent-admin.php:597
+#: admin/class-gdpr-cookie-consent-admin.php:616
 msgid "Large"
 msgstr "Голям"
 
-#: admin/class-gdpr-cookie-consent-admin.php:598
+#: admin/class-gdpr-cookie-consent-admin.php:617
 msgid "Medium"
 msgstr "Среден"
 
-#: admin/class-gdpr-cookie-consent-admin.php:599
+#: admin/class-gdpr-cookie-consent-admin.php:618
 msgid "Small"
 msgstr "Малък"
 
-#: admin/class-gdpr-cookie-consent-admin.php:613
+#: admin/class-gdpr-cookie-consent-admin.php:632
 #: admin/views/admin-display-buttons.php:154
 msgid "Close Header"
 msgstr "Затваряне на горен колонтитул"
 
-#: admin/class-gdpr-cookie-consent-admin.php:614
+#: admin/class-gdpr-cookie-consent-admin.php:633
 msgid "Open URL"
-msgstr "Отваряне на URL адрес"
+msgstr "Отваряне на URL"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:57
 msgid "Incomplete"
@@ -261,7 +261,7 @@ msgstr "Спряна"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:77
 msgid "About Cookies Message"
-msgstr "Всичко за съобщението \"бисквитките\""
+msgstr "За съобщението \"бисквитки\""
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:96
 msgid "Cookie List"
@@ -270,12 +270,12 @@ msgstr "Списък с бисквитки"
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:169
 #: includes/class-gdpr-cookie-consent-i18n.php:35
 msgid "HTTP Cookie"
-msgstr "HTTP бисквитка"
+msgstr "Бисквитка за HTTP"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:170
 #: includes/class-gdpr-cookie-consent-i18n.php:36
 msgid "HTML Local Storage"
-msgstr "Локално хранилище на HTML"
+msgstr "Локално хранилище за HTML"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:171
 #: includes/class-gdpr-cookie-consent-i18n.php:37
@@ -285,20 +285,20 @@ msgstr "Флаш локален споделен обект"
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:172
 #: includes/class-gdpr-cookie-consent-i18n.php:38
 msgid "Pixel Tracker"
-msgstr "Пикселно проследяване"
+msgstr "Пиксел тракер"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:173
 #: includes/class-gdpr-cookie-consent-i18n.php:39
 msgid "IndexedDB"
-msgstr "Индексиран DB"
+msgstr "Индексиран индексиран индекс"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:36
 msgid "Unable to handle your request."
-msgstr "Не може да се обработи заявката ви."
+msgstr "Не може да се обработи вашата заявка."
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:59
 msgid "Unable to add cookie"
-msgstr "Не може да се добави бисквитка"
+msgstr "Не може да се добави \"бисквитка\""
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:88
 msgid "Cookie added successfully"
@@ -306,11 +306,11 @@ msgstr "Бисквитката е добавена успешно"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:103
 msgid "Unable to update cookies"
-msgstr "Бисквитките не могат да бъдат актуализирани"
+msgstr "Не може да се актуализират бисквитките"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:150
 msgid "No data was modified on the form."
-msgstr "Няма променени данни във формуляра."
+msgstr "Във формуляра няма променени данни."
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:155
 msgid "Cookies updated successfully"
@@ -318,7 +318,7 @@ msgstr "Бисквитките са актуализирани успешно"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:170
 msgid "Unable to delete cookie"
-msgstr "Бисквитките не могат да бъдат изтрити"
+msgstr "Не може да се изтрие бисквитката"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:181
 msgid "Cookie deleted successfully"
@@ -344,7 +344,7 @@ msgstr "Име на бисквитка"
 #: admin/modules/cookie-custom/views/cookies.php:39
 #: admin/modules/cookie-custom/views/custom-cookie-list.php:30
 msgid "Cookie Domain"
-msgstr "Домейн на бисквитките"
+msgstr "Домейн на \"бисквитките\""
 
 #: admin/modules/cookie-custom/views/cookies.php:48
 msgid "Cookie Duration (in days)"
@@ -353,12 +353,12 @@ msgstr "Продължителност на бисквитките (в дни)"
 #: admin/modules/cookie-custom/views/cookies.php:51
 #: admin/modules/cookie-custom/views/custom-cookie-list.php:42
 msgid "Cookie Purpose"
-msgstr "Цел \"бисквитки\""
+msgstr "Цел на бисквитките"
 
 #: admin/modules/cookie-custom/views/cookies.php:53
 #: includes/class-gdpr-cookie-consent-i18n.php:44
-#: public/class-gdpr-cookie-consent-public.php:213
-#: public/class-gdpr-cookie-consent-public.php:222
+#: public/class-gdpr-cookie-consent-public.php:227
+#: public/class-gdpr-cookie-consent-public.php:236
 msgid "Cancel"
 msgstr "Отказ"
 
@@ -372,11 +372,11 @@ msgstr "Продължителност на бисквитките"
 
 #: admin/modules/cookie-custom/views/custom-cookie-list.php:44
 msgid "Delete Cookie"
-msgstr "Изтрий бисквитките"
+msgstr "Изтриване на \"бисквитка\""
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:49
 msgid "Policy Data List"
-msgstr "Списък с данни за политиката"
+msgstr "Списък с данни за правилата"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:51
 msgid "Add New"
@@ -384,7 +384,7 @@ msgstr "Добави нов"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:52
 msgid "Add New Policy Data"
-msgstr "Добавяне на нови данни за правилата"
+msgstr "Добавяне на нови данни за правила"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:53
 msgid "Edit Policy Data"
@@ -392,7 +392,7 @@ msgstr "Редактиране на данни за правилата"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:54
 msgid "New Policy Data"
-msgstr "Нови данни за политиката"
+msgstr "Нови данни за правилата"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:55
 msgid "View Policy Data"
@@ -423,7 +423,7 @@ msgid "Links"
 msgstr "Връзки"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:157
-#: public/class-gdpr-cookie-consent-public.php:403
+#: public/class-gdpr-cookie-consent-public.php:417
 msgid "Domain"
 msgstr "Домейн"
 
@@ -441,7 +441,7 @@ msgstr "Параметрите са обновени."
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:22
 msgid "Unable to update Settings."
-msgstr "Не може да се актуализират настройките."
+msgstr "Настройките не могат да бъдат актуализирани."
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:29
 #: admin/views/admin-display-design.php:19
@@ -459,11 +459,11 @@ msgstr "Бутони"
 
 #: admin/views/admin-display-buttons.php:19
 msgid "Accept Button"
-msgstr "Приеми бутона"
+msgstr "Бутон за приемане"
 
 #: admin/views/admin-display-buttons.php:20
 msgid "Decline Button"
-msgstr "Бутон \"отхвърляне\""
+msgstr "Бутон \"Отхвърляне\""
 
 #: admin/views/admin-display-buttons.php:21
 msgid "Settings Button"
@@ -471,7 +471,7 @@ msgstr "Бутон за настройки"
 
 #: admin/views/admin-display-buttons.php:22
 msgid "Read More Link"
-msgstr "Прочети още връзка"
+msgstr "Прочетете повече връзка"
 
 #: admin/views/admin-display-buttons.php:23
 msgid "Confirm Button"
@@ -491,9 +491,9 @@ msgid ""
 "follow a link. You can also customize the colors and styles, and show it as "
 "a link or a button."
 msgstr ""
-"Този бутон/връзка може да се персонализира или просто да затвори лентата с "
-"бисквитки, или да последва връзка. Можете също да персонализирате цветовете "
-"и стиловете и да го показвате като връзка или бутон."
+"Този бутон/връзка може да бъде персонализиран или просто да затвори лентата "
+"с бисквитки, или да последвате връзка. Можете също да персонализирате "
+"цветовете и стиловете и да ги показвате като връзка или бутон."
 
 #: admin/views/admin-display-buttons.php:41
 #: admin/views/admin-display-buttons.php:109
@@ -508,14 +508,15 @@ msgstr "Включи"
 #: admin/views/admin-display-buttons.php:248
 #: admin/views/admin-display-design.php:62
 #: admin/views/admin-display-general.php:38
-#: admin/views/admin-display-general.php:84
-#: admin/views/admin-display-general.php:133
-#: admin/views/admin-display-general.php:140
-#: admin/views/admin-display-general.php:154
-#: admin/views/admin-display-general.php:169
-#: admin/views/admin-display-general.php:176
-#: admin/views/admin-display-general.php:183
-#: admin/views/admin-display-general.php:203
+#: admin/views/admin-display-general.php:56
+#: admin/views/admin-display-general.php:92
+#: admin/views/admin-display-general.php:141
+#: admin/views/admin-display-general.php:148
+#: admin/views/admin-display-general.php:162
+#: admin/views/admin-display-general.php:177
+#: admin/views/admin-display-general.php:184
+#: admin/views/admin-display-general.php:191
+#: admin/views/admin-display-general.php:211
 msgid "On"
 msgstr "Включено"
 
@@ -525,16 +526,17 @@ msgstr "Включено"
 #: admin/views/admin-display-buttons.php:249
 #: admin/views/admin-display-design.php:63
 #: admin/views/admin-display-general.php:39
-#: admin/views/admin-display-general.php:85
-#: admin/views/admin-display-general.php:134
-#: admin/views/admin-display-general.php:141
-#: admin/views/admin-display-general.php:155
-#: admin/views/admin-display-general.php:170
-#: admin/views/admin-display-general.php:177
-#: admin/views/admin-display-general.php:184
-#: admin/views/admin-display-general.php:204
+#: admin/views/admin-display-general.php:57
+#: admin/views/admin-display-general.php:93
+#: admin/views/admin-display-general.php:142
+#: admin/views/admin-display-general.php:149
+#: admin/views/admin-display-general.php:163
+#: admin/views/admin-display-general.php:178
+#: admin/views/admin-display-general.php:185
+#: admin/views/admin-display-general.php:192
+#: admin/views/admin-display-general.php:212
 msgid "Off"
-msgstr "Изкл"
+msgstr "Изкл."
 
 #: admin/views/admin-display-buttons.php:48
 #: admin/views/admin-display-buttons.php:116
@@ -561,7 +563,7 @@ msgstr "Цвят на текста"
 #: admin/views/admin-display-buttons.php:200
 #: admin/views/admin-display-buttons.php:265
 msgid "Show as"
-msgstr "Покажи като"
+msgstr "Показване като"
 
 #: admin/views/admin-display-buttons.php:62
 #: admin/views/admin-display-buttons.php:130
@@ -609,14 +611,13 @@ msgstr "URL"
 #: admin/views/admin-display-buttons.php:92
 #: admin/views/admin-display-buttons.php:164
 msgid "Button will only link to URL if Action = Open URL"
-msgstr ""
-"Бутонът ще се свърже само с URL адрес, ако действие = отворен URL адрес"
+msgstr "Бутонът ще се свърже само с URL адрес, ако action = Open URL"
 
 #: admin/views/admin-display-buttons.php:97
 #: admin/views/admin-display-buttons.php:169
 #: admin/views/admin-display-buttons.php:293
 msgid "Open URL in new window?"
-msgstr "Отваряте URL адрес в нов прозорец?"
+msgstr "Отваряне на URL адрес в нов прозорец?"
 
 #: admin/views/admin-display-buttons.php:99
 #: admin/views/admin-display-buttons.php:171
@@ -632,7 +633,7 @@ msgstr "Не"
 
 #: admin/views/admin-display-buttons.php:221
 msgid "Cookie Settings Layout"
-msgstr "Оформление на настройки за бисквитки"
+msgstr "Оформление на настройките на бисквитките"
 
 #: admin/views/admin-display-buttons.php:228
 #: admin/views/admin-display-buttons.php:231
@@ -644,18 +645,18 @@ msgid ""
 "This button/link can be used to provide a link out to your Privacy & Cookie "
 "Policy. You can customize it any way you like."
 msgstr ""
-"Този бутон/връзка може да се използва за предоставяне на връзка към вашата "
-"поверителност & политика за бисквитките. Можете да го персонализирате по "
-"начин, който ви харесва."
+"Този бутон/линк може да се използва за предоставяне на връзка към вашата "
+"Политика за поверителност и бисквитки. Можете да го персонализирате както "
+"искате."
 
 #: admin/views/admin-display-design.php:34
 msgid "Cookie Bar as"
-msgstr "Бисквитка бар като"
+msgstr "Лента за бисквитки като"
 
 #: admin/views/admin-display-design.php:42
 #: admin/views/admin-display-design.php:67
 msgid "Cookie Bar Position"
-msgstr "Позиция на лентата с бисквитки"
+msgstr "Позиция на лентата за бисквитки"
 
 #: admin/views/admin-display-design.php:48
 #: admin/views/admin-display-design.php:51
@@ -673,21 +674,21 @@ msgstr "Добавяне на наслагване"
 
 #: admin/views/admin-display-design.php:73
 #: admin/views/admin-display-design.php:76
-#: admin/views/admin-display-general.php:95
-#: admin/views/admin-display-general.php:98
+#: admin/views/admin-display-general.php:103
+#: admin/views/admin-display-general.php:106
 msgid "Left"
 msgstr "Ляво"
 
 #: admin/views/admin-display-design.php:74
 #: admin/views/admin-display-design.php:77
-#: admin/views/admin-display-general.php:96
-#: admin/views/admin-display-general.php:99
+#: admin/views/admin-display-general.php:104
+#: admin/views/admin-display-general.php:107
 msgid "Right"
 msgstr "Дясно"
 
 #: admin/views/admin-display-design.php:85
 msgid "On hide"
-msgstr "На криеница"
+msgstr "На скрий"
 
 #: admin/views/admin-display-design.php:91
 #: admin/views/admin-display-design.php:94
@@ -701,7 +702,7 @@ msgstr "Изчезват"
 
 #: admin/views/admin-display-design.php:103
 msgid "Cookie Bar Color"
-msgstr "Цвят на бар бисквитка"
+msgstr "Цвят на лентата за бисквитки"
 
 #: admin/views/admin-display-design.php:109
 msgid "Cookie Bar Opacity"
@@ -712,9 +713,9 @@ msgid "Text Color"
 msgstr "Цвят на текста"
 
 #: admin/views/admin-display-general.php:20
-#: admin/views/admin-display-general.php:82
+#: admin/views/admin-display-general.php:90
 msgid "Show Again Tab"
-msgstr "Покажи раздела \"Отново\""
+msgstr "Показване на подпрозореца"
 
 #: admin/views/admin-display-general.php:21
 msgid "Other"
@@ -722,99 +723,111 @@ msgstr "Друго"
 
 #: admin/views/admin-display-general.php:36
 msgid "Cookie Bar is currently"
-msgstr "Бисквитката бар е в момента"
+msgstr "Лентата за бисквитки в момента е"
 
 #: admin/views/admin-display-general.php:43
 msgid "Cookie Bar Usage for"
-msgstr "Използване на \"бисквитката\" за"
+msgstr "Използване на \"бисквитки\" за"
 
 #: admin/views/admin-display-general.php:54
+msgid "Enable IAB Transparency and Consent Framework (TCF)"
+msgstr "Разрешаване на рамката за прозрачност и съгласие на IAB (TCF)"
+
+#: admin/views/admin-display-general.php:58
+msgid ""
+"Compatibility for the customization of advertising tracking preferences in "
+"case of CCPA."
+msgstr ""
+"Съвместимост за персонализиране на предпочитанията за рекламно проследяване "
+"в случай на CCPA."
+
+#: admin/views/admin-display-general.php:62
 msgid "Message Heading"
 msgstr "Заглавие на съобщението"
 
-#: admin/views/admin-display-general.php:57
+#: admin/views/admin-display-general.php:65
 msgid "Leave it blank, If you do not need a heading"
-msgstr "Оставете го празно, ако не се нуждаете от заглавие"
+msgstr "Оставете го празно, Ако не ви е необходима позиция"
 
-#: admin/views/admin-display-general.php:61
+#: admin/views/admin-display-general.php:69
 msgid "GDPR Message"
 msgstr "Съобщение на GDPR"
 
-#: admin/views/admin-display-general.php:67
+#: admin/views/admin-display-general.php:75
 msgid "CCPA Message"
-msgstr "Съобщение от ККПП"
+msgstr "Съобщение CCPA"
 
-#: admin/views/admin-display-general.php:89
+#: admin/views/admin-display-general.php:97
 msgid "Show Again Tab Position"
-msgstr "Покажи отново позиция на табулатор"
+msgstr "Показване на позицията на раздела отново"
 
-#: admin/views/admin-display-general.php:107
+#: admin/views/admin-display-general.php:115
 msgid "Show Again Tab Margin (in percent)"
-msgstr "Показвай отново поле на раздела (в проценти)"
+msgstr "Показване на отново поле на раздела (в проценти)"
 
-#: admin/views/admin-display-general.php:113
+#: admin/views/admin-display-general.php:121
 msgid "Show Again Text"
-msgstr "Покажи отново текст"
+msgstr "Показване на текста отново"
 
-#: admin/views/admin-display-general.php:131
+#: admin/views/admin-display-general.php:139
 msgid "Autotick for Non-Necessary Cookies"
-msgstr "Автоматично маркиране на ненужните бисквитки"
+msgstr "Автотирек за ненапметни бисквитки"
 
-#: admin/views/admin-display-general.php:138
+#: admin/views/admin-display-general.php:146
 msgid "Auto Hide (Accept)"
-msgstr "Авто скриване (приемам)"
+msgstr "Автоматично скриване (приемам)"
 
-#: admin/views/admin-display-general.php:145
+#: admin/views/admin-display-general.php:153
 msgid "Auto Hide Delay (in Milliseconds)"
-msgstr "Автоматично скриване на забавянето (в милисекунди)"
+msgstr "Автоматично скриване на забавяне (в милисекунди)"
 
-#: admin/views/admin-display-general.php:148
+#: admin/views/admin-display-general.php:156
 msgid "Specify milliseconds e.g. 5000 = 5 seconds"
-msgstr "Задайте милисекунди, например 5000 = 5 секунди"
+msgstr "Указване на милисекунди, напр."
 
-#: admin/views/admin-display-general.php:152
+#: admin/views/admin-display-general.php:160
 msgid "Auto Scroll (Accept)"
 msgstr "Автоматично превъртане (приемам)"
 
-#: admin/views/admin-display-general.php:156
+#: admin/views/admin-display-general.php:164
 msgid "Use this option with discretion especially if you serve EU"
-msgstr "Използвайте тази опция с дискретност, особено ако обслужвате"
+msgstr "Използвайте тази опция с дискретност, особено ако служите на ЕС"
 
-#: admin/views/admin-display-general.php:160
+#: admin/views/admin-display-general.php:168
 msgid "Auto Scroll Offset (in percent)"
-msgstr "Авто превъртане (в проценти)"
+msgstr "Автоматично отместване на превъртане (в проценти)"
 
-#: admin/views/admin-display-general.php:163
+#: admin/views/admin-display-general.php:171
 msgid ""
 "Consent will be assumed after user scrolls more than the specified page "
 "height"
 msgstr ""
-"Съгласието ще се приема след превъртане на потребителя повече от зададената "
-"височина на страницата"
+"Съгласието ще се приеме след превъртане на потребителя по-голяма от "
+"указаната височина на страницата"
 
-#: admin/views/admin-display-general.php:167
+#: admin/views/admin-display-general.php:175
 msgid "Reload after Scroll Accept"
-msgstr "Презареждане след приемане на превъртане"
+msgstr "Презареждане след превъртане приемане"
 
-#: admin/views/admin-display-general.php:174
+#: admin/views/admin-display-general.php:182
 msgid "Reload after Accept"
-msgstr "Презареди след приемане"
+msgstr "Презареждане след приемане"
 
-#: admin/views/admin-display-general.php:181
+#: admin/views/admin-display-general.php:189
 msgid "Reload after Decline"
-msgstr "Презареди след отклонена"
+msgstr "Презареждане след отхвърляне"
 
-#: admin/views/admin-display-general.php:192
+#: admin/views/admin-display-general.php:200
 msgid "Cookie Expiry"
-msgstr "Изтичане на срока на \"бисквитката\""
+msgstr "Изтичане на \"бисквитките\""
 
-#: admin/views/admin-display-general.php:197
+#: admin/views/admin-display-general.php:205
 msgid "The amount of time that the cookie should be stored for."
-msgstr "Времето, за което трябва да се съхранява бисквитката."
+msgstr "Времето, за което бисквитката трябва да се съхранява."
 
-#: admin/views/admin-display-general.php:201
+#: admin/views/admin-display-general.php:209
 msgid "Show Credits"
-msgstr "Покажи кредитите"
+msgstr "Покажи надписите"
 
 #: admin/views/admin-display-getting-started.php:22
 msgid "pro version"
@@ -957,7 +970,7 @@ msgstr "Надстройте до Pro версията"
 
 #: admin/views/admin-display-save-button.php:23
 msgid "Save All Cookies"
-msgstr "Запиши всички бисквитки"
+msgstr "Запазете всички бисквитки"
 
 #: admin/views/admin-display-save-button.php:32
 msgid "Update"
@@ -973,15 +986,15 @@ msgstr "Грешка при качване на файлове."
 
 #: admin/views/gdpr-policies-import-page.php:27
 msgid "Cannot extract data from uploaded file or no file was uploaded."
-msgstr "Не може да извлечете данни от качен файл или не е качен файл."
+msgstr "Не може да извлече данни от качен файл или не е качен файл."
 
 #: admin/views/gdpr-policies-import-page.php:30
 msgid "No posts was successfully imported."
-msgstr "Не са импортирани успешно публикации."
+msgstr "Няма успешно импортирани публикации."
 
 #: admin/views/gdpr-policies-import-page.php:33
 msgid "Some posts were successfully imported but some were not."
-msgstr "Някои постове бяха успешно импортирани, но някои не бяха."
+msgstr "Някои публикации са импортирани успешно, но някои не са."
 
 #: admin/views/gdpr-policies-import-page.php:36
 msgid "Post import was successful."
@@ -1008,8 +1021,8 @@ msgid "Accept"
 msgstr "Приемане"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:43
-#: public/class-gdpr-cookie-consent-public.php:212
-#: public/class-gdpr-cookie-consent-public.php:221
+#: public/class-gdpr-cookie-consent-public.php:226
+#: public/class-gdpr-cookie-consent-public.php:235
 msgid "Confirm"
 msgstr "Потвърждаване"
 
@@ -1039,10 +1052,9 @@ msgid ""
 "like page navigation and access to secure areas of the website. The website "
 "cannot function properly without these cookies."
 msgstr ""
-"Необходимите бисквитки помагат да се използва уеб сайт, като се дават "
-"възможност за основни функции, като навигация на страниците и достъп до "
-"защитени зони на уебсайта. Уебсайтът не може да функционира правилно без "
-"тези \"бисквитки\"."
+"Необходимите бисквитки помагат за използването на уебсайта, като позволяват "
+"основни функции като навигация на страници и достъп до защитени зони на "
+"уебсайта. Уебсайтът не може да функционира правилно без тези бисквитки."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:52
 msgid ""
@@ -1051,18 +1063,18 @@ msgid ""
 "thereby more valuable for publishers and third party advertisers."
 msgstr ""
 "Маркетинговите бисквитки се използват за проследяване на посетителите в "
-"уебсайтовете. Намерението е да се показват реклами, които са уместни и "
-"ангажирани с индивидуалния потребител и по този начин по-ценни за издателите "
-"и рекламодателите от трети страни."
+"уебсайтовете. Целта е да се показват подходящи и ангажиращи за отделния "
+"потребител реклами и по този начин да бъдат по-ценни за издателите и "
+"рекламодателите трети страни."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:53
 msgid ""
 "Analytics cookies help website owners to understand how visitors interact "
 "with websites by collecting and reporting information anonymously."
 msgstr ""
-"Аналитичните бисквитки помагат на собствениците на уебсайтове да разберат "
-"как посетителите взаимодействат с уебсайтовете, като събират и докладват "
-"анонимно информация."
+"\"Бисквитките\" на Google Анализ помагат на собствениците на уебсайтове да "
+"разберат как посетителите взаимодействат с уебсайтовете, като събират и "
+"докладват анонимно информация."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:54
 msgid ""
@@ -1070,9 +1082,9 @@ msgid ""
 "way the website behaves or looks, like your preferred language or the region "
 "that you are in."
 msgstr ""
-"Бисквитките за предпочитание позволяват на уеб сайт да запомня информация, "
-"която променя начина на поведение или външен вид на уебсайта, като "
-"предпочитания от вас език или региона, в който се намират."
+"Бисквитките за предпочитания позволяват на даден уебсайт да запомни "
+"информация, която променя начина, по който се отнася или изглежда, като "
+"предпочитания от Вас език или региона, в който се намират."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:55
 msgid ""
@@ -1080,7 +1092,7 @@ msgid ""
 "together with the providers of individual cookies."
 msgstr ""
 "Некласифицираните бисквитки са бисквитки, които сме в процес на "
-"класифициране, заедно с доставчиците на отделни бисквитки."
+"класифициране, заедно с доставчиците на индивидуални бисквитки."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:56
 msgid ""
@@ -1091,97 +1103,95 @@ msgid ""
 "types of cookies. Some cookies are placed by third party services that "
 "appear on our pages."
 msgstr ""
-"Бисквитките са малки текстови файлове, които могат да се използват от "
-"уебсайтове, за да се направи практическата работа на потребителя по-"
-"ефикасна. Законът гласи, че можем да съхраняваме бисквитките на вашето "
-"устройство, ако те са строго необходими за работата на този сайт. За всички "
-"други видове бисквитки се нуждаем от вашето разрешение. Този сайт използва "
-"различни видове бисквитки. Някои бисквитки се поставят от услуги на трети "
-"страни, които се появяват на нашите страници."
+"Бисквитките са малки текстови файлове, които могат да бъдат използвани от "
+"уебсайтовете, за да направят преживяването на потребителя по-ефективно. "
+"Законът гласи, че можем да съхраняваме бисквитки на Вашето устройство, ако "
+"те са абсолютно необходими за функционирането на този сайт. За всички други "
+"видове бисквитки ни трябва вашето разрешение. Този сайт използва различни "
+"видове бисквитки. Някои бисквитки се поставят от услуги на трети страни, "
+"които се показват на нашите страници."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:57
 msgid "This website uses cookies"
-msgstr "Този уебсайт използва бисквитки"
+msgstr "Този сайт използва бисквитки"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:58
 msgid ""
 "This website uses cookies to improve your experience. We'll assume you're ok "
 "with this, but you can opt-out if you wish."
 msgstr ""
-"Този уебсайт използва бисквитки, за да подобри практическата ви работа. Ще "
+"Този уебсайт използва бисквитки, за да подобри вашето преживяване. Ще "
 "приемем, че сте добре с това, но можете да се откажете, ако желаете."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:59
 msgid ""
 "In case of sale of your personal information, you may opt out by using the "
 "link"
-msgstr ""
-"В случай на продажба на вашата лична информация, можете да се откажете, като "
-"използвате линка"
+msgstr "В случай на продажба на личните Ви данни, можете да се откажете от"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:60
 msgid "Do Not Sell My Personal Information"
-msgstr "Не продавай моята лична информация"
+msgstr "Не продавай личната ми информация"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:61
-#: public/class-gdpr-cookie-consent-public.php:211
-#: public/class-gdpr-cookie-consent-public.php:220
+#: public/class-gdpr-cookie-consent-public.php:225
+#: public/class-gdpr-cookie-consent-public.php:234
 msgid "Do you really wish to opt-out?"
 msgstr "Наистина ли искате да се откажете?"
 
-#: public/class-gdpr-cookie-consent-public.php:262
+#: public/class-gdpr-cookie-consent-public.php:276
 msgid "GDPR Cookie Consent Plugin"
-msgstr "Добавка за съгласие за съгласие на GDPR за бисквитки"
+msgstr "Приставка за съгласие за бисквитки на GDPR"
 
-#: public/class-gdpr-cookie-consent-public.php:264
+#: public/class-gdpr-cookie-consent-public.php:278
 msgid "CCPA Cookie Notice Plugin"
-msgstr "Плъгин за уведомление за бисквитки на CCPA"
+msgstr "Comment"
 
-#: public/class-gdpr-cookie-consent-public.php:266
+#: public/class-gdpr-cookie-consent-public.php:280
 msgid "GDPR & CCPA Notice plugin"
 msgstr "Плъгин за известие за ОРЗД и"
 
 #. translators: 1: GDPR Cookie Consent Plugin
-#: public/class-gdpr-cookie-consent-public.php:270
+#: public/class-gdpr-cookie-consent-public.php:284
 msgid "Powered by %1$s"
-msgstr "Осъществено от %1$s"
+msgstr "Захранва се от %1$s"
 
-#: public/class-gdpr-cookie-consent-public.php:398
+#: public/class-gdpr-cookie-consent-public.php:412
 msgid "About Cookies"
 msgstr "За бисквитките"
 
-#: public/class-gdpr-cookie-consent-public.php:399
+#: public/class-gdpr-cookie-consent-public.php:413
 msgid "Cookie Declaration"
 msgstr "Декларация за бисквитките"
 
-#: public/class-gdpr-cookie-consent-public.php:400
+#: public/class-gdpr-cookie-consent-public.php:414
 msgid "Always Active"
 msgstr "Винаги активни"
 
-#: public/class-gdpr-cookie-consent-public.php:401
+#: public/class-gdpr-cookie-consent-public.php:415
 msgid "Save And Accept"
 msgstr "Запиши и приеми"
 
-#: public/class-gdpr-cookie-consent-public.php:402
+#: public/class-gdpr-cookie-consent-public.php:416
 msgid "Name"
 msgstr "Име"
 
-#: public/class-gdpr-cookie-consent-public.php:404
+#: public/class-gdpr-cookie-consent-public.php:418
 msgid "Purpose"
 msgstr "Цел"
 
-#: public/class-gdpr-cookie-consent-public.php:405
+#: public/class-gdpr-cookie-consent-public.php:419
 msgid "Expiry"
 msgstr "Изтичане"
 
-#: public/class-gdpr-cookie-consent-public.php:406
+#: public/class-gdpr-cookie-consent-public.php:420
 msgid "Type"
 msgstr "Тип"
 
-#: public/class-gdpr-cookie-consent-public.php:407
+#: public/class-gdpr-cookie-consent-public.php:421
 msgid "We do not use cookies of this type."
 msgstr "Ние не използваме бисквитки от този тип."
 
-#: public/class-gdpr-cookie-consent-public.php:408
+#: public/class-gdpr-cookie-consent-public.php:422
 msgid "I consent to the use of following cookies:"
-msgstr "Аз съм съгласен с използването на следните бисквитки:"
+msgstr "Съгласен съм да използваме следните бисквитки:"
