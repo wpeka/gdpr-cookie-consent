@@ -76,6 +76,7 @@
       <key name="is_on"/>
       <key name="is_eu_on"/>
       <key name="is_ccpa_on"/>
+      <key name="is_ccpa_iab_on"/>
       <key name="logging_on"/>
       <key name="show_credits"/>
       <key name="is_ticked"/>
