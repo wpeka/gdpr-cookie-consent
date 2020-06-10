@@ -2,248 +2,248 @@
 # This file is distributed under the same license as the GDPR Cookie Consent plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: GDPR Cookie Consent 1.8.7\n"
+"Project-Id-Version: GDPR Cookie Consent 1.8.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
 "consent\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-05-26T12:13:18+00:00\n"
-"PO-Revision-Date: 2020-05-26 18:05+0530\n"
-"X-Generator: Poedit 2.2.4\n"
+"POT-Creation-Date: 2020-06-10T07:03:43+00:00\n"
+"PO-Revision-Date: 2020-06-10 14:46+0530\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Domain: gdpr-cookie-consent\n"
 "Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: nl_NL\n"
 
 #. Plugin Name of the plugin
-#: admin/class-gdpr-cookie-consent-admin.php:216
-#: admin/class-gdpr-cookie-consent-admin.php:228
+#: admin/class-gdpr-cookie-consent-admin.php:227
+#: admin/class-gdpr-cookie-consent-admin.php:239
 msgid "GDPR Cookie Consent"
-msgstr "GDPR Cookie Consent"
+msgstr "GDPR-cookie-instemming"
 
 #. Plugin URI of the plugin
 msgid "https://club.wpeka.com/"
-msgstr "https://club.wpeka.com"
+msgstr "https://club.wpeka.com/"
 
 #. Description of the plugin
 msgid ""
 "Cookie Consent will help you put up a subtle banner in the footer of your "
 "website to showcase compliance status regarding the EU Cookie law."
 msgstr ""
-"Cookie Consent zal u helpen om een subtiele banner in de voettekst van uw "
-"website op te zetten om de nalevingsstatus van de EU-cookie wetgeving te "
+"Cookie Consent helpt u een subtiele banner op te zetten in de voettekst van "
+"uw website om de nalevingsstatus met betrekking tot de EU-cookiewetgeving te "
 "demonstreren."
 
 #. Author of the plugin
 msgid "WPEkaClub"
-msgstr "WPEkaClub"
+msgstr "WPEkaClub WPEkaClub"
 
 #. Author URI of the plugin
 msgid "https://club.wpeka.com"
-msgstr "https://club.wpeka.com/"
+msgstr "https://club.wpeka.com"
 
-#: admin/class-gdpr-cookie-consent-admin.php:164
-#: admin/class-gdpr-cookie-consent-admin.php:170
+#: admin/class-gdpr-cookie-consent-admin.php:175
+#: admin/class-gdpr-cookie-consent-admin.php:181
 msgid "Cookie Bar Shortcodes"
-msgstr "Cookiebar shortcodes"
+msgstr "Cookie Bar Shortcodes"
 
-#: admin/class-gdpr-cookie-consent-admin.php:165
+#: admin/class-gdpr-cookie-consent-admin.php:176
 msgid ""
 "Use the below shortcode to display third-party cookie details on your "
 "privacy or cookie policy pages."
 msgstr ""
 "Gebruik de onderstaande shortcode om cookiegegevens van derden weer te geven "
-"op uw privacy-of cookiebeleid-pagina's."
+"op uw privacy- of cookiebeleidspagina's."
 
-#: admin/class-gdpr-cookie-consent-admin.php:177
-#: admin/class-gdpr-cookie-consent-admin.php:178
+#: admin/class-gdpr-cookie-consent-admin.php:188
+#: admin/class-gdpr-cookie-consent-admin.php:189
 msgid "Help &amp; Support"
 msgstr "Help &amp; ondersteuning"
 
-#: admin/class-gdpr-cookie-consent-admin.php:179
+#: admin/class-gdpr-cookie-consent-admin.php:190
 msgid ""
 "If you need help understanding, using, or extending GDPR Cookie Consent "
 "Plugin,"
 msgstr ""
-"Als u hulp nodig hebt bij het begrijpen, gebruiken of uitbreiden van de AVG "
-"cookie Consent plugin,"
+"Als u hulp nodig hebt bij het begrijpen, gebruiken of uitbreiden van de GDPR "
+"Cookie Consent Plugin,"
 
-#: admin/class-gdpr-cookie-consent-admin.php:179
+#: admin/class-gdpr-cookie-consent-admin.php:190
 msgid "please read our documentation."
 msgstr "lees onze documentatie."
 
-#: admin/class-gdpr-cookie-consent-admin.php:179
+#: admin/class-gdpr-cookie-consent-admin.php:190
 msgid ""
 "You will find all kinds of resources including snippets, tutorials and more."
 msgstr "U vindt er allerlei bronnen, waaronder fragmenten, tutorials en meer."
 
-#: admin/class-gdpr-cookie-consent-admin.php:180
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "For further assistance with GDPR Cookie Consent plugin you can use the"
 msgstr ""
-"Voor verdere hulp met GDPR cookie Consent plugin u gebruik maken van de"
+"Voor verdere hulp bij de GDPR Cookie Consent plugin u gebruik maken van de"
 
-#: admin/class-gdpr-cookie-consent-admin.php:180
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "community forum."
-msgstr "communityforum."
+msgstr "community forum."
 
-#: admin/class-gdpr-cookie-consent-admin.php:180
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "If you need help with premium extensions sold by WPEka"
-msgstr "Als u hulp nodig hebt met Premium extensies verkocht door WPEka"
+msgstr "Als u hulp nodig hebt met premium extensies verkocht door WPEka"
 
-#: admin/class-gdpr-cookie-consent-admin.php:180
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "use our helpdesk."
-msgstr "gebruik onze helpdesk."
+msgstr "gebruik maken van onze helpdesk."
 
-#: admin/class-gdpr-cookie-consent-admin.php:186
-#: admin/class-gdpr-cookie-consent-admin.php:187
+#: admin/class-gdpr-cookie-consent-admin.php:197
+#: admin/class-gdpr-cookie-consent-admin.php:198
 msgid "Found a bug?"
 msgstr "Een bug gevonden?"
 
-#: admin/class-gdpr-cookie-consent-admin.php:188
+#: admin/class-gdpr-cookie-consent-admin.php:199
 msgid ""
 "If you find a bug within GDPR Cookie Consent plugin you can create a ticket "
 "via"
 msgstr ""
-"Als u een bug vindt binnen de GDPR cookie Consent plugin u een ticket "
-"aanmaken via"
+"Als je een bug vindt binnen gdpr Cookie Consent plugin kun je een ticket "
+"maken via"
 
-#: admin/class-gdpr-cookie-consent-admin.php:188
+#: admin/class-gdpr-cookie-consent-admin.php:199
 msgid "our helpdesk."
 msgstr "onze helpdesk."
 
-#: admin/class-gdpr-cookie-consent-admin.php:192
+#: admin/class-gdpr-cookie-consent-admin.php:203
 msgid "For more information:"
 msgstr "Voor meer informatie:"
 
-#: admin/class-gdpr-cookie-consent-admin.php:193
+#: admin/class-gdpr-cookie-consent-admin.php:204
 msgid "About GDPR Cookie Consent"
-msgstr "Over GDPR cookie Consent"
+msgstr "Over GDPR Cookie Consent"
 
-#: admin/class-gdpr-cookie-consent-admin.php:194
+#: admin/class-gdpr-cookie-consent-admin.php:205
 msgid "WordPress.org project"
 msgstr "WordPress.org project"
 
-#: admin/class-gdpr-cookie-consent-admin.php:195
+#: admin/class-gdpr-cookie-consent-admin.php:206
 msgid "WPEka Plugins"
-msgstr "WPEka plugins"
+msgstr "WPEka-plug-ins"
 
 #. translators: 1: GDPR Cookie Consent 2:: five stars
-#: admin/class-gdpr-cookie-consent-admin.php:215
+#: admin/class-gdpr-cookie-consent-admin.php:226
 msgid ""
 "If you like %1$s please leave us a %2$s rating. A huge thanks in advance!"
 msgstr ""
 "Als u %1$s leuk vindt, geef ons dan een %2$s waardering. Alvast hartelijk "
 "bedankt!"
 
-#: admin/class-gdpr-cookie-consent-admin.php:217
+#: admin/class-gdpr-cookie-consent-admin.php:228
 msgid "five star"
 msgstr "vijf sterren"
 
-#: admin/class-gdpr-cookie-consent-admin.php:229
+#: admin/class-gdpr-cookie-consent-admin.php:240
 #: includes/class-gdpr-cookie-consent-i18n.php:50
 msgid "Cookie Settings"
 msgstr "Cookie-instellingen"
 
-#: admin/class-gdpr-cookie-consent-admin.php:230
+#: admin/class-gdpr-cookie-consent-admin.php:241
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:48
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:50
 msgid "Policy Data"
 msgstr "Beleidsgegevens"
 
-#: admin/class-gdpr-cookie-consent-admin.php:231
+#: admin/class-gdpr-cookie-consent-admin.php:242
 msgid "Import Policies"
-msgstr "Import beleid"
+msgstr "Importbeleid"
 
-#: admin/class-gdpr-cookie-consent-admin.php:232
+#: admin/class-gdpr-cookie-consent-admin.php:243
 #: admin/views/admin-display-getting-started.php:27
 msgid "Getting Started"
 msgstr "Aan de slag"
 
-#: admin/class-gdpr-cookie-consent-admin.php:386
-#: admin/class-gdpr-cookie-consent-admin.php:433
+#: admin/class-gdpr-cookie-consent-admin.php:405
+#: admin/class-gdpr-cookie-consent-admin.php:452
 msgid "You do not have sufficient permission to perform this operation"
-msgstr "U hebt niet voldoende machtigingen voor deze handeling"
+msgstr "U hebt niet voldoende rechten om deze bewerking uit te voeren"
 
-#: admin/class-gdpr-cookie-consent-admin.php:416
+#: admin/class-gdpr-cookie-consent-admin.php:435
 msgid "Settings Updated."
 msgstr "Instellingen bijgewerkt."
 
-#: admin/class-gdpr-cookie-consent-admin.php:547
+#: admin/class-gdpr-cookie-consent-admin.php:566
 msgid "An hour"
 msgstr "Een uur"
 
-#: admin/class-gdpr-cookie-consent-admin.php:548
+#: admin/class-gdpr-cookie-consent-admin.php:567
 msgid "1 Day"
 msgstr "1 Dag"
 
-#: admin/class-gdpr-cookie-consent-admin.php:549
+#: admin/class-gdpr-cookie-consent-admin.php:568
 msgid "1 Week"
 msgstr "1 Week"
 
-#: admin/class-gdpr-cookie-consent-admin.php:550
+#: admin/class-gdpr-cookie-consent-admin.php:569
 msgid "1 Month"
 msgstr "1 Maand"
 
-#: admin/class-gdpr-cookie-consent-admin.php:551
+#: admin/class-gdpr-cookie-consent-admin.php:570
 msgid "3 Months"
 msgstr "3 Maanden"
 
-#: admin/class-gdpr-cookie-consent-admin.php:552
+#: admin/class-gdpr-cookie-consent-admin.php:571
 msgid "6 Months"
 msgstr "6 Maanden"
 
-#: admin/class-gdpr-cookie-consent-admin.php:553
+#: admin/class-gdpr-cookie-consent-admin.php:572
 msgid "1 Year"
 msgstr "1 Jaar"
 
-#: admin/class-gdpr-cookie-consent-admin.php:566
+#: admin/class-gdpr-cookie-consent-admin.php:585
 msgid "GDPR"
 msgstr "AVG"
 
-#: admin/class-gdpr-cookie-consent-admin.php:567
+#: admin/class-gdpr-cookie-consent-admin.php:586
 msgid "CCPA"
 msgstr "CCPA"
 
-#: admin/class-gdpr-cookie-consent-admin.php:568
+#: admin/class-gdpr-cookie-consent-admin.php:587
 msgid "Both"
 msgstr "Beide"
 
-#: admin/class-gdpr-cookie-consent-admin.php:581
+#: admin/class-gdpr-cookie-consent-admin.php:600
 msgid "Banner"
 msgstr "Banner"
 
-#: admin/class-gdpr-cookie-consent-admin.php:582
+#: admin/class-gdpr-cookie-consent-admin.php:601
 #: admin/views/admin-display-buttons.php:227
 #: admin/views/admin-display-buttons.php:230
 msgid "Popup"
 msgstr "Popup"
 
-#: admin/class-gdpr-cookie-consent-admin.php:583
+#: admin/class-gdpr-cookie-consent-admin.php:602
 msgid "Widget"
 msgstr "Widget"
 
-#: admin/class-gdpr-cookie-consent-admin.php:597
+#: admin/class-gdpr-cookie-consent-admin.php:616
 msgid "Large"
 msgstr "Groot"
 
-#: admin/class-gdpr-cookie-consent-admin.php:598
+#: admin/class-gdpr-cookie-consent-admin.php:617
 msgid "Medium"
 msgstr "Medium"
 
-#: admin/class-gdpr-cookie-consent-admin.php:599
+#: admin/class-gdpr-cookie-consent-admin.php:618
 msgid "Small"
 msgstr "Klein"
 
-#: admin/class-gdpr-cookie-consent-admin.php:613
+#: admin/class-gdpr-cookie-consent-admin.php:632
 #: admin/views/admin-display-buttons.php:154
 msgid "Close Header"
-msgstr "Koptekst sluiten"
+msgstr "Header sluiten"
 
-#: admin/class-gdpr-cookie-consent-admin.php:614
+#: admin/class-gdpr-cookie-consent-admin.php:633
 msgid "Open URL"
-msgstr "URL openen"
+msgstr "Open URL"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:57
 msgid "Incomplete"
@@ -259,7 +259,7 @@ msgstr "Gestopt"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:77
 msgid "About Cookies Message"
-msgstr "Informatie over het cookie bericht"
+msgstr "Over cookies bericht"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:96
 msgid "Cookie List"
@@ -273,26 +273,26 @@ msgstr "HTTP-cookie"
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:170
 #: includes/class-gdpr-cookie-consent-i18n.php:36
 msgid "HTML Local Storage"
-msgstr "Lokale HTML-opslag"
+msgstr "HTML-lokale opslag"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:171
 #: includes/class-gdpr-cookie-consent-i18n.php:37
 msgid "Flash Local Shared Object"
-msgstr "Flash lokaal gedeeld object"
+msgstr "Lokaal gedeeld object Flash"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:172
 #: includes/class-gdpr-cookie-consent-i18n.php:38
 msgid "Pixel Tracker"
-msgstr "Pixel tracker"
+msgstr "Pixeltracker"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:173
 #: includes/class-gdpr-cookie-consent-i18n.php:39
 msgid "IndexedDB"
-msgstr "IndexedDB"
+msgstr "GeïndexeerdeDB"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:36
 msgid "Unable to handle your request."
-msgstr "Kan uw aanvraag niet afhandelen."
+msgstr "Niet mogelijk uw aanvraag te verwerken."
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:59
 msgid "Unable to add cookie"
@@ -300,7 +300,7 @@ msgstr "Kan geen cookie toevoegen"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:88
 msgid "Cookie added successfully"
-msgstr "Cookie toegevoegd"
+msgstr "Cookie toegevoegd met succes"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:103
 msgid "Unable to update cookies"
@@ -308,11 +308,11 @@ msgstr "Kan geen cookies bijwerken"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:150
 msgid "No data was modified on the form."
-msgstr "Er zijn geen gegevens gewijzigd op het formulier."
+msgstr "Er zijn geen gegevens op het formulier gewijzigd."
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:155
 msgid "Cookies updated successfully"
-msgstr "Cookies met succes bijgewerkt"
+msgstr "Cookies van cookies bijgewerkt met succes"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:170
 msgid "Unable to delete cookie"
@@ -320,7 +320,7 @@ msgstr "Kan cookie niet verwijderen"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:181
 msgid "Cookie deleted successfully"
-msgstr "Cookie is verwijderd"
+msgstr "Cookie verwijderd"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:205
 msgid "Success"
@@ -332,7 +332,7 @@ msgstr "Aangepaste cookies"
 
 #: admin/modules/cookie-custom/views/cookies.php:29
 msgid "Add New Cookie"
-msgstr "Nieuwe cookie toevoegen"
+msgstr "Nieuw cookie toevoegen"
 
 #: admin/modules/cookie-custom/views/cookies.php:38
 #: admin/modules/cookie-custom/views/custom-cookie-list.php:29
@@ -346,17 +346,17 @@ msgstr "Cookie Domein"
 
 #: admin/modules/cookie-custom/views/cookies.php:48
 msgid "Cookie Duration (in days)"
-msgstr "Cookie duur (in dagen)"
+msgstr "Cookieduur (in dagen)"
 
 #: admin/modules/cookie-custom/views/cookies.php:51
 #: admin/modules/cookie-custom/views/custom-cookie-list.php:42
 msgid "Cookie Purpose"
-msgstr "Doel van de cookie"
+msgstr "Cookiedoel"
 
 #: admin/modules/cookie-custom/views/cookies.php:53
 #: includes/class-gdpr-cookie-consent-i18n.php:44
-#: public/class-gdpr-cookie-consent-public.php:213
-#: public/class-gdpr-cookie-consent-public.php:222
+#: public/class-gdpr-cookie-consent-public.php:227
+#: public/class-gdpr-cookie-consent-public.php:236
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -366,7 +366,7 @@ msgstr "Opslaan"
 
 #: admin/modules/cookie-custom/views/custom-cookie-list.php:39
 msgid "Cookie Duration"
-msgstr "Duur van cookie"
+msgstr "Geldigheid van het cookie"
 
 #: admin/modules/cookie-custom/views/custom-cookie-list.php:44
 msgid "Delete Cookie"
@@ -398,7 +398,7 @@ msgstr "Beleidsgegevens weergeven"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:56
 msgid "Search Policy Data"
-msgstr "Gegevens van zoek beleid"
+msgstr "Gegevens over zoekbeleid"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:57
 msgid "Nothing found"
@@ -421,7 +421,7 @@ msgid "Links"
 msgstr "Links"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:157
-#: public/class-gdpr-cookie-consent-public.php:403
+#: public/class-gdpr-cookie-consent-public.php:417
 msgid "Domain"
 msgstr "Domein"
 
@@ -439,7 +439,7 @@ msgstr "Instellingen bijgewerkt."
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:22
 msgid "Unable to update Settings."
-msgstr "Kan instellingen niet bijwerken."
+msgstr "Niet mogelijk de instellingen bij te werken."
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:29
 #: admin/views/admin-display-design.php:19
@@ -461,7 +461,7 @@ msgstr "Knop 'Accepteren'"
 
 #: admin/views/admin-display-buttons.php:20
 msgid "Decline Button"
-msgstr "Knop afwijzen"
+msgstr "Knop Weigeren"
 
 #: admin/views/admin-display-buttons.php:21
 msgid "Settings Button"
@@ -473,7 +473,7 @@ msgstr "“Lees verder” link"
 
 #: admin/views/admin-display-buttons.php:23
 msgid "Confirm Button"
-msgstr "Knop bevestigen"
+msgstr "Knop Bevestigen"
 
 #: admin/views/admin-display-buttons.php:24
 msgid "Cancel Button"
@@ -481,7 +481,7 @@ msgstr "Annuleerknop"
 
 #: admin/views/admin-display-buttons.php:25
 msgid "Optout Link"
-msgstr "Opt-outkoppeling"
+msgstr "Optout-koppeling"
 
 #: admin/views/admin-display-buttons.php:38
 msgid ""
@@ -489,9 +489,9 @@ msgid ""
 "follow a link. You can also customize the colors and styles, and show it as "
 "a link or a button."
 msgstr ""
-"Deze knop/link kan worden aangepast om simpelweg de cookie balk te sluiten "
-"of een link te volgen. U ook de kleuren en stijlen aanpassen en deze "
-"weergeven als een koppeling of knop."
+"Deze knop/link kan worden aangepast om de cookiebalk te sluiten of een link "
+"te volgen. U ook de kleuren en stijlen aanpassen en deze weergeven als een "
+"koppeling of een knop."
 
 #: admin/views/admin-display-buttons.php:41
 #: admin/views/admin-display-buttons.php:109
@@ -506,14 +506,15 @@ msgstr "Inschakelen"
 #: admin/views/admin-display-buttons.php:248
 #: admin/views/admin-display-design.php:62
 #: admin/views/admin-display-general.php:38
-#: admin/views/admin-display-general.php:84
-#: admin/views/admin-display-general.php:133
-#: admin/views/admin-display-general.php:140
-#: admin/views/admin-display-general.php:154
-#: admin/views/admin-display-general.php:169
-#: admin/views/admin-display-general.php:176
-#: admin/views/admin-display-general.php:183
-#: admin/views/admin-display-general.php:203
+#: admin/views/admin-display-general.php:56
+#: admin/views/admin-display-general.php:92
+#: admin/views/admin-display-general.php:141
+#: admin/views/admin-display-general.php:148
+#: admin/views/admin-display-general.php:162
+#: admin/views/admin-display-general.php:177
+#: admin/views/admin-display-general.php:184
+#: admin/views/admin-display-general.php:191
+#: admin/views/admin-display-general.php:211
 msgid "On"
 msgstr "Aan"
 
@@ -523,14 +524,15 @@ msgstr "Aan"
 #: admin/views/admin-display-buttons.php:249
 #: admin/views/admin-display-design.php:63
 #: admin/views/admin-display-general.php:39
-#: admin/views/admin-display-general.php:85
-#: admin/views/admin-display-general.php:134
-#: admin/views/admin-display-general.php:141
-#: admin/views/admin-display-general.php:155
-#: admin/views/admin-display-general.php:170
-#: admin/views/admin-display-general.php:177
-#: admin/views/admin-display-general.php:184
-#: admin/views/admin-display-general.php:204
+#: admin/views/admin-display-general.php:57
+#: admin/views/admin-display-general.php:93
+#: admin/views/admin-display-general.php:142
+#: admin/views/admin-display-general.php:149
+#: admin/views/admin-display-general.php:163
+#: admin/views/admin-display-general.php:178
+#: admin/views/admin-display-general.php:185
+#: admin/views/admin-display-general.php:192
+#: admin/views/admin-display-general.php:212
 msgid "Off"
 msgstr "Uit"
 
@@ -607,7 +609,7 @@ msgstr "URL"
 #: admin/views/admin-display-buttons.php:92
 #: admin/views/admin-display-buttons.php:164
 msgid "Button will only link to URL if Action = Open URL"
-msgstr "Knop linkt alleen naar URL als de actie \"URL openen\" is"
+msgstr "Knop linkt alleen naar een URL als 'Actie = URL openen'"
 
 #: admin/views/admin-display-buttons.php:97
 #: admin/views/admin-display-buttons.php:169
@@ -629,7 +631,7 @@ msgstr "Nee"
 
 #: admin/views/admin-display-buttons.php:221
 msgid "Cookie Settings Layout"
-msgstr "Lay-out cookie-instellingen"
+msgstr "Indeling cookie-instellingen"
 
 #: admin/views/admin-display-buttons.php:228
 #: admin/views/admin-display-buttons.php:231
@@ -641,8 +643,8 @@ msgid ""
 "This button/link can be used to provide a link out to your Privacy & Cookie "
 "Policy. You can customize it any way you like."
 msgstr ""
-"Deze knop/link kan worden gebruikt om een link naar uw privacy & cookie "
-"Policy te geven. U het op elke gewenste manier aanpassen."
+"Deze button/link kan gebruikt worden om een link te leggen naar jouw Privacy "
+"& Cookie Beleid. Je het aanpassen zoals je wilt."
 
 #: admin/views/admin-display-design.php:34
 msgid "Cookie Bar as"
@@ -651,7 +653,7 @@ msgstr "Cookie Bar als"
 #: admin/views/admin-display-design.php:42
 #: admin/views/admin-display-design.php:67
 msgid "Cookie Bar Position"
-msgstr "Positie van de cookie balk"
+msgstr "Positie cookiebalk"
 
 #: admin/views/admin-display-design.php:48
 #: admin/views/admin-display-design.php:51
@@ -669,21 +671,21 @@ msgstr "Overlay toevoegen"
 
 #: admin/views/admin-display-design.php:73
 #: admin/views/admin-display-design.php:76
-#: admin/views/admin-display-general.php:95
-#: admin/views/admin-display-general.php:98
+#: admin/views/admin-display-general.php:103
+#: admin/views/admin-display-general.php:106
 msgid "Left"
 msgstr "Links"
 
 #: admin/views/admin-display-design.php:74
 #: admin/views/admin-display-design.php:77
-#: admin/views/admin-display-general.php:96
-#: admin/views/admin-display-general.php:99
+#: admin/views/admin-display-general.php:104
+#: admin/views/admin-display-general.php:107
 msgid "Right"
 msgstr "Rechts"
 
 #: admin/views/admin-display-design.php:85
 msgid "On hide"
-msgstr "Bij het verbergen"
+msgstr "Bij verbergen"
 
 #: admin/views/admin-display-design.php:91
 #: admin/views/admin-display-design.php:94
@@ -697,20 +699,20 @@ msgstr "Verdwijn"
 
 #: admin/views/admin-display-design.php:103
 msgid "Cookie Bar Color"
-msgstr "Kleur van de cookie balk"
+msgstr "Cookiebalkkleur"
 
 #: admin/views/admin-display-design.php:109
 msgid "Cookie Bar Opacity"
-msgstr "Dekking van de cookie balk"
+msgstr "Cookie Bar Dekking"
 
 #: admin/views/admin-display-design.php:115
 msgid "Text Color"
 msgstr "Tekstkleur"
 
 #: admin/views/admin-display-general.php:20
-#: admin/views/admin-display-general.php:82
+#: admin/views/admin-display-general.php:90
 msgid "Show Again Tab"
-msgstr "Weer tabblad tonen"
+msgstr "Opnieuw weergeven tab"
 
 #: admin/views/admin-display-general.php:21
 msgid "Other"
@@ -718,99 +720,111 @@ msgstr "Andere"
 
 #: admin/views/admin-display-general.php:36
 msgid "Cookie Bar is currently"
-msgstr "Cookiebalk is momenteel"
+msgstr "Cookie Bar is momenteel"
 
 #: admin/views/admin-display-general.php:43
 msgid "Cookie Bar Usage for"
-msgstr "Gebruik van cookiebalk voor"
+msgstr "Cookie Bar Gebruik voor"
 
 #: admin/views/admin-display-general.php:54
+msgid "Enable IAB Transparency and Consent Framework (TCF)"
+msgstr "IAB-transparantie- en toestemmingskader (TCF) inschakelen"
+
+#: admin/views/admin-display-general.php:58
+msgid ""
+"Compatibility for the customization of advertising tracking preferences in "
+"case of CCPA."
+msgstr ""
+"Compatibiliteit voor het aanpassen van advertentietrackingvoorkeuren in het "
+"geval van CCPA."
+
+#: admin/views/admin-display-general.php:62
 msgid "Message Heading"
 msgstr "Berichtkop"
 
-#: admin/views/admin-display-general.php:57
+#: admin/views/admin-display-general.php:65
 msgid "Leave it blank, If you do not need a heading"
-msgstr "Laat leeg als u geen titel nodig heeft"
+msgstr "Laat het leeg als u geen kop nodig heeft"
 
-#: admin/views/admin-display-general.php:61
+#: admin/views/admin-display-general.php:69
 msgid "GDPR Message"
 msgstr "AVG (GDPR)-bericht"
 
-#: admin/views/admin-display-general.php:67
+#: admin/views/admin-display-general.php:75
 msgid "CCPA Message"
 msgstr "CCPA-bericht"
 
-#: admin/views/admin-display-general.php:89
+#: admin/views/admin-display-general.php:97
 msgid "Show Again Tab Position"
-msgstr "Tabpositie weergeven"
+msgstr "Opnieuw weergeven tabpositie"
 
-#: admin/views/admin-display-general.php:107
+#: admin/views/admin-display-general.php:115
 msgid "Show Again Tab Margin (in percent)"
-msgstr "Tabmarge weergeven (in procenten)"
+msgstr "Opnieuw tabmarge weergeven (in procenten)"
 
-#: admin/views/admin-display-general.php:113
+#: admin/views/admin-display-general.php:121
 msgid "Show Again Text"
-msgstr "Opnieuw tekst weergeven"
+msgstr "Opnieuw weergeven Tekst"
 
-#: admin/views/admin-display-general.php:131
+#: admin/views/admin-display-general.php:139
 msgid "Autotick for Non-Necessary Cookies"
 msgstr "Autotick voor niet-noodzakelijke cookies"
 
-#: admin/views/admin-display-general.php:138
+#: admin/views/admin-display-general.php:146
 msgid "Auto Hide (Accept)"
 msgstr "Automatisch verbergen (accepteren)"
 
-#: admin/views/admin-display-general.php:145
+#: admin/views/admin-display-general.php:153
 msgid "Auto Hide Delay (in Milliseconds)"
 msgstr "Vertraging automatisch verbergen (in milliseconden)"
 
-#: admin/views/admin-display-general.php:148
+#: admin/views/admin-display-general.php:156
 msgid "Specify milliseconds e.g. 5000 = 5 seconds"
 msgstr "Milliseconden opgeven, bijvoorbeeld 5000 = 5 seconden"
 
-#: admin/views/admin-display-general.php:152
+#: admin/views/admin-display-general.php:160
 msgid "Auto Scroll (Accept)"
 msgstr "Automatisch scrollen (accepteren)"
 
-#: admin/views/admin-display-general.php:156
+#: admin/views/admin-display-general.php:164
 msgid "Use this option with discretion especially if you serve EU"
-msgstr "Gebruik deze optie met discretie, vooral als u de EU dient"
+msgstr "Gebruik deze optie met discretie, vooral als u de EU"
 
-#: admin/views/admin-display-general.php:160
+#: admin/views/admin-display-general.php:168
 msgid "Auto Scroll Offset (in percent)"
-msgstr "Automatische scrollverschuiving (in procenten)"
+msgstr "Automatisch scrollen offset (in procenten)"
 
-#: admin/views/admin-display-general.php:163
+#: admin/views/admin-display-general.php:171
 msgid ""
 "Consent will be assumed after user scrolls more than the specified page "
 "height"
 msgstr ""
-"Toestemming wordt aangenomen nadat de gebruiker meer heeft gescrolld dan de "
-"opgegeven paginahoogte"
+"Toestemming wordt aangenomen nadat de gebruiker meer dan de opgegeven "
+"paginahoogte heeft gescrolld"
 
-#: admin/views/admin-display-general.php:167
+#: admin/views/admin-display-general.php:175
 msgid "Reload after Scroll Accept"
 msgstr "Opnieuw laden na scroll accepteren"
 
-#: admin/views/admin-display-general.php:174
+#: admin/views/admin-display-general.php:182
 msgid "Reload after Accept"
 msgstr "Opnieuw laden na accepteren"
 
-#: admin/views/admin-display-general.php:181
+#: admin/views/admin-display-general.php:189
 msgid "Reload after Decline"
 msgstr "Opnieuw laden na weigering"
 
-#: admin/views/admin-display-general.php:192
+#: admin/views/admin-display-general.php:200
 msgid "Cookie Expiry"
 msgstr "Verlopen cookie"
 
-#: admin/views/admin-display-general.php:197
+#: admin/views/admin-display-general.php:205
 msgid "The amount of time that the cookie should be stored for."
 msgstr "De hoeveelheid tijd waarvoor de cookie moet worden opgeslagen."
 
-#: admin/views/admin-display-general.php:201
+#: admin/views/admin-display-general.php:209
 msgid "Show Credits"
-msgstr "Toon credits"
+msgstr "Credits weergeven"
 
 #: admin/views/admin-display-getting-started.php:22
 msgid "pro version"
@@ -974,7 +988,7 @@ msgstr "Er zijn geen berichten geïmporteerd."
 
 #: admin/views/gdpr-policies-import-page.php:33
 msgid "Some posts were successfully imported but some were not."
-msgstr "Sommige berichten zijn geïmporteerd, maar sommige niet."
+msgstr "Sommige berichten zijn met succes geïmporteerd, maar sommige niet."
 
 #: admin/views/gdpr-policies-import-page.php:36
 msgid "Post import was successful."
@@ -1001,8 +1015,8 @@ msgid "Accept"
 msgstr "Accepteren"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:43
-#: public/class-gdpr-cookie-consent-public.php:212
-#: public/class-gdpr-cookie-consent-public.php:221
+#: public/class-gdpr-cookie-consent-public.php:226
+#: public/class-gdpr-cookie-consent-public.php:235
 msgid "Confirm"
 msgstr "Bevestigen"
 
@@ -1033,8 +1047,8 @@ msgid ""
 "cannot function properly without these cookies."
 msgstr ""
 "Noodzakelijke cookies helpen een website bruikbaar te maken door "
-"basisfuncties zoals Paginanavigatie en toegang tot beveiligde delen van de "
-"website in te schakelen. Zonder deze cookies kan de website niet goed "
+"basisfuncties zoals paginanavigatie en toegang tot beveiligde delen van de "
+"website mogelijk te maken. Zonder deze cookies kan de website niet goed "
 "functioneren."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:52
@@ -1043,18 +1057,18 @@ msgid ""
 "is to display ads that are relevant and engaging for the individual user and "
 "thereby more valuable for publishers and third party advertisers."
 msgstr ""
-"Marketing cookies worden gebruikt om bezoekers op verschillende websites te "
-"volgen. Het is de bedoeling om advertenties weer te geven die relevant en "
-"aantrekkelijk zijn voor de individuele gebruiker en daardoor waardevoller "
-"zijn voor uitgevers en externe adverteerders."
+"Marketingcookies worden gebruikt om bezoekers op verschillende websites te "
+"volgen. De bedoeling is om advertenties weer te geven die relevant en "
+"boeiend zijn voor de individuele gebruiker en daardoor waardevoller zijn "
+"voor uitgevers en externe adverteerders."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:53
 msgid ""
 "Analytics cookies help website owners to understand how visitors interact "
 "with websites by collecting and reporting information anonymously."
 msgstr ""
-"Analytische cookies helpen website-eigenaren om te begrijpen hoe bezoekers "
-"omgaan met websites door informatie anoniem te verzamelen en te rapporteren."
+"Analytics-cookies helpen website-eigenaren te begrijpen hoe bezoekers omgaan "
+"met websites door anoniem informatie te verzamelen en te rapporteren."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:54
 msgid ""
@@ -1071,8 +1085,8 @@ msgid ""
 "Unclassified cookies are cookies that we are in the process of classifying, "
 "together with the providers of individual cookies."
 msgstr ""
-"Niet-geclassificeerde cookies zijn cookies die we in het classificeren, "
-"samen met de aanbieders van individuele cookies."
+"Niet-geclassificeerde cookies zijn cookies die we in het proces van "
+"classificeren, samen met de aanbieders van individuele cookies."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:56
 msgid ""
@@ -1084,11 +1098,11 @@ msgid ""
 "appear on our pages."
 msgstr ""
 "Cookies zijn kleine tekstbestanden die door websites kunnen worden gebruikt "
-"om de ervaring van een gebruiker efficiënter te maken. In de wet staat dat "
-"we cookies op uw apparaat kunnen opslaan als ze strikt noodzakelijk zijn "
-"voor de werking van deze site. Voor alle andere soorten cookies hebben wij "
-"uw toestemming nodig. Deze site maakt gebruik van verschillende soorten "
-"cookies. Sommige cookies worden geplaatst door diensten van derden die op "
+"om de ervaring van een gebruiker efficiënter te maken. De wet bepaalt dat we "
+"cookies op uw apparaat kunnen opslaan als ze strikt noodzakelijk zijn voor "
+"de werking van deze site. Voor alle andere soorten cookies hebben we uw "
+"toestemming nodig. Deze site maakt gebruik van verschillende soorten "
+"cookies. Sommige cookies worden geplaatst door services van derden die op "
 "onze pagina's worden weergegeven."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:57
@@ -1101,7 +1115,7 @@ msgid ""
 "with this, but you can opt-out if you wish."
 msgstr ""
 "Deze website maakt gebruik van cookies om uw ervaring te verbeteren. We gaan "
-"ervan uit dat je OK bent, maar je je afmelden als je dat wilt."
+"ervan uit dat je dit goed vindt, maar je je afmelden als je dat wilt."
 
 #: includes/class-gdpr-cookie-consent-i18n.php:59
 msgid ""
@@ -1115,64 +1129,64 @@ msgid "Do Not Sell My Personal Information"
 msgstr "Mijn persoonlijke gegevens niet verkopen"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:61
-#: public/class-gdpr-cookie-consent-public.php:211
-#: public/class-gdpr-cookie-consent-public.php:220
+#: public/class-gdpr-cookie-consent-public.php:225
+#: public/class-gdpr-cookie-consent-public.php:234
 msgid "Do you really wish to opt-out?"
 msgstr "Wil je je echt afmelden?"
 
-#: public/class-gdpr-cookie-consent-public.php:262
+#: public/class-gdpr-cookie-consent-public.php:276
 msgid "GDPR Cookie Consent Plugin"
 msgstr "GDPR Cookie Consent Plugin"
 
-#: public/class-gdpr-cookie-consent-public.php:264
+#: public/class-gdpr-cookie-consent-public.php:278
 msgid "CCPA Cookie Notice Plugin"
-msgstr "PLUG-in van CCPA Cookie Notice"
+msgstr "CCPA Cookie Notice Plugin"
 
-#: public/class-gdpr-cookie-consent-public.php:266
+#: public/class-gdpr-cookie-consent-public.php:280
 msgid "GDPR & CCPA Notice plugin"
 msgstr "GDPR & CCPA Notice plugin"
 
 #. translators: 1: GDPR Cookie Consent Plugin
-#: public/class-gdpr-cookie-consent-public.php:270
+#: public/class-gdpr-cookie-consent-public.php:284
 msgid "Powered by %1$s"
-msgstr "Aangedreven door  %1$s"
+msgstr "Aangedreven door %1$s"
 
-#: public/class-gdpr-cookie-consent-public.php:398
+#: public/class-gdpr-cookie-consent-public.php:412
 msgid "About Cookies"
 msgstr "Over cookies"
 
-#: public/class-gdpr-cookie-consent-public.php:399
+#: public/class-gdpr-cookie-consent-public.php:413
 msgid "Cookie Declaration"
 msgstr "Cookieverklaring"
 
-#: public/class-gdpr-cookie-consent-public.php:400
+#: public/class-gdpr-cookie-consent-public.php:414
 msgid "Always Active"
 msgstr "Altijd actief"
 
-#: public/class-gdpr-cookie-consent-public.php:401
+#: public/class-gdpr-cookie-consent-public.php:415
 msgid "Save And Accept"
 msgstr "Opslaan en accepteren"
 
-#: public/class-gdpr-cookie-consent-public.php:402
+#: public/class-gdpr-cookie-consent-public.php:416
 msgid "Name"
 msgstr "Naam"
 
-#: public/class-gdpr-cookie-consent-public.php:404
+#: public/class-gdpr-cookie-consent-public.php:418
 msgid "Purpose"
 msgstr "Doel"
 
-#: public/class-gdpr-cookie-consent-public.php:405
+#: public/class-gdpr-cookie-consent-public.php:419
 msgid "Expiry"
 msgstr "Verloop"
 
-#: public/class-gdpr-cookie-consent-public.php:406
+#: public/class-gdpr-cookie-consent-public.php:420
 msgid "Type"
 msgstr "Type"
 
-#: public/class-gdpr-cookie-consent-public.php:407
+#: public/class-gdpr-cookie-consent-public.php:421
 msgid "We do not use cookies of this type."
 msgstr "Wij gebruiken geen cookies van dit type."
 
-#: public/class-gdpr-cookie-consent-public.php:408
+#: public/class-gdpr-cookie-consent-public.php:422
 msgid "I consent to the use of following cookies:"
-msgstr "Ik ga akkoord met het gebruik van volgende cookies:"
+msgstr "Ik geef toestemming voor het gebruik van de volgende cookies:"
