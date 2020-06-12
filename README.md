@@ -3,7 +3,7 @@
 **Donate link:** https://club.wpeka.com/product/wp-gdpr-cookie-consent/  
 **Tags:** CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify  
 **Requires at least:** 3.3.1  
-**Tested up to:** 5.4.1  
+**Tested up to:** 5.4.2  
 **Stable tag:** 1.8.8  
 **Requires PHP:** 7.0  
 **License:** GPLv3  
@@ -17,6 +17,7 @@ The only WordPress plugin that helps you comply with the EU GDPR's cookie consen
 
 - Get visitor consent for cookies using a fully customizable cookie consent bar on your website. Helps you comply with <acronym title="European Union General Data Protection Regulation">EU GDPR</acronym>.
 - Display a fully customizable notice with a 'Do Not Sell' link on your website. Helps you comply with <acronym title="California Consumer Protection Act">CCPA</acronym>.
+- Supports WPML so your translation needs are covered.
 
 > This plugin is the closest that I have found to complying with all of the new regulation guidance and is the easiest to implement.
 >
@@ -74,6 +75,8 @@ The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPr
 - Categorise cookies into 'Necessary', 'Marketing', 'Analytics', 'Preferences', and 'Unclassified' categories.
 
 - Show a subtle, non-intrusive cookie consent notice on your website.
+
+- Compatible with IAB Transparency and Consent Framework (TCF).
 
 - Show cookie consent notice as a Banner, Popup, or Widget.
 
