@@ -92,8 +92,8 @@ The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPr
 
 - Show cookie information on your privacy policy or any other page with an easy to use WordPress shortcode. `[wpl_cookie_details]`
 
-> = GDPR Cookie Consent Pro Version Features =
->
+### GDPR Cookie Consent Pro Version Features ###
+
 > - Manage cookie list (name, ID, description, duration, type & category).
 >
 > - One-click cookie scan, so you don't have to manually enter cookie list details.
