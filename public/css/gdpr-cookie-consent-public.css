@@ -594,7 +594,7 @@ Bootstrap CSS for frontend UI
 }
 
 /** Bootstrap button CSS */
-.btn {
+#gdpr-cookie-consent-bar .btn {
 	display: inline-block;
 	font-weight: 400;
 	color: #212529;
@@ -615,37 +615,37 @@ Bootstrap CSS for frontend UI
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.btn {
+	#gdpr-cookie-consent-bar .btn {
 		transition: none;
 	}
 }
 
-.btn:hover {
+#gdpr-cookie-consent-bar .btn:hover {
 	color: #212529;
 	text-decoration: none;
 }
 
-.btn:focus, .btn.focus {
+#gdpr-cookie-consent-bar .btn:focus, #gdpr-cookie-consent-bar .btn.focus {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-.btn.disabled, .btn:disabled {
+#gdpr-cookie-consent-bar .btn.disabled, #gdpr-cookie-consent-bar .btn:disabled {
 	opacity: 0.65;
 }
 
-a.btn.disabled,
-fieldset:disabled a.btn {
+#gdpr-cookie-consent-bar a.btn.disabled,
+fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	pointer-events: none;
 }
-.btn-lg {
+#gdpr-cookie-consent-bar .btn-lg {
 	padding: 0.5rem 1rem;
 	font-size: 17px;
 	line-height: 1.5;
 	border-radius: 0.3rem;
 }
 
-.btn-sm {
+#gdpr-cookie-consent-bar .btn-sm {
 	padding: 0.25rem 0.5rem;
 	font-size: 11px;
 	line-height: 1.5;
