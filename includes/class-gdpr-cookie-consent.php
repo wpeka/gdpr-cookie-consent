@@ -729,9 +729,9 @@ class Gdpr_Cookie_Consent {
 		}
 
 		// Start shifting.
-		$rgb_values['R'] = hexdec( $supplied_hex{0} . $supplied_hex{1} );
-		$rgb_values['G'] = hexdec( $supplied_hex{2} . $supplied_hex{3} );
-		$rgb_values['B'] = hexdec( $supplied_hex{4} . $supplied_hex{5} );
+		$rgb_values['R'] = hexdec( $supplied_hex[0] . $supplied_hex[1] );
+		$rgb_values['G'] = hexdec( $supplied_hex[2] . $supplied_hex[3] );
+		$rgb_values['B'] = hexdec( $supplied_hex[4] . $supplied_hex[5] );
 
 		foreach ( $rgb_values as $c => $v ) {
 			switch ( $shift_method ) {
