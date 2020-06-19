@@ -169,7 +169,7 @@ class Gdpr_Cookie_Consent_Public {
 	 * @return bool|string
 	 */
 	public static function gdprcookieconsent_remove_hash( $str ) {
-		if ( '#' === $str{0} ) {
+		if ( '#' === $str[0] ) {
 			$str = substr( $str, 1, strlen( $str ) );
 		} else {
 			return $str;
