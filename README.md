@@ -4,7 +4,7 @@
 **Tags:** CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify  
 **Requires at least:** 3.3.1  
 **Tested up to:** 5.4.2  
-**Stable tag:** 1.8.8  
+**Stable tag:** 1.8.9  
 **Requires PHP:** 7.0  
 **License:** GPLv3  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
@@ -92,8 +92,8 @@ The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPr
 
 - Show cookie information on your privacy policy or any other page with an easy to use WordPress shortcode. `[wpl_cookie_details]`
 
-> = GDPR Cookie Consent Pro Version Features =
->
+### GDPR Cookie Consent Pro Version Features ###
+
 > - Manage cookie list (name, ID, description, duration, type & category).
 >
 > - One-click cookie scan, so you don't have to manually enter cookie list details.
@@ -146,6 +146,10 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 6. Manage cookie list.
 
 ## Change Log ##
+### 1.8.9 ###
+* Fix: Deprecated curly braces syntax.
+* Fix: CSS class name conflicts on the frontend.
+
 ### 1.8.8 ###
 * Feature: Added compatibility for IAB Transparency and Consent Framework (TCF).
 
@@ -242,6 +246,10 @@ No. Only the ‘necessary’ cookies will be loaded until the user gives consent
 * Initial version
 
 ## Upgrade Notice ##
+### 1.8.9 ###
+* Fix: Deprecated curly braces syntax.
+* Fix: CSS class name conflicts on the frontend.
+
 ### 1.8.8 ###
 * Feature: Added compatibility for IAB Transparency and Consent Framework (TCF).
 
