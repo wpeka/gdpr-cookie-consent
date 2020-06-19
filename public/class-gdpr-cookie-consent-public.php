@@ -248,7 +248,7 @@ class Gdpr_Cookie_Consent_Public {
 				$template_parts = explode( '-', $template );
 				$template       = array_pop( $template_parts );
 			}
-			$the_options['container_class'] = $the_options['cookie_usage_for'] . ' gdpr-' . $the_options['cookie_bar_as'] . ' ' .'gdpr-'. $template;
+			$the_options['container_class'] = $the_options['cookie_usage_for'] . ' gdpr-' . $the_options['cookie_bar_as'] . ' gdpr-' . $template;
 			if ( in_array( $template, $default_array, true ) ) {
 				$template = 'default';
 			}
