@@ -1,7 +1,7 @@
 # WP Cookie Notice for GDPR, CCPA & ePrivacy Consent #
 **Contributors:** [wpeka-club](https://profiles.wordpress.org/wpeka-club)  
 **Donate link:** https://club.wpeka.com/product/wp-gdpr-cookie-consent/  
-**Tags:** CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify  
+**Tags:** CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA  
 **Requires at least:** 3.3.1  
 **Tested up to:** 5.4.2  
 **Stable tag:** 1.8.9  
@@ -43,8 +43,8 @@ The WP Cookie Notice for GDPR, CCPA & ePrivacy Consent plugin helps you comply w
 - Provides an easy-to-use admin area in the WordPress dashboard, where you can add details of cookies used on your website. You can also classify cookies into 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified' categories.
 - Shows a cookie consent notice on the website. The cookie notice shows 'Accept' & 'Decline' buttons.
 - Users can choose to 'Accept' or 'Decline' the use of cookies. Users can also choose to consent to use of cookies from a specific category.
-- Keeps a searchable log of consents given by all website users (Pro version only).
-- Allows users to withdraw or change their consent level (Pro version only).
+- Keeps a searchable log of consents given by all website users (Pro version).
+- Allows users to withdraw or change their consent level (Pro version).
 
 ### How can this plugin help you comply with CCPA? ###
 
@@ -68,7 +68,11 @@ The WP Cookie Notice for GDPR, CCPA & ePrivacy Consent plugin helps you comply w
 
 ## Features ##
 
-The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPress coding standards. It comes with the following features.
+The WP Cookie Notice Plugin is lightweight, fast and complies with the latest WordPress coding standards. It comes with the following features.
+
+- Give your users granual control on cookies or Option to refuse the consent or for particular non-essential categories only (like marketing or analytics)
+
+- Give your users the choice to revoke their consent.
 
 - Easily create, edit or delete information about cookies used on your website.
 
@@ -76,21 +80,47 @@ The GDPR Cookie Consent is lightweight, fast and complies with the latest WordPr
 
 - Show a subtle, non-intrusive cookie consent notice on your website.
 
+- Link to Privacy Policy page
+
 - Compatible with IAB Transparency and Consent Framework (TCF).
 
 - Show cookie consent notice as a Banner, Popup, or Widget.
 
-- Fully customisable cookie consent notice. Customise the text, colours and fonts to match your website's design.
+- Default options as per ICO compliance to quickly launch. No auto ticked consent by users. Option provided to change default settings as per your local laws.
+
+- Works out of box with your existing theme. Save time by using the default design which uses you website theme styles.
+
+- If you want to have your own design - It's a completely customisable cookie notice plugin. Customise the text, colour picker, font customizer to give your own unique look. Animate your banner appearance.
 
 - Get granular cookie consent for cookie categories of their choice.
 
-- Automatically accept cookie consent on scroll and close cookie notice (Option to configure - Allowed in some countries).
+- Option to accept the notice on scroll (Option to configure - Allowed in some countries).
+
+- Option to set "On scroll" offset (at what percent of screen scroll to accept consent)
 
 - Auto-hide cookie notice after delay (Can be configured).
 
+- WordPress Multisite compatible
+
+- Optimized for performance. Works with popular caching plugins.
+
+- You own the Data Storage – all user provided data is stored within your website only – User data is not stored on any third party servers. You can choose to export the consent logs or delete.
+
 - Provide option for user to change prior consent.
 
+- Choose from different layouts (popup, banners) or make your own layout
+
 - Show cookie information on your privacy policy or any other page with an easy to use WordPress shortcode. `[wpl_cookie_details]`
+
+- .pot file for translations
+
+- WPML, Polylang, QTranslate, WP Multilang compatible
+
+- SEO friendly
+
+- W3C Web Accessibility Standards (WCAG) Compliant
+
+- Mobile responsive design
 
 ### GDPR Cookie Consent Pro Version Features ###
 
@@ -135,6 +165,18 @@ Yes, in the free version. The pro version of the GDPR Cookie Consent plugin has 
 ###
 ### Do visitors now have to accept/reject cookies in order to use websites?
 No. Only the ‘necessary’ cookies will be loaded until the user gives consent.
+###
+### Which all privacy regulations does this plugin help with?
+The plugin has been designed to help with the following cookie law, privacy regulations and data protection acts :
+* GDPR (EU): The General Data Protection Regulation
+* CCPA (California, United States): The California Consumer Privacy Act
+* PIPEDA (Canada): The Personal Information Protection and Electronic Documents Act
+* AAP (Australia): Australia’s Privacy Principles
+* LGPD (Brazil): The Brazilian General Data Protection Law
+* DSGVO, DPA, PECR, CNIL and other data, privacy regulations and cookie laws
+###
+### Does it block 3rd party resources loaded via iFrames (such as Youtube)?
+Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unless they give the consent. Users can choose which category of cookies they want to allow.
 ###
 ## Screenshots ##
 
