@@ -167,13 +167,13 @@ Yes, in the free version. The pro version of the GDPR Cookie Consent plugin has 
 No. Only the ‘necessary’ cookies will be loaded until the user gives consent.
 
 = Which all privacy regulations does this plugin help with?
-The plugin has been designed to help with the following cookie law, privacy regulations and data protection acts :
-* GDPR (EU): The General Data Protection Regulation
-* CCPA (California, United States): The California Consumer Privacy Act
-* PIPEDA (Canada): The Personal Information Protection and Electronic Documents Act
-* AAP (Australia): Australia’s Privacy Principles
-* LGPD (Brazil): The Brazilian General Data Protection Law
-* DSGVO, DPA, PECR, CNIL and other data, privacy regulations and cookie laws
+The plugin has been designed to help with the following cookie law, privacy regulations and data protection acts:
+- GDPR (EU): The General Data Protection Regulation
+- CCPA (California, United States): The California Consumer Privacy Act
+- PIPEDA (Canada): The Personal Information Protection and Electronic Documents Act
+- AAP (Australia): Australia’s Privacy Principles
+- LGPD (Brazil): The Brazilian General Data Protection Law
+- DSGVO, DPA, PECR, CNIL and other data, privacy regulations and cookie laws
 
 = Does it block 3rd party resources loaded via iFrames (such as Youtube)?
 Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unless they give the consent. Users can choose which category of cookies they want to allow.
