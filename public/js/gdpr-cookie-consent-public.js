@@ -121,21 +121,33 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			if (this.settings.pro_active && this.settings.maxmind_integrated == '2') {
 				this.check_ccpa_eu();
 			}
-			if ( this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'both' ) {
+			if ( this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'eprivacy' || this.settings.cookie_usage_for == 'both' ) {
 				if ( this.settings.auto_scroll ) {
 					window.addEventListener( "scroll", GDPR.acceptOnScroll, false );
 				}
 				var gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
 				var gdpr_viewed_cookie   = GDPR_Cookie.read( 'wpl_viewed_cookie' );
-				var event                = new CustomEvent(
-					'GdprCookieConsentOnLoad',
-					{
-						detail: {
-							'wpl_user_preference': gdpr_user_preference,
-							'wpl_viewed_cookie' : gdpr_viewed_cookie,
+				var event                = '';
+				if (this.settings.cookie_usage_for == 'gdpr') {
+					event = new CustomEvent(
+						'GdprCookieConsentOnLoad',
+						{
+							detail: {
+								'wpl_user_preference': gdpr_user_preference,
+								'wpl_viewed_cookie' : gdpr_viewed_cookie,
+							}
 						}
-					}
-				);
+					);
+				} else if (this.settings.cookie_usage_for == 'eprivacy') {
+					event = new CustomEvent(
+						'GdprCookieConsentOnLoad',
+						{
+							detail: {
+								'wpl_viewed_cookie' : gdpr_viewed_cookie
+							}
+						}
+					);
+				}
 				window.dispatchEvent( event );
 			}
 		},
@@ -222,15 +234,28 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						new_window               = GDPR.settings.button_accept_new_win ? true : false;
 						gdpr_user_preference     = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
 						gdpr_user_preference_val = JSON.stringify( gdpr_user_preference );
-						GDPR_Cookie.set( 'wpl_user_preference',gdpr_user_preference_val,GDPR_ACCEPT_COOKIE_EXPIRE );
-						gdpr_viewed_cookie = GDPR_Cookie.read( 'wpl_viewed_cookie' );
-						event              = new CustomEvent(
-							'GdprCookieConsentOnAccept',
-							{detail: {
-								'wpl_user_preference': gdpr_user_preference,
-								'wpl_viewed_cookie' : gdpr_viewed_cookie,
-								}}
-						);
+						gdpr_viewed_cookie       = GDPR_Cookie.read( 'wpl_viewed_cookie' );
+						if (GDPR.settings.cookie_usage_for == 'gdpr') {
+							GDPR_Cookie.set( 'wpl_user_preference',gdpr_user_preference_val,GDPR_ACCEPT_COOKIE_EXPIRE );
+							event = new CustomEvent(
+								'GdprCookieConsentOnAccept',
+								{
+									detail: {
+										'wpl_user_preference': gdpr_user_preference,
+										'wpl_viewed_cookie' : gdpr_viewed_cookie,
+									}
+								}
+							);
+						} else if (GDPR.settings.cookie_usage_for == 'eprivacy') {
+							event = new CustomEvent(
+								'GdprCookieConsentOnAccept',
+								{
+									detail: {
+										'wpl_viewed_cookie' : gdpr_viewed_cookie
+									}
+								}
+							);
+						}
 						window.dispatchEvent( event );
 						GDPR.logConsent( button_action );
 					} else if (button_action == 'reject') {
@@ -238,13 +263,26 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						new_window           = GDPR.settings.button_decline_new_win ? true : false;
 						gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
 						gdpr_viewed_cookie   = GDPR_Cookie.read( 'wpl_viewed_cookie' );
-						event                = new CustomEvent(
-							'GdprCookieConsentOnReject',
-							{detail: {
-								'wpl_user_preference': gdpr_user_preference,
-								'wpl_viewed_cookie' : gdpr_viewed_cookie,
-								}}
-						);
+						if (GDPR.settings.cookie_usage_for == 'gdpr') {
+							event = new CustomEvent(
+								'GdprCookieConsentOnReject',
+								{
+									detail: {
+										'wpl_user_preference': gdpr_user_preference,
+										'wpl_viewed_cookie' : gdpr_viewed_cookie,
+									}
+								}
+							);
+						} else if (GDPR.settings.cookie_usage_for == 'eprivacy') {
+							event = new CustomEvent(
+								'GdprCookieConsentOnReject',
+								{
+									detail: {
+										'wpl_viewed_cookie' : gdpr_viewed_cookie
+									}
+								}
+							);
+						}
 						window.dispatchEvent( event );
 						GDPR.logConsent( button_action );
 					} else if ( button_action == 'settings' ) {
@@ -599,6 +637,20 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 				} else {
 					this.hideHeader();
 				}
+			} else if ( this.settings.cookie_usage_for == 'eprivacy' ) {
+				if ( ! GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME )) {
+					this.displayHeader();
+					if ( this.settings.auto_hide ) {
+						setTimeout(
+							function(){
+								GDPR.accept_close();
+							},
+							this.settings.auto_hide_delay
+						);
+					}
+				} else {
+					this.hideHeader();
+				}
 			} else if ( this.settings.cookie_usage_for == 'ccpa' ) {
 				if ( ! GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )) {
 					this.displayHeader();
@@ -773,7 +825,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			if (this.settings.cookie_bar_as == 'popup') {
 				$( "#gdpr-popup" ).modal( 'show' );
 			}
-			if (this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'both') {
+			if (this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'eprivacy' || this.settings.cookie_usage_for == 'both') {
 				this.show_again_elm.slideUp( this.settings.animate_speed_hide );
 			}
 		},
@@ -783,7 +835,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 				if (this.settings.cookie_bar_as == 'popup') {
 					$( "#gdpr-popup" ).modal( 'hide' );
 				}
-				if ( this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'both' ) {
+				if ( this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'eprivacy' || this.settings.cookie_usage_for == 'both' ) {
 					this.show_again_elm.slideDown( this.settings.animate_speed_hide );
 				}
 			}

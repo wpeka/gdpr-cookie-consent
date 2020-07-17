@@ -29,7 +29,21 @@ class Gdpr_Cookie_Consent_Deactivator {
 	 * @since    1.0
 	 */
 	public static function deactivate() {
-
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		if ( isset( $the_options['delete_on_deactivation'] ) && true === $the_options['delete_on_deactivation'] ) {
+			global $wpdb;
+			$tables_arr = array(
+				'gdpr_cookie_post_cookies',
+				'gdpr_cookie_scan_categories',
+			);
+			foreach ( $tables_arr as $table ) {
+				$tablename = $wpdb->prefix . $table;
+				$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %s', array( $tablename ) ) ); // phpcs:ignore
+			}
+			delete_option( 'gdpr_admin_modules' );
+			delete_option( 'gdpr_public_modules' );
+			delete_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+		}
 	}
 
 }

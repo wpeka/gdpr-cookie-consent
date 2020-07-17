@@ -54,6 +54,7 @@
                                     </div>
                                     <div class="group-description" tabindex="0">{{ __( category['gdpr_cookie_category_description'], 'gdpr-cookie-consent' ) }}</div>
                                     <!-- sub groups -->
+                                    {% if button_settings_display_cookies %}
                                     <div class="category-cookies-list-container">
                                         {% if category['total'] >= '1' %}
                                             <table class="table table-striped">
@@ -83,6 +84,7 @@
                                             <div class="group-description" tabindex="0">{{ cookies_not_found }}</div>
                                         {% endif %}
                                     </div>
+                                    {% endif %}
                                 </div>
                             </li>
                             {% endfor %}

@@ -184,6 +184,21 @@ class Gdpr_Cookie_Consent_Activator {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-6.0' );
 		}
+		// update settings from Version 1.9.0.
+		$prev_gdpr_option = get_option( 'GDPRCookieConsent-7.0' );
+		if ( isset( $prev_gdpr_option['is_on'] ) && GDPR_COOKIE_CONSENT_VERSION >= '1.9.0' ) {
+			$prev_gdpr_option['button_settings_display_cookies'] = true;
+			$prev_gdpr_option['header_scripts']                  = '';
+			$prev_gdpr_option['body_scripts']                    = '';
+			$prev_gdpr_option['footer_scripts']                  = '';
+			$prev_gdpr_option['delete_on_deactivation']          = false;
+			$prev_gdpr_option['button_readmore_url_type']        = true;
+			$prev_gdpr_option['button_readmore_wp_page']         = false;
+			$prev_gdpr_option['button_readmore_page']            = '0';
+			$prev_gdpr_option['notify_message_eprivacy']         = addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this.' );
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
+			delete_option( 'GDPRCookieConsent-7.0' );
+		}
 	}
 
 }

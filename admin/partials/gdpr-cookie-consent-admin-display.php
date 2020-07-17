@@ -26,9 +26,10 @@ $gdpr_admin_view_path = plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) .
 	<div class="nav-tab-wrapper wp-clearfix gdpr-cookie-consent-tab-head">
 		<?php
 		$tab_head_arr = array(
-			'gdpr-cookie-consent-general' => __( 'General', 'gdpr-cookie-consent' ),
-			'gdpr-cookie-consent-design'  => __( 'Design', 'gdpr-cookie-consent' ),
-			'gdpr-cookie-consent-buttons' => __( 'Buttons', 'gdpr-cookie-consent' ),
+			'gdpr-cookie-consent-general'        => __( 'General', 'gdpr-cookie-consent' ),
+			'gdpr-cookie-consent-design'         => __( 'Design', 'gdpr-cookie-consent' ),
+			'gdpr-cookie-consent-buttons'        => __( 'Buttons', 'gdpr-cookie-consent' ),
+			'gdpr-cookie-consent-script-blocker' => __( 'Script Blocker', 'gdpr-cookie-consent' ),
 		);
 		Gdpr_Cookie_Consent::gdpr_generate_settings_tabhead( $tab_head_arr );
 		?>
@@ -37,9 +38,10 @@ $gdpr_admin_view_path = plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) .
 	<div class="gdpr-cookie-consent-tab-container">
 		<?php
 		$display_views_a = array(
-			'gdpr-cookie-consent-general' => 'admin-display-general.php',
-			'gdpr-cookie-consent-design'  => 'admin-display-design.php',
-			'gdpr-cookie-consent-buttons' => 'admin-display-buttons.php',
+			'gdpr-cookie-consent-general'        => 'admin-display-general.php',
+			'gdpr-cookie-consent-design'         => 'admin-display-design.php',
+			'gdpr-cookie-consent-buttons'        => 'admin-display-buttons.php',
+			'gdpr-cookie-consent-script-blocker' => 'admin-display-script-blocker.php',
 		);
 		?>
 		<form method="post" action="

@@ -211,10 +211,15 @@ class Gdpr_Cookie_Consent_Public {
 			wp_enqueue_script( $this->plugin_name );
 			wp_localize_script( $this->plugin_name, 'log_obj', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 			add_filter( 'clean_url', array( $this, 'gdprcookieconsent_clean_async_url' ) );
-			$timber       = new Timber\Timber();
-			$gdpr_message = '';
-			$ccpa_message = '';
+			$timber           = new Timber\Timber();
+			$gdpr_message     = '';
+			$ccpa_message     = '';
+			$eprivacy_message = '';
 			// Output the HTML in the footer.
+			if ( 'eprivacy' === $the_options['cookie_usage_for'] ) {
+				$eprivacy_message               = nl2br( $the_options['notify_message_eprivacy'] );
+				$the_options['eprivacy_notify'] = true;
+			}
 			if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
 				$gdpr_message               = nl2br( $the_options['notify_message'] );
 				$the_options['gdpr_notify'] = true;
@@ -235,15 +240,17 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
 				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
 			}
-			$about_message = stripslashes( nl2br( $the_options['about_message'] ) );
-			$gdpr_message  = stripslashes( $gdpr_message );
-			$ccpa_message  = stripslashes( $ccpa_message );
-			$gdpr_str      = $gdpr_message;
-			$ccpa_str      = $ccpa_message;
-			$head          = $the_options['bar_heading_text'];
-			$head          = trim( stripslashes( $head ) );
-			$default_array = array( 'none', 'default', 'classic' );
-			$template      = $the_options['template'];
+			$about_message    = stripslashes( nl2br( $the_options['about_message'] ) );
+			$eprivacy_message = stripslashes( $eprivacy_message );
+			$gdpr_message     = stripslashes( $gdpr_message );
+			$ccpa_message     = stripslashes( $ccpa_message );
+			$eprivacy_str     = $eprivacy_message;
+			$gdpr_str         = $gdpr_message;
+			$ccpa_str         = $ccpa_message;
+			$head             = $the_options['bar_heading_text'];
+			$head             = trim( stripslashes( $head ) );
+			$default_array    = array( 'none', 'default', 'classic' );
+			$template         = $the_options['template'];
 			if ( 'none' !== $template ) {
 				$template_parts = explode( '-', $template );
 				$template       = array_pop( $template_parts );
@@ -253,6 +260,7 @@ class Gdpr_Cookie_Consent_Public {
 				$template = 'default';
 			}
 			$template                                 = apply_filters( 'gdprcookieconsent_template', $template );
+			$the_options['eprivacy_str']              = $eprivacy_str;
 			$the_options['gdpr_str']                  = $gdpr_str;
 			$the_options['ccpa_str']                  = $ccpa_str;
 			$the_options['head']                      = $head;
@@ -276,6 +284,8 @@ class Gdpr_Cookie_Consent_Public {
 				$credit_link_text = __( 'GDPR Cookie Consent Plugin', 'gdpr-cookie-consent' );
 			} elseif ( 'ccpa' === $the_options['cookie_usage_for'] ) {
 				$credit_link_text = __( 'CCPA Cookie Notice Plugin', 'gdpr-cookie-consent' );
+			} elseif ( 'eprivacy' === $the_options['cookie_usage_for'] ) {
+				$credit_link_text = __( 'Cookie Notice Plugin', 'gdpr-cookie-consent' );
 			} elseif ( 'both' === $the_options['cookie_usage_for'] ) {
 				$credit_link_text = __( 'GDPR & CCPA Notice plugin', 'gdpr-cookie-consent' );
 			}
@@ -284,6 +294,23 @@ class Gdpr_Cookie_Consent_Public {
 				__( 'Powered by %1$s', 'gdpr-cookie-consent' ),
 				'<a href="' . esc_url( $credit_link_href ) . '" id="cookie_credit_link" rel="nofollow noopener" target="_blank">' . $credit_link_text . '</a>'
 			);
+
+			$button_readmore_url_link = '';
+			if ( true === $the_options['button_readmore_url_type'] ) {
+				if ( true === $the_options['button_readmore_wp_page'] ) {
+					$button_readmore_url_link = get_privacy_policy_url();
+				}
+				if ( empty( $button_readmore_url_link ) ) {
+					if ( '0' !== $the_options['button_readmore_page'] ) {
+						$button_readmore_url_link = get_page_link( $the_options['button_readmore_page'] );
+					} else {
+						$button_readmore_url_link = '#';
+					}
+				}
+			} else {
+				$button_readmore_url_link = $the_options['button_readmore_url'];
+			}
+			$the_options['button_readmore_url_link'] = $button_readmore_url_link;
 
 			$the_options['button_accept_classes'] = 'gdpr_action_button ';
 			if ( $the_options['button_accept_as_button'] ) {
@@ -422,6 +449,8 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['consent_notice']    = __( 'I consent to the use of following cookies:', 'gdpr-cookie-consent' );
 				$the_options['cookie_data']       = $cookie_data;
 			}
+			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
+
 			ob_start();
 			$notify_html = $timber->render( 'templates/' . $template . '.twig', $the_options );
 			ob_end_clean();
@@ -487,4 +516,70 @@ class Gdpr_Cookie_Consent_Public {
 		return $content;
 	}
 
+	/**
+	 * Template redirect for header, body and footer scripts.
+	 *
+	 * @since 1.9.0
+	 */
+	public function gdprcookieconsent_template_redirect() {
+		global $post;
+
+		if ( is_admin() || defined( 'DOING_AJAX' ) || defined( 'DOING_CRON' ) ) {
+			return;
+		}
+
+		$viewed_cookie = isset( $_COOKIE['wpl_viewed_cookie'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wpl_viewed_cookie'] ) ) : '';
+		$the_options   = GDPR_Cookie_Consent::gdpr_get_settings();
+
+		$body_open_supported = function_exists( 'wp_body_open' ) && version_compare( get_bloginfo( 'version' ), '5.2', '>=' );
+
+		if ( ( is_singular() && $post ) || is_home() ) {
+			if ( ( $the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie ) || ( ! $the_options['is_script_blocker_on'] ) ) {
+				add_action( 'wp_head', array( $this, 'gdprcookieconsent_output_header' ) );
+				if ( $body_open_supported ) {
+					add_action( 'wp_body_open', array( $this, 'gdprcookieconsent_output_body' ) );
+				}
+				add_action( 'wp_footer', array( $this, 'gdprcookieconsent_output_footer' ) );
+			}
+		}
+	}
+
+	/**
+	 * Output header scripts.
+	 *
+	 * @since 1.9.0
+	 */
+	public function gdprcookieconsent_output_header() {
+		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
+		$header_scripts = $the_options['header_scripts'];
+		if ( $header_scripts ) {
+			echo "\r\n" . $header_scripts . "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+	}
+
+	/**
+	 * Output body scripts.
+	 *
+	 * @since 1.9.0
+	 */
+	public function gdprcookieconsent_output_body() {
+		$the_options  = GDPR_Cookie_Consent::gdpr_get_settings();
+		$body_scripts = $the_options['body_scripts'];
+		if ( $body_scripts ) {
+			echo "\r\n" . $body_scripts . "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+	}
+
+	/**
+	 * Output footer scripts.
+	 *
+	 * @since 1.9.0
+	 */
+	public function gdprcookieconsent_output_footer() {
+		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
+		$footer_scripts = $the_options['footer_scripts'];
+		if ( $footer_scripts ) {
+			echo "\r\n" . $footer_scripts . "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+	}
 }

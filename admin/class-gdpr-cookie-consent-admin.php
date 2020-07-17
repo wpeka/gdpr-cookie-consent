@@ -188,7 +188,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'title'   => __( 'Help &amp; Support', 'gdpr-cookie-consent' ),
 				'content' => '<h2>' . __( 'Help &amp; Support', 'gdpr-cookie-consent' ) . '</h2>' .
 								'<p>' . __( 'If you need help understanding, using, or extending GDPR Cookie Consent Plugin,', 'gdpr-cookie-consent' ) . ' <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/" target="_blank">' . __( 'please read our documentation.', 'gdpr-cookie-consent' ) . '</a> ' . __( 'You will find all kinds of resources including snippets, tutorials and more.', 'gdpr-cookie-consent' ) . '</p>' .
-								'<p>' . __( 'For further assistance with GDPR Cookie Consent plugin you can use the', 'gdpr-cookie-consent' ) . ' <a href="https://wordpress.org/support/plugin/gdpr-cookie-consent" target="_blank">' . __( 'community forum.', 'gdpr-cookie-consent' ) . '</a> ' . __( 'If you need help with premium extensions sold by WPEka', 'gdpr-cookie-consent' ) . ' <a href="http://wpeka.freshdesk.com/" target="_blank">' . __( 'use our helpdesk.', 'gdpr-cookie-consent' ) . '</a></p>',
+								'<p>' . __( 'For further assistance with GDPR Cookie Consent plugin you can use the', 'gdpr-cookie-consent' ) . ' <a href="https://wordpress.org/support/plugin/gdpr-cookie-consent" target="_blank">' . __( 'community forum.', 'gdpr-cookie-consent' ) . '</a> ' . __( 'If you need help with premium extensions sold by WPEka', 'gdpr-cookie-consent' ) . ' <a href="https://wpeka.freshdesk.com/" target="_blank">' . __( 'use our helpdesk.', 'gdpr-cookie-consent' ) . '</a></p>',
 			)
 		);
 		$screen->add_help_tab(
@@ -196,7 +196,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'id'      => 'gdprcookieconsent_bugs_tab',
 				'title'   => __( 'Found a bug?', 'gdpr-cookie-consent' ),
 				'content' => '<h2>' . __( 'Found a bug?', 'gdpr-cookie-consent' ) . '</h2>' .
-								'<p>' . __( 'If you find a bug within GDPR Cookie Consent plugin you can create a ticket via', 'gdpr-cookie-consent' ) . ' <a href="http://wpeka.freshdesk.com/" target="_blank">' . __( 'our helpdesk.', 'gdpr-cookie-consent' ) . '</a></p>',
+								'<p>' . __( 'If you find a bug within GDPR Cookie Consent plugin you can create a ticket via', 'gdpr-cookie-consent' ) . ' <a href="https://wpeka.freshdesk.com/" target="_blank">' . __( 'our helpdesk.', 'gdpr-cookie-consent' ) . '</a></p>',
 			)
 		);
 		$screen->set_help_sidebar(
@@ -388,6 +388,21 @@ class Gdpr_Cookie_Consent_Admin {
 			$prev_gdpr_option['is_ccpa_iab_on'] = false;
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-6.0' );
+		}
+		// update settings from Version 1.9.0.
+		$prev_gdpr_option = get_option( 'GDPRCookieConsent-7.0' );
+		if ( isset( $prev_gdpr_option['is_on'] ) && GDPR_COOKIE_CONSENT_VERSION >= '1.9.0' ) {
+			$prev_gdpr_option['button_settings_display_cookies'] = true;
+			$prev_gdpr_option['header_scripts']                  = '';
+			$prev_gdpr_option['body_scripts']                    = '';
+			$prev_gdpr_option['footer_scripts']                  = '';
+			$prev_gdpr_option['delete_on_deactivation']          = false;
+			$prev_gdpr_option['button_readmore_url_type']        = true;
+			$prev_gdpr_option['button_readmore_wp_page']         = false;
+			$prev_gdpr_option['button_readmore_page']            = '0';
+			$prev_gdpr_option['notify_message_eprivacy']         = addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' );
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
+			delete_option( 'GDPRCookieConsent-7.0' );
 		}
 
 	}
@@ -582,9 +597,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function get_cookie_usage_for_options() {
 		$options = array(
-			__( 'GDPR', 'gdpr-cookie-consent' ) => 'gdpr',
-			__( 'CCPA', 'gdpr-cookie-consent' ) => 'ccpa',
-			__( 'Both', 'gdpr-cookie-consent' ) => 'both',
+			__( 'ePrivacy', 'gdpr-cookie-consent' )    => 'eprivacy',
+			__( 'GDPR', 'gdpr-cookie-consent' )        => 'gdpr',
+			__( 'CCPA', 'gdpr-cookie-consent' )        => 'ccpa',
+			__( 'GDPR & CCPA', 'gdpr-cookie-consent' ) => 'both',
 		);
 		$options = apply_filters( 'gdprcookieconsent_cookie_usage_for_options', $options );
 		return $options;
@@ -619,6 +635,27 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$sizes = apply_filters( 'gdprcookieconsent_sizes', $sizes );
 		return $sizes;
+	}
+
+	/**
+	 * Return WordPress policy pages for Readmore button.
+	 *
+	 * @since 1.9.0
+	 * @return mixed|void
+	 */
+	public function get_readmore_pages() {
+		$args           = array(
+			'sort_order'   => 'ASC',
+			'sort_column'  => 'post_title',
+			'hierarchical' => 0,
+			'child_of'     => 0,
+			'parent'       => -1,
+			'offset'       => 0,
+			'post_type'    => 'page',
+			'post_status'  => 'publish',
+		);
+		$readmore_pages = get_pages( $args );
+		return apply_filters( 'gdprcookieconsent_readmore_pages', $readmore_pages );
 	}
 
 	/**

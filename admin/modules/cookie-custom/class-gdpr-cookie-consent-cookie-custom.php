@@ -232,7 +232,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 
 		$view_file = plugin_dir_path( __FILE__ ) . 'views/' . $view_file;
 
-		Gdpr_Cookie_Consent::gdpr_envelope_settings_tabcontent( 'gdpr-cookie-consent-cookie-list', $view_file, '', $params, 1, $error_message );
+		Gdpr_Cookie_Consent::gdpr_envelope_settings_tabcontent( 'gdpr-cookie-consent-tab-content', 'gdpr-cookie-consent-cookie-list', $view_file, '', $params, 1, $error_message );
 	}
 
 	/**
