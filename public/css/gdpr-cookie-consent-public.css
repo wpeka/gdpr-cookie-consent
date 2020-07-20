@@ -236,7 +236,7 @@
 	overflow:auto;
 }
 #gdpr-cookie-consent-bar .gdpr_messagebar_detail #gdpr_messagebar_detail_body #gdpr_messagebar_detail_body_content #gdpr_messagebar_detail_body_content_overview #gdpr_messagebar_detail_body_content_overview_cookie_container #gdpr_messagebar_detail_body_content_overview_cookie_container_type_details .gdpr_messagebar_detail_body_content_cookie_type_details .gdpr_messagebar_detail_body_content_cookie_type_intro {
-	border-bottom:1px solid #ccc;
+	/*border-bottom:1px solid #ccc;*/
 }
 #gdpr-cookie-consent-bar .gdpr_messagebar_detail #gdpr_messagebar_detail_body #gdpr_messagebar_detail_body_content #gdpr_messagebar_detail_body_content_overview #gdpr_messagebar_detail_body_content_overview_cookie_container #gdpr_messagebar_detail_body_content_overview_cookie_container_type_details .gdpr_messagebar_detail_body_content_cookie_type_details .gdpr_messagebar_detail_body_content_cookie_type_table_container table.gdpr_messagebar_detail_body_content_cookie_type_table {
 	padding:0;margin:8px 0 0;
@@ -443,7 +443,7 @@ Bootstrap CSS for frontend UI
 	-ms-flex-align: center;
 	align-items: center;
 	-ms-flex-pack: end;
-	justify-content: flex-end;
+	justify-content: center;
 	padding: 1rem;
 	border-top: 1px solid #dee2e6;
 	border-bottom-right-radius: 0.3rem;
@@ -472,7 +472,7 @@ Bootstrap CSS for frontend UI
 		margin: 1.75rem auto;
 	}
 	#gdpr-ccpa-modal .modal-dialog {
-		max-width: 400px;
+		max-width: 300px;
 	}
 	.modal-dialog-scrollable {
 		max-height: calc(100% - 3.5rem);
@@ -674,6 +674,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	background: url(../images/close.svg);
 }
 .gdpr_messagebar_detail .modal-dialog .modal-footer {
+	justify-content: flex-end;
 	background-color: #343a40;
 	padding: 1.5rem;
 }

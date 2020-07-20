@@ -261,6 +261,9 @@
 					} else if ( vl == 'ccpa' ) {
 						gdpr_tab_head.find( "a[href='#gdpr-cookie-consent-cookie-list']" ).hide();
 						gdpr_tab_head.find( "a[href='#gdpr-cookie-consent-script-blocker']" ).hide();
+					} else if ( vl == 'eprivacy' ) {
+						gdpr_tab_head.find( "a[href='#gdpr-cookie-consent-cookie-list']" ).hide();
+						gdpr_tab_head.find( "a[href='#gdpr-cookie-consent-script-blocker']" ).show();
 					}
 					var trgt = elm.attr( 'gdpr_tab_frm_tgl-target' );
 					$( '[gdpr_tab_frm_tgl-id="' + trgt + '"]' ).hide();
@@ -284,6 +287,8 @@
 						function(){
 							if (vl == 'both') {
 								return $( this ).attr( 'gdpr_tab_frm_tgl-val' ) == 'gdpr' || $( this ).attr( 'gdpr_tab_frm_tgl-val' ) == 'ccpa';
+							} else if (vl == 'eprivacy') {
+								return $( this ).attr( 'gdpr_tab_frm_tgl-val1' ) == 'eprivacy';
 							} else {
 								return $( this ).attr( 'gdpr_tab_frm_tgl-val' ) == vl;
 							}
@@ -294,11 +299,12 @@
 							var target_id  = $( this ).attr( 'data-id' );
 							var target_elm = $( "li[data-target='" + target_id + "']" );
 							target_elm.show();
-							if ( ( vl == 'both' && target_id == 'accept-button' ) || ( ( vl == 'gdpr' && target_id == 'accept-button' ) ) || ( vl == 'ccpa' && target_id == 'confirm-button' ) ) {
+							if ( ( vl == 'both' && target_id == 'accept-button' ) || ( ( vl == 'gdpr' && target_id == 'accept-button' ) ) || ( vl == 'ccpa' && target_id == 'confirm-button' ) || ( vl == 'eprivacy' && target_id == 'accept-button' ) ) {
 								target_elm.css( 'border-left','none' );
 								target_elm.css( 'padding-left','0px' );
 								target_elm.trigger( 'click' );
 							} else {
+								target_elm.css( 'padding','3px 10px' );
 								target_elm.css( 'border-left', 'solid 1px #ccc' );
 							}
 							// $(this).show();
@@ -385,6 +391,8 @@
 						function(){
 							if (vl == 'both') {
 								return $( this ).attr( 'gdpr_frm_tgl-val' ) == 'gdpr' || $( this ).attr( 'gdpr_frm_tgl-val' ) == 'ccpa';
+							} else if (vl == 'eprivacy') {
+								return $( this ).attr( 'gdpr_frm_tgl-val1' ) == 'eprivacy' || $( this ).attr( 'gdpr_frm_tgl-val' ) == 'eprivacy'
 							} else {
 								return $( this ).attr( 'gdpr_frm_tgl-val' ) == vl;
 							}

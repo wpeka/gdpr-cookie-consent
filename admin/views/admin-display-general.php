@@ -65,6 +65,12 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 						<span class="gdpr_form_help"><?php esc_attr_e( 'Leave it blank, If you do not need a heading', 'gdpr-cookie-consent' ); ?></span>
 					</td>
 				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="eprivacy">
+					<th scope="row"><label for="notify_message_eprivacy_field"><?php esc_attr_e( 'Message', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<textarea id="notify_message_eprivacy_field" name="notify_message_eprivacy_field" class="vvv_textbox"><?php echo wp_kses( apply_filters( 'format_to_edit', stripslashes( $the_options['notify_message_eprivacy'] ) ), Gdpr_Cookie_Consent::gdpr_allowed_html(), Gdpr_Cookie_Consent::gdpr_allowed_protocols() ); ?></textarea>
+					</td>
+				</tr>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
 					<th scope="row"><label for="notify_message_field"><?php esc_attr_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
@@ -83,7 +89,7 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 				?>
 			</table>
 		</div>
-		<div class="gdpr_sub_tab_content" data-id="show-again-general" gdpr_tab_frm_tgl-id="gdpr_usage_option" gdpr_tab_frm_tgl-val="gdpr">
+		<div class="gdpr_sub_tab_content" data-id="show-again-general" gdpr_tab_frm_tgl-id="gdpr_usage_option" gdpr_tab_frm_tgl-val="gdpr" gdpr_tab_frm_tgl-val1="eprivacy">
 			<p></p>
 			<table class="form-table">
 				<tr valign="top">
@@ -142,7 +148,7 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 						<input type="radio" id="is_ticked_field_no" name="is_ticked_field" class="styled" value="false" <?php echo ( false === $the_options['is_ticked'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
-				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr" gdpr_frm_tgl-val1="eprivacy">
 					<th scope="row"><label for="auto_hide_field"><?php esc_attr_e( 'Auto Hide (Accept)', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="radio" id="auto_hide_field_yes" gdpr_frm_tgl-target="gdpr_auto_hide" name="auto_hide_field" class="styled gdpr_bar_on gdpr_form_toggle" value="true" <?php echo ( true === $the_options['auto_hide'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
@@ -156,7 +162,7 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 						<span class="gdpr_form_help"><?php esc_attr_e( 'Specify milliseconds e.g. 5000 = 5 seconds', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
-				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr" gdpr_frm_tgl-val1="eprivacy">
 					<th scope="row"><label for="auto_scroll_field"><?php esc_attr_e( 'Auto Scroll (Accept)', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="radio" id="auto_scroll_field_yes" gdpr_frm_tgl-target="gdpr_auto_scroll" name="auto_scroll_field" class="styled gdpr_form_toggle gdpr_bar_on" value="true" <?php echo ( true === $the_options['auto_scroll'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
@@ -171,7 +177,7 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 						<span class="gdpr_form_help"><?php esc_attr_e( 'Consent will be assumed after user scrolls more than the specified page height', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
-				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr" gdpr_frm_tgl-val1="eprivacy">
 					<th scope="row"><label for="auto_scroll_reload_field"><?php esc_attr_e( 'Reload after Scroll Accept', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="radio" id="auto_scroll_reload_yes" name="auto_scroll_reload_field" class="styled gdpr_bar_on" value="true" <?php echo ( true === $the_options['auto_scroll_reload'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
@@ -185,7 +191,7 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 						<input type="radio" id="accept_reload_no" name="accept_reload_field" class="styled" value="false" <?php echo ( false === $the_options['accept_reload'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
-				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr" gdpr_frm_tgl-val1="eprivacy">
 					<th scope="row"><label for="decline_reload_field"><?php esc_attr_e( 'Reload after Decline', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="radio" id="decline_reload_yes" name="decline_reload_field" class="styled gdpr_bar_on" value="true" <?php echo ( true === $the_options['decline_reload'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
@@ -196,13 +202,21 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 				// general settings form fields for module.
 				do_action( 'gdpr_module_other_general' );
 				?>
-				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr" gdpr_frm_tgl-val1="eprivacy">
 					<th scope="row"><label for="cookie_expiry_field"><?php esc_attr_e( 'Cookie Expiry', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<select name="cookie_expiry_field" class="vvv_combobox">
 							<?php $this->print_combobox_options( $this->get_cookie_expiry_options(), $the_options['cookie_expiry'] ); ?>
 						</select>
 						<span class="gdpr_form_help"><?php esc_attr_e( 'The amount of time that the cookie should be stored for.', 'gdpr-cookie-consent' ); ?>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="delete_on_deactivation_field"><?php esc_attr_e( 'Delete Plugin data on Deactivation', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="radio" id="delete_on_deactivation_field_yes" name="delete_on_deactivation_field" class="styled gdpr_bar_on" value="true" <?php echo ( true === $the_options['delete_on_deactivation'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
+						<input type="radio" id="delete_on_deactivation_field_no" name="delete_on_deactivation_field" class="styled" value="false" <?php echo ( false === $the_options['delete_on_deactivation'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
+						<span class="gdpr_form_help"><?php esc_attr_e( 'Enable if you want all plugin data to be deleted on deactivation.', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
 				<tr valign="top">

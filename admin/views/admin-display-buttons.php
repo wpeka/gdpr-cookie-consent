@@ -33,7 +33,7 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 		<?php endforeach; ?>
 	</ul>
 	<div class="gdpr_sub_tab_container">
-		<div class="gdpr_sub_tab_content" data-id="accept-button" gdpr_tab_frm_tgl-id="gdpr_usage_option" gdpr_tab_frm_tgl-val="gdpr">
+		<div class="gdpr_sub_tab_content" data-id="accept-button" gdpr_tab_frm_tgl-id="gdpr_usage_option" gdpr_tab_frm_tgl-val="gdpr" gdpr_tab_frm_tgl-val1="eprivacy">
 			<p></p>
 			<p><?php esc_attr_e( 'This button/link can be customized to either simply close the cookie bar, or follow a link. You can also customize the colors and styles, and show it as a link or a button.', 'gdpr-cookie-consent' ); ?></p>
 			<table class="form-table">
@@ -102,7 +102,7 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 				</tr>
 			</table><!-- end custom button -->
 		</div>
-		<div class="gdpr_sub_tab_content" data-id="reject-button" gdpr_tab_frm_tgl-id="gdpr_usage_option" gdpr_tab_frm_tgl-val="gdpr">
+		<div class="gdpr_sub_tab_content" data-id="reject-button" gdpr_tab_frm_tgl-id="gdpr_usage_option" gdpr_tab_frm_tgl-val="gdpr" gdpr_tab_frm_tgl-val1="eprivacy">
 			<p></p>
 			<table class="form-table" >
 				<tr valign="top">
@@ -217,6 +217,13 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 						</select>
 					</td>
 				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_settings_display_cookies_field"><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="radio" id="button_settings_display_cookies_field_yes" name="button_settings_display_cookies_field" class="styled gdpr_bar_on" value="true" <?php echo ( true === $the_options['button_settings_display_cookies'] ) ? ' checked="checked"' : ' '; ?>  /> <?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
+						<input type="radio" id="button_settings_display_cookies_field_no" name="button_settings_display_cookies_field" class="styled" value="false" <?php echo ( false === $the_options['button_settings_display_cookies'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
+					</td>
+				</tr>
 				<tr valign="top" class="gdpr-plugin-row" gdpr_frm_tgl-id="gdpr_cookiebar_as" gdpr_frm_tgl-val="banner">
 					<th scope="row"><label for="button_settings_as_popup_field"><?php esc_attr_e( 'Cookie Settings Layout', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
@@ -237,7 +244,7 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 				</tr>
 			</table><!-- end custom button -->
 		</div>
-		<div class="gdpr_sub_tab_content" data-id="read-more-button" gdpr_tab_frm_tgl-id="gdpr_usage_option" gdpr_tab_frm_tgl-val="gdpr">
+		<div class="gdpr_sub_tab_content" data-id="read-more-button" gdpr_tab_frm_tgl-id="gdpr_usage_option" gdpr_tab_frm_tgl-val="gdpr" gdpr_tab_frm_tgl-val1="eprivacy">
 			<p></p>
 			<p><?php esc_attr_e( 'This button/link can be used to provide a link out to your Privacy & Cookie Policy. You can customize it any way you like.', 'gdpr-cookie-consent' ); ?></p>
 
@@ -282,7 +289,33 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 						</select>
 					</td>
 				</tr>
-				<tr valign="top" class="gdpr-plugin-row">
+				<tr valign="top">
+					<th scope="row"><label for="button_readmore_url_type_field"><?php esc_attr_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="radio" id="button_readmore_url_type_field_yes" name="button_readmore_url_type_field" class="styled gdpr_form_toggle" gdpr_frm_tgl-target="gdpr_readmore_url_type" value="true" <?php echo ( true === $the_options['button_readmore_url_type'] ) ? ' checked="checked"' : ''; ?>  /> <?php esc_attr_e( 'Page', 'gdpr-cookie-consent' ); ?>
+						<input type="radio" id="button_readmore_url_type_field_no" name="button_readmore_url_type_field" class="styled gdpr_form_toggle" gdpr_frm_tgl-target="gdpr_readmore_url_type" value="false" <?php echo ( false === $the_options['button_readmore_url_type'] ) ? ' checked="checked"' : ''; ?> /> <?php esc_attr_e( 'Custom Link', 'gdpr-cookie-consent' ); ?>
+					</td>
+				</tr>
+				<?php $readmore_pages = $this->get_readmore_pages(); ?>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_readmore_url_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_readmore_page_field"><?php esc_attr_e( 'Page', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<select name="button_readmore_page_field" class="vvv_combobox">
+							<option value="0">Select Privacy Page</option>
+							<?php foreach ( $readmore_pages as $r_page ) : ?>
+								<option value="<?php echo esc_attr( $r_page->ID ); ?>" <?php echo ( $r_page->ID === (int) $the_options['button_readmore_page'] ? 'selected' : '' ); ?>><?php echo esc_html( $r_page->post_title ); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_readmore_url_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_readmore_wp_page_field"><?php esc_attr_e( 'Synchronize with WordPress Policy Page', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="radio" id="button_readmore_wp_page_field_yes" name="button_readmore_wp_page_field" class="styled gdpr_bar_on" value="true" <?php echo ( true === $the_options['button_readmore_wp_page'] ) ? ' checked="checked"' : ''; ?>  /> <?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
+						<input type="radio" id="button_readmore_wp_page_field_no" name="button_readmore_wp_page_field" class="styled" value="false" <?php echo ( false === $the_options['button_readmore_wp_page'] ) ? ' checked="checked"' : ''; ?> /> <?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_readmore_url_type" gdpr_frm_tgl-val="false">
 					<th scope="row"><label for="button_readmore_url_field"><?php esc_attr_e( 'URL', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="text" name="button_readmore_url_field" id="button_readmore_url_field" value="<?php echo esc_attr( $the_options['button_readmore_url'] ); ?>" />

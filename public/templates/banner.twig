@@ -31,7 +31,7 @@
                         {% if category['gdpr_cookie_category_slug'] == 'necessary' %}
                             gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected
                         {% endif %}
-                        " tabindex="0" href="#">{{ __( category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ) }} ({{ category['total'] }})</a>
+                        " tabindex="0" href="#">{{ __( category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ) }}{% if button_settings_display_cookies %} ({{ category['total'] }}){% endif %}</a>
                     {% endfor %}
                 </div>
                 <div id="gdpr_messagebar_detail_body_content_overview_cookie_container_type_details">
@@ -46,6 +46,7 @@
                             <div class="gdpr_messagebar_detail_body_content_cookie_type_intro">
                                 {{ __(category['gdpr_cookie_category_description'], 'gdpr-cookie-consent') }}
                             </div>
+                            {% if button_settings_display_cookies %}
                             <div class="gdpr_messagebar_detail_body_content_cookie_type_table_container">
                                 {% if category['total'] > 0 %}
                                 <table id="gdpr_messagebar_detail_table_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_detail_body_content_cookie_type_table">
@@ -74,6 +75,7 @@
                                     {{ cookies_not_found }}
                                 {% endif %}
                             </div>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>

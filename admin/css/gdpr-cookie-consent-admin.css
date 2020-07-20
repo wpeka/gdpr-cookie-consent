@@ -291,22 +291,6 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
 .gdpr-help-links li img{
 	margin-top: 15px;
 }
-/* copied from bootstrap */
-.gdpr_sub_tab_container input[type="text"], .gdpr_sub_tab_container select,
-.gdpr_cookie_sub_tab_container input[type="text"], .gdpr_cookie_sub_tab_container select,
-.gdpr_sub_tab_container input[type="password"] {
-	display: block;
-	width: 100%;
-	padding: 0.375rem 0.75rem;
-	font-size: 1rem;
-	line-height: 1.5;
-	color: #495057;
-	background-color: #fff;
-	background-clip: padding-box;
-	border: 1px solid #ced4da;
-	border-radius: 0.25rem;
-	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; height: auto !important;
-}
 .gdpr-cookie-consent-tab-container .button-primary
 {
 	height:34px;
@@ -427,26 +411,10 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
 .script-blocker-list table.right tr.right-grid-6.even {
 	background: #e5e5e5;
 }
-.post-cookie-list div.right input,
-.scan-cookie-list div.right input,
-.add-cookie div.right input,
-.post-cookie-list div.right select,
-.scan-cookie-list div.right select,
-.add-cookie div.right select {
-	height: 35px !important;
-	padding: 7px;
-	font-size: 14px;
-	border: 1px solid #eaeaea;
-	border-radius: 2px;
-	margin-bottom: 15px;
-	box-shadow: unset;
-}
 .post-cookie-list div.right textarea,
 .scan-cookie-list div.right textarea,
 .add-cookie div.right textarea {
 	height: 70px;
-	border: 1px solid #eaeaea;
-	box-shadow: unset;
 }
 .post-cookie-list div.right input:disabled,
 .scan-cookie-list div.right input:disabled,

@@ -4,7 +4,7 @@
 **Tags:** CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA  
 **Requires at least:** 3.3.1  
 **Tested up to:** 5.4.2  
-**Stable tag:** 1.8.9  
+**Stable tag:** 1.9.0  
 **Requires PHP:** 7.0  
 **License:** GPLv3  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
@@ -188,6 +188,12 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 6. Manage cookie list.
 
 ## Change Log ##
+### 1.9.0 ###
+* Feature: Plugin updated to address ePrivacy cookie notice.
+* Feature: Added custom blocking scripts settings to the plugin.
+* Feature: Added settings to delete plugin data on deactivation.
+* Feature: Added option to select WordPress page for Readmore link, and synchronize with WordPress Privacy policy page.
+
 ### 1.8.9 ###
 * Fix: Deprecated curly braces syntax.
 * Fix: CSS class name conflicts on the frontend.
@@ -288,6 +294,12 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 ## Upgrade Notice ##
+### 1.9.0 ###
+* Feature: Plugin updated to address ePrivacy cookie notice.
+* Feature: Added custom blocking scripts settings to the plugin.
+* Feature: Added settings to delete plugin data on deactivation.
+* Feature: Added option to select WordPress page for Readmore link, and synchronize with WordPress Privacy policy page.
+
 ### 1.8.9 ###
 * Fix: Deprecated curly braces syntax.
 * Fix: CSS class name conflicts on the frontend.
