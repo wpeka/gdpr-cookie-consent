@@ -5,17 +5,17 @@ msgstr ""
 "Project-Id-Version: GDPR Cookie Consent 1.8.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
 "consent\n"
+"POT-Creation-Date: 2020-07-26T08:46:55+00:00\n"
+"PO-Revision-Date: 2020-07-26 18:51+0530\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-06-10T07:03:43+00:00\n"
-"PO-Revision-Date: 2020-06-10 14:06+0530\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4\n"
 "X-Domain: gdpr-cookie-consent\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
 
 #. Plugin Name of the plugin
 #: admin/class-gdpr-cookie-consent-admin.php:227
@@ -164,87 +164,91 @@ msgstr "Políticas de importación"
 msgid "Getting Started"
 msgstr "Empezando"
 
-#: admin/class-gdpr-cookie-consent-admin.php:405
-#: admin/class-gdpr-cookie-consent-admin.php:452
+#: admin/class-gdpr-cookie-consent-admin.php:420
+#: admin/class-gdpr-cookie-consent-admin.php:467
 msgid "You do not have sufficient permission to perform this operation"
 msgstr "No tiene permiso suficiente para realizar esta operación"
 
-#: admin/class-gdpr-cookie-consent-admin.php:435
+#: admin/class-gdpr-cookie-consent-admin.php:450
 msgid "Settings Updated."
 msgstr "Ajustes actualizados."
 
-#: admin/class-gdpr-cookie-consent-admin.php:566
+#: admin/class-gdpr-cookie-consent-admin.php:581
 msgid "An hour"
 msgstr "Una hora"
 
-#: admin/class-gdpr-cookie-consent-admin.php:567
+#: admin/class-gdpr-cookie-consent-admin.php:582
 msgid "1 Day"
 msgstr "1 Día"
 
-#: admin/class-gdpr-cookie-consent-admin.php:568
+#: admin/class-gdpr-cookie-consent-admin.php:583
 msgid "1 Week"
 msgstr "1 Semana"
 
-#: admin/class-gdpr-cookie-consent-admin.php:569
+#: admin/class-gdpr-cookie-consent-admin.php:584
 msgid "1 Month"
 msgstr "1 Mes"
 
-#: admin/class-gdpr-cookie-consent-admin.php:570
+#: admin/class-gdpr-cookie-consent-admin.php:585
 msgid "3 Months"
 msgstr "3 Meses"
 
-#: admin/class-gdpr-cookie-consent-admin.php:571
+#: admin/class-gdpr-cookie-consent-admin.php:586
 msgid "6 Months"
 msgstr "6 Meses"
 
-#: admin/class-gdpr-cookie-consent-admin.php:572
+#: admin/class-gdpr-cookie-consent-admin.php:587
 msgid "1 Year"
 msgstr "1 Año"
 
-#: admin/class-gdpr-cookie-consent-admin.php:585
+#: admin/class-gdpr-cookie-consent-admin.php:600
+msgid "ePrivacy"
+msgstr "ePrivacy"
+
+#: admin/class-gdpr-cookie-consent-admin.php:601
 msgid "GDPR"
 msgstr "GDPR"
 
-#: admin/class-gdpr-cookie-consent-admin.php:586
+#: admin/class-gdpr-cookie-consent-admin.php:602
 msgid "CCPA"
 msgstr "Ccpa"
 
-#: admin/class-gdpr-cookie-consent-admin.php:587
-msgid "Both"
-msgstr "Ambos"
+#: admin/class-gdpr-cookie-consent-admin.php:603
+msgid "GDPR & CCPA"
+msgstr "GDPR & CCPA"
 
-#: admin/class-gdpr-cookie-consent-admin.php:600
+#: admin/class-gdpr-cookie-consent-admin.php:616
 msgid "Banner"
 msgstr "Banner"
 
-#: admin/class-gdpr-cookie-consent-admin.php:601
-#: admin/views/admin-display-buttons.php:227
-#: admin/views/admin-display-buttons.php:230
+#: admin/class-gdpr-cookie-consent-admin.php:617
+#: admin/views/admin-display-buttons.php:234
+#: admin/views/admin-display-buttons.php:237
 msgid "Popup"
 msgstr "Popup"
 
-#: admin/class-gdpr-cookie-consent-admin.php:602
+#: admin/class-gdpr-cookie-consent-admin.php:618
 msgid "Widget"
 msgstr "Widget"
 
-#: admin/class-gdpr-cookie-consent-admin.php:616
+#: admin/class-gdpr-cookie-consent-admin.php:632
 msgid "Large"
 msgstr "Grande"
 
-#: admin/class-gdpr-cookie-consent-admin.php:617
+#: admin/class-gdpr-cookie-consent-admin.php:633
 msgid "Medium"
 msgstr "Mediano"
 
-#: admin/class-gdpr-cookie-consent-admin.php:618
+#: admin/class-gdpr-cookie-consent-admin.php:634
 msgid "Small"
 msgstr "Pequeño"
 
-#: admin/class-gdpr-cookie-consent-admin.php:632
+#: admin/class-gdpr-cookie-consent-admin.php:669
 #: admin/views/admin-display-buttons.php:154
 msgid "Close Header"
 msgstr "Cerrar encabezado"
 
-#: admin/class-gdpr-cookie-consent-admin.php:633
+#: admin/class-gdpr-cookie-consent-admin.php:670
 msgid "Open URL"
 msgstr "URL abierta"
 
@@ -358,8 +362,8 @@ msgstr "Propósito de la galleta"
 
 #: admin/modules/cookie-custom/views/cookies.php:53
 #: includes/class-gdpr-cookie-consent-i18n.php:44
-#: public/class-gdpr-cookie-consent-public.php:227
-#: public/class-gdpr-cookie-consent-public.php:236
+#: public/class-gdpr-cookie-consent-public.php:232
+#: public/class-gdpr-cookie-consent-public.php:241
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -424,7 +428,7 @@ msgid "Links"
 msgstr "Enlaces"
 
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:157
-#: public/class-gdpr-cookie-consent-public.php:417
+#: public/class-gdpr-cookie-consent-public.php:444
 msgid "Domain"
 msgstr "Dominio"
 
@@ -447,6 +451,7 @@ msgstr "No se puede actualizar la configuración."
 #: admin/partials/gdpr-cookie-consent-admin-display.php:29
 #: admin/views/admin-display-design.php:19
 #: admin/views/admin-display-general.php:19
+#: admin/views/admin-display-script-blocker.php:19
 msgid "General"
 msgstr "General"
 
@@ -457,6 +462,10 @@ msgstr "Diseño"
 #: admin/partials/gdpr-cookie-consent-admin-display.php:31
 msgid "Buttons"
 msgstr "Botones"
+
+#: admin/partials/gdpr-cookie-consent-admin-display.php:32
+msgid "Script Blocker"
+msgstr "Bloqueador de scripts"
 
 #: admin/views/admin-display-buttons.php:19
 msgid "Accept Button"
@@ -499,102 +508,110 @@ msgstr ""
 #: admin/views/admin-display-buttons.php:41
 #: admin/views/admin-display-buttons.php:109
 #: admin/views/admin-display-buttons.php:181
-#: admin/views/admin-display-buttons.php:246
+#: admin/views/admin-display-buttons.php:253
 msgid "Enable"
 msgstr "Habilitar"
 
 #: admin/views/admin-display-buttons.php:43
 #: admin/views/admin-display-buttons.php:111
 #: admin/views/admin-display-buttons.php:183
-#: admin/views/admin-display-buttons.php:248
+#: admin/views/admin-display-buttons.php:223
+#: admin/views/admin-display-buttons.php:255
+#: admin/views/admin-display-buttons.php:314
 #: admin/views/admin-display-design.php:62
 #: admin/views/admin-display-general.php:38
 #: admin/views/admin-display-general.php:56
-#: admin/views/admin-display-general.php:92
-#: admin/views/admin-display-general.php:141
-#: admin/views/admin-display-general.php:148
-#: admin/views/admin-display-general.php:162
-#: admin/views/admin-display-general.php:177
-#: admin/views/admin-display-general.php:184
-#: admin/views/admin-display-general.php:191
-#: admin/views/admin-display-general.php:211
+#: admin/views/admin-display-general.php:98
+#: admin/views/admin-display-general.php:147
+#: admin/views/admin-display-general.php:154
+#: admin/views/admin-display-general.php:168
+#: admin/views/admin-display-general.php:183
+#: admin/views/admin-display-general.php:190
+#: admin/views/admin-display-general.php:197
+#: admin/views/admin-display-general.php:217
+#: admin/views/admin-display-general.php:225
+#: admin/views/admin-display-script-blocker.php:36
 msgid "On"
 msgstr "Encendido"
 
 #: admin/views/admin-display-buttons.php:44
 #: admin/views/admin-display-buttons.php:112
 #: admin/views/admin-display-buttons.php:184
-#: admin/views/admin-display-buttons.php:249
+#: admin/views/admin-display-buttons.php:224
+#: admin/views/admin-display-buttons.php:256
+#: admin/views/admin-display-buttons.php:315
 #: admin/views/admin-display-design.php:63
 #: admin/views/admin-display-general.php:39
 #: admin/views/admin-display-general.php:57
-#: admin/views/admin-display-general.php:93
-#: admin/views/admin-display-general.php:142
-#: admin/views/admin-display-general.php:149
-#: admin/views/admin-display-general.php:163
-#: admin/views/admin-display-general.php:178
-#: admin/views/admin-display-general.php:185
-#: admin/views/admin-display-general.php:192
-#: admin/views/admin-display-general.php:212
+#: admin/views/admin-display-general.php:99
+#: admin/views/admin-display-general.php:148
+#: admin/views/admin-display-general.php:155
+#: admin/views/admin-display-general.php:169
+#: admin/views/admin-display-general.php:184
+#: admin/views/admin-display-general.php:191
+#: admin/views/admin-display-general.php:198
+#: admin/views/admin-display-general.php:218
+#: admin/views/admin-display-general.php:226
+#: admin/views/admin-display-script-blocker.php:37
 msgid "Off"
 msgstr "Apagado"
 
 #: admin/views/admin-display-buttons.php:48
 #: admin/views/admin-display-buttons.php:116
 #: admin/views/admin-display-buttons.php:188
-#: admin/views/admin-display-buttons.php:253
-#: admin/views/admin-display-buttons.php:305
-#: admin/views/admin-display-buttons.php:336
-#: admin/views/admin-display-buttons.php:367
+#: admin/views/admin-display-buttons.php:260
+#: admin/views/admin-display-buttons.php:338
+#: admin/views/admin-display-buttons.php:369
+#: admin/views/admin-display-buttons.php:400
 msgid "Text"
 msgstr "Texto"
 
 #: admin/views/admin-display-buttons.php:54
 #: admin/views/admin-display-buttons.php:122
 #: admin/views/admin-display-buttons.php:194
-#: admin/views/admin-display-buttons.php:259
-#: admin/views/admin-display-buttons.php:311
-#: admin/views/admin-display-buttons.php:342
-#: admin/views/admin-display-buttons.php:373
+#: admin/views/admin-display-buttons.php:266
+#: admin/views/admin-display-buttons.php:344
+#: admin/views/admin-display-buttons.php:375
+#: admin/views/admin-display-buttons.php:406
 msgid "Text color"
 msgstr "Color del texto"
 
 #: admin/views/admin-display-buttons.php:60
 #: admin/views/admin-display-buttons.php:128
 #: admin/views/admin-display-buttons.php:200
-#: admin/views/admin-display-buttons.php:265
+#: admin/views/admin-display-buttons.php:272
 msgid "Show as"
 msgstr "Mostrar como"
 
 #: admin/views/admin-display-buttons.php:62
 #: admin/views/admin-display-buttons.php:130
 #: admin/views/admin-display-buttons.php:202
-#: admin/views/admin-display-buttons.php:267
+#: admin/views/admin-display-buttons.php:274
 msgid "Button"
 msgstr "Botón"
 
 #: admin/views/admin-display-buttons.php:63
 #: admin/views/admin-display-buttons.php:131
 #: admin/views/admin-display-buttons.php:203
-#: admin/views/admin-display-buttons.php:268
+#: admin/views/admin-display-buttons.php:275
 msgid "Link"
 msgstr "Enlace"
 
 #: admin/views/admin-display-buttons.php:67
 #: admin/views/admin-display-buttons.php:135
 #: admin/views/admin-display-buttons.php:207
-#: admin/views/admin-display-buttons.php:272
-#: admin/views/admin-display-buttons.php:317
-#: admin/views/admin-display-buttons.php:348
+#: admin/views/admin-display-buttons.php:279
+#: admin/views/admin-display-buttons.php:350
+#: admin/views/admin-display-buttons.php:381
 msgid "Background color"
 msgstr "Color de fondo"
 
 #: admin/views/admin-display-buttons.php:73
 #: admin/views/admin-display-buttons.php:141
 #: admin/views/admin-display-buttons.php:213
-#: admin/views/admin-display-buttons.php:278
-#: admin/views/admin-display-buttons.php:323
-#: admin/views/admin-display-buttons.php:354
+#: admin/views/admin-display-buttons.php:285
+#: admin/views/admin-display-buttons.php:356
+#: admin/views/admin-display-buttons.php:387
 msgid "Size"
 msgstr "Tamaño"
 
@@ -605,7 +622,7 @@ msgstr "Acción"
 
 #: admin/views/admin-display-buttons.php:89
 #: admin/views/admin-display-buttons.php:161
-#: admin/views/admin-display-buttons.php:286
+#: admin/views/admin-display-buttons.php:319
 msgid "URL"
 msgstr "URL"
 
@@ -616,38 +633,59 @@ msgstr "El botón solo se vinculará a la URL si la acción es la URL abierta"
 
 #: admin/views/admin-display-buttons.php:97
 #: admin/views/admin-display-buttons.php:169
-#: admin/views/admin-display-buttons.php:293
+#: admin/views/admin-display-buttons.php:326
 msgid "Open URL in new window?"
 msgstr "¿Abrir enlace en una nueva pestaña?"
 
 #: admin/views/admin-display-buttons.php:99
 #: admin/views/admin-display-buttons.php:171
-#: admin/views/admin-display-buttons.php:295
+#: admin/views/admin-display-buttons.php:328
 msgid "Yes"
 msgstr "Sí"
 
 #: admin/views/admin-display-buttons.php:100
 #: admin/views/admin-display-buttons.php:172
-#: admin/views/admin-display-buttons.php:296
+#: admin/views/admin-display-buttons.php:329
 msgid "No"
 msgstr "No"
 
 #: admin/views/admin-display-buttons.php:221
+msgid "Display Cookies List on Frontend"
+msgstr "Mostrar lista de cookies en Frontend"
+
+#: admin/views/admin-display-buttons.php:228
 msgid "Cookie Settings Layout"
 msgstr "Diseño de configuración de cookies"
 
-#: admin/views/admin-display-buttons.php:228
-#: admin/views/admin-display-buttons.php:231
+#: admin/views/admin-display-buttons.php:235
+#: admin/views/admin-display-buttons.php:238
 msgid "Extended Banner"
 msgstr "Estandarte extendido"
 
-#: admin/views/admin-display-buttons.php:242
+#: admin/views/admin-display-buttons.php:249
 msgid ""
 "This button/link can be used to provide a link out to your Privacy & Cookie "
 "Policy. You can customize it any way you like."
 msgstr ""
 "Este botón/enlace se puede utilizar para proporcionar un enlace a su "
 "Política de privacidad y cookies. Puedes personalizarlo como quieras."
+
+#: admin/views/admin-display-buttons.php:293
+msgid "Page or Custom URL"
+msgstr "Página o URL personalizada"
+
+#: admin/views/admin-display-buttons.php:295
+#: admin/views/admin-display-buttons.php:301
+msgid "Page"
+msgstr "Página"
+
+#: admin/views/admin-display-buttons.php:296
+msgid "Custom Link"
+msgstr "Enlace personalizado"
+
+#: admin/views/admin-display-buttons.php:312
+msgid "Synchronize with WordPress Policy Page"
+msgstr "Sincronizar con la página de políticas de WordPress"
 
 #: admin/views/admin-display-design.php:34
 msgid "Cookie Bar as"
@@ -674,15 +712,15 @@ msgstr "Añadir superposición"
 
 #: admin/views/admin-display-design.php:73
 #: admin/views/admin-display-design.php:76
-#: admin/views/admin-display-general.php:103
-#: admin/views/admin-display-general.php:106
+#: admin/views/admin-display-general.php:109
+#: admin/views/admin-display-general.php:112
 msgid "Left"
 msgstr "Izquierda"
 
 #: admin/views/admin-display-design.php:74
 #: admin/views/admin-display-design.php:77
-#: admin/views/admin-display-general.php:104
-#: admin/views/admin-display-general.php:107
+#: admin/views/admin-display-general.php:110
+#: admin/views/admin-display-general.php:113
 msgid "Right"
 msgstr "Derecha"
 
@@ -713,7 +751,7 @@ msgid "Text Color"
 msgstr "Color del texto"
 
 #: admin/views/admin-display-general.php:20
-#: admin/views/admin-display-general.php:90
+#: admin/views/admin-display-general.php:96
 msgid "Show Again Tab"
 msgstr "Usar la pestaña Mostrar de nuevo"
 
@@ -750,54 +788,58 @@ msgid "Leave it blank, If you do not need a heading"
 msgstr "Déjelo en blanco, si no necesita un encabezamiento"
 
 #: admin/views/admin-display-general.php:69
+msgid "Message"
+msgstr "Mensaje"
+
+#: admin/views/admin-display-general.php:75
 msgid "GDPR Message"
 msgstr "Mensaje del RGPD"
 
-#: admin/views/admin-display-general.php:75
+#: admin/views/admin-display-general.php:81
 msgid "CCPA Message"
 msgstr "Mensaje CCPA"
 
-#: admin/views/admin-display-general.php:97
+#: admin/views/admin-display-general.php:103
 msgid "Show Again Tab Position"
 msgstr "Mostrar de nuevo la posición de la pestaña"
 
-#: admin/views/admin-display-general.php:115
+#: admin/views/admin-display-general.php:121
 msgid "Show Again Tab Margin (in percent)"
 msgstr "Mostrar de nuevo el margen de la ficha (en porcentaje)"
 
-#: admin/views/admin-display-general.php:121
+#: admin/views/admin-display-general.php:127
 msgid "Show Again Text"
 msgstr "Mostrar texto de nuevo"
 
-#: admin/views/admin-display-general.php:139
+#: admin/views/admin-display-general.php:145
 msgid "Autotick for Non-Necessary Cookies"
 msgstr "Autotick para cookies no necesarias"
 
-#: admin/views/admin-display-general.php:146
+#: admin/views/admin-display-general.php:152
 msgid "Auto Hide (Accept)"
 msgstr "Ocultar automáticamente (Aceptar)"
 
-#: admin/views/admin-display-general.php:153
+#: admin/views/admin-display-general.php:159
 msgid "Auto Hide Delay (in Milliseconds)"
 msgstr "Retardo de ocultación automática (en milisegundos)"
 
-#: admin/views/admin-display-general.php:156
+#: admin/views/admin-display-general.php:162
 msgid "Specify milliseconds e.g. 5000 = 5 seconds"
 msgstr "Especifique los milisegundos, por ejemplo, 5000 a 5 segundos"
 
-#: admin/views/admin-display-general.php:160
+#: admin/views/admin-display-general.php:166
 msgid "Auto Scroll (Accept)"
 msgstr "Desplazamiento automático (Aceptar)"
 
-#: admin/views/admin-display-general.php:164
+#: admin/views/admin-display-general.php:170
 msgid "Use this option with discretion especially if you serve EU"
 msgstr "Utilice esta opción con discreción, especialmente si sirve a la UE"
 
-#: admin/views/admin-display-general.php:168
+#: admin/views/admin-display-general.php:174
 msgid "Auto Scroll Offset (in percent)"
 msgstr "Desplazamiento automático (en porcentaje)"
 
-#: admin/views/admin-display-general.php:171
+#: admin/views/admin-display-general.php:177
 msgid ""
 "Consent will be assumed after user scrolls more than the specified page "
 "height"
@@ -805,27 +847,37 @@ msgstr ""
 "El consentimiento se asumirá después de que el usuario se desplace más que "
 "la altura de página especificada"
 
-#: admin/views/admin-display-general.php:175
+#: admin/views/admin-display-general.php:181
 msgid "Reload after Scroll Accept"
 msgstr "Recargar después de la aceptación del pergamino"
 
-#: admin/views/admin-display-general.php:182
+#: admin/views/admin-display-general.php:188
 msgid "Reload after Accept"
 msgstr "Recargar después de aceptar"
 
-#: admin/views/admin-display-general.php:189
+#: admin/views/admin-display-general.php:195
 msgid "Reload after Decline"
 msgstr "Recargar después de la caída"
 
-#: admin/views/admin-display-general.php:200
+#: admin/views/admin-display-general.php:206
 msgid "Cookie Expiry"
 msgstr "Caducidad de la cookie"
 
-#: admin/views/admin-display-general.php:205
+#: admin/views/admin-display-general.php:211
 msgid "The amount of time that the cookie should be stored for."
 msgstr "La cantidad de tiempo durante la que se debe almacenar la cookie."
 
-#: admin/views/admin-display-general.php:209
+#: admin/views/admin-display-general.php:215
+msgid "Delete Plugin data on Deactivation"
+msgstr "Eliminar datos del complemento en La desactivación"
+
+#: admin/views/admin-display-general.php:219
+msgid "Enable if you want all plugin data to be deleted on deactivation."
+msgstr ""
+"Habilite esta opción si desea que todos los datos del plugin se eliminen al "
+"desactivarse."
+
+#: admin/views/admin-display-general.php:223
 msgid "Show Credits"
 msgstr "Mostrar créditos"
 
@@ -976,6 +1028,58 @@ msgstr "Guardar todas las cookies"
 msgid "Update"
 msgstr "Actualizar"
 
+#: admin/views/admin-display-script-blocker.php:34
+msgid "Script Blocker is currently"
+msgstr "Script Blocker es actualmente"
+
+#: admin/views/admin-display-script-blocker.php:41
+msgid "Custom scripts"
+msgstr "Scripts personalizados"
+
+#: admin/views/admin-display-script-blocker.php:43
+msgid ""
+"Enter non functional cookies javascript code here (for e.g. Google "
+"Analytics) to be used after the consent is accepted."
+msgstr ""
+"Introduzca aquí el código javascript de cookies no funcionales (por ejemplo, "
+"Google Analytics) que se utilizará después de que se acepte el "
+"consentimiento."
+
+#: admin/views/admin-display-script-blocker.php:47
+msgid "Header Scripts"
+msgstr "Scripts de encabezado"
+
+#: admin/views/admin-display-script-blocker.php:50
+msgid ""
+"These scripts will be printed in the head section on all pages and/or posts."
+msgstr ""
+"Estos scripts se imprimirán en la sección principal de todas las páginas y/o "
+"publicaciones."
+
+#: admin/views/admin-display-script-blocker.php:54
+msgid "Body Scripts"
+msgstr "Scripts Body"
+
+#: admin/views/admin-display-script-blocker.php:57
+msgid ""
+"These scripts will be printed just below the opening body tag on all pages "
+"and/or posts."
+msgstr ""
+"Estos scripts se imprimirán justo debajo de la etiqueta del cuerpo de "
+"apertura en todas las páginas y/ o publicaciones."
+
+#: admin/views/admin-display-script-blocker.php:61
+msgid "Footer Scripts"
+msgstr "Scripts de pie de página"
+
+#: admin/views/admin-display-script-blocker.php:64
+msgid ""
+"These scripts will be printed above the closing body tag on all pages and/or "
+"posts."
+msgstr ""
+"Estos scripts se imprimirán encima de la etiqueta del cuerpo de cierre en "
+"todas las páginas y/o publicaciones."
+
 #: admin/views/gdpr-policies-import-page.php:18
 msgid "Import from a CSV file"
 msgstr "Importar desde un archivo CSV"
@@ -1023,8 +1127,8 @@ msgid "Accept"
 msgstr "Aceptar"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:43
-#: public/class-gdpr-cookie-consent-public.php:226
-#: public/class-gdpr-cookie-consent-public.php:235
+#: public/class-gdpr-cookie-consent-public.php:231
+#: public/class-gdpr-cookie-consent-public.php:240
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -1139,64 +1243,71 @@ msgid "Do Not Sell My Personal Information"
 msgstr "No Vender Mi Información Personal"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:61
-#: public/class-gdpr-cookie-consent-public.php:225
-#: public/class-gdpr-cookie-consent-public.php:234
+#: public/class-gdpr-cookie-consent-public.php:230
+#: public/class-gdpr-cookie-consent-public.php:239
 msgid "Do you really wish to opt-out?"
 msgstr "¿Realmente desea darse de baja?"
 
-#: public/class-gdpr-cookie-consent-public.php:276
+#: public/class-gdpr-cookie-consent-public.php:284
 msgid "GDPR Cookie Consent Plugin"
 msgstr "Complemento de consentimiento de cookies gdpr"
 
-#: public/class-gdpr-cookie-consent-public.php:278
+#: public/class-gdpr-cookie-consent-public.php:286
 msgid "CCPA Cookie Notice Plugin"
 msgstr "Complemento de aviso de cookies de CCPA"
 
-#: public/class-gdpr-cookie-consent-public.php:280
+#: public/class-gdpr-cookie-consent-public.php:288
+msgid "Cookie Notice Plugin"
+msgstr "Complemento de aviso de cookies"
+
+#: public/class-gdpr-cookie-consent-public.php:290
 msgid "GDPR & CCPA Notice plugin"
 msgstr "GDPR & CCPA Aviso plugin"
 
 #. translators: 1: GDPR Cookie Consent Plugin
-#: public/class-gdpr-cookie-consent-public.php:284
+#: public/class-gdpr-cookie-consent-public.php:294
 msgid "Powered by %1$s"
 msgstr "Funciona con %1$s"
 
-#: public/class-gdpr-cookie-consent-public.php:412
+#: public/class-gdpr-cookie-consent-public.php:439
 msgid "About Cookies"
 msgstr "Acerca de las cookies"
 
-#: public/class-gdpr-cookie-consent-public.php:413
+#: public/class-gdpr-cookie-consent-public.php:440
 msgid "Cookie Declaration"
 msgstr "Declaración de cookies"
 
-#: public/class-gdpr-cookie-consent-public.php:414
+#: public/class-gdpr-cookie-consent-public.php:441
 msgid "Always Active"
 msgstr "Siempre activo"
 
-#: public/class-gdpr-cookie-consent-public.php:415
+#: public/class-gdpr-cookie-consent-public.php:442
 msgid "Save And Accept"
 msgstr "Guardar y aceptar"
 
-#: public/class-gdpr-cookie-consent-public.php:416
+#: public/class-gdpr-cookie-consent-public.php:443
 msgid "Name"
 msgstr "Nombre"
 
-#: public/class-gdpr-cookie-consent-public.php:418
+#: public/class-gdpr-cookie-consent-public.php:445
 msgid "Purpose"
 msgstr "Finalidad"
 
-#: public/class-gdpr-cookie-consent-public.php:419
+#: public/class-gdpr-cookie-consent-public.php:446
 msgid "Expiry"
 msgstr "Vencimiento"
 
-#: public/class-gdpr-cookie-consent-public.php:420
+#: public/class-gdpr-cookie-consent-public.php:447
 msgid "Type"
 msgstr "Tipo"
 
-#: public/class-gdpr-cookie-consent-public.php:421
+#: public/class-gdpr-cookie-consent-public.php:448
 msgid "We do not use cookies of this type."
 msgstr "No utilizamos cookies de este tipo."
 
-#: public/class-gdpr-cookie-consent-public.php:422
+#: public/class-gdpr-cookie-consent-public.php:449
 msgid "I consent to the use of following cookies:"
 msgstr "Doy mi consentimiento para el uso de las siguientes cookies:"
+
+#~ msgid "Both"
+#~ msgstr "Ambos"
