@@ -38,7 +38,7 @@ class Gdpr_Cookie_Consent_Deactivator {
 			);
 			foreach ( $tables_arr as $table ) {
 				$tablename = $wpdb->prefix . $table;
-				$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %s', array( $tablename ) ) ); // phpcs:ignore
+				$wpdb->query( 'DROP TABLE IF EXISTS ' . $tablename ); // phpcs:ignore
 			}
 			delete_option( 'gdpr_admin_modules' );
 			delete_option( 'gdpr_public_modules' );
