@@ -45,7 +45,7 @@ $cookie_sub_tab['custom-cookies'] = __( 'Custom Cookies', 'gdpr-cookie-consent' 
 						<div class="input-box"><select name="cookie_type_field" class="vvv_combobox cookie-type-field">
 								<?php Gdpr_Cookie_Consent_Cookie_Custom::print_combobox_options( Gdpr_Cookie_Consent_Cookie_Custom::get_types(), 'HTTP' ); ?>
 							</select></div>
-						<div class="input-box"><input type="text" name="cookie_duration_field" class="cookie-duration-field" value="" placeholder="<?php esc_attr_e( 'Cookie Duration (in days)', 'gdpr-cookie-consent' ); ?>"/></div>
+						<div class="input-box"><input type="text" name="cookie_duration_field" class="cookie-duration-field" value="" placeholder="<?php esc_attr_e( 'Duration (in days/Session)', 'gdpr-cookie-consent' ); ?>"/></div>
 					</div>
 					<div class="right-grid-3">
 						<div class="input-box"><textarea name="cookie_description_field" class="vvv_textbox" placeholder="<?php esc_attr_e( 'Cookie Purpose', 'gdpr-cookie-consent' ); ?>"></textarea></div>

@@ -13,13 +13,6 @@
 				Set:function()
 			{
 					$( document ).on(
-						'keyup',
-						'.form-table .cookie-duration-field',
-						function(){
-							$( this ).val( $( this ).val().replace( /\D/, "" ) );
-						}
-					);
-					$( document ).on(
 						'click',
 						'.update_admin_cookies',
 						function(){
