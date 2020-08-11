@@ -500,7 +500,7 @@ class Gdpr_Cookie_Consent_Public {
 			$content .= "<div class='wp_legalpolicy' style='overflow-x:scroll;overflow:auto;'>";
 			$content .= '<table style="width:100%;margin:0 auto;border-collapse:collapse;">';
 			$content .= '<thead>';
-			$content .= '<th>Third Party Companies</th><th>Purpose</th><thApplicable Privacy/Cookie Policy Link</th>';
+			$content .= '<th>Third Party Companies</th><th>Purpose</th><th>Applicable Privacy/Cookie Policy Link</th>';
 			$content .= '</thead>';
 			$content .= '<tbody>';
 			foreach ( $wp_legalpolicy_data as $policypost ) {

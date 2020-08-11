@@ -2,6 +2,9 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+*, *:before, *:after {
+	box-sizing:border-box;
+}
 #gdpr-cookie-consent-bar, #gdpr-cookie-consent-show-again {
 	margin: 0 auto;
 	padding: 5px 0;
@@ -594,7 +597,8 @@ Bootstrap CSS for frontend UI
 }
 
 /** Bootstrap button CSS */
-#gdpr-cookie-consent-bar .btn {
+#gdpr-cookie-consent-bar .btn,
+.gdpr_messagebar_detail .btn {
 	display: inline-block;
 	font-weight: 400;
 	color: #212529;
@@ -615,22 +619,24 @@ Bootstrap CSS for frontend UI
 }
 
 @media (prefers-reduced-motion: reduce) {
-	#gdpr-cookie-consent-bar .btn {
+	#gdpr-cookie-consent-bar .btn,
+	.gdpr_messagebar_detail .btn {
 		transition: none;
 	}
 }
 
-#gdpr-cookie-consent-bar .btn:hover {
+#gdpr-cookie-consent-bar .btn:hover,
+.gdpr_messagebar_detail .btn:hover {
 	color: #212529;
 	text-decoration: none;
 }
 
-#gdpr-cookie-consent-bar .btn:focus, #gdpr-cookie-consent-bar .btn.focus {
+#gdpr-cookie-consent-bar .btn:focus, .gdpr_messagebar_detail .btn:focus {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-#gdpr-cookie-consent-bar .btn.disabled, #gdpr-cookie-consent-bar .btn:disabled {
+#gdpr-cookie-consent-bar .btn.disabled, .gdpr_messagebar_detail .btn:disabled {
 	opacity: 0.65;
 }
 
@@ -638,14 +644,16 @@ Bootstrap CSS for frontend UI
 fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	pointer-events: none;
 }
-#gdpr-cookie-consent-bar .btn-lg {
+#gdpr-cookie-consent-bar .btn-lg,
+.gdpr_messagebar_detail .btn-lg {
 	padding: 0.5rem 1rem;
 	font-size: 17px;
 	line-height: 1.5;
 	border-radius: 0.3rem;
 }
 
-#gdpr-cookie-consent-bar .btn-sm {
+#gdpr-cookie-consent-bar .btn-sm,
+.gdpr_messagebar_detail .btn-sm {
 	padding: 0.25rem 0.5rem;
 	font-size: 11px;
 	line-height: 1.5;
