@@ -96,6 +96,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 				console.log( "GDPRCookieConsent requires JSON.parse but your browser doesn't support it" );
 				return;
 			}
+
 			this.settings             = JSON.parse( args.settings );
 			GDPR_ACCEPT_COOKIE_EXPIRE = this.settings.cookie_expiry;
 			this.bar_elm              = jQuery( this.settings.notify_div_id );
@@ -114,18 +115,27 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			this.confirm_button  = jQuery( '#cookie_action_confirm' );
 			this.cancel_button   = jQuery( '#cookie_action_cancel' );
 
-			this.configBar();
-			this.toggleBar();
-			this.attachEvents();
+            if(this.settings.maxmind_integrated == '2') {
+                jQuery(GDPR.settings.notify_div_id).find('p.ccpa').hide();
+                jQuery(GDPR.settings.notify_div_id).find('p.gdpr').hide();
+                jQuery(GDPR.settings.notify_div_id).find('.gdpr.group-description-buttons').hide();
+                jQuery(GDPR.settings.notify_div_id).find('.both.gdpr-banner').hide();
+
+            }
+
+            this.configBar();
+            this.toggleBar();
+            this.attachEvents();
 			this.configButtons();
+
 			if (this.settings.pro_active && this.settings.maxmind_integrated == '2') {
-				this.check_ccpa_eu();
-			}
-			if ( this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'eprivacy' || this.settings.cookie_usage_for == 'both' ) {
+               this.check_ccpa_eu();
+            }
+            if ( this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'eprivacy' || this.settings.cookie_usage_for == 'both' ) {
 				if ( this.settings.auto_scroll ) {
 					window.addEventListener( "scroll", GDPR.acceptOnScroll, false );
 				}
-				var gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
+                var gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
 				var gdpr_viewed_cookie   = GDPR_Cookie.read( 'wpl_viewed_cookie' );
 				var event                = '';
 				if (this.settings.cookie_usage_for == 'gdpr') {
@@ -138,6 +148,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 							}
 						}
 					);
+                    window.dispatchEvent( event );
 				} else if (this.settings.cookie_usage_for == 'eprivacy') {
 					event = new CustomEvent(
 						'GdprCookieConsentOnLoad',
@@ -147,15 +158,16 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 							}
 						}
 					);
+                    window.dispatchEvent( event );
 				}
-				window.dispatchEvent( event );
+
 			}
 		},
 		check_ccpa_eu: function() {
-			var data = {
+
+            var data = {
 				action: 'show_cookie_consent_bar',
 			};
-
 			$.ajax(
 				{
 					type: 'post',
@@ -163,58 +175,60 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					data: data,
 					dataType: 'json',
 					success: function (response) {
-						if (response.error) {
+
+                        if (response.error) {
 							// handle error here.
 						} else {
-							var geo_flag = true;
-							if (response.eu_status == 'on' || response.ccpa_status == 'on') {
-								if (response.eu_status != 'on' ) {
-									var gdpr_flag = true;
-									jQuery( GDPR.settings.notify_div_id ).find( 'p.gdpr' ).hide();
-									jQuery( GDPR.settings.notify_div_id ).find( '.gdpr.group-description-buttons' ).hide();
-									jQuery( GDPR.settings.notify_div_id ).find( 'p.ccpa' ).css( 'text-align','center' );
+                            var geo_flag = true;
+                            var gdpr_flag = false;
+                            var ccpa_flag = false;
+                            var cookieData = JSON.parse(gdpr_cookiebar_settings);
+                            var cookie_for = cookieData['cookie_usage_for'];
+                            if ('both' == cookie_for) {
+                               if ( ! GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) && ! GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )) {
+                               	 	GDPR.checkEuAndCCPAStatus(response);
+                                } else if (  GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) && ! GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )) {
+                                    GDPR.hideHeader();
+                                } else if( ! GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) &&  GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )){
+                                    GDPR.hideHeader(true);
 								}
-								if (response.ccpa_status != 'on') {
-									var ccpa_flag = true;
-									jQuery( GDPR.settings.notify_div_id ).find( 'p.ccpa' ).hide();
-								}
-								if (gdpr_flag && ccpa_flag) {
-									jQuery( GDPR.settings.notify_div_id ).find( 'p.gdpr' ).show();
-									jQuery( GDPR.settings.notify_div_id ).find( '.gdpr.group-description-buttons' ).show();
-									GDPR.hideHeader( geo_flag );
-								} else {
-									if (GDPR_Cookie.read( 'wpl_viewed_cookie' ) != null && GDPR_Cookie.read( 'wpl_optout_cookie' ) != null) {
-										if ( ! gdpr_flag) {
-											GDPR.hideHeader();
-										} else if ( ! ccpa_flag) {
-											GDPR.hideHeader( geo_flag );
-										}
-									} else {
-										if (GDPR_Cookie.read( 'wpl_viewed_cookie' ) != null) {
-											if (ccpa_flag) {
-												GDPR.hideHeader();
-											} else {
-												jQuery( GDPR.settings.notify_div_id ).find( 'p.gdpr' ).hide();
-												jQuery( GDPR.settings.notify_div_id ).find( '.gdpr.group-description-buttons' ).hide();
-												jQuery( GDPR.settings.notify_div_id ).find( 'p.ccpa' ).css( 'text-align','center' );
-											}
-										}
-										if (GDPR_Cookie.read( 'wpl_optout_cookie' ) != null) {
-											if (gdpr_flag) {
-												GDPR.hideHeader( geo_flag );
-											} else {
-												jQuery( GDPR.settings.notify_div_id ).find( 'p.ccpa' ).hide();
-											}
-										}
-									}
-								}
-							} else {
-								GDPR.hideHeader( geo_flag );
-							}
+                            } else if('gdpr' == cookie_for){
+                            	GDPR.checkEuAndCCPAStatus(response);
+							} else if('ccpa' == cookie_for){
+                                GDPR.checkEuAndCCPAStatus(response);
+							} else if('eprivacy' == cookie_for) {
+                                GDPR.checkEuAndCCPAStatus(response);
+                           }
 						}
 					},
 				}
 			);
+		},
+		checkEuAndCCPAStatus:function(response) {
+            if (response.eu_status == 'on' && response.ccpa_status == 'off') {
+                jQuery(GDPR.settings.notify_div_id).find('p.gdpr').show();
+                jQuery(GDPR.settings.notify_div_id).find('p.ccpa').hide();
+                jQuery(GDPR.settings.notify_div_id).find('.gdpr.group-description-buttons').show();
+            } else if (response.eu_status == 'off' && response.ccpa_status == 'on') {
+                jQuery(GDPR.settings.notify_div_id).find('p.ccpa').show();
+                jQuery(GDPR.settings.notify_div_id).find('p.ccpa').css('text-align', 'center');
+                jQuery(GDPR.settings.notify_div_id).find('p.gdpr').hide();
+                jQuery(GDPR.settings.notify_div_id).find('.gdpr.group-description-buttons').hide();
+            }
+            if (response.eu_status == 'on' && response.ccpa_status == 'on') {
+            	jQuery(GDPR.settings.notify_div_id).find('p.ccpa').show();
+                jQuery(GDPR.settings.notify_div_id).find('p.gdpr').show();
+                jQuery(GDPR.settings.notify_div_id).find('.gdpr.group-description-buttons').show();
+            }
+            if (response.eu_status == 'off' && response.ccpa_status == 'off') {
+                GDPR.hideHeader(true);
+                GDPR.displayHeader(false,false);
+                jQuery(GDPR.settings.notify_div_id).find('p.ccpa').hide();
+                jQuery(GDPR.settings.notify_div_id).find('p.gdpr').hide();
+                jQuery(GDPR.settings.notify_div_id).find('.gdpr.group-description-buttons').hide();
+                jQuery(GDPR.settings.notify_div_id).find('.both.gdpr-banner').hide();
+
+            }
 		},
 		attachEvents:function() {
 			jQuery( '.gdpr_action_button' ).click(
@@ -246,6 +260,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 									}
 								}
 							);
+                            window.dispatchEvent( event );
 						} else if (GDPR.settings.cookie_usage_for == 'eprivacy') {
 							event = new CustomEvent(
 								'GdprCookieConsentOnAccept',
@@ -255,8 +270,9 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 									}
 								}
 							);
+                            window.dispatchEvent( event );
 						}
-						window.dispatchEvent( event );
+
 						GDPR.logConsent( button_action );
 					} else if (button_action == 'reject') {
 						GDPR.reject_close();
@@ -273,6 +289,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 									}
 								}
 							);
+                            window.dispatchEvent( event );
 						} else if (GDPR.settings.cookie_usage_for == 'eprivacy') {
 							event = new CustomEvent(
 								'GdprCookieConsentOnReject',
@@ -282,8 +299,9 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 									}
 								}
 							);
+                            window.dispatchEvent( event );
 						}
-						window.dispatchEvent( event );
+
 						GDPR.logConsent( button_action );
 					} else if ( button_action == 'settings' ) {
 						GDPR.bar_elm.slideUp( GDPR.settings.animate_speed_hide );
@@ -660,7 +678,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			} else if (this.settings.cookie_usage_for == 'both') {
 				if (GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) && GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )) {
 					this.hideHeader();
-				} else if (GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) && ! GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )) {
+               } else if (GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) && ! GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )) {
 					this.displayHeader( true, false );
 				} else if ( ! GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) && GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )) {
 					this.displayHeader( false, true );
@@ -813,7 +831,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			this.settings_button.attr( 'data-gdpr_action', 'show_settings' );
 		},
 		displayHeader:function(gdpr_flag, ccpa_flag) {
-			this.bar_elm.show();
+            this.bar_elm.show();
 			if (gdpr_flag) {
 				jQuery( GDPR.settings.notify_div_id ).find( 'p.gdpr' ).hide();
 				jQuery( GDPR.settings.notify_div_id ).find( '.gdpr.group-description-buttons' ).hide();
@@ -822,11 +840,12 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			if (ccpa_flag || GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )) {
 				jQuery( GDPR.settings.notify_div_id ).find( 'p.ccpa' ).hide();
 			}
-			if (this.settings.cookie_bar_as == 'popup') {
+            if (this.settings.cookie_bar_as == 'popup') {
 				$( "#gdpr-popup" ).modal( 'show' );
 			}
 			if (this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'eprivacy' || this.settings.cookie_usage_for == 'both') {
 				this.show_again_elm.slideUp( this.settings.animate_speed_hide );
+
 			}
 		},
 		hideHeader:function(geo_flag) {
@@ -1066,21 +1085,68 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 	}
 	$( document ).ready(
 		function() {
-			if (typeof gdpr_cookiebar_settings != 'undefined') {
-				GDPR.set(
-					{
-						settings:gdpr_cookiebar_settings
-					}
-				);
+        	var settings = JSON.parse(gdpr_cookiebar_settings);
+
+			if('2' == settings['maxmind_integrated']){
+                var data = {
+                        action: 'show_cookie_consent_bar',
+                    };
+
+                    $.ajax(
+                        {
+                            type: 'post',
+                            url: log_obj.ajax_url,
+                            data: data,
+                            dataType: 'json',
+                            success: function (response) {
+                            	if (response.error) {
+                                    // handle error here.
+                                } else {
+                                    if (response.eu_status == 'on' || response.ccpa_status == 'on') {
+                                        if (typeof gdpr_cookiebar_settings != 'undefined') {
+                                            GDPR.set(
+                                                {
+                                                    settings:gdpr_cookiebar_settings
+                                                }
+                                            );
+                                        }
+
+                                        if (typeof gdpr_cookies_list != 'undefined') {
+                                            GDPR_Blocker.set(
+                                                {
+                                                    cookies:gdpr_cookies_list
+                                                }
+                                            );
+                                            GDPR_Blocker.runScripts();
+                                        }
+                    				}
+                                }
+                            }
+                        }
+                        );
+			} else {
+                if (typeof gdpr_cookiebar_settings != 'undefined') {
+                    GDPR.set(
+                        {
+                            settings:gdpr_cookiebar_settings
+                        }
+                    );
+                }
+
+                if (typeof gdpr_cookies_list != 'undefined') {
+                    GDPR_Blocker.set(
+                        {
+                            cookies:gdpr_cookies_list
+                        }
+                    );
+                    GDPR_Blocker.runScripts();
+                }
 			}
-			if (typeof gdpr_cookies_list != 'undefined') {
-				GDPR_Blocker.set(
-					{
-						cookies:gdpr_cookies_list
-					}
-				);
-				GDPR_Blocker.runScripts();
-			}
+
+
+
+
+
 		}
 	);
 
