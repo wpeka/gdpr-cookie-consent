@@ -2,9 +2,6 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
-*, *:before, *:after {
-	box-sizing:border-box;
-}
 #gdpr-cookie-consent-bar, #gdpr-cookie-consent-show-again {
 	margin: 0 auto;
 	padding: 5px 0;
@@ -145,6 +142,7 @@
 }
 
 #gdpr-cookie-consent-bar .gdpr_messagebar_detail {
+	box-sizing: border-box;
 	font-size: inherit;
 	line-height: inherit;
 	margin: 0 auto;
@@ -663,6 +661,9 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 
 
 /** For modal Popup */
+.gdpr_messagebar_detail, .gdpr_messagebar_detail:before, .gdpr_messagebar_detail:after {
+	box-sizing: border-box;
+}
 .gdpr_messagebar_detail .modal-dialog .modal-content {
 	border: 1px solid #ffffff;
 	font-size: 13px;
