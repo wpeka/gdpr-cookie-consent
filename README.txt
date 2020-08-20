@@ -65,7 +65,7 @@ The WP Cookie Notice for GDPR, CCPA & ePrivacy Consent plugin helps you comply w
 - Displays a “Do Not Sell My Personal Information” link on the homepage which can be pointed to a custom page, where a user can request to opt-out of the sale of the user’s personal information.
 - Keeps a searchable log of consents given by all website users (Pro version only).
 
-[youtube https://youtu.be/r4EmMEd_w6w]
+[youtube https://youtu.be/j8GWOv83wvs]
 
 == Features ==
 
