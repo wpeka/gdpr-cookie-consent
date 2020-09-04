@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '1.9.2';
+			$this->version = '1.9.3';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
