@@ -292,8 +292,8 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 		if ( ! $result ) {
 			$create_table_sql = "CREATE TABLE `$table_name`(
 				 `id_gdpr_cookie_category` INT NOT NULL AUTO_INCREMENT,
-				 `gdpr_cookie_category_name` VARCHAR(255) NOT NULL,
-				 `gdpr_cookie_category_slug` VARCHAR(255) NOT NULL,
+				 `gdpr_cookie_category_name` VARCHAR(50) NOT NULL,
+				 `gdpr_cookie_category_slug` VARCHAR(50) NOT NULL,
 				 `gdpr_cookie_category_description` TEXT  NULL,
 				 PRIMARY KEY(`id_gdpr_cookie_category`),
 				 UNIQUE `cookie` (`gdpr_cookie_category_name`)
