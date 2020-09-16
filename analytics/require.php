@@ -9,6 +9,6 @@
 // Configuration should be loaded first.
 require_once dirname( __FILE__ ) . '/config.php';
 require_once WP_STAT__DIR_INCLUDES . '/analytics-core-functions.php';
-
+require_once WP_STAT__DIR_INCLUDES . '/tracking/class-analytics-tracking.php';
 require_once WP_STAT__DIR_INCLUDES . '/sdk/Exceptions/Exception.php';
 require_once WP_STAT__DIR_INCLUDES . '/class-analytics.php';

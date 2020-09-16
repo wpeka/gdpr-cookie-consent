@@ -249,17 +249,33 @@ class Gdpr_Cookie_Consent_Public {
 			$ccpa_str         = $ccpa_message;
 			$head             = $the_options['bar_heading_text'];
 			$head             = trim( stripslashes( $head ) );
-			$default_array    = array( 'none', 'default', 'classic' );
 			$template         = $the_options['template'];
 			if ( 'none' !== $template ) {
 				$template_parts = explode( '-', $template );
 				$template       = array_pop( $template_parts );
 			}
-			$the_options['container_class'] = $the_options['cookie_usage_for'] . ' gdpr-' . $the_options['cookie_bar_as'] . ' gdpr-' . $template;
-			if ( in_array( $template, $default_array, true ) ) {
+
+			if ( false !== strpos( $template, 'center' ) ) {
+				$template = 'center';
+			} elseif ( false !== strpos( $template, 'box' ) ) {
+				$template = 'box';
+			} elseif ( false !== strpos( $template, 'square' ) ) {
+				$template = 'square';
+			} elseif ( false !== strpos( $template, 'row' ) ) {
+				$template = 'row';
+			} elseif ( false !== strpos( $template, 'column' ) ) {
+				$template = 'column';
+			} else {
 				$template = 'default';
 			}
-			$template                                 = apply_filters( 'gdprcookieconsent_template', $template );
+			$the_options['skin_template']        = 'templates/skins/' . $template . '.twig';
+			$the_options['container_class']      = $the_options['cookie_usage_for'] . ' gdpr-' . $the_options['cookie_bar_as'] . ' gdpr-' . $template . ' ' . $the_options['template'];
+			$layout                              = $the_options['button_settings_layout_skin'];
+			$layout_parts                        = explode( '-', $layout );
+			$layout_skin                         = array_pop( $layout_parts );
+			$the_options['container_class']     .= ' layout-' . $layout_skin;
+			$the_options['layout_skin_template'] = 'templates/modals/' . $layout_skin . '.twig';
+
 			$the_options['eprivacy_str']              = $eprivacy_str;
 			$the_options['gdpr_str']                  = $gdpr_str;
 			$the_options['ccpa_str']                  = $ccpa_str;
@@ -328,6 +344,7 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			$the_options['button_readmore_classes'] = '';
 			if ( $the_options['button_readmore_as_button'] ) {
+				$the_options['button_readmore_classes'] .= 'gdpr_action_button_link ';
 				switch ( $the_options['button_readmore_button_size'] ) {
 					case 'medium':
 						$the_options['button_readmore_classes'] .= 'btn';
@@ -450,9 +467,8 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['cookie_data']       = $cookie_data;
 			}
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
-
 			ob_start();
-			$notify_html = $timber->render( 'templates/' . $template . '.twig', $the_options );
+			$notify_html = $timber->render( 'templates/default.twig', $the_options );
 			ob_end_clean();
 			echo $notify_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			?>

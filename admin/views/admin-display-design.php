@@ -102,19 +102,45 @@ $design_sub_tab = apply_filters( 'gdprcookieconsent_design_sub_tabs', $design_su
 				<tr valign="top">
 					<th scope="row"><label for="background_field"><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<input type="text" name="background_field" id="gdpr-color-background" value="<?php echo esc_attr( $the_options['background'] ); ?>" class="gdpr-color-field" data-default-color="#fff" />
+						<input type="text" name="background_field" id="gdpr-color-background" value="<?php echo esc_attr( $the_options['background'] ); ?>" class="gdpr-color-field" data-default-color="#ffffff" />
 					</td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="opacity_field"><?php esc_attr_e( 'Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<input id="range-opacity-slider" type="range" max="1" min="0" step="0.01" name="opacity_field" onchange="gdpr_print_value('range-opacity-slider','range-opacity-input')" value="<?php echo esc_attr( $the_options['opacity'] ); ?>" /><input type="text" id="range-opacity-input" name="opacity_field" value="<?php echo esc_attr( $the_options['opacity'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+						<input id="range-opacity-slider" type="range" max="1" min="0" step="0.01" name="opacity_field" onchange="gdpr_print_value('range-opacity-slider','range-opacity-input')" value="<?php echo esc_attr( $the_options['opacity'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-opacity-input" name="opacity_field" value="<?php echo esc_attr( $the_options['opacity'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
 					</td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="text_field"><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<input type="text" name="text_field" id="gdpr-color-text" value="<?php echo esc_attr( $the_options['text'] ); ?>" class="gdpr-color-field" data-default-color="#000" />
+						<input type="text" name="text_field" id="gdpr-color-text" value="<?php echo esc_attr( $the_options['text'] ); ?>" class="gdpr-color-field" data-default-color="#000000" />
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="background_border_style_field"><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<select name="background_border_style_field" class="vvv_combobox">
+							<?php $this->print_combobox_options( $this->get_background_border_styles(), $the_options['background_border_style'] ); ?>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="background_border_width_field"><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-border-width-slider" type="range" max="10" min="0" step="0.5" name="background_border_width_field" onchange="gdpr_print_value('range-border-width-slider','range-border-width-input')" value="<?php echo esc_attr( $the_options['background_border_width'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-border-width-input" name="background_border_width_field" value="<?php echo esc_attr( $the_options['background_border_width'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="background_border_color_field"><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="text" name="background_border_color_field" id="gdpr-color-background-border" value="<?php echo esc_attr( $the_options['background_border_color'] ); ?>" class="gdpr-color-field" data-default-color="#ffffff" />
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="background_border_radius_field"><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-border-radius-slider" type="range" max="100" min="0" step="0.5" name="background_border_radius_field" onchange="gdpr_print_value('range-border-radius-slider','range-border-radius-input')" value="<?php echo esc_attr( $the_options['background_border_radius'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-border-radius-input" name="background_border_radius_field" value="<?php echo esc_attr( $the_options['background_border_radius'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
 					</td>
 				</tr>
 				<?php

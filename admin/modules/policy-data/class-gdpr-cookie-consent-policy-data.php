@@ -172,24 +172,24 @@ class Gdpr_Cookie_Consent_Policy_Data {
 		switch ( $column ) {
 			case 'title':
 				if ( isset( $post->post_title ) ) {
-					echo esc_attr( $post->post_title, 'gdpr-cookie-consent' );
+					echo esc_attr( $post->post_title );
 				}
 				break;
 			case 'gdprpurpose':
 				if ( isset( $post->post_content ) ) {
-					echo esc_attr( $post->post_content, 'gdpr-cookie-consent' );
+					echo esc_attr( $post->post_content );
 				}
 				break;
 			case 'gdprlinks':
 				$custom = get_post_custom();
 				if ( isset( $custom['_gdpr_policies_links_editor'][0] ) ) {
-					echo wp_kses_post( $custom['_gdpr_policies_links_editor'][0], 'gdpr-cookie-consent' );
+					echo wp_kses_post( $custom['_gdpr_policies_links_editor'][0] );
 				}
 				break;
 			case 'gdprdomain':
 				$custom = get_post_custom();
 				if ( isset( $custom['_gdpr_policies_domain'][0] ) ) {
-					echo esc_attr( $custom['_gdpr_policies_domain'][0], 'gdpr-cookie-consent' );
+					echo esc_attr( $custom['_gdpr_policies_domain'][0] );
 				}
 				break;
 
@@ -434,8 +434,8 @@ class Gdpr_Cookie_Consent_Policy_Data {
 				do_action( 'gdprpolicies_pre_import', $gdpr_policies_data );
 				$post_data = array(
 					'post_author'   => get_current_user_id(),
-					'post_date'     => date( 'Y-m-d H:i:s', strtotime( 'now' ) ),
-					'post_date_gmt' => date( 'Y-m-d H:i:s', strtotime( 'now' ) ),
+					'post_date'     => gmdate( 'Y-m-d H:i:s', strtotime( 'now' ) ),
+					'post_date_gmt' => gmdate( 'Y-m-d H:i:s', strtotime( 'now' ) ),
 					'post_content'  => isset( $gdpr_policies_data['post_content'] ) ? $gdpr_policies_data['post_content'] : '',
 					'post_title'    => $gdpr_policies_data['post_title'],
 					'post_name'     => ( sanitize_title( $gdpr_policies_data['post_title'] ) ),

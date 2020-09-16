@@ -96,7 +96,7 @@ as_enqueue_local_style( 'as_dialog_boxes', '/admin/dialog-boxes.css' );
 				+ '	</div>'
 				+ '</div>',
 			$modal = $(modalHtml),
-            $deactivateLink = $('#the-list .deactivate > [data-module-slug=<?php echo $as->get_slug() ?>].as-module-slug').prev(),
+			$deactivateLink = $('#the-list .deactivate > [data-module-slug=<?php echo $as->get_slug(); ?>].as-module-slug').prev(),
 			selectedReasonID = false,
 			redirectLink = '',
 			$anonymousFeedback    = $modal.find( '.anonymous-feedback-label' ),
@@ -111,11 +111,11 @@ as_enqueue_local_style( 'as_dialog_boxes', '/admin/dialog-boxes.css' );
 		registerEventHandlers();
 
 		function registerEventHandlers() {
-		    $deactivateLink.click(function (evt) {
-                evt.preventDefault();
-                redirectLink = $(this).attr('href');
-                showModal();
-            });
+			$deactivateLink.click(function (evt) {
+				evt.preventDefault();
+				redirectLink = $(this).attr('href');
+				showModal();
+			});
 			<?php
 			if ( ! $as->is_plugin() ) {
 				/**
@@ -207,12 +207,12 @@ as_enqueue_local_style( 'as_dialog_boxes', '/admin/dialog-boxes.css' );
 						url       : ajaxurl,
 						method    : 'POST',
 						data      : {
-                            action : 'submit_uninstall_reason',
-                            deactivation_reason : $deactivation_reason,
-                            reason_info         : userReason,
-                            is_anonymous        : isAnonymousFeedback(),
-                            slug                : slug,
-                            security            : '<?php echo $uninstall_reason_nonce; ?>',
+							action : 'submit_uninstall_reason',
+							deactivation_reason : $deactivation_reason,
+							reason_info         : userReason,
+							is_anonymous        : isAnonymousFeedback(),
+							slug                : slug,
+							security            : '<?php echo $uninstall_reason_nonce; ?>',
 						},
 						beforeSend: function () {
 							_parent.find('.as-modal-footer .button').addClass('disabled');
@@ -254,9 +254,9 @@ as_enqueue_local_style( 'as_dialog_boxes', '/admin/dialog-boxes.css' );
 
 				var _parent = $(this).parents('li:first');
 
-                $modal.find('.reason-input').remove();
-                $modal.find( '.internal-message' ).hide();
-                $modal.find('.button-deactivate').html('<?php echo esc_js( sprintf(
+				$modal.find('.reason-input').remove();
+				$modal.find( '.internal-message' ).hide();
+				$modal.find('.button-deactivate').html('<?php echo esc_js( sprintf(
                     __( 'Submit & %s', 'analytics', $slug ),
                     $as->is_plugin() ?
                         $deactivate_text :

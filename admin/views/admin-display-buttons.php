@@ -70,6 +70,38 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 					</td>
 				</tr>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_accept_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_accept_button_opacity_field"><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-accept-opacity-slider" type="range" max="1" min="0" step="0.01" name="button_accept_button_opacity_field" onchange="gdpr_print_value('range-accept-opacity-slider','range-accept-opacity-input')" value="<?php echo esc_attr( $the_options['button_accept_button_opacity'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-accept-opacity-input" name="button_accept_button_opacity_field" value="<?php echo esc_attr( $the_options['button_accept_button_opacity'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_accept_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_accept_button_border_style_field"><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<select name="button_accept_button_border_style_field" class="vvv_combobox">
+							<?php $this->print_combobox_options( $this->get_background_border_styles(), $the_options['button_accept_button_border_style'] ); ?>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_accept_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_accept_button_border_width_field"><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-accept-border-width-slider" type="range" max="10" min="0" step="0.5" name="button_accept_button_border_width_field" onchange="gdpr_print_value('range-accept-border-width-slider','range-accept-border-width-input')" value="<?php echo esc_attr( $the_options['button_accept_button_border_width'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-accept-border-width-input" name="button_accept_button_border_width_field" value="<?php echo esc_attr( $the_options['button_accept_button_border_width'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_accept_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_accept_button_border_color_field"><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="text" name="button_accept_button_border_color_field" id="gdpr-color-accept-border" value="<?php echo esc_attr( $the_options['button_accept_button_border_color'] ); ?>" class="gdpr-color-field" data-default-color="#18a300" />
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_accept_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_accept_button_border_radius_field"><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-accept-border-radius-slider" type="range" max="100" min="0" step="0.5" name="button_accept_button_border_radius_field" onchange="gdpr_print_value('range-accept-border-radius-slider','range-accept-border-radius-input')" value="<?php echo esc_attr( $the_options['button_accept_button_border_radius'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-accept-border-radius-input" name="button_accept_button_border_radius_field" value="<?php echo esc_attr( $the_options['button_accept_button_border_radius'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_accept_type" gdpr_frm_tgl-val="true">
 					<th scope="row"><label for="button_accept_button_size_field"><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<select name="button_accept_button_size_field" class="vvv_combobox">
@@ -104,7 +136,7 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 		</div>
 		<div class="gdpr_sub_tab_content" data-id="reject-button" gdpr_tab_frm_tgl-id="gdpr_usage_option" gdpr_tab_frm_tgl-val="gdpr" gdpr_tab_frm_tgl-val1="eprivacy">
 			<p></p>
-			<table class="form-table" >
+			<table class="form-table">
 				<tr valign="top">
 					<th scope="row"><label for="button_decline_is_on_field"><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
@@ -135,6 +167,38 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 					<th scope="row"><label for="button_decline_button_color_field"><?php esc_attr_e( 'Background color', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="text" name="button_decline_button_color_field" id="gdpr-color-btn-button-decline" value="<?php echo esc_attr( $the_options['button_decline_button_color'] ); ?>" class="gdpr-color-field" />
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_reject_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_decline_button_opacity_field"><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-decline-opacity-slider" type="range" max="1" min="0" step="0.01" name="button_decline_button_opacity_field" onchange="gdpr_print_value('range-decline-opacity-slider','range-decline-opacity-input')" value="<?php echo esc_attr( $the_options['button_decline_button_opacity'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-decline-opacity-input" name="button_decline_button_opacity_field" value="<?php echo esc_attr( $the_options['button_decline_button_opacity'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_reject_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_decline_button_border_style_field"><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<select name="button_decline_button_border_style_field" class="vvv_combobox">
+							<?php $this->print_combobox_options( $this->get_background_border_styles(), $the_options['button_decline_button_border_style'] ); ?>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_reject_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_decline_button_border_width_field"><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-decline-border-width-slider" type="range" max="10" min="0" step="0.5" name="button_decline_button_border_width_field" onchange="gdpr_print_value('range-decline-border-width-slider','range-decline-border-width-input')" value="<?php echo esc_attr( $the_options['button_decline_button_border_width'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-decline-border-width-input" name="button_decline_button_border_width_field" value="<?php echo esc_attr( $the_options['button_decline_button_border_width'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_reject_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_decline_button_border_color_field"><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="text" name="button_decline_button_border_color_field" id="gdpr-color-decline-border" value="<?php echo esc_attr( $the_options['button_decline_button_border_color'] ); ?>" class="gdpr-color-field" data-default-color="#333333" />
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_reject_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_decline_button_border_radius_field"><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-decline-border-radius-slider" type="range" max="100" min="0" step="0.5" name="button_decline_button_border_radius_field" onchange="gdpr_print_value('range-decline-border-radius-slider','range-decline-border-radius-input')" value="<?php echo esc_attr( $the_options['button_decline_button_border_radius'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-decline-border-radius-input" name="button_decline_button_border_radius_field" value="<?php echo esc_attr( $the_options['button_decline_button_border_radius'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
 					</td>
 				</tr>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_reject_type" gdpr_frm_tgl-val="true">
@@ -210,6 +274,38 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 					</td>
 				</tr>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_settings_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_settings_button_opacity_field"><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-settings-opacity-slider" type="range" max="1" min="0" step="0.01" name="button_settings_button_opacity_field" onchange="gdpr_print_value('range-settings-opacity-slider','range-settings-opacity-input')" value="<?php echo esc_attr( $the_options['button_settings_button_opacity'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-settings-opacity-input" name="button_settings_button_opacity_field" value="<?php echo esc_attr( $the_options['button_settings_button_opacity'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_settings_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_settings_button_border_style_field"><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<select name="button_settings_button_border_style_field" class="vvv_combobox">
+							<?php $this->print_combobox_options( $this->get_background_border_styles(), $the_options['button_settings_button_border_style'] ); ?>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_settings_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_settings_button_border_width_field"><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-settings-border-width-slider" type="range" max="10" min="0" step="0.5" name="button_settings_button_border_width_field" onchange="gdpr_print_value('range-settings-border-width-slider','range-settings-border-width-input')" value="<?php echo esc_attr( $the_options['button_settings_button_border_width'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-settings-border-width-input" name="button_settings_button_border_width_field" value="<?php echo esc_attr( $the_options['button_settings_button_border_width'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_settings_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_settings_button_border_color_field"><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="text" name="button_settings_button_border_color_field" id="gdpr-color-settings-border" value="<?php echo esc_attr( $the_options['button_settings_button_border_color'] ); ?>" class="gdpr-color-field" data-default-color="#333333" />
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_settings_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_settings_button_border_radius_field"><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-settings-border-radius-slider" type="range" max="100" min="0" step="0.5" name="button_settings_button_border_radius_field" onchange="gdpr_print_value('range-settings-border-radius-slider','range-settings-border-radius-input')" value="<?php echo esc_attr( $the_options['button_settings_button_border_radius'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-settings-border-radius-input" name="button_settings_button_border_radius_field" value="<?php echo esc_attr( $the_options['button_settings_button_border_radius'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_settings_type" gdpr_frm_tgl-val="true">
 					<th scope="row"><label for="button_settings_button_size_field"><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<select name="button_settings_button_size_field" class="vvv_combobox">
@@ -224,24 +320,28 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 						<input type="radio" id="button_settings_display_cookies_field_no" name="button_settings_display_cookies_field" class="styled" value="false" <?php echo ( false === $the_options['button_settings_display_cookies'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
-				<tr valign="top" class="gdpr-plugin-row" gdpr_frm_tgl-id="gdpr_cookiebar_as" gdpr_frm_tgl-val="banner">
+				<tr valign="top" class="gdpr-plugin-row">
 					<th scope="row"><label for="button_settings_as_popup_field"><?php esc_attr_e( 'Cookie Settings Layout', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<select name="button_settings_as_popup_field" class="vvv_combobox">
+						<select name="button_settings_as_popup_field" class="vvv_combobox gdpr_form_toggle" gdpr_frm_tgl-target="gdpr_as_popup">
 							<?php
 							if ( $the_options['button_settings_as_popup'] ) {
 								?>
-								<option value="true" selected="selected"><?php echo esc_attr__( 'Popup', 'gdpr-cookie-consent' ); ?></option>
-								<option value="false"><?php echo esc_attr__( 'Extended Banner', 'gdpr-cookie-consent' ); ?></option>
+								<option id="gdpr_settings_popup" value="true" selected="selected"><?php echo esc_attr__( 'Popup', 'gdpr-cookie-consent' ); ?></option>
+								<option id="gdpr_settings_extended" value="false"><?php echo esc_attr__( 'Extended Banner', 'gdpr-cookie-consent' ); ?></option>
 							<?php } else { ?>
-								<option value="true"><?php echo esc_attr__( 'Popup', 'gdpr-cookie-consent' ); ?></option>
-								<option value="false" selected="selected"><?php echo esc_attr__( 'Extended Banner', 'gdpr-cookie-consent' ); ?></option>
+								<option id="gdpr_settings_popup" value="true"><?php echo esc_attr__( 'Popup', 'gdpr-cookie-consent' ); ?></option>
+								<option id="gdpr_settings_extended" value="false" selected="selected"><?php echo esc_attr__( 'Extended Banner', 'gdpr-cookie-consent' ); ?></option>
 								<?php
 							}
 							?>
 						</select>
 					</td>
 				</tr>
+				<?php
+				// general settings form fields for module.
+				do_action( 'gdpr_module_settings_button' );
+				?>
 			</table><!-- end custom button -->
 		</div>
 		<div class="gdpr_sub_tab_content" data-id="read-more-button" gdpr_tab_frm_tgl-id="gdpr_usage_option" gdpr_tab_frm_tgl-val="gdpr" gdpr_tab_frm_tgl-val1="eprivacy">
@@ -279,6 +379,38 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 					<th scope="row"><label for="button_readmore_button_color_field"><?php esc_attr_e( 'Background color', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="text" name="button_readmore_button_color_field" id="gdpr-color-btn-button-readmore" value="<?php echo esc_attr( $the_options['button_readmore_button_color'] ); ?>" class="gdpr-color-field" />
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_readmore_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_readmore_button_opacity_field"><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-readmore-opacity-slider" type="range" max="1" min="0" step="0.01" name="button_readmore_button_opacity_field" onchange="gdpr_print_value('range-readmore-opacity-slider','range-readmore-opacity-input')" value="<?php echo esc_attr( $the_options['button_readmore_button_opacity'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-readmore-opacity-input" name="button_readmore_button_opacity_field" value="<?php echo esc_attr( $the_options['button_readmore_button_opacity'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_readmore_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_readmore_button_border_style_field"><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<select name="button_readmore_button_border_style_field" class="vvv_combobox">
+							<?php $this->print_combobox_options( $this->get_background_border_styles(), $the_options['button_readmore_button_border_style'] ); ?>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_readmore_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_readmore_button_border_width_field"><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-readmore-border-width-slider" type="range" max="10" min="0" step="0.5" name="button_readmore_button_border_width_field" onchange="gdpr_print_value('range-readmore-border-width-slider','range-readmore-border-width-input')" value="<?php echo esc_attr( $the_options['button_readmore_button_border_width'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-readmore-border-width-input" name="button_readmore_button_border_width_field" value="<?php echo esc_attr( $the_options['button_readmore_button_border_width'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_readmore_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_readmore_button_border_color_field"><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="text" name="button_readmore_button_border_color_field" id="gdpr-color-readmore-border" value="<?php echo esc_attr( $the_options['button_readmore_button_border_color'] ); ?>" class="gdpr-color-field" data-default-color="#333333" />
+					</td>
+				</tr>
+				<tr valign="top" gdpr_frm_tgl-id="gdpr_readmore_type" gdpr_frm_tgl-val="true">
+					<th scope="row"><label for="button_readmore_button_border_radius_field"><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-readmore-border-radius-slider" type="range" max="100" min="0" step="0.5" name="button_readmore_button_border_radius_field" onchange="gdpr_print_value('range-readmore-border-radius-slider','range-readmore-border-radius-input')" value="<?php echo esc_attr( $the_options['button_readmore_button_border_radius'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-readmore-border-radius-input" name="button_readmore_button_border_radius_field" value="<?php echo esc_attr( $the_options['button_readmore_button_border_radius'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
 					</td>
 				</tr>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_readmore_type" gdpr_frm_tgl-val="true">
@@ -353,6 +485,38 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 					</td>
 				</tr>
 				<tr valign="top">
+					<th scope="row"><label for="button_confirm_button_opacity_field"><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-confirm-opacity-slider" type="range" max="1" min="0" step="0.01" name="button_confirm_button_opacity_field" onchange="gdpr_print_value('range-confirm-opacity-slider','range-confirm-opacity-input')" value="<?php echo esc_attr( $the_options['button_confirm_button_opacity'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-confirm-opacity-input" name="button_confirm_button_opacity_field" value="<?php echo esc_attr( $the_options['button_confirm_button_opacity'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_confirm_button_border_style_field"><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<select name="button_confirm_button_border_style_field" class="vvv_combobox">
+							<?php $this->print_combobox_options( $this->get_background_border_styles(), $the_options['button_confirm_button_border_style'] ); ?>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_confirm_button_border_width_field"><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-confirm-border-width-slider" type="range" max="10" min="0" step="0.5" name="button_confirm_button_border_width_field" onchange="gdpr_print_value('range-confirm-border-width-slider','range-confirm-border-width-input')" value="<?php echo esc_attr( $the_options['button_confirm_button_border_width'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-confirm-border-width-input" name="button_confirm_button_border_width_field" value="<?php echo esc_attr( $the_options['button_confirm_button_border_width'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_confirm_button_border_color_field"><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="text" name="button_confirm_button_border_color_field" id="gdpr-color-confirm-border" value="<?php echo esc_attr( $the_options['button_confirm_button_border_color'] ); ?>" class="gdpr-color-field" data-default-color="#18a300" />
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_confirm_button_border_radius_field"><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-confirm-border-radius-slider" type="range" max="100" min="0" step="0.5" name="button_confirm_button_border_radius_field" onchange="gdpr_print_value('range-confirm-border-radius-slider','range-confirm-border-radius-input')" value="<?php echo esc_attr( $the_options['button_confirm_button_border_radius'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-confirm-border-radius-input" name="button_confirm_button_border_radius_field" value="<?php echo esc_attr( $the_options['button_confirm_button_border_radius'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top">
 					<th scope="row"><label for="button_confirm_button_size_field"><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<select name="button_confirm_button_size_field" class="vvv_combobox">
@@ -381,6 +545,38 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 					<th scope="row"><label for="button_cancel_button_color_field"><?php esc_attr_e( 'Background color', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
 						<input type="text" name="button_cancel_button_color_field" id="gdpr-color-btn-button-cancel" value="<?php echo esc_attr( $the_options['button_cancel_button_color'] ); ?>" class="gdpr-color-field" />
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_cancel_button_opacity_field"><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-cancel-opacity-slider" type="range" max="1" min="0" step="0.01" name="button_cancel_button_opacity_field" onchange="gdpr_print_value('range-cancel-opacity-slider','range-cancel-opacity-input')" value="<?php echo esc_attr( $the_options['button_cancel_button_opacity'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-cancel-opacity-input" name="button_cancel_button_opacity_field" value="<?php echo esc_attr( $the_options['button_cancel_button_opacity'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_cancel_button_border_style_field"><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<select name="button_cancel_button_border_style_field" class="vvv_combobox">
+							<?php $this->print_combobox_options( $this->get_background_border_styles(), $the_options['button_cancel_button_border_style'] ); ?>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_cancel_button_border_width_field"><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-cancel-border-width-slider" type="range" max="10" min="0" step="0.5" name="button_cancel_button_border_width_field" onchange="gdpr_print_value('range-cancel-border-width-slider','range-cancel-border-width-input')" value="<?php echo esc_attr( $the_options['button_cancel_button_border_width'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-cancel-border-width-input" name="button_cancel_button_border_width_field" value="<?php echo esc_attr( $the_options['button_cancel_button_border_width'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_cancel_button_border_color_field"><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input type="text" name="button_cancel_button_border_color_field" id="gdpr-color-cancel-border" value="<?php echo esc_attr( $the_options['button_cancel_button_border_color'] ); ?>" class="gdpr-color-field" data-default-color="#333333" />
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="button_cancel_button_border_radius_field"><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></th>
+					<td>
+						<input id="range-cancel-border-radius-slider" type="range" max="100" min="0" step="0.5" name="button_cancel_button_border_radius_field" onchange="gdpr_print_value('range-cancel-border-radius-slider','range-cancel-border-radius-input')" value="<?php echo esc_attr( $the_options['button_cancel_button_border_radius'] ); ?>" style="display: inline-block;width: auto;"/><input type="text" id="range-cancel-border-radius-input" name="button_cancel_button_border_radius_field" value="<?php echo esc_attr( $the_options['button_cancel_button_border_radius'] ); ?>" style="display: inline-block;width: 10%;margin-left: 10px;"/>
 					</td>
 				</tr>
 				<tr valign="top">
