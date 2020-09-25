@@ -10,50 +10,36 @@
             <div class="gdprmodal-body">
                 <div class="gdpr-details-content">
                     <div class="gdpr-groups-container">
+                        <div class="gdpr-about-cookies">{{ __( msg, 'gdpr-cookie-consent' ) }}</div>
                         <ul class="category-group">
-                            <li class="category-item">
-                                <div class="gdpr-column gdpr-default-category-toggle">
-                                    <div class="gdpr-columns active-group" tabindex="0">
-                                        <a href="#" class="btn category-header">{{ about }}</a>
-                                    </div>
-                                </div>
-                                <div class="description-container">
-                                    <div class="group-toggle">
-                                        <h3 class="category-header" tabindex="0">{{ about }}</h3>
-                                    </div>
-                                    <div class="group-description" tabindex="0">{{ __( msg, 'gdpr-cookie-consent' ) }}</div>
-                                </div>
-                            </li>
                             {% for category in categories %}
                             <li class="category-item">
-                                <div class="gdpr-column gdpr-default-category-toggle {{ template_parts }}">
+                                {% if category['gdpr_cookie_category_slug'] == 'necessary' %}
+                                    <div class="toggle-group">
+                                        <div class="always-active">{{ always }}</div>
+                                        <input id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" type="hidden" name="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" value="{{ category['gdpr_cookie_category_slug'] }}">
+                                    </div>
+                                {% else %}
+                                    <div class="toggle-group">
+                                        <div class="toggle">
+                                            <div class="checkbox">
+                                                <!-- DYNAMICALLY GENERATE Input ID  -->
+                                                <input {% if is_ticked and not viewed_cookie %} checked="checked" {% elseif category['is_ticked'] %} checked="checked" {% endif %} id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" value="{{ category['gdpr_cookie_category_slug'] }}">
+                                                <label for="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}">
+                                                    <span class="label-text">{{ category['gdpr_cookie_category_name'] }}</span>
+                                                </label>
+                                                <!-- DYNAMICALLY GENERATE Input ID  -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="gdpr-column gdpr-category-toggle {{ template_parts }}">
                                     <div class="gdpr-columns">
+                                        <span class="dashicons dashicons-plus"></span>
                                         <a href="#" class="btn category-header" tabindex="0">{{ __( category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ) }}</a>
                                     </div>
                                 </div>
                                 <div class="description-container hide">
-                                    <div class="group-toggle">
-                                        <h3 class="category-header" tabindex="0">{{ __( category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ) }}</h3>
-                                        {% if category['gdpr_cookie_category_slug'] == 'necessary' %}
-                                            <div class="toggle-group">
-                                                <div class="always-active">{{ always }}</div>
-                                                <input id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" type="hidden" name="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" value="{{ category['gdpr_cookie_category_slug'] }}">
-                                            </div>
-                                        {% else %}
-                                            <div class="toggle-group">
-                                                <div class="toggle">
-                                                    <div class="checkbox">
-                                                        <!-- DYNAMICALLY GENERATE Input ID  -->
-                                                        <input {% if is_ticked and not viewed_cookie %} checked="checked" {% elseif category['is_ticked'] %} checked="checked" {% endif %} id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" value="{{ category['gdpr_cookie_category_slug'] }}">
-                                                        <label for="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}">
-                                                            <span class="label-text">{{ category['gdpr_cookie_category_name'] }}</span>
-                                                        </label>
-                                                        <!-- DYNAMICALLY GENERATE Input ID  -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                    </div>
                                     <div class="group-description" tabindex="0">{{ __( category['gdpr_cookie_category_description'], 'gdpr-cookie-consent' ) }}</div>
                                     <!-- sub groups -->
                                     {% if button_settings_display_cookies %}

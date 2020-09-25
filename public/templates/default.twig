@@ -1,9 +1,9 @@
 {% if cookie_bar_as == 'popup' %}
-<div class="modal fade" id="gdpr-{{ cookie_bar_as }}" role="dialog" data-keyboard="false" data-backdrop="{{ backdrop }}">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="gdprmodal gdprfade" id="gdpr-{{ cookie_bar_as }}" role="dialog" data-keyboard="false" data-backdrop="{{ backdrop }}">
+    <div class="gdprmodal-dialog gdprmodal-dialog-centered">
         <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-body">
+        <div class="gdprmodal-content">
+            <div class="gdprmodal-body">
 {% endif %}
 <!-- WP Cookie Notice for GDPR, CCPA & ePrivacy Consent v{{ version }} by WPEka Club - https://wordpress.org/plugins/gdpr-cookie-consent/ -->
 <div id="{{ container_id }}" class="{{ container_class }}">
@@ -20,7 +20,7 @@
         {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
 
         {% else %}
-            <div class="gdpr_messagebar_detail {{ button_settings_layout_skin }}">
+            <div class="gdpr_messagebar_detail {{ button_settings_layout_skin }} {{ template_parts }}">
                 {% include layout_skin_template with cookie_data %}
             </div>
         {% endif %}
@@ -40,7 +40,7 @@
     {% endif %}
 {% endif %}
 {% if ccpa_notify %}
-<div class="ccpa_messagebar_detail {{ button_settings_layout_skin }}">
+<div class="ccpa_messagebar_detail {{ button_settings_layout_skin }} {{ template_parts }}">
     {% include 'templates/modals/ccpa.twig' %}
 </div>
 {% endif %}

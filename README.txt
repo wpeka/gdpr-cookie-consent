@@ -194,6 +194,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Feature: Added pre-designed layouts for cookie settings popup notice.
 * Feature: Added border options to cookie consent notice and buttons.
 * Update: Notice to track usage analytics for the plugin.
+* Update: Added help mascot within the plugin.
 
 = 1.9.3 =
 * Fix: Conflicting issues in deactivation feedback form.
@@ -318,6 +319,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Feature: Added pre-designed layouts for cookie settings popup notice.
 * Feature: Added border options to cookie consent notice and buttons.
 * Update: Notice to track usage analytics for the plugin.
+* Update: Added help mascot within the plugin.
 
 = 1.9.3 =
 * Fix: Conflicting issues in deactivation feedback form.

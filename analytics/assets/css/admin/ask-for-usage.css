@@ -5,7 +5,7 @@
 	flex-direction:row;
 }
 .notice.ask-for-usage-notice > div.notice-content {
-	margin: 0 auto;
+	margin: 0 1rem;
 }
 .notice.ask-for-usage-notice > div.notice-content > a {
 	position: static;

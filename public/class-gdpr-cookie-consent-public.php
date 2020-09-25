@@ -111,7 +111,7 @@ class Gdpr_Cookie_Consent_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, true );
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
 	}
 
@@ -254,6 +254,21 @@ class Gdpr_Cookie_Consent_Public {
 				$template_parts = explode( '-', $template );
 				$template       = array_pop( $template_parts );
 			}
+			$the_options['template_parts'] = $template;
+			if ( in_array( $template, array( 'navy_blue_center', 'navy_blue_box', 'navy_blue_square' ), true ) ) {
+				$template_parts_background = '#354e8e';
+			} elseif ( in_array( $template, array( 'almond_column' ), true ) ) {
+				$template_parts_background = '#f2ecd8';
+			} elseif ( in_array( $template, array( 'grey_column', 'grey_center' ), true ) ) {
+				$template_parts_background = '#e0e0e0';
+			} elseif ( in_array( $template, array( 'dark' ), true ) ) {
+				$template_parts_background = '#3a3a3a';
+			} elseif ( in_array( $template, array( 'dark_row' ), true ) ) {
+				$template_parts_background = '#434a58';
+			} else {
+				$template_parts_background = '#ebebeb';
+			}
+			wp_localize_script( $this->plugin_name, 'background_obj', array( 'background' => $template_parts_background ) );
 
 			if ( false !== strpos( $template, 'center' ) ) {
 				$template = 'center';
@@ -472,6 +487,15 @@ class Gdpr_Cookie_Consent_Public {
 			ob_end_clean();
 			echo $notify_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			?>
+			<style>
+				.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked + label:after,
+				.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input:checked + label:after {
+					background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+				}
+				.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close, #gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
+					color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+				}
+			</style>
 			<script type="text/javascript">
 				/* <![CDATA[ */
 				gdpr_cookies_list = '<?php echo str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';

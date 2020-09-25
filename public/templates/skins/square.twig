@@ -16,7 +16,7 @@
                 <p class="ccpa">
                     {{ __( ccpa_str, 'gdpr-cookie-consent' ) }}
                     {% if button_donotsell_is_on %}
-                        <a data-toggle="modal" href="#" class="{{ button_donotsell_classes }}" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+                        <a data-toggle="gdprmodal" href="#" class="{{ button_donotsell_classes }}" data-gdpr_action="donotsell" id="cookie_donotsell_link"
                         >{{ __( button_donotsell_text, 'gdpr-cookie-consent' ) }}</a>
                     {% endif %}
                 </p>
@@ -41,7 +41,7 @@
                         {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
                             data-gdpr_action="show_settings"
                         {% else %}
-                            data-gdpr_action="settings" data-toggle="modal" data-target="#gdpr-modal"
+                            data-gdpr_action="settings" data-toggle="gdprmodal" data-target="#gdpr-gdprmodal"
                         {% endif %}
                 >{{ __( button_settings_text, 'gdpr-cookie-consent' ) }}</a>
             {% endif %}
@@ -68,7 +68,7 @@
     <div class="gdpr_messagebar_content">
         <div class="group-description" tabindex="0"><p class="ccpa">{{ __( ccpa_str, 'gdpr-cookie-consent' ) }}
                 {% if button_donotsell_is_on %}
-                    <a data-toggle="modal" href="#" class="{{ button_donotsell_classes }}" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+                    <a data-toggle="gdprmodal" href="#" class="{{ button_donotsell_classes }}" data-gdpr_action="donotsell" id="cookie_donotsell_link"
                     >{{ __( button_donotsell_text, 'gdpr-cookie-consent' ) }}</a>
                 {% endif %}
             </p>

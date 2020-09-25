@@ -430,6 +430,18 @@
 				}
 			);
 
+			$( document ).on(
+				'click',
+				'.gdpr-mascot-quick-links',
+				function() {
+					if ($( this ).hasClass( 'gdpr-mascot-quick-links-open' )) {
+						$( this ).removeClass( 'gdpr-mascot-quick-links-open' );
+					} else {
+						$( this ).addClass( 'gdpr-mascot-quick-links-open' );
+					}
+				}
+			);
+
 		}
 	);
 
