@@ -64,8 +64,8 @@ class Gdpr_Cookie_Consent_Activator {
 			$prev_gdpr_option['button_4_text']         = 'Cookie Settings';
 			$prev_gdpr_option['button_4_url']          = '#';
 			$prev_gdpr_option['button_4_action']       = '#cookie_action_settings';
-			$prev_gdpr_option['button_4_link_color']   = '#fff';
-			$prev_gdpr_option['button_4_button_color'] = '#333';
+			$prev_gdpr_option['button_4_link_color']   = '#ffffff';
+			$prev_gdpr_option['button_4_button_color'] = '#333333';
 			$prev_gdpr_option['button_4_new_win']      = false;
 			$prev_gdpr_option['button_4_as_button']    = true;
 			$prev_gdpr_option['button_4_button_size']  = 'medium';
@@ -144,14 +144,14 @@ class Gdpr_Cookie_Consent_Activator {
 
 			$prev_gdpr_option['button_confirm_text']         = 'Confirm';
 			$prev_gdpr_option['button_confirm_button_color'] = '#18a300';
-			$prev_gdpr_option['button_confirm_link_color']   = '#fff';
+			$prev_gdpr_option['button_confirm_link_color']   = '#ffffff';
 			$prev_gdpr_option['button_confirm_as_button']    = 'true';
 			$prev_gdpr_option['button_confirm_button_size']  = 'medium';
 			$prev_gdpr_option['button_confirm_is_on']        = true;
 
 			$prev_gdpr_option['button_cancel_text']         = 'Cancel';
-			$prev_gdpr_option['button_cancel_button_color'] = '#333';
-			$prev_gdpr_option['button_cancel_link_color']   = '#fff';
+			$prev_gdpr_option['button_cancel_button_color'] = '#333333';
+			$prev_gdpr_option['button_cancel_link_color']   = '#ffffff';
 			$prev_gdpr_option['button_cancel_as_button']    = 'true';
 			$prev_gdpr_option['button_cancel_button_size']  = 'medium';
 			$prev_gdpr_option['button_cancel_is_on']        = true;
@@ -198,6 +198,47 @@ class Gdpr_Cookie_Consent_Activator {
 			$prev_gdpr_option['notify_message_eprivacy']         = addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this.' );
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-7.0' );
+		}
+		// update setting from Version 1.9.4.
+		$prev_gdpr_option = get_option( 'GDPRCookieConsent-8.0' );
+		if ( isset( $prev_gdpr_option['is_on'] ) && GDPR_COOKIE_CONSENT_VERSION >= '1.9.4' ) {
+			$prev_gdpr_option['background_border_width']              = '0';
+			$prev_gdpr_option['background_border_style']              = 'none';
+			$prev_gdpr_option['background_border_color']              = '#ffffff';
+			$prev_gdpr_option['background_border_radius']             = '0';
+			$prev_gdpr_option['button_accept_button_opacity']         = '1';
+			$prev_gdpr_option['button_accept_button_border_width']    = '0';
+			$prev_gdpr_option['button_accept_button_border_style']    = 'none';
+			$prev_gdpr_option['button_accept_button_border_color']    = '#18a300';
+			$prev_gdpr_option['button_accept_button_border_radius']   = '0';
+			$prev_gdpr_option['button_readmore_button_opacity']       = '1';
+			$prev_gdpr_option['button_readmore_button_border_width']  = '0';
+			$prev_gdpr_option['button_readmore_button_border_style']  = 'none';
+			$prev_gdpr_option['button_readmore_button_border_color']  = '#333333';
+			$prev_gdpr_option['button_readmore_button_border_radius'] = '0';
+			$prev_gdpr_option['button_decline_button_opacity']        = '1';
+			$prev_gdpr_option['button_decline_button_border_width']   = '0';
+			$prev_gdpr_option['button_decline_button_border_style']   = 'none';
+			$prev_gdpr_option['button_decline_button_border_color']   = '#333333';
+			$prev_gdpr_option['button_decline_button_border_radius']  = '0';
+			$prev_gdpr_option['button_settings_layout_skin']          = 'layout-default';
+			$prev_gdpr_option['button_settings_button_opacity']       = '1';
+			$prev_gdpr_option['button_settings_button_border_width']  = '0';
+			$prev_gdpr_option['button_settings_button_border_style']  = 'none';
+			$prev_gdpr_option['button_settings_button_border_color']  = '#333333';
+			$prev_gdpr_option['button_settings_button_border_radius'] = '0';
+			$prev_gdpr_option['button_confirm_button_opacity']        = '1';
+			$prev_gdpr_option['button_confirm_button_border_width']   = '0';
+			$prev_gdpr_option['button_confirm_button_border_style']   = 'none';
+			$prev_gdpr_option['button_confirm_button_border_color']   = '#18a300';
+			$prev_gdpr_option['button_confirm_button_border_radius']  = '0';
+			$prev_gdpr_option['button_cancel_button_opacity']         = '1';
+			$prev_gdpr_option['button_cancel_button_border_width']    = '0';
+			$prev_gdpr_option['button_cancel_button_border_style']    = 'none';
+			$prev_gdpr_option['button_cancel_button_border_color']    = '#333333';
+			$prev_gdpr_option['button_cancel_button_border_radius']   = '0';
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
+			delete_option( 'GDPRCookieConsent-8.0' );
 		}
 	}
 

@@ -42,11 +42,11 @@ if ( ! class_exists( 'Analytics' ) ) {
 		} else {
 			$plugin_basename = $module['plugin_basename'];
 		}
-        if ( ! isset( $module['plugin_url'] ) ) {
-            $plugin_url = '';
-        } else {
-            $plugin_url = $module['plugin_url'];
-        }
+		if ( ! isset( $module['plugin_url'] ) ) {
+			$plugin_url = '';
+		} else {
+			$plugin_url = $module['plugin_url'];
+		}
 		$ra = Analytics::instance( $module['id'], $module['slug'], $module['product_name'], $module['version'], $module['module_type'], $plugin_basename, $plugin_url );
 		$ra->dynamic_init( $module );
 

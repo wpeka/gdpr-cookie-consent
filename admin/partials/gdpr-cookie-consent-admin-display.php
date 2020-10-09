@@ -35,7 +35,7 @@ $gdpr_admin_view_path = plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) .
 		?>
 	</div>
 	<div class="gdpr_settings_left">
-	<div class="gdpr-cookie-consent-tab-container">
+		<div class="gdpr-cookie-consent-tab-container">
 		<?php
 		$display_views_a = array(
 			'gdpr-cookie-consent-general'        => 'admin-display-general.php',
@@ -67,10 +67,11 @@ $gdpr_admin_view_path = plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) .
 			?>
 		</form>
 	</div>
-</div>
+	</div>
 	<div class="gdpr_settings_right">
 		<?php
 		require plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) . 'admin/views/admin-display-promotional.php';
 		?>
 	</div>
+	<div id="gdpr-mascot-app"></div>
 </div>

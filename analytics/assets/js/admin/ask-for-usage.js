@@ -32,22 +32,48 @@
 		function() {
 			$( document ).on(
 				'click',
-				'.ask-for-review-notice .notice-dismiss, .ask-for-review-notice .notice-buttons a',
+				'.ask-for-usage-notice .notice-dismiss, .ask-for-usage-notice .notice-buttons button.ask-for-usage-optout',
 				function(){
-					var parent = $( this ).parents( '.ask-for-review-notice' );
+					var parent = $( this ).parents( '.ask-for-usage-notice' );
 					var slug   = parent.find( 'input' ).val();
 					var data   = {
-						action: 'ask-for-review-dismiss',
+						action: 'ask-for-usage-dismiss',
 						slug: slug,
-						security: ask_for_review.nonces.ask_for_review,
+						security: ask_for_usage.nonces.ask_for_usage,
 					};
 					$.ajax(
 						{
-							url: ask_for_review.ajax_url,
+							url: ask_for_usage.ajax_url,
 							data: data,
 							dataType:'json',
 							type: 'POST',
-							success: function (data) {}
+							success: function (data) {
+								location.reload();
+							}
+						}
+					);
+				}
+			);
+			$( document ).on(
+				'click',
+				'.ask-for-usage-notice .notice-buttons button.ask-for-usage-optin',
+				function(){
+					var parent = $( this ).parents( '.ask-for-usage-notice' );
+					var slug   = parent.find( 'input' ).val();
+					var data   = {
+						action: 'ask-for-usage-optin',
+						slug: slug,
+						security: ask_for_usage.nonces.ask_for_usage,
+					};
+					$.ajax(
+						{
+							url: ask_for_usage.ajax_url,
+							data: data,
+							dataType:'json',
+							type: 'POST',
+							success: function (data) {
+								location.reload();
+							}
 						}
 					);
 				}

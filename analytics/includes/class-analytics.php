@@ -88,6 +88,8 @@ class Analytics {
 	 */
 	private $_version = false;
 
+	private $_tracking_obj;
+
 	/**
 	 * Product Name.
 	 *
@@ -118,6 +120,7 @@ class Analytics {
 		$this->_module_type  = $module_type;
 		$this->_product_name = $product_name;
 		$this->_version      = $version;
+		$this->_tracking_obj = new Analytics_Tracking( $slug );
 		if ( '' !== $plugin_basename ) {
 			$this->_plugin_basename = $plugin_basename;
 		}
@@ -205,6 +208,8 @@ class Analytics {
 		}
 
 		add_action( 'wp_ajax_ask-for-review-dismiss', array( &$this, '_ask_for_review_dismiss' ) );
+		add_action( 'wp_ajax_ask-for-usage-dismiss', array( &$this, '_ask_for_usage_dismiss' ) );
+		add_action( 'wp_ajax_ask-for-usage-optin', array( &$this, '_ask_for_usage_optin' ) );
 	}
 
 	/**
@@ -585,6 +590,7 @@ class Analytics {
 			return;
 		}
 		add_action( 'admin_notices', array( &$this, '_ask_for_review_notice' ) );
+		add_action( 'admin_notices', array( &$this, '_ask_for_usage_notice' ) );
 		/**
 		 * Show deactivation form on themes.php page.
 		 *
@@ -607,6 +613,29 @@ class Analytics {
 		if ( isset( $_POST['slug'] ) ) {
 			$slug = $_POST['slug'] ? sanitize_text_field( $_POST['slug'] ) : '';
 			update_option( $slug . '-ask-for-review-dismissed', true );
+		}
+		wp_send_json_success();
+	}
+
+	/**
+	 * Dismiss review notice.
+	 */
+	public function _ask_for_usage_dismiss() {
+		check_ajax_referer( 'ask_for_usage', 'security' );
+		if ( isset( $_POST['slug'] ) ) {
+			$slug = $_POST['slug'] ? sanitize_text_field( $_POST['slug'] ) : '';
+			update_option( $slug . '-ask-for-usage-dismissed', true );
+			update_option( $slug . '-ask-for-usage-optin', false );
+		}
+		wp_send_json_success();
+	}
+
+	public function _ask_for_usage_optin() {
+		check_ajax_referer( 'ask_for_usage', 'security' );
+		if ( isset( $_POST['slug'] ) ) {
+			$slug = $_POST['slug'] ? sanitize_text_field( $_POST['slug'] ) : '';
+			update_option( $slug . '-ask-for-usage-dismissed', true );
+			update_option( $slug . '-ask-for-usage-optin', true );
 		}
 		wp_send_json_success();
 	}
@@ -635,6 +664,29 @@ class Analytics {
 	}
 
 	/**
+	 * Notice to be displayed for Review.
+	 */
+	public function _ask_for_usage_notice() {
+		if ( false === get_option( $this->_slug . '-usage-setup' ) ) {
+			update_option( $this->_slug . '-usage-setup', true );
+			set_transient( $this->_slug . '-ask-for-usage-flag', true, 120 );
+		} else {
+			if ( false === get_transient( $this->_slug . '-ask-for-usage-flag' ) && false === get_option( $this->_slug . '-ask-for-usage-dismissed' ) ) {
+				$vars = array(
+					'id'           => $this->_module_id,
+					'slug'         => $this->_slug,
+					'product_name' => $this->_product_name,
+					'version'      => $this->_version,
+					'module_type'  => $this->_module_type,
+					'plugin_url'   => $this->_plugin_url,
+				);
+
+				as_require_template( 'forms/usage/form.php', $vars );
+			}
+		}
+	}
+
+	/**
 	 * Called after the user has submitted his reason for deactivating the plugin.
 	 *
 	 * @author CyberChimps
@@ -657,13 +709,13 @@ class Analytics {
 			'is_anonymous'        => as_request_get_bool( 'is_anonymous' ),
 		);
 
-        $slug = as_request_get('slug');
-        if( '' !== $slug ) {
-            $slug_obj = self::$_instances[ 'm_' . $slug ];
-            $slug_obj->_uninstall_plugin_event( false, $reason );
-        } else {
-            $this->_uninstall_plugin_event( false, $reason );
-        }
+		$slug = as_request_get( 'slug' );
+		if ( '' !== $slug ) {
+			$slug_obj = self::$_instances[ 'm_' . $slug ];
+			$slug_obj->_uninstall_plugin_event( false, $reason );
+		} else {
+			$this->_uninstall_plugin_event( false, $reason );
+		}
 
 		// Print '1' for successful operation.
 		echo 1;

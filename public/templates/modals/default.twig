@@ -1,16 +1,18 @@
-<div class="modal fade" id="gdpr-modal" role="dialog" data-keyboard="false" data-backdrop="{{ backdrop }}">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="gdprmodal gdprfade" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="{{ backdrop }}">
+    <div class="gdprmodal-dialog gdprmodal-dialog-centered">
         <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="gdpr_action_button close" data-dismiss="modal" data-gdpr_action="close"></button>
+        <div class="gdprmodal-content">
+            <div class="gdprmodal-header">
+                <button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close">
+                    <span class="dashicons dashicons-dismiss"></span>
+                </button>
             </div>
-            <div class="modal-body">
+            <div class="gdprmodal-body">
                 <div class="gdpr-details-content">
                     <div class="gdpr-groups-container">
                         <ul class="category-group">
                             <li class="category-item">
-                                <div class="gdpr-column">
+                                <div class="gdpr-column gdpr-default-category-toggle">
                                     <div class="gdpr-columns active-group" tabindex="0">
                                         <a href="#" class="btn category-header">{{ about }}</a>
                                     </div>
@@ -24,7 +26,7 @@
                             </li>
                             {% for category in categories %}
                             <li class="category-item">
-                                <div class="gdpr-column">
+                                <div class="gdpr-column gdpr-default-category-toggle {{ template_parts }}">
                                     <div class="gdpr-columns">
                                         <a href="#" class="btn category-header" tabindex="0">{{ __( category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ) }}</a>
                                     </div>
@@ -79,9 +81,6 @@
                                                 {% endfor %}
                                                 </tbody>
                                             </table>
-                                        {% else %}
-                                            <hr />
-                                            <div class="group-description" tabindex="0">{{ cookies_not_found }}</div>
                                         {% endif %}
                                     </div>
                                     {% endif %}
@@ -92,11 +91,11 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="gdprmodal-footer">
                 {% if show_credits %}
                 <div class="powered-by-credits">{{ credits }}</div>
                 {% endif %}
-                <button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="modal">{{ save_button }}</button>
+                <button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="gdprmodal">{{ save_button }}</button>
             </div>
         </div>
     </div>

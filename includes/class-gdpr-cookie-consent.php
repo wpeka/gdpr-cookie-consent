@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '1.9.3';
+			$this->version = '1.9.5';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -436,123 +436,158 @@ class Gdpr_Cookie_Consent {
 	 */
 	public static function gdpr_get_default_settings( $key = '' ) {
 		$settings = array(
-			'animate_speed_hide'              => '500',
-			'animate_speed_show'              => '500',
+			'animate_speed_hide'                   => '500',
+			'animate_speed_show'                   => '500',
 
-			'background'                      => '#FFF',
-			'opacity'                         => '0.80',
-			'template'                        => 'banner-default',
-			'banner_template'                 => 'banner-default',
-			'popup_template'                  => 'popup-default',
-			'widget_template'                 => 'widget-default',
+			'background'                           => '#ffffff',
+			'opacity'                              => '0.80',
+			'background_border_width'              => '0',
+			'background_border_style'              => 'none',
+			'background_border_color'              => '#ffffff',
+			'background_border_radius'             => '0',
+			'template'                             => 'banner-default',
+			'banner_template'                      => 'banner-default',
+			'popup_template'                       => 'popup-default',
+			'widget_template'                      => 'widget-default',
 
-			'button_accept_text'              => 'Accept',
-			'button_accept_url'               => '#',
-			'button_accept_action'            => '#cookie_action_close_header',
-			'button_accept_link_color'        => '#fff',
-			'button_accept_button_color'      => '#18a300',
-			'button_accept_new_win'           => false,
-			'button_accept_as_button'         => true,
-			'button_accept_button_size'       => 'medium',
-			'button_accept_is_on'             => true,
+			'button_accept_text'                   => 'Accept',
+			'button_accept_url'                    => '#',
+			'button_accept_action'                 => '#cookie_action_close_header',
+			'button_accept_link_color'             => '#ffffff',
+			'button_accept_button_color'           => '#18a300',
+			'button_accept_new_win'                => false,
+			'button_accept_as_button'              => true,
+			'button_accept_button_size'            => 'medium',
+			'button_accept_is_on'                  => true,
+			'button_accept_button_opacity'         => '1', // 0 to 1.
+			'button_accept_button_border_width'    => '0', // in pixel.
+			'button_accept_button_border_style'    => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
+			'button_accept_button_border_color'    => '#18a300',
+			'button_accept_button_border_radius'   => '0', // in pixel.
 
-			'button_readmore_text'            => 'Read More',
-			'button_readmore_url'             => '#',
-			'button_readmore_action'          => 'CONSTANT_OPEN_URL',
-			'button_readmore_link_color'      => '#359bf5',
-			'button_readmore_button_color'    => '#333',
-			'button_readmore_new_win'         => false,
-			'button_readmore_as_button'       => false,
-			'button_readmore_button_size'     => 'medium',
-			'button_readmore_is_on'           => true,
-			'button_readmore_url_type'        => true,
-			'button_readmore_wp_page'         => false,
-			'button_readmore_page'            => '0',
+			'button_readmore_text'                 => 'Read More',
+			'button_readmore_url'                  => '#',
+			'button_readmore_action'               => 'CONSTANT_OPEN_URL',
+			'button_readmore_link_color'           => '#359bf5',
+			'button_readmore_button_color'         => '#333333',
+			'button_readmore_new_win'              => false,
+			'button_readmore_as_button'            => false,
+			'button_readmore_button_size'          => 'medium',
+			'button_readmore_is_on'                => true,
+			'button_readmore_url_type'             => true,
+			'button_readmore_wp_page'              => false,
+			'button_readmore_page'                 => '0',
+			'button_readmore_button_opacity'       => '1', // 0 to 1.
+			'button_readmore_button_border_width'  => '0', // in pixel.
+			'button_readmore_button_border_style'  => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
+			'button_readmore_button_border_color'  => '#333333',
+			'button_readmore_button_border_radius' => '0', // in pixel.
 
-			'button_decline_text'             => 'Decline',
-			'button_decline_url'              => '#',
-			'button_decline_action'           => '#cookie_action_close_header_reject',
-			'button_decline_link_color'       => '#fff',
-			'button_decline_button_color'     => '#333',
-			'button_decline_new_win'          => false,
-			'button_decline_as_button'        => true,
-			'button_decline_button_size'      => 'medium',
-			'button_decline_is_on'            => true,
+			'button_decline_text'                  => 'Decline',
+			'button_decline_url'                   => '#',
+			'button_decline_action'                => '#cookie_action_close_header_reject',
+			'button_decline_link_color'            => '#ffffff',
+			'button_decline_button_color'          => '#333333',
+			'button_decline_new_win'               => false,
+			'button_decline_as_button'             => true,
+			'button_decline_button_size'           => 'medium',
+			'button_decline_is_on'                 => true,
+			'button_decline_button_opacity'        => '1', // 0 to 1.
+			'button_decline_button_border_width'   => '0', // in pixel.
+			'button_decline_button_border_style'   => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
+			'button_decline_button_border_color'   => '#333333',
+			'button_decline_button_border_radius'  => '0', // in pixel.
 
-			'button_settings_text'            => 'Cookie Settings',
-			'button_settings_url'             => '#',
-			'button_settings_action'          => '#cookie_action_settings',
-			'button_settings_link_color'      => '#fff',
-			'button_settings_button_color'    => '#333',
-			'button_settings_new_win'         => false,
-			'button_settings_as_button'       => true,
-			'button_settings_button_size'     => 'medium',
-			'button_settings_is_on'           => true,
-			'button_settings_display_cookies' => true,
-			'button_settings_as_popup'        => false,
+			'button_settings_text'                 => 'Cookie Settings',
+			'button_settings_url'                  => '#',
+			'button_settings_action'               => '#cookie_action_settings',
+			'button_settings_link_color'           => '#ffffff',
+			'button_settings_button_color'         => '#333333',
+			'button_settings_new_win'              => false,
+			'button_settings_as_button'            => true,
+			'button_settings_button_size'          => 'medium',
+			'button_settings_is_on'                => true,
+			'button_settings_display_cookies'      => true,
+			'button_settings_as_popup'             => false,
+			'button_settings_layout_skin'          => 'layout-default',
+			'button_settings_button_opacity'       => '1', // 0 to 1.
+			'button_settings_button_border_width'  => '0', // in pixel.
+			'button_settings_button_border_style'  => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
+			'button_settings_button_border_color'  => '#333333',
+			'button_settings_button_border_radius' => '0', // in pixel.
 
-			'button_donotsell_text'           => 'Do Not Sell My Personal Information',
-			'button_donotsell_link_color'     => '#359bf5',
-			'button_donotsell_as_button'      => false,
-			'button_donotsell_is_on'          => true,
+			'button_donotsell_text'                => 'Do Not Sell My Personal Information',
+			'button_donotsell_link_color'          => '#359bf5',
+			'button_donotsell_as_button'           => false,
+			'button_donotsell_is_on'               => true,
 
-			'button_confirm_text'             => 'Confirm',
-			'button_confirm_button_color'     => '#18a300',
-			'button_confirm_link_color'       => '#fff',
-			'button_confirm_as_button'        => true,
-			'button_confirm_button_size'      => 'medium',
-			'button_confirm_is_on'            => true,
+			'button_confirm_text'                  => 'Confirm',
+			'button_confirm_button_color'          => '#18a300',
+			'button_confirm_link_color'            => '#ffffff',
+			'button_confirm_as_button'             => true,
+			'button_confirm_button_size'           => 'medium',
+			'button_confirm_is_on'                 => true,
+			'button_confirm_button_opacity'        => '1', // 0 to 1.
+			'button_confirm_button_border_width'   => '0', // in pixel.
+			'button_confirm_button_border_style'   => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
+			'button_confirm_button_border_color'   => '#18a300',
+			'button_confirm_button_border_radius'  => '0', // in pixel.
 
-			'button_cancel_text'              => 'Cancel',
-			'button_cancel_button_color'      => '#333',
-			'button_cancel_link_color'        => '#fff',
-			'button_cancel_as_button'         => true,
-			'button_cancel_button_size'       => 'medium',
-			'button_cancel_is_on'             => true,
+			'button_cancel_text'                   => 'Cancel',
+			'button_cancel_button_color'           => '#333333',
+			'button_cancel_link_color'             => '#ffffff',
+			'button_cancel_as_button'              => true,
+			'button_cancel_button_size'            => 'medium',
+			'button_cancel_is_on'                  => true,
+			'button_cancel_button_opacity'         => '1', // 0 to 1.
+			'button_cancel_button_border_width'    => '0', // in pixel.
+			'button_cancel_button_border_style'    => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
+			'button_cancel_button_border_color'    => '#333333',
+			'button_cancel_button_border_radius'   => '0', // in pixel.
 
-			'font_family'                     => 'inherit', // Pick the family, not the easy name (see helper function below).
+			'font_family'                          => 'inherit', // Pick the family, not the easy name (see helper function below).
 
-			'is_on'                           => true,
-			'is_eu_on'                        => false,
-			'is_ccpa_on'                      => false,
-			'is_ccpa_iab_on'                  => false,
-			'logging_on'                      => false,
-			'show_credits'                    => false,
-			'is_ticked'                       => false,
-			'show_again'                      => true,
-			'is_script_blocker_on'            => false,
-			'auto_hide'                       => false,
-			'auto_scroll'                     => false,
-			'auto_scroll_reload'              => false,
-			'accept_reload'                   => false,
-			'decline_reload'                  => false,
-			'delete_on_deactivation'          => false,
+			'is_on'                                => true,
+			'is_eu_on'                             => false,
+			'is_ccpa_on'                           => false,
+			'is_ccpa_iab_on'                       => false,
+			'logging_on'                           => false,
+			'show_credits'                         => false,
+			'is_ticked'                            => false,
+			'show_again'                           => true,
+			'is_script_blocker_on'                 => false,
+			'auto_hide'                            => false,
+			'auto_scroll'                          => false,
+			'auto_scroll_reload'                   => false,
+			'accept_reload'                        => false,
+			'decline_reload'                       => false,
+			'delete_on_deactivation'               => false,
 
-			'show_again_position'             => 'right', // 'left' = left | 'right' = right.
-			'show_again_text'                 => 'Cookie Settings',
-			'show_again_margin'               => '5',
-			'auto_hide_delay'                 => '10000',
-			'auto_scroll_offset'              => '10',
-			'cookie_expiry'                   => '365',
-			'show_again_div_id'               => '#gdpr-cookie-consent-show-again',
-			'notify_animate_hide'             => true,
-			'notify_animate_show'             => false,
-			'notify_message'                  => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
-			'notify_message_eprivacy'         => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
-			'notify_message_ccpa'             => addslashes( 'In case of sale of your personal information, you may opt out by using the link' ),
-			'notify_div_id'                   => '#gdpr-cookie-consent-bar',
-			'notify_position_vertical'        => 'bottom', // 'top' = header | 'bottom' = footer.
-			'notify_position_horizontal'      => 'left', // 'left' = left | 'right' = right.
-			'text'                            => '#000',
-			'use_color_picker'                => true,
-			'bar_heading_text'                => '',
-			'cookie_bar_as'                   => 'banner', // banner | popup | widget.
-			'cookie_usage_for'                => 'gdpr',
-			'popup_overlay'                   => true,
-			'about_message'                   => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
-			'header_scripts'                  => '',
-			'body_scripts'                    => '',
-			'footer_scripts'                  => '',
+			'show_again_position'                  => 'right', // 'left' = left | 'right' = right.
+			'show_again_text'                      => 'Cookie Settings',
+			'show_again_margin'                    => '5',
+			'auto_hide_delay'                      => '10000',
+			'auto_scroll_offset'                   => '10',
+			'cookie_expiry'                        => '365',
+			'show_again_div_id'                    => '#gdpr-cookie-consent-show-again',
+			'notify_animate_hide'                  => true,
+			'notify_animate_show'                  => false,
+			'notify_message'                       => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
+			'notify_message_eprivacy'              => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
+			'notify_message_ccpa'                  => addslashes( 'In case of sale of your personal information, you may opt out by using the link' ),
+			'notify_div_id'                        => '#gdpr-cookie-consent-bar',
+			'notify_position_vertical'             => 'bottom', // 'top' = header | 'bottom' = footer.
+			'notify_position_horizontal'           => 'left', // 'left' = left | 'right' = right.
+			'text'                                 => '#000000',
+			'use_color_picker'                     => true,
+			'bar_heading_text'                     => '',
+			'cookie_bar_as'                        => 'banner', // banner | popup | widget.
+			'cookie_usage_for'                     => 'gdpr',
+			'popup_overlay'                        => true,
+			'about_message'                        => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
+			'header_scripts'                       => '',
+			'body_scripts'                         => '',
+			'footer_scripts'                       => '',
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;
@@ -624,26 +659,33 @@ class Gdpr_Cookie_Consent {
 				break;
 			// Any hex color e.g. '#f00', '#FE01ab' '#ff0000' but not 'f00' or 'ff0000'.
 			case 'background':
+			case 'background_border_color':
 			case 'text':
 			case 'button_accept_link_color':
 			case 'button_accept_button_color':
+			case 'button_accept_button_border_color':
 			case 'button_readmore_link_color':
 			case 'button_readmore_button_color':
+			case 'button_readmore_button_border_color':
 			case 'button_decline_link_color':
 			case 'button_decline_button_color':
+			case 'button_decline_button_border_color':
 			case 'button_settings_link_color':
 			case 'button_settings_button_color':
+			case 'button_settings_button_border_color':
 			case 'button_donotsell_link_color':
 			case 'button_confirm_button_color':
 			case 'button_confirm_link_color':
+			case 'button_confirm_button_border_color':
 			case 'button_cancel_button_color':
 			case 'button_cancel_link_color':
+			case 'button_cancel_button_border_color':
 				if ( preg_match( '/^#[a-f0-9]{6}|#[a-f0-9]{3}$/i', $value ) ) {
 					// Was: '/^#([0-9a-fA-F]{1,2}){3}$/i' which allowed e.g. '#00dd' (error).
 					$ret = $value;
 				} else {
-					// Failover = assign '#000' (black).
-					$ret = '#000';
+					// Failover = assign '#000000' (black).
+					$ret = '#000000';
 				}
 				break;
 			// Allow some HTML, but no JavaScript. Note that deliberately NOT stripping out line breaks here, that's done when sending JavaScript parameter elsewhere.
@@ -698,7 +740,7 @@ class Gdpr_Cookie_Consent {
 	 * Color shift a hex value by a specific percentage factor.
 	 *
 	 * @since 1.0
-	 * @param string  $supplied_hex Any valid hex value. Short forms e.g. #333 accepted.
+	 * @param string  $supplied_hex Any valid hex value. Short forms e.g. #333333 accepted.
 	 * @param string  $shift_method How to shift the value e.g( +,up,lighter,>).
 	 * @param integer $percentage Percentage in range of [0-100] to shift provided hex value by.
 	 * @return string shifted hex value
@@ -788,87 +830,122 @@ class Gdpr_Cookie_Consent {
 
 		// Slim down JSON objects to the bare bones.
 		$slim_settings  = array(
-			'animate_speed_hide'              => $settings['animate_speed_hide'],
-			'animate_speed_show'              => $settings['animate_speed_show'],
-			'background'                      => $settings['background'],
-			'opacity'                         => $settings['opacity'],
-			'template'                        => $settings['template'],
-			'button_cancel_link_color'        => $settings['button_cancel_link_color'],
-			'button_confirm_link_color'       => $settings['button_confirm_link_color'],
-			'button_cancel_button_color'      => $settings['button_cancel_button_color'],
-			'button_cancel_button_hover'      => ( self::gdpr_su_hex_shift( $settings['button_cancel_button_color'], 'down', 20 ) ),
-			'button_confirm_button_color'     => $settings['button_confirm_button_color'],
-			'button_confirm_button_hover'     => ( self::gdpr_su_hex_shift( $settings['button_confirm_button_color'], 'down', 20 ) ),
-			'button_accept_link_color'        => $settings['button_accept_link_color'],
-			'button_accept_button_color'      => $settings['button_accept_button_color'],
-			'button_accept_button_hover'      => ( self::gdpr_su_hex_shift( $settings['button_accept_button_color'], 'down', 20 ) ),
-			'button_accept_as_button'         => $settings['button_accept_as_button'],
-			'button_accept_new_win'           => $settings['button_accept_new_win'],
-			'button_accept_is_on'             => $settings['button_accept_is_on'],
-			'button_donotsell_link_color'     => $settings['button_donotsell_link_color'],
-			'button_donotsell_as_button'      => $settings['button_donotsell_as_button'],
-			'button_cancel_as_button'         => $settings['button_cancel_as_button'],
-			'button_confirm_as_button'        => $settings['button_confirm_as_button'],
-			'button_donotsell_is_on'          => $settings['button_donotsell_is_on'],
-			'button_cancel_is_on'             => $settings['button_cancel_is_on'],
-			'button_confirm_is_on'            => $settings['button_confirm_is_on'],
-			'button_readmore_link_color'      => $settings['button_readmore_link_color'],
-			'button_readmore_button_color'    => $settings['button_readmore_button_color'],
-			'button_readmore_button_hover'    => ( self::gdpr_su_hex_shift( $settings['button_readmore_button_color'], 'down', 20 ) ),
-			'button_readmore_as_button'       => $settings['button_readmore_as_button'],
-			'button_readmore_new_win'         => $settings['button_readmore_new_win'],
-			'button_readmore_is_on'           => $settings['button_readmore_is_on'],
-			'button_readmore_url_type'        => $settings['button_readmore_url_type'],
-			'button_readmore_wp_page'         => $settings['button_readmore_wp_page'],
-			'button_readmore_page'            => $settings['button_readmore_page'],
-			'button_decline_link_color'       => $settings['button_decline_link_color'],
-			'button_decline_button_color'     => $settings['button_decline_button_color'],
-			'button_decline_button_hover'     => ( self::gdpr_su_hex_shift( $settings['button_decline_button_color'], 'down', 20 ) ),
-			'button_decline_as_button'        => $settings['button_decline_as_button'],
-			'button_decline_new_win'          => $settings['button_decline_new_win'],
-			'button_decline_is_on'            => $settings['button_decline_is_on'],
-			'button_settings_link_color'      => $settings['button_settings_link_color'],
-			'button_settings_button_color'    => $settings['button_settings_button_color'],
-			'button_settings_button_hover'    => ( self::gdpr_su_hex_shift( $settings['button_settings_button_color'], 'down', 20 ) ),
-			'button_settings_as_button'       => $settings['button_settings_as_button'],
-			'button_settings_new_win'         => $settings['button_settings_new_win'],
-			'button_settings_is_on'           => $settings['button_settings_is_on'],
-			'button_settings_display_cookies' => $settings['button_settings_display_cookies'],
-			'button_settings_as_popup'        => $settings['button_settings_as_popup'],
-			'font_family'                     => $settings['font_family'],
-			'notify_animate_hide'             => $settings['notify_animate_hide'],
-			'notify_animate_show'             => $settings['notify_animate_show'],
-			'notify_div_id'                   => $settings['notify_div_id'],
-			'notify_position_vertical'        => $settings['notify_position_vertical'],
-			'notify_position_horizontal'      => $settings['notify_position_horizontal'],
-			'text'                            => $settings['text'],
-			'cookie_bar_as'                   => $settings['cookie_bar_as'],
-			'cookie_usage_for'                => $settings['cookie_usage_for'],
-			'popup_overlay'                   => $settings['popup_overlay'],
-			'border_color'                    => ( self::gdpr_su_hex_shift( $settings['text'], 'up', 40 ) ),
-			'background_color'                => ( self::gdpr_su_hex_shift( $settings['background'], 'down', 10 ) ),
-			'background_active_color'         => $settings['background'],
-			'border_active_color'             => $settings['background'],
-			'logging_on'                      => $settings['logging_on'],
-			'is_eu_on'                        => $settings['is_eu_on'],
-			'is_ccpa_on'                      => $settings['is_ccpa_on'],
-			'is_ccpa_iab_on'                  => $settings['is_ccpa_iab_on'],
-			'is_ticked'                       => $settings['is_ticked'],
-			'is_script_blocker_on'            => $settings['is_script_blocker_on'],
-			'auto_scroll'                     => $settings['auto_scroll'],
-			'auto_scroll_reload'              => $settings['auto_scroll_reload'],
-			'accept_reload'                   => $settings['accept_reload'],
-			'decline_reload'                  => $settings['decline_reload'],
-			'delete_on_deactivation'          => $settings['delete_on_deactivation'],
-			'auto_hide'                       => $settings['auto_hide'],
-			'auto_hide_delay'                 => $settings['auto_hide_delay'],
-			'auto_scroll_offset'              => $settings['auto_scroll_offset'],
-			'cookie_expiry'                   => $settings['cookie_expiry'],
-			'show_again'                      => $settings['show_again'],
-			'show_again_position'             => $settings['show_again_position'],
-			'show_again_text'                 => $settings['show_again_text'],
-			'show_again_margin'               => $settings['show_again_margin'],
-			'show_again_div_id'               => $settings['show_again_div_id'],
+			'animate_speed_hide'                   => $settings['animate_speed_hide'],
+			'animate_speed_show'                   => $settings['animate_speed_show'],
+			'background'                           => $settings['background'],
+			'opacity'                              => $settings['opacity'],
+			'background_border_width'              => $settings['background_border_width'],
+			'background_border_style'              => $settings['background_border_style'],
+			'background_border_color'              => $settings['background_border_color'],
+			'background_border_radius'             => $settings['background_border_radius'],
+			'template'                             => $settings['template'],
+			'button_cancel_link_color'             => $settings['button_cancel_link_color'],
+			'button_confirm_link_color'            => $settings['button_confirm_link_color'],
+			'button_cancel_button_color'           => $settings['button_cancel_button_color'],
+			'button_cancel_button_hover'           => ( self::gdpr_su_hex_shift( $settings['button_cancel_button_color'], 'down', 20 ) ),
+			'button_confirm_button_color'          => $settings['button_confirm_button_color'],
+			'button_confirm_button_hover'          => ( self::gdpr_su_hex_shift( $settings['button_confirm_button_color'], 'down', 20 ) ),
+			'button_accept_link_color'             => $settings['button_accept_link_color'],
+			'button_accept_button_color'           => $settings['button_accept_button_color'],
+			'button_accept_button_hover'           => ( self::gdpr_su_hex_shift( $settings['button_accept_button_color'], 'down', 20 ) ),
+			'button_accept_as_button'              => $settings['button_accept_as_button'],
+			'button_accept_new_win'                => $settings['button_accept_new_win'],
+			'button_accept_is_on'                  => $settings['button_accept_is_on'],
+			'button_donotsell_link_color'          => $settings['button_donotsell_link_color'],
+			'button_donotsell_as_button'           => $settings['button_donotsell_as_button'],
+			'button_cancel_as_button'              => $settings['button_cancel_as_button'],
+			'button_confirm_as_button'             => $settings['button_confirm_as_button'],
+			'button_donotsell_is_on'               => $settings['button_donotsell_is_on'],
+			'button_cancel_is_on'                  => $settings['button_cancel_is_on'],
+			'button_confirm_is_on'                 => $settings['button_confirm_is_on'],
+			'button_readmore_link_color'           => $settings['button_readmore_link_color'],
+			'button_readmore_button_color'         => $settings['button_readmore_button_color'],
+			'button_readmore_button_hover'         => ( self::gdpr_su_hex_shift( $settings['button_readmore_button_color'], 'down', 20 ) ),
+			'button_readmore_as_button'            => $settings['button_readmore_as_button'],
+			'button_readmore_new_win'              => $settings['button_readmore_new_win'],
+			'button_readmore_is_on'                => $settings['button_readmore_is_on'],
+			'button_readmore_url_type'             => $settings['button_readmore_url_type'],
+			'button_readmore_wp_page'              => $settings['button_readmore_wp_page'],
+			'button_readmore_page'                 => $settings['button_readmore_page'],
+			'button_decline_link_color'            => $settings['button_decline_link_color'],
+			'button_decline_button_color'          => $settings['button_decline_button_color'],
+			'button_decline_button_hover'          => ( self::gdpr_su_hex_shift( $settings['button_decline_button_color'], 'down', 20 ) ),
+			'button_decline_as_button'             => $settings['button_decline_as_button'],
+			'button_decline_new_win'               => $settings['button_decline_new_win'],
+			'button_decline_is_on'                 => $settings['button_decline_is_on'],
+			'button_settings_link_color'           => $settings['button_settings_link_color'],
+			'button_settings_button_color'         => $settings['button_settings_button_color'],
+			'button_settings_button_hover'         => ( self::gdpr_su_hex_shift( $settings['button_settings_button_color'], 'down', 20 ) ),
+			'button_settings_as_button'            => $settings['button_settings_as_button'],
+			'button_settings_new_win'              => $settings['button_settings_new_win'],
+			'button_settings_is_on'                => $settings['button_settings_is_on'],
+			'button_settings_display_cookies'      => $settings['button_settings_display_cookies'],
+			'button_settings_as_popup'             => $settings['button_settings_as_popup'],
+			'button_settings_layout_skin'          => $settings['button_settings_layout_skin'],
+			'font_family'                          => $settings['font_family'],
+			'notify_animate_hide'                  => $settings['notify_animate_hide'],
+			'notify_animate_show'                  => $settings['notify_animate_show'],
+			'notify_div_id'                        => $settings['notify_div_id'],
+			'notify_position_vertical'             => $settings['notify_position_vertical'],
+			'notify_position_horizontal'           => $settings['notify_position_horizontal'],
+			'text'                                 => $settings['text'],
+			'cookie_bar_as'                        => $settings['cookie_bar_as'],
+			'cookie_usage_for'                     => $settings['cookie_usage_for'],
+			'popup_overlay'                        => $settings['popup_overlay'],
+			'border_color'                         => ( self::gdpr_su_hex_shift( $settings['text'], 'up', 40 ) ),
+			'background_color'                     => ( self::gdpr_su_hex_shift( $settings['background'], 'down', 10 ) ),
+			'background_active_color'              => $settings['background'],
+			'border_active_color'                  => $settings['background'],
+			'logging_on'                           => $settings['logging_on'],
+			'is_eu_on'                             => $settings['is_eu_on'],
+			'is_ccpa_on'                           => $settings['is_ccpa_on'],
+			'is_ccpa_iab_on'                       => $settings['is_ccpa_iab_on'],
+			'is_ticked'                            => $settings['is_ticked'],
+			'is_script_blocker_on'                 => $settings['is_script_blocker_on'],
+			'auto_scroll'                          => $settings['auto_scroll'],
+			'auto_scroll_reload'                   => $settings['auto_scroll_reload'],
+			'accept_reload'                        => $settings['accept_reload'],
+			'decline_reload'                       => $settings['decline_reload'],
+			'delete_on_deactivation'               => $settings['delete_on_deactivation'],
+			'auto_hide'                            => $settings['auto_hide'],
+			'auto_hide_delay'                      => $settings['auto_hide_delay'],
+			'auto_scroll_offset'                   => $settings['auto_scroll_offset'],
+			'cookie_expiry'                        => $settings['cookie_expiry'],
+			'show_again'                           => $settings['show_again'],
+			'show_again_position'                  => $settings['show_again_position'],
+			'show_again_text'                      => $settings['show_again_text'],
+			'show_again_margin'                    => $settings['show_again_margin'],
+			'show_again_div_id'                    => $settings['show_again_div_id'],
+			'button_accept_button_opacity'         => $settings['button_accept_button_opacity'],
+			'button_decline_button_opacity'        => $settings['button_decline_button_opacity'],
+			'button_readmore_button_opacity'       => $settings['button_readmore_button_opacity'],
+			'button_settings_button_opacity'       => $settings['button_settings_button_opacity'],
+			'button_confirm_button_opacity'        => $settings['button_confirm_button_opacity'],
+			'button_cancel_button_opacity'         => $settings['button_cancel_button_opacity'],
+			'button_accept_button_border_width'    => $settings['button_accept_button_border_width'],
+			'button_decline_button_border_width'   => $settings['button_decline_button_border_width'],
+			'button_readmore_button_border_width'  => $settings['button_readmore_button_border_width'],
+			'button_settings_button_border_width'  => $settings['button_settings_button_border_width'],
+			'button_confirm_button_border_width'   => $settings['button_confirm_button_border_width'],
+			'button_cancel_button_border_width'    => $settings['button_cancel_button_border_width'],
+			'button_accept_button_border_style'    => $settings['button_accept_button_border_style'],
+			'button_decline_button_border_style'   => $settings['button_decline_button_border_style'],
+			'button_readmore_button_border_style'  => $settings['button_readmore_button_border_style'],
+			'button_settings_button_border_style'  => $settings['button_settings_button_border_style'],
+			'button_confirm_button_border_style'   => $settings['button_confirm_button_border_style'],
+			'button_cancel_button_border_style'    => $settings['button_cancel_button_border_style'],
+			'button_accept_button_border_color'    => $settings['button_accept_button_border_color'],
+			'button_decline_button_border_color'   => $settings['button_decline_button_border_color'],
+			'button_readmore_button_border_color'  => $settings['button_readmore_button_border_color'],
+			'button_settings_button_border_color'  => $settings['button_settings_button_border_color'],
+			'button_confirm_button_border_color'   => $settings['button_confirm_button_border_color'],
+			'button_cancel_button_border_color'    => $settings['button_cancel_button_border_color'],
+			'button_accept_button_border_radius'   => $settings['button_accept_button_border_radius'],
+			'button_decline_button_border_radius'  => $settings['button_decline_button_border_radius'],
+			'button_readmore_button_border_radius' => $settings['button_readmore_button_border_radius'],
+			'button_settings_button_border_radius' => $settings['button_settings_button_border_radius'],
+			'button_confirm_button_border_radius'  => $settings['button_confirm_button_border_radius'],
+			'button_cancel_button_border_radius'   => $settings['button_cancel_button_border_radius'],
 		);
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
 		if ( $wpl_pro_active ) {
