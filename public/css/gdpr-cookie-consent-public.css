@@ -1160,7 +1160,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	line-height: inherit;
 	margin: 0;
 	background-color: inherit;
-	word-break: break-word;
+	word-break: inherit;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container hr {
 	margin:0;

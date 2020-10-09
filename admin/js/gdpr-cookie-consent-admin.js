@@ -384,7 +384,7 @@
 
 			gdpr_form_toggler.set();
 
-			var cookie_bar_as = $( 'select[name="cookie_bar_as_field"] option:selected' ).text();
+			var cookie_bar_as = $( 'select[name="cookie_bar_as_field"] option:selected' ).val();
 			if (cookie_bar_as == 'banner') {
 				$( 'select[name="button_settings_as_popup_field"]' ).find( 'option#gdpr_settings_extended' ).attr( 'disabled', false );
 			} else {
