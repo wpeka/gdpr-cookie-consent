@@ -246,6 +246,24 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
+	 * Returns plugin actions links.
+	 *
+	 * @param array $links Plugin action links.
+	 * @return array
+	 */
+	public function admin_plugin_action_links( $links ) {
+		if ( ! get_option( 'wpl_pro_active' ) ) {
+			$links = array_merge(
+				array(
+					'<a href="' . esc_url( 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=plugins&utm_campaign=link&utm_content=upgrade-to-pro' ) . '" target="_blank" rel="noopener noreferrer"><strong style="color: #11967A; display: inline;">' . __( 'Upgrade to Pro', 'gdpr-cookie-consent' ) . '</strong></a>',
+				),
+				$links
+			);
+		}
+		return $links;
+	}
+
+	/**
 	 * Migrate previous settings.
 	 *
 	 * @since 1.7.6
