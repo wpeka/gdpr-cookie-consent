@@ -246,6 +246,24 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
+	 * Returns plugin actions links.
+	 *
+	 * @param array $links Plugin action links.
+	 * @return array
+	 */
+	public function admin_plugin_action_links( $links ) {
+		if ( ! get_option( 'wpl_pro_active' ) ) {
+			$links = array_merge(
+				array(
+					'<a href="' . esc_url( 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=plugins&utm_campaign=link&utm_content=upgrade-to-pro' ) . '" target="_blank" rel="noopener noreferrer"><strong style="color: #11967A; display: inline;">' . __( 'Upgrade to Pro', 'gdpr-cookie-consent' ) . '</strong></a>',
+				),
+				$links
+			);
+		}
+		return $links;
+	}
+
+	/**
 	 * Migrate previous settings.
 	 *
 	 * @since 1.7.6
@@ -457,11 +475,27 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 1.0
 	 */
 	public function admin_settings_page() {
+		$is_pro = get_option( 'wpl_pro_active', false );
+		if ( $is_pro ) {
+			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=support';
+		} else {
+			$support_url = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=forums';
+		}
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script( $this->plugin_name );
 		wp_enqueue_script( $this->plugin_name . '-vue' );
 		wp_enqueue_script( $this->plugin_name . '-mascot' );
-		wp_localize_script( $this->plugin_name . '-mascot', 'mascot_obj', array( 'is_pro' => get_option( 'wpl_pro_active', false ) ) );
+		wp_localize_script(
+			$this->plugin_name . '-mascot',
+			'mascot_obj',
+			array(
+				'is_pro'            => $is_pro,
+				'documentation_url' => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=documentation',
+				'faq_url'           => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/faq-1/faq/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=faq',
+				'support_url'       => $support_url,
+				'upgrade_url'       => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=upgrade-to-pro',
+			)
+		);
 		// Lock out non-admins.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );

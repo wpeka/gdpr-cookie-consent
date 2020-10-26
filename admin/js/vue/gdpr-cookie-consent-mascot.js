@@ -19,22 +19,28 @@
                     var mItems = [
                         {
                             icon: 'dashicons-lightbulb',
-                            tooltip: 'Suggest a Feature',
-                            link: 'https://wpeka.freshdesk.com/support/tickets/new',
-                            key: 'suggest'
+                            tooltip: 'Support',
+                            link: mascot_obj.support_url,
+                            key: 'support'
+                        },
+                        {
+                            icon: 'dashicons-info',
+                            tooltip: 'FAQ',
+                            link: mascot_obj.faq_url,
+                            key: 'faq'
                         },
                         {
                             icon: 'dashicons-sos',
-                            tooltip: 'Support & Docs',
-                            link: 'https://docs.wpeka.com/wp-gdpr-cookie-consent/',
-                            key: 'support'
-                        },
+                            tooltip: 'Documentation',
+                            link: mascot_obj.documentation_url,
+                            key: 'documentation'
+                        }
                     ];
                     if(!this.isPro) {
                         mItems.push({
                             icon: 'dashicons-star-filled',
                             tooltip: 'Upgrade to Pro »',
-                            link: 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/',
+                            link: mascot_obj.upgrade_url,
                             key: 'upgrade'
                         });
                     }
