@@ -8,6 +8,10 @@
  * @since       1.0.0
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /*
 Templates / Views.
 --------------------------------------------------------------------------------------------
@@ -186,16 +190,7 @@ if ( ! function_exists( 'as_asset_url' ) ) {
 	/**
 	 * Generates an absolute URL to the given path. This function ensures that the URL will be correct whether the asset
 	 * is inside a plugin's folder or a theme's folder.
-	 *
-	 * Examples:
-	 * 1. "themes" folder
-	 *    Path: C:/xampp/htdocs/fswp/wp-content/themes/twentytwelve/analytics/assets/css/admin/common.css
-	 *    URL: http://awp:8080/wp-content/themes/twentytwelve/analytics/assets/css/admin/common.css
-	 *
-	 * 2. "plugins" folder
-	 *    Path: C:/xampp/htdocs/fswp/wp-content/plugins/rating-widget-premium/analytics/assets/css/admin/common.css
-	 *    URL: http://awp:8080/wp-content/plugins/rating-widget-premium/analytics/assets/css/admin/common.css
-	 *
+     *
 	 * @author CyberChimps
 	 * @since  1.0.0
 	 *
