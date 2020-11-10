@@ -8,6 +8,10 @@
  * @since       1.0.0
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 if ( ! function_exists( 'as_normalize_path' ) ) {
 	/**
 	 * Normalize path.

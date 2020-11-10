@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @var string
  */
-$this_sdk_version = '1.0.0';
+$this_sdk_version = '2.4.1';
 
 require_once dirname( __FILE__ ) . '/includes/analytics-essential-functions.php';
 

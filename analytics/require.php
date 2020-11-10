@@ -6,6 +6,10 @@
  * @since       1.0.0
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 // Configuration should be loaded first.
 require_once dirname( __FILE__ ) . '/config.php';
 require_once WP_STAT__DIR_INCLUDES . '/analytics-core-functions.php';
