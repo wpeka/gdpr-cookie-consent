@@ -190,7 +190,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Change Log ==
 = 1.9.7 =
-* Fix: Fixed vunerability issue for analytics within the plugin.
+* Fix: Fixed vulnerability issue for analytics within the plugin.
 
 = 1.9.6 =
 * Update: Updated links within the plugin.
@@ -325,7 +325,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Upgrade Notice ==
 = 1.9.7 =
-* Fix: Fixed vunerability issue for analytics within the plugin.
+* Fix: Fixed vulnerability issue for analytics within the plugin.
 
 = 1.9.6 =
 * Update: Updated links within the plugin.
