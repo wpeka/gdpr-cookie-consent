@@ -52,7 +52,8 @@ module.exports = function (grunt) {
 						cwd: 'release/<%= pkg.version %>/public/js/',
 						src: [
 						'*.js',
-						'!*.min.js'
+						'!*.min.js',
+						'!*.bundle.js'
 						],
 						dest: 'release/<%= pkg.version %>/public/js/',
 						ext: '.min.js'

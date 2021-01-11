@@ -111,7 +111,7 @@ class Gdpr_Cookie_Consent_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, true );
+		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.bundle.js', array( 'jquery' ), $this->version, true );
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
 	}
 
@@ -307,9 +307,9 @@ class Gdpr_Cookie_Consent_Public {
 
 			$wpl_pro_active = get_option( 'wpl_pro_active' );
 			if ( $wpl_pro_active ) {
-				$credit_link_href = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/';
+				$credit_link_href = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=show-credits&utm_campaign=link&utm_content=powered-by-gdpr';
 			} else {
-				$credit_link_href = 'https://wordpress.org/plugins/gdpr-cookie-consent/';
+				$credit_link_href = 'https://wordpress.org/plugins/gdpr-cookie-consent/?utm_source=gdpr&utm_medium=show-credits&utm_campaign=link&utm_content=powered-by-gdpr';
 			}
 			if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
 				$credit_link_text = __( 'GDPR Cookie Consent Plugin', 'gdpr-cookie-consent' );
