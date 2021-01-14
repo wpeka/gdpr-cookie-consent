@@ -27,24 +27,28 @@
         <div class="gdpr group-description-buttons">
             {% if button_accept_is_on %}
                 <p>
-                    <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept" href="#"
+                    <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept"
                             {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
                                 href="{{ button_accept_url }}"
                                 {% if button_accept_new_win %}
                                     target="_blank"
                                 {% endif %}
+                            {% else %}
+                                href="#"
                             {% endif %}
                        data-gdpr_action="accept" >{{ __( button_accept_text, 'gdpr-cookie-consent' ) }}</a>
                 </p>
             {% endif %}
             {% if button_decline_is_on %}
                 <p>
-                    <a id="cookie_action_reject" class="{{ button_decline_classes }}" tabindex="0" aria-label="Reject" href="#"
+                    <a id="cookie_action_reject" class="{{ button_decline_classes }}" tabindex="0" aria-label="Reject"
                             {% if button_decline_action == 'CONSTANT_OPEN_URL' %}
                                 href="{{ button_decline_url }}"
                                 {% if button_decline_new_win %}
                                     target="_blank"
                                 {% endif %}
+                            {% else %}
+                                href="#"
                             {% endif %}
                        data-gdpr_action="reject" >{{ __( button_decline_text, 'gdpr-cookie-consent' ) }}</a>
                 </p>
@@ -99,22 +103,26 @@
         </div>
         <div class="gdpr group-description-buttons">
             {% if button_accept_is_on %}
-                <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept" href="#"
+                <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept"
                         {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
                             href="{{ button_accept_url }}"
                             {% if button_accept_new_win %}
                                 target="_blank"
                             {% endif %}
+                        {% else %}
+                            href="#"
                         {% endif %}
                    data-gdpr_action="accept" >{{ __( button_accept_text, 'gdpr-cookie-consent' ) }}</a>
             {% endif %}
             {% if button_decline_is_on %}
-                <a id="cookie_action_reject" class="{{ button_decline_classes }}" tabindex="0" aria-label="Reject" href="#"
+                <a id="cookie_action_reject" class="{{ button_decline_classes }}" tabindex="0" aria-label="Reject"
                         {% if button_decline_action == 'CONSTANT_OPEN_URL' %}
                             href="{{ button_decline_url }}"
                             {% if button_decline_new_win %}
                                 target="_blank"
                             {% endif %}
+                        {% else %}
+                            href="#"
                         {% endif %}
                    data-gdpr_action="reject" >{{ __( button_decline_text, 'gdpr-cookie-consent' ) }}</a>
             {% endif %}
