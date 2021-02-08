@@ -873,6 +873,12 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	opacity:0.5;
 	text-shadow: unset;
 }
+#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close .dashicons.dashicons-dismiss {
+	display: none;
+}
+.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close .dashicons.dashicons-dismiss {
+	overflow: hidden;
+}
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close:hover,
 #gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close:hover,
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close:focus,
