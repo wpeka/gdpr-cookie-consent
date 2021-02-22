@@ -93,7 +93,7 @@ class Gdpr_Cookie_Consent_Admin {
 		 */
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-admin' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
-
+		wp_register_style( $this->plugin_name . '-select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-admin' . GDPR_CC_SUFFIX . '.js', array( 'jquery', 'wp-color-picker', 'gdprcookieconsent_cookie_custom' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-vue', plugin_dir_url( __FILE__ ) . 'js/vue/vue.js', array(), $this->version, false );
 		wp_register_script( $this->plugin_name . '-mascot', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-mascot.js', array( 'jquery' ), $this->version, false );
-
+		wp_register_script( $this->plugin_name . '-select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array( 'jquery' ), $this->version, false );
 	}
 
 	/**
@@ -485,6 +485,9 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_enqueue_script( $this->plugin_name );
 		wp_enqueue_script( $this->plugin_name . '-vue' );
 		wp_enqueue_script( $this->plugin_name . '-mascot' );
+		wp_enqueue_style( $this->plugin_name . '-select2' );
+		wp_enqueue_script( $this->plugin_name . '-select2' );
+
 		wp_localize_script(
 			$this->plugin_name . '-mascot',
 			'mascot_obj',
@@ -509,6 +512,10 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( 'update_admin_settings_form' === $_POST['gdpr_settings_ajax_update'] ) {
 				// module settings saving hook.
 				do_action( 'gdpr_module_save_settings' );
+				// setting manually default value for restrict posts field.
+				if ( ! isset( $_POST['restrict_posts_field'] ) ) {
+					$_POST['restrict_posts_field'] = array();
+				}
 				foreach ( $the_options as $key => $value ) {
 					if ( isset( $_POST[ $key . '_field' ] ) ) {
 						// Store sanitised values only.
