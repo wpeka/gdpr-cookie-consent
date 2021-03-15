@@ -66,6 +66,8 @@
 					gdpr_nav_tab.eq( 0 ).click();
 				}
 			}
+			// select2 library used.
+			$('.restrict_posts').select2();
 			$( '.gdpr_sub_tab li' ).click(
 				function(){
 					var trgt = $( this ).attr( 'data-target' );

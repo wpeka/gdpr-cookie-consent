@@ -589,6 +589,7 @@ class Gdpr_Cookie_Consent {
 			'header_scripts'                       => '',
 			'body_scripts'                         => '',
 			'footer_scripts'                       => '',
+			'restrict_posts'                       => array(),
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;
@@ -708,6 +709,9 @@ class Gdpr_Cookie_Consent {
 			case 'body_scripts':
 			case 'footer_scripts':
 				$ret = trim( stripslashes( $value ) );
+				break;
+			case 'restrict_posts':
+				$ret = $value;
 				break;
 			// Basic sanitisation for all the rest.
 			default:
