@@ -710,8 +710,11 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 				}
 			}
 			if (this.settings.cookie_bar_as == 'popup') {
-				this.bar_config['position']   = 'unset';
-				this.bar_config['box-shadow'] = 'unset';
+				this.bar_config['border']           = 'unset';
+				this.bar_config['border-radius']    = 'unset';
+				this.bar_config['position']         = 'unset';
+				this.bar_config['box-shadow']       = 'unset';
+				this.bar_config['background-color'] = 'unset';
 				jQuery( '#gdpr-popup .gdprmodal-content' ).css( 'background-color',background );
 				jQuery( '#gdpr-popup .gdprmodal-content' ).css( 'border',border );
 				jQuery( '#gdpr-popup .gdprmodal-content' ).css( 'border-radius',this.settings.background_border_radius + 'px' );
