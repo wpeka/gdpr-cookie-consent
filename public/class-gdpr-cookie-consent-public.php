@@ -573,8 +573,10 @@ class Gdpr_Cookie_Consent_Public {
 
 		$body_open_supported = function_exists( 'wp_body_open' ) && version_compare( get_bloginfo( 'version' ), '5.2', '>=' );
 
+		$disable_blocker = get_option( 'wpl_bypass_script_blocker' );
+
 		if ( ( is_singular() && $post ) || is_home() ) {
-			if ( ( $the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie ) || ( ! $the_options['is_script_blocker_on'] ) ) {
+			if ( ( $the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie ) || ( ! $the_options['is_script_blocker_on'] ) || $disable_blocker ) {
 				add_action( 'wp_head', array( $this, 'gdprcookieconsent_output_header' ) );
 				if ( $body_open_supported ) {
 					add_action( 'wp_body_open', array( $this, 'gdprcookieconsent_output_body' ) );
