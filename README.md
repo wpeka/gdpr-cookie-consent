@@ -156,6 +156,16 @@ This section describes how to install the plugin and get it working.
 
 NOTE: Installing this plugin does not alone make your website GDPR compliant. Every website has different cookie needs and needs to be configured accordingly.
 
+
+## What Next? ##
+
+If you like this plugin, then consider checking out our other projects:
+
+- [WPLegalPages](https://wplegalpages.com/?&utm_source=wporg&utm_medium=referral&utm_campaign=cookie-consent) – Generate WordPress privacy policy, terms of use, terms & conditions, eCommerce returns, refunds policy, affiliate disclaimers & more.
+- [WP AdCenter](https://wpadcenter.com/?&utm_source=wporg&utm_medium=referral&utm_campaign=cookie-consent) – Easily Manage Ads on WordPress – Banner, Amazon, Google Adsense Ads.
+- [WPeka Woo Auction Software](https://www.wpauctionsoftware.com/?&utm_source=wporg&utm_medium=referral&utm_campaign=cookie-consent) – Host Simple / Reverse / Penny or eBay like auctions on your WooCommerce website.
+
+
 ## Frequently Asked Questions ##
 
 ### Will my website become GDPR compliant after installing the plugin?
