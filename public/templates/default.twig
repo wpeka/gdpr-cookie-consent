@@ -6,7 +6,7 @@
             <div class="gdprmodal-body">
 {% endif %}
 <!-- WP Cookie Notice for GDPR, CCPA & ePrivacy Consent v{{ version }} by WPEka Club - https://wordpress.org/plugins/gdpr-cookie-consent/ -->
-<div id="{{ container_id }}" class="{{ container_class }}">
+<div id="{{ container_id }}" class="{{ container_class }} {{ theme_class }}">
     {% include skin_template %}
 </div>
 {% if cookie_bar_as == 'popup' %}
@@ -20,7 +20,7 @@
         {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
 
         {% else %}
-            <div class="gdpr_messagebar_detail {{ button_settings_layout_skin }} {{ template_parts }}">
+            <div class="gdpr_messagebar_detail {{ button_settings_layout_skin }} {{ template_parts }} {{ theme_class }}">
                 {% include layout_skin_template with cookie_data %}
             </div>
         {% endif %}

@@ -291,6 +291,11 @@ class Gdpr_Cookie_Consent_Public {
 			$the_options['container_class']     .= ' layout-' . $layout_skin;
 			$the_options['layout_skin_template'] = 'templates/modals/' . $layout_skin . '.twig';
 
+			$current_theme = wp_get_theme();
+			if ( isset( $current_theme->template ) ) {
+				$the_options['theme_class'] .= 'theme-' . $current_theme->template;
+			}
+
 			$the_options['eprivacy_str']              = $eprivacy_str;
 			$the_options['gdpr_str']                  = $gdpr_str;
 			$the_options['ccpa_str']                  = $ccpa_str;
@@ -481,6 +486,7 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['consent_notice']    = __( 'I consent to the use of following cookies:', 'gdpr-cookie-consent' );
 				$the_options['cookie_data']       = $cookie_data;
 			}
+
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
 			ob_start();
 			$notify_html = $timber->render( 'templates/default.twig', $the_options );
