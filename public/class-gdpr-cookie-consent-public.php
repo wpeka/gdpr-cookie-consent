@@ -293,7 +293,7 @@ class Gdpr_Cookie_Consent_Public {
 
 			$current_theme = wp_get_theme();
 			if ( isset( $current_theme->template ) ) {
-				$the_options['theme_class'] .= 'theme-' . $current_theme->template;
+				$the_options['theme_class'] = 'theme-' . $current_theme->template;
 			}
 
 			$the_options['eprivacy_str']              = $eprivacy_str;
