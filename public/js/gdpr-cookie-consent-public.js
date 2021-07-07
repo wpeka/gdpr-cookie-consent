@@ -189,12 +189,10 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 								} else if (GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) && ! GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )) {
 									if(response.ccpa_status == 'on'){
 										GDPR.displayHeader( true, false, force_display_bar, true );
-										// GDPR.hideHeader();
 
 									}
 									else{										
 										GDPR.displayHeader(true, true, force_display_bar, true );
-										// GDPR.hideHeader();
 
 									}
 								} else if ( ! GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) && GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME ) && response.eu_status == 'on') {
