@@ -1034,7 +1034,9 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 				jQuery( GDPR.settings.notify_div_id ).find( 'p.ccpa' ).hide();
 			}
 			if (this.settings.cookie_bar_as == 'popup') {
+				if( !gdpr_flag || !ccpa_flag){
 				$( "#gdpr-popup" ).gdprmodal( 'show' );
+				}
 			}
 			if (this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'eprivacy' || this.settings.cookie_usage_for == 'both') {
 				if(force_display_show_again){
