@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * @var array $VARS
  */
-$as   = analytics( $VARS['id'], $VARS['slug'], $VARS['product_name'], $VARS['version'], $VARS['module_type'] );
+$as   = analytics( $VARS['id'], $VARS['product_name'], $VARS['version'], $VARS['module_type'], $VARS['slug'] );
 $slug = $as->get_slug();
 
 $show_deactivation_feedback_form = $VARS['show_deactivation_feedback_form'];

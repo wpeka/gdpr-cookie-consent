@@ -114,7 +114,7 @@ class Analytics {
 	 * @param string      $version Product Version.
 	 * @param string      $module_type Module Type.
 	 */
-	private function __construct( $module_id, $slug = false, $product_name, $version, $module_type, $plugin_basename = '', $plugin_url = '' ) {
+	private function __construct( $module_id, $product_name, $version, $module_type, $slug = false, $plugin_basename = '', $plugin_url = '' ) {
 		$this->_module_id    = $module_id;
 		$this->_slug         = $slug;
 		$this->_module_type  = $module_type;
@@ -147,14 +147,14 @@ class Analytics {
 	 *
 	 * @return Analytics|false
 	 */
-	static function instance( $module_id, $slug = false, $product_name, $version, $module_type, $plugin_basename = '', $plugin_url = '' ) {
+	static function instance( $module_id, $product_name, $version, $module_type, $slug = false, $plugin_basename = '', $plugin_url = '' ) {
 		if ( empty( $module_id ) ) {
 			return false;
 		}
 
 		$key = 'm_' . $slug;
 
-		self::$_instances[ $key ] = new Analytics( $module_id, $slug, $product_name, $version, $module_type, $plugin_basename, $plugin_url );
+		self::$_instances[ $key ] = new Analytics( $module_id, $product_name, $version, $module_type, $slug, $plugin_basename, $plugin_url );
 
 		return self::$_instances[ $key ];
 	}

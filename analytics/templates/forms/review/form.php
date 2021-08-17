@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * @var array $VARS
  */
-$als        = analytics( $VARS['id'], $VARS['slug'], $VARS['product_name'], $VARS['version'], $VARS['module_type'] );
+$als        = analytics( $VARS['id'], $VARS['product_name'], $VARS['version'], $VARS['module_type'], $VARS['slug'] );
 $slug       = $als->get_slug();
 $name       = $VARS['product_name'];
 $img_url    = $VARS['plugin_url'] . 'icon.png';
