@@ -97,6 +97,7 @@ module.exports = function (grunt) {
 					},
 					src: [
 					'**',
+					'!vendor/sebastian/diff/**',
 					'!node_modules/**',
 					'!release/**',
 					'!bin/**',
@@ -109,6 +110,9 @@ module.exports = function (grunt) {
 					'!package-lock.json',
 					'!.gitignore',
 					'!.gitmodules',
+					'!*.yml',
+					'!*.xml',
+					'!*.config.*',
 					'!composer.lock',
 					'!composer.json',
 					],
