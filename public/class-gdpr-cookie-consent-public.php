@@ -111,7 +111,7 @@ class Gdpr_Cookie_Consent_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.bundle.js', array( 'jquery' ), $this->version, true );
+		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap/bootstrap.bundle.js', array( 'jquery' ), $this->version, true );
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
 	}
 
