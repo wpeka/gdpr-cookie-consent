@@ -1334,6 +1334,9 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	.gdpr_messagebar_detail .gdprmodal-dialog {
 		max-width: 50% !important;
 	}
+	#gdpr-cookie-consent-bar.gdpr-widget {
+		min-width: 600px;
+	}
 }
 
 
