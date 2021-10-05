@@ -563,6 +563,12 @@ Bootstrap CSS for frontend UI
 	}
 }
 
+@media (min-width: 768px) {
+	.gdprmodal-dialog-centered .gdprmodal-content {
+		min-width: 550px;
+	}
+}
+
 @media (min-width: 992px) {
 	.gdprmodal-lg,
 	.gdprmodal-xl {
