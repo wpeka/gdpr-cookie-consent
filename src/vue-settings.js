@@ -38,6 +38,14 @@ var gen = new Vue({
             is_revoke_consent_on: settings_obj.the_options.hasOwnProperty('show_again') && (true === settings_obj.the_options['show_again'] || 1 === settings_obj.the_options['show_again'] ) ? true : false,
             tab_position_options: settings_obj.tab_position_options,
             tab_position: settings_obj.the_options.hasOwnProperty('show_again_position') ? settings_obj.the_options['show_again_position'] : 'right',
+            show_cookie_as_options: settings_obj.show_cookie_as_options,
+            show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
+            cookie_position_options: settings_obj.position_options,
+            cookie_position: settings_obj.the_options.hasOwnProperty('notify_position_vertical') ? settings_obj.the_options['notify_position_vertical'] : 'bottom',
+            on_hide_options: settings_obj.on_hide_options,
+            on_hide: settings_obj.the_options.hasOwnProperty('notify_animate_hide') ? settings_obj.the_options['notify_animate_hide'] : '1',
+            cookie_bar_color: settings_obj.the_options.hasOwnProperty('background') ? settings_obj.the_options['background'] : '#ffffff',
+            //on_hide: settings_obj.the_options.hasOwnProperty('notify_animate_hide') && ( true === settings_obj.the_options['notify_animate_hide'] || 1 === settings_obj.the_options['notify_animate_hide'] ) ? true : false,
         }
     },
     methods: {
