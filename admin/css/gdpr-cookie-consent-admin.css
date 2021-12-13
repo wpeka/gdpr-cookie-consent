@@ -996,3 +996,21 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     margin-top: 1%;
     z-index: 99;
 }
+.gdpr-color-pick {
+	display: flex;
+}
+
+.gdpr-color-input {
+	width: 91%;
+}
+.gdpr-color-input input{
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.gdpr-color-select {
+	width: 9%;
+}
+.gdpr-color-select input{
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
