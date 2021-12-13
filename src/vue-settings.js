@@ -16,7 +16,6 @@ var gen = new Vue({
     el: '#gdpr-cookie-consent-settings-app',
     data() {
         return {
-            customToolbarForm:  [],
             labelIcon: {
                 labelOn: '\u2713',
                 labelOff: '\u2715'

@@ -555,7 +555,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => $gdpr_policies[ $policy_keys[ $i ] ],
 			);
 		}
-		$tab_position_options = array();
+		$tab_position_options    = array();
 		$tab_position_options[0] = array(
 			'label' => 'Left',
 			'code'  => 'left',
