@@ -127,6 +127,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Consent Settings', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
+								<?php do_action( 'gdpr_consent_settings_pro_top' ); ?>
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Autotick for Non-Necessary Cookies ', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Enable to give to the user the possibility to revoke their consent.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
@@ -181,6 +182,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<input type="hidden" name="gcc-decline-reload" v-model="decline_reload">
 									</c-col>
 								</c-row>
+								<?php do_action( 'gdpr_consent_settings_pro_bottom' ); ?>
 							</c-card-body>
 						</c-card>
 						<c-card>
