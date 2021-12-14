@@ -555,6 +555,16 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => $gdpr_policies[ $policy_keys[ $i ] ],
 			);
 		}
+		$cookie_durations        = self::get_cookie_expiry_options();
+		$cookie_durations_length = count( $cookie_durations );
+		$cookie_expiry_keys      = array_keys( $cookie_durations );
+		$cookie_expiry_options   = array();
+		for ( $i = 0; $i < $cookie_durations_length; $i++ ) {
+			$cookie_expiry_options[ $i ] = array(
+				'label' => $cookie_expiry_keys[ $i ],
+				'code'  => $cookie_durations[ $cookie_expiry_keys[ $i ] ],
+			);
+		}
 		$position_options          = array();
 		$position_options[0]       = array(
 			'label' => 'Top',
@@ -610,6 +620,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'policies'               => $policies,
 				'is_pro_active'          => $is_pro_active,
 				'tab_position_options'   => $tab_position_options,
+				'cookie_expiry_options'  => $cookie_expiry_options,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
@@ -890,6 +901,19 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options['is_ccpa_iab_on']           = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
 		$the_options['show_again']               = isset( $_POST['gcc-revoke-consent-enable'] ) && ( true === $_POST['gcc-revoke-consent-enable'] || 'true' === $_POST['gcc-revoke-consent-enable'] ) ? 'true' : 'false';
 		$the_options['show_again_position']      = isset( $_POST['gcc-tab-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-position'] ) ) : 'right';
+		$the_options['show_again_margin']        = isset( $_POST['gcc-tab-margin'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-margin'] ) ) : '5';
+		$the_options['show_again_text']          = isset( $_POST['gcc-tab-text'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-text'] ) ) : 'Cookie Settings';
+		$the_options['is_ticked']                = isset( $_POST['gcc-autotick'] ) && ( true === $_POST['gcc-autotick'] || 'true' === $_POST['gcc-autotick'] ) ? 'true' : 'false';
+		$the_options['auto_hide']                = isset( $_POST['gcc-auto-hide'] ) && ( true === $_POST['gcc-auto-hide'] || 'true' === $_POST['gcc-auto-hide'] ) ? 'true' : 'false';
+		$the_options['auto_hide_delay']          = isset( $_POST['gcc-auto-hide-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-hide-delay'] ) ) : '10000';
+		$the_options['auto_scroll']              = isset( $_POST['gcc-auto-scroll'] ) && ( true === $_POST['gcc-auto-scroll'] || 'true' === $_POST['gcc-auto-scroll'] ) ? 'true' : 'false';
+		$the_options['auto_scroll_offset']       = isset( $_POST['gcc-auto-scroll-offset'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-scroll-offset'] ) ) : '10';
+		$the_options['auto_scroll_reload']       = isset( $_POST['gcc-auto-scroll-reload'] ) && ( true === $_POST['gcc-auto-scroll-reload'] || 'true' === $_POST['gcc-auto-scroll-reload'] ) ? 'true' : 'false';
+		$the_options['accept_reload']            = isset( $_POST['gcc-accept-reload'] ) && ( true === $_POST['gcc-accept-reload'] || 'true' === $_POST['gcc-accept-reload'] ) ? 'true' : 'false';
+		$the_options['decline_reload']           = isset( $_POST['gcc-decline-reload'] ) && ( true === $_POST['gcc-decline-reload'] || 'true' === $_POST['gcc-decline-reload'] ) ? 'true' : 'false';
+		$the_options['delete_on_deactivation']   = isset( $_POST['gcc-delete-on-deactivation'] ) && ( true === $_POST['gcc-delete-on-deactivation'] || 'true' === $_POST['gcc-delete-on-deactivation'] ) ? 'true' : 'false';
+		$the_options['show_credits']             = isset( $_POST['gcc-show-credits'] ) && ( true === $_POST['gcc-show-credits'] || 'true' === $_POST['gcc-show-credits'] ) ? 'true' : 'false';
+		$the_options['cookie_expiry']            = isset( $_POST['gcc-cookie-expiry'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-cookie-expiry'] ) ) : '365';
 		$the_options                             = apply_filters( 'gdpr_save_settings', $the_options, $_POST );
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 		wp_send_json_success( array( 'form_options_saved' => true ) );

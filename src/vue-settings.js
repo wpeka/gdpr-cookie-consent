@@ -38,6 +38,21 @@ var gen = new Vue({
             is_revoke_consent_on: settings_obj.the_options.hasOwnProperty('show_again') && (true === settings_obj.the_options['show_again'] || 1 === settings_obj.the_options['show_again'] ) ? true : false,
             tab_position_options: settings_obj.tab_position_options,
             tab_position: settings_obj.the_options.hasOwnProperty('show_again_position') ? settings_obj.the_options['show_again_position'] : 'right',
+            tab_margin: settings_obj.the_options.hasOwnProperty('show_again_margin') ? settings_obj.the_options['show_again_margin'] : '5',
+            tab_text: settings_obj.the_options.hasOwnProperty('show_again_text') ? settings_obj.the_options['show_again_text'] : 'Cookie Settings',
+            show_revoke_card: this.is_gdpr || this.is_eprivacy,
+            autotick: settings_obj.the_options.hasOwnProperty('is_ticked') && (true === settings_obj.the_options['is_ticked'] || 1 === settings_obj.the_options['is_ticked'] ) ? true : false,
+            auto_hide: settings_obj.the_options.hasOwnProperty('auto_hide') && (true === settings_obj.the_options['auto_hide'] || 1 === settings_obj.the_options['auto_hide'] ) ? true : false,
+            auto_hide_delay: settings_obj.the_options.hasOwnProperty('auto_hide_delay') ? settings_obj.the_options['auto_hide_delay'] : '10000',
+            auto_scroll: settings_obj.the_options.hasOwnProperty('auto_scroll') && (true === settings_obj.the_options['auto_scroll'] || 1 === settings_obj.the_options['auto_scroll'] ) ? true : false,
+            auto_scroll_offset: settings_obj.the_options.hasOwnProperty('auto_scroll_offset') ? settings_obj.the_options['auto_scroll_offset'] : '10',
+            auto_scroll_reload: settings_obj.the_options.hasOwnProperty('auto_scroll_reload') && (true === settings_obj.the_options['auto_scroll_reload'] || 1 === settings_obj.the_options['auto_scroll_reload'] ) ? true : false,
+            accept_reload: settings_obj.the_options.hasOwnProperty('accept_reload') && (true === settings_obj.the_options['accept_reload'] || 1 === settings_obj.the_options['accept_reload'] ) ? true : false,
+            decline_reload: settings_obj.the_options.hasOwnProperty('decline_reload') && (true === settings_obj.the_options['decline_reload'] || 1 === settings_obj.the_options['decline_reload'] ) ? true : false,
+            delete_on_deactivation: settings_obj.the_options.hasOwnProperty('delete_on_deactivation') && (true === settings_obj.the_options['delete_on_deactivation'] || 1 === settings_obj.the_options['delete_on_deactivation'] ) ? true : false,
+            show_credits: settings_obj.the_options.hasOwnProperty('show_credits') && (true === settings_obj.the_options['show_credits'] || 1 === settings_obj.the_options['show_credits'] ) ? true : false,
+            cookie_expiry_options: settings_obj.cookie_expiry_options,
+            cookie_expiry: settings_obj.the_options.hasOwnProperty('cookie_expiry') ? settings_obj.the_options['cookie_expiry'] : '365',
             show_cookie_as_options: settings_obj.show_cookie_as_options,
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
@@ -58,17 +73,20 @@ var gen = new Vue({
                 this.is_gdpr = true;
                 this.is_eprivacy = false;
                 this.show_visitor_conditions = true;
+                this.show_revoke_card = true;
             }
             else if(this.gdpr_policy === 'ccpa') {
                 this.is_ccpa = true;
                 this.is_eprivacy = false;
                 this.is_gdpr = false;
                 this.show_visitor_conditions = true;
+                this.show_revoke_card = false;
             }
             else if(this.gdpr_policy === 'gdpr') {
                 this.is_gdpr = true;
                 this.is_ccpa = false;
                 this.is_eprivacy = false;
+                this.show_revoke_card = true;
                 if( settings_obj.is_pro_active ) {
                     this.show_visitor_conditions = true;
                 }
@@ -78,6 +96,7 @@ var gen = new Vue({
                 this.is_gdpr = false;
                 this.is_ccpa = false;
                 this.show_visitor_conditions = false;
+                this.show_revoke_card = true;
             }
         },
         onSwitchCookieEnable() {
@@ -95,23 +114,50 @@ var gen = new Vue({
         onSwitchRevokeConsentEnable() {
             this.is_revoke_consent_on = !this.is_revoke_consent_on;
         },
+        onSwitchAutotick() {
+            this.autotick = !this.autotick;
+        },
+        onSwitchAutoHide() {
+            this.auto_hide = !this.auto_hide;
+        },
+        onSwitchAutoScroll() {
+            this.auto_scroll = !this.auto_scroll;
+        },
+        onSwitchAutoScrollReload() {
+            this.auto_scroll_reload = !this.auto_scroll_reload;
+        },
+        onSwitchAcceptReload() {
+            this.accept_reload = !this.accept_reload;
+        },
+        onSwitchDeclineReload() {
+            this.decline_reload = !this.decline_reload;
+        },
+        onSwitchDeleteOnDeactivation() {
+            this.delete_on_deactivation = !this.delete_on_deactivation;
+        },
+        onSwitchShowCredits() {
+            this.show_credits = !this.show_credits;
+        },
         cookiePolicyChange( value ) {
             if(value === 'both') {
                 this.is_ccpa = true;
                 this.is_gdpr = true;
                 this.is_eprivacy = false;
                 this.show_visitor_conditions = true;
+                this.show_revoke_card = true;
             }
             else if(value === 'ccpa') {
                 this.is_ccpa = true;
                 this.is_eprivacy = false;
                 this.is_gdpr = false;
                 this.show_visitor_conditions = true;
+                this.show_revoke_card = false;
             }
             else if(value === 'gdpr') {
                 this.is_gdpr = true;
                 this.is_ccpa = false;
                 this.is_eprivacy = false;
+                this.show_revoke_card = true;
                 if( settings_obj.is_pro_active ) {
                     this.show_visitor_conditions = true;
                 }
@@ -121,6 +167,7 @@ var gen = new Vue({
                 this.is_gdpr = false;
                 this.is_ccpa = false;
                 this.show_visitor_conditions = false;
+                this.show_revoke_card = true;
             }
         },
         saveCookieSettings() {
