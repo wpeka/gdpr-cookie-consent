@@ -605,6 +605,24 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Right',
 			'code'  => 'right',
 		);
+		$posts_list                = get_posts();
+		$pages_list                = get_pages();
+		$list_of_contents          = array();
+		$index                     = 0;
+		foreach ( $posts_list as $post ) {
+			$list_of_contents[ $index ] = array(
+				'label' => $post->post_title,
+				'code'  => $post->ID,
+			);
+			$index ++;
+		}
+		foreach ( $pages_list as $page ) {
+			$list_of_contents[ $index ] = array(
+				'label' => $page->post_title,
+				'code'  => $page->ID,
+			);
+			$index ++;
+		}
 		$border_styles   = self::get_background_border_styles();
 		$styles_length = count( $border_styles );
 		$styles_keys     = array_keys( $border_styles );
@@ -631,7 +649,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'is_pro_active'          => $is_pro_active,
 				'tab_position_options'   => $tab_position_options,
 				'cookie_expiry_options'  => $cookie_expiry_options,
-				'border_style_options'	 => $border_style_options,
+				'list_of_contents'       => $list_of_contents,
+				'border_style_options'   => $border_style_options,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );

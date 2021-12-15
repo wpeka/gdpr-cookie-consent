@@ -53,6 +53,10 @@ var gen = new Vue({
             show_credits: settings_obj.the_options.hasOwnProperty('show_credits') && (true === settings_obj.the_options['show_credits'] || 1 === settings_obj.the_options['show_credits'] ) ? true : false,
             cookie_expiry_options: settings_obj.cookie_expiry_options,
             cookie_expiry: settings_obj.the_options.hasOwnProperty('cookie_expiry') ? settings_obj.the_options['cookie_expiry'] : '365',
+            show_credits: settings_obj.the_options.hasOwnProperty('show_credits') && (true === settings_obj.the_options['show_credits'] || 1 === settings_obj.the_options['show_credits'] ) ? true : false,
+            logging_on: settings_obj.the_options.hasOwnProperty('logging_on') && (true === settings_obj.the_options['logging_on'] || 1 === settings_obj.the_options['logging_on'] ) ? true : false,
+            list_of_contents: settings_obj.list_of_contents,
+            restrict_posts: settings_obj.the_options.hasOwnProperty('restrict_posts') ? settings_obj.the_options['restrict_posts'] : [],
             show_cookie_as_options: settings_obj.show_cookie_as_options,
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
@@ -107,6 +111,16 @@ var gen = new Vue({
                 this.show_visitor_conditions = false;
                 this.show_revoke_card = true;
             }
+            let navLinks = j('.nav-link').map(function () {
+                return this.getAttribute('href');
+            });
+            for (let i = 0; i < navLinks.length; i++) {
+                let re = new RegExp(navLinks[i]);
+                if (window.location.href.match(re)) {
+                    this.$refs.active_tab.activeTabIndex = i;
+                    break;
+                }
+            }
         },
         onSwitchCookieEnable() {
             this.cookie_is_on = !this.cookie_is_on;
@@ -149,6 +163,9 @@ var gen = new Vue({
         },
         onSwitchShowCredits() {
             this.show_credits = !this.show_credits;
+        },
+        onSwitchLoggingOn() {
+            this.logging_on = !this.logging_on;
         },
         cookiePolicyChange( value ) {
             if(value === 'both') {
