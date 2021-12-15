@@ -1014,3 +1014,10 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
+.gdpr-slider-select input{
+	padding: 0px;
+}
+.gdpr-slider-select{
+	width: 80%;
+    margin-right: 1%;
+}
