@@ -982,6 +982,9 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .card-body .row .col.col-sm-8 .c-switch-3d-success .c-switch-input:checked+.c-switch-slider {
     border-color: #2eb85c;
 }
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .row {
+    margin-bottom: 0.5rem;
+}
 #gdpr-cookie-consent-save-settings-alert{
 	position: fixed;
     background-color: #72b85c;
