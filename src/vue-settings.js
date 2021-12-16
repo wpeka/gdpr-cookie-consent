@@ -57,6 +57,29 @@ var gen = new Vue({
             logging_on: settings_obj.the_options.hasOwnProperty('logging_on') && (true === settings_obj.the_options['logging_on'] || 1 === settings_obj.the_options['logging_on'] ) ? true : false,
             list_of_contents: settings_obj.list_of_contents,
             restrict_posts: settings_obj.the_options.hasOwnProperty('restrict_posts') ? settings_obj.the_options['restrict_posts'] : [],
+            restrict_array: [],
+            button_readmore_is_on: settings_obj.the_options.hasOwnProperty('button_readmore_is_on') && (true === settings_obj.the_options['button_readmore_is_on'] || 1 === settings_obj.the_options['button_readmore_is_on'] ) ? true : false,
+            button_readmore_text: settings_obj.the_options.hasOwnProperty('button_readmore_text') ? settings_obj.the_options['button_readmore_text'] : 'Read More',
+            button_readmore_link_color: settings_obj.the_options.hasOwnProperty('button_readmore_link_color') ? settings_obj.the_options['button_readmore_link_color'] : '#359bf5',
+            show_as_options: settings_obj.show_as_options,
+            button_readmore_as_button: settings_obj.the_options.hasOwnProperty('button_readmore_as_button') && (true === settings_obj.the_options['button_readmore_as_button'] || 1 === settings_obj.the_options['button_readmore_as_button'] ) ? true : false,
+            url_type_options: settings_obj.url_type_options,
+            button_readmore_url_type: settings_obj.the_options.hasOwnProperty('button_readmore_url_type') && (false === settings_obj.the_options['button_readmore_url_type'] || 0 === settings_obj.the_options['button_readmore_url_type'] ) ? false : true,
+            privacy_policy_options: settings_obj.privacy_policy_options,
+            button_readmore_page: settings_obj.the_options.hasOwnProperty('button_readmore_page') ? settings_obj.the_options['button_readmore_page'] : '0',
+            readmore_page: '',
+            button_readmore_wp_page: settings_obj.the_options.hasOwnProperty('button_readmore_wp_page') && (true === settings_obj.the_options['button_readmore_wp_page'] || 1 === settings_obj.the_options['button_readmore_wp_page'] ) ? true : false,
+            button_readmore_new_win: settings_obj.the_options.hasOwnProperty('button_readmore_new_win') && (true === settings_obj.the_options['button_readmore_new_win'] || 1 === settings_obj.the_options['button_readmore_new_win'] ) ? true : false,
+            button_readmore_url: settings_obj.the_options.hasOwnProperty('button_readmore_url') ? settings_obj.the_options['button_readmore_url'] : '#',
+            button_readmore_button_color: settings_obj.the_options.hasOwnProperty('button_readmore_button_color') ? settings_obj.the_options['button_readmore_button_color'] : '#000000',
+            button_readmore_button_opacity: settings_obj.the_options.hasOwnProperty('button_readmore_button_opacity') ? settings_obj.the_options['button_readmore_button_opacity'] : '1',
+            button_readmore_button_border_style: settings_obj.the_options.hasOwnProperty('button_readmore_button_border_style') ? settings_obj.the_options['button_readmore_button_border_style'] : 'none',
+            button_readmore_button_border_width: settings_obj.the_options.hasOwnProperty('button_readmore_button_border_width') ? settings_obj.the_options['button_readmore_button_border_width'] : '0',
+            button_readmore_button_border_color: settings_obj.the_options.hasOwnProperty('button_readmore_button_border_color') ? settings_obj.the_options['button_readmore_button_border_color'] : '#000000',
+            button_readmore_button_border_radius: settings_obj.the_options.hasOwnProperty('button_readmore_button_border_radius') ? settings_obj.the_options['button_readmore_button_border_radius'] : '0',
+            button_readmore_button_size: settings_obj.the_options.hasOwnProperty('button_readmore_button_size') ? settings_obj.the_options['button_readmore_button_size'] : 'medium',
+            button_size_options: settings_obj.button_size_options,
+            button_readmore_button_size: settings_obj.the_options.hasOwnProperty('button_readmore_button_size') ? settings_obj.the_options['button_readmore_button_size'] : 'medium',
             show_cookie_as_options: settings_obj.show_cookie_as_options,
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
@@ -127,6 +150,17 @@ var gen = new Vue({
                 this.show_visitor_conditions = false;
                 this.show_revoke_card = true;
             }
+            for(let i=0; i<this.list_of_contents.length; i++) {
+                if( this.restrict_posts.includes(this.list_of_contents[i].code.toString()) ) {
+                    this.restrict_array.push(this.list_of_contents[i])
+                }
+            }
+            for( let i=0;i<this.privacy_policy_options.length; i++ ) {
+                if( this.button_readmore_page == this.privacy_policy_options[i].code ) {
+                    this.readmore_page = this.privacy_policy_options[i].label;
+                    break;
+                }
+            }
             let navLinks = j('.nav-link').map(function () {
                 return this.getAttribute('href');
             });
@@ -196,6 +230,25 @@ var gen = new Vue({
                 this.is_open_url = true;
             }
         }, 
+        onSwitchButtonReadMoreIsOn() {
+            this.button_readmore_is_on = !this.button_readmore_is_on;
+        },
+        onSwitchButtonReadMoreWpPage() {
+            this.button_readmore_wp_page = !this.button_readmore_wp_page;
+        },
+        onSwitchButtonReadMoreNewWin() {
+            this.button_readmore_new_win = !this.button_readmore_new_win;
+        },
+        onPostsSelect(value){
+            let temp_array = [];
+            for(let i=0; i<value.length; i++) {
+                temp_array[i] = value[i];
+            }
+            this.restrict_posts = temp_array;
+        },
+        onSelectPrivacyPage(value){
+            this.button_readmore_page = value;
+        },
         cookiePolicyChange( value ) {
             if(value === 'both') {
                 this.is_ccpa = true;
