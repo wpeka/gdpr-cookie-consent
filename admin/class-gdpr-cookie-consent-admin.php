@@ -693,22 +693,21 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => $button_actions[ $action_keys[ $i ] ],
 			);
 		}
-		$accept_button_as_options           = array();
-		$accept_button_as_options[0]        = array(
+		$accept_button_as_options    = array();
+		$accept_button_as_options[0] = array(
 			'label' => 'Button',
 			'code'  => true,
 		);
-		$accept_button_as_options[1]        = array(
+		$accept_button_as_options[1] = array(
 			'label' => 'Link',
 			'code'  => false,
 		);
-		
-		$open_url_options           = array();
-		$open_url_options[0]        = array(
+		$open_url_options            = array();
+		$open_url_options[0]         = array(
 			'label' => 'Yes',
 			'code'  => true,
 		);
-		$open_url_options[1]        = array(
+		$open_url_options[1]         = array(
 			'label' => 'No',
 			'code'  => false,
 		);
@@ -722,9 +721,6 @@ class Gdpr_Cookie_Consent_Admin {
 				'position_options'         => $position_options,
 				'show_cookie_as_options'   => $show_cookie_as_options,
 				'on_hide_options'          => $on_hide_options,
-				'the_options'              => $settings,
-				'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
-				'policies'                 => $policies,
 				'is_pro_active'            => $is_pro_active,
 				'tab_position_options'     => $tab_position_options,
 				'cookie_expiry_options'    => $cookie_expiry_options,
