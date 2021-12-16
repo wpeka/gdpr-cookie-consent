@@ -74,6 +74,22 @@ var gen = new Vue({
             cookie_accept_on: settings_obj.the_options.hasOwnProperty('button_accept_is_on') && (true === settings_obj.the_options['button_accept_is_on'] || 1 === settings_obj.the_options['button_accept_is_on'] ) ? true : false,
             accept_text: settings_obj.the_options.hasOwnProperty('button_accept_text') ? settings_obj.the_options['button_accept_text'] : 'Accept',
             accept_text_color: settings_obj.the_options.hasOwnProperty('button_accept_link_color') ? settings_obj.the_options['button_accept_link_color'] : '#ffffff',
+            accept_size_options : settings_obj.accept_size_options,
+            accept_size: settings_obj.the_options.hasOwnProperty('button_accept_button_size') ? settings_obj.the_options['button_accept_button_size'] : 'medium',
+            accept_action_options : settings_obj.accept_action_options,
+            accept_action: settings_obj.the_options.hasOwnProperty('button_accept_action') ? settings_obj.the_options['button_accept_action'] : '#cookie_action_close_header',
+            accept_url: settings_obj.the_options.hasOwnProperty('button_accept_url') ? settings_obj.the_options['button_accept_url'] : '#',
+            is_open_url: this.accept_action === '#cookie_action_close_header' ? false : true,
+            accept_as_button_options: settings_obj.accept_button_as_options,
+            accept_as_button: settings_obj.the_options.hasOwnProperty('button_accept_as_button') && ( true === settings_obj.the_options['button_accept_as_button'] || 1 === settings_obj.the_options['button_accept_as_button'] ) ? true : false,
+            open_url_options: settings_obj.open_url_options,
+            open_url: settings_obj.the_options.hasOwnProperty('button_accept_new_win') && ( true === settings_obj.the_options['button_accept_new_win'] || 1 === settings_obj.the_options['button_accept_new_win'] ) ? true : false,
+            accept_background_color: settings_obj.the_options.hasOwnProperty('button_accept_button_color') ? settings_obj.the_options['button_accept_button_color'] : '#18a300',
+            accept_opacity: settings_obj.the_options.hasOwnProperty('button_accept_button_opacity') ? settings_obj.the_options['button_accept_button_opacity'] : '1',
+            accept_style: settings_obj.the_options.hasOwnProperty('button_accept_button_border_style') ? settings_obj.the_options['button_accept_button_border_style'] : 'none',
+            accept_border_color: settings_obj.the_options.hasOwnProperty('button_accept_button_border_color') ? settings_obj.the_options['button_accept_button_border_color'] : '#18a300',
+            accept_border_width: settings_obj.the_options.hasOwnProperty('button_accept_button_border_width') ? settings_obj.the_options['button_accept_button_border_width'] : '0',
+            accept_border_radius: settings_obj.the_options.hasOwnProperty('button_accept_button_border_radius') ? settings_obj.the_options['button_accept_button_border_radius'] : '0',
         }
     },
     methods: {
@@ -121,6 +137,11 @@ var gen = new Vue({
                     break;
                 }
             }
+            if(this.accept_action === "#cookie_action_close_header"){
+                this.is_open_url = false;
+            }else{
+                this.is_open_url = true;
+            }
         },
         onSwitchCookieEnable() {
             this.cookie_is_on = !this.cookie_is_on;
@@ -167,6 +188,14 @@ var gen = new Vue({
         onSwitchLoggingOn() {
             this.logging_on = !this.logging_on;
         },
+        cookieAcceptChange( value ) {
+            if(value === '#cookie_action_close_header') {
+                this.is_open_url = false;
+            }
+            else{
+                this.is_open_url = true;
+            }
+        }, 
         cookiePolicyChange( value ) {
             if(value === 'both') {
                 this.is_ccpa = true;
