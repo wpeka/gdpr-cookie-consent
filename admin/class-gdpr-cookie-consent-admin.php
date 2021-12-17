@@ -693,22 +693,21 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => $button_actions[ $action_keys[ $i ] ],
 			);
 		}
-		$accept_button_as_options           = array();
-		$accept_button_as_options[0]        = array(
+		$accept_button_as_options    = array();
+		$accept_button_as_options[0] = array(
 			'label' => 'Button',
 			'code'  => true,
 		);
-		$accept_button_as_options[1]        = array(
+		$accept_button_as_options[1] = array(
 			'label' => 'Link',
 			'code'  => false,
 		);
-		
-		$open_url_options           = array();
-		$open_url_options[0]        = array(
+		$open_url_options            = array();
+		$open_url_options[0]         = array(
 			'label' => 'Yes',
 			'code'  => true,
 		);
-		$open_url_options[1]        = array(
+		$open_url_options[1]         = array(
 			'label' => 'No',
 			'code'  => false,
 		);
@@ -722,9 +721,6 @@ class Gdpr_Cookie_Consent_Admin {
 				'position_options'         => $position_options,
 				'show_cookie_as_options'   => $show_cookie_as_options,
 				'on_hide_options'          => $on_hide_options,
-				'the_options'              => $settings,
-				'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
-				'policies'                 => $policies,
 				'is_pro_active'            => $is_pro_active,
 				'tab_position_options'     => $tab_position_options,
 				'cookie_expiry_options'    => $cookie_expiry_options,
@@ -1067,6 +1063,10 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options['button_readmore_button_border_color'] = isset( $_POST['gcc-readmore-button-border-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-color'] ) ) : '#000000';
 		$the_options['button_readmore_button_border_radius'] = isset( $_POST['gcc-readmore-button-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-radius'] ) ) : '0';
 		$the_options['button_readmore_button_size']          = isset( $_POST['gcc-readmore-button-size'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-size'] ) ) : 'medium';
+		$the_options['is_script_blocker_on']                 = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
+		$the_options['header_scripts']                       = isset( $_POST['gcc-header-scripts'] ) ? $_POST['gcc-header-scripts'] : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		$the_options['body_scripts']                         = isset( $_POST['gcc-body-scripts'] ) ? $_POST['gcc-body-scripts'] : '';
+		$the_options['footer_scripts']                       = isset( $_POST['gcc-footer-scripts'] ) ? $_POST['gcc-footer-scripts'] : '';
 		$the_options = apply_filters( 'gdpr_save_settings', $the_options, $_POST );
 
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
