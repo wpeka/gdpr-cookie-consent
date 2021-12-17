@@ -4,11 +4,14 @@ import vSelect from 'vue-select';
 import { VueEditor } from "vue2-editor";
 import '@coreui/coreui/dist/css/coreui.min.css';
 import 'vue-select/dist/vue-select.css';
+import VueModal from '@kouts/vue-modal'
+import '@kouts/vue-modal/dist/vue-modal.css';
 
 import { cilPencil, cilSettings, cilInfo, cibGoogleKeep } from '@coreui/icons';
 Vue.use(CoreuiVue);
 Vue.component('v-select', vSelect);
 Vue.component('vue-editor', VueEditor);
+Vue.component('v-modal', VueModal);
 
 const j = jQuery.noConflict();
 
@@ -144,8 +147,6 @@ var gen = new Vue({
             settings_border_width: settings_obj.the_options.hasOwnProperty('button_settings_button_border_width') ? settings_obj.the_options['button_settings_button_border_width'] : '0',
             settings_border_radius: settings_obj.the_options.hasOwnProperty('button_settings_button_border_radius') ? settings_obj.the_options['button_settings_button_border_radius'] : '0',
             settings_size: settings_obj.the_options.hasOwnProperty('button_settings_button_size') ? settings_obj.the_options['button_settings_button_size'] : 'medium',
-            
-
             //cookie_confirm_on: settings_obj.the_options.hasOwnProperty('button_settings_is_on') && (true === settings_obj.the_options['button_settings_is_on'] || 1 === settings_obj.the_options['button_settings_is_on'] ) ? true : false,
             confirm_text: settings_obj.the_options.hasOwnProperty('button_confirm_text') ? settings_obj.the_options['button_confirm_text'] : 'Confirm',
             confirm_text_color: settings_obj.the_options.hasOwnProperty('button_confirm_link_color') ? settings_obj.the_options['button_confirm_link_color'] : '#ffffff',
@@ -157,7 +158,10 @@ var gen = new Vue({
             confirm_border_width: settings_obj.the_options.hasOwnProperty('button_confirm_button_border_width') ? settings_obj.the_options['button_confirm_button_border_width'] : '0',
             confirm_border_radius: settings_obj.the_options.hasOwnProperty('button_confirm_button_border_radius') ? settings_obj.the_options['button_confirm_button_border_radius'] : '0',
             confirm_size: settings_obj.the_options.hasOwnProperty('button_confirm_button_size') ? settings_obj.the_options['button_confirm_button_size'] : 'medium',
-            
+            is_script_blocker_on: settings_obj.the_options.hasOwnProperty('is_script_blocker_on') && (true === settings_obj.the_options['is_script_blocker_on'] || 1 === settings_obj.the_options['is_script_blocker_on'] ) ? true : false,
+            header_scripts: settings_obj.the_options.hasOwnProperty('header_scripts') ? this.stripSlashes(settings_obj.the_options['header_scripts']) : "",
+            body_scripts: settings_obj.the_options.hasOwnProperty('body_scripts') ? this.stripSlashes(settings_obj.the_options['body_scripts']) : "",
+            footer_scripts: settings_obj.the_options.hasOwnProperty('footer_scripts') ? this.stripSlashes(settings_obj.the_options['footer_scripts']) : "",
         }
     },
     methods: {
@@ -296,6 +300,9 @@ var gen = new Vue({
         },
         onSwitchButtonReadMoreNewWin() {
             this.button_readmore_new_win = !this.button_readmore_new_win;
+        },
+        onSwitchScriptBlocker(){
+            this.is_script_blocker_on = !this.is_script_blocker_on;
         },
         onPostsSelect(value){
             let temp_array = [];

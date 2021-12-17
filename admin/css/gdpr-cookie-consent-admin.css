@@ -1024,3 +1024,9 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	width: 80%;
     margin-right: 1%;
 }
+.gdpr-cookie-consent-description {
+	color: #aaa;
+	font-style: italic;
+	font-weight: 250;
+	font-size: 12px;
+}

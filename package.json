@@ -22,6 +22,7 @@
     "@coreui/coreui": "^3.4.0",
     "@coreui/icons": "^2.0.1",
     "@coreui/vue": "^3.2.11",
+    "@kouts/vue-modal": "^2.1.4",
     "css-loader": "^6.5.1",
     "grunt-shell": "^3.0.1",
     "path": "^0.12.7",
