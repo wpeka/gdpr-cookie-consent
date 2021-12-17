@@ -807,6 +807,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											<c-textarea :rows="4" name="gcc-footer-scripts" v-model="footer_scripts"></c-textarea>
 										</c-col>
 									</c-row>
+									<?php do_action( 'gdpr_settings_script_blocker_card' ); ?>
 								</c-card-body>
 						</c-card>
 					</c-tab>		

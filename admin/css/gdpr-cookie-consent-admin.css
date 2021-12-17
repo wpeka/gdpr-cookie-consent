@@ -1030,3 +1030,73 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	font-weight: 250;
 	font-size: 12px;
 }
+
+/***Vue Modal CSS***/
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm {
+    max-width: 900px;
+	left: 5%;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .vm-content{
+    padding: 0;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .vm-titlebar .vm-title {
+	padding-left: 1.25rem;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .vm-titlebar .vm-btn-close {
+	padding-right: 1.25rem;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .vm-titlebar .vm-btn-close:focus {
+	outline: none;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card{
+    border: none;
+	margin: 0;
+	padding: 0;
+	min-width: 100%;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card .gdpr-script-blocker-table {
+	border: 1px solid #cccccc;
+    border-spacing: 1px;
+	padding: 0;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card .card-body .gdpr-script-blocker-header {
+	font-weight: 600;
+	background: #e5e5e5;
+	margin: 0;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card .card-body .gdpr-script-blocker-header .col {
+	vertical-align: top;
+	text-align: center;
+	padding: 0.8rem 0.5rem;
+	border: 1px solid white;
+	color: #1d2327;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card .card-body .gdpr-script-blocker-data {
+	margin: 0;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card .card-body .gdpr-script-blocker-data-even {
+	background: #e5e5e5;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card .card-body .gdpr-script-blocker-data .col {
+	vertical-align: bottom;
+	text-align: center;
+	padding: 0.6rem 0.5rem;
+	border: 1px solid white;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card .card-body .row .col.col-sm-3 div.form-group.v-select {
+    background-color: white;
+	margin-bottom: 0;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card .card-body .row .col.col-sm-3 div.form-group.v-select input[type="search"] {
+    border: unset;
+    color: inherit;
+    margin: 0;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card .card-body .row .col.col-sm-3 div.form-group.v-select input[type="search"]:focus {
+    box-shadow: unset;
+    margin: 0;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm .card .card-body .row .col.col-sm-3 div.form-group.v-select:focus-within {
+    box-shadow: 0 0 0 1px #2271b1;
+    border-radius: 0.25rem;
+}
