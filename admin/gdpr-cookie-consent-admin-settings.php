@@ -26,7 +26,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 				</div>
 			</div>
 			<div class="gdpr-cookie-consent-settings-content">
-				<div id="gdpr-cookie-consent-save-settings-alert">Settings saved</div>	
+				<div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>	
+				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>	
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#compliances">
 						<c-card>
