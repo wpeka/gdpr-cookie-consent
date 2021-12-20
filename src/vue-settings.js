@@ -23,6 +23,11 @@ var gen = new Vue({
                 labelOn: '\u2713',
                 labelOff: '\u2715'
             },
+            appendField: ".gdpr-cookie-consent-settings-container",
+            show_script_blocker: false,
+            scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['total'] : 0,
+            scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
+            category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
             cookie_is_on: settings_obj.the_options.hasOwnProperty('is_on') && (true === settings_obj.the_options['is_on'] || 1 === settings_obj.the_options['is_on'] ) ? true : false,
             policy_options: settings_obj.policies,
             gdpr_policy: settings_obj.the_options.hasOwnProperty('cookie_usage_for') ? settings_obj.the_options['cookie_usage_for'] : 'gdpr',
@@ -172,7 +177,6 @@ var gen = new Vue({
             cancel_size: settings_obj.the_options.hasOwnProperty('button_cancel_button_size') ? settings_obj.the_options['button_cancel_button_size'] : 'medium',
             opt_out_text: settings_obj.the_options.hasOwnProperty('button_donotsell_text') ? settings_obj.the_options['button_donotsell_text'] : 'Do Not Sell My Personal Information',
             opt_out_text_color: settings_obj.the_options.hasOwnProperty('button_donotsell_link_color') ? settings_obj.the_options['button_donotsell_link_color'] : '#359bf5',
-            
             is_script_blocker_on: settings_obj.the_options.hasOwnProperty('is_script_blocker_on') && (true === settings_obj.the_options['is_script_blocker_on'] || 1 === settings_obj.the_options['is_script_blocker_on'] ) ? true : false,
             header_scripts: settings_obj.the_options.hasOwnProperty('header_scripts') ? this.stripSlashes(settings_obj.the_options['header_scripts']) : "",
             body_scripts: settings_obj.the_options.hasOwnProperty('body_scripts') ? this.stripSlashes(settings_obj.the_options['body_scripts']) : "",
@@ -223,6 +227,15 @@ var gen = new Vue({
                 if( this.button_readmore_page == this.privacy_policy_options[i].code ) {
                     this.readmore_page = this.privacy_policy_options[i].label;
                     break;
+                }
+            }
+            for( let i=0; i<this.scripts_list_total; i++ ) {
+                this.scripts_list_data[i]['script_status'] = Boolean( parseInt( this.scripts_list_data[i]['script_status'] ) );
+                for( let j=0; j<this.category_list_options.length; j++) {
+                    if( this.category_list_options[j].code === this.scripts_list_data[i]['script_category'].toString() ) {
+                        this.scripts_list_data[i]['script_category_label'] = this.category_list_options[j].label;
+                        break;
+                    }
                 }
             }
             let navLinks = j('.nav-link').map(function () {
@@ -386,6 +399,9 @@ var gen = new Vue({
         },
         onSwitchCookieOnFrontend(){
             this.cookie_on_frontend = !this.cookie_on_frontend;
+        },
+        showScriptBlockerForm() {
+            this.show_script_blocker = !this.show_script_blocker;
         },
         saveCookieSettings() {
             jQuery("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
