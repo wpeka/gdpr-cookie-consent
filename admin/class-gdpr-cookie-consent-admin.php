@@ -742,7 +742,7 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$settings_layout_options_extended    = array();
 		$settings_layout_options_extended[0] = end( $settings_layout_options );
-		$script_blocker_settings     = apply_filters( 'gdpr_settings_script_blocker_values', '' );
+		$script_blocker_settings             = apply_filters( 'gdpr_settings_script_blocker_values', '' );
 		wp_localize_script(
 			$this->plugin_name . '-main',
 			'settings_obj',
@@ -1152,9 +1152,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_cancel_button_size']            = isset( $_POST['gdpr-cookie-cancel-size'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-cancel-size'] ) ) : 'medium';
 			$the_options['button_donotsell_text']                = isset( $_POST['gcc-opt-out-text'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-opt-out-text'] ) ) : 'Do Not Sell My Personal Information';
 			$the_options['button_donotsell_link_color']          = isset( $_POST['gdpr-cookie-opt-out-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-opt-out-text-color'] ) ) : '#359bf5';
-			
 			$the_options = apply_filters( 'gdpr_save_settings', $the_options, $_POST );
-			
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			wp_send_json_success( array( 'form_options_saved' => true ) );
 		}
