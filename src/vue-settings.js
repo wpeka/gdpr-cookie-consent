@@ -142,6 +142,10 @@ var gen = new Vue({
             decline_url: settings_obj.the_options.hasOwnProperty('button_decline_url') ? settings_obj.the_options['button_decline_url'] : '#',
             open_decline_url: settings_obj.the_options.hasOwnProperty('button_decline_new_win') && ( true === settings_obj.the_options['button_decline_new_win'] || 1 === settings_obj.the_options['button_decline_new_win'] ) ? true : false,
             cookie_settings_on: settings_obj.the_options.hasOwnProperty('button_settings_is_on') && (true === settings_obj.the_options['button_settings_is_on'] || 1 === settings_obj.the_options['button_settings_is_on'] ) ? true : false,
+            settings_layout_options: settings_obj.settings_layout_options,
+            settings_layout_options_extended: settings_obj.settings_layout_options_extended,
+            settings_layout: settings_obj.the_options.hasOwnProperty('button_settings_as_popup') && ( true === settings_obj.the_options['button_settings_as_popup'] || 1 === settings_obj.the_options['button_settings_as_popup'] ) ? true : false,
+            is_banner : this.show_cookie_as === 'banner' ? true :false,
             settings_text: settings_obj.the_options.hasOwnProperty('button_settings_text') ? settings_obj.the_options['button_settings_text'] : 'Cookie Settings',
             settings_text_color: settings_obj.the_options.hasOwnProperty('button_settings_link_color') ? settings_obj.the_options['button_settings_link_color'] : '#ffffff',
             settings_as_button: settings_obj.the_options.hasOwnProperty('button_settings_as_button') && ( true === settings_obj.the_options['button_settings_as_button'] || 1 === settings_obj.the_options['button_settings_as_button'] ) ? true : false,
@@ -152,17 +156,27 @@ var gen = new Vue({
             settings_border_width: settings_obj.the_options.hasOwnProperty('button_settings_button_border_width') ? settings_obj.the_options['button_settings_button_border_width'] : '0',
             settings_border_radius: settings_obj.the_options.hasOwnProperty('button_settings_button_border_radius') ? settings_obj.the_options['button_settings_button_border_radius'] : '0',
             settings_size: settings_obj.the_options.hasOwnProperty('button_settings_button_size') ? settings_obj.the_options['button_settings_button_size'] : 'medium',
-            //cookie_confirm_on: settings_obj.the_options.hasOwnProperty('button_settings_is_on') && (true === settings_obj.the_options['button_settings_is_on'] || 1 === settings_obj.the_options['button_settings_is_on'] ) ? true : false,
+            cookie_on_frontend: settings_obj.the_options.hasOwnProperty('button_settings_display_cookies') && (true === settings_obj.the_options['button_settings_display_cookies'] || 1 === settings_obj.the_options['button_settings_display_cookies'] ) ? true : false,
             confirm_text: settings_obj.the_options.hasOwnProperty('button_confirm_text') ? settings_obj.the_options['button_confirm_text'] : 'Confirm',
             confirm_text_color: settings_obj.the_options.hasOwnProperty('button_confirm_link_color') ? settings_obj.the_options['button_confirm_link_color'] : '#ffffff',
-            //confirm_as_button: settings_obj.the_options.hasOwnProperty('button_settings_as_button') && ( true === settings_obj.the_options['button_settings_as_button'] || 1 === settings_obj.the_options['button_settings_as_button'] ) ? true : false,
             confirm_background_color: settings_obj.the_options.hasOwnProperty('button_confirm_button_color') ? settings_obj.the_options['button_confirm_button_color'] : '#18a300',
             confirm_opacity: settings_obj.the_options.hasOwnProperty('button_confirm_button_opacity_field') ? settings_obj.the_options['button_confirm_button_opacity_field'] : '1',
             confirm_style: settings_obj.the_options.hasOwnProperty('button_confirm_button_border_style') ? settings_obj.the_options['button_confirm_button_border_style'] : 'none',
             confirm_border_color: settings_obj.the_options.hasOwnProperty('button_confirm_button_border_color') ? settings_obj.the_options['button_confirm_button_border_color'] : '#18a300',
             confirm_border_width: settings_obj.the_options.hasOwnProperty('button_confirm_button_border_width') ? settings_obj.the_options['button_confirm_button_border_width'] : '0',
             confirm_border_radius: settings_obj.the_options.hasOwnProperty('button_confirm_button_border_radius') ? settings_obj.the_options['button_confirm_button_border_radius'] : '0',
-            confirm_size: settings_obj.the_options.hasOwnProperty('button_confirm_button_size') ? settings_obj.the_options['button_confirm_button_size'] : 'medium',
+            confirm_size: settings_obj.the_options.hasOwnProperty('button_confirm_button_size') ? settings_obj.the_options['button_confirm_button_size'] : 'medium',            
+            cancel_text: settings_obj.the_options.hasOwnProperty('button_cancel_text') ? settings_obj.the_options['button_cancel_text'] : 'Cancel',
+            cancel_text_color: settings_obj.the_options.hasOwnProperty('button_cancel_link_color') ? settings_obj.the_options['button_cancel_link_color'] : '#ffffff',
+            cancel_background_color: settings_obj.the_options.hasOwnProperty('button_cancel_button_color') ? settings_obj.the_options['button_cancel_button_color'] : '#333333',
+            cancel_opacity: settings_obj.the_options.hasOwnProperty('button_cancel_button_opacity_field') ? settings_obj.the_options['button_cancel_button_opacity_field'] : '1',
+            cancel_style: settings_obj.the_options.hasOwnProperty('button_cancel_button_border_style') ? settings_obj.the_options['button_cancel_button_border_style'] : 'none',
+            cancel_border_color: settings_obj.the_options.hasOwnProperty('button_cancel_button_border_color') ? settings_obj.the_options['button_cancel_button_border_color'] : '#333333',
+            cancel_border_width: settings_obj.the_options.hasOwnProperty('button_cancel_button_border_width') ? settings_obj.the_options['button_cancel_button_border_width'] : '0',
+            cancel_border_radius: settings_obj.the_options.hasOwnProperty('button_cancel_button_border_radius') ? settings_obj.the_options['button_cancel_button_border_radius'] : '0',
+            cancel_size: settings_obj.the_options.hasOwnProperty('button_cancel_button_size') ? settings_obj.the_options['button_cancel_button_size'] : 'medium',
+            opt_out_text: settings_obj.the_options.hasOwnProperty('button_donotsell_text') ? settings_obj.the_options['button_donotsell_text'] : 'Do Not Sell My Personal Information',
+            opt_out_text_color: settings_obj.the_options.hasOwnProperty('button_donotsell_link_color') ? settings_obj.the_options['button_donotsell_link_color'] : '#359bf5',
             is_script_blocker_on: settings_obj.the_options.hasOwnProperty('is_script_blocker_on') && (true === settings_obj.the_options['is_script_blocker_on'] || 1 === settings_obj.the_options['is_script_blocker_on'] ) ? true : false,
             header_scripts: settings_obj.the_options.hasOwnProperty('header_scripts') ? this.stripSlashes(settings_obj.the_options['header_scripts']) : "",
             body_scripts: settings_obj.the_options.hasOwnProperty('body_scripts') ? this.stripSlashes(settings_obj.the_options['body_scripts']) : "",
@@ -244,6 +258,12 @@ var gen = new Vue({
             }else{
                 this.decline_open_url = true;
             }
+            if(this.show_cookie_as === 'banner') {
+                this.is_banner = true;
+            }
+            else{
+                this.is_banner = false;
+            }
         },
         onSwitchCookieEnable() {
             this.cookie_is_on = !this.cookie_is_on;
@@ -304,6 +324,14 @@ var gen = new Vue({
             }
             else{
                 this.decline_open_url = true;
+            }
+        },
+        cookieTypeChange( value ){
+            if(value === 'banner') {
+                this.is_banner = true;
+            }
+            else{
+                this.is_banner = false;
             }
         },
         onSwitchButtonReadMoreIsOn() {
@@ -368,6 +396,9 @@ var gen = new Vue({
         },
         onSwitchCookieSettingsEnable(){
             this.cookie_settings_on = !this.cookie_settings_on;
+        },
+        onSwitchCookieOnFrontend(){
+            this.cookie_on_frontend = !this.cookie_on_frontend;
         },
         showScriptBlockerForm() {
             this.show_script_blocker = !this.show_script_blocker;
