@@ -60,6 +60,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 		);
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_filter( 'gdpr_module_settings_tabhead', array( __CLASS__, 'settings_tabhead' ) );
+			add_filter( 'gdpr_settings_cookie_list_values', array( $this, 'gdpr_settings_cookie_list_values' ) );
 			add_action( 'gdpr_module_settings_form', array( $this, 'settings_form' ) );
 			add_action( 'gdpr_module_settings_general', array( $this, 'settings_general' ), 5 );
 		}
@@ -233,6 +234,44 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 		$view_file = plugin_dir_path( __FILE__ ) . 'views/' . $view_file;
 
 		Gdpr_Cookie_Consent::gdpr_envelope_settings_tabcontent( 'gdpr-cookie-consent-tab-content', 'gdpr-cookie-consent-cookie-list', $view_file, '', $params, 1, $error_message );
+	}
+
+	/**
+	 * Function to return custom cookie list settings
+	 */
+	public function gdpr_settings_cookie_list_values() {
+		$post_cookie_list       = $this->get_post_cookie_list();
+		$data_arr               = $this->get_categories();
+		$cookies_length         = count( $data_arr );
+		$cookie_list_keys       = array_keys( $data_arr );
+		$cookie_list_categories = array();
+		for ( $i = 0; $i < $cookies_length; $i++ ) {
+			$cookie_list_categories[ $i ] = array(
+				'code'  => $cookie_list_keys[ $i ],
+				'label' => $data_arr[ $cookie_list_keys[ $i ] ],
+			);
+		}
+		$cookie_types       = self::get_types();
+		$cookie_type_length = count( $cookie_types );
+		$cookie_type_keys   = array_keys( $cookie_types );
+		$cookie_list_types  = array();
+		for ( $i = 0; $i < $cookie_type_length; $i++ ) {
+			$cookie_list_types[ $i ] = array(
+				'code'  => $cookie_type_keys[ $i ],
+				'label' => $cookie_types[ $cookie_type_keys[ $i ] ],
+			);
+		}
+		$params = array(
+			'nonces'                 => array(
+				'gdpr_cookie_custom' => wp_create_nonce( 'gdpr_cookie_custom' ),
+			),
+			'ajax_url'               => admin_url( 'admin-ajax.php' ),
+			'loading_gif'            => plugin_dir_url( __FILE__ ) . 'assets/images/loading.gif',
+			'post_cookie_list'       => $post_cookie_list,
+			'cookie_list_categories' => $cookie_list_categories,
+			'cookie_list_types'      => $cookie_list_types,
+		);
+		return $params;
 	}
 
 	/**

@@ -766,6 +766,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$settings_layout_options_extended    = array();
 		$settings_layout_options_extended[0] = end( $settings_layout_options );
 		$script_blocker_settings             = apply_filters( 'gdpr_settings_script_blocker_values', '' );
+		$cookie_list_settings                = apply_filters( 'gdpr_settings_cookie_list_values', '' );
 		wp_localize_script(
 			$this->plugin_name . '-main',
 			'settings_obj',
@@ -796,6 +797,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'script_blocker_settings'          => $script_blocker_settings,
 				'font_options'                     => $font_options,
 				'layout_skin_options'              => $layout_skin_options,
+				'cookie_list_settings'             => $cookie_list_settings,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
