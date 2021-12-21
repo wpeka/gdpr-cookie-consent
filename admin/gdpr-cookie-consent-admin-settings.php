@@ -166,7 +166,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row v-show="button_readmore_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the size of button.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gcc-readmore-button-size" :reduce="label => label.code" :options="button_size_options" v-model="button_readmore_button_size"></v-select>
 										<input type="hidden" name="gcc-readmore-button-size" v-model="button_readmore_button_size">	
@@ -606,7 +606,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row v-show="decline_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-decline-size" :reduce="label => label.code" :options="accept_size_options" v-model="decline_size">
 										</v-select>
@@ -724,7 +724,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row v-show="settings_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-settings-size" :reduce="label => label.code" :options="accept_size_options" v-model="settings_size">
 										</v-select>
@@ -800,7 +800,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-confirm-size" :reduce="label => label.code" :options="accept_size_options" v-model="confirm_size">
 										</v-select>
@@ -869,7 +869,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-cancel-size" :reduce="label => label.code" :options="accept_size_options" v-model="cancel_size">
 										</v-select>
@@ -896,7 +896,47 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>	
 							</c-card-body>
 						</c-card>
-						
+					</c-tab>
+					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_list">
+						<c-card>
+							<c-card-header><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?></c-card-header>
+							<c-card-body>
+								<div v-show="show_add_custom_button" class="gdpr_cookie_custom_postbar" style="display:none;margin-bottom: 10px;">
+									<a class="gdpr-custom-cookie-link" @click="showCustomCookieAddForm"><?php esc_attr_e( 'Add New Cookie', 'gdpr-cookie-consent' ); ?></a>
+								</div>
+								<div v-show="show_custom_form" class="gdpr-add-custom-cookie-form">
+									<input type="hidden" name="gdpr_addcookie" value="1">
+									<c-row class="gdpr-custom-cookie-box">
+										<c-col class="col-sm-2 gdpr-custom-cookie-letter-box"><span class="gdpr-custom-cookie-letter">C</span></c-col>
+										<c-col class="col-sm-10">
+											<c-row class="table-rows">
+												<c-col class="col-sm-4 table-cols-left"><c-input placeholder="Cookie Name" name="gdpr-cookie-consent-custom-cookie-name" v-model="custom_cookie_name"></c-input></c-col>
+												<c-col class="col-sm-4 table-cols"><c-input placeholder="Cookie Domain" name="gdpr-cookie-consent-custom-cookie-domain" v-model="custom_cookie_domain"></c-input></c-col>
+												<c-col class="col-sm-4 table-cols"><c-input :placeholder="custom_cookie_duration_placeholder" name="gdpr-cookie-consent-custom-cookie-days" v-model="custom_cookie_duration" :disabled="is_custom_cookie_duration_disabled"></c-input></c-col>
+											</c-row>
+											<c-row class="table-rows">
+												<c-col class="col-sm-6 table-cols-left"><v-select class="gdpr-custom-cookie-select form-group" :reduce="label => label.code" :options="custom_cookie_categories" v-model="custom_cookie_category"></v-select></c-col>
+												<input type="hidden" name="gdpr-custom-cookie-category" v-model="custom_cookie_category">
+												<c-col class="col-sm-6 table-cols"><v-select class="gdpr-custom-cookie-select form-group" :reduce="label => label.code" :options="custom_cookie_types" v-model="custom_cookie_type" @input="onSelectCustomCookieType"></v-select></c-col>
+												<input type="hidden" name="gdpr-custom-cookie-type" v-model="custom_cookie_type">
+											</c-row>
+											<c-row class="table-rows">
+												<c-col class="col-sm-12 table-cols-left"><c-textarea placeholder="Cookie Purpose" name="gdpr-cookie-consent-custom-cookie-purpose" v-model="custom_cookie_description"></c-textarea></c-col>
+											</c-row>
+										</c-col>
+										<c-col class="col-sm-3"></c-col>
+										<c-col class="col-sm-9 gdpr-custom-cookie-links">
+											<a class="gdpr-custom-cookie-link gdpr-custom-save-cookie" @click="onSaveCustomCookie"><?php esc_attr_e( 'Save', 'gdpr-cookie-consent' ); ?></a>
+											<a class="gdpr-custom-cookie-link" @click="hideCookieForm"><?php esc_attr_e( 'Cancel', 'gdpr-cookie-consent' ); ?></a>
+										</c-col>
+									</c-row>
+								</div>
+								<!-- <div class="gdpr-custom-cookie-saved">
+									<div class="gdpr-add-custom-cookie-form">
+									</div>
+								</div> -->
+							</c-card-body>
+						</c-card>
 					</c-tab>
 					<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#script_blocker">
 						<c-card>
