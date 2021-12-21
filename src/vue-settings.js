@@ -106,6 +106,8 @@ var gen = new Vue({
             border_style: settings_obj.the_options.hasOwnProperty('background_border_style') ? settings_obj.the_options['background_border_style'] : 'none',
             cookie_border_color: settings_obj.the_options.hasOwnProperty('background_border_color') ? settings_obj.the_options['background_border_color'] : '#ffffff',
             cookie_bar_border_radius: settings_obj.the_options.hasOwnProperty('background_border_radius') ? settings_obj.the_options['background_border_radius'] : '0',
+            font_options: settings_obj.font_options,
+            cookie_font: settings_obj.the_options.hasOwnProperty('font_family') ? settings_obj.the_options['font_family'] : 'inherit',
             cookie_accept_on: settings_obj.the_options.hasOwnProperty('button_accept_is_on') && (true === settings_obj.the_options['button_accept_is_on'] || 1 === settings_obj.the_options['button_accept_is_on'] ) ? true : false,
             accept_text: settings_obj.the_options.hasOwnProperty('button_accept_text') ? settings_obj.the_options['button_accept_text'] : 'Accept',
             accept_text_color: settings_obj.the_options.hasOwnProperty('button_accept_link_color') ? settings_obj.the_options['button_accept_link_color'] : '#ffffff',
@@ -146,6 +148,8 @@ var gen = new Vue({
             settings_layout_options_extended: settings_obj.settings_layout_options_extended,
             settings_layout: settings_obj.the_options.hasOwnProperty('button_settings_as_popup') && ( true === settings_obj.the_options['button_settings_as_popup'] || 1 === settings_obj.the_options['button_settings_as_popup'] ) ? true : false,
             is_banner : this.show_cookie_as === 'banner' ? true :false,
+            layout_skin_options: settings_obj.layout_skin_options,
+            layout_skin: settings_obj.the_options.hasOwnProperty('button_settings_layout_skin') ? settings_obj.the_options['button_settings_layout_skin'] : 'layout-default',
             settings_text: settings_obj.the_options.hasOwnProperty('button_settings_text') ? settings_obj.the_options['button_settings_text'] : 'Cookie Settings',
             settings_text_color: settings_obj.the_options.hasOwnProperty('button_settings_link_color') ? settings_obj.the_options['button_settings_link_color'] : '#ffffff',
             settings_as_button: settings_obj.the_options.hasOwnProperty('button_settings_as_button') && ( true === settings_obj.the_options['button_settings_as_button'] || 1 === settings_obj.the_options['button_settings_as_button'] ) ? true : false,
@@ -181,6 +185,8 @@ var gen = new Vue({
             header_scripts: settings_obj.the_options.hasOwnProperty('header_scripts') ? this.stripSlashes(settings_obj.the_options['header_scripts']) : "",
             body_scripts: settings_obj.the_options.hasOwnProperty('body_scripts') ? this.stripSlashes(settings_obj.the_options['body_scripts']) : "",
             footer_scripts: settings_obj.the_options.hasOwnProperty('footer_scripts') ? this.stripSlashes(settings_obj.the_options['footer_scripts']) : "",
+        
+        
         }
     },
     methods: {
@@ -332,6 +338,14 @@ var gen = new Vue({
             }
             else{
                 this.is_banner = false;
+            }
+        },
+        cookieLayoutChange( value ){
+            if(value) {
+                this.settings_layout = true;
+            }
+            else{
+                this.settings_layout = false;
             }
         },
         onSwitchButtonReadMoreIsOn() {

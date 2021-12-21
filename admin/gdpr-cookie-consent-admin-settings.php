@@ -320,21 +320,21 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							<c-card-header><?php esc_html_e( 'Configure Cookie Bar', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show Cookie Notice as', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show Cookie Notice as', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the display style of the cookie bar ', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<input type="hidden" name="show-cookie-as" v-model="show_cookie_as">
 										<v-select class="form-group" id="gdpr-show-cookie-as" :reduce="label => label.code" :options="show_cookie_as_options" v-model="show_cookie_as"  @input="cookieTypeChange"></v-select>
 									</c-col>
 								</c-row>
 								<c-row v-show="show_cookie_as === 'banner'">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Choose the cookie bar position', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 									<v-select class="form-group" id="gdpr-cookie-consent-position" :reduce="label => label.code" :options="cookie_position_options" v-model="cookie_position"></v-select>
 									<input type="hidden" name="gcc-gdpr-cookie-position" v-model="cookie_position">
 									</c-col>
 								</c-row>
 								<c-row v-show="show_cookie_as === 'widget'">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Choose the cookie bar position', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 									<v-select class="form-group" id="gcc-gdpr-cookie-widget-position" :reduce="label => label.code" :options="cookie_widget_position_options" v-model="cookie_widget_position"></v-select>
 									<input type="hidden" name="gcc-gdpr-cookie-widget-position" v-model="cookie_widget_position">
@@ -348,7 +348,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'On Hide', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'On Hide', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Behaviour of closing action of Cookie Bar once visitor accepts or rejects cookie', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 									<v-select class="form-group" id="gdpr-cookie-consent-on-hide" :reduce="label => label.code" :options="on_hide_options" v-model="on_hide"></v-select>
 									<input type="hidden" name="gcc-gdpr-cookie-on-hide" v-model="on_hide">	
@@ -356,32 +356,35 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 							</c-card-body>
 						</c-card>
+
+						<?php do_action( 'gdpr_cookie_template' ); ?>
+						
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Cookie Bar Body Design', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select color for Cookie Bar', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="cookie_bar_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-bar-color" type="color" name="gdpr-cookie-bar-color" v-model="cookie_bar_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select opacity for Cookie Bar', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-opacity" v-model="cookie_bar_opacity"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select color for text on Cookie Bar', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="cookie_text_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-text-color" type="color" name="gdpr-cookie-text-color" v-model="cookie_text_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Styles', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Styles', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the style of the border', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-border-style" :reduce="label => label.code" :options="border_style_options" v-model="border_style">
 										</v-select>
@@ -389,74 +392,75 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select width of the border', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-width" v-model="cookie_bar_border_width"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="cookie_border_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-border-color" type="color" name="gdpr-cookie-border-color" v-model="cookie_border_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border radius', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius" v-model="cookie_bar_border_radius"></c-input>
 									</c-col>
-								</c-row>	
+								</c-row>
+								<?php do_action( 'gdpr_cookie_font' ); ?>	
 							</c-card-body>
 						</c-card>
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Accept Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Enable to turn on the Accept button', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="cookie_accept_on" id="gdpr-cookie-consent-cookie-on" variant="3d"  color="success" :checked="cookie_accept_on" v-on:update:checked="onSwitchCookieAcceptEnable"></c-switch>
 										<input type="hidden" name="gcc-cookie-accept-enable" v-model="cookie_accept_on">
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( ' Enter the text for the Accept button', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<c-input name="gcc-accept-text" v-model="accept_text"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( ' Select the button color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="accept_text_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-accept-text-color" type="color" name="gdpr-cookie-accept-text-color" v-model="accept_text_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select whether appearance should be as button or as link.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8" >
 										<v-select class="form-group" id="gdpr-cookie-accept-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_as_button"></v-select>
 										<input type="hidden" name="gdpr-cookie-accept-as" v-model="accept_as_button">
 									</c-col>
 								</c-row>
 								<c-row v-show="accept_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select background color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="accept_background_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-accept-background-color" type="color" name="gdpr-cookie-accept-background-color" v-model="accept_background_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="accept_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select background opacity', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_opacity"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-opacity" v-model="accept_opacity"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="accept_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border style ', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-accept-border-style" :reduce="label => label.code" :options="border_style_options" v-model="accept_style">
 										</v-select>
@@ -464,28 +468,28 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row v-show="accept_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="accept_border_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-accept-border-color" type="color" name="gdpr-cookie-accept-border-color" v-model="accept_border_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="accept_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border width', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-width" v-model="accept_border_width"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="accept_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border radius', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-radius" v-model="accept_border_radius"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="accept_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-accept-size" :reduce="label => label.code" :options="accept_size_options" v-model="accept_size">
 										</v-select>
@@ -493,7 +497,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select action to do once the user clicks on button.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-accept-action" :reduce="label => label.code" :options="accept_action_options" v-model="accept_action"  @input="cookieAcceptChange">
 										</v-select>
@@ -518,48 +522,48 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							<c-card-header><?php esc_html_e( 'Decline Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Enable to turn on the Decline button', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="cookie_decline_on" id="gdpr-cookie-consent-decline-on" variant="3d"  color="success" :checked="cookie_decline_on" v-on:update:checked="onSwitchCookieDeclineEnable"></c-switch>
 										<input type="hidden" name="gcc-cookie-decline-enable" v-model="cookie_decline_on">
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( ' Enter the text for the Decline button', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<c-input name="gcc-decline-text" v-model="decline_text"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="decline_text_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-decline-text-color" type="color" name="gdpr-cookie-decline-text-color" v-model="decline_text_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select whether appearance should be as button or as link.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8" >
 										<v-select class="form-group" id="gdpr-cookie-decline-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="decline_as_button"></v-select>
 										<input type="hidden" name="gdpr-cookie-decline-as" v-model="decline_as_button">
 									</c-col>
 								</c-row>
 								<c-row v-show="decline_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select background color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="decline_background_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-decline-background-color" type="color" name="gdpr-cookie-decline-background-color" v-model="decline_background_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="decline_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select background opacity', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="decline_opacity"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-opacity" v-model="decline_opacity"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="decline_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border style', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-decline-border-style" :reduce="label => label.code" :options="border_style_options" v-model="decline_style">
 										</v-select>
@@ -567,28 +571,28 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row v-show="decline_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="decline_border_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-decline-border-color" type="color" name="gdpr-cookie-decline-border-color" v-model="decline_border_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="decline_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border width', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-width" v-model="decline_border_width"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="decline_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border radius', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-radius" v-model="decline_border_radius"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="decline_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-decline-size" :reduce="label => label.code" :options="accept_size_options" v-model="decline_size">
 										</v-select>
@@ -596,7 +600,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select action to do once the user clicks on the button', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-decline-action" :reduce="label => label.code" :options="decline_action_options" v-model="decline_action" @input="cookieDeclineChange">
 										</v-select>
@@ -621,62 +625,63 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							<c-card-header><?php esc_html_e( 'Settings Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Enable to turn on the settings button', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="cookie_settings_on" id="gdpr-cookie-consent-settings-on" variant="3d"  color="success" :checked="cookie_settings_on" v-on:update:checked="onSwitchCookieSettingsEnable"></c-switch>
 										<input type="hidden" name="gcc-cookie-settings-enable" v-model="cookie_settings_on">
 									</c-col>
 								</c-row>
 								<c-row v-show="is_banner">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Settings Layout', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Settings Layout', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the style of the Cookie Settings', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8" >
-										<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout"></v-select>
+										<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
 										<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
 									</c-col>
 								</c-row>
 								<c-row v-show="!is_banner">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Settings Layout', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Settings Layout', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the style of the Cookie Settings', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8" >
-										<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout"></v-select>
+										<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
 										<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
 									</c-col>
 								</c-row>
+								<?php do_action( 'gdpr_cookie_layout_skin' ); ?>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Enter the text for the  button', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<c-input name="gcc-settings-text" v-model="settings_text"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select text color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="settings_text_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-settings-text-color" type="color" name="gdpr-cookie-settings-text-color" v-model="settings_text_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select whether appearance should be as button or as link.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8" >
 										<v-select class="form-group" id="gdpr-cookie-settings-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button"></v-select>
 										<input type="hidden" name="gdpr-cookie-settings-as" v-model="settings_as_button">
 									</c-col>
 								</c-row>
 								<c-row v-show="settings_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( ' Select background color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="settings_background_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-settings-background-color" type="color" name="gdpr-cookie-settings-background-color" v-model="settings_background_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="settings_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select background opacity', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="settings_opacity"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-opacity" v-model="settings_opacity"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="settings_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border style', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-settings-border-style" :reduce="label => label.code" :options="border_style_options" v-model="settings_style">
 										</v-select>
@@ -684,28 +689,28 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row v-show="settings_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border color ', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="settings_border_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-settings-border-color" type="color" name="gdpr-cookie-settings-border-color" v-model="settings_border_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="settings_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border width.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-width" v-model="settings_border_width"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="settings_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border radius', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-radius" v-model="settings_border_radius"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="settings_as_button">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-settings-size" :reduce="label => label.code" :options="accept_size_options" v-model="settings_size">
 										</v-select>
@@ -713,7 +718,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Enable if you want to display cookie list on the frontend', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend" id="gdpr-cookie-consent-cookie-on-frontend" variant="3d"  color="success" :checked="cookie_on_frontend" v-on:update:checked="onSwitchCookieOnFrontend"></c-switch>
 										<input type="hidden" name="gcc-cookie-on-frontend" v-model="cookie_on_frontend">
@@ -725,34 +730,34 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							<c-card-header><?php esc_html_e( 'Confirm Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Enter the text for the  button', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<c-input name="gcc-confirm-text" v-model="confirm_text"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select text color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="confirm_text_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-confirm-text-color" type="color" name="gdpr-cookie-confirm-text-color" v-model="confirm_text_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select background color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="confirm_background_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-confirm-background-color" type="color" name="gdpr-cookie-confirm-background-color" v-model="confirm_background_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select background opacity', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="confirm_opacity"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-opacity" v-model="confirm_opacity"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border style ', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-confirm-border-style" :reduce="label => label.code" :options="border_style_options" v-model="confirm_style">
 										</v-select>
@@ -760,28 +765,28 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( ' Select border color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="confirm_border_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-confirm-border-color" type="color" name="gdpr-cookie-confirm-border-color" v-model="settings_border_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( ' Select border width', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-width" v-model="confirm_border_width"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( ' Select border radius', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-radius" v-model="confirm_border_radius"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-confirm-size" :reduce="label => label.code" :options="accept_size_options" v-model="confirm_size">
 										</v-select>
@@ -794,34 +799,34 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							<c-card-header><?php esc_html_e( 'Cancel Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Enter the text for the button', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<c-input name="gcc-cancel-text" v-model="cancel_text"></c-input>
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select text color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="cancel_text_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-cancel-text-color" type="color" name="gdpr-cookie-cancel-text-color" v-model="cancel_text_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select background color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="cancel_background_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-cancel-background-color" type="color" name="gdpr-cookie-cancel-background-color" v-model="cancel_background_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select background opacity', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cancel_opacity"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-opacity" v-model="cancel_opacity"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border style', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-cancel-border-style" :reduce="label => label.code" :options="border_style_options" v-model="cancel_style">
 										</v-select>
@@ -829,28 +834,28 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border color', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
 									<c-input class="gdpr-color-input" type="text" v-model="cancel_border_color"></c-input>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-cancel-border-color" type="color" name="gdpr-cookie-cancel-border-color" v-model="settings_border_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border width', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-width" v-model="cancel_border_width"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select border radius', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius"></c-input> 
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-radius" v-model="cancel_border_radius"></c-input>
 									</c-col>
 								</c-row>
 								<c-row >
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Size', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select button size', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-cancel-size" :reduce="label => label.code" :options="accept_size_options" v-model="cancel_size">
 										</v-select>
