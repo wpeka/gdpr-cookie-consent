@@ -194,7 +194,7 @@ var gen = new Vue({
             custom_cookie_duration: '',
             custom_cookie_description: '',
             is_custom_cookie_duration_disabled: this.custom_cookie_type === 'HTTP Cookie' ? false : true,
-            custom_cookie_duration_placeholder: this.is_custom_cookie_duration_disabled ? 'Persistent' : 'Duration(days/session)',
+            custom_cookie_duration_placeholder: 'Duration(days/session)',
             post_cookie_list_length: settings_obj.cookie_list_settings.hasOwnProperty('post_cookie_list') ? settings_obj.cookie_list_settings['post_cookie_list']['total'] : 0,
             post_cookie_list: settings_obj.cookie_list_settings.hasOwnProperty('post_cookie_list') ? settings_obj.cookie_list_settings['post_cookie_list']['data'] : [],
             show_custom_form: this.post_cookie_list_length > 0 ? false : true,
@@ -284,13 +284,28 @@ var gen = new Vue({
             }
             if( this.custom_cookie_type === 'HTTP' ) {
                 this.is_custom_cookie_duration_disabled = false;
-                this.custom_cookie_duration_placeholder = 'Duration(days/session)';
                 this.custom_cookie_duration = '';
             }
             else{
-                this.is_custom_cookie_duration_disabled = true
-                this.custom_cookie_duration_placeholder = 'Persistent';
+                this.is_custom_cookie_duration_disabled = true;
                 this.custom_cookie_duration = 'Persistent';
+            }
+            this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
+            this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
+        },
+        setPostListValues() {
+            for( let i=0; i<this.post_cookie_list_length; i++ ) {
+                if(this.post_cookie_list[i]['type'] === 'HTTP') {
+                    this.post_cookie_list[i]['enable_duration'] = false;
+                }
+                else {
+                    this.post_cookie_list[i]['enable_duration'] = true;
+                }
+                for( let j=0; j<this.custom_cookie_types.length; j++) {
+                    if( this.custom_cookie_types[j]['code'] === this.post_cookie_list[i]['type'] ) {
+                        this.post_cookie_list[i]['type_name'] = this.custom_cookie_types[j].label;
+                    }
+                }
             }
             this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
             this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
@@ -444,17 +459,58 @@ var gen = new Vue({
         onSelectCustomCookieType(value){
             if(value !== 'HTTP') {
                 this.is_custom_cookie_duration_disabled = true;
-                this.custom_cookie_duration_placeholder = 'Persistent';
                 this.custom_cookie_duration = 'Persistent';
             }
             else{
                 this.is_custom_cookie_duration_disabled = false;
-                this.custom_cookie_duration_placeholder = 'Duration(days/session)';
                 this.custom_cookie_duration = '';
             }
         },
         showCustomCookieAddForm() {
             this.show_custom_form = true;
+        },
+        onSelectUpdateCookieCategory(value) {
+            const id = value.split(',')[1];
+            const cat = value.split(',')[0];
+            for( let i=0;i<this.post_cookie_list_length;i++){
+                if(this.post_cookie_list[i]['id_gdpr_cookie_post_cookies'] === id) {
+                    for( let j=0; i<this.custom_cookie_categories.length; j++ ) {
+                        if( this.custom_cookie_categories[j]['code'] === parseInt(cat) ) {
+                            this.post_cookie_list[i]['category_id'] = this.custom_cookie_categories[j].code;
+                            this.post_cookie_list[i]['category'] = this.custom_cookie_categories[j].label;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        },
+        onSelectUpdateCookieType(value) {
+            const id = value.split(',')[1];
+            const type_id = value.split(',')[0];
+            for( let i=0;i<this.post_cookie_list_length;i++){
+                if(this.post_cookie_list[i]['id_gdpr_cookie_post_cookies'] === id) {
+                    if(type_id !== 'HTTP') {
+                        this.post_cookie_list[i]['enable_duration'] = true;
+                        this.post_cookie_list[i]['duration'] = 'Persistent';
+                    }
+                    else{
+                        this.post_cookie_list[i]['enable_duration'] = false;
+                        this.post_cookie_list[i]['duration'] = '';
+                    }
+                    for( let j=0; i<this.custom_cookie_types.length; j++ ) {
+                        if( this.custom_cookie_types[j]['code'] === type_id) {
+                            this.post_cookie_list[i]['type'] = this.custom_cookie_types[j].code;
+                            this.post_cookie_list[i]['type_name'] = this.custom_cookie_types[j].label;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        },
+        onDeleteCustomCookie(cookie_id) {
+            this.deletePostCookie(cookie_id);
         },
         saveCookieSettings() {
             var that = this;
@@ -634,15 +690,146 @@ var gen = new Vue({
                 this.saveCustomPostCookies( cookie_arr );
             }
         },
+        saveCookieUpdateSettings(){
+            var cookie_post_arr = [];
+            var error = false;
+            for( let i=0;i <this.post_cookie_list_length; i++) {
+                var pattern   = /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
+                var cid       = this.post_cookie_list[i]['id_gdpr_cookie_post_cookies'];
+                var cname     = this.post_cookie_list[i]['name'];
+                var cdomain   = this.post_cookie_list[i]['domain'];
+                var cduration = this.post_cookie_list[i]['duration'];
+                var ccategory = this.post_cookie_list[i]['category_id'];
+                var ctype     = this.post_cookie_list[i]['type'];
+                var cdesc     = this.post_cookie_list[i]['description'];
+                if ( ! cname) {
+                    this.success_error_message = 'Please fill in these mandatory fields : Cookie Name';
+                    j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
+                    j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                    j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                    error = true;
+                }
+                if ( ! cdomain) {
+                    this.success_error_message = 'Please fill in these mandatory fields : Cookie Domain';
+                    j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
+                    j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                    j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                    error = true;
+                } else {
+                    if ( ! pattern.test( cdomain )) {
+                        this.success_error_message = 'Cookie Domain is not valid.';
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                        error = true;
+                    }
+                }
+                if ( ! cduration) {
+                    this.success_error_message = 'Please fill in these mandatory fields : Cookie Duration';
+                    j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
+                    j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                    j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                    error = true;
+                }
+                var cookie_arr = {
+                    cid: cid,
+                    cname: cname,
+                    cdomain: cdomain,
+                    cduration: cduration,
+                    ccategory: ccategory,
+                    ctype: ctype,
+                    cdesc: cdesc,
+                }
+                cookie_post_arr.push( cookie_arr );
+            }
+            if (error) {
+                return false;
+            }
+            this.updatePostCookie( cookie_post_arr );
+        },
+        updatePostCookie:function(cookie_arr) {
+            var that = this;
+            var data = {
+                action: 'gdpr_cookie_custom',
+                security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+                gdpr_custom_action:'update_post_cookie',
+                cookie_arr: cookie_arr,
+            };
+            j.ajax(
+                {
+                    url: settings_obj.cookie_list_settings.ajax_url,
+                    data: data,
+                    dataType:'json',
+                    type: 'POST',
+                    success: function (data) {
+                        if (data.response === true) {
+                            that.success_error_message = data.message;
+                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                            that.getPostCookieList();
+                        } else {
+                            that.success_error_message = data.message;
+                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                        }
+                    },
+                    error:function() {
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                    }
+                }
+            );
+        },
+        deletePostCookie(cookie_id) {
+            var that = this;
+            var data = {
+                action: 'gdpr_cookie_custom',
+                security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+                gdpr_custom_action:'delete_post_cookie',
+                cookie_id: cookie_id,
+            };
+            j.ajax(
+                {
+                    url: settings_obj.cookie_list_settings.ajax_url,
+                    data: data,
+                    dataType:'json',
+                    type: 'POST',
+                    success: function (data) {
+                        if (data.response === true) {
+                            that.success_error_message = data.message;
+                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                            that.getPostCookieList();
+                        } else {
+                            that.success_error_message = data.message;
+                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                        }
+                    },
+                    error:function() {
+                        that.success_error_message = data.message;
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                    }
+                }
+            );
+        },
         hideCookieForm() {
                 this.custom_cookie_name = '';
                 this.custom_cookie_domain = '';
-                this.custom_cookie_duration = '';
                 this.custom_cookie_description = '';
                 this.custom_cookie_category = 1;
                 this.custom_cookie_type = 'HTTP';
                 this.show_custom_form = false;
                 this.show_add_custom_button = true;
+                this.is_custom_cookie_duration_disabled = false;
+                this.custom_cookie_duration = '';
         },
         saveCustomPostCookies( cookie_data ) {
             var that = this;
@@ -658,14 +845,14 @@ var gen = new Vue({
                     data: data,
                     dataType:'json',
                     type: 'POST',
-                    success: function (data)
-                {
+                    success: function (data) {
                         if (data.response === true) {
                             that.success_error_message = data.message;
                             j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
                             j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
                             j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
                             that.hideCookieForm();
+                            that.getPostCookieList();
                         } else {
                             j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
                             j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
@@ -679,10 +866,47 @@ var gen = new Vue({
                     }
                 }
             );
-        }
+        },
+        getPostCookieList:function() {
+            var that = this;
+            var data           = {
+                action: 'gdpr_cookie_custom',
+                security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+                gdpr_custom_action:'get_post_cookies_list',
+            };
+            j.ajax(
+                {
+                    url: settings_obj.cookie_list_settings.ajax_url,
+                    data: data,
+                    dataType:'json',
+                    type: 'POST',
+                    success: function (data) {
+                        if(data.response) {
+                            that.post_cookie_list_length = data.total;
+                            that.post_cookie_list = data.post_list;
+                            that.setPostListValues();
+                        }
+                        else{
+                            that.success_error_message = data.message;
+                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                        }
+                    },
+                    error:function() {
+                        that.success_error_message = data.message;
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                    }
+                }
+            );
+        },
     },
     mounted() {
+        j('#gdpr-before-mount').css('display','none');
         this.setValues();
+        this.setPostListValues();
     },
     icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep }
 })
