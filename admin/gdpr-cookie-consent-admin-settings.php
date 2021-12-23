@@ -16,6 +16,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 	$baseurl = esc_url_raw( wp_unslash( $_SERVER['PHP_SELF'] ) );
 }
 ?>
+<div id="gdpr-before-mount" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-settings-app">
 	<c-container class="gdpr-cookie-consent-settings-container">
 		<c-form id="gcc-save-settings-form" spellcheck="false" class="gdpr-cookie-consent-settings-form">
@@ -931,10 +932,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-col>
 									</c-row>
 								</div>
-								<!-- <div class="gdpr-custom-cookie-saved">
-									<div class="gdpr-add-custom-cookie-form">
-									</div>
-								</div> -->
+								<div id="gdpr-custom-cookie-saved" v-if="post_cookie_list_length > 0">
+								<?php require plugin_dir_path( __FILE__ ) . 'gdpr-custom-saved-cookie.php'; ?>
+								</div>
 							</c-card-body>
 						</c-card>
 					</c-tab>
