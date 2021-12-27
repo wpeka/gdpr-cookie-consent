@@ -487,13 +487,10 @@ var gen = new Vue({
             this.show_add_custom_button = !this.show_add_custom_button;
         },
         onUpdateScannedCookieCategory(value) {
-            console.log(this.scan_cookie_list);	
             const id = value.split(',')[1];	
             const cat = value.split(',')[0];	
-            console.log({id, cat});	
             for( let i=0;i<this.scan_cookie_list_length;i++){	
                 if(this.scan_cookie_list[i]['id_wpl_cookie_scan_cookies'] === id) {	
-                    console.log(this.scan_cookie_list);	
                     for( let j=0; i<this.custom_cookie_categories.length; j++ ) {	
                         if( this.custom_cookie_categories[j]['code'] === parseInt(cat) ) {	
                         this.scan_cookie_list[i]['category_id'] = this.custom_cookie_categories[j].code;	
@@ -503,8 +500,7 @@ var gen = new Vue({
                     }	
                     break;	
                 }	
-            }	
-            console.log(this.scan_cookie_list);	
+            }
         },	
         updateScannedCookies() {
             var cookie_scan_arr = [];	
@@ -519,7 +515,6 @@ var gen = new Vue({
                 }	
                 cookie_scan_arr.push( cookie_arr );	
             }	
-            console.log( 'Cookie scannn!!!', cookie_scan_arr );	
             this.updateScanCookie(cookie_scan_arr );	
         },	
         updateScanCookie(cookie_arr) {	
@@ -540,8 +535,7 @@ var gen = new Vue({
                         that.success_error_message = data.message;	
                         j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );	
                         j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);	
-                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);	
-                        console.log('Calling show scan cookie list!');	
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
                         that.showScanCookieList();	
                     } else {	
                         that.success_error_message = data.message;	
@@ -571,7 +565,6 @@ var gen = new Vue({
                 dataType:'json',	
                 type: 'POST',	
                 success: function (data) {	
-                    console.log('data is', data);	
                     if(data.response) {	
                         that.scan_cookie_list_length = data.total;	
                         that.scan_cookie_list = data.data;	
@@ -697,7 +690,342 @@ var gen = new Vue({
             });
         },
         onClickStartScan() {	
-            console.log('Scan is starting!');	
+            this.continue_scan = 1;
+            this.doScan();	
+        },
+        doScan() {
+            var that = this;
+            var data    = {
+                action: 'wpl_cookie_scanner',
+                security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+                wpl_scanner_action:'check_api',
+            };
+            var scanbar = j( '.wpl_scanbar' );
+            scanbar.html( '<span style="float:left; height:40px; line-height:40px;">' + settings_obj.cookie_scan_settings.labels.checking_api + '</span> <img src="' + settings_obj.cookie_scan_settings.loading_gif + '" style="display:inline-block;" />' );
+            j.ajax(
+                {
+                    url: settings_obj.cookie_scan_settings.ajax_url,
+                    data: data,
+                    dataType:'json',
+                    type: 'POST',
+                    success: function (data) {
+                        scanbar.html( '' );
+                        if (data.response === true) {
+                            that.scanNow();
+                        } else {
+                            that.serverUnavailable( scanbar,data.message );
+                        }
+                    },
+                    error:function() {
+                        scanbar.html( '' );
+                        that.showErrorScreen( settings_obj.cookie_scan_settings.labels.error );
+                    }
+                }
+            );
+        },
+        scanNow() {
+            var html    = this.makeHtml();
+			var scanbar = j( '.gdpr_scanbar' );
+			scanbar.html( html );
+			j( '.gdpr_scanbar_staypage' ).show();
+			this.attachScanStop();
+			j( '.gdpr_scanlog' ).css( {'display':'block','opacity':0} ).animate(
+				{
+					'opacity':1,'height':'auto'
+				},
+				1000
+			);
+			this.takePages( 0 );
+        },
+        animateProgressBar(offset,total,msg) {
+            var prgElm = j( '.gdpr_progress_bar' );
+            var w      = prgElm.width();
+            var sp     = 100 / total;
+            var sw     = w / total;
+            var cw     = sw * offset;
+            var cp     = sp * offset;
+
+            cp = cp > 100 ? 100 : cp;
+            cp = Math.floor( cp < 1 ? 1 : cp );
+
+            cw = cw > w ? w : cw;
+            cw = Math.floor( cw < 1 ? 1 : cw );
+            j( '.gdpr_progress_bar_inner' ).stop( true,true ).animate(
+                {'width':cw + 'px'},
+                300,
+                function(){
+                    j( '.gdpr_progress_action_main' ).html( msg );
+                }
+            ).html( cp + '%' );
+        },
+        appendLogAnimate(data,offset) {
+            var that = this;
+            if (data.length > offset) {
+                offset++;
+                var speed = 300 / data.length;
+                setTimeout(
+                    function(){
+                        that.appendLogAnimate( data,offset );
+                    },
+                    speed
+                );
+            }
+        },
+        takePages(offset,limit,total,scan_id) {
+            var that = this;
+            var data = {
+                action: 'wpl_cookie_scanner',
+                security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+                wpl_scanner_action:'get_pages',
+                offset:offset
+            };
+            if (limit) {
+                data['limit'] = limit;
+            }
+            if (total) {
+                data['total'] = total;
+            }
+            if (scan_id) {
+                data['scan_id'] = scan_id;
+            }
+            // fake progress.
+            this.animateProgressBar( 1,100,settings_obj.cookie_scan_settings.labels.finding );
+            j.ajax(
+                {
+                    url: settings_obj.cookie_scan_settings.ajax_url,
+                    data: data,
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (data) {
+                        that.scan_id = typeof data.scan_id != 'undefined' ? data.scan_id : 0;
+                        if (that.continue_scan == 0) {
+                            return false;
+                        }
+                        if (typeof data.response != 'undefined' && data.response === true) {
+                            that.appendLogAnimate( data.log,0 );
+                            var new_offset = parseInt( data.offset ) + parseInt( data.limit );
+                            if ((data.total - 1) > new_offset) { // substract 1 from total because of home page.
+                                that.takePages( new_offset,data.limit,data.total,data.scan_id );
+                            } else {
+                                j( '.wpl_progress_action_main' ).html( settings_obj.cookie_scan_settings.labels.scanning );
+                                that.scanPages( data.scan_id,0,data.total );
+                            }
+                        } else {
+                            that.showErrorScreen( settings_obj.cookie_scan_settings.labels.error );
+                        }
+                    },
+                    error:function() {
+                        if (that.continue_scan == 0) {
+                            return false;
+                        }
+                        that.showErrorScreen( settings_obj.cookie_scan_settings.labels.error );
+                    }
+                }
+            );
+        },
+        scanPages(scan_id,offset,total) {
+            var that = this;
+            var scanbar                  = j( '.gdpr_scanbar' );
+            this.pollCount = 0;
+            var hash                     = Math.random().toString( 36 ).replace( '0.', '' );
+            var data                     = {
+                action: 'wpl_cookie_scanner',
+                security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+                wpl_scanner_action:'scan_pages',
+                offset:offset,
+                scan_id:scan_id,
+                total:total,
+                hash:hash
+            };
+            j.ajax(
+                {
+                    url: settings_obj.cookie_scan_settings.ajax_url,
+                    data: data,
+                    dataType: 'json',
+                    type: 'POST',
+                    success:function(data) {
+                        that.scan_id = typeof data.scan_id != 'undefined' ? data.scan_id : 0;
+                        if (that.continue_scan == 0) {
+                            return false;
+                        }
+                        if (data.response == true) {
+                            that.getScanCookies( scan_id,offset,total,hash );
+                        } else {
+                            scanbar.html( '' );
+                            j( '.wpl_scanbar_staypage' ).hide();
+                            that.serverUnavailable( scanbar,data.message );
+                        }
+                    },
+                    error:function(){
+                        var current = that;
+                        if (that.continue_scan == 0) {
+                            return false;
+                        }
+                        // error and retry function.
+                        
+                        that.animateProgressBar( offset,total,settings_obj.cookie_scan_settings.labels.retrying );
+                        setTimeout(
+                            function(){
+                                current.scanPages( scan_id,offset,total );
+                            },
+                            2000
+                        );
+                    }
+                }
+            );
+        },
+        getScanCookies(scan_id,offset,total,hash){
+            var that = this;
+            var data = {
+                action: 'wpl_cookie_scanner',
+                security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+                wpl_scanner_action:'get_post_scan_cookies',
+                offset:offset,
+                scan_id:scan_id,
+                total:total,
+                hash:hash
+            };
+            j.ajax(
+                {
+                    url: settings_obj.cookie_scan_settings.ajax_url,
+                    data: data,
+                    dataType: 'json',
+                    type: 'POST',
+                    success:function(data) {
+                        if (data.response == true) {
+                            var prg_offset = parseInt( offset ) + parseInt( data.total_scanned );
+                            var prg_msg    = settings_obj.cookie_scan_settings.labels.scanning + ' ';
+                            that.appendLogAnimate( data.log,0 );
+                            if (data.continue === true) {
+                                that.scanPages( data.scan_id,data.offset,data.total );
+                            } else {
+                                prg_msg  = settings_obj.cookie_scan_settings.labels.finished;
+                                prg_msg += ' (' + settings_obj.cookie_scan_settings.labels.total_cookies_found + ': ' + data.total_cookies + ')';
+                                that.showSuccessScreen( prg_msg,scan_id,1 );
+                            }
+                            that.animateProgressBar( prg_offset,total,prg_msg );
+                        } else {
+                            var current = that;
+                            if (that.pollCount < 10) {
+                                that.pollCount++;
+                                setTimeout(
+                                    function(){
+                                        current.getScanCookies( data.scan_id,data.offset,data.total,data.hash );
+                                    },
+                                    10000
+                                );
+                            } else {
+                                that.showErrorScreen( 'Something went wrong, please scan again' );
+                            }
+                        }
+                    },
+                    error:function() {
+                        var current = that;
+                        if (that.continue_scan == 0) {
+                            return false;
+                        }
+                        if (that.pollCount < 10) {
+                            setTimeout(
+                                function(){
+                                    that.getScanCookies( offset, scan_id, total, hash );
+                                },
+                                5000
+                            );
+                        } else {
+                            that.showErrorScreen( 'Something went wrong, please scan again' );
+                        }
+                    }
+                }
+            );
+        },
+        makeHtml() {
+            return '<div class="gdpr_scanlog">'
+            + '<div class="gdpr_progress_action_main">' + settings_obj.cookie_scan_settings.labels.finding + '</div>'
+            + '<div class="gdpr_progress_bar">'
+            + '<span class="gdpr_progress_bar_inner">'
+            + '</span>'
+            + '</div>'
+            + '<div class="gdpr_scanlog_bar"><a class="button-primary pull-right gdpr_stop_scan">' + settings_obj.cookie_scan_settings.labels.stop + '</a></div>'
+            + '</div>';
+        },
+        attachScanStop() {
+            var that = this;
+            j( '.gdpr_stop_scan' ).click(
+                function(){
+                    that.stopScan();
+                }
+            );
+        },
+        stopScan() {
+            if (this.continue_scan == 0) {
+                return false;
+            }
+            if (confirm( settings_obj.cookie_scan_settings.labels.ru_sure )) {
+                this.continue_scan = 0;
+                this.stoppingScan( this.scan_id );
+            }
+        },
+        stoppingScan(scan_id) {
+            var that = this;
+            var data = {
+                action: 'wpl_cookie_scanner',
+                security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+                wpl_scanner_action:'stop_scan',
+                scan_id:scan_id
+            };
+            j( '.gdpr_stop_scan' ).html( settings_obj.cookie_scan_settings.labels.stoping ).css( {'opacity':'.5'} );
+            j.ajax(
+                {
+                    url: settings_obj.cookie_scan_settings.ajax_url,
+                    data: data,
+                    dataType: 'json',
+                    type: 'POST',
+                    success:function(data) {
+                        that.showSuccessScreen( settings_obj.cookie_scan_settings.labels.scanning_stopped,scan_id,data.total );
+                    },
+                    error:function()
+                {
+                        // error function.
+                        that.showErrorScreen( settings_obj.cookie_scan_settings.labels.error );
+                    }
+                }
+            );
+        },
+        serverUnavailable:function(elm,msg){
+			elm.html( '<div style="background:#ffffff; border:solid 1px #cccccc; color:#333333; padding:5px;">' + msg + '</div>' );
+		},
+        showErrorScreen:function(error_msg) {
+			var html = '<a class="button-primary pull-right gdpr_scan_again" style="margin-left:5px;">' + settings_obj.cookie_scan_settings.labels.scan_again + '</a>';
+			j( '.gdpr_scanlog_bar' ).html( html );
+			j( '.gdpr_progress_action_main' ).html( error_msg );
+			this.success_error_message = error_msg;
+            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+			j( '.gdpr_scanbar_staypage' ).hide();
+			this.scanAgain();
+		},
+        showSuccessScreen(success_msg,scan_id,total) {
+            var html = '<a class="button-primary pull-right gdpr_scan_again" style="margin-left:5px;">' + settings_obj.cookie_scan_settings.labels.scan_again + '</a>';
+            html    += '<span class="spinner" style="margin-top:5px"></span>';
+            j( '.gdpr_scanlog_bar' ).html( html );
+            j( '.gdpr_progress_action_main' ).html( success_msg );
+            this.success_error_message = success_msg;
+            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j( '.gdpr_scanbar_staypage' ).hide();
+            this.showScanCookieList();
+            this.scanAgain();
+        },
+        scanAgain() {
+            var that = this;
+            j( '.gdpr_scan_again' ).unbind( 'click' ).click(
+                function(){
+                    that.continue_scan = 1;
+                    that.scanNow();
+                }
+            );
         },
         onScriptCategorySelect(values){
             var that = this;
@@ -1035,10 +1363,8 @@ var gen = new Vue({
     mounted() {
         j('#gdpr-before-mount').css('display','none');
         this.setValues();
-        console.log('I AM MOUNTEDDDDDDD!!!!!!');
         this.setPostListValues();
-        if( this.scan_cookie_list_length > 0 ) {	
-            console.log('I AM MOUNTEDDDDDDD!!!!!!');
+        if( this.scan_cookie_list_length > 0 ) {
             this.setScanListValues();	
         }
     },
