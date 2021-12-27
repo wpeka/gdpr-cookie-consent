@@ -199,6 +199,13 @@ var gen = new Vue({
             post_cookie_list: settings_obj.cookie_list_settings.hasOwnProperty('post_cookie_list') ? settings_obj.cookie_list_settings['post_cookie_list']['data'] : [],
             show_custom_form: this.post_cookie_list_length > 0 ? false : true,
             show_add_custom_button: this.post_cookie_list_length > 0 ? true : false,
+            scan_cookie_list_length: settings_obj.cookie_scan_settings.hasOwnProperty('scan_cookie_list') ? settings_obj.cookie_scan_settings['scan_cookie_list']['total'] : 0,	
+            scan_cookie_list: settings_obj.cookie_scan_settings.hasOwnProperty('scan_cookie_list') ? settings_obj.cookie_scan_settings['scan_cookie_list']['data'] : [],	
+            scan_cookie_error_message: settings_obj.cookie_scan_settings.hasOwnProperty('error_message') ? settings_obj.cookie_scan_settings['error_message'] : '',	
+            scan_cookie_last_scan: settings_obj.cookie_scan_settings.hasOwnProperty('last_scan') ? settings_obj.cookie_scan_settings['last_scan'] : [],	
+            continue_scan:1,	
+            pollCount:0,	
+            onPrg:0,
             }
     },
     methods: {
@@ -309,6 +316,15 @@ var gen = new Vue({
             }
             this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
             this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
+        },
+        setScanListValues() {	
+            for( let i=0; i<this.scan_cookie_list_length; i++ ) {	
+                for( let j=0; j<this.custom_cookie_types.length; j++) {	
+                    if( this.custom_cookie_types[j]['code'] === this.scan_cookie_list[i]['type'] ) {	
+                    this.scan_cookie_list[i]['type_name'] = this.custom_cookie_types[j].label;	
+                    }	
+                }	
+            }	
         },
         onSwitchCookieEnable() {
             this.cookie_is_on = !this.cookie_is_on;
@@ -468,6 +484,113 @@ var gen = new Vue({
         },
         showCustomCookieAddForm() {
             this.show_custom_form = true;
+            this.show_add_custom_button = !this.show_add_custom_button;
+        },
+        onUpdateScannedCookieCategory(value) {
+            console.log(this.scan_cookie_list);	
+            const id = value.split(',')[1];	
+            const cat = value.split(',')[0];	
+            console.log({id, cat});	
+            for( let i=0;i<this.scan_cookie_list_length;i++){	
+                if(this.scan_cookie_list[i]['id_wpl_cookie_scan_cookies'] === id) {	
+                    console.log(this.scan_cookie_list);	
+                    for( let j=0; i<this.custom_cookie_categories.length; j++ ) {	
+                        if( this.custom_cookie_categories[j]['code'] === parseInt(cat) ) {	
+                        this.scan_cookie_list[i]['category_id'] = this.custom_cookie_categories[j].code;	
+                        this.scan_cookie_list[i]['category'] = this.custom_cookie_categories[j].label;	
+                        break;	
+                        }	
+                    }	
+                    break;	
+                }	
+            }	
+            console.log(this.scan_cookie_list);	
+        },	
+        updateScannedCookies() {
+            var cookie_scan_arr = [];	
+            for( let i=0;i <this.scan_cookie_list_length; i++) {
+                var cid = this.scan_cookie_list[i]['id_wpl_cookie_scan_cookies'];	
+                var ccategory = this.scan_cookie_list[i]['category_id'];	
+                var cdesc = this.scan_cookie_list[i]['description'];	
+                var cookie_arr = {	
+                cid: cid,	
+                ccategory: ccategory,	
+                cdesc: cdesc,	
+                }	
+                cookie_scan_arr.push( cookie_arr );	
+            }	
+            console.log( 'Cookie scannn!!!', cookie_scan_arr );	
+            this.updateScanCookie(cookie_scan_arr );	
+        },	
+        updateScanCookie(cookie_arr) {	
+            var that = this;	
+            var data = {	
+                action: 'wpl_cookie_scanner',	
+                security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,	
+                wpl_scanner_action:'update_scan_cookie',	
+                cookie_arr: cookie_arr,	
+            };	
+            j.ajax({
+                url: settings_obj.cookie_scan_settings.ajax_url,	
+                data: data,	
+                dataType:'json',	
+                type: 'POST',	
+                success: function (data) {
+                    if (data.response === true) {	
+                        that.success_error_message = data.message;	
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );	
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);	
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);	
+                        console.log('Calling show scan cookie list!');	
+                        that.showScanCookieList();	
+                    } else {	
+                        that.success_error_message = data.message;	
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );	
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);	
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);	
+                    }	
+                },	
+                error:function() {	
+                    that.success_error_message = data.message;	
+                    j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );	
+                    j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);	
+                    j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);	
+                }	
+            });	
+        },	
+        showScanCookieList() {
+            var that = this;	
+            var data = {	
+                action: 'wpl_cookie_scanner',	
+                security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,	
+                wpl_scanner_action:'get_scanned_cookies_list',	
+            };	
+            j.ajax({	
+                url: settings_obj.cookie_scan_settings.ajax_url,	
+                data: data,	
+                dataType:'json',	
+                type: 'POST',	
+                success: function (data) {	
+                    console.log('data is', data);	
+                    if(data.response) {	
+                        that.scan_cookie_list_length = data.total;	
+                        that.scan_cookie_list = data.data;	
+                        that.setScanListValues();	
+                    }	
+                    else{	
+                        that.success_error_message = data.message;	
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );	
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);	
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);	
+                    }	
+                },	
+                error:function() {	
+                    that.success_error_message = data.message;	
+                    j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );	
+                    j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);	
+                    j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);	
+                }	
+            });	
         },
         onSelectUpdateCookieCategory(value) {
             const id = value.split(',')[1];
@@ -572,6 +695,9 @@ var gen = new Vue({
                     j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
                 }
             });
+        },
+        onClickStartScan() {	
+            console.log('Scan is starting!');	
         },
         onScriptCategorySelect(values){
             var that = this;
@@ -776,6 +902,7 @@ var gen = new Vue({
                         }
                     },
                     error:function() {
+                        that.success_error_message = data.message;
                         j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
                         j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
                         j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
@@ -854,12 +981,14 @@ var gen = new Vue({
                             that.hideCookieForm();
                             that.getPostCookieList();
                         } else {
+                            that.success_error_message = data.message;
                             j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
                             j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
                             j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
                         }
                     },
                     error:function() {
+                        that.success_error_message = data.message;
                         j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
                         j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
                         j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
@@ -906,7 +1035,12 @@ var gen = new Vue({
     mounted() {
         j('#gdpr-before-mount').css('display','none');
         this.setValues();
+        console.log('I AM MOUNTEDDDDDDD!!!!!!');
         this.setPostListValues();
+        if( this.scan_cookie_list_length > 0 ) {	
+            console.log('I AM MOUNTEDDDDDDD!!!!!!');
+            this.setScanListValues();	
+        }
     },
     icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep }
 })

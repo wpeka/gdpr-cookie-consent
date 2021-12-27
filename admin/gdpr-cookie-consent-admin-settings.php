@@ -937,6 +937,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</div>
 							</c-card-body>
 						</c-card>
+						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
 					</c-tab>
 					<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#script_blocker">
 						<c-card>
