@@ -942,10 +942,10 @@ var gen = new Vue({
             return '<div class="gdpr_scanlog">'
             + '<div class="gdpr_progress_action_main">' + settings_obj.cookie_scan_settings.labels.finding + '</div>'
             + '<div class="gdpr_progress_bar">'
-            + '<span class="gdpr_progress_bar_inner">'
+            + '<span class="gdpr_progress_bar_inner gdpr_progress_bar_inner_restructured">'
             + '</span>'
             + '</div>'
-            + '<div class="gdpr_scanlog_bar"><a class="button-primary pull-right gdpr_stop_scan">' + settings_obj.cookie_scan_settings.labels.stop + '</a></div>'
+            + '<div class="gdpr_scanlog_bar"><button type="button" class="btn btn-info pull-right gdpr_stop_scan">' + settings_obj.cookie_scan_settings.labels.stop + '</button></div>'
             + '</div>';
         },
         attachScanStop() {
@@ -995,7 +995,7 @@ var gen = new Vue({
 			elm.html( '<div style="background:#ffffff; border:solid 1px #cccccc; color:#333333; padding:5px;">' + msg + '</div>' );
 		},
         showErrorScreen:function(error_msg) {
-			var html = '<a class="button-primary pull-right gdpr_scan_again" style="margin-left:5px;">' + settings_obj.cookie_scan_settings.labels.scan_again + '</a>';
+			var html = '<button type="button" class="btn btn-info pull-right gdpr_scan_again" style="margin-left:5px;">' + settings_obj.cookie_scan_settings.labels.scan_again + '</button>';
 			j( '.gdpr_scanlog_bar' ).html( html );
 			j( '.gdpr_progress_action_main' ).html( error_msg );
 			this.success_error_message = error_msg;
@@ -1006,7 +1006,7 @@ var gen = new Vue({
 			this.scanAgain();
 		},
         showSuccessScreen(success_msg,scan_id,total) {
-            var html = '<a class="button-primary pull-right gdpr_scan_again" style="margin-left:5px;">' + settings_obj.cookie_scan_settings.labels.scan_again + '</a>';
+            var html = '<button type="button" class="btn btn-info pull-right gdpr_scan_again" style="margin-left:5px;">' + settings_obj.cookie_scan_settings.labels.scan_again + '</button>';
             html    += '<span class="spinner" style="margin-top:5px"></span>';
             j( '.gdpr_scanlog_bar' ).html( html );
             j( '.gdpr_progress_action_main' ).html( success_msg );

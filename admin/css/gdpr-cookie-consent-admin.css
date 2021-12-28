@@ -1194,3 +1194,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	cursor: pointer;
 	margin-left: 5px;
 }
+.gdpr_progress_bar_inner_restructured {
+	background: #39f;
+}
