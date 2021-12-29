@@ -549,7 +549,10 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) ) === 'xmlhttprequest' ) {
 			exit();
 		}
-		//require_once plugin_dir_path( __FILE__ ) . 'partials/gdpr-cookie-consent-admin-display.php';
+		if ( get_option( 'wpl_pro_active' ) && '1' === get_option( 'wpl_pro_active' ) && ( ! get_option( 'wpl_pro_version_number' ) || version_compare( get_option( 'wpl_pro_version_number' ), '2.9.0', '<' ) ) ) {
+			require_once plugin_dir_path( __FILE__ ) . 'partials/gdpr-cookie-consent-admin-display.php';
+			return;
+		}
 		$settings        = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$gdpr_policies   = self::get_cookie_usage_for_options();
 		$policies_length = count( $gdpr_policies );
@@ -772,6 +775,9 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$settings_layout_options_extended    = array();
 		$settings_layout_options_extended[0] = end( $settings_layout_options );
+		$script_blocker_settings             = array();
+		$cookie_list_settings                = array();
+		$cookie_scan_settings                = array();
 		$script_blocker_settings             = apply_filters( 'gdpr_settings_script_blocker_values', '' );
 		$cookie_list_settings                = apply_filters( 'gdpr_settings_cookie_list_values', '' );
 		$cookie_scan_settings                = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
@@ -1072,7 +1078,7 @@ class Gdpr_Cookie_Consent_Admin {
 				return;
 			}
 			$the_options                                        = Gdpr_Cookie_Consent::gdpr_get_settings();
-			$the_options['is_on']                      	        = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'false';
+			$the_options['is_on']                               = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'false';
 			$the_options['cookie_usage_for']                    = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
 			$the_options['cookie_bar_as']                       = isset( $_POST['show-cookie-as'] ) ? sanitize_text_field( wp_unslash( $_POST['show-cookie-as'] ) ) : 'banner';
 			$the_options['notify_position_vertical']            = isset( $_POST['gcc-gdpr-cookie-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-position'] ) ) : 'bottom';
