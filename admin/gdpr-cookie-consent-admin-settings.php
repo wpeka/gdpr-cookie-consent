@@ -373,7 +373,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 
 						<?php do_action( 'gdpr_cookie_template' ); ?>
-						
+
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Cookie Bar Body Design', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
@@ -427,7 +427,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius" v-model="cookie_bar_border_radius"></c-input>
 									</c-col>
 								</c-row>
-								<?php do_action( 'gdpr_cookie_font' ); ?>	
+								<?php do_action( 'gdpr_cookie_font' ); ?>
 							</c-card-body>
 						</c-card>
 						<c-card>
