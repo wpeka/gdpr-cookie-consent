@@ -946,7 +946,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Script Blocker is Currently', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Enable to turn on the script blocker.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 										<c-col class="col-sm-8">
-											<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="is_script_blocker_on" v-on:update:checked="onSwitchScriptBlocker"></c-switch>
+											<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="is_script_blocker_on" v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
 											<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on">
 										</c-col>
 									</c-row>
