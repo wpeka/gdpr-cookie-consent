@@ -1396,14 +1396,14 @@ var gen = new Vue({
                         }
                         else{
                             that.success_error_message = data.message;
-                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
                             j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
                             j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
                         }
                     },
                     error:function() {
                         that.success_error_message = data.message;
-                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
                         j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
                         j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
                     }
