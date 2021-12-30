@@ -7,7 +7,7 @@ import 'vue-select/dist/vue-select.css';
 import VueModal from '@kouts/vue-modal'
 import '@kouts/vue-modal/dist/vue-modal.css';
 
-import { cilPencil, cilSettings, cilInfo, cibGoogleKeep } from '@coreui/icons';
+import { cilPencil, cilSettings, cilInfo, cibGoogleKeep, cibTreehouse } from '@coreui/icons';
 Vue.use(CoreuiVue);
 Vue.component('v-select', vSelect);
 Vue.component('vue-editor', VueEditor);
@@ -206,6 +206,13 @@ var gen = new Vue({
             continue_scan:1,	
             pollCount:0,	
             onPrg:0,
+            template: settings_obj.the_options.hasOwnProperty('template') ? settings_obj.the_options['template'] : 'banner-default',
+            banner_template: settings_obj.the_options.hasOwnProperty('banner_template') ? settings_obj.the_options['banner_template'] : 'banner-default',
+            popup_template: settings_obj.the_options.hasOwnProperty('popup_template') ? settings_obj.the_options['popup_template'] : 'popup-default',
+            widget_template: settings_obj.the_options.hasOwnProperty('widget_template') ? settings_obj.the_options['widget_template'] : 'widget-default',
+            show_banner_template: settings_obj.the_options.hasOwnProperty('show_cookie_as') && settings_obj.the_options['show_cookie_as'] === 'banner' ? true : false,
+            show_popup_template: settings_obj.the_options.hasOwnProperty('show_cookie_as') && settings_obj.the_options['show_cookie_as'] === 'popup' ? true : false,
+            show_widget_template: settings_obj.the_options.hasOwnProperty('show_cookie_as') && settings_obj.the_options['show_cookie_as'] === 'widget' ? true : false,
             }
     },
     methods: {
@@ -213,6 +220,21 @@ var gen = new Vue({
             return value.replace(/\\(.)/mg, "$1");
         },
         setValues() {
+            if(this.show_cookie_as === 'banner') {
+                this.show_banner_template = true;
+                this.show_popup_template = false;
+                this.show_widget_template = false;
+            }
+            else if(this.show_cookie_as === 'popup') {
+                this.show_banner_template = false;
+                this.show_popup_template = true;
+                this.show_widget_template = false;
+            }
+            else if(this.show_cookie_as === 'widget') {
+                this.show_banner_template = false;
+                this.show_popup_template = false;
+                this.show_widget_template = true;
+            }
             if(this.gdpr_policy === 'both') {
                 this.is_ccpa = true;
                 this.is_gdpr = true;
@@ -390,9 +412,38 @@ var gen = new Vue({
         cookieTypeChange( value ){
             if(value === 'banner') {
                 this.is_banner = true;
+                this.show_banner_template = true;
+                this.show_popup_template  = false;
+                this.show_widget_template = false;
+                this.template = this.banner_template;
             }
             else{
                 this.is_banner = false;
+                if( value === 'popup' ) {
+                    this.show_banner_template = false;
+                    this.show_popup_template  = true;
+                    this.show_widget_template = false;
+                    this.template = this.popup_template;
+                }
+                else if( value === 'widget' ) {
+                    this.show_banner_template = false;
+                    this.show_popup_template  = false;
+                    this.show_widget_template = true;
+                    this.template = this.widget_template;
+                }
+            }
+        },
+        onTemplateChange(value) {
+            if( this.show_cookie_as === 'banner' ) {
+                this.banner_template = value;
+                this.template = value;
+            }else if( this.show_cookie_as === 'popup' ) {
+                this.popup_template = value;
+                this.template = value;
+            }
+            else if( this.show_cookie_as === 'widget' ) {
+                this.widget_template = value;
+                this.template = value;
             }
         },
         cookieLayoutChange( value ){
