@@ -224,7 +224,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 			$out['total'] = $count_arr['ttnum'];
 		}
 		$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'gdpr_cookie_post_cookies ORDER BY id_gdpr_cookie_post_cookies DESC LIMIT %d, %d', array( 0, 100 ) ), ARRAY_A ); // db call ok; no-cache ok.
-		if ( $data_arr ) {
+		if ( empty( $data_arr ) || $data_arr ) {
 			$out['post_list'] = $data_arr;
 			$out['response']  = true;
 		}
