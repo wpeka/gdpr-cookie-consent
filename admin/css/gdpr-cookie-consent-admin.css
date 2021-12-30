@@ -551,6 +551,7 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
 .gdpr-templates-field-container .gdpr-template-field .gdpr-right-field {
 	padding: 1rem;
 	box-shadow:rgba(142, 142, 142, 0.6) 1px 0px 5px 1px;
+	width: 100%;
 }
 .template-widget .gdpr-templates-field-container .gdpr-template-field .gdpr-right-field,
 .template-popup .gdpr-templates-field-container .gdpr-template-field .gdpr-right-field {
@@ -859,7 +860,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 #gdpr-cookie-consent-settings-app.gdpr-cookie-consent-app-container p {
     /*font-family: 'Lato', sans-serif;*/
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    color: #3c4b64;
+    /* color: #3c4b64; */
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container {
     padding: 0;
