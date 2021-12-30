@@ -412,7 +412,7 @@ var gen = new Vue({
         onSwitchButtonReadMoreNewWin() {
             this.button_readmore_new_win = !this.button_readmore_new_win;
         },
-        onSwitchScriptBlocker(){
+        onSwitchingScriptBlocker(){
             this.is_script_blocker_on = !this.is_script_blocker_on;
         },
         onPostsSelect(value){
