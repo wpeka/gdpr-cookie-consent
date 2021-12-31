@@ -951,7 +951,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-col>
 									</c-row>
 									<c-row>
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Custom Scripts', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Select the font.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Custom Scripts', 'gdpr-cookie-consent' ); ?> <c-icon name="cib-google-keep" color="primary" v-c-tooltip="'<?php esc_html_e( 'Enter non functional cookies javascript code here to be used after the consent is accepted.', 'gdpr-cookie-consent' ); ?>'"></c-icon></label></c-col>
 										<c-col class="col-sm-8">
 											<div role="group" class="form-group">
 											<span class="gdpr-cookie-consent-description"><?php esc_attr_e( 'Enter non functional cookies javascript code here (for e.g. Google Analytics) to be used after the consent is accepted.', 'gdpr-cookie-consent' ); ?></span>
@@ -990,4 +990,5 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 		</c-form>
 	</c-container>
 </div>
+<div id="gdpr-mascot-app"></div>
 <?php
