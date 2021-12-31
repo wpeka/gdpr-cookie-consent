@@ -1079,6 +1079,13 @@ var gen = new Vue({
             );
         },
         onScriptCategorySelect(values){
+            if( !values ) {
+                this.success_error_message = 'You must select a category.';
+                j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#e55353' );
+                j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                return false;
+            }
             var that = this;
             var category_code = values.split(',')[0];
             var script_id = values.split(',')[1];
