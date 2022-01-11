@@ -46,21 +46,21 @@ $script_blocker_sub_tab = apply_filters( 'gdprcookieconsent_script_blocker_sub_t
 				<tr valign="top">
 					<th scope="row"><label for="header_scripts_field"><?php esc_attr_e( 'Header Scripts', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<textarea id="header_scripts_field" name="header_scripts_field" class="vvv_textbox"><?php echo htmlentities( stripslashes( $the_options['header_scripts'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></textarea>
+						<textarea id="header_scripts_field" name="header_scripts_field" class="vvv_textbox"><?php echo esc_html( htmlentities( stripslashes( $the_options['header_scripts'] ) ) ); ?></textarea>
 						<span class="gdpr_form_help"><?php esc_attr_e( 'These scripts will be printed in the head section on all pages and/or posts.', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="body_scripts_field"><?php esc_attr_e( 'Body Scripts', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<textarea id="body_scripts_field" name="body_scripts_field" class="vvv_textbox"><?php echo htmlentities( stripslashes( $the_options['body_scripts'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></textarea>
+						<textarea id="body_scripts_field" name="body_scripts_field" class="vvv_textbox"><?php echo esc_html( htmlentities( stripslashes( $the_options['body_scripts'] ) ) ); ?></textarea>
 						<span class="gdpr_form_help"><?php esc_attr_e( 'These scripts will be printed just below the opening body tag on all pages and/or posts.', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="footer_scripts_field"><?php esc_attr_e( 'Footer Scripts', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<textarea id="footer_scripts_field" name="footer_scripts_field" class="vvv_textbox"><?php echo htmlentities( stripslashes( $the_options['footer_scripts'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></textarea>
+						<textarea id="footer_scripts_field" name="footer_scripts_field" class="vvv_textbox"><?php echo esc_html( htmlentities( stripslashes( $the_options['footer_scripts'] ) ) ); ?></textarea>
 						<span class="gdpr_form_help"><?php esc_attr_e( 'These scripts will be printed above the closing body tag on all pages and/or posts.', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>

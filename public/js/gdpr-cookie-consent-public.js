@@ -87,6 +87,9 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 		},
 	}
 
+	var gdpr_cookiebar_settings = gdpr_cookies_obj.gdpr_cookiebar_settings;
+	var gdpr_cookies_list = gdpr_cookies_obj.gdpr_cookies_list;
+
 	var GDPR = {
 		bar_config:{},
 		show_config:{},

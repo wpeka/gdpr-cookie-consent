@@ -35,6 +35,9 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 			'response' => false,
 			'message'  => __( 'Unable to handle your request.', 'gdpr-cookie-consent' ),
 		);
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( -1 );
+		}
 		if ( isset( $_POST['gdpr_custom_action'] ) ) {
 			check_admin_referer( 'gdpr_cookie_custom', 'security' );
 			$gdpr_custom_action = sanitize_text_field( wp_unslash( $_POST['gdpr_custom_action'] ) );
@@ -104,6 +107,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 		);
 		if ( isset( $_POST['cookie_arr'] ) ) {
 			check_admin_referer( 'gdpr_cookie_custom', 'security' );
+			// Store sanitised values only.
 			$cookie_arr = gdprcc_clean( wp_unslash( $_POST['cookie_arr'] ) ); // phpcs:ignore input var ok, CSRF ok, sanitization ok.
 			$flag       = 0;
 			foreach ( $cookie_arr as $cookie ) {

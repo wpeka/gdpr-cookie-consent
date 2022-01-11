@@ -17,26 +17,29 @@ if ( ! defined( 'WPINC' ) ) {
 <div class="wrap">
 	<h2><?php esc_attr_e( 'Import from a CSV file', 'gdpr-cookie-consent' ); ?></h2>
 	<?php
-	if ( isset( $_GET['import'] ) ) { // phpcs:ignore
-
-		switch ( $_GET['import'] ) { // phpcs:ignore
-			case 'file':
-				echo '<div class="error"><p><strong>' . esc_attr__( 'Error during file upload.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
-				break;
-			case 'data':
-				echo '<div class="error"><p><strong>' . esc_attr__( 'Cannot extract data from uploaded file or no file was uploaded.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
-				break;
-			case 'fail':
-				echo '<div class="error"><p><strong>' . esc_attr__( 'No posts was successfully imported.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
-				break;
-			case 'errors':
-				echo '<div class="error"><p><strong>' . esc_attr__( 'Some posts were successfully imported but some were not.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
-				break;
-			case 'success':
-				echo '<div class="updated"><p><strong>' . esc_attr__( 'Post import was successful.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
-				break;
-			default:
-				break;
+	if ( isset( $_GET['nonce'] ) ) {
+		if ( wp_verify_nonce( sanitize_key( wp_unslash( $_GET['nonce'] ) ), 'gdpr_policy_import_nonce' ) ) {
+			if ( isset( $_GET['import'] ) ) {
+				switch ( sanitize_title( wp_unslash( $_GET['import'] ) ) ) {
+					case 'file':
+						echo '<div class="error"><p><strong>' . esc_attr__( 'Error during file upload.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+						break;
+					case 'data':
+						echo '<div class="error"><p><strong>' . esc_attr__( 'Cannot extract data from uploaded file or no file was uploaded.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+						break;
+					case 'fail':
+						echo '<div class="error"><p><strong>' . esc_attr__( 'No posts was successfully imported.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+						break;
+					case 'errors':
+						echo '<div class="error"><p><strong>' . esc_attr__( 'Some posts were successfully imported but some were not.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+						break;
+					case 'success':
+						echo '<div class="updated"><p><strong>' . esc_attr__( 'Post import was successful.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+						break;
+					default:
+						break;
+				}
+			}
 		}
 	}
 	?>

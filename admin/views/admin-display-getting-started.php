@@ -30,7 +30,7 @@ $pro_link = sprintf(
 		<?php if ( get_option( 'wpl_pro_active' ) ) : ?>
 			<p><?php esc_attr_e( 'Before you can display the consent notice on your website, you need to add details of the cookies on your website. The plugin automatically scans the website for cookies and adds them.', 'gdpr-cookie-consent' ); ?></p>
 		<?php else : ?>
-			<p><?php echo sprintf( 'Before you can display the consent notice on your website, you need to add details of the cookies on your website. The %s of the plugin automatically scans the website for cookies and adds them.', $pro_link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+			<p> <?php echo esc_html( 'Before you can display the consent notice on your website, you need to add details of the cookies on your website. The ' ); ?><a href=" <?php echo esc_attr( 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=getting-started&utm_campaign=link&utm_content=pro-version' ); ?> "><?php echo esc_html_e( 'pro version', 'gdpr-cookie-consent' ); ?></a><?php echo esc_html( ' of the plugin automatically scans the website for cookies and adds them.' ); ?></p>
 		<?php endif; ?>
 		<a style="<?php echo esc_attr( $styles ); ?>" class="button button-primary" href="<?php echo esc_url( admin_url() . 'admin.php?page=gdpr-cookie-consent#gdpr-cookie-consent-cookie-list' ); ?>" target="_blank"><?php esc_attr_e( 'Add Cookie Details', 'gdpr-cookie-consent' ); ?></a>
 	</div>
