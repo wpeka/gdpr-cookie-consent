@@ -200,7 +200,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Change Log ==
 = 2.0.6 =
-* Fix: Security related issues fixed.
+* Fix: Fixed plugin code as per WP standards and PHPCS.
 
 = 2.0.5 =
 * Fix: Bug fix related to Popup display issue with theme conflicts.
@@ -364,7 +364,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Upgrade Notice ==
 = 2.0.6 =
-* Fix: Security related issues fixed.
+* Fix: Fixed plugin code as per WP standards and PHPCS.
 
 = 2.0.5 =
 * Fix: Bug fix related to Popup display issue with theme conflicts.
