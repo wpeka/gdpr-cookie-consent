@@ -36,7 +36,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 			'message'  => __( 'Unable to handle your request.', 'gdpr-cookie-consent' ),
 		);
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( -1 );
+			return $out;
 		}
 		if ( isset( $_POST['gdpr_custom_action'] ) ) {
 			check_admin_referer( 'gdpr_cookie_custom', 'security' );
