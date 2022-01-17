@@ -173,7 +173,8 @@ class Gdpr_Cookies_Read_Csv {
 					break;
 
 				case self::FOUND_CR_Q:
-					// (TODO: error case: "foo"\rX instead of "foo"\r\n or "foo"\n). // phpcs.ignore
+					// phpcs:ignore Generic.Commenting.Todo.Found
+					// TODO: error case: "foo"\rX instead of "foo"\r\n or "foo"\n.
 					$field .= "\r" . $char;
 					$state  = self::QUOTED_FIELD;
 					break;
