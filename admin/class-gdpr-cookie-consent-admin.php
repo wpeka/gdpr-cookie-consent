@@ -269,13 +269,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 1.7.6
 	 */
 	public function admin_init() {
-		if ( ! get_option( 'gdpr_version_number' ) ) {
-			update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
-		} else {
-			if ( get_option( 'gdpr_version_number' ) !== GDPR_COOKIE_CONSENT_VERSION ) {
-				update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
-			}
-		}
 		// Update settings from Version 1.7.6.
 		$prev_gdpr_option = get_option( 'GDPRCookieConsent-2.0' );
 		if ( isset( $prev_gdpr_option['is_on'] ) ) {
