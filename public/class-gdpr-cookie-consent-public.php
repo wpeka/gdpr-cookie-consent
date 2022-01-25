@@ -209,7 +209,14 @@ class Gdpr_Cookie_Consent_Public {
 			wp_enqueue_style( $this->plugin_name );
 			wp_enqueue_script( $this->plugin_name . '-bootstrap-js' );
 			wp_enqueue_script( $this->plugin_name );
-			wp_localize_script( $this->plugin_name, 'log_obj', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+			wp_localize_script(
+				$this->plugin_name,
+				'log_obj',
+				array(
+					'ajax_url'              => admin_url( 'admin-ajax.php' ),
+					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
+				)
+			);
 			add_filter( 'clean_url', array( $this, 'gdprcookieconsent_clean_async_url' ) );
 			$timber           = new Timber\Timber();
 			$gdpr_message     = '';
