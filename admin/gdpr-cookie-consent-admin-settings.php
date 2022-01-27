@@ -7,6 +7,7 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/admin
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -20,7 +21,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-settings-app">
 	<c-container class="gdpr-cookie-consent-settings-container">
 		<c-form id="gcc-save-settings-form" spellcheck="false" class="gdpr-cookie-consent-settings-form">
-			<input type="hidden" name="gcc_settings_form_nonce" value="<?php echo wp_create_nonce( 'gcc-settings-form-nonce' ); ?>"/>
+			<input type="hidden" name="gcc_settings_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce' ) ); ?>"/>
 			<div class="gdpr-cookie-consent-settings-top">
 				<div class="gdpr-cookie-consent-save-button">
 					<c-button color="info" @click="saveCookieSettings"><span>Save Changes</span></c-button>

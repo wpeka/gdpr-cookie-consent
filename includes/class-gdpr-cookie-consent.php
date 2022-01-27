@@ -960,9 +960,7 @@ class Gdpr_Cookie_Consent {
 			$slim_settings['pro_active'] = false;
 		}
 		$slim_settings = apply_filters( 'gdprcookieconsent_json_settings', $slim_settings );
-		$str           = wp_json_encode( $slim_settings );
-
-		return $str;
+		return $slim_settings;
 	}
 
 	/**
