@@ -369,6 +369,13 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 2.0.7 =
+* Fix: Pro version compatibility fixes.
+
+= 2.0.6 =
+* Fix: Fixed plugin code as per WP standards and PHPCS.
+
 = 2.0.5 =
 * Fix: Bug fix related to Popup display issue with theme conflicts.
 
