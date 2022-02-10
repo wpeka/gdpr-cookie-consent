@@ -39,7 +39,7 @@ var gen = new Vue({
             gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
             ccpa_message: settings_obj.the_options.hasOwnProperty('notify_message_ccpa') ? this.stripSlashes(settings_obj.the_options['notify_message_ccpa']) : "In case of sale of your personal information, you may opt out by using the link",
-            show_visitor_conditions: this.is_ccpa || ( this.is_gdpr && settings_obj.is_pro_active ) ? true : false,
+            show_visitor_conditions: this.is_ccpa || ( this.is_gdpr && '1' === settings_obj.is_pro_active ) ? true : false,
             is_iab_on: settings_obj.the_options.hasOwnProperty('is_ccpa_iab_on') && (true === settings_obj.the_options['is_ccpa_iab_on'] || 1 === settings_obj.the_options['is_ccpa_iab_on'] ) ? true : false,
             is_eu_on: settings_obj.the_options.hasOwnProperty('is_eu_on') && (true === settings_obj.the_options['is_eu_on'] || 1 === settings_obj.the_options['is_eu_on'] ) ? true : false,
             is_ccpa_on: settings_obj.the_options.hasOwnProperty('is_ccpa_on') && (true === settings_obj.the_options['is_ccpa_on'] || 1 === settings_obj.the_options['is_ccpa_on'] ) ? true : false,
@@ -254,8 +254,10 @@ var gen = new Vue({
                 this.is_ccpa = false;
                 this.is_eprivacy = false;
                 this.show_revoke_card = true;
-                if( settings_obj.is_pro_active ) {
+                if( '1' === settings_obj.is_pro_active ) {
                     this.show_visitor_conditions = true;
+                }else{
+                    this.show_visitor_conditions = false;
                 }
             }
             else {
@@ -496,8 +498,11 @@ var gen = new Vue({
                 this.is_ccpa = false;
                 this.is_eprivacy = false;
                 this.show_revoke_card = true;
-                if( settings_obj.is_pro_active ) {
+                if( '1' === settings_obj.is_pro_active ) {
                     this.show_visitor_conditions = true;
+                }
+                else{
+                    this.show_visitor_conditions = false;
                 }
             }
             else {
