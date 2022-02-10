@@ -1091,9 +1091,18 @@ var gen = new Vue({
             var script_id = values.split(',')[1];
             for( let i=0; i<this.category_list_options.length; i++ ) {
                 if( this.category_list_options[i]['code'] === category_code ) {
-                    this.scripts_list_data[script_id-1]['script_category'] = this.category_list_options[i].code;
-                    this.scripts_list_data[script_id-1]['script_category_label'] = this.category_list_options[i].label;
-                    break;
+                    if( this.scripts_list_data[script_id-1]['script_category'] === category_code ) {
+                        this.success_error_message = 'Category updated successfully';
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                        return false;
+                    }
+                    else{
+                        this.scripts_list_data[script_id-1]['script_category'] = this.category_list_options[i].code;
+                        this.scripts_list_data[script_id-1]['script_category_label'] = this.category_list_options[i].label;
+                        break;
+                    }
                 }
             }
             var data     = {
