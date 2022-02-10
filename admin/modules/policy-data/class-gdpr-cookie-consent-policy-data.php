@@ -136,7 +136,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 			update_post_meta( $post->ID, '_gdpr_policies_domain', sanitize_text_field( wp_unslash( $_POST['_gdpr_policies_domain'] ) ) );
 		}
 		if ( isset( $_POST['_gdpr_policies_links_editor'] ) && check_admin_referer( 'gdpr_save_custom_metabox', '_gdpr_policies_links_editor_nonce' ) ) {
-			$data = wp_kses_post( $_POST['_gdpr_policies_links_editor'] ); // phpcs:ignore input var ok, CSRF ok, sanitization ok.
+			$data = wp_kses_post( wp_unslash( $_POST['_gdpr_policies_links_editor'] ) );
 			update_post_meta( $post->ID, '_gdpr_policies_links_editor', $data );
 		}
 	}
@@ -357,16 +357,48 @@ class Gdpr_Cookie_Consent_Policy_Data {
 				$result = $this->gdpr_import_csv_policies( $filename );
 
 				if ( ! $result['post_ids'] ) { // Some posts imported.
-					wp_safe_redirect( add_query_arg( 'import', 'fail', wp_get_referer() ) );
+					wp_safe_redirect(
+						add_query_arg(
+							array(
+								'import' => 'fail',
+								'nonce'  => wp_create_nonce( 'gdpr_policy_import_nonce' ),
+							),
+							wp_get_referer()
+						)
+					);
 				} elseif ( $result['errors'] ) { // Some posts imported.
-					wp_safe_redirect( add_query_arg( 'import', 'errors', wp_get_referer() ) );
+					wp_safe_redirect(
+						add_query_arg(
+							array(
+								'import' => 'errors',
+								'nonce'  => wp_create_nonce( 'gdpr_policy_import_nonce' ),
+							),
+							wp_get_referer()
+						)
+					);
 				} else { // All posts imported.
-					wp_safe_redirect( add_query_arg( 'import', 'success', wp_get_referer() ) );
+					wp_safe_redirect(
+						add_query_arg(
+							array(
+								'import' => 'success',
+								'nonce'  => wp_create_nonce( 'gdpr_policy_import_nonce' ),
+							),
+							wp_get_referer()
+						)
+					);
 				}
 
 				exit;
 			}
-			wp_safe_redirect( add_query_arg( 'import', 'file', wp_get_referer() ) );
+			wp_safe_redirect(
+				add_query_arg(
+					array(
+						'import' => 'file',
+						'nonce'  => wp_create_nonce( 'gdpr_policy_import_nonce' ),
+					),
+					wp_get_referer()
+				)
+			);
 			exit();
 		}
 	}

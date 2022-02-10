@@ -87,6 +87,9 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 		},
 	}
 
+	var gdpr_cookiebar_settings = gdpr_cookies_obj.gdpr_cookiebar_settings;
+	var gdpr_cookies_list = gdpr_cookies_obj.gdpr_cookies_list;
+	
 	var GDPR = {
 		bar_config:{},
 		show_config:{},
@@ -971,6 +974,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						type: 'POST',
 						data:{
 							action: 'gdpr_log_consent_action',
+							security: log_obj.consent_logging_nonce,
 							gdpr_user_action:btn_action,
 							cookie_list:GDPR_Cookie.getallcookies()
 						},
