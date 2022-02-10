@@ -800,6 +800,15 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	line-height: 1.5;
 }
 
+.btn-small {
+	font-size: medium;
+}
+.btn-medium {
+	font-size: large;
+}
+.btn-large {
+	font-size: x-large;
+}
 
 
 /** For gdprmodal Popup */
