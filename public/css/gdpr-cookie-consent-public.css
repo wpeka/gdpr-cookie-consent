@@ -799,15 +799,18 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	font-size: 11px;
 	line-height: 1.5;
 }
-
-.btn-small {
-	font-size: medium;
+.btn-sm {
+	padding: 0.25rem 0.5rem;
+	font-size: 11px;
+	line-height: 1.5;
 }
-.btn-medium {
-	font-size: large;
+.btn-lg {
+	padding: 0.5rem 1rem;
+	font-size: 18px;
+	line-height: 1.5;
 }
-.btn-large {
-	font-size: x-large;
+.btn {
+	padding: 0.375rem 0.15rem;
 }
 
 

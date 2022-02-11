@@ -419,13 +419,13 @@ class Gdpr_Cookie_Consent_Public {
 			if ( $the_options['button_accept_as_button'] ) {
 				switch ( $the_options['button_confirm_button_size'] ) {
 					case 'medium':
-						$the_options['button_confirm_classes'] .= 'btn btn-medium';
+						$the_options['button_confirm_classes'] .= 'btn';
 						break;
 					case 'large':
-						$the_options['button_confirm_classes'] .= 'btn btn-large';
+						$the_options['button_confirm_classes'] .= 'btn btn-lg';
 						break;
 					case 'small':
-						$the_options['button_confirm_classes'] .= 'btn btn-small';
+						$the_options['button_confirm_classes'] .= 'btn btn-sm';
 						break;
 				}
 			}
@@ -433,13 +433,13 @@ class Gdpr_Cookie_Consent_Public {
 			if ( $the_options['button_cancel_as_button'] ) {
 				switch ( $the_options['button_cancel_button_size'] ) {
 					case 'medium':
-						$the_options['button_cancel_classes'] .= 'btn btn-medium';
+						$the_options['button_cancel_classes'] .= 'btn';
 						break;
 					case 'large':
-						$the_options['button_cancel_classes'] .= 'btn btn-large';
+						$the_options['button_cancel_classes'] .= 'btn btn-lg';
 						break;
 					case 'small':
-						$the_options['button_cancel_classes'] .= 'btn btn-small';
+						$the_options['button_cancel_classes'] .= 'btn btn-sm';
 						break;
 				}
 			}
