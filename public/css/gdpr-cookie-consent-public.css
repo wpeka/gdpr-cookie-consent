@@ -748,7 +748,8 @@ Bootstrap CSS for frontend UI
 	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 #gdpr-cookie-consent-bar.gdpr-popup.theme-dt-the7 .btn,
-#gdpr-cookie-consent-bar.gdpr-widget.theme-dt-the7 .btn {
+#gdpr-cookie-consent-bar.gdpr-widget.theme-dt-the7 .btn,
+.gdprmodal-footer .btn {
 	padding: 0.375rem 0.15rem;
 }
 #gdpr-cookie-consent-bar .btn.gdpr_action_button,
@@ -787,32 +788,20 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	pointer-events: none;
 }
 #gdpr-cookie-consent-bar .btn-lg,
-.gdpr_messagebar_detail .btn-lg {
+.gdpr_messagebar_detail .btn-lg,
+.gdprmodal-footer .btn-lg {
 	padding: 0.5rem 1rem;
 	font-size: 18px;
 	line-height: 1.5;
 }
 
 #gdpr-cookie-consent-bar .btn-sm,
-.gdpr_messagebar_detail .btn-sm {
+.gdpr_messagebar_detail .btn-sm,
+.gdprmodal-footer .btn-sm {
 	padding: 0.25rem 0.5rem;
 	font-size: 11px;
 	line-height: 1.5;
 }
-.btn-sm {
-	padding: 0.25rem 0.5rem;
-	font-size: 11px;
-	line-height: 1.5;
-}
-.btn-lg {
-	padding: 0.5rem 1rem;
-	font-size: 18px;
-	line-height: 1.5;
-}
-.btn {
-	padding: 0.375rem 0.15rem;
-}
-
 
 /** For gdprmodal Popup */
 .gdpr_messagebar_detail, .gdpr_messagebar_detail:before, .gdpr_messagebar_detail:after {
