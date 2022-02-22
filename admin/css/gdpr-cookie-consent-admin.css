@@ -872,6 +872,9 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     margin-bottom: 32px;
     border-top: 1px solid #d8dbe0;
     border-bottom: 1px solid #d8dbe0;
+	position: sticky;
+	top: 32px;
+	z-index: 1001;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav > div:nth-child(1),
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav > div:nth-child(2) {
