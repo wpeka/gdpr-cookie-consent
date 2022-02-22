@@ -1436,6 +1436,14 @@ var gen = new Vue({
         j('#gdpr-before-mount').css('display','none');
         this.setValues();
         this.setPostListValues();
+        j('.gdpr-cookie-consent-settings-nav .nav .nav-item .nav-link').on('click', function() {
+            let adminbar_height = j('#wpadminbar').height();
+            let nav_bar_distance =  j('.gdpr-cookie-consent-settings-nav').offset().top;
+            let scrolled_distance = nav_bar_distance - j(window).scrollTop();
+            if( scrolled_distance <= adminbar_height ) {
+                window.scroll(0, nav_bar_distance-adminbar_height);
+            }
+        })
         if( this.scan_cookie_list_length > 0 ) {
             this.setScanListValues();	
         }
