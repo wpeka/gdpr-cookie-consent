@@ -6,12 +6,14 @@ import '@coreui/coreui/dist/css/coreui.min.css';
 import 'vue-select/dist/vue-select.css';
 import VueModal from '@kouts/vue-modal'
 import '@kouts/vue-modal/dist/vue-modal.css';
+import Tooltip from './vue-components/tooltip';
 
 import { cilPencil, cilSettings, cilInfo, cibGoogleKeep, cibTreehouse } from '@coreui/icons';
 Vue.use(CoreuiVue);
 Vue.component('v-select', vSelect);
 Vue.component('vue-editor', VueEditor);
 Vue.component('v-modal', VueModal);
+Vue.component('tooltip', Tooltip);
 
 const j = jQuery.noConflict();
 
@@ -24,7 +26,16 @@ var gen = new Vue({
                 labelOff: '\u2715'
             },
             appendField: ".gdpr-cookie-consent-settings-container",
+            configure_image_url: require('../admin/images/configure-icon.png'),
+            closeOnBackdrop: true,
+            centered: true,
+            accept_button_popup: false,
+            decline_button_popup: false,
             show_script_blocker: false,
+            settings_button_popup: false,
+            confirm_button_popup: false,
+            cancel_button_popup: false,
+            opt_out_link_popup: false,
             scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['total'] : 0,
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
@@ -163,7 +174,7 @@ var gen = new Vue({
             confirm_text: settings_obj.the_options.hasOwnProperty('button_confirm_text') ? settings_obj.the_options['button_confirm_text'] : 'Confirm',
             confirm_text_color: settings_obj.the_options.hasOwnProperty('button_confirm_link_color') ? settings_obj.the_options['button_confirm_link_color'] : '#ffffff',
             confirm_background_color: settings_obj.the_options.hasOwnProperty('button_confirm_button_color') ? settings_obj.the_options['button_confirm_button_color'] : '#18a300',
-            confirm_opacity: settings_obj.the_options.hasOwnProperty('button_confirm_button_opacity_field') ? settings_obj.the_options['button_confirm_button_opacity_field'] : '1',
+            confirm_opacity: settings_obj.the_options.hasOwnProperty('button_confirm_button_opacity') ? settings_obj.the_options['button_confirm_button_opacity'] : '1',
             confirm_style: settings_obj.the_options.hasOwnProperty('button_confirm_button_border_style') ? settings_obj.the_options['button_confirm_button_border_style'] : 'none',
             confirm_border_color: settings_obj.the_options.hasOwnProperty('button_confirm_button_border_color') ? settings_obj.the_options['button_confirm_button_border_color'] : '#18a300',
             confirm_border_width: settings_obj.the_options.hasOwnProperty('button_confirm_button_border_width') ? settings_obj.the_options['button_confirm_button_border_width'] : '0',
@@ -172,7 +183,7 @@ var gen = new Vue({
             cancel_text: settings_obj.the_options.hasOwnProperty('button_cancel_text') ? settings_obj.the_options['button_cancel_text'] : 'Cancel',
             cancel_text_color: settings_obj.the_options.hasOwnProperty('button_cancel_link_color') ? settings_obj.the_options['button_cancel_link_color'] : '#ffffff',
             cancel_background_color: settings_obj.the_options.hasOwnProperty('button_cancel_button_color') ? settings_obj.the_options['button_cancel_button_color'] : '#333333',
-            cancel_opacity: settings_obj.the_options.hasOwnProperty('button_cancel_button_opacity_field') ? settings_obj.the_options['button_cancel_button_opacity_field'] : '1',
+            cancel_opacity: settings_obj.the_options.hasOwnProperty('button_cancel_button_opacity') ? settings_obj.the_options['button_cancel_button_opacity'] : '1',
             cancel_style: settings_obj.the_options.hasOwnProperty('button_cancel_button_border_style') ? settings_obj.the_options['button_cancel_button_border_style'] : 'none',
             cancel_border_color: settings_obj.the_options.hasOwnProperty('button_cancel_button_border_color') ? settings_obj.the_options['button_cancel_button_border_color'] : '#333333',
             cancel_border_width: settings_obj.the_options.hasOwnProperty('button_cancel_button_border_width') ? settings_obj.the_options['button_cancel_button_border_width'] : '0',
