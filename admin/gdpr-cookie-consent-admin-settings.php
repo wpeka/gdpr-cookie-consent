@@ -559,6 +559,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row v-show="accept_as_button">
+									<c-col class="col-sm-4  gdpr-color-pick">
+										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_opacity"></c-input> 
+										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-opacity" v-model="accept_opacity"></c-input>
+									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
 										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width"></c-input> 
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-width" v-model="accept_border_width"></c-input>
@@ -566,10 +570,6 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-col class="col-sm-4  gdpr-color-pick">
 										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius"></c-input> 
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-radius" v-model="accept_border_radius"></c-input>
-									</c-col>
-									<c-col class="col-sm-4  gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_opacity"></c-input> 
-										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-opacity" v-model="accept_opacity"></c-input>
 									</c-col>
 								</c-row>
 								<template v-slot:footer>
