@@ -977,6 +977,28 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     box-shadow: 0 0 0 1px #2271b1;
     border-radius: 0.25rem;
 }
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .card-body .row .col.col-sm-6 div.form-group select {
+    max-width: 100%;
+    font-size: 14px;
+    color: #3c4b64;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .card-body .row .col.col-sm-6 div.form-group.v-select input[type="search"] {
+    border: unset;
+    color: inherit;
+    margin: 0;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .card-body .row .col.col-sm-6 div.form-group.v-select input[type="search"]:focus {
+    box-shadow: unset;
+    margin: 0;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .card-body .row .col.col-sm-6 div.form-group.v-select:focus-within {
+    box-shadow: 0 0 0 1px #2271b1;
+    border-radius: 0.25rem;
+}
+.gdpr-color-select>input[type="color"] {
+	padding: 0!important;
+	border-radius: 0;
+}
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .card-body .row .col.col-sm-8 .c-switch-input:focus~.c-switch-slider {
     box-shadow: 0 0 0 1px #2271b1;
 }
@@ -1208,3 +1230,95 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	height: 100%;
 	border: none;
 }
+.gdpr-configure-button {
+	display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    padding: 0;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+	color: #717b8e;
+	font-weight: 600;
+	vertical-align: middle;
+}
+.gdpr-configure-button>span{
+	color: #717b8e;
+}
+.gdpr-configure-button:focus {
+	outline: none;
+	box-shadow: none;
+}
+.gdpr-configure-button:focus-visible {
+	outline: none;
+}
+.gdpr-configure-image {
+	height: 1.2rem;
+	width: 1.2rem;
+	margin-right: 0.5rem;
+}
+.modal-content {
+	left: 5%;
+	min-width: 900px;
+}
+.gdpr-label-row {
+	margin-bottom: 0 !important;
+}
+.modal-footer {
+	padding: 0.25rem;
+}
+.modal-header {
+	padding: 0.5rem 1rem;
+}
+.gdpr-tooltip-image {
+	width: 0.8rem;
+	height: 0.8rem;
+}
+.gdpr-form-tooltip {
+	position: relative;
+	display: inline-block;
+  }
+  /* Tooltip text */
+  .gdpr-form-tooltip .gdpr-form-tooltiptext {
+	visibility: hidden;
+	
+	color: #ffffff;
+	text-align: center;
+	padding: 5px 5px;
+	border-radius: 2px;
+	font-size: 0.75rem;
+	
+	width: 180px;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -90px;
+  
+	opacity: 0;
+	transition: opacity 1s;
+  
+	position: absolute;
+	z-index: 1;
+	background: black;
+  }
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .gdpr-form-tooltip:hover .gdpr-form-tooltiptext {
+	visibility: visible;
+	opacity: 0.7;
+	z-index: 999999;
+  }
+  .gdpr-form-tooltip .gdpr-form-tooltiptext::after {
+	content: " ";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: black transparent transparent transparent;
+  }
+  .modal-header > button:focus {
+	  outline: none;
+  }
