@@ -60,7 +60,6 @@ class Gdpr_Cookie_Consent_Activator {
 			$prev_gdpr_option['button_decline_is_on']       = true;
 			$prev_gdpr_option['notify_position_horizontal'] = false;
 			$prev_gdpr_option['bar_heading_text']           = 'This website uses cookies';
-
 			$prev_gdpr_option['button_4_text']         = 'Cookie Settings';
 			$prev_gdpr_option['button_4_url']          = '#';
 			$prev_gdpr_option['button_4_action']       = '#cookie_action_settings';
