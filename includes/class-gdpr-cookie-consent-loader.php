@@ -46,10 +46,8 @@ class Gdpr_Cookie_Consent_Loader {
 	 * @since    1.0
 	 */
 	public function __construct() {
-
 		$this->actions = array();
 		$this->filters = array();
-
 	}
 
 	/**
