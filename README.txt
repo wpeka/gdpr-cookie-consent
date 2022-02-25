@@ -369,6 +369,8 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+= 2.1.0 =
+* Update: UI Changes on Settings Page.
 
 = 2.0.7 =
 * Fix: Pro version compatibility fixes.

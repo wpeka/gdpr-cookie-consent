@@ -89,7 +89,6 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 
 	var gdpr_cookiebar_settings = gdpr_cookies_obj.gdpr_cookiebar_settings;
 	var gdpr_cookies_list = gdpr_cookies_obj.gdpr_cookies_list;
-	
 	var GDPR = {
 		bar_config:{},
 		show_config:{},
@@ -1291,7 +1290,6 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 	$( document ).ready(
 		function() {
 			var settings = JSON.parse( gdpr_cookiebar_settings );
-
 			if ('2' == settings['maxmind_integrated']) {
 				var data = {
 					action: 'show_cookie_consent_bar',
