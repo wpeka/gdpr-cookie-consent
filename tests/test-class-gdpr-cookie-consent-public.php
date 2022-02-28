@@ -82,15 +82,15 @@ class Test_Gdpr_Cookie_Consent_Public extends WP_UnitTestCase {
 	/**
 	 * Test for public_modules function
 	 */
-	public function test_admin_modules() {
+	public function test_public_modules() {
 		$modules = array(
 			'cookie-custom' => 'abc',
 			'policy-data'   => 'abc',
 		);
 		delete_option( 'gdpr_admin_modules' );
-		self::$gdpr_cookie_consent->admin_modules();
+		self::$gdpr_cookie_consent->public_modules();
 		update_option( 'gdpr_admin_modules', $modules );
-		self::$gdpr_cookie_consent->admin_modules();
+		self::$gdpr_cookie_consent->public_modules();
 		$get_admin_modules = get_option( 'gdpr_admin_modules' );
 		$this->assertEquals( $modules, $get_admin_modules );
 
