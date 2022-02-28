@@ -52,7 +52,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			} else {
 				var expires = "";
 			}
-			document.cookie = name + "=" + value + expires + "; path=/";
+			document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
 		},
 		read: function (name) {
 			var nameEQ    = name + "=";
@@ -64,7 +64,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					c = c.substring( 1, c.length );
 				}
 				if (c.indexOf( nameEQ ) === 0) {
-					return c.substring( nameEQ.length, c.length );
+					return decodeURIComponent( c.substring( nameEQ.length, c.length ) );
 				}
 			}
 			return null;
@@ -1086,7 +1086,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 				console.log( "GDPRCookieConsent requires JSON.parse but your browser doesn't support it" );
 				return;
 			}
-			this.cookies = JSON.parse( args.cookies );
+			this.cookies = JSON.parse( JSON.stringify( args.cookies ) );
 		},
 		removeCookieByCategory : function() {
 			if (GDPR_Blocker.blockingStatus == true) {
