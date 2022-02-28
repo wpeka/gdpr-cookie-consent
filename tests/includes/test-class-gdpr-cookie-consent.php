@@ -68,7 +68,6 @@ class Test_Gdpr_Cookie_Consent extends WP_UnitTestCase {
 		foreach ( $it as $v ) {
 			array_push( $array, $v );
 		}
-        fwrite(STDOUT,print_r($array));
 		// Test for some hooks.
 		$this->assertTrue( in_array( 'plugins_loaded', $array, true ) );
 		$this->assertTrue( in_array( 'init', $array, true ) );
