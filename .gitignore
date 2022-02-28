@@ -12,3 +12,5 @@ admin/js/*.min.js
 admin/modules/cookie-custom/assets/js/*.min.js
 public/css/*.min.css
 public/js/gdpr-cookie-consent-public.min.js
+coverage.xml
+tmp_folder/

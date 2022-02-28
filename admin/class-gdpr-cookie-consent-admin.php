@@ -72,7 +72,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
 	}
 
 	/**
