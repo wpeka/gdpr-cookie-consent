@@ -86,7 +86,6 @@ class Gdpr_Cookie_Consent {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -131,7 +130,6 @@ class Gdpr_Cookie_Consent {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/class-gdpr-cookie-consent-public.php';
 
 		$this->loader = new Gdpr_Cookie_Consent_Loader();
-
 	}
 
 	/**
@@ -144,11 +142,9 @@ class Gdpr_Cookie_Consent {
 	 * @access   private
 	 */
 	private function set_locale() {
-
 		$plugin_i18n = new Gdpr_Cookie_Consent_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -178,7 +174,6 @@ class Gdpr_Cookie_Consent {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-
 		$plugin_admin = new Gdpr_Cookie_Consent_Admin( $this->get_plugin_name(), $this->get_version() );
 		/**
 		 * Load admin modules.
@@ -204,7 +199,6 @@ class Gdpr_Cookie_Consent {
 	 * @access   private
 	 */
 	private function define_public_hooks() {
-
 		$plugin_public = new Gdpr_Cookie_Consent_Public( $this->get_plugin_name(), $this->get_version() );
 		/**
 		 * Load public modules.
