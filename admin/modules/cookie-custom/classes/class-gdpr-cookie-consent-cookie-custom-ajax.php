@@ -41,7 +41,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 		if ( isset( $_POST['gdpr_custom_action'] ) ) {
 			check_admin_referer( 'gdpr_cookie_custom', 'security' );
 			$gdpr_custom_action = sanitize_text_field( wp_unslash( $_POST['gdpr_custom_action'] ) );
-			$allowed_actions    = array( 'post_cookie_list', 'save_post_cookie', 'update_post_cookie', 'delete_post_cookie' );
+			$allowed_actions    = array( 'post_cookie_list', 'save_post_cookie', 'update_post_cookie', 'delete_post_cookie', 'get_post_cookies_list' );
 			if ( in_array( $gdpr_custom_action, $allowed_actions, true ) && method_exists( $this, $gdpr_custom_action ) ) {
 				$out = $this->{$gdpr_custom_action}();
 			}
@@ -208,6 +208,30 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 		$out['response'] = true;
 		$out['message']  = __( 'Success', 'gdpr-cookie-consent' );
 		$out['content']  = $contents;
+		return $out;
+	}
+
+	/**
+	 * AJAX for returning updated data
+	 */
+	public function get_post_cookies_list() {
+		$out = array(
+			'response'  => false,
+			'post_list' => array(),
+			'total'     => 0,
+			'message'   => 'An error occurred. Please refresh the page.',
+		);
+		check_admin_referer( 'gdpr_cookie_custom', 'security' );
+		global $wpdb;
+		$count_arr = $wpdb->get_row( 'SELECT COUNT(id_gdpr_cookie_post_cookies) AS ttnum FROM ' . $wpdb->prefix . 'gdpr_cookie_post_cookies', ARRAY_A ); // db call ok; no-cache ok.
+		if ( $count_arr ) {
+			$out['total'] = $count_arr['ttnum'];
+		}
+		$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'gdpr_cookie_post_cookies ORDER BY id_gdpr_cookie_post_cookies DESC LIMIT %d, %d', array( 0, 100 ) ), ARRAY_A ); // db call ok; no-cache ok.
+		if ( empty( $data_arr ) || $data_arr ) {
+			$out['post_list'] = $data_arr;
+			$out['response']  = true;
+		}
 		return $out;
 	}
 }
