@@ -427,9 +427,9 @@ class Gdpr_Cookie_Consent {
 	 * If you override the settings here, be ultra careful to use escape characters.
 	 *
 	 * @param string $key Return default settings for particular key.
-	 * 
+	 *
 	 * @since 1.0
-	 * 
+	 *
 	 * @return array|mixed
 	 */
 	public static function gdpr_get_default_settings( $key = '' ) {
@@ -744,9 +744,9 @@ class Gdpr_Cookie_Consent {
 	 * @param string  $supplied_hex Any valid hex value. Short forms e.g. #333333 accepted.
 	 * @param string  $shift_method How to shift the value e.g( +,up,lighter,>).
 	 * @param integer $percentage Percentage in range of [0-100] to shift provided hex value by.
-  *
+	 *
 	 * @since 1.0
-	 * 
+	 *
 	 * @return string shifted hex value
 	 */
 	public static function gdpr_su_hex_shift( $supplied_hex, $shift_method, $percentage = 50 ) {
