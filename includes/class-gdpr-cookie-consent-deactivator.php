@@ -2,8 +2,8 @@
 /**
  * Fired during plugin deactivation
  *
- * @link       https://club.wpeka.com
- * @since      1.0
+ * @link  https://club.wpeka.com
+ * @since 1.0
  *
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/includes
@@ -26,7 +26,7 @@ class Gdpr_Cookie_Consent_Deactivator {
 	 *
 	 * Long Description.
 	 *
-	 * @since    1.0
+	 * @since 1.0
 	 */
 	public static function deactivate() {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();

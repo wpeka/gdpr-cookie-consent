@@ -1,49 +1,87 @@
 <?xml version="1.0"?>
-<ruleset name="WordPress Coding Standards based custom ruleset for your plugin">
-	<description>Generally-applicable sniffs for WordPress plugins.</description>
+<ruleset name="WordPress Coding Standards">
+	<description>WordPress dev PHP_CodeSniffer ruleset.</description>
 
-	<!-- What to scan -->
 	<file>.</file>
-	<exclude-pattern>/vendor/</exclude-pattern>
-	<exclude-pattern>/node_modules/</exclude-pattern>
+
+	<!-- Exclude paths -->
 	<exclude-pattern>tests/</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>analytics/</exclude-pattern>
+	<exclude-pattern>src/</exclude-pattern>
+	<exclude-pattern>webpack.config.js</exclude-pattern>
+	<exclude-pattern>release/</exclude-pattern>
+	<exclude-pattern>*.js</exclude-pattern>
+	<exclude-pattern>tmp_folder/</exclude-pattern>
 
-	<!-- How to scan -->
-	<!-- Usage instructions: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage -->
-	<!-- Annotated ruleset: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml -->
-	<arg value="sp"/> <!-- Show sniff and progress -->
-	<arg name="basepath" value="./"/><!-- Strip the file paths down to the relevant bit -->
-	<arg name="colors"/>
-	<arg name="extensions" value="php"/>
-	<arg name="parallel" value="8"/><!-- Enables parallel processing when available for faster results. -->
+	<!-- Show progress, show the error codes for each message (source). -->
+	<arg value="ps" />
 
-	<!-- Rules: Check PHP version compatibility -->
-	<!-- https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
-	<config name="testVersion" value="5.6-"/>
-	<!-- https://github.com/PHPCompatibility/PHPCompatibilityWP -->
-	<rule ref="PHPCompatibilityWP"/>
+	<!-- Strip the filepaths in reports down to the relevant bit. -->
+	<arg name="basepath" value="./" />
 
-	<!-- Rules: WordPress Coding Standards -->
-	<!-- https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards -->
-	<!-- https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties -->
-	<config name="minimum_supported_wp_version" value="4.6"/>
-	<rule ref="WordPress"/>
-	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
-		<properties>
-			<!-- Value: replace the function, class, and variable prefixes used. Separate multiple prefixes with a comma. -->
-			<property name="prefixes" type="array" value="my-plugin"/>
-		</properties>
-	</rule>
+	<!-- Check up to 8 files simultaneously. -->
+	<arg name="parallel" value="8" />
+
+	<!-- Configs -->
+	<config name="minimum_supported_wp_version" value="5.2" />
+	<config name="testVersion" value="7.0-" />
+
+	<!-- Rules -->
+
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<!-- Value: replace the text domain used. -->
-			<property name="text_domain" type="array" value="my-plugin"/>
+			<property name="text_domain" type="array" value="gdpr-cookie-consent" />
 		</properties>
 	</rule>
-	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
-		<properties>
-			<property name="blank_line_check" value="true"/>
-		</properties>
+
+	<rule ref="PHPCompatibility">
+		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="Squiz.Classes.ClassFileName">
+		<include-pattern>tests/</include-pattern>
+	</rule>
+
+	<rule ref="Squiz.Classes.ValidClassName">
+		<include-pattern>tests/</include-pattern>
+	</rule>
+
+	<rule ref="Generic.Commenting">
+		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="PEAR.Functions.FunctionCallSignature.EmptyLine">
+		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>i18n/</exclude-pattern>
+		<exclude-pattern>src/</exclude-pattern>
+		<exclude-pattern>tests</exclude-pattern>
+	</rule>
+
+	<rule ref="Squiz.Commenting.FileComment.MissingPackageTag">
+		<exclude-pattern>src/</exclude-pattern>
+		<exclude-pattern>GruntFile.js</exclude-pattern>
+		<exclude-pattern>tests/php/</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<exclude-pattern>src/</exclude-pattern>
+		<exclude-pattern>GruntFile.js</exclude-pattern>
+		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="Squiz.Commenting.FunctionCommentThrowTag.Missing">
+		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<exclude-pattern>tests/</exclude-pattern>
 	</rule>
 </ruleset>

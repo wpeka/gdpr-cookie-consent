@@ -5,8 +5,8 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       https://club.wpeka.com
- * @since      1.0
+ * @link  https://club.wpeka.com
+ * @since 1.0
  *
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/includes
@@ -29,7 +29,7 @@ class Gdpr_Cookie_Consent_I18n {
 	/**
 	 * Load the plugin text domain for translation.
 	 *
-	 * @since    1.0
+	 * @since 1.0
 	 */
 	public function load_plugin_textdomain() {
 		__( 'HTTP Cookie', 'gdpr-cookie-consent' );

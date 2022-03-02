@@ -2,8 +2,8 @@
 /**
  * Fired during plugin activation
  *
- * @link       https://club.wpeka.com
- * @since      1.0
+ * @link  https://club.wpeka.com
+ * @since 1.0
  *
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/includes
@@ -26,7 +26,7 @@ class Gdpr_Cookie_Consent_Activator {
 	 *
 	 * Long Description.
 	 *
-	 * @since    1.0
+	 * @since 1.0
 	 */
 	public static function activate() {
 		// previous version settings.
@@ -60,17 +60,16 @@ class Gdpr_Cookie_Consent_Activator {
 			$prev_gdpr_option['button_decline_is_on']       = true;
 			$prev_gdpr_option['notify_position_horizontal'] = false;
 			$prev_gdpr_option['bar_heading_text']           = 'This website uses cookies';
-
-			$prev_gdpr_option['button_4_text']         = 'Cookie Settings';
-			$prev_gdpr_option['button_4_url']          = '#';
-			$prev_gdpr_option['button_4_action']       = '#cookie_action_settings';
-			$prev_gdpr_option['button_4_link_color']   = '#ffffff';
-			$prev_gdpr_option['button_4_button_color'] = '#333333';
-			$prev_gdpr_option['button_4_new_win']      = false;
-			$prev_gdpr_option['button_4_as_button']    = true;
-			$prev_gdpr_option['button_4_button_size']  = 'medium';
-			$prev_gdpr_option['button_4_is_on']        = true;
-			$prev_gdpr_option['button_4_as_popup']     = false;
+			$prev_gdpr_option['button_4_text']              = 'Cookie Settings';
+			$prev_gdpr_option['button_4_url']               = '#';
+			$prev_gdpr_option['button_4_action']            = '#cookie_action_settings';
+			$prev_gdpr_option['button_4_link_color']        = '#ffffff';
+			$prev_gdpr_option['button_4_button_color']      = '#333333';
+			$prev_gdpr_option['button_4_new_win']           = false;
+			$prev_gdpr_option['button_4_as_button']         = true;
+			$prev_gdpr_option['button_4_button_size']       = 'medium';
+			$prev_gdpr_option['button_4_is_on']             = true;
+			$prev_gdpr_option['button_4_as_popup']          = false;
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-2.0' );
 		}
