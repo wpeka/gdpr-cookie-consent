@@ -11,7 +11,7 @@
  */
 class Test_Gdpr_Cookies_Read_Csv extends WP_UnitTestCase {
 
-    /**
+	/**
 	 * Class Instance.
 	 *
 	 * @var object $gdpr_cookie_reac_csv Class Instance
@@ -19,36 +19,36 @@ class Test_Gdpr_Cookies_Read_Csv extends WP_UnitTestCase {
 	 */
 	public static $gdpr_read_csv;
 
-    /**
+	/**
 	 * Setup function for all tests.
 	 *
 	 * @param WP_UnitTest_Factory $factory helper for unit test functionality.
 	 */
 	public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-        $filename=plugin_dir_path( 'tests/includes/read.csv' ).'read.csv';
-        $file_handle = fopen( $filename, 'r' );
-		self::$gdpr_read_csv = new Gdpr_Cookies_Read_Csv($file_handle,'GDPR_CSV_DELIMITER',"\xEF\xBB\xBF");
+		$filename            = plugin_dir_path( 'tests/includes/read.csv' ) . 'read.csv';
+		$file_handle         = @fopen( $filename, 'r' );
+		self::$gdpr_read_csv = new Gdpr_Cookies_Read_Csv( $file_handle, 'GDPR_CSV_DELIMITER', "\xEF\xBB\xBF" );
 	}
 
-    /**
-     * Test for construct function
-     */
-    public function test__construct(){
-        $filename=plugin_dir_path( 'tests/includes/read.csv' ).'read.csv';
-        echo $filename;
-        $file_handle = @fopen( $filename, 'r' );
-        $obj=new Gdpr_Cookies_Read_Csv($file_handle,'GDPR_CSV_DELIMITER',"\xEF\xBB\xBF");
-        $this->assertTrue($obj instanceof Gdpr_Cookies_Read_Csv);
-    }
+	/**
+	 * Test for construct function
+	 */
+	public function test__construct() {
+		$filename = plugin_dir_path( 'tests/includes/read.csv' ) . 'read.csv';
+		echo $filename;
+		$file_handle = @fopen( $filename, 'r' );
+		$obj         = new Gdpr_Cookies_Read_Csv( $file_handle, 'GDPR_CSV_DELIMITER', "\xEF\xBB\xBF" );
+		$this->assertTrue( $obj instanceof Gdpr_Cookies_Read_Csv );
+	}
 
-    /**
-     * Test for get_row function.
-     */
-    public function test_get_row(){
-        $ans=self::$gdpr_read_csv->get_row();
-        print_r($ans);
-        $this->assertTrue(true);
-    }
+	/**
+	 * Test for get_row function.
+	 */
+	public function test_get_row() {
+		$ans = self::$gdpr_read_csv->get_row();
+		print_r( $ans );
+		$this->assertTrue( true );
+	}
 
 
 }

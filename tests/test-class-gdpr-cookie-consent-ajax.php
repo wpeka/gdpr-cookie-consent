@@ -29,7 +29,7 @@ class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 	/**
 	 * Test for Admin Settings Page
 	 */
-	public function test_admin_settings_page(){
-		$this->assertTrue(true);
+	public function test_admin_settings_page() {
+		$this->assertTrue( true );
 	}
 }
