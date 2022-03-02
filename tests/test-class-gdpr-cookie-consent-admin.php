@@ -112,6 +112,7 @@ class Test_Gdpr_Cookie_Consent_Admin extends WP_UnitTestCase {
 	 * Test for Admin_footer_text function.
 	 */
 	public function test_admin_footer_text() {
+		set_current_screen( 'post-new.php' );
 		$footer       = 'Test';
 		$return_value = self::$gdpr_cookie_consent->admin_footer_text( $footer );
 		$this->assertEquals( 'Test', $return_value );
