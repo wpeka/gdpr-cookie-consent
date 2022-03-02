@@ -2,9 +2,9 @@
 /**
  * The plugin bootstrap file
  *
- * @link              https://club.wpeka.com
- * @since             1.0
- * @package           Gdpr_Cookie_Consent
+ * @link    https://club.wpeka.com
+ * @since   1.0
+ * @package Gdpr_Cookie_Consent
  *
  * @wordpress-plugin
  * Plugin Name:       GDPR Cookie Consent
@@ -141,7 +141,7 @@ require GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent.ph
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.0
+ * @since 1.0
  */
 function run_gdpr_cookie_consent() {
 

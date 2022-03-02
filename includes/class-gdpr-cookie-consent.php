@@ -5,8 +5,8 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       https://club.wpeka.com
- * @since      1.0
+ * @link  https://club.wpeka.com
+ * @since 1.0
  *
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/includes
@@ -32,36 +32,36 @@ class Gdpr_Cookie_Consent {
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since    1.0
-	 * @access   protected
-	 * @var      Gdpr_Cookie_Consent_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @since  1.0
+	 * @access protected
+	 * @var    Gdpr_Cookie_Consent_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
 	/**
 	 * The unique identifier of this plugin.
 	 *
-	 * @since    1.0
-	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @since  1.0
+	 * @access protected
+	 * @var    string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
 
 	/**
 	 * The current version of the plugin.
 	 *
-	 * @since    1.0
-	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @since  1.0
+	 * @access protected
+	 * @var    string    $version    The current version of the plugin.
 	 */
 	protected $version;
 
 	/**
 	 * The currently stored option settings of the plugin.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @access private
-	 * @var array $stored_options The stored option settings of the plugin.
+	 * @var    array $stored_options The stored option settings of the plugin.
 	 */
 	private static $stored_options = array();
 
@@ -72,7 +72,7 @@ class Gdpr_Cookie_Consent {
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
 	 *
-	 * @since    1.0
+	 * @since 1.0
 	 */
 	public function __construct() {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
@@ -101,8 +101,8 @@ class Gdpr_Cookie_Consent {
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
-	 * @since    1.0
-	 * @access   private
+	 * @since  1.0
+	 * @access private
 	 */
 	private function load_dependencies() {
 
@@ -138,8 +138,8 @@ class Gdpr_Cookie_Consent {
 	 * Uses the Gdpr_Cookie_Consent_I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
-	 * @since    1.0
-	 * @access   private
+	 * @since  1.0
+	 * @access private
 	 */
 	private function set_locale() {
 		$plugin_i18n = new Gdpr_Cookie_Consent_I18n();
@@ -150,7 +150,8 @@ class Gdpr_Cookie_Consent {
 	/**
 	 * What type of request is this?
 	 *
-	 * @param  string $type admin, ajax, cron or frontend.
+	 * @param string $type admin, ajax, cron or frontend.
+	 *
 	 * @return bool
 	 */
 	public static function is_request( $type ) {
@@ -170,8 +171,8 @@ class Gdpr_Cookie_Consent {
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0
-	 * @access   private
+	 * @since  1.0
+	 * @access private
 	 */
 	private function define_admin_hooks() {
 		$plugin_admin = new Gdpr_Cookie_Consent_Admin( $this->get_plugin_name(), $this->get_version() );
@@ -195,8 +196,8 @@ class Gdpr_Cookie_Consent {
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0
-	 * @access   private
+	 * @since  1.0
+	 * @access private
 	 */
 	private function define_public_hooks() {
 		$plugin_public = new Gdpr_Cookie_Consent_Public( $this->get_plugin_name(), $this->get_version() );
@@ -215,7 +216,7 @@ class Gdpr_Cookie_Consent {
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
-	 * @since    1.0
+	 * @since 1.0
 	 */
 	public function run() {
 		$this->loader->run();
@@ -225,8 +226,8 @@ class Gdpr_Cookie_Consent {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     1.0
-	 * @return    string    The name of the plugin.
+	 * @since  1.0
+	 * @return string    The name of the plugin.
 	 */
 	public function get_plugin_name() {
 		return $this->plugin_name;
@@ -235,8 +236,8 @@ class Gdpr_Cookie_Consent {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     1.0
-	 * @return    Gdpr_Cookie_Consent_Loader    Orchestrates the hooks of the plugin.
+	 * @since  1.0
+	 * @return Gdpr_Cookie_Consent_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;
@@ -245,8 +246,8 @@ class Gdpr_Cookie_Consent {
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0
-	 * @return    string    The version number of the plugin.
+	 * @since  1.0
+	 * @return string    The version number of the plugin.
 	 */
 	public function get_version() {
 		return $this->version;
@@ -285,8 +286,6 @@ class Gdpr_Cookie_Consent {
 	 * Envelope settings tab content with tab div.
 	 * relative path is not acceptable in view file
 	 *
-	 * @since 1.0
-	 *
 	 * @param string $class Classname.
 	 * @param int    $target_id Target ID.
 	 * @param string $view_file View template file.
@@ -294,6 +293,8 @@ class Gdpr_Cookie_Consent {
 	 * @param array  $variables Variables.
 	 * @param int    $need_submit_btn Need submit button flag.
 	 * @param string $error_message Error message.
+	 *
+	 * @since 1.0
 	 */
 	public static function gdpr_envelope_settings_tabcontent( $class, $target_id, $view_file = '', $html = '', $variables = array(), $need_submit_btn = 0, $error_message = '' ) {
 		if ( 1 === $need_submit_btn ) {
@@ -413,7 +414,7 @@ class Gdpr_Cookie_Consent {
 	 * N.B. JavaScript is specifically disallowed for security reasons.
 	 * Don't even trust your own database, as you don't know if another plugin has written to your settings.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public static function gdpr_allowed_protocols() {
@@ -425,8 +426,10 @@ class Gdpr_Cookie_Consent {
 	 * Returns default settings.
 	 * If you override the settings here, be ultra careful to use escape characters.
 	 *
-	 * @since 1.0
 	 * @param string $key Return default settings for particular key.
+	 * 
+	 * @since 1.0
+	 * 
 	 * @return array|mixed
 	 */
 	public static function gdpr_get_default_settings( $key = '' ) {
@@ -738,10 +741,12 @@ class Gdpr_Cookie_Consent {
 	/**
 	 * Color shift a hex value by a specific percentage factor.
 	 *
-	 * @since 1.0
 	 * @param string  $supplied_hex Any valid hex value. Short forms e.g. #333333 accepted.
 	 * @param string  $shift_method How to shift the value e.g( +,up,lighter,>).
 	 * @param integer $percentage Percentage in range of [0-100] to shift provided hex value by.
+  *
+	 * @since 1.0
+	 * 
 	 * @return string shifted hex value
 	 */
 	public static function gdpr_su_hex_shift( $supplied_hex, $shift_method, $percentage = 50 ) {
@@ -821,7 +826,7 @@ class Gdpr_Cookie_Consent {
 	/**
 	 * Returns JSON object containing the settings for the main script.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return mixed|string|void
 	 */
 	public static function gdpr_get_json_settings() {
@@ -959,7 +964,7 @@ class Gdpr_Cookie_Consent {
 	/**
 	 * Returns array containing CCPA countries.
 	 *
-	 * @since 1.8.5
+	 * @since  1.8.5
 	 * @return array
 	 */
 	public static function get_ccpa_countries() {
@@ -973,7 +978,7 @@ class Gdpr_Cookie_Consent {
 	/**
 	 * Returns array containing EU countries.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public static function get_eu_countries() {

@@ -4,8 +4,8 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       https://club.wpeka.com
- * @since      1.0
+ * @link  https://club.wpeka.com
+ * @since 1.0
  *
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/admin/modules/cookie-custom/views

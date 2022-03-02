@@ -2,10 +2,10 @@
 /**
  * The cookie api functionality of the plugin.
  *
- * @link       https://club.wpeka.com/
- * @since      1.0
+ * @link  https://club.wpeka.com/
+ * @since 1.0
  *
- * @package    Gdpr_Cookie_Consent
+ * @package Gdpr_Cookie_Consent
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,18 +23,18 @@ if ( ! class_exists( 'Gdpr_Cookie_Consent_Cookie_Serve_Api' ) ) {
 		/**
 		 * API Url.
 		 *
-		 * @since 1.0
+		 * @since  1.0
 		 * @access public
-		 * @var string $gdpr_api_url API Url.
+		 * @var    string $gdpr_api_url API Url.
 		 */
 		public $gdpr_api_url = 'https://api.wpeka.com/wp-json/wplcookies/v2/';
 
 		/**
 		 * API Path to get category details.
 		 *
-		 * @since 1.0
+		 * @since  1.0
 		 * @access public
-		 * @var string $gdpr_category_api_path API Path for category.
+		 * @var    string $gdpr_category_api_path API Path for category.
 		 */
 		public $gdpr_category_api_path = 'get_category_details';
 
@@ -47,7 +47,7 @@ if ( ! class_exists( 'Gdpr_Cookie_Consent_Cookie_Serve_Api' ) ) {
 		/**
 		 * Fetch categories.
 		 *
-		 * @since 1.0
+		 * @since  1.0
 		 * @return array|mixed|object
 		 */
 		public function get_categories() {
@@ -64,7 +64,7 @@ if ( ! class_exists( 'Gdpr_Cookie_Consent_Cookie_Serve_Api' ) ) {
 		/**
 		 * Check curl availability.
 		 *
-		 * @since 1.0
+		 * @since  1.0
 		 * @return bool
 		 */
 		public static function curl_enabled() {

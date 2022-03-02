@@ -2,10 +2,10 @@
 /**
  * The custom cookie functionality of the plugin.
  *
- * @link       https://club.wpeka.com/
- * @since      1.0
+ * @link  https://club.wpeka.com/
+ * @since 1.0
  *
- * @package    Gdpr_Cookie_Consent
+ * @package Gdpr_Cookie_Consent
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -53,7 +53,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	/**
 	 * Ajax processing for save manual cookies.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public function save_post_cookie() {
@@ -97,7 +97,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	/**
 	 * Ajax processing for update manual cookies.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public function update_post_cookie() {
@@ -165,7 +165,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	/**
 	 * Ajax processing for delete manual cookies.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public function delete_post_cookie() {
@@ -191,7 +191,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	/**
 	 * Ajax processing for manual cookie list.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public function post_cookie_list() {

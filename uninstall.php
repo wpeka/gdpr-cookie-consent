@@ -18,10 +18,10 @@
  * For more information, see the following discussion:
  * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
  *
- * @link       https://club.wpeka.com
- * @since      1.0
+ * @link  https://club.wpeka.com
+ * @since 1.0
  *
- * @package    Gdpr_Cookie_Consent
+ * @package Gdpr_Cookie_Consent
  */
 
 // If uninstall not called from WordPress, then exit.

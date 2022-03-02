@@ -13,6 +13,7 @@
 	<exclude-pattern>webpack.config.js</exclude-pattern>
 	<exclude-pattern>release/</exclude-pattern>
 	<exclude-pattern>*.js</exclude-pattern>
+	<exclude-pattern>tmp_folder/</exclude-pattern>
 
 	<!-- Show progress, show the error codes for each message (source). -->
 	<arg value="ps" />
