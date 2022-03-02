@@ -116,8 +116,105 @@ class Test_Gdpr_Cookie_Consent_Public extends WP_UnitTestCase {
 	 * Test for gdprcookieconsent_inject_gdpr_script function.
 	 */
 	public function test_gdprcookieconsent_inject_gdpr_script() {
+		global $wpdb;
+		$wpdb->insert($wpdb->prefix.'gdpr_cookie_post_cookies',array(
+			'id_gdpr_cookie_post_cookies'=>'hii',
+			'name'=>'df',
+			'domain'=>'df',
+			'duration'=>'df',
+			'type'=>'df',
+			'category'=>'df',
+			'category_id'=>'df',
+			'description'=>'df',
+		),array('%s','%s','%s','%s','%s','%s','%s','%s'));
+		$settings = array(
+			'cookie_usage_for' => 'ccpa',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( wp_script_is( 'gdpr_cookie_consent-uspapi', $list = 'enqueued' ) );
+		$settings2 = array(
+			'cookie_usage_for' => 'eprivacy',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings2 );
 		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
 		$this->assertTrue( true );
+		$settings3 = array(
+			'cookie_usage_for' => 'gdpr',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings3 );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( true );
+		$settings3 = array(
+			'cookie_usage_for' => 'both',
+			'template'         => 'navy_blue_square-navy_blue_center',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings3 );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( true );	
+		$settings4 = array(
+			'template'         => 'almond_column',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings4 );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( true );	
+		$settings4 = array(
+			'template'         => 'grey_column',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings4 );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( true );
+		$settings4 = array(
+			'template'         => 'dark',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings4 );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( true );
+		$settings4 = array(
+			'template'         => 'dark_row',
+			'button_readmore_wp_page'=>true,
+			'button_accept_button_size'=>'large',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings4 );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( true );
+		update_option( 'wpl_pro_active', true );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( true );
+		$settings5 = array(
+			'button_readmore_as_button'=>true,
+			'button_readmore_button_size'=>'large',
+			'button_decline_button_size'=>'medium',
+			'button_settings_button_size'=>'medium',
+			'button_confirm_button_size'=>'medium',
+			'button_cancel_button_size'=>'medium',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings5 );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( true );
+		$settings6 = array(
+			'button_readmore_as_button'=>true,
+			'button_readmore_button_size'=>'medium',
+			'button_decline_button_size'=>'large',
+			'button_settings_button_size'=>'large',
+			'button_confirm_button_size'=>'large',
+			'button_cancel_button_size'=>'large',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings6 );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( true );
+		$settings7 = array(
+			'button_readmore_as_button'=>true,
+			'button_readmore_button_size'=>'small',
+			'button_decline_button_size'=>'small',
+			'button_settings_button_size'=>'small',
+			'button_confirm_button_size'=>'small',
+			'button_cancel_button_size'=>'small',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings7 );
+		self::$gdpr_cookie_consent->gdprcookieconsent_inject_gdpr_script();
+		$this->assertTrue( true );
+		
 	}
 	/**
 	 * Test for gdprcookieconsent_shortcode_cookie_details function.
@@ -130,6 +227,11 @@ class Test_Gdpr_Cookie_Consent_Public extends WP_UnitTestCase {
 	 * Test for gdprcookieconsent_template_redirect function.
 	 */
 	public function test_gdprcookieconsent_template_redirect() {
+		$settings = array(
+			'is_script_blocked_on'=>'yes',
+		);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
+		update_option( 'wpl_bypass_script_blocker', false );
 		self::$gdpr_cookie_consent->gdprcookieconsent_template_redirect();
 		$this->assertTrue(true);
 	}
