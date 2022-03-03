@@ -149,7 +149,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	 * @param bool $mode Used to return required data.
 	 *
 	 * @since 1.0
-  *
+	 *
 	 * @return array|null|object
 	 */
 	public static function get_categories( $mode = false ) {
