@@ -62,7 +62,7 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @param string $plugin_name       The name of the plugin.
 	 * @param string $version    The version of this plugin.
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	public function __construct( $plugin_name, $version ) {
@@ -183,9 +183,9 @@ class Gdpr_Cookie_Consent_Public {
 	 * Parse enqueue url for async parameter.
 	 *
 	 * @param string $url URL.
-	 * 
+	 *
 	 * @since 1.8.5
-	 * 
+	 *
 	 * @return mixed|string
 	 */
 	public function gdprcookieconsent_clean_async_url( $url ) {

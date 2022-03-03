@@ -14,3 +14,4 @@ public/css/*.min.css
 public/js/gdpr-cookie-consent-public.min.js
 coverage.xml
 tmp_folder/
+wp.zip
