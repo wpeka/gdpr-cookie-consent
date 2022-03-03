@@ -35,7 +35,6 @@ class Test_Gdpr_Cookies_Read_Csv extends WP_UnitTestCase {
 	 */
 	public function test__construct() {
 		$filename = plugin_dir_path( 'tests/includes/read.csv' ) . 'read.csv';
-		echo $filename;
 		$file_handle = @fopen( $filename, 'r' );
 		$obj         = new Gdpr_Cookies_Read_Csv( $file_handle, 'GDPR_CSV_DELIMITER', "\xEF\xBB\xBF" );
 		$this->assertTrue( $obj instanceof Gdpr_Cookies_Read_Csv );
