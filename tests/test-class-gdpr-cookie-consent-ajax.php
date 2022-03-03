@@ -32,7 +32,7 @@ class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 	public function test_admin_settings_page() {
 		$this->_setRole( 'administrator' );
 		$_POST['update_admin_settings_form'] = 'abc';
-		$_POST['gdpr_settings_ajax_update']='abc';
+		$_POST['gdpr_settings_ajax_update'] = 'abc';
 		$_POST['security'] = wp_create_nonce( 'gdprcookieconsent-update-' . GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		try {
 			$this->_handleAjax( 'admin_settings_page' );
@@ -41,19 +41,5 @@ class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 		}
 		$this->assertTrue( true );
 	}
-	/**
-	 * Test for ajax_cookie_custom function.
-	 */
-	// public function test_ajax_cookie_custom(){ 
-	// $custom_ajax=Gdpr_Cookie_Consent_Cookie_Custom_Ajax();
-	// $custom_ajax->ajax_cookie_custom();
-	// $_POST['gdpr_custom_action']='post_cookie_list';
-	// $_POST['security'] = wp_create_nonce( 'gdpr_cookie_custom');
-	// try {
-	// $this->_handleAjax( 'ajax_cookie_custom' );
-	// } catch ( WPAjaxDieContinueException $e ) {
-	// unset( $e );
-	// }
-	// $this->assertTrue( true );
-	// }.
+
 }
