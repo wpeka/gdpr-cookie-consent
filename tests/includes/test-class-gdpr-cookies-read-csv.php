@@ -26,7 +26,7 @@ class Test_Gdpr_Cookies_Read_Csv extends WP_UnitTestCase {
 	 */
 	public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
 		$filename            = plugin_dir_path( 'tests/includes/read.csv' ) . 'read.csv';
-		$file_handle         = @fopen( $filename, 'r' );
+		$file_handle         = fopen( $filename, 'r' ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
 		self::$gdpr_read_csv = new Gdpr_Cookies_Read_Csv( $file_handle, 'GDPR_CSV_DELIMITER', "\xEF\xBB\xBF" );
 	}
 
@@ -34,8 +34,8 @@ class Test_Gdpr_Cookies_Read_Csv extends WP_UnitTestCase {
 	 * Test for construct function
 	 */
 	public function test__construct() {
-		$filename = plugin_dir_path( 'tests/includes/read.csv' ) . 'read.csv';
-		$file_handle = @fopen( $filename, 'r' );
+		$filename    = plugin_dir_path( 'tests/includes/read.csv' ) . 'read.csv';
+		$file_handle = fopen( $filename, 'r' ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
 		$obj         = new Gdpr_Cookies_Read_Csv( $file_handle, 'GDPR_CSV_DELIMITER', "\xEF\xBB\xBF" );
 		$this->assertTrue( $obj instanceof Gdpr_Cookies_Read_Csv );
 	}
@@ -45,7 +45,6 @@ class Test_Gdpr_Cookies_Read_Csv extends WP_UnitTestCase {
 	 */
 	public function test_get_row() {
 		$ans = self::$gdpr_read_csv->get_row();
-		print_r( $ans );
 		$this->assertTrue( true );
 	}
 

@@ -41,11 +41,11 @@ class Test_Gdpr_Cookie_Consent_Cookie_Custom extends WP_UnitTestCase {
 	 * @param WP_UnitTest_Factory $factory helper for unit test functionality.
 	 */
 	public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
-        // $user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
-        // wp_set_current_user( $user_id );
-		$user_id = self::factory()->user->create( array(
-			'role' => 'administrator',
-		) );
+		$user_id = self::factory()->user->create(
+			array(
+				'role' => 'administrator',
+			)
+		);
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			self::$plugin_version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
@@ -54,58 +54,58 @@ class Test_Gdpr_Cookie_Consent_Cookie_Custom extends WP_UnitTestCase {
 		self::$plugin_name         = 'gdpr_cookie_consent';
 		self::$gdpr_cookie_consent = new Gdpr_Cookie_Consent_Cookie_Custom();
 	}
-    /**
-     * Test for __construct function.
-     */
-    public function test__construct() {
-		$user_id = self::factory()->user->create( array(
-			'role' => 'administrator',
-		) );
+	/**
+	 * Test for __construct function.
+	 */
+	public function test__construct() {
+		$user_id = self::factory()->user->create(
+			array(
+				'role' => 'administrator',
+			)
+		);
 		$this->assertTrue( user_can( $user_id, 'edit_others_posts' ) );
-        $obj=new Gdpr_Cookie_Consent_Cookie_Custom();
-        $this->assertTrue($obj instanceof Gdpr_Cookie_Consent_Cookie_Custom);
-    }
-    /**
-     * Test for settings_general() function
-     */
-    public function test_settings_general(){
-    // $this->assertTrue( user_can( $user_id, 'edit_others_posts' ) );
-	self::$gdpr_cookie_consent->settings_general();
-	$this->assertTrue(true);
-    }
+		$obj = new Gdpr_Cookie_Consent_Cookie_Custom();
+		$this->assertTrue( $obj instanceof Gdpr_Cookie_Consent_Cookie_Custom );
+	}
+	/**
+	 * Test for settings_general() function
+	 */
+	public function test_settings_general() {
+		self::$gdpr_cookie_consent->settings_general();
+		$this->assertTrue( true );
+	}
 	/**
 	 * Test for settigns_tabhead function.
 	 */
-	public function test_settings_tabhead(){
-		$arr=array(
-			'abc'=>'abc',
+	public function test_settings_tabhead() {
+		$arr = array(
+			'abc' => 'abc',
 		);
-		$abc=self::$gdpr_cookie_consent->settings_tabhead($arr);
-		$this->assertArrayHasKey('gdpr-cookie-consent-cookie-list',$abc);
+		$abc = self::$gdpr_cookie_consent->settings_tabhead( $arr );
+		$this->assertArrayHasKey( 'gdpr-cookie-consent-cookie-list', $abc );
 	}
 	/**
 	 * Test for gdpr_get_categories
 	 */
 	public function test_gdpr_get_categories() {
-		$actual=self::$gdpr_cookie_consent->gdpr_get_categories();
-		$arr=['analytics','marketing','necessary','preferences','unclassified'];
-		for($i=0;$i<5;$i++){
-			$expected=$arr[$i];
-			$this->assertEquals($expected,$actual[$i]['slug']);
+		$actual = self::$gdpr_cookie_consent->gdpr_get_categories();
+		$arr    = array( 'analytics', 'marketing', 'necessary', 'preferences', 'unclassified' );
+		for ( $i = 0;$i < 5;$i++ ) {
+			$expected = $arr[ $i ];
+			$this->assertEquals( $expected, $actual[ $i ]['slug'] );
 		}
 	}
 	/**
 	 * Test for get_categories() function
 	 */
-	public function test_get_categories(){
-		$value=self::$gdpr_cookie_consent->get_categories(false);
-		// print_r($value);
+	public function test_get_categories() {
+		$value = self::$gdpr_cookie_consent->get_categories( false );
 		$this->assertTrue( ! empty( $value ) );
 	}
 	/**
 	 * Test for get_types function
 	 */
-	public function test_get_types(){
+	public function test_get_types() {
 		$types = array(
 			'HTTP'        => __( 'HTTP Cookie', 'gdpr-cookie-consent' ),
 			'HTML'        => __( 'HTML Local Storage', 'gdpr-cookie-consent' ),
@@ -113,55 +113,55 @@ class Test_Gdpr_Cookie_Consent_Cookie_Custom extends WP_UnitTestCase {
 			'Pixel'       => __( 'Pixel Tracker', 'gdpr-cookie-consent' ),
 			'IndexedDB'   => __( 'IndexedDB', 'gdpr-cookie-consent' ),
 		);
-		$value=self::$gdpr_cookie_consent->get_types();
-		$this->assertEquals($types,$value);
+		$value = self::$gdpr_cookie_consent->get_types();
+		$this->assertEquals( $types, $value );
 	}
 	/**
 	 * Test for get_cookie_type
 	 */
-	public function test_get_cookie_type(){
-		$value=self::$gdpr_cookie_consent->get_cookie_type('HTTP');
-		$this->assertEquals($value,'HTTP Cookie');
-		$value=self::$gdpr_cookie_consent->get_cookie_type('HTTPs');
-		$this->assertEquals($value,'');
+	public function test_get_cookie_type() {
+		$value = self::$gdpr_cookie_consent->get_cookie_type( 'HTTP' );
+		$this->assertEquals( $value, 'HTTP Cookie' );
+		$value = self::$gdpr_cookie_consent->get_cookie_type( 'HTTPs' );
+		$this->assertEquals( $value, '' );
 	}
 	/**
 	 * Test for print_combobox_options
 	 */
 	public function test_print_combobox_options() {
-		$arr=array(
-			'abc'=>'abc',
+		$arr = array(
+			'abc' => 'abc',
 		);
 		self::$gdpr_cookie_consent->print_combobox_options( $arr, 'abc' );
-		$this->assertTrue(true);
+		$this->assertTrue( true );
 	}
 	/**
 	 * Test for settings_form
 	 */
-	public function test_settings_form(){
+	public function test_settings_form() {
 		self::$gdpr_cookie_consent->settings_form();
-		$this->assertTrue(true);
+		$this->assertTrue( true );
 	}
 	/**
 	 * Test for gdpr_activator
 	 */
-	public function test_gdpr_activator(){
+	public function test_gdpr_activator() {
 		self::$gdpr_cookie_consent->gdpr_activator();
-		$this->assertTrue(true);
+		$this->assertTrue( true );
 	}
 	/**
 	 * Test for gdpr_install_tables
 	 */
-	public function test_gdpr_install_tables(){
+	public function test_gdpr_install_tables() {
 		self::$gdpr_cookie_consent->gdpr_install_tables();
-		$this->assertTrue(true);
+		$this->assertTrue( true );
 	}
 	/**
 	 * Test for get_cookies function
 	 */
 	public function test_get_cookies() {
 		self::$gdpr_cookie_consent->get_cookies();
-		$this->assertTrue(true);
+		$this->assertTrue( true );
 	}
 }
 
