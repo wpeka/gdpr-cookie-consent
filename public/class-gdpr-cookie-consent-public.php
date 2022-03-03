@@ -355,6 +355,20 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			$the_options['button_readmore_url_link'] = $button_readmore_url_link;
 
+			$the_options['button_accept_all_classes'] = 'gdpr_action_button ';
+			if ( $the_options['button_accept_all_as_button'] ) {
+				switch ( $the_options['button_accept_all_button_size'] ) {
+					case 'medium':
+						$the_options['button_accept_all_classes'] .= 'btn';
+						break;
+					case 'large':
+						$the_options['button_accept_all_classes'] .= 'btn btn-lg';
+						break;
+					case 'small':
+						$the_options['button_accept_all_classes'] .= 'btn btn-sm';
+						break;
+				}
+			}
 			$the_options['button_accept_classes'] = 'gdpr_action_button ';
 			if ( $the_options['button_accept_as_button'] ) {
 				switch ( $the_options['button_accept_button_size'] ) {
@@ -473,7 +487,7 @@ class Gdpr_Cookie_Consent_Public {
 				$categories_json_data[] = $category;
 			}
 
-			if ( true === $the_options['button_settings_is_on'] ) {
+			if ( true === $the_options['button_settings_is_on'] || true === $the_options['button_accept_all_is_on'] || true === $the_options['button_accept_is_on'] ) {
 				$cookie_data                      = array();
 				$cookie_data['categories']        = $categories_data;
 				$cookie_data['msg']               = $about_message;
