@@ -112,13 +112,14 @@ class Test_Gdpr_Cookie_Consent_Admin extends WP_UnitTestCase {
 	 * Test for Admin_footer_text function.
 	 */
 	public function test_admin_footer_text() {
+		set_current_screen( 'post-new.php' );
 		$footer       = 'Test';
 		$return_value = self::$gdpr_cookie_consent->admin_footer_text( $footer );
 		$this->assertEquals( 'Test', $return_value );
 		set_current_screen( 'toplevel_page_gdpr-cookie-consent' );
-		$return_value = self::$gdpr_cookie_consent->admin_footer_text( $footer );
-		$ans          = 'If you like <strong>GDPR Cookie Consent</strong> please leave us a <a href="https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews?rate=5#new-post" target="_blank" aria-label="five star">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. A huge thanks in advance!';
-		$this->assertEquals( $ans, $return_value );
+		$return_value2 = self::$gdpr_cookie_consent->admin_footer_text( $footer );
+		$ans           = 'If you like <strong>GDPR Cookie Consent</strong> please leave us a <a href="https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews?rate=5#new-post" target="_blank" aria-label="five star">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. A huge thanks in advance!';
+		$this->assertEquals( $ans, $return_value2 );
 	}
 	/**
 	 * Test for admin_menu function.

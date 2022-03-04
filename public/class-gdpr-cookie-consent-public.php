@@ -2,8 +2,8 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       https://club.wpeka.com
- * @since      1.0
+ * @link  https://club.wpeka.com
+ * @since 1.0
  *
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/public
@@ -24,18 +24,18 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @since  1.0
+	 * @access private
+	 * @var    string    $plugin_name    The ID of this plugin.
 	 */
 	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @since  1.0
+	 * @access private
+	 * @var    string    $version    The current version of this plugin.
 	 */
 	private $version;
 
@@ -43,26 +43,27 @@ class Gdpr_Cookie_Consent_Public {
 	 * Public module list, Module folder and main file must be same as that of module name.
 	 * Please check the `public_modules` method for more details.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @access private
-	 * @var array $modules Admin module list.
+	 * @var    array $modules Admin module list.
 	 */
 	private $modules = array();
 	/**
 	 * Existing modules array.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @access public
-	 * @var array $existing_modules Existing modules array.
+	 * @var    array $existing_modules Existing modules array.
 	 */
 	public static $existing_modules = array();
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0
-	 * @param      string $plugin_name       The name of the plugin.
-	 * @param      string $version    The version of this plugin.
+	 * @param string $plugin_name       The name of the plugin.
+	 * @param string $version    The version of this plugin.
+	 *
+	 * @since 1.0
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -78,7 +79,7 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
-	 * @since    1.0
+	 * @since 1.0
 	 */
 	public function enqueue_styles() {
 
@@ -98,7 +99,7 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
 	 *
-	 * @since    1.0
+	 * @since 1.0
 	 */
 	public function enqueue_scripts() {
 
@@ -163,8 +164,9 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Removes leading # characters from a string.
 	 *
-	 * @since 1.0
 	 * @param string $str String from hash to be removed.
+	 *
+	 * @since 1.0
 	 *
 	 * @return bool|string
 	 */
@@ -180,8 +182,10 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Parse enqueue url for async parameter.
 	 *
-	 * @since 1.8.5
 	 * @param string $url URL.
+	 *
+	 * @since 1.8.5
+	 *
 	 * @return mixed|string
 	 */
 	public function gdprcookieconsent_clean_async_url( $url ) {
@@ -522,7 +526,7 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Returns scanned and custom cookies.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public function get_cookies() {

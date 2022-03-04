@@ -144,8 +144,10 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	/**
 	 * Manage columns in policy data post type.
 	 *
-	 * @since 1.9
 	 * @param array $columns comment columns array.
+	 *
+	 * @since 1.9
+	 *
 	 * @return array
 	 */
 	public function gdpr_manage_edit_columns( $columns ) {
@@ -164,6 +166,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 *
 	 * @param string $column comment column name.
 	 * @param int    $post_id comment post id.
+	 *
 	 * @since 1.9
 	 */
 	public function gdpr_manage_custom_columns( $column, $post_id = 0 ) {
@@ -331,8 +334,10 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	/**
 	 * Format data for csv.
 	 *
-	 * @since 1.9
 	 * @param string $data comment data.
+	 *
+	 * @since 1.9
+	 *
 	 * @return string
 	 */
 	public static function format_data( $data ) {
@@ -406,8 +411,10 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	/**
 	 * Import policy data functionality.
 	 *
-	 * @since 1.9
 	 * @param string $filename comment filename.
+	 *
+	 * @since 1.9
+	 *
 	 * @return array
 	 */
 	public function gdpr_import_csv_policies( $filename ) {

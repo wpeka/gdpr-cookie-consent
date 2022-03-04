@@ -2,8 +2,8 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://club.wpeka.com
- * @since      1.0
+ * @link  https://club.wpeka.com
+ * @since 1.0
  *
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/admin
@@ -24,18 +24,18 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @since  1.0
+	 * @access private
+	 * @var    string    $plugin_name    The ID of this plugin.
 	 */
 	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @since  1.0
+	 * @access private
+	 * @var    string    $version    The current version of this plugin.
 	 */
 	private $version;
 
@@ -43,9 +43,9 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Admin module list, Module folder and main file must be same as that of module name.
 	 * Please check the `admin_modules` method for more details.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @access private
-	 * @var array $modules Admin module list.
+	 * @var    array $modules Admin module list.
 	 */
 	private $modules = array(
 		'cookie-custom',
@@ -55,18 +55,19 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Existing modules array.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @access public
-	 * @var array $existing_modules Existing modules array.
+	 * @var    array $existing_modules Existing modules array.
 	 */
 	public static $existing_modules = array();
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0
-	 * @param      string $plugin_name       The name of this plugin.
-	 * @param      string $version    The version of this plugin.
+	 * @param string $plugin_name       The name of this plugin.
+	 * @param string $version    The version of this plugin.
+	 *
+	 * @since 1.0
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -77,7 +78,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
-	 * @since    1.0
+	 * @since 1.0
 	 */
 	public function enqueue_styles() {
 
@@ -98,7 +99,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
-	 * @since    1.0
+	 * @since 1.0
 	 */
 	public function enqueue_scripts() {
 
@@ -249,6 +250,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Returns plugin actions links.
 	 *
 	 * @param array $links Plugin action links.
+	 *
 	 * @return array
 	 */
 	public function admin_plugin_action_links( $links ) {
@@ -872,7 +874,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Render callback for block.
 	 *
-	 * @since 1.8.4
+	 * @since  1.8.4
 	 * @return string
 	 */
 	public function gdpr_block_render_callback() {
@@ -919,9 +921,10 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Prints a combobox based on options and selected=match value.
 	 *
-	 * @since 1.0
 	 * @param array  $options Array of options.
 	 * @param string $selected Which of those options should be selected (allows just one; is case sensitive).
+	 *
+	 * @since 1.0
 	 */
 	public function print_combobox_options( $options, $selected ) {
 		foreach ( $options as $key => $value ) {
@@ -1008,7 +1011,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Returns button sizes, used when printing admin form.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public function get_button_sizes() {
@@ -1024,7 +1027,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Return WordPress policy pages for Readmore button.
 	 *
-	 * @since 1.9.0
+	 * @since  1.9.0
 	 * @return mixed|void
 	 */
 	public function get_readmore_pages() {
@@ -1045,7 +1048,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Returns list of available jQuery actions, used by buttons/links in header.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public function get_js_actions() {

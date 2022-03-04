@@ -2,10 +2,10 @@
 /**
  * The custom cookie functionality of the plugin.
  *
- * @link       https://club.wpeka.com/
- * @since      1.0
+ * @link  https://club.wpeka.com/
+ * @since 1.0
  *
- * @package    Gdpr_Cookie_Consent
+ * @package Gdpr_Cookie_Consent
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,25 +24,25 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Categories table.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @access public
-	 * @var string $category_table Scan categories table.
+	 * @var    string $category_table Scan categories table.
 	 */
 	public $category_table = 'gdpr_cookie_scan_categories';
 	/**
 	 * Post cookies table.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @access public
-	 * @var string $post_cookies_table Post cookies table.
+	 * @var    string $post_cookies_table Post cookies table.
 	 */
 	public $post_cookies_table = 'gdpr_cookie_post_cookies';
 	/**
 	 * Not to keep records flag.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @access public
-	 * @var bool $not_keep_records Not to keep records flag.
+	 * @var    bool $not_keep_records Not to keep records flag.
 	 */
 	public $not_keep_records = true;
 
@@ -88,8 +88,9 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Tab head for settings page.
 	 *
-	 * @since 1.0
 	 * @param array $arr Settings array.
+	 *
+	 * @since 1.0
 	 *
 	 * @return mixed
 	 */
@@ -101,7 +102,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Return categories.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array|mixed|object
 	 */
 	public function gdpr_get_categories() {
@@ -114,8 +115,9 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Returns category array depending on $mode.
 	 *
-	 * @since 1.0
 	 * @param bool $mode Used to return required data.
+	 *
+	 * @since 1.0
 	 *
 	 * @return array|null|object
 	 */
@@ -145,8 +147,9 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Returns category array depending on $mode.
 	 *
-	 * @since 1.0
 	 * @param bool $mode Used to return required data.
+	 *
+	 * @since 1.0
 	 *
 	 * @return array|null|object
 	 */
@@ -162,7 +165,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Returns cookie types.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public static function get_types() {
@@ -179,8 +182,9 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Returns specific cookie type.
 	 *
-	 * @since 1.0
 	 * @param string $type Cookie type.
+	 *
+	 * @since 1.0
 	 *
 	 * @return mixed|void
 	 */
@@ -196,9 +200,10 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Displays select box options in admin form for cookie categories and types.
 	 *
-	 * @since 1.0
 	 * @param array  $options Options.
 	 * @param string $selected Selection.
+	 *
+	 * @since 1.0
 	 */
 	public static function print_combobox_options( $options, $selected ) {
 		foreach ( $options as $key => $value ) {
@@ -366,9 +371,10 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Returns manually created cookie list from db.
 	 *
-	 * @since 1.0
 	 * @param int $offset Offset.
 	 * @param int $limit Limit.
+	 *
+	 * @since 1.0
 	 *
 	 * @return array
 	 */
@@ -394,7 +400,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Returns scanned and custom cookies removing duplicate entries.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 * @return array
 	 */
 	public function get_cookies() {
