@@ -49,5 +49,4 @@ class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 		}
 		$this->assertTrue( true );
 	}
-
 }

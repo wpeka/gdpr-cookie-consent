@@ -1,15 +1,15 @@
 <?php
 /**
- * Class Test_Cookie_Consent_Cookie_Custom_Ajax
+ * Class Test_Gdpr_Cookie_Consent_Policy_Data
  *
  * @package Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/Tests
  */
 
 /**
- * Test for Cookie_Consent_Cookie_Custom_Ajax class
+ * Test for Gdpr_Cookie_Consent_Policy_Data class
  */
-class Test_Cookie_Consent_Cookie_Custom_Ajax extends WP_UnitTestCase {
+class Test_Gdpr_Cookie_Consent_Policy_Data extends WP_UnitTestCase {
 
 	/**
 	 * Class Instance.
@@ -47,33 +47,35 @@ class Test_Cookie_Consent_Cookie_Custom_Ajax extends WP_UnitTestCase {
 			self::$plugin_version = '2.0.7';
 		}
 		self::$plugin_name         = 'gdpr_cookie_consent';
-		self::$gdpr_cookie_consent = new Gdpr_Cookie_Consent_Cookie_Custom_Ajax();
+		self::$gdpr_cookie_consent = new Gdpr_Cookie_Consent_Policy_Data();
 	}
 
 	/**
 	 * Test for construct function
 	 */
 	public function test__construct() {
-		$obj = new Gdpr_Cookie_Consent_Cookie_Custom_Ajax();
-		$this->assertTrue( $obj instanceof Gdpr_Cookie_Consent_Cookie_Custom_Ajax );
-	}
-	/**
-	 * Test for ajax_cookie_custom.
-	 */
-	public function test_ajax_cookie_custom() {
-		self::factory()->user->create(
-			array(
-				'role' => 'user',
+		wp_set_current_user(
+			self::factory()->user->create(
+				array(
+					'role' => 'administrator',
+				)
 			)
 		);
-		$value = self::$gdpr_cookie_consent->ajax_cookie_custom();
-		$this->assertTrue( true );
+		$obj = new Gdpr_Cookie_Consent_Policy_Data();
+		$this->assertTrue( $obj instanceof Gdpr_Cookie_Consent_Policy_Data );
 	}
 	/**
-	 * Test for save_post_cookie.
+	 * Test for gdpr_register_custom_post_type function.
 	 */
-	public function test_save_post_cookie() {
-		$value = self::$gdpr_cookie_consent->save_post_cookie();
+	public function test_gdpr_register_custom_post_type() {
+		self::$gdpr_cookie_consent->gdpr_register_custom_post_type();
+		$this->assertTrue( post_type_exists( GDPR_POLICY_DATA_POST_TYPE ) );
+	}
+	/**
+	 * Test for gdpr_add_meta_box function.
+	 */
+	public function test_gdpr_add_meta_box() {
+		self::$gdpr_cookie_consent->gdpr_add_meta_box();
 		$this->assertTrue( true );
 	}
 }
