@@ -1,0 +1,33 @@
+name: Running JS Code Coverage
+
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2 
+
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run the tests
+      run: npm run test
+
+    - name: Send code coverage to Codecov.
+      run: |
+          bash <(curl -s https://codecov.io/bash) -t b9190d10-efa6-4420-9888-b8c5048e0a51
