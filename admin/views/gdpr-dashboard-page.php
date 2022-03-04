@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<div id="gdpr-dashboard-loader" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
+<div id="gdpr-dashboard-loader"></div>
 <div id="gdpr-cookie-consent-dashboard-page">
 	<c-container class="gdpr-cookie-consent-dashboard-container">
 		<c-card class="gdpr-progress-bar-card">
