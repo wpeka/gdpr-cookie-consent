@@ -32,7 +32,7 @@ $pro_link = sprintf(
 		<?php else : ?>
 			<p><?php echo sprintf( esc_html( 'Before you can display the consent notice on your website, you need to add details of the cookies on your website. The %s of the plugin automatically scans the website for cookies and adds them.' ), $pro_link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 		<?php endif; ?>
-		<a style="<?php echo esc_attr( $styles ); ?>" class="button button-primary" href="<?php echo esc_url( admin_url() . 'admin.php?page=gdpr-cookie-consent#gdpr-cookie-consent-cookie-list' ); ?>" target="_blank"><?php esc_attr_e( 'Add Cookie Details', 'gdpr-cookie-consent' ); ?></a>
+		<a style="<?php echo esc_attr( $styles ); ?>" class="button button-primary" href="<?php echo esc_url( admin_url() . 'admin.php?page=gdpr-cookie-consent#cookie_list' ); ?>" target="_blank"><?php esc_attr_e( 'Add Cookie Details', 'gdpr-cookie-consent' ); ?></a>
 	</div>
 	<h2><?php esc_attr_e( '2. Customize the Cookie Banner Content', 'gdpr-cookie-consent' ); ?></h2>
 	<div>
@@ -43,7 +43,7 @@ $pro_link = sprintf(
 	<h2><?php esc_attr_e( '3. Customize the Cookie Banner Design', 'gdpr-cookie-consent' ); ?></h2>
 	<div>
 		<p><?php esc_attr_e( 'Just like the content you can completely customize the design of your cookie consent banner. Choose from different display styles, colors and animations.', 'gdpr-cookie-consent' ); ?></p>
-		<a class="button button-primary" href="<?php echo esc_url( admin_url() . 'admin.php?page=gdpr-cookie-consent#gdpr-cookie-consent-design' ); ?>" target="_blank"><?php esc_attr_e( 'Customize Content', 'gdpr-cookie-consent' ); ?></a>
+		<a class="button button-primary" href="<?php echo esc_url( admin_url() . 'admin.php?page=gdpr-cookie-consent#configuration' ); ?>" target="_blank"><?php esc_attr_e( 'Customize Content', 'gdpr-cookie-consent' ); ?></a>
 	</div>
 	<h2><?php esc_attr_e( '4. Display the Cookie Details Table in your Cookie / Privacy policy', 'gdpr-cookie-consent' ); ?></h2>
 	<div>
@@ -57,7 +57,7 @@ $pro_link = sprintf(
 	<div>
 		<p><?php esc_attr_e( 'Automatically block known third-party cookies until your website visitor gives their preference. Once the visitor gives preference, the third-party features which depend on these cookies (like youtube videos) will be visible.', 'gdpr-cookie-consent' ); ?></p>
 		<?php if ( get_option( 'wpl_pro_active' ) ) : ?>
-		<a style="<?php echo esc_attr( $styles ); ?>" class="button button-primary" href="<?php echo esc_url( admin_url() . 'admin.php?page=gdpr-cookie-consent#gdpr-cookie-consent-script-blocker' ); ?>" target="_blank"><?php esc_attr_e( 'Block Scripts', 'gdpr-cookie-consent' ); ?></a>
+		<a style="<?php echo esc_attr( $styles ); ?>" class="button button-primary" href="<?php echo esc_url( admin_url() . 'admin.php?page=gdpr-cookie-consent#script_blocker' ); ?>" target="_blank"><?php esc_attr_e( 'Block Scripts', 'gdpr-cookie-consent' ); ?></a>
 		<?php else : ?>
 		<a class="button button-primary" href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=getting-started&utm_campaign=link&utm_content=upgrade-to-pro-version" target="_blank"><?php esc_attr_e( 'Upgrade To Pro Version', 'gdpr-cookie-consent' ); ?></a>
 		<?php endif; ?>
