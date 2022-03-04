@@ -38,6 +38,7 @@
   "scripts": {
     "start": "wp-scripts start --config webpack.config.js --progress",
     "build": "wp-scripts build --config webpack.config.js",
-    "watch": "wp-scripts start --config webpack.config.js --watch"
+    "watch": "wp-scripts start --config webpack.config.js --watch",
+    "test" : "jest"
   }
 }
