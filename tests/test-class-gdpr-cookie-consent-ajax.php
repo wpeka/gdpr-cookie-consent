@@ -20,11 +20,19 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  */
 class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 	/**
+	 * Class Instance.
+	 *
+	 * @var object $gdpr_cookie_consent Class Instance
+	 * @access public
+	 */
+	public static $gdpr_cookie_consent_ajax;
+	/**
 	 * Set up function.
 	 *
 	 * @param class WP_UnitTest_Factory $factory class instance.
 	 */
 	public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+		self::$gdpr_cookie_consent_ajax = new Gdpr_Cookie_Consent_Cookie_Custom_Ajax();
 	}
 	/**
 	 * Test for Admin Settings Page
