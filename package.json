@@ -24,12 +24,16 @@
     "@coreui/icons": "^2.0.1",
     "@coreui/vue": "^3.2.11",
     "@kouts/vue-modal": "^2.1.4",
+    "@vue/test-utils": "^2.0.0-rc.17",
+    "chai": "^4.3.6",
     "css-loader": "^6.5.1",
     "file-loader": "^6.2.0",
     "grunt-shell": "^3.0.1",
+    "mocha": "^9.2.1",
     "path": "^0.12.7",
     "style-loader": "^3.3.1",
     "vue": "^2.6.14",
+    "vue-jest": "^4.0.1",
     "vue-select": "^3.13.0",
     "vue2-editor": "^2.10.3",
     "webpack": "^5.53.0",
@@ -39,6 +43,7 @@
     "start": "wp-scripts start --config webpack.config.js --progress",
     "build": "wp-scripts build --config webpack.config.js",
     "watch": "wp-scripts start --config webpack.config.js --watch",
-    "test" : "jest"
+    "test": "jest",
+    "mocha": "mocha test"
   }
 }

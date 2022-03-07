@@ -1,1 +1,0 @@
-const test=require('../../admin/js/gdpr-cookie-consent-admin');
