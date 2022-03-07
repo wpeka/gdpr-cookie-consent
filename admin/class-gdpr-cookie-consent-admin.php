@@ -1220,7 +1220,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$active_plugins       = $this->gdpr_cookie_consent_active_plugins();
 		$cookie_options       = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$pro_installed        = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? '1' : '0';
-		$is_cookie_on         = $cookie_options['is_on'];
+		$is_cookie_on         = isset( $cookie_options['is_on'] ) ? $cookie_options['is_on'] : '1';
 		$is_pro_active        = get_option( 'wpl_pro_active' );
 		$api_key_activated    = '';
 		$api_key_activated    = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
