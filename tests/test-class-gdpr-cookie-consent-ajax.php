@@ -86,26 +86,4 @@ class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 			['delete_post_cookie']
 		];
 	}
-
-	// public function test_update_post_cookie() {
-	// 	$this->_setRole( 'administrator' );
-	// 	$_POST['gdpr_custom_action'] = 'update_post_cookie';
-	// 	$_POST['security']           = wp_create_nonce( 'gdpr_cookie_custom' );
-	// 	$_POST['cookie_arr']         = array(
-	// 		'cid'       => 1,
-	// 		'cname'     => 'My Cookie',
-	// 		'cdomain'   => 'http://www.google.com',
-	// 		'ccategory' => 1,
-	// 		'ctype'     => 'HTTP',
-	// 		'cduration' => 1,
-	// 		'cdesc'     => "Cookie's purpose",
-	// 		'ccategoryname' => 'abc',
-	// 	);
-	// 	try {
-	// 		$this->_handleAjax( 'gdpr_cookie_custom' );
-	// 	} catch ( WPAjaxDieContinueException $e ) {
-	// 		unset( $e );
-	// 	}
-	// 	$this->assertTrue( true );
-	// }
 }
