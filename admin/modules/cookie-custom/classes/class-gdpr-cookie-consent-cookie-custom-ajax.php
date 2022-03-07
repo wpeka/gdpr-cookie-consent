@@ -199,7 +199,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 			'response' => false,
 		);
 		check_admin_referer( 'gdpr_cookie_custom', 'security' );
-		$post_cookie_list = $this->get_post_cookie_list();
+		$post_cookie_list = $this->get_post_cookies_list();
 		$view             = plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) . 'admin/modules/cookie-custom/views/custom-cookie-list.php';
 		ob_start();
 		include $view;
