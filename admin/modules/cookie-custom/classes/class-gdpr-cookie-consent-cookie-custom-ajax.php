@@ -49,7 +49,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 			}
 		}
 		echo wp_json_encode( $out );
-		// exit();
+		// exit();.
 	}
 
 	/**
