@@ -29,8 +29,6 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 
 	/**
 	 * Main ajax hook for processing request.
-	 *
-	 * @group ajax
 	 */
 	public function ajax_cookie_custom() {
 		$out = array(
@@ -49,13 +47,11 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 			}
 		}
 		echo wp_json_encode( $out );
-		// exit();.
+		// return;.
 	}
 
 	/**
 	 * Ajax processing for save manual cookies.
-	 *
-	 * @group ajax
 	 *
 	 * @since  1.0
 	 * @return array
@@ -101,7 +97,6 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	/**
 	 * Ajax processing for update manual cookies.
 	 *
-	 * @group ajax
 	 * @since  1.0
 	 * @return array
 	 */
@@ -170,7 +165,6 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	/**
 	 * Ajax processing for delete manual cookies.
 	 *
-	 * @group ajax
 	 * @since  1.0
 	 * @return array
 	 */
@@ -197,7 +191,6 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	/**
 	 * Ajax processing for manual cookie list.
 	 *
-	 * @group ajax
 	 * @since  1.0
 	 * @return array
 	 */
@@ -220,8 +213,6 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 
 	/**
 	 * AJAX for returning updated data.
-	 *
-	 * @group ajax
 	 */
 	public function get_post_cookies_list() {
 		$out = array(
