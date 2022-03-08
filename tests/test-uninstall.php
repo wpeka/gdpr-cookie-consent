@@ -15,7 +15,7 @@ class Gdpr_Cookie_Consent_Uninstall extends WP_UnitTestCase {
 	 */
 	public function test_uninstall() {
 		define( 'WP_UNINSTALL_PLUGIN', true );
-        include plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) . 'uninstall.php';
+        include plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) . 'uninstall.php'; //phpcs:ignore Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 		$this->assertTrue( true );
 	}
 }
