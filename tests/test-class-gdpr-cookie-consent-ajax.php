@@ -98,12 +98,13 @@ class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 		$this->assertTrue( true );
 	}
 	/**
-	 * Test for post cookie list
+	 * Test for delete cookie list
 	 */
-	public function test_post_cookie_list() {
+	public function test_delete_post_cookie() {
 		$this->_setRole( 'administrator' );
-		$_POST['gdpr_custom_action'] = 'post_cookie_list';
+		$_POST['gdpr_custom_action'] = 'delete_post_cookie';
 		$_POST['security']           = wp_create_nonce( 'gdpr_cookie_custom' );
+		$_POST['cookie_id']          = 1;
 		$_POST['cookie_arr']         = array(
 			'cid'           => 1,
 			'cname'         => 'My Cookie',
@@ -122,13 +123,12 @@ class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 		$this->assertTrue( true );
 	}
 	/**
-	 * Test for delete cookie list
+	 * Test for post cookie list
 	 */
-	public function test_delete_post_cookie() {
+	public function test_post_cookie_list() {
 		$this->_setRole( 'administrator' );
-		$_POST['gdpr_custom_action'] = 'delete_post_cookie';
+		$_POST['gdpr_custom_action'] = 'post_cookie_list';
 		$_POST['security']           = wp_create_nonce( 'gdpr_cookie_custom' );
-		$_POST['cookie_id']          = 1;
 		$_POST['cookie_arr']         = array(
 			'cid'           => 1,
 			'cname'         => 'My Cookie',
