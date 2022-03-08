@@ -75,6 +75,20 @@ class Gdpr_Cookie_Consent_File_Test extends WP_UnitTestCase {
 		gdprcc_clean( $var1 );
 		$this->assertTrue( true );
 	}
+	/**
+	 * Test for unsintall gdpr_cookie_consent
+	 */
+	public function test_uninstall_gdpr_cookie_consent() {
+		uninstall_gdpr_cookie_consent();
+		$this->assertTrue( true );
+	}
+	/**
+	 * Test for function run_gdpr_cookie_consent()
+	 */
+	public function test_run_gdpr_cookie_consent() {
+		run_gdpr_cookie_consent();
+		$this->assertTrue( true );
+	}
 }
 
 
