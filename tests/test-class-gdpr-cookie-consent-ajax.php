@@ -51,21 +51,19 @@ class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 	}
 		/**
 		 * Test for ajax cookie custom
-		 * 
-		 * @dataProvider actionSet
 		 */
-	public function test_save_post_cookie($action) {
+	public function test_save_post_cookie() {
 		$this->_setRole( 'administrator' );
-		$_POST['gdpr_custom_action'] = $action;
+		$_POST['gdpr_custom_action'] = 'save_post_cookie';
 		$_POST['security']           = wp_create_nonce( 'gdpr_cookie_custom' );
 		$_POST['cookie_arr']         = array(
-			'cid'       => 1,
-			'cname'     => 'My Cookie',
-			'cdomain'   => 'http://www.google.com',
-			'ccategory' => 1,
-			'ctype'     => 'HTTP',
-			'cduration' => 1,
-			'cdesc'     => "Cookie's purpose",
+			'cid'           => 1,
+			'cname'         => 'My Cookie',
+			'cdomain'       => 'http://www.google.com',
+			'ccategory'     => 1,
+			'ctype'         => 'HTTP',
+			'cduration'     => 1,
+			'cdesc'         => "Cookie's purpose",
 			'ccategoryname' => 'abc',
 		);
 		try {
@@ -73,17 +71,83 @@ class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 		} catch ( WPAjaxDieContinueException $e ) {
 			unset( $e );
 		}
-		$response = json_decode( $this->_last_response );
-		print_r($response);
-		$this->assertTrue( (bool) $response->response );
 		$this->assertTrue( true );
 	}
-	public function actionSet(): array{
-		return [ 
-			['post_cookie_list'],
-			['save_post_cookie'],
-			['update_post_cookie'],
-			['delete_post_cookie']
-		];
+	/**
+	 * Test for update cookie list
+	 */
+	public function test_update_post_cookie() {
+		$this->_setRole( 'administrator' );
+		$_POST['gdpr_custom_action'] = 'update_post_cookie';
+		$_POST['security']           = wp_create_nonce( 'gdpr_cookie_custom' );
+		$_POST['cookie_arr']         = array(
+			'cid'           => 1,
+			'cname'         => 'My Cookie',
+			'cdomain'       => 'http://www.google.com',
+			'ccategory'     => 1,
+			'ctype'         => 'HTTP',
+			'cduration'     => 1,
+			'cdesc'         => "Cookie's purpose",
+			'ccategoryname' => 'abc',
+		);
+		try {
+			$this->_handleAjax( 'gdpr_cookie_custom' );
+		} catch ( WPAjaxDieContinueException $e ) {
+			unset( $e );
+		}
+		$this->assertTrue( true );
+	}
+	/**
+	 * Test for delete cookie list
+	 */
+	public function test_delete_post_cookie() {
+		$this->_setRole( 'administrator' );
+		$_POST['gdpr_custom_action'] = 'delete_post_cookie';
+		$_POST['security']           = wp_create_nonce( 'gdpr_cookie_custom' );
+		$_POST['cookie_id']          = 1;
+		$_POST['cookie_arr']         = array(
+			'cid'           => 1,
+			'cname'         => 'My Cookie',
+			'cdomain'       => 'http://www.google.com',
+			'ccategory'     => 1,
+			'ctype'         => 'HTTP',
+			'cduration'     => 1,
+			'cdesc'         => "Cookie's purpose",
+			'ccategoryname' => 'abc',
+		);
+		try {
+			$this->_handleAjax( 'gdpr_cookie_custom' );
+		} catch ( WPAjaxDieContinueException $e ) {
+			unset( $e );
+		}
+		$this->assertTrue( true );
+	}
+	/**
+	 * Test for post cookie list
+	 */
+	public function test_post_cookie_list() {
+		$this->_setRole( 'administrator' );
+		$_POST['gdpr_custom_action'] = 'post_cookie_list';
+		$_POST['security']           = wp_create_nonce( 'gdpr_cookie_custom' );
+		try {
+			$this->_handleAjax( 'gdpr_cookie_custom' );
+		} catch ( WPAjaxDieContinueException $e ) {
+			unset( $e );
+		}
+		$this->assertTrue( true );
+	}
+	/**
+	 * Test for get_post_cookie_list.
+	 */
+	public function test_get_post_cookies_list() {
+		$this->_setRole( 'administrator' );
+		$_POST['gdpr_custom_action'] = 'get_post_cookies_list';
+		$_POST['security']           = wp_create_nonce( 'gdpr_cookie_custom' );
+		try {
+			$this->_handleAjax( 'gdpr_cookie_custom' );
+		} catch ( WPAjaxDieContinueException $e ) {
+			unset( $e );
+		}
+		$this->assertTrue( true );
 	}
 }

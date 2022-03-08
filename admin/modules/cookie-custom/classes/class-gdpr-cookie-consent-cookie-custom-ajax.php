@@ -29,6 +29,8 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 
 	/**
 	 * Main ajax hook for processing request.
+	 *
+	 * @group ajax
 	 */
 	public function ajax_cookie_custom() {
 		$out = array(
@@ -47,11 +49,13 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 			}
 		}
 		echo wp_json_encode( $out );
-		exit();
+		// exit();.
 	}
 
 	/**
 	 * Ajax processing for save manual cookies.
+	 *
+	 * @group ajax
 	 *
 	 * @since  1.0
 	 * @return array
@@ -97,6 +101,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	/**
 	 * Ajax processing for update manual cookies.
 	 *
+	 * @group ajax
 	 * @since  1.0
 	 * @return array
 	 */
@@ -165,6 +170,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	/**
 	 * Ajax processing for delete manual cookies.
 	 *
+	 * @group ajax
 	 * @since  1.0
 	 * @return array
 	 */
@@ -191,6 +197,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	/**
 	 * Ajax processing for manual cookie list.
 	 *
+	 * @group ajax
 	 * @since  1.0
 	 * @return array
 	 */
@@ -199,7 +206,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 			'response' => false,
 		);
 		check_admin_referer( 'gdpr_cookie_custom', 'security' );
-		$post_cookie_list = $this->get_post_cookie_list();
+		$post_cookie_list = $this->get_post_cookies_list();
 		$view             = plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) . 'admin/modules/cookie-custom/views/custom-cookie-list.php';
 		ob_start();
 		include $view;
@@ -212,7 +219,9 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 	}
 
 	/**
-	 * AJAX for returning updated data
+	 * AJAX for returning updated data.
+	 *
+	 * @group ajax
 	 */
 	public function get_post_cookies_list() {
 		$out = array(
@@ -235,4 +244,3 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 		return $out;
 	}
 }
-new Gdpr_Cookie_Consent_Cookie_Custom_Ajax();
