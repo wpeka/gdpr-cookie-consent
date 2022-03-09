@@ -219,6 +219,9 @@ class Test_Gdpr_Cookie_Consent_Admin extends WP_UnitTestCase {
 		);
 		self::$gdpr_cookie_consent->admin_settings_page();
 		$this->assertTrue( true );
+		update_option( 'wpl_pro_active', '1' );
+		self::$gdpr_cookie_consent->admin_settings_page();
+		$this->assertTrue( true );
 	}
 	/**
 	 * Test for gdpr_gettings_started function.

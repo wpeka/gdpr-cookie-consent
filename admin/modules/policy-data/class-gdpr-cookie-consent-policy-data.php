@@ -118,7 +118,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 */
 	public function gdpr_metabox_policies_links() {
 		global $post;
-		$custom    = get_post_custom( $post->ID );
+		$custom    = get_post_custom( $post->id );
 		$content   = ( isset( $custom['_gdpr_policies_links_editor'][0] ) ) ? $custom['_gdpr_policies_links_editor'][0] : '';
 		$editor_id = '_gdpr_policies_links_editor';
 		wp_nonce_field( 'gdpr_save_custom_metabox', '_gdpr_policies_links_editor_nonce' );
