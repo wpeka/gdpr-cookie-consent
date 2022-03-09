@@ -54,13 +54,7 @@ class Test_Gdpr_Cookie_Consent_Policy_Data extends WP_UnitTestCase {
 	 * Test for construct function
 	 */
 	public function test__construct() {
-		wp_set_current_user(
-			self::factory()->user->create(
-				array(
-					'role' => 'administrator',
-				)
-			)
-		);
+		set_current_screen( 'post-new.php' );
 		$obj = new Gdpr_Cookie_Consent_Policy_Data();
 		$this->assertTrue( $obj instanceof Gdpr_Cookie_Consent_Policy_Data );
 	}
@@ -79,5 +73,6 @@ class Test_Gdpr_Cookie_Consent_Policy_Data extends WP_UnitTestCase {
 		$this->assertTrue( true );
 	}
 }
+
 
 
