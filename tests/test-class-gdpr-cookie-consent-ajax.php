@@ -79,27 +79,6 @@ class Test_Gdpr_Cookie_Consent_Ajax extends WP_Ajax_UnitTestCase {
 			unset( $e );
 		}
 		$this->assertTrue( true );
-		$_POST['gdpr_custom_action'] = 'post_cookie_list';
-		try {
-			$this->_handleAjax( 'gdpr_cookie_custom' );
-		} catch ( WPAjaxDieContinueException $e ) {
-			unset( $e );
-		}
-		$this->assertTrue( true );
 
-	}
-	/**
-	 * Test for get_post_cookie_list.
-	 */
-	public function test_get_post_cookies_list() {
-		$this->_setRole( 'administrator' );
-		$_POST['gdpr_custom_action'] = 'get_post_cookies_list';
-		$_POST['security']           = wp_create_nonce( 'gdpr_cookie_custom' );
-		try {
-			$this->_handleAjax( 'gdpr_cookie_custom' );
-		} catch ( WPAjaxDieContinueException $e ) {
-			unset( $e );
-		}
-		$this->assertTrue( true );
 	}
 }
