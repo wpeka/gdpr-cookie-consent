@@ -77,6 +77,6 @@ class Test_Gdpr_Cookie_Consent_Admin_Ajax extends WP_Ajax_UnitTestCase {
 		} catch ( WPAjaxDieContinueException $e ) {
 			unset( $e );
 		}
-		$this->aseertTrue( true );
+		$this->assertTrue( true );
 	}
 }
