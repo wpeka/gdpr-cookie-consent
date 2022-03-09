@@ -41,8 +41,14 @@ class Test_Gdpr_Cookie_Consent_Admin_Ajax extends WP_Ajax_UnitTestCase {
 	 * @param class WP_UnitTest_Factory $factory class instance.
 	 */
 	public static function wpSetUpBeforeClass( WP_UnitTest_Factory $factory ) {
+		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
+			self::$plugin_version = GDPR_COOKIE_CONSENT_VERSION;
+		} else {
+			self::$plugin_version = '2.2.0';
+		}
+		self::$plugin_name         = 'gdpr_cookie_consent';
 		self::$gdpr_cookie_consent            = new Gdpr_Cookie_Consent();
-		self::$gdpr_cookie_consent_admin_ajax = new Gdpr_Cookie_Consent_Admin();
+		self::$gdpr_cookie_consent_admin_ajax = new Gdpr_Cookie_Consent_Admin( $plugin_name, $plugin_version );
 	}
 	/**
 	 * Test for gdpr_cookie_consent_ajax_restore_default_settings
