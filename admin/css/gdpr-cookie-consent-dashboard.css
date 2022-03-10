@@ -3,6 +3,10 @@
 	margin-left: -32px;
 }
 
+#wpbody-content {
+	float: none !important;
+}
+
 #gdpr-dashboard-loader {
 	top: 0;
 	right: 0;
