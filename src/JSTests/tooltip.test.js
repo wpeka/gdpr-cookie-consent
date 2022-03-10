@@ -2,9 +2,11 @@
  * @jest-environment jsdom
  */
 import Tooltip from '../vue-components/tooltip'
+import { mount } from '@vue/test-utils';
 
 describe('tooltip',()=>{
+    const wrapper = mount(Tooltip);
     it('tooltip',()=>{
-        expect(Tooltip.test.type).toBe(String);
+        expect(wrapper.exists()).toBe(true);
     });
 });
