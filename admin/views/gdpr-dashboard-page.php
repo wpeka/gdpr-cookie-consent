@@ -349,32 +349,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<?php esc_html_e( 'Other Plugins', 'gdpr-cookie-consent' ); ?>
 					</span>
 				</c-card-header>
-				<c-card-body>
-					<c-row class="gdpr-dashboard-plugins-row">
-						<span>	
-							<img :src="legalpages_icon.default" class="gdpr-dashboard-plugins-icon">
-							<?php esc_html_e( 'Wp LegalPages', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<a target="blank" :href="legalpages_url" class="gdpr-dashboard-plugins-link">
-							<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-plugins-row">
-						<span>
-							<img :src="adcenter_icon.default" class="gdpr-dashboard-plugins-icon">
-							<?php esc_html_e( 'WP Adcenter', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<a target="blank" :href="adcenter_url" class="gdpr-dashboard-plugins-link">
-							<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-plugins-row">
-						<span>
-							<img :src="survey_funnel_icon.default" class="gdpr-dashboard-plugins-icon">
-							<?php esc_html_e( 'Survey Funnel', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<a target="blank" :href="survey_funnel_url" class="gdpr-dashboard-plugins-link">
-							<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
+				<c-card-body class="gdpr-dashboard-promotional-card-body">
+					<div>
+						<c-row class="gdpr-dashboard-plugins-row">
+							<span>	
+								<img :src="legalpages_icon.default" class="gdpr-dashboard-plugins-icon">
+								<?php esc_html_e( 'WP LegalPages', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<a target="blank" :href="legalpages_url" class="gdpr-dashboard-plugins-link">
+								<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
+							</a>
+						</c-row>
+						<c-row class="gdpr-dashboard-plugins-row">
+							<span>
+								<img :src="adcenter_icon.default" class="gdpr-dashboard-plugins-icon">
+								<?php esc_html_e( 'WP Adcenter', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<a target="blank" :href="adcenter_url" class="gdpr-dashboard-plugins-link">
+								<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
+							</a>
+						</c-row>
+						<c-row class="gdpr-dashboard-plugins-row">
+							<span>
+								<img :src="survey_funnel_icon.default" class="gdpr-dashboard-plugins-icon">
+								<?php esc_html_e( 'Survey Funnel', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<a target="blank" :href="survey_funnel_url" class="gdpr-dashboard-plugins-link">
+								<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
+							</a>
+						</c-row>
+					</div>
+					<c-row class="gdpr-dashboard-all-plugins-row">
+						<a target="blank" :href="all_plugins_url" class="gdpr-dashboard-plugins-link">
+							<c-button class="gdpr-progress-view-plugins-link" color="info" variant="outline">
+							<?php esc_html_e( 'View all Plugins', 'gdpr-cookie-consent' ); ?>
+							</c-button>	
 						</a>
 					</c-row>
 				</c-card-body>
