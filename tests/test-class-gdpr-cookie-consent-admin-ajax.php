@@ -64,7 +64,7 @@ class Test_Gdpr_Cookie_Consent_Admin_Ajax extends WP_Ajax_UnitTestCase {
 		}
 		self::$plugin_name                    = 'gdpr_cookie_consent';
 		self::$gdpr_cookie_consent            = new Gdpr_Cookie_Consent();
-		self::$gdpr_cookie_consent_admin_ajax = new Gdpr_Cookie_Consent_Admin( $plugin_name, $plugin_version );
+		self::$gdpr_cookie_consent_admin_ajax = new Gdpr_Cookie_Consent_Admin( self::$plugin_name, self::$plugin_version );
 	}
 	/**
 	 * Test for gdpr_cookie_consent_ajax_restore_default_settings
@@ -78,5 +78,8 @@ class Test_Gdpr_Cookie_Consent_Admin_Ajax extends WP_Ajax_UnitTestCase {
 			unset( $e );
 		}
 		$this->assertTrue( true );
+		$expected_options = self::$gdpr_cookie_consent->gdpr_get_default_settings();
+		$updated_options  = self::$gdpr_cookie_consent->gdpr_get_settings();
+		$this->assertEquals( $expected_options, $updated_options );
 	}
 }
