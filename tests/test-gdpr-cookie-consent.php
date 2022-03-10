@@ -39,6 +39,7 @@ class Gdpr_Cookie_Consent_File_Test extends WP_UnitTestCase {
 			self::$plugin_version = '2.0.7';
 		}
 		self::$plugin_name = 'gdpr_cookie_consent';
+        include_once plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) . 'gdpr-cookie-consent.php'; //phpcs:ignore Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 	}
 
 	/**
