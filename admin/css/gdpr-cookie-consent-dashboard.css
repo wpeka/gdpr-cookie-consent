@@ -302,3 +302,38 @@
 	box-shadow: none !important;
 	cursor: none;
 }
+
+.gdpr-dashboard-promotional-card-body {	
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.gdpr-dashboard-all-plugins-row {
+    padding-left: 3.25rem;
+    padding-right: 3.25rem;
+	display: flex;
+    justify-content: flex-end;
+}
+
+.gdpr-progress-view-plugins-link {
+	color: #39f;
+	text-decoration: none;
+	background-color: #ffffff !important;
+}
+
+.gdpr-progress-view-plugins-link:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.gdpr-progress-view-plugins-link:active {
+	color: #39f !important;
+	background-color: #ffffff !important;
+}
+
+.gdpr-progress-view-plugins-link:hover {
+	color: #39f;
+	background-color: #ffffff !important;
+	text-decoration: none;
+}

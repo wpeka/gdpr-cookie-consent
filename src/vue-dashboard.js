@@ -40,6 +40,7 @@ var gen = new Vue({
 			pro_support_url: dashboard_options.hasOwnProperty('pro_support_url') ? dashboard_options['pro_support_url'] : '',
 			videos_url: dashboard_options.hasOwnProperty('videos_url') ? dashboard_options['videos_url'] : '',
 			key_activate_url: dashboard_options.hasOwnProperty('key_activate_url') ? dashboard_options['key_activate_url'] : '',
+			all_plugins_url: 'https://profiles.wordpress.org/wpeka-club/#content-plugins',
 			faq1_url: 'https://youtu.be/ZESzSKnUkOg',
 			faq2_url: 'https://wplegalpages.com/blog/what-you-need-to-know-about-the-eu-cookie-law/?utm_source=gdpr&utm_medium=dashboard&utm_campaign=tips',
 			faq3_url: 'https://wplegalpages.com/wordpress-cookie-consent-eprivacy-gdpr/?utm_source=gdpr&utm_medium=dashboard&utm_campaign=tips',
