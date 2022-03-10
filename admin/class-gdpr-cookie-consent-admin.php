@@ -816,6 +816,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'layout_skin_options'              => $layout_skin_options,
 				'cookie_list_settings'             => $cookie_list_settings,
 				'cookie_scan_settings'             => $cookie_scan_settings,
+				'restore_settings_nonce'           => wp_create_nonce( 'restore_default_settings' ),
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
@@ -1291,5 +1292,22 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function gdpr_cookie_consent_active_plugins() {
 		return get_option( 'active_plugins' );
+	}
+
+	/**
+	 * Ajax callback to restore settings to default
+	 *
+	 * @since 2.2.0
+	 */
+	public function gdpr_cookie_consent_ajax_restore_default_settings() {
+		if ( isset( $_POST['security'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['security'] ) ), 'restore_default_settings' ) ) {
+				return;
+			}
+			$the_options = Gdpr_Cookie_Consent::gdpr_get_default_settings();
+			$the_options = apply_filters( 'gdpr_restore_default_settings', $the_options, $_POST );
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+			wp_send_json_success( array( 'restore_default_saved' => true ) );
+		}
 	}
 }
