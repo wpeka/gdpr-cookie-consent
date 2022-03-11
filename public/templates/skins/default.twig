@@ -22,7 +22,7 @@
                 </p>
             {% endif %}
         </div>
-        <div class="gdpr group-description-buttons">
+        <div class="gdpr group-description-buttons" id="default_buttons">
             {% if button_accept_is_on %}
                 <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept"
                         {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
@@ -105,7 +105,7 @@
                 {% endif %}
             </p>
         </div>
-        <div class="gdpr group-description-buttons">
+        <div class="gdpr group-description-buttons" id="default_buttons">
             {% if button_accept_is_on %}
                 <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept"
                         {% if button_accept_action == 'CONSTANT_OPEN_URL' %}

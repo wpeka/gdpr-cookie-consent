@@ -25,6 +25,7 @@ var gen = new Vue({
                 labelOn: '\u2713',
                 labelOff: '\u2715'
             },
+            is_template_changed: false,
             appendField: ".gdpr-cookie-consent-settings-container",
             configure_image_url: require('../admin/images/configure-icon.png'),
             closeOnBackdrop: true,
@@ -491,6 +492,7 @@ var gen = new Vue({
                 this.widget_template = value;
                 this.template = value;
             }
+            this.is_template_changed = true;
         },
         cookieLayoutChange( value ){
             if(value) {
@@ -740,6 +742,10 @@ var gen = new Vue({
                 j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
                 j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
                 j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                if(that.is_template_changed){
+                    that.is_template_changed = false;
+                    location.reload();
+                }
             }); 
         },
         onSwitchScriptBlocker( script_id ) {

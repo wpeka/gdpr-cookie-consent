@@ -756,6 +756,7 @@ Bootstrap CSS for frontend UI
 #gdpr-cookie-consent-bar .btn.gdpr_action_button_link {
 	margin: 0 0.5rem 0 0;
 	min-width: 6rem;
+	white-space: nowrap;
 }
 #gdpr-cookie-consent-bar.gdpr-center .btn.gdpr_action_button {
 	min-width: 10rem;

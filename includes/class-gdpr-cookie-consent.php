@@ -467,7 +467,7 @@ class Gdpr_Cookie_Consent {
 			'button_accept_button_border_color'    => '#18a300',
 			'button_accept_button_border_radius'   => '0', // in pixel.
 
-			'button_accept_all_is_on'              => true,
+			'button_accept_all_is_on'              => false,
 			'button_accept_all_text'               => 'Accept All',
 			'button_accept_all_link_color'         => '#ffffff',
 			'button_accept_all_as_button'          => true,
