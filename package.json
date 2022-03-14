@@ -1,6 +1,6 @@
 {
   "name": "gdpr-cookie-consent",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "main": "Gruntfile.js",
   "author": "WPeka",
   "devDependencies": {
@@ -29,6 +29,7 @@
     "path": "^0.12.7",
     "style-loader": "^3.3.1",
     "vue": "^2.6.14",
+    "vue-ellipse-progress": "^1.3.1",
     "vue-select": "^3.13.0",
     "vue2-editor": "^2.10.3",
     "webpack": "^5.53.0",

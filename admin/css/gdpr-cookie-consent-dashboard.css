@@ -1,0 +1,343 @@
+#wpbody {
+	background-color: #F6FAFF;
+	margin-left: -32px;
+}
+
+#wpbody-content {
+	float: none !important;
+}
+
+#gdpr-dashboard-loader {
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	background-color: #ffffff;
+	z-index: 999;
+}
+
+#gdpr-cookie-consent-dashboard-page {
+	background-color: #F6FAFF;
+	margin-left: -20px;
+	padding: 32px 0;
+	/*font-family: 'Lato', sans-serif;*/
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font-size: 14px;
+	line-height: 20px;
+	min-height: 750px;
+	color: #3c4b64;
+	min-width: 100%;
+}
+
+.gdpr-cookie-consent-dashboard-container {
+	margin-left: 4%;
+}
+
+.gdpr-progress-bar-card {
+	min-width: 98%;
+}
+
+.gdpr-progress-heading {
+	font-size: 1.5rem;
+}
+
+.gdpr-progress-bar-buttons {
+	display: flex;
+	justify-content: end;
+}
+
+.gdpr-progress-bar-button {
+	margin-left: 1rem;
+}
+
+.gdpr-progress-bar-button:hover {
+	background-color: #ffffff;
+	color: #39f;
+}
+
+.gdpr-progress-bar-button:active {
+	background-color: #ffffff !important;
+	color: #39f !important;
+}
+
+.gdpr-progress-bar-button:focus-visible {
+	outline: none;
+}
+
+.gdpr-progress-circle-column {
+	background-color: #F6FAFF;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1.5rem;
+}
+
+.ep-legend--container {
+	margin-top: 2rem;
+	font-weight: 300;
+}
+
+.ep-legend--value {
+	margin-bottom: 1.5rem;
+	font-weight: 300;
+}
+
+.gdpr-progress-circle-caption {
+	font-size: 1.25rem;
+	font-weight: 300;
+	margin-left: -0.5rem;
+}
+
+.gdpr-progress-list-column {
+	padding: 1.5rem;
+}
+
+.gdpr-progress-list-column {
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+}
+
+.gdpr-progress-list-item {
+	padding: 0.5rem;
+	width: 100%;
+	justify-content: end;
+	margin-bottom: 0.7rem;
+	display: flex;
+	justify-content: start;
+}
+
+.gdpr-green-progress {
+	background-color: #daf2cb;
+	border-left: 2px solid #68cb26;
+	color: #68cb26;
+}
+
+.gdpr-gray-progress {
+	background-color: #ececec;
+	border-left: 2px solid #7f7f7f;
+	color: #7f7f7f;
+}
+
+.gdpr-progress-list-link {
+	color: #39f;
+	text-decoration: none;
+}
+
+.gdpr-progress-list-link:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.gdpr-progress-list-link:active {
+	color: #39f !important;
+}
+
+.gdpr-progress-list-link:hover {
+	color: #39f;
+	text-decoration: none;
+}
+
+.gdpr-dashboard-quick-links-card {
+	min-width: 98%;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.gdpr-dashboard-quick-links-card-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #f2f2f2;
+	padding-left: 3.25rem;
+	padding-right: 3.25rem;
+}
+
+.gdpr-dashboard-quick-links-body {
+	padding: 0;
+}
+
+.gdpr-quick-links-images-row {
+	padding: 1.25rem;
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	justify-items: center;
+}
+
+.gdpr-quick-link-image {
+	width: 40;
+	height: 40px;
+}
+
+.gdpr-upgrade-pro-button:hover {
+	background-color: #fff;
+	color: #39f !important;
+}
+
+.gdpr-upgrade-pro-button:active {
+	background-color: #fff !important;
+	color: #39f !important;
+}
+
+.gdpr-upgrade-pro-button:focus-visible {
+	outline: none;
+}
+
+.gdpr-upgrade-pro-button:focus {
+	color: #39f;
+	background-color: #ffffff;
+}
+
+.gdpr-progress-bar-class .ep-svg-container > svg {
+	filter: drop-shadow( -1px 0 4px rgba(177, 214, 248, 0.8));
+}
+
+.gdpr-quick-link-item {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.gdpr-quick-link-caption {
+	margin-top: 0.75rem !important;
+}
+
+.gdpr-dashboard-quick-links-heading {
+	font-size: 1.5rem;
+}
+
+.gdpr-quick-link:focus {
+	box-shadow: none;
+	outline: none;
+}
+
+.gdpr-dashboard-promotional-cards {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.gdpr-dashboard-promotional-card {
+	padding-left: 0;
+	padding-right: 0;
+	min-width: 96%;
+}
+
+.gdpr-dashboard-promotional-card-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #f2f2f2;
+	padding-left: 3.25rem;
+	padding-right: 3.25rem;
+}
+
+.gdpr-dashboard-promotional-heading {
+	font-size: 1.5rem;
+}
+
+.gdpr-dashboard-faq-row {
+	margin-bottom: 1.25rem;
+	padding-left: 3.25rem;
+}
+
+.gdpr-dashboard-faq-link {
+	color: #3c4b64;
+	text-decoration: none;
+	margin-left: 1rem;
+}
+
+.gdpr-dashboard-faq-link:hover {
+	color: #3c4b64;
+	text-decoration: none;
+}
+
+.gdpr-dashboard-faq-link:focus {
+	box-shadow: none !important;
+	outline: none;
+}
+
+.gdpr-dashboard-plugins-row {
+	margin-bottom: 1.25rem;
+	padding-left: 3.25rem;
+	padding-right: 3.25rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+.gdpr-dashboard-plugins-link {
+	color: #39f;
+	text-decoration: none;
+	margin-left: 1rem;
+}
+
+.gdpr-dashboard-plugins-link:hover {
+	color: #39f;
+	text-decoration: none;
+}
+
+.gdpr-dashboard-plugins-link:focus {
+	box-shadow: none !important;
+	outline: none;
+	color: #39f;
+}
+
+.gdpr-dashboard-plugins-icon {
+	width: 25px;
+}
+
+.gdpr-dashboard-disabled-icon {
+	padding: 0;
+	border: none !important;
+}
+
+.gdpr-dashboard-disabled-icon:focus-visible {
+	outline: none !important;
+	box-shadow: none !important;
+	cursor: none;
+}
+
+.gdpr-dashboard-disabled-icon:focus {
+	outline: none !important;
+	box-shadow: none !important;
+	cursor: none;
+}
+
+.gdpr-dashboard-promotional-card-body {	
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.gdpr-dashboard-all-plugins-row {
+    padding-left: 3.25rem;
+    padding-right: 3.25rem;
+	display: flex;
+    justify-content: flex-end;
+}
+
+.gdpr-progress-view-plugins-link {
+	color: #39f;
+	text-decoration: none;
+	background-color: #ffffff !important;
+}
+
+.gdpr-progress-view-plugins-link:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.gdpr-progress-view-plugins-link:active {
+	color: #39f !important;
+	background-color: #ffffff !important;
+}
+
+.gdpr-progress-view-plugins-link:hover {
+	color: #39f;
+	background-color: #ffffff !important;
+	text-decoration: none;
+}
