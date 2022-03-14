@@ -579,6 +579,153 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							</c-card-body>
 						</c-card>
 						<c-card v-show="is_gdpr || is_eprivacy">
+							<c-card-header><?php esc_html_e( 'Accept All Button', 'gdpr-cookie-consent' ); ?></c-card-header>
+							<c-card-body>
+								<c-row>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-5">
+										<c-switch v-bind="labelIcon" v-model="cookie_accept_all_on" id="gdpr-cookie-consent-cookie-acceptall-on" variant="3d"  color="success" :checked="cookie_accept_all_on" v-on:update:checked="onSwitchCookieAcceptAllEnable"></c-switch>
+										<input type="hidden" name="gcc-cookie-accept-all-enable" v-model="cookie_accept_all_on">
+									</c-col>
+									<c-col class="col-sm-3">
+										<c-button :disabled="!cookie_accept_all_on" class="gdpr-configure-button" @click="accept_all_button_popup=true">
+											<span>
+												<img class="gdpr-configure-image" :src="configure_image_url.default">
+												<?php esc_attr_e( 'Configure' ); ?>
+											</span>
+										</c-button>
+									</c-col>
+								</c-row>
+								<c-modal
+									title="Accept All Button"
+									:show.sync="accept_all_button_popup"
+									size="lg"
+									:close-on-backdrop="closeOnBackdrop"
+									:centered="centered"
+								>
+								<c-row class="gdpr-label-row">
+									<c-col class="col-sm-6">
+										<label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-6">
+										<label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+								</c-row>
+								<c-row>
+									<c-col class="col-sm-6">
+										<c-input name="gcc-accept-all-text" v-model="accept_all_text"></c-input>
+									</c-col>
+									<c-col class="col-sm-6 gdpr-color-pick">
+										<c-input class="gdpr-color-input" type="text" v-model="accept_all_text_color"></c-input>
+										<c-input class="gdpr-color-select" id="gdpr-cookie-accept-all-text-color" type="color" name="gdpr-cookie-accept-all-text-color" v-model="accept_all_text_color"></c-input>
+									</c-col>
+								</c-row>
+								<c-row  class="gdpr-label-row">
+									<c-col class="col-sm-6">
+										<label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-6">
+										<label><?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Select action to do once the user clicks on button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+									</c-col>			
+								</c-row>
+								<c-row>
+									<c-col class="col-sm-6">
+										<v-select class="form-group" id="gdpr-cookie-accept-all-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_all_as_button"></v-select>
+										<input type="hidden" name="gdpr-cookie-accept-all-as" v-model="accept_all_as_button">
+									</c-col>
+									<c-col class="col-sm-6">
+										<v-select class="form-group" id="gdpr-cookie-accept-all-action" :reduce="label => label.code" :options="accept_action_options" v-model="accept_all_action"  @input="cookieAcceptAllChange">
+										</v-select>
+										<input type="hidden" name="gdpr-cookie-accept-all-action" v-model="accept_all_action">
+									</c-col>
+								</c-row>
+								<c-row v-show="accept_all_open_url"  class="gdpr-label-row">
+									<c-col class="col-sm-6">
+										<label><?php esc_attr_e( 'URL ', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-6">
+										<label><?php esc_attr_e( 'Open URL in new window', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+								</c-row>
+								<c-row v-show="accept_all_open_url">
+									<c-col class="col-sm-6">
+										<c-input name="gdpr-cookie-accept-all-url" v-model="accept_all_url"></c-input>
+									</c-col>
+									<c-col class="col-sm-6">
+										<v-select class="form-group" id="gdpr-cookie-accept-all-new-window" :reduce="label => label.code" :options="open_url_options" v-model="accept_all_new_win"></v-select>
+										<input type="hidden" name="gdpr-cookie-accept-all-new-window" v-model="accept_all_new_win">
+									</c-col>
+								</c-row>
+								<c-row class="gdpr-label-row"  v-show="accept_all_as_button">
+									<c-col class="col-sm-6">
+										<label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-6">
+										<label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+								</c-row>
+								<c-row  v-show="accept_all_as_button">
+									<c-col class="col-sm-6  gdpr-color-pick">
+										<c-input class="gdpr-color-input" type="text" v-model="accept_all_background_color"></c-input>
+										<c-input class="gdpr-color-select" id="gdpr-cookie-accept-all-background-color" type="color" name="gdpr-cookie-accept-all-background-color" v-model="accept_all_background_color"></c-input>
+									</c-col>
+									<c-col class="col-sm-6">
+										<v-select class="form-group" id="gdpr-cookie-accept-all-size" :reduce="label => label.code" :options="accept_size_options" v-model="accept_all_size">
+										</v-select>
+										<input type="hidden" name="gdpr-cookie-accept-all-size" v-model="accept_all_size">
+									</c-col>
+								</c-row>
+								<c-row  v-show="accept_all_as_button" class="gdpr-label-row">
+									<c-col class="col-sm-6">
+										<label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-6">
+										<label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+								</c-row>
+								<c-row v-show="accept_all_as_button">
+									<c-col class="col-sm-6">
+										<v-select class="form-group" id="gdpr-cookie-accept-all-border-style" :reduce="label => label.code" :options="border_style_options" v-model="accept_all_style">
+										</v-select>
+										<input type="hidden" name="gdpr-cookie-accept-all-border-style" v-model="accept_all_style">
+									</c-col>
+									<c-col class="col-sm-6 gdpr-color-pick">
+										<c-input class="gdpr-color-input" type="text" v-model="accept_all_border_color"></c-input>
+										<c-input class="gdpr-color-select" id="gdpr-cookie-accept-all-border-color" type="color" name="gdpr-cookie-accept-all-border-color" v-model="accept_all_border_color"></c-input>
+									</c-col>
+								</c-row>
+								<c-row v-show="accept_all_as_button" class="gdpr-label-row">
+									<c-col class="col-sm-4">
+										<label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-4">
+										<label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-4">
+										<label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+								</c-row>
+								<c-row v-show="accept_all_as_button">
+									<c-col class="col-sm-4  gdpr-color-pick">
+										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_all_opacity"></c-input> 
+										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-opacity" v-model="accept_all_opacity"></c-input>
+									</c-col>
+									<c-col class="col-sm-4 gdpr-color-pick">
+										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width"></c-input> 
+										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-width" v-model="accept_all_border_width"></c-input>
+									</c-col>
+									<c-col class="col-sm-4  gdpr-color-pick">
+										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius"></c-input> 
+										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-radius" v-model="accept_all_border_radius"></c-input>
+									</c-col>
+								</c-row>
+								<template v-slot:footer>
+										<c-button color="info" @click="accept_all_button_popup=false"><span>Done</span></c-button>
+									</template>
+								</c-modal>
+							</c-card-body>
+						</c-card>
+						<c-card v-show="is_gdpr || is_eprivacy">
 							<c-card-header><?php esc_html_e( 'Decline Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
