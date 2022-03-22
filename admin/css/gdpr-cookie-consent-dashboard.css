@@ -30,14 +30,18 @@
 	min-height: 750px;
 	color: #3c4b64;
 	min-width: 100%;
+	max-width: 100%;
 }
 
 .gdpr-cookie-consent-dashboard-container {
 	margin-left: 4%;
+	padding-right: 3%;
+	max-width: 100% !important;
 }
 
 .gdpr-progress-bar-card {
 	min-width: 98%;
+	max-width: 98%;
 }
 
 .gdpr-progress-heading {
@@ -143,6 +147,7 @@
 
 .gdpr-dashboard-quick-links-card {
 	min-width: 98%;
+	max-width: 98%;
 	padding-left: 0;
 	padding-right: 0;
 }
@@ -219,12 +224,16 @@
 .gdpr-dashboard-promotional-cards {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+	min-width: 98%;
+	max-width: 98%;
+	grid-column-gap: 4%;
 }
 
 .gdpr-dashboard-promotional-card {
 	padding-left: 0;
 	padding-right: 0;
-	min-width: 96%;
+	min-width: 100%;
+	max-width: 100%;
 }
 
 .gdpr-dashboard-promotional-card-header {
