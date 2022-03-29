@@ -1204,7 +1204,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Callback function for Dashboard page
 	 *
-	 * @since 2.2.0
+	 * @since 2.1.0
 	 */
 	public function gdpr_cookie_consent_dashboard() {
 		// Lock out non-admins.
@@ -1282,7 +1282,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Function to get list of active plugins
 	 *
-	 * @since 2.2.0
+	 * @since 2.1.0
 	 */
 	public function gdpr_cookie_consent_active_plugins() {
 		return get_option( 'active_plugins' );
@@ -1291,7 +1291,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Ajax callback to restore settings to default
 	 *
-	 * @since 2.2.0
+	 * @since 2.1.0
 	 */
 	public function gdpr_cookie_consent_ajax_restore_default_settings() {
 		if ( isset( $_POST['security'] ) ) {
