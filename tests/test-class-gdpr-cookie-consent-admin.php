@@ -44,7 +44,7 @@ class Test_Gdpr_Cookie_Consent_Admin extends WP_UnitTestCase {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			self::$plugin_version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			self::$plugin_version = '2.2.0';
+			self::$plugin_version = '2.1.0';
 		}
 		self::$plugin_name         = 'gdpr_cookie_consent';
 		self::$gdpr_cookie_consent = new Gdpr_Cookie_Consent_Admin( self::$plugin_name, self::$plugin_version );
