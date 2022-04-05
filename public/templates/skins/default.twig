@@ -22,7 +22,7 @@
                 </p>
             {% endif %}
         </div>
-        <div class="gdpr group-description-buttons">
+        <div class="gdpr group-description-buttons" id="default_buttons">
             {% if button_accept_is_on %}
                 <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept"
                         {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
@@ -34,6 +34,18 @@
                             href="#"
                         {% endif %}
                    data-gdpr_action="accept" >{{ __( button_accept_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+            {% if button_accept_all_is_on %}
+                <a id="cookie_action_accept_all" class="{{ button_accept_all_classes }}" tabindex="0" aria-label="Accept All"
+                        {% if button_accept_all_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_accept_all_url }}"
+                            {% if button_accept_all_new_win %}
+                                target="_blank"
+                            {% endif %}
+                        {% else %}
+                            href="#"
+                        {% endif %}
+                   data-gdpr_action="accept_all" >{{ __( button_accept_all_text, 'gdpr-cookie-consent' ) }}</a>
             {% endif %}
             {% if button_decline_is_on %}
                 <a id="cookie_action_reject" class="{{ button_decline_classes }}" tabindex="0" aria-label="Reject"
@@ -93,7 +105,7 @@
                 {% endif %}
             </p>
         </div>
-        <div class="gdpr group-description-buttons">
+        <div class="gdpr group-description-buttons" id="default_buttons">
             {% if button_accept_is_on %}
                 <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept"
                         {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
@@ -105,6 +117,18 @@
                             href="#"
                         {% endif %}
                    data-gdpr_action="accept" >{{ __( button_accept_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+            {% if button_accept_all_is_on %}
+                <a id="cookie_action_accept_all" class="{{ button_accept_all_classes }}" tabindex="0" aria-label="Accept All"
+                        {% if button_accept_all_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_accept_all_url }}"
+                            {% if button_accept_all_new_win %}
+                                target="_blank"
+                            {% endif %}
+                        {% else %}
+                            href="#"
+                        {% endif %}
+                   data-gdpr_action="accept_all" >{{ __( button_accept_all_text, 'gdpr-cookie-consent' ) }}</a>
             {% endif %}
             {% if button_decline_is_on %}
                 <a id="cookie_action_reject" class="{{ button_decline_classes }}" tabindex="0" aria-label="Reject"

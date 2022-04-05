@@ -12,6 +12,7 @@
  var vueconfig = {
      entry: {
          main: './src/vue-settings.js',
+         dashboard: './src/vue-dashboard.js'
          
      },
      output: {
