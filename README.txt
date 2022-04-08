@@ -115,7 +115,7 @@ The WP Cookie Notice Plugin is lightweight, fast and complies with the latest Wo
 
 - .pot file for translations
 
-- WPML, Polylang, QTranslate, WP Multilang compatible
+- WPML, QTranslate, WP Multilang compatible
 
 - SEO friendly
 
