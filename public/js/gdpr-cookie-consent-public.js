@@ -1106,7 +1106,8 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 		},
 		displayHeader:function(gdpr_flag, ccpa_flag, force_display_bar, force_display_show_again) {
 			if( !gdpr_flag || !ccpa_flag){
-				if(force_display_bar){
+				var animate_on_load = GDPR.settings.notify_animate_show;
+				if(force_display_bar || animate_on_load){
 					this.bar_elm.slideDown(this.settings.animate_speed_hide);
 				}
 				else{
@@ -1376,6 +1377,11 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 	$( document ).ready(
 		function() {
 			var settings = JSON.parse( gdpr_cookiebar_settings );
+
+			if( settings['notify_animate_show'] ) {
+				$( '#gdpr-cookie-consent-bar' ).css( 'display', 'none' );
+				$( '#gdpr-cookie-consent-bar' ).slideDown( 500 );
+			}
 			if ('2' == settings['maxmind_integrated']) {
 				var data = {
 					action: 'show_cookie_consent_bar',
