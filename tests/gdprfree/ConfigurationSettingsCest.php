@@ -3,7 +3,7 @@
  * Automation test cases for configuration settings tab of GDPR cookie consent plugin
  * 
  * @category AutomationTests
- * @package  WordPress_WPlegalpages_Pro_Plugin
+ * @package  WordPress_GDPRCookieConsent_Free_Plugin
  * @author   WPEKA <hello@wpeka.com>
  * @license  GPL v3
  * @link     https://club.wpeka.com
@@ -16,7 +16,7 @@ use Page\Gdprfree\ConfigurationSettings;
  * Core class used for configuration settings tab of GDPR cookie consent plugin
  * 
  * @category  AutomationTests
- * @package   WordPress_WPlegalpages_Pro_Plugin
+ * @package   WordPress_GDPRCookieConsent_Free_Plugin
  * @author    WPEKA <hello@wpeka.com>
  * @copyright 2022 WPEKA
  * @license   GPL v3
@@ -280,6 +280,82 @@ class ConfigurationSettingsCest
         $I->click($configurationSettings->GDPR);
         $I->waitForText('This website uses cookies to improve your experience.', 20);
         $I->see('This website uses cookies to improve your experience.');
+        
+        $loginPage->userLogout($I);
+    }
+
+    /**
+     * Test to check whether user is able to select option on hide (if user selects disappear option)
+     *
+     * @param $I                     variable of GdprfreeTester
+     * @param $loginPage             Used to login and logout from the page.
+     * @param $configurationSettings consist of selectors.
+     * 
+     * @return void
+     * 
+     * @since 1.0
+     */
+    public function onHideDisappear(GdprfreeTester $I, LoginPage $loginPage, configurationSettings $configurationSettings)
+    {
+        $loginPage->userLogin($I);
+
+        $I->waitForElement($configurationSettings->gdprCookieConsent, 20);
+        $I->moveMouseOver($configurationSettings->gdprCookieConsent);
+        $I->click($configurationSettings->settings);
+        $I->waitForText('Cookie Notice', 20);
+        $I->see('Cookie Notice');
+        $I->click($configurationSettings->configuration);
+        $I->waitForText('Configure Cookie Bar', 20);
+        $I->click($configurationSettings->showCookieNoticeAs);
+        $I->waitForElement($configurationSettings->banner, 20);
+        $I->click($configurationSettings->banner);
+        $I->click($configurationSettings->onHide);
+        $I->waitForElement($configurationSettings->disappear, 20);
+        $I->click($configurationSettings->disappear);
+        $I->click($configurationSettings->saveChanges);
+        $I->wait(2);
+        $I->click($configurationSettings->GDPR);
+        $I->waitForText('This website uses cookies to improve your experience.', 20);
+        $I->see('This website uses cookies to improve your experience.');
+        $I->click($configurationSettings->accept);
+        
+        $loginPage->userLogout($I);
+    }
+
+    /**
+     * Test to check whether user is able to select option on hide (if user selects animate option)
+     *
+     * @param $I                     variable of GdprfreeTester
+     * @param $loginPage             Used to login and logout from the page.
+     * @param $configurationSettings consist of selectors.
+     * 
+     * @return void
+     * 
+     * @since 1.0
+     */
+    public function onHideAnimate(GdprfreeTester $I, LoginPage $loginPage, configurationSettings $configurationSettings)
+    {
+        $loginPage->userLogin($I);
+
+        $I->waitForElement($configurationSettings->gdprCookieConsent, 20);
+        $I->moveMouseOver($configurationSettings->gdprCookieConsent);
+        $I->click($configurationSettings->settings);
+        $I->waitForText('Cookie Notice', 20);
+        $I->see('Cookie Notice');
+        $I->click($configurationSettings->configuration);
+        $I->waitForText('Configure Cookie Bar', 20);
+        $I->click($configurationSettings->showCookieNoticeAs);
+        $I->waitForElement($configurationSettings->banner, 20);
+        $I->click($configurationSettings->banner);
+        $I->click($configurationSettings->onHide);
+        $I->waitForElement($configurationSettings->animate, 20);
+        $I->click($configurationSettings->animate);
+        $I->click($configurationSettings->saveChanges);
+        $I->wait(2);
+        $I->click($configurationSettings->GDPR);
+        $I->waitForText('This website uses cookies to improve your experience.', 20);
+        $I->see('This website uses cookies to improve your experience.');
+        $I->click($configurationSettings->accept);
         
         $loginPage->userLogout($I);
     }

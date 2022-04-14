@@ -14,7 +14,7 @@ namespace Page\Gdprfree;
  * Core class for all the selectors used in configuration settings tab of GDPR cookie consent plugin
  * 
  * @category  AutomationTests
- * @package   WordPress_WPlegalpages_Pro_Plugin
+ * @package   WordPress_GDPRCookieConsent_Free_Plugin
  * @author    WPEKA <hello@wpeka.com>
  * @copyright 2022 WPEKA
  * @license   GPL v3
@@ -41,4 +41,7 @@ class ConfigurationSettings
     public $right = '#vs11__option-1';
     public $left = '#vs11__option-0';
     public $addOverlay = '#gcc-save-settings-form > div.gdpr-cookie-consent-settings-content > div.gdpr-cookie-consent-settings-nav > div:nth-child(2) > div > div.tab-pane.active > div > div > div:nth-child(4) > div.col-sm-8.col > label > span';
+    public $onHide = '#vs12__combobox > div.vs__selected-options > input';
+    public $animate = '#vs12__option-0';
+    public $disappear = '#vs12__option-1';
 }
