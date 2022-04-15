@@ -576,6 +576,7 @@ class Gdpr_Cookie_Consent {
 			'is_script_blocker_on'                 => false,
 			'auto_hide'                            => false,
 			'auto_scroll'                          => false,
+			'auto_click'                           => false,
 			'auto_scroll_reload'                   => false,
 			'accept_reload'                        => false,
 			'decline_reload'                       => false,
@@ -633,6 +634,7 @@ class Gdpr_Cookie_Consent {
 			case 'show_again':
 			case 'auto_hide':
 			case 'auto_scroll':
+			case 'auto_click':
 			case 'auto_scroll_reload':
 			case 'accept_reload':
 			case 'decline_reload':
@@ -938,6 +940,7 @@ class Gdpr_Cookie_Consent {
 			'is_ticked'                            => $settings['is_ticked'],
 			'is_script_blocker_on'                 => $settings['is_script_blocker_on'],
 			'auto_scroll'                          => $settings['auto_scroll'],
+			'auto_click'                           => $settings['auto_click'],
 			'auto_scroll_reload'                   => $settings['auto_scroll_reload'],
 			'accept_reload'                        => $settings['accept_reload'],
 			'decline_reload'                       => $settings['decline_reload'],

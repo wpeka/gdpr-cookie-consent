@@ -66,6 +66,7 @@ var gen = new Vue({
             auto_hide: settings_obj.the_options.hasOwnProperty('auto_hide') && (true === settings_obj.the_options['auto_hide'] || 1 === settings_obj.the_options['auto_hide'] ) ? true : false,
             auto_hide_delay: settings_obj.the_options.hasOwnProperty('auto_hide_delay') ? settings_obj.the_options['auto_hide_delay'] : '10000',
             auto_scroll: settings_obj.the_options.hasOwnProperty('auto_scroll') && (true === settings_obj.the_options['auto_scroll'] || 1 === settings_obj.the_options['auto_scroll'] ) ? true : false,
+            auto_click: settings_obj.the_options.hasOwnProperty('auto_click') && (true === settings_obj.the_options['auto_click'] || 1 === settings_obj.the_options['auto_click'] ) ? true : false,
             auto_scroll_offset: settings_obj.the_options.hasOwnProperty('auto_scroll_offset') ? settings_obj.the_options['auto_scroll_offset'] : '10',
             auto_scroll_reload: settings_obj.the_options.hasOwnProperty('auto_scroll_reload') && (true === settings_obj.the_options['auto_scroll_reload'] || 1 === settings_obj.the_options['auto_scroll_reload'] ) ? true : false,
             accept_reload: settings_obj.the_options.hasOwnProperty('accept_reload') && (true === settings_obj.the_options['accept_reload'] || 1 === settings_obj.the_options['accept_reload'] ) ? true : false,
@@ -413,6 +414,9 @@ var gen = new Vue({
         },
         onSwitchAutoScroll() {
             this.auto_scroll = !this.auto_scroll;
+        },
+        onSwitchAutoClick() {
+            this.auto_click = !this.auto_click;
         },
         onSwitchAutoScrollReload() {
             this.auto_scroll_reload = !this.auto_scroll_reload;
@@ -837,6 +841,7 @@ var gen = new Vue({
             this.is_script_blocker_on = false;
             this.auto_hide = false;
             this.auto_scroll = false;
+            this.auto_click = false;
             this.auto_scroll_reload = false;
             this.accept_reload = false;
             this.decline_reload = false;
