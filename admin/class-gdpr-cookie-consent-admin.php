@@ -618,6 +618,15 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Disappear',
 			'code'  => false,
 		);
+		$on_load_options           = array();
+		$on_load_options[0]        = array(
+			'label' => 'Animate',
+			'code'  => true,
+		);
+		$on_load_options[1]        = array(
+			'label' => 'Sticky',
+			'code'  => false,
+		);
 		$tab_position_options      = array();
 		$tab_position_options[0]   = array(
 			'label' => 'Left',
@@ -793,6 +802,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'position_options'                 => $position_options,
 				'show_cookie_as_options'           => $show_cookie_as_options,
 				'on_hide_options'                  => $on_hide_options,
+				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
 				'tab_position_options'             => $tab_position_options,
 				'cookie_expiry_options'            => $cookie_expiry_options,
@@ -1069,6 +1079,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['notify_position_horizontal']          = isset( $_POST['gcc-gdpr-cookie-widget-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-widget-position'] ) ) : 'left';
 			$the_options['popup_overlay']                       = isset( $_POST['gdpr-cookie-add-overlay'] ) && ( true === $_POST['gdpr-cookie-add-overlay'] || 'true' === $_POST['gdpr-cookie-add-overlay'] ) ? 'true' : 'false';
 			$the_options['notify_animate_hide']                 = isset( $_POST['gcc-gdpr-cookie-on-hide'] ) && ( true === $_POST['gcc-gdpr-cookie-on-hide'] || 'true' === $_POST['gcc-gdpr-cookie-on-hide'] ) ? 'true' : 'false';
+			$the_options['notify_animate_show']                 = isset( $_POST['gcc-gdpr-cookie-on-load'] ) && ( true === $_POST['gcc-gdpr-cookie-on-load'] || 'true' === $_POST['gcc-gdpr-cookie-on-load'] ) ? 'true' : 'false';
 			$the_options['background']                          = isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
 			$the_options['text']                                = isset( $_POST['gdpr-cookie-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-text-color'] ) ) : '#000000';
 			$the_options['opacity']                             = isset( $_POST['gdpr-cookie-bar-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-opacity'] ) ) : '0.80';
