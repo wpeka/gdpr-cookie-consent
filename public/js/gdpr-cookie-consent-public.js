@@ -143,7 +143,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						var setting_modal = document.querySelector('.gdprmodal-content');
 						// Listen for click events on body
 						document.body.addEventListener('click', function (event) {
-							if ( ! the_cookie_bar.contains( event.target ) && ! setting_modal.contains( event.target ) ) {
+							if ( ! the_cookie_bar.contains( event.target ) && ( (! setting_modal) || (setting_modal && ! setting_modal.contains( event.target ) ) ) ) {
 								if ( GDPR.settings.button_accept_all_is_on ){
 									GDPR.acceptAllCookies();
 								}
