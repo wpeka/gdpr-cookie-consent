@@ -194,6 +194,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
 		}
 	}
 
@@ -467,6 +468,21 @@ class Gdpr_Cookie_Consent {
 			'button_accept_button_border_color'    => '#18a300',
 			'button_accept_button_border_radius'   => '0', // in pixel.
 
+			'button_accept_all_is_on'              => false,
+			'button_accept_all_text'               => 'Accept All',
+			'button_accept_all_link_color'         => '#ffffff',
+			'button_accept_all_as_button'          => true,
+			'button_accept_all_action'             => '#cookie_action_close_header',
+			'button_accept_all_url'                => '#',
+			'button_accept_all_new_win'            => false,
+			'button_accept_all_button_color'       => '#18a300',
+			'button_accept_all_button_size'        => 'medium',
+			'button_accept_all_btn_border_style'   => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
+			'button_accept_all_btn_border_color'   => '#18a300',
+			'button_accept_all_btn_opacity'        => '1', // 0 to 1.
+			'button_accept_all_btn_border_width'   => '0', // in pixel.
+			'button_accept_all_btn_border_radius'  => '0', // in pixel.
+
 			'button_readmore_text'                 => 'Read More',
 			'button_readmore_url'                  => '#',
 			'button_readmore_action'               => 'CONSTANT_OPEN_URL',
@@ -631,6 +647,9 @@ class Gdpr_Cookie_Consent {
 			case 'button_accept_new_win':
 			case 'button_accept_as_button':
 			case 'button_accept_is_on':
+			case 'button_accept_all_is_on':
+			case 'button_accept_all_as_button':
+			case 'button_accept_all_new_win':
 			case 'button_readmore_new_win':
 			case 'button_readmore_as_button':
 			case 'button_readmore_is_on':
@@ -667,6 +686,9 @@ class Gdpr_Cookie_Consent {
 			case 'button_accept_link_color':
 			case 'button_accept_button_color':
 			case 'button_accept_button_border_color':
+			case 'button_accept_all_link_color':
+			case 'button_accept_all_button_color':
+			case 'button_accept_all_btn_border_color':
 			case 'button_readmore_link_color':
 			case 'button_readmore_button_color':
 			case 'button_readmore_button_border_color':
@@ -701,6 +723,7 @@ class Gdpr_Cookie_Consent {
 				break;
 			// URLs only.
 			case 'button_accept_url':
+			case 'button_accept_all_url':
 			case 'button_readmore_url':
 			case 'button_decline_url':
 			case 'button_settings_url':
@@ -857,6 +880,12 @@ class Gdpr_Cookie_Consent {
 			'button_accept_as_button'              => $settings['button_accept_as_button'],
 			'button_accept_new_win'                => $settings['button_accept_new_win'],
 			'button_accept_is_on'                  => $settings['button_accept_is_on'],
+			'button_accept_all_is_on'              => $settings['button_accept_all_is_on'],
+			'button_accept_all_link_color'         => $settings['button_accept_all_link_color'],
+			'button_accept_all_as_button'          => $settings['button_accept_all_as_button'],
+			'button_accept_all_new_win'            => $settings['button_accept_all_new_win'],
+			'button_accept_all_button_color'       => $settings['button_accept_all_button_color'],
+			'button_accept_all_button_hover'       => ( self::gdpr_su_hex_shift( $settings['button_accept_all_button_color'], 'down', 20 ) ),
 			'button_donotsell_link_color'          => $settings['button_donotsell_link_color'],
 			'button_donotsell_as_button'           => $settings['button_donotsell_as_button'],
 			'button_cancel_as_button'              => $settings['button_cancel_as_button'],
@@ -923,30 +952,35 @@ class Gdpr_Cookie_Consent {
 			'show_again_margin'                    => $settings['show_again_margin'],
 			'show_again_div_id'                    => $settings['show_again_div_id'],
 			'button_accept_button_opacity'         => $settings['button_accept_button_opacity'],
+			'button_accept_all_btn_opacity'        => $settings['button_accept_all_btn_opacity'],
 			'button_decline_button_opacity'        => $settings['button_decline_button_opacity'],
 			'button_readmore_button_opacity'       => $settings['button_readmore_button_opacity'],
 			'button_settings_button_opacity'       => $settings['button_settings_button_opacity'],
 			'button_confirm_button_opacity'        => $settings['button_confirm_button_opacity'],
 			'button_cancel_button_opacity'         => $settings['button_cancel_button_opacity'],
 			'button_accept_button_border_width'    => $settings['button_accept_button_border_width'],
+			'button_accept_all_btn_border_width'   => $settings['button_accept_all_btn_border_width'],
 			'button_decline_button_border_width'   => $settings['button_decline_button_border_width'],
 			'button_readmore_button_border_width'  => $settings['button_readmore_button_border_width'],
 			'button_settings_button_border_width'  => $settings['button_settings_button_border_width'],
 			'button_confirm_button_border_width'   => $settings['button_confirm_button_border_width'],
 			'button_cancel_button_border_width'    => $settings['button_cancel_button_border_width'],
 			'button_accept_button_border_style'    => $settings['button_accept_button_border_style'],
+			'button_accept_all_btn_border_style'   => $settings['button_accept_all_btn_border_style'],
 			'button_decline_button_border_style'   => $settings['button_decline_button_border_style'],
 			'button_readmore_button_border_style'  => $settings['button_readmore_button_border_style'],
 			'button_settings_button_border_style'  => $settings['button_settings_button_border_style'],
 			'button_confirm_button_border_style'   => $settings['button_confirm_button_border_style'],
 			'button_cancel_button_border_style'    => $settings['button_cancel_button_border_style'],
 			'button_accept_button_border_color'    => $settings['button_accept_button_border_color'],
+			'button_accept_all_btn_border_color'   => $settings['button_accept_all_btn_border_color'],
 			'button_decline_button_border_color'   => $settings['button_decline_button_border_color'],
 			'button_readmore_button_border_color'  => $settings['button_readmore_button_border_color'],
 			'button_settings_button_border_color'  => $settings['button_settings_button_border_color'],
 			'button_confirm_button_border_color'   => $settings['button_confirm_button_border_color'],
 			'button_cancel_button_border_color'    => $settings['button_cancel_button_border_color'],
 			'button_accept_button_border_radius'   => $settings['button_accept_button_border_radius'],
+			'button_accept_all_btn_border_radius'  => $settings['button_accept_all_btn_border_radius'],
 			'button_decline_button_border_radius'  => $settings['button_decline_button_border_radius'],
 			'button_readmore_button_border_radius' => $settings['button_readmore_button_border_radius'],
 			'button_settings_button_border_radius' => $settings['button_settings_button_border_radius'],
