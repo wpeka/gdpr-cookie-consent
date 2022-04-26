@@ -115,7 +115,7 @@ The WP Cookie Notice Plugin is lightweight, fast and complies with the latest Wo
 
 - .pot file for translations
 
-- WPML, Polylang, QTranslate, WP Multilang compatible
+- WPML, QTranslate, WP Multilang compatible
 
 - SEO friendly
 
@@ -191,12 +191,13 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Screenshots ==
 
-1. Cookie consent notice with classic styles - widget.
-2. Cookie consent notice with website's cookie details.
-3. General cookie notice options.
-4. Customise cookie consent notice design.
-5. Customise cookie consent notice buttons.
-6. Manage cookie list.
+1. Dashboard
+2. Cookie Settings
+3. Pre-designed Templates
+4. Customise Cookie Bar
+5. Add/Scan Cookies
+6. Script Blocker
+7. Cookie Compliance Notice
 
 == Change Log ==
 = 2.1.1 =
