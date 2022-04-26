@@ -200,7 +200,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Change Log ==
 = 2.1.1 =
-* Update: Removed analytics.
+* Update: Removed analytics library.
 
 = 2.1.0 =
 * Update: UI Changes on Settings Page.
@@ -376,7 +376,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Upgrade Notice ==
 = 2.1.1 =
-* Update: Removed analytics.
+* Update: Removed analytics library.
 
 = 2.1.0 =
 * Update: UI Changes on Settings Page.
