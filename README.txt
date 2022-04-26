@@ -194,7 +194,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 1. Dashboard
 2. Cookie Settings
 3. Pre-designed Templates
-4. Customise Cookie Bar
+4. Customize Cookie Bar
 5. Add/Scan Cookies
 6. Script Blocker
 7. Cookie Compliance Notice
