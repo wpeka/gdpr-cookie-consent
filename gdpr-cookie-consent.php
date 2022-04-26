@@ -28,41 +28,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-if ( ! function_exists( 'gcc_fs' ) ) {
-	/**
-	 * Helper function to access SDK.
-	 *
-	 * @return Analytics
-	 */
-	function gcc_fs() {
-		global $gcc_fs;
-
-		if ( ! isset( $gcc_fs ) ) {
-			// Include Analytics SDK.
-			require_once dirname( __FILE__ ) . '/analytics/start.php';
-
-			$gcc_fs = ras_dynamic_init(
-				array(
-					'id'              => '2',
-					'slug'            => 'gdpr-cookie-consent',
-					'product_name'    => 'GDPR Cookie Consent',
-					'module_type'     => 'plugin',
-					'version'         => '2.1.0',
-					'plugin_basename' => 'gdpr-cookie-consent/gdpr-cookie-consent.php',
-					'plugin_url'      => GDPR_COOKIE_CONSENT_PLUGIN_URL,
-				)
-			);
-		}
-
-		return $gcc_fs;
-	}
-
-	// Init Analytics.
-	gcc_fs();
-	// SDK initiated.
-	do_action( 'gcc_fs_loaded' );
-}
-
 /**
  * Currently plugin version.
  */
