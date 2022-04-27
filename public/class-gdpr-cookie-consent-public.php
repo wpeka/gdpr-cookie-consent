@@ -457,10 +457,14 @@ class Gdpr_Cookie_Consent_Public {
 						break;
 				}
 			}
-			$categories                   = Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true );
-			$cookies                      = $this->get_cookies();
-			$categories_data              = array();
-			$preference_cookies           = isset( $_COOKIE['wpl_user_preference'] ) ? json_decode( stripslashes( sanitize_text_field( wp_unslash( $_COOKIE['wpl_user_preference'] ) ) ), true ) : '';
+			$categories      = Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true );
+			$cookies         = $this->get_cookies();
+			$categories_data = array();
+			// The array returned by json_decode is being sanitised by function gdpr_cookie_consent_sanitize_decoded_function.
+			$preference_cookies = isset( $_COOKIE['wpl_user_preference'] ) ? json_decode( stripslashes( wp_unslash( $_COOKIE['wpl_user_preference'] ) ), true ) : '';// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			if ( '' !== $preference_cookies ) {
+				$preference_cookies = $this->gdpr_cookie_consent_sanitize_decoded_json( $preference_cookies );
+			}
 			$viewed_cookie                = isset( $_COOKIE['wpl_viewed_cookie'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wpl_viewed_cookie'] ) ) : '';
 			$the_options['viewed_cookie'] = $viewed_cookie;
 			foreach ( $categories as $category ) {
@@ -531,6 +535,25 @@ class Gdpr_Cookie_Consent_Public {
 			);
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
 		}
+	}
+
+	/**
+	 * Returns sanitised array.
+	 *
+	 * @since 2.1.2
+	 * @param array $input_array The input array to sanitize.
+	 * @return array
+	 */
+	public function gdpr_cookie_consent_sanitize_decoded_json( $input_array ) {
+		// Initialize the new array that will hold the sanitize values.
+		$return_array = array();
+
+		// Loop through the input and sanitize each of the values.
+		foreach ( $input_array as $key => $val ) {
+			$return_array[ $key ] = sanitize_text_field( $val );
+		}
+
+		return $return_array;
 	}
 
 	/**
