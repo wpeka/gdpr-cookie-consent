@@ -504,7 +504,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'is_pro'            => $is_pro,
 				'documentation_url' => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=documentation',
-				'faq_url'           => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/faq-1/faq/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=faq',
+				'faq_url'           => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/faq?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_term=faq',
 				'support_url'       => $support_url,
 				'upgrade_url'       => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=upgrade-to-pro',
 			)
