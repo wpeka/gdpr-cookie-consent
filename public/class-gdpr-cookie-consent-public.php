@@ -645,8 +645,8 @@ class Gdpr_Cookie_Consent_Public {
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$header_scripts = $the_options['header_scripts'];
 		if ( $header_scripts ) {
-			// the below phpcs comment is added after referring competitor wordpress.org plugins.
-			echo "\r\n" . $header_scripts . "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			// After referring to the competitor WordPress.org plugins, we are following the same approach.
+			echo "\r\n" . wp_unslash( $header_scripts ) . "\r\n";
 		}
 	}
 
@@ -659,8 +659,8 @@ class Gdpr_Cookie_Consent_Public {
 		$the_options  = GDPR_Cookie_Consent::gdpr_get_settings();
 		$body_scripts = $the_options['body_scripts'];
 		if ( $body_scripts ) {
-			// the below phpcs comment is added after referring competitor wordpress.org plugins.
-			echo "\r\n" . $body_scripts . "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			// After referring to the competitor WordPress.org plugins, we are following the same approach.
+			echo "\r\n" . wp_unslash( $body_scripts ) . "\r\n";
 		}
 	}
 
@@ -673,8 +673,8 @@ class Gdpr_Cookie_Consent_Public {
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$footer_scripts = $the_options['footer_scripts'];
 		if ( $footer_scripts ) {
-			// the below phpcs comment is added after referring competitor wordpress.org plugins.
-			echo "\r\n" . $footer_scripts . "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			// After referring to the competitor WordPress.org plugins, we are following the same approach.
+			echo "\r\n" . wp_unslash( $footer_scripts ) . "\r\n";
 		}
 	}
 }
