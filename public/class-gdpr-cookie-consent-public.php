@@ -290,13 +290,13 @@ class Gdpr_Cookie_Consent_Public {
 			} else {
 				$template = 'default';
 			}
-			$the_options['skin_template']        = 'templates/skins/' . $template . '.twig';
+			$the_options['skin_template']        = 'skins/' . $template . '.php';
 			$the_options['container_class']      = $the_options['cookie_usage_for'] . ' gdpr-' . $the_options['cookie_bar_as'] . ' gdpr-' . $template . ' ' . $the_options['template'];
 			$layout                              = $the_options['button_settings_layout_skin'];
 			$layout_parts                        = explode( '-', $layout );
 			$layout_skin                         = array_pop( $layout_parts );
 			$the_options['container_class']     .= ' layout-' . $layout_skin;
-			$the_options['layout_skin_template'] = 'templates/modals/' . $layout_skin . '.twig';
+			$the_options['layout_skin_template'] = 'modals/' . $layout_skin . '.php';
 
 			$current_theme = wp_get_theme();
 			if ( isset( $current_theme->template ) ) {
@@ -513,11 +513,7 @@ class Gdpr_Cookie_Consent_Public {
 			}
 
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
-			ob_start();
-			$notify_html = $timber->render( 'templates/default.twig', $the_options );
-			ob_end_clean();
-			// Data is being escaped in the twig file that is being rendered.
-			echo $notify_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			include plugin_dir_path( __FILE__ ) . 'templates/default.php';
 			?>
 			<style>
 				.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked + label:after,
