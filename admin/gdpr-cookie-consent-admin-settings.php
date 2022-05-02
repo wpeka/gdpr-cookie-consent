@@ -1346,7 +1346,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<?php do_action( 'gdpr_settings_script_blocker_card' ); ?>
 								</c-card-body>
 						</c-card>
-					</c-tab>		
+					</c-tab>
 				</c-tabs>
 			</div>
 			<div class="gdpr-cookie-consent-settings-bottom">
