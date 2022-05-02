@@ -602,9 +602,6 @@ class Gdpr_Cookie_Consent {
 			'cookie_usage_for'                     => 'gdpr',
 			'popup_overlay'                        => true,
 			'about_message'                        => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
-			'header_scripts'                       => '',
-			'body_scripts'                         => '',
-			'footer_scripts'                       => '',
 			'restrict_posts'                       => array(),
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
@@ -727,11 +724,6 @@ class Gdpr_Cookie_Consent {
 			case 'button_decline_url':
 			case 'button_settings_url':
 				$ret = esc_url( $value );
-				break;
-			case 'header_scripts':
-			case 'body_scripts':
-			case 'footer_scripts':
-				$ret = trim( stripslashes( $value ) );
 				break;
 			case 'restrict_posts':
 				$ret = $value;
