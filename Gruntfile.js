@@ -52,7 +52,8 @@ module.exports = function (grunt) {
 						cwd: 'release/<%= pkg.version %>/public/js/',
 						src: [
 						'*.js',
-						'!*.min.js'
+						'!*.min.js',
+						'!*.bundle.js'
 						],
 						dest: 'release/<%= pkg.version %>/public/js/',
 						ext: '.min.js'
@@ -96,19 +97,41 @@ module.exports = function (grunt) {
 					},
 					src: [
 					'**',
-					'!node_modules/**',
 					'!vendor/**',
+					'vendor/composer/**',
+					'vendor/altorouter/**',
+					'vendor/asm89/**',
+					'vendor/symfony/**',
+					'vendor/timber/**',
+					'vendor/twig/**',
+					'vendor/upstatement/**',
+					'vendor/symfony/**',
+					'vendor/myclabs/**',
+					'vendor/yoast/**',
+					'vendor/autoload.php',
+					'!node_modules/**',
 					'!release/**',
+					'!bin/**',
+					'!tests/**',
 					'!build/**',
+					'!tests/**',
 					'!.git/**',
+					'!.github/**',
+					'!bin/**',
 					'!Gruntfile.js',
 					'!README.md',
 					'!package.json',
 					'!package-lock.json',
 					'!.gitignore',
 					'!.gitmodules',
+					'!*.yml',
+					'!*.xml',
+					'!*.config.*',
 					'!composer.lock',
 					'!composer.json',
+					'!*.yml',
+					'!*.xml',
+					'!*.config.*'
 					],
 					dest: 'release/<%= pkg.version %>/'
 				}
@@ -150,7 +173,7 @@ module.exports = function (grunt) {
 				target: {
 					options: {
 						domainPath: '/languages',
-						exclude: ['\.git/*', 'bin/*', 'node_modules/*', 'tests/*', 'vendor/**/*'],
+						exclude: ['\.git/*', 'bin/*', 'node_modules/*', 'tests/*', 'vendor/**/*', 'analytics/**/*'],
 						mainFile: 'gdpr-cookie-consent.php',
 						potFilename: 'gdpr-cookie-consent.pot',
 						potHeaders: {

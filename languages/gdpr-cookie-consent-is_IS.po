@@ -1,72 +1,67 @@
+# Copyright (C) 2020 WPEkaClub
+# This file is distributed under the same license as the GDPR Cookie Consent plugin.
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=2; plural=(n%10==1 && n%100!=11);\n"
-"Project-Id-Version: GDPR Cookie Consent\n"
-"POT-Creation-Date: 2019-12-12 11:53+0530\n"
-"PO-Revision-Date: 2019-12-12 12:25+0530\n"
+"Project-Id-Version: GDPR Cookie Consent 1.8.8\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gdpr-cookie-"
+"consent\n"
+"POT-Creation-Date: 2020-07-26T08:46:55+00:00\n"
+"PO-Revision-Date: 2020-07-26 19:05+0530\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: is_IS\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: gdpr-cookie-consent.php\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Last-Translator: \n"
-"Language: is_IS\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.min.js\n"
-"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Generator: Poedit 2.4\n"
+"X-Domain: gdpr-cookie-consent\n"
+"Plural-Forms: nplurals=2; plural=(n%10==1 && n%100!=11);\n"
 
-#: admin/class-gdpr-cookie-consent-admin.php:164
-#: admin/class-gdpr-cookie-consent-admin.php:192
+#. Plugin Name of the plugin
+#: admin/class-gdpr-cookie-consent-admin.php:227
+#: admin/class-gdpr-cookie-consent-admin.php:239
+msgid "GDPR Cookie Consent"
+msgstr "Samþykki fyrir GDPR kex"
+
+#. Plugin URI of the plugin
+msgid "https://club.wpeka.com/"
+msgstr "https://club.wpeka.com/"
+
+#. Description of the plugin
+msgid ""
+"Cookie Consent will help you put up a subtle banner in the footer of your "
+"website to showcase compliance status regarding the EU Cookie law."
+msgstr ""
+"Cookie samþykki mun hjálpa þér að setja upp lúkk borði í fæti vefsvæðis þíns "
+"til að sýna samræmi stöðu varðandi ESB kex lög."
+
+#. Author of the plugin
+msgid "WPEkaClub"
+msgstr "WPEkaClub"
+
+#. Author URI of the plugin
+msgid "https://club.wpeka.com"
+msgstr "https://club.wpeka.com"
+
+#: admin/class-gdpr-cookie-consent-admin.php:175
+#: admin/class-gdpr-cookie-consent-admin.php:181
 msgid "Cookie Bar Shortcodes"
 msgstr "Kex Bar Shortcodes"
 
-#: admin/class-gdpr-cookie-consent-admin.php:165
+#: admin/class-gdpr-cookie-consent-admin.php:176
 msgid ""
-"You can enter the shortcodes in the \"message\" field of the Cookie Consent "
-"bar. They add nicely formatted buttons and/or links into the cookie bar, "
-"without you having to add any HTML."
+"Use the below shortcode to display third-party cookie details on your "
+"privacy or cookie policy pages."
 msgstr ""
-"Hægt er að færa inn shortcodes í \"Message\" svæði kex samþykkis Bar. Þeir "
-"bæta fallega sniði hnappa og/eða tengla inn í kex Bar, án þess að þú þurfa "
-"að bæta við hvaða HTML."
+"Notaðu hér að neðan shortcode til að birta upplýsingar um fótspor þriðja "
+"aðila á persónuverndarstefnu þinni eða kex Policy."
 
-#: admin/class-gdpr-cookie-consent-admin.php:169
-msgid "This is the \"accept cookies button\" you customize below."
-msgstr "Þetta er hnappurinn \"samþykkja Cookies\" hér fyrir neðan."
-
-#: admin/class-gdpr-cookie-consent-admin.php:173
-msgid "This is the cookie decline button shortcode."
-msgstr "Þetta er kex hafna hnappinn shortcode."
-
-#: admin/class-gdpr-cookie-consent-admin.php:177
-msgid "This is the \"read more\" link you customize above."
-msgstr "Þetta er \"lesa meira\" tengilinn sem þú sérsníðum hér að ofan."
-
-#: admin/class-gdpr-cookie-consent-admin.php:181
-msgid "This is the cookie settings button shortcode."
-msgstr "Þetta er kex stillingar hnappinn shortcode."
-
-#: admin/class-gdpr-cookie-consent-admin.php:185
-msgid ""
-"Use this shortcode to display third-party cookie details on your privacy or "
-"cookie policy pages."
-msgstr ""
-"Notaðu þennan shortcode til að birta upplýsingar um fótspor frá þriðja aðila "
-"á persónuverndarsíðum þínum eða kökum."
-
-#: admin/class-gdpr-cookie-consent-admin.php:199
-#: admin/class-gdpr-cookie-consent-admin.php:200
+#: admin/class-gdpr-cookie-consent-admin.php:188
+#: admin/class-gdpr-cookie-consent-admin.php:189
 msgid "Help &amp; Support"
 msgstr "Aðstoð &amp; aðstoð"
 
-#: admin/class-gdpr-cookie-consent-admin.php:201
+#: admin/class-gdpr-cookie-consent-admin.php:190
 msgid ""
 "If you need help understanding, using, or extending GDPR Cookie Consent "
 "Plugin,"
@@ -74,38 +69,38 @@ msgstr ""
 "Ef þú þarft hjálp við að skilja, nota eða framlengja GDPR kex samþykkis "
 "tappi,"
 
-#: admin/class-gdpr-cookie-consent-admin.php:201
+#: admin/class-gdpr-cookie-consent-admin.php:190
 msgid "please read our documentation."
 msgstr "Vinsamlegast Lestu fylgigögn okkar."
 
-#: admin/class-gdpr-cookie-consent-admin.php:201
+#: admin/class-gdpr-cookie-consent-admin.php:190
 msgid ""
 "You will find all kinds of resources including snippets, tutorials and more."
 msgstr ""
 "Þú finnur alls konar auðlindir, þar á meðal snippets, kennsluefni og fleira."
 
-#: admin/class-gdpr-cookie-consent-admin.php:202
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "For further assistance with GDPR Cookie Consent plugin you can use the"
 msgstr "Til frekari aðstoðar við GDPR kex samþykkis tappi er hægt að nota"
 
-#: admin/class-gdpr-cookie-consent-admin.php:202
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "community forum."
 msgstr "vettvangi bandalagsins."
 
-#: admin/class-gdpr-cookie-consent-admin.php:202
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "If you need help with premium extensions sold by WPEka"
 msgstr "Ef þú þarft hjálp með aukagjald eftirnafn selt af WPEka"
 
-#: admin/class-gdpr-cookie-consent-admin.php:202
+#: admin/class-gdpr-cookie-consent-admin.php:191
 msgid "use our helpdesk."
 msgstr "Notaðu Helpdesk okkar."
 
-#: admin/class-gdpr-cookie-consent-admin.php:208
-#: admin/class-gdpr-cookie-consent-admin.php:209
+#: admin/class-gdpr-cookie-consent-admin.php:197
+#: admin/class-gdpr-cookie-consent-admin.php:198
 msgid "Found a bug?"
 msgstr "Fann galla?"
 
-#: admin/class-gdpr-cookie-consent-admin.php:210
+#: admin/class-gdpr-cookie-consent-admin.php:199
 msgid ""
 "If you find a bug within GDPR Cookie Consent plugin you can create a ticket "
 "via"
@@ -113,102 +108,190 @@ msgstr ""
 "Ef þú finnur galla innan GDPR kex samþykki tappi er hægt að búa til miða í "
 "gegnum"
 
-#: admin/class-gdpr-cookie-consent-admin.php:210
+#: admin/class-gdpr-cookie-consent-admin.php:199
 msgid "our helpdesk."
 msgstr "Helpdesk okkar."
 
-#: admin/class-gdpr-cookie-consent-admin.php:214
+#: admin/class-gdpr-cookie-consent-admin.php:203
 msgid "For more information:"
 msgstr "Fyrir frekari upplýsingar:"
 
-#: admin/class-gdpr-cookie-consent-admin.php:215
+#: admin/class-gdpr-cookie-consent-admin.php:204
 msgid "About GDPR Cookie Consent"
 msgstr "Um samþykki fyrir GDPR kex"
 
-#: admin/class-gdpr-cookie-consent-admin.php:216
+#: admin/class-gdpr-cookie-consent-admin.php:205
 msgid "WordPress.org project"
 msgstr "WordPress.org verkefni"
 
-#: admin/class-gdpr-cookie-consent-admin.php:217
+#: admin/class-gdpr-cookie-consent-admin.php:206
 msgid "WPEka Plugins"
 msgstr "WPEka tappi"
 
-#: admin/class-gdpr-cookie-consent-admin.php:236
+#. translators: 1: GDPR Cookie Consent 2:: five stars
+#: admin/class-gdpr-cookie-consent-admin.php:226
+msgid ""
+"If you like %1$s please leave us a %2$s rating. A huge thanks in advance!"
+msgstr ""
+"Ef þú vilt %1$s Vinsamlegast láttu okkur fá %2$s Einkunn. Gríðarlega Takk "
+"fyrirfram!"
+
+#: admin/class-gdpr-cookie-consent-admin.php:228
 msgid "five star"
 msgstr "fimm stjörnu"
 
-#. Plugin Name of the plugin/theme
-#: admin/class-gdpr-cookie-consent-admin.php:247
-#: public/views/gdpr-cookie-consent-public-details.php:158
-msgid "GDPR Cookie Consent"
-msgstr "Samþykki fyrir GDPR kex"
-
-#: admin/class-gdpr-cookie-consent-admin.php:248
+#: admin/class-gdpr-cookie-consent-admin.php:240
+#: includes/class-gdpr-cookie-consent-i18n.php:50
 msgid "Cookie Settings"
 msgstr "Stillingar á kökum"
 
-#: admin/class-gdpr-cookie-consent-admin.php:249
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:46
+#: admin/class-gdpr-cookie-consent-admin.php:241
 #: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:48
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:50
 msgid "Policy Data"
 msgstr "Stefnugögn"
 
-#: admin/class-gdpr-cookie-consent-admin.php:250
+#: admin/class-gdpr-cookie-consent-admin.php:242
 msgid "Import Policies"
 msgstr "Innflutningsreglur"
 
-#: admin/class-gdpr-cookie-consent-admin.php:263
+#: admin/class-gdpr-cookie-consent-admin.php:243
+#: admin/views/admin-display-getting-started.php:27
+msgid "Getting Started"
+msgstr "Byrja hér"
+
+#: admin/class-gdpr-cookie-consent-admin.php:420
+#: admin/class-gdpr-cookie-consent-admin.php:467
 msgid "You do not have sufficient permission to perform this operation"
 msgstr "Þú hefur ekki næga heimild til að framkvæma þessa aðgerð"
 
-#: admin/class-gdpr-cookie-consent-admin.php:282
+#: admin/class-gdpr-cookie-consent-admin.php:450
 msgid "Settings Updated."
 msgstr "Stillingar uppfærðar."
 
-#: admin/class-gdpr-cookie-consent-admin.php:317
-msgid "Extra Large"
-msgstr "Sérstaklega stórt"
+#: admin/class-gdpr-cookie-consent-admin.php:581
+msgid "An hour"
+msgstr "Klukkutíma"
 
-#: admin/class-gdpr-cookie-consent-admin.php:318
+#: admin/class-gdpr-cookie-consent-admin.php:582
+msgid "1 Day"
+msgstr "1 dagur"
+
+#: admin/class-gdpr-cookie-consent-admin.php:583
+msgid "1 Week"
+msgstr "1 viku"
+
+#: admin/class-gdpr-cookie-consent-admin.php:584
+msgid "1 Month"
+msgstr "1 mánuður"
+
+#: admin/class-gdpr-cookie-consent-admin.php:585
+msgid "3 Months"
+msgstr "3 mánuðum"
+
+#: admin/class-gdpr-cookie-consent-admin.php:586
+msgid "6 Months"
+msgstr "6 mánaða"
+
+#: admin/class-gdpr-cookie-consent-admin.php:587
+msgid "1 Year"
+msgstr "1 árs"
+
+#: admin/class-gdpr-cookie-consent-admin.php:600
+msgid "ePrivacy"
+msgstr "ePrivacy"
+
+#: admin/class-gdpr-cookie-consent-admin.php:601
+msgid "GDPR"
+msgstr "GDPR"
+
+#: admin/class-gdpr-cookie-consent-admin.php:602
+msgid "CCPA"
+msgstr "CCPA"
+
+#: admin/class-gdpr-cookie-consent-admin.php:603
+msgid "GDPR & CCPA"
+msgstr "GDPR-CCPA"
+
+#: admin/class-gdpr-cookie-consent-admin.php:616
+msgid "Banner"
+msgstr "Borði"
+
+#: admin/class-gdpr-cookie-consent-admin.php:617
+#: admin/views/admin-display-buttons.php:234
+#: admin/views/admin-display-buttons.php:237
+msgid "Popup"
+msgstr "Almenningur"
+
+#: admin/class-gdpr-cookie-consent-admin.php:618
+msgid "Widget"
+msgstr "Græjur"
+
+#: admin/class-gdpr-cookie-consent-admin.php:632
 msgid "Large"
 msgstr "Stórt"
 
-#: admin/class-gdpr-cookie-consent-admin.php:319
+#: admin/class-gdpr-cookie-consent-admin.php:633
 msgid "Medium"
 msgstr "Miðlungs"
 
-#: admin/class-gdpr-cookie-consent-admin.php:320
+#: admin/class-gdpr-cookie-consent-admin.php:634
 msgid "Small"
 msgstr "Lítið"
 
-#: admin/class-gdpr-cookie-consent-admin.php:334
-#: admin/views/admin-display-buttons.php:145
+#: admin/class-gdpr-cookie-consent-admin.php:669
+#: admin/views/admin-display-buttons.php:154
 msgid "Close Header"
 msgstr "Loka haus"
 
-#: admin/class-gdpr-cookie-consent-admin.php:335
+#: admin/class-gdpr-cookie-consent-admin.php:670
 msgid "Open URL"
 msgstr "Opna VEFSLÓÐ"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:57
 msgid "Incomplete"
-msgstr "Ófullnægjandi"
+msgstr "Ólokið"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:58
 msgid "Completed"
-msgstr "Klárað"
+msgstr "Lokið"
 
 #: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:59
 msgid "Stopped"
 msgstr "Stöðvuð"
 
-#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:76
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:77
 msgid "About Cookies Message"
 msgstr "Um skilaboð í fótspor"
 
-#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:95
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:96
 msgid "Cookie List"
 msgstr "Cookie list"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:169
+#: includes/class-gdpr-cookie-consent-i18n.php:35
+msgid "HTTP Cookie"
+msgstr "HTTP kex"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:170
+#: includes/class-gdpr-cookie-consent-i18n.php:36
+msgid "HTML Local Storage"
+msgstr "HTML staðbundin geymsla"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:171
+#: includes/class-gdpr-cookie-consent-i18n.php:37
+msgid "Flash Local Shared Object"
+msgstr "Flash staðbundin samnýtt hlut"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:172
+#: includes/class-gdpr-cookie-consent-i18n.php:38
+msgid "Pixel Tracker"
+msgstr "Pixla rekja spor einhvers"
+
+#: admin/modules/cookie-custom/class-gdpr-cookie-consent-cookie-custom.php:173
+#: includes/class-gdpr-cookie-consent-i18n.php:39
+msgid "IndexedDB"
+msgstr "IndexedDB"
 
 #: admin/modules/cookie-custom/classes/class-gdpr-cookie-consent-cookie-custom-ajax.php:36
 msgid "Unable to handle your request."
@@ -274,7 +357,9 @@ msgid "Cookie Purpose"
 msgstr "Málefni kex"
 
 #: admin/modules/cookie-custom/views/cookies.php:53
-#: analytics/templates/forms/deactivation/form.php:91
+#: includes/class-gdpr-cookie-consent-i18n.php:44
+#: public/class-gdpr-cookie-consent-public.php:232
+#: public/class-gdpr-cookie-consent-public.php:241
 msgid "Cancel"
 msgstr "Hætta við"
 
@@ -290,64 +375,64 @@ msgstr "Lengd köku"
 msgid "Delete Cookie"
 msgstr "Eyða kex"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:47
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:49
 msgid "Policy Data List"
 msgstr "Stefnugagnalisti"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:49
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:51
 msgid "Add New"
 msgstr "Bæta við nýju"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:50
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:52
 msgid "Add New Policy Data"
 msgstr "Bæta við nýjum Stefnugögnum"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:51
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:53
 msgid "Edit Policy Data"
 msgstr "Breyta Stefnugögnum"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:52
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:54
 msgid "New Policy Data"
 msgstr "Ný stefnugögn"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:53
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:55
 msgid "View Policy Data"
 msgstr "Skoða stefnugögn"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:54
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:56
 msgid "Search Policy Data"
 msgstr "Leita í Stefnugögnum"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:55
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:57
 msgid "Nothing found"
 msgstr "Ekkert fannst"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:56
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:58
 msgid "Nothing found in Trash"
 msgstr "Ekkert fannst í rusli"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:152
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:154
 msgid "Company Name"
 msgstr "Nafn fyrirtækis"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:153
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:155
 msgid "Policy Purpose"
 msgstr "Tilgangur stefnu"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:154
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:156
 msgid "Links"
 msgstr "Hlekkir"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:155
-#: public/views/gdpr-cookie-consent-public-details.php:87
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:157
+#: public/class-gdpr-cookie-consent-public.php:444
 msgid "Domain"
 msgstr "Lén"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:207
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:209
 msgid "Import from CSV"
 msgstr "Flytja inn frá CSV"
 
-#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:231
+#: admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php:233
 msgid "Export as CSV"
 msgstr "Flytja út sem CSV"
 
@@ -360,30 +445,53 @@ msgid "Unable to update Settings."
 msgstr "Ekki er hægt að uppfæra stillingar."
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:29
+#: admin/views/admin-display-design.php:19
+#: admin/views/admin-display-general.php:19
+#: admin/views/admin-display-script-blocker.php:19
 msgid "General"
 msgstr "Almennt"
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:30
-msgid "Customize Cookie Bar"
-msgstr "Sérsníða Cookie Bar"
+msgid "Design"
+msgstr "Hönnun"
 
 #: admin/partials/gdpr-cookie-consent-admin-display.php:31
-msgid "Customize Buttons"
-msgstr "Sérsníða hnappa"
+msgid "Buttons"
+msgstr "Hnappa"
+
+#: admin/partials/gdpr-cookie-consent-admin-display.php:32
+msgid "Script Blocker"
+msgstr "Script blocker"
 
 #: admin/views/admin-display-buttons.php:19
-msgid "Accept Cookies Button"
-msgstr "Samþykkja dúsur hnappinn"
+msgid "Accept Button"
+msgstr "Samþykkja hnapp"
 
 #: admin/views/admin-display-buttons.php:20
 msgid "Decline Button"
 msgstr "Hnappurinn hafna"
 
 #: admin/views/admin-display-buttons.php:21
+msgid "Settings Button"
+msgstr "Stillingar hnappinn"
+
+#: admin/views/admin-display-buttons.php:22
 msgid "Read More Link"
 msgstr "Lesa áfram"
 
-#: admin/views/admin-display-buttons.php:36
+#: admin/views/admin-display-buttons.php:23
+msgid "Confirm Button"
+msgstr "Staðfesta hnapp"
+
+#: admin/views/admin-display-buttons.php:24
+msgid "Cancel Button"
+msgstr "Hnappurinn hætta við"
+
+#: admin/views/admin-display-buttons.php:25
+msgid "Optout Link"
+msgstr "Optout tengill"
+
+#: admin/views/admin-display-buttons.php:38
 msgid ""
 "This button/link can be customized to either simply close the cookie bar, or "
 "follow a link. You can also customize the colors and styles, and show it as "
@@ -393,89 +501,164 @@ msgstr ""
 "Bar, eða fylgja tengil. Einnig er hægt að sérpanta liti og stíla og sýna "
 "hann sem tengil eða hnapp."
 
-#: admin/views/admin-display-buttons.php:39
-msgid "Accept All Cookies Text"
-msgstr "Samþykkja allar smákökur texta"
+#: admin/views/admin-display-buttons.php:41
+#: admin/views/admin-display-buttons.php:109
+#: admin/views/admin-display-buttons.php:181
+#: admin/views/admin-display-buttons.php:253
+msgid "Enable"
+msgstr "Virkja"
 
-#: admin/views/admin-display-buttons.php:45
-msgid "Accept Selected Cookies Text"
-msgstr "Taka við völdum kökum texta"
+#: admin/views/admin-display-buttons.php:43
+#: admin/views/admin-display-buttons.php:111
+#: admin/views/admin-display-buttons.php:183
+#: admin/views/admin-display-buttons.php:223
+#: admin/views/admin-display-buttons.php:255
+#: admin/views/admin-display-buttons.php:314
+#: admin/views/admin-display-design.php:62
+#: admin/views/admin-display-general.php:38
+#: admin/views/admin-display-general.php:56
+#: admin/views/admin-display-general.php:98
+#: admin/views/admin-display-general.php:147
+#: admin/views/admin-display-general.php:154
+#: admin/views/admin-display-general.php:168
+#: admin/views/admin-display-general.php:183
+#: admin/views/admin-display-general.php:190
+#: admin/views/admin-display-general.php:197
+#: admin/views/admin-display-general.php:217
+#: admin/views/admin-display-general.php:225
+#: admin/views/admin-display-script-blocker.php:36
+msgid "On"
+msgstr "Þann"
 
-#: admin/views/admin-display-buttons.php:51
-#: admin/views/admin-display-buttons.php:117
+#: admin/views/admin-display-buttons.php:44
+#: admin/views/admin-display-buttons.php:112
+#: admin/views/admin-display-buttons.php:184
+#: admin/views/admin-display-buttons.php:224
+#: admin/views/admin-display-buttons.php:256
+#: admin/views/admin-display-buttons.php:315
+#: admin/views/admin-display-design.php:63
+#: admin/views/admin-display-general.php:39
+#: admin/views/admin-display-general.php:57
+#: admin/views/admin-display-general.php:99
+#: admin/views/admin-display-general.php:148
+#: admin/views/admin-display-general.php:155
+#: admin/views/admin-display-general.php:169
+#: admin/views/admin-display-general.php:184
+#: admin/views/admin-display-general.php:191
+#: admin/views/admin-display-general.php:198
+#: admin/views/admin-display-general.php:218
+#: admin/views/admin-display-general.php:226
+#: admin/views/admin-display-script-blocker.php:37
+msgid "Off"
+msgstr "Af"
+
+#: admin/views/admin-display-buttons.php:48
+#: admin/views/admin-display-buttons.php:116
 #: admin/views/admin-display-buttons.php:188
+#: admin/views/admin-display-buttons.php:260
+#: admin/views/admin-display-buttons.php:338
+#: admin/views/admin-display-buttons.php:369
+#: admin/views/admin-display-buttons.php:400
+msgid "Text"
+msgstr "Texti"
+
+#: admin/views/admin-display-buttons.php:54
+#: admin/views/admin-display-buttons.php:122
+#: admin/views/admin-display-buttons.php:194
+#: admin/views/admin-display-buttons.php:266
+#: admin/views/admin-display-buttons.php:344
+#: admin/views/admin-display-buttons.php:375
+#: admin/views/admin-display-buttons.php:406
 msgid "Text color"
 msgstr "Litur texta"
 
-#: admin/views/admin-display-buttons.php:59
-#: admin/views/admin-display-buttons.php:125
-#: admin/views/admin-display-buttons.php:196
+#: admin/views/admin-display-buttons.php:60
+#: admin/views/admin-display-buttons.php:128
+#: admin/views/admin-display-buttons.php:200
+#: admin/views/admin-display-buttons.php:272
 msgid "Show as"
 msgstr "Sýna sem"
 
-#: admin/views/admin-display-buttons.php:61
-#: admin/views/admin-display-buttons.php:127
-#: admin/views/admin-display-buttons.php:198
+#: admin/views/admin-display-buttons.php:62
+#: admin/views/admin-display-buttons.php:130
+#: admin/views/admin-display-buttons.php:202
+#: admin/views/admin-display-buttons.php:274
 msgid "Button"
 msgstr "Hnappur"
 
-#: admin/views/admin-display-buttons.php:62
-#: admin/views/admin-display-buttons.php:128
-#: admin/views/admin-display-buttons.php:200
+#: admin/views/admin-display-buttons.php:63
+#: admin/views/admin-display-buttons.php:131
+#: admin/views/admin-display-buttons.php:203
+#: admin/views/admin-display-buttons.php:275
 msgid "Link"
 msgstr "Tengill"
 
-#: admin/views/admin-display-buttons.php:66
-#: admin/views/admin-display-buttons.php:132
+#: admin/views/admin-display-buttons.php:67
+#: admin/views/admin-display-buttons.php:135
+#: admin/views/admin-display-buttons.php:207
+#: admin/views/admin-display-buttons.php:279
+#: admin/views/admin-display-buttons.php:350
+#: admin/views/admin-display-buttons.php:381
 msgid "Background color"
 msgstr "Bakgrunnslitur"
 
-#: admin/views/admin-display-buttons.php:74
-#: admin/views/admin-display-buttons.php:140
-msgid "Action"
-msgstr "Hreyfing"
-
-#: admin/views/admin-display-buttons.php:82
-#: admin/views/admin-display-buttons.php:152
-#: admin/views/admin-display-buttons.php:205
-msgid "URL"
-msgstr "Vefslóð"
-
-#: admin/views/admin-display-buttons.php:85
-#: admin/views/admin-display-buttons.php:155
-msgid "Button will only link to URL if Action = Open URL"
-msgstr "Hnappurinn mun aðeins tengjast VEFSLÓÐ ef aðgerð = opna VEFSLÓÐ"
-
-#: admin/views/admin-display-buttons.php:90
-#: admin/views/admin-display-buttons.php:160
-#: admin/views/admin-display-buttons.php:212
-msgid "Open URL in new window?"
-msgstr "Opna VEFSLÓÐ í nýjum glugga?"
-
-#: admin/views/admin-display-buttons.php:92
-#: admin/views/admin-display-buttons.php:162
-#: admin/views/admin-display-buttons.php:214
-msgid "Yes"
-msgstr "Já"
-
-#: admin/views/admin-display-buttons.php:93
-#: admin/views/admin-display-buttons.php:163
-#: admin/views/admin-display-buttons.php:215
-msgid "No"
-msgstr "Nei"
-
-#: admin/views/admin-display-buttons.php:97
-#: admin/views/admin-display-buttons.php:167
-#: admin/views/admin-display-buttons.php:220
+#: admin/views/admin-display-buttons.php:73
+#: admin/views/admin-display-buttons.php:141
+#: admin/views/admin-display-buttons.php:213
+#: admin/views/admin-display-buttons.php:285
+#: admin/views/admin-display-buttons.php:356
+#: admin/views/admin-display-buttons.php:387
 msgid "Size"
 msgstr "Stærð"
 
-#: admin/views/admin-display-buttons.php:111
-#: admin/views/admin-display-buttons.php:182
-msgid "Text"
-msgstr "HTML"
+#: admin/views/admin-display-buttons.php:81
+#: admin/views/admin-display-buttons.php:149
+msgid "Action"
+msgstr "Aðgerð"
 
-#: admin/views/admin-display-buttons.php:178
+#: admin/views/admin-display-buttons.php:89
+#: admin/views/admin-display-buttons.php:161
+#: admin/views/admin-display-buttons.php:319
+msgid "URL"
+msgstr "URL"
+
+#: admin/views/admin-display-buttons.php:92
+#: admin/views/admin-display-buttons.php:164
+msgid "Button will only link to URL if Action = Open URL"
+msgstr "Hnappurinn mun aðeins tengjast VEFSLÓÐ ef aðgerð = opna VEFSLÓÐ"
+
+#: admin/views/admin-display-buttons.php:97
+#: admin/views/admin-display-buttons.php:169
+#: admin/views/admin-display-buttons.php:326
+msgid "Open URL in new window?"
+msgstr "Opna VEFSLÓÐ í nýjum glugga?"
+
+#: admin/views/admin-display-buttons.php:99
+#: admin/views/admin-display-buttons.php:171
+#: admin/views/admin-display-buttons.php:328
+msgid "Yes"
+msgstr "Já"
+
+#: admin/views/admin-display-buttons.php:100
+#: admin/views/admin-display-buttons.php:172
+#: admin/views/admin-display-buttons.php:329
+msgid "No"
+msgstr "Nei"
+
+#: admin/views/admin-display-buttons.php:221
+msgid "Display Cookies List on Frontend"
+msgstr "Birta dúsur lista á Frontex"
+
+#: admin/views/admin-display-buttons.php:228
+msgid "Cookie Settings Layout"
+msgstr "Uppsetning á kökustillingum"
+
+#: admin/views/admin-display-buttons.php:235
+#: admin/views/admin-display-buttons.php:238
+msgid "Extended Banner"
+msgstr "Útvíkkað fylgirit"
+
+#: admin/views/admin-display-buttons.php:249
 msgid ""
 "This button/link can be used to provide a link out to your Privacy & Cookie "
 "Policy. You can customize it any way you like."
@@ -483,97 +666,404 @@ msgstr ""
 "Þennan hnapp/tengil er hægt að nota til að gefa tengil út í "
 "persónuverndarstefnu. Þú getur sérsniðið það hvernig sem þú vilt."
 
-#: admin/views/admin-display-general.php:24
-msgid "Cookie Bar is currently:"
-msgstr "Cookie Bar er í augnablikinu:"
+#: admin/views/admin-display-buttons.php:293
+msgid "Page or Custom URL"
+msgstr "Síða eða sérsniðin VEFSLÓÐ"
 
-#: admin/views/admin-display-general.php:26
-#: admin/views/admin-display-general.php:33
-#: admin/views/admin-display-general.php:40
-msgid "On"
-msgstr "Þann"
+#: admin/views/admin-display-buttons.php:295
+#: admin/views/admin-display-buttons.php:301
+msgid "Page"
+msgstr "Síða"
 
-#: admin/views/admin-display-general.php:27
-#: admin/views/admin-display-general.php:34
-#: admin/views/admin-display-general.php:41
-msgid "Off"
-msgstr "Af"
+#: admin/views/admin-display-buttons.php:296
+msgid "Custom Link"
+msgstr "Sérsniðinn hlekkur"
 
-#: admin/views/admin-display-general.php:31
-msgid "Autotick for Non-Necessary Cookies:"
-msgstr "Autotick fyrir ónauðsynlegar smákökur:"
+#: admin/views/admin-display-buttons.php:312
+msgid "Synchronize with WordPress Policy Page"
+msgstr "Samstilla með WordPress Stefnumótu síðu"
 
-#: admin/views/admin-display-general.php:38
-msgid "Show Credits:"
-msgstr "Sýna nafnalista:"
+#: admin/views/admin-display-design.php:34
+msgid "Cookie Bar as"
+msgstr "Cookie Bar sem"
 
-#: admin/views/admin-display-general.php:45
-msgid "On hide"
-msgstr "Á fela"
-
-#: admin/views/admin-display-general.php:50
-#: admin/views/admin-display-general.php:53
-msgid "Animate"
-msgstr "Fjör"
-
-#: admin/views/admin-display-general.php:51
-#: admin/views/admin-display-general.php:54
-msgid "Disappear"
-msgstr "Hverfa"
-
-#: admin/views/admin-display-messagebar.php:22
-msgid "Message Heading"
-msgstr "Fyrirsögn skilaboða"
-
-#: admin/views/admin-display-messagebar.php:25
-msgid "Leave it blank, If you do not need a heading"
-msgstr "Skildu það eftir autt, ef þú þarft ekki fyrirsögn"
-
-#: admin/views/admin-display-messagebar.php:30
-msgid "Message"
-msgstr "Skilaboð"
-
-#: admin/views/admin-display-messagebar.php:36
-msgid "Shortcodes allowed: see the Help tab"
-msgstr "Shortcodes leyfð: Sjá flipann hjálp"
-
-#: admin/views/admin-display-messagebar.php:36
-msgid ""
-"Examples: \"We use cookies on this website [wpl_cookie_button] to find out "
-"how to delete cookies [wpl_cookie_link].\""
-msgstr ""
-"Dæmi: \"við notum kökur á þessari vefsíðu [wpl_cookie_button] til að finna "
-"út hvernig á að eyða kökum [wpl_cookie_link].\""
-
-#: admin/views/admin-display-messagebar.php:40
+#: admin/views/admin-display-design.php:42
+#: admin/views/admin-display-design.php:67
 msgid "Cookie Bar Position"
 msgstr "Staða Cookie Bar"
 
-#: admin/views/admin-display-messagebar.php:45
-#: admin/views/admin-display-messagebar.php:48
+#: admin/views/admin-display-design.php:48
+#: admin/views/admin-display-design.php:51
 msgid "Bottom"
 msgstr "Botn"
 
-#: admin/views/admin-display-messagebar.php:46
-#: admin/views/admin-display-messagebar.php:49
+#: admin/views/admin-display-design.php:49
+#: admin/views/admin-display-design.php:52
 msgid "Top"
 msgstr "Efst"
 
-#: admin/views/admin-display-messagebar.php:56
+#: admin/views/admin-display-design.php:60
+msgid "Add Overlay"
+msgstr "Bæta við yfirborð"
+
+#: admin/views/admin-display-design.php:73
+#: admin/views/admin-display-design.php:76
+#: admin/views/admin-display-general.php:109
+#: admin/views/admin-display-general.php:112
+msgid "Left"
+msgstr "Vinstri"
+
+#: admin/views/admin-display-design.php:74
+#: admin/views/admin-display-design.php:77
+#: admin/views/admin-display-general.php:110
+#: admin/views/admin-display-general.php:113
+msgid "Right"
+msgstr "Hægri"
+
+#: admin/views/admin-display-design.php:85
+msgid "On hide"
+msgstr "Á fela"
+
+#: admin/views/admin-display-design.php:91
+#: admin/views/admin-display-design.php:94
+msgid "Animate"
+msgstr "Fjör"
+
+#: admin/views/admin-display-design.php:92
+#: admin/views/admin-display-design.php:95
+msgid "Disappear"
+msgstr "Hverfa"
+
+#: admin/views/admin-display-design.php:103
 msgid "Cookie Bar Color"
 msgstr "Cookie Bar litur"
 
-#: admin/views/admin-display-messagebar.php:64
+#: admin/views/admin-display-design.php:109
+msgid "Cookie Bar Opacity"
+msgstr "Ónot á Cookie Bar"
+
+#: admin/views/admin-display-design.php:115
 msgid "Text Color"
 msgstr "Litur texta"
+
+#: admin/views/admin-display-general.php:20
+#: admin/views/admin-display-general.php:96
+msgid "Show Again Tab"
+msgstr "Sýna aftur flipann"
+
+#: admin/views/admin-display-general.php:21
+msgid "Other"
+msgstr "Annað"
+
+#: admin/views/admin-display-general.php:36
+msgid "Cookie Bar is currently"
+msgstr "Cookie Bar er nú"
+
+#: admin/views/admin-display-general.php:43
+msgid "Cookie Bar Usage for"
+msgstr "Notkun Cookie Bar fyrir"
+
+#: admin/views/admin-display-general.php:54
+msgid "Enable IAB Transparency and Consent Framework (TCF)"
+msgstr "Virkja IAB gagnsæi og Samþykkisramma (TCF)"
+
+#: admin/views/admin-display-general.php:58
+msgid ""
+"Compatibility for the customization of advertising tracking preferences in "
+"case of CCPA."
+msgstr ""
+"Samhæfing fyrir customization auglýsingar mælingar kjörstillingar í tilfelli "
+"CCPA."
+
+#: admin/views/admin-display-general.php:62
+msgid "Message Heading"
+msgstr "Fyrirsögn skilaboða"
+
+#: admin/views/admin-display-general.php:65
+msgid "Leave it blank, If you do not need a heading"
+msgstr "Skildu það eftir autt, ef þú þarft ekki fyrirsögn"
+
+#: admin/views/admin-display-general.php:69
+msgid "Message"
+msgstr "Skilaboð"
+
+#: admin/views/admin-display-general.php:75
+msgid "GDPR Message"
+msgstr "Boð í GDPR"
+
+#: admin/views/admin-display-general.php:81
+msgid "CCPA Message"
+msgstr "CCPA skeyti"
+
+#: admin/views/admin-display-general.php:103
+msgid "Show Again Tab Position"
+msgstr "Sýna aftur Flipastöðu"
+
+#: admin/views/admin-display-general.php:121
+msgid "Show Again Tab Margin (in percent)"
+msgstr "Sýna aftur Flipaframlegð (í prósentum)"
+
+#: admin/views/admin-display-general.php:127
+msgid "Show Again Text"
+msgstr "Sýna aftur texta"
+
+#: admin/views/admin-display-general.php:145
+msgid "Autotick for Non-Necessary Cookies"
+msgstr "Autotick fyrir ónauðsynlegar smákökur"
+
+#: admin/views/admin-display-general.php:152
+msgid "Auto Hide (Accept)"
+msgstr "Sjálfvirk fela (samþykkja)"
+
+#: admin/views/admin-display-general.php:159
+msgid "Auto Hide Delay (in Milliseconds)"
+msgstr "Sjálfvirk Felguseinkun (í millisekúndum)"
+
+#: admin/views/admin-display-general.php:162
+msgid "Specify milliseconds e.g. 5000 = 5 seconds"
+msgstr "Tilgreina millisekúndur t.d. 5000 = 5 sekúndur"
+
+#: admin/views/admin-display-general.php:166
+msgid "Auto Scroll (Accept)"
+msgstr "Sjálfvirk fletta (samþykkja)"
+
+#: admin/views/admin-display-general.php:170
+msgid "Use this option with discretion especially if you serve EU"
+msgstr "Notaðu þennan valkost sérstaklega ef þú þjónar ESB"
+
+#: admin/views/admin-display-general.php:174
+msgid "Auto Scroll Offset (in percent)"
+msgstr "Sjálfvirk Skrunoffset (í prósentum)"
+
+#: admin/views/admin-display-general.php:177
+msgid ""
+"Consent will be assumed after user scrolls more than the specified page "
+"height"
+msgstr ""
+"Samþykki verður gert ráð fyrir að notandi flettir meira en tilgreind síðuhæð"
+
+#: admin/views/admin-display-general.php:181
+msgid "Reload after Scroll Accept"
+msgstr "Endurhlaða eftir flettingu samþykkt"
+
+#: admin/views/admin-display-general.php:188
+msgid "Reload after Accept"
+msgstr "Endurhlaða eftir samþykkt"
+
+#: admin/views/admin-display-general.php:195
+msgid "Reload after Decline"
+msgstr "Endurheimtur eftir lækkun"
+
+#: admin/views/admin-display-general.php:206
+msgid "Cookie Expiry"
+msgstr "Kökulok"
+
+#: admin/views/admin-display-general.php:211
+msgid "The amount of time that the cookie should be stored for."
+msgstr "Magn þess tíma sem kex á að geyma fyrir."
+
+#: admin/views/admin-display-general.php:215
+msgid "Delete Plugin data on Deactivation"
+msgstr "Eyða gögnum í viðbót við Afvirkjun"
+
+#: admin/views/admin-display-general.php:219
+msgid "Enable if you want all plugin data to be deleted on deactivation."
+msgstr "Gera kleift að eyða öllum gögnum í viðbót við afvirkjun."
+
+#: admin/views/admin-display-general.php:223
+msgid "Show Credits"
+msgstr "Sýna nafnalista"
+
+#: admin/views/admin-display-getting-started.php:22
+msgid "pro version"
+msgstr "Pro útgáfa"
+
+#: admin/views/admin-display-getting-started.php:28
+msgid "1. Add / Scan Website Cookies"
+msgstr "1. bæta við/skanna vefsvæði smákökur"
+
+#: admin/views/admin-display-getting-started.php:31
+msgid ""
+"Before you can display the consent notice on your website, you need to add "
+"details of the cookies on your website. The plugin automatically scans the "
+"website for cookies and adds them."
+msgstr ""
+"Áður en þú getur birt samþykki tilkynningar á vefsvæðinu þínu þarftu að bæta "
+"við upplýsingum um kökurnar á vefsíðunni þinni. Viðbótin skannar sjálfkrafa "
+"vefsíðuna fyrir smákökur og bætir þeim við."
+
+#: admin/views/admin-display-getting-started.php:35
+msgid "Add Cookie Details"
+msgstr "Bæta við upplýsingar um kex"
+
+#: admin/views/admin-display-getting-started.php:37
+msgid "2. Customize the Cookie Banner Content"
+msgstr "2. aðlaga innihald kex borði"
+
+#: admin/views/admin-display-getting-started.php:39
+msgid ""
+"You can completely customize the cookie banner content to match your "
+"website’s content style. Set the consent notice usage to GDPR and control "
+"how and when the banner appears to website visitors."
+msgstr ""
+"Þú getur alveg sérsniðið kex Banner efni til að passa við efnisstíl "
+"vefsvæðisins þíns. Stilltu samþykki fyrirvara notkun til GDPR og stjórna "
+"hvernig og hvenær Banner birtist á vefsíðu gestum."
+
+#: admin/views/admin-display-getting-started.php:40
+msgid ""
+"Note: Set the usage to CCPA and update the content accordingly to display "
+"the CCPA “Do Not Sell” notice."
+msgstr ""
+"Athugaðu: Stilltu notkunina á CCPA og uppfærðu efnið í samræmi við það til "
+"að birta CCPA \"ekki selja\" fyrirvara."
+
+#: admin/views/admin-display-getting-started.php:41
+#: admin/views/admin-display-getting-started.php:46
+msgid "Customize Content"
+msgstr "Aðlaga efni"
+
+#: admin/views/admin-display-getting-started.php:43
+msgid "3. Customize the Cookie Banner Design"
+msgstr "3. aðlaga kex Banner hönnun"
+
+#: admin/views/admin-display-getting-started.php:45
+msgid ""
+"Just like the content you can completely customize the design of your cookie "
+"consent banner. Choose from different display styles, colors and animations."
+msgstr ""
+"Rétt eins og efni sem þú getur alveg sérsniðið hönnun á kex samþykki borði. "
+"Veldu úr mismunandi birtingarstíl, litum og hreyfimyndum."
+
+#: admin/views/admin-display-getting-started.php:48
+msgid "4. Display the Cookie Details Table in your Cookie / Privacy policy"
+msgstr "4. birta upplýsingar um kex töflu í kex/næði stefnu"
+
+#: admin/views/admin-display-getting-started.php:50
+msgid ""
+"To embed a cookie details table: use shortcode [wpl_cookie_details] to "
+"display cookie policy data on the pages."
+msgstr ""
+"Til að fella inn upplýsingar um smáköku: Notaðu shortcode "
+"[wpl_cookie_details] til að birta gögn um dúsa á síðunum."
+
+#: admin/views/admin-display-getting-started.php:53
+msgid "5. Block Third-Party Cookie Scripts"
+msgstr "5. Lokaðu kex forskriftir þriðja aðila"
+
+#: admin/views/admin-display-getting-started.php:55
+msgid "5. Block Third-Party Cookie Scripts (Pro feature)"
+msgstr "5. Lokaðu kex forskriftir þriðja aðila (Pro lögun)"
+
+#: admin/views/admin-display-getting-started.php:58
+msgid ""
+"Automatically block known third-party cookies until your website visitor "
+"gives their preference. Once the visitor gives preference, the third-party "
+"features which depend on these cookies (like youtube videos) will be visible."
+msgstr ""
+"Lokaðu sjálfkrafa þekktum þriðja aðila kökum þar til vefsíðan þín gefur val. "
+"Þegar gestur gefur val, eru eiginleikar þriðja aðila sem veltur á þessum "
+"kökum (eins og YouTube myndbönd) sýnileg."
+
+#: admin/views/admin-display-getting-started.php:60
+msgid "Block Scripts"
+msgstr "Loka forskriftum"
+
+#: admin/views/admin-display-getting-started.php:62
+msgid "Upgrade To Pro Version"
+msgstr "Uppfærsla í Pro útgáfu"
+
+#: admin/views/admin-display-getting-started.php:65
+msgid "About WP Cookie Consent Plugin For GDPR & CCPA"
+msgstr "Um WP kex samþykki tappi fyrir GDPR-CCPA"
+
+#: admin/views/admin-display-getting-started.php:67
+msgid ""
+"The WordPress Cookie Consent Plugin for GDPR & CCPA plugin helps you comply "
+"with the EU GDPR’s cookie consent and CCPA’s “Do Not Sell” opt-out "
+"regulations."
+msgstr ""
+"WordPress kex samþykkis tappi fyrir GDPR-CCPA tappi hjálpar þér að fara "
+"eftir ESB samþykki kex GDPR er og CCPA er \"ekki selja\" afþakka reglugerðir."
+
+#: admin/views/admin-display-getting-started.php:69
+msgid "Important Links"
+msgstr "Mikilvægir tenglar"
+
+#: admin/views/admin-display-getting-started.php:72
+msgid "Documentation"
+msgstr "Handbækur"
+
+#: admin/views/admin-display-getting-started.php:74
+msgid "Support"
+msgstr "Aðstoð"
+
+#: admin/views/admin-display-getting-started.php:76
+msgid "Forums"
+msgstr "Forums"
+
+#: admin/views/admin-display-getting-started.php:77
+msgid "Upgrade to the Pro version"
+msgstr "Uppfærsla í Pro útgáfuna"
 
 #: admin/views/admin-display-save-button.php:23
 msgid "Save All Cookies"
 msgstr "Vista allar smákökur"
 
-#: admin/views/admin-display-save-button.php:30
+#: admin/views/admin-display-save-button.php:32
 msgid "Update"
 msgstr "Uppfæra"
+
+#: admin/views/admin-display-script-blocker.php:34
+msgid "Script Blocker is currently"
+msgstr "Script blocker er nú"
+
+#: admin/views/admin-display-script-blocker.php:41
+msgid "Custom scripts"
+msgstr "Sérsniðnar forskriftir"
+
+#: admin/views/admin-display-script-blocker.php:43
+msgid ""
+"Enter non functional cookies javascript code here (for e.g. Google "
+"Analytics) to be used after the consent is accepted."
+msgstr ""
+"Sláðu inn ekki hagnýtar smákökur JavaScript kóða hér (fyrir td Google "
+"Analytics) til að nota eftir að samþykki er samþykkt."
+
+#: admin/views/admin-display-script-blocker.php:47
+msgid "Header Scripts"
+msgstr "Forskriftir fyrir hausa"
+
+#: admin/views/admin-display-script-blocker.php:50
+msgid ""
+"These scripts will be printed in the head section on all pages and/or posts."
+msgstr ""
+"Þessar forskriftir verða prentaðar á höfuð kafla á öllum síðum og/eða "
+"innlegg."
+
+#: admin/views/admin-display-script-blocker.php:54
+msgid "Body Scripts"
+msgstr "Meginmál forskrifta"
+
+#: admin/views/admin-display-script-blocker.php:57
+msgid ""
+"These scripts will be printed just below the opening body tag on all pages "
+"and/or posts."
+msgstr ""
+"Þessar forskriftir verða prentaðar rétt fyrir neðan opnunarmeginmerkið á "
+"öllum síðum og/eða innlegg."
+
+#: admin/views/admin-display-script-blocker.php:61
+msgid "Footer Scripts"
+msgstr "Forskriftir fyrir síðufót"
+
+#: admin/views/admin-display-script-blocker.php:64
+msgid ""
+"These scripts will be printed above the closing body tag on all pages and/or "
+"posts."
+msgstr ""
+"Þessar forskriftir verða prentaðar fyrir ofan lokun líkamsmerkið á öllum "
+"síðum og/eða færslum."
 
 #: admin/views/gdpr-policies-import-page.php:18
 msgid "Import from a CSV file"
@@ -608,79 +1098,6 @@ msgstr "CSV skrá"
 msgid "Import"
 msgstr "Flytja inn"
 
-#: analytics/templates/forms/deactivation/form.php:63
-msgid "Anonymous feedback"
-msgstr "Nafnlaus endurgjöf"
-
-#: analytics/templates/forms/deactivation/form.php:69
-msgid "Deactivate"
-msgstr "Óvirkja"
-
-#: analytics/templates/forms/deactivation/form.php:70
-msgid "Theme"
-msgstr "Þema"
-
-#: analytics/templates/forms/deactivation/form.php:71
-#, php-format
-msgid "Activate %s"
-msgstr "Virkja %s"
-
-#: analytics/templates/forms/deactivation/form.php:82
-msgid "Quick Feedback"
-msgstr "Fljótleg viðbrögð"
-
-#: analytics/templates/forms/deactivation/form.php:86
-#, php-format
-msgid "If you have a moment, please let us know why you are %s"
-msgstr "Ef þú ert með augnablik skaltu láta okkur vita af hverju þú ert %s"
-
-#: analytics/templates/forms/deactivation/form.php:86
-msgid "deactivating"
-msgstr "óvirkja"
-
-#: analytics/templates/forms/deactivation/form.php:86
-msgid "switching"
-msgstr "Rofi"
-
-#: analytics/templates/forms/deactivation/form.php:253
-#, php-format
-msgid "Submit & %s"
-msgstr "Senda inn v/"
-
-#: analytics/templates/forms/deactivation/form.php:274
-msgid "Kindly tell us the reason so we can improve."
-msgstr "Vinsamlegast segðu okkur ástæðuna svo við getum bætt."
-
-#: analytics/templates/forms/deactivation/form.php:402
-#, php-format
-msgid "Yes - %s"
-msgstr "Já- %s"
-
-#: analytics/templates/forms/deactivation/form.php:415
-#, php-format
-msgid "Skip & %s"
-msgstr "Sleppa v/s"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:35
-msgid "HTTP Cookie"
-msgstr "HTTP kex"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:36
-msgid "HTML Local Storage"
-msgstr "HTML staðbundin geymsla"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:37
-msgid "Flash Local Shared Object"
-msgstr "Flash staðbundin samnýtt hlut"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:38
-msgid "Pixel Tracker"
-msgstr "Pixla rekja spor einhvers"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:39
-msgid "IndexedDB"
-msgstr "IndexedDB"
-
 #: includes/class-gdpr-cookie-consent-i18n.php:40
 msgid "Read More"
 msgstr "Lesa meira"
@@ -690,47 +1107,36 @@ msgid "Decline"
 msgstr "Hafna"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:42
-msgid "Accept Cookies"
-msgstr "Samþykkja smákökur"
+msgid "Accept"
+msgstr "Samþykkja"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:43
-msgid "Accept All Cookies"
-msgstr "Samþykkja allar smákökur"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:44
-msgid "Accept Selected Cookies"
-msgstr "Samþykkja valdar smákökur"
+#: public/class-gdpr-cookie-consent-public.php:231
+#: public/class-gdpr-cookie-consent-public.php:240
+msgid "Confirm"
+msgstr "Staðfesta"
 
 #: includes/class-gdpr-cookie-consent-i18n.php:45
-msgid "Show Details"
-msgstr "Sýna atriði"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:46
-#: public/class-gdpr-cookie-consent-public.php:185
-msgid "Hide Details"
-msgstr "Fela atriði"
-
-#: includes/class-gdpr-cookie-consent-i18n.php:47
 msgid "Necessary"
 msgstr "Nauðsynlegt"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:48
+#: includes/class-gdpr-cookie-consent-i18n.php:46
 msgid "Marketing"
 msgstr "Markaðssetning"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:49
+#: includes/class-gdpr-cookie-consent-i18n.php:47
 msgid "Analytics"
-msgstr "Greinandi"
+msgstr "Greining"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:50
+#: includes/class-gdpr-cookie-consent-i18n.php:48
 msgid "Preferences"
 msgstr "Kjörstillingar"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:51
+#: includes/class-gdpr-cookie-consent-i18n.php:49
 msgid "Unclassified"
 msgstr "Óskilgreint"
 
-#: includes/class-gdpr-cookie-consent-i18n.php:52
+#: includes/class-gdpr-cookie-consent-i18n.php:51
 msgid ""
 "Necessary cookies help make a website usable by enabling basic functions "
 "like page navigation and access to secure areas of the website. The website "
@@ -740,7 +1146,7 @@ msgstr ""
 "virkja grunnaðgerðir eins og síðusiglingar og aðgang að öruggum svæðum á "
 "vefsvæðinu. Vefsíðan getur ekki virkað rétt án þessara fótspora."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:53
+#: includes/class-gdpr-cookie-consent-i18n.php:52
 msgid ""
 "Marketing cookies are used to track visitors across websites. The intention "
 "is to display ads that are relevant and engaging for the individual user and "
@@ -750,7 +1156,7 @@ msgstr ""
 "Ætlunin er að birta auglýsingar sem skipta máli og taka þátt fyrir einstaka "
 "notendur og þar með verðmætari fyrir útgefendur og auglýsendur þriðja aðila."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:54
+#: includes/class-gdpr-cookie-consent-i18n.php:53
 msgid ""
 "Analytics cookies help website owners to understand how visitors interact "
 "with websites by collecting and reporting information anonymously."
@@ -758,7 +1164,7 @@ msgstr ""
 "Analytics smákökur hjálpa website eigendur til að skilja hvernig gestir hafa "
 "samskipti við vefsíður með því að safna og tilkynna upplýsingar nafnlaust."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:55
+#: includes/class-gdpr-cookie-consent-i18n.php:54
 msgid ""
 "Preference cookies enable a website to remember information that changes the "
 "way the website behaves or looks, like your preferred language or the region "
@@ -768,7 +1174,7 @@ msgstr ""
 "vefsvæðið Hegðar sér eða lítur út, eins og kjörtungumálið þitt eða svæðið "
 "sem þú ert í."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:56
+#: includes/class-gdpr-cookie-consent-i18n.php:55
 msgid ""
 "Unclassified cookies are cookies that we are in the process of classifying, "
 "together with the providers of individual cookies."
@@ -776,7 +1182,7 @@ msgstr ""
 "Óflokkaðar smákökur eru smákökur sem við erum með í ferli flokkunar, ásamt "
 "veitingum á einstaka kökum."
 
-#: includes/class-gdpr-cookie-consent-i18n.php:57
+#: includes/class-gdpr-cookie-consent-i18n.php:56
 msgid ""
 "Cookies are small text files that can be used by websites to make a user's "
 "experience more efficient. The law states that we can store cookies on your "
@@ -792,6 +1198,10 @@ msgstr ""
 "mismunandi gerðir af kökum. Sumar smákökur eru settar af þriðja aðila "
 "þjónustu sem birtist á síðum okkar."
 
+#: includes/class-gdpr-cookie-consent-i18n.php:57
+msgid "This website uses cookies"
+msgstr "Þessi vefsíða notar smákökur"
+
 #: includes/class-gdpr-cookie-consent-i18n.php:58
 msgid ""
 "This website uses cookies to improve your experience. We'll assume you're ok "
@@ -800,74 +1210,84 @@ msgstr ""
 "Þessi vefsíða notar smákökur til að bæta upplifun þína. Við munum gera ráð "
 "fyrir að þú sért í lagi með þetta, en þú getur valið út ef þú vilt."
 
-#: public/class-gdpr-cookie-consent-public.php:184
-msgid "Select Cookies"
-msgstr "Velja dúsur"
+#: includes/class-gdpr-cookie-consent-i18n.php:59
+msgid ""
+"In case of sale of your personal information, you may opt out by using the "
+"link"
+msgstr ""
+"Ef um er að ræða sölu á persónuupplýsingum þínum getur þú valið að nota "
+"tengilinn"
 
-#: public/views/gdpr-cookie-consent-public-details.php:21
-msgid "I consent to the use of following cookies:"
-msgstr "Ég samþykki að nota eftirfarandi smákökur:"
+#: includes/class-gdpr-cookie-consent-i18n.php:60
+msgid "Do Not Sell My Personal Information"
+msgstr "Ekki selja persónulegar upplýsingar mínar"
 
-#: public/views/gdpr-cookie-consent-public-details.php:50
-msgid "Cookie declaration"
-msgstr "Yfirlýsing um köku"
+#: includes/class-gdpr-cookie-consent-i18n.php:61
+#: public/class-gdpr-cookie-consent-public.php:230
+#: public/class-gdpr-cookie-consent-public.php:239
+msgid "Do you really wish to opt-out?"
+msgstr "Vilt þú virkilega afþakka?"
 
-#: public/views/gdpr-cookie-consent-public-details.php:51
-msgid "About cookies"
+#: public/class-gdpr-cookie-consent-public.php:284
+msgid "GDPR Cookie Consent Plugin"
+msgstr "Viðbót við GDPR kex samþykki"
+
+#: public/class-gdpr-cookie-consent-public.php:286
+msgid "CCPA Cookie Notice Plugin"
+msgstr "CCPA Cookie tilkynning tappi"
+
+#: public/class-gdpr-cookie-consent-public.php:288
+msgid "Cookie Notice Plugin"
+msgstr "Cookie tilkynning tappi"
+
+#: public/class-gdpr-cookie-consent-public.php:290
+msgid "GDPR & CCPA Notice plugin"
+msgstr "GDPR/CCPA tilkynning tappi"
+
+#. translators: 1: GDPR Cookie Consent Plugin
+#: public/class-gdpr-cookie-consent-public.php:294
+msgid "Powered by %1$s"
+msgstr "Keyrt af %1$s"
+
+#: public/class-gdpr-cookie-consent-public.php:439
+msgid "About Cookies"
 msgstr "Um smákökur"
 
-#: public/views/gdpr-cookie-consent-public-details.php:86
+#: public/class-gdpr-cookie-consent-public.php:440
+msgid "Cookie Declaration"
+msgstr "Yfirlýsing um köku"
+
+#: public/class-gdpr-cookie-consent-public.php:441
+msgid "Always Active"
+msgstr "Alltaf virk"
+
+#: public/class-gdpr-cookie-consent-public.php:442
+msgid "Save And Accept"
+msgstr "Vista og samþykkja"
+
+#: public/class-gdpr-cookie-consent-public.php:443
 msgid "Name"
 msgstr "Nafn"
 
-#: public/views/gdpr-cookie-consent-public-details.php:88
+#: public/class-gdpr-cookie-consent-public.php:445
 msgid "Purpose"
 msgstr "Tilgangur"
 
-#: public/views/gdpr-cookie-consent-public-details.php:89
+#: public/class-gdpr-cookie-consent-public.php:446
 msgid "Expiry"
 msgstr "Endir"
 
-#: public/views/gdpr-cookie-consent-public-details.php:90
+#: public/class-gdpr-cookie-consent-public.php:447
 msgid "Type"
 msgstr "Tegund"
 
-#: public/views/gdpr-cookie-consent-public-details.php:101
-#: public/views/gdpr-cookie-consent-public-details.php:110
-#: public/views/gdpr-cookie-consent-public-details.php:124
-#: public/views/gdpr-cookie-consent-public-details.php:133
-#, fuzzy
-msgid "---"
-msgstr "---"
-
-#: public/views/gdpr-cookie-consent-public-details.php:117
-msgid "Pending"
-msgstr "Á biðstöðu"
-
-#: public/views/gdpr-cookie-consent-public-details.php:143
+#: public/class-gdpr-cookie-consent-public.php:448
 msgid "We do not use cookies of this type."
 msgstr "Við notum ekki kökur af þessari gerð."
 
-#: public/views/gdpr-cookie-consent-public-details.php:158
-msgid "Powered by"
-msgstr "Knúið af"
+#: public/class-gdpr-cookie-consent-public.php:449
+msgid "I consent to the use of following cookies:"
+msgstr "Ég samþykki að nota eftirfarandi smákökur:"
 
-#. Plugin URI of the plugin/theme
-msgid "https://club.wpeka.com/"
-msgstr "https://club.wpeka.com/"
-
-#. Description of the plugin/theme
-msgid ""
-"Cookie Consent will help you put up a subtle banner in the footer of your "
-"website to showcase compliance status regarding the EU Cookie law."
-msgstr ""
-"Cookie samþykki mun hjálpa þér að setja upp lúkk borði í fæti vefsvæðis þíns "
-"til að sýna samræmi stöðu varðandi ESB kex lög."
-
-#. Author of the plugin/theme
-msgid "WPEkaClub"
-msgstr "WPEkaClub"
-
-#. Author URI of the plugin/theme
-msgid "https://club.wpeka.com"
-msgstr "https://club.wpeka.com"
+#~ msgid "Both"
+#~ msgstr "Bæði"

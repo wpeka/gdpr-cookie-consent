@@ -58,10 +58,12 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 			2 => __( 'Completed', 'gdpr-cookie-consent' ),
 			3 => __( 'Stopped', 'gdpr-cookie-consent' ),
 		);
-
-		add_filter( 'gdpr_module_settings_tabhead', array( __CLASS__, 'settings_tabhead' ) );
-		add_action( 'gdpr_module_settings_form', array( $this, 'settings_form' ) );
-		add_action( 'gdpr_module_settings_general', array( $this, 'settings_general' ), 10 );
+		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
+			add_filter( 'gdpr_module_settings_tabhead', array( __CLASS__, 'settings_tabhead' ) );
+			add_filter( 'gdpr_settings_cookie_list_values', array( $this, 'gdpr_settings_cookie_list_values' ) );
+			add_action( 'gdpr_module_settings_form', array( $this, 'settings_form' ) );
+			add_action( 'gdpr_module_settings_general', array( $this, 'settings_general' ), 5 );
+		}
 	}
 
 	/**
@@ -72,7 +74,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	public function settings_general() {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
-			<tr valign="top">
+			<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
 				<th scope="row"><label for="about_message_field"><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?></label></th>
 				<td>
 					<?php
@@ -165,11 +167,11 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	 */
 	public static function get_types() {
 		$types = array(
-			'HTTP'        => 'HTTP Cookie',
-			'HTML'        => 'HTML Local Storage',
-			'Flash Local' => 'Flash Local Shared Object',
-			'Pixel'       => 'Pixel Tracker',
-			'IndexedDB'   => 'IndexedDB',
+			'HTTP'        => __( 'HTTP Cookie', 'gdpr-cookie-consent' ),
+			'HTML'        => __( 'HTML Local Storage', 'gdpr-cookie-consent' ),
+			'Flash Local' => __( 'Flash Local Shared Object', 'gdpr-cookie-consent' ),
+			'Pixel'       => __( 'Pixel Tracker', 'gdpr-cookie-consent' ),
+			'IndexedDB'   => __( 'IndexedDB', 'gdpr-cookie-consent' ),
 		);
 		return $types;
 	}
@@ -231,7 +233,45 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 
 		$view_file = plugin_dir_path( __FILE__ ) . 'views/' . $view_file;
 
-		Gdpr_Cookie_Consent::gdpr_envelope_settings_tabcontent( 'gdpr-cookie-consent-cookie-list', $view_file, '', $params, 1, $error_message );
+		Gdpr_Cookie_Consent::gdpr_envelope_settings_tabcontent( 'gdpr-cookie-consent-tab-content', 'gdpr-cookie-consent-cookie-list', $view_file, '', $params, 1, $error_message );
+	}
+
+	/**
+	 * Function to return custom cookie list settings
+	 */
+	public function gdpr_settings_cookie_list_values() {
+		$post_cookie_list       = $this->get_post_cookie_list();
+		$data_arr               = $this->get_categories();
+		$cookies_length         = count( $data_arr );
+		$cookie_list_keys       = array_keys( $data_arr );
+		$cookie_list_categories = array();
+		for ( $i = 0; $i < $cookies_length; $i++ ) {
+			$cookie_list_categories[ $i ] = array(
+				'code'  => $cookie_list_keys[ $i ],
+				'label' => $data_arr[ $cookie_list_keys[ $i ] ],
+			);
+		}
+		$cookie_types       = self::get_types();
+		$cookie_type_length = count( $cookie_types );
+		$cookie_type_keys   = array_keys( $cookie_types );
+		$cookie_list_types  = array();
+		for ( $i = 0; $i < $cookie_type_length; $i++ ) {
+			$cookie_list_types[ $i ] = array(
+				'code'  => $cookie_type_keys[ $i ],
+				'label' => $cookie_types[ $cookie_type_keys[ $i ] ],
+			);
+		}
+		$params = array(
+			'nonces'                 => array(
+				'gdpr_cookie_custom' => wp_create_nonce( 'gdpr_cookie_custom' ),
+			),
+			'ajax_url'               => admin_url( 'admin-ajax.php' ),
+			'loading_gif'            => plugin_dir_url( __FILE__ ) . 'assets/images/loading.gif',
+			'post_cookie_list'       => $post_cookie_list,
+			'cookie_list_categories' => $cookie_list_categories,
+			'cookie_list_types'      => $cookie_list_types,
+		);
+		return $params;
 	}
 
 	/**
@@ -262,6 +302,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	 */
 	public function gdpr_install_tables() {
 		global $wpdb;
+
 		$wild = '%';
 		// Creating post cookies table.
 		$table_name = $wpdb->prefix . $this->post_cookies_table;
@@ -279,7 +320,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 			    `category_id` INT NOT NULL,
 			    `description` TEXT NULL DEFAULT '',
 			    PRIMARY KEY(`id_gdpr_cookie_post_cookies`)
-			) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			);";
 			dbDelta( $create_table_sql );
 		}
 		// Creating categories table.
@@ -290,12 +331,12 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 		if ( ! $result ) {
 			$create_table_sql = "CREATE TABLE `$table_name`(
 				 `id_gdpr_cookie_category` INT NOT NULL AUTO_INCREMENT,
-				 `gdpr_cookie_category_name` VARCHAR(255) NOT NULL,
-				 `gdpr_cookie_category_slug` VARCHAR(255) NOT NULL,
+				 `gdpr_cookie_category_name` VARCHAR(50) NOT NULL,
+				 `gdpr_cookie_category_slug` VARCHAR(50) NOT NULL,
 				 `gdpr_cookie_category_description` TEXT  NULL,
 				 PRIMARY KEY(`id_gdpr_cookie_category`),
 				 UNIQUE `cookie` (`gdpr_cookie_category_name`)
-			 ) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			 );";
 			dbDelta( $create_table_sql );
 		}
 		$this->gdpr_update_category_table();

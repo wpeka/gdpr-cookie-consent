@@ -1,0 +1,91 @@
+<div>{{ consent_notice }}</div>
+<div id="gdpr_messagebar_body_buttons_select_pane">
+    {% for category in categories %}
+        <div class="gdpr_messagebar_body_buttons_wrapper">
+            {% if category['gdpr_cookie_category_slug'] == 'necessary' %}
+                <input type="checkbox" id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_body_button gdpr_messagebar_body_button_disabled" disabled="disabled" checked="checked" value="{{ category['gdpr_cookie_category_slug'] }}">
+            {% else %}
+                <input type="checkbox" id="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_body_button" tabindex="0"
+                {% if is_ticked and not viewed_cookie %}
+                    checked="checked"
+                {% elseif category['is_ticked'] %}
+                    checked="checked"
+                {% endif %}
+                value="{{ category['gdpr_cookie_category_slug'] }}">
+            {% endif %}
+            <label for="gdpr_messagebar_body_button_{{ category['gdpr_cookie_category_slug'] }}">{{ __(category['gdpr_cookie_category_name'], 'gdpr-cookie-consent') }}</label>
+        </div>
+    {% endfor %}
+</div>
+<div id="gdpr_messagebar_detail_body">
+    <div id="gdpr_messagebar_detail_body_content_tabs">
+        <a id="gdpr_messagebar_detail_body_content_tabs_overview" class="gdpr_messagebar_detail_body_content_tab gdpr_messagebar_detail_body_content_tab_item_selected" tabindex="0" href="#">{{ declaration }}</a>
+        <a id="gdpr_messagebar_detail_body_content_tabs_about" class="gdpr_messagebar_detail_body_content_tab" tabindex="0" href="#">{{ about }}</a>
+    </div>
+    <div id="gdpr_messagebar_detail_body_content">
+        <div id="gdpr_messagebar_detail_body_content_overview" style="display:block;">
+            <div id="gdpr_messagebar_detail_body_content_overview_cookie_container">
+                <div id="gdpr_messagebar_detail_body_content_overview_cookie_container_types">
+                    {% for category in categories %}
+                        <a data-target="gdpr_messagebar_detail_body_content_cookie_tabs_{{ category['gdpr_cookie_category_slug'] }}" id="gdpr_messagebar_detail_body_content_overview_cookie_container_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_detail_body_content_overview_cookie_container_types
+                        {% if category['gdpr_cookie_category_slug'] == 'necessary' %}
+                            gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected
+                        {% endif %}
+                        " tabindex="0" href="#">{{ __( category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ) }}{% if button_settings_display_cookies %} ({{ category['total'] }}){% endif %}</a>
+                    {% endfor %}
+                </div>
+                <div id="gdpr_messagebar_detail_body_content_overview_cookie_container_type_details">
+                    {% for category in categories %}
+                        <div id="gdpr_messagebar_detail_body_content_cookie_tabs_{{ category['gdpr_cookie_category_slug'] }}" tabindex="0"
+                             {% if category['gdpr_cookie_category_slug'] == 'necessary' %}
+                                 style="display:block;"
+                            {% else %}
+                                 style="display:none;"
+                            {% endif %}
+                             class="gdpr_messagebar_detail_body_content_cookie_type_details">
+                            <div class="gdpr_messagebar_detail_body_content_cookie_type_intro">
+                                {{ __(category['gdpr_cookie_category_description'], 'gdpr-cookie-consent') }}
+                            </div>
+                            {% if button_settings_display_cookies %}
+                            <div class="gdpr_messagebar_detail_body_content_cookie_type_table_container">
+                                {% if category['total'] > 0 %}
+                                <table id="gdpr_messagebar_detail_table_{{ category['gdpr_cookie_category_slug'] }}" class="gdpr_messagebar_detail_body_content_cookie_type_table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">{{ name }}</th>
+                                        <th scope="col">{{ domain }}</th>
+                                        <th scope="col">{{ purpose }}</th>
+                                        <th scope="col">{{ expiry }}</th>
+                                        <th scope="col">{{ type }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for cookie in category['data'] %}
+                                        <tr>
+                                            <td title="{{ cookie['name'] }}">{% if cookie['name'] %}{{ cookie['name'] }}{% else %}---{% endif %}</td>
+                                            <td title="{{ cookie['domain'] }}">{% if cookie['domain'] %}{{ cookie['domain'] }}{% else %}---{% endif %}</td>
+                                            <td title="{{ cookie['description'] }}">{% if cookie['description'] %}{{ cookie['description'] }}{% else %}---{% endif %}</td>
+                                            <td title="{{ cookie['duration'] }}">{% if cookie['duration'] %}{{ cookie['duration'] }}{% else %}---{% endif %}</td>
+                                            <td title="{{ cookie['type'] }}">{% if cookie['type'] %}{{ cookie['type'] }}{% else %}---{% endif %}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                    {{ cookies_not_found }}
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div id="gdpr_messagebar_detail_body_content_about" style="display:none;">
+            {{ __( msg, 'gdpr-cookie-consent' ) }}
+        </div>
+    </div>
+</div>
+{% if show_credits %}
+    <div class="powered-by-credits">{{ credits }}</div>
+{% endif %}

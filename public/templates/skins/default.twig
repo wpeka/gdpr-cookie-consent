@@ -1,0 +1,152 @@
+{% if gdpr_notify %}
+    <div class="gdpr_messagebar_content">
+        {% if head != '' %}
+            <h3 class="gdpr_messagebar_head">{{ __( head, 'gdpr-cookie-consent' ) }}</h3>
+        {% endif %}
+        <div class="group-description" tabindex="0"><p class="gdpr">{{ __( gdpr_str, 'gdpr-cookie-consent' ) }}
+                {% if button_readmore_is_on %}
+                    <a id="cookie_action_link" href="{{ button_readmore_url_link }}" class="{{ button_readmore_classes }}"
+                            {% if button_readmore_new_win %}
+                                target="_blank"
+                            {% endif %}
+                    >{{ __( button_readmore_text, 'gdpr-cookie-consent' ) }}</a>
+                {% endif %}
+            </p>
+            {% if ccpa_notify %}
+                <p class="ccpa">
+                    {{ __( ccpa_str, 'gdpr-cookie-consent' ) }}
+                    {% if button_donotsell_is_on %}
+                        <a data-toggle="gdprmodal" href="#" class="{{ button_donotsell_classes }}" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+                        >{{ __( button_donotsell_text, 'gdpr-cookie-consent' ) }}</a>
+                    {% endif %}
+                </p>
+            {% endif %}
+        </div>
+        <div class="gdpr group-description-buttons" id="default_buttons">
+            {% if button_accept_is_on %}
+                <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept"
+                        {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_accept_url }}"
+                            {% if button_accept_new_win %}
+                                target="_blank"
+                            {% endif %}
+                        {% else %}
+                            href="#"
+                        {% endif %}
+                   data-gdpr_action="accept" >{{ __( button_accept_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+            {% if button_accept_all_is_on %}
+                <a id="cookie_action_accept_all" class="{{ button_accept_all_classes }}" tabindex="0" aria-label="Accept All"
+                        {% if button_accept_all_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_accept_all_url }}"
+                            {% if button_accept_all_new_win %}
+                                target="_blank"
+                            {% endif %}
+                        {% else %}
+                            href="#"
+                        {% endif %}
+                   data-gdpr_action="accept_all" >{{ __( button_accept_all_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+            {% if button_decline_is_on %}
+                <a id="cookie_action_reject" class="{{ button_decline_classes }}" tabindex="0" aria-label="Reject"
+                        {% if button_decline_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_decline_url }}"
+                            {% if button_decline_new_win %}
+                                target="_blank"
+                            {% endif %}
+                        {% else %}
+                            href="#"
+                        {% endif %}
+                   data-gdpr_action="reject" >{{ __( button_decline_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+            {% if button_settings_is_on %}
+                <a id="cookie_action_settings" class="{{ button_settings_classes }}" tabindex="0" aria-label="Cookie Settings" href="#"
+                        {% if not button_settings_as_button %}
+                            href="#"
+                        {% endif %}
+                        {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
+                            data-gdpr_action="show_settings"
+                        {% else %}
+                            data-gdpr_action="settings" data-toggle="gdprmodal" data-target="#gdpr-gdprmodal"
+                        {% endif %}
+                >{{ __( button_settings_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+        </div>
+    </div>
+    {% if cookie_data %}
+        {% if cookie_bar_as == 'banner' and not button_settings_as_popup %}
+            <div class="gdpr_messagebar_detail" style="display:none;max-width:800px;">
+                {% include 'templates/banners/default.twig' with cookie_data %}
+            </div>
+        {% endif %}
+    {% endif %}
+{% elseif ccpa_notify %}
+    <div class="gdpr_messagebar_content">
+        <div class="group-description" tabindex="0"><p class="ccpa">{{ __( ccpa_str, 'gdpr-cookie-consent' ) }}
+                {% if button_donotsell_is_on %}
+                    <a data-toggle="gdprmodal" href="#" class="{{ button_donotsell_classes }}" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+                    >{{ __( button_donotsell_text, 'gdpr-cookie-consent' ) }}</a>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+{% elseif eprivacy_notify %}
+    <div class="gdpr_messagebar_content">
+        {% if head != '' %}
+            <h3 class="gdpr_messagebar_head">{{ __( head, 'gdpr-cookie-consent' ) }}</h3>
+        {% endif %}
+        <div class="group-description" tabindex="0"><p class="gdpr">{{ __( eprivacy_str, 'gdpr-cookie-consent' ) }}
+                {% if button_readmore_is_on %}
+                    <a id="cookie_action_link" href="{{ button_readmore_url_link }}" class="{{ button_readmore_classes }}"
+                            {% if button_readmore_new_win %}
+                                target="_blank"
+                            {% endif %}
+                    >{{ __( button_readmore_text, 'gdpr-cookie-consent' ) }}</a>
+                {% endif %}
+            </p>
+        </div>
+        <div class="gdpr group-description-buttons" id="default_buttons">
+            {% if button_accept_is_on %}
+                <a id="cookie_action_accept" class="{{ button_accept_classes }}" tabindex="0" aria-label="Accept"
+                        {% if button_accept_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_accept_url }}"
+                            {% if button_accept_new_win %}
+                                target="_blank"
+                            {% endif %}
+                        {% else %}
+                            href="#"
+                        {% endif %}
+                   data-gdpr_action="accept" >{{ __( button_accept_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+            {% if button_accept_all_is_on %}
+                <a id="cookie_action_accept_all" class="{{ button_accept_all_classes }}" tabindex="0" aria-label="Accept All"
+                        {% if button_accept_all_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_accept_all_url }}"
+                            {% if button_accept_all_new_win %}
+                                target="_blank"
+                            {% endif %}
+                        {% else %}
+                            href="#"
+                        {% endif %}
+                   data-gdpr_action="accept_all" >{{ __( button_accept_all_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+            {% if button_decline_is_on %}
+                <a id="cookie_action_reject" class="{{ button_decline_classes }}" tabindex="0" aria-label="Reject"
+                        {% if button_decline_action == 'CONSTANT_OPEN_URL' %}
+                            href="{{ button_decline_url }}"
+                            {% if button_decline_new_win %}
+                                target="_blank"
+                            {% endif %}
+                        {% else %}
+                            href="#"
+                        {% endif %}
+                   data-gdpr_action="reject" >{{ __( button_decline_text, 'gdpr-cookie-consent' ) }}</a>
+            {% endif %}
+        </div>
+        {% if show_credits %}
+            {% if credits %}
+                <div class="powered-by-credits">{{ credits }}</div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endif %}
