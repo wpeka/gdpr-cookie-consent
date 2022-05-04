@@ -137,7 +137,7 @@
 											}
 											?>
 											</td>
-											<td title="<?php echo esc_html( $cookie_data['description'] ); ?>">
+											<td title="<?php if(! empty( $cookie_data['description'])){echo esc_html( $cookie_data['description'] );}; ?>">
 											<?php
 											if ( ! empty( $cookie['description'] ) ) {
 												echo esc_html( $cookie['description'] );
@@ -146,7 +146,7 @@
 											}
 											?>
 											</td>
-											<td title="<?php echo esc_html( $cookie_data['duration'] ); ?>">
+											<td title="<?php if(! empty( $cookie_data['duration'])){echo esc_html( $cookie_data['duration'] );}; ?>">
 											<?php
 											if ( ! empty( $cookie['duration'] ) ) {
 												echo esc_html( $cookie['duration'] );
