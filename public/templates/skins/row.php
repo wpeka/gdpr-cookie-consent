@@ -68,17 +68,15 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 							?>
 							target="_blank"
 							<?php
-						} else {
-							?>
-							href="#"
-							<?php
 						}
+					} else {
 						?>
-						data-gdpr_action="accept" ><?php echo esc_html( $the_options['button_accept_text'] ); ?></a>
-					</p>
+						href="#"
 						<?php
 					}
 					?>
+					data-gdpr_action="accept" ><?php echo esc_html( $the_options['button_accept_text'] ); ?></a>
+				</p>
 					<?php
 				}
 				if ( ! empty( $the_options['button_accept_all_is_on'] ) ) {

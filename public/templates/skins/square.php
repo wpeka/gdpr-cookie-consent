@@ -111,15 +111,15 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 							?>
 							target="_blank"
 							<?php
-						} else {
-							?>
-							href="#"
-							<?php
 						}
+					} else {
 						?>
-						data-gdpr_action="accept" ><?php echo esc_html( $the_options['button_accept_text'] ); ?></a>
+						href="#"
 						<?php
 					}
+					?>
+					data-gdpr_action="accept" ><?php echo esc_html( $the_options['button_accept_text'] ); ?></a>
+					<?php
 					if ( ! empty( $the_options['button_accept_all_is_on'] ) ) {
 						?>
 						<a id="cookie_action_accept_all" class="<?php echo esc_html( $the_options['button_accept_all_classes'] ); ?>" tabindex="0" aria-label="Accept All"
