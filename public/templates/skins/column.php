@@ -283,7 +283,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				if ( ! empty( $cookie_data['show_credits'] ) ) {
 					if ( ! empty( $cookie_data['credits'] ) ) {
 						?>
-				<div class="powered-by-credits"><?php echo esc_html( array( 'credits' ) ); ?></div>
+				<div class="powered-by-credits"><?php echo wp_kses_post( array( 'credits' ) ); ?></div>
 						<?php
 					}
 				}
