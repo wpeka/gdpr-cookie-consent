@@ -35,7 +35,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	if ( ! empty( $the_options['cookie_data'] ) ) {
 		if ( 'banner' === $the_options['cookie_bar_as'] && ! $the_options['button_settings_as_popup'] ) {
 
-        } else {
+		} else {
 			?>
 			<div class="gdpr_messagebar_detail <?php echo esc_html( $the_options['button_settings_layout_skin'] ); ?> <?php echo esc_html( $the_options['template_parts'] ); ?> <?php echo esc_html( $the_options['theme_class'] ); ?>">
 			<?php include plugin_dir_path( __FILE__ ) . $the_options['layout_skin_template']; ?>
