@@ -70,7 +70,7 @@
 							<?php
 							echo esc_html( $category['gdpr_cookie_category_name'] );
 							if ( ! empty( $the_options['button_settings_display_cookies'] ) ) {
-								echo esc_html( $category['total'] );}
+								echo esc_html( ' (' . $category['total'] . ')' );}
 							?>
 						</a>
 							<?php
