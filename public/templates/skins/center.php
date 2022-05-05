@@ -22,7 +22,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		<?php
 		if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
 			?>
-			<a id="cookie_action_link" href="<?php echo esc_html( $the_options['button_readmore_url_link'] ); ?>'" class="<?php echo esc_html( $the_options['button_readmore_classes'] ); ?>"
+			<a id="cookie_action_link" href="<?php echo esc_html( $the_options['button_readmore_url_link'] ); ?>" class="<?php echo esc_html( $the_options['button_readmore_classes'] ); ?>"
 			<?php
 			if ( ! empty( $the_options['button_readmore_new_win'] ) ) {
 				?>
