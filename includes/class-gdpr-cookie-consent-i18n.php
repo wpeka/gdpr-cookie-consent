@@ -59,6 +59,7 @@ class Gdpr_Cookie_Consent_I18n {
 		__( 'In case of sale of your personal information, you may opt out by using the link', 'gdpr-cookie-consent' );
 		__( 'Do Not Sell My Personal Information', 'gdpr-cookie-consent' );
 		__( 'Do you really wish to opt-out?', 'gdpr-cookie-consent' );
+		__( 'Accept All', 'gdpr-cookie-consent' );
 		load_plugin_textdomain(
 			'gdpr-cookie-consent',
 			false,
