@@ -192,7 +192,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'id'      => 'gdprcookieconsent_support_tab',
 				'title'   => __( 'Help &amp; Support', 'gdpr-cookie-consent' ),
 				'content' => '<h2>' . __( 'Help &amp; Support', 'gdpr-cookie-consent' ) . '</h2>' .
-								'<p>' . __( 'If you need help understanding, using, or extending GDPR Cookie Consent Plugin,', 'gdpr-cookie-consent' ) . ' <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/" target="_blank">' . __( 'please read our documentation.', 'gdpr-cookie-consent' ) . '</a> ' . __( 'You will find all kinds of resources including snippets, tutorials and more.', 'gdpr-cookie-consent' ) . '</p>' .
+								'<p>' . __( 'If you need help understanding, using, or extending GDPR Cookie Consent Plugin,', 'gdpr-cookie-consent' ) . ' <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=top-help-bar&utm_content=documentation" target="_blank">' . __( 'please read our documentation.', 'gdpr-cookie-consent' ) . '</a> ' . __( 'You will find all kinds of resources including snippets, tutorials and more.', 'gdpr-cookie-consent' ) . '</p>' .
 								'<p>' . __( 'For further assistance with GDPR Cookie Consent plugin you can use the', 'gdpr-cookie-consent' ) . ' <a href="https://wordpress.org/support/plugin/gdpr-cookie-consent" target="_blank">' . __( 'community forum.', 'gdpr-cookie-consent' ) . '</a> ' . __( 'If you need help with premium extensions sold by WPEka', 'gdpr-cookie-consent' ) . ' <a href="https://wpeka.freshdesk.com/" target="_blank">' . __( 'use our helpdesk.', 'gdpr-cookie-consent' ) . '</a></p>',
 			)
 		);
@@ -206,9 +206,9 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$screen->set_help_sidebar(
 			'<p><strong>' . __( 'For more information:', 'gdpr-cookie-consent' ) . '</strong></p>' .
-					'<p><a href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/" target="_blank">' . __( 'About GDPR Cookie Consent', 'gdpr-cookie-consent' ) . '</a></p>' .
+					'<p><a href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=top-help-bar&utm_content=about-gdpr" target="_blank">' . __( 'About GDPR Cookie Consent', 'gdpr-cookie-consent' ) . '</a></p>' .
 					'<p><a href="https://wordpress.org/support/plugin/gdpr-cookie-consent/" target="_blank">' . __( 'WordPress.org project', 'gdpr-cookie-consent' ) . '</a></p>' .
-					'<p><a href="https://club.wpeka.com/category/plugins/?orderby=popularity" target="_blank">' . __( 'WPEka Plugins', 'gdpr-cookie-consent' ) . '</a></p>'
+					'<p><a href="https://club.wpeka.com/category/plugins/?orderby=popularity/?utm_source=plugin&utm_medium=gdpr&utm_campaign=top-help-bar&utm_content=wpeka-plugins" target="_blank">' . __( 'WPEka Plugins', 'gdpr-cookie-consent' ) . '</a></p>'
 		);
 	}
 
@@ -487,9 +487,9 @@ class Gdpr_Cookie_Consent_Admin {
 	public function admin_settings_page() {
 		$is_pro = get_option( 'wpl_pro_active', false );
 		if ( $is_pro ) {
-			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=support';
+			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=support';
 		} else {
-			$support_url = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=forums';
+			$support_url = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
 		}
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script( $this->plugin_name );
@@ -503,10 +503,10 @@ class Gdpr_Cookie_Consent_Admin {
 			'mascot_obj',
 			array(
 				'is_pro'            => $is_pro,
-				'documentation_url' => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=documentation',
-				'faq_url'           => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/faq?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_term=faq',
-				'support_url'       => $support_url,
-				'upgrade_url'       => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=help-mascot&utm_campaign=link&utm_content=upgrade-to-pro',
+        'documentation_url' => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=documentation',
+				'faq_url'           => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/faq/faq/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=faq',
+        'support_url'       => $support_url,
+				'upgrade_url'       => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
 			)
 		);
 		// Lock out non-admins.
@@ -616,6 +616,15 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$on_hide_options[1]        = array(
 			'label' => 'Disappear',
+			'code'  => false,
+		);
+		$on_load_options           = array();
+		$on_load_options[0]        = array(
+			'label' => 'Animate',
+			'code'  => true,
+		);
+		$on_load_options[1]        = array(
+			'label' => 'Sticky',
 			'code'  => false,
 		);
 		$tab_position_options      = array();
@@ -793,6 +802,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'position_options'                 => $position_options,
 				'show_cookie_as_options'           => $show_cookie_as_options,
 				'on_hide_options'                  => $on_hide_options,
+				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
 				'tab_position_options'             => $tab_position_options,
 				'cookie_expiry_options'            => $cookie_expiry_options,
@@ -1069,6 +1079,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['notify_position_horizontal']          = isset( $_POST['gcc-gdpr-cookie-widget-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-widget-position'] ) ) : 'left';
 			$the_options['popup_overlay']                       = isset( $_POST['gdpr-cookie-add-overlay'] ) && ( true === $_POST['gdpr-cookie-add-overlay'] || 'true' === $_POST['gdpr-cookie-add-overlay'] ) ? 'true' : 'false';
 			$the_options['notify_animate_hide']                 = isset( $_POST['gcc-gdpr-cookie-on-hide'] ) && ( true === $_POST['gcc-gdpr-cookie-on-hide'] || 'true' === $_POST['gcc-gdpr-cookie-on-hide'] ) ? 'true' : 'false';
+			$the_options['notify_animate_show']                 = isset( $_POST['gcc-gdpr-cookie-on-load'] ) && ( true === $_POST['gcc-gdpr-cookie-on-load'] || 'true' === $_POST['gcc-gdpr-cookie-on-load'] ) ? 'true' : 'false';
 			$the_options['background']                          = isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
 			$the_options['text']                                = isset( $_POST['gdpr-cookie-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-text-color'] ) ) : '#000000';
 			$the_options['opacity']                             = isset( $_POST['gdpr-cookie-bar-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-opacity'] ) ) : '0.80';
@@ -1105,6 +1116,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['auto_hide']                           = isset( $_POST['gcc-auto-hide'] ) && ( true === $_POST['gcc-auto-hide'] || 'true' === $_POST['gcc-auto-hide'] ) ? 'true' : 'false';
 			$the_options['auto_hide_delay']                     = isset( $_POST['gcc-auto-hide-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-hide-delay'] ) ) : '10000';
 			$the_options['auto_scroll']                         = isset( $_POST['gcc-auto-scroll'] ) && ( true === $_POST['gcc-auto-scroll'] || 'true' === $_POST['gcc-auto-scroll'] ) ? 'true' : 'false';
+			$the_options['auto_click']                          = isset( $_POST['gcc-auto-click'] ) && ( true === $_POST['gcc-auto-click'] || 'true' === $_POST['gcc-auto-click'] ) ? 'true' : 'false';
 			$the_options['auto_scroll_offset']                  = isset( $_POST['gcc-auto-scroll-offset'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-scroll-offset'] ) ) : '10';
 			$the_options['auto_scroll_reload']                  = isset( $_POST['gcc-auto-scroll-reload'] ) && ( true === $_POST['gcc-auto-scroll-reload'] || 'true' === $_POST['gcc-auto-scroll-reload'] ) ? 'true' : 'false';
 			$the_options['accept_reload']                       = isset( $_POST['gcc-accept-reload'] ) && ( true === $_POST['gcc-accept-reload'] || 'true' === $_POST['gcc-accept-reload'] ) ? 'true' : 'false';
@@ -1383,10 +1395,10 @@ class Gdpr_Cookie_Consent_Admin {
 		$cookie_template_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent-settings#configuration';
 		$script_blocker_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent-settings#script_blocker';
 		$third_party_url      = $admin_url . 'edit.php?post_type=gdprpolicies';
-		$documentation_url    = 'https://docs.wpeka.com/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=dashboard&utm_campaign=link&utm_content=documentation';
-		$gdpr_pro_url         = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=dashboard&utm_campaign=progress';
+		$documentation_url    = 'https://docs.wpeka.com/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=dashboard&utm_content=documentation';
+		$gdpr_pro_url         = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=quick-links&utm_content=upgrade-to-pro';
 		$free_support_url     = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
-		$pro_support_url      = 'https://club.wpeka.com/my-account/?utm_source=gdpr&utm_medium=dashboard&utm_campaign=support';
+		$pro_support_url      = 'https://club.wpeka.com/my-account/?utm_source=plugin&utm_medium=gdpr&utm_campaign=dashboard&utm_content=support';
 		$videos_url           = 'https://youtube.com/playlist?list=PLb2uZyVYHgAXpXCWL6jPde03uGCzqKELQ';
 		$legalpages_url       = 'https://wordpress.org/plugins/wplegalpages/';
 		$adcenter_url         = 'https://wordpress.org/plugins/wpadcenter/';

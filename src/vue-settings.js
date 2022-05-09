@@ -66,6 +66,7 @@ var gen = new Vue({
             auto_hide: settings_obj.the_options.hasOwnProperty('auto_hide') && (true === settings_obj.the_options['auto_hide'] || 1 === settings_obj.the_options['auto_hide'] ) ? true : false,
             auto_hide_delay: settings_obj.the_options.hasOwnProperty('auto_hide_delay') ? settings_obj.the_options['auto_hide_delay'] : '10000',
             auto_scroll: settings_obj.the_options.hasOwnProperty('auto_scroll') && (true === settings_obj.the_options['auto_scroll'] || 1 === settings_obj.the_options['auto_scroll'] ) ? true : false,
+            auto_click: settings_obj.the_options.hasOwnProperty('auto_click') && (true === settings_obj.the_options['auto_click'] || 1 === settings_obj.the_options['auto_click'] ) ? true : false,
             auto_scroll_offset: settings_obj.the_options.hasOwnProperty('auto_scroll_offset') ? settings_obj.the_options['auto_scroll_offset'] : '10',
             auto_scroll_reload: settings_obj.the_options.hasOwnProperty('auto_scroll_reload') && (true === settings_obj.the_options['auto_scroll_reload'] || 1 === settings_obj.the_options['auto_scroll_reload'] ) ? true : false,
             accept_reload: settings_obj.the_options.hasOwnProperty('accept_reload') && (true === settings_obj.the_options['accept_reload'] || 1 === settings_obj.the_options['accept_reload'] ) ? true : false,
@@ -109,8 +110,10 @@ var gen = new Vue({
             cookie_widget_position: settings_obj.the_options.hasOwnProperty('notify_position_horizontal') ? settings_obj.the_options['notify_position_horizontal'] : 'left',
             cookie_add_overlay: settings_obj.the_options.hasOwnProperty('popup_overlay') && (true === settings_obj.the_options['popup_overlay'] || 1 === settings_obj.the_options['popup_overlay'] ) ? true : false,
             on_hide_options: settings_obj.on_hide_options,
+            on_load_options: settings_obj.on_load_options,
             cookie_bar_color: settings_obj.the_options.hasOwnProperty('background') ? settings_obj.the_options['background'] : '#ffffff',
             on_hide: settings_obj.the_options.hasOwnProperty('notify_animate_hide') && ( true === settings_obj.the_options['notify_animate_hide'] || 1 === settings_obj.the_options['notify_animate_hide'] ) ? true : false,
+            on_load: settings_obj.the_options.hasOwnProperty('notify_animate_show') && ( true === settings_obj.the_options['notify_animate_show'] || 1 === settings_obj.the_options['notify_animate_show'] ) ? true : false,
             cookie_text_color: settings_obj.the_options.hasOwnProperty('text') ? settings_obj.the_options['text'] : '#000000',
             cookie_bar_opacity: settings_obj.the_options.hasOwnProperty('opacity') ? settings_obj.the_options['opacity'] : '0.80',
             cookie_bar_border_width: settings_obj.the_options.hasOwnProperty('background_border_width') ? settings_obj.the_options['background_border_width'] : '0',
@@ -410,6 +413,9 @@ var gen = new Vue({
         },
         onSwitchAutoScroll() {
             this.auto_scroll = !this.auto_scroll;
+        },
+        onSwitchAutoClick() {
+            this.auto_click = !this.auto_click;
         },
         onSwitchAutoScrollReload() {
             this.auto_scroll_reload = !this.auto_scroll_reload;
@@ -834,6 +840,7 @@ var gen = new Vue({
             this.is_script_blocker_on = false;
             this.auto_hide = false;
             this.auto_scroll = false;
+            this.auto_click = false;
             this.auto_scroll_reload = false;
             this.accept_reload = false;
             this.decline_reload = false;
@@ -845,6 +852,7 @@ var gen = new Vue({
             this.auto_scroll_offset =  '10';
             this.cookie_expiry = '365';
             this.on_hide = true;
+            this.on_load = false;
             this.gdpr_message = 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
             this.eprivacy_message = 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
             this.ccpa_message = 'In case of sale of your personal information, you may opt out by using the link';
