@@ -1090,6 +1090,10 @@ msgstr ""
 msgid "Do you really wish to opt-out?"
 msgstr ""
 
+#: includes/class-gdpr-cookie-consent-i18n.php:62
+msgid "Accept All"
+msgstr ""
+
 #: public/class-gdpr-cookie-consent-public.php:284
 msgid "GDPR Cookie Consent Plugin"
 msgstr ""
