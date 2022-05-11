@@ -152,9 +152,9 @@ class CookieSettingsCest
         $I->waitForText('We do not use cookies of this type', 20);
 
         $loginPage->userLogout($I);
-    }
+  }
 
-    /**
+/**
      * Test to check whether user is able to add header script
      *
      * @param $I              variable of GdprfreeTester
@@ -166,7 +166,7 @@ class CookieSettingsCest
      * @since 1.0
      */
     /*public function headerScript(GdprfreeTester $I, LoginPage $loginPage, CookieSettings $cookieSettings)
-    { 
+     { 
         $loginPage->userLogin($I);
 
         $I->waitForElement($cookieSettings->gdprCookieConset, 20);
@@ -191,7 +191,7 @@ class CookieSettingsCest
         
         $loginPage->userLogout($I);
     }*/
-
+  
      /**
       * Test to check whether user is able to add body script
       *
@@ -203,12 +203,12 @@ class CookieSettingsCest
       * 
       * @since 1.0
       */
-    /*public function bodyScript(GdprfreeTester $I, LoginPage $loginPage, CookieSettings $cookieSettings)
-    { 
+     /*public function bodyScript(GdprfreeTester $I, LoginPage $loginPage, CookieSettings $cookieSettings)
+      { 
         $loginPage->userLogin($I);
 
         $I->waitForElement($cookieSettings->gdprCookieConset, 20);
-        $I->moveMouseOver($cookieSettings->gdprCookieConset);
+        $I->moveMouseOver($cookieSettings->gdprCookieConset); 
         $I->click($cookieSettings->settings);
         $I->waitForText('Cookie Notice', 20);
         $I->see('Cookie Notice');
@@ -242,7 +242,7 @@ class CookieSettingsCest
      * @since 1.0
      */
     /*public function footerScript(GdprfreeTester $I, LoginPage $loginPage, CookieSettings $cookieSettings)
-    { 
+     { 
         $loginPage->userLogin($I);
 
         $I->waitForElement($cookieSettings->gdprCookieConset, 20);

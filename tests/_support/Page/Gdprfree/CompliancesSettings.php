@@ -60,6 +60,4 @@ class CompliancesSettings
     public $extraSettings = '#gcc-save-settings-form > div.gdpr-cookie-consent-settings-content > div.gdpr-cookie-consent-settings-nav > div:nth-child(2) > div > div.tab-pane.active > div:nth-child(6) > header';
     public $resetSettings = '#gcc-save-settings-form > div.gdpr-cookie-consent-settings-content > div.gdpr-cookie-consent-settings-nav > div:nth-child(2) > div > div.tab-pane.active > div:nth-child(6) > div > div:nth-child(4) > div.col-sm-8.col > button';
     public $showCredits = '#gcc-save-settings-form > div.gdpr-cookie-consent-settings-content > div.gdpr-cookie-consent-settings-nav > div:nth-child(2) > div > div.tab-pane.active > div:nth-child(6) > div > div:nth-child(2) > div.col-sm-8.col > label > span';
-    public $cookieExpiry = '#vs8__combobox > div.vs__selected-options > input';
-    public $cookieExpiryValue = '#vs8__option-3';
 }

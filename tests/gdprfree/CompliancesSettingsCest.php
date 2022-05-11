@@ -306,7 +306,7 @@ class CompliancesSettingsCest
         
         $loginPage->userLogout($I);
     }
-    
+
     /**
      * Test to check whether user is able to enable the reload after auto scroll(accept) cookies for consent settings 
      *

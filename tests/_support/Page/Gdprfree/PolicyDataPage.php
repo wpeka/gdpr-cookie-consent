@@ -80,3 +80,4 @@ class PolicyDataPage
     public $viewPolicyPage = '#site-header > div.header-inner.section-inner > div.header-navigation-wrapper > nav > ul > li:nth-child(1) > a';
     public $moveToTrash = '#delete-action > a';
 }
+

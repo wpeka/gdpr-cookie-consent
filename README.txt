@@ -3,8 +3,8 @@ Contributors: wpeka-club
 Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
 Requires at least: 3.3.1
-Tested up to: 5.9.2
-Stable tag: 2.1.0
+Tested up to: 5.9.3
+Stable tag: 2.1.7
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -115,7 +115,7 @@ The WP Cookie Notice Plugin is lightweight, fast and complies with the latest Wo
 
 - .pot file for translations
 
-- WPML, Polylang, QTranslate, WP Multilang compatible
+- WPML, QTranslate, WP Multilang compatible
 
 - SEO friendly
 
@@ -191,14 +191,38 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Screenshots ==
 
-1. Cookie consent notice with classic styles - widget.
-2. Cookie consent notice with website's cookie details.
-3. General cookie notice options.
-4. Customise cookie consent notice design.
-5. Customise cookie consent notice buttons.
-6. Manage cookie list.
+1. Dashboard
+2. Cookie Settings
+3. Pre-designed Templates
+4. Customize Cookie Bar
+5. Add/Scan Cookies
+6. Script Blocker
+7. Cookie Compliance Notice
 
 == Change Log ==
+= 2.1.7 =
+* Fix: String Translations
+
+= 2.1.6 =
+* Fix: Show credit not working.
+* Fix: Cookie category and cookie count format.
+* Fix: Broken cookie banner on frontend.
+
+= 2.1.5 =
+* Fix: Revoke Cookie settings button is not clickable, Revoke cookie settings are not shown for popup
+
+= 2.1.4 =
+* Fix: Fixed plugin code as per WP standards and PHPCS.
+
+= 2.1.3 =
+* Fix: Fixed plugin code as per WP standards and PHPCS.
+
+= 2.1.2 =
+* Fix: Fixed plugin code as per WP standards and PHPCS.
+
+= 2.1.1 =
+* Update: Removed analytics library.
+
 = 2.1.0 =
 * Update: UI Changes on Settings Page.
 * Update: UI Changes on Dasboard (Getting Started) Page.
@@ -372,6 +396,29 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+= 2.1.7 =
+* Fix: String Translations
+
+= 2.1.6 =
+* Fix: Show credit not working.
+* Fix: Cookie category and cookie count format.
+* Fix: Broken cookie banner on frontend.
+
+= 2.1.5 =
+* Fix: Revoke Cookie settings button is not clickable, Revoke cookie settings are not shown for popup
+
+= 2.1.4 =
+* Fix: Fixed plugin code as per WP standards and PHPCS.
+
+= 2.1.3 =
+* Fix: Fixed plugin code as per WP standards and PHPCS.
+
+= 2.1.2 =
+* Fix: Fixed plugin code as per WP standards and PHPCS.
+
+= 2.1.1 =
+* Update: Removed analytics library.
+
 = 2.1.0 =
 * Update: UI Changes on Settings Page.
 * Update: UI Changes on Dasboard (Getting Started) Page.
