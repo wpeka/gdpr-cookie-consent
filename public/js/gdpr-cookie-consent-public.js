@@ -631,6 +631,12 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						"justify-content" : "space-around"
 					} );
 				}
+				if( this.settings.cookie_bar_as == 'popup' ) {
+					$( '.gdpr-popup > .gdpr_messagebar_content > #default_buttons' ).css({
+						"display": "flex",
+						"justify-content" : "space-around"
+					} );
+				}
 			}
 
 			this.main_button.css( 'color',this.settings.button_accept_link_color );
