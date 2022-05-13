@@ -419,6 +419,10 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						GDPR.show_again_elm.slideUp( GDPR.settings.animate_speed_hide );
 					} else if ( button_action == 'close' ) {
 						GDPR.displayHeader();
+						if( GDPR.settings.cookie_bar_as === 'popup' && GDPR.settings.notify_animate_show !== false ) {
+							$( '#gdpr-cookie-consent-bar' ).css( 'display', 'none' );
+							$( '#gdpr-cookie-consent-bar' ).slideDown( 500 );
+						}
 					} else if (button_action == 'show_settings') {
 						GDPR.show_details();
 					} else if (button_action == 'hide_settings') {
@@ -499,6 +503,10 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					jQuery( GDPR.settings.notify_div_id ).find( 'p.gdpr' ).show();
 					jQuery( GDPR.settings.notify_div_id ).find( '.gdpr.group-description-buttons' ).show();
 					GDPR.displayHeader();
+					if( GDPR.settings.cookie_bar_as === 'popup' && GDPR.settings.notify_animate_show !== false ) {
+						$( '#gdpr-cookie-consent-bar' ).css( 'display', 'none' );
+						$( '#gdpr-cookie-consent-bar' ).slideDown( 500 );
+					}
 					$( this ).hide();
 				}
 			);

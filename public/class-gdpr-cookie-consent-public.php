@@ -540,7 +540,7 @@ class Gdpr_Cookie_Consent_Public {
 	 * @param array $input_array The input array to sanitize.
 	 * @return array
 	 */
-	public function gdpr_cookie_consent_sanitize_decoded_json( $input_array ) {
+	public function gdpr_cookie_consent_sanitize_decoded_json( $input_array = array() ) {
 		// Initialize the new array that will hold the sanitize values.
 		$return_array = array();
 
