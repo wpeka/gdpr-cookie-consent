@@ -108,6 +108,7 @@ module.exports = function (grunt) {
 					'vendor/symfony/**',
 					'vendor/myclabs/**',
 					'vendor/yoast/**',
+					'vendor/psr/**',
 					'vendor/autoload.php',
 					'!node_modules/**',
 					'!release/**',
