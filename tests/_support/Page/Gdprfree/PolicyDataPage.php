@@ -3,7 +3,7 @@
  * Selectors used in the automation testcases for policy data of GDPR cookie consent plugin
  * 
  * @category AutomationTests
- * @package  WordPress_WPlegalpages_Pro_Plugin
+ * @package  WordPress_GDPRCookieConsent_Free_Plugin
  * @author   WPEKA <hello@wpeka.com>
  * @license  GPL v3
  * @link     https://club.wpeka.com
@@ -14,7 +14,7 @@ namespace Page\Gdprfree;
  * Core class for all the selectors used for policy data of GDPR cookie consent plugin
  * 
  * @category  AutomationTests
- * @package   WordPress_WPlegalpages_Pro_Plugin
+ * @package   WordPress_GDPRCookieConsent_Free_Plugin
  * @author    WPEKA <hello@wpeka.com>
  * @copyright 2022 WPEKA
  * @license   GPL v3
@@ -77,5 +77,7 @@ class PolicyDataPage
     public $updateButton = '#the-list > tr.inline-edit-row.inline-edit-row-page.quick-edit-row.quick-edit-row-page.inline-edit-gdprpolicies.inline-editor > td > div > button.button.button-primary.save.alignright';
 
     public $policy3 = 'Policy3';
+    public $viewPolicyPage = '#site-header > div.header-inner.section-inner > div.header-navigation-wrapper > nav > ul > li:nth-child(1) > a';
     public $moveToTrash = '#delete-action > a';
 }
+

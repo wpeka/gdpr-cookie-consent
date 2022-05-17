@@ -3,7 +3,7 @@
  * Selectors used in the automation testcases for cookie list and script blocker tab of GDPR cookie consent plugin
  * 
  * @category AutomationTests
- * @package  WordPress_WPlegalpages_Pro_Plugin
+ * @package  WordPress_GDPRCookieConsent_Free_Plugin
  * @author   WPEKA <hello@wpeka.com>
  * @license  GPL v3
  * @link     https://club.wpeka.com
@@ -14,7 +14,7 @@ namespace Page\Gdprfree;
  * Core class for all the selectors used in cookie settings of GDPR cookie consent plugin
  * 
  * @category  AutomationTests
- * @package   WordPress_WPlegalpages_Pro_Plugin
+ * @package   WordPress_GDPRCookieConsent_Free_Plugin
  * @author    WPEKA <hello@wpeka.com>
  * @copyright 2022 WPEKA
  * @license   GPL v3
@@ -30,10 +30,10 @@ class CookieSettings
      public $cookieNameValue = 'My Cookie';
      public $cookieDomainValue = 'https://club.wpeka.com';
      public $cookieDaysValue = '1';
-     public $cookieType = '#vs38__combobox > div.vs__selected-options > input';
-     public $cookieTypeValue = '#vs38__option-0';
-     public $cookieStorage = '#vs39__combobox > div.vs__selected-options > input';
-     public $cookieStorageValue = '#vs39__option-0';
+     public $cookieType = '#vs39__combobox > div.vs__selected-options > input';
+     public $cookieTypeValue = '#vs39__option-0';
+     public $cookieStorage = '#vs40__combobox > div.vs__selected-options > input';
+     public $cookieStorageValue = '#vs40__option-0';
      public $cookiePurposeValue = 'cookies Purpose';
      public $save = '#gcc-save-settings-form > div.gdpr-cookie-consent-settings-content > div.gdpr-cookie-consent-settings-nav > div:nth-child(2) > div > div.tab-pane.active > div > div > div.gdpr-add-custom-cookie-form > div > div.col-sm-9.gdpr-custom-cookie-links.col > a.gdpr-custom-cookie-link.gdpr-custom-save-cookie';
      public $GDPR = '#wp-admin-bar-site-name > a';
@@ -49,10 +49,10 @@ class CookieSettings
      public $cookieDaysEditedValue = '2';
      public $editedCookiePurpose = '#gdpr-custom-cookie-saved > div > div > div.col-sm-10.col > div:nth-child(3) > div > div > textarea';
      public $editedCookiePurposeValue = 'Cookie';
-     public $cookieTypeEditedValue = '#vs40__option-3';
-     public $cookieEditedType = '#vs40__combobox > div.vs__selected-options > input';
-     public $cookieEditedStorage = '#vs41__combobox > div.vs__selected-options > input';
-     public $cookieEditedStorageValue = '#vs41__option-1';
+     public $cookieTypeEditedValue = '#vs41__option-3';
+     public $cookieEditedType = '#vs41__combobox > div.vs__selected-options > input';
+     public $cookieEditedStorage = '#vs42__combobox > div.vs__selected-options > input';
+     public $cookieEditedStorageValue = '#vs42__option-1';
      public $saveAllChanges = '#gdpr-custom-cookie-saved > button';
      public $preferences = '#gdpr_messagebar_detail_body_content_overview_cookie_container_preferences';
      public $delete = '#gdpr-custom-cookie-saved > div > div > div.col-sm-9.gdpr-custom-cookie-links.col > a';

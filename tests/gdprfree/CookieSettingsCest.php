@@ -3,7 +3,7 @@
  * Automation test cases for cookie list and script blocker tab of GDPR cookie consent plugin
  * 
  * @category AutomationTests
- * @package  WordPress_WPlegalpages_Pro_Plugin
+ * @package  WordPress_GDPRCookieConsent_Free_Plugin
  * @author   WPEKA <hello@wpeka.com>
  * @license  GPL v3
  * @link     https://club.wpeka.com
@@ -16,7 +16,7 @@ use Page\Gdprfree\CookieSettings;
  * Core class used for cookie list and script blocker tab of GDPR cookie consent plugin
  * 
  * @category  AutomationTests
- * @package   WordPress_WPlegalpages_Pro_Plugin
+ * @package   WordPress_GDPRCookieConsent_Free_Plugin
  * @author    WPEKA <hello@wpeka.com>
  * @copyright 2022 WPEKA
  * @license   GPL v3
@@ -152,9 +152,9 @@ class CookieSettingsCest
         $I->waitForText('We do not use cookies of this type', 20);
 
         $loginPage->userLogout($I);
-    } 
+  }
 
-    /**
+/**
      * Test to check whether user is able to add header script
      *
      * @param $I              variable of GdprfreeTester
@@ -165,8 +165,8 @@ class CookieSettingsCest
      * 
      * @since 1.0
      */
-    public function headerScript(GdprfreeTester $I, LoginPage $loginPage, CookieSettings $cookieSettings)
-    { 
+    /*public function headerScript(GdprfreeTester $I, LoginPage $loginPage, CookieSettings $cookieSettings)
+     { 
         $loginPage->userLogin($I);
 
         $I->waitForElement($cookieSettings->gdprCookieConset, 20);
@@ -190,8 +190,8 @@ class CookieSettingsCest
         $I->see('Welcome to WordPress. This is your first post. Edit or delete it, then start writing!');
         
         $loginPage->userLogout($I);
-    } 
-
+    }*/
+  
      /**
       * Test to check whether user is able to add body script
       *
@@ -203,12 +203,12 @@ class CookieSettingsCest
       * 
       * @since 1.0
       */
-    public function bodyScript(GdprfreeTester $I, LoginPage $loginPage, CookieSettings $cookieSettings)
-    { 
+     /*public function bodyScript(GdprfreeTester $I, LoginPage $loginPage, CookieSettings $cookieSettings)
+      { 
         $loginPage->userLogin($I);
 
         $I->waitForElement($cookieSettings->gdprCookieConset, 20);
-        $I->moveMouseOver($cookieSettings->gdprCookieConset);
+        $I->moveMouseOver($cookieSettings->gdprCookieConset); 
         $I->click($cookieSettings->settings);
         $I->waitForText('Cookie Notice', 20);
         $I->see('Cookie Notice');
@@ -228,7 +228,7 @@ class CookieSettingsCest
         $I->see('Welcome to WordPress. This is your first post. Edit or delete it, then start writing!');
         
         $loginPage->userLogout($I);
-    }
+    }*/
 
     /**
      * Test to check whether user is able to add footer script
@@ -241,8 +241,8 @@ class CookieSettingsCest
      * 
      * @since 1.0
      */
-    public function footerScript(GdprfreeTester $I, LoginPage $loginPage, CookieSettings $cookieSettings)
-    { 
+    /*public function footerScript(GdprfreeTester $I, LoginPage $loginPage, CookieSettings $cookieSettings)
+     { 
         $loginPage->userLogin($I);
 
         $I->waitForElement($cookieSettings->gdprCookieConset, 20);
@@ -266,5 +266,5 @@ class CookieSettingsCest
         $I->see('Welcome to WordPress. This is your first post. Edit or delete it, then start writing!');
         
         $loginPage->userLogout($I);
-    }
+    }*/
 }
