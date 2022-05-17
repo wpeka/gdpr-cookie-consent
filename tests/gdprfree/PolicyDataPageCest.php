@@ -3,7 +3,7 @@
  * Automation test cases for Policy Data of GDPR cookie consent plugin
  * 
  * @category AutomationTests
- * @package  WordPress_WPlegalpages_Pro_Plugin
+ * @package  WordPress_GDPRCookieConsent_Free_Plugin
  * @author   WPEKA <hello@wpeka.com>
  * @license  GPL v3
  * @link     https://club.wpeka.com
@@ -16,7 +16,7 @@ use Page\Gdprfree\PolicyDataPage;
  * Core class used for Policy Data of GDPR cookie consent plugin
  * 
  * @category  AutomationTests
- * @package   WordPress_WPlegalpages_Pro_Plugin
+ * @package   WordPress_GDPRCookieConsent_Free_Plugin
  * @author    WPEKA <hello@wpeka.com>
  * @copyright 2022 WPEKA
  * @license   GPL v3
@@ -123,6 +123,7 @@ class PolicyDataPageCest
         $I->scrollTo($policyDataPage->publishlabel);
         $I->click($policyDataPage->update);
         $I->click($policyDataPage->gdpr);
+        $I->click($policyDataPage->viewPolicyPage);
         $I->waitForText('Policy2', 20);
         $I->see('Policy2');
        
@@ -161,6 +162,7 @@ class PolicyDataPageCest
         $I->fillField($policyDataPage->timeInMinute, $policyDataPage->timeInMinuteValue);
         $I->click($policyDataPage->updateButton);
         $I->click($policyDataPage->gdpr);
+        $I->click($policyDataPage->viewPolicyPage);
         $I->waitForText('Policy3', 20);
         $I->see('Policy3');
         
@@ -191,8 +193,8 @@ class PolicyDataPageCest
         $I->waitForElement($policyDataPage->moveToTrash, 20);
         $I->click($policyDataPage->moveToTrash);
         $I->click($policyDataPage->gdpr);
-        $I->waitForText('policy', 30);
-        $I->see('policy');
+        $I->click($policyDataPage->viewPolicyPage);
+        $I->wait(2);
         
         $loginPage->userLogout($I);
     }

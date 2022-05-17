@@ -3,7 +3,7 @@
  * Selectors used in the automation testcases for dashboard page of GDPR cookie consent plugin
  * 
  * @category AutomationTests
- * @package  WordPress_WPlegalpages_Pro_Plugin
+ * @package  WordPress_GDPRCookieConsent_Free_Plugin
  * @author   WPEKA <hello@wpeka.com>
  * @license  GPL v3
  * @link     https://club.wpeka.com
@@ -14,7 +14,7 @@ namespace Page\Gdprfree;
  * Core class for all the selectors used in automation testcases for dashboard page of GDPR cookie consent plugin
  * 
  * @category  AutomationTests
- * @package   WordPress_WPlegalpages_Pro_Plugin
+ * @package   WordPress_GDPRCookieConsent_Free_Plugin
  * @author    WPEKA <hello@wpeka.com>
  * @copyright 2022 WPEKA
  * @license   GPL v3

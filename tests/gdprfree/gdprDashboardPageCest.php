@@ -3,7 +3,7 @@
  * Automation test cases for dashboard page of GDPR cookie consent plugin
  * 
  * @category AutomationTests
- * @package  WordPress_WPlegalpages_Pro_Plugin
+ * @package  WordPress_GDPRCookieConsent_Free_Plugin
  * @author   WPEKA <hello@wpeka.com>
  * @license  GPL v3
  * @link     https://club.wpeka.com
@@ -16,7 +16,7 @@ use Page\Gdprfree\gdprDashboardPage;
  * Core class used for dashboard page of GDPR cookie consent plugin
  * 
  * @category  AutomationTests
- * @package   WordPress_WPlegalpages_Pro_Plugin
+ * @package   WordPress_GDPRCookieConsent_Free_Plugin
  * @author    WPEKA <hello@wpeka.com>
  * @copyright 2022 WPEKA
  * @license   GPL v3
@@ -352,7 +352,7 @@ class GdprDashboardPageCest
         $I->waitForText('Your Progress', 20);
         $I->see('Your Progress');
         $I->wait(2);
-         $I->scrollTo($gdprDashboardPage->activateLicenseKey);
+        $I->scrollTo($gdprDashboardPage->activateLicenseKey);
         $I->wait(2);
         $I->click($gdprDashboardPage->activateLicenseKey);
         $I->wait(2);

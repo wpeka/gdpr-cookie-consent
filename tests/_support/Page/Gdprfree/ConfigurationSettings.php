@@ -3,7 +3,7 @@
  * Selectors used in the automation testcases for configuration settings tab of GDPR cookie consent plugin
  * 
  * @category AutomationTests
- * @package  WordPress_WPlegalpages_Pro_Plugin
+ * @package  WordPress_GDPRCookieConsent_Free_Plugin
  * @author   WPEKA <hello@wpeka.com>
  * @license  GPL v3
  * @link     https://club.wpeka.com

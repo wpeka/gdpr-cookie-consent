@@ -3,7 +3,7 @@
  * Automation test cases for design settings tab of GDPR cookie consent plugin
  * 
  * @category AutomationTests
- * @package  WordPress_WPlegalpages_Pro_Plugin
+ * @package  WordPress_GDPRCookieConsent_Free_Plugin
  * @author   WPEKA <hello@wpeka.com>
  * @license  GPL v3
  * @link     https://club.wpeka.com
@@ -16,7 +16,7 @@ use Page\Gdprfree\DesignSettings;
  * Core class used for design settings tab of GDPR cookie consent plugin
  * 
  * @category  AutomationTests
- * @package   WordPress_WPlegalpages_Pro_Plugin
+ * @package   WordPress_GDPRCookieConsent_Free_Plugin
  * @author    WPEKA <hello@wpeka.com>
  * @copyright 2022 WPEKA
  * @license   GPL v3
@@ -607,40 +607,6 @@ class DesignSettingsCest
     }
 
     /**
-     * Test to check whether user is able to disable the acceptall button of cookie bar
-     *
-     * @param $I              variable of GdprfreeTester
-     * @param $loginPage      Used to login and logout from the page.
-     * @param $designSettings consist of selectors.
-     * 
-     * @return void
-     * 
-     * @since 1.0
-     */
-    public function disableAcceptAllButton(GdprfreeTester $I, LoginPage $loginPage, DesignSettings $designSettings)
-    {
-        $loginPage->userLogin($I);
-
-        $I->waitForElement($designSettings->gdprCookieConsent, 20);
-        $I->moveMouseOver($designSettings->gdprCookieConsent);
-        $I->click($designSettings->settings);
-        $I->waitForText('Cookie Notice', 20);
-        $I->see('Cookie Notice');
-        $I->click($designSettings->design);
-        $I->waitForText('Cookie Bar Body Design', 20);
-        $I->click($designSettings->acceptAllButton);
-        $I->wait(1);
-        $I->scrollTo($designSettings->saveChanges);
-        $I->click($designSettings->saveChanges);
-        $I->wait(2);
-        $I->click($designSettings->GDPR);
-        $I->waitForText('This website uses cookies to improve your experience.', 20);
-        $I->see('This website uses cookies to improve your experience.');
-        
-        $loginPage->userLogout($I);
-    }
-
-    /**
      * Test to check whether user is able to enable the acceptall button of cookie bar
      *
      * @param $I              variable of GdprfreeTester
@@ -1052,6 +1018,40 @@ class DesignSettingsCest
         $I->waitForText('Google offered in', 20);
         $I->amOnPage('/');
 
+        $loginPage->userLogout($I);
+    }
+
+    /**
+     * Test to check whether user is able to disable the acceptall button of cookie bar
+     *
+     * @param $I              variable of GdprfreeTester
+     * @param $loginPage      Used to login and logout from the page.
+     * @param $designSettings consist of selectors.
+     * 
+     * @return void
+     * 
+     * @since 1.0
+     */
+    public function disableAcceptAllButton(GdprfreeTester $I, LoginPage $loginPage, DesignSettings $designSettings)
+    {
+        $loginPage->userLogin($I);
+
+        $I->waitForElement($designSettings->gdprCookieConsent, 20);
+        $I->moveMouseOver($designSettings->gdprCookieConsent);
+        $I->click($designSettings->settings);
+        $I->waitForText('Cookie Notice', 20);
+        $I->see('Cookie Notice');
+        $I->click($designSettings->design);
+        $I->waitForText('Cookie Bar Body Design', 20);
+        $I->click($designSettings->acceptAllButton);
+        $I->wait(1);
+        $I->scrollTo($designSettings->saveChanges);
+        $I->click($designSettings->saveChanges);
+        $I->wait(2);
+        $I->click($designSettings->GDPR);
+        $I->waitForText('This website uses cookies to improve your experience.', 20);
+        $I->see('This website uses cookies to improve your experience.');
+        
         $loginPage->userLogout($I);
     }
 
@@ -1497,7 +1497,7 @@ class DesignSettingsCest
         $I->click($designSettings->GDPR);
         $I->waitForText('This website uses cookies to improve your experience.', 20);
         $I->see('This website uses cookies to improve your experience.');
-        $I->click($designSettings->acceptBtn);
+        $I->click($designSettings->declineBtn);
         $I->waitForText('Google offered in', 20);
         $I->amOnPage('/');
 
