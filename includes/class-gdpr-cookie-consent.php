@@ -593,6 +593,7 @@ class Gdpr_Cookie_Consent {
 			'notify_message'                       => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
 			'notify_message_eprivacy'              => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
 			'notify_message_ccpa'                  => addslashes( 'In case of sale of your personal information, you may opt out by using the link' ),
+			'optout_text'                          => addslashes( 'Do you really wish to opt-out?' ),
 			'notify_div_id'                        => '#gdpr-cookie-consent-bar',
 			'notify_position_vertical'             => 'bottom', // 'top' = header | 'bottom' = footer.
 			'notify_position_horizontal'           => 'left', // 'left' = left | 'right' = right.
@@ -716,6 +717,7 @@ class Gdpr_Cookie_Consent {
 			case 'notify_message':
 			case 'notify_message_eprivacy':
 			case 'notify_message_ccpa':
+			case 'optout_text':
 			case 'bar_heading_text':
 				$ret = wp_kses( $value, self::gdpr_allowed_html(), self::gdpr_allowed_protocols() );
 				break;
