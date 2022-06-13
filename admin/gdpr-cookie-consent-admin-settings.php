@@ -259,7 +259,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<input type="hidden" name="gcc-auto-hide" v-model="auto_hide">
 									</c-col>
 								</c-row>
-								<c-row v-show="auto_hide">
+								<c-row v-show="auto_hide&&show_revoke_card">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Hide Delay (in milliseconds)', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<c-input type="number" min="5000" max="60000" step="1000" name="gcc-auto-hide-delay" v-model="auto_hide_delay"></c-input>
