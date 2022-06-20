@@ -69,6 +69,12 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-textarea name="gcc-ccpa-msg" v-model="ccpa_message"></c-textarea>
 									</c-col>
 								</c-row>
+								<c-row v-show="is_ccpa">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-8">
+										<c-textarea name="gcc-ccpa-optout-msg" v-model="ccpa_optout_message"></c-textarea>
+									</c-col>
+								</c-row>
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
