@@ -234,7 +234,7 @@ class Gdpr_Cookie_Consent_Public {
 			if ( 'ccpa' === $the_options['cookie_usage_for'] ) {
 				$ccpa_message                  = nl2br( $the_options['notify_message_ccpa'] );
 				$the_options['ccpa_notify']    = true;
-				$the_options['optout_text']    = __( 'Do you really wish to opt-out?', 'gdpr-cookie-consent' );
+				$the_options['optout_text']    = nl2br( $the_options['optout_text'] );
 				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
 				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
 			}
@@ -243,7 +243,7 @@ class Gdpr_Cookie_Consent_Public {
 				$ccpa_message                  = nl2br( $the_options['notify_message_ccpa'] );
 				$the_options['gdpr_notify']    = true;
 				$the_options['ccpa_notify']    = true;
-				$the_options['optout_text']    = __( 'Do you really wish to opt-out?', 'gdpr-cookie-consent' );
+				$the_options['optout_text']    = nl2br( $the_options['optout_text'] );
 				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
 				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
 			}

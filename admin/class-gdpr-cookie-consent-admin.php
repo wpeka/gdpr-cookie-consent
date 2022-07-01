@@ -503,9 +503,9 @@ class Gdpr_Cookie_Consent_Admin {
 			'mascot_obj',
 			array(
 				'is_pro'            => $is_pro,
-        'documentation_url' => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=documentation',
+				'documentation_url' => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=documentation',
 				'faq_url'           => 'https://docs.wpeka.com/wp-gdpr-cookie-consent/faq/faq/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=faq',
-        'support_url'       => $support_url,
+				'support_url'       => $support_url,
 				'upgrade_url'       => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
 			)
 		);
@@ -1107,6 +1107,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['notify_message']                      = isset( $_POST['gcc-gdpr-msg'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-msg'] ) ) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['about_message']                       = isset( $_POST['gcc-gdpr-about-cookie-msg'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-about-cookie-msg'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
 			$the_options['notify_message_ccpa']                 = isset( $_POST['gcc-ccpa-msg'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-ccpa-msg'] ) ) : 'In case of sale of your personal information, you may opt out by using the link';
+			$the_options['optout_text']                         = isset( $_POST['gcc-ccpa-optout-msg'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-ccpa-optout-msg'] ) ) : 'Do you really wish to opt-out?';
 			$the_options['is_ccpa_iab_on']                      = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
 			$the_options['show_again']                          = isset( $_POST['gcc-revoke-consent-enable'] ) && ( true === $_POST['gcc-revoke-consent-enable'] || 'true' === $_POST['gcc-revoke-consent-enable'] ) ? 'true' : 'false';
 			$the_options['show_again_position']                 = isset( $_POST['gcc-tab-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-position'] ) ) : 'right';
