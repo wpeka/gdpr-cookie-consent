@@ -407,7 +407,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 = 2.2.1 =
 * Fix - Compatibility with WP 6.0
 
-= 2.1.8 =
+= 2.2.0 =
 * Fix: Accept All Button.
 * Feature: Animation on Load for Cookie Banner.
 * Feature: Accept cookie on click.
