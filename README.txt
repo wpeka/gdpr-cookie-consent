@@ -202,6 +202,8 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 == Change Log ==
 = 2.2.1 =
 * Fix - Compatibility with WP 6.0
+* Fix - Disabled Auto Hide milliseconds feature for CCPA.
+* Feature - Added option to add custom text for CCPA opt-out message.
 
 = 2.2.0 =
 * Fix: Accept All Button.
@@ -406,6 +408,8 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 == Upgrade Notice ==
 = 2.2.1 =
 * Fix - Compatibility with WP 6.0
+* Fix - Disabled Auto Hide milliseconds feature for CCPA.
+* Feature - Added option to add custom text for CCPA opt-out message.
 
 = 2.2.0 =
 * Fix: Accept All Button.
