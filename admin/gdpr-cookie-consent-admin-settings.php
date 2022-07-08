@@ -1352,21 +1352,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
 					</c-tab>
-					<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#script_blocker">
-						<c-card>
-								<c-card-header><?php esc_html_e( 'Script Blocker Settings', 'gdpr-cookie-consent' ); ?></c-card-header>
-								<c-card-body>
-									<c-row>
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Script Blocker is Currently', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8">
-											<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="is_script_blocker_on" v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
-											<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on">
-										</c-col>
-									</c-row>
-									<?php do_action( 'gdpr_settings_script_blocker_card' ); ?>
-								</c-card-body>
-						</c-card>
-					</c-tab>
+					<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 				</c-tabs>
 			</div>
 			<div class="gdpr-cookie-consent-settings-bottom">
