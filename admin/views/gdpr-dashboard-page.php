@@ -253,9 +253,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</span>
 					</span>
 					<span class="gdpr-quick-link-item">
-						<a class="gdpr-quick-link" :href="script_blocker_url">
-							<img class="gdpr-quick-link-image" :src="script_blocker_image.default">
-						</a>
+						<c-button class="gdpr-dashboard-disabled-icon" @mouseover="highlight_variant=''" @mouseleave="highlight_variant='outline'">
+							<img class="gdpr-quick-link-image" :src="script_blocker_image_disabled.default">
+						</c-button>
 						<span class="gdpr-quick-link-caption">
 						<?php esc_html_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>
 						</span>
