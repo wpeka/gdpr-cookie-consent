@@ -264,7 +264,7 @@ class Gdpr_Cookie_Consent_Public {
 			$the_options['template_parts'] = $template;
 			if ( in_array( $template, array( 'navy_blue_center', 'navy_blue_box', 'navy_blue_square' ), true ) ) {
 				$template_parts_background = '#354e8e';
-			} elseif ( in_array( $template, array( 'almond_column' ), true ) ) {
+			} elseif ( in_array( $template, array( 'almond_column', 'almond' ), true ) ) {
 				$template_parts_background = '#f2ecd8';
 			} elseif ( in_array( $template, array( 'grey_column', 'grey_center' ), true ) ) {
 				$template_parts_background = '#e0e0e0';
@@ -272,6 +272,14 @@ class Gdpr_Cookie_Consent_Public {
 				$template_parts_background = '#3a3a3a';
 			} elseif ( in_array( $template, array( 'dark_row' ), true ) ) {
 				$template_parts_background = '#434a58';
+			} elseif ( in_array( $template, array( 'blue' ), true ) ) {
+				$template_parts_background = '#2a3e71';
+			} elseif ( in_array( $template, array( 'dark_green' ), true ) ) {
+				$template_parts_background = '#1d2327';
+			} elseif ( in_array( $template, array( 'dark_blue' ), true ) ) {
+				$template_parts_background = '#262626';
+			} elseif ( in_array( $template, array( 'dark_blue' ), true ) ) {
+				$template_parts_background = '#262626';
 			} else {
 				$template_parts_background = '#ebebeb';
 			}
