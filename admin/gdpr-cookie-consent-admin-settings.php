@@ -23,8 +23,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 		<c-form id="gcc-save-settings-form" spellcheck="false" class="gdpr-cookie-consent-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce' ) ); ?>"/>
 			<div class="gdpr-cookie-consent-settings-content">
-				<div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>	
-				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>	
+				<div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>
+				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#compliances">
 						<c-card>
@@ -123,7 +123,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show as', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gcc-readmore-as-button" :reduce="label => label.code" :options="show_as_options" v-model="button_readmore_as_button"></v-select>
-										<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">	
+										<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">
 									</c-col>
 								</c-row>
 								<div v-show="button_readmore_is_on">
@@ -181,7 +181,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gcc-readmore-url-type" :reduce="label => label.code" :options="url_type_options" v-model="button_readmore_url_type"></v-select>
-										<input type="hidden" name="gcc-readmore-url-type" v-model="button_readmore_url_type">	
+										<input type="hidden" name="gcc-readmore-url-type" v-model="button_readmore_url_type">
 									</c-col>
 								</c-row>
 								<div v-show="button_readmore_is_on">
@@ -385,14 +385,14 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'On Hide', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 									<v-select class="form-group" id="gdpr-cookie-consent-on-hide" :reduce="label => label.code" :options="on_hide_options" v-model="on_hide"></v-select>
-									<input type="hidden" name="gcc-gdpr-cookie-on-hide" v-model="on_hide">	
+									<input type="hidden" name="gcc-gdpr-cookie-on-hide" v-model="on_hide">
 									</c-col>
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'On Load', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 									<v-select class="form-group" id="gdpr-cookie-consent-on-load" :reduce="label => label.code" :options="on_load_options" v-model="on_load"></v-select>
-									<input type="hidden" name="gcc-gdpr-cookie-on-load" v-model="on_load">	
+									<input type="hidden" name="gcc-gdpr-cookie-on-load" v-model="on_load">
 									</c-col>
 								</c-row>
 							</c-card-body>
@@ -414,7 +414,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity"></c-input> 
+									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity"></c-input>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-opacity" v-model="cookie_bar_opacity"></c-input>
 									</c-col>
 								</c-row>
@@ -436,7 +436,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width"></c-input> 
+									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width"></c-input>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-width" v-model="cookie_bar_border_width"></c-input>
 									</c-col>
 								</c-row>
@@ -450,7 +450,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius"></c-input> 
+									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius"></c-input>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius" v-model="cookie_bar_border_radius"></c-input>
 									</c-col>
 								</c-row>
@@ -470,7 +470,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_accept_on" class="gdpr-configure-button" @click="accept_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -505,7 +505,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 									<c-col class="col-sm-6">
 										<label><?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Select action to do once the user clicks on button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-									</c-col>			
+									</c-col>
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
@@ -586,15 +586,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<c-row v-show="accept_as_button">
 									<c-col class="col-sm-4  gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_opacity"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_opacity"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-opacity" v-model="accept_opacity"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-width" v-model="accept_border_width"></c-input>
 									</c-col>
 									<c-col class="col-sm-4  gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-radius" v-model="accept_border_radius"></c-input>
 									</c-col>
 								</c-row>
@@ -617,7 +617,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_accept_all_on" class="gdpr-configure-button" @click="accept_all_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -652,7 +652,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 									<c-col class="col-sm-6">
 										<label><?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Select action to do once the user clicks on button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-									</c-col>			
+									</c-col>
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
@@ -733,15 +733,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<c-row v-show="accept_all_as_button">
 									<c-col class="col-sm-4  gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_all_opacity"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_all_opacity"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-opacity" v-model="accept_all_opacity"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-width" v-model="accept_all_border_width"></c-input>
 									</c-col>
 									<c-col class="col-sm-4  gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-radius" v-model="accept_all_border_radius"></c-input>
 									</c-col>
 								</c-row>
@@ -764,7 +764,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_decline_on" class="gdpr-configure-button" @click="decline_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -878,14 +878,14 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-col>
 									</c-row>
 									<c-row v-show="decline_as_button">
-										<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="decline_opacity"></c-input> 
+										<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="decline_opacity"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-opacity" v-model="decline_opacity"></c-input>
 										</c-col>
-										<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width"></c-input> 
+										<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-width" v-model="decline_border_width"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-radius" v-model="decline_border_radius"></c-input>
 										</c-col>
 									</c-row>
@@ -908,7 +908,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_settings_on" class="gdpr-configure-button" @click="settings_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1010,15 +1010,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<c-row v-show="settings_as_button">
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="settings_opacity"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="settings_opacity"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-opacity" v-model="settings_opacity"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-width" v-model="settings_border_width"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-radius" v-model="settings_border_radius"></c-input>
 									</c-col>
 								</c-row>
@@ -1061,7 +1061,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button class="gdpr-configure-button" @click="confirm_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1141,15 +1141,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="confirm_opacity"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="confirm_opacity"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-opacity" v-model="confirm_opacity"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-width" v-model="confirm_border_width"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-radius" v-model="confirm_border_radius"></c-input>
 										</c-col>
 									</c-row>
@@ -1168,7 +1168,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button class="gdpr-configure-button" @click="cancel_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1248,15 +1248,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cancel_opacity"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cancel_opacity"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-opacity" v-model="cancel_opacity"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-width" v-model="cancel_border_width"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-radius" v-model="cancel_border_radius"></c-input>
 										</c-col>
 									</c-row>
@@ -1275,7 +1275,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button class="gdpr-configure-button" @click="opt_out_link_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
