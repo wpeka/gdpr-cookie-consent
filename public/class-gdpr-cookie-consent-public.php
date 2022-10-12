@@ -585,16 +585,16 @@ class Gdpr_Cookie_Consent_Public {
 			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
 			$content .= "<div class='wp_legalpolicy' style='overflow-x:scroll;overflow:auto;'>";
 			$content .= '<table style="width:100%;margin:0 auto;border-collapse:collapse;">';
-			$content .= '<thead>';
-			$content .= '<th>Third Party Companies</th><th>Purpose</th><th>Applicable Privacy/Cookie Policy Link</th>';
+			$content .= '<thead style="vertical-align: middle; white-space:normal; text-align:center">';
+			$content .= '<th style="padding:0.5em ;border: 1px solid;">Third Party Companies</th><th style="padding:0.5em ;border: 1px solid;">Purpose</th><th style="padding:0.5em;border: 1px solid;">Applicable Privacy/Cookie Policy Link</th>';
 			$content .= '</thead>';
 			$content .= '<tbody>';
 			foreach ( $wp_legalpolicy_data as $policypost ) {
 				$content .= '<tr>';
-				$content .= '<td>' . $policypost->post_title . '</td>';
-				$content .= '<td>' . $policypost->post_content . '</td>';
+				$content .= '<td style="padding: 0.5em;border: 1px solid;">' . $policypost->post_title . '</td>';
+				$content .= '<td style="padding: 0.5em;border: 1px solid;">' . $policypost->post_content . '</td>';
 				$links    = get_post_meta( $policypost->ID, '_gdpr_policies_links_editor' );
-				$content .= '<td>' . $links[0] . '</td>';
+				$content .= '<td style="padding: 0.5em;border: 1px solid;">' . $links[0] . '</td>';
 				$content .= '</tr>';
 			}
 			$content .= '</tbody></table></div>';
