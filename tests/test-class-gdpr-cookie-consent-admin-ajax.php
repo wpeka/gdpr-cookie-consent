@@ -60,7 +60,7 @@ class Test_Gdpr_Cookie_Consent_Admin_Ajax extends WP_Ajax_UnitTestCase {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			self::$plugin_version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			self::$plugin_version = '2.2.1';
+			self::$plugin_version = '2.2.2';
 		}
 		self::$plugin_name                    = 'gdpr_cookie_consent';
 		self::$gdpr_cookie_consent            = new Gdpr_Cookie_Consent();
