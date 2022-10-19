@@ -200,6 +200,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+
+= 2.2.2 =
+* Feature - Changes for Pro version compatibility
+
 = 2.2.1 =
 * Fix - Compatibility with WP 6.0
 * Fix - Disabled Auto Hide milliseconds feature for CCPA.
