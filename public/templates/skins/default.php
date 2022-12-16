@@ -18,7 +18,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			<?php
 		}
 		?>
-		<div class="group-description" tabindex="0"><p class="gdpr"><?php echo esc_html__( $the_options['gdpr_str'], 'gdpr-cookie-consent' ); ?>
+		<div class="group-description" tabindex="0"><p class="gdpr"><?php echo strip_tags( $the_options['gdpr_str'], '<a><br><em><strong>' ); ?>
 		<?php
 		if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
 			?>
@@ -39,7 +39,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			if ( ! empty( $the_options['ccpa_notify'] ) ) {
 				?>
 				<p class="ccpa">
-				<?php echo esc_html__( $the_options['ccpa_str'], 'gdpr-cookie-consent' ); ?>
+				<?php echo strip_tags( $the_options['ccpa_str'], '<a><br><em><strong>' ); ?>
 					<?php
 					if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
 						?>
@@ -159,7 +159,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 } elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 	?>
 	<div class="gdpr_messagebar_content">
-		<div class="group-description" tabindex="0"><p class="ccpa"><?php echo esc_html__( $the_options['ccpa_str'], 'gdpr-cookie-consent' ); ?>
+		<div class="group-description" tabindex="0"><p class="ccpa"><?php echo strip_tags( $the_options['ccpa_str'], '<a><br><em><strong>' ); ?>
 				<?php
 				if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
 					?>
@@ -182,7 +182,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			<?php
 		}
 		?>
-		<div class="group-description" tabindex="0"><p class="gdpr"><?php echo esc_html__( $the_options['eprivacy_str'], 'gdpr-cookie-consent' ); ?>
+		<div class="group-description" tabindex="0"><p class="gdpr"><?php echo strip_tags( $the_options['eprivacy_str'], '<a><br><em><strong>' ); ?>
 				<?php
 				if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
 					?>
