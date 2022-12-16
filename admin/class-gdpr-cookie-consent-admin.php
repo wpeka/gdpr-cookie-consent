@@ -1102,11 +1102,59 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_button_border_width']   = isset( $_POST['gdpr-cookie-accept-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-border-width'] ) ) : '0';
 			$the_options['button_accept_button_border_radius']  = isset( $_POST['gdpr-cookie-accept-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-border-radius'] ) ) : '0';
 			$the_options['button_accept_link_color']            = isset( $_POST['gdpr-cookie-accept-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-text-color'] ) ) : '#ffffff';
-			$the_options['notify_message_eprivacy']             = isset( $_POST['notify_message_eprivacy_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_eprivacy_field'] ) ) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+			$the_options['notify_message_eprivacy']             = isset( $_POST['notify_message_eprivacy_field'] ) ? wp_kses(
+				wp_unslash( $_POST['notify_message_eprivacy_field'] ),
+				array(
+					'a'      => array(
+						'href'   => array(),
+						'title'  => array(),
+						'target' => array(),
+						'rel'    => array(),
+						'class'  => array(),
+						'id'     => array(),
+						'style'  => array(),
+					),
+					'br'     => array(),
+					'em'     => array(),
+					'strong' => array(),
+				)
+			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['bar_heading_text']                    = isset( $_POST['bar_heading_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_field'] ) ) : '';
-			$the_options['notify_message']                      = isset( $_POST['notify_message_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_field'] ) ) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+			$the_options['notify_message']                      = isset( $_POST['notify_message_field'] ) ? wp_kses(
+				wp_unslash( $_POST['notify_message_field'] ),
+				array(
+					'a'      => array(
+						'href'   => array(),
+						'title'  => array(),
+						'target' => array(),
+						'rel'    => array(),
+						'class'  => array(),
+						'id'     => array(),
+						'style'  => array(),
+					),
+					'br'     => array(),
+					'em'     => array(),
+					'strong' => array(),
+				)
+			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['about_message']                       = isset( $_POST['about_message_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
-			$the_options['notify_message_ccpa']                 = isset( $_POST['notify_message_ccpa_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_field'] ) ) : 'In case of sale of your personal information, you may opt out by using the link';
+			$the_options['notify_message_ccpa']                 = isset( $_POST['notify_message_ccpa_field'] ) ? wp_kses(
+				wp_unslash( $_POST['notify_message_ccpa_field'] ),
+				array(
+					'a'      => array(
+						'href'   => array(),
+						'title'  => array(),
+						'target' => array(),
+						'rel'    => array(),
+						'class'  => array(),
+						'id'     => array(),
+						'style'  => array(),
+					),
+					'br'     => array(),
+					'em'     => array(),
+					'strong' => array(),
+				)
+			) : 'In case of sale of your personal information, you may opt out by using the link';
 			$the_options['optout_text']                         = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
 			$the_options['is_ccpa_iab_on']                      = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
 			$the_options['show_again']                          = isset( $_POST['gcc-revoke-consent-enable'] ) && ( true === $_POST['gcc-revoke-consent-enable'] || 'true' === $_POST['gcc-revoke-consent-enable'] ) ? 'true' : 'false';
