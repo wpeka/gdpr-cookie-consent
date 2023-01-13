@@ -113,7 +113,7 @@ class Gdpr_Cookie_Consent_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		wp_enqueue_media();
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-admin' . GDPR_CC_SUFFIX . '.js', array( 'jquery', 'wp-color-picker', 'gdprcookieconsent_cookie_custom' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-vue', plugin_dir_url( __FILE__ ) . 'js/vue/vue.js', array(), $this->version, false );
 		wp_register_script( $this->plugin_name . '-mascot', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-mascot.js', array( 'jquery' ), $this->version, false );
@@ -1407,6 +1407,9 @@ class Gdpr_Cookie_Consent_Admin {
 						$the_options['button_settings_layout_skin'] = 'layout-' . $template['layout'];
 					}
 				}
+			}
+			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
+				$the_options['gdpr_cookie_bar_logo_url_holder'] = esc_url($_POST['gdpr-cookie-bar-logo-url-holder']);
 			}
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			wp_send_json_success( array( 'form_options_saved' => true ) );

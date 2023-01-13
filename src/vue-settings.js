@@ -939,6 +939,37 @@ var gen = new Vue({
                 }
             });
         },
+        openMediaModal() {
+            var image_frame = wp.media({
+                title: 'Select Media from here',
+                multiple : false,
+                library : {
+                     type : 'image',
+                 }
+            });
+            jQuery('#image-upload-button').unbind().click(
+                image_frame.on('close',function(){
+                    var selection =  image_frame.state().get('selection');
+                selection.each(function(attachment){
+                    jQuery('#gdpr-cookie-bar-logo-holder').attr('src' , attachment.attributes.url);
+                    jQuery('#gdpr-cookie-bar-logo-holder').attr('width' , "auto");
+                    jQuery('#gdpr-cookie-bar-logo-holder').attr('height' , "50");
+                    jQuery('#gdpr-cookie-bar-logo-url-holder').attr('value', attachment.attributes.url);
+                })
+
+                }) ,
+            image_frame.open()         
+
+);    
+        },
+        deleteSelectedimage() {
+                jQuery('#image-delete-button').click(
+                    jQuery('#gdpr-cookie-bar-logo-holder').removeAttr('src'),
+                    jQuery('#gdpr-cookie-bar-logo-holder').removeAttr('width'),
+                    jQuery('#gdpr-cookie-bar-logo-holder').removeAttr('height'),
+                )
+
+        },
         onSwitchScriptBlocker( script_id ) {
             j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
             j("#gdpr-cookie-consent-updating-settings-alert").fadeOut(2000);
