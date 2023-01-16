@@ -16,7 +16,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			<?php
 			if ( '' !== $the_options['gdpr_cookie_bar_logo_url_holder'] ) {
 				?>
-			<img class="gdpr_logo_image" src="<?php echo esc_url( $the_options['gdpr_cookie_bar_logo_url_holder'] ); ?>" style="width:auto;height:50px;">
+			<img class="gdpr_logo_image" src="<?php echo esc_url( $the_options['gdpr_cookie_bar_logo_url_holder'] ); ?>" >
 				<?php
 			}
 			?>
