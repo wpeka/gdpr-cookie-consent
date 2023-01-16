@@ -439,6 +439,7 @@ class Gdpr_Cookie_Consent {
 	 */
 	public static function gdpr_get_default_settings( $key = '' ) {
 		$settings = array(
+			'gdpr_cookie_bar_logo_url_holder'      => '',
 			'animate_speed_hide'                   => '500',
 			'animate_speed_show'                   => '500',
 

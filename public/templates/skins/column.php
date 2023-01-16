@@ -12,6 +12,15 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	?>
 	<div class="gdpr_messagebar_content">
 		<div class="group-description" tabindex="0">
+		<div class="gdpr_logo_container">
+			<?php
+			if ( '' !== $the_options['gdpr_cookie_bar_logo_url_holder'] ) {
+				?>
+			<img class="gdpr_logo_image" src="<?php echo esc_url( $the_options['gdpr_cookie_bar_logo_url_holder'] ); ?>" >
+				<?php
+			}
+			?>
+		</div>
 			<?php
 			if ( '' !== $the_options['head'] ) {
 				?>
@@ -154,6 +163,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			}
 			?>
 		</div>
+	</div>
 	</div>
 	<?php
 	if ( ! empty( $the_options['cookie_data'] ) ) {
