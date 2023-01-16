@@ -11,15 +11,14 @@
 if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	?>
 	<div class="gdpr_messagebar_content">
-		
 		<div class="group-description" tabindex="0">
 		<div class="gdpr_logo_container">
 			<?php
-				if('' !== $the_options['gdpr_cookie_bar_logo_url_holder']){
-			?>
-			<img class="gdpr_logo_image" src="<?php echo esc_url($the_options['gdpr_cookie_bar_logo_url_holder']); ?>" style="width:auto;height:50px;">
-			<?php
-				}
+			if ( '' !== $the_options['gdpr_cookie_bar_logo_url_holder'] ) {
+				?>
+			<img class="gdpr_logo_image" src="<?php echo esc_url( $the_options['gdpr_cookie_bar_logo_url_holder'] ); ?>" style="width:auto;height:50px;">
+				<?php
+			}
 			?>
 		</div>
 			<?php

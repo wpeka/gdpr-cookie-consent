@@ -398,7 +398,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							</c-card-body>
 						</c-card>
 
-						<?php do_action( 'gdpr_cookie_template');  ?>
+						<?php do_action( 'gdpr_cookie_template' ); ?>
 					</c-tab>
 					<c-tab title="<?php esc_attr_e( 'Design', 'gdpr-cookie-consent' ); ?>" href="#gdpr_design">
 						<c-card>
@@ -463,15 +463,16 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<label><?php esc_attr_e( 'Upload Logo', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="col-sm-8 ">
-									<c-col style="display:flex;align-items:center;">
-										<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder">
-										<c-button color="info" class="button" id="image-upload-button"  name="image-upload-button" @click="openMediaModal" style="padding: 10px 20px;margin:10px;">
+										<c-button color="info" class="button" id="image-upload-button"  name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
 											<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
 										</c-button>
-										<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="padding: 10px 20px;margin:10px;">
+										<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px;">
 											<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
 										</c-button>
-									</c-col>
+										<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder">
+									<p class="image-upload-notice" style="margin-left: 10px;">
+									<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
+									</p>
 									<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="" class="regular-text"> </c-input>
 									</c-col>
 								</c-row>

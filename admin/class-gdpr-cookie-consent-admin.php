@@ -1409,7 +1409,7 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 			}
 			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
-				$the_options['gdpr_cookie_bar_logo_url_holder'] = esc_url($_POST['gdpr-cookie-bar-logo-url-holder']);
+				$the_options['gdpr_cookie_bar_logo_url_holder'] = esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) );
 			}
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			wp_send_json_success( array( 'form_options_saved' => true ) );
