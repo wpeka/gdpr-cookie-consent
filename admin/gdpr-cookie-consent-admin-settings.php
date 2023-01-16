@@ -455,6 +455,30 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<?php do_action( 'gdpr_cookie_font' ); ?>
+								<?php
+								if ( $is_pro_active ) {
+									?>
+								<c-row>
+									<c-col class="col-sm-4">
+										<label><?php esc_attr_e( 'Upload Logo', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-8 ">
+										<c-button color="info" class="button" id="image-upload-button"  name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
+											<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
+										</c-button>
+										<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px;">
+											<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
+										</c-button>
+										<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder">
+									<p class="image-upload-notice" style="margin-left: 10px;">
+									<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
+									</p>
+									<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="" class="regular-text"> </c-input>
+									</c-col>
+								</c-row>
+									<?php
+								}
+								?>
 							</c-card-body>
 						</c-card>
 						<c-card v-show="is_gdpr || is_eprivacy">
