@@ -38,6 +38,7 @@ define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_DB_KEY_PREFIX', 'GDPRCookieConsent-' );
 define( 'GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER', '9.0' );
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_FIELD', GDPR_COOKIE_CONSENT_DB_KEY_PREFIX . GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER );
+define( 'GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD', GDPR_COOKIE_CONSENT_DB_KEY_PREFIX . 'LogoImage' . GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_FILENAME', __FILE__ );
 define( 'GDPR_POLICY_DATA_POST_TYPE', 'gdprpolicies' );
 define( 'GDPR_CSV_DELIMITER', ',' );
@@ -92,6 +93,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-gdpr-cookies-read-csv.php'
  */
 function uninstall_gdpr_cookie_consent() {
 	delete_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+	delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 }
 /**
  * The core plugin class that is used to define internationalization,

@@ -466,14 +466,17 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button color="info" class="button" id="image-upload-button"  name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
 											<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
 										</c-button>
-										<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px;">
+										<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
 											<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
 										</c-button>
-										<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder">
+										<?php
+											$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+										?>
+										<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
 									<p class="image-upload-notice" style="margin-left: 10px;">
 									<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 									</p>
-									<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="" class="regular-text"> </c-input>
+									<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
 									</c-col>
 								</c-row>
 									<?php

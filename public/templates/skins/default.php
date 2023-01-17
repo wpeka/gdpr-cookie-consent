@@ -13,9 +13,10 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	<div class="gdpr_messagebar_content">
 		<div class="gdpr_logo_container">
 			<?php
-			if ( '' !== $the_options['gdpr_cookie_bar_logo_url_holder'] ) {
+			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+			if ( '' !== $get_banner_img ) {
 				?>
-			<img class="gdpr_logo_image" src="<?php echo esc_url( $the_options['gdpr_cookie_bar_logo_url_holder'] ); ?>" >
+			<img class="gdpr_logo_image" src="<?php echo esc_url( $get_banner_img ); ?>" >
 				<?php
 			}
 			?>
