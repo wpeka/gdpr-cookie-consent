@@ -952,8 +952,6 @@ var gen = new Vue({
                     var selection =  image_frame.state().get('selection');
                 selection.each(function(attachment){
                     jQuery('#gdpr-cookie-bar-logo-holder').attr('src' , attachment.attributes.url);
-                    jQuery('#gdpr-cookie-bar-logo-holder').attr('width' , "auto");
-                    jQuery('#gdpr-cookie-bar-logo-holder').attr('height' , "50");
                     jQuery('#gdpr-cookie-bar-logo-url-holder').attr('value', attachment.attributes.url);
                 })
 
@@ -965,10 +963,8 @@ var gen = new Vue({
         deleteSelectedimage() {
                 jQuery('#image-delete-button').click(
                     jQuery('#gdpr-cookie-bar-logo-holder').removeAttr('src'),
-                    jQuery('#gdpr-cookie-bar-logo-holder').removeAttr('width'),
-                    jQuery('#gdpr-cookie-bar-logo-holder').removeAttr('height'),
+                    jQuery('#gdpr-cookie-bar-logo-url-holder').attr('value', '')
                 )
-
         },
         onSwitchScriptBlocker( script_id ) {
             j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
