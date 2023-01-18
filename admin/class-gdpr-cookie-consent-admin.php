@@ -1123,7 +1123,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'img'    => array(),
 					'b'      => array(),
 					'div'    => array(),
-					'label'  => array(),	
+					'label'  => array(),
 				)
 			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['bar_heading_text']                    = isset( $_POST['bar_heading_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_field'] ) ) : '';
@@ -1148,7 +1148,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'img'    => array(),
 					'b'      => array(),
 					'div'    => array(),
-					'label'  => array(),				
+					'label'  => array(),
 				)
 			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['about_message']                       = isset( $_POST['about_message_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
@@ -1173,7 +1173,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'img'    => array(),
 					'b'      => array(),
 					'div'    => array(),
-					'label'  => array(),				
+					'label'  => array(),
 				)
 			) : 'In case of sale of your personal information, you may opt out by using the link';
 			$the_options['optout_text']                         = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
