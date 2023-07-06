@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.1.7';
+			$this->version = '2.2.6';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -215,6 +215,7 @@ class Gdpr_Cookie_Consent {
 		if ( self::is_request( 'frontend' ) ) {
 			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+			$this->loader->add_action( 'template_redirect', $plugin_public, 'gdprcookieconsent_template_redirect', 99 );
 			$this->loader->add_action( 'wp_footer', $plugin_public, 'gdprcookieconsent_inject_gdpr_script' );
 		}
 	}
@@ -438,6 +439,7 @@ class Gdpr_Cookie_Consent {
 	 */
 	public static function gdpr_get_default_settings( $key = '' ) {
 		$settings = array(
+			'gdpr_cookie_bar_logo_url_holder'      => '',
 			'animate_speed_hide'                   => '500',
 			'animate_speed_show'                   => '500',
 
@@ -575,6 +577,7 @@ class Gdpr_Cookie_Consent {
 			'is_script_blocker_on'                 => false,
 			'auto_hide'                            => false,
 			'auto_scroll'                          => false,
+			'auto_click'                           => false,
 			'auto_scroll_reload'                   => false,
 			'accept_reload'                        => false,
 			'decline_reload'                       => false,
@@ -592,6 +595,7 @@ class Gdpr_Cookie_Consent {
 			'notify_message'                       => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
 			'notify_message_eprivacy'              => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
 			'notify_message_ccpa'                  => addslashes( 'In case of sale of your personal information, you may opt out by using the link' ),
+			'optout_text'                          => addslashes( 'Do you really wish to opt-out?' ),
 			'notify_div_id'                        => '#gdpr-cookie-consent-bar',
 			'notify_position_vertical'             => 'bottom', // 'top' = header | 'bottom' = footer.
 			'notify_position_horizontal'           => 'left', // 'left' = left | 'right' = right.
@@ -602,6 +606,9 @@ class Gdpr_Cookie_Consent {
 			'cookie_usage_for'                     => 'gdpr',
 			'popup_overlay'                        => true,
 			'about_message'                        => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
+			'header_scripts'                       => '',
+			'body_scripts'                         => '',
+			'footer_scripts'                       => '',
 			'restrict_posts'                       => array(),
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
@@ -629,6 +636,7 @@ class Gdpr_Cookie_Consent {
 			case 'show_again':
 			case 'auto_hide':
 			case 'auto_scroll':
+			case 'auto_click':
 			case 'auto_scroll_reload':
 			case 'accept_reload':
 			case 'decline_reload':
@@ -714,6 +722,7 @@ class Gdpr_Cookie_Consent {
 			case 'notify_message':
 			case 'notify_message_eprivacy':
 			case 'notify_message_ccpa':
+			case 'optout_text':
 			case 'bar_heading_text':
 				$ret = wp_kses( $value, self::gdpr_allowed_html(), self::gdpr_allowed_protocols() );
 				break;
@@ -724,6 +733,11 @@ class Gdpr_Cookie_Consent {
 			case 'button_decline_url':
 			case 'button_settings_url':
 				$ret = esc_url( $value );
+				break;
+			case 'header_scripts':
+			case 'body_scripts':
+			case 'footer_scripts':
+				$ret = trim( stripslashes( $value ) );
 				break;
 			case 'restrict_posts':
 				$ret = $value;
@@ -929,6 +943,7 @@ class Gdpr_Cookie_Consent {
 			'is_ticked'                            => $settings['is_ticked'],
 			'is_script_blocker_on'                 => $settings['is_script_blocker_on'],
 			'auto_scroll'                          => $settings['auto_scroll'],
+			'auto_click'                           => $settings['auto_click'],
 			'auto_scroll_reload'                   => $settings['auto_scroll_reload'],
 			'accept_reload'                        => $settings['accept_reload'],
 			'decline_reload'                       => $settings['decline_reload'],

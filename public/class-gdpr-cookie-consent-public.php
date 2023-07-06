@@ -234,7 +234,7 @@ class Gdpr_Cookie_Consent_Public {
 			if ( 'ccpa' === $the_options['cookie_usage_for'] ) {
 				$ccpa_message                  = nl2br( $the_options['notify_message_ccpa'] );
 				$the_options['ccpa_notify']    = true;
-				$the_options['optout_text']    = __( 'Do you really wish to opt-out?', 'gdpr-cookie-consent' );
+				$the_options['optout_text']    = nl2br( $the_options['optout_text'] );
 				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
 				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
 			}
@@ -243,7 +243,7 @@ class Gdpr_Cookie_Consent_Public {
 				$ccpa_message                  = nl2br( $the_options['notify_message_ccpa'] );
 				$the_options['gdpr_notify']    = true;
 				$the_options['ccpa_notify']    = true;
-				$the_options['optout_text']    = __( 'Do you really wish to opt-out?', 'gdpr-cookie-consent' );
+				$the_options['optout_text']    = nl2br( $the_options['optout_text'] );
 				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
 				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
 			}
@@ -540,7 +540,7 @@ class Gdpr_Cookie_Consent_Public {
 	 * @param array $input_array The input array to sanitize.
 	 * @return array
 	 */
-	public function gdpr_cookie_consent_sanitize_decoded_json( $input_array ) {
+	public function gdpr_cookie_consent_sanitize_decoded_json( $input_array = array() ) {
 		// Initialize the new array that will hold the sanitize values.
 		$return_array = array();
 
@@ -600,5 +600,77 @@ class Gdpr_Cookie_Consent_Public {
 			$content .= '</tbody></table></div>';
 		}
 		return $content;
+	}
+
+	/**
+	 * Template redirect for header, body and footer scripts.
+	 *
+	 * @since 1.9.0
+	 */
+	public function gdprcookieconsent_template_redirect() {
+		global $post;
+
+		if ( is_admin() || defined( 'DOING_AJAX' ) || defined( 'DOING_CRON' ) ) {
+			return;
+		}
+
+		$viewed_cookie = isset( $_COOKIE['wpl_viewed_cookie'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wpl_viewed_cookie'] ) ) : '';
+		$the_options   = GDPR_Cookie_Consent::gdpr_get_settings();
+
+		$body_open_supported = function_exists( 'wp_body_open' ) && version_compare( get_bloginfo( 'version' ), '5.2', '>=' );
+
+		$disable_blocker = get_option( 'wpl_bypass_script_blocker' );
+
+		if ( ( is_singular() && $post ) || is_home() ) {
+			if ( ( $the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie ) || ( ! $the_options['is_script_blocker_on'] ) || $disable_blocker ) {
+				add_action( 'wp_head', array( $this, 'gdprcookieconsent_output_header' ) );
+				if ( $body_open_supported ) {
+					add_action( 'wp_body_open', array( $this, 'gdprcookieconsent_output_body' ) );
+				}
+				add_action( 'wp_footer', array( $this, 'gdprcookieconsent_output_footer' ) );
+			}
+		}
+	}
+
+	/**
+	 * Output header scripts.
+	 *
+	 * @since 1.9.0
+	 */
+	public function gdprcookieconsent_output_header() {
+		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
+		$header_scripts = $the_options['header_scripts'];
+		if ( $header_scripts ) {
+			// After referring to the competitor WordPress.org plugins, we are following the same approach.
+			echo "\r\n" . wp_unslash( $header_scripts ) . "\r\n";
+		}
+	}
+
+	/**
+	 * Output body scripts.
+	 *
+	 * @since 1.9.0
+	 */
+	public function gdprcookieconsent_output_body() {
+		$the_options  = GDPR_Cookie_Consent::gdpr_get_settings();
+		$body_scripts = $the_options['body_scripts'];
+		if ( $body_scripts ) {
+			// After referring to the competitor WordPress.org plugins, we are following the same approach.
+			echo "\r\n" . wp_unslash( $body_scripts ) . "\r\n";
+		}
+	}
+
+	/**
+	 * Output footer scripts.
+	 *
+	 * @since 1.9.0
+	 */
+	public function gdprcookieconsent_output_footer() {
+		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
+		$footer_scripts = $the_options['footer_scripts'];
+		if ( $footer_scripts ) {
+			// After referring to the competitor WordPress.org plugins, we are following the same approach.
+			echo "\r\n" . wp_unslash( $footer_scripts ) . "\r\n";
+		}
 	}
 }

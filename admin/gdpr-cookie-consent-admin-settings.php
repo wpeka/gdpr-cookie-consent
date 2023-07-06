@@ -48,31 +48,37 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
-										<c-textarea name="gcc-gdpr-msg-heading" v-model="gdpr_message_heading"></c-textarea>
+										<c-textarea name="bar_heading_text_field" v-model="gdpr_message_heading"></c-textarea>
 									</c-col>
 								</c-row>
 								<c-row v-show="is_eprivacy">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as ePrivacy notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
-										<c-textarea name="gcc-eprivacy-msg" v-model="eprivacy_message"></c-textarea>
+										<c-textarea name="notify_message_eprivacy_field" v-model="eprivacy_message"></c-textarea>
 									</c-col>
 								</c-row>
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
-										<c-textarea name="gcc-gdpr-msg" v-model="gdpr_message"></c-textarea>
+										<c-textarea name="notify_message_field" v-model="gdpr_message"></c-textarea>
 									</c-col>
 								</c-row>
 								<c-row v-show="is_ccpa">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
-										<c-textarea name="gcc-ccpa-msg" v-model="ccpa_message"></c-textarea>
+										<c-textarea name="notify_message_ccpa_field" v-model="ccpa_message"></c-textarea>
+									</c-col>
+								</c-row>
+								<c-row v-show="is_ccpa">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-8">
+										<c-textarea name="notify_message_ccpa_optout_field" v-model="ccpa_optout_message"></c-textarea>
 									</c-col>
 								</c-row>
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
-										<c-textarea :rows="6" name="gcc-gdpr-about-cookie-msg" v-model="gdpr_about_cookie_message"></c-textarea>
+										<c-textarea :rows="6" name="about_message_field" v-model="gdpr_about_cookie_message"></c-textarea>
 									</c-col>
 								</c-row>
 							</c-card-body>
@@ -103,7 +109,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row v-show="button_readmore_is_on">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text of the privacy policy button/link.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
-										<c-input name="gcc-readmore-text" v-model="button_readmore_text"></c-input>
+										<c-input name="button_readmore_text_field" v-model="button_readmore_text"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="button_readmore_is_on">
@@ -236,7 +242,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row v-show="is_revoke_consent_on">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Text', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
-										<c-input name="gcc-tab-text" v-model="tab_text"></c-input>
+										<c-input name="show_again_text_field" v-model="tab_text"></c-input>
 									</c-col>
 								</c-row>
 							</c-card-body>
@@ -253,20 +259,20 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row v-show="show_revoke_card">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Hide (Accept)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled Cookie Bar will be automatically hidden after specified time and cookie preferences will be set as accepted.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Hide (Accept)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled Cookie Bar will be automatically hidden after specified time and cookie preferences will be set as accepted.(This setting only works for GDPR)', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="auto_hide" id="gdpr-cookie-consent-auto_hide" variant="3d"  color="success" :checked="auto_hide" v-on:update:checked="onSwitchAutoHide"></c-switch>
 										<input type="hidden" name="gcc-auto-hide" v-model="auto_hide">
 									</c-col>
 								</c-row>
-								<c-row v-show="auto_hide">
+								<c-row v-show="auto_hide&&show_revoke_card">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Hide Delay (in milliseconds)', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<c-input type="number" min="5000" max="60000" step="1000" name="gcc-auto-hide-delay" v-model="auto_hide_delay"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="show_revoke_card">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Scroll (Accept)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( ' If enabled, Cookie Bar will automatically hide after the visitor scrolls the webpage and consent will be automatically accepted as Yes.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Scroll (Accept)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( ' If enabled, Cookie Bar will automatically hide after the visitor scrolls the webpage and consent will be automatically accepted as Yes.(This setting only works for GDPR)', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="auto_scroll" id="gdpr-cookie-consent-auto_scroll" variant="3d"  color="success" :checked="auto_scroll" v-on:update:checked="onSwitchAutoScroll"></c-switch>
 										<input type="hidden" name="gcc-auto-scroll" v-model="auto_scroll">
@@ -279,7 +285,14 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row v-show="show_revoke_card">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Reload After Scroll Accept', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled, the web page will be refreshed automatically once cookie settings are accepted because of scrolling.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Click (Accept)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( ' If enabled, the Cookie Bar will automatically hide when the visitor clicks anywhere on the page, and consent will be accepted as Yes.(This setting only works for GDPR)', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-8">
+										<c-switch v-bind="labelIcon" v-model="auto_click" id="gdpr-cookie-consent-auto_click" variant="3d"  color="success" :checked="auto_click" v-on:update:checked="onSwitchAutoClick"></c-switch>
+										<input type="hidden" name="gcc-auto-click" v-model="auto_click">
+									</c-col>
+								</c-row>
+								<c-row v-show="show_revoke_card">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Reload After Scroll Accept', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled, the web page will be refreshed automatically once cookie settings are accepted because of scrolling.(This setting only works for GDPR)', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="auto_scroll_reload" id="gdpr-cookie-consent-auto-scroll-reload" variant="3d"  color="success" :checked="auto_scroll_reload" v-on:update:checked="onSwitchAutoScrollReload"></c-switch>
 										<input type="hidden" name="gcc-auto-scroll-reload" v-model="auto_scroll_reload">
@@ -293,7 +306,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row  v-show="show_revoke_card">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Reload After Decline', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled web page will be refreshed automatically once cookie settings are declined.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Reload After Decline', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled web page will be refreshed automatically once cookie settings are declined.(This setting only works for GDPR)', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="decline_reload" id="gdpr-cookie-consent-decline-reload" variant="3d"  color="success" :checked="decline_reload" v-on:update:checked="onSwitchDeclineReload"></c-switch>
 										<input type="hidden" name="gcc-decline-reload" v-model="decline_reload">
@@ -375,6 +388,13 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<input type="hidden" name="gcc-gdpr-cookie-on-hide" v-model="on_hide">	
 									</c-col>
 								</c-row>
+								<c-row>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'On Load', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+									<v-select class="form-group" id="gdpr-cookie-consent-on-load" :reduce="label => label.code" :options="on_load_options" v-model="on_load"></v-select>
+									<input type="hidden" name="gcc-gdpr-cookie-on-load" v-model="on_load">	
+									</c-col>
+								</c-row>
 							</c-card-body>
 						</c-card>
 
@@ -435,6 +455,33 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<?php do_action( 'gdpr_cookie_font' ); ?>
+								<?php
+								if ( $is_pro_active ) {
+									?>
+								<c-row>
+									<c-col class="col-sm-4">
+										<label><?php esc_attr_e( 'Upload Logo', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-8 ">
+										<c-button color="info" class="button" id="image-upload-button"  name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
+											<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
+										</c-button>
+										<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
+											<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
+										</c-button>
+										<?php
+											$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+										?>
+										<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
+									<p class="image-upload-notice" style="margin-left: 10px;">
+									<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
+									</p>
+									<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
+									</c-col>
+								</c-row>
+									<?php
+								}
+								?>
 							</c-card-body>
 						</c-card>
 						<c-card v-show="is_gdpr || is_eprivacy">
@@ -472,7 +519,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
-										<c-input name="gcc-accept-text" v-model="accept_text"></c-input>
+										<c-input name="button_accept_text_field" v-model="accept_text"></c-input>
 									</c-col>
 									<c-col class="col-sm-6 gdpr-color-pick">
 										<c-input class="gdpr-color-input" type="text" v-model="accept_text_color"></c-input>
@@ -619,7 +666,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
-										<c-input name="gcc-accept-all-text" v-model="accept_all_text"></c-input>
+										<c-input name="button_accept_all_text_field" v-model="accept_all_text"></c-input>
 									</c-col>
 									<c-col class="col-sm-6 gdpr-color-pick">
 										<c-input class="gdpr-color-input" type="text" v-model="accept_all_text_color"></c-input>
@@ -766,7 +813,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-6">
-											<c-input name="gcc-decline-text" v-model="decline_text"></c-input>
+											<c-input name="button_decline_text_field" v-model="decline_text"></c-input>
 										</c-col>
 										<c-col class="col-sm-6  gdpr-color-pick">
 											<c-input class="gdpr-color-input" type="text" v-model="decline_text_color"></c-input>
@@ -910,7 +957,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
-										<c-input name="gcc-settings-text" v-model="settings_text"></c-input>
+										<c-input name="button_settings_text_field" v-model="settings_text"></c-input>
 									</c-col>
 									<c-col class="col-sm-6  gdpr-color-pick">
 										<c-input class="gdpr-color-input" type="text" v-model="settings_text_color"></c-input>
@@ -1063,7 +1110,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-6">
-											<c-input name="gcc-confirm-text" v-model="confirm_text"></c-input>
+											<c-input name="button_confirm_text_field" v-model="confirm_text"></c-input>
 										</c-col>
 										<c-col class="col-sm-6 gdpr-color-pick">
 											<c-input class="gdpr-color-input" type="text" v-model="confirm_text_color"></c-input>
@@ -1170,7 +1217,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-6">
-											<c-input name="gcc-cancel-text" v-model="cancel_text"></c-input>
+											<c-input name="button_cancel_text_field" v-model="cancel_text"></c-input>
 										</c-col>
 										<c-col class="col-sm-6 gdpr-color-pick">
 											<c-input class="gdpr-color-input" type="text" v-model="cancel_text_color"></c-input>
@@ -1277,7 +1324,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-6">
-											<c-input name="gcc-opt-out-text" v-model="opt_out_text"></c-input>
+											<c-input name="button_donotsell_text_field" v-model="opt_out_text"></c-input>
 										</c-col>
 										<c-col class="col-sm-6 gdpr-color-pick">
 											<c-input class="gdpr-color-input" type="text" v-model="opt_out_text_color"></c-input>
@@ -1332,21 +1379,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
 					</c-tab>
-					<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#script_blocker">
-						<c-card>
-								<c-card-header><?php esc_html_e( 'Script Blocker Settings', 'gdpr-cookie-consent' ); ?></c-card-header>
-								<c-card-body>
-									<c-row>
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Script Blocker is Currently', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8">
-											<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="is_script_blocker_on" v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
-											<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on">
-										</c-col>
-									</c-row>
-									<?php do_action( 'gdpr_settings_script_blocker_card' ); ?>
-								</c-card-body>
-						</c-card>
-					</c-tab>
+					<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 				</c-tabs>
 			</div>
 			<div class="gdpr-cookie-consent-settings-bottom">

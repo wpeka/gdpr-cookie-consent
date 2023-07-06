@@ -20,6 +20,7 @@
       <key name="popup_template"/>
       <key name="widget_template"/>
       <key name="button_accept_text"/>
+      <key name="button_accept_all_text"/>
       <key name="button_accept_url"/>
       <key name="button_accept_action"/>
       <key name="button_accept_link_color"/>
@@ -98,6 +99,8 @@
       <key name="notify_animate_show"/>
       <key name="notify_message"/>
       <key name="notify_message_ccpa"/>
+      <key name="notify_message_eprivacy"/>
+      <key name="notify_message_ccpa_optout"/>
       <key name="notify_div_id"/>
       <key name="notify_position_vertical"/>
       <key name="notify_position_horizontal"/>
