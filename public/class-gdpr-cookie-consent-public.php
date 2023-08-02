@@ -334,7 +334,7 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			$credit_link = sprintf(
 				/* translators: 1: GDPR Cookie Consent Plugin*/
-				__( 'Powered by %1$s', 'gdpr-cookie-consent' ),
+				__( 'Powered by %s', 'gdpr-cookie-consent' ),
 				'<a href="' . esc_url( $credit_link_href ) . '" id="cookie_credit_link" rel="nofollow noopener" target="_blank">' . $credit_link_text . '</a>'
 			);
 
