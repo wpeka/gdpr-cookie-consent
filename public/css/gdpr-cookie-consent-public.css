@@ -28,7 +28,7 @@
 	color: #0274be;
 }
 #gdpr-cookie-consent-bar a {
-	background-color: inherit;	
+	background-color: inherit;
 	font-family: inherit;
 	cursor: pointer;
 	text-decoration: none;
@@ -1407,10 +1407,10 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	}
 	#gdpr-cookie-consent-bar.gdpr-popup.gdpr-square .btn.gdpr_action_button, #gdpr-cookie-consent-bar.gdpr-popup .btn.gdpr_action_button_link {
 		margin-right: -10px;
-	} 
+	}
 	#gdpr-cookie-consent-bar.gdpr-widget.gdpr-square .btn.gdpr_action_button, #gdpr-cookie-consent-bar.gdpr-popup .btn.gdpr_action_button_link {
 		margin-right: -10px;
-	} 
+	}
 	.gdpr-banner > .gdpr_messagebar_content > #default_buttons {
 		display: flex;
 		justify-content: space-around;
@@ -1506,4 +1506,9 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	text-align: center;
 	padding: 1rem 1rem;
 	border-radius: 400px;
+}
+
+/*Table Borders for the LegalPolicy*/
+.wp_legalpolicy table th,tbody td {
+	border: 1px solid;
 }
