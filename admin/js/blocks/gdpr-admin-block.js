@@ -7,10 +7,10 @@
  */
 
  (function($) {
-    const { registerBlockType } = wp.blocks;
-    const { createElement } = wp.element;
-    const { __ } = wp.i18n;
-    const { ServerSideRender } = wp.editor;
+    const { registerBlockType } = wp.blocks;// Blocks API.
+    const { createElement } = wp.element;// React.createElement.
+    const { __ } = wp.i18n;// Translation functions.
+    const { ServerSideRender } = wp.editor;// Block ServerSideRender wrapper.
 
     registerBlockType('gdpr/block', {
         title: __('GDPR Cookie Details'),
@@ -20,7 +20,7 @@
             return createElement(
                 'div',
                 {},
-                createElement(ServerSideRender, {
+                createElement(ServerSideRender, {// Preview will go here.
                     block: 'gdpr/block',
                     key: 'gdpr'
                 })
