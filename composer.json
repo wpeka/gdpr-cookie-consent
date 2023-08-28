@@ -11,7 +11,7 @@
         "composer/installers": "~1.7",
         "pelago/emogrifier": "3.1.0",
         "psr/container": "1.0.0",
-        "timber/timber": "^1.13"
+        "timber/timber": "^2.0.0"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
@@ -27,7 +27,12 @@
         "platform": {
             "php": "7.0"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true,
+            "composer/installers": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "scripts": {
         "test": [
