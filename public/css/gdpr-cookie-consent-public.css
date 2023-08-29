@@ -1507,8 +1507,3 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	padding: 1rem 1rem;
 	border-radius: 400px;
 }
-
-/*Table Borders for the LegalPolicy*/
-.wp_legalpolicy table th,tbody td {
-	border: 1px solid;
-}
