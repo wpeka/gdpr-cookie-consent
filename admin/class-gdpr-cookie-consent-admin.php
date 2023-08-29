@@ -880,10 +880,7 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( has_block( 'gdpr/block', get_the_ID() ) ) {
 			wp_enqueue_script( $this->plugin_name . '-block' );
 		}
-		$styles = '';
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
-			$styles = 'border: 1px solid #767676';
-		}
+		$styles = 'border: 1px solid #767676';
 		$args                = array(
 			'numberposts' => -1,
 			'post_type'   => 'gdprpolicies',
