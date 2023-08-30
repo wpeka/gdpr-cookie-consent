@@ -1,0 +1,281 @@
+/*
+Wizard Style
+*/
+
+* {
+	margin: 0;
+	padding: 0
+}
+
+html {
+	height: 100%
+}
+.gdpr-wizard-top-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 4em;
+}
+
+.gdpr-main-heading {
+	color: #000;
+	font-family: Roboto;
+	font-size: 40px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	margin: auto 0;
+}
+
+.gdpr-wizard-logo{
+	width: 80px;
+	height: 70.508px;
+	flex-shrink: 0;
+}
+
+.gdpr-wizard-main-container{
+    margin-top: 3em;
+    margin-left: 5em;
+    width: 90%;
+    /* height: 100%; */
+    /* height: 30em; */
+	min-height: 650px;
+    flex-shrink: 0;
+    background: #FFF;
+}
+
+/* #form {
+	text-align: center;
+	position: relative;
+	margin-top: 20px
+} */
+
+#form fieldset {
+	/* background: white;
+	border: 0 none;
+	border-radius: 0.5rem;
+	box-sizing: border-box; */
+	width: 100%;
+	/* margin: 0; */
+	/* padding-bottom: 20px; */
+	position: relative
+}
+
+.finish {
+	text-align: center
+}
+
+#form fieldset:not(:first-of-type) {
+	display: none
+}
+
+#form .previous-step, .next-step {
+	/* width: 100px; */
+	width: 167px;
+	height: 43px;
+	flex-shrink: 0;
+	font-weight: bold;
+	color: white;
+	border: 0 none;
+	border-radius: 0px;
+	cursor: pointer;
+	padding: 10px 5px;
+	margin: 10px 5px 10px 0px;
+	float: right
+}
+
+.form, .previous-step {
+	background: #39F;
+}
+
+.form, .next-step {
+	background: #39F;
+}
+
+#form .previous-step:hover,
+#form .previous-step:focus {
+	background: rgb(5, 75, 146);
+}
+
+#form .next-step:hover,
+#form .next-step:focus {
+	background: rgb(5, 75, 146);
+}
+
+#progressbar li {
+	list-style-type: none;
+	font-size: 15px;
+	width: 25%;
+	float: left;
+	position: relative;
+	font-weight: 400
+}
+
+.line {
+	width: 100%;
+	height: 1px;
+	background-color: #ccc;
+  }
+
+.container {
+	margin-top: 100px;
+  }
+
+.horizontal-line {
+	width: 100%;
+	height: 2px;
+	background-color: #ccc;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.progress-step{
+	text-align:center;
+}
+
+.form-container{
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 5%;
+}
+
+.line-step-1{
+	background: #39F;
+}
+
+.line-step-2,.left-side-line{
+	background: linear-gradient(to left, #ccc 50%, #3399FF 50%);
+}
+
+.right-side-line{
+
+	background: linear-gradient(to right, #3399FF 50%, #3399FF 50%);
+
+}
+
+.last-step-right-side{
+
+	background: linear-gradient(to left, #ccc 50%, #3399FF 50%);
+
+}
+
+.step-images{
+	height:32px;
+	width:32px;
+}
+
+.selected-step-img,.not-selected-step-img,.finish-step-img {
+	position: absolute;
+	top: 50%;
+	left: calc(50% - 0%);
+	transform: translate(-50%, -50%);
+	z-index: 1;
+  }
+
+.first-next-step{
+	/* margin-top: 40%; */
+}
+
+.select-rule{
+	display: block;
+}
+.select-the-law{
+	display: flex;
+	flex-direction: column;
+}
+
+.select-law-rule-label{
+    color: #000;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.select-law-rule-options{
+    color: #000;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.progress-bar-label{
+	color: #000;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+/*GEO Location Question*/
+
+.gdpr-selection,.ccpa-selection,.ccpa-iab-selection{
+	display:block;
+}
+
+.gdpr-options,.ccpa-options,.iab-options{
+	display:flex;
+	flex-direction:column;
+	color: #000;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.gdpr-selection-label,.ccpa-selection-label{
+	color: #000;
+	font-size: 17px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+
+.gdpr-free-container{
+	display:flex;
+}
+
+/* Pro Label start  */
+
+.gdpr-pro-label{
+
+	width: 33px;
+	height: 15px;
+	flex-shrink: 0;
+	background: #39F;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	text-align: center;
+	margin-left: 2%;
+    margin-top: 1%;
+
+}
+
+.gdpr-pro-label-text{
+	color: #FFF;
+	/* leading-trim: both;
+	text-edge: cap;
+	font-family: Roboto; */
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+
+}
+/* Pro Label End  */
+
+.gdpr-yes-option{
+	color: #C6C6C6;
+}
+
+ /* general tab content start  */
+
+.general-tab-content{
+	border: 0.5px solid #000;
+}
+
+.select-rule{
+
+	margin:45px
+
+}

@@ -25,6 +25,9 @@ var gen = new Vue({
                 labelOn: '\u2713',
                 labelOff: '\u2715'
             },
+			selectedRadioIab: 'no',
+			selectedRadioGdpr: 'no',
+			selectedRadioCcpa: 'no',
             is_template_changed: false,
             appendField: ".gdpr-cookie-consent-settings-container",
             configure_image_url: require('../admin/images/configure-icon.png'),
@@ -397,14 +400,20 @@ var gen = new Vue({
         onSwitchCookieAcceptAllEnable() {
             this.cookie_accept_all_on = !this.cookie_accept_all_on;
         },
-        onSwitchIABEnable() {
-            this.is_iab_on = !this.is_iab_on;
+        onSwitchIABEnable(value) {
+			this.is_iab_on = !this.is_iab_on;
         },
-        onSwitchEUEnable() {
+        onSwitchEUEnable(value) {
             this.is_eu_on = !this.is_eu_on;
+			if ( value) {
+				this.is_iab_on = value === 'yes';
+			}
         },
-        onSwitchCCPAEnable() {
+        onSwitchCCPAEnable(value) {
             this.is_ccpa_on = !this.is_ccpa_on;
+			if ( value) {
+				this.is_ccpa_on = value === 'yes';
+			}
         },
         onSwitchRevokeConsentEnable() {
             this.is_revoke_consent_on = !this.is_revoke_consent_on;
@@ -532,6 +541,9 @@ var gen = new Vue({
             this.button_readmore_page = value;
         },
         cookiePolicyChange( value ) {
+			if(this.gdpr_policy){
+				value = this.gdpr_policy;
+			}
             if(value === 'both') {
                 this.is_ccpa = true;
                 this.is_gdpr = true;
@@ -956,9 +968,9 @@ var gen = new Vue({
                 })
 
                 }) ,
-            image_frame.open()         
+            image_frame.open()
 
-);    
+);
         },
         deleteSelectedimage() {
                 jQuery('#image-delete-button').click(
