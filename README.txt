@@ -1,4 +1,4 @@
-=== WP Cookie Notice for GDPR, CCPA & ePrivacy Consent ===
+=== WP Cookie Consent ( for GDPR, CCPA & ePrivacy ) ===
 Contributors: wpeka-club
 Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
@@ -38,7 +38,7 @@ Further the to comply with the regulations governing cookies and the ePrivacy di
 - Allow access to your website, even if users do not consent to non-necessary cookies.
 - Allow users to withdraw or change consent
 
-The WP Cookie Notice for GDPR, CCPA & ePrivacy Consent plugin helps you comply with the GDPR in the following ways:
+The WP Cookie Consent ( for GDPR, CCPA & ePrivacy ) plugin helps you comply with the GDPR in the following ways:
 
 - Provides an easy-to-use admin area in the WordPress dashboard, where you can add details of cookies used on your website. You can also classify cookies into 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified' categories.
 - Shows a cookie consent notice on the website. The cookie notice shows 'Accept' & 'Decline' buttons.
@@ -58,7 +58,7 @@ and,
 
 > Provide a clear and conspicuous link on the business’s Internet homepage, titled “Do Not Sell My Personal Information,” to an Internet Web page that enables a consumer, or a person authorized by the consumer, to opt-out of the sale of the consumer’s personal information.
 
-The WP Cookie Notice for GDPR, CCPA & ePrivacy Consent plugin helps you comply with the CCPA in the following ways:
+The WP Cookie Consent ( for GDPR, CCPA & ePrivacy ) plugin helps you comply with the CCPA in the following ways:
 
 - Provides an easy-to-use admin area in the WordPress dashboard, where you can add details of cookies used on your website. You can also classify cookies into 'Necessary', 'Marketing', 'Analytics', 'Preferences', and the 'Unclassified' categories.
 - Displays the cookies in your CCPA privacy policy or anywhere on your website, along with categories with an easy to use WordPress shortcode.
