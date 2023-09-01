@@ -17,7 +17,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 		if ( ! empty( $get_banner_img) ) {
 			?>
-			<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 				<?php
 		}
 		?>
@@ -180,6 +180,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	?>
 	<div class="gdpr_messagebar_content">
 
+
 		<div class="group-description" tabindex="0">
 
 		<!-- Logo Added for CCPA rule 	 -->
@@ -196,7 +197,22 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 
 			<p class="ccpa"><?php echo strip_tags( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 
-		<div class="group-description" tabindex="0"><p class="ccpa"><?php echo strip_tags( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+		<div class="group-description" tabindex="0">
+
+		<!-- Logo Added for CCPA rule 	 -->
+		<div class="gdpr_logo_container">
+		<?php
+			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+		if ( ! empty ($get_banner_img) ) {
+			?>
+			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+				<?php
+		}
+		?>
+		</div>
+
+			<p class="ccpa"><?php echo strip_tags( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+
 		<?php
 		if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
 			?>
@@ -234,7 +250,21 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		</div>
 
 		<p class="gdpr"><?php echo strip_tags( $the_options['eprivacy_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
-		<div class="group-description" tabindex="0"><p class="gdpr"><?php echo strip_tags( $the_options['eprivacy_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+		<div class="group-description" tabindex="0">
+
+		<!-- Logo Added for Eprivacy rule 	 -->
+		<div class="gdpr_logo_container">
+		<?php
+			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+		if ( ! empty ($get_banner_img) ) {
+			?>
+			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+				<?php
+		}
+		?>
+		</div>
+
+		<p class="gdpr"><?php echo strip_tags( $the_options['eprivacy_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 				<?php
 				if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
 					?>
