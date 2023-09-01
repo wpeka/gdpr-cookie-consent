@@ -1,4 +1,4 @@
-# WP Cookie Notice for GDPR, CCPA & ePrivacy Consent #
+# WP Cookie Consent ( for GDPR, CCPA & ePrivacy ) #
 
 <p align="center">
 <a href="https://wordpress.org/plugins/gdpr-cookie-consent/"><img src="https://img.shields.io/wordpress/plugin/v/gdpr-cookie-consent" alt="Latest Stable Version"></a>

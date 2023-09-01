@@ -15,7 +15,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	<div class="gdpr_logo_container">
 		<?php
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		if ( '' !== $get_banner_img ) {
+		if ( ! empty( $get_banner_img) ) {
 			?>
 			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 				<?php
@@ -177,7 +177,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		<div class="gdpr_logo_container">
 		<?php
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		if ( '' !== $get_banner_img ) {
+		if ( ! empty( $get_banner_img) ) {
 			?>
 			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 				<?php
@@ -212,7 +212,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		<div class="gdpr_logo_container">
 		<?php
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		if ( '' !== $get_banner_img ) {
+		if ( ! empty( $get_banner_img) ) {
 			?>
 			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 				<?php
