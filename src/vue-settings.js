@@ -27,7 +27,7 @@ var gen = new Vue({
             },
 			labelIconNew: {
 				labelOn: '\u2713',
-                labelOff: '\uD83D\uDD12',
+				labelOff: '\uD83D\uDD12',
 			},
 			isGdprProActive:'1' === settings_obj.is_pro_active,
 			selectedRadioIab: 'no',
@@ -376,6 +376,8 @@ var gen = new Vue({
 				this.disableSwitch = false;
 			}else{
 				this.disableSwitch = true;
+				this.logging_on = false; //make enable consent switch turn off if pro is not active
+				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
 			}
         },
         setPostListValues() {
