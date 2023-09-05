@@ -417,17 +417,20 @@ var gen = new Vue({
         },
         onSwitchIABEnable(value) {
 			this.is_iab_on = !this.is_iab_on;
+			if ( value) {
+				this.is_iab_on = value === 'yes'?'yes':'no';
+			}
         },
         onSwitchEUEnable(value) {
             this.is_eu_on = !this.is_eu_on;
 			if ( value) {
-				this.is_iab_on = value === 'yes';
+				this.is_eu_on = value === 'yes'?'yes':'no';
 			}
         },
         onSwitchCCPAEnable(value) {
             this.is_ccpa_on = !this.is_ccpa_on;
 			if ( value) {
-				this.is_ccpa_on = value === 'yes';
+				this.is_ccpa_on = value === 'yes'?'yes':'no';
 			}
         },
         onSwitchRevokeConsentEnable() {
@@ -970,8 +973,6 @@ var gen = new Vue({
 		saveWizardCookieSettings() {
 			var that = this;
             var dataV = jQuery(".gcc-save-wizard-settings-form").serialize();
-			console.log('Inside save wizard settings');
-			console.log(dataV);
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
