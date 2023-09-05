@@ -29,6 +29,7 @@ var gen = new Vue({
 				labelOn: '\u2713',
                 labelOff: '\uD83D\uDD12',
 			},
+			isGdprProActive:'1' === settings_obj.is_pro_active,
 			selectedRadioIab: 'no',
 			selectedRadioGdpr: 'no',
 			selectedRadioCcpa: 'no',
