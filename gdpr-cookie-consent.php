@@ -72,6 +72,20 @@ function activate_gdpr_cookie_consent() {
 	Gdpr_Cookie_Consent_Activator::activate();
 	register_uninstall_hook( __FILE__, 'uninstall_gdpr_cookie_consent' );
 	add_option( 'analytics_activation_redirect_gdpr-cookie-consent', true );
+	// Get redirect URL.
+	add_option('redirect_after_activation_option', true);
+}
+
+/**
+ * Redirecting to the wizard page on plguin activation
+ */
+add_action('admin_init', 'activation_redirect');
+
+function activation_redirect() {
+    if (get_option('redirect_after_activation_option', false)) {
+        delete_option('redirect_after_activation_option');
+        exit(wp_redirect(admin_url( 'admin.php?page=gdpr-cookie-consent-wizard' )));
+    }
 }
 
 /**

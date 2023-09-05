@@ -23,11 +23,16 @@ var gen = new Vue({
         return {
             labelIcon: {
                 labelOn: '\u2713',
-                labelOff: '\u2715'
+                labelOff: '\u2715',
             },
+			labelIconNew: {
+				labelOn: '\u2713',
+                labelOff: '\uD83D\uDD12',
+			},
 			selectedRadioIab: 'no',
 			selectedRadioGdpr: 'no',
 			selectedRadioCcpa: 'no',
+			disableSwitch: false,
             is_template_changed: false,
             appendField: ".gdpr-cookie-consent-settings-container",
             configure_image_url: require('../admin/images/configure-icon.png'),
@@ -364,6 +369,13 @@ var gen = new Vue({
             }
             this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
             this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
+
+			//set the disableSwitch value is pro is active/inactive
+			if( '1' === settings_obj.is_pro_active ) {
+				this.disableSwitch = false;
+			}else{
+				this.disableSwitch = true;
+			}
         },
         setPostListValues() {
             for( let i=0; i<this.post_cookie_list_length; i++ ) {
@@ -951,6 +963,28 @@ var gen = new Vue({
                 }
             });
         },
+		//method to save wizard form settings
+		saveWizardCookieSettings() {
+			var that = this;
+            var dataV = jQuery(".gcc-save-wizard-settings-form").serialize();
+			console.log('Inside save wizard settings');
+			console.log(dataV);
+            jQuery.ajax({
+                type: 'POST',
+                url: settings_obj.ajaxurl,
+                data: dataV + '&action=gcc_save_wizard_settings',
+            }).done(function (data) {
+                that.success_error_message = 'Settings Saved';
+                j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                // if(that.is_template_changed){
+                //     that.is_template_changed = false;
+                //     location.reload();
+                // }
+            });
+
+		},
         openMediaModal() {
             var image_frame = wp.media({
                 title: 'Select Media from here',
