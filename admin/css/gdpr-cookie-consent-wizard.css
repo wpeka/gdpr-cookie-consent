@@ -499,49 +499,57 @@ html {
   }
 
 /* Banner go pro templates  */
-.gdpr-banner-default .gdpr-go-pro-label {
 
-	top: 36.2%;
-    left: 8.1%;
+.gdpr-banner-default,.gdpr-banner-navy_blue_center,.gdpr-banner-grey_column,.gdpr-banner-grey_column,.gdpr-banner-dark_row,.gdpr-banner-grey_center,.gdpr-banner-dark,.gdpr-banner-almond_column {
+	position: relative;
+}
+
+
+
+.gdpr-banner-default .gdpr-go-pro-label {
+	position: absolute;
+	top: 102.2%;
+    left: 6.6%;
     z-index: 1;
 
 }
 
 .gdpr-banner-navy_blue_center .gdpr-go-pro-label{
-	top: 44.65%;
-    left: 8.1%;
+	position: absolute;
+    top: -5.35%;
+    left: 6.6%;
     z-index: 1;
 }
 
 .gdpr-banner-grey_column .gdpr-go-pro-label {
-
-	top: 53.2%;
-    left: 8.1%;
+	position: absolute;
+	top: -5.8%;
+    left: 6.6%;
     z-index: 1;
 }
 
 
 .gdpr-banner-dark_row .gdpr-go-pro-label{
-
-	top: 83.89em;
-    left: 8.1%;
+	position: absolute;
+	top: -0.6em;
+    left: 6.6%;
     z-index: 1;
 
 }
 
 
 .gdpr-banner-grey_center .gdpr-go-pro-label{
-
-	top: 101.5em;
-    left: 8.1%;
+	position: absolute;
+	top: -0.7em;
+    left: 6.6%;
     z-index: 1;
 
 }
 
 .gdpr-banner-dark .gdpr-go-pro-label{
-
-	top: 113.2em;
-    left: 8.1%;
+	position: absolute;
+	top: -0.6em;
+    left: 6.6%;
     z-index: 1;
 
 }
@@ -552,6 +560,10 @@ html {
 
 /* Popup go pro templates  */
 
+.gdpr-popup-default,.gdpr-popup-dark,.gdpr-popup-almond_column,.gdpr-popup-navy_blue_center,.gdpr-popup-dark_row,.gdpr-popup-grey_center,.gdpr-popup-navy_blue_box,.gdpr-popup-grey_column,.gdpr-popup-navy_blue_square{
+	position: relative;
+}
+
 .gdpr-popup-default .gdpr-go-pro-label{
 
 	display: none;
@@ -559,49 +571,61 @@ html {
 }
 
 .gdpr-popup-dark .gdpr-go-pro-label{
-	top: 29.6%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.4%;
+    left: 10%;
 }
 
 .gdpr-popup-almond_column .gdpr-go-pro-label{
-	top: 36.65%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.35%;
+    left: 10%;
 }
 
 .gdpr-popup-navy_blue_center .gdpr-go-pro-label{
-	top: 44.55%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.45%;
+    left: 10%;
 }
 
 .gdpr-popup-dark_row .gdpr-go-pro-label{
-	top: 51.5%;
-    left: 8.1%;
+	position: absolute;
+	top: -2.5%;
+    left: 10%;
 }
 
 .gdpr-popup-grey_center .gdpr-go-pro-label{
-	top: 61.66%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.34%;
+    left: 10%;
 
 }
 
 .gdpr-popup-navy_blue_box .gdpr-go-pro-label{
-	top: 68.66%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.34%;
+    left: 10%;
 
 }
 
 .gdpr-popup-grey_column .gdpr-go-pro-label{
-	top: 75.7%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.1%;
+    left: 10%;
 
 }
 
 .gdpr-popup-navy_blue_square .gdpr-go-pro-label{
-	top: 83.66%;
-    left: 8.1%;
+	position: absolute;
+	top: -2.34%;
+    left: 10%;
 }
 
 /*Widget Pop Up template*/
+
+.gdpr-widget-default,.gdpr-widget-dark,.gdpr-widget-almond_column,.gdpr-widget-navy_blue_center,.gdpr-widget-dark_row,.gdpr-widget-grey_center,.gdpr-widget-navy_blue_box,.gdpr-widget-grey_column,.gdpr-widget-navy_blue_square{
+	position: relative;
+}
 
 .gdpr-widget-default .gdpr-go-pro-label{
 
@@ -610,47 +634,55 @@ html {
 }
 
 .gdpr-widget-dark .gdpr-go-pro-label{
-	top: 29.6%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.4%;
+    left: 10%;
 }
 
 .gdpr-widget-almond_column .gdpr-go-pro-label{
-	top: 36.65%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.35%;
+    left: 10%;
 }
 
 .gdpr-widget-navy_blue_center .gdpr-go-pro-label{
-	top: 44.55%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.45%;
+    left: 10%;
 }
 
 .gdpr-widget-dark_row .gdpr-go-pro-label{
-	top: 51.5%;
-    left: 8.1%;
+	position: absolute;
+	top: -2.5%;
+    left: 10%;
 }
 
 .gdpr-widget-grey_center .gdpr-go-pro-label{
-	top: 61.66%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.34%;
+    left: 10%;
 
 }
 
 .gdpr-widget-navy_blue_box .gdpr-go-pro-label{
-	top: 68.66%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.34%;
+    left: 10%;
 	z-index: 1;
 
 }
 
 .gdpr-widget-grey_column .gdpr-go-pro-label{
-	top: 76.6%;
-    left: 8.1%;
+	position: absolute;
+	top: -4.1%;
+    left: 10%;
     z-index: 1
 }
 
 .gdpr-widget-navy_blue_square .gdpr-go-pro-label{
-	top: 83.66%;
-    left: 8.1%;
+	position: absolute;
+	top: -2.34%;
+    left: 10%;
 }
 
 /* Script Blocker Feature  */
