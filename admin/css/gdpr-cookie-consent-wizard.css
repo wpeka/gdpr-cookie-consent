@@ -64,8 +64,8 @@ html {
 	border-radius: 0px;
 	cursor: pointer;
 	padding: 10px 5px;
-	margin: 10px 5px 10px 0px;
-	float: right
+	float: right;
+	margin: 20px;
 }
 
 #gcc-save-settings-form .previous-step{
@@ -82,6 +82,11 @@ html {
 	float: left;
 	background: #fff;
 
+}
+
+/* Change text color on hover */
+#gcc-save-settings-form .previous-step:hover {
+    color:  rgb(5, 75, 146);
 }
 
 .form, .previous-step {
@@ -132,6 +137,7 @@ html {
 	background-color: #ccc;
 	position: absolute;
 	top: 50%;
+	left:0;
 	transform: translateY(-50%);
 }
 
@@ -144,6 +150,7 @@ html {
     margin: 0 auto;
     padding-top: 5%;
 	position: relative;
+	padding-bottom: 51px;
 }
 
 .line-step-1{
