@@ -57,7 +57,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 			</div>
 			<div class="gdpr-right-field" style="<?php echo esc_attr( $template['css'] ); ?>">
 				<div class="gdpr-right-field-content">
-					<div class="gdpr-group-description">
+					<div class="gdpr-group-description" style="margin-top:20px">
 						<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 						<?php if ( $column ) : ?>
 							<p>{{gdpr_message}}</p>
