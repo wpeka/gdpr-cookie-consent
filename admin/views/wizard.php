@@ -28,7 +28,7 @@ $is_pro = get_option( 'wpl_pro_active', false );
  * @since 1.0.0
  */
 function print_template_boxes( $name, $templates, $checked ) {
-	$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+
 	$image_path = GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/';
 	?>
 	<div class="gdpr-templates-field-container">
@@ -58,14 +58,6 @@ function print_template_boxes( $name, $templates, $checked ) {
 			<div class="gdpr-right-field" style="<?php echo esc_attr( $template['css'] ); ?>">
 				<div class="gdpr-right-field-content">
 					<div class="gdpr-group-description">
-					<?php
-					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-					if ( '' !== $get_banner_img ) {
-						?>
-					<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-						<?php
-					}
-					?>
 						<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 						<?php if ( $column ) : ?>
 							<p>{{gdpr_message}}</p>
