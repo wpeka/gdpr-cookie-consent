@@ -187,10 +187,6 @@ html {
 	z-index: 1;
   }
 
-.first-next-step{
-	/* margin-top: 40%; */
-}
-
 .select-rule{
 	display: block;
 }
@@ -783,11 +779,6 @@ html {
 	font-weight: 400;
 	line-height: normal;
 }
-
-/* Float three columns side by side */
-.column {
-
-  }
 
   /* Clear floats after the columns */
   .tab-row:after {

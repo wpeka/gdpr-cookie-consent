@@ -122,8 +122,6 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name . '-select2', plugin_dir_url( __FILE__ ) . 'js/select2.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-main', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-main.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-dashboard', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-dashboard.js', array( 'jquery' ), $this->version, false );
-		//wizard
-		// wp_register_script( $this->plugin_name . '-wizard', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-wizard.js', array( 'jquery' ), $this->version, false );
 	}
 
 	/**

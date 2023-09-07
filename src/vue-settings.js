@@ -1003,7 +1003,6 @@ var gen = new Vue({
 
                 }) ,
             image_frame.open()
-
 );
         },
         deleteSelectedimage() {
