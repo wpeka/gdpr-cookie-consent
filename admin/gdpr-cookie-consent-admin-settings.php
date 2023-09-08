@@ -83,8 +83,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 							</c-card-body>
 						</c-card>
-						<c-card v-show="show_visitor_conditions">
-							<c-card-header><?php esc_html_e( 'Enable Visitor Conditions', 'gdpr-cookie-consent' ); ?></c-card-header>
+						<c-card v-show="!is_eprivacy">
+							<c-card-header><?php esc_html_e('Enable Visitor Conditions', 'gdpr-cookie-consent'); ?></c-card-header>
 							<c-card-body>
 								<c-row v-show="is_ccpa">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable compatibility for the customization of advertising tracking preferences in case of CCPA.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
@@ -93,7 +93,41 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
 									</c-col>
 								</c-row>
-								<?php do_action( 'gdpr_enable_visitor_features' ); ?>
+								<?php if (!$is_pro_active) : ?>
+									<c-row v-show="is_gdpr">
+										<c-col class="col-sm-4"><label><?php esc_attr_e('Show only for EU visitors', 'gdpr-cookie-consent'); ?>
+												<span>
+													<svg style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));" width="33" height="15" xmlns="http://www.w3.org/2000/svg">
+														<rect width="100%" height="100%" fill="#3399FF" />
+														<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="10px" font-family="Arial, sans-serif">Pro</text>
+													</svg>
+
+
+												</span>
+											</label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="is_eu_on" id="gdpr-cookie-consent-eu-on" variant="3d" color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
+											<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
+										</c-col>
+									</c-row>
+									<c-row v-show="is_ccpa">
+										<c-col class="col-sm-4"><label><?php esc_attr_e('Show only for California visitors', 'gdpr-cookie-consent'); ?>
+												<span>
+													<svg style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));" width="33" height="15" xmlns="http://www.w3.org/2000/svg">
+														<rect width="100%" height="100%" fill="#3399FF" />
+														<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="10px" font-family="Arial, sans-serif">Pro</text>
+													</svg>
+
+
+												</span>
+											</label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d" color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
+											<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
+										</c-col>
+									</c-row>
+								<?php endif ?>
+								<?php do_action('gdpr_enable_visitor_features'); ?>
 							</c-card-body>
 						</c-card>
 						<c-card v-show="show_revoke_card">
@@ -250,7 +284,28 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Consent Settings', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
-								<?php do_action( 'gdpr_consent_settings_pro_top' ); ?>
+								<?php if (!$is_pro_active) : ?>
+
+									<c-row>
+										<c-col class="col-sm-4"><label><?php esc_attr_e('Enable Consent Logging', 'gdpr-cookie-consent'); ?> <tooltip text="<?php esc_html_e('Enable to log user’s consent.', 'gdpr-cookie-consent'); ?>"></tooltip>
+												<span>
+													<span>
+														<svg style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));" width="33" height="15" xmlns="http://www.w3.org/2000/svg">
+															<rect width="100%" height="100%" fill="#3399FF" />
+															<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="10px" font-family="Arial, sans-serif">Pro</text>
+														</svg>
+
+
+													</span>
+												</span>
+											</label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" id="gdpr-cookie-consent-logging-on" variant="3d" color="success" :checked="logging_on"></c-switch>
+											<input type="hidden" name="gcc-logging-on" v-model="logging_on">
+										</c-col>
+									</c-row>
+								<?php endif; ?>
+								<?php do_action('gdpr_consent_settings_pro_top'); ?>
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Autotick for Non-Necessary Cookies ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Pre-select non-necessary cookie checkboxes.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
@@ -312,7 +367,25 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<input type="hidden" name="gcc-decline-reload" v-model="decline_reload">
 									</c-col>
 								</c-row>
-								<?php do_action( 'gdpr_consent_settings_pro_bottom' ); ?>
+								<?php if (!$is_pro_active) : ?>
+									<c-row>
+										<c-col class="col-sm-4"><label><?php esc_attr_e('Restrict Pages and/or Posts', 'gdpr-cookie-consent'); ?> <tooltip text="<?php esc_html_e('Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent'); ?>"></tooltip>
+												<span>
+													<svg style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));" width="33" height="15" xmlns="http://www.w3.org/2000/svg">
+														<rect width="100%" height="100%" fill="#3399FF" />
+														<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="10px" font-family="Arial, sans-serif">Pro</text>
+													</svg>
+
+
+												</span>
+											</label></c-col>
+										<c-col class="col-sm-8">
+											<v-select disabled id="gdpr-cookie-consent-restrict-posts" :reduce="label => label.code" class="form-group" :options="list_of_contents" multiple v-model="restrict_array" @input="onPostsSelect"></v-select>
+											<input type="hidden" name="gcc-restrict-posts" v-model="restrict_posts">
+										</c-col>
+									</c-row>
+								<?php endif ?>
+								<?php do_action('gdpr_consent_settings_pro_bottom'); ?>
 							</c-card-body>
 						</c-card>
 						<c-card>
@@ -454,7 +527,26 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius" v-model="cookie_bar_border_radius"></c-input>
 									</c-col>
 								</c-row>
-								<?php do_action( 'gdpr_cookie_font' ); ?>
+								<?php if (!$is_pro_active) : ?>
+									<c-row>
+										<c-col class="col-sm-4"><label><?php esc_attr_e('Font', 'gdpr-cookie-consent'); ?>
+												<span>
+													<svg style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));" width="33" height="15" xmlns="http://www.w3.org/2000/svg">
+														<rect width="100%" height="100%" fill="#3399FF" />
+														<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="10px" font-family="Arial, sans-serif">Pro</text>
+													</svg>
+
+
+												</span>
+											</label></c-col>
+										<c-col class="col-sm-8">
+											<v-select disabled class="form-group" id="gdpr-cookie-font" :reduce="label => label.code" :options="font_options" v-model="cookie_font">
+											</v-select>
+											<input type="hidden" name="gdpr-cookie-font" v-model="cookie_font">
+										</c-col>
+									</c-row>
+								<?php endif ?>
+								<?php do_action('gdpr_cookie_font'); ?>
 								<?php
 								if ( $is_pro_active ) {
 									?>
@@ -482,6 +574,57 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<?php
 								}
 								?>
+									<c-row>
+										<c-col class="col-sm-4">
+											<label><?php esc_attr_e('Upload Logo', 'gdpr-cookie-consent'); ?></label>
+										</c-col>
+										<c-col class="col-sm-8 ">
+											<c-button color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
+												<?php esc_attr_e('Add Image', 'gdpr-cookie-consent'); ?>
+											</c-button>
+											<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
+												<?php esc_attr_e('Remove Image', 'gdpr-cookie-consent'); ?>
+											</c-button>
+											<?php
+											$get_banner_img = get_option(GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD);
+											?>
+											<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw($get_banner_img); ?>">
+											<p class="image-upload-notice" style="margin-left: 10px;">
+												<?php esc_attr_e('We recommend 50 x 50 pixels.', 'gdpr-cookie-consent'); ?>
+											</p>
+											<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw($get_banner_img); ?>" class="regular-text"> </c-input>
+										</c-col>
+									</c-row>
+								<?php
+								} else {
+								?>
+									<c-row>
+										<c-col class="col-sm-4">
+											<label><?php esc_attr_e('Upload Logo', 'gdpr-cookie-consent'); ?>
+												<span>
+													<svg style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));" width="33" height="15" xmlns="http://www.w3.org/2000/svg">
+														<rect width="100%" height="100%" fill="#3399FF" />
+														<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="10px" font-family="Arial, sans-serif">Pro</text>
+													</svg>
+
+
+												</span>
+											</label>
+										</c-col>
+										<c-col class="col-sm-8 ">
+											<c-button disabled color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
+												<?php esc_attr_e('Add Image', 'gdpr-cookie-consent'); ?>
+											</c-button>
+											<c-button disabled color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
+												<?php esc_attr_e('Remove Image', 'gdpr-cookie-consent'); ?>
+											</c-button>
+											<p class="image-upload-notice" style="margin-left: 10px;">
+												<?php esc_attr_e('We recommend 50 x 50 pixels.', 'gdpr-cookie-consent'); ?>
+											</p>
+											<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw($get_banner_img); ?>" class="regular-text"> </c-input>
+										</c-col>
+									</c-row>
+								<?php } ?>
 							</c-card-body>
 						</c-card>
 						<c-card v-show="is_gdpr || is_eprivacy">
