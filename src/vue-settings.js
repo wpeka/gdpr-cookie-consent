@@ -30,9 +30,6 @@ var gen = new Vue({
 				labelOff: '\uD83D\uDD12',
 			},
 			isGdprProActive:'1' === settings_obj.is_pro_active,
-			selectedRadioIab: 'no',
-			selectedRadioGdpr: 'no',
-			selectedRadioCcpa: 'no',
 			disableSwitch: false,
             is_template_changed: false,
             appendField: ".gdpr-cookie-consent-settings-container",
@@ -63,6 +60,9 @@ var gen = new Vue({
             ccpa_message: settings_obj.the_options.hasOwnProperty('notify_message_ccpa') ? this.stripSlashes(settings_obj.the_options['notify_message_ccpa']) : "In case of sale of your personal information, you may opt out by using the link",
             ccpa_optout_message: settings_obj.the_options.hasOwnProperty('optout_text') ? this.stripSlashes(settings_obj.the_options['optout_text']) : "Do you really wish to opt-out?",
             show_visitor_conditions: this.is_ccpa || ( this.is_gdpr && '1' === settings_obj.is_pro_active ) ? true : false,
+			selectedRadioIab:settings_obj.the_options.hasOwnProperty('is_ccpa_iab_on') && (true === settings_obj.the_options['is_ccpa_iab_on'] || 1 === settings_obj.the_options['is_ccpa_iab_on'] ) ? 'yes' : 'no',
+			selectedRadioGdpr:settings_obj.the_options.hasOwnProperty('is_eu_on') && (true === settings_obj.the_options['is_eu_on'] || 1 === settings_obj.the_options['is_eu_on'] ) ? 'yes' : 'no',
+			selectedRadioCcpa:settings_obj.the_options.hasOwnProperty('is_ccpa_on') && (true === settings_obj.the_options['is_ccpa_on'] || 1 === settings_obj.the_options['is_ccpa_on'] ) ? 'yes' : 'no',
             is_iab_on: settings_obj.the_options.hasOwnProperty('is_ccpa_iab_on') && (true === settings_obj.the_options['is_ccpa_iab_on'] || 1 === settings_obj.the_options['is_ccpa_iab_on'] ) ? true : false,
             is_eu_on: settings_obj.the_options.hasOwnProperty('is_eu_on') && (true === settings_obj.the_options['is_eu_on'] || 1 === settings_obj.the_options['is_eu_on'] ) ? true : false,
             is_ccpa_on: settings_obj.the_options.hasOwnProperty('is_ccpa_on') && (true === settings_obj.the_options['is_ccpa_on'] || 1 === settings_obj.the_options['is_ccpa_on'] ) ? true : false,
@@ -419,18 +419,22 @@ var gen = new Vue({
 			this.is_iab_on = !this.is_iab_on;
 			if ( value) {
 				this.is_iab_on = value === 'yes'?'yes':'no';
+				this.selectedRadioIab = value === 'yes'?'yes':'no';
 			}
         },
         onSwitchEUEnable(value) {
             this.is_eu_on = !this.is_eu_on;
 			if ( value) {
 				this.is_eu_on = value === 'yes'?'yes':'no';
+				this.selectedRadioGdpr = value === 'yes'?'yes':'no';
 			}
         },
         onSwitchCCPAEnable(value) {
             this.is_ccpa_on = !this.is_ccpa_on;
 			if ( value) {
 				this.is_ccpa_on = value === 'yes'?'yes':'no';
+				this.selectedRadioCcpa = value === 'yes'?'yes':'no';
+
 			}
         },
         onSwitchRevokeConsentEnable() {
@@ -882,6 +886,9 @@ var gen = new Vue({
             this.is_eu_on = false;
             this.is_ccpa_on = false;
             this.is_iab_on = false;
+			this.selectedRadioIab = 'no';
+			this.selectedRadioGdpr = 'no';
+			this.selectedRadioCcpa = 'no';
             this.logging_on = false;
             this.show_credits = false;
             this.autotick = false;
