@@ -2368,7 +2368,7 @@ function get_templates( $template_type ) {
 									<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> </label></c-col>
 									<c-col class="iab-options">
 										<label>
-										<input disabled type="radio" name="gcc-iab-enable" value="yes" v-model="selectedRadioIab" @click="onSwitchIABEnable('yes')">
+										<input type="radio" name="gcc-iab-enable" value="yes" v-model="selectedRadioIab" @click="onSwitchIABEnable('yes')">
 										Yes
 										</label>
 										<label>
@@ -2378,10 +2378,6 @@ function get_templates( $template_type ) {
 										<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
 									</c-col>
 								</c-row>
-								<div class="gdpr-pro-label" v-show="is_ccpa">
-										<div class="gdpr-pro-label-text" >Pro</div>
-								</div>
-
 						</div>
 
 						<!--  CCPA free selection with Pro Tag -->

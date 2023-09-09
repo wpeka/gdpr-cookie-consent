@@ -1084,13 +1084,41 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['show_again']                          = isset( $_POST['gcc-revoke-consent-enable'] ) && ( true === $_POST['gcc-revoke-consent-enable'] || 'true' === $_POST['gcc-revoke-consent-enable'] ) ? 'true' : 'true';
 			$the_options['button_decline_is_on']                 = isset( $_POST['gcc-cookie-decline-enable'] ) && ( true === $_POST['gcc-cookie-decline-enable'] || 'true' === $_POST['gcc-cookie-decline-enable'] ) ? 'true' : 'true';
 			$the_options['button_settings_is_on']                = isset( $_POST['gcc-cookie-settings-enable'] ) && ( true === $_POST['gcc-cookie-settings-enable'] || 'true' === $_POST['gcc-cookie-settings-enable'] ) ? 'true' : 'true';
-			$the_options['is_ccpa_iab_on']                      = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'yes' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
-
+			//adding the extra elseif condn to set the correct value for the geolocation selections for the wizard
+			//for IAB
+			if (isset($_POST['gcc-iab-enable']) ){
+				if ($_POST['gcc-iab-enable'] === 'no' ) {
+					$the_options['is_ccpa_iab_on'] = 'false';
+				}else if ( $_POST['gcc-iab-enable'] == 'false'){
+					$the_options['is_ccpa_iab_on'] = 'false';
+				}
+				else{
+					$the_options['is_ccpa_iab_on'] = 'true';
+				}
+			}
 			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
-
-				$the_options['is_eu_on']             = isset( $_POST['gcc-eu-enable'] ) && ( true === $_POST['gcc-eu-enable'] || 'yes' === $_POST['gcc-eu-enable'] ) ? 'true' : 'false';
-
-				$the_options['is_ccpa_on']           = isset( $_POST['gcc-ccpa-enable'] ) && ( true === $_POST['gcc-ccpa-enable'] || 'yes' === $_POST['gcc-ccpa-enable'] ) ? 'true' : 'false';
+				//For EU
+				if (isset($_POST['gcc-eu-enable']) ){
+					if ($_POST['gcc-eu-enable'] === 'no' ) {
+						$the_options['is_eu_on'] = 'false';
+					}else if ( $_POST['gcc-eu-enable'] == 'false'){
+						$the_options['is_eu_on'] = 'false';
+					}
+					else{
+						$the_options['is_eu_on'] = 'true';
+					}
+				}
+				//For CCPA
+				if (isset($_POST['gcc-ccpa-enable']) ){
+					if ($_POST['gcc-ccpa-enable'] === 'no' ) {
+						$the_options['is_ccpa_on'] = 'false';
+					}else if ( $_POST['gcc-ccpa-enable'] == 'false'){
+						$the_options['is_ccpa_on'] = 'false';
+					}
+					else{
+						$the_options['is_ccpa_on'] = 'true';
+					}
+				}
 
 				$the_options['logging_on']           = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 

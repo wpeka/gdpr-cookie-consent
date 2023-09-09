@@ -201,6 +201,7 @@ html {
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+	margin-bottom: 20px;
 }
 
 .select-law-rule-options{
@@ -275,8 +276,8 @@ html {
 	background: #39F;
 	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 	text-align: center;
-	margin-left: 2%;
-    margin-top: 1%;
+	margin-left: 15px;
+    margin-top: 5px;
 
 }
 
@@ -306,7 +307,7 @@ html {
 
 .select-rule{
 
-	margin:45px
+	margin: 33px 45px 45px 45px;
 
 }
 
@@ -875,5 +876,65 @@ html {
     margin-right: 43px;
     margin-left: 40px;
 	margin-bottom: 80px;
+
+}
+
+/*media query for smaller window sizes*/
+
+@media screen and (min-width: 1920px) and (min-height: 1080px) {
+	.gdpr-templates-field-container .gdpr-template-field .gdpr-left-field{
+		margin-right: 25px;
+	}
+
+	.tab-card {
+		width: 270px;
+		height: 253px;
+		padding: 10px;
+	}
+  }
+
+  @media screen and (min-width: 800px) and (max-width: 1440px) {
+	.gdpr-templates-field-container .gdpr-template-field .gdpr-left-field{
+		margin-right: 0;
+	}
+	.getting-started-progress{
+		margin-right: 0;
+	}
+
+	.tab-card {
+		width: 185px;
+		height: 253px;
+		padding: 10px;
+	}
+
+.gdpr-banner-default .gdpr-go-pro-label,
+.gdpr-banner-navy_blue_center .gdpr-go-pro-label,
+.gdpr-banner-grey_column .gdpr-go-pro-label,
+.gdpr-banner-dark_row .gdpr-go-pro-label,
+.gdpr-banner-grey_center .gdpr-go-pro-label,
+.gdpr-banner-dark .gdpr-go-pro-label {
+	left: 2%;
+}
+
+
+.gdpr-popup-dark .gdpr-go-pro-label,
+.gdpr-popup-almond_column .gdpr-go-pro-label,
+.gdpr-popup-navy_blue_center .gdpr-go-pro-label,
+.gdpr-popup-dark_row .gdpr-go-pro-label,
+.gdpr-popup-grey_center .gdpr-go-pro-label,
+.gdpr-popup-navy_blue_box .gdpr-go-pro-label,
+.gdpr-popup-grey_column .gdpr-go-pro-label,
+.gdpr-popup-navy_blue_square .gdpr-go-pro-label,
+.gdpr-widget-dark .gdpr-go-pro-label,
+.gdpr-widget-almond_column .gdpr-go-pro-label,
+.gdpr-widget-navy_blue_center .gdpr-go-pro-label,
+.gdpr-widget-dark_row .gdpr-go-pro-label,
+.gdpr-widget-grey_center .gdpr-go-pro-label,
+.gdpr-widget-navy_blue_box .gdpr-go-pro-label,
+.gdpr-widget-grey_column .gdpr-go-pro-label,
+.gdpr-widget-navy_blue_square .gdpr-go-pro-label {
+	top: -3%;
+	left: 4%;
+}
 
 }
