@@ -2449,7 +2449,7 @@ function get_templates( $template_type ) {
 						</div>
 
 						<!-- enable/disbale script blocker  -->
-						<div class="enable-script-blocker">
+						<div class="enable-script-blocker" v-show="gdpr_policy !== 'ccpa'">
 							<div class="enable-script-blocker-content">
 								<c-col class="enable-script-blocker-label"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="enable-consent-log-switch">
