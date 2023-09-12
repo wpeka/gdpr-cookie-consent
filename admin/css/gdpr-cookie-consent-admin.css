@@ -1320,35 +1320,35 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	border-color: black transparent transparent transparent;
   }
   .modal-header > button:focus {
-	  outline: none;
+	outline: none;
   }
 
 
 #gdpr-cookie-consent-settings-app .gdpr-pro-label {
-        margin-bottom: 1.25rem;
-		vertical-align: unset;
-		width: 33px;
-        height: 15px;
-        flex-shrink: 0;
-        background: #39f;
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-        text-align: center;
-        margin-left: 10px;
-        margin-top: 5px;
+    margin-bottom: 1.25rem;
+	vertical-align: unset;
+	width: 33px;
+    height: 15px;
+	background: #39f;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	text-align: center;
+	margin-left: 10px;
+	margin-top: 5px;
+	flex-shrink: 0;
 	}
 #gdpr-cookie-consent-settings-app .gdpr-pro-label .gdpr-pro-label-text {
-            color: #fff;
-            font-size: 12px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: normal;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	color: #fff;
     }
 
 	#gdpr-cookie-consent-settings-app  .relative {
-		position: relative;
+	position: relative;
 	}
 	#gdpr-cookie-consent-settings-app  .absolute {
-		position: absolute;
-		top: 0px;
-		right: 0px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
 	}
