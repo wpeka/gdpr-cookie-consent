@@ -1344,10 +1344,10 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	color: #fff;
     }
 
-	#gdpr-cookie-consent-settings-app  .relative {
+#gdpr-cookie-consent-settings-app  .relative {
 	position: relative;
 	}
-	#gdpr-cookie-consent-settings-app  .absolute {
+#gdpr-cookie-consent-settings-app  .absolute {
 	position: absolute;
 	right: 0px;
 	top: 0px;
