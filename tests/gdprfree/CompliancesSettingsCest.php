@@ -439,8 +439,8 @@ class CompliancesSettingsCest
         $I->waitForText('Welcome to WordPress. This is your first post. Edit or delete it, then start writing!', 20);
         $I->see('Welcome to WordPress. This is your first post. Edit or delete it, then start writing!');
         $I->click($compliancesSettings->cookieSettings);
-        $I->waitForText('Powered by GDPR Cookie Consent Plugin', 20);
-        $I->see('Powered by GDPR Cookie Consent Plugin');
+        $I->waitForText('Powered by WP Cookie Consent Plugin', 20);
+        $I->see('Powered by WP Cookie Consent Plugin');
 
         $loginPage->userLogout($I);
     }

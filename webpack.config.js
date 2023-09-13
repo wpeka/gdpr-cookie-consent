@@ -19,7 +19,7 @@
          path: path.resolve(__dirname, 'admin/js/vue'),
          filename: 'gdpr-cookie-consent-admin-[name].js'
      },
-     mode: 'development',
+     mode: 'production',
      resolve: {
          alias: {
              'vue$': 'vue/dist/vue.esm.js'
