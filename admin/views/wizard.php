@@ -2180,7 +2180,7 @@ function get_templates( $template_type ) {
 
 <div class="gdpr-wizard-top-container">
 	<img class="gdpr-wizard-logo" src="<?php echo $image_path.'gdprLogo.png'; ?>">
-	<span class="gdpr-main-heading">GDPR Cookie Consent</span>
+	<span class="gdpr-main-heading">WP Cookie Consent</span>
 
 </div>
 
@@ -2542,7 +2542,7 @@ function get_templates( $template_type ) {
 			<div class="finish-tab-main-container">
 
 				<div class="thank-you-text">
-					<span>Thank you for choosing GDPR Cookie Consent plugin - the most powerful cookie consent WordPress plugin.</span>
+					<span>Thank you for choosing WP Cookie Consent plugin - the most powerful cookie consent WordPress plugin.</span>
 				</div>
 
 				<div class="tab-row">
@@ -2558,7 +2558,7 @@ function get_templates( $template_type ) {
 							<div class="tab-card">
 								<img class="finish-card-img" src="<?php echo $image_path.'video.png';?>" >
 								<div class="card-heading">Video Guides</div>
-								<div class="card-info">Browse through these video tutorials to learn more about how GDPR Cookie Consent works.</div>
+								<div class="card-info">Browse through these video tutorials to learn more about how WP Cookie Consent works.</div>
 								<div class="learn-more-link video-guide-link"> <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/video-resources">Learn More >></a></div>
 							</div>
 						</div>
