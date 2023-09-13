@@ -2385,7 +2385,7 @@ function get_templates( $template_type ) {
 							<c-row class="ccpa-selection"  v-show="is_ccpa" >
 									<c-col class="ccpa-selection-label"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
 									<c-col class="ccpa-options">
-										<label>
+										<label class="ccpa-yes-option">
 										<input disabled type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('yes')">
 										Yes
 										</label>
