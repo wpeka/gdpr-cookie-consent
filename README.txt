@@ -123,7 +123,7 @@ The WP Cookie Notice Plugin is lightweight, fast and complies with the latest Wo
 
 - Mobile responsive design
 
-= GDPR Cookie Consent Pro Version Features =
+= WP Cookie Consent Pro Version Features =
 
 > - Manage cookie list (name, ID, description, duration, type & category).
 >
@@ -152,7 +152,7 @@ This section describes how to install the plugin and get it working.
 
 1. Upload the `gdpr-cookie-consent` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to "GDPR Cookie Consent" to configure the cookie notice bar with your own text, colours and styles
+3. Go to "WP Cookie Consent" to configure the cookie notice bar with your own text, colours and styles
 
 NOTE: Installing this plugin does not alone make your website GDPR compliant. Every website has different cookie needs and needs to be configured accordingly.
 
@@ -172,7 +172,7 @@ If you like this plugin, then consider checking out our other projects:
 Cookie consent is just one aspect of GDPR. Installing the plugin does not guarantee compliance. You’ll still need to implement other aspects of the GDPR regulation.
 
 = Will I have to add all the cookies manually?
-Yes, in the free version. The pro version of the GDPR Cookie Consent plugin has a one-click scanner, that’ll scan your website. It’ll also pre-populate cookie information for known cookies.
+Yes, in the free version. The pro version of the WP Cookie Consent plugin has a one-click scanner, that’ll scan your website. It’ll also pre-populate cookie information for known cookies.
 
 = Do visitors now have to accept/reject cookies in order to use websites?
 No. Only the ‘necessary’ cookies will be loaded until the user gives consent.

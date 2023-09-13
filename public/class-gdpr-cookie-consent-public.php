@@ -323,15 +323,8 @@ class Gdpr_Cookie_Consent_Public {
 			} else {
 				$credit_link_href = 'https://wordpress.org/plugins/gdpr-cookie-consent/?utm_source=gdpr&utm_medium=show-credits&utm_campaign=link&utm_content=powered-by-gdpr';
 			}
-			if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
-				$credit_link_text = __( 'GDPR Cookie Consent Plugin', 'gdpr-cookie-consent' );
-			} elseif ( 'ccpa' === $the_options['cookie_usage_for'] ) {
-				$credit_link_text = __( 'CCPA Cookie Notice Plugin', 'gdpr-cookie-consent' );
-			} elseif ( 'eprivacy' === $the_options['cookie_usage_for'] ) {
-				$credit_link_text = __( 'Cookie Notice Plugin', 'gdpr-cookie-consent' );
-			} elseif ( 'both' === $the_options['cookie_usage_for'] ) {
-				$credit_link_text = __( 'GDPR & CCPA Notice plugin', 'gdpr-cookie-consent' );
-			}
+			$credit_link_text = __( 'WP Cookie consent', 'gdpr-cookie-consent' );
+
 			$credit_link = sprintf(
 				/* translators: 1: GDPR Cookie Consent Plugin*/
 				__( 'Powered by %s', 'gdpr-cookie-consent' ),
