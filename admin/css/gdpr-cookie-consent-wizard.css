@@ -294,7 +294,9 @@ html {
 .gdpr-yes-option{
 	color: #C6C6C6;
 }
-
+.ccpa-yes-option{
+	color: #C6C6C6;
+}
  /* general tab content */
 
 .general-tab-content,.configure-tab-content,.finish-tab-content{
