@@ -2,7 +2,7 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
-body.post-type-wplconsentlogs .wrap .subsubsub {
+ body.post-type-wplconsentlogs .wrap .subsubsub {
 	display: none;
 }
 body.post-type-wplconsentlogs .wrap span.subtitle {
@@ -804,14 +804,12 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
 	text-align: center;
 	padding: 5px 5px;
 	border-radius: 6px;
-   
 	/* Position the tooltip text */
 	position: absolute;
 	z-index: 1001;
 	top: 25px;
     left: -110px;
   }
-  
   /* Show the tooltip text when you mouse over the tooltip container */
   .gdpr-cookie-consent-tooltip:hover .gdpr-cookie-consent-tooltiptext {
 	visibility: visible;
@@ -824,7 +822,7 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
   .gdpr-cookie-consent-tooltip .gdpr-cookie-consent-tooltiptext::after {
 	content: " ";
 	position: absolute;
-	bottom: 100%;  
+	bottom: 100%;
 	left: 89%;
 	margin-left: -5px;
 	border-width: 5px;
@@ -1284,21 +1282,17 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
   /* Tooltip text */
   .gdpr-form-tooltip .gdpr-form-tooltiptext {
 	visibility: hidden;
-	
 	color: #ffffff;
 	text-align: center;
 	padding: 5px 5px;
 	border-radius: 2px;
 	font-size: 0.75rem;
-	
 	width: 180px;
 	bottom: 100%;
 	left: 50%;
 	margin-left: -90px;
-  
 	opacity: 0;
 	transition: opacity 1s;
-  
 	position: absolute;
 	z-index: 1;
 	background: black;
@@ -1352,3 +1346,312 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	right: 0px;
 	top: 0px;
 	}
+
+
+/* Button for on/off Banner Preview  */
+
+.banner-preview-container{
+    display: flex;
+    margin-left: 40.9em;
+    position: relative;
+    top: 37px;
+    z-index: 1;
+}
+.banner-preview-label{
+	margin-right: 15px;
+}
+
+/*Banner Preview*/
+
+.banner-preview-main-container.banner-top{
+	top: 0;
+	bottom: unset !important;
+}
+.banner-preview-main-container.banner-bottom{
+	top: unset;
+	bottom: 0px;
+}
+/* When show cookie notice is selected as banner*/
+
+.banner-preview-main-container.banner-preview{
+	background-color: rgb(255, 255, 255);
+    color: rgb(186 42 42);
+    font-family: inherit;
+    box-shadow: rgb(255, 255, 255) 0px 0px 8px;
+    border: 0px none rgb(255, 255, 255);
+    border-radius: 0px;
+    text-align: justify;
+    position: fixed;
+    bottom: 0px;
+    display: block;
+	width: 90%;
+	z-index: 999999999;
+	font-size: 14px;
+    line-height: 1.5;
+    font-weight: 300;
+	margin: 0;
+    padding: 0;
+	box-sizing: border-box;
+	/* min-height: 125px; */
+}
+
+/* widget left align  */
+
+.banner-preview-main-container.widget-preview.widget-left{
+    display: block;
+    background-color: rgb(255, 255, 255);
+    color: rgb(245, 240, 235);
+    font-family: inherit;
+    box-shadow: rgb(255, 255, 255) 0px 0px 8px;
+    border: 0px none rgb(255, 255, 255);
+    border-radius: 0px;
+    text-align: justify;
+    position: fixed;
+    bottom: 20px;
+    width: 35%;
+    left: 20px;
+	z-index: 999999999;
+	font-size: 14px;
+    line-height: 1.5;
+    font-weight: 300;
+	min-width: 600px;
+}
+
+/* widget right align  */
+.banner-preview-main-container.widget-preview.widget-right{
+    display: block;
+	background-color: rgb(255, 255, 255);
+    color: rgb(245, 240, 235);
+    font-family: inherit;
+	box-shadow: rgb(255, 255, 255) 0px 0px 8px;
+    border: 0px none rgb(255, 255, 255);
+    border-radius: 0px;
+    text-align: justify;
+    position: fixed;
+    bottom: 20px;
+    width: 35%;
+    right: 20px;
+	z-index: 999999999;
+	font-size: 14px;
+    line-height: 1.5;
+    font-weight: 300;
+	min-width: 600px;
+}
+
+.gdpr_messagebar_content_preview.widget-msg-content-preview{
+	margin: 2.7em;
+}
+
+.gdpr_messagebar_content_preview .group-description-preview{
+    padding: 0 0 1.5rem 0;
+}
+
+.gdpr_messagebar_content_preview .group-description-preview .gdpr_preview{
+	margin: 0;
+}
+
+#cookie_action_accept_preview{
+	color: rgb(255, 255, 255);
+	border: 0px none rgb(102, 204, 102);
+	border-radius: 0px;
+	background-color: rgb(102, 204, 102);
+	margin-left: 0.25rem;
+    min-width: 8rem;
+    white-space: nowrap;
+}
+
+#cookie_action_accept_all_preview{
+	color: rgb(255, 255, 255);
+	border: 0px none rgb(102, 204, 102);
+	border-radius: 0px;
+	background-color: rgb(102, 204, 102);
+	margin-left: 0.25rem;
+    min-width: 8rem;
+    white-space: nowrap;
+}
+
+#cookie_action_reject_preview{
+	color: rgb(255, 255, 255);
+	border: 0px none rgb(239, 84, 84);
+	border-radius: 0px;
+	background-color: rgb(239, 84, 84);
+	margin-left: 0.25rem;
+    min-width: 8rem;
+    white-space: nowrap;
+}
+
+#cookie_action_settings_preview{
+	color: rgb(255, 255, 255);
+	border: 0px none rgb(0, 124, 186);
+	border-radius: 0px;
+	background-color: rgb(0, 124, 186);
+	float: right; margin-right: 0px;
+	margin-left: 0.25rem;
+    min-width: 8rem;
+    white-space: nowrap;
+}
+
+#cookie_action_link_prview{
+	color: rgb(0, 124, 186);
+}
+
+
+.gdpr_messagebar_content_preview{
+    margin: 0 auto;
+    /* padding: 1.5rem; */
+}
+
+.gdpr_messagebar_content_preview.banner-msg-content-preview{
+	 padding: 1.5rem;
+}
+
+
+.gdpr_messagebar_content_preview .gdpr_preview{
+	font-size: 14px;
+}
+
+#cookie_action_accept .btn-lg{
+	padding: 0.5rem 1rem;
+    font-size: 18px;
+    line-height: 1.5;
+	min-width: 8rem;
+}
+
+#cookie_action_accept .btn-sm{
+	padding: 0.5rem 1rem;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.group-description-buttons-preview{
+	margin-bottom: 10px;
+}
+
+/*widget buttons*/
+.group-description-buttons-preview.widget-button-container{
+	display: flex;
+	justify-content: space-around;
+}
+
+#cookie_action_accept_preview.widget-accept-preview{
+	min-width: 7.5rem;
+}
+.widget-accept-all-preview,.widget-decline-preview{
+	min-width: 7.5rem !important;
+}
+
+.widget-settings-preview{
+	/* min-width: 9rem !important; */
+}
+
+.gdpr_action_button_preview.button-as-link{
+	min-width: 0 !important;
+}
+
+.widget-settings-preview.widget-cookie-setting-container{
+	margin-bottom: 8px;
+}
+
+/* Popup preview  */
+
+.banner-preview-main-container.popup-preview{
+	display: block;
+    background-color: rgb(170, 100, 135);
+    color: rgb(75, 1, 213);
+    font-family: inherit;
+    box-shadow: rgb(232, 227, 227) 0px 0px 8px;
+    border: 0px solid rgb(63, 70, 64);
+    border-radius: 0px;
+    text-align: justify;
+    /* position: unset; */
+	margin: 0;
+	box-sizing: border-box;
+	position: fixed;
+	z-index: 999999999;
+	font-size: 14px;
+    line-height: 1.5;
+    font-weight: 300;
+	top: 50%;
+}
+
+.popup-preview .gdpr_messagebar_content_preview{
+	padding: 2.5rem;
+	width: 550px;
+}
+
+.banner-preview-modal.gdprfade{
+    padding-right: 17px;
+}
+.banner-preview-modal-dialog.banner-preview-modal-dialog-centered{
+    min-height: calc(100% - 3.5rem);
+    max-width: 500px;
+    margin: 1.75rem auto
+}
+
+.banner-preview-modal-content{
+    background-color: rgb(170, 100, 135);
+    border: 0px solid rgb(63, 70, 64);
+    border-radius: 0px;
+    box-shadow: rgb(170, 100, 135) 0px 0px 8px;
+    min-width: 550px;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #f5f5f5;
+    outline: 0;
+}
+
+.banner-preview-modal-body{
+	position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+.hide-popup{
+	display: none !important;
+}
+
+.popup-accept-preview,.popup-accept-all-apreview,.popup-decline-preview,.popup-settings-preview{
+	min-width:7rem !important;
+}
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9000;
+	pointer-events: none;
+
+}
+
+/* Preview CCPA LAW  */
+
+.ccpa_preview_msg{
+	font-size:14px;
+	margin:0;
+}
+.ccpa_preview_msg.ccpa-center-text{
+	text-align: center;
+}
+.group-description-preview.ccpa-group-description{
+	padding: 0;
+}
+
+.ccpa_link_button_preview{
+	color: rgb(0, 124, 186);
+}
+
+/* Eprivacy */
+
+.eprivay-hide-setting{
+	display:none;
+}
+
+.eprivay-remove-flex{
+	display:block !important;
+}
