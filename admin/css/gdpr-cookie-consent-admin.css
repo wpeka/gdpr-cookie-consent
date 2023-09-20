@@ -2,7 +2,7 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
-body.post-type-wplconsentlogs .wrap .subsubsub {
+ body.post-type-wplconsentlogs .wrap .subsubsub {
 	display: none;
 }
 body.post-type-wplconsentlogs .wrap span.subtitle {
@@ -1392,7 +1392,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	margin: 0;
     padding: 0;
 	box-sizing: border-box;
-	min-height: 125px;
+	/* min-height: 125px; */
 }
 
 /* widget left align  */
@@ -1559,7 +1559,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     background-color: rgb(170, 100, 135);
     color: rgb(75, 1, 213);
     font-family: inherit;
-    box-shadow: rgb(170, 100, 135) 0px 0px 8px;
+    box-shadow: rgb(232, 227, 227) 0px 0px 8px;
     border: 0px solid rgb(63, 70, 64);
     border-radius: 0px;
     text-align: justify;
@@ -1579,16 +1579,16 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	width: 550px;
 }
 
-.gdprmodal.gdprfade{
+.banner-preview-modal.gdprfade{
     padding-right: 17px;
 }
-.gdprmodal-dialog.gdprmodal-dialog-centered{
+.banner-preview-modal-dialog.banner-preview-modal-dialog-centered{
     min-height: calc(100% - 3.5rem);
     max-width: 500px;
     margin: 1.75rem auto
 }
 
-.gdprmodal-content{
+.banner-preview-modal-content{
     background-color: rgb(170, 100, 135);
     border: 0px solid rgb(63, 70, 64);
     border-radius: 0px;
@@ -1605,7 +1605,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     outline: 0;
 }
 
-.gdprmodal-body{
+.banner-preview-modal-body{
 	position: relative;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
@@ -1616,4 +1616,42 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 
 .popup-accept-preview,.popup-accept-all-apreview,.popup-decline-preview,.popup-settings-preview{
 	min-width:7rem !important;
+}
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9000;
+	pointer-events: none;
+
+}
+
+/* Preview CCPA LAW  */
+
+.ccpa_preview_msg{
+	font-size:14px;
+	margin:0;
+}
+.ccpa_preview_msg.ccpa-center-text{
+	text-align: center;
+}
+.group-description-preview.ccpa-group-description{
+	padding: 0;
+}
+
+.ccpa_link_button_preview{
+	color: rgb(0, 124, 186);
+}
+
+/* Eprivacy */
+
+.eprivay-hide-setting{
+	display:none;
+}
+
+.eprivay-remove-flex{
+	display:block !important;
 }

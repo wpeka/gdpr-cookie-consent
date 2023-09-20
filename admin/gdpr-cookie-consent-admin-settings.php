@@ -19,32 +19,34 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 ?>
 <div id="gdpr-before-mount" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-settings-app">
-	<!-- //////////////////////  main preview container -->
+	<!-- main preview container -->
 
 	<!-- adding divs conditionally for popup preview  -->
-	<div v-if="show_cookie_as === 'popup'" class="gdprmodal gdprfade" :class="{'hide-popup':!banner_preview_is_on}">
-			<div class="gdprmodal-dialog gdprmodal-dialog-centered">
+	<div v-if="show_cookie_as === 'popup'" class="banner-preview-modal gdprfade" :class="{'hide-popup':!banner_preview_is_on , 'overlay':cookie_add_overlay}">
+			<div class="banner-preview-modal-dialog banner-preview-modal-dialog-centered">
 				<!-- Modal content-->
-				<div class="gdprmodal-content">
-					<div class="gdprmodal-body">
+				<div class="banner-preview-modal-content">
+					<div class="banner-preview-modal-body">
 
 						<div v-show="banner_preview_is_on" id="banner-preview-main-container" class="banner-preview-main-container" :class="{ 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position != 'top' && show_cookie_as == 'banner', 'banner-preview': show_cookie_as == 'banner','widget-preview': show_cookie_as == 'widget','widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position != 'left' && show_cookie_as == 'widget','popup-preview': show_cookie_as == 'popup' }" :style="{ 'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,'border-style': border_style, 'border-width': cookie_bar_border_width + 'px', 'border-color': cookie_border_color, 'border-radius': cookie_bar_border_radius+'px', color:cookie_text_color}" >
 
 						<div class="gdpr_messagebar_content_preview" :class="{ 'widget-msg-content-preview': show_cookie_as == 'widget','banner-msg-content-preview': show_cookie_as == 'banner'}" style="max-width: 825px;">
 
-								<div class="group-description-preview" tabindex="0">
-									<p class="gdpr_preview">{{gdpr_message}}
+								<div class="group-description-preview" tabindex="0" :class="{'ccpa-group-description': is_ccpa && gdpr_policy != 'both' }">
+									<p v-show="is_gdpr || is_eprivacy" class="gdpr_preview">{{gdpr_message}}
 									<a id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview">Read More</a>
 									</p>
+									<p v-show="is_ccpa" class="ccpa_preview_msg" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" >{{ccpa_message}} <a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color}">{{opt_out_text}}</a>
+									</p>
 								</div>
-								<div class="group-description-buttons-preview" id="default_buttons_preview"
+								<div v-show="['gdpr','eprivacy','both'].includes(gdpr_policy)" class="group-description-buttons-preview" id="default_buttons_preview"
 									:class=" {'widget-button-container':
 									((cookie_accept_all_on && cookie_settings_on) ||
 									(cookie_accept_on && cookie_accept_all_on) ||
 									(cookie_accept_all_on && cookie_decline_on) ||
 									(cookie_accept_all_on && cookie_decline_on && cookie_settings_on) ||
 									(cookie_accept_all_on && cookie_decline_on && cookie_settings_on && cookie_accept_on) ||
-									(cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on && !cookie_settings_on)) && show_cookie_as == 'popup' }"
+									(cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on && !cookie_settings_on)) && show_cookie_as == 'popup','eprivay-remove-flex': gdpr_policy == 'eprivacy'  }"
 									:style=" { 'margin-bottom': ( 2*accept_border_width ) + 'px' } " >
 										<!-- accept button preview configuration  -->
 										<a v-show="cookie_accept_on" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button,'button-as-link':!accept_as_button,  'btn-lg': accept_as_button && accept_size === 'large','btn-sm': accept_as_button && accept_size === 'small','widget-accept-preview': show_cookie_as == 'widget','popup-accept-preview': show_cookie_as == 'popup' }" aria-label="Accept" href="#":style="{ color:accept_text_color,'border-style': accept_style, 'border-width': accept_as_button ? accept_border_width + 'px':'0', 'border-color': accept_border_color, 'border-radius': accept_border_radius+'px','background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,
@@ -57,10 +59,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<!-- Decline button preview configuration  -->
 										<a v-show="cookie_decline_on" id="cookie_action_reject_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': decline_as_button,'button-as-link':!decline_as_button,  'btn-lg': decline_as_button && decline_size === 'large','btn-sm': decline_as_button && decline_size === 'small','widget-decline-preview': show_cookie_as == 'widget','popup-decline-preview': show_cookie_as == 'popup' }" aria-label="Reject"
 										:style="{ color:decline_text_color,'border-style': decline_style, 'border-width': decline_as_button ? decline_border_width + 'px':'0', 'border-color': decline_border_color, 'border-radius': decline_border_radius+'px','background-color': decline_as_button ? `${decline_background_color}${Math.floor(decline_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,
-										}" @click ="hideBannerPreview"  >{{ decline_text }}</a>
+										}" >{{ decline_text }}</a>
 
 										<!-- Setting button preview configuration  -->
-										<a v-show="cookie_settings_on" id="cookie_action_settings_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': settings_as_button,'button-as-link':!settings_as_button,'btn-lg': settings_as_button && settings_size === 'large','btn-sm': settings_as_button && settings_size === 'small','widget-settings-preview': show_cookie_as == 'widget','widget-cookie-setting-container': (cookie_settings_on && !cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on),'popup-setting-preview': show_cookie_as == 'popup' }"   aria-label="Cookie Settings" href="#" :style="{ color:settings_text_color,'border-style': settings_style, 'border-width': settings_as_button ? settings_border_width + 'px':'0', 'border-color': settings_border_color, 'border-radius': settings_border_radius+'px','background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,
+										<a v-show="cookie_settings_on" id="cookie_action_settings_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': settings_as_button,'button-as-link':!settings_as_button,'btn-lg': settings_as_button && settings_size === 'large','btn-sm': settings_as_button && settings_size === 'small','widget-settings-preview': show_cookie_as == 'widget','widget-cookie-setting-container': (cookie_settings_on && !cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on),'popup-setting-preview': show_cookie_as == 'popup', 'eprivay-hide-setting': gdpr_policy == 'eprivacy' }"   aria-label="Cookie Settings" href="#" :style="{ color:settings_text_color,'border-style': settings_style, 'border-width': settings_as_button ? settings_border_width + 'px':'0', 'border-color': settings_border_color, 'border-radius': settings_border_radius+'px','background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,
 										}" >{{ settings_text }}</a>
 								</div>
 						</div>
@@ -70,24 +72,26 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 				</div>
 			</div>
 	</div>
-	<!-- for banner and widget preview  -->
+	<!-- for banner and widget preview -->
 	<div v-else v-show="banner_preview_is_on" id="banner-preview-main-container" class="banner-preview-main-container" :class="{ 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position != 'top' && show_cookie_as == 'banner', 'banner-preview': show_cookie_as == 'banner','widget-preview': show_cookie_as == 'widget','widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position != 'left' && show_cookie_as == 'widget','popup-preview': show_cookie_as == 'popup' }" :style="{ 'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,'border-style': border_style, 'border-width': cookie_bar_border_width + 'px', 'border-color': cookie_border_color, 'border-radius': cookie_bar_border_radius+'px', color:cookie_text_color}" >
 
 		<div class="gdpr_messagebar_content_preview" :class="{ 'widget-msg-content-preview': show_cookie_as == 'widget','banner-msg-content-preview': show_cookie_as == 'banner'}" style="max-width: 825px;">
 
-				<div class="group-description-preview" tabindex="0">
-					<p class="gdpr_preview">{{gdpr_message}}
+				<div class="group-description-preview" tabindex="0" :class="{'ccpa-group-description': is_ccpa && gdpr_policy != 'both' }">
+					<p v-show="is_gdpr || is_eprivacy" class="gdpr_preview">{{gdpr_message}}
 					<a id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview">Read More</a>
 					</p>
+					<p v-show="is_ccpa" class="ccpa_preview_msg" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" >{{ccpa_message}} <a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color}">{{opt_out_text}}</a>
+					</p>
 				</div>
-				<div class="group-description-buttons-preview" id="default_buttons_preview"
+				<div v-show="['gdpr','eprivacy','both'].includes(gdpr_policy)" class="group-description-buttons-preview" id="default_buttons_preview"
 					:class=" {'widget-button-container':
 					((cookie_accept_all_on && cookie_settings_on) ||
 					(cookie_accept_on && cookie_accept_all_on) ||
 					(cookie_accept_all_on && cookie_decline_on) ||
 					(cookie_accept_all_on && cookie_decline_on && cookie_settings_on) ||
 					(cookie_accept_all_on && cookie_decline_on && cookie_settings_on && cookie_accept_on) ||
-					(cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on && !cookie_settings_on)) && show_cookie_as == 'widget' }"
+					(cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on && !cookie_settings_on)) && show_cookie_as == 'widget','eprivay-remove-flex': gdpr_policy == 'eprivacy'  }"
 					 :style=" { 'margin-bottom': ( 2*accept_border_width ) + 'px' } " >
 						<!-- accept button preview configuration  -->
 						<a v-show="cookie_accept_on" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button,'button-as-link':!accept_as_button,  'btn-lg': accept_as_button && accept_size === 'large','btn-sm': accept_as_button && accept_size === 'small','widget-accept-preview': show_cookie_as == 'widget' }" aria-label="Accept" href="#":style="{ color:accept_text_color,'border-style': accept_style, 'border-width': accept_as_button ? accept_border_width + 'px':'0', 'border-color': accept_border_color, 'border-radius': accept_border_radius+'px','background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,
@@ -103,7 +107,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						 }"  >{{ decline_text }}</a>
 
 						<!-- Setting button preview configuration  -->
-						<a v-show="cookie_settings_on" id="cookie_action_settings_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': settings_as_button,'button-as-link':!settings_as_button,'btn-lg': settings_as_button && settings_size === 'large','btn-sm': settings_as_button && settings_size === 'small','widget-settings-preview': show_cookie_as == 'widget','widget-cookie-setting-container': (cookie_settings_on && !cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on) }"   aria-label="Cookie Settings" href="#" :style="{ color:settings_text_color,'border-style': settings_style, 'border-width': settings_as_button ? settings_border_width + 'px':'0', 'border-color': settings_border_color, 'border-radius': settings_border_radius+'px','background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,
+						<a v-show="cookie_settings_on" id="cookie_action_settings_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': settings_as_button,'button-as-link':!settings_as_button,'btn-lg': settings_as_button && settings_size === 'large','btn-sm': settings_as_button && settings_size === 'small','widget-settings-preview': show_cookie_as == 'widget','widget-cookie-setting-container': (cookie_settings_on && !cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on),'eprivay-hide-setting': gdpr_policy == 'eprivacy' }"   aria-label="Cookie Settings" href="#" :style="{ color:settings_text_color,'border-style': settings_style, 'border-width': settings_as_button ? settings_border_width + 'px':'0', 'border-color': settings_border_color, 'border-radius': settings_border_radius+'px','background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,
 						 }" >{{ settings_text }}</a>
 				</div>
 		</div>
