@@ -33,7 +33,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						<div class="gdpr_messagebar_content_preview" :class="{ 'widget-msg-content-preview': show_cookie_as == 'widget','banner-msg-content-preview': show_cookie_as == 'banner'}" style="max-width: 825px;">
 
 								<div class="group-description-preview" tabindex="0" :class="{'ccpa-group-description': is_ccpa && gdpr_policy != 'both' }">
-									<p v-show="is_gdpr || is_eprivacy" class="gdpr_preview">{{gdpr_message}}
+									<p v-show="is_gdpr" class="gdpr_preview">{{gdpr_message}}
+									<a id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview">Read More</a>
+									</p>
+									<p v-show="is_eprivacy" class="gdpr_preview">{{eprivacy_message}}
 									<a id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview">Read More</a>
 									</p>
 									<p v-show="is_ccpa" class="ccpa_preview_msg" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" >{{ccpa_message}} <a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color}">{{opt_out_text}}</a>
@@ -73,12 +76,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 			</div>
 	</div>
 	<!-- for banner and widget preview -->
-	<div v-else v-show="banner_preview_is_on" id="banner-preview-main-container" class="banner-preview-main-container" :class="{ 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position != 'top' && show_cookie_as == 'banner', 'banner-preview': show_cookie_as == 'banner','widget-preview': show_cookie_as == 'widget','widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position != 'left' && show_cookie_as == 'widget','popup-preview': show_cookie_as == 'popup' }" :style="{ 'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,'border-style': border_style, 'border-width': cookie_bar_border_width + 'px', 'border-color': cookie_border_color, 'border-radius': cookie_bar_border_radius+'px', color:cookie_text_color}" >
+	<div v-else v-show="banner_preview_is_on" id="banner-preview-main-container" class="banner-preview-main-container" :class="{ 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position != 'top' && show_cookie_as == 'banner', 'banner-preview': show_cookie_as == 'banner','widget-preview': show_cookie_as == 'widget','widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position != 'left' && show_cookie_as == 'widget','popup-preview': show_cookie_as == 'popup' }" :style="{ 'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,'border-style': border_style, 'border-width': cookie_bar_border_width + 'px', 'border-color': cookie_border_color, 'border-radius': cookie_bar_border_radius+'px', color:cookie_text_color}" name="gcc-banner-preview">
 
 		<div class="gdpr_messagebar_content_preview" :class="{ 'widget-msg-content-preview': show_cookie_as == 'widget','banner-msg-content-preview': show_cookie_as == 'banner'}" style="max-width: 825px;">
 
 				<div class="group-description-preview" tabindex="0" :class="{'ccpa-group-description': is_ccpa && gdpr_policy != 'both' }">
-					<p v-show="is_gdpr || is_eprivacy" class="gdpr_preview">{{gdpr_message}}
+					<p v-show="is_gdpr" class="gdpr_preview">{{gdpr_message}}
+					<a id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview">Read More</a>
+					</p>
+					<p v-show="is_eprivacy" class="gdpr_preview">{{eprivacy_message}}
 					<a id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview">Read More</a>
 					</p>
 					<p v-show="is_ccpa" class="ccpa_preview_msg" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" >{{ccpa_message}} <a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color}">{{opt_out_text}}</a>

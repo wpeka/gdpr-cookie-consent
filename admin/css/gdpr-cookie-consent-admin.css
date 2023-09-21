@@ -1585,7 +1585,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 .banner-preview-modal-dialog.banner-preview-modal-dialog-centered{
     min-height: calc(100% - 3.5rem);
     max-width: 500px;
-    margin: 1.75rem auto
+    margin: 0 auto;
 }
 
 .banner-preview-modal-content{
@@ -1620,7 +1620,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 .overlay{
     position: fixed;
     top: 0;
-    left: 0;
+    left: 80px;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
