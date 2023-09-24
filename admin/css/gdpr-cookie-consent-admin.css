@@ -2255,3 +2255,82 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     border-radius: 0px;
     background-color: rgb(30, 30, 30) !important;
 }
+
+
+/* Extra Pro Templates  */
+
+/* Blue Navy Blue Box  */
+
+.widget-navy_blue_box_flex{
+	display: flex  !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-evenly !important;
+}
+
+.widget-navy_blue_preview #cookie_action_settings_preview {
+	float: none !important;
+}
+
+.widget-navy_blue_box_preview #cookie_action_settings_preview,.widget-navy_blue_box_preview #cookie_action_accept_preview,.widget-navy_blue_box_preview #cookie_action_accept_all_preview,.widget-navy_blue_box_preview #cookie_action_reject_preview{
+	width: 100%;
+}
+
+
+/* Popup navy blue box  */
+
+.popup-navy_blue_box_flex{
+	display: flex  !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-evenly !important;
+}
+
+.popup-navy_blue_preview #cookie_action_settings_preview {
+	float: none !important;
+}
+
+.popup-navy_blue_box_preview #cookie_action_settings_preview,.popup-navy_blue_box_preview #cookie_action_accept_preview,.popup-navy_blue_box_preview #cookie_action_accept_all_preview,.popup-navy_blue_box_preview #cookie_action_reject_preview{
+	width: 100%;
+}
+
+
+/* Widget Navy Blue Sqaure  */
+
+
+.widget-navy_blue_square_preview .group-description-buttons-preview.widget-button-container{
+	display: initial !important;
+}
+
+.widget-navy_blue_square_preview  #cookie_action_settings_preview {
+	width: 46% !important;
+}
+
+.widget-navy_blue_square_preview  #cookie_action_accept_preview,.widget-navy_blue_square_preview  #cookie_action_accept_all_preview{
+	width: 100% !important;
+    margin: 1rem auto 0px !important;
+}
+
+.widget-navy_blue_square_preview #cookie_action_reject_preview{
+	width: 46% !important;
+}
+
+
+/* Popup navy blue square  */
+
+.popup-navy_blue_square_preview .group-description-buttons-preview.widget-button-container{
+	display: initial !important;
+}
+
+.popup-navy_blue_square_preview  #cookie_action_settings_preview {
+	width: 46% !important;
+}
+
+.popup-navy_blue_square_preview  #cookie_action_accept_preview,.popup-navy_blue_square_preview  #cookie_action_accept_all_preview{
+	width: 100% !important;
+    margin: 1rem auto 0px !important;
+}
+
+.popup-navy_blue_square_preview #cookie_action_reject_preview{
+	width: 46% !important;
+}
