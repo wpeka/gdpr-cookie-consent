@@ -1392,7 +1392,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	margin: 0;
     padding: 0;
 	box-sizing: border-box;
-	/* min-height: 125px; */
 }
 
 /* widget left align  */
@@ -1495,16 +1494,13 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	color: rgb(0, 124, 186);
 }
 
-
 .gdpr_messagebar_content_preview{
     margin: 0 auto;
-    /* padding: 1.5rem; */
 }
 
 .gdpr_messagebar_content_preview.banner-msg-content-preview{
 	 padding: 1.5rem;
 }
-
 
 .gdpr_messagebar_content_preview .gdpr_preview{
 	font-size: 14px;
@@ -1540,10 +1536,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	min-width: 7.5rem !important;
 }
 
-.widget-settings-preview{
-	/* min-width: 9rem !important; */
-}
-
 .gdpr_action_button_preview.button-as-link{
 	min-width: 0 !important;
 }
@@ -1563,7 +1555,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     border: 0px solid rgb(63, 70, 64);
     border-radius: 0px;
     text-align: justify;
-    /* position: unset; */
 	margin: 0;
 	box-sizing: border-box;
 	position: fixed;
@@ -1760,7 +1751,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	max-width: 800px !important;
 	display: flex !important;
 	flex-direction: row !important;
-
 }
 
 .popup-almond_column_preview #cookie_action_settings_preview {
@@ -1896,7 +1886,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	display: initial !important;
 }
 
-
 /* Banner grey column   */
 
 /* for banner  */
@@ -1905,7 +1894,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	max-width: 800px !important;
 	display: flex !important;
 	flex-direction: row !important;
-
 }
 
 .banner-grey_column_preview #cookie_action_settings_preview {
@@ -1942,7 +1930,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	max-width: 800px !important;
 	display: flex !important;
 	flex-direction: row !important;
-
 }
 
 .widget-grey_column_preview #cookie_action_settings_preview {
@@ -1983,7 +1970,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	max-width: 800px !important;
 	display: flex !important;
 	flex-direction: row !important;
-
 }
 
 .popup-grey_column_preview #cookie_action_settings_preview {
@@ -2058,7 +2044,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 
 .widget-dark_row_preview{
 	text-align: center !important;
-	/* box-shadow: rgb(42, 62, 113) 0px 0px 8px !important; */
 }
 
 .widget-dark_row_preview #cookie_action_settings_preview {
@@ -2294,9 +2279,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	width: 100%;
 }
 
-
 /* Widget Navy Blue Sqaure  */
-
 
 .widget-navy_blue_square_preview .group-description-buttons-preview.widget-button-container{
 	display: initial !important;
@@ -2314,7 +2297,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 .widget-navy_blue_square_preview #cookie_action_reject_preview{
 	width: 46% !important;
 }
-
 
 /* Popup navy blue square  */
 
