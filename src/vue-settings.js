@@ -411,8 +411,7 @@ var gen = new Vue({
         onSwitchCookieEnable() {
             this.cookie_is_on = !this.cookie_is_on;
         },
-		//changing the value of banner_preview_swicth_value enable/disable
-		onSwitchBannerPreviewEnable() {
+		onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
             this.banner_preview_is_on = !this.banner_preview_is_on;
         },
         onSwitchCookieAcceptEnable() {
