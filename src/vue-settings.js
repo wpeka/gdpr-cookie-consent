@@ -48,6 +48,7 @@ var gen = new Vue({
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
             cookie_is_on: settings_obj.the_options.hasOwnProperty('is_on') && (true === settings_obj.the_options['is_on'] || 1 === settings_obj.the_options['is_on'] ) ? true : false,
+			banner_preview_is_on: ( 'true' == settings_obj.the_options['banner_preview_enable'] || 1 === settings_obj.the_options['banner_preview_enable'] ) ? true : false,
             policy_options: settings_obj.policies,
             gdpr_policy: settings_obj.the_options.hasOwnProperty('cookie_usage_for') ? settings_obj.the_options['cookie_usage_for'] : 'gdpr',
             is_gdpr: this.gdpr_policy === 'gdpr' || this.gdpr_policy === 'both' ? true : false,
@@ -112,6 +113,7 @@ var gen = new Vue({
             button_readmore_button_size: settings_obj.the_options.hasOwnProperty('button_readmore_button_size') ? settings_obj.the_options['button_readmore_button_size'] : 'medium',
             button_size_options: settings_obj.button_size_options,
             button_readmore_button_size: settings_obj.the_options.hasOwnProperty('button_readmore_button_size') ? settings_obj.the_options['button_readmore_button_size'] : 'medium',
+			banner_preview : true,
             show_cookie_as_options: settings_obj.show_cookie_as_options,
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
@@ -408,6 +410,9 @@ var gen = new Vue({
         },
         onSwitchCookieEnable() {
             this.cookie_is_on = !this.cookie_is_on;
+        },
+		onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
+            this.banner_preview_is_on = !this.banner_preview_is_on;
         },
         onSwitchCookieAcceptEnable() {
             this.cookie_accept_on = !this.cookie_accept_on;
@@ -925,6 +930,7 @@ var gen = new Vue({
             this.body_scripts = '';
             this.footer_scripts = '';
             this.restrict_posts = [];
+			this.banner_preview_is_on = false;
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
