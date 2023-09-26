@@ -7,7 +7,7 @@
  * @package           Gdpr_Cookie_Consent
  *
  * @wordpress-plugin
- * Plugin Name:       GDPR Cookie Consent
+ * Plugin Name:       WP Cookie Consent
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
  * Version:           2.3.1

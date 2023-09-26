@@ -58,10 +58,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</div>
 									<p v-show="is_gdpr" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{gdpr_message}}
 									<br v-show="popup_template == 'popup-almond_column' && show_cookie_as == 'popup'">
-									<a id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview" :style="{ fontFamily: cookie_font }">Read More</a>
+									<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
 									</p>
 									<p v-show="is_eprivacy" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{eprivacy_message}}
-									<a id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview" :style="{ fontFamily: cookie_font }">Read More</a>
+									<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
 									</p>
 									<p v-show="is_ccpa" class="ccpa_preview_msg" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ fontFamily: cookie_font }" >{{ccpa_message}} <a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color,fontFamily: cookie_font}">{{opt_out_text}}</a>
 									</p>
@@ -143,10 +143,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 					?>
 					</div>
 					<p v-show="is_gdpr" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{gdpr_message}}<br v-show="widget_template == 'widget-almond_column' && show_cookie_as == 'widget' ">
-					<a id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview" :style="{ fontFamily: cookie_font }">Read More</a>
+					<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
 					</p>
 					<p v-show="is_eprivacy" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{eprivacy_message}}
-					<a id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview" :style="{ fontFamily: cookie_font }">Read More</a>
+					<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
 					</p>
 					<p v-show="is_ccpa" class="ccpa_preview_msg" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ fontFamily: cookie_font }">{{ccpa_message}} <a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color,fontFamily: cookie_font}">{{opt_out_text}}</a>
 					</p>
@@ -725,7 +725,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 
 									<c-row>
 										<c-col class="col-sm-4">
-											<label><?php esc_attr_e('Upload Logo', 'gdpr-cookie-consent'); ?></label>
+											<label><?php esc_attr_e('Upload Logo ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 										</c-col>
 										<c-col class="col-sm-8 ">
 											<c-button color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
@@ -749,7 +749,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								?>
 									<c-row>
 										<c-col class="col-sm-4">
-											<label><?php esc_attr_e('Upload Logo', 'gdpr-cookie-consent'); ?></label>
+											<label><?php esc_attr_e('Upload Logo ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 											<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
 										</c-col>
 										<c-col class="col-sm-8 ">
