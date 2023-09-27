@@ -1298,7 +1298,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 
 	 public function translateToFrench($text, $translations) {
-		 error_log('I tranlate btchh');
+		 error_log('I tranlate');
 		//  return strtr($text, $translations);
 		 // Assuming $text is the key for the translation in the JSON file
 		 if (isset($translations[$text]['fr'])) {
@@ -1380,7 +1380,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'div'    => array(),
 					'label'  => array(),
 				)
-			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish. Test";
+			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['bar_heading_text']                    = isset( $_POST['bar_heading_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_field'] ) ) : '';
 			$the_options['notify_message']                      = isset( $_POST['notify_message_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_field'] ),
