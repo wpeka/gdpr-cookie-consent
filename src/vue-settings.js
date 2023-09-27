@@ -32,6 +32,7 @@ var gen = new Vue({
 			isGdprProActive:'1' === settings_obj.is_pro_active,
 			disableSwitch: false,
             is_template_changed: false,
+			is_lang_changed:false,
             appendField: ".gdpr-cookie-consent-settings-container",
             configure_image_url: require('../admin/images/configure-icon.png'),
             closeOnBackdrop: true,
@@ -115,6 +116,8 @@ var gen = new Vue({
             button_readmore_button_size: settings_obj.the_options.hasOwnProperty('button_readmore_button_size') ? settings_obj.the_options['button_readmore_button_size'] : 'medium',
 			banner_preview : true,
             show_cookie_as_options: settings_obj.show_cookie_as_options,
+			show_language_as_options: settings_obj.show_language_as_options,
+			show_language_as: 'en',//hardcode as of now change it later
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
             cookie_position: settings_obj.the_options.hasOwnProperty('notify_position_vertical') ? settings_obj.the_options['notify_position_vertical'] : 'bottom',
@@ -381,6 +384,8 @@ var gen = new Vue({
 				this.logging_on = false; //make enable consent switch turn off if pro is not active
 				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
 			}
+			//////////////////////
+			console.log('lan array ',this.show_language_as_options);
         },
         setPostListValues() {
             for( let i=0; i<this.post_cookie_list_length; i++ ) {
@@ -537,6 +542,10 @@ var gen = new Vue({
             }
             this.is_template_changed = true;
         },
+		onLanguageChange ( ) {
+			console.log('Hello world');
+			this.is_lang_changed = true;
+		},
         cookieLayoutChange( value ){
             if(value) {
                 this.settings_layout = true;
@@ -568,6 +577,7 @@ var gen = new Vue({
             this.button_readmore_page = value;
         },
         cookiePolicyChange( value ) {
+			console.log('Cookie Policy is changed');
 			if(this.gdpr_policy){
 				value = this.gdpr_policy;
 			}
@@ -978,6 +988,10 @@ var gen = new Vue({
                 j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
                 if(that.is_template_changed){
                     that.is_template_changed = false;
+                    location.reload();
+                }
+				if(that.is_lang_changed){
+                    that.is_lang_changed = false;
                     location.reload();
                 }
             });
