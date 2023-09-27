@@ -614,6 +614,17 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Widget',
 			'code'  => 'widget',
 		);
+
+		$show_language_as_options    = array();
+		$show_language_as_options[0] = array(
+			'label' => 'En',
+			'code'  => 'en',
+		);
+		$show_language_as_options[1] = array(
+			'label' => 'Fr',
+			'code'  => 'fr',
+		);
+
 		$on_hide_options           = array();
 		$on_hide_options[0]        = array(
 			'label' => 'Animate',
@@ -806,6 +817,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'policies'                         => $policies,
 				'position_options'                 => $position_options,
 				'show_cookie_as_options'           => $show_cookie_as_options,
+				'show_language_as_options'         => $show_language_as_options,
 				'on_hide_options'                  => $on_hide_options,
 				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
@@ -1281,6 +1293,23 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
+	 * translator eeeeeeeeeeeeeeeeeeeeee
+	 *
+	 */
+
+	 public function translateToFrench($text, $translations) {
+		 error_log('I tranlate btchh');
+		//  return strtr($text, $translations);
+		 // Assuming $text is the key for the translation in the JSON file
+		 if (isset($translations[$text]['fr'])) {
+			return $translations[$text]['fr'];
+		} else {
+			// Return the original text if no translation is found
+			return $text;
+		}
+	}
+
+	/**
 	 * Ajax callback for setting page
 	 */
 	public function gdpr_cookie_consent_ajax_save_settings() {
@@ -1320,6 +1349,14 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_button_border_width']   = isset( $_POST['gdpr-cookie-accept-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-border-width'] ) ) : '0';
 			$the_options['button_accept_button_border_radius']  = isset( $_POST['gdpr-cookie-accept-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-border-radius'] ) ) : '0';
 			$the_options['button_accept_link_color']            = isset( $_POST['gdpr-cookie-accept-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-text-color'] ) ) : '#ffffff';
+			// error_log('Okay lets do it');
+			// error_log(print_r($_POST['notify_message_eprivacy_field'],true));
+			// error_log(print_r($the_options['notify_message_eprivacy'],true));
+			// select-banner-lan
+			// error_log('THe lang selected is ');
+			// error_log(print_r($_POST['select-banner-lan'],true));
+
+
 			$the_options['notify_message_eprivacy']             = isset( $_POST['notify_message_eprivacy_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_eprivacy_field'] ),
 				array(
@@ -1343,7 +1380,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'div'    => array(),
 					'label'  => array(),
 				)
-			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish. Test";
 			$the_options['bar_heading_text']                    = isset( $_POST['bar_heading_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_field'] ) ) : '';
 			$the_options['notify_message']                      = isset( $_POST['notify_message_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_field'] ),
@@ -1647,6 +1684,52 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 				}
 			}
+			/////////////////ooooooooooooooooooooooo
+			error_log('before translation -> '.$the_options['notify_message_eprivacy']);
+
+			if ( $_POST['select-banner-lan'] == 'fr'){
+				error_log('Come inside');
+
+				$translationsFile = plugin_dir_path(__FILE__) . 'translations/fr.json';
+				$translations = json_decode(file_get_contents($translationsFile), true);
+
+				// Define an array of text keys to translate
+				$textKeysToTranslate = [
+					"notify_message_eprivacy",
+					"button_readmore_text",
+					"button_accept_text",
+					"button_accept_all_text",
+					"button_decline_text",
+					"about_message",
+					"notify_message",
+					"button_settings_text",
+					"notify_message_ccpa",
+					"button_donotsell_text",
+					"button_confirm_text",
+					"button_cancel_text",
+					"show_again_text",
+					"optout_text"
+				];
+
+				// Loop through the text keys and translate them
+				foreach ($textKeysToTranslate as $textKey) {
+					$englishText = $translations[$textKey]['en'];
+					$frenchText = $this->translateToFrench($textKey, $translations);
+					error_log('translated text for key "' . $textKey . '" ->>>>>>>>>>' . $frenchText);
+					$the_options[$textKey] = $frenchText;
+				}
+
+
+
+
+
+
+
+			}
+			error_log('after translation -> '.$the_options['notify_message_eprivacy']);
+
+
+
 			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) );
 			}
@@ -1780,6 +1863,15 @@ class Gdpr_Cookie_Consent_Admin {
 		$show_cookie_as_options[2] = array(
 			'label' => 'Widget',
 			'code'  => 'widget',
+		);
+		$show_language_as_options    = array();
+		$show_language_as_options[0] = array(
+			'label' => 'En',
+			'code'  => 'en',
+		);
+		$show_language_as_options[1] = array(
+			'label' => 'Fr',
+			'code'  => 'fr',
 		);
 		$on_hide_options           = array();
 		$on_hide_options[0]        = array(
@@ -1973,6 +2065,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'policies'                         => $policies,
 				'position_options'                 => $position_options,
 				'show_cookie_as_options'           => $show_cookie_as_options,
+				'show_language_as_options'         => $show_language_as_options,
 				'on_hide_options'                  => $on_hide_options,
 				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
@@ -2037,6 +2130,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$admin_url            = admin_url();
 		$admin_url_length     = strlen( $admin_url );
 		$show_cookie_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent-settings#compliances';
+		$language_url		  =	$admin_url . 'admin.php?page=gdpr-cookie-consent-settings#language';
 		$maxmind_url          = $admin_url . 'admin.php?page=gdpr-integrations';
 		$cookie_scan_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent-settings#cookie_list';
 		$plugin_page_url      = $admin_url . 'plugins.php';
@@ -2067,6 +2161,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'maxmind_integrated'    => $max_mind_integrated,
 				'last_scanned'          => $last_scanned_details,
 				'show_cookie_url'       => $show_cookie_url,
+				'language_url'         => $language_url,
 				'maxmind_url'           => $maxmind_url,
 				'cookie_scan_url'       => $cookie_scan_url,
 				'plugin_page_url'       => $plugin_page_url,

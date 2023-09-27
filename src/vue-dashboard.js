@@ -23,6 +23,7 @@ var gen = new Vue({
 			cookie_scanned: false,
 			progress: 0,
 			show_cookie_url: dashboard_options.hasOwnProperty('show_cookie_url') ? dashboard_options['show_cookie_url'] : '',
+			language_url: dashboard_options.hasOwnProperty('language_url') ? dashboard_options['language_url'] : '',
 			maxmind_url: dashboard_options.hasOwnProperty('maxmind_url') ? dashboard_options['maxmind_url'] : '',
 			cookie_scan_url: dashboard_options.hasOwnProperty('cookie_scan_url') ? dashboard_options['cookie_scan_url'] : '',
 			plugin_page_url: dashboard_options.hasOwnProperty('plugin_page_url') ? dashboard_options['plugin_page_url'] : '',
