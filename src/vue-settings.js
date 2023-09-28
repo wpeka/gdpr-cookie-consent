@@ -117,7 +117,7 @@ var gen = new Vue({
 			banner_preview : true,
             show_cookie_as_options: settings_obj.show_cookie_as_options,
 			show_language_as_options: settings_obj.show_language_as_options,
-			show_language_as: 'en',//hardcode as of now change it later
+			show_language_as: settings_obj.the_options.hasOwnProperty('lang_selected') ? settings_obj.the_options['lang_selected'] : 'en',
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
             cookie_position: settings_obj.the_options.hasOwnProperty('notify_position_vertical') ? settings_obj.the_options['notify_position_vertical'] : 'bottom',
@@ -386,6 +386,7 @@ var gen = new Vue({
 			}
 			//////////////////////
 			console.log('lan array ',this.show_language_as_options);
+			console.log('lang selected as',this.show_language_as);
         },
         setPostListValues() {
             for( let i=0; i<this.post_cookie_list_length; i++ ) {
@@ -927,7 +928,7 @@ var gen = new Vue({
             this.gdpr_message = 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
             this.eprivacy_message = 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
             this.ccpa_message = 'In case of sale of your personal information, you may opt out by using the link';
-            this.optout_text = 'Do you really wish to opt-out?';
+            this.ccpa_optout_message = 'Do you really wish to opt-out?';
             this.cookie_position = 'bottom';
             this.cookie_widget_position = 'left';
             this.cookie_text_color = '#000000';
@@ -941,6 +942,7 @@ var gen = new Vue({
             this.footer_scripts = '';
             this.restrict_posts = [];
 			this.banner_preview_is_on = false;
+			this.show_language_as = 'en';
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
