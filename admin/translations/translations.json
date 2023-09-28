@@ -1,0 +1,156 @@
+{
+    "notify_message_eprivacy": {
+        "en": "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+        "fr": "Ce site web utilise des cookies pour améliorer votre expérience. Nous supposerons que cela vous convient, mais vous pouvez vous désabonner si vous le souhaitez.",
+        "nl": "Deze website maakt gebruik van cookies om uw ervaring te verbeteren. We gaan ervan uit dat u hiermee akkoord gaat, maar u kunt zich afmelden als u dat wilt.",
+        "bg": "Този уебсайт използва бисквитки, за да подобри Вашето преживяване. Ще приемем, че сте съгласни с това, но можете и да се откажете, ако желаете.",
+        "cs": "Tento web používá soubory cookie ke zlepšení Vašeho zážitku. Budeme předpokládat, že s tím souhlasíte, ale můžete se odhlásit, pokud si přejete.",
+        "da": "Denne hjemmeside bruger cookies for at forbedre din oplevelse. Vi går ud fra, at du er okay med dette, men du kan fravælge det, hvis du ønsker det.",
+        "de": "Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern. Wir gehen davon aus, dass Sie damit einverstanden sind, aber Sie können sich abmelden, wenn Sie möchten.",
+        "es": "Este sitio web utiliza cookies para mejorar su experiencia. Asumiremos que está de acuerdo con esto, pero puede optar por no participar si lo desea.",
+        "hr": "Ova web stranica koristi kolačiće kako bi poboljšala Vaše iskustvo. Pretpostavit ćemo da ste suglasni s ovime, ali možete se odjaviti ako želite."
+    },
+    "button_readmore_text": {
+        "en": "Read More",
+        "fr": "Lire la suite",
+        "nl": "Lees meer",
+        "bg": "Научете повече",
+        "cs": "Více informací",
+        "da": "Læs mere",
+        "de": "Mehr erfahren",
+        "es": "Leer más",
+        "hr": "Saznajte više"
+    },
+    "button_accept_text": {
+        "en": "Accept",
+        "fr": "Accepter",
+        "nl": "Accepteren",
+        "bg": "Приемам",
+        "cs": "Přijmout",
+        "da": "Accepter",
+        "de": "Akzeptieren",
+        "es": "Aceptar",
+        "hr": "Prihvati"
+    },
+    "button_accept_all_text": {
+        "en": "Accept All",
+        "fr": "Tout Accepter",
+        "nl": "Alles accepteren",
+        "bg": "Приеми всички",
+        "cs": "Přijmout vše",
+        "da": "Accepter alle",
+        "de": "Alle akzeptieren",
+        "es": "Aceptar todo",
+        "hr": "Prihvati sve"
+    },
+    "button_decline_text": {
+        "en": "Decline",
+        "fr": "Refuser",
+        "nl": "Weigeren",
+        "bg": "Откажи",
+        "cs": "Odmítnout",
+        "da": "Afvise",
+        "de": "Ablehnen",
+        "es": "Rechazar",
+        "hr": "Odbij"
+    },
+    "about_message": {
+        "en": "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies, we need your permission. This site uses different types of cookies. Some cookies are placed by third-party services that appear on our pages.",
+        "fr": "Les cookies sont de petits fichiers texte qui peuvent être utilisés par les sites web pour rendre l'expérience d'un utilisateur plus efficace. La loi stipule que nous pouvons stocker des cookies sur votre appareil s'ils sont strictement nécessaires au fonctionnement de ce site. Pour tous les autres types de cookies, nous avons besoin de votre permission. Ce site utilise différents types de cookies. Certains cookies sont placés par des services tiers qui apparaissent sur nos pages.",
+        "nl": "Cookies zijn kleine tekstbestanden die door websites kunnen worden gebruikt om de ervaring van een gebruiker efficiënter te maken. De wet bepaalt dat we cookies op uw apparaat kunnen opslaan als ze strikt noodzakelijk zijn voor de werking van deze site. Voor alle andere soorten cookies hebben we uw toestemming nodig. Deze site maakt gebruik van verschillende soorten cookies. Sommige cookies worden geplaatst door diensten van derden die op onze pagina's verschijnen.",
+        "bg": "Бисквитките са малки текстови файлове, които могат да се използват от уебсайтове, за да направят преживяването на потребителя по-ефективно. Законът урежда, че можем да съхраняваме бисквитки на вашето устройство, ако те са строго необходими за работата на този сайт. За всички други видове бисквитки ни е необходимо вашето съгласие. Този сайт използва различни видове бисквитки. Някои бисквитки се поставят от услуги на трети лица, които се появяват на нашите страници.",
+        "cs": "Soubory cookie jsou malé textové soubory, které mohou webové stránky používat k tomu, aby zlepšily efektivitu uživatelského zážitku. Zákon stanoví, že můžeme ukládat soubory cookie do vašeho zařízení, pokud jsou striktně nutné pro provoz této stránky. Pro všechny ostatní druhy souborů cookie potřebujeme vaši povolení. Tato stránka používá různé druhy souborů cookie. Některé soubory cookie jsou umisťovány třetími stranami, které se objevují na našich stránkách.",
+        "da": "Cookies er små tekstfiler, som kan bruges af hjemmesider for at gøre brugerens oplevelse mere effektiv. Lovgivningen fastslår, at vi kan gemme cookies på din enhed, hvis de er strengt nødvendige for driften af denne hjemmeside. For alle andre typer af cookies har vi brug for din tilladelse. Denne hjemmeside bruger forskellige typer af cookies. Nogle cookies placeres af tredjepartstjenester, der vises på vores sider.",
+        "de": "Cookies sind kleine Textdateien, die von Websites verwendet werden können, um die Benutzererfahrung effizienter zu gestalten. Das Gesetz besagt, dass wir Cookies auf Ihrem Gerät speichern können, wenn sie für den Betrieb dieser Website unbedingt erforderlich sind. Für alle anderen Arten von Cookies benötigen wir Ihre Erlaubnis. Diese Website verwendet verschiedene Arten von Cookies. Einige Cookies werden von Drittanbieterdiensten platziert, die auf unseren Seiten erscheinen.",
+        "es": "Las cookies son pequeños archivos de texto que pueden ser utilizados por los sitios web para mejorar la experiencia del usuario. La ley establece que podemos almacenar cookies en su dispositivo si son estrictamente necesarias para el funcionamiento de este sitio. Para todos los demás tipos de cookies, necesitamos su permiso. Este sitio utiliza diferentes tipos de cookies. Algunas cookies son colocadas por servicios de terceros que aparecen en nuestras páginas.",
+        "hr": "Kolačići su mali tekstualni datoteci koje mogu koristiti web stranice kako bi poboljšale korisničko iskustvo. Zakon propisuje da možemo pohraniti kolačiće na vaš uređaj ako su strogo potrebni za rad ove stranice. Za sve ostale vrste kolačića trebamo vašu dozvolu. Ova web stranica koristi različite vrste kolačića. Neki kolačići se postavljaju od strane trećih strana koje se pojavljuju na našim stranicama."
+    },
+    "notify_message": {
+        "en": "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+        "fr": "Ce site web utilise des cookies pour améliorer votre expérience. Nous supposerons que cela vous convient, mais vous pouvez vous désabonner si vous le souhaitez.",
+        "nl": "Deze website maakt gebruik van cookies om uw ervaring te verbeteren. We gaan ervan uit dat u hiermee akkoord gaat, maar u kunt zich afmelden als u dat wilt.",
+        "bg": "Този уебсайт използва бисквитки, за да подобри Вашето преживяване. Ще приемем, че сте съгласни с това, но можете и да се откажете, ако желаете.",
+        "cs": "Tento web používá soubory cookie ke zlepšení Vašeho zážitku. Budeme předpokládat, že s tím souhlasíte, ale můžete se odhlásit, pokud si přejete.",
+        "da": "Denne hjemmeside bruger cookies for at forbedre din oplevelse. Vi går ud fra, at du er okay med dette, men du kan fravælge det, hvis du ønsker det.",
+        "de": "Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern. Wir gehen davon aus, dass Sie damit einverstanden sind, aber Sie können sich abmelden, wenn Sie möchten.",
+        "es": "Este sitio web utiliza cookies para mejorar su experiencia. Asumiremos que está de acuerdo con esto, pero puede optar por no participar si lo desea.",
+        "hr": "Ova web stranica koristi kolačiće kako bi poboljšala Vaše iskustvo. Pretpostavit ćemo da ste suglasni s ovime, ali možete se odjaviti ako želite."
+    },
+    "button_settings_text": {
+        "en": "Cookie Settings",
+        "fr": "Paramètres des cookies",
+        "nl": "Cookie-instellingen",
+        "bg": "Настройки на бисквитки",
+        "cs": "Nastavení cookies",
+        "da": "Cookieindstillinger",
+        "de": "Cookie-Einstellungen",
+        "es": "Configuración de cookies",
+        "hr": "Postavke kolačića"
+    },
+    "notify_message_ccpa": {
+        "en": "In case of sale of your personal information, you may opt out by using the link.",
+        "fr": "En cas de vente de vos informations personnelles, vous pouvez vous désabonner en utilisant le lien.",
+        "nl": "In geval van verkoop van uw persoonlijke informatie, kunt u zich afmelden via de link.",
+        "bg": "В случай на продажба на Вашата лична информация можете да се откажете, като използвате връзката.",
+        "cs": "V případě prodeje vašich osobních údajů se můžete odhlásit použitím odkazu.",
+        "da": "I tilfælde af salg af dine personlige oplysninger kan du fravælge det ved at bruge linket.",
+        "de": "Im Falle des Verkaufs Ihrer persönlichen Informationen können Sie sich über den Link abmelden.",
+        "es": "En caso de venta de su información personal, puede optar por no participar utilizando el enlace.",
+        "hr": "U slučaju prodaje vaših osobnih podataka, možete se odjaviti putem veze."
+    },
+    "button_donotsell_text": {
+        "en": "Do Not Sell My Personal Information",
+        "fr": "Ne pas vendre mes informations personnelles",
+        "nl": "Verkoop mijn persoonlijke informatie niet",
+        "bg": "Не продавайте личната ми информация",
+        "cs": "Neprodávejte mé osobní údaje",
+        "da": "Sælg ikke mine personlige oplysninger",
+        "de": "Meine persönlichen Informationen nicht verkaufen",
+        "es": "No venda mi información personal",
+        "hr": "Ne prodajte moje osobne informacije"
+    },
+    "button_confirm_text": {
+        "en": "Confirm",
+        "fr": "Confirmer",
+        "nl": "Bevestigen",
+        "bg": "Потвърди",
+        "cs": "Potvrdit",
+        "da": "Bekræfte",
+        "de": "Bestätigen",
+        "es": "Confirmar",
+        "hr": "Potvrdi"
+    },
+    "button_cancel_text": {
+        "en": "Cancel",
+        "fr": "Annuler",
+        "nl": "Annuleren",
+        "bg": "Отказ",
+        "cs": "Zrušit",
+        "da": "Annuller",
+        "de": "Abbrechen",
+        "es": "Cancelar",
+        "hr": "Otkaži"
+    },
+    "show_again_text": {
+        "en": "Cookie Settings",
+        "fr": "Afficher à nouveau les paramètres des cookies",
+        "nl": "Cookie-instellingen opnieuw weergeven",
+        "bg": "Покажи отново настройките на бисквитките",
+        "cs": "Znovu zobrazit nastavení cookies",
+        "da": "Vis cookieindstillinger igen",
+        "de": "Cookie-Einstellungen erneut anzeigen",
+        "es": "Mostrar configuración de cookies nuevamente",
+        "hr": "Ponovno prikaži postavke kolačića"
+    },
+	"optout_text": {
+        "en": "Do you really wish to opt-out?",
+        "fr": "Souhaitez-vous vraiment vous désabonner ?",
+        "nl": "Wilt u zich echt afmelden?",
+        "bg": "Наистина ли искате да се откажете?",
+        "cs": "Opravdu chcete odhlásit?",
+        "da": "Ønsker du virkelig at fravælge?",
+        "de": "Möchten Sie sich wirklich abmelden?",
+        "es": "¿Realmente deseas optar por no participar?",
+        "hr": "Želite li stvarno odustati?"
+    }
+}

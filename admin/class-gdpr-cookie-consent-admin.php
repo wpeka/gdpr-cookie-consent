@@ -617,12 +617,48 @@ class Gdpr_Cookie_Consent_Admin {
 
 		$show_language_as_options    = array();
 		$show_language_as_options[0] = array(
-			'label' => 'En',
+			'label' => 'English',
 			'code'  => 'en',
 		);
 		$show_language_as_options[1] = array(
-			'label' => 'Fr',
+			'label' => 'French',
 			'code'  => 'fr',
+		);
+		$show_language_as_options[2] = array(
+			'label' => 'Dutch',
+			'code'  => 'nl',
+		);
+		$show_language_as_options[3] = array(
+			'label' => 'Bulgarian',
+			'code'  => 'bg',
+		);
+		$show_language_as_options[4] = array(
+			'label' => 'Czech',
+			'code'  => 'cs',
+		);
+		$show_language_as_options[5] = array(
+			'label' => 'Danish',
+			'code'  => 'da',
+		);
+		$show_language_as_options[6] = array(
+			'label' => 'German',
+			'code'  => 'de',
+		);
+		$show_language_as_options[7] = array(
+			'label' => 'Spanish',
+			'code'  => 'es',
+		);
+		$show_language_as_options[8] = array(
+			'label' => 'Croatian',
+			'code'  => 'hr',
+		);
+		$show_language_as_options[9] = array(
+			'label' => 'Icelandic',
+			'code'  => 'is',
+		);
+		$show_language_as_options[10] = array(
+			'label' => 'Slovenian',
+			'code'  => 'sl',
 		);
 
 		$on_hide_options           = array();
@@ -1296,13 +1332,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 * translator eeeeeeeeeeeeeeeeeeeeee
 	 *
 	 */
-
-	 public function translateToFrench($text, $translations) {
-		 error_log('I tranlate');
-		//  return strtr($text, $translations);
-		 // Assuming $text is the key for the translation in the JSON file
-		 if (isset($translations[$text]['fr'])) {
-			return $translations[$text]['fr'];
+	public function translateText($text, $translations, $targetLanguage) {
+		// Assuming $text is the key for the translation in the JSON file
+		if (isset($translations[$text][$targetLanguage])) {
+			return $translations[$text][$targetLanguage];
 		} else {
 			// Return the original text if no translation is found
 			return $text;
@@ -1318,6 +1351,8 @@ class Gdpr_Cookie_Consent_Admin {
 				return;
 			}
 			$the_options                                        = Gdpr_Cookie_Consent::gdpr_get_settings();
+			//llllllllllllllllllllll
+			$the_options['lang_selected']                    = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
 			$the_options['banner_preview_enable']               = isset( $_POST['gcc-banner-preview-enable'] ) && ( true === $_POST['gcc-banner-preview-enable'] || 'true' === $_POST['gcc-banner-preview-enable'] ) ? 'true' : 'false';
 			$the_options['is_on']                               = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'false';
 			$the_options['cookie_usage_for']                    = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
@@ -1685,12 +1720,11 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 			}
 			/////////////////ooooooooooooooooooooooo
-			error_log('before translation -> '.$the_options['notify_message_eprivacy']);
+			//language translation based on the selected language
+			if ( isset($_POST['select-banner-lan']) && in_array($_POST['select-banner-lan'], ['fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl']) ){
 
-			if ( $_POST['select-banner-lan'] == 'fr'){
-				error_log('Come inside');
-
-				$translationsFile = plugin_dir_path(__FILE__) . 'translations/fr.json';
+				// Load and decode translations from JSON file
+				$translationsFile = plugin_dir_path(__FILE__) . 'translations/translations.json';
 				$translations = json_decode(file_get_contents($translationsFile), true);
 
 				// Define an array of text keys to translate
@@ -1711,24 +1745,16 @@ class Gdpr_Cookie_Consent_Admin {
 					"optout_text"
 				];
 
-				// Loop through the text keys and translate them
+				// Determine the target language based on the POST value
+				$targetLanguage = $_POST['select-banner-lan'];
+
+			    // Loop through the text keys and translate them
 				foreach ($textKeysToTranslate as $textKey) {
-					$englishText = $translations[$textKey]['en'];
-					$frenchText = $this->translateToFrench($textKey, $translations);
-					error_log('translated text for key "' . $textKey . '" ->>>>>>>>>>' . $frenchText);
-					$the_options[$textKey] = $frenchText;
+					$translatedText = $this->translateText($textKey, $translations, $targetLanguage);
+					$the_options[$textKey] = $translatedText;
 				}
 
-
-
-
-
-
-
 			}
-			error_log('after translation -> '.$the_options['notify_message_eprivacy']);
-
-
 
 			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) );
@@ -1866,12 +1892,48 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$show_language_as_options    = array();
 		$show_language_as_options[0] = array(
-			'label' => 'En',
+			'label' => 'English',
 			'code'  => 'en',
 		);
 		$show_language_as_options[1] = array(
-			'label' => 'Fr',
+			'label' => 'French',
 			'code'  => 'fr',
+		);
+		$show_language_as_options[2] = array(
+			'label' => 'Dutch',
+			'code'  => 'nl',
+		);
+		$show_language_as_options[3] = array(
+			'label' => 'Bulgarian',
+			'code'  => 'bg',
+		);
+		$show_language_as_options[4] = array(
+			'label' => 'Czech',
+			'code'  => 'cs',
+		);
+		$show_language_as_options[5] = array(
+			'label' => 'Danish',
+			'code'  => 'da',
+		);
+		$show_language_as_options[6] = array(
+			'label' => 'German',
+			'code'  => 'de',
+		);
+		$show_language_as_options[7] = array(
+			'label' => 'Spanish',
+			'code'  => 'es',
+		);
+		$show_language_as_options[8] = array(
+			'label' => 'Croatian',
+			'code'  => 'hr',
+		);
+		$show_language_as_options[9] = array(
+			'label' => 'Icelandic',
+			'code'  => 'is',
+		);
+		$show_language_as_options[10] = array(
+			'label' => 'Slovenian',
+			'code'  => 'sl',
 		);
 		$on_hide_options           = array();
 		$on_hide_options[0]        = array(
