@@ -1666,10 +1666,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 					<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 					<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#language">
 					<c-card>
-							<c-card-header><?php esc_html_e( 'Add Languages', 'gdpr-cookie-consent' ); ?></c-card-header>
+							<c-card-header><?php esc_html_e( 'Languages', 'gdpr-cookie-consent' ); ?>
+							</c-card-header>
 							<c-card-body>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select a language', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select a language for your cookie consent banner', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<input type="hidden" name="select-banner-lan" v-model="show_language_as">
 										<v-select class="form-group" id="gdpr-select-banner-lan" :reduce="label => label.code" :options="show_language_as_options" v-model="show_language_as"  @input="onLanguageChange"></v-select>
