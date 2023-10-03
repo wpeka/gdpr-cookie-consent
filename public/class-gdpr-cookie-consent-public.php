@@ -40,6 +40,13 @@ class Gdpr_Cookie_Consent_Public {
 	private $version;
 
 	/**
+	 * Supported languages.
+	 *
+	 * @var array
+	 */
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl' );
+
+	/**
 	 * Public module list, Module folder and main file must be same as that of module name.
 	 * Please check the `public_modules` method for more details.
 	 *
@@ -519,7 +526,7 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['cookie_data']       = $cookie_data;
 
 				// language translation based on the selected language for the public facing.
-				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl' ) ) ) {
+				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {
 
 					// Load and decode translations from JSON file.
 					$translations_file = plugin_dir_path( __FILE__ ) . 'translations/public-translations.json';

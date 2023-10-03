@@ -29,7 +29,15 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
 	private $plugin_name;
+
 	public $category_table = 'gdpr_cookie_scan_categories';
+
+	/**
+	 * Supported languages.
+	 *
+	 * @var array
+	 */
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl' );
 
 	/**
 	 * The version of this plugin.
@@ -1726,7 +1734,7 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 			}
 			//language translation based on the selected language
-			if ( isset($_POST['select-banner-lan']) && in_array($_POST['select-banner-lan'], ['fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl']) ){
+			if ( isset($_POST['select-banner-lan']) && in_array($_POST['select-banner-lan'], $this->supported_languages) ){
 
 				// Load and decode translations from JSON file
 				$translations_file = plugin_dir_path(__FILE__) . 'translations/translations.json';
