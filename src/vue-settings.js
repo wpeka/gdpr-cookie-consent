@@ -32,6 +32,7 @@ var gen = new Vue({
 			isGdprProActive:'1' === settings_obj.is_pro_active,
 			disableSwitch: false,
             is_template_changed: false,
+			is_lang_changed:false,
             appendField: ".gdpr-cookie-consent-settings-container",
             configure_image_url: require('../admin/images/configure-icon.png'),
             closeOnBackdrop: true,
@@ -115,6 +116,8 @@ var gen = new Vue({
             button_readmore_button_size: settings_obj.the_options.hasOwnProperty('button_readmore_button_size') ? settings_obj.the_options['button_readmore_button_size'] : 'medium',
 			banner_preview : true,
             show_cookie_as_options: settings_obj.show_cookie_as_options,
+			show_language_as_options: settings_obj.show_language_as_options,
+			show_language_as: settings_obj.the_options.hasOwnProperty('lang_selected') ? settings_obj.the_options['lang_selected'] : 'en',
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
             cookie_position: settings_obj.the_options.hasOwnProperty('notify_position_vertical') ? settings_obj.the_options['notify_position_vertical'] : 'bottom',
@@ -537,6 +540,9 @@ var gen = new Vue({
             }
             this.is_template_changed = true;
         },
+		onLanguageChange ( ) {
+			this.is_lang_changed = true;
+		},
         cookieLayoutChange( value ){
             if(value) {
                 this.settings_layout = true;
@@ -917,7 +923,7 @@ var gen = new Vue({
             this.gdpr_message = 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
             this.eprivacy_message = 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
             this.ccpa_message = 'In case of sale of your personal information, you may opt out by using the link';
-            this.optout_text = 'Do you really wish to opt-out?';
+            this.ccpa_optout_message = 'Do you really wish to opt-out?';
             this.cookie_position = 'bottom';
             this.cookie_widget_position = 'left';
             this.cookie_text_color = '#000000';
@@ -931,6 +937,7 @@ var gen = new Vue({
             this.footer_scripts = '';
             this.restrict_posts = [];
 			this.banner_preview_is_on = false;
+			this.show_language_as = 'en';
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
@@ -978,6 +985,10 @@ var gen = new Vue({
                 j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
                 if(that.is_template_changed){
                     that.is_template_changed = false;
+                    location.reload();
+                }
+				if(that.is_lang_changed){
+                    that.is_lang_changed = false;
                     location.reload();
                 }
             });

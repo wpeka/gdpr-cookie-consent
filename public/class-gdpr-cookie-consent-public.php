@@ -193,6 +193,20 @@ class Gdpr_Cookie_Consent_Public {
 			return str_replace( '#async', '', $url ) . "' async='async";
 		}
 	}
+	/**
+	 * Translator function to convert the public facing side texts
+	 *
+	 * @param string $text Text,$translations Translation,$target_language Target Language.
+	 */
+	public function translate_text( $text, $translations, $target_language ) {
+		// Assuming $text is the key for the translation in the JSON file.
+		if ( isset( $translations[ $text ][ $target_language ] ) ) {
+			return $translations[ $text ][ $target_language ];
+		} else {
+			// Return the original text if no translation is found.
+			return $text;
+		}
+	}
 
 	/**
 	 * Outputs the cookie control script in the footer.
@@ -503,6 +517,43 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['cookies_not_found'] = __( 'We do not use cookies of this type.', 'gdpr-cookie-consent' );
 				$cookie_data['consent_notice']    = __( 'I consent to the use of following cookies:', 'gdpr-cookie-consent' );
 				$the_options['cookie_data']       = $cookie_data;
+
+				// language translation based on the selected language for the public facing.
+				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl' ) ) ) {
+
+					// Load and decode translations from JSON file.
+					$translations_file = plugin_dir_path( __FILE__ ) . 'translations/public-translations.json';
+					$translations     = json_decode( file_get_contents( $translations_file ), true );
+
+					// Define an array of text keys to translate.
+					$text_keys_to_translate = array(
+						'about',
+						'declaration',
+						'always',
+						'save_button',
+						'name',
+						'domain',
+						'purpose',
+						'expiry',
+						'type',
+						'cookies_not_found',
+						'consent_notice',
+					);
+
+					// Determine the target language based on the POST value.
+					$target_language = $the_options['lang_selected'];
+
+					// Loop through the text keys and translate them.
+					foreach ( $text_keys_to_translate as $text_key ) {
+						$translated_text = $this->translate_text( $text_key, $translations, $target_language );
+
+						$cookie_data[ $text_key ] = $translated_text;
+
+					}
+
+					$the_options['cookie_data'] = $cookie_data;
+
+				}
 			}
 
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
