@@ -384,9 +384,6 @@ var gen = new Vue({
 				this.logging_on = false; //make enable consent switch turn off if pro is not active
 				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
 			}
-			//////////////////////
-			console.log('lan array ',this.show_language_as_options);
-			console.log('lang selected as',this.show_language_as);
         },
         setPostListValues() {
             for( let i=0; i<this.post_cookie_list_length; i++ ) {
@@ -544,7 +541,6 @@ var gen = new Vue({
             this.is_template_changed = true;
         },
 		onLanguageChange ( ) {
-			console.log('Hello world');
 			this.is_lang_changed = true;
 		},
         cookieLayoutChange( value ){
@@ -578,7 +574,6 @@ var gen = new Vue({
             this.button_readmore_page = value;
         },
         cookiePolicyChange( value ) {
-			console.log('Cookie Policy is changed');
 			if(this.gdpr_policy){
 				value = this.gdpr_policy;
 			}
