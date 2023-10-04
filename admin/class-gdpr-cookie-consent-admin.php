@@ -670,6 +670,21 @@ class Gdpr_Cookie_Consent_Admin {
 			'code'  => 'sl',
 		);
 
+		//dropdown option for schedule scan
+		$schedule_scan_options = array();
+		$schedule_scan_options[0] = array(
+			'label' => 'Never',
+			'code'  => 'never',
+		);
+		$schedule_scan_options[1] = array(
+			'label' => 'Only Once',
+			'code'  => 'once',
+		);
+		$schedule_scan_options[2] = array(
+			'label' => 'Monthly',
+			'code'  => 'monthly',
+		);
+
 		$on_hide_options           = array();
 		$on_hide_options[0]        = array(
 			'label' => 'Animate',
@@ -863,6 +878,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'position_options'                 => $position_options,
 				'show_cookie_as_options'           => $show_cookie_as_options,
 				'show_language_as_options'         => $show_language_as_options,
+				'schedule_scan_options'			   => $schedule_scan_options,
 				'on_hide_options'                  => $on_hide_options,
 				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
@@ -2051,6 +2067,20 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Slovenian',
 			'code'  => 'sl',
 		);
+		//dropdown option for schedule scan
+		$schedule_scan_options = array();
+		$schedule_scan_options[0] = array(
+			'label' => 'Never',
+			'code'  => 'never',
+		);
+		$schedule_scan_options[1] = array(
+			'label' => 'Only Once',
+			'code'  => 'once',
+		);
+		$schedule_scan_options[2] = array(
+			'label' => 'Monthly',
+			'code'  => 'monthly',
+		);
 		$on_hide_options           = array();
 		$on_hide_options[0]        = array(
 			'label' => 'Animate',
@@ -2244,6 +2274,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'position_options'                 => $position_options,
 				'show_cookie_as_options'           => $show_cookie_as_options,
 				'show_language_as_options'         => $show_language_as_options,
+				'schedule_scan_options'			   => $schedule_scan_options,
 				'on_hide_options'                  => $on_hide_options,
 				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
