@@ -1,5 +1,5 @@
 {
-	"notify_message_eprivacy":{
+	"dash_notify_message_eprivacy":{
 	   "en":"This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
 	   "fr":"Ce site web utilise des cookies pour améliorer votre expérience. Nous supposerons que cela vous convient, mais vous pouvez vous désabonner si vous le souhaitez.",
 	   "nl":"Deze website maakt gebruik van cookies om uw ervaring te verbeteren. We gaan ervan uit dat u hiermee akkoord gaat, maar u kunt zich afmelden als u dat wilt.",
@@ -12,7 +12,7 @@
 	   "is":"Þessi vefsíða notar vafrakökur til að bæta upplifun þína. Við gætum tekið það með að þú samþykkir þetta, en þú getur hætt við ef þú vilt.",
 	   "sl":"Ta spletna stran uporablja piškotke, da izboljša vašo izkušnjo. Predvidevamo, da se strinjate s tem, vendar se lahko odjavite, če želite."
 	},
-	"button_readmore_text":{
+	"dash_button_readmore_text":{
 	   "en":"Read More",
 	   "fr":"Lire la suite",
 	   "nl":"Lees meer",
@@ -25,7 +25,7 @@
 	   "is":"Lesa meira",
 	   "sl":"Preberi več"
 	},
-	"button_accept_text":{
+	"dash_button_accept_text":{
 	   "en":"Accept",
 	   "fr":"Accepter",
 	   "nl":"Accepteren",
@@ -38,7 +38,7 @@
 	   "is":"Samþykkja",
 	   "sl":"Sprejmi"
 	},
-	"button_accept_all_text":{
+	"dash_button_accept_all_text":{
 	   "en":"Accept All",
 	   "fr":"Tout Accepter",
 	   "nl":"Alles accepteren",
@@ -51,7 +51,7 @@
 	   "is":"Samþykkja allt",
 	   "sl":"Sprejmi vse"
 	},
-	"button_decline_text":{
+	"dash_button_decline_text":{
 	   "en":"Decline",
 	   "fr":"Refuser",
 	   "nl":"Weigeren",
@@ -64,7 +64,7 @@
 	   "is":"Hafna",
 	   "sl":"Zavrni"
 	},
-	"about_message":{
+	"dash_about_message":{
 	   "en":"Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies, we need your permission. This site uses different types of cookies. Some cookies are placed by third-party services that appear on our pages.",
 	   "fr":"Les cookies sont de petits fichiers texte qui peuvent être utilisés par les sites web pour rendre l'expérience d'un utilisateur plus efficace. La loi stipule que nous pouvons stocker des cookies sur votre appareil s'ils sont strictement nécessaires au fonctionnement de ce site. Pour tous les autres types de cookies, nous avons besoin de votre permission. Ce site utilise différents types de cookies. Certains cookies sont placés par des services tiers qui apparaissent sur nos pages.",
 	   "nl":"Cookies zijn kleine tekstbestanden die door websites kunnen worden gebruikt om de ervaring van een gebruiker efficiënter te maken. De wet bepaalt dat we cookies op uw apparaat kunnen opslaan als ze strikt noodzakelijk zijn voor de werking van deze site. Voor alle andere soorten cookies hebben we uw toestemming nodig. Deze site maakt gebruik van verschillende soorten cookies. Sommige cookies worden geplaatst door diensten van derden die op onze pagina's verschijnen.",
@@ -77,7 +77,7 @@
 	   "is":"Smákökur eru smáir textaskrár sem vefsvæði geta notað til að bæta virkni notandareynslu. Lög kveða á um að hægt sé að geyma smákökur á tæki þínu ef þær eru nauðsynlegar fyrir gang vefsvæðisins. Fyrir aðrar tegundir smákaka þurfum við leyfi þitt. Þetta vefsvæði notar ýmsar tegundir smákaka. Sumar smákökur eru settar af þriðja aðila sem birtast á síðum okkar.",
 	   "sl":"Piškotki so majhne besedilne datoteke, ki jih lahko spletna mesta uporabljajo za učinkovitejšo uporabniško izkušnjo. Zakon določa, da lahko na vašo napravo shranimo piškotke, če so nujno potrebni za delovanje te strani. Za vse druge vrste piškotkov potrebujemo vaše dovoljenje. To spletno mesto uporablja različne vrste piškotkov. Nekatere piškotke namestijo storitve tretjih oseb, ki se pojavljajo na naših straneh."
 	},
-	"notify_message":{
+	"dash_notify_message":{
 	   "en":"This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
 	   "fr":"Ce site web utilise des cookies pour améliorer votre expérience. Nous supposerons que cela vous convient, mais vous pouvez vous désabonner si vous le souhaitez.",
 	   "nl":"Deze website maakt gebruik van cookies om uw ervaring te verbeteren. We gaan ervan uit dat u hiermee akkoord gaat, maar u kunt zich afmelden als u dat wilt.",
@@ -86,9 +86,11 @@
 	   "da":"Denne hjemmeside bruger cookies for at forbedre din oplevelse. Vi går ud fra, at du er okay med dette, men du kan fravælge det, hvis du ønsker det.",
 	   "de":"Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern. Wir gehen davon aus, dass Sie damit einverstanden sind, aber Sie können sich abmelden, wenn Sie möchten.",
 	   "es":"Este sitio web utiliza cookies para mejorar su experiencia. Asumiremos que está de acuerdo con esto, pero puede optar por no participar si lo desea.",
-	   "hr":"Ova web stranica koristi kolačiće kako bi poboljšala Vaše iskustvo. Pretpostavit ćemo da ste suglasni s ovime, ali možete se odjaviti ako želite."
+	   "hr":"Ova web stranica koristi kolačiće kako bi poboljšala Vaše iskustvo. Pretpostavit ćemo da ste suglasni s ovime, ali možete se odjaviti ako želite.",
+	   "is":"Þessi vefsíða notar vafrakökur til að bæta upplifun þína. Við gerum ráð fyrir að þú sért í lagi með þetta, en þú getur afþakkað ef þú vilt.",
+	   "sl":"Ta spletna stran uporablja piškotke za izboljšanje vaše izkušnje. Predvidevamo, da se s tem strinjate, vendar se lahko odjavite, če želite"
 	},
-	"button_settings_text":{
+	"dash_button_settings_text":{
 	   "en":"Cookie Settings",
 	   "fr":"Paramètres des cookies",
 	   "nl":"Cookie-instellingen",
@@ -101,7 +103,7 @@
 	   "is":"Vefkökur",
 	   "sl":"Nastavitve piškotkov"
 	},
-	"notify_message_ccpa":{
+	"dash_notify_message_ccpa":{
 	   "en":"In case of sale of your personal information, you may opt out by using the link.",
 	   "fr":"En cas de vente de vos renseignements personnels, vous pouvez vous désinscrier en utilisant le lien",
 	   "nl":"In geval van verkoop van uw persoonlijke informatie, kunt u zich afmelden via de link.",
@@ -114,7 +116,7 @@
 	   "is":"Ef persónuupplýsingum þínum er selt, getur þú valið að takast út með því að nota hlekkinn.",
 	   "sl":"V primeru prodaje vaših osebnih podatkov se lahko odjavite prek povezave."
 	},
-	"button_donotsell_text":{
+	"dash_button_donotsell_text":{
 	   "en":"Do Not Sell My Personal Information",
 	   "fr":"Ne vendez pas mes informations personnelles",
 	   "nl":"Mijn persoonlijke gegevens niet verkopen",
@@ -127,7 +129,7 @@
 	   "is":"Ne prodaj moje osebne podatke",
 	   "sl":"Ne prodaj moje osebne podatke"
 	},
-	"button_confirm_text":{
+	"dash_button_confirm_text":{
 	   "en":"Confirm",
 	   "fr":"Confirmer",
 	   "nl":"Bevestigen",
@@ -140,7 +142,7 @@
 	   "is":"Staðfesta",
 	   "sl":"Potrdi"
 	},
-	"button_cancel_text":{
+	"dash_button_cancel_text":{
 	   "en":"Cancel",
 	   "fr":"Annuler",
 	   "nl":"Annuleren",
@@ -153,7 +155,7 @@
 	   "is":"Hætta við",
 	   "sl":"Prekliči"
 	},
-	"show_again_text":{
+	"dash_show_again_text":{
 	   "en":"Cookie Settings",
 	   "fr":"Paramètres de cookie",
 	   "nl":"Cookie-instellingen",
@@ -166,7 +168,7 @@
 	   "is":"Stillingar á kökum",
 	   "sl":"Nastavitve piškotkov"
 	},
-	"optout_text":{
+	"dash_optout_text":{
 	   "en":"Do you really wish to opt-out?",
 	   "fr":"Souhaitez-vous vraiment vous désinscrire ?",
 	   "nl":"Wilt u zich echt afmelden?",
