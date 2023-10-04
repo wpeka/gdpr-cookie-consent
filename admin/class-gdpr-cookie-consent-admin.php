@@ -1734,7 +1734,7 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 			}
 			//language translation based on the selected language
-			if ( isset($_POST['select-banner-lan']) && in_array($_POST['select-banner-lan'], $this->supported_languages) ){
+			if (  $_POST['lang_changed'] == "true" && isset($_POST['select-banner-lan']) && in_array($_POST['select-banner-lan'], $this->supported_languages) ){
 
 				// Load and decode translations from JSON file
 				$translations_file = plugin_dir_path(__FILE__) . 'translations/translations.json';
@@ -1742,20 +1742,20 @@ class Gdpr_Cookie_Consent_Admin {
 
 				// Define an array of text keys to translate
 				$text_keys_to_translate = [
-					"notify_message_eprivacy",
-					"button_readmore_text",
-					"button_accept_text",
-					"button_accept_all_text",
-					"button_decline_text",
-					"about_message",
-					"notify_message",
-					"button_settings_text",
-					"notify_message_ccpa",
-					"button_donotsell_text",
-					"button_confirm_text",
-					"button_cancel_text",
-					"show_again_text",
-					"optout_text",
+					"dash_notify_message_eprivacy",
+					"dash_button_readmore_text",
+					"dash_button_accept_text",
+					"dash_button_accept_all_text",
+					"dash_button_decline_text",
+					"dash_about_message",
+					"dash_notify_message",
+					"dash_button_settings_text",
+					"dash_notify_message_ccpa",
+					"dash_button_donotsell_text",
+					"dash_button_confirm_text",
+					"dash_button_cancel_text",
+					"dash_show_again_text",
+					"dash_optout_text",
 					"gdpr_cookie_category_description_necessary",
 					"gdpr_cookie_category_name_necessary",
 					"gdpr_cookie_category_description_analytics",
@@ -1777,7 +1777,8 @@ class Gdpr_Cookie_Consent_Admin {
 			    // Loop through the text keys and translate them
 				foreach ($text_keys_to_translate as $text_key) {
 					$translated_text = $this->translated_text($text_key, $translations, $target_language);
-					$the_options[$text_key] = $translated_text;
+					$strippedString = str_replace("dash_", "", $text_key);
+					$the_options[$strippedString] = $translated_text;
 
 					// Check if the current text key is for category description or category name
 					if ( $text_key === "gdpr_cookie_category_description_necessary" ) {
