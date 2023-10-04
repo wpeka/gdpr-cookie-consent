@@ -7,6 +7,11 @@ import 'vue-select/dist/vue-select.css';
 import VueModal from '@kouts/vue-modal'
 import '@kouts/vue-modal/dist/vue-modal.css';
 import Tooltip from './vue-components/tooltip';
+import Datepicker from 'vuejs-datepicker';
+// Main JS (in UMD format)
+import VueTimepicker from 'vue2-timepicker'
+// CSS
+import 'vue2-timepicker/dist/VueTimepicker.css'
 
 import { cilPencil, cilSettings, cilInfo, cibGoogleKeep, cibTreehouse } from '@coreui/icons';
 Vue.use(CoreuiVue);
@@ -14,6 +19,8 @@ Vue.component('v-select', vSelect);
 Vue.component('vue-editor', VueEditor);
 Vue.component('v-modal', VueModal);
 Vue.component('tooltip', Tooltip);
+Vue.component('datepicker', Datepicker);
+Vue.component('vue-timepicker', VueTimepicker);
 
 const j = jQuery.noConflict();
 
@@ -45,6 +52,7 @@ var gen = new Vue({
             confirm_button_popup: false,
             cancel_button_popup: false,
             opt_out_link_popup: false,
+			schedule_scan_show: false,
             scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['total'] : 0,
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
@@ -117,6 +125,8 @@ var gen = new Vue({
 			banner_preview : true,
             show_cookie_as_options: settings_obj.show_cookie_as_options,
 			show_language_as_options: settings_obj.show_language_as_options,
+			schedule_scan_options: settings_obj.schedule_scan_options,
+			schedule_scan_as: 'never', //hard code for testing , later change
 			show_language_as: settings_obj.the_options.hasOwnProperty('lang_selected') ? settings_obj.the_options['lang_selected'] : 'en',
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
@@ -671,6 +681,12 @@ var gen = new Vue({
             }
             this.updateScanCookie(cookie_scan_arr );
         },
+		scheduleScanShow() {
+			this.schedule_scan_show = true;
+		},
+		scheduleScanHide(){
+			this.schedule_scan_show = false;
+		},
         updateScanCookie(cookie_arr) {
             var that = this;
             var data = {
