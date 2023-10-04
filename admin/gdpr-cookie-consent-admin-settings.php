@@ -19,14 +19,200 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 ?>
 <div id="gdpr-before-mount" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-settings-app">
+	<!-- main preview container -->
+
+	<!-- adding divs conditionally for popup preview -->
+	<div v-if="show_cookie_as === 'popup'" class="banner-preview-modal gdprfade" :class="{'hide-popup':!banner_preview_is_on , 'overlay':cookie_add_overlay}">
+			<div class="banner-preview-modal-dialog banner-preview-modal-dialog-centered">
+				<!-- Modal content for Popup Preview-->
+				<div class="banner-preview-modal-content">
+					<div class="banner-preview-modal-body">
+
+						<div v-show="banner_preview_is_on" id="banner-preview-main-container" class="banner-preview-main-container" :class="{ 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position != 'top' && show_cookie_as == 'banner', 'banner-preview': show_cookie_as == 'banner','widget-preview': show_cookie_as == 'widget','widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position != 'left' && show_cookie_as == 'widget','popup-preview': show_cookie_as == 'popup','popup-almond_column_preview':popup_template == 'popup-almond_column' && show_cookie_as == 'popup','popup-default_preview':popup_template == 'popup-default' && show_cookie_as == 'popup','popup-navy_blue_center_preview':popup_template == 'popup-navy_blue_center' && show_cookie_as == 'popup','popup-grey_column_preview':popup_template == 'popup-grey_column' && show_cookie_as == 'popup' && gdpr_policy != 'ccpa','popup-dark_row_preview':popup_template == 'popup-dark_row' && show_cookie_as == 'popup','popup-grey_center_preview':popup_template == 'popup-grey_center' && show_cookie_as == 'popup','popup-dark_preview':popup_template == 'popup-dark' && show_cookie_as == 'popup','popup-navy_blue_box_preview':popup_template == 'popup-navy_blue_box' && show_cookie_as == 'popup','popup-navy_blue_square_preview':popup_template == 'popup-navy_blue_square' && show_cookie_as == 'popup' }" :style="{ 'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,'border-style': border_style, 'border-width': cookie_bar_border_width + 'px', 'border-color': cookie_border_color, 'border-radius': cookie_bar_border_radius+'px', color:cookie_text_color}" >
+
+						<div class="gdpr_messagebar_content_preview" :class="{ 'widget-msg-content-preview': show_cookie_as == 'widget','banner-msg-content-preview': show_cookie_as == 'banner'}" style="max-width: 825px;">
+
+								<!-- logo image for popup -->
+								<div v-show="!['popup-grey_column','popup-almond_column'].includes(popup_template)" class="gdpr_logo_container">
+								<?php
+									$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+								if ( ! empty( $get_banner_img) ) {
+									?>
+									<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+										<?php
+								}
+								?>
+								</div>
+
+								<div class="group-description-preview" tabindex="0" :class="{'ccpa-group-description': is_ccpa && gdpr_policy != 'both' }">
+									<!-- logo image for popup -->
+									<div v-show="['popup-grey_column','popup-almond_column'].includes(popup_template)" class="gdpr_logo_container">
+									<?php
+										$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+									if ( ! empty( $get_banner_img) ) {
+										?>
+										<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+											<?php
+									}
+									?>
+									</div>
+									<p v-show="is_gdpr" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{gdpr_message}}
+									<br v-show="popup_template == 'popup-almond_column' && show_cookie_as == 'popup'">
+									<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+									</p>
+									<p v-show="is_eprivacy" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{eprivacy_message}}
+									<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+									</p>
+									<p v-show="is_ccpa" class="ccpa_preview_msg" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ fontFamily: cookie_font }" >{{ccpa_message}} <a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color,fontFamily: cookie_font}">{{opt_out_text}}</a>
+									</p>
+								</div>
+								<div v-show="['gdpr','eprivacy','both'].includes(gdpr_policy)" class="group-description-buttons-preview" id="default_buttons_preview"
+									:class=" {'widget-button-container':
+									((cookie_accept_all_on && cookie_settings_on) ||
+									(cookie_accept_on && cookie_accept_all_on) ||
+									(cookie_accept_all_on && cookie_decline_on) ||
+									(cookie_accept_all_on && cookie_decline_on && cookie_settings_on) ||
+									(cookie_accept_all_on && cookie_decline_on && cookie_settings_on && cookie_accept_on) ||
+									(cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on && !cookie_settings_on)) && show_cookie_as == 'popup' && popup_template != 'popup-dark_row' && popup_template != 'popup-grey_center' && popup_template != 'popup-navy_blue_square','eprivay-remove-flex': gdpr_policy == 'eprivacy','popup-navy_blue_box_flex':popup_template == 'popup-navy_blue_box' && show_cookie_as == 'popup' && gdpr_policy != 'ccpa'  }"
+									:style=" { 'margin-bottom': ( 2*accept_border_width ) + 'px' } " >
+										<!-- accept button preview configuration  -->
+										<a v-show="cookie_accept_on && popup_template != 'popup-navy_blue_square'" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button,'button-as-link':!accept_as_button,  'btn-lg': accept_as_button && accept_size === 'large','btn-sm': accept_as_button && accept_size === 'small','widget-accept-preview': show_cookie_as == 'widget','popup-accept-preview': show_cookie_as == 'popup' }" aria-label="Accept" href="#":style="{ color:accept_text_color,'border-style': accept_style, 'border-width': accept_as_button ? accept_border_width + 'px':'0', 'border-color': accept_border_color, 'border-radius': accept_border_radius+'px','background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+										}" >{{ accept_text }}</a>
+
+										<!-- accept all button preview configuration  -->
+										<a v-show="cookie_accept_all_on && popup_template != 'popup-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button,'button-as-link':!accept_all_as_button,  'btn-lg': accept_all_as_button && accept_all_size === 'large','btn-sm': accept_all_as_button && accept_all_size === 'small','widget-accept-all-preview': show_cookie_as == 'widget','popup-accept-all-preview': show_cookie_as == 'popup' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color,'border-style': accept_all_style, 'border-width': accept_all_as_button ? accept_all_border_width + 'px':'0', 'border-color': accept_all_border_color, 'border-radius': accept_all_border_radius+'px','background-color': accept_all_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+										}"  >{{ accept_all_text }}</a>
+
+										<!-- Decline button preview configuration  -->
+										<a v-show="cookie_decline_on && popup_template != 'popup-navy_blue_square'" id="cookie_action_reject_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': decline_as_button,'button-as-link':!decline_as_button,  'btn-lg': decline_as_button && decline_size === 'large','btn-sm': decline_as_button && decline_size === 'small','widget-decline-preview': show_cookie_as == 'widget','popup-decline-preview': show_cookie_as == 'popup' }" aria-label="Reject"
+										:style="{ color:decline_text_color,'border-style': decline_style, 'border-width': decline_as_button ? decline_border_width + 'px':'0', 'border-color': decline_border_color, 'border-radius': decline_border_radius+'px','background-color': decline_as_button ? `${decline_background_color}${Math.floor(decline_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+										}" >{{ decline_text }}</a>
+
+										<!-- Setting button preview configuration  -->
+										<a v-show="cookie_settings_on && popup_template != 'popup-navy_blue_square'" id="cookie_action_settings_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': settings_as_button,'button-as-link':!settings_as_button,'btn-lg': settings_as_button && settings_size === 'large','btn-sm': settings_as_button && settings_size === 'small','widget-settings-preview': show_cookie_as == 'widget','widget-cookie-setting-container': (cookie_settings_on && !cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on),'popup-setting-preview': show_cookie_as == 'popup', 'eprivay-hide-setting': gdpr_policy == 'eprivacy' }"   aria-label="Cookie Settings" href="#" :style="{ color:settings_text_color,'border-style': settings_style, 'border-width': settings_as_button ? settings_border_width + 'px':'0', 'border-color': settings_border_color, 'border-radius': settings_border_radius+'px','background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+										}" >{{ settings_text }}</a>
+
+										<!-- buttons for navy blue square Pro template  -->
+										<!-- Decline button -->
+										<a v-show="cookie_decline_on && popup_template == 'popup-navy_blue_square'" id="cookie_action_reject_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': decline_as_button,'button-as-link':!decline_as_button,  'btn-lg': decline_as_button && decline_size === 'large','btn-sm': decline_as_button && decline_size === 'small','widget-decline-preview': show_cookie_as == 'widget','popup-decline-preview': show_cookie_as == 'popup' }" aria-label="Reject"
+										:style="{ color:decline_text_color,'border-style': decline_style, 'border-width': decline_as_button ? decline_border_width + 'px':'0', 'border-color': decline_border_color, 'border-radius': decline_border_radius+'px','background-color': decline_as_button ? `${decline_background_color}${Math.floor(decline_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+										}" >{{ decline_text }}</a>
+										<!-- Setting button -->
+										<a v-show="cookie_settings_on && popup_template == 'popup-navy_blue_square'" id="cookie_action_settings_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': settings_as_button,'button-as-link':!settings_as_button,'btn-lg': settings_as_button && settings_size === 'large','btn-sm': settings_as_button && settings_size === 'small','widget-settings-preview': show_cookie_as == 'widget','widget-cookie-setting-container': (cookie_settings_on && !cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on),'popup-setting-preview': show_cookie_as == 'popup', 'eprivay-hide-setting': gdpr_policy == 'eprivacy' }"   aria-label="Cookie Settings" href="#" :style="{ color:settings_text_color,'border-style': settings_style, 'border-width': settings_as_button ? settings_border_width + 'px':'0', 'border-color': settings_border_color, 'border-radius': settings_border_radius+'px','background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+										}" >{{ settings_text }}</a>
+										<!-- accept button   -->
+										<a v-show="cookie_accept_on && popup_template == 'popup-navy_blue_square'" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button,'button-as-link':!accept_as_button,  'btn-lg': accept_as_button && accept_size === 'large','btn-sm': accept_as_button && accept_size === 'small','widget-accept-preview': show_cookie_as == 'widget','popup-accept-preview': show_cookie_as == 'popup' }" aria-label="Accept" href="#":style="{ color:accept_text_color,'border-style': accept_style, 'border-width': accept_as_button ? accept_border_width + 'px':'0', 'border-color': accept_border_color, 'border-radius': accept_border_radius+'px','background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+										}" >{{ accept_text }}</a>
+
+										<!-- accept all  -->
+										<a v-show="cookie_accept_all_on && popup_template == 'popup-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button,'button-as-link':!accept_all_as_button,  'btn-lg': accept_all_as_button && accept_all_size === 'large','btn-sm': accept_all_as_button && accept_all_size === 'small','widget-accept-all-preview': show_cookie_as == 'widget','popup-accept-all-preview': show_cookie_as == 'popup' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color,'border-style': accept_all_style, 'border-width': accept_all_as_button ? accept_all_border_width + 'px':'0', 'border-color': accept_all_border_color, 'border-radius': accept_all_border_radius+'px','background-color': accept_all_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+										}"  >{{ accept_all_text }}</a>
+								</div>
+						</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+	</div>
+	<!-- for banner and widget preview -->
+	<div v-else v-show="banner_preview_is_on" id="banner-preview-main-container" class="banner-preview-main-container" :class="{ 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position != 'top' && show_cookie_as == 'banner', 'banner-preview': show_cookie_as == 'banner','widget-preview': show_cookie_as == 'widget','widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position != 'left' && show_cookie_as == 'widget','popup-preview': show_cookie_as == 'popup','banner-default_preview':banner_template == 'banner-default' && show_cookie_as == 'banner','widget-default_preview':widget_template == 'widget-default' && show_cookie_as == 'widget','banner-almond_column_preview':banner_template == 'banner-almond_column' && show_cookie_as == 'banner','widget-almond_column_preview':widget_template == 'widget-almond_column' && show_cookie_as == 'widget' && gdpr_policy != 'ccpa','banner-navy_blue_center_preview':banner_template == 'banner-navy_blue_center' && show_cookie_as == 'banner','widget-navy_blue_center_preview':widget_template == 'widget-navy_blue_center' && show_cookie_as == 'widget','banner-grey_column_preview':banner_template == 'banner-grey_column' && show_cookie_as == 'banner','widget-grey_column_preview':widget_template == 'widget-grey_column' && show_cookie_as == 'widget' && gdpr_policy != 'ccpa','banner-dark_row_preview':banner_template == 'banner-dark_row' && show_cookie_as == 'banner','widget-dark_row_preview':widget_template == 'widget-dark_row' && show_cookie_as == 'widget','banner-grey_center_preview':banner_template == 'banner-grey_center' && show_cookie_as == 'banner','widget-grey_center_preview':widget_template == 'widget-grey_center' && show_cookie_as == 'widget','banner-dark_preview':banner_template == 'banner-dark' && show_cookie_as == 'banner','widget-dark_preview':widget_template == 'widget-dark' && show_cookie_as == 'widget','widget-navy_blue_box_preview':widget_template == 'widget-navy_blue_box' && show_cookie_as == 'widget','widget-navy_blue_square_preview':widget_template == 'widget-navy_blue_square' && show_cookie_as == 'widget' }" :style="{ 'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,'border-style': border_style, 'border-width': cookie_bar_border_width + 'px', 'border-color': cookie_border_color, 'border-radius': cookie_bar_border_radius+'px', color:cookie_text_color}" name="gcc-banner-preview">
+
+		<div class="gdpr_messagebar_content_preview" :class="{ 'widget-msg-content-preview': show_cookie_as == 'widget','banner-msg-content-preview': show_cookie_as == 'banner'}" style="max-width: 825px;">
+				<!-- logo image for banner and widget  -->
+				<div v-show="!['banner-grey_column','banner-almond_column','widget-grey_column','widget-almond_column'].includes(banner_template)" class="gdpr_logo_container">
+				<?php
+					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+				if ( ! empty( $get_banner_img) ) {
+					?>
+					<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+				}
+				?>
+				</div>
+
+				<div class="group-description-preview" tabindex="0" :class="{'ccpa-group-description': is_ccpa && gdpr_policy != 'both' }">
+					<div v-show="['banner-grey_column','banner-almond_column','widget-grey_column','widget-almond_column'].includes(banner_template)" class="gdpr_logo_container">
+					<?php
+						$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+					if ( ! empty( $get_banner_img) ) {
+						?>
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+							<?php
+					}
+					?>
+					</div>
+					<p v-show="is_gdpr" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{gdpr_message}}<br v-show="widget_template == 'widget-almond_column' && show_cookie_as == 'widget' ">
+					<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+					</p>
+					<p v-show="is_eprivacy" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{eprivacy_message}}
+					<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+					</p>
+					<p v-show="is_ccpa" class="ccpa_preview_msg" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ fontFamily: cookie_font }">{{ccpa_message}} <a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color,fontFamily: cookie_font}">{{opt_out_text}}</a>
+					</p>
+				</div>
+				<div v-show="['gdpr','eprivacy','both'].includes(gdpr_policy)" class="group-description-buttons-preview" id="default_buttons_preview"
+					:class=" {'widget-button-container':
+					((cookie_accept_all_on && cookie_settings_on) ||
+					(cookie_accept_on && cookie_accept_all_on) ||
+					(cookie_accept_all_on && cookie_decline_on) ||
+					(cookie_accept_all_on && cookie_decline_on && cookie_settings_on) ||
+					(cookie_accept_all_on && cookie_decline_on && cookie_settings_on && cookie_accept_on) ||
+					(cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on && !cookie_settings_on)) && show_cookie_as == 'widget' && widget_template != 'widget-dark_row' && widget_template != 'widget-grey_center' && widget_template != 'widget-navy_blue_square','eprivay-remove-flex': gdpr_policy == 'eprivacy','widget-navy_blue_box_flex':widget_template == 'widget-navy_blue_box' && show_cookie_as == 'widget' && gdpr_policy != 'ccpa'  }"
+					 :style=" { 'margin-bottom': ( 2*accept_border_width ) + 'px' } " >
+						<!-- accept button preview configuration  -->
+						<a v-show="cookie_accept_on && widget_template != 'widget-navy_blue_square'" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button,'button-as-link':!accept_as_button,  'btn-lg': accept_as_button && accept_size === 'large','btn-sm': accept_as_button && accept_size === 'small','widget-accept-preview': show_cookie_as == 'widget' }" aria-label="Accept" href="#":style="{ color:accept_text_color,'border-style': accept_style, 'border-width': accept_as_button ? accept_border_width + 'px':'0', 'border-color': accept_border_color, 'border-radius': accept_border_radius+'px','background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}`:'transparent',fontFamily: cookie_font
+						 }" >{{ accept_text }}</a>
+
+						<!-- accept all button preview configuration  -->
+						<a v-show="cookie_accept_all_on && widget_template != 'widget-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button,'button-as-link':!accept_all_as_button,  'btn-lg': accept_all_as_button && accept_all_size === 'large','btn-sm': accept_all_as_button && accept_all_size === 'small','widget-accept-all-preview': show_cookie_as == 'widget' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color,'border-style': accept_all_style, 'border-width': accept_all_as_button ? accept_all_border_width + 'px':'0', 'border-color': accept_all_border_color, 'border-radius': accept_all_border_radius+'px','background-color': accept_all_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+						 }"  >{{ accept_all_text }}</a>
+
+						<!-- Decline button preview configuration  -->
+						<a v-show="cookie_decline_on && widget_template != 'widget-navy_blue_square'" id="cookie_action_reject_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': decline_as_button,'button-as-link':!decline_as_button,  'btn-lg': decline_as_button && decline_size === 'large','btn-sm': decline_as_button && decline_size === 'small','widget-decline-preview': show_cookie_as == 'widget' }" aria-label="Reject"
+						:style="{ color:decline_text_color,'border-style': decline_style, 'border-width': decline_as_button ? decline_border_width + 'px':'0', 'border-color': decline_border_color, 'border-radius': decline_border_radius+'px','background-color': decline_as_button ? `${decline_background_color}${Math.floor(decline_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+						 }"  >{{ decline_text }}</a>
+
+						<!-- Setting button preview configuration  -->
+						<a v-show="cookie_settings_on && widget_template != 'widget-navy_blue_square'" id="cookie_action_settings_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': settings_as_button,'button-as-link':!settings_as_button,'btn-lg': settings_as_button && settings_size === 'large','btn-sm': settings_as_button && settings_size === 'small','widget-settings-preview': show_cookie_as == 'widget','widget-cookie-setting-container': (cookie_settings_on && !cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on),'eprivay-hide-setting': gdpr_policy == 'eprivacy' }"   aria-label="Cookie Settings" href="#" :style="{ color:settings_text_color,'border-style': settings_style, 'border-width': settings_as_button ? settings_border_width + 'px':'0', 'border-color': settings_border_color, 'border-radius': settings_border_radius+'px','background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+						 }" >{{ settings_text }}</a>
+
+						<!-- buttons for navy blue square Pro template  -->
+						<!-- Decline button -->
+						<a v-show="cookie_decline_on && widget_template == 'widget-navy_blue_square'" id="cookie_action_reject_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': decline_as_button,'button-as-link':!decline_as_button,  'btn-lg': decline_as_button && decline_size === 'large','btn-sm': decline_as_button && decline_size === 'small','widget-decline-preview': show_cookie_as == 'widget' }" aria-label="Reject"
+						:style="{ color:decline_text_color,'border-style': decline_style, 'border-width': decline_as_button ? decline_border_width + 'px':'0', 'border-color': decline_border_color, 'border-radius': decline_border_radius+'px','background-color': decline_as_button ? `${decline_background_color}${Math.floor(decline_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+						 }"  >{{ decline_text }}</a>
+						<!-- Setting button -->
+						<a v-show="cookie_settings_on && widget_template == 'widget-navy_blue_square'" id="cookie_action_settings_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': settings_as_button,'button-as-link':!settings_as_button,'btn-lg': settings_as_button && settings_size === 'large','btn-sm': settings_as_button && settings_size === 'small','widget-settings-preview': show_cookie_as == 'widget','widget-cookie-setting-container': (cookie_settings_on && !cookie_accept_all_on && !cookie_accept_on && !cookie_decline_on),'eprivay-hide-setting': gdpr_policy == 'eprivacy' }"   aria-label="Cookie Settings" href="#" :style="{ color:settings_text_color,'border-style': settings_style, 'border-width': settings_as_button ? settings_border_width + 'px':'0', 'border-color': settings_border_color, 'border-radius': settings_border_radius+'px','background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+						 }" >{{ settings_text }}</a>
+						<!-- accept button   -->
+						<a v-show="cookie_accept_on && widget_template == 'widget-navy_blue_square'" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button,'button-as-link':!accept_as_button,  'btn-lg': accept_as_button && accept_size === 'large','btn-sm': accept_as_button && accept_size === 'small','widget-accept-preview': show_cookie_as == 'widget' }" aria-label="Accept" href="#":style="{ color:accept_text_color,'border-style': accept_style, 'border-width': accept_as_button ? accept_border_width + 'px':'0', 'border-color': accept_border_color, 'border-radius': accept_border_radius+'px','background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+						 }" >{{ accept_text }}</a>
+
+						<!-- accept all  -->
+						<a v-show="cookie_accept_all_on && widget_template == 'widget-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button,'button-as-link':!accept_all_as_button,  'btn-lg': accept_all_as_button && accept_all_size === 'large','btn-sm': accept_all_as_button && accept_all_size === 'small','widget-accept-all-preview': show_cookie_as == 'widget' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color,'border-style': accept_all_style, 'border-width': accept_all_as_button ? accept_all_border_width + 'px':'0', 'border-color': accept_all_border_color, 'border-radius': accept_all_border_radius+'px','background-color': accept_all_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
+						 }"  >{{ accept_all_text }}</a>
+
+				</div>
+		</div>
+	</div>
+
 	<c-container class="gdpr-cookie-consent-settings-container">
 		<c-form id="gcc-save-settings-form" spellcheck="false" class="gdpr-cookie-consent-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce' ) ); ?>"/>
 			<div class="gdpr-cookie-consent-settings-content">
-				<div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>	
-				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>	
+				<div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>
+				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#compliances">
+						<!-- Complianz Banner preview  -->
+						<div class="banner-preview-container">
+							<div class="banner-preview-label"><label><?php esc_attr_e( 'Banner Preview', 'gdpr-cookie-consent' ); ?></label></div>
+							<div class="banner-preview-swtich">
+								<c-switch v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview-on" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
+								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
+							</div>
+						</div>
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Cookie Notice', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
@@ -83,8 +269,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 							</c-card-body>
 						</c-card>
-						<c-card v-show="show_visitor_conditions">
-							<c-card-header><?php esc_html_e( 'Enable Visitor Conditions', 'gdpr-cookie-consent' ); ?></c-card-header>
+						<c-card v-show="!is_eprivacy">
+							<c-card-header><?php esc_html_e('Enable Visitor Conditions', 'gdpr-cookie-consent'); ?></c-card-header>
 							<c-card-body>
 								<c-row v-show="is_ccpa">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable compatibility for the customization of advertising tracking preferences in case of CCPA.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
@@ -93,7 +279,29 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
 									</c-col>
 								</c-row>
-								<?php do_action( 'gdpr_enable_visitor_features' ); ?>
+								<?php if (!$is_pro_active) : ?>
+									<c-row v-show="is_gdpr">
+										<c-col class="col-sm-4"><label><?php esc_attr_e('Show only for EU visitors', 'gdpr-cookie-consent'); ?>
+											</label>
+											<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8">
+											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="is_eu_on" id="gdpr-cookie-consent-eu-on" variant="3d" color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
+											<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
+										</c-col>
+									</c-row>
+									<c-row v-show="is_ccpa">
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Show only for California visitors', 'gdpr-cookie-consent'); ?>
+									</label>
+									<div class="gdpr-pro-label absolute" style="right: -5px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8">
+											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d" color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
+											<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
+										</c-col>
+									</c-row>
+								<?php endif ?>
+								<?php do_action('gdpr_enable_visitor_features'); ?>
 							</c-card-body>
 						</c-card>
 						<c-card v-show="show_revoke_card">
@@ -123,7 +331,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show as', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gcc-readmore-as-button" :reduce="label => label.code" :options="show_as_options" v-model="button_readmore_as_button"></v-select>
-										<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">	
+										<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">
 									</c-col>
 								</c-row>
 								<div v-show="button_readmore_is_on">
@@ -181,7 +389,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gcc-readmore-url-type" :reduce="label => label.code" :options="url_type_options" v-model="button_readmore_url_type"></v-select>
-										<input type="hidden" name="gcc-readmore-url-type" v-model="button_readmore_url_type">	
+										<input type="hidden" name="gcc-readmore-url-type" v-model="button_readmore_url_type">
 									</c-col>
 								</c-row>
 								<div v-show="button_readmore_is_on">
@@ -250,7 +458,21 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Consent Settings', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
-								<?php do_action( 'gdpr_consent_settings_pro_top' ); ?>
+								<?php if (!$is_pro_active) : ?>
+
+									<c-row>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Enable Consent Logging', 'gdpr-cookie-consent'); ?> <tooltip text="<?php esc_html_e('Enable to log user’s consent.', 'gdpr-cookie-consent'); ?>"></tooltip>
+
+											</label>
+											<div class="gdpr-pro-label absolute" style="right: 20px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8">
+											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" id="gdpr-cookie-consent-logging-on" variant="3d" color="success" :checked="logging_on"></c-switch>
+											<input type="hidden" name="gcc-logging-on" v-model="logging_on">
+										</c-col>
+									</c-row>
+								<?php endif; ?>
+								<?php do_action('gdpr_consent_settings_pro_top'); ?>
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Autotick for Non-Necessary Cookies ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Pre-select non-necessary cookie checkboxes.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
@@ -312,7 +534,20 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<input type="hidden" name="gcc-decline-reload" v-model="decline_reload">
 									</c-col>
 								</c-row>
-								<?php do_action( 'gdpr_consent_settings_pro_bottom' ); ?>
+								<?php if (!$is_pro_active) : ?>
+									<c-row>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Restrict Pages and/or Posts', 'gdpr-cookie-consent'); ?> <tooltip text="<?php esc_html_e('Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent'); ?>"></tooltip>
+
+											</label>
+											<div class="gdpr-pro-label absolute" style="top: 7.5px;" ><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8">
+											<v-select disabled id="gdpr-cookie-consent-restrict-posts" :reduce="label => label.code" class="form-group" :options="list_of_contents" multiple v-model="restrict_array" @input="onPostsSelect"></v-select>
+											<input type="hidden" name="gcc-restrict-posts" v-model="restrict_posts">
+										</c-col>
+									</c-row>
+								<?php endif ?>
+								<?php do_action('gdpr_consent_settings_pro_bottom'); ?>
 							</c-card-body>
 						</c-card>
 						<c-card>
@@ -350,6 +585,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 					</c-tab>
 					<c-tab title="<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>" href="#configuration">
+
+						<!-- Configure Banner preview  -->
+						<div class="banner-preview-container">
+							<div class="banner-preview-label"><label><?php esc_attr_e( 'Banner Preview', 'gdpr-cookie-consent' ); ?></label></div>
+							<div class="banner-preview-swtich">
+								<c-switch v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview-on" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
+								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
+							</div>
+						</div>
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Configure Cookie Bar', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
@@ -385,14 +629,14 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'On Hide', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 									<v-select class="form-group" id="gdpr-cookie-consent-on-hide" :reduce="label => label.code" :options="on_hide_options" v-model="on_hide"></v-select>
-									<input type="hidden" name="gcc-gdpr-cookie-on-hide" v-model="on_hide">	
+									<input type="hidden" name="gcc-gdpr-cookie-on-hide" v-model="on_hide">
 									</c-col>
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'On Load', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 									<v-select class="form-group" id="gdpr-cookie-consent-on-load" :reduce="label => label.code" :options="on_load_options" v-model="on_load"></v-select>
-									<input type="hidden" name="gcc-gdpr-cookie-on-load" v-model="on_load">	
+									<input type="hidden" name="gcc-gdpr-cookie-on-load" v-model="on_load">
 									</c-col>
 								</c-row>
 							</c-card-body>
@@ -401,6 +645,14 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						<?php do_action( 'gdpr_cookie_template' ); ?>
 					</c-tab>
 					<c-tab title="<?php esc_attr_e( 'Design', 'gdpr-cookie-consent' ); ?>" href="#gdpr_design">
+						<!-- Desgin Banner preview  -->
+						<div class="banner-preview-container">
+							<div class="banner-preview-label"><label><?php esc_attr_e( 'Banner Preview', 'gdpr-cookie-consent' ); ?></label></div>
+							<div class="banner-preview-swtich">
+								<c-switch v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview-on" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
+								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
+							</div>
+						</div>
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Cookie Bar Body Design', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
@@ -414,7 +666,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity"></c-input> 
+									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity"></c-input>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-opacity" v-model="cookie_bar_opacity"></c-input>
 									</c-col>
 								</c-row>
@@ -436,7 +688,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width"></c-input> 
+									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width"></c-input>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-width" v-model="cookie_bar_border_width"></c-input>
 									</c-col>
 								</c-row>
@@ -450,38 +702,70 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius"></c-input> 
+									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius"></c-input>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius" v-model="cookie_bar_border_radius"></c-input>
 									</c-col>
 								</c-row>
-								<?php do_action( 'gdpr_cookie_font' ); ?>
+								<?php if (!$is_pro_active) : ?>
+									<c-row>
+										<c-col class="col-sm-4"><label><?php esc_attr_e('Font', 'gdpr-cookie-consent'); ?></label>
+											<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8">
+											<v-select disabled class="form-group" id="gdpr-cookie-font" :reduce="label => label.code" :options="font_options" v-model="cookie_font">
+											</v-select>
+											<input type="hidden" name="gdpr-cookie-font" v-model="cookie_font">
+										</c-col>
+									</c-row>
+								<?php endif ?>
+								<?php do_action('gdpr_cookie_font'); ?>
 								<?php
 								if ( $is_pro_active ) {
 									?>
-								<c-row>
-									<c-col class="col-sm-4">
-										<label><?php esc_attr_e( 'Upload Logo', 'gdpr-cookie-consent' ); ?></label>
-									</c-col>
-									<c-col class="col-sm-8 ">
-										<c-button color="info" class="button" id="image-upload-button"  name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
-											<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
-										</c-button>
-										<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
-											<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
-										</c-button>
-										<?php
-											$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-										?>
-										<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
-									<p class="image-upload-notice" style="margin-left: 10px;">
-									<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
-									</p>
-									<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
-									</c-col>
-								</c-row>
-									<?php
-								}
+
+									<c-row>
+										<c-col class="col-sm-4">
+											<label><?php esc_attr_e('Upload Logo ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+										</c-col>
+										<c-col class="col-sm-8 ">
+											<c-button color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
+												<?php esc_attr_e('Add Image', 'gdpr-cookie-consent'); ?>
+											</c-button>
+											<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
+												<?php esc_attr_e('Remove Image', 'gdpr-cookie-consent'); ?>
+											</c-button>
+											<?php
+											$get_banner_img = get_option(GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD);
+											?>
+											<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw($get_banner_img); ?>">
+											<p class="image-upload-notice" style="margin-left: 10px;">
+												<?php esc_attr_e('We recommend 50 x 50 pixels.', 'gdpr-cookie-consent'); ?>
+											</p>
+											<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw($get_banner_img); ?>" class="regular-text"> </c-input>
+										</c-col>
+									</c-row>
+								<?php
+								} else {
 								?>
+									<c-row>
+										<c-col class="col-sm-4">
+											<label><?php esc_attr_e('Upload Logo ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+											<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8 ">
+											<c-button disabled color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
+												<?php esc_attr_e('Add Image', 'gdpr-cookie-consent'); ?>
+											</c-button>
+											<c-button disabled color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
+												<?php esc_attr_e('Remove Image', 'gdpr-cookie-consent'); ?>
+											</c-button>
+											<p class="image-upload-notice" style="margin-left: 10px;">
+												<?php esc_attr_e('We recommend 50 x 50 pixels.', 'gdpr-cookie-consent'); ?>
+											</p>
+											<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw($get_banner_img); ?>" class="regular-text"> </c-input>
+										</c-col>
+									</c-row>
+								<?php } ?>
 							</c-card-body>
 						</c-card>
 						<c-card v-show="is_gdpr || is_eprivacy">
@@ -532,7 +816,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 									<c-col class="col-sm-6">
 										<label><?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Select action to do once the user clicks on button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-									</c-col>			
+									</c-col>
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
@@ -613,15 +897,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<c-row v-show="accept_as_button">
 									<c-col class="col-sm-4  gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_opacity"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_opacity"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-opacity" v-model="accept_opacity"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-width" v-model="accept_border_width"></c-input>
 									</c-col>
 									<c-col class="col-sm-4  gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-radius" v-model="accept_border_radius"></c-input>
 									</c-col>
 								</c-row>
@@ -679,7 +963,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 									<c-col class="col-sm-6">
 										<label><?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Select action to do once the user clicks on button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-									</c-col>			
+									</c-col>
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
@@ -760,15 +1044,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<c-row v-show="accept_all_as_button">
 									<c-col class="col-sm-4  gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_all_opacity"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_all_opacity"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-opacity" v-model="accept_all_opacity"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-width" v-model="accept_all_border_width"></c-input>
 									</c-col>
 									<c-col class="col-sm-4  gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-radius" v-model="accept_all_border_radius"></c-input>
 									</c-col>
 								</c-row>
@@ -905,14 +1189,14 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-col>
 									</c-row>
 									<c-row v-show="decline_as_button">
-										<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="decline_opacity"></c-input> 
+										<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="decline_opacity"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-opacity" v-model="decline_opacity"></c-input>
 										</c-col>
-										<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width"></c-input> 
+										<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-width" v-model="decline_border_width"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-radius" v-model="decline_border_radius"></c-input>
 										</c-col>
 									</c-row>
@@ -1037,15 +1321,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<c-row v-show="settings_as_button">
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="settings_opacity"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="settings_opacity"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-opacity" v-model="settings_opacity"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-width" v-model="settings_border_width"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius"></c-input> 
+										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius"></c-input>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-radius" v-model="settings_border_radius"></c-input>
 									</c-col>
 								</c-row>
@@ -1168,15 +1452,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="confirm_opacity"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="confirm_opacity"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-opacity" v-model="confirm_opacity"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-width" v-model="confirm_border_width"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-radius" v-model="confirm_border_radius"></c-input>
 										</c-col>
 									</c-row>
@@ -1275,15 +1559,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cancel_opacity"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cancel_opacity"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-opacity" v-model="cancel_opacity"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-width" v-model="cancel_border_width"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius"></c-input> 
+											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius"></c-input>
 											<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-radius" v-model="cancel_border_radius"></c-input>
 										</c-col>
 									</c-row>
@@ -1380,6 +1664,21 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
 					</c-tab>
 					<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
+					<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#language">
+					<c-card>
+							<c-card-header><?php esc_html_e( 'Languages', 'gdpr-cookie-consent' ); ?>
+							</c-card-header>
+							<c-card-body>
+								<c-row>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select a language for your cookie consent banner', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<input type="hidden" name="select-banner-lan" v-model="show_language_as">
+										<v-select class="form-group" id="gdpr-select-banner-lan" :reduce="label => label.code" :options="show_language_as_options" v-model="show_language_as"  @input="onLanguageChange"></v-select>
+									</c-col>
+								</c-row>
+							</c-card-body>
+						</c-card>
+					</c-tab>
 				</c-tabs>
 			</div>
 			<div class="gdpr-cookie-consent-settings-bottom">
