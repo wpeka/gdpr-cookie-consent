@@ -2222,7 +2222,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 .scan-frequency-content{
 	display: flex;
     justify-content: space-around;
-	padding: 10px 30px 19px 23px;
+	padding: 10px 30px 19px 22px;
 }
 .scan-frequency-content .table-rows{
 	width: 400px;
@@ -2232,7 +2232,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	width: 400px;
 }
 
-.scan-frequency-content .scan-frequency-type,.scan-frequency-content .scan-frequency-date,.scan-frequency-content .scan-frequency-time{
+.scan-frequency-content .scan-frequency-type,.scan-frequency-content .scan-frequency-date,.scan-frequency-content .scan-frequency-time,.scan-frequency-content .scan-frequency-day{
 	width:200px;
 }
 
@@ -2271,7 +2271,7 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
     color: #2c3338;
     border-left: none;
 	padding-left: 15px;
-	width: 157px;
+	width: 162px;
 }
 
 /* time picker  */
@@ -2297,7 +2297,14 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	padding-left: 15px;
 }
 
+.time-picker-content .vue__time-picker .active{
+	background: #39f !important;
+}
+
 .scan-frequency-type .vs__dropdown-toggle{
+	border-color:  #E3E6E9;
+}
+.scan-frequency-day .vs__dropdown-toggle{
 	border-color:  #E3E6E9;
 }
 
@@ -2335,4 +2342,12 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 
 .scan-frequency-type .vs__open-indicator{
 	fill: #39F;
+}
+.scan-frequency-day .vs__open-indicator{
+	fill: #39F;
+}
+
+.align-scantype-left{
+	justify-content: unset;
+	padding-left: 30px;
 }

@@ -126,7 +126,11 @@ var gen = new Vue({
             show_cookie_as_options: settings_obj.show_cookie_as_options,
 			show_language_as_options: settings_obj.show_language_as_options,
 			schedule_scan_options: settings_obj.schedule_scan_options,
-			schedule_scan_as: 'never', //hard code for testing , later change
+			schedule_scan_as: settings_obj.the_options.hasOwnProperty('schedule_scan_type') ? settings_obj.the_options['schedule_scan_type'] : 'never', //schedule scan type
+			schedule_scan_day_options: settings_obj.schedule_scan_day_options,
+			schedule_scan_day: settings_obj.the_options.hasOwnProperty('scan_day') ? settings_obj.the_options['scan_day'] : 'Day 1', //scan day
+			schedule_scan_time_value: settings_obj.the_options.hasOwnProperty('scan_time') ? settings_obj.the_options['scan_time'] : '8:00 PM', //scan time
+			schedule_scan_date: settings_obj.the_options.hasOwnProperty('scan_date') ? settings_obj.the_options['scan_date'] : new Date(),//scan date
 			show_language_as: settings_obj.the_options.hasOwnProperty('lang_selected') ? settings_obj.the_options['lang_selected'] : 'en',
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
@@ -687,6 +691,18 @@ var gen = new Vue({
 		scheduleScanHide(){
 			this.schedule_scan_show = false;
 		},
+		scanTypeChange(value) {
+			this.schedule_scan_as = value;
+		},
+		scanTimeChange(value) {
+			this.schedule_scan_time_value = value;
+		},
+		scanDateChange (value ) {
+			this.schedule_scan_date = value;
+		},
+		scanDayChange ( value ) {
+			this.schedule_scan_day = value;
+		},
         updateScanCookie(cookie_arr) {
             var that = this;
             var data = {
@@ -1098,6 +1114,96 @@ var gen = new Vue({
                 }
             });
         },
+		onStartScheduleScan() {
+			this.schedule_scan_show = false; //make it false to close the popup
+
+			if ( this.schedule_scan_as == "once" ) {
+				//execute schedule scan once
+				this.scheduleScanOnce();
+			}else if ( this.schedule_scan_as == "monthly" ){
+				//execute schdule monthly
+				this.scanMonthly();
+			}
+		},
+		scheduleScanOnce() {
+
+			// Define the date and time when you want the function to execute
+			let targetDate = new Date(this.schedule_scan_date);
+
+			// Parse the time entered by the user and handle both 12-hour and 24-hour formats
+			const timeParts = this.schedule_scan_time_value.split(':');
+			let hours = parseInt(timeParts[0], 10);
+			const minutes = parseInt(timeParts[1], 10);
+
+			// Check if the time is in 12-hour format (e.g., "01:03 AM")
+			if (this.schedule_scan_time_value.toUpperCase().includes('PM') && hours < 12) {
+				hours += 12;
+			} else if (this.schedule_scan_time_value.toUpperCase().includes('AM') && hours === 12) {
+				hours = 0;
+			}
+
+			// Set the hours and minutes in the target date
+			targetDate.setHours(hours);
+			targetDate.setMinutes(minutes);
+
+			// Calculate the time difference between now and the target date
+  			const timeUntilExecution = targetDate - new Date();
+
+			// Check if the target date is in the future
+			if (timeUntilExecution > 0) {
+			  // Use setTimeout to delay the execution of scan
+			  setTimeout(() => {
+				// start the scanning here
+				this.onClickStartScan();
+			  }, timeUntilExecution);
+			} else {
+			  // if the target date is in the past
+			  alert('Selected date is in the past. Please select a vaild date.');
+			  this.schedule_scan_show = true;
+			}
+		},
+		scanMonthly() {
+			// Get the day of the month when the scan should run
+			const dayString = this.schedule_scan_day;
+			const dayNumber = parseInt(dayString.replace('Day ', ''), 10);
+			const targetDayOfMonth = dayNumber;
+
+			if (isNaN(targetDayOfMonth) || targetDayOfMonth <= 0 || targetDayOfMonth > 31) {
+			  alert('Invalid day of the month:', this.schedule_scan_day);
+			  return; // Exit if the day is invalid
+			}
+
+			// Define the time (hours and minutes)
+			const timeParts = this.schedule_scan_time_value.split(':');
+			let hours = parseInt(timeParts[0], 10);
+			const minutes = parseInt(timeParts[1], 10);
+
+			// Check if the time is in 12-hour format (e.g., "01:03 AM")
+			if (this.schedule_scan_time_value.toUpperCase().includes('PM') && hours < 12) {
+			  hours += 12;
+			} else if (this.schedule_scan_time_value.toUpperCase().includes('AM') && hours === 12) {
+			  hours = 0;
+			}
+			// Define a function to check and run the scan when the conditions are met
+			const checkAndRunScan = () => {
+			  const currentDate = new Date();
+			  const currentDayOfMonth = currentDate.getDate();
+			  const currentHours = currentDate.getHours();
+			  const currentMinutes = currentDate.getMinutes();
+
+			  if (
+				currentDayOfMonth === targetDayOfMonth &&
+				currentHours === hours &&
+				currentMinutes === minutes
+			  ) {
+				// The conditions are met; execute the scan
+				this.onClickStartScan();
+			  }
+			};
+
+			// Set an interval to check if the conditions for running the scan are met
+			setInterval(checkAndRunScan, 60000);
+		},
         onClickStartScan() {
             this.continue_scan = 1;
             this.doScan();
