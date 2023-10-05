@@ -131,7 +131,7 @@ var gen = new Vue({
 			schedule_scan_day: settings_obj.the_options.hasOwnProperty('scan_day') ? settings_obj.the_options['scan_day'] : 'Day 1', //scan day
 			schedule_scan_time_value: settings_obj.the_options.hasOwnProperty('scan_time') ? settings_obj.the_options['scan_time'] : '8:00 PM', //scan time
 			schedule_scan_date: settings_obj.the_options.hasOwnProperty('scan_date') ? settings_obj.the_options['scan_date'] : new Date(),//scan date
-			next_scan_is_when: settings_obj.the_options.hasOwnProperty('schedule_scan_when') ? settings_obj.the_options['schedule_scan_when'] : 'Not Schedule',//next scan when
+			next_scan_is_when: settings_obj.the_options.hasOwnProperty('schedule_scan_when') ? settings_obj.the_options['schedule_scan_when'] : 'Not Scheduled',//next scan when
 			show_language_as: settings_obj.the_options.hasOwnProperty('lang_selected') ? settings_obj.the_options['lang_selected'] : 'en',
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
@@ -1169,7 +1169,7 @@ var gen = new Vue({
 				this.next_scan_is_when = formattedDate;
 				}
 			}else if ( this.schedule_scan_as == "never" ) {
-				this.next_scan_is_when = "Not Schedule";
+				this.next_scan_is_when = "Not Scheduled";
 			}
 		},
 		scheduleScanOnce() {
