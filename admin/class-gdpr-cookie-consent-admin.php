@@ -684,6 +684,18 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Monthly',
 			'code'  => 'monthly',
 		);
+		//dropdown option for schedule scan day
+		$schedule_scan_day_options = array();
+
+		for ($day = 0; $day < 31; $day++) {
+			$label = 'Day ' . ($day + 1);
+			$code = 'Day ' . ($day + 1);
+
+			$schedule_scan_day_options[] = array(
+				'label' => $label,
+				'code'  => $code,
+			);
+		}
 
 		$on_hide_options           = array();
 		$on_hide_options[0]        = array(
@@ -879,6 +891,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'show_cookie_as_options'           => $show_cookie_as_options,
 				'show_language_as_options'         => $show_language_as_options,
 				'schedule_scan_options'			   => $schedule_scan_options,
+				'schedule_scan_day_options'		   => $schedule_scan_day_options,
 				'on_hide_options'                  => $on_hide_options,
 				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
@@ -1391,6 +1404,14 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			$the_options                                        = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$the_options['lang_selected']                    = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
+			//scan type
+			$the_options['schedule_scan_type']                    = isset( $_POST['gdpr-schedule-scan-freq-type'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-freq-type'] ) ) : 'never';
+			//scan date
+			$the_options['scan_date']                    = isset( $_POST['gdpr-schedule-scan-date'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-date'] ) ) : 'Oct 10 2023';
+			//scan day
+			$the_options['scan_day']                    = isset( $_POST['gdpr-schedule-scan-day'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-day'] ) ) : 'Day 1';
+			//scan time
+			$the_options['scan_time']                    = isset( $_POST['gdpr-schedule-scan-time'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-time'] ) ) : '8:00 PM';
 			$the_options['banner_preview_enable']               = isset( $_POST['gcc-banner-preview-enable'] ) && ( true === $_POST['gcc-banner-preview-enable'] || 'true' === $_POST['gcc-banner-preview-enable'] ) ? 'true' : 'false';
 			$the_options['is_on']                               = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'false';
 			$the_options['cookie_usage_for']                    = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
@@ -2081,6 +2102,18 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Monthly',
 			'code'  => 'monthly',
 		);
+		//dropdown option for schedule scan day
+		$schedule_scan_day_options = array();
+
+		for ($day = 0; $day < 31; $day++) {
+			$label = 'Day ' . ($day + 1);
+			$code = 'Day ' . ($day + 1);
+
+			$schedule_scan_day_options[] = array(
+				'label' => $label,
+				'code'  => $code,
+			);
+		}
 		$on_hide_options           = array();
 		$on_hide_options[0]        = array(
 			'label' => 'Animate',
@@ -2275,6 +2308,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'show_cookie_as_options'           => $show_cookie_as_options,
 				'show_language_as_options'         => $show_language_as_options,
 				'schedule_scan_options'			   => $schedule_scan_options,
+				'schedule_scan_day_options'        => $schedule_scan_day_options,
 				'on_hide_options'                  => $on_hide_options,
 				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
