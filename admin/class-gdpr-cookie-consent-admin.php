@@ -1404,6 +1404,8 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			$the_options                                        = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$the_options['lang_selected']                    = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
+			//scan when
+			$the_options['schedule_scan_when']                    = isset( $_POST['gdpr-schedule-scan-when'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-when'] ) ) : 'Not Scheduled';
 			//scan type
 			$the_options['schedule_scan_type']                    = isset( $_POST['gdpr-schedule-scan-freq-type'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-freq-type'] ) ) : 'never';
 			//scan date

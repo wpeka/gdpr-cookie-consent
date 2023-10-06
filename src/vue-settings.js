@@ -131,6 +131,7 @@ var gen = new Vue({
 			schedule_scan_day: settings_obj.the_options.hasOwnProperty('scan_day') ? settings_obj.the_options['scan_day'] : 'Day 1', //scan day
 			schedule_scan_time_value: settings_obj.the_options.hasOwnProperty('scan_time') ? settings_obj.the_options['scan_time'] : '8:00 PM', //scan time
 			schedule_scan_date: settings_obj.the_options.hasOwnProperty('scan_date') ? settings_obj.the_options['scan_date'] : new Date(),//scan date
+			next_scan_is_when: settings_obj.the_options.hasOwnProperty('schedule_scan_when') ? settings_obj.the_options['schedule_scan_when'] : 'Not Scheduled',//next scan when
 			show_language_as: settings_obj.the_options.hasOwnProperty('lang_selected') ? settings_obj.the_options['lang_selected'] : 'en',
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
@@ -1120,9 +1121,55 @@ var gen = new Vue({
 			if ( this.schedule_scan_as == "once" ) {
 				//execute schedule scan once
 				this.scheduleScanOnce();
+
+				//set value for the Next Scan Details when Once
+				const dateObject = new Date(this.schedule_scan_date);
+				const formattedDate = dateObject.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: 'short',
+				day: 'numeric',
+				});
+				this.next_scan_is_when = formattedDate;
 			}else if ( this.schedule_scan_as == "monthly" ){
-				//execute schdule monthly
+				//execute scan schedule monthly
 				this.scanMonthly();
+
+				//set value for the Next Scan Details when Monthly
+
+				// Get the day of the month when the scan should run
+				const dayString = this.schedule_scan_day;
+				const dayNumber = parseInt(dayString.replace('Day ', ''), 10);
+				const targetDayOfMonth = dayNumber;
+
+				// Assuming this.schedule_scan_day contains the day of the month (1 to 31)
+				const dayOfMonth = targetDayOfMonth;
+
+				if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31) {
+				console.error('Invalid day of the month:', dayOfMonth);
+				} else {
+				// Get the current date
+				const currentDate = new Date();
+
+				// Set the day of the month to the specified value
+				currentDate.setDate(dayOfMonth);
+
+				// Get the current year and month
+				const currentYear = currentDate.getFullYear();
+				const currentMonth = currentDate.getMonth();
+
+				// Create a new date with the same day of the month, current year, and month
+				const newDate = new Date(currentYear, currentMonth, dayOfMonth);
+
+				// Format the date as needed (e.g., 'Oct 10 2023')
+				const formattedDate = newDate.toLocaleDateString('en-US', {
+					year: 'numeric',
+					month: 'short',
+					day: 'numeric',
+				});
+				this.next_scan_is_when = formattedDate;
+				}
+			}else if ( this.schedule_scan_as == "never" ) {
+				this.next_scan_is_when = "Not Scheduled";
 			}
 		},
 		scheduleScanOnce() {
