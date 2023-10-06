@@ -7,6 +7,11 @@ import 'vue-select/dist/vue-select.css';
 import VueModal from '@kouts/vue-modal'
 import '@kouts/vue-modal/dist/vue-modal.css';
 import Tooltip from './vue-components/tooltip';
+import Datepicker from 'vuejs-datepicker';
+// Main JS (in UMD format)
+import VueTimepicker from 'vue2-timepicker'
+// CSS
+import 'vue2-timepicker/dist/VueTimepicker.css'
 
 import { cilPencil, cilSettings, cilInfo, cibGoogleKeep, cibTreehouse } from '@coreui/icons';
 Vue.use(CoreuiVue);
@@ -14,6 +19,8 @@ Vue.component('v-select', vSelect);
 Vue.component('vue-editor', VueEditor);
 Vue.component('v-modal', VueModal);
 Vue.component('tooltip', Tooltip);
+Vue.component('datepicker', Datepicker);
+Vue.component('vue-timepicker', VueTimepicker);
 
 const j = jQuery.noConflict();
 
@@ -45,6 +52,7 @@ var gen = new Vue({
             confirm_button_popup: false,
             cancel_button_popup: false,
             opt_out_link_popup: false,
+			schedule_scan_show: false,
             scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['total'] : 0,
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
@@ -117,6 +125,13 @@ var gen = new Vue({
 			banner_preview : true,
             show_cookie_as_options: settings_obj.show_cookie_as_options,
 			show_language_as_options: settings_obj.show_language_as_options,
+			schedule_scan_options: settings_obj.schedule_scan_options,
+			schedule_scan_as: settings_obj.the_options.hasOwnProperty('schedule_scan_type') ? settings_obj.the_options['schedule_scan_type'] : 'never', //schedule scan type
+			schedule_scan_day_options: settings_obj.schedule_scan_day_options,
+			schedule_scan_day: settings_obj.the_options.hasOwnProperty('scan_day') ? settings_obj.the_options['scan_day'] : 'Day 1', //scan day
+			schedule_scan_time_value: settings_obj.the_options.hasOwnProperty('scan_time') ? settings_obj.the_options['scan_time'] : '8:00 PM', //scan time
+			schedule_scan_date: settings_obj.the_options.hasOwnProperty('scan_date') ? settings_obj.the_options['scan_date'] : new Date(),//scan date
+			next_scan_is_when: settings_obj.the_options.hasOwnProperty('schedule_scan_when') ? settings_obj.the_options['schedule_scan_when'] : 'Not Scheduled',//next scan when
 			show_language_as: settings_obj.the_options.hasOwnProperty('lang_selected') ? settings_obj.the_options['lang_selected'] : 'en',
             show_cookie_as: settings_obj.the_options.hasOwnProperty('cookie_bar_as') ? settings_obj.the_options['cookie_bar_as'] : 'banner',
             cookie_position_options: settings_obj.position_options,
@@ -671,6 +686,24 @@ var gen = new Vue({
             }
             this.updateScanCookie(cookie_scan_arr );
         },
+		scheduleScanShow() {
+			this.schedule_scan_show = true;
+		},
+		scheduleScanHide(){
+			this.schedule_scan_show = false;
+		},
+		scanTypeChange(value) {
+			this.schedule_scan_as = value;
+		},
+		scanTimeChange(value) {
+			this.schedule_scan_time_value = value;
+		},
+		scanDateChange (value ) {
+			this.schedule_scan_date = value;
+		},
+		scanDayChange ( value ) {
+			this.schedule_scan_day = value;
+		},
         updateScanCookie(cookie_arr) {
             var that = this;
             var data = {
@@ -1082,6 +1115,142 @@ var gen = new Vue({
                 }
             });
         },
+		onStartScheduleScan() {
+			this.schedule_scan_show = false; //make it false to close the popup
+
+			if ( this.schedule_scan_as == "once" ) {
+				//execute schedule scan once
+				this.scheduleScanOnce();
+
+				//set value for the Next Scan Details when Once
+				const dateObject = new Date(this.schedule_scan_date);
+				const formattedDate = dateObject.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: 'short',
+				day: 'numeric',
+				});
+				this.next_scan_is_when = formattedDate;
+			}else if ( this.schedule_scan_as == "monthly" ){
+				//execute scan schedule monthly
+				this.scanMonthly();
+
+				//set value for the Next Scan Details when Monthly
+
+				// Get the day of the month when the scan should run
+				const dayString = this.schedule_scan_day;
+				const dayNumber = parseInt(dayString.replace('Day ', ''), 10);
+				const targetDayOfMonth = dayNumber;
+
+				// Assuming this.schedule_scan_day contains the day of the month (1 to 31)
+				const dayOfMonth = targetDayOfMonth;
+
+				if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31) {
+				console.error('Invalid day of the month:', dayOfMonth);
+				} else {
+				// Get the current date
+				const currentDate = new Date();
+
+				// Set the day of the month to the specified value
+				currentDate.setDate(dayOfMonth);
+
+				// Get the current year and month
+				const currentYear = currentDate.getFullYear();
+				const currentMonth = currentDate.getMonth();
+
+				// Create a new date with the same day of the month, current year, and month
+				const newDate = new Date(currentYear, currentMonth, dayOfMonth);
+
+				// Format the date as needed (e.g., 'Oct 10 2023')
+				const formattedDate = newDate.toLocaleDateString('en-US', {
+					year: 'numeric',
+					month: 'short',
+					day: 'numeric',
+				});
+				this.next_scan_is_when = formattedDate;
+				}
+			}else if ( this.schedule_scan_as == "never" ) {
+				this.next_scan_is_when = "Not Scheduled";
+			}
+		},
+		scheduleScanOnce() {
+
+			// Define the date and time when you want the function to execute
+			let targetDate = new Date(this.schedule_scan_date);
+
+			// Parse the time entered by the user and handle both 12-hour and 24-hour formats
+			const timeParts = this.schedule_scan_time_value.split(':');
+			let hours = parseInt(timeParts[0], 10);
+			const minutes = parseInt(timeParts[1], 10);
+
+			// Check if the time is in 12-hour format (e.g., "01:03 AM")
+			if (this.schedule_scan_time_value.toUpperCase().includes('PM') && hours < 12) {
+				hours += 12;
+			} else if (this.schedule_scan_time_value.toUpperCase().includes('AM') && hours === 12) {
+				hours = 0;
+			}
+
+			// Set the hours and minutes in the target date
+			targetDate.setHours(hours);
+			targetDate.setMinutes(minutes);
+
+			// Calculate the time difference between now and the target date
+  			const timeUntilExecution = targetDate - new Date();
+
+			// Check if the target date is in the future
+			if (timeUntilExecution > 0) {
+			  // Use setTimeout to delay the execution of scan
+			  setTimeout(() => {
+				// start the scanning here
+				this.onClickStartScan();
+			  }, timeUntilExecution);
+			} else {
+			  // if the target date is in the past
+			  alert('Selected date is in the past. Please select a vaild date.');
+			  this.schedule_scan_show = true;
+			}
+		},
+		scanMonthly() {
+			// Get the day of the month when the scan should run
+			const dayString = this.schedule_scan_day;
+			const dayNumber = parseInt(dayString.replace('Day ', ''), 10);
+			const targetDayOfMonth = dayNumber;
+
+			if (isNaN(targetDayOfMonth) || targetDayOfMonth <= 0 || targetDayOfMonth > 31) {
+			  alert('Invalid day of the month:', this.schedule_scan_day);
+			  return; // Exit if the day is invalid
+			}
+
+			// Define the time (hours and minutes)
+			const timeParts = this.schedule_scan_time_value.split(':');
+			let hours = parseInt(timeParts[0], 10);
+			const minutes = parseInt(timeParts[1], 10);
+
+			// Check if the time is in 12-hour format (e.g., "01:03 AM")
+			if (this.schedule_scan_time_value.toUpperCase().includes('PM') && hours < 12) {
+			  hours += 12;
+			} else if (this.schedule_scan_time_value.toUpperCase().includes('AM') && hours === 12) {
+			  hours = 0;
+			}
+			// Define a function to check and run the scan when the conditions are met
+			const checkAndRunScan = () => {
+			  const currentDate = new Date();
+			  const currentDayOfMonth = currentDate.getDate();
+			  const currentHours = currentDate.getHours();
+			  const currentMinutes = currentDate.getMinutes();
+
+			  if (
+				currentDayOfMonth === targetDayOfMonth &&
+				currentHours === hours &&
+				currentMinutes === minutes
+			  ) {
+				// The conditions are met; execute the scan
+				this.onClickStartScan();
+			  }
+			};
+
+			// Set an interval to check if the conditions for running the scan are met
+			setInterval(checkAndRunScan, 60000);
+		},
         onClickStartScan() {
             this.continue_scan = 1;
             this.doScan();
