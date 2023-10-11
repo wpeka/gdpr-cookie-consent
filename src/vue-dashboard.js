@@ -66,6 +66,9 @@ var gen = new Vue({
 			legalpages_icon: require('../admin/images/dashboard-icons/legalpages-icon.png'),
 			survey_funnel_icon: require('../admin/images/dashboard-icons/survey-funnel-icon.png'),
 			arrow_icon: require('../admin/images/dashboard-icons/arrow-icon.png'),
+			cookie_summary:  require('../admin/images/dashboard-icons/summary/total-cookies.png'),
+			cookie_cat:  require('../admin/images/dashboard-icons/summary/categories.png'),
+			search_icon:  require('../admin/images/dashboard-icons/summary/search-icon.png'),
 			highlight_variant: 'outline',
 		}
     },
