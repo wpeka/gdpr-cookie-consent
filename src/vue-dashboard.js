@@ -69,6 +69,9 @@ var gen = new Vue({
 			cookie_summary:  require('../admin/images/dashboard-icons/summary/total-cookies.png'),
 			cookie_cat:  require('../admin/images/dashboard-icons/summary/categories.png'),
 			search_icon:  require('../admin/images/dashboard-icons/summary/search-icon.png'),
+			page_icon:  require('../admin/images/dashboard-icons/summary/pages.png'),
+			next_scan_icon:  require('../admin/images/dashboard-icons/summary/next-scan.png'),
+			cookie_icon:  require('../admin/images/dashboard-icons/summary/cookies.png'),
 			highlight_variant: 'outline',
 		}
     },

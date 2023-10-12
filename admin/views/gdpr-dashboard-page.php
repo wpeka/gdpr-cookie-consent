@@ -12,6 +12,66 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+$cookie_scan_settings                = array();
+$cookie_scan_settings                = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
+
+if ( ! empty( $cookie_scan_settings ) ){
+
+	$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
+}else{
+	$total_no_of_found_cookies = 0;
+}
+
+// error_log(print_r($cookie_scan_settings ,true));
+// error_log(print_r($cookie_scan_settings['last_scan']['created_at'] ,true));
+// error_log(print_r(date( 'F j, Y g:i a T', $cookie_scan_settings['last_scan']['created_at'] ),true));
+
+
+if ( ! empty( $cookie_scan_settings ) ){
+
+	$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
+
+// Create an array to store unique category names
+$unique_categories = array();
+
+// Loop through the 'data' sub-array
+foreach ($scan_cookie_list['data'] as $cookie) {
+    $category = $cookie['category'];
+
+    // Check if the category is not already in the $uniqueCategories array
+    if (!in_array($category, $unique_categories)) {
+        // If it's not in the array, add it
+        $unique_categories[] = $category;
+    }
+}
+
+// Count the number of unique categories
+$number_of_categories = count($unique_categories);
+}else{
+	$number_of_categories = 0;
+}
+
+
+
+// error_log('No of cat '.$number_of_categories );
+
+global $wpdb;
+$result = $wpdb->get_results( "SELECT total_url FROM wp_wpl_cookie_scan" );
+
+// Check if there are results
+if (!empty($result)) {
+    // Access the value of total_url
+    $total_scanned_pages = $result[0]->total_url;
+
+    // Now, $totalUrl contains the value of total_url
+    error_log( "Total URL: " . $total_scanned_pages);
+} else {
+	$total_scanned_pages = "0 Pages";
+    error_log( "No results found.");
+}
+
 ?>
 <div id="gdpr-dashboard-loader"></div>
 <div id="gdpr-cookie-consent-dashboard-page">
@@ -199,18 +259,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<div class="gdpr-cookie-summary-total-cookie-details">
 								<img :src="cookie_summary.default" class="gdpr-cookie-summary-icon">
 								<div class="gpdr-cookie-summary-total-cookies">
-									<span>15</span>
-									<br>
-									<span>Total Cookies</span>
+									<div class="gpdr-cookie-no-total-cookies"><?php echo $total_no_of_found_cookies ?></div>
+									<!-- <br> -->
+									<div class="gpdr-cookie-no-total-text">Total Cookies</div>
 								</div>
 							</div>
 
 								<div class="gdpr-cookie-summary-total-cookie-details">
 									<img :src="cookie_cat.default" class="gdpr-cookie-summary-icon">
 									<div class="gpdr-cookie-summary-scan-cat">
-										<span>15</span>
-										<br>
-										<span>Total Cookies</span>
+										<div class="gpdr-cookie-no-total-cookies"><?php echo $number_of_categories ?></div>
+										<div class="gpdr-cookie-no-total-text">Categories</div>
 									</div>
 								</div>
 
@@ -221,30 +280,57 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<div class="gdpr-cookie-summary-last-scan">
 								<img :src="search_icon.default" class="gdpr-cookie-summary-last-scan-icon">
 								<div class="gdpr-cookie-summary-last-title">
-									<span>Last Scan</span>
-									<br>
-									<span>September 05, 2023 06:05:52 (UTC 00:00)</span>
+									<span class="gdpr-cookie-summary-heading">Last Scan</span>
+									<!-- <br> -->
+									<div>
+										<span class="gdpr-cookie-summary-dynaminc-values">
+										<?php
+											if ( $cookie_scan_settings['last_scan']['created_at']) {
+												// esc_attr_e( 'Last successful scan : ', 'gdpr-cookie-consent' );
+												echo esc_attr( gmdate( 'F j, Y g:i a T', $cookie_scan_settings['last_scan']['created_at'] ) );
+											} else {
+												esc_attr_e( 'You haven\'t performed a site scan yet.', 'gdpr-cookie-consent' );
+											}
+										?>
+										</span>
+									</div>
 								</div>
 
 							</div>
 							<!-- Pages scanned  -->
 							<div class="gdpr-cookie-summary-last-scan">
-									<img :src="search_icon.default" class="gdpr-cookie-summary-last-scan-icon">
+									<img :src="page_icon.default" class="gdpr-cookie-summary-last-scan-icon">
 									<div class="gdpr-cookie-summary-last-title">
-										<span>Pages Scanned</span>
-										<br>
-										<span>180 pages scanned</span>
+										<span class="gdpr-cookie-summary-heading">Pages Scanned</span>
+										<!-- <br> -->
+										<div>
+										<span class="gdpr-cookie-summary-dynaminc-values"><?php echo $total_scanned_pages ?></span>
+										</div>
 									</div>
 
 							</div>
 							<!-- Next Scan  -->
 							<div class="gdpr-cookie-summary-last-scan">
-								<img :src="search_icon.default" class="gdpr-cookie-summary-last-scan-icon">
+								<img :src="next_scan_icon.default" class="gdpr-cookie-summary-last-scan-icon">
 								<div class="gdpr-cookie-summary-last-title">
-									<span>Next Scan</span>
-									<br>
-									<span>Not Scheduled</span>
+									<span class="gdpr-cookie-summary-heading">Next Scan</span>
+									<!-- <br>
+									<br> -->
+									<div>
+										<span class="gdpr-cookie-summary-dynaminc-values"><?php echo $the_options['schedule_scan_when'] ?></span>
+										<a class="gdpr-cookie-summary-schedule" href="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' ) ?>">Schedule</a>
+									</div>
+
 								</div>
+
+							</div>
+							<!-- Manage Cookies  -->
+							<div class="gdpr-cookie-summary-manage-cookies">
+								<div class="gdpr-cookie-summary-last-title">
+									<a class="gdpr-cookie-summary-manage-link" href="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' ) ?>">Manage Cookies</a>
+								</div>
+								<img :src="cookie_icon.default" class="gdpr-cookie-summary-last-scan-icon">
+
 
 							</div>
 					</div>
