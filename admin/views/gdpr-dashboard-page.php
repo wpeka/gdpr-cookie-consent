@@ -12,65 +12,65 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+	$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
-$cookie_scan_settings                = array();
-$cookie_scan_settings                = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
+	$cookie_scan_settings                = array();
+	$cookie_scan_settings                = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
 
-if ( ! empty( $cookie_scan_settings ) ){
+	/**
+	 * Total No of scanned cookies.
+	 */
+	if ( ! empty( $cookie_scan_settings ) ){
 
-	$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
-}else{
-	$total_no_of_found_cookies = 0;
-}
+		$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
+	}else{
+		$total_no_of_found_cookies = 0;
+	}
 
-// error_log(print_r($cookie_scan_settings ,true));
-// error_log(print_r($cookie_scan_settings['last_scan']['created_at'] ,true));
-// error_log(print_r(date( 'F j, Y g:i a T', $cookie_scan_settings['last_scan']['created_at'] ),true));
+	/**
+	 * Total No of cookie categories.
+	 */
+	if ( ! empty( $cookie_scan_settings ) ){
 
+		$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
 
-if ( ! empty( $cookie_scan_settings ) ){
+		// Create an array to store unique category names
+		$unique_categories = array();
 
-	$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
+		// Loop through the 'data' sub-array
+		foreach ($scan_cookie_list['data'] as $cookie) {
+			$category = $cookie['category'];
 
-// Create an array to store unique category names
-$unique_categories = array();
+			// Check if the category is not already in the $uniqueCategories array
+			if (!in_array($category, $unique_categories)) {
+				// If it's not in the array, add it
+				$unique_categories[] = $category;
+			}
+	}
 
-// Loop through the 'data' sub-array
-foreach ($scan_cookie_list['data'] as $cookie) {
-    $category = $cookie['category'];
+	// Count the number of unique categories
+	$number_of_categories = count($unique_categories);
+	}else{
+		$number_of_categories = 0;
+	}
 
-    // Check if the category is not already in the $uniqueCategories array
-    if (!in_array($category, $unique_categories)) {
-        // If it's not in the array, add it
-        $unique_categories[] = $category;
-    }
-}
+	/**
+	 * Total no of scanned pages
+	 */
+	global $wpdb;
+	$result = $wpdb->get_results( "SELECT total_url FROM wp_wpl_cookie_scan" );
 
-// Count the number of unique categories
-$number_of_categories = count($unique_categories);
-}else{
-	$number_of_categories = 0;
-}
+	// Check if there are results
+	if (!empty($result)) {
+		// Access the value of total_url
+		$total_scanned_pages = $result[0]->total_url;
 
-
-
-// error_log('No of cat '.$number_of_categories );
-
-global $wpdb;
-$result = $wpdb->get_results( "SELECT total_url FROM wp_wpl_cookie_scan" );
-
-// Check if there are results
-if (!empty($result)) {
-    // Access the value of total_url
-    $total_scanned_pages = $result[0]->total_url;
-
-    // Now, $totalUrl contains the value of total_url
-    error_log( "Total URL: " . $total_scanned_pages);
-} else {
-	$total_scanned_pages = "0 Pages";
-    error_log( "No results found.");
-}
+		// Now, $totalUrl contains the value of total_url
+		error_log( "Total URL: " . $total_scanned_pages);
+	} else {
+		$total_scanned_pages = "0 Pages";
+		error_log( "No results found.");
+	}
 
 ?>
 <div id="gdpr-dashboard-loader"></div>
@@ -215,36 +215,23 @@ if (!empty($result)) {
 					</span>
 				</c-card-header>
 				<c-card-body>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq1_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'How to activate your License Key?', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq2_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'What you need to know about the EU Cookie law?', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq3_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'Frequently asked questions', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq4_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'What are the CCPA regulations and how we can comply?', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq5_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'All you need to know about IAB', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
+
+				<!-- cookie insights apex pie chart  -->
+				<?php if (
+					( get_option( 'wpl_cl_decline' ) != 0 && get_option( 'wpl_cl_accept' ) != 0 && get_option( 'wpl_cl_partially_accept' ) != 0 )
+					||
+					( get_option( 'wpl_cl_decline' ) != 0 || get_option( 'wpl_cl_accept' ) != 0 || get_option( 'wpl_cl_partially_accept' ) != 0 )
+				) : ?>
+				<div id="chart">
+					<apexchart type="pie" width="480" :options="chartOptions" :series="series"></apexchart>
+				</div>
+
+				<?php else:  ?>
+				<div class="gdpr-dashboard-no-insights-found" >
+					No Cookie Insights Found
+				</div>
+				<?php endif ?>
+
 				</c-card-body>
 			</c-card>
 			<c-card class="gdpr-dashboard-promotional-card">
@@ -317,7 +304,15 @@ if (!empty($result)) {
 									<!-- <br>
 									<br> -->
 									<div>
-										<span class="gdpr-cookie-summary-dynaminc-values"><?php echo $the_options['schedule_scan_when'] ?></span>
+										<span class="gdpr-cookie-summary-dynaminc-values"><?php
+										if (  $the_options['schedule_scan_when'] ) {
+
+											echo $the_options['schedule_scan_when'];
+										}else{
+											echo 'Not Scheduled';
+										}
+
+										?></span>
 										<a class="gdpr-cookie-summary-schedule" href="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' ) ?>">Schedule</a>
 									</div>
 
@@ -351,37 +346,8 @@ if (!empty($result)) {
 					</span>
 				</c-card-header>
 				<c-card-body>
-					<p>Lorem Ipsum</p>
-					<!-- <c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq1_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'How to activate your License Key?', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq2_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'What you need to know about the EU Cookie law?', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq3_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'Frequently asked questions', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq4_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'What are the CCPA regulations and how we can comply?', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq5_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'All you need to know about IAB', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row> -->
+					<!-- <p>Lorem Ipsum</p> -->
+					<?php do_action('consent_log_test_hook'); ?>
 				</c-card-body>
 			</c-card>
 		<!-- tips n tricks card  -->

@@ -398,17 +398,17 @@
 .gdpr-cookie-summary-last-title{
 	margin-left: 7px;
 }
-.gpdr-cookie-summary-scan-cat{
+/* .gpdr-cookie-summary-scan-cat{
 	position: absolute;
     top: 36%;
     left: 31%;
-}
+} */
 
-.gpdr-cookie-summary-total-cookies{
+/* .gpdr-cookie-summary-total-cookies{
 	position: absolute;
     top: 36%;
     left: 9.5%;
-}
+} */
 .gpdr-cookie-no-total-cookies{
 	color: #3C4B64;
 	text-align: center;
@@ -465,4 +465,51 @@
     font-weight: 400;
     line-height: normal;
 	padding-right: 5px;
+}
+
+
+/* //// */
+
+.gdpr-cookie-summary-total-cookie-details {
+	position: relative;
+  }
+
+  .gpdr-cookie-summary-total-cookies,.gpdr-cookie-summary-scan-cat {
+	position: absolute;
+	top: 31%;
+	left: 50%;
+	text-align: center;
+	transform: translate(-50%, -50%);
+	max-width: 80%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  }
+
+
+.gdpr-dashboard-no-insights-found{
+	padding-top: 20%;
+	color: #3C4B64;
+	text-align: center;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 300;
+	line-height: normal;
+}
+
+
+/* pie chart styling  */
+
+.apexcharts-legend-text{
+	margin-left: -7px;
+	color: #3C4B64;
+	font-size: 13px !important;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.apexcharts-legend.apexcharts-align-center.apx-legend-position-right {
+	top: 50px !important;
+	right: -15px !important;
 }

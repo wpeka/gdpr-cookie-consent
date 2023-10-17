@@ -2393,6 +2393,9 @@ class Gdpr_Cookie_Consent_Admin {
 		$legalpages_url       = 'https://wordpress.org/plugins/wplegalpages/';
 		$adcenter_url         = 'https://wordpress.org/plugins/wpadcenter/';
 		$survey_funnel_url    = 'https://wordpress.org/plugins/surveyfunnel-lite/';
+		$decline_log		  = get_option( 'wpl_cl_decline' );
+		$accept_log		  	  = get_option( 'wpl_cl_accept' );
+		$partially_acc_log	  = get_option( 'wpl_cl_partially_accept' );
 		wp_enqueue_style( $this->plugin_name . '-dashboard' );
 		wp_enqueue_script( $this->plugin_name . '-dashboard' );
 		wp_localize_script(
@@ -2425,6 +2428,9 @@ class Gdpr_Cookie_Consent_Admin {
 				'legalpages_url'        => $legalpages_url,
 				'adcenter_url'          => $adcenter_url,
 				'survey_funnel_url'     => $survey_funnel_url,
+				'decline_log'    		=> $decline_log,
+				'accept_log'    		=> $accept_log,
+				'partially_acc_log'    	=> $partially_acc_log,
 			)
 		);
 		require_once plugin_dir_path( __FILE__ ) . 'views/gdpr-dashboard-page.php';
