@@ -12,6 +12,66 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+	$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+	$cookie_scan_settings                = array();
+	$cookie_scan_settings                = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
+
+	/**
+	 * Total No of scanned cookies.
+	 */
+	if ( ! empty( $cookie_scan_settings ) ){
+
+		$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
+	}else{
+		$total_no_of_found_cookies = 0;
+	}
+
+	/**
+	 * Total No of cookie categories.
+	 */
+	if ( ! empty( $cookie_scan_settings ) ){
+
+		$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
+
+		// Create an array to store unique category names
+		$unique_categories = array();
+
+		// Loop through the 'data' sub-array
+		foreach ($scan_cookie_list['data'] as $cookie) {
+			$category = $cookie['category'];
+
+			// Check if the category is not already in the $uniqueCategories array
+			if (!in_array($category, $unique_categories)) {
+				// If it's not in the array, add it
+				$unique_categories[] = $category;
+			}
+	}
+
+	// Count the number of unique categories
+	$number_of_categories = count($unique_categories);
+	}else{
+		$number_of_categories = 0;
+	}
+
+	/**
+	 * Total no of scanned pages
+	 */
+	global $wpdb;
+	$result = $wpdb->get_results( "SELECT total_url FROM wp_wpl_cookie_scan" );
+
+	// Check if there are results
+	if (!empty($result)) {
+		// Access the value of total_url
+		$total_scanned_pages = $result[0]->total_url;
+
+		// Now, $totalUrl contains the value of total_url
+		error_log( "Total URL: " . $total_scanned_pages);
+	} else {
+		$total_scanned_pages = "0 Pages";
+		error_log( "No results found.");
+	}
+
 ?>
 <div id="gdpr-dashboard-loader"></div>
 <div id="gdpr-cookie-consent-dashboard-page">
@@ -145,6 +205,239 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</c-row>
 			</c-card-body>
 		</c-card>
+		<!-- cookie insights and cookie summary card  -->
+		<?php if ( $is_pro_active ) : ?>
+		<div class="gdpr-dashboard-promotional-cards-insights">
+			<c-card class="gdpr-dashboard-promotional-card">
+				<c-card-header class="gdpr-dashboard-promotional-card-header">
+					<span class="gdpr-dashboard-promotional-heading">
+						<?php esc_html_e( 'Consent Insights', 'gdpr-cookie-consent' ); ?>
+					</span>
+				</c-card-header>
+				<c-card-body>
+
+				<!-- cookie insights apex pie chart  -->
+				<?php if (
+					( get_option( 'wpl_cl_decline' ) != 0 && get_option( 'wpl_cl_accept' ) != 0 && get_option( 'wpl_cl_partially_accept' ) != 0 )
+					||
+					( get_option( 'wpl_cl_decline' ) != 0 || get_option( 'wpl_cl_accept' ) != 0 || get_option( 'wpl_cl_partially_accept' ) != 0 )
+				) : ?>
+				<div id="chart">
+					<apexchart type="pie" width="480" :options="chartOptions" :series="series"></apexchart>
+				</div>
+
+				<?php else:  ?>
+				<div class="gdpr-dashboard-no-insights-found" >
+					No Cookie Insights Found
+				</div>
+				<?php endif ?>
+
+				</c-card-body>
+			</c-card>
+			<c-card class="gdpr-dashboard-promotional-card">
+				<c-card-header class="gdpr-dashboard-promotional-card-header">
+					<span class="gdpr-dashboard-promotional-heading">
+						<?php esc_html_e( 'Cookie Summary', 'gdpr-cookie-consent' ); ?>
+					</span>
+				</c-card-header>
+				<!-- cookie summary body  -->
+				<c-card-body class="gdpr-cookie-summary-body">
+					<div class="gdpr-cookie-summary">
+							<div class="gdpr-cookie-summary-total-cookie-details">
+								<img :src="cookie_summary.default" class="gdpr-cookie-summary-icon">
+								<div class="gpdr-cookie-summary-total-cookies">
+									<div class="gpdr-cookie-no-total-cookies"><?php echo $total_no_of_found_cookies ?></div>
+									<!-- <br> -->
+									<div class="gpdr-cookie-no-total-text">Total Cookies</div>
+								</div>
+							</div>
+
+								<div class="gdpr-cookie-summary-total-cookie-details">
+									<img :src="cookie_cat.default" class="gdpr-cookie-summary-icon">
+									<div class="gpdr-cookie-summary-scan-cat">
+										<div class="gpdr-cookie-no-total-cookies"><?php echo $number_of_categories ?></div>
+										<div class="gpdr-cookie-no-total-text">Categories</div>
+									</div>
+								</div>
+
+					</div>
+
+					<div class="gdpr-cookie-summary-details">
+							<!-- last scan  -->
+							<div class="gdpr-cookie-summary-last-scan">
+								<img :src="search_icon.default" class="gdpr-cookie-summary-last-scan-icon">
+								<div class="gdpr-cookie-summary-last-title">
+									<span class="gdpr-cookie-summary-heading">Last Scan</span>
+									<!-- <br> -->
+									<div>
+										<span class="gdpr-cookie-summary-dynaminc-values">
+										<?php
+											if ( $cookie_scan_settings['last_scan']['created_at']) {
+												// esc_attr_e( 'Last successful scan : ', 'gdpr-cookie-consent' );
+												echo esc_attr( gmdate( 'F j, Y g:i a T', $cookie_scan_settings['last_scan']['created_at'] ) );
+											} else {
+												esc_attr_e( 'You haven\'t performed a site scan yet.', 'gdpr-cookie-consent' );
+											}
+										?>
+										</span>
+									</div>
+								</div>
+
+							</div>
+							<!-- Pages scanned  -->
+							<div class="gdpr-cookie-summary-last-scan">
+									<img :src="page_icon.default" class="gdpr-cookie-summary-last-scan-icon">
+									<div class="gdpr-cookie-summary-last-title">
+										<span class="gdpr-cookie-summary-heading">Pages Scanned</span>
+										<!-- <br> -->
+										<div>
+										<span class="gdpr-cookie-summary-dynaminc-values"><?php echo $total_scanned_pages ?></span>
+										</div>
+									</div>
+
+							</div>
+							<!-- Next Scan  -->
+							<div class="gdpr-cookie-summary-last-scan">
+								<img :src="next_scan_icon.default" class="gdpr-cookie-summary-last-scan-icon">
+								<div class="gdpr-cookie-summary-last-title">
+									<span class="gdpr-cookie-summary-heading">Next Scan</span>
+									<!-- <br>
+									<br> -->
+									<div>
+										<span class="gdpr-cookie-summary-dynaminc-values"><?php
+										if (  $the_options['schedule_scan_when'] ) {
+
+											echo $the_options['schedule_scan_when'];
+										}else{
+											echo 'Not Scheduled';
+										}
+
+										?></span>
+										<a class="gdpr-cookie-summary-schedule" href="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' ) ?>">Schedule</a>
+									</div>
+
+								</div>
+
+							</div>
+							<!-- Manage Cookies  -->
+							<div class="gdpr-cookie-summary-manage-cookies">
+								<div class="gdpr-cookie-summary-last-title">
+									<a class="gdpr-cookie-summary-manage-link" href="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' ) ?>">Manage Cookies</a>
+								</div>
+								<img :src="cookie_icon.default" class="gdpr-cookie-summary-last-scan-icon">
+
+
+							</div>
+					</div>
+				</c-card-body>
+			</c-card>
+		</div>
+		<?php endif ?>
+		<!-- /////////  -->
+		<!-- show consent log and promotional section when pro is activated  -->
+		<?php if ( $is_pro_active ) : ?>
+		<div class="gdpr-dashboard-promotional-cards">
+
+		<!-- consent log card  -->
+			<c-card class="gdpr-dashboard-promotional-card consent-log-card">
+				<c-card-header class="gdpr-dashboard-promotional-card-header">
+					<span class="gdpr-dashboard-promotional-heading">
+						<?php esc_html_e( 'Consent Log', 'gdpr-cookie-consent' ); ?>
+					</span>
+				</c-card-header>
+				<c-card-body>
+					<!-- <p>Lorem Ipsum</p> -->
+					<?php do_action('consent_log_test_hook'); ?>
+				</c-card-body>
+			</c-card>
+		<!-- tips n tricks card  -->
+			<c-card class="gdpr-dashboard-promotional-card tips-n-trick-card">
+				<c-card-header class="gdpr-dashboard-promotional-card-header">
+					<span class="gdpr-dashboard-promotional-heading">
+						<?php esc_html_e( 'Tips and Tricks', 'gdpr-cookie-consent' ); ?>
+					</span>
+				</c-card-header>
+				<c-card-body>
+					<c-row class="gdpr-dashboard-faq-row">
+						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
+						<a target="blank" :href="faq1_url" class="gdpr-dashboard-faq-link">
+							<?php esc_html_e( 'How to activate your License Key?', 'gdpr-cookie-consent' ); ?>
+						</a>
+					</c-row>
+					<c-row class="gdpr-dashboard-faq-row">
+						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
+						<a target="blank" :href="faq2_url" class="gdpr-dashboard-faq-link">
+							<?php esc_html_e( 'What you need to know about the EU Cookie law?', 'gdpr-cookie-consent' ); ?>
+						</a>
+					</c-row>
+					<c-row class="gdpr-dashboard-faq-row">
+						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
+						<a target="blank" :href="faq3_url" class="gdpr-dashboard-faq-link">
+							<?php esc_html_e( 'Frequently asked questions', 'gdpr-cookie-consent' ); ?>
+						</a>
+					</c-row>
+					<c-row class="gdpr-dashboard-faq-row">
+						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
+						<a target="blank" :href="faq4_url" class="gdpr-dashboard-faq-link">
+							<?php esc_html_e( 'What are the CCPA regulations and how we can comply?', 'gdpr-cookie-consent' ); ?>
+						</a>
+					</c-row>
+					<c-row class="gdpr-dashboard-faq-row">
+						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
+						<a target="blank" :href="faq5_url" class="gdpr-dashboard-faq-link">
+							<?php esc_html_e( 'All you need to know about IAB', 'gdpr-cookie-consent' ); ?>
+						</a>
+					</c-row>
+				</c-card-body>
+			</c-card>
+		<!-- other plugin card  -->
+			<c-card class="gdpr-dashboard-promotional-card other-plugins-card">
+				<c-card-header class="gdpr-dashboard-promotional-card-header">
+					<span class="gdpr-dashboard-promotional-heading">
+						<?php esc_html_e( 'Other Plugins', 'gdpr-cookie-consent' ); ?>
+					</span>
+				</c-card-header>
+				<c-card-body class="gdpr-dashboard-promotional-card-body">
+					<div>
+						<c-row class="gdpr-dashboard-plugins-row">
+							<span>
+								<img :src="legalpages_icon.default" class="gdpr-dashboard-plugins-icon">
+								<?php esc_html_e( 'WP LegalPages', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<a target="blank" :href="legalpages_url" class="gdpr-dashboard-plugins-link">
+								<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
+							</a>
+						</c-row>
+						<c-row class="gdpr-dashboard-plugins-row">
+							<span>
+								<img :src="adcenter_icon.default" class="gdpr-dashboard-plugins-icon">
+								<?php esc_html_e( 'WP Adcenter', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<a target="blank" :href="adcenter_url" class="gdpr-dashboard-plugins-link">
+								<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
+							</a>
+						</c-row>
+						<c-row class="gdpr-dashboard-plugins-row">
+							<span>
+								<img :src="survey_funnel_icon.default" class="gdpr-dashboard-plugins-icon">
+								<?php esc_html_e( 'Survey Funnel', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<a target="blank" :href="survey_funnel_url" class="gdpr-dashboard-plugins-link">
+								<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
+							</a>
+						</c-row>
+					</div>
+					<c-row class="gdpr-dashboard-all-plugins-row">
+						<a target="blank" :href="all_plugins_url" class="gdpr-dashboard-plugins-link">
+							<c-button class="gdpr-progress-view-plugins-link" color="info" variant="outline">
+							<?php esc_html_e( 'View all Plugins', 'gdpr-cookie-consent' ); ?>
+							</c-button>
+						</a>
+					</c-row>
+				</c-card-body>
+			</c-card>
+		</div>
+		<?php endif ?>
 		<c-card class="gdpr-dashboard-quick-links-card">
 			<c-card-header class="gdpr-dashboard-quick-links-card-header">
 				<span class="gdpr-dashboard-quick-links-heading">
@@ -303,6 +596,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</c-row>
 			</c-card-body>
 		</c-card>
+		<?php if ( !$is_pro_active ) : ?>
 		<div class="gdpr-dashboard-promotional-cards">
 			<c-card class="gdpr-dashboard-promotional-card">
 				<c-card-header class="gdpr-dashboard-promotional-card-header">
@@ -352,7 +646,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<c-card-body class="gdpr-dashboard-promotional-card-body">
 					<div>
 						<c-row class="gdpr-dashboard-plugins-row">
-							<span>	
+							<span>
 								<img :src="legalpages_icon.default" class="gdpr-dashboard-plugins-icon">
 								<?php esc_html_e( 'WP LegalPages', 'gdpr-cookie-consent' ); ?>
 							</span>
@@ -383,11 +677,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<a target="blank" :href="all_plugins_url" class="gdpr-dashboard-plugins-link">
 							<c-button class="gdpr-progress-view-plugins-link" color="info" variant="outline">
 							<?php esc_html_e( 'View all Plugins', 'gdpr-cookie-consent' ); ?>
-							</c-button>	
+							</c-button>
 						</a>
 					</c-row>
 				</c-card-body>
 			</c-card>
 		</div>
+		<?php endif ?>
 	</c-container>
 </div>
