@@ -354,7 +354,7 @@ if (!empty($result)) {
 			<c-card class="gdpr-dashboard-promotional-card consent-log-card">
 				<c-card-header class="gdpr-dashboard-promotional-card-header">
 					<span class="gdpr-dashboard-promotional-heading">
-						<?php esc_html_e( 'Consent Log', 'gdpr-cookie-consent' ); ?>
+						<?php esc_html_e( 'Recent Consent Logs', 'gdpr-cookie-consent' ); ?>
 					</span>
 				</c-card-header>
 				<c-card-body>
