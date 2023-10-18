@@ -606,3 +606,9 @@
 	line-height: normal;
 	padding-left: 10px;
 }
+.apexcharts-legend.apexcharts-align-center.apx-legend-position-right{
+	pointer-events: none;
+}
+.apexcharts-tooltip.apexcharts-theme-dark{
+	color: #3C4B64;
+}
