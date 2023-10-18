@@ -445,6 +445,10 @@
 	font-weight: 400;
 	line-height: normal;
 }
+.gdpr-cookie-summary-schedule:hover{
+	color: rgb(67, 135, 203);
+	text-decoration: none;
+}
 .gdpr-cookie-summary-manage-link{
 	color: #39F;
 	text-align: center;
@@ -574,7 +578,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 18px;
+	font-size: 13px;
 	font-weight: 400;
 	margin-top: 15px;
 	margin-left: 40px;
