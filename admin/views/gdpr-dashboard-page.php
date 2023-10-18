@@ -12,65 +12,60 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-	$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
-	$cookie_scan_settings                = array();
-	$cookie_scan_settings                = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
+$cookie_scan_settings                = array();
+$cookie_scan_settings                = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
 
-	/**
-	 * Total No of scanned cookies.
-	 */
-	if ( ! empty( $cookie_scan_settings ) ){
+/**
+ * Total No of scanned cookies.
+ */
+if ( ! empty( $cookie_scan_settings ) ){
 
-		$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
-	}else{
-		$total_no_of_found_cookies = 0;
-	}
+	$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
+}else{
+	$total_no_of_found_cookies = 0;
+}
 
-	/**
-	 * Total No of cookie categories.
-	 */
-	if ( ! empty( $cookie_scan_settings ) ){
+/**
+ * Total No of cookie categories.
+ */
+if ( ! empty( $cookie_scan_settings ) ){
 
-		$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
+	$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
 
-		// Create an array to store unique category names
-		$unique_categories = array();
+	// Create an array to store unique category names
+	$unique_categories = array();
 
-		// Loop through the 'data' sub-array
-		foreach ($scan_cookie_list['data'] as $cookie) {
-			$category = $cookie['category'];
+	// Loop through the 'data' sub-array
+	foreach ($scan_cookie_list['data'] as $cookie) {
+		$category = $cookie['category'];
 
-			// Check if the category is not already in the $uniqueCategories array
-			if (!in_array($category, $unique_categories)) {
-				// If it's not in the array, add it
-				$unique_categories[] = $category;
-			}
-	}
+		// Check if the category is not already in the $uniqueCategories array
+		if (!in_array($category, $unique_categories)) {
+			// If it's not in the array, add it
+			$unique_categories[] = $category;
+		}
+}
 
-	// Count the number of unique categories
-	$number_of_categories = count($unique_categories);
-	}else{
-		$number_of_categories = 0;
-	}
+// Count the number of unique categories
+$number_of_categories = count($unique_categories);
+}else{
+	$number_of_categories = 0;
+}
 
-	/**
-	 * Total no of scanned pages
-	 */
-	global $wpdb;
-	$result = $wpdb->get_results( "SELECT total_url FROM wp_wpl_cookie_scan" );
-
-	// Check if there are results
-	if (!empty($result)) {
-		// Access the value of total_url
-		$total_scanned_pages = $result[0]->total_url;
-
-		// Now, $totalUrl contains the value of total_url
-		error_log( "Total URL: " . $total_scanned_pages);
-	} else {
-		$total_scanned_pages = "0 Pages";
-		error_log( "No results found.");
-	}
+/**
+ * Total no of scanned pages
+ */
+global $wpdb;
+$result = $wpdb->get_results( "SELECT total_url FROM wp_wpl_cookie_scan" );
+// Check if there are results
+if (!empty($result)) {
+	// Access the value of total_url
+	$total_scanned_pages = $result[0]->total_url;
+} else {
+	$total_scanned_pages = "0 Pages";
+}
 
 ?>
 <div id="gdpr-dashboard-loader"></div>
@@ -227,9 +222,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 
 				<?php else:  ?>
-				<div class="gdpr-dashboard-no-insights-found" >
-					No Cookie Insights Found
+				<!-- empty pie chart when logs recorded  -->
+				<div class="gdpr-dashboard-no-insights">
+					<div class="gdpr-dashboard-no-insights-circle">
+						No Consent Recorded
+					</div>
+					<div class="gdpr-dashboard-no-insights-series-labels">
+							<div class="gdpr-dashboard-no-insights-series-acc">
+								<div  class="gdpr-dashboard-small-circle"></div>
+								<div class="gdpr-dashboard-label-text">Accepted</div>
+							</div>
+							<div class="gdpr-dashboard-no-insights-series-acc">
+								<div  class="gdpr-dashboard-small-circle" style="background-color: #F1C7C7;"></div>
+								<div class="gdpr-dashboard-label-text">Rejected</div>
+							</div>
+							<div class="gdpr-dashboard-no-insights-series-acc">
+								<div  class="gdpr-dashboard-small-circle" style="background-color: #BDF;"></div>
+								<div class="gdpr-dashboard-label-text">Partially Accepted</div>
+							</div>
+					</div>
 				</div>
+
 				<?php endif ?>
 
 				</c-card-body>
@@ -333,7 +346,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</c-card>
 		</div>
 		<?php endif ?>
-		<!-- /////////  -->
 		<!-- show consent log and promotional section when pro is activated  -->
 		<?php if ( $is_pro_active ) : ?>
 		<div class="gdpr-dashboard-promotional-cards">
@@ -346,11 +358,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</span>
 				</c-card-header>
 				<c-card-body>
-					<!-- <p>Lorem Ipsum</p> -->
-					<?php do_action('consent_log_test_hook'); ?>
+					<!-- add consent log table -->
+					<?php do_action('gdpr_consent_log_table_dashboard'); ?>
+					<div class="gdpr-dashboard-cl-view-all-logs">
+						<span><a class="gdpr-dashboard-cl-view-all-logs-text" href="<?php echo admin_url( 'edit.php?post_type=wplconsentlogs' ) ?>">View All Logs</a></span>
+						<img :src="view_all_logs.default" class="gdpr-cookie-summary-view-all-logs">
+					</div>
 				</c-card-body>
 			</c-card>
-		<!-- tips n tricks card  -->
+			<!-- tips n tricks card  -->
 			<c-card class="gdpr-dashboard-promotional-card tips-n-trick-card">
 				<c-card-header class="gdpr-dashboard-promotional-card-header">
 					<span class="gdpr-dashboard-promotional-heading">
