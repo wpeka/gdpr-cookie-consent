@@ -107,8 +107,6 @@ var gen = new Vue({
 					enabledOnSeries: undefined,
 					textAnchor: 'middle',
 					distributed: false,
-					offsetX: 50,
-					offsetY: 50,
 					style: {
 						fontSize: '14px',
 						fontWeight: 400,
@@ -118,7 +116,36 @@ var gen = new Vue({
 					dropShadow: {
 						enabled: false,
 					}
-				  }
+				  },
+				  plotOptions: {
+					pie: {
+					  dataLabels: {
+						offset: -20,
+					  },
+					}
+				  },
+				  states: {
+					normal: {
+						filter: {
+							type: 'dark',
+							value: 0,
+						}
+					},
+					hover: {
+						filter: {
+							type: 'dark',
+							value: 0.15,
+						}
+					},
+					active: {
+						allowMultipleDataPointsSelection: false,
+						filter: {
+							type: 'dark',
+							value: 0.35,
+						}
+					},
+				},
+
 			  },
 		}
     },
