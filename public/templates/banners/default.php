@@ -141,7 +141,7 @@
 											<?php
 											if ( ! empty( $cookie_data['description'] ) ) {
 												echo esc_html( $cookie_data['description'] );
-											};
+											}
 											?>
 											">
 											<?php
@@ -156,7 +156,7 @@
 											<?php
 											if ( ! empty( $cookie_data['duration'] ) ) {
 												echo esc_html( $cookie_data['duration'] );
-											};
+											}
 											?>
 											">
 											<?php

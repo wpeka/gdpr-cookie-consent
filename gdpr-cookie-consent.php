@@ -73,19 +73,19 @@ function activate_gdpr_cookie_consent() {
 	register_uninstall_hook( __FILE__, 'uninstall_gdpr_cookie_consent' );
 	add_option( 'analytics_activation_redirect_gdpr-cookie-consent', true );
 	// Get redirect URL.
-	add_option('redirect_after_activation_option', true);
+	add_option( 'redirect_after_activation_option', true );
 }
 
 /**
  * Redirecting to the wizard page on plguin activation
  */
-add_action('admin_init', 'activation_redirect');
+add_action( 'admin_init', 'activation_redirect' );
 
 function activation_redirect() {
-    if (get_option('redirect_after_activation_option', false)) {
-        delete_option('redirect_after_activation_option');
-        exit(wp_redirect(admin_url( 'admin.php?page=gdpr-cookie-consent-wizard' )));
-    }
+	if ( get_option( 'redirect_after_activation_option', false ) ) {
+		delete_option( 'redirect_after_activation_option' );
+		exit( wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent-wizard' ) ) );
+	}
 }
 
 /**
@@ -128,6 +128,5 @@ function run_gdpr_cookie_consent() {
 
 	$plugin = new Gdpr_Cookie_Consent();
 	$plugin->run();
-
 }
 run_gdpr_cookie_consent();
