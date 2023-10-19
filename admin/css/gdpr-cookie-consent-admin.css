@@ -314,7 +314,7 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
 .gdpr_scroll_accept_er{ display: none; }
 .gdpr_premium_features{ font-size:14px; }
 
-.gdpr_scanbar{width:100%; box-sizing: border-box; height:auto; float: left; padding:15px 0px;}
+.gdpr_scanbar{width:100%; box-sizing: border-box; height:auto; float: left; padding:15px 0px 30px 0px;}
 .gdpr_postbar{width:100%; box-sizing: border-box; height:auto; float: left; padding:15px 0px;}
 .gdpr_scanlog{width:100%; box-sizing: border-box; height:auto; float: left; padding:10px; background: #ffffff; display: none;}
 .gdpr_progress_bar{ width:100%; box-sizing: border-box; background: #f1f1f1; height:30px; border-radius:10px; }
@@ -2128,4 +2128,255 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 }
 .banner-preview-container .banner-preview-label label{
 	margin-bottom: 0;
+}
+
+/*
+* Schedule Scan
+*/
+
+.discovered-cookies-container{
+	display: flex;
+    justify-content: space-between;
+}
+
+.discovered-cookies-container span{
+	margin: auto 0;
+}
+
+.schedule-scan-start-btn{
+	border-radius: 5px;
+	border: 1px solid #39F;
+	color: #3399FF;
+	margin-right: 25px;
+}
+
+.scan-now-btn{
+	margin-right: 10px;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+	background: rgba(82, 82, 82, 0.40);
+    z-index: 9000;
+}
+
+.schedule-popup-container{
+	display:none;
+}
+
+.schedule-popup-container.show-schedule-popup{
+	display:block;
+}
+.schedule-popup-content{
+	background: #FFF;
+    color: rgb(0, 0, 0);
+    position: fixed;
+    z-index: 9;
+	top: 20%;
+	left: 29.5%;
+	min-width: 700px;
+	border-radius: 6px;
+}
+/* Style for the popup content */
+.schedule-popup-header{
+	display: flex;
+    width: 100%;
+    justify-content: space-between;
+    height: 100%;
+	padding: 19px 30px;
+	border-bottom: 2px solid #DEDEDE;
+}
+
+.schedule-popup-header .schedule-popup-header-text{
+	color: #3C4B64;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+/* Style for the close button */
+#close-popup {
+    cursor: pointer;
+    font-size: 32px;
+	color: #9f9b9b;
+	font-weight: 500;
+}
+
+.schedule-popup-body .scan-frequency{
+	color: #3C4B64;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 19px 30px;
+}
+.scan-frequency-content{
+	display: flex;
+    justify-content: space-around;
+	padding: 10px 30px 19px 22px;
+}
+.scan-frequency-content .table-rows{
+	width: 400px;
+}
+
+.scan-frequency-date .table-rows{
+	width: 400px;
+}
+
+.scan-frequency-content .scan-frequency-type,.scan-frequency-content .scan-frequency-date,.scan-frequency-content .scan-frequency-time,.scan-frequency-content .scan-frequency-day{
+	width:200px;
+}
+
+/* calender  */
+
+.date-picker {
+	display: flex;
+}
+input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
+    background-color: #fff;
+	padding: 4px 0 4px 0;
+}
+
+.vue__time-picker input.display-time{
+	width: unset;
+    height: unset;
+}
+
+.date-picker .calender-icon{
+	border: 1px solid #E3E6E9;
+	border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    height: 38px;
+    width: 38px;
+	background: #EBEDEF;
+}
+
+.calender-content div input[type="text"] {
+	border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+	border: 1px solid #E3E6E9;
+    background-color: #fff;
+    color: #2c3338;
+    border-left: none;
+	padding-left: 15px;
+	width: 162px;
+}
+
+/* time picker  */
+.time-picker-content {
+	display: flex;
+}
+
+.time-picker-content .calender-icon{
+	border: 1px solid #E3E6E9;
+	border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    height: 38px;
+    width: 38px;
+	background: #EBEDEF;
+}
+
+.time-picker-content .time-picker input[type="text"] {
+	width: 157px;
+	border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+	border: 1px solid #E3E6E9;
+	padding-left: 15px;
+}
+
+.time-picker-content .vue__time-picker .active{
+	background: #39f !important;
+}
+
+.scan-frequency-type .vs__dropdown-toggle{
+	border-color:  #E3E6E9;
+}
+.scan-frequency-day .vs__dropdown-toggle{
+	border-color:  #E3E6E9;
+}
+
+/* cancel and save  */
+
+.scan-cancel-save{
+	float: right;
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+
+.scan-cancel-save .scan-cancel-btn{
+	color: #3C4B64;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	border-radius: 4px;
+    background: #EBEDEF;
+    padding: 8px 20px;
+}
+
+.scan-cancel-save .scan-save-btn{
+	color: #FFF;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	border-radius: 4px;
+    background: #39F;
+    padding: 8px 20px;
+	margin-right: 30px;
+    margin-left: 20px;
+}
+
+.scan-frequency-type .vs__open-indicator{
+	fill: #39F;
+}
+.scan-frequency-day .vs__open-indicator{
+	fill: #39F;
+}
+
+.align-scantype-left{
+	justify-content: unset;
+	padding-left: 30px;
+}
+
+.gdpr_scanbar .gdpr_infobox .gdpr_last_scan_text{
+	color: #3C4B64;
+	text-align: center;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+.gdpr_scanbar .gdpr_infobox .gdpr_last_scan_details{
+	color: #3C4B64;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.gdpr_scanbar .gdpr_infobox .gdpr_next_scan_content{
+	float:right;
+	margin-right: 15px;
+}
+.gdpr_scanbar .gdpr_infobox .gdpr_next_scan_content .gdpr_next_scan_text{
+	color: #3C4B64;
+	text-align: center;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+.gdpr_scanbar .gdpr_infobox .gdpr_next_scan_content .gdpr_next_scan_details{
+	color: #3C4B64;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
 }
