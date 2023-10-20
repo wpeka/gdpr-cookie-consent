@@ -201,7 +201,9 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Translator function to convert the public facing side texts
 	 *
-	 * @param string $text Text,$translations Translation,$target_language Target Language.
+	 * @param string $text Text .
+	 * @param array  $translations Translation.
+	 * @param string $target_language Target Language.
 	 */
 	public function translate_text( $text, $translations, $target_language ) {
 		// Assuming $text is the key for the translation in the JSON file.
@@ -689,7 +691,7 @@ class Gdpr_Cookie_Consent_Public {
 		$header_scripts = $the_options['header_scripts'];
 		if ( $header_scripts ) {
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash( $header_scripts ) . "\r\n";
+			echo "\r\n" . esc_html( wp_unslash( $header_scripts ) ) . "\r\n";
 		}
 	}
 
@@ -703,7 +705,7 @@ class Gdpr_Cookie_Consent_Public {
 		$body_scripts = $the_options['body_scripts'];
 		if ( $body_scripts ) {
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash( $body_scripts ) . "\r\n";
+			echo "\r\n" . esc_html( wp_unslash( $body_scripts ) ) . "\r\n";
 		}
 	}
 
@@ -717,7 +719,7 @@ class Gdpr_Cookie_Consent_Public {
 		$footer_scripts = $the_options['footer_scripts'];
 		if ( $footer_scripts ) {
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash( $footer_scripts ) . "\r\n";
+			echo "\r\n" . esc_html( wp_unslash( $footer_scripts ) ) . "\r\n";
 		}
 	}
 }

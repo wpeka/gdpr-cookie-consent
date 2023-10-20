@@ -32,7 +32,13 @@
 									<div class="group-toggle">
 										<h3 class="category-header" tabindex="0"><?php echo esc_html( $cookie_data['about'] ); ?></h3>
 									</div>
-									<div class="group-description" tabindex="0"><?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); ?></div>
+									<div class="group-description" tabindex="0">
+									<?php
+									$category_name = esc_html( $category['msg'] );
+									// Translators: %s is a placeholder for the category name.
+									echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+									?>
+	</div>
 								</div>
 							</li>
 							<?php
@@ -41,12 +47,24 @@
 								<li class="category-item">
 								<div class="gdpr-column gdpr-default-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
 									<div class="gdpr-columns">
-										<a href="#" class="btn category-header" tabindex="0"><?php echo esc_html__( $category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ); ?></a>
+										<a href="#" class="btn category-header" tabindex="0">
+										<?php
+										$category_name = esc_html( $category['gdpr_cookie_category_name'] );
+										// Translators: %s is a placeholder for the category name.
+										echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+										?>
+	</a>
 									</div>
 								</div>
 								<div class="description-container hide">
 									<div class="group-toggle">
-										<h3 class="category-header" tabindex="0"><?php echo esc_html__( $category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ); ?></h3>
+										<h3 class="category-header" tabindex="0">
+										<?php
+										$category_name = esc_html( $category['gdpr_cookie_category_name'] );
+										// Translators: %s is a placeholder for the category name.
+										echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+										?>
+	</h3>
 										<?php
 										if ( 'necessary' === $category['gdpr_cookie_category_slug'] ) {
 											?>
@@ -85,7 +103,13 @@
 										}
 										?>
 									</div>
-									<div class="group-description" tabindex="0"><?php echo esc_html__( $category['gdpr_cookie_category_description'], 'gdpr-cookie-consent' ); ?></div>
+									<div class="group-description" tabindex="0">
+									<?php
+									$category_name = esc_html( $category['gdpr_cookie_category_description'] );
+									// Translators: %s is a placeholder for the category name.
+									echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+									?>
+	</div>
 									<!-- sub groups -->
 											<?php
 											if ( ! empty( $the_options['button_settings_display_cookies'] ) ) {

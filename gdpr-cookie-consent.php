@@ -77,14 +77,21 @@ function activate_gdpr_cookie_consent() {
 }
 
 /**
- * Redirecting to the wizard page on plguin activation
+ * Redirecting to the wizard page on plguin activation.
+ *
+ * Handles the redirection of the page after plugin activation.
  */
 add_action( 'admin_init', 'activation_redirect' );
 
+/**
+ * It will redirect to the wizard page after plugin activation.
+ *
+ * @return void
+ */
 function activation_redirect() {
 	if ( get_option( 'redirect_after_activation_option', false ) ) {
 		delete_option( 'redirect_after_activation_option' );
-		exit( wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent-wizard' ) ) );
+		exit( esc_html( wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent-wizard' ) ) ) );
 	}
 }
 
