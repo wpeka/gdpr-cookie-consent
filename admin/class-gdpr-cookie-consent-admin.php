@@ -602,12 +602,20 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$widget_position_options    = array();
 		$widget_position_options[0] = array(
-			'label' => 'Left',
+			'label' => 'Bottom Left',
 			'code'  => 'left',
 		);
 		$widget_position_options[1] = array(
-			'label' => 'Right',
+			'label' => 'Bottom Right',
 			'code'  => 'right',
+		);
+		$widget_position_options[2] = array(
+			'label' => 'Top Left',
+			'code'  => 'top_left',
+		);
+		$widget_position_options[3] = array(
+			'label' => 'Top Right',
+			'code'  => 'top_right',
 		);
 
 		$show_cookie_as_options    = array();
@@ -2024,12 +2032,20 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$widget_position_options    = array();
 		$widget_position_options[0] = array(
-			'label' => 'Left',
+			'label' => 'Botton Left',
 			'code'  => 'left',
 		);
 		$widget_position_options[1] = array(
-			'label' => 'Right',
+			'label' => 'Bottom Right',
 			'code'  => 'right',
+		);
+		$widget_position_options[2] = array(
+			'label' => 'Top Left',
+			'code'  => 'top_left',
+		);
+		$widget_position_options[3] = array(
+			'label' => 'Top Right',
+			'code'  => 'top_right',
 		);
 
 		$show_cookie_as_options    = array();
