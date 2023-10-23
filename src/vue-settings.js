@@ -1025,6 +1025,7 @@ var gen = new Vue({
                     that.is_lang_changed = false;
                     location.reload();
                 }
+				that.is_logo_removed = false;
             });
         },
 		//method to save wizard form settings
