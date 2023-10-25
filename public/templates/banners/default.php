@@ -40,7 +40,13 @@
 				<?php
 			}
 			?>
-			<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>"><?php echo esc_html__( $category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ); ?></label>
+			<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+			<?php
+			$category_name = esc_html( $category['gdpr_cookie_category_name'] );
+			// Translators: %s is a placeholder for the category name.
+			echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+			?>
+			</label>
 		</div>
 		<?php
 	}
@@ -68,7 +74,9 @@
 						?>
 						" tabindex="0" href="#">
 							<?php
-							echo esc_html__( $category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' );
+							$category_name = esc_html( $category['gdpr_cookie_category_name'] );
+							// Translators: %s is a placeholder for the category name.
+							echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
 							if ( ! empty( $the_options['button_settings_display_cookies'] ) ) {
 								echo esc_html( ' (' . $category['total'] . ')' );}
 							?>
@@ -95,7 +103,11 @@
 						?>
 							class="gdpr_messagebar_detail_body_content_cookie_type_details">
 							<div class="gdpr_messagebar_detail_body_content_cookie_type_intro">
-							<?php echo esc_html__( $category['gdpr_cookie_category_description'], 'gdpr-cookie-consent' ); ?>
+							<?php
+							$category_name = esc_html( $category['gdpr_cookie_category_description'] );
+							// Translators: %s is a placeholder for the category name.
+							echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+							?>
 							</div>
 							<?php
 							if ( ! empty( $the_options['button_settings_display_cookies'] ) ) {
@@ -141,7 +153,7 @@
 											<?php
 											if ( ! empty( $cookie_data['description'] ) ) {
 												echo esc_html( $cookie_data['description'] );
-											};
+											}
 											?>
 											">
 											<?php
@@ -156,7 +168,7 @@
 											<?php
 											if ( ! empty( $cookie_data['duration'] ) ) {
 												echo esc_html( $cookie_data['duration'] );
-											};
+											}
 											?>
 											">
 											<?php
@@ -199,7 +211,11 @@
 			</div>
 		</div>
 		<div id="gdpr_messagebar_detail_body_content_about" style="display:none;">
-		<?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); ?>
+		<?php
+		$category_name = esc_html( $category['msg'] );
+			// Translators: %s is a placeholder for the category name.
+			echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+		?>
 		</div>
 	</div>
 </div>

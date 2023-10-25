@@ -79,7 +79,6 @@ class Gdpr_Cookie_Consent_Public {
 		if ( ! shortcode_exists( 'wpl_cookie_details' ) ) {
 			add_shortcode( 'wpl_cookie_details', array( $this, 'gdprcookieconsent_shortcode_cookie_details' ) );         // a shortcode [wpl_cookie_details].
 		}
-
 	}
 
 	/**
@@ -99,7 +98,6 @@ class Gdpr_Cookie_Consent_Public {
 		 * class.
 		 */
 		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
-
 	}
 
 	/**
@@ -203,7 +201,9 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Translator function to convert the public facing side texts
 	 *
-	 * @param string $text Text,$translations Translation,$target_language Target Language.
+	 * @param string $text Text .
+	 * @param array  $translations Translation.
+	 * @param string $target_language Target Language.
 	 */
 	public function translate_text( $text, $translations, $target_language ) {
 		// Assuming $text is the key for the translation in the JSON file.
@@ -487,7 +487,7 @@ class Gdpr_Cookie_Consent_Public {
 				$json_temp = array();
 				foreach ( $cookies as $cookie ) {
 					if ( $cookie['category_id'] === $category['id_gdpr_cookie_category'] ) {
-						$total++;
+						++$total;
 						$temp[]                = $cookie;
 						$cookie['description'] = str_replace( '"', '\"', $cookie['description'] );
 						$json_temp[]           = $cookie;
@@ -530,7 +530,7 @@ class Gdpr_Cookie_Consent_Public {
 
 					// Load and decode translations from JSON file.
 					$translations_file = plugin_dir_path( __FILE__ ) . 'translations/public-translations.json';
-					$translations     = json_decode( file_get_contents( $translations_file ), true );
+					$translations      = json_decode( file_get_contents( $translations_file ), true );
 
 					// Define an array of text keys to translate.
 					$text_keys_to_translate = array(
@@ -555,11 +555,9 @@ class Gdpr_Cookie_Consent_Public {
 						$translated_text = $this->translate_text( $text_key, $translations, $target_language );
 
 						$cookie_data[ $text_key ] = $translated_text;
-
 					}
 
 					$the_options['cookie_data'] = $cookie_data;
-
 				}
 			}
 
@@ -693,7 +691,7 @@ class Gdpr_Cookie_Consent_Public {
 		$header_scripts = $the_options['header_scripts'];
 		if ( $header_scripts ) {
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash( $header_scripts ) . "\r\n";
+			echo "\r\n" . esc_html( wp_unslash( $header_scripts ) ) . "\r\n";
 		}
 	}
 
@@ -707,7 +705,7 @@ class Gdpr_Cookie_Consent_Public {
 		$body_scripts = $the_options['body_scripts'];
 		if ( $body_scripts ) {
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash( $body_scripts ) . "\r\n";
+			echo "\r\n" . esc_html( wp_unslash( $body_scripts ) ) . "\r\n";
 		}
 	}
 
@@ -721,7 +719,7 @@ class Gdpr_Cookie_Consent_Public {
 		$footer_scripts = $the_options['footer_scripts'];
 		if ( $footer_scripts ) {
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash( $footer_scripts ) . "\r\n";
+			echo "\r\n" . esc_html( wp_unslash( $footer_scripts ) ) . "\r\n";
 		}
 	}
 }
