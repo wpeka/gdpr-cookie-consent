@@ -1911,7 +1911,10 @@ class Gdpr_Cookie_Consent_Admin {
 
 			}
 
-			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
+			if ( isset( $_POST['logo_removed'] ) && $_POST['logo_removed'] == 'true' ) {
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' );
+			} else if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
+				// Update the option if a new logo is provided
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) );
 			}
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
