@@ -846,7 +846,7 @@ function get_templates( $template_type ) {
 					'decline'          => array(
 						'text'                 => 'Decline',
 						'as_button'            => true,
-						'css'                  => 'background-color:#808080;color:#ffffff;float:right;border:1px solid #808080;',
+						'css'                  => 'background-color:#808080;color:#ffffff;float:none;border:1px solid #808080;',
 						'link_color'           => '#ffffff',
 						'button_color'         => '#808080',
 						'button_size'          => 'medium',

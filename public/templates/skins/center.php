@@ -26,9 +26,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			?>
 			<h3 class="gdpr_messagebar_head">
 			<?php
-			$category_name = esc_html( $category['head'] );
-			// Translators: %s is a placeholder for the category name.
-			echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+			echo esc_html__( $the_options['head'], 'gdpr-cookie-consent' ); //phpcs:ignore
 			?>
 	</h3>
 			<?php
@@ -48,9 +46,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			?>
 			>
 			<?php
-			$category_name = esc_html( $category['button_readmore_text'] );
-			// Translators: %s is a placeholder for the category name.
-			echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+			echo esc_html__( $the_options['button_readmore_text'], 'gdpr-cookie-consent' );  //phpcs:ignore
 			?>
 	</a>
 			<?php
@@ -68,9 +64,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 					<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
 					>
 					<?php
-					$category_name = esc_html( $category['button_donotsell_text'] );
-					// Translators: %s is a placeholder for the category name.
-					echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+					echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 					?>
 	</a>
 					<?php
@@ -104,9 +98,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				?>
 				data-gdpr_action="accept" >
 				<?php
-				$category_name = esc_html( $category['button_accept_text'] );
-				// Translators: %s is a placeholder for the category name.
-				echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+				echo esc_html__( $the_options['button_accept_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 				?>
 	</a>
 				<?php
@@ -132,9 +124,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				?>
 				data-gdpr_action="accept_all" >
 				<?php
-				$category_name = esc_html( $category['button_accept_all_text'] );
-				// Translators: %s is a placeholder for the category name.
-				echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+				echo esc_html__( $the_options['button_accept_all_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 				?>
 	</a>
 				<?php
@@ -160,9 +150,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				?>
 				data-gdpr_action="reject" >
 				<?php
-				$category_name = esc_html( $category['button_decline_text'] );
-				// Translators: %s is a placeholder for the category name.
-				echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+				echo esc_html__( $the_options['button_decline_text'], 'gdpr-cookie-consent' );  //phpcs:ignore
 				?>
 	</a>
 				<?php
@@ -188,9 +176,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				?>
 				>
 				<?php
-				$category_name = esc_html( $category['button_settings_text'] );
-				// Translators: %s is a placeholder for the category name.
-				echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+				echo esc_html__( $the_options['button_settings_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 				?>
 	</a>
 				<?php
@@ -230,9 +216,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 					<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
 					>
 					<?php
-					$category_name = esc_html( $category['button_donotsell_text'] );
-					// Translators: %s is a placeholder for the category name.
-					echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+					echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 					?>
 	</a>
 					<?php
@@ -250,9 +234,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			?>
 			<h3 class="gdpr_messagebar_head">
 			<?php
-			$category_name = esc_html( $category['head'] );
-			// Translators: %s is a placeholder for the category name.
-			echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+			echo esc_html__( $the_options['head'], 'gdpr-cookie-consent' ); //phpcs:ignore
 			?>
 	</h3>
 			<?php
@@ -284,9 +266,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 							?>
 					>
 					<?php
-					$category_name = esc_html( $category['button_readmore_text'] );
-					// Translators: %s is a placeholder for the category name.
-					echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+					echo esc_html__( $the_options['button_readmore_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 					?>
 	</a>
 					<?php
@@ -317,9 +297,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				?>
 				data-gdpr_action="accept" >
 				<?php
-				$category_name = esc_html( $category['button-accept_text'] );
-				// Translators: %s is a placeholder for the category name.
-				echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+				echo esc_html__( $the_options['button_accept_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 				?>
 	</a>
 				<?php
@@ -345,9 +323,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				?>
 				data-gdpr_action="accept_all" >
 				<?php
-				$category_name = esc_html( $category['button_accept_all_text'] );
-				// Translators: %s is a placeholder for the category name.
-				echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+				echo esc_html__( $the_options['button_accept_all_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 				?>
 	</a>
 				<?php
@@ -373,9 +349,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				?>
 				data-gdpr_action="reject" >
 				<?php
-				$category_name = esc_html( $category['button_decline_text'] );
-				// Translators: %s is a placeholder for the category name.
-				echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
+				echo esc_html__( $the_options['button_decline_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 				?>
 	</a>
 				<?php

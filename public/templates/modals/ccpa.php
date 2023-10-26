@@ -12,12 +12,7 @@
 <div class="gdprmodal gdprfade" id="gdpr-ccpa-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_html( $cookie_data['backdrop'] ); ?>">
 	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
 		<div class="gdprmodal-content">
-			<div class="gdprmodal-body"><p>
-			<?php
-			$category_name = esc_html( $category['optout_text'] );
-			// Translators: %s is a placeholder for the category name.
-			echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
-			?>
+			<div class="gdprmodal-body"><p><?php echo esc_html__( $the_options['optout_text'], 'gdpr-cookie-consent' ); //phpcs:ignore?>
 					<button type="button" class="gdpr_action_button close dashicons dashicons-dismiss" data-dismiss="gdprmodal" data-gdpr_action="ccpa_close"><span class="close dashicons dashicons-dismiss">Close</span></button></p>
 			</div>
 			<div class="gdprmodal-footer">
@@ -30,32 +25,8 @@
 					}
 				}
 				?>
-				<button id="cookie_action_cancel" type="button" class="
-				<?php
-				$category_name = esc_html( $category['button-cancle_classes'] );
-				// Translators: %s is a placeholder for the category name.
-				echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
-				?>
-	" data-gdpr_action="cancel" data-dismiss="gdprmodal">
-	<?php
-	$category_name = esc_html( $category['button_cancle_text'] );
-	// Translators: %s is a placeholder for the category name.
-	echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
-	?>
-	</button>
-				<button id="cookie_action_confirm" type="button" class="
-				<?php
-				$category_name = esc_html( $category['button_confirm_classes'] );
-				// Translators: %s is a placeholder for the category name.
-				echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
-				?>
-	" data-gdpr_action="confirm" data-dismiss="gdprmodal">
-	<?php
-	$category_name = esc_html( $category['button_confirm_text'] );
-	// Translators: %s is a placeholder for the category name.
-	echo esc_html( sprintf( __( 'Category: %s', 'gdpr-cookie-consent' ), $category_name ) );
-	?>
-	</button>
+				<button id="cookie_action_cancel" type="button" class="<?php echo esc_html( $the_options['button_cancel_classes'] ); ?>" data-gdpr_action="cancel" data-dismiss="gdprmodal"><?php echo esc_html__( $the_options['button_cancel_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
+				<button id="cookie_action_confirm" type="button" class="<?php echo esc_html( $the_options['button_confirm_classes'] ); ?>" data-gdpr_action="confirm" data-dismiss="gdprmodal"><?php echo esc_html__( $the_options['button_confirm_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
 			</div>
 		</div>
 	</div>
