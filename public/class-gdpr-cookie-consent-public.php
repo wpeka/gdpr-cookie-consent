@@ -236,6 +236,7 @@ class Gdpr_Cookie_Consent_Public {
 				array(
 					'ajax_url'              => admin_url( 'admin-ajax.php' ),
 					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
+					'consent_renew_nonce'	=> wp_create_nonce( 'wpl_consent_renew_nonce' ),
 				)
 			);
 			add_filter( 'clean_url', array( $this, 'gdprcookieconsent_clean_async_url' ) );
@@ -576,12 +577,84 @@ class Gdpr_Cookie_Consent_Public {
 				}
 			</style>
 			<?php
+
+			//fetching the values of post id, ip and consent and mapping them to a array
+
+			global $wpdb;
+
+			$meta_key_cl_ip = '_wplconsentlogs_ip';
+			$meta_key_cl_renew_consent = '_wpl_renew_consent';
+			$trash_meta_key = '_wp_trash_meta_status';
+			$trash_meta_value = 'publish';
+
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT pm1.post_id, pm1.meta_value AS ip_value, pm2.meta_value AS consent_value
+					 FROM {$wpdb->prefix}postmeta AS pm1
+					 LEFT JOIN {$wpdb->prefix}postmeta AS pm2 ON pm1.post_id = pm2.post_id
+					 WHERE pm1.meta_key = %s
+					 AND pm2.meta_key = %s
+					 AND pm1.post_id NOT IN (
+						 SELECT post_id
+						 FROM {$wpdb->prefix}postmeta
+						 WHERE meta_key = %s AND meta_value = %s
+					 )",
+					$meta_key_cl_ip,
+					$meta_key_cl_renew_consent,
+					$trash_meta_key,
+					$trash_meta_value
+				)
+			);
+
+			$gdpr_post_meta_values_array = array();
+
+			foreach ($results as $result) {
+				$gdpr_post_meta_values_array[] = array(
+					'post_id' => $result->post_id,
+					'ip_value' => $result->ip_value,
+					'consent_value' => $result->consent_value
+				);
+			}
+
+			$the_options['ip_and_consent_renew'] = $gdpr_post_meta_values_array;
+
+			$user_ip = $this->wpl_get_user_ip(); //get the current user's IP.
+
 			$cookies_list_data = array(
 				'gdpr_cookies_list'       => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
 				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
+				'gdpr_consent_renew'  	  => $the_options['ip_and_consent_renew'],
+				'gdpr_user_ip'				  => $user_ip,
 			);
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
 		}
+	}
+
+	/**
+	 * Returns IP address of the user for consent log.
+	 *
+	 * @since 1.1
+	 * @return string
+     * @phpcs:disable
+	 */
+	public function wpl_get_user_ip() {
+		$ipaddress = '';
+		if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+			$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+		} elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
+			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+		} elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
+			$ipaddress = $_SERVER['HTTP_FORWARDED'];
+		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			$ipaddress = $_SERVER['REMOTE_ADDR'];
+		} else {
+			$ipaddress = 'UNKNOWN';
+		}
+		return $ipaddress;
 	}
 
 	/**

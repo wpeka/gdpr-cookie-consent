@@ -2420,3 +2420,45 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	font-weight: 400;
 	line-height: normal;
 }
+
+.gdpr-renew-now-btn{
+	border-radius: 5px;
+	border: 2px solid #39F;
+	color: #39F;
+	text-align: center;
+	font-style: normal;
+	line-height: normal;
+	font-weight: 600;
+}
+.gdpr-renew-now-btn:hover{
+	color: #39F;
+}
+.gdpr-renew-now-btn.pro:hover{
+	background-color: #39F;
+	color: #fff;
+}
+.gdpr-renew-now-col{
+	margin-top: 10px;
+}
+.gdpr-last-renew-container{
+	display: flex;
+	padding-top: 5px;
+}
+.gdpr-last-renew-label{
+	color: #000;
+	text-align: center;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.gdpr-last-renew-details{
+	color: #000;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	padding-left: 3px;
+}
+
+.gdpr-last-renew-label.free,.gdpr-last-renew-details.free{
+	color:grey;
+}
