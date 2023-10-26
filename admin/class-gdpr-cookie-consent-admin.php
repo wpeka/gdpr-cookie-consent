@@ -602,12 +602,20 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$widget_position_options    = array();
 		$widget_position_options[0] = array(
-			'label' => 'Left',
+			'label' => 'Bottom Left',
 			'code'  => 'left',
 		);
 		$widget_position_options[1] = array(
-			'label' => 'Right',
+			'label' => 'Bottom Right',
 			'code'  => 'right',
+		);
+		$widget_position_options[2] = array(
+			'label' => 'Top Left',
+			'code'  => 'top_left',
+		);
+		$widget_position_options[3] = array(
+			'label' => 'Top Right',
+			'code'  => 'top_right',
 		);
 
 		$show_cookie_as_options    = array();
@@ -1911,7 +1919,10 @@ class Gdpr_Cookie_Consent_Admin {
 
 			}
 
-			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
+			if ( isset( $_POST['logo_removed'] ) && $_POST['logo_removed'] == 'true' ) {
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' );
+			} else if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
+				// Update the option if a new logo is provided
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) );
 			}
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
@@ -2024,12 +2035,20 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$widget_position_options    = array();
 		$widget_position_options[0] = array(
-			'label' => 'Left',
+			'label' => 'Botton Left',
 			'code'  => 'left',
 		);
 		$widget_position_options[1] = array(
-			'label' => 'Right',
+			'label' => 'Bottom Right',
 			'code'  => 'right',
+		);
+		$widget_position_options[2] = array(
+			'label' => 'Top Left',
+			'code'  => 'top_left',
+		);
+		$widget_position_options[3] = array(
+			'label' => 'Top Right',
+			'code'  => 'top_right',
 		);
 
 		$show_cookie_as_options    = array();
@@ -2393,6 +2412,9 @@ class Gdpr_Cookie_Consent_Admin {
 		$legalpages_url       = 'https://wordpress.org/plugins/wplegalpages/';
 		$adcenter_url         = 'https://wordpress.org/plugins/wpadcenter/';
 		$survey_funnel_url    = 'https://wordpress.org/plugins/surveyfunnel-lite/';
+		$decline_log		  = get_option( 'wpl_cl_decline' );
+		$accept_log		  	  = get_option( 'wpl_cl_accept' );
+		$partially_acc_log	  = get_option( 'wpl_cl_partially_accept' );
 		wp_enqueue_style( $this->plugin_name . '-dashboard' );
 		wp_enqueue_script( $this->plugin_name . '-dashboard' );
 		wp_localize_script(
@@ -2425,6 +2447,9 @@ class Gdpr_Cookie_Consent_Admin {
 				'legalpages_url'        => $legalpages_url,
 				'adcenter_url'          => $adcenter_url,
 				'survey_funnel_url'     => $survey_funnel_url,
+				'decline_log'    		=> $decline_log,
+				'accept_log'    		=> $accept_log,
+				'partially_acc_log'    	=> $partially_acc_log,
 			)
 		);
 		require_once plugin_dir_path( __FILE__ ) . 'views/gdpr-dashboard-page.php';

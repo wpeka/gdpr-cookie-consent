@@ -40,6 +40,7 @@ var gen = new Vue({
 			disableSwitch: false,
             is_template_changed: false,
 			is_lang_changed:false,
+			is_logo_removed:false,
             appendField: ".gdpr-cookie-consent-settings-container",
             configure_image_url: require('../admin/images/configure-icon.png'),
             closeOnBackdrop: true,
@@ -1010,7 +1011,7 @@ var gen = new Vue({
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
-                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed,
+                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed,
             }).done(function (data) {
                 that.success_error_message = 'Settings Saved';
                 j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -1024,6 +1025,7 @@ var gen = new Vue({
                     that.is_lang_changed = false;
                     location.reload();
                 }
+				that.is_logo_removed = false;
             });
         },
 		//method to save wizard form settings
@@ -1067,6 +1069,7 @@ var gen = new Vue({
                     jQuery('#gdpr-cookie-bar-logo-holder').removeAttr('src'),
                     jQuery('#gdpr-cookie-bar-logo-url-holder').attr('value', '')
                 )
+				this.is_logo_removed = true;
         },
         onSwitchScriptBlocker( script_id ) {
             j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);

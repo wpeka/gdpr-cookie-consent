@@ -2,9 +2,12 @@ import Vue from 'vue';
 import CoreuiVue from '@coreui/vue';
 import '@coreui/coreui/dist/css/coreui.min.css';
 import { VueEllipseProgress } from "vue-ellipse-progress";
+import VueApexCharts from 'vue-apexcharts'
 
 Vue.use(CoreuiVue);
+Vue.use(VueApexCharts)
 Vue.component('vue-ellipse-progress', VueEllipseProgress);
+Vue.component('apexchart', VueApexCharts)
 
 const j = jQuery.noConflict();
 
@@ -66,7 +69,84 @@ var gen = new Vue({
 			legalpages_icon: require('../admin/images/dashboard-icons/legalpages-icon.png'),
 			survey_funnel_icon: require('../admin/images/dashboard-icons/survey-funnel-icon.png'),
 			arrow_icon: require('../admin/images/dashboard-icons/arrow-icon.png'),
+			cookie_summary:  require('../admin/images/dashboard-icons/summary/total-cookies.png'),
+			cookie_cat:  require('../admin/images/dashboard-icons/summary/categories.png'),
+			search_icon:  require('../admin/images/dashboard-icons/summary/search-icon.png'),
+			page_icon:  require('../admin/images/dashboard-icons/summary/pages.png'),
+			next_scan_icon:  require('../admin/images/dashboard-icons/summary/next-scan.png'),
+			cookie_icon:  require('../admin/images/dashboard-icons/summary/cookies.png'),
+			view_all_logs:  require('../admin/images/dashboard-icons/summary/view-all-logs.png'),
 			highlight_variant: 'outline',
+			decline_log: dashboard_options.hasOwnProperty('decline_log') ? dashboard_options['decline_log'] : 0,
+			accept_log: dashboard_options.hasOwnProperty('accept_log') ? dashboard_options['accept_log'] : 0,
+			partially_acc_log: dashboard_options.hasOwnProperty('partially_acc_log') ? dashboard_options['partially_acc_log'] : 0,
+			series: [Number(dashboard_options['accept_log']),Number(dashboard_options['decline_log']),Number(dashboard_options['partially_acc_log'])],
+			chartOptions: {
+				chart: {
+				  width: 580,
+				  type: 'pie',
+				},
+				labels: ['Accepted', 'Rejected', 'Partially Accepted'],
+				colors: ['#DAF2CB', '#F1C7C7', '#BDF'],
+				fill: {
+					colors: ['#DAF2CB', '#F1C7C7', '#BDF']
+				  },
+				responsive: [{
+				  breakpoint: 480,
+				  options: {
+					chart: {
+					  width: 200
+					},
+					legend: {
+					  position: 'bottom'
+					}
+				  }
+				}],
+				dataLabels: {
+					enabled: true,
+					enabledOnSeries: undefined,
+					textAnchor: 'middle',
+					distributed: false,
+					style: {
+						fontSize: '14px',
+						fontWeight: 400,
+						colors: ['#333'],
+						textAlign: 'center'
+					},
+					dropShadow: {
+						enabled: false,
+					}
+				  },
+				  plotOptions: {
+					pie: {
+					  dataLabels: {
+						offset: -20,
+					  },
+					}
+				  },
+				  states: {
+					normal: {
+						filter: {
+							type: 'dark',
+							value: 0,
+						}
+					},
+					hover: {
+						filter: {
+							type: 'dark',
+							value: 0.15,
+						}
+					},
+					active: {
+						allowMultipleDataPointsSelection: false,
+						filter: {
+							type: 'dark',
+							value: 0.35,
+						}
+					},
+				},
+
+			  },
 		}
     },
     methods: {
