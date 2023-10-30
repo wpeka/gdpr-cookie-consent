@@ -54,6 +54,7 @@ var gen = new Vue({
             cancel_button_popup: false,
             opt_out_link_popup: false,
 			schedule_scan_show: false,
+			is_consent_renewed: ( 'true' == settings_obj.the_options['consent_renew_enable'] || 1 === settings_obj.the_options['consent_renew_enable'] ) ? true : false,
             scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['total'] : 0,
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
@@ -494,6 +495,13 @@ var gen = new Vue({
         onSwitchLoggingOn() {
             this.logging_on = !this.logging_on;
         },
+		onClickRenewConsent() {
+			this.is_consent_renewed = true;
+			this.success_error_message = 'User Consent Renewed';
+			j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+			j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+			j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+		},
         cookieAcceptChange( value ) {
             if(value === '#cookie_action_close_header') {
                 this.is_open_url = false;
