@@ -2453,7 +2453,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$maxmind_url          = $admin_url . 'admin.php?page=gdpr-integrations';
 		$cookie_scan_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent-settings#cookie_list';
 		$plugin_page_url      = $admin_url . 'plugins.php';
-		$key_activate_url     = $admin_url . 'options-general.php?page=wc_am_client_wpl_cookie_consent_dashboard';
+		$key_activate_url     = $admin_url . 'admin.php?page=wc_am_client_wpl_cookie_consent_dashboard';
 		$consent_log_url      = $admin_url . 'edit.php?post_type=wplconsentlogs';
 		$cookie_design_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent-settings#gdpr_design';
 		$cookie_template_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent-settings#configuration';
