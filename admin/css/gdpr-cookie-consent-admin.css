@@ -1428,6 +1428,46 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	font-weight: 300;
 	min-width: 600px;
 }
+/* widget top-right align */
+.banner-preview-main-container.widget-preview.widget-top-right {
+	display: block;
+	background-color: rgb(255, 255, 255);
+	color: rgb(245, 240, 235);
+	font-family: inherit;
+	box-shadow: rgb(255, 255, 255) 0px 0px 8px;
+	border: 0px none rgb(255, 255, 255);
+	border-radius: 0px;
+	text-align: justify;
+	position: fixed;
+	width: 35%;
+	top: 10px;
+	right: 20px;
+	z-index: 999999999;
+	font-size: 14px;
+	line-height: 1.5;
+	font-weight: 300;
+	min-width: 600px;
+}
+/* widget top-left align */
+.banner-preview-main-container.widget-preview.widget-top-left {
+	display: block;
+	background-color: rgb(255, 255, 255);
+	color: rgb(245, 240, 235);
+	font-family: inherit;
+	box-shadow: rgb(255, 255, 255) 0px 0px 8px;
+	border: 0px none rgb(255, 255, 255);
+	border-radius: 0px;
+	text-align: justify;
+	position: fixed;
+	width: 35%;
+	top: 10px;
+	left: 20px;
+	z-index: 999999999;
+	font-size: 14px;
+	line-height: 1.5;
+	font-weight: 300;
+	min-width: 600px;
+}
 .gdpr_messagebar_content_preview.widget-msg-content-preview {
 	margin: 2.7em;
 }
@@ -2379,4 +2419,46 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
+}
+
+.gdpr-renew-now-btn{
+	border-radius: 5px;
+	border: 2px solid #39F;
+	color: #39F;
+	text-align: center;
+	font-style: normal;
+	line-height: normal;
+	font-weight: 600;
+}
+.gdpr-renew-now-btn:hover{
+	color: #39F;
+}
+.gdpr-renew-now-btn.pro:hover{
+	background-color: #39F;
+	color: #fff;
+}
+.gdpr-renew-now-col{
+	margin-top: 10px;
+}
+.gdpr-last-renew-container{
+	display: flex;
+	padding-top: 5px;
+}
+.gdpr-last-renew-label{
+	color: #000;
+	text-align: center;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.gdpr-last-renew-details{
+	color: #000;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	padding-left: 3px;
+}
+
+.gdpr-last-renew-label.free,.gdpr-last-renew-details.free{
+	color:grey;
 }

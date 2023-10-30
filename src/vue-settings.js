@@ -40,6 +40,7 @@ var gen = new Vue({
 			disableSwitch: false,
             is_template_changed: false,
 			is_lang_changed:false,
+			is_logo_removed:false,
             appendField: ".gdpr-cookie-consent-settings-container",
             configure_image_url: require('../admin/images/configure-icon.png'),
             closeOnBackdrop: true,
@@ -53,6 +54,7 @@ var gen = new Vue({
             cancel_button_popup: false,
             opt_out_link_popup: false,
 			schedule_scan_show: false,
+			is_consent_renewed: ( 'true' == settings_obj.the_options['consent_renew_enable'] || 1 === settings_obj.the_options['consent_renew_enable'] ) ? true : false,
             scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['total'] : 0,
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
@@ -493,6 +495,13 @@ var gen = new Vue({
         onSwitchLoggingOn() {
             this.logging_on = !this.logging_on;
         },
+		onClickRenewConsent() {
+			this.is_consent_renewed = true;
+			this.success_error_message = 'User Consent Renewed';
+			j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+			j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+			j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+		},
         cookieAcceptChange( value ) {
             if(value === '#cookie_action_close_header') {
                 this.is_open_url = false;
@@ -1010,7 +1019,7 @@ var gen = new Vue({
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
-                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed,
+                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed,
             }).done(function (data) {
                 that.success_error_message = 'Settings Saved';
                 j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -1024,6 +1033,7 @@ var gen = new Vue({
                     that.is_lang_changed = false;
                     location.reload();
                 }
+				that.is_logo_removed = false;
             });
         },
 		//method to save wizard form settings
@@ -1067,6 +1077,7 @@ var gen = new Vue({
                     jQuery('#gdpr-cookie-bar-logo-holder').removeAttr('src'),
                     jQuery('#gdpr-cookie-bar-logo-url-holder').attr('value', '')
                 )
+				this.is_logo_removed = true;
         },
         onSwitchScriptBlocker( script_id ) {
             j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
