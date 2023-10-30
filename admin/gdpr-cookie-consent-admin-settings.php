@@ -1679,6 +1679,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							</c-card-body>
 						</c-card>
 					</c-tab>
+					<a href= https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=cookie_settings&utm_campaign=upgrade-to-pro  class="button-class" target="_blank" 
+			style="background-color:#346DB1;padding:
+			12px, 20px, 12px, 20px;font-family:Roboto;color:#FFFFFF;display:flex;border-radius:4px;position:relative;
+			">Upgrade to PRO</a>
 				</c-tabs>
 			</div>
 			<div class="gdpr-cookie-consent-settings-bottom">
