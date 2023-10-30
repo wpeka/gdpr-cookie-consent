@@ -546,6 +546,25 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											<input type="hidden" name="gcc-restrict-posts" v-model="restrict_posts">
 										</c-col>
 									</c-row>
+									<!-- renew consent free  -->
+									<c-row>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Renew User Consent', 'gdpr-cookie-consent'); ?> <tooltip text="<?php esc_html_e("If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent'); ?>"></tooltip>
+										</label>
+										<div class="gdpr-pro-label absolute" style="top: 15px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8 gdpr-renew-now-col">
+										<c-button disabled class="gdpr-renew-now-btn" variant="outline"><?php esc_html_e( 'Renew Now', 'gdpr-cookie-consent' ); ?></c-button>
+										<!-- last renewed  -->
+											<div class="gdpr-last-renew-container">
+												<div class="gdpr-last-renew-label free">
+												Last renewed :
+												</div>
+												<div class="gdpr-last-renew-details free">
+												Not renewed yet
+												</div>
+											</div>
+										</c-col>
+									</c-row>
 								<?php endif ?>
 								<?php do_action('gdpr_consent_settings_pro_bottom'); ?>
 							</c-card-body>
