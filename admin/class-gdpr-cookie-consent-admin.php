@@ -1498,7 +1498,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['bar_heading_text']                    = isset( $_POST['bar_heading_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_field'] ) ) : '';
 
 			//custom css
-			$the_options['gdpr_css_text']                       = isset( $_POST['gdpr_css_text_field'] ) ? wp_unslash( $_POST['gdpr_css_text_field'] ) : '';// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$the_options['gdpr_css_text']                       = isset( $_POST['gdpr_css_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr_css_text_field'] ) ) : '';
 
 			$css_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.css';
 
