@@ -1160,6 +1160,22 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
+	 * Encode the CSS
+	 *
+	 * @since 2.11.0
+	 */
+	public function encode_css($css_string) {
+		$lines = explode("\n", $css_string);
+		$encoded_line = array();
+
+		foreach ($lines as $line) {
+			$encoded_line[] = $line . "\\r\\n";
+		}
+
+		return implode("\n", $encoded_line);
+	}
+
+	/**
 	 * Ajax callback for wizard settings page
 	 */
 
@@ -1480,6 +1496,30 @@ class Gdpr_Cookie_Consent_Admin {
 				)
 			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['bar_heading_text']                    = isset( $_POST['bar_heading_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_field'] ) ) : '';
+
+			//custom css
+			$the_options['gdpr_css_text']                       = isset( $_POST['gdpr_css_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr_css_text_field'] ) ) : '';
+
+			$css_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.css';
+
+			$css_code_to_add = $the_options['gdpr_css_text'];
+
+			// Open the CSS file for writing
+			$css_file = fopen($css_file_path, 'w');
+
+			// Check if the file was opened successfully
+			if ($css_file) {
+			// Write the CSS code to the file
+			fwrite($css_file, $css_code_to_add);
+
+			// Close the file
+			fclose($css_file);
+
+			}
+
+			$encode_css = $this->encode_css($the_options['gdpr_css_text']);
+			$the_options['gdpr_css_text'] = $encode_css ;
+
 			$the_options['notify_message']                      = isset( $_POST['notify_message_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_field'] ),
 				array(
