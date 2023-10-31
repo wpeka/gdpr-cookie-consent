@@ -1498,7 +1498,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['bar_heading_text']                    = isset( $_POST['bar_heading_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_field'] ) ) : '';
 
 			//custom css
-			$the_options['gdpr_css_text']                       = isset( $_POST['gdpr_css_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr_css_text_field'] ) ) : '';
+			$the_options['gdpr_css_text']                       = isset($_POST['gdpr_css_text_field']) ? wp_kses( wp_unslash( $_POST['gdpr_css_text_field'] ), array(), array('style' => array())) : '';
 
 			$css_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.css';
 
@@ -2685,6 +2685,25 @@ class Gdpr_Cookie_Consent_Admin {
 
 				}
 			}
+			// resetting the custom css when restore setting is clicked
+			$all_settings                                        = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$css_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.css';
+
+			$css_code_to_add = $all_settings['gdpr_css_text'];
+
+			// Open the CSS file for writing
+			$css_file = fopen($css_file_path, 'w');
+
+			// Check if the file was opened successfully
+			if ($css_file) {
+			// Write the CSS code to the file
+			fwrite($css_file, $css_code_to_add);
+
+			// Close the file
+			fclose($css_file);
+
+			}
+
 			$the_options = Gdpr_Cookie_Consent::gdpr_get_default_settings();
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			wp_send_json_success( array( 'restore_default_saved' => true ) );
