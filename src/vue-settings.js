@@ -277,12 +277,37 @@ var gen = new Vue({
             accept_all_opacity: settings_obj.the_options.hasOwnProperty('button_accept_all_btn_opacity') ? settings_obj.the_options['button_accept_all_btn_opacity'] : '1',
             accept_all_border_width: settings_obj.the_options.hasOwnProperty('button_accept_all_btn_border_width') ? settings_obj.the_options['button_accept_all_btn_border_width'] : '0',
             accept_all_border_radius: settings_obj.the_options.hasOwnProperty('button_accept_all_btn_border_radius') ? settings_obj.the_options['button_accept_all_btn_border_radius'] : '0',
+			//custom css
+			gdpr_css_text: settings_obj.the_options.hasOwnProperty('gdpr_css_text') ? this.decodeCSS ( settings_obj.the_options['gdpr_css_text']) : "",
         }
     },
     methods: {
         stripSlashes( value ) {
             return value.replace(/\\(.)/mg, "$1");
         },
+		decodeCSS(encodedCSS) {
+			const lines = encodedCSS.split("\\r\\n");
+			let decodedCSS = "";
+			let currentIndent = 0;
+
+			for (const line of lines) {
+				const trimmedLine = line.trim();
+
+				if (trimmedLine === "") continue; // Skip empty lines
+
+				if (trimmedLine.startsWith("}") && currentIndent > 0) {
+				currentIndent--;
+				}
+
+				decodedCSS += "  ".repeat(currentIndent) + trimmedLine + "\n";
+
+				if (trimmedLine.endsWith("{")) {
+				currentIndent++;
+				}
+			}
+
+			return decodedCSS;
+		},
         setValues() {
             if(this.show_cookie_as === 'banner') {
                 this.show_banner_template = true;
@@ -980,6 +1005,7 @@ var gen = new Vue({
             this.restrict_posts = [];
 			this.banner_preview_is_on = false;
 			this.show_language_as = 'en';
+			this.gdpr_css_text    = '';
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
