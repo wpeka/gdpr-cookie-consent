@@ -1640,6 +1640,27 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-modal>
 							</c-card-body>
 						</c-card>
+						<!-- add custom css card  -->
+						<?php
+						 	if ( $is_pro_active ) {
+								 do_action('gdpr_custom_css');
+							 }else{
+								 ?>
+								 		<c-card >
+										<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
+
+										<div class="gdpr-pro-label absolute" style="top: 10px; right: 545px;"><div class="gdpr-pro-label-text">Pro</div></div>
+
+										</c-card-header>
+										<c-card-body>
+											<c-col class="col-sm-12">
+												<c-textarea disabled placeholder="Your CSS here" id="editor"></c-textarea>
+											</c-col>
+										</c-card-body>
+									</c-card>
+								 <?php
+							 }
+						 ?>
 					</c-tab>
 					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_list">
 						<c-card>
