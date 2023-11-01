@@ -285,7 +285,7 @@ if (!empty($result)) {
 									<div>
 										<span class="gdpr-cookie-summary-dynaminc-values">
 										<?php
-											if ( $cookie_scan_settings['last_scan']['created_at']) {
+												if (isset($cookie_scan_settings['last_scan']['created_at'])) {
 												// esc_attr_e( 'Last successful scan : ', 'gdpr-cookie-consent' );
 												echo esc_attr( gmdate( 'F j, Y g:i a T', $cookie_scan_settings['last_scan']['created_at'] ) );
 											} else {
@@ -318,7 +318,7 @@ if (!empty($result)) {
 									<br> -->
 									<div>
 										<span class="gdpr-cookie-summary-dynaminc-values"><?php
-										if (  $the_options['schedule_scan_when'] ) {
+										if (isset($the_options['schedule_scan_when'])) {
 
 											echo $the_options['schedule_scan_when'];
 										}else{

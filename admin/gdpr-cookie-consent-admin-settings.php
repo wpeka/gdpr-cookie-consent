@@ -1654,7 +1654,26 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-card-header>
 										<c-card-body>
 											<c-col class="col-sm-12">
-												<c-textarea disabled placeholder="Your CSS here" id="editor"></c-textarea>
+												<aceeditor
+													id = "aceEditorFree"
+													v-model="gdpr_css_text_free"
+													@init="editorInit"
+													lang="css"
+													theme="monokai"
+													width="100%"
+													height="300px"
+													:options="{
+														enableBasicAutocompletion: true,
+														enableLiveAutocompletion: true,
+														fontSize: 14,
+														highlightActiveLine: true,
+														enableSnippets: true,
+														showLineNumbers: true,
+														tabSize: 2,
+														showPrintMargin: false,
+														showGutter: true,
+													}"
+												/>
 											</c-col>
 										</c-card-body>
 									</c-card>
