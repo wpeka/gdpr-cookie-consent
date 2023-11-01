@@ -2016,9 +2016,11 @@ var gen = new Vue({
             this.setScanListValues();
         }
 		//Make AceEditor ReadOnly for the Free
-		var editor = ace.edit("aceEditorFree");
-		editor.setValue(this.gdpr_css_text_free);
-		editor.setReadOnly(true);
+		if ( ! this.isGdprProActive ) {
+			var editor = ace.edit("aceEditorFree");
+			editor.setValue(this.gdpr_css_text_free);
+			editor.setReadOnly(true);
+		}
     },
     icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep }
 })
