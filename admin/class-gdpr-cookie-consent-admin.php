@@ -259,16 +259,33 @@ class Gdpr_Cookie_Consent_Admin {
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Wizard', 'gdpr-cookie-consent' ), __( 'Wizard', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-wizard', array( $this, 'gdpr_cookie_consent_wizard' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-settings', array( $this, 'admin_settings_page' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
-		add_submenu_page(
-			'gdpr-cookie-consent','','<a href="' . esc_url('https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=sub_menu&utm_campaign=upgrade-to-pro	') . '" class="button-class" target="_blank" 
-			style="background-color:#346DB1;padding:10px;margin:5px 16px 5px 16px;font-family:sans-serif;color:#FFFFFF;display:flex;justify-content: center;border-radius:4px;	
-			">Upgrade to PRO</a>',	
-			'manage_options','', 
-		);
 		
+			if(!get_option( 'wpl_pro_active', false ))
+			{ 
+				add_submenu_page(
+					'gdpr-cookie-consent','','<button id="gdpr-menu-upgrade-btn" style="
+						background-color: #346DB1;
+						font-family:sans-serif;
+						width:140px;
+						height:40px;
+						color: #FFFFFF;
+						display: block;
+						border-radius: 4px;
+						border: none;
+						cursor: pointer;
+						font-weight: 400;
+						font-size: 16px;
+						line-height: 18.75px;
+						align-items: center;
+					" >Upgrade to PRO</button>',	
+					'manage_options','https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=sub_menu&utm_campaign=upgrade-to-pro', 
+				);
+		
+			}
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
 		
 	}
+
 	
 	
 	/**

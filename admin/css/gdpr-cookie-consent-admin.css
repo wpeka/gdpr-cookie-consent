@@ -2420,3 +2420,28 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	font-weight: 400;
 	line-height: normal;
 }
+.upgrade-to-pro-btn {
+	background-color: #346DB1; 
+	font-family: 'Roboto', sans-serif;
+	color: white ;
+	width:168px;
+	height:45px;
+	justify-content:center;
+	text-decoration: none;
+	border-radius: 4px;
+	cursor: pointer;
+	align-self: right;
+	display: flex;
+	font-weight: 600;
+    font-size: 18px;
+	line-height:21.09px;
+	align-items: center;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav  .upgrade-tp-pro-btn-div{
+	width:218px;
+    display: flex;
+    justify-content: end;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .upgrade-to-pro-btn{
+	display:none;
+}
