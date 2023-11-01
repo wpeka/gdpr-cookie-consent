@@ -13,6 +13,9 @@ import VueTimepicker from 'vue2-timepicker'
 // CSS
 import 'vue2-timepicker/dist/VueTimepicker.css'
 
+// Import AceEditor
+import AceEditor from 'vuejs-ace-editor';
+
 import { cilPencil, cilSettings, cilInfo, cibGoogleKeep, cibTreehouse } from '@coreui/icons';
 Vue.use(CoreuiVue);
 Vue.component('v-select', vSelect);
@@ -21,6 +24,7 @@ Vue.component('v-modal', VueModal);
 Vue.component('tooltip', Tooltip);
 Vue.component('datepicker', Datepicker);
 Vue.component('vue-timepicker', VueTimepicker);
+Vue.component('aceeditor', AceEditor);
 
 const j = jQuery.noConflict();
 
@@ -279,6 +283,7 @@ var gen = new Vue({
             accept_all_border_radius: settings_obj.the_options.hasOwnProperty('button_accept_all_btn_border_radius') ? settings_obj.the_options['button_accept_all_btn_border_radius'] : '0',
 			//custom css
 			gdpr_css_text: settings_obj.the_options.hasOwnProperty('gdpr_css_text') ? this.decodeCSS ( settings_obj.the_options['gdpr_css_text']) : "",
+			gdpr_css_text_free: "/*Your CSS here*/",
         }
     },
     methods: {
@@ -426,6 +431,15 @@ var gen = new Vue({
 				this.logging_on = false; //make enable consent switch turn off if pro is not active
 				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
 			}
+        },
+        editorInit: function () {
+            require('brace/ext/language_tools') //language extension prerequsite...
+            require('brace/mode/html')
+            require('brace/mode/javascript')    //language
+            require('brace/mode/less')
+			require('brace/mode/css')
+            require('brace/theme/monokai')
+            require('brace/snippets/css') //snippet
         },
         setPostListValues() {
             for( let i=0; i<this.post_cookie_list_length; i++ ) {
@@ -1006,6 +1020,7 @@ var gen = new Vue({
 			this.banner_preview_is_on = false;
 			this.show_language_as = 'en';
 			this.gdpr_css_text    = '';
+			this.gdpr_css_text_free = "/*Your CSS here*/";
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
@@ -1023,6 +1038,7 @@ var gen = new Vue({
                         j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
                         j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
                         j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+						location.reload();
                     }else{
                         that.success_error_message = 'Please try again.';
                         j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -1040,12 +1056,21 @@ var gen = new Vue({
             });
         },
         saveCookieSettings() {
+
+			//intializing the acecode editor
+			var editor = ace.edit("aceEditor");
+			//getting the value of editor
+			var code = editor.getValue();
+			//setting the value
+			this.gdpr_css_text = code;
+			editor.setValue(this.gdpr_css_text);
+
             var that = this;
             var dataV = jQuery("#gcc-save-settings-form").serialize();
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
-                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed,
+                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed + "&gdpr_css_text_field=" + that.gdpr_css_text,
             }).done(function (data) {
                 that.success_error_message = 'Settings Saved';
                 j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -1990,6 +2015,10 @@ var gen = new Vue({
         if( this.scan_cookie_list_length > 0 ) {
             this.setScanListValues();
         }
+		//Make AceEditor ReadOnly for the Free
+		var editor = ace.edit("aceEditorFree");
+		editor.setValue(this.gdpr_css_text_free);
+		editor.setReadOnly(true);
     },
     icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep }
 })
