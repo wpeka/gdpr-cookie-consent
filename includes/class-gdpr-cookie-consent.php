@@ -613,6 +613,7 @@ class Gdpr_Cookie_Consent {
 			'footer_scripts'                       => '',
 			'restrict_posts'                       => array(),
 			'gdpr_css_text'                        => '',
+			'do_not_track_on'                      => false,
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;
