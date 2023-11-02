@@ -925,6 +925,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'cookie_list_settings'             => $cookie_list_settings,
 				'cookie_scan_settings'             => $cookie_scan_settings,
 				'restore_settings_nonce'           => wp_create_nonce( 'restore_default_settings' ),
+				//added nonce for 
+				'import_settings_nonce'			   => wp_create_nonce('import_settings')
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
@@ -2476,7 +2478,23 @@ class Gdpr_Cookie_Consent_Admin {
 
 
 	}
-
+	/**
+	 * Callback function for import settings 
+	 * 
+	 * @since 2.5
+	 */
+	public function gdpr_cookie_consent_import_settings(){
+		if ( isset( $_POST['security'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['security'] ) ), 'import_settings' ) ) {
+				return;
+			}
+		if (isset($_POST['settings']) ) {
+			$the_options                                        = $_POST['settings'];
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+			wp_send_json_success( array( 'imported_settings' => true ) );
+		}
+	}
+}
 	/**
 	 * Callback function for Dashboard page
 	 *

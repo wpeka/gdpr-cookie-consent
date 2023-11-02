@@ -284,6 +284,9 @@ var gen = new Vue({
 			//custom css
 			gdpr_css_text: settings_obj.the_options.hasOwnProperty('gdpr_css_text') ? this.decodeCSS ( settings_obj.the_options['gdpr_css_text']) : "",
 			gdpr_css_text_free: "/*Your CSS here*/",
+            //import file selected
+            selectedFile: '',
+
         }
     },
     methods: {
@@ -867,6 +870,76 @@ var gen = new Vue({
             let answer = confirm( 'Are you sure you want to reset to default settings?' );
             if( answer ) {
                 this.restoreDefaultSettings();
+            }
+        },
+        updateFileName(event){
+            this.selectedFile = event.target.files[0];
+            },
+            removeFile(){
+            this.selectedFile = null;           
+            document.getElementById("fileInput").value = "";
+            },
+            exportsettings(){
+            const settingsJSON = JSON.stringify(settings_obj.the_options, null, 2);
+            const jsonData = JSON.stringify(settingsJSON, null, 2);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');a.href = url;a.download = 'wpeka-banner-settings.json';a.click();
+            URL.revokeObjectURL(url);
+            },
+            importsettings(){
+            var that = this;
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+    
+            if (file) {
+            var reader = new FileReader();
+    
+            reader.onload = function(event) {
+            var jsonData = event.target.result;
+            try {
+                const parsedData = JSON.parse(JSON.parse(jsonData));
+                var data = {
+                    action: 'gcc_update_imported_settings',
+                    security: settings_obj.import_settings_nonce,
+                    settings: parsedData
+                };
+                jQuery.ajax({
+                    url: settings_obj.ajaxurl,
+                    data:data,
+                    dataType:'json',
+                    type: 'POST',
+                    success: function (data)
+                    {
+                        if(data.success === true) {
+                            that.success_error_message = 'Settings imported successfully.';
+                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                            window.localion.reload();
+                        }else{
+                            that.success_error_message = 'Please try again.';
+                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                        }
+                    },
+                    error:function()
+                    {
+                        that.success_error_message = 'Please try again.';
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                    }
+                });
+            } catch (e) {
+                console.error('Error parsing JSON data:', e);
+            }
+            };
+    
+            reader.readAsText(file);
+            } else {
+            console.error('No file selected');
             }
         },
         restoreDefaultSettings() {

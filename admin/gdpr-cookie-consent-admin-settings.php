@@ -662,6 +662,56 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 
 						<?php do_action( 'gdpr_cookie_template' ); ?>
+						<c-card>
+							<c-card-header><?php esc_html_e('Settings Export / Import', 'gdpr-cookie-consent'); ?></c-card-header>
+							<c-card-body>
+								<!-- Export Settings Label -->
+								<c-row class="mb-3" >
+									<c-col class="col-sm-4">
+										<label style="margin-bottom:0"><?php esc_attr_e('Export Settings ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e(' You can use this to export your settings to another site. ', 'gdpr-cookie-consent'); ?>"></tooltip></label>
+									</c-col>
+									<c-col class="col-sm-8" style="text-align: right;">
+										<c-button color="info" variant="outline" @click="exportsettings"><?php esc_html_e('Export', 'gdpr-cookie-consent'); ?></c-button>
+									</c-col>
+								</c-row>
+
+								<!-- Import Settings -->
+								<c-row class="mb-3 border-bottom border-#D8DBE0 pb-3" >
+									<c-col class="col-sm-4" style="flex-direction:column;align-items:baseline;">
+									<div style="display:flex" >
+
+									<label style="margin-bottom:0;cursor:pointer"><?php esc_attr_e('Import Settings', 'gdpr-cookie-consent'); ?></label>
+									<?php if (!$is_pro_active): ?>
+									<div class="gdpr-pro-label" style="margin-bottom:0;margin-top:3px;" >
+												<div class="gdpr-pro-label-text">Pro</div>
+											</div>
+											<?php endif; ?>
+									</div  >
+										<div style="font-size: 10px;" v-if="selectedFile">{{ selectedFile.name }} <span style="color:#00CF21;font-weight:500;margin-left:5px" > Uploaded </span> <span style="color: #8996AD;text-decoration:underline;margin-left:5px" class="remove-button" @click="removeFile">Remove</span> </div>
+										<div style="font-size: 10px;" v-else>No File Chosen</div>
+									</c-col>
+									<c-col class="col-sm-8" style="text-align: right;">
+										<label style="margin-bottom:0; font-size:0.875rem; <?php echo !$is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff; ' ?> text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
+										<input style="display: none;" type="file" <?php echo $is_pro_active ? '' : 'disabled'; ?> @change="updateFileName" name="fileInput" accept=".json" id="fileInput">
+									<c-button variant="outline" <?php echo !$is_pro_active ? 'color="info" style="color:#D8DBE0; border: 1px solid #D8DBE0;"' : 'color="info"'; ?> @click="importsettings" id="importButton" <?php echo $is_pro_active ? '' : 'disabled'; ?>>
+										<?php esc_html_e('Import', 'gdpr-cookie-consent'); ?>
+									</c-button>
+									</c-col>
+
+								</c-row>
+
+								<!-- Reset Settings -->
+								<c-row class="pt-1 mb-0" >
+									<c-col class="col-sm-4">
+										<label style="margin-bottom:0"><?php esc_attr_e('Reset Settings ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e('This will reset all settings to defaults. All data in the WP Cookie Consent plugin will be deleted. ', 'gdpr-cookie-consent'); ?>">
+												</tooltip></label>
+									</c-col>
+									<c-col class="col-sm-8" style="text-align: right;">
+										<c-button color="danger" variant="outline" @click="onClickRestoreButton"><?php esc_html_e('Reset', 'gdpr-cookie-consent'); ?></c-button>
+									</c-col>
+								</c-row>
+							</c-card-body>
+						</c-card>
 					</c-tab>
 					<c-tab title="<?php esc_attr_e( 'Design', 'gdpr-cookie-consent' ); ?>" href="#gdpr_design">
 						<!-- Desgin Banner preview  -->
