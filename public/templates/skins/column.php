@@ -15,7 +15,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		<div class="gdpr_logo_container">
 		<?php
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		if ( ! empty( $get_banner_img) ) {
+		if ( ! empty( $get_banner_img ) ) {
 			?>
 			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 				<?php
@@ -25,11 +25,15 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			<?php
 			if ( '' !== $the_options['head'] ) {
 				?>
-				<h3 class="gdpr_messagebar_head"><?php echo esc_html__( $the_options['head'], 'gdpr-cookie-consent' ); ?></h3>
+				<h3 class="gdpr_messagebar_head">
+				<?php
+				echo esc_html__( $the_options['head'], 'gdpr-cookie-consent' ); //phpcs:ignore
+				?>
+	</h3>
 				<?php
 			}
 			?>
-			<p class="gdpr"><?php echo strip_tags( $the_options['gdpr_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?></p>
+			<p class="gdpr"><?php echo esc_html( $the_options['gdpr_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?></p>
 			<?php
 			if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
 				?>
@@ -42,19 +46,25 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 							<?php
 						}
 						?>
-					><?php echo esc_html__( $the_options['button_readmore_text'], 'gdpr-cookie-consent' ); ?></a>
+					>
+					<?php
+					echo esc_html__( $the_options['button_readmore_text'], 'gdpr-cookie-consent' ); // phpcs:ignore
+					?>
+	</a>
 				</p>
 				<?php
 			}
 			if ( ! empty( $the_options['ccpa_notify'] ) ) {
 				?>
 				<p class="ccpa">
-				<?php echo strip_tags( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+				<?php echo esc_html( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 				<?php
 				if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
 					?>
 					<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>'" data-gdpr_action="donotsell" id="cookie_donotsell_link">
-					<?php echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' ); ?>
+					<?php
+					echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' );  // phpcs:ignore
+					?>
 				</a>
 					<?php
 				}
@@ -86,7 +96,11 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 						<?php
 					}
 					?>
-					data-gdpr_action="accept" ><?php echo esc_html__( $the_options['button_accept_text'], 'gdpr-cookie-consent' ); ?></a>
+					data-gdpr_action="accept" >
+					<?php
+					echo esc_html__( $the_options['button_accept_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
+					?>
+	</a>
 				</p>
 				<?php
 			}
@@ -110,7 +124,11 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 						<?php
 					}
 					?>
-					data-gdpr_action="accept_all" ><?php echo esc_html__( $the_options['button_accept_all_text'], 'gdpr-cookie-consent' ); ?></a>
+					data-gdpr_action="accept_all" >
+					<?php
+					echo esc_html__( $the_options['button_accept_all_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
+					?>
+	</a>
 				</p>
 				<?php
 			}
@@ -134,7 +152,11 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 						<?php
 					}
 					?>
-					data-gdpr_action="reject" ><?php echo esc_html__( $the_options['button_decline_text'], 'gdpr-cookie-consent' ); ?></a>
+					data-gdpr_action="reject" >
+					<?php
+					echo esc_html__( $the_options['button_decline_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
+					?>
+	</a>
 				</p>
 				<?php
 			}
@@ -158,7 +180,11 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 								<?php
 							}
 							?>
-					><?php echo esc_html__( $the_options['button_settings_text'], 'gdpr-cookie-consent' ); ?></a>
+					>
+					<?php
+					echo esc_html__( $the_options['button_settings_text'], 'gdpr-cookie-consent' ); // phpcs:ignore
+					?>
+	</a>
 				</p>
 				<?php
 			}
@@ -186,7 +212,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		<div class="gdpr_logo_container">
 		<?php
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		if ( ! empty( $get_banner_img) ) {
+		if ( ! empty( $get_banner_img ) ) {
 			?>
 			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 				<?php
@@ -194,13 +220,17 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		?>
 		</div>
 
-			<p class="ccpa"><?php echo strip_tags( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+			<p class="ccpa"><?php echo esc_html( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 
 		<?php
 		if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
 			?>
 			<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
-					><?php echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' ); ?></a>
+					>
+					<?php
+					echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
+					?>
+	</a>
 								<?php
 		}
 		?>
@@ -214,7 +244,11 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			<?php
 			if ( '' !== $the_options['head'] ) {
 				?>
-				<h3 class="gdpr_messagebar_head"><?php echo esc_html__( $the_options['head'], 'gdpr-cookie-consent' ); ?></h3>
+				<h3 class="gdpr_messagebar_head">
+				<?php
+				echo esc_html__( $the_options['head'], 'gdpr-cookie-consent' ); //phpcs:ignore
+				?>
+	</h3>
 				<?php
 			}
 			?>
@@ -224,7 +258,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		<div class="gdpr_logo_container">
 		<?php
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		if ( ! empty( $get_banner_img) ) {
+		if ( ! empty( $get_banner_img ) ) {
 			?>
 			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 				<?php
@@ -232,7 +266,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		?>
 		</div>
 
-		<p class="gdpr"><?php echo strip_tags( $the_options['eprivacy_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+		<p class="gdpr"><?php echo esc_html( $the_options['eprivacy_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 				<?php
 				if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
 					?>
@@ -244,7 +278,11 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 								<?php
 							}
 							?>
-					><?php echo esc_html__( $the_options['button_readmore_text'], 'gdpr-cookie-consent' ); ?></a>
+					>
+					<?php
+					echo esc_html__( $the_options['button_readmore_text'], 'gdpr-cookie-consent' ); // phpcs:ignore
+					?>
+	</a>
 					<?php
 				}
 				?>
@@ -271,7 +309,11 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 							<?php
 						}
 						?>
-						data-gdpr_action="accept" ><?php echo esc_html__( $the_options['button_accept_text'], 'gdpr-cookie-consent' ); ?></a>
+						data-gdpr_action="accept" >
+						<?php
+						echo esc_html__( $the_options['button_accept_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
+						?>
+	</a>
 				<?php
 			}
 			if ( ! empty( $the_options['button_accept_all_is_on'] ) ) {
@@ -293,7 +335,11 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 							<?php
 						}
 						?>
-						data-gdpr_action="accept_all" ><?php echo esc_html__( $the_options['button_accept_all_text'], 'gdpr-cookie-consent' ); ?></a>
+						data-gdpr_action="accept_all" >
+						<?php
+						echo esc_html__( $the_options['button_accept_all_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
+						?>
+	</a>
 							<?php
 			}
 			if ( ! empty( $the_options['button_decline_is_on'] ) ) {
@@ -315,7 +361,11 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 								<?php
 							}
 							?>
-				data-gdpr_action="reject" ><?php echo esc_html__( $the_options['button_decline_text'], 'gdpr-cookie-consent' ); ?></a>
+				data-gdpr_action="reject" >
+				<?php
+				echo esc_html__( $the_options['button_decline_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
+				?>
+	</a>
 							<?php
 			}
 			?>
