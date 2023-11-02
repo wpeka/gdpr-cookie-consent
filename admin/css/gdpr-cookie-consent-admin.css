@@ -2465,11 +2465,10 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 .upgrade-to-pro-btn {
 	background-color: #346DB1; 
 	font-family: 'Roboto', sans-serif;
+	text-decoration: none;
 	color: white ;
 	width:168px;
-	height:45px;
 	justify-content:center;
-	text-decoration: none;
 	border-radius: 4px;
 	cursor: pointer;
 	align-self: right;
@@ -2479,10 +2478,21 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	line-height:21.09px;
 	align-items: center;
 }
+.upgrade-tp-pro-btn-div .upgrade-to-pro-btn:hover{
+	color: #FFF;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .nav-pills {
+	margin-left:auto;
+	margin-right:213px;
+}
+
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav  .upgrade-tp-pro-btn-div{
 	width:218px;
     display: flex;
-    justify-content: end;
+    justify-content:end;
+	position: relative;
+	left:193px;
+	
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .upgrade-to-pro-btn{
 	display:none;
