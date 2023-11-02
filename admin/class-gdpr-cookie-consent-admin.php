@@ -602,12 +602,20 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$widget_position_options    = array();
 		$widget_position_options[0] = array(
-			'label' => 'Left',
+			'label' => 'Bottom Left',
 			'code'  => 'left',
 		);
 		$widget_position_options[1] = array(
-			'label' => 'Right',
+			'label' => 'Bottom Right',
 			'code'  => 'right',
+		);
+		$widget_position_options[2] = array(
+			'label' => 'Top Left',
+			'code'  => 'top_left',
+		);
+		$widget_position_options[3] = array(
+			'label' => 'Top Right',
+			'code'  => 'top_right',
 		);
 
 		$show_cookie_as_options    = array();
@@ -1152,6 +1160,22 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
+	 * Encode the CSS
+	 *
+	 * @since 2.11.0
+	 */
+	public function encode_css($css_string) {
+		$lines = explode("\n", $css_string);
+		$encoded_line = array();
+
+		foreach ($lines as $line) {
+			$encoded_line[] = $line . "\\r\\n";
+		}
+
+		return implode("\n", $encoded_line);
+	}
+
+	/**
 	 * Ajax callback for wizard settings page
 	 */
 
@@ -1404,6 +1428,8 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			$the_options                                        = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$the_options['lang_selected']                    = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
+			//consent renewed
+			$the_options['consent_renew_enable']               = isset( $_POST['gcc-consent-renew-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-consent-renew-enable'] ) ) : 'false';
 			//scan when
 			$the_options['schedule_scan_when']                    = isset( $_POST['gdpr-schedule-scan-when'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-when'] ) ) : 'Not Scheduled';
 			//scan type
@@ -1470,6 +1496,43 @@ class Gdpr_Cookie_Consent_Admin {
 				)
 			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['bar_heading_text']                    = isset( $_POST['bar_heading_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_field'] ) ) : '';
+
+			//custom css
+			$the_options['gdpr_css_text']                       = isset($_POST['gdpr_css_text_field']) ? wp_kses( wp_unslash( $_POST['gdpr_css_text_field'] ), array(), array('style' => array())) : '';
+			$css_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.css';
+			//custom css min file
+			$css_min_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.min.css';
+
+			$css_code_to_add = $the_options['gdpr_css_text'];
+
+			// Open the CSS file for writing
+			$css_file = fopen($css_file_path, 'w');
+
+			// Check if the file was opened successfully
+			if ($css_file) {
+			// Write the CSS code to the file
+			fwrite($css_file, $css_code_to_add);
+
+			// Close the file
+			fclose($css_file);
+
+			}
+			// Open the CSS min file for writing
+			$css_min_file = fopen($css_min_file_path, 'w');
+
+			// Check if the file was opened successfully
+			if ($css_min_file) {
+			// Write the CSS code to the file
+			fwrite($css_min_file, $css_code_to_add);
+
+			// Close the file
+			fclose($css_min_file);
+
+			}
+
+			$encode_css = $this->encode_css($the_options['gdpr_css_text']);
+			$the_options['gdpr_css_text'] = $encode_css ;
+
 			$the_options['notify_message']                      = isset( $_POST['notify_message_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_field'] ),
 				array(
@@ -1911,7 +1974,63 @@ class Gdpr_Cookie_Consent_Admin {
 
 			}
 
-			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
+			// Set consent renew to all the users when consent renew is enabled
+
+			if ( $the_options['consent_renew_enable'] ) {
+
+				global $wpdb;
+				$meta_key_cl_ip = '_wplconsentlogs_ip';
+				$meta_key_cl_renew_consent = '_wpl_renew_consent';
+
+				// Find posts with _wplconsentlogs_ip meta key
+				$results = $wpdb->get_results(
+					$wpdb->prepare(
+						"SELECT pm1.post_id, pm1.meta_value AS ip_value, pm2.meta_value AS consent_value
+						FROM {$wpdb->prefix}postmeta AS pm1
+						LEFT JOIN {$wpdb->prefix}postmeta AS pm2 ON pm1.post_id = pm2.post_id
+						WHERE pm1.meta_key = %s",
+						$meta_key_cl_ip
+					)
+				);
+
+				if ($results) {
+					foreach ($results as $result) {
+						$post_id = $result->post_id;
+						$consent_value = $the_options['consent_renew_enable'];
+
+						// Check if _wpl_renew_consent meta key exists, and add if it doesn't
+						if (!get_post_meta($post_id, $meta_key_cl_renew_consent, true)) {
+							add_post_meta($post_id, $meta_key_cl_renew_consent, $consent_value, true);
+						} else {
+							// Update _wpl_renew_consent meta value if it exists
+							update_post_meta($post_id, $meta_key_cl_renew_consent, $consent_value);
+						}
+					}
+				}
+
+				//
+				$option_name = 'wpl_consent_timestamp';
+				$timestamp_value = time();
+
+				// Check if the option already exists
+				if (false === get_option($option_name)) {
+					// If it doesn't exist, add the option
+					add_option($option_name, $timestamp_value);
+				} else {
+					// If it exists, update the option
+					update_option($option_name, $timestamp_value);
+				}
+
+				// make renew consent false once done
+
+				$the_options['consent_renew_enable'] = 'false';
+
+			}
+
+			if ( isset( $_POST['logo_removed'] ) && $_POST['logo_removed'] == 'true' ) {
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' );
+			} else if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
+				// Update the option if a new logo is provided
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) );
 			}
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
@@ -2024,12 +2143,20 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$widget_position_options    = array();
 		$widget_position_options[0] = array(
-			'label' => 'Left',
+			'label' => 'Botton Left',
 			'code'  => 'left',
 		);
 		$widget_position_options[1] = array(
-			'label' => 'Right',
+			'label' => 'Bottom Right',
 			'code'  => 'right',
+		);
+		$widget_position_options[2] = array(
+			'label' => 'Top Left',
+			'code'  => 'top_left',
+		);
+		$widget_position_options[3] = array(
+			'label' => 'Top Right',
+			'code'  => 'top_right',
 		);
 
 		$show_cookie_as_options    = array();
@@ -2379,7 +2506,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$maxmind_url          = $admin_url . 'admin.php?page=gdpr-integrations';
 		$cookie_scan_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent-settings#cookie_list';
 		$plugin_page_url      = $admin_url . 'plugins.php';
-		$key_activate_url     = $admin_url . 'options-general.php?page=wc_am_client_wpl_cookie_consent_dashboard';
+		$key_activate_url     = $admin_url . 'admin.php?page=wc_am_client_wpl_cookie_consent_dashboard';
 		$consent_log_url      = $admin_url . 'edit.php?post_type=wplconsentlogs';
 		$cookie_design_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent-settings#gdpr_design';
 		$cookie_template_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent-settings#configuration';
@@ -2571,6 +2698,40 @@ class Gdpr_Cookie_Consent_Admin {
 
 				}
 			}
+			// resetting the custom css when restore setting is clicked
+			$all_settings                                        = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$css_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.css';
+			//custom css min file
+			$css_min_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.min.css';
+
+			$all_settings['gdpr_css_text'] = '';
+			$css_code_to_add = $all_settings['gdpr_css_text'];
+
+			// Open the CSS file for writing
+			$css_file = fopen($css_file_path, 'w');
+
+			// Check if the file was opened successfully
+			if ($css_file) {
+			// Write the CSS code to the file
+			fwrite($css_file, $css_code_to_add);
+
+			// Close the file
+			fclose($css_file);
+
+			}
+			// Open the CSS min file for writing
+			$css_min_file = fopen($css_min_file_path, 'w');
+
+			// Check if the file was opened successfully
+			if ($css_min_file) {
+			// Write the CSS code to the file
+			fwrite($css_min_file, $css_code_to_add);
+
+			// Close the file
+			fclose($css_min_file);
+
+			}
+
 			$the_options = Gdpr_Cookie_Consent::gdpr_get_default_settings();
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			wp_send_json_success( array( 'restore_default_saved' => true ) );
