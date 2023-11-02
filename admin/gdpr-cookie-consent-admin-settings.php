@@ -548,7 +548,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 									<!-- renew consent free  -->
 									<c-row>
-										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Renew User Consent', 'gdpr-cookie-consent'); ?> <tooltip text="<?php esc_html_e("If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent'); ?>"></tooltip>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Renew User Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( "If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent' ); ?>"></tooltip>
 										</label>
 										<div class="gdpr-pro-label absolute" style="top: 15px;"><div class="gdpr-pro-label-text">Pro</div></div>
 										</c-col>
@@ -1642,11 +1642,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 						<!-- add custom css card  -->
 						<?php
-						 	if ( $is_pro_active ) {
-								 do_action('gdpr_custom_css');
-							 }else{
-								 ?>
-								 		<c-card >
+						if ( $is_pro_active ) {
+							do_action( 'gdpr_custom_css' );
+						} else {
+							?>
+										<c-card >
 										<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
 
 										<div class="gdpr-pro-label absolute" style="top: 10px; right: 530px;"><div class="gdpr-pro-label-text">Pro</div></div>
@@ -1677,9 +1677,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											</c-col>
 										</c-card-body>
 									</c-card>
-								 <?php
-							 }
-						 ?>
+								<?php
+						}
+						?>
 					</c-tab>
 					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_list">
 						<c-card>
