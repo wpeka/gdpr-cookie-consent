@@ -578,7 +578,7 @@ class Gdpr_Cookie_Consent_Public {
 			</style>
 			<?php
 
-			// fetching the values of post id, ip and consent and mapping them to a array
+			// fetching the values of post id, ip and consent and mapping them to a array.
 
 			global $wpdb;
 

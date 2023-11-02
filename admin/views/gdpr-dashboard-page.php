@@ -296,7 +296,7 @@ if ( ! empty( $result ) ) {
 										<span class="gdpr-cookie-summary-dynaminc-values">
 										<?php
 										if ( isset( $cookie_scan_settings['last_scan']['created_at'] ) ) {
-											// esc_attr_e( 'Last successful scan : ', 'gdpr-cookie-consent' );
+											// esc_attr_e( 'Last successful scan : ', 'gdpr-cookie-consent' ); .
 											echo esc_attr( gmdate( 'F j, Y g:i a T', $cookie_scan_settings['last_scan']['created_at'] ) );
 										} else {
 											esc_attr_e( 'You haven\'t performed a site scan yet.', 'gdpr-cookie-consent' );
