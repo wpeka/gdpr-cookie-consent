@@ -1506,8 +1506,9 @@ class Gdpr_Cookie_Consent_Admin {
 
 			//custom css
 			$the_options['gdpr_css_text']                       = isset($_POST['gdpr_css_text_field']) ? wp_kses( wp_unslash( $_POST['gdpr_css_text_field'] ), array(), array('style' => array())) : '';
-
 			$css_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.css';
+			//custom css min file
+			$css_min_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.min.css';
 
 			$css_code_to_add = $the_options['gdpr_css_text'];
 
@@ -1521,6 +1522,18 @@ class Gdpr_Cookie_Consent_Admin {
 
 			// Close the file
 			fclose($css_file);
+
+			}
+			// Open the CSS min file for writing
+			$css_min_file = fopen($css_min_file_path, 'w');
+
+			// Check if the file was opened successfully
+			if ($css_min_file) {
+			// Write the CSS code to the file
+			fwrite($css_min_file, $css_code_to_add);
+
+			// Close the file
+			fclose($css_min_file);
 
 			}
 
@@ -2689,7 +2702,10 @@ class Gdpr_Cookie_Consent_Admin {
 			// resetting the custom css when restore setting is clicked
 			$all_settings                                        = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$css_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.css';
+			//custom css min file
+			$css_min_file_path = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.min.css';
 
+			$all_settings['gdpr_css_text'] = '';
 			$css_code_to_add = $all_settings['gdpr_css_text'];
 
 			// Open the CSS file for writing
@@ -2702,6 +2718,18 @@ class Gdpr_Cookie_Consent_Admin {
 
 			// Close the file
 			fclose($css_file);
+
+			}
+			// Open the CSS min file for writing
+			$css_min_file = fopen($css_min_file_path, 'w');
+
+			// Check if the file was opened successfully
+			if ($css_min_file) {
+			// Write the CSS code to the file
+			fwrite($css_min_file, $css_code_to_add);
+
+			// Close the file
+			fclose($css_min_file);
 
 			}
 
