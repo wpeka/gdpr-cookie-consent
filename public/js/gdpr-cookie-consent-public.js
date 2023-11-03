@@ -178,6 +178,21 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						}
 					);
 					window.dispatchEvent( event );
+				} else if ( GDPR.settings.cookie_usage_for == 'both' ) {
+					GDPR.ccpa_cancel_close();
+					gdpr_optout_cookie = GDPR_Cookie.read( 'wpl_optout_cookie' );
+					event = new CustomEvent(
+						'GdprCookieConsentOnCancelOptout',
+						{detail: {
+							'wpl_optout_cookie' : gdpr_optout_cookie,
+							}}
+					);
+					window.dispatchEvent( event );
+					$( document ).ready(
+						function() {
+							$("#gdpr-cookie-consent-bar").addClass("hide_show_again_dnt");
+						}
+					);
 				}
 				// log the consent of user
 				GDPR.logConsent( button_action );
