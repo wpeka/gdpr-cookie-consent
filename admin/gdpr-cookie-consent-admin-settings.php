@@ -534,6 +534,18 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<input type="hidden" name="gcc-decline-reload" v-model="decline_reload">
 									</c-col>
 								</c-row>
+								<!-- Do Not Track  -->
+								<?php if (!$is_pro_active) : ?>
+									<c-row>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent'); ?></label>
+											<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8">
+											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" variant="3d" color="success"></c-switch>
+										</c-col>
+									</c-row>
+								<?php endif ?>
+								<?php do_action('gdpr_consent_settings_dnt'); ?>
 								<?php if (!$is_pro_active) : ?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Restrict Pages and/or Posts', 'gdpr-cookie-consent'); ?> <tooltip text="<?php esc_html_e('Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent'); ?>"></tooltip>
