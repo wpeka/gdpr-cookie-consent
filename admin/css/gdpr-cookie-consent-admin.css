@@ -2420,3 +2420,37 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	font-weight: 400;
 	line-height: normal;
 }
+.export-btn{
+    background-color: #3399FF;
+    color: #fff;
+    border-radius: 4px;
+    width:92px;
+    height:43px;
+    gap: 10px;
+    padding: 11px 20px 11px 20px;
+    margin-bottom:10px;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 21.09px;
+}
+.export-btn:hover{
+    color: #fff;
+}
+.erase-btn{
+    color:#FF6969;
+    width: 85px;
+    height:43px;
+    border-radius: 4px;
+    padding: 11px 20px 11px 20px;
+    margin-bottom: 13px;
+    gap:10px;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 400px;
+    font-size: 16px;
+}
+.erase-btn:hover{
+    background-color: white;
+    color:#FF6969;
+}
+
