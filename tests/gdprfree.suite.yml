@@ -1,8 +1,0 @@
-actor: GdprfreeTester
-modules:
-    enabled:
-      - WebDriver:
-            url: 'http://localhost/wordpress'
-            browser: chrome # 'chrome' or 'firefox'
-            restart: true
-      - \Helper\Gdprfree
