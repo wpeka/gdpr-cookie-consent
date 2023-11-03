@@ -2430,7 +2430,7 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
     padding: 11px 20px 11px 20px;
     margin-bottom:10px;
     font-family: 'Roboto',sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 17px;
     line-height: 21.09px;
 }
