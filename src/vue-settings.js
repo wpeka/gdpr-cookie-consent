@@ -1057,13 +1057,16 @@ var gen = new Vue({
         },
         saveCookieSettings() {
 
-			//intializing the acecode editor
-			var editor = ace.edit("aceEditor");
-			//getting the value of editor
-			var code = editor.getValue();
-			//setting the value
-			this.gdpr_css_text = code;
-			editor.setValue(this.gdpr_css_text);
+			// When Pro is activated set the values in the aceeditor
+			if ( this.isGdprProActive ) {
+				//intializing the acecode editor
+				var editor = ace.edit("aceEditor");
+				//getting the value of editor
+				var code = editor.getValue();
+				//setting the value
+				this.gdpr_css_text = code;
+				editor.setValue(this.gdpr_css_text);
+			}
 
             var that = this;
             var dataV = jQuery("#gcc-save-settings-form").serialize();
