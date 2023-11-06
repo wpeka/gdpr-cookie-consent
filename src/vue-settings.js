@@ -284,11 +284,30 @@ var gen = new Vue({
 			//custom css
 			gdpr_css_text: settings_obj.the_options.hasOwnProperty('gdpr_css_text') ? this.decodeCSS ( settings_obj.the_options['gdpr_css_text']) : "",
 			gdpr_css_text_free: "/*Your CSS here*/",
+			//Do not track
+			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
+			// Data Request
+			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
+			shortcode_copied: false,
+			data_reqs_switch_clicked: false,
         }
     },
     methods: {
         stripSlashes( value ) {
             return value.replace(/\\(.)/mg, "$1");
+        },
+		copyTextToClipboard() {
+            const textToCopy = 'This is the text you can copy!';
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            this.shortcode_copied = true;
+            setTimeout(() => {
+                this.shortcode_copied = false;
+            }, 1500);
         },
 		decodeCSS(encodedCSS) {
 			const lines = encodedCSS.split("\\r\\n");
@@ -472,6 +491,13 @@ var gen = new Vue({
         },
 		onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
             this.banner_preview_is_on = !this.banner_preview_is_on;
+        },
+		onSwitchDntEnable() {//changing the value of do_not_track_on enable/disable
+            this.do_not_track_on = !this.do_not_track_on;
+        },
+		onSwitchDataReqsEnable() {//changing the value of data_reqs_on enable/disable
+            this.data_reqs_on = !this.data_reqs_on;
+			this.data_reqs_switch_clicked = true;
         },
         onSwitchCookieAcceptEnable() {
             this.cookie_accept_on = !this.cookie_accept_on;
@@ -1021,6 +1047,8 @@ var gen = new Vue({
 			this.show_language_as = 'en';
 			this.gdpr_css_text    = '';
 			this.gdpr_css_text_free = "/*Your CSS here*/";
+			this.do_not_track_on = false;
+			this.data_reqs_on = false;
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
@@ -1088,6 +1116,11 @@ var gen = new Vue({
                     location.reload();
                 }
 				that.is_logo_removed = false;
+
+				if ( that.data_reqs_switch_clicked == true ) {
+					that.data_reqs_switch_clicked = false;
+					location.reload();
+				}
             });
         },
 		//method to save wizard form settings

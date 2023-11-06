@@ -2462,3 +2462,16 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 .gdpr-last-renew-label.free,.gdpr-last-renew-details.free{
 	color:grey;
 }
+.gdpr-text-box-shortcode {
+	width: 200px;
+	height: 35px;
+	background-color: #39f;
+	color: #fff;
+	text-align: center;
+	line-height: 35px;
+	cursor: pointer;
+	border-radius: 5px;
+}
+.gdpr-sc-tooltip{
+	margin-left: 5px;
+}
