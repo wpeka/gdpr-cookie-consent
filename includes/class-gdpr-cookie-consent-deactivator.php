@@ -46,5 +46,4 @@ class Gdpr_Cookie_Consent_Deactivator {
 			delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 		}
 	}
-
 }
