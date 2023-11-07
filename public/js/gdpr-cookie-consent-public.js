@@ -151,6 +151,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 									GDPR.acceptAllCookies();
 								}
 								GDPR.accept_close();
+								GDPR.logConsent( 'accept' );
 								if ( GDPR.settings.auto_scroll_reload == true ) {
 									window.location.reload();
 								}
@@ -1250,12 +1251,14 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					GDPR.acceptAllCookies();
 				}
 				GDPR.accept_close();
+				GDPR.logConsent( 'accept' );
 				window.removeEventListener( "scroll",GDPR.acceptOnScroll,false );
 				if ( GDPR.settings.auto_scroll_reload == true ) {
 					window.location.reload();
 				}
 			}
 		},
+
 	}
 
 	var GDPR_Blocker = {
