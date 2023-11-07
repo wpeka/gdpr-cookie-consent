@@ -2473,12 +2473,14 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	cursor: pointer;
 	align-self: right;
 	display: flex;
-	font-weight: 600;
+	font-weight: 500;
     font-size: 18px;
 	line-height:21.09px;
 	align-items: center;
 }
-.upgrade-tp-pro-btn-div .upgrade-to-pro-btn:hover{
+.upgrade-tp-pro-btn-div .upgrade-to-pro-btn:hover,
+.upgrade-tp-pro-btn-div .upgrade-to-pro-btn:active,
+.upgrade-tp-pro-btn-div .upgrade-to-pro-btn:focus{
 	color: #FFF;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .nav-pills {
