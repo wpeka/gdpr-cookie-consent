@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.3.3';
+			$this->version = '2.3.5';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -612,6 +612,7 @@ class Gdpr_Cookie_Consent {
 			'body_scripts'                         => '',
 			'footer_scripts'                       => '',
 			'restrict_posts'                       => array(),
+			'gdpr_css_text'                        => '',
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;

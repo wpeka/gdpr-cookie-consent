@@ -198,12 +198,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 	</div>
 
 	<c-container class="gdpr-cookie-consent-settings-container">
+	
 		<c-form id="gcc-save-settings-form" spellcheck="false" class="gdpr-cookie-consent-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce' ) ); ?>"/>
-			<div class="gdpr-cookie-consent-settings-content">
+			<div class="gdpr-cookie-consent-settings-content" style="position:relative;">
+				
 				<div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>
 				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
+				
 					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#compliances">
 						<!-- Complianz Banner preview  -->
 						<div class="banner-preview-container">
@@ -544,6 +547,25 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-col class="col-sm-8">
 											<v-select disabled id="gdpr-cookie-consent-restrict-posts" :reduce="label => label.code" class="form-group" :options="list_of_contents" multiple v-model="restrict_array" @input="onPostsSelect"></v-select>
 											<input type="hidden" name="gcc-restrict-posts" v-model="restrict_posts">
+										</c-col>
+									</c-row>
+									<!-- renew consent free  -->
+									<c-row>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Renew User Consent', 'gdpr-cookie-consent'); ?> <tooltip text="<?php esc_html_e("If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent'); ?>"></tooltip>
+										</label>
+										<div class="gdpr-pro-label absolute" style="top: 15px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8 gdpr-renew-now-col">
+										<c-button disabled class="gdpr-renew-now-btn" variant="outline"><?php esc_html_e( 'Renew Now', 'gdpr-cookie-consent' ); ?></c-button>
+										<!-- last renewed  -->
+											<div class="gdpr-last-renew-container">
+												<div class="gdpr-last-renew-label free">
+												Last renewed :
+												</div>
+												<div class="gdpr-last-renew-details free">
+												Not renewed yet
+												</div>
+											</div>
 										</c-col>
 									</c-row>
 								<?php endif ?>
@@ -1641,6 +1663,46 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-modal>
 							</c-card-body>
 						</c-card>
+						<!-- add custom css card  -->
+						<?php
+						 	if ( $is_pro_active ) {
+								 do_action('gdpr_custom_css');
+							 }else{
+								 ?>
+								 		<c-card >
+										<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
+
+										<div class="gdpr-pro-label absolute" style="top: 10px; right: 530px;"><div class="gdpr-pro-label-text">Pro</div></div>
+
+										</c-card-header>
+										<c-card-body>
+											<c-col class="col-sm-12">
+												<aceeditor
+													id = "aceEditorFree"
+													v-model="gdpr_css_text_free"
+													@init="editorInit"
+													lang="css"
+													theme="monokai"
+													width="100%"
+													height="300px"
+													:options="{
+														enableBasicAutocompletion: true,
+														enableLiveAutocompletion: true,
+														fontSize: 14,
+														highlightActiveLine: true,
+														enableSnippets: true,
+														showLineNumbers: true,
+														tabSize: 2,
+														showPrintMargin: false,
+														showGutter: true,
+													}"
+												/>
+											</c-col>
+										</c-card-body>
+									</c-card>
+								 <?php
+							 }
+						 ?>
 					</c-tab>
 					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_list">
 						<c-card>
@@ -1685,7 +1747,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 					</c-tab>
 					<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 					<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#language">
+					
 					<c-card>
+						
 							<c-card-header><?php esc_html_e( 'Languages', 'gdpr-cookie-consent' ); ?>
 							</c-card-header>
 							<c-card-body>
@@ -1698,9 +1762,22 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 							</c-card-body>
 						</c-card>
+						
 					</c-tab>
+				<?php
+				if(!get_option( 'wpl_pro_active', false ))	
+				{ ?>
+					<div class="upgrade-tp-pro-btn-div">
+						<c-button class="upgrade-to-pro-btn"href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=cookie_settings&utm_campaign=upgrade-to-pro" target="_blank">Upgrade to PRO</c-button>
+				</div>
+				<?php } ?>
+					
 				</c-tabs>
-			</div>
+				
+				
+			</div>	
+
+			
 			<div class="gdpr-cookie-consent-settings-bottom">
 				<div class="gdpr-cookie-consent-save-button">
 					<c-button color="info" @click="saveCookieSettings"><span>Save Changes</span></c-button>

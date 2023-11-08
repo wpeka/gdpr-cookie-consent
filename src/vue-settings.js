@@ -13,6 +13,9 @@ import VueTimepicker from 'vue2-timepicker'
 // CSS
 import 'vue2-timepicker/dist/VueTimepicker.css'
 
+// Import AceEditor
+import AceEditor from 'vuejs-ace-editor';
+
 import { cilPencil, cilSettings, cilInfo, cibGoogleKeep, cibTreehouse } from '@coreui/icons';
 Vue.use(CoreuiVue);
 Vue.component('v-select', vSelect);
@@ -21,6 +24,7 @@ Vue.component('v-modal', VueModal);
 Vue.component('tooltip', Tooltip);
 Vue.component('datepicker', Datepicker);
 Vue.component('vue-timepicker', VueTimepicker);
+Vue.component('aceeditor', AceEditor);
 
 const j = jQuery.noConflict();
 
@@ -54,6 +58,7 @@ var gen = new Vue({
             cancel_button_popup: false,
             opt_out_link_popup: false,
 			schedule_scan_show: false,
+			is_consent_renewed: ( 'true' == settings_obj.the_options['consent_renew_enable'] || 1 === settings_obj.the_options['consent_renew_enable'] ) ? true : false,
             scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['total'] : 0,
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
@@ -276,12 +281,38 @@ var gen = new Vue({
             accept_all_opacity: settings_obj.the_options.hasOwnProperty('button_accept_all_btn_opacity') ? settings_obj.the_options['button_accept_all_btn_opacity'] : '1',
             accept_all_border_width: settings_obj.the_options.hasOwnProperty('button_accept_all_btn_border_width') ? settings_obj.the_options['button_accept_all_btn_border_width'] : '0',
             accept_all_border_radius: settings_obj.the_options.hasOwnProperty('button_accept_all_btn_border_radius') ? settings_obj.the_options['button_accept_all_btn_border_radius'] : '0',
+			//custom css
+			gdpr_css_text: settings_obj.the_options.hasOwnProperty('gdpr_css_text') ? this.decodeCSS ( settings_obj.the_options['gdpr_css_text']) : "",
+			gdpr_css_text_free: "/*Your CSS here*/",
         }
     },
     methods: {
         stripSlashes( value ) {
             return value.replace(/\\(.)/mg, "$1");
         },
+		decodeCSS(encodedCSS) {
+			const lines = encodedCSS.split("\\r\\n");
+			let decodedCSS = "";
+			let currentIndent = 0;
+
+			for (const line of lines) {
+				const trimmedLine = line.trim();
+
+				if (trimmedLine === "") continue; // Skip empty lines
+
+				if (trimmedLine.startsWith("}") && currentIndent > 0) {
+				currentIndent--;
+				}
+
+				decodedCSS += "  ".repeat(currentIndent) + trimmedLine + "\n";
+
+				if (trimmedLine.endsWith("{")) {
+				currentIndent++;
+				}
+			}
+
+			return decodedCSS;
+		},
         setValues() {
             if(this.show_cookie_as === 'banner') {
                 this.show_banner_template = true;
@@ -401,6 +432,15 @@ var gen = new Vue({
 				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
 			}
         },
+        editorInit: function () {
+            require('brace/ext/language_tools') //language extension prerequsite...
+            require('brace/mode/html')
+            require('brace/mode/javascript')    //language
+            require('brace/mode/less')
+			require('brace/mode/css')
+            require('brace/theme/monokai')
+            require('brace/snippets/css') //snippet
+        },
         setPostListValues() {
             for( let i=0; i<this.post_cookie_list_length; i++ ) {
                 if(this.post_cookie_list[i]['type'] === 'HTTP') {
@@ -494,6 +534,13 @@ var gen = new Vue({
         onSwitchLoggingOn() {
             this.logging_on = !this.logging_on;
         },
+		onClickRenewConsent() {
+			this.is_consent_renewed = true;
+			this.success_error_message = 'User Consent Renewed';
+			j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+			j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+			j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+		},
         cookieAcceptChange( value ) {
             if(value === '#cookie_action_close_header') {
                 this.is_open_url = false;
@@ -972,6 +1019,8 @@ var gen = new Vue({
             this.restrict_posts = [];
 			this.banner_preview_is_on = false;
 			this.show_language_as = 'en';
+			this.gdpr_css_text    = '';
+			this.gdpr_css_text_free = "/*Your CSS here*/";
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
@@ -989,6 +1038,7 @@ var gen = new Vue({
                         j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
                         j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
                         j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+						location.reload();
                     }else{
                         that.success_error_message = 'Please try again.';
                         j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -1006,12 +1056,24 @@ var gen = new Vue({
             });
         },
         saveCookieSettings() {
+
+			// When Pro is activated set the values in the aceeditor
+			if ( this.isGdprProActive ) {
+				//intializing the acecode editor
+				var editor = ace.edit("aceEditor");
+				//getting the value of editor
+				var code = editor.getValue();
+				//setting the value
+				this.gdpr_css_text = code;
+				editor.setValue(this.gdpr_css_text);
+			}
+
             var that = this;
             var dataV = jQuery("#gcc-save-settings-form").serialize();
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
-                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed,
+                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed + "&gdpr_css_text_field=" + that.gdpr_css_text,
             }).done(function (data) {
                 that.success_error_message = 'Settings Saved';
                 j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -1956,6 +2018,12 @@ var gen = new Vue({
         if( this.scan_cookie_list_length > 0 ) {
             this.setScanListValues();
         }
+		//Make AceEditor ReadOnly for the Free
+		if ( ! this.isGdprProActive ) {
+			var editor = ace.edit("aceEditorFree");
+			editor.setValue(this.gdpr_css_text_free);
+			editor.setReadOnly(true);
+		}
     },
     icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep }
 })
