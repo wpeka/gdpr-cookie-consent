@@ -668,16 +668,16 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<!-- Export Settings Label -->
 								<c-row class="mb-3" >
 									<c-col class="col-sm-4">
-										<label style="margin-bottom:0"><?php esc_attr_e('Export Settings ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e(' You can use this to export your settings to another site. ', 'gdpr-cookie-consent'); ?>"></tooltip></label>
+										<label class="mb-0"><?php esc_attr_e('Export Settings ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e(' You can use this to export your settings to another site. ', 'gdpr-cookie-consent'); ?>"></tooltip></label>
 									</c-col>
-									<c-col class="col-sm-8" style="text-align: right;">
+									<c-col class="col-sm-8 text-right">
 										<c-button color="info" variant="outline" @click="exportsettings"><?php esc_html_e('Export', 'gdpr-cookie-consent'); ?></c-button>
 									</c-col>
 								</c-row>
 
 								<!-- Import Settings -->
 								<c-row class="mb-3 border-bottom border-#D8DBE0 pb-3" >
-									<c-col class="col-sm-4" style="flex-direction:column;align-items:baseline;">
+									<c-col class="col-sm-4" style="flex-direction:column;align-items:baseline;position: relative;">
 									<div style="display:flex" >
 
 									<label style="margin-bottom:0;cursor:pointer"><?php esc_attr_e('Import Settings', 'gdpr-cookie-consent'); ?></label>
@@ -687,10 +687,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											</div>
 											<?php endif; ?>
 									</div  >
-										<div style="font-size: 10px;" v-if="selectedFile">{{ selectedFile.name }} <span style="color:#00CF21;font-weight:500;margin-left:5px" > Uploaded </span> <span style="color: #8996AD;text-decoration:underline;margin-left:5px" class="remove-button" @click="removeFile">Remove</span> </div>
+										<div style="font-size: 10px;" v-if="selectedFile">{{ selectedFile.name }} <span style="color:#00CF21;font-weight:500;margin-left:5px" > Uploaded </span> <span style="color: #8996AD;text-decoration:underline;margin-left:5px;position:absolute" class="remove-button" @click="removeFile">Remove</span> </div>
 										<div style="font-size: 10px;" v-else>No File Chosen</div>
 									</c-col>
-									<c-col class="col-sm-8" style="text-align: right;">
+									<c-col class="col-sm-8 text-right" >
 										<label style="margin-bottom:0; font-size:0.875rem; <?php echo !$is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff; ' ?> text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
 										<input style="display: none;" type="file" <?php echo $is_pro_active ? '' : 'disabled'; ?> @change="updateFileName" name="fileInput" accept=".json" id="fileInput">
 									<c-button variant="outline" <?php echo !$is_pro_active ? 'color="info" style="color:#D8DBE0; border: 1px solid #D8DBE0;"' : 'color="info"'; ?> @click="importsettings" id="importButton" <?php echo $is_pro_active ? '' : 'disabled'; ?>>
@@ -706,7 +706,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<label style="margin-bottom:0"><?php esc_attr_e('Reset Settings ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e('This will reset all settings to defaults. All data in the WP Cookie Consent plugin will be deleted. ', 'gdpr-cookie-consent'); ?>">
 												</tooltip></label>
 									</c-col>
-									<c-col class="col-sm-8" style="text-align: right;">
+									<c-col class="col-sm-8 text-right">
 										<c-button color="danger" variant="outline" @click="onClickRestoreButton"><?php esc_html_e('Reset', 'gdpr-cookie-consent'); ?></c-button>
 									</c-col>
 								</c-row>

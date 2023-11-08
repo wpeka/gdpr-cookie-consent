@@ -916,7 +916,7 @@ var gen = new Vue({
                             j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
                             j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
                             j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-                            window.localion.reload();
+                            window.location.reload();
                         }else{
                             that.success_error_message = 'Please try again.';
                             j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
