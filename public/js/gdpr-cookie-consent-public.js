@@ -180,6 +180,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					window.dispatchEvent( event );
 				} else if ( GDPR.settings.cookie_usage_for == 'both' ) {
 					GDPR.ccpa_cancel_close();
+					var gdpr_optout_cookie       = '';
 					gdpr_optout_cookie = GDPR_Cookie.read( 'wpl_optout_cookie' );
 					event = new CustomEvent(
 						'GdprCookieConsentOnCancelOptout',

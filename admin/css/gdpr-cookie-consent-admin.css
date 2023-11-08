@@ -2420,6 +2420,40 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	font-weight: 400;
 	line-height: normal;
 }
+.export-btn{
+    background-color: #3399FF;
+    color: #fff;
+    border-radius: 4px;
+    width:92px;
+    height:43px;
+    gap: 10px;
+    padding: 11px 20px 11px 20px;
+    margin-bottom:10px;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 21.09px;
+}
+.export-btn:hover{
+    color: #fff;
+}
+.erase-btn{
+    color:#FF6969;
+    width: 85px;
+    height:43px;
+    border-radius: 4px;
+    padding: 11px 20px 11px 20px;
+    margin-bottom: 13px;
+    gap:10px;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 400px;
+    font-size: 16px;
+}
+.erase-btn:hover{
+    background-color: white;
+    color:#FF6969;
+}
+
 
 .gdpr-renew-now-btn{
 	border-radius: 5px;
@@ -2462,3 +2496,74 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 .gdpr-last-renew-label.free,.gdpr-last-renew-details.free{
 	color:grey;
 }
+.upgrade-to-pro-btn {
+	background-color: #346DB1; 
+	font-family: 'Roboto', sans-serif;
+	text-decoration: none;
+	color: white ;
+	width:168px;
+	justify-content:center;
+	border-radius: 4px;
+	cursor: pointer;
+	align-self: right;
+	display: flex;
+	font-weight: 500;
+    font-size: 18px;
+	line-height:21.09px;
+	align-items: center;
+}
+.upgrade-tp-pro-btn-div .upgrade-to-pro-btn:hover,
+.upgrade-tp-pro-btn-div .upgrade-to-pro-btn:active,
+.upgrade-tp-pro-btn-div .upgrade-to-pro-btn:focus{
+	color: #FFF;
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .nav-pills {
+	margin-left:auto;
+	margin-right:213px;
+}
+
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav  .upgrade-tp-pro-btn-div{
+	width:218px;
+    display: flex;
+    justify-content:end;
+	position: relative;
+	left:193px;
+	
+}
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .upgrade-to-pro-btn{
+	display:none;
+}
+.export-btn{
+    background-color: #3399FF;
+    color: #fff;
+    border-radius: 4px;
+    width:92px;
+    height:43px;
+    gap: 10px;
+    padding: 11px 20px 11px 20px;
+    margin-bottom:10px;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 21.09px;
+}
+.export-btn:hover{
+    color: #fff;
+}
+.erase-btn{
+    color:#FF6969;
+    width: 85px;
+    height:43px;
+    border-radius: 4px;
+    padding: 11px 20px 11px 20px;
+    margin-bottom: 13px;
+    gap:10px;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 400px;
+    font-size: 16px;
+}
+.erase-btn:hover{
+    background-color: white;
+    color:#FF6969;
+}
+
