@@ -58,12 +58,25 @@ $number_of_categories = count($unique_categories);
  * Total no of scanned pages
  */
 global $wpdb;
-$result = $wpdb->get_results( "SELECT total_url FROM wp_wpl_cookie_scan" );
-// Check if there are results
-if (!empty($result)) {
-	// Access the value of total_url
-	$total_scanned_pages = $result[0]->total_url;
+
+// The table name you want to check for existence
+$table_name = $wpdb->prefix . 'wpl_cookie_scan';
+
+// Check if the table exists in the database
+$table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name;
+
+if ($table_exists) {
+	// The table exists, so you can fetch the total_url
+	$result = $wpdb->get_results("SELECT total_url FROM $table_name");
+
+	if (!empty($result)) {
+		// Access the value of total_url
+		$total_scanned_pages = $result[0]->total_url;
+	} else {
+		$total_scanned_pages = "0 Pages";
+	}
 } else {
+	// The table doesn't exist, so set $total_scanned_pages to "0 Pages"
 	$total_scanned_pages = "0 Pages";
 }
 
