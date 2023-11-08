@@ -284,6 +284,8 @@ var gen = new Vue({
 			//custom css
 			gdpr_css_text: settings_obj.the_options.hasOwnProperty('gdpr_css_text') ? this.decodeCSS ( settings_obj.the_options['gdpr_css_text']) : "",
 			gdpr_css_text_free: "/*Your CSS here*/",
+			//Do not track
+			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
 
@@ -475,6 +477,9 @@ var gen = new Vue({
         },
 		onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
             this.banner_preview_is_on = !this.banner_preview_is_on;
+        },
+		onSwitchDntEnable() {//changing the value of do_not_track_on enable/disable
+            this.do_not_track_on = !this.do_not_track_on;
         },
         onSwitchCookieAcceptEnable() {
             this.cookie_accept_on = !this.cookie_accept_on;
@@ -876,7 +881,7 @@ var gen = new Vue({
             this.selectedFile = event.target.files[0];
             },
             removeFile(){
-            this.selectedFile = null;           
+            this.selectedFile = null;
             document.getElementById("fileInput").value = "";
             },
             exportsettings(){
@@ -891,10 +896,10 @@ var gen = new Vue({
             var that = this;
             var fileInput = document.getElementById('fileInput');
             var file = fileInput.files[0];
-    
+
             if (file) {
             var reader = new FileReader();
-    
+
             reader.onload = function(event) {
             var jsonData = event.target.result;
             try {
@@ -936,7 +941,7 @@ var gen = new Vue({
                 console.error('Error parsing JSON data:', e);
             }
             };
-    
+
             reader.readAsText(file);
             } else {
             console.error('No file selected');
@@ -1094,6 +1099,7 @@ var gen = new Vue({
 			this.show_language_as = 'en';
 			this.gdpr_css_text    = '';
 			this.gdpr_css_text_free = "/*Your CSS here*/";
+			this.do_not_track_on = false;
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,

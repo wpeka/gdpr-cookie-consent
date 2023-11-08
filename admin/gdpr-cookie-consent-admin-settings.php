@@ -198,15 +198,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 	</div>
 
 	<c-container class="gdpr-cookie-consent-settings-container">
-	
+
 		<c-form id="gcc-save-settings-form" spellcheck="false" class="gdpr-cookie-consent-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce' ) ); ?>"/>
 			<div class="gdpr-cookie-consent-settings-content" style="position:relative;">
-				
+
 				<div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>
 				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
-				
+
 					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#compliances">
 						<!-- Complianz Banner preview  -->
 						<div class="banner-preview-container">
@@ -537,7 +537,19 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<input type="hidden" name="gcc-decline-reload" v-model="decline_reload">
 									</c-col>
 								</c-row>
-								<?php if ( ! $is_pro_active ) : ?>
+								<!-- Do Not Track  -->
+								<?php if (!$is_pro_active) : ?>
+									<c-row>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent'); ?></label>
+											<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8">
+											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" variant="3d" color="success"></c-switch>
+										</c-col>
+									</c-row>
+								<?php endif ?>
+								<?php do_action('gdpr_consent_settings_dnt'); ?>
+								<?php if (!$is_pro_active) : ?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Restrict Pages and/or Posts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent' ); ?>"></tooltip>
 
@@ -1797,9 +1809,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 					</c-tab>
 					<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 					<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#language">
-					
+
 					<c-card>
-						
+
 							<c-card-header><?php esc_html_e( 'Languages', 'gdpr-cookie-consent' ); ?>
 							</c-card-header>
 							<c-card-body>
@@ -1812,22 +1824,22 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 							</c-card-body>
 						</c-card>
-						
+
 					</c-tab>
 				<?php
-				if(!get_option( 'wpl_pro_active', false ))	
+				if(!get_option( 'wpl_pro_active', false ))
 				{ ?>
 					<div class="upgrade-tp-pro-btn-div">
 						<c-button class="upgrade-to-pro-btn"href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=cookie_settings&utm_campaign=upgrade-to-pro" target="_blank">Upgrade to PRO</c-button>
 				</div>
 				<?php } ?>
-					
-				</c-tabs>
-				
-				
-			</div>	
 
-			
+				</c-tabs>
+
+
+			</div>
+
+
 			<div class="gdpr-cookie-consent-settings-bottom">
 				<div class="gdpr-cookie-consent-save-button">
 					<c-button color="info" @click="saveCookieSettings"><span>Save Changes</span></c-button>
