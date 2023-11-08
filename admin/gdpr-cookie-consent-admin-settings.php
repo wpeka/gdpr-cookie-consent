@@ -598,6 +598,26 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<c-row>
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Export Personal Data', 'gdpr-cookie-consent' ); ?> </label></c-col>
+								<c-col class="col-sm-8">
+										<?php
+										$export_personal_data_url = admin_url( 'export-personal-data.php' );
+										echo '<a href="' . esc_url( $export_personal_data_url ) . '"target="_blank">';
+										?>
+										<c-button class="export-btn" >Export</c-button> </a>
+								</c-col>
+								</c-row>
+								<c-row>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Erase Personal Data', 'gdpr-cookie-consent' ); ?> </label></c-col>
+									<c-col class="col-sm-8">
+										<?php
+										$erase_personal_data_url = admin_url( 'erase-personal-data.php' );
+										echo '<a href="' . esc_url( $erase_personal_data_url ) . '"target="_blank">';
+										?>
+										<c-button class="erase-btn" color="danger"variant="outline">Erase</c-button> </a>
+										</c-col>
+								</c-row>
+								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Reset Settings', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'This will reset the settings to their default values.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<c-button color="danger" variant="outline" @click="onClickRestoreButton"><?php esc_html_e( 'Restore to Default', 'gdpr-cookie-consent' ); ?></c-button>
