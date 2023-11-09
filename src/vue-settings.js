@@ -880,7 +880,15 @@ var gen = new Vue({
             document.getElementById("fileInput").value = "";
             },
             exportsettings(){
-            const settingsJSON = JSON.stringify(settings_obj.the_options, null, 2);
+            // Create a copy of the settings object
+            const settingsCopy = { ...settings_obj.the_options }; 
+            if (settingsCopy.gdpr_text_css !== "" ) {
+            const text_css = settingsCopy.gdpr_css_text;
+            // Decode the gdpr_text_css property before exporting
+            const final_css = text_css.replace(/\\r\\n/g, '\n');
+            settingsCopy.gdpr_css_text = final_css;
+            }
+            const settingsJSON = JSON.stringify(settingsCopy, null, 2);
             const jsonData = JSON.stringify(settingsJSON, null, 2);
             const blob = new Blob([jsonData], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
