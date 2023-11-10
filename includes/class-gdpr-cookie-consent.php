@@ -199,6 +199,8 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
 			//added ajax for import settings
 			$this->loader->add_action('wp_ajax_gcc_update_imported_settings',$plugin_admin,'gdpr_cookie_consent_import_settings',10,1);
+			$this->loader->add_action('rest_api_init',$plugin_public, 'gdpr_cookie_data_endpoint');
+
 
 		}
 	}
@@ -222,6 +224,8 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 			$this->loader->add_action( 'template_redirect', $plugin_public, 'gdprcookieconsent_template_redirect', 99 );
 			$this->loader->add_action( 'wp_footer', $plugin_public, 'gdprcookieconsent_inject_gdpr_script' );
+			$this->loader->add_action('rest_api_init',$plugin_public, 'gdpr_cookie_data_endpoint');
+
 		}
 	}
 

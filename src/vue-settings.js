@@ -879,21 +879,53 @@ var gen = new Vue({
             this.selectedFile = null;           
             document.getElementById("fileInput").value = "";
             },
-            exportsettings(){
-            // Create a copy of the settings object
-            const settingsCopy = { ...settings_obj.the_options }; 
-            if (settingsCopy.gdpr_text_css !== "" ) {
-            const text_css = settingsCopy.gdpr_css_text;
-            // Decode the gdpr_text_css property before exporting
-            const final_css = text_css.replace(/\\r\\n/g, '\n');
-            settingsCopy.gdpr_css_text = final_css;
+        exportsettings() {
+        const siteAddress = window.location.origin;
+            
+        // Make an AJAX request to fetch data from the custom endpoint
+        fetch(siteAddress+'/wp-json/custom/v1/gdpr-data/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            return response.json();
+        })
+        .then(data => {
+            // Process the fetched data
+
+            // Create a copy of the settings object
+            const settingsCopy = { ...data };
+
+            // Check if gdpr_text_css is not empty
+            if (settingsCopy.gdpr_text_css !== "") {
+                const text_css = settingsCopy.gdpr_css_text;
+
+                // Decode the gdpr_text_css property before exporting
+                const final_css = text_css.replace(/\\r\\n/g, '\n');
+                settingsCopy.gdpr_css_text = final_css;
+            }
+
+            // Convert the settings object to JSON with indentation
             const settingsJSON = JSON.stringify(settingsCopy, null, 2);
-            const jsonData = JSON.stringify(settingsJSON, null, 2);
-            const blob = new Blob([jsonData], { type: 'application/json' });
+
+            // Create a Blob containing the JSON data
+            const blob = new Blob([settingsJSON], { type: 'application/json' });
+
+            // Create a download link for the Blob
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');a.href = url;a.download = 'wpeka-banner-settings.json';a.click();
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'wpeka-banner-settings.json';
+
+            // Trigger a click on the link to initiate the download
+            a.click();
+
+            // Release the object URL to free up resources
             URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
             },
             importsettings(){
             var that = this;
