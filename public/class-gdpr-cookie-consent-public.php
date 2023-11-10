@@ -625,6 +625,7 @@ class Gdpr_Cookie_Consent_Public {
 				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
 				'gdpr_consent_renew'      => $the_options['ip_and_consent_renew'],
 				'gdpr_user_ip'            => $user_ip,
+				'gdpr_do_not_track'       => $the_options['do_not_track_on'],
 			);
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
 		}

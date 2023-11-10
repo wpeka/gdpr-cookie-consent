@@ -284,6 +284,11 @@ var gen = new Vue({
 			//custom css
 			gdpr_css_text: settings_obj.the_options.hasOwnProperty('gdpr_css_text') ? this.decodeCSS ( settings_obj.the_options['gdpr_css_text']) : "",
 			gdpr_css_text_free: "/*Your CSS here*/",
+			//Do not track
+			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
+            //import file selected
+            selectedFile: '',
+
         }
     },
     methods: {
@@ -472,6 +477,9 @@ var gen = new Vue({
         },
 		onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
             this.banner_preview_is_on = !this.banner_preview_is_on;
+        },
+		onSwitchDntEnable() {//changing the value of do_not_track_on enable/disable
+            this.do_not_track_on = !this.do_not_track_on;
         },
         onSwitchCookieAcceptEnable() {
             this.cookie_accept_on = !this.cookie_accept_on;
@@ -869,6 +877,84 @@ var gen = new Vue({
                 this.restoreDefaultSettings();
             }
         },
+        updateFileName(event){
+            this.selectedFile = event.target.files[0];
+            },
+            removeFile(){
+            this.selectedFile = null;
+            document.getElementById("fileInput").value = "";
+            },
+            exportsettings(){
+            // Create a copy of the settings object
+            const settingsCopy = { ...settings_obj.the_options }; 
+            if (settingsCopy.gdpr_text_css !== "" ) {
+            const text_css = settingsCopy.gdpr_css_text;
+            // Decode the gdpr_text_css property before exporting
+            const final_css = text_css.replace(/\\r\\n/g, '\n');
+            settingsCopy.gdpr_css_text = final_css;
+            }
+            const settingsJSON = JSON.stringify(settingsCopy, null, 2);
+            const jsonData = JSON.stringify(settingsJSON, null, 2);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');a.href = url;a.download = 'wpeka-banner-settings.json';a.click();
+            URL.revokeObjectURL(url);
+            },
+            importsettings(){
+            var that = this;
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+
+            if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function(event) {
+            var jsonData = event.target.result;
+            try {
+                const parsedData = JSON.parse(JSON.parse(jsonData));
+                var data = {
+                    action: 'gcc_update_imported_settings',
+                    security: settings_obj.import_settings_nonce,
+                    settings: parsedData
+                };
+                jQuery.ajax({
+                    url: settings_obj.ajaxurl,
+                    data:data,
+                    dataType:'json',
+                    type: 'POST',
+                    success: function (data)
+                    {
+                        if(data.success === true) {
+                            that.success_error_message = 'Settings imported successfully.';
+                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                            window.location.reload();
+                        }else{
+                            that.success_error_message = 'Please try again.';
+                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                        }
+                    },
+                    error:function()
+                    {
+                        that.success_error_message = 'Please try again.';
+                        j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                    }
+                });
+            } catch (e) {
+                console.error('Error parsing JSON data:', e);
+            }
+            };
+
+            reader.readAsText(file);
+            } else {
+            console.error('No file selected');
+            }
+        },
         restoreDefaultSettings() {
             this.cookie_bar_color = '#ffffff';
             this.cookie_bar_opacity = '0.80';
@@ -1021,6 +1107,7 @@ var gen = new Vue({
 			this.show_language_as = 'en';
 			this.gdpr_css_text    = '';
 			this.gdpr_css_text_free = "/*Your CSS here*/";
+			this.do_not_track_on = false;
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
