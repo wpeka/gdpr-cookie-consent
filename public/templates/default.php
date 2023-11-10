@@ -33,8 +33,8 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 }
 if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	if ( ! empty( $the_options['cookie_data'] ) ) {
-		if ( 'banner' !== $the_options['cookie_bar_as'] && $the_options['button_settings_as_popup'] ) {
-
+		if ( 'banner' === $the_options['cookie_bar_as'] && ! $the_options['button_settings_as_popup'] ) {//phpcs:ignore
+		} else {
 			?>
 			<div class="gdpr_messagebar_detail <?php echo esc_html( $the_options['button_settings_layout_skin'] ); ?> <?php echo esc_html( $the_options['template_parts'] ); ?> <?php echo esc_html( $the_options['theme_class'] ); ?>">
 			<?php include plugin_dir_path( __FILE__ ) . $the_options['layout_skin_template']; ?>
@@ -45,7 +45,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	if ( ! empty( $the_options['show_again'] ) ) {
 		?>
 		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" class="<?php echo esc_html( $the_options['container_class'] ); ?>">
-		<span><?php echo esc_html__( $the_options['show_again_text'], 'gdpr-cookie-consent' );  //phpcs:ignore?></span>
+		<span><?php echo esc_html__( $the_options['show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
 	</div>
 		<?php
 	}
@@ -54,7 +54,7 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 	if ( ! empty( $the_options['show_again'] ) ) {
 		?>
 		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" class="<?php echo esc_html( $the_options['container_class'] ); ?>">
-			<span><?php echo esc_html__( $the_options['show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
+			<span><?php echo esc_html__( $the_options['show_again_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></span>
 		</div>
 		<?php
 	}

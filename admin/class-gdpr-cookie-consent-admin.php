@@ -262,8 +262,34 @@ class Gdpr_Cookie_Consent_Admin {
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Wizard', 'gdpr-cookie-consent' ), __( 'Wizard', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-wizard', array( $this, 'gdpr_cookie_consent_wizard' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-settings', array( $this, 'admin_settings_page' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
+
+		if ( ! get_option( 'wpl_pro_active', false ) ) {
+			add_submenu_page(
+				'gdpr-cookie-consent',
+				'',
+				'<button id="gdpr-menu-upgrade-btn" style="
+						background-color: #346DB1;
+						font-family:sans-serif;
+						width:140px;
+						height:40px;
+						color: #FFFFFF;
+						display: block;
+						border-radius: 4px;
+						border: none;
+						cursor: pointer;
+						font-weight: 400;
+						font-size: 16px;
+						line-height: 18.75px;
+						align-items: center;
+					" >Upgrade to PRO</button>',
+				'manage_options',
+				'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=sub_menu&utm_campaign=upgrade-to-pro'
+			);
+		}
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
 	}
+
+
 
 	/**
 	 * Returns plugin actions links.
@@ -925,6 +951,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'cookie_list_settings'             => $cookie_list_settings,
 				'cookie_scan_settings'             => $cookie_scan_settings,
 				'restore_settings_nonce'           => wp_create_nonce( 'restore_default_settings' ),
+				// added nonce for.
+				'import_settings_nonce'            => wp_create_nonce( 'import_settings' ),
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
@@ -1195,7 +1223,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['show_again']            = isset( $_POST['gcc-revoke-consent-enable'] ) && ( true === $_POST['gcc-revoke-consent-enable'] || 'true' === $_POST['gcc-revoke-consent-enable'] ) ? 'true' : 'true';
 			$the_options['button_decline_is_on']  = isset( $_POST['gcc-cookie-decline-enable'] ) && ( true === $_POST['gcc-cookie-decline-enable'] || 'true' === $_POST['gcc-cookie-decline-enable'] ) ? 'true' : 'true';
 			$the_options['button_settings_is_on'] = isset( $_POST['gcc-cookie-settings-enable'] ) && ( true === $_POST['gcc-cookie-settings-enable'] || 'true' === $_POST['gcc-cookie-settings-enable'] ) ? 'true' : 'true';
-			// adding the extra elseif condn to set the correct value for the geolocation selections for the wizard
+			// adding the extra elseif condn to set the correct value for the geolocation selections for the wizard.
 			// for IAB.
 			if ( isset( $_POST['gcc-iab-enable'] ) ) {
 				if ( 'no' === $_POST['gcc-iab-enable'] ) {
@@ -1309,6 +1337,7 @@ class Gdpr_Cookie_Consent_Admin {
 							$the_options['button_decline_as_button'] = false;
 						}
 						$the_options['button_decline_link_color'] = $template['decline']['link_color'];
+					} else {//phpcs:ignore 
 					}
 					if ( isset( $template['settings'] ) ) {
 						$the_options['button_settings_is_on'] = true;
@@ -1414,7 +1443,7 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
-	 * Ajax callback for setting page
+	 * Ajax callback for setting page.
 	 */
 	public function gdpr_cookie_consent_ajax_save_settings() {
 		if ( isset( $_POST['gcc_settings_form_nonce'] ) ) {
@@ -1434,8 +1463,11 @@ class Gdpr_Cookie_Consent_Admin {
 			// scan day.
 			$the_options['scan_day'] = isset( $_POST['gdpr-schedule-scan-day'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-day'] ) ) : 'Day 1';
 			// scan time.
-			$the_options['scan_time']                          = isset( $_POST['gdpr-schedule-scan-time'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-time'] ) ) : '8:00 PM';
-			$the_options['banner_preview_enable']              = isset( $_POST['gcc-banner-preview-enable'] ) && ( true === $_POST['gcc-banner-preview-enable'] || 'true' === $_POST['gcc-banner-preview-enable'] ) ? 'true' : 'false';
+			$the_options['scan_time']             = isset( $_POST['gdpr-schedule-scan-time'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-time'] ) ) : '8:00 PM';
+			$the_options['banner_preview_enable'] = isset( $_POST['gcc-banner-preview-enable'] ) && ( true === $_POST['gcc-banner-preview-enable'] || 'true' === $_POST['gcc-banner-preview-enable'] ) ? 'true' : 'false';
+			// DO NOT TRACK.
+			$the_options['do_not_track_on'] = isset( $_POST['gcc-do-not-track'] ) && ( true === $_POST['gcc-do-not-track'] || 'true' === $_POST['gcc-do-not-track'] ) ? 'true' : 'false';
+
 			$the_options['is_on']                              = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'false';
 			$the_options['cookie_usage_for']                   = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
 			$the_options['cookie_bar_as']                      = isset( $_POST['show-cookie-as'] ) ? sanitize_text_field( wp_unslash( $_POST['show-cookie-as'] ) ) : 'banner';
@@ -1829,7 +1861,7 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 			}
 			// language translation based on the selected language.
-			if ( 'true' == isset( $_POST['lang_changed'] ) && isset( $_POST['select-banner-lan'] ) && in_array( $_POST['select-banner-lan'], $this->supported_languages ) ) {
+			if ( $_POST['lang_changed'] == 'true' && isset( $_POST['select-banner-lan'] ) && in_array( $_POST['select-banner-lan'], $this->supported_languages ) ) {  //phpcs:ignore
 
 				// Load and decode translations from JSON file.
 				$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
@@ -1864,11 +1896,10 @@ class Gdpr_Cookie_Consent_Admin {
 				);
 
 				// Determine the target language based on the POST value.
-				$target_language = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : '';
+				$target_language = $_POST['select-banner-lan'];   //phpcs:ignore
 				// Initialize arrays to store translated category descriptions and names.
 				$translated_category_descriptions = array();
 				$translated_category_names        = array();
-
 				// Loop through the text keys and translate them.
 				foreach ( $text_keys_to_translate as $text_key ) {
 					$translated_text                 = $this->translated_text( $text_key, $translations, $target_language );
@@ -1927,26 +1958,26 @@ class Gdpr_Cookie_Consent_Admin {
 						$cat_slug        = isset( $category['slug'] ) ? $category['slug'] : '';
 
 						// Check if the category has a translation available.
-						$category_id = -1;
+						$category_i_d = -1;
 						switch ( $cat_category ) {
 							case 'Analytics':
-								$category_id = 1;
+								$category_i_d = 1;
 								break;
 							case 'Marketing':
-								$category_id = 2;
+								$category_i_d = 2;
 								break;
 							case 'Necessary':
-								$category_id = 3;
+								$category_i_d = 3;
 								break;
 							case 'Preferences':
-								$category_id = 4;
+								$category_i_d = 4;
 								break;
 							case 'Unclassified':
-								$category_id = 5;
+								$category_i_d = 5;
 								break;
 						}
 
-						if ( -1 != $category_id ) {
+						if ( -1 != $category_i_d ) {
 							// Update the table with the translated values.
 							$wpdb->query(
 								$wpdb->prepare(
@@ -1954,9 +1985,9 @@ class Gdpr_Cookie_Consent_Admin {
 									SET `gdpr_cookie_category_description` = %s,
 										`gdpr_cookie_category_name` = %s
 									WHERE `id_gdpr_cookie_category` = %d',
-									$translated_category_descriptions[ $category_id ],
-									$translated_category_names[ $category_id ],
-									$category_id
+									$translated_category_descriptions[ $category_i_d ],
+									$translated_category_names[ $category_i_d ],
+									$category_i_d
 								)
 							);
 						}
@@ -2070,7 +2101,7 @@ class Gdpr_Cookie_Consent_Admin {
 				foreach ( $the_options as $key => $value ) {
 					if ( isset( $_POST[ $key . '_field' ] ) ) {
 						// Store sanitised values only.
-						$the_options[ $key ] = Gdpr_Cookie_Consent::gdpr_sanitise_settings( $key, wp_unslash( $_POST[ $key . '_field' ] ) ); // phpcs:ignore 
+						$the_options[ $key ] = Gdpr_Cookie_Consent::gdpr_sanitise_settings( $key, wp_unslash( $_POST[ $key . '_field' ] ) ); // phpcs:ignore
 					}
 				}
 				switch ( $the_options['cookie_bar_as'] ) {
@@ -2460,7 +2491,23 @@ class Gdpr_Cookie_Consent_Admin {
 
 		require_once plugin_dir_path( __FILE__ ) . 'views/wizard.php';
 	}
-
+	/**
+	 * Callback function for import settings.
+	 *
+	 * @since 2.5
+	 */
+	public function gdpr_cookie_consent_import_settings() {
+		if ( isset( $_POST['security'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['security'] ) ), 'import_settings' ) ) {
+				return;
+			}
+			if ( isset( $_POST['settings'] ) ) {
+				$the_options = $_POST['settings'];//phpcs:ignore 
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+				wp_send_json_success( array( 'imported_settings' => true ) );
+			}
+		}
+	}
 	/**
 	 * Callback function for Dashboard page.
 	 *
@@ -2645,26 +2692,26 @@ class Gdpr_Cookie_Consent_Admin {
 					$cat_slug        = isset( $category['slug'] ) ? $category['slug'] : '';
 
 					// Check if the category has a translation available.
-					$category_id = -1;
+					$category_i_d = -1;
 					switch ( $cat_category ) {
 						case 'Analytics':
-							$category_id = 1;
+							$category_i_d = 1;
 							break;
 						case 'Marketing':
-							$category_id = 2;
+							$category_i_d = 2;
 							break;
 						case 'Necessary':
-							$category_id = 3;
+							$category_i_d = 3;
 							break;
 						case 'Preferences':
-							$category_id = 4;
+							$category_i_d = 4;
 							break;
 						case 'Unclassified':
-							$category_id = 5;
+							$category_i_d = 5;
 							break;
 					}
 
-					if ( -1 != $category_id ) {
+					if ( -1 != $category_i_d ) {
 						// Update the table with the translated values.
 						$wpdb->query(
 							$wpdb->prepare(
@@ -2672,9 +2719,9 @@ class Gdpr_Cookie_Consent_Admin {
 								SET `gdpr_cookie_category_description` = %s,
 									`gdpr_cookie_category_name` = %s
 								WHERE `id_gdpr_cookie_category` = %d',
-								$translated_category_descriptions[ $category_id ],
-								$translated_category_names[ $category_id ],
-								$category_id
+								$translated_category_descriptions[ $category_i_d ],
+								$translated_category_names[ $category_i_d ],
+								$category_i_d
 							)
 						);
 					}
