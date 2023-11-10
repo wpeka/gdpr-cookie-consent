@@ -538,9 +538,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<!-- Do Not Track  -->
-								<?php if (!$is_pro_active) : ?>
+								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
-										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent'); ?></label>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
 											<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
 										</c-col>
 										<c-col class="col-sm-8">
@@ -548,8 +548,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-col>
 									</c-row>
 								<?php endif ?>
-								<?php do_action('gdpr_consent_settings_dnt'); ?>
-								<?php if (!$is_pro_active) : ?>
+								<?php do_action( 'gdpr_consent_settings_dnt' ); ?>
+								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Restrict Pages and/or Posts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent' ); ?>"></tooltip>
 
@@ -563,7 +563,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 									<!-- renew consent free  -->
 									<c-row>
-										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Renew User Consent', 'gdpr-cookie-consent'); ?> <tooltip text="<?php esc_html_e("If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent'); ?>"></tooltip>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Renew User Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( "If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent' ); ?>"></tooltip>
 										</label>
 										<div class="gdpr-pro-label absolute" style="top: 15px;"><div class="gdpr-pro-label-text">Pro</div></div>
 										</c-col>
@@ -698,15 +698,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 
 						<?php do_action( 'gdpr_cookie_template' ); ?>
 						<c-card>
-							<c-card-header><?php esc_html_e('Settings Export / Import', 'gdpr-cookie-consent'); ?></c-card-header>
+							<c-card-header><?php esc_html_e( 'Settings Export / Import', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<!-- Export Settings Label -->
 								<c-row class="mb-3" >
 									<c-col class="col-sm-4">
-										<label class="mb-0"><?php esc_attr_e('Export Settings ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e(' You can use this to export your settings to another site. ', 'gdpr-cookie-consent'); ?>"></tooltip></label>
+										<label class="mb-0"><?php esc_attr_e( 'Export Settings ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( ' You can use this to export your settings to another site. ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 									</c-col>
 									<c-col class="col-sm-8 text-right">
-										<c-button color="info" variant="outline" @click="exportsettings"><?php esc_html_e('Export', 'gdpr-cookie-consent'); ?></c-button>
+										<c-button color="info" variant="outline" @click="exportsettings"><?php esc_html_e( 'Export', 'gdpr-cookie-consent' ); ?></c-button>
 									</c-col>
 								</c-row>
 
@@ -715,8 +715,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-col class="col-sm-4" style="flex-direction:column;align-items:baseline;position: relative;">
 									<div style="display:flex" >
 
-									<label style="margin-bottom:0;cursor:pointer"><?php esc_attr_e('Import Settings', 'gdpr-cookie-consent'); ?></label>
-									<?php if (!$is_pro_active): ?>
+									<label style="margin-bottom:0;cursor:pointer"><?php esc_attr_e( 'Import Settings', 'gdpr-cookie-consent' ); ?></label>
+									<?php if ( ! $is_pro_active ) : ?>
 									<div class="gdpr-pro-label" style="margin-bottom:0;margin-top:3px;" >
 												<div class="gdpr-pro-label-text">Pro</div>
 											</div>
@@ -726,10 +726,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<div style="font-size: 10px;" v-else>No File Chosen</div>
 									</c-col>
 									<c-col class="col-sm-8 text-right" >
-										<label style="margin-bottom:0; font-size:0.875rem; <?php echo !$is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff; ' ?> text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
+										<label style="margin-bottom:0; font-size:0.875rem; <?php echo ! $is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff; '; ?> text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
 										<input style="display: none;" type="file" <?php echo $is_pro_active ? '' : 'disabled'; ?> @change="updateFileName" name="fileInput" accept=".json" id="fileInput">
-									<c-button variant="outline" <?php echo !$is_pro_active ? 'color="info" style="color:#D8DBE0; border: 1px solid #D8DBE0;"' : 'color="info"'; ?> @click="importsettings" id="importButton" <?php echo $is_pro_active ? '' : 'disabled'; ?>>
-										<?php esc_html_e('Import', 'gdpr-cookie-consent'); ?>
+									<c-button variant="outline" <?php echo ! $is_pro_active ? 'color="info" style="color:#D8DBE0; border: 1px solid #D8DBE0;"' : 'color="info"'; ?> @click="importsettings" id="importButton" <?php echo $is_pro_active ? '' : 'disabled'; ?>>
+										<?php esc_html_e( 'Import', 'gdpr-cookie-consent' ); ?>
 									</c-button>
 									</c-col>
 
@@ -738,11 +738,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<!-- Reset Settings -->
 								<c-row class="pt-1 mb-0" >
 									<c-col class="col-sm-4">
-										<label style="margin-bottom:0"><?php esc_attr_e('Reset Settings ', 'gdpr-cookie-consent'); ?><tooltip text="<?php esc_html_e('This will reset all settings to defaults. All data in the WP Cookie Consent plugin will be deleted. ', 'gdpr-cookie-consent'); ?>">
+										<label style="margin-bottom:0"><?php esc_attr_e( 'Reset Settings ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'This will reset all settings to defaults. All data in the WP Cookie Consent plugin will be deleted. ', 'gdpr-cookie-consent' ); ?>">
 												</tooltip></label>
 									</c-col>
 									<c-col class="col-sm-8 text-right">
-										<c-button color="danger" variant="outline" @click="onClickRestoreButton"><?php esc_html_e('Reset', 'gdpr-cookie-consent'); ?></c-button>
+										<c-button color="danger" variant="outline" @click="onClickRestoreButton"><?php esc_html_e( 'Reset', 'gdpr-cookie-consent' ); ?></c-button>
 									</c-col>
 								</c-row>
 							</c-card-body>
@@ -885,7 +885,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_accept_on" class="gdpr-configure-button" @click="accept_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1032,7 +1032,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_accept_all_on" class="gdpr-configure-button" @click="accept_all_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1179,7 +1179,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_decline_on" class="gdpr-configure-button" @click="decline_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1323,7 +1323,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_settings_on" class="gdpr-configure-button" @click="settings_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1476,7 +1476,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button class="gdpr-configure-button" @click="confirm_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1583,7 +1583,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button class="gdpr-configure-button" @click="cancel_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1690,7 +1690,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button class="gdpr-configure-button" @click="opt_out_link_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1727,11 +1727,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 						<!-- add custom css card  -->
 						<?php
-						 	if ( $is_pro_active ) {
-								 do_action('gdpr_custom_css');
-							 }else{
-								 ?>
-								 		<c-card >
+						if ( $is_pro_active ) {
+							do_action( 'gdpr_custom_css' );
+						} else {
+							?>
+										<c-card >
 										<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
 
 										<div class="gdpr-pro-label absolute" style="top: 10px; right: 530px;"><div class="gdpr-pro-label-text">Pro</div></div>
@@ -1762,9 +1762,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											</c-col>
 										</c-card-body>
 									</c-card>
-								 <?php
-							 }
-						 ?>
+								<?php
+						}
+						?>
 					</c-tab>
 					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_list">
 						<c-card>
@@ -1827,8 +1827,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 
 					</c-tab>
 				<?php
-				if(!get_option( 'wpl_pro_active', false ))
-				{ ?>
+				if ( ! get_option( 'wpl_pro_active', false ) ) {
+					?>
 					<div class="upgrade-tp-pro-btn-div">
 						<c-button class="upgrade-to-pro-btn"href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=cookie_settings&utm_campaign=upgrade-to-pro" target="_blank">Upgrade to PRO</c-button>
 				</div>
