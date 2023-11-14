@@ -215,6 +215,24 @@ class Gdpr_Cookie_Consent_Public {
 			return $text;
 		}
 	}
+	/**
+	 * Registered rest end point to get the current banner options form database.
+	 */
+	public function gdpr_cookie_data_endpoint() {
+		register_rest_route('custom/v1', '/gdpr-data/', array(
+		'methods' => 'GET',
+		'callback' => array($this, 'gdpr_get_settings_new'),
+		));
+		}
+		
+		public function gdpr_get_settings_new($data) {
+		// Your logic to get GDPR settings
+		$gdpr_data = get_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD);
+		
+		// Return the data
+		return rest_ensure_response($gdpr_data);
+		
+		}
 
 	/**
 	 * Outputs the cookie control script in the footer.
