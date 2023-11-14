@@ -202,6 +202,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 == Change Log ==
 
 = 2.3.6 =
+* Update: Compatibility with WP 6.4
 * Feature: Added option to export and erase personal data.
 * Fix: Bug fixes and improvements.
 
@@ -457,6 +458,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 == Upgrade Notice ==
 
 = 2.3.6 =
+* Update: Compatibility with WP 6.4
 * Feature: Added option to export and erase personal data.
 * Fix: Bug fixes and improvements.
 
