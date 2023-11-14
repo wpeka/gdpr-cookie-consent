@@ -3,7 +3,7 @@ Contributors: wpeka-club
 Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
 Requires at least: 3.3.1
-Tested up to: 6.3
+Tested up to: 6.4
 Stable tag: 2.3.6
 Requires PHP: 7.0
 License: GPLv3
