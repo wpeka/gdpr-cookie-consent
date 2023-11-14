@@ -911,7 +911,7 @@ var gen = new Vue({
                 }
                 
                 // Convert the settings object to JSON with indentation
-                const settingsJSON = JSON.stringify(settingsCopy, null, 2);
+                const settingsJSON = JSON.stringify(JSON.stringify(settingsCopy, null, 2));
                 
                 // Create a Blob containing the JSON data
                 const blob = new Blob([settingsJSON], { type: 'application/json' });
