@@ -4,7 +4,7 @@ Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
 Requires at least: 3.3.1
 Tested up to: 6.3
-Stable tag: 2.3.5
+Stable tag: 2.3.6
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -200,6 +200,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+
+= 2.3.6 =
+* Feature: Added option to export and erase personal data.
+* Fix: Bug fixes and improvements.
 
 = 2.3.5 =
 * Fix: Minor bugs fixed within plugin.
@@ -451,6 +455,11 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 2.3.6 =
+* Feature: Added option to export and erase personal data.
+* Fix: Bug fixes and improvements.
+
 = 2.3.5 =
 * Fix: Minor bugs fixed within plugin.
 
