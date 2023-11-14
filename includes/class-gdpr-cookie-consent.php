@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.3.6';
+			$this->version = '2.3.6.1';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -196,8 +196,6 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
 			// added ajax for import settings.
 			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
-			//added rest endpoint to fetch current banner options
-			$this->loader->add_action('rest_api_init',$plugin_admin, 'gdpr_cookie_data_endpoint');
 		}
 	}
 
