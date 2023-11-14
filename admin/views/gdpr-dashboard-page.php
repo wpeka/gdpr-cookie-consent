@@ -14,68 +14,57 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
-$cookie_scan_settings = array();
-$cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
+$cookie_scan_settings                = array();
+$cookie_scan_settings                = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
 
 /**
  * Total No of scanned cookies.
  */
-if ( ! empty( $cookie_scan_settings ) ) {
+if ( ! empty( $cookie_scan_settings ) ){
+
 	$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
-} else {
+}else{
 	$total_no_of_found_cookies = 0;
 }
 
 /**
  * Total No of cookie categories.
  */
-if ( ! empty( $cookie_scan_settings ) ) {
+if ( ! empty( $cookie_scan_settings ) ){
+
 	$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
 
-	// Create an array to store unique category names.
+	// Create an array to store unique category names
 	$unique_categories = array();
 
-	// Loop through the 'data' sub-array.
-	foreach ( $scan_cookie_list['data'] as $cookie ) {
+	// Loop through the 'data' sub-array
+	foreach ($scan_cookie_list['data'] as $cookie) {
 		$category = $cookie['category'];
 
-		// Check if the category is not already in the $uniqueCategories array.
-		if ( ! in_array( $category, $unique_categories ) ) {
-			// If it's not in the array, add it.
+		// Check if the category is not already in the $uniqueCategories array
+		if (!in_array($category, $unique_categories)) {
+			// If it's not in the array, add it
 			$unique_categories[] = $category;
 		}
-	}
+}
 
-	// Count the number of unique categories.
-	$number_of_categories = count( $unique_categories );
-} else {
+// Count the number of unique categories
+$number_of_categories = count($unique_categories);
+}else{
 	$number_of_categories = 0;
 }
 
 /**
- * Total no of scanned pages.
+ * Total no of scanned pages
  */
 global $wpdb;
-
-// The table name you want to check for existence.
-$table_name = $wpdb->prefix . 'wpl_cookie_scan';
-
-// Check if the table exists in the database.
-$table_exists = $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name;   //phpcs:ignore
-
-if ( $table_exists ) {
-	// The table exists, so you can fetch the total_url.
-	$result = $wpdb->get_results( "SELECT total_url FROM $table_name" );  //phpcs:ignore
-
-	if ( ! empty( $result ) ) {
-		// Access the value of total_url.
-		$total_scanned_pages = $result[0]->total_url;
-	} else {
-		$total_scanned_pages = '0 Pages';
-	}
+$result = $wpdb->get_results( "SELECT total_url FROM wp_wpl_cookie_scan" );
+// Check if there are results
+if (!empty($result)) {
+	// Access the value of total_url
+	$total_scanned_pages = $result[0]->total_url;
 } else {
-	// The table doesn't exist, so set $total_scanned_pages to "0 Pages".
-	$total_scanned_pages = '0 Pages';
+	$total_scanned_pages = "0 Pages";
 }
 
 ?>
@@ -223,18 +212,16 @@ if ( $table_exists ) {
 				<c-card-body>
 
 				<!-- cookie insights apex pie chart  -->
-				<?php
-				if (
+				<?php if (
 					( get_option( 'wpl_cl_decline' ) != 0 && get_option( 'wpl_cl_accept' ) != 0 && get_option( 'wpl_cl_partially_accept' ) != 0 )
 					||
 					( get_option( 'wpl_cl_decline' ) != 0 || get_option( 'wpl_cl_accept' ) != 0 || get_option( 'wpl_cl_partially_accept' ) != 0 )
-				) :
-					?>
+				) : ?>
 				<div id="chart">
 					<apexchart type="pie" width="480" :options="chartOptions" :series="series"></apexchart>
 				</div>
 
-				<?php else : ?>
+				<?php else:  ?>
 				<!-- empty pie chart when logs recorded  -->
 				<div class="gdpr-dashboard-no-insights">
 					<div class="gdpr-dashboard-no-insights-circle">
@@ -272,11 +259,7 @@ if ( $table_exists ) {
 							<div class="gdpr-cookie-summary-total-cookie-details">
 								<img :src="cookie_summary.default" class="gdpr-cookie-summary-icon">
 								<div class="gpdr-cookie-summary-total-cookies">
-									<div class="gpdr-cookie-no-total-cookies">
-										<?php
-											echo esc_html( $total_no_of_found_cookies );
-										?>
-</div>
+									<div class="gpdr-cookie-no-total-cookies"><?php echo $total_no_of_found_cookies ?></div>
 									<!-- <br> -->
 									<div class="gpdr-cookie-no-total-text">Total Cookies</div>
 								</div>
@@ -285,13 +268,7 @@ if ( $table_exists ) {
 								<div class="gdpr-cookie-summary-total-cookie-details">
 									<img :src="cookie_cat.default" class="gdpr-cookie-summary-icon">
 									<div class="gpdr-cookie-summary-scan-cat">
-										<div class="gpdr-cookie-no-total-cookies">
-										<?php
-
-											echo esc_html( $number_of_categories );
-
-										?>
-</div>
+										<div class="gpdr-cookie-no-total-cookies"><?php echo $number_of_categories ?></div>
 										<div class="gpdr-cookie-no-total-text">Categories</div>
 									</div>
 								</div>
@@ -308,12 +285,12 @@ if ( $table_exists ) {
 									<div>
 										<span class="gdpr-cookie-summary-dynaminc-values">
 										<?php
-										if ( isset( $cookie_scan_settings['last_scan']['created_at'] ) ) {
-											// esc_attr_e( 'Last successful scan : ', 'gdpr-cookie-consent' ); .
-											echo esc_attr( gmdate( 'F j, Y g:i a T', $cookie_scan_settings['last_scan']['created_at'] ) );
-										} else {
-											esc_attr_e( 'You haven\'t performed a site scan yet.', 'gdpr-cookie-consent' );
-										}
+												if (isset($cookie_scan_settings['last_scan']['created_at'])) {
+												// esc_attr_e( 'Last successful scan : ', 'gdpr-cookie-consent' );
+												echo esc_attr( gmdate( 'F j, Y g:i a T', $cookie_scan_settings['last_scan']['created_at'] ) );
+											} else {
+												esc_attr_e( 'You haven\'t performed a site scan yet.', 'gdpr-cookie-consent' );
+											}
 										?>
 										</span>
 									</div>
@@ -327,13 +304,7 @@ if ( $table_exists ) {
 										<span class="gdpr-cookie-summary-heading">Pages Scanned</span>
 										<!-- <br> -->
 										<div>
-										<span class="gdpr-cookie-summary-dynaminc-values">
-										<?php
-										echo esc_html(
-											$total_scanned_pages
-										);
-										?>
-</span>
+										<span class="gdpr-cookie-summary-dynaminc-values"><?php echo $total_scanned_pages ?></span>
 										</div>
 									</div>
 
@@ -346,23 +317,16 @@ if ( $table_exists ) {
 									<!-- <br>
 									<br> -->
 									<div>
-										<span class="gdpr-cookie-summary-dynaminc-values">
-										<?php
-										if ( $the_options['schedule_scan_when'] ) {
-											echo esc_html( $the_options['schedule_scan_when'] );
-										} else {
+										<span class="gdpr-cookie-summary-dynaminc-values"><?php
+										if (isset($the_options['schedule_scan_when'])) {
+
+											echo $the_options['schedule_scan_when'];
+										}else{
 											echo 'Not Scheduled';
 										}
 
-										?>
-										</span>
-										<a class="gdpr-cookie-summary-schedule" href="
-										<?php
-										echo esc_html(
-											admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' )
-										);
-										?>
-">Schedule</a>
+										?></span>
+										<a class="gdpr-cookie-summary-schedule" href="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' ) ?>">Schedule</a>
 									</div>
 
 								</div>
@@ -371,13 +335,7 @@ if ( $table_exists ) {
 							<!-- Manage Cookies  -->
 							<div class="gdpr-cookie-summary-manage-cookies">
 								<div class="gdpr-cookie-summary-last-title">
-									<a class="gdpr-cookie-summary-manage-link" href="
-									<?php
-									echo esc_html(
-										admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' )
-									);
-									?>
-">Manage Cookies</a>
+									<a class="gdpr-cookie-summary-manage-link" href="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' ) ?>">Manage Cookies</a>
 								</div>
 								<img :src="cookie_icon.default" class="gdpr-cookie-summary-last-scan-icon">
 
@@ -401,15 +359,9 @@ if ( $table_exists ) {
 				</c-card-header>
 				<c-card-body>
 					<!-- add consent log table -->
-					<?php do_action( 'gdpr_consent_log_table_dashboard' ); ?>
+					<?php do_action('gdpr_consent_log_table_dashboard'); ?>
 					<div class="gdpr-dashboard-cl-view-all-logs">
-						<span><a class="gdpr-dashboard-cl-view-all-logs-text" href="
-						<?php
-						echo esc_html(
-							admin_url( 'edit.php?post_type=wplconsentlogs' )
-						);
-						?>
-">View All Logs</a></span>
+						<span><a class="gdpr-dashboard-cl-view-all-logs-text" href="<?php echo admin_url( 'edit.php?post_type=wplconsentlogs' ) ?>">View All Logs</a></span>
 						<img :src="view_all_logs.default" class="gdpr-cookie-summary-view-all-logs">
 					</div>
 				</c-card-body>
@@ -660,7 +612,7 @@ if ( $table_exists ) {
 				</c-row>
 			</c-card-body>
 		</c-card>
-		<?php if ( ! $is_pro_active ) : ?>
+		<?php if ( !$is_pro_active ) : ?>
 		<div class="gdpr-dashboard-promotional-cards">
 			<c-card class="gdpr-dashboard-promotional-card">
 				<c-card-header class="gdpr-dashboard-promotional-card-header">

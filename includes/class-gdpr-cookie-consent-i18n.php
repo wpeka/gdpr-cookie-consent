@@ -66,4 +66,7 @@ class Gdpr_Cookie_Consent_I18n {
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
 	}
+
+
+
 }

@@ -1,5 +1,4 @@
 <?php
-// phpcs:ignoreFile
 /**
  * Selectors used in the automation testcases for policy data of GDPR cookie consent plugin
  * 

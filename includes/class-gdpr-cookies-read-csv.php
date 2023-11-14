@@ -136,6 +136,7 @@ class Gdpr_Cookies_Read_Csv {
 			}
 
 			switch ( $state ) {
+
 				case self::FIELD_START:
 					if ( '"' === $char ) {
 						$state = self::QUOTED_FIELD;
@@ -181,3 +182,4 @@ class Gdpr_Cookies_Read_Csv {
 		}
 	}
 }
+

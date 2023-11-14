@@ -10,7 +10,7 @@
  * Plugin Name:       WP Cookie Consent
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
- * Version:           2.3.5
+ * Version:           2.3.4
  * Author:            WPEkaClub
  * Author URI:        https://club.wpeka.com
  * License:           GPL-2.0+
@@ -31,7 +31,7 @@ define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Currently plugin version.
  */
-define( 'GDPR_COOKIE_CONSENT_VERSION', '2.3.5' );
+define( 'GDPR_COOKIE_CONSENT_VERSION', '2.3.4' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_DEVELOPMENT_MODE', false );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
@@ -73,26 +73,19 @@ function activate_gdpr_cookie_consent() {
 	register_uninstall_hook( __FILE__, 'uninstall_gdpr_cookie_consent' );
 	add_option( 'analytics_activation_redirect_gdpr-cookie-consent', true );
 	// Get redirect URL.
-	add_option( 'redirect_after_activation_option', true );
+	add_option('redirect_after_activation_option', true);
 }
 
 /**
- * Redirecting to the wizard page on plguin activation.
- *
- * Handles the redirection of the page after plugin activation.
+ * Redirecting to the wizard page on plguin activation
  */
-add_action( 'admin_init', 'activation_redirect' );
+add_action('admin_init', 'activation_redirect');
 
-/**
- * It will redirect to the wizard page after plugin activation.
- *
- * @return void
- */
 function activation_redirect() {
-	if ( get_option( 'redirect_after_activation_option', false ) ) {
-		delete_option( 'redirect_after_activation_option' );
-		exit( esc_html( wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent-wizard' ) ) ) );
-	}
+    if (get_option('redirect_after_activation_option', false)) {
+        delete_option('redirect_after_activation_option');
+        exit(wp_redirect(admin_url( 'admin.php?page=gdpr-cookie-consent-wizard' )));
+    }
 }
 
 /**
@@ -135,5 +128,6 @@ function run_gdpr_cookie_consent() {
 
 	$plugin = new Gdpr_Cookie_Consent();
 	$plugin->run();
+
 }
 run_gdpr_cookie_consent();

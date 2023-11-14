@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $image_path = GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/';
-$is_pro     = get_option( 'wpl_pro_active', false );
+$is_pro = get_option( 'wpl_pro_active', false );
 
 /**
  *  Cookie Template card for Pro version.
@@ -146,7 +146,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 					<!-- go pro label image for pro templates-->
 
 					<div class="gdpr-go-pro-label">
-								<div class="go-pro-label-image" ><img src="<?php echo esc_url( $image_path ) . 'go-pro.png'; ?>"></div>
+								<div class="go-pro-label-image" ><img src="<?php echo $image_path.'go-pro.png'; ?>"></div>
 					</div>
 
 				</div>
@@ -2179,7 +2179,7 @@ function get_templates( $template_type ) {
 ?>
 
 <div class="gdpr-wizard-top-container">
-	<img class="gdpr-wizard-logo" src="<?php echo esc_url( $image_path ) . 'gdprLogo.png'; ?>">
+	<img class="gdpr-wizard-logo" src="<?php echo $image_path.'gdprLogo.png'; ?>">
 	<span class="gdpr-main-heading">WP Cookie Consent</span>
 
 </div>
@@ -2188,16 +2188,16 @@ function get_templates( $template_type ) {
 
 <div class="form-container">
 
-<!-- Cross Button  -->
+ <!-- Cross Button  -->
 
-<span id="closeButton" class="close-wizard"></span>
+ <span id="closeButton" class="close-wizard"></span>
 
-		<!-- form  -->
-		<form id="gcc-save-settings-form" class="gcc-save-wizard-settings-form">
+		 <!-- form  -->
+        <form id="gcc-save-settings-form" class="gcc-save-wizard-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce_wizard" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-wizard' ) ); ?>"/>
 
-			<ul id="progressbar">
-			<li class="active" id="step1">
+          <ul id="progressbar">
+            <li class="active" id="step1">
 				<div class="progress-step">
 					<strong class="progress-bar-label getting-started-progress">Getting Started</strong>
 					<div class="container">
@@ -2206,46 +2206,46 @@ function get_templates( $template_type ) {
 
 				</div>
 			</li>
-			<li class="active"id="step2">
+            <li class="active"id="step2">
 				<div class="progress-step">
 					<strong class="progress-bar-label">General</strong>
 					<div class="container">
 					<div class="horizontal-line line-step-2"></div>
-					<img class="step-images selected-step-img" src="<?php echo esc_url( $image_path ) . 'selected-step.png'; ?>">
+					<img class="step-images selected-step-img" src="<?php echo $image_path.'selected-step.png'; ?>">
 
 					</div>
 				</div>
 			</li>
-			<li id="step3">
+            <li id="step3">
 				<div class="progress-step">
 					<strong class="progress-bar-label">Configuration</strong>
 					<div class="container">
 					<div class="horizontal-line line-step-3"></div>
-					<img class="step-images not-selected-step-img" src="<?php echo esc_url( $image_path ) . 'not-selected-step.png'; ?>">
+					<img class="step-images not-selected-step-img" src="<?php echo $image_path.'not-selected-step.png'; ?>">
 
 					</div>
 				</div>
 			</li>
-			<li id="step4">
+            <li id="step4">
 				<div class="progress-step">
 					<strong class="progress-bar-label">Finish</strong>
 					<div class="container">
 					<div class="horizontal-line line-step-4"></div>
-					<img class="step-images finish-step-img" src="<?php echo esc_url( $image_path ) . 'finish.png'; ?>">
+					<img class="step-images finish-step-img" src="<?php echo $image_path.'finish.png'; ?>">
 
 					</div>
 				</div>
 			</li>
-			</ul>
-			<div class="progress">
-			<div class="progress-bar"></div>
-			</div>
-			<br>
-			<div class="step-content">
+          </ul>
+          <div class="progress">
+            <div class="progress-bar"></div>
+          </div>
+          <br>
+          <div class="step-content">
 
-				<!-- First Tab Conetent Start  -->
+		  	<!-- First Tab Conetent Start  -->
 
-			<fieldset class="general-tab-content">
+            <fieldset class="general-tab-content">
 			<!-- radio button law  -->
 
 				<div class="select-rule">
@@ -2273,10 +2273,10 @@ function get_templates( $template_type ) {
 					</div>
 
 					<?php
-					// if gdpr-pro is enable only then show these options.
-					if ( $is_pro ) {
+				// if gdpr-pro is enable only then show these options
+				if ( $is_pro ) {
 
-						?>
+					?>
 					<!-- Location Enable/Disbale for different rule  -->
 					<div v-show="show_visitor_conditions">
 
@@ -2334,10 +2334,11 @@ function get_templates( $template_type ) {
 						</div>
 					</div>
 
-						<?php
-					} else {
+					<?php
 
-						?>
+				}else {
+
+					?>
 					<!-- When Pro is not activated  -->
 						<!-- gdpr free selection with Pro Tag -->
 						<div class="geo-location-ques-container gdpr-free-geo-ques">
@@ -2400,20 +2401,21 @@ function get_templates( $template_type ) {
 								</div>
 						</div>
 
-						<?php
-					}
+					<?php
 
-					?>
+				}
+
+				?>
 
 				</div>
 
-				<input type="button" name="next-step" class="next-step first-next-step" value="Save & Continue" />
+              <input type="button" name="next-step" class="next-step first-next-step" value="Save & Continue" />
 
-			</fieldset>
+            </fieldset>
 			<!-- First Tab Conetent End  -->
 
 			<!-- Second Tab Content Field set Start  -->
-			<fieldset class="configure-tab-content">
+            <fieldset class="configure-tab-content">
 
 				<div class="configure-tab-main-container">
 
@@ -2429,17 +2431,19 @@ function get_templates( $template_type ) {
 							</div>
 
 							<?php
-								// if gdpr-pro is disable only then add pro label.
-							if ( ! $is_pro ) {
+								// if gdpr-pro is disable only then add pro label
+								if ( ! $is_pro ) {
 
-								?>
+									?>
 
 									<div class="gdpr-pro-label">
 										<div class="gdpr-pro-label-text" >Pro</div>
 									</div>
 
-								<?php
-							}
+									<?php
+
+								}
+
 							?>
 
 						</div>
@@ -2454,17 +2458,18 @@ function get_templates( $template_type ) {
 								</c-col>
 							</div>
 							<?php
-								// if gdpr-pro is disable only then add pro label.
-							if ( ! $is_pro ) {
+								// if gdpr-pro is disable only then add pro label
+								if ( ! $is_pro ) {
 
-								?>
+									?>
 
 									<div class="gdpr-pro-label">
 										<div class="gdpr-pro-label-text" >Pro</div>
 									</div>
 
-								<?php
-							}
+									<?php
+
+								}
 
 							?>
 						</div>
@@ -2528,11 +2533,11 @@ function get_templates( $template_type ) {
 				<input type="button" name="next-step" class="next-step second-next-step" value="Save & Continue" />
 				<input type="button" name="previous-step" class="previous-step first-previous-step" value="< Go Back" />
 
-			</fieldset>
+            </fieldset>
 			<!-- Second Tab Content Field set End  -->
 
 			<!-- third Tab Content Field set start -->
-			<fieldset class="finish-tab-content">
+            <fieldset class="finish-tab-content">
 
 			<div class="finish-tab-main-container">
 
@@ -2543,7 +2548,7 @@ function get_templates( $template_type ) {
 				<div class="tab-row">
 						<div class="column">
 							<div class="tab-card">
-								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'help-center.png'; ?>" >
+								<img class="finish-card-img" src="<?php echo $image_path.'help-center.png';?>" >
 								<div class="card-heading">Help Center</div>
 								<div class="card-info">Read the documentation to find answers to your questions</div>
 								<div class="learn-more-link help-center-link"> <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/">Learn More >></a></div>
@@ -2551,7 +2556,7 @@ function get_templates( $template_type ) {
 						</div>
 						<div class="column">
 							<div class="tab-card">
-								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'video.png'; ?>" >
+								<img class="finish-card-img" src="<?php echo $image_path.'video.png';?>" >
 								<div class="card-heading">Video Guides</div>
 								<div class="card-info">Browse through these video tutorials to learn more about how WP Cookie Consent works.</div>
 								<div class="learn-more-link video-guide-link"> <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/video-resources">Learn More >></a></div>
@@ -2559,7 +2564,7 @@ function get_templates( $template_type ) {
 						</div>
 						<div class="column">
 							<div class="tab-card">
-								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'faqs.png'; ?>" >
+								<img class="finish-card-img" src="<?php echo $image_path.'faqs.png';?>" >
 								<div class="card-heading">FAQs</div>
 								<div class="card-info">Find answers to some of the most commonly asked questions.</div>
 								<div class="learn-more-link faqs-link"> <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/faq">Learn More >></a></div>
@@ -2570,13 +2575,13 @@ function get_templates( $template_type ) {
 
 			</div>
 
-				<input type="button" name="next-step" @click="saveWizardCookieSettings"  class="submit-button final-next-step" value="Save & Close" />
-				<input type="button" name="previous-step" class="previous-step second-previous-step" value="< Go Back" />
-			</fieldset>
-			</div>
-		</form>
+			  <input type="button" name="next-step" @click="saveWizardCookieSettings"  class="submit-button final-next-step" value="Save & Close" />
+              <input type="button" name="previous-step" class="previous-step second-previous-step" value="< Go Back" />
+            </fieldset>
+          </div>
+        </form>
 
-	</div>
+  </div>
 
 </div>
 
@@ -2589,8 +2594,8 @@ jQuery(document).ready(function () {
 	var opacity;
 	var current = 2;
 	var steps = jQuery("fieldset").length;
-	var imagePath = "<?php echo esc_url( $image_path ); ?>";
-	var isProActive = "<?php echo esc_url( $is_pro ); ?>";
+	var imagePath = "<?php echo $image_path; ?>";
+	var isProActive = "<?php echo $is_pro ?>";
 
 	setProgressBar(current);
 
@@ -2650,7 +2655,7 @@ jQuery(document).ready(function () {
 
 		//change the src of the image when clicked on the first next button
 		jQuery('.selected-step-img').attr('src', imagePath + 'tick.png');
-			jQuery('.not-selected-step-img').attr('src', imagePath + 'selected-step.png');
+  		jQuery('.not-selected-step-img').attr('src', imagePath + 'selected-step.png');
 
 	});
 
@@ -2661,7 +2666,7 @@ jQuery(document).ready(function () {
 
 		//change the src of the image back to selected when prvious on the first next button
 		jQuery('.selected-step-img').attr('src', imagePath + 'selected-step.png');
-			jQuery('.not-selected-step-img').attr('src', imagePath + 'not-selected-step.png');
+  		jQuery('.not-selected-step-img').attr('src', imagePath + 'not-selected-step.png');
 
 	});
 
@@ -2673,7 +2678,7 @@ jQuery(document).ready(function () {
 		jQuery('.line-step-3').addClass('right-side-line');
 
 		jQuery('.not-selected-step-img').attr('src', imagePath + 'tick.png');
-			jQuery('.finish-step-img').attr('src', imagePath + 'selected-step.png');
+  		jQuery('.finish-step-img').attr('src', imagePath + 'selected-step.png');
 
 
 	});
@@ -2712,7 +2717,7 @@ jQuery(document).ready(function () {
 
 	jQuery("#closeButton").click(function() {
 		// Get the admin URL
-		var adminUrl = "<?php echo esc_url( admin_url() ); ?>";
+		var adminUrl = "<?php echo admin_url(); ?>";
 
 		// Redirect to the dashboard submenu
 		window.location.href = adminUrl + "/admin.php?page=gdpr-cookie-consent";
@@ -2722,7 +2727,7 @@ jQuery(document).ready(function () {
 
 	jQuery(".submit-button").click(function() {
 		// Get the admin URL
-		var adminUrl = "<?php echo esc_url( admin_url() ); ?>";
+		var adminUrl = "<?php echo admin_url(); ?>";
 
 		// Redirect to the dashboard submenu
 		window.location.href = adminUrl + "/admin.php?page=gdpr-cookie-consent";

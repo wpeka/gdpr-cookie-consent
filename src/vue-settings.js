@@ -284,8 +284,6 @@ var gen = new Vue({
 			//custom css
 			gdpr_css_text: settings_obj.the_options.hasOwnProperty('gdpr_css_text') ? this.decodeCSS ( settings_obj.the_options['gdpr_css_text']) : "",
 			gdpr_css_text_free: "/*Your CSS here*/",
-			//Do not track
-			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
 
@@ -477,9 +475,6 @@ var gen = new Vue({
         },
 		onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
             this.banner_preview_is_on = !this.banner_preview_is_on;
-        },
-		onSwitchDntEnable() {//changing the value of do_not_track_on enable/disable
-            this.do_not_track_on = !this.do_not_track_on;
         },
         onSwitchCookieAcceptEnable() {
             this.cookie_accept_on = !this.cookie_accept_on;
@@ -881,33 +876,65 @@ var gen = new Vue({
             this.selectedFile = event.target.files[0];
             },
             removeFile(){
-            this.selectedFile = null;
+            this.selectedFile = null;           
             document.getElementById("fileInput").value = "";
             },
-            exportsettings(){
-            // Create a copy of the settings object
-            const settingsCopy = { ...settings_obj.the_options }; 
-            if (settingsCopy.gdpr_text_css !== "" ) {
-            const text_css = settingsCopy.gdpr_css_text;
-            // Decode the gdpr_text_css property before exporting
-            const final_css = text_css.replace(/\\r\\n/g, '\n');
-            settingsCopy.gdpr_css_text = final_css;
+        exportsettings() {
+        const siteAddress = window.location.origin;
+            
+        // Make an AJAX request to fetch data from the custom endpoint
+        fetch(siteAddress+'/wp-json/custom/v1/gdpr-data/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            return response.json();
+        })
+        .then(data => {
+            // Process the fetched data
+
+            // Create a copy of the settings object
+            const settingsCopy = { ...data };
+
+            // Check if gdpr_text_css is not empty
+            if (settingsCopy.gdpr_text_css !== "") {
+                const text_css = settingsCopy.gdpr_css_text;
+
+                // Decode the gdpr_text_css property before exporting
+                const final_css = text_css.replace(/\\r\\n/g, '\n');
+                settingsCopy.gdpr_css_text = final_css;
+            }
+
+            // Convert the settings object to JSON with indentation
             const settingsJSON = JSON.stringify(settingsCopy, null, 2);
-            const jsonData = JSON.stringify(settingsJSON, null, 2);
-            const blob = new Blob([jsonData], { type: 'application/json' });
+
+            // Create a Blob containing the JSON data
+            const blob = new Blob([settingsJSON], { type: 'application/json' });
+
+            // Create a download link for the Blob
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');a.href = url;a.download = 'wpeka-banner-settings.json';a.click();
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'wpeka-banner-settings.json';
+
+            // Trigger a click on the link to initiate the download
+            a.click();
+
+            // Release the object URL to free up resources
             URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
             },
             importsettings(){
             var that = this;
             var fileInput = document.getElementById('fileInput');
             var file = fileInput.files[0];
-
+    
             if (file) {
             var reader = new FileReader();
-
+    
             reader.onload = function(event) {
             var jsonData = event.target.result;
             try {
@@ -949,7 +976,7 @@ var gen = new Vue({
                 console.error('Error parsing JSON data:', e);
             }
             };
-
+    
             reader.readAsText(file);
             } else {
             console.error('No file selected');
@@ -1107,7 +1134,6 @@ var gen = new Vue({
 			this.show_language_as = 'en';
 			this.gdpr_css_text    = '';
 			this.gdpr_css_text_free = "/*Your CSS here*/";
-			this.do_not_track_on = false;
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
@@ -1144,16 +1170,13 @@ var gen = new Vue({
         },
         saveCookieSettings() {
 
-			// When Pro is activated set the values in the aceeditor
-			if ( this.isGdprProActive ) {
-				//intializing the acecode editor
-				var editor = ace.edit("aceEditor");
-				//getting the value of editor
-				var code = editor.getValue();
-				//setting the value
-				this.gdpr_css_text = code;
-				editor.setValue(this.gdpr_css_text);
-			}
+			//intializing the acecode editor
+			var editor = ace.edit("aceEditor");
+			//getting the value of editor
+			var code = editor.getValue();
+			//setting the value
+			this.gdpr_css_text = code;
+			editor.setValue(this.gdpr_css_text);
 
             var that = this;
             var dataV = jQuery("#gcc-save-settings-form").serialize();

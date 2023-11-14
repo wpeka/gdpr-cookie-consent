@@ -1,5 +1,4 @@
 <?php
-// phpcs:ignoreFile
 /**
  * Selectors used in the automation testcases for cookie list and script blocker tab of GDPR cookie consent plugin
  * 
