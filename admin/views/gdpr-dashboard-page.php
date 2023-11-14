@@ -348,9 +348,9 @@ if ( $table_exists ) {
 									<div>
 										<span class="gdpr-cookie-summary-dynaminc-values">
 										<?php
-										if ( $the_options['schedule_scan_when'] ) {
-											echo esc_html( $the_options['schedule_scan_when'] );
-										} else {
+										if (isset($the_options['schedule_scan_when'])) {
+											echo $the_options['schedule_scan_when'];
+										}else{
 											echo 'Not Scheduled';
 										}
 
