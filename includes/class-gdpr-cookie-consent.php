@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.3.3';
+			$this->version = '2.3.6';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -86,7 +86,6 @@ class Gdpr_Cookie_Consent {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -131,7 +130,6 @@ class Gdpr_Cookie_Consent {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/class-gdpr-cookie-consent-public.php';
 
 		$this->loader = new Gdpr_Cookie_Consent_Loader();
-
 	}
 
 	/**
@@ -148,7 +146,6 @@ class Gdpr_Cookie_Consent {
 		$plugin_i18n = new Gdpr_Cookie_Consent_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -195,8 +192,12 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
-			//added ajax callback for wizard
+			// added ajax callback for wizard.
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
+			// added ajax for import settings.
+			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
+			//added rest endpoint to fetch current banner options
+			$this->loader->add_action('rest_api_init',$plugin_admin, 'gdpr_cookie_data_endpoint');
 		}
 	}
 
@@ -219,6 +220,8 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 			$this->loader->add_action( 'template_redirect', $plugin_public, 'gdprcookieconsent_template_redirect', 99 );
 			$this->loader->add_action( 'wp_footer', $plugin_public, 'gdprcookieconsent_inject_gdpr_script' );
+			//added rest endpoint for fetching current options for banner
+			$this->loader->add_action('rest_api_init',$plugin_public, 'gdpr_cookie_data_endpoint');
 		}
 	}
 
@@ -350,8 +353,8 @@ class Gdpr_Cookie_Consent {
 	 */
 	public static function gdpr_allowed_html() {
 		$allowed_html = array(
-			// Allowed:		<a href="" id="" class="" title="" target="">...</a>.
-			// Not allowed:	<a href="javascript(...);">...</a>.
+			// Allowed:     <a href="" id="" class="" title="" target="">...</a>.
+			// Not allowed: <a href="javascript(...);">...</a>.
 			'a'      => array(
 				'href'   => array(),
 				'id'     => array(),
@@ -612,6 +615,8 @@ class Gdpr_Cookie_Consent {
 			'body_scripts'                         => '',
 			'footer_scripts'                       => '',
 			'restrict_posts'                       => array(),
+			'gdpr_css_text'                        => '',
+			'do_not_track_on'                      => false,
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;

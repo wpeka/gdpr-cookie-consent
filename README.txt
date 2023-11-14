@@ -3,8 +3,8 @@ Contributors: wpeka-club
 Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
 Requires at least: 3.3.1
-Tested up to: 6.3
-Stable tag: 2.3.3
+Tested up to: 6.4
+Stable tag: 2.3.6
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -200,6 +200,18 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+
+= 2.3.6 =
+* Update: Compatibility with WP 6.4
+* Feature: Added option to export and erase personal data.
+* Fix: Bug fixes and improvements.
+
+= 2.3.5 =
+* Fix: Minor bugs fixed within plugin.
+
+= 2.3.4 =
+* Feature: Introducing: 2 Additional Widget Styles for Cookie Banners
+* Fix: Minor bugs fixed within plugin.
 
 = 2.3.3 =
 * Fix: Minor bugs fixed within plugin.
@@ -444,6 +456,55 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 2.3.6 =
+* Update: Compatibility with WP 6.4
+* Feature: Added option to export and erase personal data.
+* Fix: Bug fixes and improvements.
+
+= 2.3.5 =
+* Fix: Minor bugs fixed within plugin.
+
+= 2.3.4 =
+* Feature: Introducing: 2 Additional Widget Styles for Cookie Banners
+* Fix: Minor bugs fixed within plugin.
+
+= 2.3.3 =
+* Fix: Minor bugs fixed within plugin.
+
+= 2.3.2 =
+* Feature: Enhanced Language Support: Now offering translation support for an extended range of 10 languages for your cookie consent banner content.
+
+= 2.3.1 =
+* Feature: Preview your website's cookie consent banner directly within the WordPress dashboard as you make changes.
+
+= 2.3.0 =
+* Feature: Streamlined cookie consent banner setup with a new Getting Started Wizard.
+
+= 2.2.9 =
+* Fix: Minor bugs fixed within plugin.
+
+= 2.2.8 =
+* Fix: Minor bugs fixed within plugin.
+
+= 2.2.7 =
+* Fix: Minor bugs fixed within plugin.
+
+= 2.2.6 =
+* Fix: Fixed CSV injection vulnerability in admin area.
+
+= 2.2.5 =
+* Fix: Minor bugs fixed within plugin.
+
+= 2.2.4 =
+* Fix - Allowed HTML in consent message.
+
+= 2.2.3 =
+* Update - Compatibility with WP 6.1
+
+= 2.2.2 =
+* Feature - Changes for Pro version compatibility
+
 = 2.2.1 =
 * Fix - Compatibility with WP 6.0
 * Fix - Disabled Auto Hide milliseconds feature for CCPA.

@@ -241,5 +241,4 @@ class Gdpr_Cookie_Consent_Activator {
 			delete_option( 'GDPRCookieConsent-8.0' );
 		}
 	}
-
 }

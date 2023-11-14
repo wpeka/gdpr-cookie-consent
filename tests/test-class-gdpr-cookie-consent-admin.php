@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 /**
  * Class Test_Gdpr_Cookie_Consent_Admin
  *
