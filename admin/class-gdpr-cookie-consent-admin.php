@@ -569,7 +569,7 @@ class Gdpr_Cookie_Consent_Admin {
 				foreach ( $the_options as $key => $value ) {
 					if ( isset( $_POST[ $key . '_field' ] ) ) {
 						// Store sanitised values only.
-						$the_options[ $key ] = Gdpr_Cookie_Consent::gdpr_sanitise_settings( $key, wp_unslash( $_POST[ $key . '_field' ] ) ); // phpcs:ignore 
+						$the_options[ $key ] = Gdpr_Cookie_Consent::gdpr_sanitise_settings( $key, wp_unslash( $_POST[ $key . '_field' ] ) ); // phpcs:ignore
 					}
 				}
 				switch ( $the_options['cookie_bar_as'] ) {
@@ -1337,7 +1337,7 @@ class Gdpr_Cookie_Consent_Admin {
 							$the_options['button_decline_as_button'] = false;
 						}
 						$the_options['button_decline_link_color'] = $template['decline']['link_color'];
-					} else {//phpcs:ignore 
+					} else {//phpcs:ignore
 					}
 					if ( isset( $template['settings'] ) ) {
 						$the_options['button_settings_is_on'] = true;
@@ -1467,6 +1467,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['banner_preview_enable'] = isset( $_POST['gcc-banner-preview-enable'] ) && ( true === $_POST['gcc-banner-preview-enable'] || 'true' === $_POST['gcc-banner-preview-enable'] ) ? 'true' : 'false';
 			// DO NOT TRACK.
 			$the_options['do_not_track_on'] = isset( $_POST['gcc-do-not-track'] ) && ( true === $_POST['gcc-do-not-track'] || 'true' === $_POST['gcc-do-not-track'] ) ? 'true' : 'false';
+			//Data Reqs
+			$the_options['data_reqs_on']               = isset( $_POST['gcc-data_reqs'] ) && ( true === $_POST['gcc-data_reqs'] || 'true' === $_POST['gcc-data_reqs'] ) ? 'true' : 'false';
 
 			$the_options['is_on']                              = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'false';
 			$the_options['cookie_usage_for']                   = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
@@ -2502,7 +2504,7 @@ class Gdpr_Cookie_Consent_Admin {
 				return;
 			}
 			if ( isset( $_POST['settings'] ) ) {
-				$the_options = $_POST['settings'];//phpcs:ignore 
+				$the_options = $_POST['settings'];//phpcs:ignore
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 				wp_send_json_success( array( 'imported_settings' => true ) );
 			}
