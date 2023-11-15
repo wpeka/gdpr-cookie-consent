@@ -552,7 +552,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<!-- Data Requests  -->
 								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
-										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Enable Data Request Form', 'gdpr-cookie-consent'); ?></label>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Data Request Form', 'gdpr-cookie-consent' ); ?></label>
 											<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
 										</c-col>
 										<c-col class="col-sm-8">
