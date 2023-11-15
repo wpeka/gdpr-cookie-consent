@@ -550,7 +550,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<?php endif ?>
 								<?php do_action( 'gdpr_consent_settings_dnt' ); ?>
 								<!-- Data Requests  -->
-								<?php if (!$is_pro_active) : ?>
+								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e('Enable Data Request Form', 'gdpr-cookie-consent'); ?></label>
 											<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
@@ -560,7 +560,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-col>
 									</c-row>
 								<?php endif ?>
-								<?php do_action('gdpr_consent_settings_data_reqs'); ?>
+								<?php do_action( 'gdpr_consent_settings_data_reqs' ); ?>
 								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Restrict Pages and/or Posts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent' ); ?>"></tooltip>
