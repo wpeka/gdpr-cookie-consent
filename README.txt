@@ -463,11 +463,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Upgrade Notice ==
 
-= 2.3.7 =
-
 = 2.3.8 =
 * Fix: Minor bugs fixed within plugin.
 
+= 2.3.7 =
 * Fix: Minor bug fixes.
 
 = 2.3.6 =
