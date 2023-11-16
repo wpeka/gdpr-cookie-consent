@@ -2544,3 +2544,70 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 .gdpr-sc-tooltip{
 	margin-left: 5px;
 }
+
+#gdpr-data-req-admin-container{
+	padding: 15px;
+}
+.gdpr-data-req-main-container{
+	border-radius: 4px;
+	border: 1px solid #D8DBE0;
+	background: #FAFAFA;
+}
+.gdpr-data-req-email-container{
+	padding: 15px 10px;
+}
+
+.gdpr-data-req-sender-email .col-sm-12 {
+	padding-bottom: 15px;
+	position: relative;
+}
+
+.gdpr-data-req-email-subject .col-sm-12{
+	padding-bottom: 15px;
+	position: relative;
+}
+.gdpr-data-req-email-content .col-sm-12{
+	padding-bottom: 15px;
+}
+
+.gdpr-data-req-email-editor .col-sm-12{
+	padding-bottom: 15px;
+}
+.ql-editor {
+	background-color: white;
+}
+
+.gdpr-data-req-sender-email div input,.gdpr-data-req-email-subject div input {
+	background: #FAFAFA;
+	color: #3C4B64;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.gdpr-data-req-sender-email span,.gdpr-data-req-email-subject span,.gdpr-data-req-email-content span,.gdpr-data-req-email-editor span{
+	color: #3C4B64;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+#validation-icon,#validation-icon-subject{
+	top: 5px;
+	left: 20px;
+	position: absolute;
+}
+
+#email-input,#subject-input{
+	padding-left: 25px;
+}
+
+.gdpr-data-req-sender-email-input .form-group{
+	width: 100%;
+}
+.ql-editor p{
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #333;
+}

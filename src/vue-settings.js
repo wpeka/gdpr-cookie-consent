@@ -292,6 +292,9 @@ var gen = new Vue({
 			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
 			data_reqs_switch_clicked: false,
+			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
+			data_req_subject: settings_obj.the_options.hasOwnProperty('data_req_subject') ? settings_obj.the_options['data_req_subject'] : 'We have received your request',
+			data_req_editor_message: settings_obj.the_options.hasOwnProperty('data_req_editor_message') ? this.decodeHTMLString ( settings_obj.the_options['data_req_editor_message']) : "",
 
         }
     },
@@ -312,6 +315,10 @@ var gen = new Vue({
                 this.shortcode_copied = false;
             }, 1500);
         },
+		decodeHTMLString(encodedString) {
+			var doc = new DOMParser().parseFromString(encodedString, 'text/html');
+ 			return doc.documentElement.textContent.replace(/\\/g, '');
+		},
 		decodeCSS(encodedCSS) {
 			const lines = encodedCSS.split("\\r\\n");
 			let decodedCSS = "";
@@ -1165,6 +1172,8 @@ var gen = new Vue({
 			this.gdpr_css_text_free = "/*Your CSS here*/";
 			this.do_not_track_on = false;
 			this.data_reqs_on = false;
+			this.data_req_email_address = '';
+			this.data_req_subject = 'We have received your request';
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
