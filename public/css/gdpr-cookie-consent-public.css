@@ -1507,3 +1507,6 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	padding: 1rem 1rem;
 	border-radius: 400px;
 }
+.hide_show_again_dnt{
+	display: none !important;
+}

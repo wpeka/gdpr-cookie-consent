@@ -1,6 +1,5 @@
 <?php
-
-
+// phpcs:ignoreFile
 /**
  * Inherited Methods
  * @method void wantToTest($text)

@@ -192,7 +192,6 @@ class Gdpr_Cookie_Consent_Policy_Data {
 					echo esc_attr( $custom['_gdpr_policies_domain'][0] );
 				}
 				break;
-
 		}
 	}
 
@@ -227,20 +226,20 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 */
 	public function gdpr_add_policies_export_button() {
 		global $current_screen;
-	
+
 		if ( GDPR_POLICY_DATA_POST_TYPE !== $current_screen->post_type ) {
 			return;
 		}
-	
+
 		$scan_export_menu = __( 'Export as CSV', 'gdpr-cookie-consent' );
 		$export_url       = esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) );
 		$export_url       = add_query_arg( 'nonce', wp_create_nonce( 'gdpr_policies_export_nonce' ), $export_url );
-	
+
 		?>
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
 				var exportLink = $('<a>').attr({
-					'href': '<?php echo $export_url; ?>',
+					'href': '<?php echo esc_url( $export_url ); ?>',
 					'id': 'export_gdpr_policies',
 					'class': 'add-new-h2'
 				}).text('<?php echo esc_attr( $scan_export_menu ); ?>');
@@ -257,11 +256,11 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 * @since 1.9
 	 */
 	public function gdpr_process_csv_export_policies() {
-		 // Verify the nonce
-		 $nonce = isset( $_REQUEST['nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ) : '';
-		 if ( ! wp_verify_nonce( $nonce, 'gdpr_policies_export_nonce' ) ) {
-			 wp_die( 'Export failed. Please try again.' );
-		 }
+		// Verify the nonce.
+		$nonce = isset( $_REQUEST['nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'gdpr_policies_export_nonce' ) ) {
+			wp_die( 'Export failed. Please try again.' );
+		}
 
 		global $wpdb;
 
@@ -318,19 +317,19 @@ class Gdpr_Cookie_Consent_Policy_Data {
 			foreach ( $policy_fields as $column ) {
 				switch ( $column ) {
 					case 'post_title':
-						$row[] = self::format_data( sanitize_text_field($policy->post_title) );
+						$row[] = self::format_data( sanitize_text_field( $policy->post_title ) );
 						break;
 					case 'post_content':
-						$row[] = self::format_data( wp_strip_all_tags(sanitize_textarea_field($policy->post_content)) );
+						$row[] = self::format_data( wp_strip_all_tags( sanitize_textarea_field( $policy->post_content ) ) );
 						break;
 					case 'post_status':
 						$row[] = self::format_data( $policy->post_status );
 						break;
 					case '_gdpr_policies_links_editor':
-						$row[] = self::format_data( sanitize_text_field($meta_data['_gdpr_policies_links_editor'][0]) );
+						$row[] = self::format_data( sanitize_text_field( $meta_data['_gdpr_policies_links_editor'][0] ) );
 						break;
 					case '_gdpr_policies_domain':
-						$row[] = self::format_data( sanitize_text_field($meta_data['_gdpr_policies_domain'][0]) );
+						$row[] = self::format_data( sanitize_text_field( $meta_data['_gdpr_policies_domain'][0] ) );
 						break;
 					default:
 						break;
@@ -352,17 +351,17 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 * @return string
 	 */
 	public static function format_data( $data ) {
-    $enc  = mb_detect_encoding( $data, 'UTF-8, ISO-8859-1', true );
-    $data = ( 'UTF-8' === $enc ) ? $data : utf8_encode( $data );
+		$enc  = mb_detect_encoding( $data, 'UTF-8, ISO-8859-1', true );
+		$data = ( 'UTF-8' === $enc ) ? $data : $data;
 
-    // Check if the data starts with =, +, -, or @, indicating a potential formula
-    if ( preg_match( '/^([=\+\-@].*)/', $data ) ) {
-        // If a potential formula is detected, prepend the data with a single quote
-        $data = "'" . $data;
-    }
+		// Check if the data starts with =, +, -, or @, indicating a potential formula.
+		if ( preg_match( '/^([=\+\-@].*)/', $data ) ) {
+			// If a potential formula is detected, prepend the data with a single quote.
+			$data = "'" . $data;
+		}
 
-    return $data;
-}
+		return $data;
+	}
 
 	/**
 	 * Process policy data csv.
@@ -520,7 +519,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 					do_action( 'gdprpolicies_post_import', $post_id );
 					$post_ids[] = $post_id;
 				}
-				$rkey++;
+				++$rkey;
 			}
 			fclose( $file_handle ); // @codingStandardsIgnoreLine
 		} else {
@@ -531,6 +530,5 @@ class Gdpr_Cookie_Consent_Policy_Data {
 			'errors'   => $errors,
 		);
 	}
-
 }
 new Gdpr_Cookie_Consent_Policy_Data();

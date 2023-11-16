@@ -91,6 +91,18 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 	var gdpr_cookies_list = gdpr_cookies_obj.gdpr_cookies_list;
 	var gdpr_consent_renew = gdpr_cookies_obj.gdpr_consent_renew;
 	var gdpr_user_ip       =  gdpr_cookies_obj.gdpr_user_ip;
+	var gdpr_do_not_track       =  gdpr_cookies_obj.gdpr_do_not_track;
+	var browser_dnt_value     = '';
+
+	// Set the browser DNT value
+	if (navigator.doNotTrack === "1") {
+		// User has enabled Do Not Track
+		browser_dnt_value = true;
+	  } else if (navigator.doNotTrack === "0") {
+		browser_dnt_value = false;
+	  } else {
+		browser_dnt_value = false;
+	  }
 	var GDPR = {
 		bar_config:{},
 		show_config:{},
@@ -133,6 +145,67 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			this.configButtons();
 			this.consent_renew_method();
 
+			// if DNT request is true then hide the banner and auto decline the consent
+
+			if (  gdpr_do_not_track == 'true' && browser_dnt_value ) {
+				// hide the banner
+				this.bar_elm.hide();
+				// Decline the cookies
+				GDPR.reject_close();
+				var button_action = 'reject';
+				var new_window               = false;
+				new_window           = GDPR.settings.button_decline_new_win ? true : false;
+				gdpr_user_preference = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
+				gdpr_viewed_cookie   = GDPR_Cookie.read( 'wpl_viewed_cookie' );
+				if (GDPR.settings.cookie_usage_for == 'gdpr') {
+					event = new CustomEvent(
+						'GdprCookieConsentOnReject',
+						{
+							detail: {
+								'wpl_user_preference': gdpr_user_preference,
+								'wpl_viewed_cookie' : gdpr_viewed_cookie,
+							}
+						}
+					);
+					window.dispatchEvent( event );
+				} else if (GDPR.settings.cookie_usage_for == 'eprivacy') {
+					event = new CustomEvent(
+						'GdprCookieConsentOnReject',
+						{
+							detail: {
+								'wpl_viewed_cookie' : gdpr_viewed_cookie
+							}
+						}
+					);
+					window.dispatchEvent( event );
+				} else if ( GDPR.settings.cookie_usage_for == 'both' ) {
+					GDPR.ccpa_cancel_close();
+					var gdpr_optout_cookie       = '';
+					gdpr_optout_cookie = GDPR_Cookie.read( 'wpl_optout_cookie' );
+					event = new CustomEvent(
+						'GdprCookieConsentOnCancelOptout',
+						{detail: {
+							'wpl_optout_cookie' : gdpr_optout_cookie,
+							}}
+					);
+					window.dispatchEvent( event );
+					$( document ).ready(
+						function() {
+							$("#gdpr-cookie-consent-bar").addClass("hide_show_again_dnt");
+						}
+					);
+				}
+				// log the consent of user
+				GDPR.logConsent( button_action );
+
+				// hide the show again button
+				$( document ).ready(
+					function() {
+						$("#gdpr-cookie-consent-show-again").addClass("hide_show_again_dnt");
+					}
+				);
+			}
+
 
 
 
@@ -151,6 +224,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 									GDPR.acceptAllCookies();
 								}
 								GDPR.accept_close();
+								GDPR.logConsent( 'accept' );
 								if ( GDPR.settings.auto_scroll_reload == true ) {
 									window.location.reload();
 								}
@@ -940,6 +1014,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						setTimeout(
 							function(){
 								GDPR.accept_close();
+								GDPR.logConsent( 'accept' );
 							},
 							this.settings.auto_hide_delay
 						);
@@ -954,6 +1029,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						setTimeout(
 							function(){
 								GDPR.accept_close();
+								GDPR.logConsent( 'accept' );
 							},
 							this.settings.auto_hide_delay
 						);
@@ -981,6 +1057,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						setTimeout(
 							function(){
 								GDPR.accept_close();
+								GDPR.logConsent( 'accept' );
 							},
 							this.settings.auto_hide_delay
 						);
@@ -991,6 +1068,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						setTimeout(
 							function(){
 								GDPR.accept_close();
+								GDPR.logConsent( 'accept' );
 							},
 							this.settings.auto_hide_delay
 						);
@@ -1250,6 +1328,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					GDPR.acceptAllCookies();
 				}
 				GDPR.accept_close();
+				GDPR.logConsent( 'accept' );
 				window.removeEventListener( "scroll",GDPR.acceptOnScroll,false );
 				if ( GDPR.settings.auto_scroll_reload == true ) {
 					window.location.reload();

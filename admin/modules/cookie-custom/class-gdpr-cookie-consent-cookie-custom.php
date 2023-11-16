@@ -434,6 +434,5 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 		$cookies_array = array_intersect_key( $cookies_array, $temp_arr );
 		return $cookies_array;
 	}
-
 }
 new Gdpr_Cookie_Consent_Cookie_Custom();
