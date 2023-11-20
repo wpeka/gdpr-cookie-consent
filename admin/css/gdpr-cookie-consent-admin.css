@@ -2639,3 +2639,6 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 .gdpr-data-req-email-editor .ql-clean{
 	display: none !important;
 }
+.gdpr_data_req_tooltip{
+	margin-left: 5px;
+}
