@@ -2611,3 +2611,31 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	line-height: 1.5;
 	color: #333;
 }
+.gdpr-data-req-email-editor .col-sm-12 {
+	position: relative;
+}
+.gdpr-add-media-link-icon{
+	position: absolute;
+	top: 7px;
+	padding-left: 10px;
+}
+#add-media-button{
+	background-color: white;
+}
+#add-media-button span {
+	color: #39F;
+	font-size: 17px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding-left: 25px;
+}
+.gdpr-data-req-email-editor .ql-image{
+	display: none !important;
+}
+.gdpr-data-req-email-editor .ql-video{
+	display: none !important;
+}
+.gdpr-data-req-email-editor .ql-clean{
+	display: none !important;
+}

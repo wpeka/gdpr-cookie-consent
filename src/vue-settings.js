@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import CoreuiVue from '@coreui/vue';
 import vSelect from 'vue-select';
-import { VueEditor } from "vue2-editor";
+import { VueEditor, Quill } from "vue2-editor";
 import '@coreui/coreui/dist/css/coreui.min.css';
 import 'vue-select/dist/vue-select.css';
 import VueModal from '@kouts/vue-modal'
@@ -579,6 +579,42 @@ var gen = new Vue({
 			j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
 			j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
 			j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+		},
+		onClickAddMedia() {
+			// Get the button element
+			jQuery(document).ready(function ($) {
+
+				var frame = wp.media({
+					title: 'Select or Upload Media',
+					button: {
+						text: 'Use this media'
+					},
+					multiple: false // Set to false if selecting only one file
+				});
+
+				frame.open();
+
+				frame.on('select', function () {
+					var selection = frame.state().get('selection');
+
+					selection.map(function (attachment) {
+						var attachmentURL = attachment.attributes.url;
+						var attachmentType = attachment.attributes.type;
+						var attachmentFileName = attachment.attributes.filename;
+
+						var editor = $('#quill-container .ql-editor')[0];
+						var quillInstance = editor.__quill || editor.parentNode.__quill;
+
+						if (attachmentType === 'application' || attachmentType === 'text') {
+							var link = $('<a>').attr('href', attachmentURL).text(attachmentFileName);
+							quillInstance.root.appendChild(link[0]);
+							quillInstance.root.appendChild($('<br>')[0]);
+						} else {
+							quillInstance.insertEmbed(quillInstance.getLength(), 'image', attachmentURL);
+						}
+					});
+				});
+			});
 		},
         cookieAcceptChange( value ) {
             if(value === '#cookie_action_close_header') {
