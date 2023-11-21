@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.3.7';
+			$this->version = '2.3.8';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -615,6 +615,8 @@ class Gdpr_Cookie_Consent {
 			'restrict_posts'                       => array(),
 			'gdpr_css_text'                        => '',
 			'do_not_track_on'                      => false,
+			'data_req_editor_message'			   => '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;',
+			'data_req_subject'                     => 'We have received your request',
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;
