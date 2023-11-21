@@ -288,7 +288,8 @@ var gen = new Vue({
 			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
-
+            enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
+            
         }
     },
     methods: {
@@ -516,7 +517,7 @@ var gen = new Vue({
             this.autotick = !this.autotick;
         },
         onSwitchAutoHide() {
-            this.auto_hide = !this.auto_hide;
+            this.auto_hide = !this.auto_hide;   
         },
         onSwitchAutoScroll() {
             this.auto_scroll = !this.auto_scroll;
@@ -535,6 +536,9 @@ var gen = new Vue({
         },
         onSwitchDeleteOnDeactivation() {
             this.delete_on_deactivation = !this.delete_on_deactivation;
+        },
+       onSwitchEnableSafe (){           
+           this.enable_safe = !this.enable_safe;
         },
         onSwitchShowCredits() {
             this.show_credits = !this.show_credits;

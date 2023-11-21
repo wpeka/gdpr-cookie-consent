@@ -903,6 +903,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     margin: 0;
     max-width: 100%;
     margin-bottom: 32px;
+	position:relative;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .card-header {
     font-weight: 600;
@@ -2566,4 +2567,25 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
     background-color: white;
     color:#FF6969;
 }
+#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .overlay-script-style{
+	z-index: 99;
+    display: grid;
+    grid-template-columns: 750px auto;
+    position: absolute;
+    top: 43px;
+    left: 0;
+    bottom: 0;
+    margin: 0;
+    background: rgba(255,255,255,0.8);
+    border: none;
+}#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .overlay-script-style .overlay-script-message{
+    position: absolute;
+    width: calc(100% - 43px);
+    bottom: 241px;
+	text-align: center;
+    background-color: #fff;
+    padding: 15px;
+    margin: 20px;
+    box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
 
+}

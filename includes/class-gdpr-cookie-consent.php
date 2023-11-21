@@ -86,7 +86,6 @@ class Gdpr_Cookie_Consent {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -131,7 +130,6 @@ class Gdpr_Cookie_Consent {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/class-gdpr-cookie-consent-public.php';
 
 		$this->loader = new Gdpr_Cookie_Consent_Loader();
-
 	}
 
 	/**
@@ -148,7 +146,6 @@ class Gdpr_Cookie_Consent {
 		$plugin_i18n = new Gdpr_Cookie_Consent_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -195,10 +192,10 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
-			//added ajax callback for wizard
+			// added ajax callback for wizard
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
-			//added ajax for import settings
-			$this->loader->add_action('wp_ajax_gcc_update_imported_settings',$plugin_admin,'gdpr_cookie_consent_import_settings',10,1);
+			// added ajax for import settings
+			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
 
 		}
 	}
@@ -353,8 +350,8 @@ class Gdpr_Cookie_Consent {
 	 */
 	public static function gdpr_allowed_html() {
 		$allowed_html = array(
-			// Allowed:		<a href="" id="" class="" title="" target="">...</a>.
-			// Not allowed:	<a href="javascript(...);">...</a>.
+			// Allowed:     <a href="" id="" class="" title="" target="">...</a>.
+			// Not allowed: <a href="javascript(...);">...</a>.
 			'a'      => array(
 				'href'   => array(),
 				'id'     => array(),
@@ -617,6 +614,7 @@ class Gdpr_Cookie_Consent {
 			'restrict_posts'                       => array(),
 			'gdpr_css_text'                        => '',
 			'do_not_track_on'                      => false,
+			'enable_safe'                          => false,
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;
