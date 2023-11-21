@@ -79,7 +79,6 @@ class Gdpr_Cookie_Consent_Public {
 		if ( ! shortcode_exists( 'wpl_cookie_details' ) ) {
 			add_shortcode( 'wpl_cookie_details', array( $this, 'gdprcookieconsent_shortcode_cookie_details' ) );         // a shortcode [wpl_cookie_details].
 		}
-
 	}
 
 	/**
@@ -100,7 +99,6 @@ class Gdpr_Cookie_Consent_Public {
 		 */
 		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
 		wp_register_style( $this->plugin_name . '-custom', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public-custom' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
-
 	}
 
 	/**
@@ -204,7 +202,9 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Translator function to convert the public facing side texts
 	 *
-	 * @param string $text Text,$translations Translation,$target_language Target Language.
+	 * @param string $text Text .
+	 * @param array  $translations Translation.
+	 * @param string $target_language Target Language.
 	 */
 	public function translate_text( $text, $translations, $target_language ) {
 		// Assuming $text is the key for the translation in the JSON file.
@@ -214,6 +214,33 @@ class Gdpr_Cookie_Consent_Public {
 			// Return the original text if no translation is found.
 			return $text;
 		}
+	}
+	/**
+	 * Registered rest end point to get the current banner options form database.
+	 */
+	public function gdpr_cookie_data_endpoint() {
+		register_rest_route(
+			'custom/v1',
+			'/gdpr-data/',
+			array(
+				'methods'  => 'GET',
+				'callback' => array( $this, 'gdpr_get_settings_new' ),
+			)
+		);
+	}
+
+	/**
+	 * Fetch Settings from database.
+	 *
+	 *  @param array $data Data.
+	 */
+	public function gdpr_get_settings_new( $data ) {
+		// Your logic to get GDPR settings.
+		$gdpr_data = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+
+		// Return the data.
+		return rest_ensure_response( $gdpr_data );
+
 	}
 
 	/**
@@ -229,7 +256,7 @@ class Gdpr_Cookie_Consent_Public {
 				wp_enqueue_script( $this->plugin_name . '-uspapi', plugin_dir_url( __FILE__ ) . 'js/iab/uspapi.js', array( 'jquery' ), $this->version, false );
 			}
 			wp_enqueue_style( $this->plugin_name );
-			wp_enqueue_style( $this->plugin_name. '-custom' );
+			wp_enqueue_style( $this->plugin_name . '-custom' );
 			wp_enqueue_script( $this->plugin_name . '-bootstrap-js' );
 			wp_enqueue_script( $this->plugin_name );
 			wp_localize_script(
@@ -238,7 +265,7 @@ class Gdpr_Cookie_Consent_Public {
 				array(
 					'ajax_url'              => admin_url( 'admin-ajax.php' ),
 					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
-					'consent_renew_nonce'	=> wp_create_nonce( 'wpl_consent_renew_nonce' ),
+					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
 				)
 			);
 			add_filter( 'clean_url', array( $this, 'gdprcookieconsent_clean_async_url' ) );
@@ -490,7 +517,7 @@ class Gdpr_Cookie_Consent_Public {
 				$json_temp = array();
 				foreach ( $cookies as $cookie ) {
 					if ( $cookie['category_id'] === $category['id_gdpr_cookie_category'] ) {
-						$total++;
+						++$total;
 						$temp[]                = $cookie;
 						$cookie['description'] = str_replace( '"', '\"', $cookie['description'] );
 						$json_temp[]           = $cookie;
@@ -533,7 +560,7 @@ class Gdpr_Cookie_Consent_Public {
 
 					// Load and decode translations from JSON file.
 					$translations_file = plugin_dir_path( __FILE__ ) . 'translations/public-translations.json';
-					$translations     = json_decode( file_get_contents( $translations_file ), true );
+					$translations      = json_decode( file_get_contents( $translations_file ), true );
 
 					// Define an array of text keys to translate.
 					$text_keys_to_translate = array(
@@ -558,11 +585,9 @@ class Gdpr_Cookie_Consent_Public {
 						$translated_text = $this->translate_text( $text_key, $translations, $target_language );
 
 						$cookie_data[ $text_key ] = $translated_text;
-
 					}
 
 					$the_options['cookie_data'] = $cookie_data;
-
 				}
 			}
 
@@ -580,14 +605,14 @@ class Gdpr_Cookie_Consent_Public {
 			</style>
 			<?php
 
-			//fetching the values of post id, ip and consent and mapping them to a array
+			// fetching the values of post id, ip and consent and mapping them to a array.
 
 			global $wpdb;
 
-			$meta_key_cl_ip = '_wplconsentlogs_ip';
+			$meta_key_cl_ip            = '_wplconsentlogs_ip';
 			$meta_key_cl_renew_consent = '_wpl_renew_consent';
-			$trash_meta_key = '_wp_trash_meta_status';
-			$trash_meta_value = 'publish';
+			$trash_meta_key            = '_wp_trash_meta_status';
+			$trash_meta_value          = 'publish';
 
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
@@ -610,23 +635,23 @@ class Gdpr_Cookie_Consent_Public {
 
 			$gdpr_post_meta_values_array = array();
 
-			foreach ($results as $result) {
+			foreach ( $results as $result ) {
 				$gdpr_post_meta_values_array[] = array(
-					'post_id' => $result->post_id,
-					'ip_value' => $result->ip_value,
-					'consent_value' => $result->consent_value
+					'post_id'       => $result->post_id,
+					'ip_value'      => $result->ip_value,
+					'consent_value' => $result->consent_value,
 				);
 			}
 
 			$the_options['ip_and_consent_renew'] = $gdpr_post_meta_values_array;
 
-			$user_ip = $this->wpl_get_user_ip(); //get the current user's IP.
+			$user_ip = $this->wpl_get_user_ip(); // get the current user's IP.
 
 			$cookies_list_data = array(
 				'gdpr_cookies_list'       => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
 				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
-				'gdpr_consent_renew'  	  => $the_options['ip_and_consent_renew'],
-				'gdpr_user_ip'			  => $user_ip,
+				'gdpr_consent_renew'      => $the_options['ip_and_consent_renew'],
+				'gdpr_user_ip'            => $user_ip,
 				'gdpr_do_not_track'       => $the_options['do_not_track_on'],
 			);
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );

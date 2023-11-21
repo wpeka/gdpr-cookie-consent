@@ -539,6 +539,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<!-- Do Not Track  -->
 								<?php if ( ! $is_pro_active ) : ?>
+								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
 											<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
@@ -900,7 +901,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_accept_on" class="gdpr-configure-button" @click="accept_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1047,7 +1048,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_accept_all_on" class="gdpr-configure-button" @click="accept_all_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1194,7 +1195,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_decline_on" class="gdpr-configure-button" @click="decline_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1338,7 +1339,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button :disabled="!cookie_settings_on" class="gdpr-configure-button" @click="settings_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1491,7 +1492,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button class="gdpr-configure-button" @click="confirm_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1598,7 +1599,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button class="gdpr-configure-button" @click="cancel_button_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>
@@ -1705,7 +1706,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-button class="gdpr-configure-button" @click="opt_out_link_popup=true">
 											<span>
 												<img class="gdpr-configure-image" :src="configure_image_url.default">
-												<?php esc_attr_e( 'Configure' ); ?>
+												<?php esc_attr_e( 'Configure', 'gdpr-cookie-consent' ); ?>
 											</span>
 										</c-button>
 									</c-col>

@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 /**
  * Automation test cases for cookie list and script blocker tab of GDPR cookie consent plugin
  * 

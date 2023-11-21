@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import CoreuiVue from '@coreui/vue';
 import vSelect from 'vue-select';
-import { VueEditor } from "vue2-editor";
+import { VueEditor, Quill } from "vue2-editor";
 import '@coreui/coreui/dist/css/coreui.min.css';
 import 'vue-select/dist/vue-select.css';
 import VueModal from '@kouts/vue-modal'
@@ -288,6 +288,14 @@ var gen = new Vue({
 			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
+			// Data Request
+			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
+			shortcode_copied: false,
+			data_reqs_switch_clicked: false,
+			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
+			data_req_subject: settings_obj.the_options.hasOwnProperty('data_req_subject') ? settings_obj.the_options['data_req_subject'] : 'We have received your request',
+			data_req_editor_message: settings_obj.the_options.hasOwnProperty('data_req_editor_message') ? this.decodeHTMLString ( settings_obj.the_options['data_req_editor_message']) : "",
+
             enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
             
         }
@@ -296,6 +304,23 @@ var gen = new Vue({
         stripSlashes( value ) {
             return value.replace(/\\(.)/mg, "$1");
         },
+		copyTextToClipboard() {
+            const textToCopy = '[wpl_data_request]';
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            this.shortcode_copied = true;
+            setTimeout(() => {
+                this.shortcode_copied = false;
+            }, 1500);
+        },
+		decodeHTMLString(encodedString) {
+			var doc = new DOMParser().parseFromString(encodedString, 'text/html');
+ 			return doc.documentElement.textContent.replace(/\\/g, '');
+		},
 		decodeCSS(encodedCSS) {
 			const lines = encodedCSS.split("\\r\\n");
 			let decodedCSS = "";
@@ -482,6 +507,13 @@ var gen = new Vue({
 		onSwitchDntEnable() {//changing the value of do_not_track_on enable/disable
             this.do_not_track_on = !this.do_not_track_on;
         },
+		onSwitchDntEnable() {//changing the value of do_not_track_on enable/disable
+            this.do_not_track_on = !this.do_not_track_on;
+        },
+		onSwitchDataReqsEnable() {//changing the value of data_reqs_on enable/disable
+            this.data_reqs_on = !this.data_reqs_on;
+			this.data_reqs_switch_clicked = true;
+        },
         onSwitchCookieAcceptEnable() {
             this.cookie_accept_on = !this.cookie_accept_on;
         },
@@ -552,6 +584,42 @@ var gen = new Vue({
 			j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
 			j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
 			j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+		},
+		onClickAddMedia() {
+			// Get the button element
+			jQuery(document).ready(function ($) {
+
+				var frame = wp.media({
+					title: 'Select or Upload Media',
+					button: {
+						text: 'Use this media'
+					},
+					multiple: false // Set to false if selecting only one file
+				});
+
+				frame.open();
+
+				frame.on('select', function () {
+					var selection = frame.state().get('selection');
+
+					selection.map(function (attachment) {
+						var attachmentURL = attachment.attributes.url;
+						var attachmentType = attachment.attributes.type;
+						var attachmentFileName = attachment.attributes.filename;
+
+						var editor = $('#quill-container .ql-editor')[0];
+						var quillInstance = editor.__quill || editor.parentNode.__quill;
+
+						if (attachmentType === 'application' || attachmentType === 'text') {
+							var link = $('<a>').attr('href', attachmentURL).text(attachmentFileName);
+							quillInstance.root.appendChild(link[0]);
+							quillInstance.root.appendChild($('<br>')[0]);
+						} else {
+							quillInstance.insertEmbed(quillInstance.getLength(), 'image', attachmentURL);
+						}
+					});
+				});
+			});
 		},
         cookieAcceptChange( value ) {
             if(value === '#cookie_action_close_header') {
@@ -888,22 +956,54 @@ var gen = new Vue({
             this.selectedFile = null;
             document.getElementById("fileInput").value = "";
             },
-            exportsettings(){
-            // Create a copy of the settings object
-            const settingsCopy = { ...settings_obj.the_options }; 
-            if (settingsCopy.gdpr_text_css !== "" ) {
-            const text_css = settingsCopy.gdpr_css_text;
-            // Decode the gdpr_text_css property before exporting
-            const final_css = text_css.replace(/\\r\\n/g, '\n');
-            settingsCopy.gdpr_css_text = final_css;
-            }
-            const settingsJSON = JSON.stringify(settingsCopy, null, 2);
-            const jsonData = JSON.stringify(settingsJSON, null, 2);
-            const blob = new Blob([jsonData], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');a.href = url;a.download = 'wpeka-banner-settings.json';a.click();
-            URL.revokeObjectURL(url);
-            },
+            exportsettings() {
+                const siteAddress = window.location.origin;
+
+                // Make an AJAX request to fetch data from the custom endpoint
+                fetch(siteAddress+'/wp-json/custom/v1/gdpr-data/')
+                .then(response => {
+                if (!response.ok) {
+                throw new Error('Network response was not ok');
+                }
+                return response.json();
+                })
+                .then(data => {
+                // Process the fetched data
+
+                // Create a copy of the settings object
+                const settingsCopy = { ...data };
+
+                // Check if gdpr_text_css is not empty
+                if (settingsCopy.gdpr_text_css !== "") {
+                const text_css = settingsCopy.gdpr_css_text;
+
+                // Decode the gdpr_text_css property before exporting
+                const final_css = text_css.replace(/\\r\\n/g, '\n');
+                settingsCopy.gdpr_css_text = final_css;
+                }
+
+                // Convert the settings object to JSON with indentation
+                const settingsJSON = JSON.stringify(JSON.stringify(settingsCopy, null, 2));
+
+                // Create a Blob containing the JSON data
+                const blob = new Blob([settingsJSON], { type: 'application/json' });
+
+                // Create a download link for the Blob
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'wpeka-banner-settings.json';
+
+                // Trigger a click on the link to initiate the download
+                a.click();
+
+                // Release the object URL to free up resources
+                URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+                });
+                },
             importsettings(){
             var that = this;
             var fileInput = document.getElementById('fileInput');
@@ -1112,6 +1212,9 @@ var gen = new Vue({
 			this.gdpr_css_text    = '';
 			this.gdpr_css_text_free = "/*Your CSS here*/";
 			this.do_not_track_on = false;
+			this.data_reqs_on = false;
+			this.data_req_email_address = '';
+			this.data_req_subject = 'We have received your request';
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
@@ -1179,6 +1282,10 @@ var gen = new Vue({
                     location.reload();
                 }
 				that.is_logo_removed = false;
+				if ( that.data_reqs_switch_clicked == true ) {
+					that.data_reqs_switch_clicked = false;
+					location.reload();
+				}
             });
         },
 		//method to save wizard form settings
