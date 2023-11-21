@@ -539,6 +539,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<!-- Do Not Track  -->
 								<?php if ( ! $is_pro_active ) : ?>
+								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
 											<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
@@ -622,6 +623,21 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<input type="hidden" name="gcc-cookie-expiry" v-model="cookie_expiry">
 									</c-col>
 								</c-row>
+								<?php if ( ! $is_pro_active ) : ?>
+								<c-row>
+									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Safe Mode for Cookies', 'gdpr-cookie-consent' ); ?> 
+									<tooltip text="<?php esc_html_e( 'When safe mode is enabled, all integrations will be disabled temporarily.', 'gdpr-cookie-consent' ); ?>"></tooltip>
+
+										</label>
+										<div class="gdpr-pro-label absolute" style="right: -11px;"><div class="gdpr-pro-label-text">Pro</div></div>
+									</c-col>
+									<c-col class="col-sm-8">
+										<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" id="gdpr-cookie-consent-enable-safe" variant="3d" color="success"></c-switch>
+										<input type="hidden" name="gcc-enable-safe" v-model="enable_safe">
+									</c-col>
+								</c-row>
+								<?php endif; ?>
+								<?php do_action( 'gdpr_consent_settings_safe_enable' ); ?>
 								<c-row>
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Export Personal Data', 'gdpr-cookie-consent' ); ?> </label></c-col>
 								<c-col class="col-sm-8">
