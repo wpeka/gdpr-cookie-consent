@@ -539,7 +539,6 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<!-- Do Not Track  -->
 								<?php if ( ! $is_pro_active ) : ?>
-								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
 											<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
