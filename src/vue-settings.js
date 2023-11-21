@@ -296,6 +296,8 @@ var gen = new Vue({
 			data_req_subject: settings_obj.the_options.hasOwnProperty('data_req_subject') ? settings_obj.the_options['data_req_subject'] : 'We have received your request',
 			data_req_editor_message: settings_obj.the_options.hasOwnProperty('data_req_editor_message') ? this.decodeHTMLString ( settings_obj.the_options['data_req_editor_message']) : "",
 
+            enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
+            
         }
     },
     methods: {
@@ -547,7 +549,7 @@ var gen = new Vue({
             this.autotick = !this.autotick;
         },
         onSwitchAutoHide() {
-            this.auto_hide = !this.auto_hide;
+            this.auto_hide = !this.auto_hide;   
         },
         onSwitchAutoScroll() {
             this.auto_scroll = !this.auto_scroll;
@@ -566,6 +568,9 @@ var gen = new Vue({
         },
         onSwitchDeleteOnDeactivation() {
             this.delete_on_deactivation = !this.delete_on_deactivation;
+        },
+       onSwitchEnableSafe (){           
+           this.enable_safe = !this.enable_safe;
         },
         onSwitchShowCredits() {
             this.show_credits = !this.show_credits;
