@@ -462,8 +462,6 @@ var gen = new Vue({
 				this.logging_on = false; //make enable consent switch turn off if pro is not active
 				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
 			}
-            console.log(this.gdpr_policy);
-            console.log("hi");
         },
         editorInit: function () {
             require('brace/ext/language_tools') //language extension prerequsite...
