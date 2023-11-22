@@ -529,7 +529,7 @@ var gen = new Vue({
         },
         onSwitchEUEnable(value) {
             this.is_eu_on = !this.is_eu_on;
-			if ( value) {
+			if ( value ) {
 				this.is_eu_on = value === 'yes'?'yes':'no';
 				this.selectedRadioGdpr = value === 'yes'?'yes':'no';
 			}
@@ -540,7 +540,23 @@ var gen = new Vue({
 				this.is_ccpa_on = value === 'yes'?'yes':'no';
 				this.selectedRadioCcpa = value === 'yes'?'yes':'no';
 
-			}
+			}   
+        },
+        onEnablesafeSwitch(){
+           if( this.enable_safe === 'true'){
+                this.is_eu_on = 'no';
+            }
+            else{
+                this.is_eu_on = 'yes';
+            }
+        },
+        onEnablesafeSwitchCCPA(){
+            if( this.enable_safe === 'true'){
+                this.is_ccpa_on = 'no';
+            }
+            else{
+                this.is_ccpa_on = 'yes';
+            }
         },
         onSwitchRevokeConsentEnable() {
             this.is_revoke_consent_on = !this.is_revoke_consent_on;
@@ -569,7 +585,9 @@ var gen = new Vue({
         onSwitchDeleteOnDeactivation() {
             this.delete_on_deactivation = !this.delete_on_deactivation;
         },
-       onSwitchEnableSafe (){           
+       onSwitchEnableSafe (){  
+           this.onEnablesafeSwitch();
+           this.onEnablesafeSwitchCCPA();
            this.enable_safe = !this.enable_safe;
         },
         onSwitchShowCredits() {
