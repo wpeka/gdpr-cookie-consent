@@ -2665,3 +2665,24 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
     box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
 
 }
+.overlay_eu_visitors{
+	background: rgba(255,255,255,0.3);
+    z-index: 99;
+    position: absolute; 
+    margin: 0;
+    padding: 0;
+    bottom: 0;
+    right: 0;
+	height:90px;
+	width: 100%;
+}.overlay_eu_visitors_message{
+	position: absolute;
+    width: 67%;
+	right:0;
+    bottom: 8px;
+    text-align: center;
+    background-color:#fff;
+    padding: 15px 9px;
+    margin: 20px;
+    box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
+}
