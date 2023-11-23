@@ -1081,6 +1081,7 @@ class Gdpr_Cookie_Consent_Admin {
 			__( 'ePrivacy', 'gdpr-cookie-consent' )    => 'eprivacy',
 			__( 'GDPR', 'gdpr-cookie-consent' )        => 'gdpr',
 			__( 'CCPA', 'gdpr-cookie-consent' )        => 'ccpa',
+			__( 'LGPD', 'gdpr-cookie-consent')         => 'lgpd',
 			__( 'GDPR & CCPA', 'gdpr-cookie-consent' ) => 'both',
 		);
 		$options = apply_filters( 'gdprcookieconsent_cookie_usage_for_options', $options );
