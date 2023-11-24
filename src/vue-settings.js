@@ -639,34 +639,6 @@ var gen = new Vue({
 				});
 			});
 		},
-		onClickAddNewWL () {
-			jQuery(document).on('click', '.wpl_script_add', wpl_script_add);
-				function wpl_script_add() {
-
-					var btn = jQuery(this);
-					var btn_html = btn.html();
-					var type = 'whitelist_script';
-					btn.html('<div class="wpl-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
-
-					jQuery.ajax({
-						type: 'POST',
-						url: settings_obj.ajaxurl,
-						data: ({
-									action: 'wpl_script_add',
-									type: type,
-									// nonce: complianz_admin.nonce,
-								}),
-								success: function (response) {
-											if (response.success) {
-												btn.before(response.html);
-												btn.html(btn_html);
-											}
-										}
-					}).done(function (data) {
-							//
-					});
-				}
-		},
         cookieAcceptChange( value ) {
             if(value === '#cookie_action_close_header') {
                 this.is_open_url = false;
@@ -2268,84 +2240,6 @@ var gen = new Vue({
 			editor.setValue(this.gdpr_css_text_free);
 			editor.setReadOnly(true);
 		}
-		// Add a new input field for whitelist
-		jQuery(document).on("click", '.wpl_add_url', function(){
-			let container = jQuery(this).closest('div');
-			let templ = jQuery('.wpl-url-template').get(0).innerHTML;
-			container.append(templ);
-		});
-		// Remove new input field for whitelist
-		jQuery(document).on("click", '.wpl_remove_url', function(){
-			let container = jQuery(this).closest('div');
-			container.remove();
-		});
-		// Remove the whole tab for whitelist script
-		jQuery(document).on('click', '.wpl_script_save', wpl_script_save );
-		function wpl_script_save() {
-			var btn = jQuery(this);
-			var btn_html = btn.html();
-
-			var container = btn.closest('.wpl-panel');
-			var type = 'whitelist_script';
-			var action = btn.data('action');
-			var id = btn.data('id');
-			if ( action == "save" || action == "remove" ) {
-				console.log(action);
-				btn.html('<div class="wpl-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
-			}
-
-			// Values
-			var data = {};
-			container.find(':input').each(function () {
-				if (jQuery(this).attr('type') === 'button') return;
-				if ( typeof jQuery(this).attr('name') === 'undefined') return;
-				if (!jQuery(this).data('name')) return;
-				if (jQuery(this).attr('type')==='checkbox' ) {
-					data[jQuery(this).data('name')] = jQuery(this).is(":checked");
-				} else if ( jQuery(this).attr('type')==='radio' ) {
-					if (jQuery(this).is(":checked")) {
-						data[jQuery(this).data('name')] = jQuery(this).val();
-					}
-				} else if (jQuery(this).data('name')==='urls'){
-					let curValue = data[jQuery(this).data('name')];
-					if (typeof curValue === 'undefined' ) curValue = [];
-					curValue.push(jQuery(this).val());
-					data[jQuery(this).data('name')] = curValue;
-				} else if (jQuery(this).data('name')==='dependency'){
-					//key value arrays with string keys aren't stringified to json.
-					let curValue = data[jQuery(this).data('name')];
-					if (typeof curValue === 'undefined' ) curValue = [];
-					curValue.push(jQuery(this).data('url')+'|:|'+jQuery(this).val());
-					data[jQuery(this).data('name')] = curValue;
-				} else {
-					data[jQuery(this).data('name')] = jQuery(this).val();
-				}
-			});
-			jQuery.ajax({
-				type: "POST",
-				url: settings_obj.ajaxurl,
-				data: ({
-					action: 'wpl_script_save',
-					'wpl-save': true,
-					type: type,
-					button_action: action,
-					id: id,
-					data: JSON.stringify(data),
-				}),
-				success: function (response) {
-					if (response.success) {
-						if ( action === 'save' ) {
-							btn.html(btn_html);
-						}
-						if ( action === 'remove' ) {
-							container.remove();
-							btn.html(btn_html);
-						}
-					}
-				}
-			});
-		}
-
     },
     icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep }
 })
