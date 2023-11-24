@@ -219,20 +219,29 @@ class Gdpr_Cookie_Consent_Public {
 	 * Registered rest end point to get the current banner options form database.
 	 */
 	public function gdpr_cookie_data_endpoint() {
-		register_rest_route('custom/v1', '/gdpr-data/', array(
-		'methods' => 'GET',
-		'callback' => array($this, 'gdpr_get_settings_new'),
-		));
-		}
-		
-		public function gdpr_get_settings_new($data) {
-		// Your logic to get GDPR settings
-		$gdpr_data = get_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD);
-		
-		// Return the data
-		return rest_ensure_response($gdpr_data);
-		
-		}
+		register_rest_route(
+			'custom/v1',
+			'/gdpr-data/',
+			array(
+				'methods'  => 'GET',
+				'callback' => array( $this, 'gdpr_get_settings_new' ),
+			)
+		);
+	}
+
+	/**
+	 * Fetch Settings from database.
+	 *
+	 *  @param array $data Data.
+	 */
+	public function gdpr_get_settings_new( $data ) {
+		// Your logic to get GDPR settings.
+		$gdpr_data = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+
+		// Return the data.
+		return rest_ensure_response( $gdpr_data );
+
+	}
 
 	/**
 	 * Outputs the cookie control script in the footer.
@@ -785,7 +794,7 @@ class Gdpr_Cookie_Consent_Public {
 		$header_scripts = $the_options['header_scripts'];
 		if ( $header_scripts ) {
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . esc_html( wp_unslash( $header_scripts ) ) . "\r\n";
+			echo "\r\n" . wp_unslash( $header_scripts ) . "\r\n";
 		}
 	}
 
@@ -799,7 +808,7 @@ class Gdpr_Cookie_Consent_Public {
 		$body_scripts = $the_options['body_scripts'];
 		if ( $body_scripts ) {
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . esc_html( wp_unslash( $body_scripts ) ) . "\r\n";
+			echo "\r\n" . wp_unslash( $body_scripts ) . "\r\n";
 		}
 	}
 
@@ -813,7 +822,7 @@ class Gdpr_Cookie_Consent_Public {
 		$footer_scripts = $the_options['footer_scripts'];
 		if ( $footer_scripts ) {
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . esc_html( wp_unslash( $footer_scripts ) ) . "\r\n";
+			echo "\r\n" . wp_unslash( $footer_scripts ) . "\r\n";
 		}
 	}
 }
