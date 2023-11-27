@@ -2332,7 +2332,6 @@ var gen = new Vue({
 					data: ({
 								action: 'wpl_script_add',
 								type: type,
-								// nonce: complianz_admin.nonce,
 							}),
 							success: function (response) {
 										if (response.success) {
