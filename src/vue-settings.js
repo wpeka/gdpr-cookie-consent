@@ -523,21 +523,18 @@ var gen = new Vue({
         onSwitchIABEnable(value) {
 			this.is_iab_on = !this.is_iab_on;
 			if ( value) {
-				this.is_iab_on = value === 'yes'?'yes':'no';
 				this.selectedRadioIab = value === 'yes'?'yes':'no';
 			}
         },
         onSwitchEUEnable(value) {
             this.is_eu_on = !this.is_eu_on;
 			if ( value ) {
-				this.is_eu_on = value === 'yes'?'yes':'no';
 				this.selectedRadioGdpr = value === 'yes'?'yes':'no';
 			}
         },
         onSwitchCCPAEnable(value) {
             this.is_ccpa_on = !this.is_ccpa_on;
 			if ( value) {
-				this.is_ccpa_on = value === 'yes'?'yes':'no';
 				this.selectedRadioCcpa = value === 'yes'?'yes':'no';
 
 			}
