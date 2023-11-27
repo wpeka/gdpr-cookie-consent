@@ -282,6 +282,12 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-textarea name="notify_message_field" v-model="lgpd_message"></c-textarea>
 									</c-col>
 								</c-row>
+								<c-row v-show="is_lgpd">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-8">
+										<c-textarea :rows="6" name="about_message_field" v-model="gdpr_about_cookie_message"></c-textarea>
+									</c-col>
+								</c-row>
 							</c-card-body>
 						</c-card>
 						<c-card v-show="!is_eprivacy">
