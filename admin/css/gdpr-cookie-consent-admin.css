@@ -2643,6 +2643,364 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 .gdpr_data_req_tooltip{
 	margin-left: 5px;
 }
+/* whitelist script styling  */
+
+.multiple-field > div {
+	margin-top: 15px;
+}
+
+.wpl-hidden {
+	display: none !important;
+}
+
+.wpl-panel {
+	background: #fff;
+	padding: 20px 30px;
+	padding-top: 5px;
+  }
+  .wpl-slide-panel {
+	margin: 15px 0;
+	color: #383d41;
+	background-color: #D8DBE0;
+	padding: 10px 15px;
+	border-radius: 8px;
+	border: 1px solid #f2f2f2;
+	font-size: 13px !important;
+  }
+  .wpl-slide-panel .wpl-panel-title {
+	display: flex;
+	align-items: center;
+	grid-gap: 0;
+	padding: 15px 20px;
+	cursor: pointer;
+  }
+  .wpl-slide-panel .wpl-panel-title .wpl-custom-btns {
+	display: flex;
+	gap: 10px;
+	align-content: center;
+	justify-content: flex-end;
+	margin-left: auto;
+  }
+  .wpl-slide-panel .wpl-panel-content {
+	background-color: #fff;
+	border-radius: 4px;
+	border: 1px solid #D8DBE0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	padding: 10px 15px;
+  }
+  .wpl-slide-panel summary::marker,
+  .wpl-slide-panel summary::-webkit-details-marker {
+	display: none;
+	content: '';
+  }
+  .wpl-slide-panel .wpl-checkbox {
+	display: flex;
+	position: relative;
+  }
+  .wpl-slide-panel .wpl-checkbox input.wpl-checkbox {
+	opacity: 0;
+	margin: 0;
+	margin-top: -10px;
+	cursor: pointer;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	-moz-opacity: 0;
+	-khtml-opacity: 0;
+	position: absolute;
+	z-index: 1;
+	top: 0px;
+	left: 0px;
+	width: 40px;
+	height: 20px;
+  }
+  .wpl-slide-panel .wpl-checkbox input.wpl-checkbox:focus + .wpl-label:before {
+	box-shadow: 0 0 0 2px #245fcc;
+  }
+  .wpl-slide-panel .wpl-checkbox input.wpl-checkbox:checked + .wpl-label::before {
+	background-color: #007cba;
+	content: "";
+	padding-left: 6px;
+  }
+  .wpl-slide-panel .wpl-checkbox input.wpl-checkbox:checked + .wpl-label:after {
+	left: 14px;
+  }
+  .wpl-slide-panel .wpl-checkbox .wpl-label {
+	position: relative;
+	padding-left: 55px;
+	margin: 0;
+  }
+  .wpl-slide-panel .wpl-checkbox .wpl-label:before,
+  .wpl-slide-panel .wpl-checkbox .wpl-label:after {
+	position: absolute;
+	border-radius: 10px;
+	transition: background-color 0.3s, left 0.3s;
+  }
+  .wpl-slide-panel .wpl-checkbox .wpl-label:before {
+	content: "";
+	color: #fff;
+	box-sizing: border-box;
+	font-family: 'FontAwesome', sans-serif;
+	padding-left: 23px;
+	font-size: 12px;
+	line-height: 20px;
+	background-color: #c6c6c6;
+	left: 0px;
+	top: -7px;
+	height: 15px;
+	width: 28px;
+	border-radius: 10px;
+  }
+  .wpl-slide-panel .wpl-checkbox .wpl-label:after {
+	content: "";
+	letter-spacing: 20px;
+	background: white;
+	left: 4px;
+	top: -5px;
+	height: 11px;
+	width: 11px;
+  }
+  .wpl-slide-panel .wpl-icon.wpl-open {
+	grid-column-start: 4;
+	cursor: pointer;
+	content: '';
+	background: url(../images/chevron-down.svg) no-repeat;
+	transform: rotate(0deg);
+	transition: all 0.5s ease;
+	height: 18px;
+	width: 18px;
+	margin: 0 0 0 10px;
+	margin-right: 10px;
+  }
+  .wpl-slide-panel[open] .wpl-icon.wpl-open {
+	transform: rotate(180deg);
+  }
+  .wpl-slide-panel.wpl-notice {
+	padding: 0 0 10px 0;
+	background-color: white;
+  }
+  .wpl-slide-panel.wpl-toggle-disabled {
+	color: #aca5a5;
+  }
+  .wpl-slide-panel.wpl-deleted {
+	background-color: #FFa5aa;
+  }
+  .wpl-slide-panel .wpl-field > div {
+	margin: 10px 0;
+  }
+  .wpl-slide-panel .wpl-multiple-field-validation {
+	float: right;
+  }
+  .wpl-slide-panel.wpl-slide-panel,
+  .wpl-slide-panel.wpl-link-panel {
+	padding: 0;
+  }
+  .wpl-slide-panel.wpl-slide-panel .wpl-panel-toggle,
+  .wpl-slide-panel.wpl-link-panel .wpl-panel-toggle {
+	display: flex;
+	align-items: center;
+  }
+  .wpl-slide-panel.wpl-slide-panel .wpl-panel-toggle span,
+  .wpl-slide-panel.wpl-link-panel .wpl-panel-toggle span {
+	padding-left: 10px;
+  }
+  .wpl-slide-panel.wpl-slide-panel .wpl-add-to-policy,
+  .wpl-slide-panel.wpl-link-panel .wpl-add-to-policy {
+	text-decoration: underline;
+  }
+  .wpl-slide-panel.wpl-link-panel.selected,
+  .wpl-slide-panel.wpl-link-panel:hover {
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2), 0 3px 5px rgba(0, 0, 0, 0.13);
+  }
+  .wpl-slide-panel h1 {
+	font-size: 22px;
+  }
+  .wpl-slide-panel p {
+	font-size: 13px !important;
+  }
+  .wpl-slide-panel.wpl-notice {
+	background-color: #fff;
+	border: 0;
+	color: black;
+	padding: 20px 30px;
+  }
+  .wpl-slide-panel.wpl-success {
+	background-color: #61ce70;
+	color: white;
+	border-radius: 0 50px 50px 0;
+	border: #61CE70;
+	margin-left: -20px;
+	padding: 5px 15px 5px 5px;
+	width: -moz-fit-content;
+	width: fit-content;
+  }
+  .wpl-slide-panel.wpl-warning {
+	position: relative;
+	color: #333333;
+	background-color: #f8be2e;
+	border-color: #f8be2e;
+	margin: 10px 0 10px 0;
+  }
+  .wpl-slide-panel.wpl-warning:after {
+	content: " ";
+	position: absolute;
+	left: -15px;
+	top: calc(50% - 15px);
+	border-top: 15px solid transparent;
+	border-right: 15px solid black;
+	border-left: none;
+	border-bottom: 15px solid transparent;
+  }
+  .wpl-slide-panel.wpl-warning:after {
+	border-right: 15px solid #f8be2e;
+  }
+  .wpl-slide-panel.wpl-notification:after {
+	content: initial;
+  }
+  .wpl-slide-panel ul {
+	list-style-type: disc;
+	margin-left: 22px;
+  }
+
+#wpl-whitelist-add-new{
+	color: #39F;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	border-radius: 4px;
+	border: 1px solid #39F;
+	background: white;
+	padding: 11px 15px;
+}
+#wpl-whitelist-save-btn{
+	border-radius: 4px;
+	background: #39F;
+	color: #FFF;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 5px 15px;
+	border-color: #39f;
+}
+#wpl-whitelist-remove-btn{
+	border-radius: 4px;
+	border: 1px solid #FF6969;
+	color: #FF6969;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	background: white;
+	padding: 5px 15px;
+	margin-left: 10px;
+}
+.wpl-panel-title .wpl-title{
+	color: #3C4B64;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+.wpl-whitelist-name-field{
+	max-width: 665px;
+}
+.wpl_add_url,.wpl_remove_url{
+	border: none;
+    background: white;
+}
+.wpl-whitelist-plus-minus-field{
+	display: flex;
+}
+.wpl-whitelist-plus-minus button:focus{
+	outline: none;
+}
+.wpl-whitelist-plus-minus input{
+	width: 100%;
+    max-width: 645px;
+	margin-right: 2px;
+	border: 1px solid #D8DBE0;
+	height: 40px;
+
+}
+.multiple-field input{
+	border: 1px solid #D8DBE0;
+	height: 40px;
+	color: #3C4B64;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.multiple-field label{
+	color: #3C4B64;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.wpl_name{
+	width: 100%;
+}
+.wpl-whitelist-plus-minus > div {
+	margin-top: 15px;
+}
+.multiple-field > div:last-child {
+	margin-bottom: 20px;
+    margin-top: 40px;
+    clear: both;
+}
+.wpl-loader {
+	margin: 0;
+	width: 50px;
+	height: 15px;
+	text-align: center;
+	font-size: 10px;
+  }
+.wpl-loader > div {
+	margin: 1px;
+	background-color: #333;
+	height: 100%;
+	width: 3px;
+	display: inline-block;
+	animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  }
+.wpl-loader.wpl-loader-white > div {
+	background-color: #333;
+  }
+.wpl-loader .rect2 {
+	animation-delay: -1.1s;
+  }
+.wpl-loader .rect3 {
+	animation-delay: -1s;
+  }
+.wpl-loader .rect4 {
+	animation-delay: -0.9s;
+  }
+.wpl-loader .rect5 {
+	animation-delay: -0.8s;
+  }
+.button-primary .wpl-loader div {
+	background-color: #333;
+  }
+  @keyframes sk-stretchdelay {
+	0%,
+	40%,
+	100% {
+	  transform: scaleY(0.4);
+	  -webkit-transform: scaleY(0.4);
+	}
+	20% {
+	  transform: scaleY(1);
+	  -webkit-transform: scaleY(1);
+	}
+  }
+.multiple-field div > .wpl-whitelist-plus-minus {
+	margin-top: 15px;
+}
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .overlay-script-style{
 	z-index: 99;
     display: grid;
@@ -2668,7 +3026,7 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 .overlay_eu_visitors{
 	background: rgba(255,255,255,0.3);
     z-index: 99;
-    position: absolute; 
+    position: absolute;
     margin: 0;
     padding: 0;
     bottom: 0;
