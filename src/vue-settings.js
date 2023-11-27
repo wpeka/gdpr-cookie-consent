@@ -42,6 +42,7 @@ var gen = new Vue({
 			},
 			isGdprProActive:'1' === settings_obj.is_pro_active,
 			disableSwitch: false,
+            is_safe_enable : false,
             is_template_changed: false,
 			is_lang_changed:false,
 			is_logo_removed:false,
@@ -1297,6 +1298,7 @@ var gen = new Vue({
 
 			// When Pro is activated set the values in the aceeditor
 			if ( this.isGdprProActive ) {
+                this.is_safe_enable = true;
 				//intializing the acecode editor
 				var editor = ace.edit("aceEditor");
 				//getting the value of editor
@@ -1311,7 +1313,7 @@ var gen = new Vue({
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
-                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed + "&gdpr_css_text_field=" + that.gdpr_css_text,
+                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed + "&gdpr_css_text_field=" + that.gdpr_css_text + "&is_safe_enable=" + that.is_safe_enable,
             }).done(function (data) {
                 that.success_error_message = 'Settings Saved';
                 j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
