@@ -3023,6 +3023,28 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
     box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
 
 }
+.overlay-whitelistscript-style{
+	z-index: 99;
+    display:flex;
+	justify-content: center;
+	align-items: center;
+    position: absolute;
+    top: 43px;
+    left: 0;
+	width: 100%;
+    bottom: 0;
+    margin: 0;
+    background: rgba(255,255,255,0.8);
+    border: none;
+}
+.overlay-whitelistscript-message{
+    width: calc(100% - 43px);
+	text-align: center;
+    background-color: #fff;
+    padding: 15px;
+    margin: 20px;
+    box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
+}
 .overlay_eu_visitors{
 	background: rgba(255,255,255,0.3);
     z-index: 99;
