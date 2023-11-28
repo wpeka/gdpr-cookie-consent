@@ -290,7 +290,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 							</c-card-body>
 						</c-card>
-						<c-card v-show="!is_eprivacy">
+						<c-card v-show="!is_eprivacy && !is_lgpd">
 							<c-card-header><?php esc_html_e( 'Enable Visitor Conditions', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row v-show="is_ccpa">
