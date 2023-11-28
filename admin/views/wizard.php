@@ -2257,6 +2257,10 @@ function get_templates( $template_type ) {
 							General Data Protection Regulation
 						</label><br>
 						<label>
+							<input type="radio" name="gcc-gdpr-policy" value="lgpd" v-model="gdpr_policy" @change="cookiePolicyChange">
+							General Personal Data Protection Law
+						</label><br>
+						<label>
 							<input type="radio" name="gcc-gdpr-policy" value="ccpa" v-model="gdpr_policy" @change="cookiePolicyChange">
 							The California Consumer Privacy Act
 						</label><br>
@@ -2326,6 +2330,22 @@ function get_templates( $template_type ) {
 											<?php
 										endif;
 										?>
+									</c-col>
+								</c-row>
+
+								<!-- lgpd geo selection for pro -->
+							<c-row class="gdpr-selection gdpr-pro-geo-ques" v-show="is_lgpd" >
+									<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Show only for BR visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
+									<c-col class="gdpr-options">
+											<label>
+											<input type="radio" name="gcc-br-enable" value="yes" v-model="selectedRadioLgpd" @click="onSwitchBREnable('yes')">
+											Yes
+											</label>
+											<label>
+											<input type="radio" name="gcc-br-enable" value="no" v-model="selectedRadioLgpd" @click="onSwitchBREnable('no')">
+											No
+											</label>
+											<input type="hidden" name="gcc-br-enable" v-model="is_br_on">
 									</c-col>
 								</c-row>
 
@@ -2419,6 +2439,27 @@ function get_templates( $template_type ) {
 										</c-col>
 								</c-row>
 								<div class="gdpr-pro-label" v-show="is_gdpr">
+									<div class="gdpr-pro-label-text" >Pro</div>
+								</div>
+						</div>
+						<!-- lgpd free selection with Pro Tag -->
+						<div class="geo-location-ques-container gdpr-free-geo-ques">
+
+								<c-row class="gdpr-selection" v-show="is_lgpd">
+										<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Show only for BR visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
+										<c-col class="gdpr-options">
+											<label class="gdpr-yes-option">
+											<input disabled type="radio" name="gcc-br-enable" value="yes" v-model="selectedRadioLgpd" @click="onSwitchBREnable('yes')">
+											Yes
+											</label>
+											<label>
+											<input type="radio" name="gcc-br-enable" value="no" v-model="selectedRadioLgpd" @click="onSwitchBREnable('no')">
+											No
+											</label>
+											<input type="hidden" name="gcc-br-enable" v-model="is_br_on">
+										</c-col>
+								</c-row>
+								<div class="gdpr-pro-label" v-show="is_lgpd">
 									<div class="gdpr-pro-label-text" >Pro</div>
 								</div>
 						</div>

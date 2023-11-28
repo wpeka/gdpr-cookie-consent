@@ -73,18 +73,21 @@ var gen = new Vue({
             eprivacy_message: settings_obj.the_options.hasOwnProperty('notify_message_eprivacy') ? this.stripSlashes(settings_obj.the_options['notify_message_eprivacy']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_text']) : "",
             lgpd_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_text']) : "",
-            gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies for technical and other purposes as specified in the cookie policy. We’ll assume you’re ok with this, but you can opt-out if you wish",
-            lgpd_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish",
+            gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+            lgpd_message: settings_obj.the_options.hasOwnProperty('notify_message_lgpd') ? this.stripSlashes(settings_obj.the_options['notify_message_lgpd']) : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
+            lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
             ccpa_message: settings_obj.the_options.hasOwnProperty('notify_message_ccpa') ? this.stripSlashes(settings_obj.the_options['notify_message_ccpa']) : "In case of sale of your personal information, you may opt out by using the link",
             ccpa_optout_message: settings_obj.the_options.hasOwnProperty('optout_text') ? this.stripSlashes(settings_obj.the_options['optout_text']) : "Do you really wish to opt-out?",
             show_visitor_conditions: this.is_ccpa || ( this.is_gdpr && '1' === settings_obj.is_pro_active ) ? true : false,
 			selectedRadioIab:settings_obj.the_options.hasOwnProperty('is_ccpa_iab_on') && (true === settings_obj.the_options['is_ccpa_iab_on'] || 1 === settings_obj.the_options['is_ccpa_iab_on'] ) ? 'yes' : 'no',
 			selectedRadioGdpr:settings_obj.the_options.hasOwnProperty('is_eu_on') && (true === settings_obj.the_options['is_eu_on'] || 1 === settings_obj.the_options['is_eu_on'] ) ? 'yes' : 'no',
 			selectedRadioCcpa:settings_obj.the_options.hasOwnProperty('is_ccpa_on') && (true === settings_obj.the_options['is_ccpa_on'] || 1 === settings_obj.the_options['is_ccpa_on'] ) ? 'yes' : 'no',
+            selectedRadioLgpd:settings_obj.the_options.hasOwnProperty('is_br_on') && (true === settings_obj.the_options['is_br_on'] || 1 === settings_obj.the_options['is_br_on'] ) ? 'yes' : 'no',
             is_iab_on: settings_obj.the_options.hasOwnProperty('is_ccpa_iab_on') && (true === settings_obj.the_options['is_ccpa_iab_on'] || 1 === settings_obj.the_options['is_ccpa_iab_on'] ) ? true : false,
             is_eu_on: settings_obj.the_options.hasOwnProperty('is_eu_on') && (true === settings_obj.the_options['is_eu_on'] || 1 === settings_obj.the_options['is_eu_on'] ) ? true : false,
             is_ccpa_on: settings_obj.the_options.hasOwnProperty('is_ccpa_on') && (true === settings_obj.the_options['is_ccpa_on'] || 1 === settings_obj.the_options['is_ccpa_on'] ) ? true : false,
+            is_br_on: settings_obj.the_options.hasOwnProperty('is_br_on') && (true === settings_obj.the_options['is_br_on'] || 1 === settings_obj.the_options['is_br_on'] ) ? true : false,
             is_revoke_consent_on: settings_obj.the_options.hasOwnProperty('show_again') && (true === settings_obj.the_options['show_again'] || 1 === settings_obj.the_options['show_again'] ) ? true : false,
             tab_position_options: settings_obj.tab_position_options,
             tab_position: settings_obj.the_options.hasOwnProperty('show_again_position') ? settings_obj.the_options['show_again_position'] : 'right',
@@ -397,6 +400,7 @@ var gen = new Vue({
                 this.is_lgpd = true;
                 this.is_eprivacy = false;
                 this.show_revoke_card = false;
+                this.show_visitor_conditions = true;
             }
             else {
                 this.is_eprivacy = true;
@@ -555,6 +559,13 @@ var gen = new Vue({
 				this.selectedRadioCcpa = value === 'yes'?'yes':'no';
 
 			}   
+        },
+        onSwitchBREnable(value) {
+            this.is_br_on = !this.is_br_on;
+            if(value) {
+                this.is_br_on = value === 'yes'?'yes':'no';
+                this.selectedRadioLgpd = value === 'yes'?'yes':'no';
+            }
         },
         onEnablesafeSwitch(){
            if( this.enable_safe === 'true'){
@@ -1210,10 +1221,12 @@ var gen = new Vue({
             this.cookie_is_on =  true;
             this.is_eu_on = false;
             this.is_ccpa_on = false;
+            this.is_br_on = false;
             this.is_iab_on = false;
 			this.selectedRadioIab = 'no';
 			this.selectedRadioGdpr = 'no';
 			this.selectedRadioCcpa = 'no';
+            this.selectedRadioLgpd = 'no';
             this.logging_on = false;
             this.show_credits = false;
             this.autotick = false;
@@ -1235,6 +1248,7 @@ var gen = new Vue({
             this.on_hide = true;
             this.on_load = false;
             this.gdpr_message = 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
+            this.lgpd_message = 'This website uses cookies for technical and other purposes as specified in the cookie policy. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
             this.eprivacy_message = 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
             this.ccpa_message = 'In case of sale of your personal information, you may opt out by using the link';
             this.ccpa_optout_message = 'Do you really wish to opt-out?';

@@ -1081,7 +1081,7 @@ class Gdpr_Cookie_Consent_Admin {
 			__( 'ePrivacy', 'gdpr-cookie-consent' )    => 'eprivacy',
 			__( 'GDPR', 'gdpr-cookie-consent' )        => 'gdpr',
 			__( 'CCPA', 'gdpr-cookie-consent' )        => 'ccpa',
-			__( 'LGPD', 'gdpr-cookie-consent')         => 'lgpd',
+			__( 'LGPD', 'gdpr-cookie-consent' )        => 'lgpd',
 			__( 'GDPR & CCPA', 'gdpr-cookie-consent' ) => 'both',
 		);
 		$options = apply_filters( 'gdprcookieconsent_cookie_usage_for_options', $options );
@@ -1254,6 +1254,16 @@ class Gdpr_Cookie_Consent_Admin {
 						$the_options['is_ccpa_on'] = 'false';
 					} else {
 						$the_options['is_ccpa_on'] = 'true';
+					}
+				}
+				// For BR.
+				if ( isset( $_POST['gcc-br-enable'] ) ) {
+					if ( 'no' === $_POST['gcc-br-enable'] ) {
+						$the_options['is_br_on'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-br-enable'] ) {
+						$the_options['is_br_on'] = 'false';
+					} else {
+						$the_options['is_br_on'] = 'true';
 					}
 				}
 
@@ -1469,7 +1479,7 @@ class Gdpr_Cookie_Consent_Admin {
 			// DO NOT TRACK.
 			$the_options['do_not_track_on'] = isset( $_POST['gcc-do-not-track'] ) && ( true === $_POST['gcc-do-not-track'] || 'true' === $_POST['gcc-do-not-track'] ) ? 'true' : 'false';
 			// Data Reqs.
-			$the_options['data_reqs_on']               = isset( $_POST['gcc-data_reqs'] ) && ( true === $_POST['gcc-data_reqs'] || 'true' === $_POST['gcc-data_reqs'] ) ? 'true' : 'false';
+			$the_options['data_reqs_on'] = isset( $_POST['gcc-data_reqs'] ) && ( true === $_POST['gcc-data_reqs'] || 'true' === $_POST['gcc-data_reqs'] ) ? 'true' : 'false';
 
 			$the_options['is_on']                              = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'false';
 			$the_options['cookie_usage_for']                   = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
@@ -1710,18 +1720,18 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_all_btn_opacity']        = isset( $_POST['gdpr-cookie-accept-all-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-opacity'] ) ) : '1';
 			$the_options['button_accept_all_btn_border_width']   = isset( $_POST['gdpr-cookie-accept-all-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-width'] ) ) : '0';
 			$the_options['button_accept_all_btn_border_radius']  = isset( $_POST['gdpr-cookie-accept-all-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-radius'] ) ) : '0';
-			//data reqs fields
-			$the_options['data_req_email_address']                      = isset( $_POST['data_req_email_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['data_req_email_text_field'] ) ) : '';
-			$the_options['data_req_subject']                      = isset( $_POST['data_req_subject_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['data_req_subject_text_field'] ) ) : 'We have received your request';
+			// data reqs fields
+			$the_options['data_req_email_address'] = isset( $_POST['data_req_email_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['data_req_email_text_field'] ) ) : '';
+			$the_options['data_req_subject']       = isset( $_POST['data_req_subject_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['data_req_subject_text_field'] ) ) : 'We have received your request';
 
 			if ( ! $the_options['data_req_subject'] ) {
 				$the_options['data_req_subject'] = 'We have received your request';
 			}
 
-			$the_options['data_req_editor_message'] = isset($_POST['data_req_mail_content_text_field']) ? htmlentities( $_POST['data_req_mail_content_text_field'] ) : '';
+			$the_options['data_req_editor_message'] = isset( $_POST['data_req_mail_content_text_field'] ) ? htmlentities( $_POST['data_req_mail_content_text_field'] ) : '';
 
 			if ( $the_options['data_req_editor_message'] == '' ) {
-				$the_options['data_req_editor_message'] = "&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;";
+				$the_options['data_req_editor_message'] = '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;';
 			}
 
 			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
@@ -1730,6 +1740,7 @@ class Gdpr_Cookie_Consent_Admin {
 				$restricted_posts                    = isset( $_POST['gcc-restrict-posts'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-restrict-posts'] ) ) ) : '';
 				$the_options['is_eu_on']             = isset( $_POST['gcc-eu-enable'] ) && ( true === $_POST['gcc-eu-enable'] || 'true' === $_POST['gcc-eu-enable'] ) ? 'true' : 'false';
 				$the_options['is_ccpa_on']           = isset( $_POST['gcc-ccpa-enable'] ) && ( true === $_POST['gcc-ccpa-enable'] || 'true' === $_POST['gcc-ccpa-enable'] ) ? 'true' : 'false';
+				$the_options['is_br_on']             = isset( $_POST['gcc-br-enable']) && (true === $_POST['gcc-br-enable'] || 'true' === $_POST['gcc-br-enable']) ? 'true':'false';
 				$the_options['logging_on']           = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 				$the_options['enable_safe']          = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
 				$the_options['banner_template']      = isset( $_POST['gdpr-banner-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-banner-template'] ) ) : 'banner-default';
@@ -1888,6 +1899,7 @@ class Gdpr_Cookie_Consent_Admin {
 				// Define an array of text keys to translate.
 				$text_keys_to_translate = array(
 					'dash_notify_message_eprivacy',
+					'dash_notify_message_lgpd',
 					'dash_button_readmore_text',
 					'dash_button_accept_text',
 					'dash_button_accept_all_text',
@@ -2777,8 +2789,8 @@ class Gdpr_Cookie_Consent_Admin {
 				fclose( $css_min_file );
 			}
 
-			$the_options = Gdpr_Cookie_Consent::gdpr_get_default_settings();
-			$the_options['data_req_editor_message'] = "&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;";
+			$the_options                            = Gdpr_Cookie_Consent::gdpr_get_default_settings();
+			$the_options['data_req_editor_message'] = '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;';
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			wp_send_json_success( array( 'restore_default_saved' => true ) );
 		}

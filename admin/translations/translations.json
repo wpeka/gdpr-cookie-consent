@@ -12,6 +12,19 @@
 	   "is":"Þessi vefsíða notar vafrakökur til að bæta upplifun þína. Við gætum tekið það með að þú samþykkir þetta, en þú getur hætt við ef þú vilt.",
 	   "sl":"Ta spletna stran uporablja piškotke, da izboljša vašo izkušnjo. Predvidevamo, da se strinjate s tem, vendar se lahko odjavite, če želite."
 	},
+	"dash_notify_message_lgpd":{
+		"en":"This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
+		"fr":"Ce site Web utilise des cookies à des fins techniques et autres, comme spécifié dans la politique en matière de cookies. Nous supposerons que cela vous convient, mais vous pouvez vous désinscrire si vous le souhaitez.",
+		"nl":"Deze website maakt gebruik van cookies voor technische en andere doeleinden zoals gespecificeerd in het cookiebeleid. We gaan ervan uit dat u hiermee akkoord gaat, maar u kunt zich afmelden als u dat wenst.",
+		"bg":"Този уебсайт използва бисквитки за технически и други цели, както е посочено в политиката за бисквитки. Ще приемем, че сте съгласни с това, но можете да се откажете, ако желаете.",
+		"cs":"Tento web používá soubory cookie pro technické a jiné účely, jak je uvedeno v zásadách používání souborů cookie. Budeme předpokládat, že s tím souhlasíte, ale pokud chcete, můžete se odhlásit.",
+		"da":"Denne hjemmeside bruger cookies til tekniske og andre formål som specificeret i cookiepolitikken. Vi antager, at du er ok med dette, men du kan fravælge det, hvis du ønsker det.",
+		"de":"Diese Website verwendet Cookies für technische und andere Zwecke, wie in der Cookie-Richtlinie angegeben. Wir gehen davon aus, dass Sie damit einverstanden sind, aber Sie können dies auch ablehnen, wenn Sie möchten.",
+		"es":"Este sitio web utiliza cookies con fines técnicos y otros, según se especifica en la política de cookies. Asumiremos que está de acuerdo con esto, pero puede optar por no participar si lo desea.",
+		"hr":"Ova web stranica koristi kolačiće u tehničke i druge svrhe kako je navedeno u politici kolačića. Pretpostavit ćemo da se slažete s tim, ali možete se isključiti ako želite.",
+		"is":"Þessi vefsíða notar vafrakökur í tæknilegum og öðrum tilgangi eins og tilgreint er í vafrastefnunni. Við gerum ráð fyrir að þú sért í lagi með þetta, en þú getur afþakkað ef þú vilt.",
+		"sl":"To spletno mesto uporablja piškotke za tehnične in druge namene, kot je navedeno v pravilniku o piškotkih. Predvidevamo, da se s tem strinjate, vendar se lahko odjavite, če želite."
+	},
 	"dash_button_readmore_text":{
 	   "en":"Read More",
 	   "fr":"Lire la suite",
