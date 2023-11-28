@@ -32,7 +32,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			<?php
 		}
 		?>
-		<div class="group-description" tabindex="0"><p class="gdpr"><?php echo esc_html( $the_options['gdpr_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+		<div class="group-description" tabindex="0"><p class="gdpr"><?php echo wp_kses_post( $the_options['gdpr_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 		<?php
 		if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
 			?>
@@ -57,7 +57,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			if ( ! empty( $the_options['ccpa_notify'] ) ) {
 				?>
 				<p class="ccpa">
-				<?php echo esc_html( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+				<?php echo wp_kses_post( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 					<?php
 					if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
 						?>
@@ -101,7 +101,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 					?>
 					data-gdpr_action="accept" >
 					<?php
-					echo esc_html__( $the_options['button_accept_text'], 'gdpr-cookie-consent' ); //phpcs:ignore 
+					echo esc_html__( $the_options['button_accept_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 					?>
 	</a>
 					<?php
@@ -179,7 +179,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 					?>
 					>
 					<?php
-					echo esc_html__( $the_options['button_settings_text'], 'gdpr-cookie-consent' ); //phpcs:ignore 
+					echo esc_html__( $the_options['button_settings_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 					?>
 	</a>
 					<?php
@@ -213,7 +213,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		}
 		?>
 		</div>
-		<p class="ccpa"><?php echo esc_html( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+		<p class="ccpa"><?php echo wp_kses_post( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 				<?php
 				if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
 					?>
@@ -256,7 +256,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		}
 		?>
 		</div>
-		<p class="gdpr"><?php echo esc_html( $the_options['eprivacy_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+		<p class="gdpr"><?php echo wp_kses_post( $the_options['eprivacy_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 				<?php
 				if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
 					?>
@@ -270,7 +270,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 							?>
 					>
 					<?php
-					echo esc_html__( $the_options['button_readmore_text'], 'gdpr-cookie-consent' ); //phpcs:ignore 
+					echo esc_html__( $the_options['button_readmore_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
 					?>
 	</a>
 					<?php

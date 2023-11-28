@@ -42,6 +42,7 @@ var gen = new Vue({
 			},
 			isGdprProActive:'1' === settings_obj.is_pro_active,
 			disableSwitch: false,
+            is_safe_enable : false,
             is_template_changed: false,
 			is_lang_changed:false,
 			is_logo_removed:false,
@@ -71,7 +72,7 @@ var gen = new Vue({
             is_eprivacy: this.gdpr_policy === 'eprivacy' ? true : false,
             eprivacy_message: settings_obj.the_options.hasOwnProperty('notify_message_eprivacy') ? this.stripSlashes(settings_obj.the_options['notify_message_eprivacy']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_text']) : "",
-            gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+            gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We’ll assume you’re ok with this, but you can opt-out if you wish",
             gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
             ccpa_message: settings_obj.the_options.hasOwnProperty('notify_message_ccpa') ? this.stripSlashes(settings_obj.the_options['notify_message_ccpa']) : "In case of sale of your personal information, you may opt out by using the link",
             ccpa_optout_message: settings_obj.the_options.hasOwnProperty('optout_text') ? this.stripSlashes(settings_obj.the_options['optout_text']) : "Do you really wish to opt-out?",
@@ -297,7 +298,7 @@ var gen = new Vue({
 			data_req_editor_message: settings_obj.the_options.hasOwnProperty('data_req_editor_message') ? this.decodeHTMLString ( settings_obj.the_options['data_req_editor_message']) : "",
 
             enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
-            
+
         }
     },
     methods: {
@@ -523,24 +524,21 @@ var gen = new Vue({
         onSwitchIABEnable(value) {
 			this.is_iab_on = !this.is_iab_on;
 			if ( value) {
-				this.is_iab_on = value === 'yes'?'yes':'no';
 				this.selectedRadioIab = value === 'yes'?'yes':'no';
 			}
         },
         onSwitchEUEnable(value) {
             this.is_eu_on = !this.is_eu_on;
 			if ( value ) {
-				this.is_eu_on = value === 'yes'?'yes':'no';
 				this.selectedRadioGdpr = value === 'yes'?'yes':'no';
 			}
         },
         onSwitchCCPAEnable(value) {
             this.is_ccpa_on = !this.is_ccpa_on;
 			if ( value) {
-				this.is_ccpa_on = value === 'yes'?'yes':'no';
 				this.selectedRadioCcpa = value === 'yes'?'yes':'no';
 
-			}   
+			}
         },
         onEnablesafeSwitch(){
            if( this.enable_safe === 'true'){
@@ -565,7 +563,7 @@ var gen = new Vue({
             this.autotick = !this.autotick;
         },
         onSwitchAutoHide() {
-            this.auto_hide = !this.auto_hide;   
+            this.auto_hide = !this.auto_hide;
         },
         onSwitchAutoScroll() {
             this.auto_scroll = !this.auto_scroll;
@@ -585,7 +583,7 @@ var gen = new Vue({
         onSwitchDeleteOnDeactivation() {
             this.delete_on_deactivation = !this.delete_on_deactivation;
         },
-       onSwitchEnableSafe (){  
+       onSwitchEnableSafe (){
            this.onEnablesafeSwitch();
            this.onEnablesafeSwitchCCPA();
            this.enable_safe = !this.enable_safe;
@@ -1271,6 +1269,7 @@ var gen = new Vue({
 
 			// When Pro is activated set the values in the aceeditor
 			if ( this.isGdprProActive ) {
+                this.is_safe_enable = true;
 				//intializing the acecode editor
 				var editor = ace.edit("aceEditor");
 				//getting the value of editor
@@ -1285,7 +1284,7 @@ var gen = new Vue({
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
-                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed + "&gdpr_css_text_field=" + that.gdpr_css_text,
+                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed + "&gdpr_css_text_field=" + that.gdpr_css_text + "&is_safe_enable=" + that.is_safe_enable,
             }).done(function (data) {
                 that.success_error_message = 'Settings Saved';
                 j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -2240,6 +2239,109 @@ var gen = new Vue({
 			editor.setValue(this.gdpr_css_text_free);
 			editor.setReadOnly(true);
 		}
+		// Add a new input field for whitelist
+		jQuery(document).on("click", '.wpl_add_url', function(){
+		let container_div = jQuery(this).closest('div');
+		let templ = jQuery('.wpl-url-template').get(0).innerHTML;
+		container_div.append(templ);
+		});
+		// Remove new input field for whitelist
+		jQuery(document).on("click", '.wpl_remove_url', function(){
+		let container_div = jQuery(this).closest('div');
+		container_div.remove();
+		});
+		// Remove and save the whole tab for whitelist script
+		jQuery(document).on('click', '.wpl_script_save', wpl_script_save );
+		function wpl_script_save() {
+		var btn = jQuery(this);
+		var btn_html = btn.html();
+
+		var container_div = btn.closest('.wpl-panel');
+		var type = 'whitelist_script';
+		var action = btn.data('action');
+		var id = btn.data('id');
+		if ( action == "save" || action == "remove" ) {
+			btn.html('<div class="wpl-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+		}
+
+		// Values
+		var data = {};
+		container_div.find(':input').each(function () {
+			if (jQuery(this).attr('type') === 'button') return;
+			if ( typeof jQuery(this).attr('name') === 'undefined') return;
+			if (!jQuery(this).data('name')) return;
+			if (jQuery(this).attr('type')==='checkbox' ) {
+				data[jQuery(this).data('name')] = jQuery(this).is(":checked");
+			} else if ( jQuery(this).attr('type')==='radio' ) {
+				if (jQuery(this).is(":checked")) {
+					data[jQuery(this).data('name')] = jQuery(this).val();
+				}
+			} else if (jQuery(this).data('name')==='urls'){
+				let curValue = data[jQuery(this).data('name')];
+				if (typeof curValue === 'undefined' ) curValue = [];
+				curValue.push(jQuery(this).val());
+				data[jQuery(this).data('name')] = curValue;
+			} else if (jQuery(this).data('name')==='dependency'){
+				//key value arrays with string keys aren't stringified to json.
+				let curValue = data[jQuery(this).data('name')];
+				if (typeof curValue === 'undefined' ) curValue = [];
+				curValue.push(jQuery(this).data('url')+'|:|'+jQuery(this).val());
+				data[jQuery(this).data('name')] = curValue;
+			} else {
+				data[jQuery(this).data('name')] = jQuery(this).val();
+			}
+		});
+		jQuery.ajax({
+			type: "POST",
+			url: settings_obj.ajaxurl,
+			data: ({
+				action: 'wpl_script_save',
+				'wpl-save': true,
+				type: type,
+				button_action: action,
+				id: id,
+				data: JSON.stringify(data),
+			}),
+			success: function (response) {
+				if (response.success) {
+					if ( action === 'save' ) {
+						btn.html(btn_html);
+					}
+					if ( action === 'remove' ) {
+						container_div.remove();
+						btn.html(btn_html);
+					}
+				}
+			}
+		});
+		}
+
+		//add new tab
+		jQuery(document).on('click', '.wpl_script_add', wpl_script_add);
+			function wpl_script_add() {
+
+				var btn = jQuery(this);
+				var btn_html = btn.html();
+				var type = 'whitelist_script';
+				btn.html('<div class="wpl-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+
+				jQuery.ajax({
+					type: 'POST',
+					url: settings_obj.ajaxurl,
+					data: ({
+								action: 'wpl_script_add',
+								type: type,
+							}),
+							success: function (response) {
+										if (response.success) {
+											btn.before(response.html);
+											btn.html(btn_html);
+										}
+									}
+				}).done(function (data) {
+						//
+				});
+			}
     },
     icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep }
 })
