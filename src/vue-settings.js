@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import CoreuiVue from '@coreui/vue';
 import vSelect from 'vue-select';
-import { VueEditor } from "vue2-editor";
+import { VueEditor, Quill } from "vue2-editor";
 import '@coreui/coreui/dist/css/coreui.min.css';
 import 'vue-select/dist/vue-select.css';
 import VueModal from '@kouts/vue-modal'
@@ -42,6 +42,7 @@ var gen = new Vue({
 			},
 			isGdprProActive:'1' === settings_obj.is_pro_active,
 			disableSwitch: false,
+            is_safe_enable : false,
             is_template_changed: false,
 			is_lang_changed:false,
 			is_logo_removed:false,
@@ -71,7 +72,7 @@ var gen = new Vue({
             is_eprivacy: this.gdpr_policy === 'eprivacy' ? true : false,
             eprivacy_message: settings_obj.the_options.hasOwnProperty('notify_message_eprivacy') ? this.stripSlashes(settings_obj.the_options['notify_message_eprivacy']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_text']) : "",
-            gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+            gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We’ll assume you’re ok with this, but you can opt-out if you wish",
             gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
             ccpa_message: settings_obj.the_options.hasOwnProperty('notify_message_ccpa') ? this.stripSlashes(settings_obj.the_options['notify_message_ccpa']) : "In case of sale of your personal information, you may opt out by using the link",
             ccpa_optout_message: settings_obj.the_options.hasOwnProperty('optout_text') ? this.stripSlashes(settings_obj.the_options['optout_text']) : "Do you really wish to opt-out?",
@@ -288,6 +289,15 @@ var gen = new Vue({
 			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
+			// Data Request
+			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
+			shortcode_copied: false,
+			data_reqs_switch_clicked: false,
+			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
+			data_req_subject: settings_obj.the_options.hasOwnProperty('data_req_subject') ? settings_obj.the_options['data_req_subject'] : 'We have received your request',
+			data_req_editor_message: settings_obj.the_options.hasOwnProperty('data_req_editor_message') ? this.decodeHTMLString ( settings_obj.the_options['data_req_editor_message']) : "",
+
+            enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
 
         }
     },
@@ -295,6 +305,23 @@ var gen = new Vue({
         stripSlashes( value ) {
             return value.replace(/\\(.)/mg, "$1");
         },
+		copyTextToClipboard() {
+            const textToCopy = '[wpl_data_request]';
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            this.shortcode_copied = true;
+            setTimeout(() => {
+                this.shortcode_copied = false;
+            }, 1500);
+        },
+		decodeHTMLString(encodedString) {
+			var doc = new DOMParser().parseFromString(encodedString, 'text/html');
+ 			return doc.documentElement.textContent.replace(/\\/g, '');
+		},
 		decodeCSS(encodedCSS) {
 			const lines = encodedCSS.split("\\r\\n");
 			let decodedCSS = "";
@@ -481,6 +508,13 @@ var gen = new Vue({
 		onSwitchDntEnable() {//changing the value of do_not_track_on enable/disable
             this.do_not_track_on = !this.do_not_track_on;
         },
+		onSwitchDntEnable() {//changing the value of do_not_track_on enable/disable
+            this.do_not_track_on = !this.do_not_track_on;
+        },
+		onSwitchDataReqsEnable() {//changing the value of data_reqs_on enable/disable
+            this.data_reqs_on = !this.data_reqs_on;
+			this.data_reqs_switch_clicked = true;
+        },
         onSwitchCookieAcceptEnable() {
             this.cookie_accept_on = !this.cookie_accept_on;
         },
@@ -490,24 +524,37 @@ var gen = new Vue({
         onSwitchIABEnable(value) {
 			this.is_iab_on = !this.is_iab_on;
 			if ( value) {
-				this.is_iab_on = value === 'yes'?'yes':'no';
 				this.selectedRadioIab = value === 'yes'?'yes':'no';
 			}
         },
         onSwitchEUEnable(value) {
             this.is_eu_on = !this.is_eu_on;
-			if ( value) {
-				this.is_eu_on = value === 'yes'?'yes':'no';
+			if ( value ) {
 				this.selectedRadioGdpr = value === 'yes'?'yes':'no';
 			}
         },
         onSwitchCCPAEnable(value) {
             this.is_ccpa_on = !this.is_ccpa_on;
 			if ( value) {
-				this.is_ccpa_on = value === 'yes'?'yes':'no';
 				this.selectedRadioCcpa = value === 'yes'?'yes':'no';
 
 			}
+        },
+        onEnablesafeSwitch(){
+           if( this.enable_safe === 'true'){
+                this.is_eu_on = 'no';
+            }
+            else{
+                this.is_eu_on = 'yes';
+            }
+        },
+        onEnablesafeSwitchCCPA(){
+            if( this.enable_safe === 'true'){
+                this.is_ccpa_on = 'no';
+            }
+            else{
+                this.is_ccpa_on = 'yes';
+            }
         },
         onSwitchRevokeConsentEnable() {
             this.is_revoke_consent_on = !this.is_revoke_consent_on;
@@ -536,6 +583,11 @@ var gen = new Vue({
         onSwitchDeleteOnDeactivation() {
             this.delete_on_deactivation = !this.delete_on_deactivation;
         },
+       onSwitchEnableSafe (){
+           this.onEnablesafeSwitch();
+           this.onEnablesafeSwitchCCPA();
+           this.enable_safe = !this.enable_safe;
+        },
         onSwitchShowCredits() {
             this.show_credits = !this.show_credits;
         },
@@ -548,6 +600,42 @@ var gen = new Vue({
 			j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
 			j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
 			j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+		},
+		onClickAddMedia() {
+			// Get the button element
+			jQuery(document).ready(function ($) {
+
+				var frame = wp.media({
+					title: 'Select or Upload Media',
+					button: {
+						text: 'Use this media'
+					},
+					multiple: false // Set to false if selecting only one file
+				});
+
+				frame.open();
+
+				frame.on('select', function () {
+					var selection = frame.state().get('selection');
+
+					selection.map(function (attachment) {
+						var attachmentURL = attachment.attributes.url;
+						var attachmentType = attachment.attributes.type;
+						var attachmentFileName = attachment.attributes.filename;
+
+						var editor = $('#quill-container .ql-editor')[0];
+						var quillInstance = editor.__quill || editor.parentNode.__quill;
+
+						if (attachmentType === 'application' || attachmentType === 'text') {
+							var link = $('<a>').attr('href', attachmentURL).text(attachmentFileName);
+							quillInstance.root.appendChild(link[0]);
+							quillInstance.root.appendChild($('<br>')[0]);
+						} else {
+							quillInstance.insertEmbed(quillInstance.getLength(), 'image', attachmentURL);
+						}
+					});
+				});
+			});
 		},
         cookieAcceptChange( value ) {
             if(value === '#cookie_action_close_header') {
@@ -886,7 +974,7 @@ var gen = new Vue({
             },
             exportsettings() {
                 const siteAddress = window.location.origin;
-                
+
                 // Make an AJAX request to fetch data from the custom endpoint
                 fetch(siteAddress+'/wp-json/custom/v1/gdpr-data/')
                 .then(response => {
@@ -897,34 +985,34 @@ var gen = new Vue({
                 })
                 .then(data => {
                 // Process the fetched data
-                
+
                 // Create a copy of the settings object
                 const settingsCopy = { ...data };
-                
+
                 // Check if gdpr_text_css is not empty
                 if (settingsCopy.gdpr_text_css !== "") {
                 const text_css = settingsCopy.gdpr_css_text;
-                
+
                 // Decode the gdpr_text_css property before exporting
                 const final_css = text_css.replace(/\\r\\n/g, '\n');
                 settingsCopy.gdpr_css_text = final_css;
                 }
-                
+
                 // Convert the settings object to JSON with indentation
                 const settingsJSON = JSON.stringify(JSON.stringify(settingsCopy, null, 2));
-                
+
                 // Create a Blob containing the JSON data
                 const blob = new Blob([settingsJSON], { type: 'application/json' });
-                
+
                 // Create a download link for the Blob
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'wpeka-banner-settings.json';
-                
+
                 // Trigger a click on the link to initiate the download
                 a.click();
-                
+
                 // Release the object URL to free up resources
                 URL.revokeObjectURL(url);
                 })
@@ -1140,6 +1228,9 @@ var gen = new Vue({
 			this.gdpr_css_text    = '';
 			this.gdpr_css_text_free = "/*Your CSS here*/";
 			this.do_not_track_on = false;
+			this.data_reqs_on = false;
+			this.data_req_email_address = '';
+			this.data_req_subject = 'We have received your request';
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
@@ -1178,6 +1269,7 @@ var gen = new Vue({
 
 			// When Pro is activated set the values in the aceeditor
 			if ( this.isGdprProActive ) {
+                this.is_safe_enable = true;
 				//intializing the acecode editor
 				var editor = ace.edit("aceEditor");
 				//getting the value of editor
@@ -1192,7 +1284,7 @@ var gen = new Vue({
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
-                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed + "&gdpr_css_text_field=" + that.gdpr_css_text,
+                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed + "&gdpr_css_text_field=" + that.gdpr_css_text + "&is_safe_enable=" + that.is_safe_enable,
             }).done(function (data) {
                 that.success_error_message = 'Settings Saved';
                 j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -1207,6 +1299,10 @@ var gen = new Vue({
                     location.reload();
                 }
 				that.is_logo_removed = false;
+				if ( that.data_reqs_switch_clicked == true ) {
+					that.data_reqs_switch_clicked = false;
+					location.reload();
+				}
             });
         },
 		//method to save wizard form settings
@@ -2143,6 +2239,109 @@ var gen = new Vue({
 			editor.setValue(this.gdpr_css_text_free);
 			editor.setReadOnly(true);
 		}
+		// Add a new input field for whitelist
+		jQuery(document).on("click", '.wpl_add_url', function(){
+		let container_div = jQuery(this).closest('div');
+		let templ = jQuery('.wpl-url-template').get(0).innerHTML;
+		container_div.append(templ);
+		});
+		// Remove new input field for whitelist
+		jQuery(document).on("click", '.wpl_remove_url', function(){
+		let container_div = jQuery(this).closest('div');
+		container_div.remove();
+		});
+		// Remove and save the whole tab for whitelist script
+		jQuery(document).on('click', '.wpl_script_save', wpl_script_save );
+		function wpl_script_save() {
+		var btn = jQuery(this);
+		var btn_html = btn.html();
+
+		var container_div = btn.closest('.wpl-panel');
+		var type = 'whitelist_script';
+		var action = btn.data('action');
+		var id = btn.data('id');
+		if ( action == "save" || action == "remove" ) {
+			btn.html('<div class="wpl-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+		}
+
+		// Values
+		var data = {};
+		container_div.find(':input').each(function () {
+			if (jQuery(this).attr('type') === 'button') return;
+			if ( typeof jQuery(this).attr('name') === 'undefined') return;
+			if (!jQuery(this).data('name')) return;
+			if (jQuery(this).attr('type')==='checkbox' ) {
+				data[jQuery(this).data('name')] = jQuery(this).is(":checked");
+			} else if ( jQuery(this).attr('type')==='radio' ) {
+				if (jQuery(this).is(":checked")) {
+					data[jQuery(this).data('name')] = jQuery(this).val();
+				}
+			} else if (jQuery(this).data('name')==='urls'){
+				let curValue = data[jQuery(this).data('name')];
+				if (typeof curValue === 'undefined' ) curValue = [];
+				curValue.push(jQuery(this).val());
+				data[jQuery(this).data('name')] = curValue;
+			} else if (jQuery(this).data('name')==='dependency'){
+				//key value arrays with string keys aren't stringified to json.
+				let curValue = data[jQuery(this).data('name')];
+				if (typeof curValue === 'undefined' ) curValue = [];
+				curValue.push(jQuery(this).data('url')+'|:|'+jQuery(this).val());
+				data[jQuery(this).data('name')] = curValue;
+			} else {
+				data[jQuery(this).data('name')] = jQuery(this).val();
+			}
+		});
+		jQuery.ajax({
+			type: "POST",
+			url: settings_obj.ajaxurl,
+			data: ({
+				action: 'wpl_script_save',
+				'wpl-save': true,
+				type: type,
+				button_action: action,
+				id: id,
+				data: JSON.stringify(data),
+			}),
+			success: function (response) {
+				if (response.success) {
+					if ( action === 'save' ) {
+						btn.html(btn_html);
+					}
+					if ( action === 'remove' ) {
+						container_div.remove();
+						btn.html(btn_html);
+					}
+				}
+			}
+		});
+		}
+
+		//add new tab
+		jQuery(document).on('click', '.wpl_script_add', wpl_script_add);
+			function wpl_script_add() {
+
+				var btn = jQuery(this);
+				var btn_html = btn.html();
+				var type = 'whitelist_script';
+				btn.html('<div class="wpl-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+
+				jQuery.ajax({
+					type: 'POST',
+					url: settings_obj.ajaxurl,
+					data: ({
+								action: 'wpl_script_add',
+								type: type,
+							}),
+							success: function (response) {
+										if (response.success) {
+											btn.before(response.html);
+											btn.html(btn_html);
+										}
+									}
+				}).done(function (data) {
+						//
+				});
+			}
     },
     icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep }
 })

@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.3.8';
+			$this->version = '2.3.9';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -192,10 +192,11 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
-			// added ajax callback for wizard.
+			// added ajax callback for wizard
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
-			// added ajax for import settings.
+			// added ajax for import settings
 			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
+
 		}
 	}
 
@@ -615,6 +616,9 @@ class Gdpr_Cookie_Consent {
 			'restrict_posts'                       => array(),
 			'gdpr_css_text'                        => '',
 			'do_not_track_on'                      => false,
+			'data_req_editor_message'			   => '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;',
+			'data_req_subject'                     => 'We have received your request',
+			'enable_safe'                          => false,
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;
