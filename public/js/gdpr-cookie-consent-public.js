@@ -93,7 +93,6 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 	var gdpr_user_ip       =  gdpr_cookies_obj.gdpr_user_ip;
 	var gdpr_do_not_track       =  gdpr_cookies_obj.gdpr_do_not_track;
 	var browser_dnt_value     = '';
-
 	// Set the browser DNT value
 	if (navigator.doNotTrack === "1") {
 		// User has enabled Do Not Track
@@ -1022,7 +1021,8 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 				} else {
 					this.hideHeader();
 				}
-			} else if ( this.settings.cookie_usage_for == 'eprivacy' ) {
+			}
+			else if ( this.settings.cookie_usage_for == 'eprivacy' ) {
 				if ( ! GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME )) {
 					this.displayHeader();
 					if ( this.settings.auto_hide ) {
@@ -1272,8 +1272,8 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			this.bar_elm.css( 'opacity', GDPR.settings.opacity );
 			this.settings_button.attr( 'data-gdpr_action', 'show_settings' );
 		},
-		displayHeader:function(gdpr_flag, ccpa_flag, force_display_bar, force_display_show_again) {
-			if( !gdpr_flag || !ccpa_flag){
+		displayHeader:function(gdpr_flag, ccpa_flag,force_display_bar, force_display_show_again) {
+			if( !gdpr_flag || !ccpa_flag ){
 				var animate_on_load = GDPR.settings.notify_animate_show;
 				if(force_display_bar || animate_on_load){
 					this.bar_elm.slideDown(this.settings.animate_speed_hide);
@@ -1311,7 +1311,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 				if (this.settings.cookie_bar_as == 'popup') {
 					$( "#gdpr-popup" ).gdprmodal( 'hide' );
 				}
-				if ( this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'eprivacy' || this.settings.cookie_usage_for == 'both' ) {
+				if ( this.settings.cookie_usage_for == 'gdpr' || this.settings.cookie_usage_for == 'eprivacy' || this.settings.cookie_usage_for == 'both') {
 					this.show_again_elm.slideDown( this.settings.animate_speed_hide );
 				}
 			}

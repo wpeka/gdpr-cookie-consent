@@ -272,6 +272,7 @@ class Gdpr_Cookie_Consent_Public {
 			$timber           = new Timber\Timber();
 			$gdpr_message     = '';
 			$ccpa_message     = '';
+			$lgpd_message     = '';
 			$eprivacy_message = '';
 			// Output the HTML in the footer.
 			if ( 'eprivacy' === $the_options['cookie_usage_for'] ) {
@@ -289,6 +290,10 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
 				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
 			}
+			if ( 'lgpd' === $the_options['cookie_usage_for'] ) {
+				$lgpd_message               = nl2br( $the_options['notify_message_lgpd'] );
+				$the_options['lgpd_notify'] = true;
+			}
 			if ( 'both' === $the_options['cookie_usage_for'] ) {
 				$gdpr_message                  = nl2br( $the_options['notify_message'] );
 				$ccpa_message                  = nl2br( $the_options['notify_message_ccpa'] );
@@ -302,9 +307,11 @@ class Gdpr_Cookie_Consent_Public {
 			$eprivacy_message = stripslashes( $eprivacy_message );
 			$gdpr_message     = stripslashes( $gdpr_message );
 			$ccpa_message     = stripslashes( $ccpa_message );
+			$lgpd_message     = stripslashes( $lgpd_message );
 			$eprivacy_str     = $eprivacy_message;
 			$gdpr_str         = $gdpr_message;
 			$ccpa_str         = $ccpa_message;
+			$lgpd_str         = $lgpd_message;
 			$head             = $the_options['bar_heading_text'];
 			$head             = trim( stripslashes( $head ) );
 			$template         = $the_options['template'];
@@ -357,6 +364,7 @@ class Gdpr_Cookie_Consent_Public {
 			$the_options['eprivacy_str']              = $eprivacy_str;
 			$the_options['gdpr_str']                  = $gdpr_str;
 			$the_options['ccpa_str']                  = $ccpa_str;
+			$the_options['lgpd_str']                  = $lgpd_str;
 			$the_options['head']                      = $head;
 			$the_options['version']                   = $this->version;
 			$the_options['show_again_container_id']   = $this->gdprcookieconsent_remove_hash( $the_options['show_again_div_id'] );
@@ -654,6 +662,8 @@ class Gdpr_Cookie_Consent_Public {
 				'gdpr_user_ip'            => $user_ip,
 				'gdpr_do_not_track'       => $the_options['do_not_track_on'],
 			);
+			error_log("cookies_list_data");
+			error_log(print_r($cookies_list_data, true));
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
 		}
 	}
