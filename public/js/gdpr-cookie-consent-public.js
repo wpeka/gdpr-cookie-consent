@@ -335,7 +335,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 							var geo_flag   = true;
 							var gdpr_flag  = false;
 							var ccpa_flag  = false;
-							var lgpdd_flag = false;
+							var lgpd_flag = false;
 							var cookieData = JSON.parse( gdpr_cookiebar_settings );
 							var cookie_for = cookieData['cookie_usage_for'];
 							if ('both' == cookie_for) {
