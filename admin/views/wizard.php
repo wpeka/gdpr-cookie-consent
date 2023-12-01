@@ -2328,7 +2328,6 @@ function get_templates( $template_type ) {
 										?>
 									</c-col>
 								</c-row>
-
 							<!-- IAB geo selection for pro -->
 								<c-row class="ccpa-iab-selection iab-pro-geo-ques" v-show="is_ccpa" >
 									<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> </label></c-col>
@@ -2422,7 +2421,6 @@ function get_templates( $template_type ) {
 									<div class="gdpr-pro-label-text" >Pro</div>
 								</div>
 						</div>
-
 						<!-- IAB free selection with Pro Tag  -->
 						<div class="geo-location-ques-container iab-free-geo-ques">
 							<c-row class="ccpa-iab-selection" v-show="is_ccpa" >

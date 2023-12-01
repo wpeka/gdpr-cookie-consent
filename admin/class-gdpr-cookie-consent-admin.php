@@ -1081,6 +1081,7 @@ class Gdpr_Cookie_Consent_Admin {
 			__( 'ePrivacy', 'gdpr-cookie-consent' )    => 'eprivacy',
 			__( 'GDPR', 'gdpr-cookie-consent' )        => 'gdpr',
 			__( 'CCPA', 'gdpr-cookie-consent' )        => 'ccpa',
+			__( 'LGPD', 'gdpr-cookie-consent' )        => 'lgpd',
 			__( 'GDPR & CCPA', 'gdpr-cookie-consent' ) => 'both',
 		);
 		$options = apply_filters( 'gdprcookieconsent_cookie_usage_for_options', $options );
@@ -1255,7 +1256,6 @@ class Gdpr_Cookie_Consent_Admin {
 						$the_options['is_ccpa_on'] = 'true';
 					}
 				}
-
 				$the_options['logging_on'] = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 
 				$the_options['banner_template'] = isset( $_POST['gdpr-banner-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-banner-template'] ) ) : 'banner-default';
@@ -1270,6 +1270,7 @@ class Gdpr_Cookie_Consent_Admin {
 					switch ( $the_options['cookie_usage_for'] ) {
 						case 'both':
 						case 'gdpr':
+						case 'lgpd':
 						case 'eprivacy':
 							update_option( 'wpl_bypass_script_blocker', 0 );
 							break;
@@ -1740,6 +1741,7 @@ class Gdpr_Cookie_Consent_Admin {
 					switch ( $the_options['cookie_usage_for'] ) {
 						case 'both':
 						case 'gdpr':
+						case 'lgpd':
 						case 'eprivacy':
 							update_option( 'wpl_bypass_script_blocker', 0 );
 							break;
@@ -1887,6 +1889,7 @@ class Gdpr_Cookie_Consent_Admin {
 				// Define an array of text keys to translate.
 				$text_keys_to_translate = array(
 					'dash_notify_message_eprivacy',
+					'dash_notify_message_lgpd',
 					'dash_button_readmore_text',
 					'dash_button_accept_text',
 					'dash_button_accept_all_text',
