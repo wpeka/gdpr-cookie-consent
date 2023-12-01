@@ -662,8 +662,6 @@ class Gdpr_Cookie_Consent_Public {
 				'gdpr_user_ip'            => $user_ip,
 				'gdpr_do_not_track'       => $the_options['do_not_track_on'],
 			);
-			error_log("cookies_list_data");
-			error_log(print_r($cookies_list_data, true));
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
 		}
 	}

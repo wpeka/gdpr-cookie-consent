@@ -187,7 +187,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 			<?php
 		}
 		?>
-		<div class="group-description" tabindex="0"><p class="gdpr"><?php echo wp_kses_post( $the_options['gdpr_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+		<div class="group-description" tabindex="0"><p class="lgpd"><?php echo wp_kses_post( $the_options['lgpd_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 		<?php
 		if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
 			?>
