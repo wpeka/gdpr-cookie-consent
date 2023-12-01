@@ -83,11 +83,9 @@ var gen = new Vue({
 			selectedRadioIab:settings_obj.the_options.hasOwnProperty('is_ccpa_iab_on') && (true === settings_obj.the_options['is_ccpa_iab_on'] || 1 === settings_obj.the_options['is_ccpa_iab_on'] ) ? 'yes' : 'no',
 			selectedRadioGdpr:settings_obj.the_options.hasOwnProperty('is_eu_on') && (true === settings_obj.the_options['is_eu_on'] || 1 === settings_obj.the_options['is_eu_on'] ) ? 'yes' : 'no',
 			selectedRadioCcpa:settings_obj.the_options.hasOwnProperty('is_ccpa_on') && (true === settings_obj.the_options['is_ccpa_on'] || 1 === settings_obj.the_options['is_ccpa_on'] ) ? 'yes' : 'no',
-            selectedRadioLgpd:settings_obj.the_options.hasOwnProperty('is_br_on') && (true === settings_obj.the_options['is_br_on'] || 1 === settings_obj.the_options['is_br_on'] ) ? 'yes' : 'no',
             is_iab_on: settings_obj.the_options.hasOwnProperty('is_ccpa_iab_on') && (true === settings_obj.the_options['is_ccpa_iab_on'] || 1 === settings_obj.the_options['is_ccpa_iab_on'] ) ? true : false,
             is_eu_on: settings_obj.the_options.hasOwnProperty('is_eu_on') && (true === settings_obj.the_options['is_eu_on'] || 1 === settings_obj.the_options['is_eu_on'] ) ? true : false,
             is_ccpa_on: settings_obj.the_options.hasOwnProperty('is_ccpa_on') && (true === settings_obj.the_options['is_ccpa_on'] || 1 === settings_obj.the_options['is_ccpa_on'] ) ? true : false,
-            is_br_on: settings_obj.the_options.hasOwnProperty('is_br_on') && (true === settings_obj.the_options['is_br_on'] || 1 === settings_obj.the_options['is_br_on'] ) ? true : false,
             is_revoke_consent_on: settings_obj.the_options.hasOwnProperty('show_again') && (true === settings_obj.the_options['show_again'] || 1 === settings_obj.the_options['show_again'] ) ? true : false,
             tab_position_options: settings_obj.tab_position_options,
             tab_position: settings_obj.the_options.hasOwnProperty('show_again_position') ? settings_obj.the_options['show_again_position'] : 'right',
@@ -556,12 +554,6 @@ var gen = new Vue({
 				this.selectedRadioCcpa = value === 'yes'?'yes':'no';
 
 			}   
-        },
-        onSwitchBREnable(value) {
-            this.is_br_on = !this.is_br_on;
-            if(value) {
-                this.selectedRadioLgpd = value === 'yes'?'yes':'no';
-            }
         },
         onEnablesafeSwitch(){
            if( this.enable_safe === 'true'){
@@ -1223,7 +1215,6 @@ var gen = new Vue({
             this.cookie_is_on =  true;
             this.is_eu_on = false;
             this.is_ccpa_on = false;
-            this.is_br_on = false;
             this.is_iab_on = false;
 			this.selectedRadioIab = 'no';
 			this.selectedRadioGdpr = 'no';

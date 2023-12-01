@@ -1256,17 +1256,6 @@ class Gdpr_Cookie_Consent_Admin {
 						$the_options['is_ccpa_on'] = 'true';
 					}
 				}
-				// For BR.
-				if ( isset( $_POST['gcc-br-enable'] ) ) {
-					if ( 'no' === $_POST['gcc-br-enable'] ) {
-						$the_options['is_br_on'] = 'false';
-					} elseif ( 'false' == $_POST['gcc-br-enable'] ) {
-						$the_options['is_br_on'] = 'false';
-					} else {
-						$the_options['is_br_on'] = 'true';
-					}
-				}
-
 				$the_options['logging_on'] = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 
 				$the_options['banner_template'] = isset( $_POST['gdpr-banner-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-banner-template'] ) ) : 'banner-default';
@@ -1741,7 +1730,6 @@ class Gdpr_Cookie_Consent_Admin {
 				$restricted_posts                    = isset( $_POST['gcc-restrict-posts'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-restrict-posts'] ) ) ) : '';
 				$the_options['is_eu_on']             = isset( $_POST['gcc-eu-enable'] ) && ( true === $_POST['gcc-eu-enable'] || 'true' === $_POST['gcc-eu-enable'] ) ? 'true' : 'false';
 				$the_options['is_ccpa_on']           = isset( $_POST['gcc-ccpa-enable'] ) && ( true === $_POST['gcc-ccpa-enable'] || 'true' === $_POST['gcc-ccpa-enable'] ) ? 'true' : 'false';
-				$the_options['is_br_on']             = isset( $_POST['gcc-br-enable']) && (true === $_POST['gcc-br-enable'] || 'true' === $_POST['gcc-br-enable']) ? 'true':'false';
 				$the_options['logging_on']           = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 				$the_options['enable_safe']          = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
 				$the_options['banner_template']      = isset( $_POST['gdpr-banner-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-banner-template'] ) ) : 'banner-default';

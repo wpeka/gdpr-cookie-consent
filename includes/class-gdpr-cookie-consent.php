@@ -573,7 +573,6 @@ class Gdpr_Cookie_Consent {
 			'is_on'                                => true,
 			'is_eu_on'                             => false,
 			'is_ccpa_on'                           => false,
-			'is_br_on'                             => false,
 			'is_ccpa_iab_on'                       => false,
 			'logging_on'                           => false,
 			'show_credits'                         => false,
@@ -642,7 +641,6 @@ class Gdpr_Cookie_Consent {
 			case 'is_on':
 			case 'is_eu_on':
 			case 'is_ccpa_on':
-			case 'is_br_on':
 			case 'is_ccpa_iab_on':
 			case 'is_script_blocker_on':
 			case 'show_again':
@@ -952,7 +950,6 @@ class Gdpr_Cookie_Consent {
 			'logging_on'                           => $settings['logging_on'],
 			'is_eu_on'                             => $settings['is_eu_on'],
 			'is_ccpa_on'                           => $settings['is_ccpa_on'],
-			'is_br_on'                             => $settings['is_br_on'],
 			'is_ccpa_iab_on'                       => $settings['is_ccpa_iab_on'],
 			'is_ticked'                            => $settings['is_ticked'],
 			'is_script_blocker_on'                 => $settings['is_script_blocker_on'],
