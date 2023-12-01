@@ -297,7 +297,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 							</c-card-body>
 						</c-card>
-						<c-card v-show="!is_eprivacy">
+						<c-card v-show="!is_eprivacy && !is_lgpd">
 							<c-card-header><?php esc_html_e( 'Enable Visitor Conditions', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row v-show="is_ccpa">
@@ -326,16 +326,6 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-col class="col-sm-8">
 											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d" color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
 											<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
-										</c-col>
-									</c-row>
-									<c-row v-show="is_lgpd">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for Brazil visitors', 'gdpr-cookie-consent' ); ?>
-											</label>
-											<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
-										</c-col>
-										<c-col class="col-sm-8">
-											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="is_br_on" id="gdpr-cookie-consent-br-on" variant="3d" color="success" :checked="is_br_on" v-on:update:checked="onSwitchBREnable"></c-switch>
-											<input type="hidden" name="gcc-br-enable" v-model="is_br_on">
 										</c-col>
 									</c-row>
 								<?php endif ?>
