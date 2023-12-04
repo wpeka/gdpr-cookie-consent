@@ -72,11 +72,11 @@ var gen = new Vue({
             is_eprivacy: this.gdpr_policy === 'eprivacy' ? true : false,
             eprivacy_message: settings_obj.the_options.hasOwnProperty('notify_message_eprivacy') ? this.stripSlashes(settings_obj.the_options['notify_message_eprivacy']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_text']) : "",
-            lgpd_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_text']) : "",
+            lgpd_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_lgpd_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_lgpd_text']) : "",
             gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             lgpd_message: settings_obj.the_options.hasOwnProperty('notify_message_lgpd') ? this.stripSlashes(settings_obj.the_options['notify_message_lgpd']) : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
-            lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
+            lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message_lgpd') ? this.stripSlashes(settings_obj.the_options['about_message_lgpd']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
             ccpa_message: settings_obj.the_options.hasOwnProperty('notify_message_ccpa') ? this.stripSlashes(settings_obj.the_options['notify_message_ccpa']) : "In case of sale of your personal information, you may opt out by using the link",
             ccpa_optout_message: settings_obj.the_options.hasOwnProperty('optout_text') ? this.stripSlashes(settings_obj.the_options['optout_text']) : "Do you really wish to opt-out?",
             show_visitor_conditions: this.is_ccpa || ( this.is_gdpr && '1' === settings_obj.is_pro_active ) ? true : false,
@@ -299,9 +299,8 @@ var gen = new Vue({
 			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
 			data_req_subject: settings_obj.the_options.hasOwnProperty('data_req_subject') ? settings_obj.the_options['data_req_subject'] : 'We have received your request',
 			data_req_editor_message: settings_obj.the_options.hasOwnProperty('data_req_editor_message') ? this.decodeHTMLString ( settings_obj.the_options['data_req_editor_message']) : "",
-
             enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
-
+            reload_onSelect_law:false,
         }
     },
     methods: {
@@ -397,7 +396,7 @@ var gen = new Vue({
                 this.is_ccpa = false;
                 this.is_lgpd = true;
                 this.is_eprivacy = false;
-                this.show_revoke_card = false;
+                this.show_revoke_card = true;
                 this.show_visitor_conditions = false;
             }
             else {
@@ -535,6 +534,10 @@ var gen = new Vue({
         },
         onSwitchCookieAcceptAllEnable() {
             this.cookie_accept_all_on = !this.cookie_accept_all_on;
+        },
+        onSwitchReloadLaw(){
+            this.reload_onSelect_law = !this.reload_onSelect_law;
+            this.reload_onSelect_law = true;
         },
         onSwitchIABEnable(value) {
 			this.is_iab_on = !this.is_iab_on;
@@ -748,6 +751,7 @@ var gen = new Vue({
             this.button_readmore_page = value;
         },
         cookiePolicyChange( value ) {
+            this.onSwitchReloadLaw();
 			if(this.gdpr_policy){
 				value = this.gdpr_policy;
 			}
@@ -1254,6 +1258,7 @@ var gen = new Vue({
             this.gdpr_policy = 'gdpr';
             this.cookie_add_overlay = true;
             this.gdpr_about_cookie_message = 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.';
+            this.lgpd_about_cookie_message = 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.';
 			this.header_scripts = '';
             this.body_scripts = '';
             this.footer_scripts = '';
@@ -1337,6 +1342,10 @@ var gen = new Vue({
 					that.data_reqs_switch_clicked = false;
 					location.reload();
 				}
+                if(that.reload_onSelect_law==true){
+                    that.reload_onSelect_law = false;
+                    location.reload();
+                }
             });
         },
 		//method to save wizard form settings

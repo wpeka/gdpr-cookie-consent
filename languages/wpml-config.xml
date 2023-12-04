@@ -112,6 +112,7 @@
       <key name="cookie_usage_for"/>
       <key name="popup_overlay"/>
       <key name="about_message"/>
+      <key name="about_message_lgpd"/>
     </key>
   </admin-texts>
   <shortcodes>

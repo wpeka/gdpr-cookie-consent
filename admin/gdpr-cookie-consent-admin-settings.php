@@ -280,7 +280,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row v-show="is_lgpd">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
-										<c-textarea name="bar_heading_text_field" v-model="lgpd_message_heading"></c-textarea>
+										<c-textarea name="bar_heading_text_lgpd_field" v-model="lgpd_message_heading"></c-textarea>
 									</c-col>
 								</c-row>
 								<c-row v-show="is_lgpd">
@@ -292,7 +292,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<c-row v-show="is_lgpd">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
-										<c-textarea :rows="6" name="about_message_field" v-model="lgpd_about_cookie_message"></c-textarea>
+										<c-textarea :rows="6" name="about_message_lgpd_field" v-model="lgpd_about_cookie_message"></c-textarea>
 									</c-col>
 								</c-row>
 							</c-card-body>
@@ -332,7 +332,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<?php do_action( 'gdpr_enable_visitor_features' ); ?>
 							</c-card-body>
 						</c-card>
-						<c-card v-show="show_revoke_card">
+						<c-card v-show="show_revoke_card || is_lgpd">
 							<c-card-header><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -451,7 +451,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 							</c-card-body>
 						</c-card>
-						<c-card v-show="show_revoke_card">
+						<c-card v-show="show_revoke_card || is_lgpd">
 							<c-card-header><?php esc_html_e( 'Revoke Consent', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -925,7 +925,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<?php } ?>
 							</c-card-body>
 						</c-card>
-						<c-card v-show="is_gdpr || is_eprivacy">
+						<c-card v-show="is_gdpr || is_eprivacy || is_lgpd">
 							<c-card-header><?php esc_html_e( 'Accept Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -1072,7 +1072,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-modal>
 							</c-card-body>
 						</c-card>
-						<c-card v-show="is_gdpr || is_eprivacy">
+						<c-card v-show="is_gdpr || is_eprivacy || is_lgpd">
 							<c-card-header><?php esc_html_e( 'Accept All Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -1219,7 +1219,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-modal>
 							</c-card-body>
 						</c-card>
-						<c-card v-show="is_gdpr || is_eprivacy">
+						<c-card v-show="is_gdpr || is_eprivacy || is_lgpd">
 							<c-card-header><?php esc_html_e( 'Decline Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -1363,7 +1363,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-modal>
 							</c-card-body>
 						</c-card>
-						<c-card v-show="is_gdpr">
+						<c-card v-show="is_gdpr || is_lgpd">
 							<c-card-header><?php esc_html_e( 'Settings Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
