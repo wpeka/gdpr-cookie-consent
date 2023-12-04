@@ -303,18 +303,21 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
 				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
 			}
-			$about_message    = stripslashes( nl2br( $the_options['about_message'] ) );
-			$eprivacy_message = stripslashes( $eprivacy_message );
-			$gdpr_message     = stripslashes( $gdpr_message );
-			$ccpa_message     = stripslashes( $ccpa_message );
-			$lgpd_message     = stripslashes( $lgpd_message );
-			$eprivacy_str     = $eprivacy_message;
-			$gdpr_str         = $gdpr_message;
-			$ccpa_str         = $ccpa_message;
-			$lgpd_str         = $lgpd_message;
-			$head             = $the_options['bar_heading_text'];
-			$head             = trim( stripslashes( $head ) );
-			$template         = $the_options['template'];
+			$about_message         = stripslashes( nl2br( $the_options['about_message'] ) );
+			$about_message_lgpd    = stripslashes( nl2br( $the_options['about_message_lgpd'] ) );
+			$eprivacy_message      = stripslashes( $eprivacy_message );
+			$gdpr_message          = stripslashes( $gdpr_message );
+			$ccpa_message          = stripslashes( $ccpa_message );
+			$lgpd_message          = stripslashes( $lgpd_message );
+			$eprivacy_str          = $eprivacy_message;
+			$gdpr_str              = $gdpr_message;
+			$ccpa_str              = $ccpa_message;
+			$lgpd_str              = $lgpd_message;
+			$head                  = $the_options['bar_heading_text'];
+			$head                  = trim( stripslashes( $head ) );
+			$head_lgpd             = $the_options['bar_heading_lgpd_text'];
+			$head_lgpd             = trim( stripslashes( $head_lgpd ) );
+			$template              = $the_options['template'];
 			if ( 'none' !== $template ) {
 				$template_parts = explode( '-', $template );
 				$template       = array_pop( $template_parts );
@@ -366,6 +369,7 @@ class Gdpr_Cookie_Consent_Public {
 			$the_options['ccpa_str']                  = $ccpa_str;
 			$the_options['lgpd_str']                  = $lgpd_str;
 			$the_options['head']                      = $head;
+			$the_options['head_lgpd']                 = $head_lgpd;
 			$the_options['version']                   = $this->version;
 			$the_options['show_again_container_id']   = $this->gdprcookieconsent_remove_hash( $the_options['show_again_div_id'] );
 			$the_options['container_id']              = $this->gdprcookieconsent_remove_hash( $the_options['notify_div_id'] );
@@ -547,6 +551,7 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data                      = array();
 				$cookie_data['categories']        = $categories_data;
 				$cookie_data['msg']               = $about_message;
+				$cookie_data['lgpd']              = $about_message_lgpd;
 				$cookie_data['show_credits']      = $the_options['show_credits'];
 				$cookie_data['credits']           = $the_options['show_credits'] ? $credit_link : '';
 				$cookie_data['backdrop']          = $the_options['backdrop'];
