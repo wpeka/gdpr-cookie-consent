@@ -611,6 +611,7 @@ class Gdpr_Cookie_Consent {
 			'cookie_usage_for'                     => 'gdpr',
 			'popup_overlay'                        => true,
 			'about_message'                        => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
+			'about_message_lgpd'                   => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
 			'header_scripts'                       => '',
 			'body_scripts'                         => '',
 			'footer_scripts'                       => '',
@@ -729,6 +730,7 @@ class Gdpr_Cookie_Consent {
 				break;
 			// Allow some HTML, but no JavaScript. Note that deliberately NOT stripping out line breaks here, that's done when sending JavaScript parameter elsewhere.
 			case 'about_message':
+			case 'about_message_lgpd':
 			case 'notify_message':
 			case 'notify_message_lgpd':
 			case 'notify_message_eprivacy':

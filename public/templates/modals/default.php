@@ -32,7 +32,15 @@
 									<div class="group-toggle">
 										<h3 class="category-header" tabindex="0"><?php echo esc_html( $cookie_data['about'] ); ?></h3>
 									</div>
+									<?php
+									if ( $the_options['cookie_usage_for']==='gdpr' ) :?>
 									<div class="group-description" tabindex="0"><?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); //phpcs:ignore?></div>
+									<?php elseif (  $the_options['cookie_usage_for']==='lgpd') :?>
+										<div class="group-description" tabindex="0"><?php echo esc_html__( $cookie_data['lgpd'], 'gdpr-cookie-consent' ); //phpcs:ignore?></div>
+									<?php elseif ( $the_options['cookie_usage_for']==='both' ) :?>
+									<div class="group-description" tabindex="0"><?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); //phpcs:ignore?></div>
+									<?php endif; ?>
+										
 								</div>
 							</li>
 							<?php

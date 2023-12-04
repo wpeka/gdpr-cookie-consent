@@ -185,9 +185,9 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 		?>
 		</div>
 		<?php
-		if ( '' !== $the_options['head'] ) {
+		if ( '' !== $the_options['head_lgpd'] ) {
 			?>
-			<h3 class="gdpr_messagebar_head"><?php echo esc_html__( $the_options['head'], 'gdpr-cookie-consent' ); //phpcs:ignore?></h3>
+			<h3 class="gdpr_messagebar_head"><?php echo esc_html__( $the_options['head_lgpd'], 'gdpr-cookie-consent' ); //phpcs:ignore?></h3>
 			<?php
 		}
 		?>
