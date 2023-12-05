@@ -301,6 +301,7 @@ var gen = new Vue({
 			data_req_editor_message: settings_obj.the_options.hasOwnProperty('data_req_editor_message') ? this.decodeHTMLString ( settings_obj.the_options['data_req_editor_message']) : "",
             enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
             reload_onSelect_law:false,
+            reload_onSafeMode:false,
         }
     },
     methods: {
@@ -604,7 +605,12 @@ var gen = new Vue({
        onSwitchEnableSafe (){
            this.onEnablesafeSwitch();
            this.onEnablesafeSwitchCCPA();
+           this.onSwitchReloadSafeMode();
            this.enable_safe = !this.enable_safe;
+        },
+        onSwitchReloadSafeMode(){
+            this.reload_onSafeMode = !this.reload_onSafeMode;
+            this.reload_onSafeMode = true;
         },
         onSwitchShowCredits() {
             this.show_credits = !this.show_credits;
@@ -1344,6 +1350,10 @@ var gen = new Vue({
 				}
                 if(that.reload_onSelect_law==true){
                     that.reload_onSelect_law = false;
+                    location.reload();
+                }
+                if(that.reload_onSafeMode == true){
+                    that.reload_onSafeMode = false;
                     location.reload();
                 }
             });
