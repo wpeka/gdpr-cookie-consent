@@ -2492,7 +2492,7 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	display: flex;
 	font-weight: 500;
     font-size: 18px;
-	line-height:21.09px;
+    padding:7px;
 	align-items: center;
 }
 .upgrade-tp-pro-btn-div .upgrade-to-pro-btn:hover,
@@ -2500,18 +2500,10 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 .upgrade-tp-pro-btn-div .upgrade-to-pro-btn:focus{
 	color: #FFF;
 }
-#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .nav-pills {
-	margin-left:auto;
-	margin-right:213px;
-}
-
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav  .upgrade-tp-pro-btn-div{
-	width:218px;
-    display: flex;
-    justify-content:end;
-	position: relative;
-	left:193px;
-
+    position: absolute;
+    top: 13px;
+    left: 1128px;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .upgrade-to-pro-btn{
 	display:none;
@@ -3065,4 +3057,11 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
     padding: 15px 9px;
     margin: 20px;
     box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
+}
+.overlay_eu_visitors--both{
+	height: 200px;
+}
+.overlay_eu_visitors_message--both{
+	bottom: 17px;
+	padding:33px 8px;
 }

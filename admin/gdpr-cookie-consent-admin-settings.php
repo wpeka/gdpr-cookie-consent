@@ -208,7 +208,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 
 		<c-form id="gcc-save-settings-form" spellcheck="false" class="gdpr-cookie-consent-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce' ) ); ?>"/>
-			<div class="gdpr-cookie-consent-settings-content" style="position:relative;">
+			<div class="gdpr-cookie-consent-settings-content">
 
 				<div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>
 				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
@@ -1879,7 +1879,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 
 					</c-tab>
-				<?php
+					<?php
 				if ( ! get_option( 'wpl_pro_active', false ) ) {
 					?>
 					<div class="upgrade-tp-pro-btn-div">
@@ -1888,6 +1888,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 				<?php } ?>
 
 				</c-tabs>
+				</c-tabs>	
+				
 
 
 			</div>
