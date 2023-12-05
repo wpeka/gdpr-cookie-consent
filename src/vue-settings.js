@@ -808,6 +808,7 @@ var gen = new Vue({
                 this.is_eprivacy = true;
                 this.is_gdpr = false;
                 this.is_ccpa = false;
+                this.is_lgpd = false;
                 this.show_visitor_conditions = false;
                 this.show_revoke_card = true;
             }
