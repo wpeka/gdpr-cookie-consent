@@ -42,7 +42,6 @@ var gen = new Vue({
 			},
 			isGdprProActive:'1' === settings_obj.is_pro_active,
 			disableSwitch: false,
-            is_safe_enable : false,
             is_template_changed: false,
 			is_lang_changed:false,
 			is_logo_removed:false,
@@ -69,11 +68,15 @@ var gen = new Vue({
             gdpr_policy: settings_obj.the_options.hasOwnProperty('cookie_usage_for') ? settings_obj.the_options['cookie_usage_for'] : 'gdpr',
             is_gdpr: this.gdpr_policy === 'gdpr' || this.gdpr_policy === 'both' ? true : false,
             is_ccpa: this.gdpr_policy === 'ccpa' || this.gdpr_policy === 'both' ? true : false,
+            is_lgpd: this.gdpr_policy === 'lgpd' ? true : false,
             is_eprivacy: this.gdpr_policy === 'eprivacy' ? true : false,
             eprivacy_message: settings_obj.the_options.hasOwnProperty('notify_message_eprivacy') ? this.stripSlashes(settings_obj.the_options['notify_message_eprivacy']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_text']) : "",
-            gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We’ll assume you’re ok with this, but you can opt-out if you wish",
+            lgpd_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_lgpd_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_lgpd_text']) : "",
+            gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+            lgpd_message: settings_obj.the_options.hasOwnProperty('notify_message_lgpd') ? this.stripSlashes(settings_obj.the_options['notify_message_lgpd']) : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
+            lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message_lgpd') ? this.stripSlashes(settings_obj.the_options['about_message_lgpd']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
             ccpa_message: settings_obj.the_options.hasOwnProperty('notify_message_ccpa') ? this.stripSlashes(settings_obj.the_options['notify_message_ccpa']) : "In case of sale of your personal information, you may opt out by using the link",
             ccpa_optout_message: settings_obj.the_options.hasOwnProperty('optout_text') ? this.stripSlashes(settings_obj.the_options['optout_text']) : "Do you really wish to opt-out?",
             show_visitor_conditions: this.is_ccpa || ( this.is_gdpr && '1' === settings_obj.is_pro_active ) ? true : false,
@@ -296,9 +299,9 @@ var gen = new Vue({
 			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
 			data_req_subject: settings_obj.the_options.hasOwnProperty('data_req_subject') ? settings_obj.the_options['data_req_subject'] : 'We have received your request',
 			data_req_editor_message: settings_obj.the_options.hasOwnProperty('data_req_editor_message') ? this.decodeHTMLString ( settings_obj.the_options['data_req_editor_message']) : "",
-
             enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
-
+            reload_onSelect_law:false,
+            reload_onSafeMode:false,
         }
     },
     methods: {
@@ -365,6 +368,7 @@ var gen = new Vue({
                 this.is_ccpa = true;
                 this.is_gdpr = true;
                 this.is_eprivacy = false;
+                this.is_lgpd = false;
                 this.show_visitor_conditions = true;
                 this.show_revoke_card = true;
             }
@@ -372,6 +376,7 @@ var gen = new Vue({
                 this.is_ccpa = true;
                 this.is_eprivacy = false;
                 this.is_gdpr = false;
+                this.is_lgpd = false;
                 this.show_visitor_conditions = true;
                 this.show_revoke_card = false;
             }
@@ -379,6 +384,7 @@ var gen = new Vue({
                 this.is_gdpr = true;
                 this.is_ccpa = false;
                 this.is_eprivacy = false;
+                this.is_lgpd = false;
                 this.show_revoke_card = true;
                 if( '1' === settings_obj.is_pro_active ) {
                     this.show_visitor_conditions = true;
@@ -386,10 +392,19 @@ var gen = new Vue({
                     this.show_visitor_conditions = false;
                 }
             }
+            else if(this.gdpr_policy === 'lgpd') {
+                this.is_gdpr = false;
+                this.is_ccpa = false;
+                this.is_lgpd = true;
+                this.is_eprivacy = false;
+                this.show_revoke_card = true;
+                this.show_visitor_conditions = false;
+            }
             else {
                 this.is_eprivacy = true;
                 this.is_gdpr = false;
                 this.is_ccpa = false;
+                this.is_lgpd = false;
                 this.show_visitor_conditions = false;
                 this.show_revoke_card = true;
             }
@@ -521,6 +536,10 @@ var gen = new Vue({
         onSwitchCookieAcceptAllEnable() {
             this.cookie_accept_all_on = !this.cookie_accept_all_on;
         },
+        onSwitchReloadLaw(){
+            this.reload_onSelect_law = !this.reload_onSelect_law;
+            this.reload_onSelect_law = true;
+        },
         onSwitchIABEnable(value) {
 			this.is_iab_on = !this.is_iab_on;
 			if ( value) {
@@ -538,7 +557,7 @@ var gen = new Vue({
 			if ( value) {
 				this.selectedRadioCcpa = value === 'yes'?'yes':'no';
 
-			}
+			}   
         },
         onEnablesafeSwitch(){
            if( this.enable_safe === 'true'){
@@ -586,7 +605,12 @@ var gen = new Vue({
        onSwitchEnableSafe (){
            this.onEnablesafeSwitch();
            this.onEnablesafeSwitchCCPA();
+           this.onSwitchReloadSafeMode();
            this.enable_safe = !this.enable_safe;
+        },
+        onSwitchReloadSafeMode(){
+            this.reload_onSafeMode = !this.reload_onSafeMode;
+            this.reload_onSafeMode = true;
         },
         onSwitchShowCredits() {
             this.show_credits = !this.show_credits;
@@ -733,6 +757,7 @@ var gen = new Vue({
             this.button_readmore_page = value;
         },
         cookiePolicyChange( value ) {
+            this.onSwitchReloadLaw();
 			if(this.gdpr_policy){
 				value = this.gdpr_policy;
 			}
@@ -740,6 +765,7 @@ var gen = new Vue({
                 this.is_ccpa = true;
                 this.is_gdpr = true;
                 this.is_eprivacy = false;
+                this.is_lgpd = false;
                 this.show_visitor_conditions = true;
                 this.show_revoke_card = true;
             }
@@ -747,6 +773,7 @@ var gen = new Vue({
                 this.is_ccpa = true;
                 this.is_eprivacy = false;
                 this.is_gdpr = false;
+                this.is_lgpd = false;
                 this.show_visitor_conditions = true;
                 this.show_revoke_card = false;
             }
@@ -754,6 +781,7 @@ var gen = new Vue({
                 this.is_gdpr = true;
                 this.is_ccpa = false;
                 this.is_eprivacy = false;
+                this.is_lgpd = false;
                 this.show_revoke_card = true;
                 if( '1' === settings_obj.is_pro_active ) {
                     this.show_visitor_conditions = true;
@@ -762,10 +790,25 @@ var gen = new Vue({
                     this.show_visitor_conditions = false;
                 }
             }
+            else if(value === 'lgpd') {
+                this.is_ccpa = false;
+                this.is_eprivacy = false;
+                this.is_gdpr = false;
+                this.is_lgpd = true;
+                this.show_revoke_card = true;
+                if( '1' === settings_obj.is_pro_active ) {
+                    this.show_visitor_conditions = true;
+                }
+                else{
+                    this.show_visitor_conditions = false;
+                }
+
+            }
             else {
                 this.is_eprivacy = true;
                 this.is_gdpr = false;
                 this.is_ccpa = false;
+                this.is_lgpd = false;
                 this.show_visitor_conditions = false;
                 this.show_revoke_card = true;
             }
@@ -1187,6 +1230,7 @@ var gen = new Vue({
 			this.selectedRadioIab = 'no';
 			this.selectedRadioGdpr = 'no';
 			this.selectedRadioCcpa = 'no';
+            this.selectedRadioLgpd = 'no';
             this.logging_on = false;
             this.show_credits = false;
             this.autotick = false;
@@ -1208,6 +1252,7 @@ var gen = new Vue({
             this.on_hide = true;
             this.on_load = false;
             this.gdpr_message = 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
+            this.lgpd_message = 'This website uses cookies for technical and other purposes as specified in the cookie policy. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
             this.eprivacy_message = 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.';
             this.ccpa_message = 'In case of sale of your personal information, you may opt out by using the link';
             this.ccpa_optout_message = 'Do you really wish to opt-out?';
@@ -1215,10 +1260,12 @@ var gen = new Vue({
             this.cookie_widget_position = 'left';
             this.cookie_text_color = '#000000';
             this.gdpr_message_heading = '';
+            this.lgpd_message_heading = '';
             this.show_cookie_as = 'banner';
             this.gdpr_policy = 'gdpr';
             this.cookie_add_overlay = true;
             this.gdpr_about_cookie_message = 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.';
+            this.lgpd_about_cookie_message = 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.';
 			this.header_scripts = '';
             this.body_scripts = '';
             this.footer_scripts = '';
@@ -1269,7 +1316,6 @@ var gen = new Vue({
 
 			// When Pro is activated set the values in the aceeditor
 			if ( this.isGdprProActive ) {
-                this.is_safe_enable = true;
 				//intializing the acecode editor
 				var editor = ace.edit("aceEditor");
 				//getting the value of editor
@@ -1284,7 +1330,7 @@ var gen = new Vue({
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
-                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed + "&gdpr_css_text_field=" + that.gdpr_css_text + "&is_safe_enable=" + that.is_safe_enable,
+                data: dataV + '&action=gcc_save_admin_settings' + "&lang_changed=" + that.is_lang_changed + "&logo_removed=" + that.is_logo_removed + "&gdpr_css_text_field=" + that.gdpr_css_text ,
             }).done(function (data) {
                 that.success_error_message = 'Settings Saved';
                 j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -1303,6 +1349,14 @@ var gen = new Vue({
 					that.data_reqs_switch_clicked = false;
 					location.reload();
 				}
+                if(that.reload_onSelect_law==true){
+                    that.reload_onSelect_law = false;
+                    location.reload();
+                }
+                if(that.reload_onSafeMode == true){
+                    that.reload_onSafeMode = false;
+                    location.reload();
+                }
             });
         },
 		//method to save wizard form settings

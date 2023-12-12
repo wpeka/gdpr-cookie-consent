@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.3.9';
+			$this->version = '2.4.0';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -597,6 +597,7 @@ class Gdpr_Cookie_Consent {
 			'notify_animate_hide'                  => true,
 			'notify_animate_show'                  => false,
 			'notify_message'                       => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
+			'notify_message_lgpd'                  => addslashes( 'This website uses cookies for technical and other purposes as specified in the cookie policy. We\'ll assume you\'re ok with this, but you can opt-out if you wish.'),
 			'notify_message_eprivacy'              => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
 			'notify_message_ccpa'                  => addslashes( 'In case of sale of your personal information, you may opt out by using the link' ),
 			'optout_text'                          => addslashes( 'Do you really wish to opt-out?' ),
@@ -610,6 +611,7 @@ class Gdpr_Cookie_Consent {
 			'cookie_usage_for'                     => 'gdpr',
 			'popup_overlay'                        => true,
 			'about_message'                        => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
+			'about_message_lgpd'                   => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
 			'header_scripts'                       => '',
 			'body_scripts'                         => '',
 			'footer_scripts'                       => '',
@@ -728,7 +730,9 @@ class Gdpr_Cookie_Consent {
 				break;
 			// Allow some HTML, but no JavaScript. Note that deliberately NOT stripping out line breaks here, that's done when sending JavaScript parameter elsewhere.
 			case 'about_message':
+			case 'about_message_lgpd':
 			case 'notify_message':
+			case 'notify_message_lgpd':
 			case 'notify_message_eprivacy':
 			case 'notify_message_ccpa':
 			case 'optout_text':

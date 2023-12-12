@@ -198,8 +198,17 @@
 				</div>
 			</div>
 		</div>
-		<div id="gdpr_messagebar_detail_body_content_about" style="display:none;">
-		<?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); //phpcs:ignore?>
+		<?php
+		if ( $the_options['cookie_usage_for']==='gdpr' ) :?>
+			<div id="gdpr_messagebar_detail_body_content_about">
+				<?php echo esc_html__($cookie_data['msg'], 'gdpr-cookie-consent'); //phpcs:ignore?>
+			<?php elseif (  $the_options['cookie_usage_for']==='lgpd') :?>
+				<div id="gdpr_messagebar_detail_body_content_about">
+					<?php echo esc_html__( $cookie_data['lgpd'], 'gdpr-cookie-consent' ); //phpcs:ignore ?>
+			<?php elseif ( $the_options['cookie_usage_for']==='both' ) :?>
+			<div id="gdpr_messagebar_detail_body_content_about">
+				<?php echo esc_html__($cookie_data['msg'], 'gdpr-cookie-consent'); //phpcs:ignore?>
+			<?php endif; ?>
 		</div>
 	</div>
 </div>
