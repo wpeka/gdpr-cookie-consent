@@ -302,6 +302,10 @@ var gen = new Vue({
             enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
             reload_onSelect_law:false,
             reload_onSafeMode:false,
+            // hide banner..
+            select_pages: settings_obj.the_options.hasOwnProperty('select_pages') ? settings_obj.the_options['select_pages'] : [],
+            select_pages_array:[],
+            list_of_pages: settings_obj.list_of_pages,
         }
     },
     methods: {
@@ -478,6 +482,12 @@ var gen = new Vue({
 				this.logging_on = false; //make enable consent switch turn off if pro is not active
 				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
 			}
+            // multiple entries for hide banner.
+            for(let i=0; i<this.list_of_pages.length; i++) {
+                if( this.select_pages.includes(this.list_of_pages[i].code.toString()) ) {
+                    this.select_pages_array.push(this.list_of_pages [i])
+                }
+            }
         },
         editorInit: function () {
             require('brace/ext/language_tools') //language extension prerequsite...
@@ -752,6 +762,13 @@ var gen = new Vue({
                 temp_array[i] = value[i];
             }
             this.restrict_posts = temp_array;
+        },
+        onPageSelect(value){
+            let dumy_array = [];
+            for(let i=0; i<value.length; i++) {
+                dumy_array[i] = value[i];
+            }
+            this.select_pages = dumy_array;
         },
         onSelectPrivacyPage(value){
             this.button_readmore_page = value;
@@ -1270,6 +1287,8 @@ var gen = new Vue({
             this.body_scripts = '';
             this.footer_scripts = '';
             this.restrict_posts = [];
+            // array for hide banner.
+            this.select_pages   = [];
 			this.banner_preview_is_on = false;
 			this.show_language_as = 'en';
 			this.gdpr_css_text    = '';
@@ -1392,8 +1411,7 @@ var gen = new Vue({
                 })
 
                 }) ,
-            image_frame.open()
-);
+            image_frame.open());
         },
         deleteSelectedimage() {
                 jQuery('#image-delete-button').click(

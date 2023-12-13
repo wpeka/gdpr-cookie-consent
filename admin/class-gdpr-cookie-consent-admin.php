@@ -776,6 +776,16 @@ class Gdpr_Cookie_Consent_Admin {
 			);
 			++$index;
 		}
+		// pages for hide banner.
+		$list_of_pages        = array();
+		$indx 				  = 0;
+		foreach ( $pages_list as $page ) {
+			$list_of_pages[ $indx ] = array(
+				'label' => $page->post_title,
+				'code'  => $page->ID,
+			);
+			++$indx;
+		}
 		$show_as_options      = array();
 		$show_as_options[0]   = array(
 			'label' => 'Button',
@@ -953,6 +963,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'restore_settings_nonce'           => wp_create_nonce( 'restore_default_settings' ),
 				// added nonce for.
 				'import_settings_nonce'            => wp_create_nonce( 'import_settings' ),
+				// for pages.
+				'list_of_pages'                    => $list_of_pages,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
@@ -1753,6 +1765,10 @@ class Gdpr_Cookie_Consent_Admin {
 				$saved_options                       = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 				$restricted_posts                    = array();
 				$restricted_posts                    = isset( $_POST['gcc-restrict-posts'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-restrict-posts'] ) ) ) : '';
+				//hide banner
+				$selected_pages                      = array();
+				$selected_pages                      = isset( $_POST['gcc-selected-pages'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-pages'] ) ) ) : '';
+
 				$the_options['is_eu_on']             = isset( $_POST['gcc-eu-enable'] ) && ( true === $_POST['gcc-eu-enable'] || 'true' === $_POST['gcc-eu-enable'] ) ? 'true' : 'false';
 				$the_options['is_ccpa_on']           = isset( $_POST['gcc-ccpa-enable'] ) && ( true === $_POST['gcc-ccpa-enable'] || 'true' === $_POST['gcc-ccpa-enable'] ) ? 'true' : 'false';
 				$the_options['logging_on']           = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
@@ -1762,6 +1778,8 @@ class Gdpr_Cookie_Consent_Admin {
 				$the_options['widget_template']      = isset( $_POST['gdpr-widget-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-widget-template'] ) ) : 'widget-default';
 				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
 				$the_options['restrict_posts']       = $restricted_posts;
+				// storing id of pages in database.
+				$the_options['select_pages']         = $selected_pages;
 				if ( isset( $the_options['cookie_usage_for'] ) ) {
 					switch ( $the_options['cookie_usage_for'] ) {
 						case 'both':
@@ -2351,6 +2369,16 @@ class Gdpr_Cookie_Consent_Admin {
 			);
 			++$index;
 		}
+		// pages for hide banner.
+		$list_of_pages        = array();
+		$indx 				  = 0;
+		foreach ( $pages_list as $page ) {
+			$list_of_pages[ $indx ] = array(
+				'label' => $page->post_title,
+				'code'  => $page->ID,
+			);
+			++$indx;
+		}
 		$show_as_options      = array();
 		$show_as_options[0]   = array(
 			'label' => 'Button',
@@ -2526,6 +2554,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'cookie_list_settings'             => $cookie_list_settings,
 				'cookie_scan_settings'             => $cookie_scan_settings,
 				'restore_settings_nonce'           => wp_create_nonce( 'restore_default_settings' ),
+				// hide banner.
+				'list_of_pages'                    => $list_of_pages,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
