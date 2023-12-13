@@ -2606,7 +2606,7 @@ function get_templates( $template_type ) {
 								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'help-center.png'; ?>" >
 								<div class="card-heading">Help Center</div>
 								<div class="card-info">Read the documentation to find answers to your questions</div>
-								<div class="learn-more-link help-center-link"> <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/">Learn More >></a></div>
+								<div class="learn-more-link help-center-link"> <a href="https://club.wpeka.com/docs/wp-cookie-consent/">Learn More >></a></div>
 							</div>
 						</div>
 						<div class="column">
@@ -2614,7 +2614,7 @@ function get_templates( $template_type ) {
 								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'video.png'; ?>" >
 								<div class="card-heading">Video Guides</div>
 								<div class="card-info">Browse through these video tutorials to learn more about how WP Cookie Consent works.</div>
-								<div class="learn-more-link video-guide-link"> <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/video-resources">Learn More >></a></div>
+								<div class="learn-more-link video-guide-link"> <a href="https://club.wpeka.com/docs/wp-cookie-consent/video-guides/video-resources/">Learn More >></a></div>
 							</div>
 						</div>
 						<div class="column">
@@ -2622,7 +2622,7 @@ function get_templates( $template_type ) {
 								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'faqs.png'; ?>" >
 								<div class="card-heading">FAQs</div>
 								<div class="card-info">Find answers to some of the most commonly asked questions.</div>
-								<div class="learn-more-link faqs-link"> <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/faq">Learn More >></a></div>
+								<div class="learn-more-link faqs-link"> <a href="https://club.wpeka.com/docs/wp-cookie-consent/faqs/faq-2/">Learn More >></a></div>
 							</div>
 						</div>
 
