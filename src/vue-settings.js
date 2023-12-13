@@ -764,11 +764,11 @@ var gen = new Vue({
             this.restrict_posts = temp_array;
         },
         onPageSelect(value){
-            let dumy_array = [];
+            let dummy_array = [];
             for(let i=0; i<value.length; i++) {
-                dumy_array[i] = value[i];
+                dummy_array[i] = value[i];
             }
-            this.select_pages = dumy_array;
+            this.select_pages = dummy_array;
         },
         onSelectPrivacyPage(value){
             this.button_readmore_page = value;
