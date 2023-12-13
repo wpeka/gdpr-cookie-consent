@@ -2257,6 +2257,10 @@ function get_templates( $template_type ) {
 							General Data Protection Regulation
 						</label><br>
 						<label>
+							<input type="radio" name="gcc-gdpr-policy" value="lgpd" v-model="gdpr_policy" @change="cookiePolicyChange">
+							General Data Protection Law ( LGPD )
+						</label><br>
+						<label>
 							<input type="radio" name="gcc-gdpr-policy" value="ccpa" v-model="gdpr_policy" @change="cookiePolicyChange">
 							The California Consumer Privacy Act
 						</label><br>
@@ -2547,7 +2551,7 @@ function get_templates( $template_type ) {
 
 							<?php $the_options = Gdpr_Cookie_Consent::gdpr_get_settings(); ?>
 
-							<div v-show="is_gdpr" class="show-cookie-template-card">
+							<div v-show="is_gdpr || is_lgpd" class="show-cookie-template-card">
 								<c-card-header class="show-cookie-template-label"><?php esc_html_e( 'Choose template for your cookie bar', 'gdpr-cookie-consent' ); ?></c-card-header>
 								<c-card-body>
 									<!-- banner templates  -->
