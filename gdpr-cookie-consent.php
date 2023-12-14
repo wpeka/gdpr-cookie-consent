@@ -42,6 +42,7 @@ define( 'GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD', GDPR_COOKIE_CONSENT_DB_
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_FILENAME', __FILE__ );
 define( 'GDPR_POLICY_DATA_POST_TYPE', 'gdprpolicies' );
 define( 'GDPR_CSV_DELIMITER', ',' );
+define( 'GDPR_URL', plugins_url( '/', __FILE__ ) );
 if ( ! defined( 'GDPR_CC_SUFFIX' ) ) {
 	define( 'GDPR_CC_SUFFIX', ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min' );
 }

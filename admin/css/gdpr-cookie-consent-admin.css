@@ -2,7 +2,10 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
- body.post-type-wplconsentlogs .wrap .subsubsub {
+
+ @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@300;400;500;600&display=swap');
+
+body.post-type-wplconsentlogs .wrap .subsubsub {
 	display: none;
 }
 body.post-type-wplconsentlogs .wrap span.subtitle {
@@ -3064,4 +3067,155 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 .overlay_eu_visitors_message--both{
 	bottom: 17px;
 	padding:33px 8px;
+}
+
+/* RE VAMP CSS*/
+body.toplevel_page_gdpr-cookie-consent #wpcontent{
+	padding-left: 0;
+	background: #F0F0F1;
+}
+/* body.toplevel_page_gdpr-cookie-consent #wpbody-content{
+	background: #346DB1;
+} */
+
+.gdpr-cookie-consent-main-admin-structure .gdpr-cookie-consent-admin-fixed-banner{
+	display: flex;
+	justify-content: space-between;
+	height: 100px;
+	background: #346DB1;
+}
+.gdpr-cookie-consent-main-admin-structure .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-logo-and-label{
+	display: flex;
+	margin-left: 50px;
+}
+.gdpr-cookie-consent-main-admin-structure .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-help-and-support{
+	display: flex;
+	margin-right: 60px;
+}
+.gdpr-cookie-consent-admin-logo-and-label .gdpr-cookie-consent-admin-logo{
+	height: 75px;
+	width: 75px;
+}
+.gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-logo,.gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-label,.gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-help,.gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-support{
+	margin: auto 0;
+}
+.gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-label{
+	margin-left: 15px;
+}
+.gdpr-cookie-consent-admin-label_wp_label{
+	padding-bottom: 5px;
+}
+.gdpr-cookie-consent-admin-help,.gdpr-cookie-consent-admin-support{
+	display: flex;
+}
+.gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-support{
+	padding-left: 30px;
+}
+.gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-help-text,.gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-support-text{
+	padding-left: 6px;
+	color: var(--white, #FFF);
+	/* font-family: Roboto; */
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	text-transform: capitalize;
+	margin: auto 0;
+}
+.gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-help-icon,.gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-support-icon{
+	/* padding-top: 5px; */
+}
+.gdpr-cookie-consent-main-admin-header .gdpr-cookie-consent-admin-promotional-banner{
+	margin: 20px;
+}
+.gdpr-cookie-consent-admin-logo img {
+	width: 74px;
+	height: 74px;
+	/* flex-shrink: 0; */
+}
+.gdpr-cookie-consent-admin-promotional-banner img {
+	width: 100%;
+	height: 152px;
+	display: block;
+	/* flex-shrink: 0; */
+}
+
+.gdpr-cookie-consent-admin-label_wp_label img {
+	width: 205.143px;
+	height: 14.785px;
+	flex-shrink: 0;
+}
+.gdpr-cookie-consent-admin-label_gdpr_label img {
+	width: 85px;
+	height: 13.333px;
+	flex-shrink: 0;
+}
+.gdpr-cookie-consent-admin-help-icon img,.gdpr-cookie-consent-admin-support-icon img {
+	width: 18px;
+	height: 18px;
+}
+
+/* tabs styling  */
+
+.gdpr-cookie-consent-admin-tabs-section{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0 20px 0 20px;
+	min-height: 44px;
+}
+.gdpr-cookie-consent-admin-tab {
+	border: 1px solid var(--gray-200, #E4E4E7);
+}
+.gdpr-cookie-consent-admin-tabs-section .gdpr-cookie-consent-admin-tabs{
+	display: flex;
+	flex-direction: row;
+	gap: 5px;
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+	justify-content: space-evenly;
+	align-items: center;
+}
+.gdpr-cookie-consent-admin-tab{
+	display: flex;
+	min-width: 260px;
+	height: 44px;
+	flex-direction: column;
+	/* justify-content: center; */
+	align-items: center;
+	flex-shrink: 0;
+	border-radius: 4px 4px 0px 0px;
+	border: 1px solid var(--gray-200, #E4E4E7);
+	background: var(--gray-50, #FAFAFA);
+	cursor: pointer;
+}
+.gdpr-cookie-consent-admin-tab .gdpr-cookie-consent-admin-tab-name{
+	color: var(--gray-700, #3F3F46);
+	padding: 12px 20px;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 20px;
+}
+
+.dashboard-test{
+	height: 200px;
+	background: red;
+	margin: 20px;
+}
+
+.gdpr-cookie-consent-admin-tab.active-tab{
+	border-radius: 4px 4px 0px 0px;
+	border: 1px solid var(--gray-200, #E4E4E7);
+	background: var(--secondary-secondary-light-200, #F4F8FF);
+}
+.gdpr-cookie-consent-admin-tab.active-tab .gdpr-cookie-consent-admin-tab-name{
+	color: #0059B3;
+}
+
+.gdpr-cookie-consent-admin-tabs-content{
+	/* border: 3px solid; */
+  	margin: 20px;
+	margin-top: 0;
 }

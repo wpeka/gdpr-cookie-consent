@@ -256,8 +256,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 1.0
 	 */
 	public function admin_menu() {
-		add_menu_page( 'WP Cookie Consent', __( 'WP Cookie Consent', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'gdpr_cookie_consent_dashboard' ), GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/gdpr_icon.png', 67 );
-		add_submenu_page( 'gdpr-cookie-consent', __( 'Dashboard', 'gdpr-cookie-consent' ), __( 'Dashboard', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'gdpr_cookie_consent_dashboard' ) );
+		add_menu_page( 'WP Cookie Consent', __( 'WP Cookie Consent', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'gdpr_cookie_consent_dashboard_test' ), GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/wp_cookies_icon_menu.png', 67 );
+		// add_submenu_page( 'gdpr-cookie-consent', __( 'Dashboard', 'gdpr-cookie-consent' ), __( 'Dashboard', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'gdpr_cookie_consent_dashboard' ) );
+		//new submenu
+		// add_submenu_page( 'gdpr-cookie-consent', __( 'Dashboard Test', 'gdpr-cookie-consent' ), __( 'Dashboard NEW', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'gdpr_cookie_consent_dashboard_test' ) );
 		// wizard submenu.
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Wizard', 'gdpr-cookie-consent' ), __( 'Wizard', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-wizard', array( $this, 'gdpr_cookie_consent_wizard' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-settings', array( $this, 'admin_settings_page' ) );
@@ -2583,6 +2585,37 @@ class Gdpr_Cookie_Consent_Admin {
 				wp_send_json_success( array( 'imported_settings' => true ) );
 			}
 		}
+	}
+		/**
+	 * Callback function for Dashboard page.
+	 *
+	 * @since 2.1.0
+	 */
+	public function gdpr_cookie_consent_dashboard_test() {
+		wp_enqueue_style( $this->plugin_name );
+		wp_enqueue_script(
+			'gdpr-cookie-consent-admin-revamp',
+			GDPR_URL . 'admin/js/gdpr-cookie-consent-admin-revamp.js',
+			array( 'jquery' ),
+			GDPR_COOKIE_CONSENT_VERSION,
+			true
+		);
+
+		wp_localize_script(
+			'responsive-elementor-addons-admin-revamp',
+			'localize',
+			array(
+				'ajaxurl'        => admin_url( 'admin-ajax.php' ),
+				'gdprurl'         => GDPR_URL,
+				'siteurl'        => site_url(),
+				// 'isRSTActivated' => is_plugin_active( 'responsive-add-ons/responsive-add-ons.php' ),
+				// 'nonce'          => wp_create_nonce( 'responsive-elementor-addons' ),
+			)
+		);
+
+
+
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-admin.php';
 	}
 	/**
 	 * Callback function for Dashboard page.
