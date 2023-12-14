@@ -1,11 +1,11 @@
-#wpbody {
+/* #wpbody {
 	background-color: #F6FAFF;
 	margin-left: -32px;
 }
 
 #wpbody-content {
 	float: none !important;
-}
+} */
 
 #gdpr-dashboard-loader {
 	top: 0;
@@ -20,9 +20,9 @@
 }
 
 #gdpr-cookie-consent-dashboard-page {
-	background-color: #F6FAFF;
-	margin-left: -20px;
-	padding: 32px 0;
+	background-color: #F0F0F1;
+	/* margin-left: -20px; */
+	/* padding: 32px 0; */
 	/*font-family: 'Lato', sans-serif;*/
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 	font-size: 14px;
@@ -34,14 +34,14 @@
 }
 
 .gdpr-cookie-consent-dashboard-container {
-	margin-left: 4%;
-	padding-right: 3%;
+	/* margin-left: 4%; */
+	/* padding-right: 3%; */
 	max-width: 100% !important;
 }
 
 .gdpr-progress-bar-card {
-	min-width: 98%;
-	max-width: 98%;
+	min-width: 100%;
+	max-width: 100%;
 }
 
 .gdpr-progress-heading {
@@ -146,8 +146,8 @@
 }
 
 .gdpr-dashboard-quick-links-card {
-	min-width: 98%;
-	max-width: 98%;
+	min-width: 100%;
+	max-width: 100%;
 	padding-left: 0;
 	padding-right: 0;
 }
@@ -225,8 +225,8 @@
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	grid-template-rows: repeat(2, 1fr);
-	min-width: 98%;
-	max-width: 98%;
+	min-width: 100%;
+	max-width: 100%;
 	grid-column-gap: 4%;
 }
 
@@ -234,8 +234,8 @@
 
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	min-width: 98%;
-	max-width: 98%;
+	min-width: 100%;
+	max-width: 100%;
 	grid-column-gap: 4%;
 
 }
@@ -611,4 +611,12 @@
 }
 .apexcharts-tooltip.apexcharts-theme-dark{
 	color: #3C4B64;
+}
+#gdpr-cookie-consent-dashboard-page .gdpr-cookie-consent-dashboard-container.gdpr-admin-dashaboard-template.container{
+	margin-top: 0;
+	padding-left: 0;
+	padding-right: 0;
+}
+#gdpr-cookie-consent-dashboard-page .gdpr-cookie-consent-dashboard-container.gdpr-admin-dashaboard-template.container .card.gdpr-progress-bar-card{
+	margin-top: 0;
 }

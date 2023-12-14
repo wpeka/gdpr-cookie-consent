@@ -746,19 +746,6 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<input type="hidden" name="gcc-gdpr-cookie-on-load" v-model="on_load">
 									</c-col>
 								</c-row>
-								<!-- For hide banner -->
-								<?php if ( ! $is_pro_active ) : ?>
-									<c-row>
-										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Hide cookie banner on specific pages', 'gdpr-cookie-consent' ); ?></label>
-											<div class="gdpr-pro-label absolute" style="top: -1.5px;" ><div class="gdpr-pro-label-text">Pro</div></div>
-										</c-col>
-										<c-col class="col-sm-8">
-										<v-select disabled id="gdpr-cookie-consent-hide-banner" :reduce="label => label.code" class="form-group" :options="list_of_pages" multiple></v-select>
-										<input type="hidden" name="gcc-selected-pages">
-										</c-col>
-									</c-row>
-								<?php endif ?>
-								<?php do_action( 'gdpr_hide_pages' ); ?>
 							</c-card-body>
 						</c-card>
 
