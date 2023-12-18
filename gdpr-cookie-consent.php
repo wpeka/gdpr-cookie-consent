@@ -82,7 +82,7 @@ function activate_gdpr_cookie_consent() {
  *
  * Handles the redirection of the page after plugin activation.
  */
-add_action( 'admin_init', 'activation_redirect' );
+// add_action( 'admin_init', 'activation_redirect' );
 
 /**
  * It will redirect to the wizard page after plugin activation.

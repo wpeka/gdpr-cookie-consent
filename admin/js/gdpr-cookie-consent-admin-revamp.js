@@ -2,6 +2,14 @@ var jQuery = jQuery.noConflict();
 jQuery(document).ready(function () {
 
 
+	const isProActivated = gdpr_localize_data.is_pro_activated;
+
+
+	if ( isProActivated ) {
+		jQuery('.gdpr-cookie-consent-admin-tabs-section').addClass('pro-is-activated');
+		jQuery('.gdpr-cookie-consent-admin-tab').addClass('pro-is-activated');
+	}
+
     // Hide all tab contents initially except the first one
     jQuery('.gdpr-cookie-consent-admin-tab-content').not(':first').hide();
 

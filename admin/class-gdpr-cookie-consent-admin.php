@@ -261,33 +261,10 @@ class Gdpr_Cookie_Consent_Admin {
 		//new submenu
 		// add_submenu_page( 'gdpr-cookie-consent', __( 'Dashboard Test', 'gdpr-cookie-consent' ), __( 'Dashboard NEW', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'gdpr_cookie_consent_dashboard_test' ) );
 		// wizard submenu.
-		add_submenu_page( 'gdpr-cookie-consent', __( 'Wizard', 'gdpr-cookie-consent' ), __( 'Wizard', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-wizard', array( $this, 'gdpr_cookie_consent_wizard' ) );
+		// add_submenu_page( 'gdpr-cookie-consent', __( 'Wizard', 'gdpr-cookie-consent' ), __( 'Wizard', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-wizard', array( $this, 'gdpr_cookie_consent_wizard' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-settings', array( $this, 'admin_settings_page' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
 
-		if ( ! get_option( 'wpl_pro_active', false ) ) {
-			add_submenu_page(
-				'gdpr-cookie-consent',
-				'',
-				'<button id="gdpr-menu-upgrade-btn" style="
-						background-color: #346DB1;
-						font-family:sans-serif;
-						width:140px;
-						height:40px;
-						color: #FFFFFF;
-						display: block;
-						border-radius: 4px;
-						border: none;
-						cursor: pointer;
-						font-weight: 400;
-						font-size: 16px;
-						line-height: 18.75px;
-						align-items: center;
-					" >Upgrade to PRO</button>',
-				'manage_options',
-				'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=sub_menu&utm_campaign=upgrade-to-pro'
-			);
-		}
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
 	}
 
@@ -2592,6 +2569,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 2.1.0
 	 */
 	public function gdpr_cookie_consent_dashboard_test() {
+		$pro_is_activated = get_option( 'wpl_pro_active', false );
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script(
 			'gdpr-cookie-consent-admin-revamp',
@@ -2601,15 +2579,23 @@ class Gdpr_Cookie_Consent_Admin {
 			true
 		);
 
+		// wp_localize_script(
+		// 	$this->plugin_name . '-integrations',
+		// 	'integrations_obj',
+		// 	array(
+		// 		'ajax_url'    => admin_url( 'admin-ajax.php' ),
+		// 		'geo_options' => $geo_options,
+		// 	)
+		// );
+
 		wp_localize_script(
-			'responsive-elementor-addons-admin-revamp',
-			'localize',
+			'gdpr-cookie-consent-admin-revamp',
+			'gdpr_localize_data',
 			array(
-				'ajaxurl'        => admin_url( 'admin-ajax.php' ),
-				'gdprurl'         => GDPR_URL,
-				'siteurl'        => site_url(),
-				// 'isRSTActivated' => is_plugin_active( 'responsive-add-ons/responsive-add-ons.php' ),
-				// 'nonce'          => wp_create_nonce( 'responsive-elementor-addons' ),
+				'ajaxurl'        		=> admin_url( 'admin-ajax.php' ),
+				'gdprurl'         		=> GDPR_URL,
+				'siteurl'        		=> site_url(),
+				'is_pro_activated'		=> $pro_is_activated,
 			)
 		);
 

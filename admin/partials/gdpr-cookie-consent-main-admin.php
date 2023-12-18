@@ -11,6 +11,7 @@
  * @package gdpr-cookie-consent
  */
 
+$pro_is_activated = get_option( 'wpl_pro_active', false );
 
 ?>
 
@@ -48,9 +49,21 @@
 				</div>
 		</div>
 		<!-- promotional banner  -->
-		<div class="gdpr-cookie-consent-admin-promotional-banner">
-			<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_upgrade_to_pro.png'; ?>" alt="">
-		</div>
+		<?php
+
+		if ( ! $pro_is_activated ) {
+
+		?>
+			<div class="gdpr-cookie-consent-admin-promotional-banner">
+				<a href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=sub_menu&utm_campaign=upgrade-to-pro" target="_blank">
+				<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_upgrade_to_pro.png'; ?>" alt=""></a>
+			</div>
+		<?php
+
+		};
+
+
+		?>
 		<!-- tabs -->
 		<div class="gdpr-cookie-consent-admin-tabs-section">
 			<div class="gdpr-cookie-consent-admin-tabs">
@@ -67,7 +80,7 @@
 					<p class="gdpr-cookie-consent-admin-tab-name">Policy&nbsp;Data</p>
 				</div>
 				<?php
-					$pro_is_activated = false;
+
 					if ( $pro_is_activated ) {
 
 						?>
@@ -112,6 +125,10 @@
 				<!-- policy data content  -->
 				<div class="gdpr-cookie-consent-admin-policy-data-content gdpr-cookie-consent-admin-tab-content" id="policy_data">
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-policy-data-tab-template.php'; ?>
+				</div>
+				<!-- integration data content  -->
+				<div class="gdpr-cookie-consent-admin-integration-data-content gdpr-cookie-consent-admin-tab-content" id="integrations">
+					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-integration-tab-template.php'; ?>
 				</div>
 				<!-- legal pages  -->
 				<div class="gdpr-cookie-consent-admin-legal-pages-content gdpr-cookie-consent-admin-tab-content" id="legal_page">
