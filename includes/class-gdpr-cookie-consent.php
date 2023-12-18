@@ -616,6 +616,7 @@ class Gdpr_Cookie_Consent {
 			'body_scripts'                         => '',
 			'footer_scripts'                       => '',
 			'restrict_posts'                       => array(),
+			'select_pages'						   => array(),
 			'gdpr_css_text'                        => '',
 			'do_not_track_on'                      => false,
 			'data_req_editor_message'			   => '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;',
@@ -753,6 +754,10 @@ class Gdpr_Cookie_Consent {
 				$ret = trim( stripslashes( $value ) );
 				break;
 			case 'restrict_posts':
+				$ret = $value;
+				break;
+			//hide banner
+			case 'select_pages':
 				$ret = $value;
 				break;
 			// Basic sanitisation for all the rest.
