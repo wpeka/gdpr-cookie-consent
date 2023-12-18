@@ -833,19 +833,23 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 				if(template.includes('popup') || template.includes('widget')){
 					$( '.gdpr-popup > .gdpr_messagebar_content > #default_buttons' ).css({
 						"display": "flex",
-						"justify-content" : "space-around"
+						"justify-content" : "space-around",
+						"align-items": "center"
 					} );
 				}
+			
 				if( this.settings.cookie_bar_as == 'popup' ) {
 					$( '.gdpr-popup > .gdpr_messagebar_content > #default_buttons' ).css({
 						"display": "flex",
-						"justify-content" : "space-around"
+						"justify-content" : "space-around",
+						"align-items": "center"
 					} );
 				}
 				if( this.settings.cookie_bar_as == 'widget' ) {
 					$( '.gdpr-widget > .gdpr_messagebar_content > #default_buttons' ).css({
 						"display": "flex",
-						"justify-content" : "space-around"
+						"justify-content" : "space-around",
+						"align-items": "center"
 					} );
 				}
 			}
