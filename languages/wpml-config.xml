@@ -108,6 +108,7 @@
       <key name="text"/>
       <key name="use_color_picker"/>
       <key name="bar_heading_text"/>
+      <key name="bar_heading_lgpd_text"/>
       <key name="cookie_bar_as"/>
       <key name="cookie_usage_for"/>
       <key name="popup_overlay"/>
