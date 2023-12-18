@@ -1333,16 +1333,16 @@ var gen = new Vue({
         },
         saveCookieSettings() {
 
-			// When Pro is activated set the values in the aceeditor
-			if ( this.isGdprProActive ) {
-				//intializing the acecode editor
-				var editor = ace.edit("aceEditor");
-				//getting the value of editor
-				var code = editor.getValue();
-				//setting the value
-				this.gdpr_css_text = code;
-				editor.setValue(this.gdpr_css_text);
-			}
+            // When Pro is activated set the values in the aceeditor
+            if ( this.isGdprProActive ) {
+                //intializing the acecode editor
+                var editor = ace.edit("aceEditor");
+                //getting the value of editor
+                var code = editor.getValue();
+                //setting the value
+                this.gdpr_css_text = code;
+                editor.setValue(this.gdpr_css_text);
+            }
 
             var that = this;
             var dataV = jQuery("#gcc-save-settings-form").serialize();
@@ -1359,15 +1359,15 @@ var gen = new Vue({
                     that.is_template_changed = false;
                     location.reload();
                 }
-				if(that.is_lang_changed){
+                if(that.is_lang_changed){
                     that.is_lang_changed = false;
                     location.reload();
                 }
-				that.is_logo_removed = false;
-				if ( that.data_reqs_switch_clicked == true ) {
-					that.data_reqs_switch_clicked = false;
-					location.reload();
-				}
+                that.is_logo_removed = false;
+                if ( that.data_reqs_switch_clicked == true ) {
+                    that.data_reqs_switch_clicked = false;
+                    location.reload();
+                }
                 if(that.reload_onSelect_law==true){
                     that.reload_onSelect_law = false;
                     location.reload();
