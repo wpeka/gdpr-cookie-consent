@@ -240,7 +240,6 @@ class Gdpr_Cookie_Consent_Public {
 
 		// Return the data.
 		return rest_ensure_response( $gdpr_data );
-
 	}
 
 	/**
@@ -303,21 +302,21 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['confirm_button'] = __( 'Confirm', 'gdpr-cookie-consent' );
 				$the_options['cancel_button']  = __( 'Cancel', 'gdpr-cookie-consent' );
 			}
-			$about_message         = stripslashes( nl2br( $the_options['about_message'] ) );
-			$about_message_lgpd    = stripslashes( nl2br( $the_options['about_message_lgpd'] ) );
-			$eprivacy_message      = stripslashes( $eprivacy_message );
-			$gdpr_message          = stripslashes( $gdpr_message );
-			$ccpa_message          = stripslashes( $ccpa_message );
-			$lgpd_message          = stripslashes( $lgpd_message );
-			$eprivacy_str          = $eprivacy_message;
-			$gdpr_str              = $gdpr_message;
-			$ccpa_str              = $ccpa_message;
-			$lgpd_str              = $lgpd_message;
-			$head                  = $the_options['bar_heading_text'];
-			$head                  = trim( stripslashes( $head ) );
-			$head_lgpd             = $the_options['bar_heading_lgpd_text'];
-			$head_lgpd             = trim( stripslashes( $head_lgpd ) );
-			$template              = $the_options['template'];
+			$about_message      = stripslashes( nl2br( $the_options['about_message'] ) );
+			$about_message_lgpd = stripslashes( nl2br( $the_options['about_message_lgpd'] ) );
+			$eprivacy_message   = stripslashes( $eprivacy_message );
+			$gdpr_message       = stripslashes( $gdpr_message );
+			$ccpa_message       = stripslashes( $ccpa_message );
+			$lgpd_message       = stripslashes( $lgpd_message );
+			$eprivacy_str       = $eprivacy_message;
+			$gdpr_str           = $gdpr_message;
+			$ccpa_str           = $ccpa_message;
+			$lgpd_str           = $lgpd_message;
+			$head               = $the_options['bar_heading_text'];
+			$head               = trim( stripslashes( $head ) );
+			$head_lgpd          = $the_options['bar_heading_lgpd_text'];
+			$head_lgpd          = trim( stripslashes( $head_lgpd ) );
+			$template           = $the_options['template'];
 			if ( 'none' !== $template ) {
 				$template_parts = explode( '-', $template );
 				$template       = array_pop( $template_parts );
@@ -659,18 +658,18 @@ class Gdpr_Cookie_Consent_Public {
 			$the_options['ip_and_consent_renew'] = $gdpr_post_meta_values_array;
 
 			$user_ip = $this->wpl_get_user_ip(); // get the current user's IP.
-
+			
 			$cookies_list_data = array(
 				'gdpr_cookies_list'       => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
 				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
 				'gdpr_consent_renew'      => $the_options['ip_and_consent_renew'],
 				'gdpr_user_ip'            => $user_ip,
 				'gdpr_do_not_track'       => $the_options['do_not_track_on'],
+				'gdpr_select_pages'       => $the_options['select_pages'],
 			);
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
 		}
 	}
-
 	/**
 	 * Returns IP address of the user for consent log.
 	 *
