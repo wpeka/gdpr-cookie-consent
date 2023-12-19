@@ -1534,6 +1534,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 .group-description-buttons-preview.widget-button-container {
 	display: flex;
 	justify-content: space-around;
+	align-items: center;
 }
 #cookie_action_accept_preview.widget-accept-preview {
 	min-width: 7.5rem;
