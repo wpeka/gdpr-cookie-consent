@@ -262,7 +262,7 @@ class Gdpr_Cookie_Consent_Admin {
 		// add_submenu_page( 'gdpr-cookie-consent', __( 'Dashboard Test', 'gdpr-cookie-consent' ), __( 'Dashboard NEW', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'gdpr_cookie_consent_dashboard_test' ) );
 		// wizard submenu.
 		// add_submenu_page( 'gdpr-cookie-consent', __( 'Wizard', 'gdpr-cookie-consent' ), __( 'Wizard', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-wizard', array( $this, 'gdpr_cookie_consent_wizard' ) );
-		add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-settings', array( $this, 'admin_settings_page' ) );
+		// add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-settings', array( $this, 'admin_settings_page' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
 
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );

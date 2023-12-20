@@ -223,7 +223,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 							</div>
 						</div>
-						<c-card>
+						<c-card class="compliances_card">
 							<c-card-header><?php esc_html_e( 'Cookie Notice', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -649,7 +649,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<?php if ( ! $is_pro_active ) : ?>
 								<c-row>
-									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Safe Mode for Cookies', 'gdpr-cookie-consent' ); ?> 
+									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Safe Mode for Cookies', 'gdpr-cookie-consent' ); ?>
 									<tooltip text="<?php esc_html_e( 'When safe mode is enabled, all integrations will be disabled temporarily.', 'gdpr-cookie-consent' ); ?>"></tooltip>
 
 										</label>
@@ -701,7 +701,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 							</div>
 						</div>
-						<c-card>
+						<c-card class="configuration_card">
 							<c-card-header><?php esc_html_e( 'Configure Cookie Bar', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -823,7 +823,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 							</div>
 						</div>
-						<c-card>
+						<c-card class="desgin_card">
 							<c-card-header><?php esc_html_e( 'Cookie Bar Body Design', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -1892,17 +1892,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 
 					</c-tab>
-					<?php
-				if ( ! get_option( 'wpl_pro_active', false ) ) {
-					?>
-					<div class="upgrade-tp-pro-btn-div">
-						<c-button class="upgrade-to-pro-btn"href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=cookie_settings&utm_campaign=upgrade-to-pro" target="_blank">Upgrade to PRO</c-button>
-				</div>
-				<?php } ?>
+
 
 				</c-tabs>
-				</c-tabs>	
-				
+				</c-tabs>
+
 
 
 			</div>

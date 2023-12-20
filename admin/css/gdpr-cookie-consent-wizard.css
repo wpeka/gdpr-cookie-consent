@@ -42,9 +42,10 @@ html {
 	border-right: 1px solid var(--gray-200, #E4E4E7);
 	border-bottom: 1px solid var(--gray-200, #E4E4E7);
 	border-left: 1px solid var(--gray-200, #E4E4E7);
+	border-top: 1px solid var(--gray-200, #E4E4E7);
 }
 
-#gcc-save-settings-form fieldset {
+#gcc-save-settings-form-wizard fieldset {
 	width: 100%;
 	position: relative
 }
@@ -53,11 +54,11 @@ html {
 	text-align: center
 }
 
-#gcc-save-settings-form fieldset:not(:first-of-type) {
+#gcc-save-settings-form-wizard fieldset:not(:first-of-type) {
 	display: none
 }
 
-#gcc-save-settings-form .next-step,#gcc-save-settings-form .submit-button {
+#gcc-save-settings-form-wizard .next-step,#gcc-save-settings-form-wizard .submit-button {
 	width: 167px;
 	height: 43px;
 	flex-shrink: 0;
@@ -71,7 +72,7 @@ html {
 	margin: 20px;
 }
 
-#gcc-save-settings-form .previous-step{
+#gcc-save-settings-form-wizard .previous-step{
 	width: 167px;
 	height: 43px;
 	flex-shrink: 0;
@@ -88,7 +89,7 @@ html {
 }
 
 /* Change text color on hover */
-#gcc-save-settings-form .previous-step:hover {
+#gcc-save-settings-form-wizard .previous-step:hover {
     color:  rgb(5, 75, 146);
 }
 
@@ -105,13 +106,13 @@ html {
 	background: #39F;
 }
 
-#gcc-save-settings-form .next-step:hover,
-#gcc-save-settings-form .next-step:focus {
+#gcc-save-settings-form-wizard .next-step:hover,
+#gcc-save-settings-form-wizard .next-step:focus {
 	background: rgb(5, 75, 146);
 }
 
-#gcc-save-settings-form .submit-button:hover,
-#gcc-save-settings-form .submit-button:focus {
+#gcc-save-settings-form-wizard .submit-button:hover,
+#gcc-save-settings-form-wizard .submit-button:focus {
 	background: rgb(5, 75, 146);
 }
 

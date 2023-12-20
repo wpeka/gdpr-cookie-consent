@@ -10,5 +10,13 @@
  *
  * @package gdpr-cookie-consent
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-echo "Cookie Settings Template";
+$baseurl = '';
+if ( isset( $_SERVER['PHP_SELF'] ) ) {
+	$baseurl = esc_url_raw( wp_unslash( $_SERVER['PHP_SELF'] ) );
+}
+
+Gdpr_Cookie_Consent_Admin::admin_settings_page();
