@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl','gr' );
 
 	/**
 	 * The version of this plugin.
@@ -703,6 +703,10 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Slovenian',
 			'code'  => 'sl',
 		);
+		$show_language_as_options[11] = array(
+			'label'=> 'Greek',
+			'code'=> 'gr',
+			);
 
 		// dropdown option for schedule scan.
 		$schedule_scan_options    = array();
@@ -2298,6 +2302,10 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Slovenian',
 			'code'  => 'sl',
 		);
+		$show_language_as_options[11] = array(
+			'label'=> 'Greek',
+			'code'=> 'gr',
+			);
 		// dropdown option for schedule scan.
 		$schedule_scan_options    = array();
 		$schedule_scan_options[0] = array(

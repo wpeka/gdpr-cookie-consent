@@ -10,7 +10,8 @@
 	   "es":"Este sitio web utiliza cookies para mejorar su experiencia. Asumiremos que está de acuerdo con esto, pero puede optar por no participar si lo desea.",
 	   "hr":"Ova web stranica koristi kolačiće kako bi poboljšala Vaše iskustvo. Pretpostavit ćemo da ste suglasni s ovime, ali možete se odjaviti ako želite.",
 	   "is":"Þessi vefsíða notar vafrakökur til að bæta upplifun þína. Við gætum tekið það með að þú samþykkir þetta, en þú getur hætt við ef þú vilt.",
-	   "sl":"Ta spletna stran uporablja piškotke, da izboljša vašo izkušnjo. Predvidevamo, da se strinjate s tem, vendar se lahko odjavite, če želite."
+	   "sl":"Ta spletna stran uporablja piškotke, da izboljša vašo izkušnjo. Predvidevamo, da se strinjate s tem, vendar se lahko odjavite, če želite.",
+	   "gr":"Αυτός ο ιστότοπος χρησιμοποιεί cookies για να βελτιώσει την εμπειρία σας. Θα υποθέσουμε ότι είστε εντάξει με αυτό, αλλά μπορείτε να εξαιρεθείτε εάν το επιθυμείτε."
 	},
 	"dash_notify_message_lgpd":{
 		"en":"This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
@@ -23,7 +24,8 @@
 		"es":"Este sitio web utiliza cookies con fines técnicos y otros, según se especifica en la política de cookies. Asumiremos que está de acuerdo con esto, pero puede optar por no participar si lo desea.",
 		"hr":"Ova web stranica koristi kolačiće u tehničke i druge svrhe kako je navedeno u politici kolačića. Pretpostavit ćemo da se slažete s tim, ali možete se isključiti ako želite.",
 		"is":"Þessi vefsíða notar vafrakökur í tæknilegum og öðrum tilgangi eins og tilgreint er í vafrastefnunni. Við gerum ráð fyrir að þú sért í lagi með þetta, en þú getur afþakkað ef þú vilt.",
-		"sl":"To spletno mesto uporablja piškotke za tehnične in druge namene, kot je navedeno v pravilniku o piškotkih. Predvidevamo, da se s tem strinjate, vendar se lahko odjavite, če želite."
+		"sl":"To spletno mesto uporablja piškotke za tehnične in druge namene, kot je navedeno v pravilniku o piškotkih. Predvidevamo, da se s tem strinjate, vendar se lahko odjavite, če želite.",
+		"gr":"Αυτός ο ιστότοπος χρησιμοποιεί cookies για τεχνικούς και άλλους σκοπούς όπως ορίζεται στην πολιτική cookies. Θα υποθέσουμε ότι είστε εντάξει με αυτό, αλλά μπορείτε να εξαιρεθείτε εάν το επιθυμείτε."
 	},
 	"dash_button_readmore_text":{
 	   "en":"Read More",
@@ -36,7 +38,8 @@
 	   "es":"Leer más",
 	   "hr":"Saznajte više",
 	   "is":"Lesa meira",
-	   "sl":"Preberi več"
+	   "sl":"Preberi več",
+	   "gr": "Διαβάστε περισσότερα"
 	},
 	"dash_button_accept_text":{
 	   "en":"Accept",
@@ -49,7 +52,8 @@
 	   "es":"Aceptar",
 	   "hr":"Prihvati",
 	   "is":"Samþykkja",
-	   "sl":"Sprejmi"
+	   "sl":"Sprejmi",
+	   "gr":"Αποδέχομαι"
 	},
 	"dash_button_accept_all_text":{
 	   "en":"Accept All",
@@ -62,7 +66,8 @@
 	   "es":"Aceptar todo",
 	   "hr":"Prihvati sve",
 	   "is":"Samþykkja allt",
-	   "sl":"Sprejmi vse"
+	   "sl":"Sprejmi vse",
+	   "gr":"Αποδοχή όλων"
 	},
 	"dash_button_decline_text":{
 	   "en":"Decline",
@@ -75,7 +80,8 @@
 	   "es":"Rechazar",
 	   "hr":"Odbij",
 	   "is":"Hafna",
-	   "sl":"Zavrni"
+	   "sl":"Zavrni",
+	   "gr":"Πτώση"
 	},
 	"dash_about_message":{
 	   "en":"Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies, we need your permission. This site uses different types of cookies. Some cookies are placed by third-party services that appear on our pages.",
@@ -88,7 +94,8 @@
 	   "es":"Las cookies son pequeños archivos de texto que pueden ser utilizados por los sitios web para mejorar la experiencia del usuario. La ley establece que podemos almacenar cookies en su dispositivo si son estrictamente necesarias para el funcionamiento de este sitio. Para todos los demás tipos de cookies, necesitamos su permiso. Este sitio utiliza diferentes tipos de cookies. Algunas cookies son colocadas por servicios de terceros que aparecen en nuestras páginas.",
 	   "hr":"Kolačići su mali tekstualni datoteci koje mogu koristiti web stranice kako bi poboljšale korisničko iskustvo. Zakon propisuje da možemo pohraniti kolačiće na vaš uređaj ako su strogo potrebni za rad ove stranice. Za sve ostale vrste kolačića trebamo vašu dozvolu. Ova web stranica koristi različite vrste kolačića. Neki kolačići se postavljaju od strane trećih strana koje se pojavljuju na našim stranicama.",
 	   "is":"Smákökur eru smáir textaskrár sem vefsvæði geta notað til að bæta virkni notandareynslu. Lög kveða á um að hægt sé að geyma smákökur á tæki þínu ef þær eru nauðsynlegar fyrir gang vefsvæðisins. Fyrir aðrar tegundir smákaka þurfum við leyfi þitt. Þetta vefsvæði notar ýmsar tegundir smákaka. Sumar smákökur eru settar af þriðja aðila sem birtast á síðum okkar.",
-	   "sl":"Piškotki so majhne besedilne datoteke, ki jih lahko spletna mesta uporabljajo za učinkovitejšo uporabniško izkušnjo. Zakon določa, da lahko na vašo napravo shranimo piškotke, če so nujno potrebni za delovanje te strani. Za vse druge vrste piškotkov potrebujemo vaše dovoljenje. To spletno mesto uporablja različne vrste piškotkov. Nekatere piškotke namestijo storitve tretjih oseb, ki se pojavljajo na naših straneh."
+	   "sl":"Piškotki so majhne besedilne datoteke, ki jih lahko spletna mesta uporabljajo za učinkovitejšo uporabniško izkušnjo. Zakon določa, da lahko na vašo napravo shranimo piškotke, če so nujno potrebni za delovanje te strani. Za vse druge vrste piškotkov potrebujemo vaše dovoljenje. To spletno mesto uporablja različne vrste piškotkov. Nekatere piškotke namestijo storitve tretjih oseb, ki se pojavljajo na naših straneh.",
+	   "gr":"Τα cookies είναι μικρά αρχεία κειμένου που μπορούν να χρησιμοποιηθούν από ιστότοπους για να κάνουν την εμπειρία του χρήστη πιο αποτελεσματική. Ο νόμος ορίζει ότι μπορούμε να αποθηκεύσουμε cookies στη συσκευή σας εάν είναι απολύτως απαραίτητα για τη λειτουργία αυτού του ιστότοπου. Για όλους τους άλλους τύπους cookies, χρειαζόμαστε την άδειά σας. Αυτός ο ιστότοπος χρησιμοποιεί διαφορετικούς τύπους cookies. Ορισμένα cookies τοποθετούνται από υπηρεσίες τρίτων που εμφανίζονται στις σελίδες μας."
 	},
 	"dash_about_message_lgpd":{
 		"en":"Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies, we need your permission. This site uses different types of cookies. Some cookies are placed by third-party services that appear on our pages.",
@@ -101,8 +108,9 @@
 		"es":"Las cookies son pequeños archivos de texto que pueden ser utilizados por los sitios web para mejorar la experiencia del usuario. La ley establece que podemos almacenar cookies en su dispositivo si son estrictamente necesarias para el funcionamiento de este sitio. Para todos los demás tipos de cookies, necesitamos su permiso. Este sitio utiliza diferentes tipos de cookies. Algunas cookies son colocadas por servicios de terceros que aparecen en nuestras páginas.",
 		"hr":"Kolačići su mali tekstualni datoteci koje mogu koristiti web stranice kako bi poboljšale korisničko iskustvo. Zakon propisuje da možemo pohraniti kolačiće na vaš uređaj ako su strogo potrebni za rad ove stranice. Za sve ostale vrste kolačića trebamo vašu dozvolu. Ova web stranica koristi različite vrste kolačića. Neki kolačići se postavljaju od strane trećih strana koje se pojavljuju na našim stranicama.",
 		"is":"Smákökur eru smáir textaskrár sem vefsvæði geta notað til að bæta virkni notandareynslu. Lög kveða á um að hægt sé að geyma smákökur á tæki þínu ef þær eru nauðsynlegar fyrir gang vefsvæðisins. Fyrir aðrar tegundir smákaka þurfum við leyfi þitt. Þetta vefsvæði notar ýmsar tegundir smákaka. Sumar smákökur eru settar af þriðja aðila sem birtast á síðum okkar.",
-		"sl":"Piškotki so majhne besedilne datoteke, ki jih lahko spletna mesta uporabljajo za učinkovitejšo uporabniško izkušnjo. Zakon določa, da lahko na vašo napravo shranimo piškotke, če so nujno potrebni za delovanje te strani. Za vse druge vrste piškotkov potrebujemo vaše dovoljenje. To spletno mesto uporablja različne vrste piškotkov. Nekatere piškotke namestijo storitve tretjih oseb, ki se pojavljajo na naših straneh."
-	 },
+		"sl":"Piškotki so majhne besedilne datoteke, ki jih lahko spletna mesta uporabljajo za učinkovitejšo uporabniško izkušnjo. Zakon določa, da lahko na vašo napravo shranimo piškotke, če so nujno potrebni za delovanje te strani. Za vse druge vrste piškotkov potrebujemo vaše dovoljenje. To spletno mesto uporablja različne vrste piškotkov. Nekatere piškotke namestijo storitve tretjih oseb, ki se pojavljajo na naših straneh.",
+	    "gr":"Τα cookies είναι μικρά αρχεία κειμένου που μπορούν να χρησιμοποιηθούν από ιστότοπους για να κάνουν την εμπειρία του χρήστη πιο αποτελεσματική. Ο νόμος ορίζει ότι μπορούμε να αποθηκεύσουμε cookies στη συσκευή σας εάν είναι απολύτως απαραίτητα για τη λειτουργία αυτού του ιστότοπου. Για όλους τους άλλους τύπους cookies, χρειαζόμαστε την άδειά σας. Αυτός ο ιστότοπος χρησιμοποιεί διαφορετικούς τύπους cookies. Ορισμένα cookies τοποθετούνται από υπηρεσίες τρίτων που εμφανίζονται στις σελίδες μας." 
+	},
 	"dash_notify_message":{
 	   "en":"This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
 	   "fr":"Ce site web utilise des cookies pour améliorer votre expérience. Nous supposerons que cela vous convient, mais vous pouvez vous désabonner si vous le souhaitez.",
@@ -114,7 +122,8 @@
 	   "es":"Este sitio web utiliza cookies para mejorar su experiencia. Asumiremos que está de acuerdo con esto, pero puede optar por no participar si lo desea.",
 	   "hr":"Ova web stranica koristi kolačiće kako bi poboljšala Vaše iskustvo. Pretpostavit ćemo da ste suglasni s ovime, ali možete se odjaviti ako želite.",
 	   "is":"Þessi vefsíða notar vafrakökur til að bæta upplifun þína. Við gerum ráð fyrir að þú sért í lagi með þetta, en þú getur afþakkað ef þú vilt.",
-	   "sl":"Ta spletna stran uporablja piškotke za izboljšanje vaše izkušnje. Predvidevamo, da se s tem strinjate, vendar se lahko odjavite, če želite"
+	   "sl":"Ta spletna stran uporablja piškotke za izboljšanje vaše izkušnje. Predvidevamo, da se s tem strinjate, vendar se lahko odjavite, če želite",
+	   "gr":"Αυτός ο ιστότοπος χρησιμοποιεί cookies για να βελτιώσει την εμπειρία σας. Θα υποθέσουμε ότι είστε εντάξει με αυτό, αλλά μπορείτε να εξαιρεθείτε εάν το επιθυμείτε."
 	},
 	"dash_button_settings_text":{
 	   "en":"Cookie Settings",
@@ -127,7 +136,8 @@
 	   "es":"Configuración de cookies",
 	   "hr":"Postavke kolačića",
 	   "is":"Vefkökur",
-	   "sl":"Nastavitve piškotkov"
+	   "sl":"Nastavitve piškotkov",
+	   "gr":"Ρυθμίσεις cookie"
 	},
 	"dash_notify_message_ccpa":{
 	   "en":"In case of sale of your personal information, you may opt out by using the link.",
@@ -140,7 +150,8 @@
 	   "es":"En caso de venta de su información personal, puede optar por no participar utilizando el enlace.",
 	   "hr":"U slučaju prodaje vaših osobnih podataka, možete se odjaviti putem veze.",
 	   "is":"Ef persónuupplýsingum þínum er selt, getur þú valið að takast út með því að nota hlekkinn.",
-	   "sl":"V primeru prodaje vaših osebnih podatkov se lahko odjavite prek povezave."
+	   "sl":"V primeru prodaje vaših osebnih podatkov se lahko odjavite prek povezave.",
+	   "gr":"Σε περίπτωση πώλησης των προσωπικών σας στοιχείων, μπορείτε να εξαιρεθείτε χρησιμοποιώντας τον σύνδεσμο."
 	},
 	"dash_button_donotsell_text":{
 	   "en":"Do Not Sell My Personal Information",
@@ -153,7 +164,8 @@
 	   "es":"No Vender Mi Información Personal",
 	   "hr":"Nemoj prodavati moje osobne podatke",
 	   "is":"Ne prodaj moje osebne podatke",
-	   "sl":"Ne prodaj moje osebne podatke"
+	   "sl":"Ne prodaj moje osebne podatke",
+	   "gr":"Μην πωλείτε τα προσωπικά μου στοιχεία"
 	},
 	"dash_button_confirm_text":{
 	   "en":"Confirm",
@@ -166,7 +178,8 @@
 	   "es":"Confirmar",
 	   "hr":"Potvrdi",
 	   "is":"Staðfesta",
-	   "sl":"Potrdi"
+	   "sl":"Potrdi",
+	   "gr":"Επιβεβαιώνω"
 	},
 	"dash_button_cancel_text":{
 	   "en":"Cancel",
@@ -179,7 +192,8 @@
 	   "es":"Cancelar",
 	   "hr":"Otkaži",
 	   "is":"Hætta við",
-	   "sl":"Prekliči"
+	   "sl":"Prekliči",
+	   "gr":"Ματαίωση"
 	},
 	"dash_show_again_text":{
 	   "en":"Cookie Settings",
@@ -192,7 +206,8 @@
 	   "es":"Ajustes Cookies",
 	   "hr":"Postavke kolačića",
 	   "is":"Stillingar á kökum",
-	   "sl":"Nastavitve piškotkov"
+	   "sl":"Nastavitve piškotkov",
+	   "gr":"Ρυθμίσεις cookie"
 	},
 	"dash_optout_text":{
 	   "en":"Do you really wish to opt-out?",
@@ -205,7 +220,8 @@
 	   "es":"¿Realmente desea darse de baja?",
 	   "hr":"Da li stvarno želite odustati?",
 	   "is":"Vilt þú virkilega afþakka?",
-	   "sl":"Ali res želite onemogočiti?"
+	   "sl":"Ali res želite onemogočiti?",
+	   "gr":"Θέλετε πραγματικά να εξαιρεθείτε;"
 	},
 	"gdpr_cookie_category_description_necessary":{
 	   "en":"Necessary cookies help make a website usable by enabling basic functions like page navigation and access to secure areas of the website. The website cannot function properly without these cookies.",
@@ -218,7 +234,8 @@
 	   "es":"Las cookies necesarias ayudan a que un sitio web sea utilizable al habilitar funciones básicas como la navegación por páginas y el acceso a áreas seguras del sitio web. El sitio web no puede funcionar correctamente sin estas cookies.",
 	   "hr":"Neophodni kolačići pomažu u činjenju web stranice upotrebljivom omogućavajući osnovne funkcije poput navigacije stranicama i pristup sigurnim dijelovima web stranice. Web stranica ne može pravilno funkcionirati bez ovih kolačića.",
 	   "is":"Nauðsynlegar kökur hjálpa til við að gera vefinn notanlegan með því að gera grunnhlutverk eins og bladsiglingu og aðgang að öruggum svæðum vefsíðunnar kleift. Vefurinn getur ekki starfað rétt án þessara kaka.",
-	   "sl":"Nujni piškotki pomagajo narediti spletno stran uporabno z omogočanjem osnovnih funkcij, kot so navigacija po straneh in dostop do varnih območij spletne strani. Spletna stran brez teh piškotkov ne more pravilno delovati."
+	   "sl":"Nujni piškotki pomagajo narediti spletno stran uporabno z omogočanjem osnovnih funkcij, kot so navigacija po straneh in dostop do varnih območij spletne strani. Spletna stran brez teh piškotkov ne more pravilno delovati.",
+	    "gr":"Τα απαραίτητα cookies βοηθούν να γίνει ένας ιστότοπος εύχρηστος, ενεργοποιώντας βασικές λειτουργίες όπως η πλοήγηση στη σελίδα και η πρόσβαση σε ασφαλείς περιοχές του ιστότοπου. Ο ιστότοπος δεν μπορεί να λειτουργήσει σωστά χωρίς αυτά τα cookies."
 	},
 	"gdpr_cookie_category_name_necessary":{
 	   "en":"Necessary",
@@ -231,7 +248,8 @@
 	   "es":"Necesario",
 	   "hr":"Nužno",
 	   "is":"Nauðsynlegt",
-	   "sl":"Nujno"
+	   "sl":"Nujno",
+	    "gr":"Απαραίτητη"
 	},
 	"gdpr_cookie_category_name_analytics":{
 	   "en":"Analytics",
@@ -244,7 +262,8 @@
 	   "es":"Analítica",
 	   "hr":"Analitika",
 	   "is":"Greining",
-	   "sl":"Analitika"
+	   "sl":"Analitika",
+	   "gr":"Analytics"
 	},
 	"gdpr_cookie_category_name_marketing":{
 	   "en":"Marketing",
@@ -257,7 +276,8 @@
 	   "es":"Marketing",
 	   "hr":"Marketing",
 	   "is":"Markaðssetning",
-	   "sl":"Trženje"
+	   "sl":"Trženje",
+	   "gr":"Εμπορία"
 	},
 	"gdpr_cookie_category_name_preference":{
 	   "en":"Preference",
@@ -270,7 +290,8 @@
 	   "es":"Preferencia",
 	   "hr":"Preferencija",
 	   "is":"Val",
-	   "sl":"Prednost"
+	   "sl":"Prednost",
+	   "gr":"Προτίμηση"
 	},
 	"gdpr_cookie_category_name_unclassified":{
 	   "en":"Unclassified",
@@ -283,7 +304,8 @@
 	   "es":"No clasificado",
 	   "hr":"Neklasificirano",
 	   "is":"Óflokkun",
-	   "sl":"Neučinkovito"
+	   "sl":"Neučinkovito",
+	   "gr":"Αταξινόμητος"
 	},
 	"gdpr_cookie_category_description_analytics":{
 	   "en":"Analytics cookies help website owners to understand how visitors interact with websites by collecting and reporting information anonymously.",
@@ -296,7 +318,8 @@
 	   "es":"Las cookies de análisis ayudan a los propietarios de sitios web a comprender cómo interactúan los visitantes con los sitios web al recopilar y reportar información de manera anónima.",
 	   "hr":"Analitički kolačići pomažu vlasnicima web stranica da razumiju kako posjetitelji interagiraju s web stranicama prikupljanjem i prijavljivanjem informacija anonimno.",
 	   "is":"Greiningarvefkökur hjálpa eigendum vefsíðna að skilja hvernig gestir hafa samskipti við vefsíður með því að söfna og koma með skýringar án að nafni.",
-	   "sl":"Analitični piškotki lastnikom spletnih strani pomagajo razumeti, kako obiskovalci interagirajo s spletnimi mesti z zbiranjem in anonimnim poročanjem informacij."
+	   "sl":"Analitični piškotki lastnikom spletnih strani pomagajo razumeti, kako obiskovalci interagirajo s spletnimi mesti z zbiranjem in anonimnim poročanjem informacij.",
+	    "gr":"Τα cookie Analytics βοηθούν τους κατόχους ιστότοπων να κατανοήσουν πώς αλληλεπιδρούν οι επισκέπτες με ιστότοπους συλλέγοντας και αναφέροντας πληροφορίες ανώνυμα."
 	},
 	"gdpr_cookie_category_description_marketing":{
 	   "en":"Marketing cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging for the individual user and thereby more valuable for publishers and third party advertisers.",
@@ -309,7 +332,8 @@
 	   "es":"Las cookies de marketing se utilizan para rastrear a los visitantes en los sitios web. La intención es mostrar anuncios relevantes y atractivos para el usuario individual y, por lo tanto, más valiosos para los editores y anunciantes de terceros.",
 	   "hr":"Kolačići za marketing koriste se za praćenje posjetitelja na web stranicama. Namjera je prikazivati oglase koji su relevantni i privlačni za pojedinog korisnika i stoga su vrijedniji za izdavače i oglašivače trećih strana.",
 	   "is":"Markaðssetningar kökur eru notuðar til að fylgja eftir gestum á vefsíðum. Markmiðið er að birta auglýsingar sem henta viðkomandi notanda og því hagkvæmari fyrir útgefendur og þriðju meðal annara auglýsanda.",
-	   "sl":"Piškotki za trženje se uporabljajo za sledenje obiskovalcem na spletnih mestih. Namen je prikazovanje oglasov, ki so relevantni in privlačni za posameznega uporabnika ter s tem bolj vredni za založnike in oglaševalce tretjih strani."
+	   "sl":"Piškotki za trženje se uporabljajo za sledenje obiskovalcem na spletnih mestih. Namen je prikazovanje oglasov, ki so relevantni in privlačni za posameznega uporabnika ter s tem bolj vredni za založnike in oglaševalce tretjih strani.",
+	    "gr":"Τα cookies μάρκετινγκ χρησιμοποιούνται για την παρακολούθηση επισκεπτών σε ιστότοπους. Σκοπός είναι να προβάλλονται διαφημίσεις που είναι σχετικές και ελκυστικές για τον μεμονωμένο χρήστη και ως εκ τούτου πιο πολύτιμες για εκδότες και διαφημιστές τρίτων."
 	},
 	"gdpr_cookie_category_description_preference":{
 	   "en":"Preference cookies enable a website to remember information that changes the way the website behaves or looks, like your preferred language or the region that you are in.",
@@ -322,7 +346,8 @@
 	   "es":"Las cookies de preferencia permiten que un sitio web recuerde información que cambia la forma en que el sitio web se comporta o se ve, como su idioma preferido o la región en la que se encuentra.",
 	   "hr":"Kolačići postavki omogućuju web stranici da zapamti informacije koje mijenjaju način na koji web stranica funkcionira ili izgleda, poput vašeg preferiranog jezika ili regije u kojoj se nalazite.",
 	   "is":"Valkostakökur gera vefinn kleift að muna upplýsingar sem breyta því hvernig vefsíðan bregst eða lítur út, eins og uppákomulagstað eða tungumál sem þú vilt nota.",
-	   "sl":"Piškotki za nastavitve omogočajo spletni strani, da si zapomni informacije, ki spreminjajo način delovanja ali izgled spletnega mesta, kot je vaša izbrana jezik ali regija, v kateri se nahajate."
+	   "sl":"Piškotki za nastavitve omogočajo spletni strani, da si zapomni informacije, ki spreminjajo način delovanja ali izgled spletnega mesta, kot je vaša izbrana jezik ali regija, v kateri se nahajate.",
+	   "gr":"Τα cookie προτιμήσεων επιτρέπουν σε έναν ιστότοπο να θυμάται πληροφορίες που αλλάζουν τον τρόπο συμπεριφοράς ή εμφάνισης του ιστότοπου, όπως η γλώσσα που προτιμάτε ή η περιοχή στην οποία βρίσκεστε."
 	},
 	"gdpr_cookie_category_description_unclassified":{
 	   "en":"Unclassified cookies are cookies that we are in the process of classifying, together with the providers of individual cookies.",
@@ -335,6 +360,7 @@
 	   "es":"Las cookies no clasificadas son cookies que estamos en proceso de clasificar, junto con los proveedores de cookies individuales.",
 	   "hr":"Neodređeni kolačići su kolačići koje trenutno klasificiramo, zajedno s pružateljima pojedinačnih kolačića.",
 	   "is":"Óflokkarar kökur eru kökur sem við erum að flokklaus með núna, í samvinnu við gefendur einstakra kaka.",
-	   "sl":"Neklasificirani piškotki so piškotki, ki jih trenutno razvrščamo skupaj s ponudniki posameznih piškotkov."
+	   "sl":"Neklasificirani piškotki so piškotki, ki jih trenutno razvrščamo skupaj s ponudniki posameznih piškotkov.",
+	   "gr":"Τα μη ταξινομημένα cookies είναι cookies που είμαστε στη διαδικασία ταξινόμησης, μαζί με τους παρόχους μεμονωμένων cookies."
 	}
  }
