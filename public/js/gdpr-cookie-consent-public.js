@@ -1375,6 +1375,8 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			this.bar_elm.css( 'opacity', 1 );
 			this.details_elm.css( 'border-top-color', GDPR.settings.border_color );
 			this.settings_button.attr( 'data-gdpr_action', 'hide_settings' );
+			jQuery( '#gdpr_messagebar_detail_body_content_about' ).hide();
+
 		},
 		hide_details:function() {
 			this.details_elm.hide();
