@@ -22,13 +22,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 		}
 		?>
 		</div>
-		<?php
-		if ( '' !== $the_options['head'] ) {
-			?>
-			<h3 class="gdpr_messagebar_head"><?php echo esc_html__( $the_options['head'], 'gdpr-cookie-consent' ); //phpcs:ignore?></h3>
-			<?php
-		}
-		?>
+		
 		<div class="group-description" tabindex="0"><p class="gdpr"><?php echo wp_kses_post( $the_options['gdpr_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 		<?php
 		if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
