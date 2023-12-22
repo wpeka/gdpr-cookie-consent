@@ -92,6 +92,10 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
 								<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
 							</div>
+							<!-- data req tab  -->
+							<div class="gdpr-cookie-consent-admin-tab		gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
+								<p class="gdpr-cookie-consent-admin-tab-name">Data&nbsp;Request</p>
+							</div>
 						<?php
 
 					};
@@ -129,6 +133,11 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 				<!-- integration data content  -->
 				<div class="gdpr-cookie-consent-admin-integration-data-content gdpr-cookie-consent-admin-tab-content" id="integrations">
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-integration-tab-template.php'; ?>
+				</div>
+				<!-- data req data content  -->
+				<div class="gdpr-cookie-consent-admin-data-request-data-content gdpr-cookie-consent-admin-tab-content" id="data_request">
+					<?php do_action('add_data_request_content') ?>
+					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-data-request-tab-template.php'; ?>
 				</div>
 				<!-- legal pages  -->
 				<div class="gdpr-cookie-consent-admin-legal-pages-content gdpr-cookie-consent-admin-tab-content" id="legal_page">

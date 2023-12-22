@@ -2308,14 +2308,16 @@ var gen = new Vue({
             this.setScanListValues();
         }
 		//Make AceEditor ReadOnly for the Free
-		console.log('VUE JS IS WORKING');
-		console.log('is pro acitve ? ',this.isGdprProActive );
-		if (  this.isGdprProActive ) {
-			console.log('INSIDE ACE EDITOR');
-			var editor = ace.edit("aceEditorFree");
-			editor.setValue(this.gdpr_css_text_free);
-			editor.setReadOnly(true);
-		}
+
+		// if (  this.isGdprProActive ) {
+
+		// 	var editor = ace.edit("aceEditorFree");
+		// 	editor.setValue(this.gdpr_css_text_free);
+		// 	editor.setReadOnly(true);
+		// }
+
+		//make it uncomment
+
 		// Add a new input field for whitelist
 		jQuery(document).on("click", '.wpl_add_url', function(){
 		let container_div = jQuery(this).closest('div');
@@ -4702,14 +4704,15 @@ var gen = new Vue({
             this.setScanListValues();
         }
 		//Make AceEditor ReadOnly for the Free
-		console.log('VUE JS IS WORKING');
-		console.log('is pro acitve ? ',this.isGdprProActive );
-		if (  this.isGdprProActive ) {
-			console.log('INSIDE ACE EDITOR');
-			var editor = ace.edit("aceEditorFree");
-			editor.setValue(this.gdpr_css_text_free);
-			editor.setReadOnly(true);
-		}
+
+		// if (  this.isGdprProActive ) {
+		// 	console.log('INSIDE ACE EDITOR');
+		// 	var editor = ace.edit("aceEditorFree");
+		// 	editor.setValue(this.gdpr_css_text_free);
+		// 	editor.setReadOnly(true);
+		// }
+		// make it uncomment
+
 		// Add a new input field for whitelist
 		jQuery(document).on("click", '.wpl_add_url', function(){
 		let container_div = jQuery(this).closest('div');

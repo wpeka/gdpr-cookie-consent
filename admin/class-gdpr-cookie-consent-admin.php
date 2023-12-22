@@ -2563,7 +2563,7 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 		}
 	}
-		/**
+	/**
 	 * Callback function for Dashboard page.
 	 *
 	 * @since 2.1.0
@@ -2578,15 +2578,6 @@ class Gdpr_Cookie_Consent_Admin {
 			GDPR_COOKIE_CONSENT_VERSION,
 			true
 		);
-
-		// wp_localize_script(
-		// 	$this->plugin_name . '-integrations',
-		// 	'integrations_obj',
-		// 	array(
-		// 		'ajax_url'    => admin_url( 'admin-ajax.php' ),
-		// 		'geo_options' => $geo_options,
-		// 	)
-		// );
 
 		wp_localize_script(
 			'gdpr-cookie-consent-admin-revamp',
