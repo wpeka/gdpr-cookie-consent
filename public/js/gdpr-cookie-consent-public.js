@@ -154,12 +154,19 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 							if(GDPR.settings.cookie_usage_for == 'gdpr' || GDPR.settings.cookie_usage_for == 'eprivacy' || GDPR.settings.cookie_usage_for == 'both' || GDPR.settings.cookie_usage_for == 'lgpd'){
 								var banner = document.getElementById("gdpr-cookie-consent-show-again");
 								var insidebanner = document.getElementById("gdpr-cookie-consent-bar");
+								if (GDPR.settings.cookie_bar_as == 'popup') {
+									$( "#gdpr-popup" ).gdprmodal( 'hide' );
+								}
 								if (banner || insidebanner) {
 								 	banner.style.display = "none";
 									insidebanner.style.display = "none";
+
 								}
 							}
 							else if(GDPR.settings.cookie_usage_for == 'ccpa'){
+								if (GDPR.settings.cookie_bar_as == 'popup') {
+									$( "#gdpr-popup" ).gdprmodal( 'hide' );
+								}
 								var insidebanner = document.getElementById("gdpr-cookie-consent-bar");
 								if (insidebanner) {
 									insidebanner.style.display = "none";

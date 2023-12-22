@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.4.0';
+			$this->version = '2.4.1';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -607,6 +607,7 @@ class Gdpr_Cookie_Consent {
 			'text'                                 => '#000000',
 			'use_color_picker'                     => true,
 			'bar_heading_text'                     => '',
+			'bar_heading_lgpd_text'                => '',
 			'cookie_bar_as'                        => 'banner', // banner | popup | widget.
 			'cookie_usage_for'                     => 'gdpr',
 			'popup_overlay'                        => true,
@@ -738,6 +739,7 @@ class Gdpr_Cookie_Consent {
 			case 'notify_message_ccpa':
 			case 'optout_text':
 			case 'bar_heading_text':
+			case 'bar_heading_lgpd_text': 
 				$ret = wp_kses( $value, self::gdpr_allowed_html(), self::gdpr_allowed_protocols() );
 				break;
 			// URLs only.
