@@ -102,9 +102,10 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 
 
 				?>
-				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-legalpage-data-tab" data-tab="legal_page">
+				<!-- tab for legal page promotion  -->
+				<!-- <div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-legalpage-data-tab" data-tab="legal_page">
 					<p class="gdpr-cookie-consent-admin-tab-name">Legal&nbsp;Page</p>
-				</div>
+				</div> -->
 			</div>
 		</div>
 
@@ -128,6 +129,7 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 				</div>
 				<!-- policy data content  -->
 				<div class="gdpr-cookie-consent-admin-policy-data-content gdpr-cookie-consent-admin-tab-content" id="policy_data">
+					<?php do_action('add_policy_data_content') ?>
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-policy-data-tab-template.php'; ?>
 				</div>
 				<!-- integration data content  -->
@@ -140,9 +142,9 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-data-request-tab-template.php'; ?>
 				</div>
 				<!-- legal pages  -->
-				<div class="gdpr-cookie-consent-admin-legal-pages-content gdpr-cookie-consent-admin-tab-content" id="legal_page">
+				<!-- <div class="gdpr-cookie-consent-admin-legal-pages-content gdpr-cookie-consent-admin-tab-content" id="legal_page">
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-legal-pages-tab-template.php'; ?>
-				</div>
+				</div> -->
 			</div>
 		</div>
 

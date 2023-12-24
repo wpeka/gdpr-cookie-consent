@@ -263,12 +263,58 @@ class Gdpr_Cookie_Consent_Admin {
 		// wizard submenu.
 		// add_submenu_page( 'gdpr-cookie-consent', __( 'Wizard', 'gdpr-cookie-consent' ), __( 'Wizard', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-wizard', array( $this, 'gdpr_cookie_consent_wizard' ) );
 		// add_submenu_page( 'gdpr-cookie-consent', __( 'Cookie Settings', 'gdpr-cookie-consent' ), __( 'Cookie Settings', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent-settings', array( $this, 'admin_settings_page' ) );
-		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
+		// add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
 
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
 	}
 
+	/**
+	 * Policy data tab overview
+	 *
+	 * @return void
+	 */
+	public function gdpr_policy_data_overview() {
+			ob_start();
+			$content = ob_get_clean();
+			$args    = array(
+				'page'    => 'policy-data-tab',
+				'content' => $content,
+			);
+			echo $this->wpl_get_template( 'gdpr-policy-data-tab-template.php', $args );
+	}
 
+	/**
+	 * Get a template based on filename, overridable in theme dir
+	 *
+	 * @param string $filename
+	 * @param array  $args
+	 * @param string $path
+	 * @return string
+	 */
+	public function wpl_get_template( $filename, $args = array(), $path = false ) {
+
+		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-policy-data-tab-template.php';
+
+		if ( ! file_exists( $file ) ) {
+			return false;
+		}
+
+		if ( strpos( $file, '.php' ) !== false ) {
+			ob_start();
+			require $file;
+			$contents = ob_get_clean();
+		} else {
+			$contents = file_get_contents( $file );
+		}
+
+		if ( ! empty( $args ) && is_array( $args ) ) {
+			foreach ( $args as $fieldname => $value ) {
+				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
+			}
+		}
+
+		return $contents;
+	}
 
 	/**
 	 * Returns plugin actions links.
@@ -2589,9 +2635,6 @@ class Gdpr_Cookie_Consent_Admin {
 				'is_pro_activated'		=> $pro_is_activated,
 			)
 		);
-
-
-
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-admin.php';
 	}
 	/**

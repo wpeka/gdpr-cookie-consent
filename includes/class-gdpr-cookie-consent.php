@@ -197,6 +197,8 @@ class Gdpr_Cookie_Consent {
 			// added ajax for import settings
 			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
 
+			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview');
+
 		}
 	}
 
@@ -739,7 +741,7 @@ class Gdpr_Cookie_Consent {
 			case 'notify_message_ccpa':
 			case 'optout_text':
 			case 'bar_heading_text':
-			case 'bar_heading_lgpd_text': 
+			case 'bar_heading_lgpd_text':
 				$ret = wp_kses( $value, self::gdpr_allowed_html(), self::gdpr_allowed_protocols() );
 				break;
 			// URLs only.

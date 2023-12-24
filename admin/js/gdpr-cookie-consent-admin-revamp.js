@@ -79,4 +79,11 @@ jQuery(document).ready(function () {
         jQuery('#' + activeTab).show();
         jQuery('[data-tab="' + activeTab + '"]').addClass('active-tab');
     }
+
+	/////
+	//make url dynamic
+	jQuery('#policyDataTabContainer').load('http://localhost/gdprscript/wp-admin/edit.php?post_type=gdprpolicies .wrap');
+
+
+
 });
