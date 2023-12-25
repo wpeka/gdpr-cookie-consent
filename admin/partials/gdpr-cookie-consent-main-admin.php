@@ -22,19 +22,19 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 				<div class="gdpr-cookie-consent-admin-logo-and-label">
 					<div class="gdpr-cookie-consent-admin-logo">
 						<!-- //image  -->
-						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_consent_logo.png'; ?>" alt="">
+						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_consent_logo.png'; ?>" alt="WP Cookie Consent Logo">
 					</div>
 					<div class="gdpr-cookie-consent-admin-label">
 						<!-- //label  -->
-						<div class="gdpr-cookie-consent-admin-label_wp_label"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_consent_label.png'; ?>" alt=""></div>
-						<div class="gdpr-cookie-consent-admin-label_gdpr_label"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_ccpa_label.png'; ?>" alt=""></div>
+						<div class="gdpr-cookie-consent-admin-label_wp_label"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_consent_label.png'; ?>" alt="WP Cookie Consent Label"></div>
+						<div class="gdpr-cookie-consent-admin-label_gdpr_label"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_ccpa_label.png'; ?>" alt="WP Cookie Consent CCPA Label"></div>
 					</div>
 				</div>
 				<div class="gdpr-cookie-consent-admin-help-and-support">
 				<div class="gdpr-cookie-consent-admin-help">
 						<div class="gdpr-cookie-consent-admin-help-icon">
 							<!-- //image  -->
-							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.png'; ?>" alt="">
+							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.png'; ?>" alt="WP Cookie Consent Help">
 						</div>
 						<div class="gdpr-cookie-consent-admin-help-text">Help Guide</div>
 					</div>
@@ -42,7 +42,7 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 						<!-- //support  -->
 						<div class="gdpr-cookie-consent-admin-support-icon">
 							<!-- //image  -->
-							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_support.png'; ?>" alt="">
+							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_support.png'; ?>" alt="WP Cookie Consent Support">
 						</div>
 						<div class="gdpr-cookie-consent-admin-support-text">Support</div>
 					</div>
@@ -56,7 +56,7 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 		?>
 			<div class="gdpr-cookie-consent-admin-promotional-banner">
 				<a href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=sub_menu&utm_campaign=upgrade-to-pro" target="_blank">
-				<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_upgrade_to_pro.png'; ?>" alt=""></a>
+				<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_upgrade_to_pro.png'; ?>" alt="WP Cookie Consent Promotional Banner"></a>
 			</div>
 		<?php
 

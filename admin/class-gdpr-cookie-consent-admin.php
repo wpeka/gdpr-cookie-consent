@@ -2624,7 +2624,6 @@ class Gdpr_Cookie_Consent_Admin {
 			GDPR_COOKIE_CONSENT_VERSION,
 			true
 		);
-
 		wp_localize_script(
 			'gdpr-cookie-consent-admin-revamp',
 			'gdpr_localize_data',
@@ -2632,6 +2631,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'ajaxurl'        		=> admin_url( 'admin-ajax.php' ),
 				'gdprurl'         		=> GDPR_URL,
 				'siteurl'        		=> site_url(),
+				'admin_url'				=> admin_url(),
 				'is_pro_activated'		=> $pro_is_activated,
 			)
 		);

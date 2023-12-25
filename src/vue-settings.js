@@ -2828,16 +2828,6 @@ var gen = new Vue({
                     }
                 }
             }
-            let navLinks = j('.nav-link').map(function () {
-                return this.getAttribute('href');
-            });
-            // for (let i = 0; i < navLinks.length; i++) {
-            //     let re = new RegExp(navLinks[i]);
-            //     if (window.location.href.match(re)) {
-            //         this.$refs.active_tab.activeTabIndex = i;
-            //         break;
-            //     }
-            // }
             if(this.accept_action === "#cookie_action_close_header"){
                 this.is_open_url = false;
             }else{

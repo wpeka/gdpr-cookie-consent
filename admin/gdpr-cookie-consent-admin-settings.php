@@ -214,7 +214,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 
-					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#compliances">
+					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#compliances">
 						<!-- Complianz Banner preview  -->
 						<div class="banner-preview-container">
 							<div class="banner-preview-label"><label><?php esc_attr_e( 'Banner Preview', 'gdpr-cookie-consent' ); ?></label></div>
@@ -691,7 +691,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							</c-card-body>
 						</c-card>
 					</c-tab>
-					<c-tab title="<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>" href="#configuration">
+					<c-tab title="<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#configuration">
 
 						<!-- Configure Banner preview  -->
 						<div class="banner-preview-container">
@@ -814,7 +814,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							</c-card-body>
 						</c-card>
 					</c-tab>
-					<c-tab title="<?php esc_attr_e( 'Design', 'gdpr-cookie-consent' ); ?>" href="#gdpr_design">
+					<c-tab title="<?php esc_attr_e( 'Design', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#gdpr_design">
 						<!-- Desgin Banner preview  -->
 						<div class="banner-preview-container">
 							<div class="banner-preview-label"><label><?php esc_attr_e( 'Banner Preview', 'gdpr-cookie-consent' ); ?></label></div>
@@ -1832,7 +1832,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						}
 						?>
 					</c-tab>
-					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_list">
+					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list">
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
@@ -1874,7 +1874,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
 					</c-tab>
 					<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
-					<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#language">
+					<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#language">
 
 					<c-card>
 
