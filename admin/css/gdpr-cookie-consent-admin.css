@@ -3246,3 +3246,41 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-nav .tab-content .tab-pane.active .desgin_card,#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-nav .tab-content .tab-pane.active .configuration_card,#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-nav .tab-content .tab-pane.active .compliances_card{
 	margin-top: -26px;
 }
+.consent-logs-export-btn,.policy-export-btn,.policy-import-btn{
+	display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    text-shadow: none;
+    top: -3px;
+    margin-left: 4px;
+    border: 1px solid #2271b1;
+    border-radius: 3px;
+    background: #f6f7f7;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 2.15384615;
+    color: #2271b1;
+    padding: 0 10px;
+    min-height: 30px;
+    -webkit-appearance: none;
+}
+
+#consentLogDataTabContainer .subsubsub{
+	display: none;
+}
+#gdprCookieConsent.wpl.wrap{
+	margin: 0;
+	border-radius: 4px;
+    border-right: 1px solid var(--Gray-200, #E4E4E7);
+    border-bottom: 1px solid var(--Gray-200, #E4E4E7);
+    border-left: 1px solid var(--Gray-200, #E4E4E7);
+    background: var(--white, #FFF);
+    border-top: 1px solid var(--Gray-200, #E4E4E7);
+}
+#policyDataTabContainer.wpl-content-area {
+    background-color: white;
+    padding: 30px;
+}

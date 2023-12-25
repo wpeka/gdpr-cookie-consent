@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Provide a data request tab area view for the WP Cookie Consent plugin
+ * Provide a consent log data tab area view for the WP Cookie Consent plugin
  *
  * This file is used to markup the admin-facing aspects of the WP Cookie Consent plugin.
  *
@@ -15,10 +15,10 @@
 ?>
 
 <?php $high_contrast = 'wpl-high-contrast' ;?>
-<div class="wpl wrap <?php echo $high_contrast ?>" id="dataRequestContainer">
+<div class="wpl wrap <?php echo $high_contrast ?>" id="gdprCookieConsent">
 	<?php //this header is a placeholder to ensure notices do not end up in the middle of our code ?>
 	<div class="wpl-{page}">
-		<div class="wpl-content-area">
+		<div class="wpl-content-area" id="consentLogDataTabContainer">
 			{content}
 		</div>
 	</div>

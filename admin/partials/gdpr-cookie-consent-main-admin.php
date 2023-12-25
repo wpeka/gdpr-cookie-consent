@@ -136,6 +136,11 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 				<div class="gdpr-cookie-consent-admin-integration-data-content gdpr-cookie-consent-admin-tab-content" id="integrations">
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-integration-tab-template.php'; ?>
 				</div>
+				<!-- consent log data content  -->
+				<div class="gdpr-cookie-consent-admin-consent-logs-data-content gdpr-cookie-consent-admin-tab-content" id="consent_logs">
+				<?php do_action('add_consent_log_data') ?>
+				<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-consent-logs-tab-template.php'; ?>
+				</div>
 				<!-- data req data content  -->
 				<div class="gdpr-cookie-consent-admin-data-request-data-content gdpr-cookie-consent-admin-tab-content" id="data_request">
 					<?php do_action('add_data_request_content') ?>

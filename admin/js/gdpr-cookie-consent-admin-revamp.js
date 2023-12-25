@@ -82,8 +82,44 @@ jQuery(document).ready(function () {
 
 	/////
 	//make url dynamic
-	jQuery('#policyDataTabContainer').load('http://localhost/gdprscript/wp-admin/edit.php?post_type=gdprpolicies .wrap');
+	// jQuery('#policyDataTabContainer').load('http://localhost/gdprscript/wp-admin/edit.php?post_type=gdprpolicies .wrap');
+
+	// Function to add the a tag after .wp-heading-inline
+	function addExportTagPolicy() {
+		var newATag = '<a href="http://localhost/gdprscript/wp-admin/admin-post.php?action=gdpr_policies_export.csv" class="policy-export-btn">Export as CSV</a>';
+		jQuery('#policyDataTabContainer .wp-heading-inline').after(newATag);
+	}
+	function addImportTagPolicy() {
+		var newATag = '<a href="http://localhost/gdprscript/wp-admin/edit.php?page=gdpr-policies-import" class="policy-import-btn">Import From CSV</a>';
+		jQuery('#policyDataTabContainer .wp-heading-inline').after(newATag);
+	}
+
+	// Load content into #consentLogDataTabContainer and then add the a tag
+	jQuery('#policyDataTabContainer').load('http://localhost/gdprscript/wp-admin/edit.php?post_type=gdprpolicies .wrap', function() {
+		// Once content is loaded, check if .wp-heading-inline exists, then add the a tag
+		if (jQuery('.wp-heading-inline').length > 0) {
+			addExportTagPolicy();
+			addImportTagPolicy();
+		}
+	});
 
 
+
+	// Function to add the a tag after .wp-heading-inline
+	function addATag() {
+		var newATag = '<a href="http://localhost/gdprscript/wp-admin/admin-post.php?action=export.csv&s=" class="consent-logs-export-btn">Export as CSV</a>';
+		jQuery('#consentLogDataTabContainer .wp-heading-inline').after(newATag);
+	}
+
+	// Load content into #consentLogDataTabContainer and then add the a tag
+
+	if ( isProActivated ) {
+		jQuery('#consentLogDataTabContainer').load('http://localhost/gdprscript/wp-admin/edit.php?post_type=wplconsentlogs .wrap', function() {
+			// Once content is loaded, check if .wp-heading-inline exists, then add the a tag
+			if (jQuery('.wp-heading-inline').length > 0) {
+				addATag();
+			}
+		});
+	}
 
 });
