@@ -1027,10 +1027,16 @@ var gen = new Vue({
         },
         updateFileName(event){
             this.selectedFile = event.target.files[0];
+            document.getElementById("importButton").disabled=false;   
+            document.getElementById("importButton").classList.remove("disabled");   
+            document.getElementById("importButton").classList.remove("disable-import-button"); 
             },
             removeFile(){
             this.selectedFile = null;
             document.getElementById("fileInput").value = "";
+            document.getElementById("importButton").disabled=true;  
+            document.getElementById("importButton").classList.add("disable-import-button");   
+
             },
             exportsettings() {
                 const siteAddress = window.location.origin;
@@ -1087,8 +1093,9 @@ var gen = new Vue({
 
             if (file) {
             var reader = new FileReader();
-
-            reader.onload = function(event) {
+            document.getElementById("importButton").disabled=true; 
+            document.getElementById("importButton").classList.add("disable-import-button") ;
+          reader.onload = function(event) {
             var jsonData = event.target.result;
             try {
                 const parsedData = JSON.parse(JSON.parse(jsonData));
@@ -1105,11 +1112,15 @@ var gen = new Vue({
                     success: function (data)
                     {
                         if(data.success === true) {
-                            that.success_error_message = 'Settings imported successfully.';
-                            j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
-                            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-                            window.location.reload();
+                                                   
+                            setTimeout( function addsettings(){
+                                window.location.reload();
+                                },7000);
+    
+                                that.success_error_message = 'Your file has been imported successfully. Please click on the Save Changes button to make the changes.';
+                                j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+                                j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+                                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(7000);                 
                         }else{
                             that.success_error_message = 'Please try again.';
                             j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -1131,9 +1142,11 @@ var gen = new Vue({
             };
 
             reader.readAsText(file);
+
             } else {
             console.error('No file selected');
             }
+            
         },
         restoreDefaultSettings() {
             this.cookie_bar_color = '#ffffff';
@@ -1332,7 +1345,7 @@ var gen = new Vue({
             });
         },
         saveCookieSettings() {
-
+  
             // When Pro is activated set the values in the aceeditor
             if ( this.isGdprProActive ) {
                 //intializing the acecode editor

@@ -791,16 +791,19 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<div style="font-size: 10px;" v-if="selectedFile">{{ selectedFile.name }} <span style="color:#00CF21;font-weight:500;margin-left:5px" > Uploaded </span> <span style="color: #8996AD;text-decoration:underline;margin-left:5px;position:absolute" class="remove-button" @click="removeFile">Remove</span> </div>
 										<div style="font-size: 10px;" v-else>No File Chosen</div>
 									</c-col>
+	
+
 									<c-col class="col-sm-8 text-right" >
 										<label style="margin-bottom:0; font-size:0.875rem; <?php echo ! $is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff; '; ?> text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
 										<input style="display: none;" type="file" <?php echo $is_pro_active ? '' : 'disabled'; ?> @change="updateFileName" name="fileInput" accept=".json" id="fileInput">
-									<c-button variant="outline" <?php echo ! $is_pro_active ? 'color="info" style="color:#D8DBE0; border: 1px solid #D8DBE0;"' : 'color="info"'; ?> @click="importsettings" id="importButton" <?php echo $is_pro_active ? '' : 'disabled'; ?>>
+									<c-button variant="outline" color="info" class="disable-import-button"
+									@click="importsettings" id="importButton" disabled>
 										<?php esc_html_e( 'Import', 'gdpr-cookie-consent' ); ?>
 									</c-button>
 									</c-col>
 
 								</c-row>
-
+								
 								<!-- Reset Settings -->
 								<c-row class="pt-1 mb-0" >
 									<c-col class="col-sm-4">
