@@ -620,3 +620,17 @@
 #gdpr-cookie-consent-dashboard-page .gdpr-cookie-consent-dashboard-container.gdpr-admin-dashaboard-template.container .card.gdpr-progress-bar-card{
 	margin-top: 0;
 }
+
+#gdpr-cookie-consent-dashboard-page .gdpr-cookie-consent-dashboard-container.container{
+	margin-top: 0;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#gdpr-cookie-consent-dashboard-page .gdpr-cookie-consent-dashboard-container .card.gdpr-progress-bar-card{
+	margin-top: 0;
+}
+
+#dataRequestContainer .gdpr-maxmind-notice {
+	display: none;
+}

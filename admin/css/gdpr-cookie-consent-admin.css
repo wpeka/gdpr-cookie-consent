@@ -866,6 +866,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container {
     padding: 0;
     margin: 0;
+	max-width: 100%;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav > div:nth-child(1) {
     background-color: white;
@@ -885,8 +886,9 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	/* width: 100%; */
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav > div:nth-child(2) {
-    display: flex;
-    justify-content: center;
+    /* display: flex; */
+    /* justify-content: center; */
+	/* justify-content: flex-end; */
     /* align-items: center; */
 	/* min-width: 260px; */
 	width: 100%;
@@ -907,7 +909,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     outline: 1px solid transparent;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav > div:nth-child(2) .tab-content {
-    min-width: 1052px;
+    min-width: 750px;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card {
     padding: 0;
@@ -3283,4 +3285,11 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 #policyDataTabContainer.wpl-content-area {
     background-color: white;
     padding: 30px;
+}
+.gdpr-cookie-consent-admin-tabs-content .gdpr-cookie-consent-admin-tabs-inner-content ,gdpr-cookie-consent-admin-tab-content{
+	min-height: 500px;
+}
+
+#gdpr-cookie-consent-main-admin-header .gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-help .gdpr-cookie-consent-admin-help-icon,#gdpr-cookie-consent-main-admin-header .gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-support .gdpr-cookie-consent-admin-support-icon{
+	cursor: pointer;
 }

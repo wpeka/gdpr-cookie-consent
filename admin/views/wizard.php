@@ -2184,7 +2184,7 @@ function get_templates( $template_type ) {
 
 </div>
 
-<div class="gdpr-wizard-main-container" id="gdpr-cookie-consent-settings-app">
+<div class="gdpr-wizard-main-container" id="gdpr-cookie-consent-settings-app-wizard">
 
 <div class="form-container">
 
@@ -2193,7 +2193,7 @@ function get_templates( $template_type ) {
 <span id="closeButton" class="close-wizard"></span>
 
 		<!-- form  -->
-		<form id="gcc-save-settings-form" class="gcc-save-wizard-settings-form">
+		<form id="gcc-save-settings-form-wizard" class="gcc-save-wizard-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce_wizard" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-wizard' ) ); ?>"/>
 
 			<ul id="progressbar">

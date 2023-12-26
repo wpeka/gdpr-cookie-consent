@@ -34,7 +34,9 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 				<div class="gdpr-cookie-consent-admin-help">
 						<div class="gdpr-cookie-consent-admin-help-icon">
 							<!-- //image  -->
-							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.png'; ?>" alt="WP Cookie Consent Help">
+							<a href="https://club.wpeka.com/docs/wp-cookie-consent/" target="_blank">
+								<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.png'; ?>" alt="WP Cookie Consent Help">
+							</a>
 						</div>
 						<div class="gdpr-cookie-consent-admin-help-text">Help Guide</div>
 					</div>
@@ -42,7 +44,9 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 						<!-- //support  -->
 						<div class="gdpr-cookie-consent-admin-support-icon">
 							<!-- //image  -->
+							<a href="https://club.wpeka.com/my-account/?utm_source=plugin&utm_medium=gdpr&utm_campaign=dashboard&utm_content=support" target="_blank">
 							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_support.png'; ?>" alt="WP Cookie Consent Support">
+							</a>
 						</div>
 						<div class="gdpr-cookie-consent-admin-support-text">Support</div>
 					</div>

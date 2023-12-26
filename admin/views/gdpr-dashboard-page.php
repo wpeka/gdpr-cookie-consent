@@ -359,7 +359,7 @@ if ( $table_exists ) {
 										<a class="gdpr-cookie-summary-schedule" href="
 										<?php
 										echo esc_html(
-											admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' )
+											admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list' )
 										);
 										?>
 ">Schedule</a>
@@ -374,7 +374,7 @@ if ( $table_exists ) {
 									<a class="gdpr-cookie-summary-manage-link" href="
 									<?php
 									echo esc_html(
-										admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' )
+										admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list' )
 									);
 									?>
 ">Manage Cookies</a>
@@ -406,7 +406,7 @@ if ( $table_exists ) {
 						<span><a class="gdpr-dashboard-cl-view-all-logs-text" href="
 						<?php
 						echo esc_html(
-							admin_url( 'edit.php?post_type=wplconsentlogs' )
+							admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' )
 						);
 						?>
 ">View All Logs</a></span>

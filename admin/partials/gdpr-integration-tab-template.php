@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Provide a admin area view for the WP Cookie Consent plugin
+ * Provide a integration tab view for the WP Cookie Consent plugin
  *
  * This file is used to markup the admin-facing aspects of the WP Cookie Consent plugin.
  *

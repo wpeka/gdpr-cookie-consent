@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Provide a admin area view for the WP Cookie Consent plugin
+ * Provide a admin settings tab area view for the WP Cookie Consent plugin
  *
  * This file is used to markup the admin-facing aspects of the WP Cookie Consent plugin.
  *
@@ -19,4 +19,6 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 	$baseurl = esc_url_raw( wp_unslash( $_SERVER['PHP_SELF'] ) );
 }
 
-Gdpr_Cookie_Consent_Admin::admin_settings_page();
+if ( class_exists( 'Gdpr_Cookie_Consent_Admin' ) ) {
+	Gdpr_Cookie_Consent_Admin::admin_settings_page();
+}
