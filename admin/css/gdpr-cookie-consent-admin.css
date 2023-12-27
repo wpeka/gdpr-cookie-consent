@@ -1478,6 +1478,11 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 .gdpr_messagebar_content_preview .group-description-preview .gdpr_preview {
 	margin: 0;
 }
+.gdpr_messagebar_content_preview .group-description-preview .gdpr_heading_preview {
+	font-size:18px;
+	font-weight:400;
+	line-height: 1.5;
+}
 #cookie_action_accept_preview {
 	border-radius: 0px;
 	margin-left: 0.25rem;
