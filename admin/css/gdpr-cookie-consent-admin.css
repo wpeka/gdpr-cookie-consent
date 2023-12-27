@@ -3128,6 +3128,15 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	text-transform: capitalize;
 	margin: auto 0;
 }
+.gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-help-text a,.gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-support-text a{
+	text-decoration: none;
+    color: var(--white, #FFF);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+}
 .gdpr-cookie-consent-main-admin-header .gdpr-cookie-consent-admin-promotional-banner{
 	margin: 20px;
 }
@@ -3233,7 +3242,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	padding-top: 20px;
 }
 .gdpr-cookie-consent-admin-tab.pro-is-activated{
-	min-width: 145px;
+	min-width: 230px;
 }
 .gdpr-cookie-consent-admin-tab.active-tab{
 	border-bottom-color: #0059B3;

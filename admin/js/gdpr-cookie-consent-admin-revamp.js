@@ -12,6 +12,8 @@ jQuery(document).ready(function () {
 
     // Hide all tab contents initially except the first one
     jQuery('.gdpr-cookie-consent-admin-tab-content').not(':first').hide();
+	jQuery('.gdpr-cookie-consent-admin-dashboard-tab').addClass('active-tab');
+    jQuery('#gdpr_dashboard').show();
 
     // On tab click, show the corresponding content and update URL hash
     jQuery('.gdpr-cookie-consent-admin-tabs').on('click', '.gdpr-cookie-consent-admin-tab', function (event) {

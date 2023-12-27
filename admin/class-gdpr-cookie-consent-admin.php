@@ -262,6 +262,7 @@ class Gdpr_Cookie_Consent_Admin {
 			'gdpr-cookie-consent','','','manage_options','gdpr-cookie-consent',array($this, 'gdpr_cookie_consent_new_admin_screen' )
 		);
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
+		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
 	}
 
 	/**

@@ -653,7 +653,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<tooltip text="<?php esc_html_e( 'When safe mode is enabled, all integrations will be disabled temporarily.', 'gdpr-cookie-consent' ); ?>"></tooltip>
 
 										</label>
-										<div class="gdpr-pro-label absolute" style="right: -11px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										<div class="gdpr-pro-label absolute" style="right: 5px;"><div class="gdpr-pro-label-text">Pro</div></div>
 									</c-col>
 									<c-col class="col-sm-8">
 										<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" id="gdpr-cookie-consent-enable-safe" variant="3d" color="success"></c-switch>
@@ -1800,7 +1800,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-card >
 										<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
 
-										<div class="gdpr-pro-label absolute" style="top: 10px; right: 530px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										<div class="gdpr-pro-label absolute" style="top: 10px; right: 840px;"><div class="gdpr-pro-label-text">Pro</div></div>
 
 										</c-card-header>
 										<c-card-body>
