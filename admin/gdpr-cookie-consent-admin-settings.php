@@ -1800,7 +1800,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-card >
 										<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
 
-										<div class="gdpr-pro-label absolute" style="top: 10px; right: 840px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										<div class="gdpr-pro-label absolute" style="top: 10px; right: 750px;"><div class="gdpr-pro-label-text">Pro</div></div>
 
 										</c-card-header>
 										<c-card-body>
