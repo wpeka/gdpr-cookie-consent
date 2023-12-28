@@ -1332,8 +1332,6 @@ var gen = new Vue({
             });
         },
         saveCookieSettings() {
-			console.log('SAVE BUTTON IS CLICKED OLD');
-
             // When Pro is activated set the values in the aceeditor
             if ( this.isGdprProActive ) {
                 //intializing the acecode editor
@@ -1347,7 +1345,6 @@ var gen = new Vue({
 
             var that = this;
             var dataV = jQuery("#gcc-save-settings-form").serialize();
-			console.log(dataV);
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
@@ -1380,22 +1377,23 @@ var gen = new Vue({
                 }
             });
         },
-		//method to save wizard form settings
-		saveWizardCookieSettings() {
-			var that = this;
-            var dataV = jQuery(".gcc-save-wizard-settings-form").serialize();
-            jQuery.ajax({
-                type: 'POST',
-                url: settings_obj.ajaxurl,
-                data: dataV + '&action=gcc_save_wizard_settings',
-            }).done(function (data) {
-                that.success_error_message = 'Settings Saved';
-                j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
-                j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            });
+		// method to save wizard form settings
+		// saveWizardCookieSettings() {
+		// 	alert('I ALSO CALLED');
+		// 	var that = this;
+        //     var dataV = jQuery(".gcc-save-wizard-settings-form").serialize();
+        //     jQuery.ajax({
+        //         type: 'POST',
+        //         url: settings_obj.ajaxurl,
+        //         data: dataV + '&action=gcc_save_wizard_settings',
+        //     }).done(function (data) {
+        //         that.success_error_message = 'Settings Saved';
+        //         j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
+        //         j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+        //         j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+        //     });
 
-		},
+		// },
         openMediaModal() {
             var image_frame = wp.media({
                 title: 'Select Media from here',
@@ -2309,14 +2307,12 @@ var gen = new Vue({
         }
 		//Make AceEditor ReadOnly for the Free
 
-		// if (  this.isGdprProActive ) {
+		if ( ! this.isGdprProActive ) {
 
-		// 	var editor = ace.edit("aceEditorFree");
-		// 	editor.setValue(this.gdpr_css_text_free);
-		// 	editor.setReadOnly(true);
-		// }
-
-		//make it uncomment
+			var editor = ace.edit("aceEditorFree");
+			editor.setValue(this.gdpr_css_text_free);
+			editor.setReadOnly(true);
+		}
 
 		// Add a new input field for whitelist
 		jQuery(document).on("click", '.wpl_add_url', function(){
@@ -2454,7 +2450,7 @@ var gen = new Vue({
             cancel_button_popup: false,
             opt_out_link_popup: false,
 			schedule_scan_show: false,
-			is_consent_renewed: ( 'true' == settings_obj.the_options['consent_renew_enable'] || 1 === settings_obj.the_options['consent_renew_enable'] ) ? true : false,
+			// is_consent_renewed: ( 'true' == settings_obj.the_options['consent_renew_enable'] || 1 === settings_obj.the_options['consent_renew_enable'] ) ? true : false,
             scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['total'] : 0,
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
@@ -3014,13 +3010,6 @@ var gen = new Vue({
         onSwitchLoggingOn() {
             this.logging_on = !this.logging_on;
         },
-		onClickRenewConsent() {
-			this.is_consent_renewed = true;
-			this.success_error_message = 'User Consent Renewed';
-			j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
-			j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-			j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-		},
 		onClickAddMedia() {
 			// Get the button element
 			jQuery(document).ready(function ($) {
@@ -3718,8 +3707,6 @@ var gen = new Vue({
             });
         },
         saveCookieSettings() {
-			console.log('SAVE BUTTON IS CLICKED OLD');
-
             // When Pro is activated set the values in the aceeditor
             if ( this.isGdprProActive ) {
                 //intializing the acecode editor
@@ -3733,7 +3720,6 @@ var gen = new Vue({
 
             var that = this;
             var dataV = jQuery("#gcc-save-settings-form").serialize();
-			console.log(dataV);
             jQuery.ajax({
                 type: 'POST',
                 url: settings_obj.ajaxurl,
@@ -4682,130 +4668,9 @@ var gen = new Vue({
         j('#gdpr-before-mount').css('display','none');
         this.setValues();
         this.setPostListValues();
-        j('.gdpr-cookie-consent-settings-nav .nav .nav-item .nav-link').on('click', function() {
-            let adminbar_height = j('#wpadminbar').height();
-            let nav_bar_distance =  j('.gdpr-cookie-consent-settings-nav').offset().top;
-            let scrolled_distance = nav_bar_distance - j(window).scrollTop();
-            if( scrolled_distance <= adminbar_height ) {
-                window.scroll(0, nav_bar_distance-adminbar_height);
-            }
-        })
         if( this.scan_cookie_list_length > 0 ) {
             this.setScanListValues();
         }
-		//Make AceEditor ReadOnly for the Free
-
-		// if (  this.isGdprProActive ) {
-		// 	console.log('INSIDE ACE EDITOR');
-		// 	var editor = ace.edit("aceEditorFree");
-		// 	editor.setValue(this.gdpr_css_text_free);
-		// 	editor.setReadOnly(true);
-		// }
-		// make it uncomment
-
-		// Add a new input field for whitelist
-		jQuery(document).on("click", '.wpl_add_url', function(){
-		let container_div = jQuery(this).closest('div');
-		let templ = jQuery('.wpl-url-template').get(0).innerHTML;
-		container_div.append(templ);
-		});
-		// Remove new input field for whitelist
-		jQuery(document).on("click", '.wpl_remove_url', function(){
-		let container_div = jQuery(this).closest('div');
-		container_div.remove();
-		});
-		// Remove and save the whole tab for whitelist script
-		jQuery(document).on('click', '.wpl_script_save', wpl_script_save );
-		function wpl_script_save() {
-		var btn = jQuery(this);
-		var btn_html = btn.html();
-
-		var container_div = btn.closest('.wpl-panel');
-		var type = 'whitelist_script';
-		var action = btn.data('action');
-		var id = btn.data('id');
-		if ( action == "save" || action == "remove" ) {
-			btn.html('<div class="wpl-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
-		}
-
-		// Values
-		var data = {};
-		container_div.find(':input').each(function () {
-			if (jQuery(this).attr('type') === 'button') return;
-			if ( typeof jQuery(this).attr('name') === 'undefined') return;
-			if (!jQuery(this).data('name')) return;
-			if (jQuery(this).attr('type')==='checkbox' ) {
-				data[jQuery(this).data('name')] = jQuery(this).is(":checked");
-			} else if ( jQuery(this).attr('type')==='radio' ) {
-				if (jQuery(this).is(":checked")) {
-					data[jQuery(this).data('name')] = jQuery(this).val();
-				}
-			} else if (jQuery(this).data('name')==='urls'){
-				let curValue = data[jQuery(this).data('name')];
-				if (typeof curValue === 'undefined' ) curValue = [];
-				curValue.push(jQuery(this).val());
-				data[jQuery(this).data('name')] = curValue;
-			} else if (jQuery(this).data('name')==='dependency'){
-				//key value arrays with string keys aren't stringified to json.
-				let curValue = data[jQuery(this).data('name')];
-				if (typeof curValue === 'undefined' ) curValue = [];
-				curValue.push(jQuery(this).data('url')+'|:|'+jQuery(this).val());
-				data[jQuery(this).data('name')] = curValue;
-			} else {
-				data[jQuery(this).data('name')] = jQuery(this).val();
-			}
-		});
-		jQuery.ajax({
-			type: "POST",
-			url: settings_obj.ajaxurl,
-			data: ({
-				action: 'wpl_script_save',
-				'wpl-save': true,
-				type: type,
-				button_action: action,
-				id: id,
-				data: JSON.stringify(data),
-			}),
-			success: function (response) {
-				if (response.success) {
-					if ( action === 'save' ) {
-						btn.html(btn_html);
-					}
-					if ( action === 'remove' ) {
-						container_div.remove();
-						btn.html(btn_html);
-					}
-				}
-			}
-		});
-		}
-
-		//add new tab
-		jQuery(document).on('click', '.wpl_script_add', wpl_script_add);
-			function wpl_script_add() {
-
-				var btn = jQuery(this);
-				var btn_html = btn.html();
-				var type = 'whitelist_script';
-				btn.html('<div class="wpl-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
-
-				jQuery.ajax({
-					type: 'POST',
-					url: settings_obj.ajaxurl,
-					data: ({
-								action: 'wpl_script_add',
-								type: type,
-							}),
-							success: function (response) {
-										if (response.success) {
-											btn.before(response.html);
-											btn.html(btn_html);
-										}
-									}
-				}).done(function (data) {
-						//
-				});
-			}
     },
     icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep }
 })

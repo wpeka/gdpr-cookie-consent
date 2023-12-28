@@ -233,7 +233,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 
 		$scan_export_menu = __( 'Export as CSV', 'gdpr-cookie-consent' );
 		$export_url       = esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) );
-		// $export_url       = add_query_arg( 'nonce', wp_create_nonce( 'gdpr_policies_export_nonce' ), $export_url );
+		$export_url       = add_query_arg( 'nonce', wp_create_nonce( 'gdpr_policies_export_nonce' ), $export_url );
 
 		?>
 		<script type="text/javascript">
@@ -257,10 +257,10 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 */
 	public function gdpr_process_csv_export_policies() {
 		// Verify the nonce.
-		// $nonce = isset( $_REQUEST['nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ) : '';
-		// if ( ! wp_verify_nonce( $nonce, 'gdpr_policies_export_nonce' ) ) {
-		// 	wp_die( 'Export failed. Please try again.' );
-		// }
+		$nonce = isset( $_REQUEST['nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'gdpr_policies_export_nonce' ) ) {
+			wp_die( 'Export failed. Please try again.' );
+		}
 
 		global $wpdb;
 

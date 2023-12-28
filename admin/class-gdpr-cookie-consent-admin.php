@@ -2613,6 +2613,12 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function gdpr_cookie_consent_new_admin_screen() {
 		$pro_is_activated = get_option( 'wpl_pro_active', false );
+
+		$the_options                  = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+		//find out if data reqs is on.
+		$data_reqs_on = $the_options['data_reqs_on'];
+
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script(
 			'gdpr-cookie-consent-admin-revamp',
@@ -2630,6 +2636,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'siteurl'        		=> site_url(),
 				'admin_url'				=> admin_url(),
 				'is_pro_activated'		=> $pro_is_activated,
+				'is_data_req_on'		=> $data_reqs_on,
 			)
 		);
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-admin.php';
@@ -2649,6 +2656,9 @@ class Gdpr_Cookie_Consent_Admin {
 		$cookie_options       = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$pro_installed        = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? '1' : '0';
 		$is_cookie_on         = isset( $cookie_options['is_on'] ) ? $cookie_options['is_on'] : '1';
+		if ( $is_cookie_on == 'true' ) {
+			$is_cookie_on = true;
+		}
 		$is_pro_active        = get_option( 'wpl_pro_active' );
 		$api_key_activated    = '';
 		$api_key_activated    = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
@@ -2664,11 +2674,11 @@ class Gdpr_Cookie_Consent_Admin {
 		$cookie_scan_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list';
 		$plugin_page_url      = $admin_url . 'plugins.php';
 		$key_activate_url     = $admin_url . 'admin.php?page=wc_am_client_wpl_cookie_consent_dashboard';
-		$consent_log_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
+		$consent_log_url      = $admin_url . 'edit.php?post_type=wplconsentlogs';
 		$cookie_design_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
 		$cookie_template_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#configuration';
 		$script_blocker_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#script_blocker';
-		$third_party_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent#policy_data';
+		$third_party_url      = $admin_url . 'edit.php?post_type=gdprpolicies';
 		$documentation_url    = 'https://club.wpeka.com/docs/wp-cookie-consent/';
 		$gdpr_pro_url         = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=quick-links&utm_content=upgrade-to-pro';
 		$free_support_url     = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';

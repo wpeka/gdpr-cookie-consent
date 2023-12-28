@@ -39,14 +39,13 @@ jQuery(document).ready(function () {
 
     if (hash) {
         var tabId = hash.substring(1); // Remove '#' from the hash
-        // Remove active class from all tabs
 
 		const substr = 'cookie_settings#';
 
 		if ( tabId.includes(substr) ) {
 			tabId = 'cookie_settings'
 		}
-
+		// Remove active class from all tabs
         jQuery('.gdpr-cookie-consent-admin-tab').removeClass('active-tab');
 
         // Hide all tab contents
@@ -56,49 +55,115 @@ jQuery(document).ready(function () {
         jQuery('#' + tabId).show();
         jQuery('[data-tab="' + tabId + '"]').addClass('active-tab');
     }
+	// load the clicked link
 
-	// Function to add the a tag after .wp-heading-inline
-	function addExportTagPolicy() {
-		var exportPolicyUrl = adminUrl + 'admin-post.php?action=gdpr_policies_export.csv';
-		var newATag = '<a href="'+ exportPolicyUrl +'" class="policy-export-btn">Export as CSV</a>';
-		jQuery('#policyDataTabContainer .wp-heading-inline').after(newATag);
-	}
-	function addImportTagPolicy() {
-		var importPolicyUrl = adminUrl + 'edit.php?page=gdpr-policies-import';
-		var newATag = '<a href="' + importPolicyUrl + '" class="policy-import-btn">Import From CSV</a>';
-		jQuery('#policyDataTabContainer .wp-heading-inline').after(newATag);
-	}
+	if ('scrollRestoration' in window.history) {
+		window.history.scrollRestoration = 'manual'
+	  }
 
-	// Load content into #consentLogDataTabContainer and then add the a tag
-	var policyDataLoadUrl = adminUrl + 'edit.php?post_type=gdprpolicies';
+	// for free links
+	jQuery('.gdpr-quick-link-item.settings_free').on('click', function(e) {
 
-	jQuery('#policyDataTabContainer').load( policyDataLoadUrl + ' .wrap', function() {
-		// Once content is loaded, check if .wp-heading-inline exists, then add the a tag
-		if (jQuery('.wp-heading-inline').length > 0) {
-			addExportTagPolicy();
-			addImportTagPolicy();
-		}
+		var linkUrl = jQuery('.gdpr-quick-link-item.settings_free a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+	jQuery('.gdpr-quick-link-item.cookie_banner_free').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.cookie_banner_free a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+	// for pro links
+	jQuery('.gdpr-quick-link-item.settings').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.settings a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
 	});
 
-	// Function to add the a tag after .wp-heading-inline
-	function addATag() {
-		var exportConsentLogUrl = adminUrl + 'admin-post.php?action=export.csv&s=';
-		var newATag = '<a href="' + exportConsentLogUrl + '" class="consent-logs-export-btn">Export as CSV</a>';
-		jQuery('#consentLogDataTabContainer .wp-heading-inline').after(newATag);
+	jQuery('.gdpr-quick-link-item.scan_cookies').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.scan_cookies a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+	jQuery('.gdpr-quick-link-item.geo_targeting').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.geo_targeting a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+	jQuery('.gdpr-quick-link-item.cookie_banner').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.cookie_banner a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+	jQuery('.gdpr-quick-link-item.banner_template').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.banner_template a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+	jQuery('.gdpr-quick-link-item.script_blocker').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.script_blocker a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+	jQuery('.gdpr-quick-link-item.policy_data').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.policy_data a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+
+	jQuery('.gdpr-cookie-summary-last-title a').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-cookie-summary-last-title a').attr('href');
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+
+	jQuery('.gdpr-dashboard-maxmind-integrate a').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-dashboard-maxmind-integrate a').attr('href');
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+
+	jQuery('.gdpr-dashboard-scan-now a').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-dashboard-scan-now a').attr('href');
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+
+	//check if data req is on, then show data req tab.
+	if ( gdpr_localize_data.is_data_req_on == 'false' ) {
+		jQuery('.gdpr-cookie-consent-admin-data-request-tab').hide();
 	}
 
-	// Load content into #consentLogDataTabContainer and then add the a tag
-
-	if ( isProActivated ) {
-
-		var consentLogLoadUrl = adminUrl + 'edit.php?post_type=wplconsentlogs';
-
-		jQuery('#consentLogDataTabContainer').load(consentLogLoadUrl+' .wrap', function() {
-			// Once content is loaded, check if .wp-heading-inline exists, then add the a tag
-			if (jQuery('.wp-heading-inline').length > 0) {
-				addATag();
-			}
-		});
-	}
 
 });
