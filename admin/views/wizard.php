@@ -2184,7 +2184,7 @@ function get_templates( $template_type ) {
 
 </div>
 
-<div class="gdpr-wizard-main-container" id="gdpr-cookie-consent-settings-app">
+<div class="gdpr-wizard-main-container" id="gdpr-cookie-consent-settings-app-wizard">
 
 <div class="form-container">
 
@@ -2193,7 +2193,7 @@ function get_templates( $template_type ) {
 <span id="closeButton" class="close-wizard"></span>
 
 		<!-- form  -->
-		<form id="gcc-save-settings-form" class="gcc-save-wizard-settings-form">
+		<form id="gcc-save-settings-form-wizard" class="gcc-save-wizard-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce_wizard" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-wizard' ) ); ?>"/>
 
 			<ul id="progressbar">
@@ -2785,12 +2785,23 @@ jQuery(document).ready(function () {
 	//save and close submission
 
 	jQuery(".submit-button").click(function() {
-		// Get the admin URL
-		var adminUrl = "<?php echo esc_url( admin_url() ); ?>";
+		// Get the current hash
+		var hash = window.location.hash;
 
-		// Redirect to the dashboard submenu
-		window.location.href = adminUrl + "/admin.php?page=gdpr-cookie-consent";
-	});
+
+		// Reload the current page with the hash
+		window.location.href = window.location.href;
+
+		// Delay redirecting to the new URL after reloading the page
+		setTimeout(function() {
+			// Get the admin URL
+			var adminUrl = "<?php echo esc_url( admin_url() ); ?>";
+
+			// Redirect to the dashboard submenu after a delay
+			window.location.href = adminUrl + "/admin.php?page=gdpr-cookie-consent";
+		}, 1000); // Change the delay time as needed
+});
+
 
 
 
