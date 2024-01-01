@@ -12,7 +12,7 @@ Welcome to the WP Cookie Consent repository on GitHub. Here you can browse the s
 If you are not a developer, please use the [WP Cookie Consent plugin](https://wordpress.org/plugins/gdpr-cookie-consent/) page on WordPress.org.
 
 ## Documentation
-* [WP Cookie Consent Documentation](https://docs.wpeka.com/wp-gdpr-cookie-consent/)
+* [WP Cookie Consent Documentation](https://club.wpeka.com/docs/wp-cookie-consent/)
 
 ## Support
 Please don't use this repository or our issue tracker here for support requests. You can raise only core WPAdcenter issues here. Support can be accessible through the appropriate channels:

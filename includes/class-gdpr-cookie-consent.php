@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.4.0';
+			$this->version = '2.5.0';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -184,7 +184,7 @@ class Gdpr_Cookie_Consent {
 		$this->loader->add_action( 'init', $plugin_admin, 'gdpr_register_block_type' );
 		if ( self::is_request( 'admin' ) ) {
 			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 ); /* Adding admin menu */
-			$this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
+			// $this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
 			$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init', 5 );
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -196,6 +196,8 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
 			// added ajax for import settings
 			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
+
+			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview');
 
 		}
 	}
@@ -607,6 +609,7 @@ class Gdpr_Cookie_Consent {
 			'text'                                 => '#000000',
 			'use_color_picker'                     => true,
 			'bar_heading_text'                     => '',
+			'bar_heading_lgpd_text'                => '',
 			'cookie_bar_as'                        => 'banner', // banner | popup | widget.
 			'cookie_usage_for'                     => 'gdpr',
 			'popup_overlay'                        => true,
@@ -616,6 +619,7 @@ class Gdpr_Cookie_Consent {
 			'body_scripts'                         => '',
 			'footer_scripts'                       => '',
 			'restrict_posts'                       => array(),
+			'select_pages'						   => array(),
 			'gdpr_css_text'                        => '',
 			'do_not_track_on'                      => false,
 			'data_req_editor_message'			   => '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;',
@@ -737,6 +741,7 @@ class Gdpr_Cookie_Consent {
 			case 'notify_message_ccpa':
 			case 'optout_text':
 			case 'bar_heading_text':
+			case 'bar_heading_lgpd_text':
 				$ret = wp_kses( $value, self::gdpr_allowed_html(), self::gdpr_allowed_protocols() );
 				break;
 			// URLs only.
@@ -753,6 +758,10 @@ class Gdpr_Cookie_Consent {
 				$ret = trim( stripslashes( $value ) );
 				break;
 			case 'restrict_posts':
+				$ret = $value;
+				break;
+			//hide banner
+			case 'select_pages':
 				$ret = $value;
 				break;
 			// Basic sanitisation for all the rest.

@@ -243,7 +243,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 					'id': 'export_gdpr_policies',
 					'class': 'add-new-h2'
 				}).text('<?php echo esc_attr( $scan_export_menu ); ?>');
-	
+
 				$(".wrap h1").after(exportLink);
 			});
 		</script>

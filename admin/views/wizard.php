@@ -2184,7 +2184,7 @@ function get_templates( $template_type ) {
 
 </div>
 
-<div class="gdpr-wizard-main-container" id="gdpr-cookie-consent-settings-app">
+<div class="gdpr-wizard-main-container" id="gdpr-cookie-consent-settings-app-wizard">
 
 <div class="form-container">
 
@@ -2193,7 +2193,7 @@ function get_templates( $template_type ) {
 <span id="closeButton" class="close-wizard"></span>
 
 		<!-- form  -->
-		<form id="gcc-save-settings-form" class="gcc-save-wizard-settings-form">
+		<form id="gcc-save-settings-form-wizard" class="gcc-save-wizard-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce_wizard" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-wizard' ) ); ?>"/>
 
 			<ul id="progressbar">
@@ -2255,6 +2255,10 @@ function get_templates( $template_type ) {
 						<label>
 							<input type="radio" name="gcc-gdpr-policy" value="gdpr" v-model="gdpr_policy" @change="cookiePolicyChange">
 							General Data Protection Regulation
+						</label><br>
+						<label>
+							<input type="radio" name="gcc-gdpr-policy" value="lgpd" v-model="gdpr_policy" @change="cookiePolicyChange">
+							General Data Protection Law ( LGPD )
 						</label><br>
 						<label>
 							<input type="radio" name="gcc-gdpr-policy" value="ccpa" v-model="gdpr_policy" @change="cookiePolicyChange">
@@ -2547,7 +2551,7 @@ function get_templates( $template_type ) {
 
 							<?php $the_options = Gdpr_Cookie_Consent::gdpr_get_settings(); ?>
 
-							<div v-show="is_gdpr" class="show-cookie-template-card">
+							<div v-show="is_gdpr || is_lgpd" class="show-cookie-template-card">
 								<c-card-header class="show-cookie-template-label"><?php esc_html_e( 'Choose template for your cookie bar', 'gdpr-cookie-consent' ); ?></c-card-header>
 								<c-card-body>
 									<!-- banner templates  -->
@@ -2606,7 +2610,7 @@ function get_templates( $template_type ) {
 								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'help-center.png'; ?>" >
 								<div class="card-heading">Help Center</div>
 								<div class="card-info">Read the documentation to find answers to your questions</div>
-								<div class="learn-more-link help-center-link"> <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/">Learn More >></a></div>
+								<div class="learn-more-link help-center-link"> <a href="https://club.wpeka.com/docs/wp-cookie-consent/">Learn More >></a></div>
 							</div>
 						</div>
 						<div class="column">
@@ -2614,7 +2618,7 @@ function get_templates( $template_type ) {
 								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'video.png'; ?>" >
 								<div class="card-heading">Video Guides</div>
 								<div class="card-info">Browse through these video tutorials to learn more about how WP Cookie Consent works.</div>
-								<div class="learn-more-link video-guide-link"> <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/video-resources">Learn More >></a></div>
+								<div class="learn-more-link video-guide-link"> <a href="https://club.wpeka.com/docs/wp-cookie-consent/video-guides/video-resources/">Learn More >></a></div>
 							</div>
 						</div>
 						<div class="column">
@@ -2622,7 +2626,7 @@ function get_templates( $template_type ) {
 								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'faqs.png'; ?>" >
 								<div class="card-heading">FAQs</div>
 								<div class="card-info">Find answers to some of the most commonly asked questions.</div>
-								<div class="learn-more-link faqs-link"> <a href="https://docs.wpeka.com/wp-gdpr-cookie-consent/faq">Learn More >></a></div>
+								<div class="learn-more-link faqs-link"> <a href="https://club.wpeka.com/docs/wp-cookie-consent/faqs/faq-2/">Learn More >></a></div>
 							</div>
 						</div>
 
@@ -2781,12 +2785,23 @@ jQuery(document).ready(function () {
 	//save and close submission
 
 	jQuery(".submit-button").click(function() {
-		// Get the admin URL
-		var adminUrl = "<?php echo esc_url( admin_url() ); ?>";
+		// Get the current hash
+		var hash = window.location.hash;
 
-		// Redirect to the dashboard submenu
-		window.location.href = adminUrl + "/admin.php?page=gdpr-cookie-consent";
-	});
+
+		// Reload the current page with the hash
+		window.location.href = window.location.href;
+
+		// Delay redirecting to the new URL after reloading the page
+		setTimeout(function() {
+			// Get the admin URL
+			var adminUrl = "<?php echo esc_url( admin_url() ); ?>";
+
+			// Redirect to the dashboard submenu after a delay
+			window.location.href = adminUrl + "/admin.php?page=gdpr-cookie-consent";
+		}, 1000); // Change the delay time as needed
+});
+
 
 
 

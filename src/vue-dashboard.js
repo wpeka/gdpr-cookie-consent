@@ -47,7 +47,7 @@ var gen = new Vue({
 			all_plugins_url: 'https://profiles.wordpress.org/wpeka-club/#content-plugins',
 			faq1_url: 'https://youtu.be/ZESzSKnUkOg',
 			faq2_url: 'https://wplegalpages.com/blog/what-you-need-to-know-about-the-eu-cookie-law/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=eu-cookie-law',
-			faq3_url: 'https://wplegalpages.com/wordpress-cookie-consent-eprivacy-gdpr/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=faq',
+			faq3_url: 'https://club.wpeka.com/docs/wp-cookie-consent/faqs/faq-2/',
 			faq4_url: 'https://wplegalpages.com/blog/california-consumer-privacy-act-become-ccpa-compliant-today/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=ccpa-regulations',
 			faq5_url: 'https://wplegalpages.com/blog/interactive-advertising-bureau-all-you-need-to-know/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=iab',
 			cookie_scan_image: require('../admin/images/dashboard-icons/blue/cookie-scan-icon.png'),
