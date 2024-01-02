@@ -97,9 +97,9 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 								<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>
 							</div>
 							<!-- consent log tab  -->
-							<!-- <div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
+							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
 								<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
-							</div> -->
+							</div>
 							<!-- data req tab  -->
 							<div class="gdpr-cookie-consent-admin-tab		gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
 								<p class="gdpr-cookie-consent-admin-tab-name">Data&nbsp;Request</p>
@@ -145,10 +145,10 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-integration-tab-template.php'; ?>
 				</div>
 				<!-- consent log data content  -->
-				<!-- <div class="gdpr-cookie-consent-admin-consent-logs-data-content gdpr-cookie-consent-admin-tab-content" id="consent_logs">
-				<?php do_action('add_consent_log_data') ?>
+				<div class="gdpr-cookie-consent-admin-consent-logs-data-content gdpr-cookie-consent-admin-tab-content" id="consent_logs">
+				<?php do_action('add_consent_log_content') ?>
 				<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-consent-logs-tab-template.php'; ?>
-				</div> -->
+				</div>
 				<!-- data req data content  -->
 				<div class="gdpr-cookie-consent-admin-data-request-data-content gdpr-cookie-consent-admin-tab-content" id="data_request">
 					<?php do_action('add_data_request_content') ?>
