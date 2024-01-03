@@ -1,0 +1,195 @@
+/* Policy data report  */
+
+.wpl-content-area{
+	background-color: white;
+	padding: 30px;
+}
+.wp-heading-inline{
+	color: #000;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 500 !important;
+	line-height: normal;
+}
+#wpl-dnsmpd-filter .sorting-indicators{
+	display: none; /* remove display none property if order by is needed in the report table  */
+}
+#wpl-dnsmpd-filter .manage-column a span {
+	color: #000;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+#wpl-dnsmpd-filter tbody td{
+	color: #333;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 480;
+	line-height: normal;
+}
+#wpl-dnsmpd-filter table thead tr th {
+	padding: 10px;
+}
+#wpl-dnsmpd-filter tbody tr td{
+	padding: 15px;
+}
+#wpl-dnsmpd-filter table {
+	border-radius: 5px;
+}
+#wpl-dnsmpd-filter table tfoot{
+	display: none;
+}
+#wpl-dnsmpd-filter table thead tr th a{
+	pointer-events: none;
+}
+
+#wpl-dnsmpd-filter .row-actions{
+	left: 0;
+}
+#wpl-dnsmpd-filter .row-actions .resolve a{
+	color: #39F;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+#wpl-dnsmpd-filter .row-actions .delete a{
+	color: #FF6969;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.datarequest.column-datarequest a{
+	color: #39F;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.search-and-export-container{
+	display: flex;
+	margin-top: 20px;
+	margin-bottom: 40px;
+	position: relative;
+}
+.search-and-export-container .search-box{
+	float:none;
+}
+#wpl-dnsmpd-filter .search-box #gdpr-cookie-consent-search-input{
+	height: 40px;
+	width: 250px;
+	border-color: #C6C6C6;
+}
+#wpl-dnsmpd-filter .search-box #search-submit{
+	height: 40px;
+	margin: 0 15px;
+	color: #39F;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 0px 15px;
+	border-color: #39F;
+}
+#wpl-dnsmpd-filter .data-req-export-button{
+	height: 40px;
+	border-radius: 4px;
+	background: #39F;
+	color: #FFF;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 7px 20px;
+}
+#wpl_resolved_select{
+	position: absolute;
+	right: 0;
+	width: 120px;
+	height: 40px;
+	border-color: #C6C6C6;
+	color: #000;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+#wpl-dnsmpd-filter #bulk-action-selector-top,#wpl-dnsmpd-filter #bulk-action-selector-bottom{
+	width: 250px;
+	height: 40px;
+	margin-bottom: 20px;
+	border-color: #C6C6C6;
+	color: #333;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+#wpl-dnsmpd-filter #doaction,#wpl-dnsmpd-filter #doaction2{
+	height: 40px;
+	border-radius: 4px;
+	border: 1px solid #39F;
+	background: #F8F8F8;
+	color: #39F;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	width: 80px;
+	margin-left: 10px;
+}
+
+#wpl-dnsmpd-filter .current-page,#wpl-dnsmpd-filter .next-page,#wpl-dnsmpd-filter .last-page{
+	border-color: #3cf;
+}
+
+#wpl-dnsmpd-filter .tablenav .tablenav-pages .button{
+	min-width: 40px;
+	min-height: 38px;
+	line-height: 2.1;
+}
+
+#wpl-dnsmpd-filter  #current-page-selector{
+	height: 38px;
+}
+#dataRequestContainer.wpl.wrap{
+	margin: 0;
+	border-radius: 4px;
+    border-right: 1px solid var(--Gray-200, #E4E4E7);
+    border-bottom: 1px solid var(--Gray-200, #E4E4E7);
+    border-left: 1px solid var(--Gray-200, #E4E4E7);
+    background: var(--white, #FFF);
+    border-top: 1px solid var(--Gray-200, #E4E4E7);
+}
+#wpl-dnsmpd-filter .policy-data-add-new-button{
+	height: 40px;
+	border-radius: 4px;
+	background: #39F;
+	color: #FFF;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 7px 20px;
+}
+#wpl-dnsmpd-filter .policy-import-button{
+	height: 40px;
+	border-radius: 4px;
+	background: #39F;
+	color: #FFF;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 7px 20px;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+#policyDataTabContainer .wpl-datarequests .notice.notice-error{
+	display: none;
+}

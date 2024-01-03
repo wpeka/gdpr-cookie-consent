@@ -177,6 +177,12 @@ jQuery(document).ready(function () {
         href += '#consent_logs';
         jQuery(this).attr('href', href);
     });
+	//jquery for paginations for policy data tab
+	jQuery('#policyDataTabContainer .pagination-links a').each(function() {
+		var href = jQuery(this).attr('href');
+		href += '#policy_data';
+		jQuery(this).attr('href', href);
+	});
 
 
 });
