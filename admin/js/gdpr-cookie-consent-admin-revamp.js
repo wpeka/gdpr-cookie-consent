@@ -86,6 +86,27 @@ jQuery(document).ready(function () {
 		window.location.assign(linkUrl);
 		location.reload();
 	});
+	jQuery('.gdpr-quick-link-item.consent_logs').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.consent_logs a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+	});
+	jQuery('.gdpr-dashboard-cl-view-all-logs').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-dashboard-cl-view-all-logs span a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+	});
+	jQuery('.gdpr-quick-link-item.policy_data').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.policy_data a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+	});
 
 	jQuery('.gdpr-quick-link-item.scan_cookies').on('click', function(e) {
 
