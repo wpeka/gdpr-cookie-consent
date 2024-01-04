@@ -3317,3 +3317,6 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 		min-width: 167.7px;
 	}
 }
+#consentLogDataTabContainer .wplconsentlogspdf.column-wplconsentlogspdf div{
+	padding-left: 25%;
+}
