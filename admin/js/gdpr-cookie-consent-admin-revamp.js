@@ -165,5 +165,24 @@ jQuery(document).ready(function () {
 		jQuery('.gdpr-cookie-consent-admin-data-request-tab').hide();
 	}
 
+	//jquery for paginations for consent log tab
+	jQuery('#consentLogDataTabContainer .pagination-links a').each(function() {
+        var href = jQuery(this).attr('href');
+        href += '#consent_logs';
+        jQuery(this).attr('href', href);
+    });
+	//jquery for paginations for data-req tab
+	jQuery('#dataRequestContainer .pagination-links a').each(function() {
+        var href = jQuery(this).attr('href');
+        href += '#consent_logs';
+        jQuery(this).attr('href', href);
+    });
+	//jquery for paginations for policy data tab
+	jQuery('#policyDataTabContainer .pagination-links a').each(function() {
+		var href = jQuery(this).attr('href');
+		href += '#policy_data';
+		jQuery(this).attr('href', href);
+	});
+
 
 });
