@@ -86,6 +86,27 @@ jQuery(document).ready(function () {
 		window.location.assign(linkUrl);
 		location.reload();
 	});
+	jQuery('.gdpr-quick-link-item.consent_logs').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.consent_logs a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+	});
+	jQuery('.gdpr-dashboard-cl-view-all-logs').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-dashboard-cl-view-all-logs span a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+	});
+	jQuery('.gdpr-quick-link-item.policy_data').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-quick-link-item.policy_data a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+	});
 
 	jQuery('.gdpr-quick-link-item.scan_cookies').on('click', function(e) {
 
@@ -164,6 +185,25 @@ jQuery(document).ready(function () {
 	if ( gdpr_localize_data.is_data_req_on == 'false' ) {
 		jQuery('.gdpr-cookie-consent-admin-data-request-tab').hide();
 	}
+
+	//jquery for paginations for consent log tab
+	jQuery('#consentLogDataTabContainer .pagination-links a').each(function() {
+        var href = jQuery(this).attr('href');
+        href += '#consent_logs';
+        jQuery(this).attr('href', href);
+    });
+	//jquery for paginations for data-req tab
+	jQuery('#dataRequestContainer .pagination-links a').each(function() {
+        var href = jQuery(this).attr('href');
+        href += '#consent_logs';
+        jQuery(this).attr('href', href);
+    });
+	//jquery for paginations for policy data tab
+	jQuery('#policyDataTabContainer .pagination-links a').each(function() {
+		var href = jQuery(this).attr('href');
+		href += '#policy_data';
+		jQuery(this).attr('href', href);
+	});
 
 
 });

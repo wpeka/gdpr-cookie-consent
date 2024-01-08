@@ -406,7 +406,7 @@ if ( $table_exists ) {
 						<span><a class="gdpr-dashboard-cl-view-all-logs-text" href="
 						<?php
 						echo esc_html(
-							admin_url( 'edit.php?post_type=wplconsentlogs' )
+							admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' )
 						);
 						?>
 ">View All Logs</a></span>
@@ -535,7 +535,7 @@ if ( $table_exists ) {
 						<?php esc_html_e( 'Settings', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</span>
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item consent_logs">
 						<a class="gdpr-quick-link" :href="consent_log_url">
 							<img class="gdpr-quick-link-image" :src="consent_log_image.default">
 						</a>

@@ -3242,7 +3242,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	padding-top: 20px;
 }
 .gdpr-cookie-consent-admin-tab.pro-is-activated{
-	min-width: 230px;
+	min-width: 183px;
 }
 .gdpr-cookie-consent-admin-tab.active-tab{
 	border-bottom-color: #0059B3;
@@ -3301,4 +3301,22 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 
 #gdpr-cookie-consent-main-admin-header .gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-help .gdpr-cookie-consent-admin-help-icon,#gdpr-cookie-consent-main-admin-header .gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-support .gdpr-cookie-consent-admin-support-icon{
 	cursor: pointer;
+}
+
+#policyDataTabContainer .wpl-consentlogs .policy_delete a{
+	color: red;
+}
+#policyDataTabContainer .notice.notice-error{
+	display: none;
+}
+
+/* Media query for MacBook Air */
+@media only screen and (max-device-width: 1440px) and (min-device-width: 1280px) {
+	/* Assuming MacBook Air screen size falls within these dimensions */
+	.gdpr-cookie-consent-admin-tab.pro-is-activated {
+		min-width: 167.7px;
+	}
+}
+#consentLogDataTabContainer .wplconsentlogspdf.column-wplconsentlogspdf div{
+	padding-left: 25%;
 }
