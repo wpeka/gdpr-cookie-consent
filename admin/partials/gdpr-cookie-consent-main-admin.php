@@ -12,6 +12,9 @@
  */
 
 $pro_is_activated = get_option( 'wpl_pro_active', false );
+$the_options                  = Gdpr_Cookie_Consent::gdpr_get_settings();
+$is_data_req_on = $the_options['data_reqs_on'];
+
 
 ?>
 
@@ -96,10 +99,21 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
 								<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
 							</div>
+
+							<?php
+
+							if ( $is_data_req_on ) {
+
+							?>
 							<!-- data req tab  -->
 							<div class="gdpr-cookie-consent-admin-tab		gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-								<p class="gdpr-cookie-consent-admin-tab-name">Data&nbsp;Request</p>
+							<p class="gdpr-cookie-consent-admin-tab-name">Data&nbsp;Request</p>
 							</div>
+
+							<?php
+
+							}
+							?>
 							<!-- integration tab  -->
 							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-integrations-data-tab" data-tab="integrations">
 							<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>
