@@ -425,17 +425,7 @@ elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 } elseif ( ! empty( $the_options['eprivacy_notify'] ) ) {
 	?>
 	<div class="gdpr_messagebar_content">
-		<?php
-		if ( '' !== $the_options['head'] ) {
-			?>
-			<h3 class="gdpr_messagebar_head">
-			<?php
-			echo esc_html__( $the_options['head'], 'gdpr-cookie-consent' ); //phpcs:ignore
-			?>
-	</h3>
-			<?php
-		}
-		?>
+		
 		<div class="group-description" tabindex="0">
 		<!-- Logo Added for Eprivacy rule 	 -->
 		<div class="gdpr_logo_container">

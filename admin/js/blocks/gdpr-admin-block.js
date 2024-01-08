@@ -13,7 +13,7 @@
     const { ServerSideRender } = wp.editor;// Block ServerSideRender wrapper.
 
     registerBlockType('gdpr/block', {
-        title: __('GDPR Cookie Details'),
+        title: __('WP Cookie Details'),
         category: __('common'),
         keywords: [__('gdpr'), __('cookie'), __('cookie links')],
         edit(props) {

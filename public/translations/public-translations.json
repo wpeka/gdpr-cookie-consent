@@ -10,7 +10,8 @@
 		"es": "Acerca de las cookies",
 		"hr": "O kolačićima",
 		"is": "Um smákökur",
-		"sl": "O piškotkih"
+		"sl": "O piškotkih",
+		"gr": "Σχετικά με τα cookies"
 	},
 	"declaration": {
 		"en": "Cookie Declaration",
@@ -23,7 +24,8 @@
 		"es": "Declaración de cookies",
 		"hr": "Deklaracija o kolačićima",
 		"is": "Skilmálar um smákökur",
-		"sl": "Izjava o piškotkih"
+		"sl": "Izjava o piškotkih",
+		"gr": "Δήλωση cookie"
 	},
 	"always": {
 		"en": "Always Active",
@@ -36,7 +38,8 @@
 		"es": "Siempre activo",
 		"hr": "Uvijek aktivan",
 		"is": "Alltaf virkur",
-		"sl": "Vedno aktivno"
+		"sl": "Vedno aktivno",
+		"gr": "Πάντα ενεργός"
 	},
 	"save_button": {
 		"en": "Save And Accept",
@@ -49,7 +52,8 @@
 		"es": "Guardar y aceptar",
 		"hr": "Spremi i prihvati",
 		"is": "Vistaðu og samþak",
-		"sl": "Shrani in sprejmi"
+		"sl": "Shrani in sprejmi",
+		"gr": "Αποθήκευση και αποδοχή"
 	},
 	"name": {
 		"en": "Name",
@@ -62,7 +66,8 @@
 		"es": "Nombre",
 		"hr": "Ime",
 		"is": "Nafn",
-		"sl": "Ime"
+		"sl": "Ime",
+		"gr": "Ονομα"
 	},
 	"domain": {
 		"en": "Domain",
@@ -75,7 +80,8 @@
 		"es": "Dominio",
 		"hr": "Domena",
 		"is": "Lén",
-		"sl": "Domena"
+		"sl": "Domena",
+		"gr": "Τομέα"
 	},
 	"purpose": {
 		"en": "Purpose",
@@ -88,7 +94,8 @@
 		"es": "Propósito",
 		"hr": "Svrha",
 		"is": "Markmið",
-		"sl": "Namen"
+		"sl": "Namen",
+		"gr": "Σκοπός"
 	},
 	"expiry": {
 		"en": "Expiry",
@@ -101,7 +108,8 @@
 		"es": "Caducidad",
 		"hr": "Istek",
 		"is": "Gildistími",
-		"sl": "Potek"
+		"sl": "Potek",
+		"gr": "Λήξη"
 	},
 	"type": {
 		"en": "Type",
@@ -114,7 +122,8 @@
 		"es": "Tipo",
 		"hr": "Vrsta",
 		"is": "Tegund",
-		"sl": "Vrsta"
+		"sl": "Vrsta",
+		"gr": "Τύπος"
 	},
 	"cookies_not_found": {
 		"en": "We do not use cookies of this type.",
@@ -127,7 +136,8 @@
 		"es": "No utilizamos cookies de este tipo.",
 		"hr": "Ne koristimo kolačiće ovog tipa.",
 		"is": "Við notum ekki smákökur af þessum tegundum.",
-		"sl": "Ne uporabljamo piškotkov tega tipa."
+		"sl": "Ne uporabljamo piškotkov tega tipa.",
+		"gr": "Δεν χρησιμοποιούμε cookies αυτού του τύπου."
 	},
 	"consent_notice": {
 		"en": "I consent to the use of following cookies:",
@@ -140,6 +150,7 @@
 		"es": "Doy mi consentimiento para el uso de las siguientes cookies:",
 		"hr": "Suglasan sam s korištenjem sljedećih kolačića:",
 		"is": "Ég samþyki notkun eftirfarandi smákaka:",
-		"sl": "Dovoljujem uporabo naslednjih piškotkov:"
+		"sl": "Dovoljujem uporabo naslednjih piškotkov:",
+		"gr": "Συναινώ στη χρήση των παρακάτω cookies:"
 	}
 }
