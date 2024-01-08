@@ -214,7 +214,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 
-					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#compliances">
+					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#compliances">
 						<!-- Complianz Banner preview  -->
 						<div class="banner-preview-container">
 							<div class="banner-preview-label"><label><?php esc_attr_e( 'Banner Preview', 'gdpr-cookie-consent' ); ?></label></div>
@@ -223,7 +223,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 							</div>
 						</div>
-						<c-card>
+						<c-card class="compliances_card">
 							<c-card-header><?php esc_html_e( 'Cookie Notice', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -649,11 +649,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<?php if ( ! $is_pro_active ) : ?>
 								<c-row>
-									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Safe Mode for Cookies', 'gdpr-cookie-consent' ); ?> 
+									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Safe Mode for Cookies', 'gdpr-cookie-consent' ); ?>
 									<tooltip text="<?php esc_html_e( 'When safe mode is enabled, all integrations will be disabled temporarily.', 'gdpr-cookie-consent' ); ?>"></tooltip>
 
 										</label>
-										<div class="gdpr-pro-label absolute" style="right: -11px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										<div class="gdpr-pro-label absolute" style="right: 5px;"><div class="gdpr-pro-label-text">Pro</div></div>
 									</c-col>
 									<c-col class="col-sm-8">
 										<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" id="gdpr-cookie-consent-enable-safe" variant="3d" color="success"></c-switch>
@@ -691,7 +691,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							</c-card-body>
 						</c-card>
 					</c-tab>
-					<c-tab title="<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>" href="#configuration">
+					<c-tab title="<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#configuration">
 
 						<!-- Configure Banner preview  -->
 						<div class="banner-preview-container">
@@ -701,7 +701,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 							</div>
 						</div>
-						<c-card>
+						<c-card class="configuration_card">
 							<c-card-header><?php esc_html_e( 'Configure Cookie Bar', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -814,7 +814,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 							</c-card-body>
 						</c-card>
 					</c-tab>
-					<c-tab title="<?php esc_attr_e( 'Design', 'gdpr-cookie-consent' ); ?>" href="#gdpr_design">
+					<c-tab title="<?php esc_attr_e( 'Design', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#gdpr_design">
 						<!-- Desgin Banner preview  -->
 						<div class="banner-preview-container">
 							<div class="banner-preview-label"><label><?php esc_attr_e( 'Banner Preview', 'gdpr-cookie-consent' ); ?></label></div>
@@ -823,7 +823,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 							</div>
 						</div>
-						<c-card>
+						<c-card class="desgin_card">
 							<c-card-header><?php esc_html_e( 'Cookie Bar Body Design', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
 								<c-row>
@@ -1800,7 +1800,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<c-card >
 										<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
 
-										<div class="gdpr-pro-label absolute" style="top: 10px; right: 530px;"><div class="gdpr-pro-label-text">Pro</div></div>
+										<div class="gdpr-pro-label absolute" style="top: 10px; right: 750px;"><div class="gdpr-pro-label-text">Pro</div></div>
 
 										</c-card-header>
 										<c-card-body>
@@ -1832,7 +1832,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						}
 						?>
 					</c-tab>
-					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_list">
+					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list">
 						<c-card>
 							<c-card-header><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?></c-card-header>
 							<c-card-body>
@@ -1874,7 +1874,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
 					</c-tab>
 					<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
-					<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#language">
+					<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#language">
 
 					<c-card>
 
@@ -1892,17 +1892,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 
 					</c-tab>
-					<?php
-				if ( ! get_option( 'wpl_pro_active', false ) ) {
-					?>
-					<div class="upgrade-tp-pro-btn-div">
-						<c-button class="upgrade-to-pro-btn"href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=cookie_settings&utm_campaign=upgrade-to-pro" target="_blank">Upgrade to PRO</c-button>
-				</div>
-				<?php } ?>
+
 
 				</c-tabs>
-				</c-tabs>	
-				
+				</c-tabs>
+
 
 
 			</div>

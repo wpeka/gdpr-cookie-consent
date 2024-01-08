@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.4.1';
+			$this->version = '2.5.1';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -184,7 +184,7 @@ class Gdpr_Cookie_Consent {
 		$this->loader->add_action( 'init', $plugin_admin, 'gdpr_register_block_type' );
 		if ( self::is_request( 'admin' ) ) {
 			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 ); /* Adding admin menu */
-			$this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
+			// $this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
 			$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init', 5 );
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -196,6 +196,9 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
 			// added ajax for import settings
 			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
+
+			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview');
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete');
 
 		}
 	}
@@ -739,7 +742,7 @@ class Gdpr_Cookie_Consent {
 			case 'notify_message_ccpa':
 			case 'optout_text':
 			case 'bar_heading_text':
-			case 'bar_heading_lgpd_text': 
+			case 'bar_heading_lgpd_text':
 				$ret = wp_kses( $value, self::gdpr_allowed_html(), self::gdpr_allowed_protocols() );
 				break;
 			// URLs only.

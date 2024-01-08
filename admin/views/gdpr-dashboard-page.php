@@ -155,7 +155,7 @@ if ( $table_exists ) {
 								<?php esc_html_e( 'Activate API license key to scan cookies.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
-							<span v-show="pro_installed && pro_activated && api_key_activated && !cookie_scanned">
+							<span class="gdpr-dashboard-scan-now" v-show="pro_installed && pro_activated && api_key_activated && !cookie_scanned">
 								{{last_scanned}}
 								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e( 'Scan now.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
@@ -202,7 +202,7 @@ if ( $table_exists ) {
 								<?php esc_html_e( 'Activate API license key to enable Geotargeting.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
-							<span v-show="pro_installed && pro_activated && api_key_activated && !maxmind_integrated">
+							<span class="gdpr-dashboard-maxmind-integrate" v-show="pro_installed && pro_activated && api_key_activated && !maxmind_integrated">
 								<?php esc_html_e( 'Integrate with Maxmind for free.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="maxmind_url"><?php esc_html_e( 'Click here to configure.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
@@ -359,7 +359,7 @@ if ( $table_exists ) {
 										<a class="gdpr-cookie-summary-schedule" href="
 										<?php
 										echo esc_html(
-											admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' )
+											admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list' )
 										);
 										?>
 ">Schedule</a>
@@ -374,7 +374,7 @@ if ( $table_exists ) {
 									<a class="gdpr-cookie-summary-manage-link" href="
 									<?php
 									echo esc_html(
-										admin_url( 'admin.php?page=gdpr-cookie-consent-settings#cookie_list' )
+										admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list' )
 									);
 									?>
 ">Manage Cookies</a>
@@ -406,7 +406,7 @@ if ( $table_exists ) {
 						<span><a class="gdpr-dashboard-cl-view-all-logs-text" href="
 						<?php
 						echo esc_html(
-							admin_url( 'edit.php?post_type=wplconsentlogs' )
+							admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' )
 						);
 						?>
 ">View All Logs</a></span>
@@ -527,7 +527,7 @@ if ( $table_exists ) {
 			</c-card-header>
 			<c-card-body class="gdpr-dashboard-quick-links-body">
 				<c-row v-show="pro_installed && pro_activated && api_key_activated" class="gdpr-quick-links-images-row">
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item settings">
 						<a class="gdpr-quick-link" :href="show_cookie_url">
 							<img class="gdpr-quick-link-image" :src="settings_image.default">
 						</a>
@@ -535,7 +535,7 @@ if ( $table_exists ) {
 						<?php esc_html_e( 'Settings', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</span>
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item consent_logs">
 						<a class="gdpr-quick-link" :href="consent_log_url">
 							<img class="gdpr-quick-link-image" :src="consent_log_image.default">
 						</a>
@@ -543,7 +543,7 @@ if ( $table_exists ) {
 						<?php esc_html_e( 'Consent Log', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</span>
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item scan_cookies">
 						<a class="gdpr-quick-link" :href="cookie_scan_url">
 							<img class="gdpr-quick-link-image" :src="cookie_scan_image.default">
 						</a>
@@ -551,7 +551,7 @@ if ( $table_exists ) {
 						<?php esc_html_e( 'Scan Cookies', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</span>
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item geo_targeting">
 						<a class="gdpr-quick-link" :href="maxmind_url">
 							<img class="gdpr-quick-link-image" :src="geolocation_image.default">
 						</a>
@@ -559,7 +559,7 @@ if ( $table_exists ) {
 						<?php esc_html_e( 'Geotargeting', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</span>
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item cookie_banner">
 						<a class="gdpr-quick-link" :href="cookie_design_url">
 							<img class="gdpr-quick-link-image" :src="cookie_design_image.default">
 						</a>
@@ -567,7 +567,7 @@ if ( $table_exists ) {
 						<?php esc_html_e( 'Design Cookie Banner', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</span>
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item banner_template">
 						<a class="gdpr-quick-link" :href="cookie_template_url">
 							<img class="gdpr-quick-link-image" :src="cookie_template_image.default">
 						</a>
@@ -575,7 +575,7 @@ if ( $table_exists ) {
 						<?php esc_html_e( 'Banner Templates', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</span>
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item script_blocker">
 						<a class="gdpr-quick-link" :href="script_blocker_url">
 							<img class="gdpr-quick-link-image" :src="script_blocker_image.default">
 						</a>
@@ -583,7 +583,7 @@ if ( $table_exists ) {
 						<?php esc_html_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</span>
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item policy_data">
 						<a class="gdpr-quick-link" :href="third_party_url">
 							<img class="gdpr-quick-link-image" :src="cookie_table_image.default">
 						</a>
@@ -593,7 +593,7 @@ if ( $table_exists ) {
 					</span>
 				</c-row>
 				<c-row v-show="!pro_installed || !pro_activated || !api_key_activated" class="gdpr-quick-links-images-row">
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item settings_free">
 						<a class="gdpr-quick-link" :href="show_cookie_url">
 							<img class="gdpr-quick-link-image" :src="settings_image.default">
 						</a>
@@ -601,7 +601,7 @@ if ( $table_exists ) {
 						<?php esc_html_e( 'Settings', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</span>
-					<span class="gdpr-quick-link-item">
+					<span class="gdpr-quick-link-item cookie_banner_free">
 						<a class="gdpr-quick-link" :href="cookie_design_url">
 							<img class="gdpr-quick-link-image" :src="cookie_design_image.default">
 						</a>
