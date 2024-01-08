@@ -56,6 +56,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									}
 									?>
 									</div>
+
+									<h3 v-show="is_gdpr && !is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit'
+										}">{{gdpr_message_heading}}</h3>
+                                     <h3 v-show="is_lgpd" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{lgpd_message_heading}}</h3>
+									<h3 v-show="is_gdpr && is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{gdpr_message_heading}}</h3>
 									<p v-show="is_gdpr" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{gdpr_message}}
 									<br v-show="popup_template == 'popup-almond_column' && show_cookie_as == 'popup'">
 									<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
@@ -146,6 +151,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 					}
 					?>
 					</div>
+
+					<h3 v-show="is_gdpr && !is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
+					<h3 v-show="is_lgpd" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{lgpd_message_heading}}</h3>
+					<h3 v-show="is_gdpr && is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
+
 					<p v-show="is_gdpr" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{gdpr_message}}<br v-show="widget_template == 'widget-almond_column' && show_cookie_as == 'widget' ">
 					<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
 					</p>
@@ -791,16 +801,19 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<div style="font-size: 10px;" v-if="selectedFile">{{ selectedFile.name }} <span style="color:#00CF21;font-weight:500;margin-left:5px" > Uploaded </span> <span style="color: #8996AD;text-decoration:underline;margin-left:5px;position:absolute" class="remove-button" @click="removeFile">Remove</span> </div>
 										<div style="font-size: 10px;" v-else>No File Chosen</div>
 									</c-col>
+	
+
 									<c-col class="col-sm-8 text-right" >
 										<label style="margin-bottom:0; font-size:0.875rem; <?php echo ! $is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff; '; ?> text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
 										<input style="display: none;" type="file" <?php echo $is_pro_active ? '' : 'disabled'; ?> @change="updateFileName" name="fileInput" accept=".json" id="fileInput">
-									<c-button variant="outline" <?php echo ! $is_pro_active ? 'color="info" style="color:#D8DBE0; border: 1px solid #D8DBE0;"' : 'color="info"'; ?> @click="importsettings" id="importButton" <?php echo $is_pro_active ? '' : 'disabled'; ?>>
+									<c-button variant="outline" color="info" class="disable-import-button"
+									@click="importsettings" id="importButton" disabled>
 										<?php esc_html_e( 'Import', 'gdpr-cookie-consent' ); ?>
 									</c-button>
 									</c-col>
 
 								</c-row>
-
+								
 								<!-- Reset Settings -->
 								<c-row class="pt-1 mb-0" >
 									<c-col class="col-sm-4">
