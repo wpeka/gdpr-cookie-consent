@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl','gr' );
 
 	/**
 	 * The version of this plugin.
@@ -110,6 +110,7 @@ class Gdpr_Cookie_Consent_Admin {
 		// wizard style.
 		wp_register_style( $this->plugin_name . '-wizard', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-wizard' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 		wp_register_style( $this->plugin_name . '-select2', plugin_dir_url( __FILE__ ) . 'css/select2.css', array(), $this->version, 'all' );
+		wp_register_style( 'gdpr_policy_data_tab_style', plugin_dir_url( __FILE__ ) . 'css/gdpr-policy-data-tab' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
 	}
 
 	/**
@@ -267,7 +268,6 @@ class Gdpr_Cookie_Consent_Admin {
 			array( $this, 'gdpr_cookie_consent_new_admin_screen' )
 		);
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
-		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
 	}
 
 	/**
@@ -277,6 +277,28 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function gdpr_policy_data_overview() {
 			ob_start();
+
+			include GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/policy-data/class-gdpr-policy-data.php';
+			// Style for consent log report.
+			wp_enqueue_style( 'gdpr_policy_data_tab_style' );
+
+			$policy_data = new GDPR_Policy_Data_Table();
+			$policy_data->prepare_items();
+			?>
+			<div class="wpl-consentlogs">
+				<h1 class="wp-heading-inline"><?php _e( 'Policy Data', 'gdpr-cookie-consent' ); ?>
+
+				</h1>
+				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ); ?>">
+				<?php
+					$policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
+					$policy_data->display();
+				?>
+					<input type="hidden" name="page" value="gdpr-cookie-consent"/>
+				</form>
+			</div>
+				<?php
+
 			$content = ob_get_clean();
 			$args    = array(
 				'page'    => 'policy-data-tab',
@@ -316,6 +338,23 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 
 		return $contents;
+	}
+
+	/**
+	 * Handle delete request.
+	 */
+	public function gdpr_policy_process_delete() {
+
+		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' )
+			&& isset( $_GET['action'] )
+			&& $_GET['action'] == 'policy_delete'
+			&& isset( $_GET['id'] )
+		) {
+
+			wp_delete_post($_GET['id'], true);
+			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
+			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' . $paged ) );
+		}
 	}
 
 	/**
@@ -730,6 +769,10 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Slovenian',
 			'code'  => 'sl',
 		);
+		$show_language_as_options[11] = array(
+			'label'=> 'Greek',
+			'code'=> 'gr',
+			);
 
 		// dropdown option for schedule scan.
 		$schedule_scan_options    = array();
@@ -821,11 +864,6 @@ class Gdpr_Cookie_Consent_Admin {
 		foreach ( $sites_list as $site ) {
 			if ( $site->blog_id != $current_site_id ) {
 				$site_details = get_blog_details( $site->blog_id );
-				// // Output or use the subsite information
-				// echo 'Subsite ID: ' . $site_details->blog_id . '<br>';
-				// echo 'Subsite Name: ' . $site_details->blogname . '<br>';
-				// echo 'Subsite URL: ' . $site_details->siteurl . '<br>';
-				// echo '--------------------<br>';
 				$list_of_sites[ $idx ] = array(
 					'label' => $site_details->blogname,
 					'code'  => (int) $site_details->blog_id,
@@ -2352,6 +2390,10 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Slovenian',
 			'code'  => 'sl',
 		);
+		$show_language_as_options[11] = array(
+			'label'=> 'Greek',
+			'code'=> 'gr',
+			);
 		// dropdown option for schedule scan.
 		$schedule_scan_options    = array();
 		$schedule_scan_options[0] = array(
@@ -2706,11 +2748,11 @@ class Gdpr_Cookie_Consent_Admin {
 		$cookie_scan_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list';
 		$plugin_page_url      = $admin_url . 'plugins.php';
 		$key_activate_url     = $admin_url . 'admin.php?page=wc_am_client_wpl_cookie_consent_dashboard';
-		$consent_log_url      = $admin_url . 'edit.php?post_type=wplconsentlogs';
+		$consent_log_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
 		$cookie_design_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
 		$cookie_template_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#configuration';
 		$script_blocker_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#script_blocker';
-		$third_party_url      = $admin_url . 'edit.php?post_type=gdprpolicies';
+		$third_party_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent#policy_data';
 		$documentation_url    = 'https://club.wpeka.com/docs/wp-cookie-consent/';
 		$gdpr_pro_url         = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=quick-links&utm_content=upgrade-to-pro';
 		$free_support_url     = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
