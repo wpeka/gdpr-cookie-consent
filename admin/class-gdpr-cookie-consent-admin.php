@@ -257,9 +257,14 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function admin_menu() {
 		add_menu_page( 'WP Cookie Consent', __( 'WP Cookie Consent', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'gdpr_cookie_consent_new_admin_screen' ), GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/wp_cookies_icon_menu.png', 67 );
-		//adding a blank submenu so that main menu does not create a copy of own.
+		// adding a blank submenu so that main menu does not create a copy of own.
 		add_submenu_page(
-			'gdpr-cookie-consent','','','manage_options','gdpr-cookie-consent',array($this, 'gdpr_cookie_consent_new_admin_screen' )
+			'gdpr-cookie-consent',
+			'',
+			'',
+			'manage_options',
+			'gdpr-cookie-consent',
+			array( $this, 'gdpr_cookie_consent_new_admin_screen' )
 		);
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
 		add_submenu_page( 'gdpr-cookie-consent', __( 'Policy Data', 'gdpr-cookie-consent' ), __( 'Policy Data', 'gdpr-cookie-consent' ), 'manage_options', 'edit.php?post_type=' . GDPR_POLICY_DATA_POST_TYPE );
@@ -799,14 +804,34 @@ class Gdpr_Cookie_Consent_Admin {
 			++$index;
 		}
 		// pages for hide banner.
-		$list_of_pages        = array();
-		$indx 				  = 0;
+		$list_of_pages = array();
+		$indx          = 0;
 		foreach ( $pages_list as $page ) {
 			$list_of_pages[ $indx ] = array(
 				'label' => $page->post_title,
 				'code'  => $page->ID,
 			);
 			++$indx;
+		}
+		// sites for consent forward.
+		$list_of_sites   = array();
+		$sites_list      = get_sites();
+		$idx             = 0;
+		$current_site_id = get_current_blog_id();
+		foreach ( $sites_list as $site ) {
+			if ( $site->blog_id != $current_site_id ) {
+				$site_details = get_blog_details( $site->blog_id );
+				// // Output or use the subsite information
+				// echo 'Subsite ID: ' . $site_details->blog_id . '<br>';
+				// echo 'Subsite Name: ' . $site_details->blogname . '<br>';
+				// echo 'Subsite URL: ' . $site_details->siteurl . '<br>';
+				// echo '--------------------<br>';
+				$list_of_sites[ $idx ] = array(
+					'label' => $site_details->blogname,
+					'code'  => (int) $site_details->blog_id,
+				);
+				++$idx;
+			}
 		}
 		$show_as_options      = array();
 		$show_as_options[0]   = array(
@@ -987,6 +1012,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'import_settings_nonce'            => wp_create_nonce( 'import_settings' ),
 				// for pages.
 				'list_of_pages'                    => $list_of_pages,
+				// for sites.
+				'list_of_sites'                    => $list_of_sites,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
@@ -1560,7 +1587,7 @@ class Gdpr_Cookie_Consent_Admin {
 				)
 			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['bar_heading_text']                   = isset( $_POST['bar_heading_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_field'] ) ) : '';
-		    $the_options['bar_heading_lgpd_text']                   = isset( $_POST['bar_heading_text_lgpd_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_lgpd_field'] ) ) : '';
+			$the_options['bar_heading_lgpd_text']              = isset( $_POST['bar_heading_text_lgpd_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_lgpd_field'] ) ) : '';
 			// custom css.
 			$the_options['gdpr_css_text'] = isset( $_POST['gdpr_css_text_field'] ) ? wp_kses( wp_unslash( $_POST['gdpr_css_text_field'] ), array(), array( 'style' => array() ) ) : '';
 			$css_file_path                = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.css';
@@ -1619,7 +1646,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'label'  => array(),
 				)
 			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
-			$the_options['notify_message_lgpd']                       = isset( $_POST['notify_message_lgpd_field'] ) ? wp_kses(
+			$the_options['notify_message_lgpd']                  = isset( $_POST['notify_message_lgpd_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_lgpd_field'] ),
 				array(
 					'a'      => array(
@@ -1644,7 +1671,7 @@ class Gdpr_Cookie_Consent_Admin {
 				)
 			) : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['about_message']                        = isset( $_POST['about_message_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
-			$the_options['about_message_lgpd']                        = isset( $_POST['about_message_lgpd_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_lgpd_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
+			$the_options['about_message_lgpd']                   = isset( $_POST['about_message_lgpd_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_lgpd_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
 			$the_options['notify_message_ccpa']                  = isset( $_POST['notify_message_ccpa_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_ccpa_field'] ),
 				array(
@@ -1784,13 +1811,15 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 
 			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
-				$saved_options                       = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
-				$restricted_posts                    = array();
-				$restricted_posts                    = isset( $_POST['gcc-restrict-posts'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-restrict-posts'] ) ) ) : '';
-				//hide banner
-				$selected_pages                      = array();
-				$selected_pages                      = isset( $_POST['gcc-selected-pages'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-pages'] ) ) ) : '';
-
+				$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+				$restricted_posts = array();
+				$restricted_posts = isset( $_POST['gcc-restrict-posts'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-restrict-posts'] ) ) ) : '';
+				// hide banner
+				$selected_pages = array();
+				$selected_pages = isset( $_POST['gcc-selected-pages'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-pages'] ) ) ) : '';
+				// consent forward .
+				$selected_sites                      = array();
+				$selected_sites                      = isset( $_POST['gcc-selected-sites'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-sites'] ) ) ) : '';
 				$the_options['is_eu_on']             = isset( $_POST['gcc-eu-enable'] ) && ( true === $_POST['gcc-eu-enable'] || 'true' === $_POST['gcc-eu-enable'] ) ? 'true' : 'false';
 				$the_options['is_ccpa_on']           = isset( $_POST['gcc-ccpa-enable'] ) && ( true === $_POST['gcc-ccpa-enable'] || 'true' === $_POST['gcc-ccpa-enable'] ) ? 'true' : 'false';
 				$the_options['logging_on']           = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
@@ -1800,8 +1829,11 @@ class Gdpr_Cookie_Consent_Admin {
 				$the_options['widget_template']      = isset( $_POST['gdpr-widget-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-widget-template'] ) ) : 'widget-default';
 				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
 				$the_options['restrict_posts']       = $restricted_posts;
+				// consent forward .
+				$the_options['consent_forward'] = isset( $_POST['gcc-consent-forward'] ) && ( true === $_POST['gcc-consent-forward'] || 'true' === $_POST['gcc-consent-forward'] ) ? 'true' : 'false';
+				$the_options['select_sites']    = $selected_sites;
 				// storing id of pages in database.
-				$the_options['select_pages']         = $selected_pages;
+				$the_options['select_pages'] = $selected_pages;
 				if ( isset( $the_options['cookie_usage_for'] ) ) {
 					switch ( $the_options['cookie_usage_for'] ) {
 						case 'both':
@@ -2114,7 +2146,7 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 				}
 
-								$option_name = 'wpl_consent_timestamp';
+				$option_name = 'wpl_consent_timestamp';
 				$timestamp_value             = time();
 
 				// Check if the option already exists.
@@ -2392,8 +2424,8 @@ class Gdpr_Cookie_Consent_Admin {
 			++$index;
 		}
 		// pages for hide banner.
-		$list_of_pages        = array();
-		$indx 				  = 0;
+		$list_of_pages = array();
+		$indx          = 0;
 		foreach ( $pages_list as $page ) {
 			$list_of_pages[ $indx ] = array(
 				'label' => $page->post_title,
@@ -2614,9 +2646,9 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_cookie_consent_new_admin_screen() {
 		$pro_is_activated = get_option( 'wpl_pro_active', false );
 
-		$the_options                  = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
-		//find out if data reqs is on.
+		// find out if data reqs is on.
 		$data_reqs_on = $the_options['data_reqs_on'];
 
 		wp_enqueue_style( $this->plugin_name );
@@ -2631,12 +2663,12 @@ class Gdpr_Cookie_Consent_Admin {
 			'gdpr-cookie-consent-admin-revamp',
 			'gdpr_localize_data',
 			array(
-				'ajaxurl'        		=> admin_url( 'admin-ajax.php' ),
-				'gdprurl'         		=> GDPR_URL,
-				'siteurl'        		=> site_url(),
-				'admin_url'				=> admin_url(),
-				'is_pro_activated'		=> $pro_is_activated,
-				'is_data_req_on'		=> $data_reqs_on,
+				'ajaxurl'          => admin_url( 'admin-ajax.php' ),
+				'gdprurl'          => GDPR_URL,
+				'siteurl'          => site_url(),
+				'admin_url'        => admin_url(),
+				'is_pro_activated' => $pro_is_activated,
+				'is_data_req_on'   => $data_reqs_on,
 			)
 		);
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-admin.php';
@@ -2651,11 +2683,11 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
-		$installed_plugins    = get_plugins();
-		$active_plugins       = $this->gdpr_cookie_consent_active_plugins();
-		$cookie_options       = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
-		$pro_installed        = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? '1' : '0';
-		$is_cookie_on         = isset( $cookie_options['is_on'] ) ? $cookie_options['is_on'] : '1';
+		$installed_plugins = get_plugins();
+		$active_plugins    = $this->gdpr_cookie_consent_active_plugins();
+		$cookie_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? '1' : '0';
+		$is_cookie_on      = isset( $cookie_options['is_on'] ) ? $cookie_options['is_on'] : '1';
 		if ( $is_cookie_on == 'true' ) {
 			$is_cookie_on = true;
 		}

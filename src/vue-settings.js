@@ -306,6 +306,11 @@ var gen = new Vue({
             select_pages: settings_obj.the_options.hasOwnProperty('select_pages') ? settings_obj.the_options['select_pages'] : [],
             select_pages_array:[],
             list_of_pages: settings_obj.list_of_pages,
+            // consent forward .
+            consent_forward: settings_obj.the_options.hasOwnProperty('consent_forward') && (true === settings_obj.the_options['consent_forward'] || 1 === settings_obj.the_options['consent_forward'] ) ? true : false,
+            select_sites: settings_obj.the_options.hasOwnProperty('select_sites') ? settings_obj.the_options['select_sites'] : [],
+            select_sites_array:[],
+            list_of_sites: settings_obj.list_of_sites,
         }
     },
     methods: {
@@ -488,6 +493,18 @@ var gen = new Vue({
                     this.select_pages_array.push(this.list_of_pages [i])
                 }
             }
+            // multiple entries for the consent forward .
+            for(let i=0; i<this.list_of_sites.length; i++) {
+                if( this.select_sites.includes(this.list_of_sites[i].code.toString()) ) {
+                    this.select_sites_array.push(this.list_of_sites[i])
+                }
+            }
+            for(let i=0; i<this.list_of_pages.length; i++) {
+                console.log(this.list_of_pages[i]);
+            }
+            for(let i=0; i<this.list_of_sites.length; i++) {
+                console.log(this.list_of_sites[i]);
+            }
         },
         editorInit: function () {
             require('brace/ext/language_tools') //language extension prerequsite...
@@ -611,6 +628,10 @@ var gen = new Vue({
         },
         onSwitchDeleteOnDeactivation() {
             this.delete_on_deactivation = !this.delete_on_deactivation;
+        }, 
+        //consent forward.
+        onSwitchConsentForward(){
+            this.consent_forward = !this.consent_forward;
         },
        onSwitchEnableSafe (){
            this.onEnablesafeSwitch();
@@ -769,6 +790,14 @@ var gen = new Vue({
                 dummy_array[i] = value[i];
             }
             this.select_pages = dummy_array;
+        },
+        onSiteSelect(value){
+            let tmp_array = [];
+            for(let i=0; i<value.length; i++) {
+                tmp_array[i] = value[i];
+                console.log("tmp_array: "+ tmp_array[i]);
+            }
+            this.select_sites = tmp_array;
         },
         onSelectPrivacyPage(value){
             this.button_readmore_page = value;
@@ -1297,6 +1326,9 @@ var gen = new Vue({
 			this.data_reqs_on = false;
 			this.data_req_email_address = '';
 			this.data_req_subject = 'We have received your request';
+            // consent forward.
+            this.consent_forward = false; 
+            this.select_sites    = [];
             var data = {
                 action: 'gcc_restore_default_settings',
                 security: settings_obj.restore_settings_nonce,
