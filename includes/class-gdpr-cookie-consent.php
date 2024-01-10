@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.5.0';
+			$this->version = '2.5.1';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -198,6 +198,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
 
 			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview');
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete');
 
 		}
 	}

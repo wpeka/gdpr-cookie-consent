@@ -300,6 +300,12 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
 	font-size: 14px;
 	font-weight: 400;
 }
+
+.disable-import-button{
+	color:#D8DBE0 !important; 
+	border: 1px solid #D8DBE0 !important;
+}
+
 .notify_msg{ position:fixed; width:300px; padding:15px; color:#ffffff; right:60px; top:0px; opacity:0; box-shadow:0px 2px 2px #cccccc; border-radius:5px;}
 .gdpr-indent-15{  }
 .gdpr-indent-15 th{ padding-left: 15px; }
@@ -1027,7 +1033,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	position: fixed;
     background-color: #72b85c;
     padding: 10px;
-    width: 200px;
+    max-width: 350px;
     font-size: 18px;
     text-align: center;
     border-radius: 5px;
@@ -1491,6 +1497,11 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 .gdpr_messagebar_content_preview .group-description-preview .gdpr_preview {
 	margin: 0;
 }
+.gdpr_messagebar_content_preview .group-description-preview .gdpr_heading_preview {
+	font-size:18px;
+	font-weight:400;
+	line-height: 1.5;
+}
 #cookie_action_accept_preview {
 	border-radius: 0px;
 	margin-left: 0.25rem;
@@ -1547,6 +1558,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 .group-description-buttons-preview.widget-button-container {
 	display: flex;
 	justify-content: space-around;
+	align-items: center;
 }
 #cookie_action_accept_preview.widget-accept-preview {
 	min-width: 7.5rem;
@@ -3242,7 +3254,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	padding-top: 20px;
 }
 .gdpr-cookie-consent-admin-tab.pro-is-activated{
-	min-width: 230px;
+	min-width: 183px;
 }
 .gdpr-cookie-consent-admin-tab.active-tab{
 	border-bottom-color: #0059B3;
@@ -3301,4 +3313,22 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 
 #gdpr-cookie-consent-main-admin-header .gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-help .gdpr-cookie-consent-admin-help-icon,#gdpr-cookie-consent-main-admin-header .gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-support .gdpr-cookie-consent-admin-support-icon{
 	cursor: pointer;
+}
+
+#policyDataTabContainer .wpl-consentlogs .policy_delete a{
+	color: red;
+}
+#policyDataTabContainer .notice.notice-error{
+	display: none;
+}
+
+/* Media query for MacBook Air */
+@media only screen and (max-device-width: 1440px) and (min-device-width: 1280px) {
+	/* Assuming MacBook Air screen size falls within these dimensions */
+	.gdpr-cookie-consent-admin-tab.pro-is-activated {
+		min-width: 167.7px;
+	}
+}
+#consentLogDataTabContainer .wplconsentlogspdf.column-wplconsentlogspdf div{
+	padding-left: 25%;
 }
