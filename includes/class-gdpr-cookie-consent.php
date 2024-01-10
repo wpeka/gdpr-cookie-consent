@@ -626,6 +626,8 @@ class Gdpr_Cookie_Consent {
 			'data_req_editor_message'			   => '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;',
 			'data_req_subject'                     => 'We have received your request',
 			'enable_safe'                          => false,
+			'consent_forward'                      => false,
+			'select_sites'                         => array(),
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;
@@ -689,6 +691,8 @@ class Gdpr_Cookie_Consent {
 			case 'button_cancel_is_on':
 			case 'button_confirm_as_button':
 			case 'button_confirm_is_on':
+			// consent forward .
+			case 'consent_forward':
 				if ( 'true' === $value || true === $value ) {
 					$ret = true;
 				} elseif ( 'false' === $value || false === $value ) {
@@ -763,6 +767,10 @@ class Gdpr_Cookie_Consent {
 				break;
 			//hide banner
 			case 'select_pages':
+				$ret = $value;
+				break;
+				// consent forward
+			case 'select_sites':
 				$ret = $value;
 				break;
 			// Basic sanitisation for all the rest.
@@ -1015,6 +1023,8 @@ class Gdpr_Cookie_Consent {
 			'button_settings_button_border_radius' => $settings['button_settings_button_border_radius'],
 			'button_confirm_button_border_radius'  => $settings['button_confirm_button_border_radius'],
 			'button_cancel_button_border_radius'   => $settings['button_cancel_button_border_radius'],
+			// consent forward .
+			'consent_forward'                      => $settings['consent_forward'],
 		);
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
 		if ( $wpl_pro_active ) {

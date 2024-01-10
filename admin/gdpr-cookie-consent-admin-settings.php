@@ -597,6 +597,19 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-row>
 								<?php endif ?>
 								<?php do_action( 'gdpr_consent_settings_data_reqs' ); ?>
+								<!-- Consent  Forwarding -->
+								<?php 
+								if ( ! $is_pro_active ) : ?>
+									<c-row>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Consent Forwarding', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'If you have multiple WordPress sites for one organization, you can get user consent on one site, and it will count for selected sites in the network. ', 'gdpr-cookie-consent' ); ?>" style="left:10px;"></tooltip></label>
+										<div class="gdpr-pro-label absolute" style="top: 1.5px;" ><div class="gdpr-pro-label-text">Pro</div></div>
+										</c-col>
+										<c-col class="col-sm-8">
+											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" variant="3d" color="success"v-model="consent_forward" id="gdpr-cookie-consent-forward" variant="3d" color="success" :checked="consent_forward" v-on:update:checked="onSwitchConsentForward" ></c-switch>
+										</c-col>
+									</c-row>
+								<?php endif ?>
+								<?php do_action( 'gdpr_consent_settings_consent_forward' ); ?>
 								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Restrict Pages and/or Posts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent' ); ?>"></tooltip>
