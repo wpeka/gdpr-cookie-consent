@@ -857,20 +857,24 @@ class Gdpr_Cookie_Consent_Admin {
 			++$indx;
 		}
 		// sites for consent forward.
-		$list_of_sites   = array();
-		$sites_list      = get_sites();
-		$idx             = 0;
-		$current_site_id = get_current_blog_id();
-		foreach ( $sites_list as $site ) {
-			if ( $site->blog_id != $current_site_id ) {
-				$site_details = get_blog_details( $site->blog_id );
-				$list_of_sites[ $idx ] = array(
-					'label' => $site_details->blogname,
-					'code'  => (int) $site_details->blog_id,
-				);
-				++$idx;
-			}
+		if(is_multisite()){
+
+		
+	$list_of_sites   = array();
+	$sites_list      = get_sites();
+	$idx             = 0;
+	$current_site_id = get_current_blog_id();
+	foreach ( $sites_list as $site ) {
+		if ( $site->blog_id != $current_site_id ) {
+			$site_details = get_blog_details( $site->blog_id );
+			$list_of_sites[ $idx ] = array(
+				'label' => $site_details->blogname,
+				'code'  => (int) $site_details->blog_id,
+			);
+			++$idx;
 		}
+	}
+	}
 		$show_as_options      = array();
 		$show_as_options[0]   = array(
 			'label' => 'Button',
@@ -1051,8 +1055,8 @@ class Gdpr_Cookie_Consent_Admin {
 				// for pages.
 				'list_of_pages'                    => $list_of_pages,
 				// for sites.
-				'list_of_sites'                    => $list_of_sites,
-			)
+				'list_of_sites'                    => is_multisite() ? $list_of_sites : null,
+    )
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
 		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-admin-settings.php';

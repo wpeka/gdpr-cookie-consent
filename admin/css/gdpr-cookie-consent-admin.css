@@ -3343,8 +3343,8 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 }
 .consent-tooltip{
 	position: absolute;
-    top: -47px;
-	right:318px;
+    top: -10px;
+	right:552px;
 	z-index: 99;
     text-wrap: wrap;
     width: 214px;

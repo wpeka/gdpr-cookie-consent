@@ -660,10 +660,11 @@ class Gdpr_Cookie_Consent_Public {
 			$user_ip = $this->wpl_get_user_ip(); // get the current user's IP.
 
 			// make null if consent forward in of.
-			$currentid = get_current_blog_id();
+			$currentid                     = get_current_blog_id();
+			$the_options['select_sites']   = is_array( $the_options['select_sites'] ) ? $the_options['select_sites'] : array();
 			$the_options['select_sites'][] = $currentid;
-			
-			if($the_options['consent_forward']!==true){
+
+			if ( $the_options['consent_forward'] !== true ) {
 				$the_options['select_sites'] = null;
 			}
 			
