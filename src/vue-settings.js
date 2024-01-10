@@ -499,12 +499,6 @@ var gen = new Vue({
                     this.select_sites_array.push(this.list_of_sites[i])
                 }
             }
-            for(let i=0; i<this.list_of_pages.length; i++) {
-                console.log(this.list_of_pages[i]);
-            }
-            for(let i=0; i<this.list_of_sites.length; i++) {
-                console.log(this.list_of_sites[i]);
-            }
         },
         editorInit: function () {
             require('brace/ext/language_tools') //language extension prerequsite...
@@ -795,7 +789,6 @@ var gen = new Vue({
             let tmp_array = [];
             for(let i=0; i<value.length; i++) {
                 tmp_array[i] = value[i];
-                console.log("tmp_array: "+ tmp_array[i]);
             }
             this.select_sites = tmp_array;
         },
