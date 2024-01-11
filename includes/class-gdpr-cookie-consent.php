@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.5.1';
+			$this->version = '2.5.2';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -183,7 +183,8 @@ class Gdpr_Cookie_Consent {
 		$plugin_admin->admin_modules();
 		$this->loader->add_action( 'init', $plugin_admin, 'gdpr_register_block_type' );
 		if ( self::is_request( 'admin' ) ) {
-			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 ); /* Adding admin menu */
+			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 ); /*
+			Adding admin menu */
 			// $this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
 			$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init', 5 );
@@ -197,8 +198,8 @@ class Gdpr_Cookie_Consent {
 			// added ajax for import settings
 			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
 
-			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview');
-			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete');
+			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview' );
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete' );
 
 		}
 	}
@@ -222,8 +223,8 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 			$this->loader->add_action( 'template_redirect', $plugin_public, 'gdprcookieconsent_template_redirect', 99 );
 			$this->loader->add_action( 'wp_footer', $plugin_public, 'gdprcookieconsent_inject_gdpr_script' );
-			//added rest endpoint for fetching current options for banner
-			$this->loader->add_action('rest_api_init',$plugin_public, 'gdpr_cookie_data_endpoint');
+			// added rest endpoint for fetching current options for banner
+			$this->loader->add_action( 'rest_api_init', $plugin_public, 'gdpr_cookie_data_endpoint' );
 		}
 	}
 
@@ -600,7 +601,7 @@ class Gdpr_Cookie_Consent {
 			'notify_animate_hide'                  => true,
 			'notify_animate_show'                  => false,
 			'notify_message'                       => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
-			'notify_message_lgpd'                  => addslashes( 'This website uses cookies for technical and other purposes as specified in the cookie policy. We\'ll assume you\'re ok with this, but you can opt-out if you wish.'),
+			'notify_message_lgpd'                  => addslashes( 'This website uses cookies for technical and other purposes as specified in the cookie policy. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
 			'notify_message_eprivacy'              => addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' ),
 			'notify_message_ccpa'                  => addslashes( 'In case of sale of your personal information, you may opt out by using the link' ),
 			'optout_text'                          => addslashes( 'Do you really wish to opt-out?' ),
@@ -620,10 +621,10 @@ class Gdpr_Cookie_Consent {
 			'body_scripts'                         => '',
 			'footer_scripts'                       => '',
 			'restrict_posts'                       => array(),
-			'select_pages'						   => array(),
+			'select_pages'                         => array(),
 			'gdpr_css_text'                        => '',
 			'do_not_track_on'                      => false,
-			'data_req_editor_message'			   => '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;',
+			'data_req_editor_message'              => '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;',
 			'data_req_subject'                     => 'We have received your request',
 			'enable_safe'                          => false,
 			'consent_forward'                      => false,
@@ -691,7 +692,7 @@ class Gdpr_Cookie_Consent {
 			case 'button_cancel_is_on':
 			case 'button_confirm_as_button':
 			case 'button_confirm_is_on':
-			// consent forward .
+				// consent forward .
 			case 'consent_forward':
 				if ( 'true' === $value || true === $value ) {
 					$ret = true;
@@ -765,7 +766,7 @@ class Gdpr_Cookie_Consent {
 			case 'restrict_posts':
 				$ret = $value;
 				break;
-			//hide banner
+			// hide banner
 			case 'select_pages':
 				$ret = $value;
 				break;
