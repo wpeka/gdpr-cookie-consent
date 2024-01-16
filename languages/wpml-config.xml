@@ -114,6 +114,7 @@
       <key name="popup_overlay"/>
       <key name="about_message"/>
       <key name="about_message_lgpd"/>
+       <key name="consent_forward"/>
     </key>
   </admin-texts>
   <shortcodes>

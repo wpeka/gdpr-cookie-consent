@@ -44,7 +44,7 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl' ,'gr' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr' );
 
 	/**
 	 * Public module list, Module folder and main file must be same as that of module name.
@@ -97,8 +97,8 @@ class Gdpr_Cookie_Consent_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
-		wp_register_style( $this->plugin_name . '-custom', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public-custom' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
+		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name . '-custom', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public-custom' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -658,7 +658,16 @@ class Gdpr_Cookie_Consent_Public {
 			$the_options['ip_and_consent_renew'] = $gdpr_post_meta_values_array;
 
 			$user_ip = $this->wpl_get_user_ip(); // get the current user's IP.
-			
+
+			// make null if consent forward in of.
+			$currentid                     = get_current_blog_id();
+			$the_options['select_sites']   = is_array( $the_options['select_sites'] ) ? $the_options['select_sites'] : array();
+			$the_options['select_sites'][] = $currentid;
+
+			if ( $the_options['consent_forward'] !== true ) {
+				$the_options['select_sites'] = null;
+			}
+
 			$cookies_list_data = array(
 				'gdpr_cookies_list'       => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
 				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
@@ -666,7 +675,10 @@ class Gdpr_Cookie_Consent_Public {
 				'gdpr_user_ip'            => $user_ip,
 				'gdpr_do_not_track'       => $the_options['do_not_track_on'],
 				'gdpr_select_pages'       => $the_options['select_pages'],
+				'gdpr_select_sites'       => $the_options['select_sites'],
+				'consent_forwarding'      => $the_options['consent_forward'],
 			);
+
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
 		}
 	}

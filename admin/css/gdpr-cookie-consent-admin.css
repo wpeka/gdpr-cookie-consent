@@ -3021,7 +3021,7 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .overlay-script-style{
 	z-index: 99;
     display: grid;
-    grid-template-columns: 750px auto;
+    grid-template-columns: 1270px auto;
     position: absolute;
     top: 43px;
     left: 0;
@@ -3331,4 +3331,28 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 }
 #consentLogDataTabContainer .wplconsentlogspdf.column-wplconsentlogspdf div{
 	padding-left: 25%;
+}
+
+.consent-multisite{
+	width: min-content;
+    height: 28px;
+    margin-bottom: 1rem;
+}
+.consent-multisite:hover .consent-tooltip{
+	display: block;
+}
+.consent-tooltip{
+	position: absolute;
+    top: -10px;
+	right:552px;
+	z-index: 99;
+    text-wrap: wrap;
+    width: 214px;
+    background-color: black;
+    color: white;
+    font-size: 11px;
+    padding: 5px;
+    text-align: center;
+    line-height: 18px;	
+	display: none;
 }
