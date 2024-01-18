@@ -378,15 +378,15 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 									GDPR.hideHeader();
 								} else if (GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) && ! GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME )) {
 									if(response.ccpa_status == 'on'){
-										GDPR.displayHeader( true, false, force_display_bar, true );
+										GDPR.displayHeader(  true, false,false, force_display_bar, true );
 
 									}
 									else{
-										GDPR.displayHeader(true, true, force_display_bar, true );
+										GDPR.displayHeader(true, true,true, force_display_bar, true );
 
 									}
 								} else if ( ! GDPR_Cookie.exists( GDPR_ACCEPT_COOKIE_NAME ) && GDPR_Cookie.exists( GDPR_CCPA_COOKIE_NAME ) && response.eu_status == 'on') {
-										GDPR.displayHeader( false, true, force_display_bar, force_display_show_again );
+										GDPR.displayHeader( false, true,false, force_display_bar, force_display_show_again );
 									if ( GDPR.settings.auto_hide ) {
 										setTimeout(
 											function(){
