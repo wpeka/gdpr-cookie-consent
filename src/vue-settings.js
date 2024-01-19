@@ -2330,15 +2330,6 @@ var gen = new Vue({
         if( this.scan_cookie_list_length > 0 ) {
             this.setScanListValues();
         }
-		//Make AceEditor ReadOnly for the Free
-
-		if ( ! this.isGdprProActive ) {
-
-			var editor = ace.edit("aceEditorFree");
-			editor.setValue(this.gdpr_css_text_free);
-			editor.setReadOnly(true);
-		}
-
 		// Add a new input field for whitelist
 		jQuery(document).on("click", '.wpl_add_url', function(){
 		let container_div = jQuery(this).closest('div');
