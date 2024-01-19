@@ -58,7 +58,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 
 									<h3 v-show="is_gdpr && !is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit'
 										}">{{gdpr_message_heading}}</h3>
-                                     <h3 v-show="is_lgpd" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{lgpd_message_heading}}</h3>
+									<h3 v-show="is_lgpd" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{lgpd_message_heading}}</h3>
 									<h3 v-show="is_gdpr && is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{gdpr_message_heading}}</h3>
 									<p v-show="is_gdpr" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{gdpr_message}}
 									<br v-show="popup_template == 'popup-almond_column' && show_cookie_as == 'popup'">
@@ -572,9 +572,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<!-- Do Not Track  -->
-								<?php $plugin_version = defined('GDPR_COOKIE_CONSENT_VERSION') ? GDPR_COOKIE_CONSENT_VERSION : '';
-								if ( version_compare( $plugin_version, '2.5.2', '<=' )) {
-								if ( ! $is_pro_active ) : ?>
+								<?php
+								$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+								if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+									if ( ! $is_pro_active ) :
+										?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
 											<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
@@ -583,9 +585,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" variant="3d" color="success"></c-switch>
 										</c-col>
 									</c-row>
-								<?php endif ?>
-								<?php do_action( 'gdpr_consent_settings_dnt' ); } 
-								else { 
+									<?php endif ?>
+									<?php
+									do_action( 'gdpr_consent_settings_dnt' ); } else {
 									?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
@@ -610,8 +612,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<?php endif ?>
 								<?php do_action( 'gdpr_consent_settings_data_reqs' ); ?>
 								<!-- Consent  Forwarding -->
-								<?php 
-								if ( ! $is_pro_active ) : ?>
+								<?php
+								if ( ! $is_pro_active ) :
+									?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Consent Forwarding', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'If you have multiple WordPress sites for one organization, you can get user consent on one site, and it will count for selected sites in the network. ', 'gdpr-cookie-consent' ); ?>" style="left:10px;"></tooltip></label>
 										<div class="gdpr-pro-label absolute" style="top: 1.5px;" ><div class="gdpr-pro-label-text">Pro</div></div>
@@ -782,9 +785,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<!-- For hide banner -->
-								<?php $plugin_version = defined('GDPR_COOKIE_CONSENT_VERSION') ? GDPR_COOKIE_CONSENT_VERSION : '';
-								if ( version_compare( $plugin_version, '2.5.2', '<=' )){
-									if ( ! $is_pro_active ) : ?>
+								<?php
+								$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+								if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+									if ( ! $is_pro_active ) :
+										?>
 										<c-row>
 											<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Hide cookie banner on specific pages', 'gdpr-cookie-consent' ); ?></label>
 												<div class="gdpr-pro-label absolute" style="top: -1.5px;" ><div class="gdpr-pro-label-text">Pro</div></div>
@@ -795,8 +800,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											</c-col>
 										</c-row>
 									<?php endif ?>
-									<?php do_action( 'gdpr_hide_pages' );
-									} else { ?>
+									<?php
+									do_action( 'gdpr_hide_pages' );
+								} else {
+									?>
 										<c-row>
 											<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Hide cookie banner on specific pages', 'gdpr-cookie-consent' ); ?></label>
 											</c-col>
@@ -805,8 +812,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 												<input type="hidden" name="gcc-selected-pages" v-model="select_pages">
 											</c-col>
 										</c-row>
-									<?php }  ?>
- 							</c-card-body>
+									<?php } ?>
+							</c-card-body>
 						</c-card>
 
 						<?php do_action( 'gdpr_cookie_template' ); ?>
@@ -829,13 +836,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<div style="display:flex" >
 
 									<label style="margin-bottom:0;cursor:pointer"><?php esc_attr_e( 'Import Settings', 'gdpr-cookie-consent' ); ?></label>
-									<?php $plugin_version = defined('GDPR_COOKIE_CONSENT_VERSION') ? GDPR_COOKIE_CONSENT_VERSION : '';
-								if ( version_compare( $plugin_version, '2.5.2', '<=' )) {
-									if ( ! $is_pro_active ) : ?>
+									<?php
+									$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+									if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+										if ( ! $is_pro_active ) :
+											?>
 									<div class="gdpr-pro-label" style="margin-bottom:0;margin-top:3px;" >
 												<div class="gdpr-pro-label-text">Pro</div>
 											</div>
-											<?php endif; }?>
+												<?php endif; } ?>
 									</div  >
 										<div style="font-size: 10px;" v-if="selectedFile">{{ selectedFile.name }} <span style="color:#00CF21;font-weight:500;margin-left:5px" > Uploaded </span> <span style="color: #8996AD;text-decoration:underline;margin-left:5px;position:absolute" class="remove-button" @click="removeFile">Remove</span> </div>
 										<div style="font-size: 10px;" v-else>No File Chosen</div>
@@ -843,10 +852,16 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 	
 
 									<c-col class="col-sm-8 text-right" >
-										<label style="margin-bottom:0; font-size:0.875rem; <?php echo version_compare($plugin_version, '2.5.2', '<=') ? (!$is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff;') : 'color:#3399ff;';
-										?> text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
-										<input style="display: none;" type="file" <?php echo version_compare($plugin_version, '2.5.2', '<=') ? (!$is_pro_active ? '' : 'disabled') : '';
-										?> @change="updateFileName" name="fileInput" accept=".json" id="fileInput">
+										<label style="margin-bottom:0; font-size:0.875rem; 
+										<?php
+										echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff;' ) : 'color:#3399ff;';
+										?>
+										text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
+										<input style="display: none;" type="file" 
+										<?php
+										echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? '' : 'disabled' ) : '';
+										?>
+										@change="updateFileName" name="fileInput" accept=".json" id="fileInput">
 										<c-button variant="outline" color="info" class="disable-import-button"
 										@click="importsettings" id="importButton" disabled>
 											<?php esc_html_e( 'Import', 'gdpr-cookie-consent' ); ?>
@@ -930,9 +945,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius" v-model="cookie_bar_border_radius"></c-input>
 									</c-col>
 								</c-row>
-								<?php $plugin_version = defined('GDPR_COOKIE_CONSENT_VERSION') ? GDPR_COOKIE_CONSENT_VERSION : '';
-								if ( version_compare( $plugin_version, '2.5.2', '<=' )){
-									 if ( ! $is_pro_active ) : ?>
+								<?php
+								$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+								if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+									if ( ! $is_pro_active ) :
+										?>
 										<c-row>
 											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Font', 'gdpr-cookie-consent' ); ?></label>
 												<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
@@ -944,8 +961,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											</c-col>
 										</c-row>
 									<?php endif ?>
-									<?php do_action( 'gdpr_cookie_font' ); 
-									} else { ?>
+									<?php
+									do_action( 'gdpr_cookie_font' );
+								} else {
+									?>
 										<c-row>
 											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Font', 'gdpr-cookie-consent' ); ?></label></c-col>
 											<c-col class="col-sm-8">
@@ -954,12 +973,12 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 												<input type="hidden" name="gdpr-cookie-font" v-model="cookie_font">
 											</c-col>
 										</c-row>
-									<?php }  ?>
+									<?php } ?>
 								<?php
-								$plugin_version = defined('GDPR_COOKIE_CONSENT_VERSION') ? GDPR_COOKIE_CONSENT_VERSION : '';
-								if ( version_compare( $plugin_version, '2.5.2', '<=' )){
-								if ( !$is_pro_active ) {
-									?>
+								$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+								if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+									if ( ! $is_pro_active ) {
+										?>
 									<c-row>
 										<c-col class="col-sm-4">
 											<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
@@ -978,9 +997,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
 										</c-col>
 									</c-row>
-									<?php
+										<?php
 									}
-								 } else {
+								} else {
 									?>
 									<c-row>
 										<c-col class="col-sm-4">
@@ -1861,41 +1880,43 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 						<!-- add custom css card  -->
 						<?php
+						$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+						if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
 						if ( $is_pro_active ) {
 							do_action( 'gdpr_custom_css' );
-						} else {
+						} 
+					}else {
 							?>
 										<c-card >
-										<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
+					<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></c-card-header>
+					<c-card-body>
+						<c-col class="col-sm-12">
+							<aceeditor
+								id = "aceEditor"
+								name="gdpr_css_text_field"
+								v-model="gdpr_css_text"
+								@init="editorInit"
+								lang="css"
+								theme="monokai"
+								width="100%"
+								height="300px"
+								:options="{
+									enableBasicAutocompletion: true,
+									enableLiveAutocompletion: true,
+									fontSize: 14,
+									highlightActiveLine: true,
+									enableSnippets: true,
+									showLineNumbers: true,
+									tabSize: 2,
+									showPrintMargin: false,
+									showGutter: true,
+								}"
+							/>
 
-										<div class="gdpr-pro-label absolute" style="top: 10px; right: 750px;"><div class="gdpr-pro-label-text">Pro</div></div>
+						</c-col>
 
-										</c-card-header>
-										<c-card-body>
-											<c-col class="col-sm-12">
-												<aceeditor
-													id = "aceEditorFree"
-													v-model="gdpr_css_text_free"
-													@init="editorInit"
-													lang="css"
-													theme="monokai"
-													width="100%"
-													height="300px"
-													:options="{
-														enableBasicAutocompletion: true,
-														enableLiveAutocompletion: true,
-														fontSize: 14,
-														highlightActiveLine: true,
-														enableSnippets: true,
-														showLineNumbers: true,
-														tabSize: 2,
-														showPrintMargin: false,
-														showGutter: true,
-													}"
-												/>
-											</c-col>
-										</c-card-body>
-									</c-card>
+					</c-card-body>
+		</c-card>
 								<?php
 						}
 						?>

@@ -493,11 +493,13 @@ var gen = new Vue({
                     this.select_pages_array.push(this.list_of_pages [i])
                 }
             }
+            if(this.list_of_sites && this.list_of_sites.length){
             // multiple entries for the consent forward .
             for(let i=0; i<this.list_of_sites.length; i++) {
                 if( this.select_sites.includes(this.list_of_sites[i].code.toString()) ) {
                     this.select_sites_array.push(this.list_of_sites[i])
                 }
+            }
             }
         },
         editorInit: function () {
