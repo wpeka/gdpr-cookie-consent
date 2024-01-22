@@ -902,11 +902,11 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => $border_styles[ $styles_keys[ $i ] ],
 			);
 		}
-		$cookie_font  = array();
-		$plugin_version = defined('GDPR_COOKIE_CONSENT_VERSION') ? GDPR_COOKIE_CONSENT_VERSION : '';
-		if ( version_compare( $plugin_version, '2.5.2', '<=' )){
-			$cookie_font  = apply_filters( 'gcc_font_options', $cookie_font );
-		}else{
+		$cookie_font    = array();
+		$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+		if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+			$cookie_font = apply_filters( 'gcc_font_options', $cookie_font );
+		} else {
 			$cookie_font = self::get_fonts();
 		}
 		$font_length  = count( $cookie_font );
@@ -1233,30 +1233,30 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
-		 * Function returns list of supported fonts, used when printing admin form.
-		 *
-		 * @since 1.0.0
-		 * @return array
-		 * @phpcs:enable
-		 */
-		public function get_fonts() {
-			$fonts = array(
-				__( 'Default theme font', 'gdpr-cookie-consent' ) => 'inherit',
-				'Sans Serif'      => 'Helvetica, Arial, sans-serif',
-				'Serif'           => 'Georgia, Times New Roman, Times, serif',
-				'Arial'           => 'Arial, Helvetica, sans-serif',
-				'Arial Black'     => 'Arial Black,Gadget,sans-serif',
-				'Georgia'         => 'Georgia, serif',
-				'Helvetica'       => 'Helvetica, sans-serif',
-				'Lucida'          => 'Lucida Sans Unicode, Lucida Grande, sans-serif',
-				'Tahoma'          => 'Tahoma, Geneva, sans-serif',
-				'Times New Roman' => 'Times New Roman, Times, serif',
-				'Trebuchet'       => 'Trebuchet MS, sans-serif',
-				'Verdana'         => 'Verdana, Geneva',
-			);
-			$fonts = apply_filters( 'gdprcookieconsent_fonts', $fonts );
-			return $fonts;
-		}
+	 * Function returns list of supported fonts, used when printing admin form.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 * @phpcs:enable
+	 */
+	public function get_fonts() {
+		$fonts = array(
+			__( 'Default theme font', 'gdpr-cookie-consent' ) => 'inherit',
+			'Sans Serif'      => 'Helvetica, Arial, sans-serif',
+			'Serif'           => 'Georgia, Times New Roman, Times, serif',
+			'Arial'           => 'Arial, Helvetica, sans-serif',
+			'Arial Black'     => 'Arial Black,Gadget,sans-serif',
+			'Georgia'         => 'Georgia, serif',
+			'Helvetica'       => 'Helvetica, sans-serif',
+			'Lucida'          => 'Lucida Sans Unicode, Lucida Grande, sans-serif',
+			'Tahoma'          => 'Tahoma, Geneva, sans-serif',
+			'Times New Roman' => 'Times New Roman, Times, serif',
+			'Trebuchet'       => 'Trebuchet MS, sans-serif',
+			'Verdana'         => 'Verdana, Geneva',
+		);
+		$fonts = apply_filters( 'gdprcookieconsent_fonts', $fonts );
+		return $fonts;
+	}
 	/**
 	 * Returns button sizes, used when printing admin form.
 	 *
@@ -1584,7 +1584,7 @@ class Gdpr_Cookie_Consent_Admin {
 				return;
 			}
 			$the_options                  = Gdpr_Cookie_Consent::gdpr_get_settings();
-			$plugin_version   = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
+			$plugin_version               = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
 			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
 			// consent renewed.
 			$the_options['consent_renew_enable'] = isset( $_POST['gcc-consent-renew-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-consent-renew-enable'] ) ) : 'false';
@@ -1882,18 +1882,18 @@ class Gdpr_Cookie_Consent_Admin {
 				$the_options['data_req_editor_message'] = '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;';
 			}
 			// pro features to free.
-			if ( version_compare( $plugin_version, '2.5.2', '<=' )){
-			// hide banner
-			$selected_pages = array();
-			$selected_pages = isset( $_POST['gcc-selected-pages'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-pages'] ) ) ) : '';
-			// storing id of pages in database.
-			$the_options['select_pages'] = $selected_pages;
+			if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+				// hide banner
+				$selected_pages = array();
+				$selected_pages = isset( $_POST['gcc-selected-pages'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-pages'] ) ) ) : '';
+				// storing id of pages in database.
+				$the_options['select_pages'] = $selected_pages;
 			}
 			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
 				$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 				$restricted_posts = array();
 				$restricted_posts = isset( $_POST['gcc-restrict-posts'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-restrict-posts'] ) ) ) : '';
-				if ( version_compare( $plugin_version, '2.5.2', '<=' )) {
+				if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
 					// hide banner
 					$selected_pages = array();
 					$selected_pages = isset( $_POST['gcc-selected-pages'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-pages'] ) ) ) : '';
@@ -2546,11 +2546,11 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => $border_styles[ $styles_keys[ $i ] ],
 			);
 		}
-		$cookie_font  = array();
-		$plugin_version = defined('GDPR_COOKIE_CONSENT_VERSION') ? GDPR_COOKIE_CONSENT_VERSION : '';
-		if ( version_compare( $plugin_version, '2.5.2', '<=' )){
-			$cookie_font  = apply_filters( 'gcc_font_options', $cookie_font );
-		}else{
+		$cookie_font    = array();
+		$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+		if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+			$cookie_font = apply_filters( 'gcc_font_options', $cookie_font );
+		} else {
 			$cookie_font = self::get_fonts();
 		}
 		$font_length  = count( $cookie_font );
@@ -2739,7 +2739,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 		// find out if data reqs is on.
-		$data_reqs_on = $the_options['data_reqs_on'];
+		$data_reqs_on = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
 
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script(
