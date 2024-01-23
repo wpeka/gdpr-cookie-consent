@@ -201,6 +201,15 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Change Log ==
 
+= 2.6.0 =
+* Feature: Respect Do Not Track & Global Privacy Control: Prioritize user privacy by respecting Do Not Track settings and Global Privacy Control.
+* Feature: Hide Cookie Banner on Specific Pages: Selectively hide the cookie banner on specific pages for a more tailored user experience.
+* Feature: Feature: Import Settings: Easily import cookie banner settings, streamlining workflow and ensuring consistency.
+* Feature: Font Options: Customize typography effortlessly with new font options.
+* Feature: Upload Logo: Personalize branding by uploading your logo directly to your cookie banner.
+* Feature: Add Custom CSS: Unleash creativity with the ability to add custom CSS to your cookie banner.
+* Fix: Minor bugs fixed within plugin.
+
 = 2.5.2 =
 * Fix: Minor bugs fixed within plugin.
 
@@ -481,6 +490,15 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 2.6.0 =
+* Feature: Respect Do Not Track & Global Privacy Control: Prioritize user privacy by respecting Do Not Track settings and Global Privacy Control.
+* Feature: Hide Cookie Banner on Specific Pages: Selectively hide the cookie banner on specific pages for a more tailored user experience.
+* Feature: Feature: Import Settings: Easily import cookie banner settings, streamlining workflow and ensuring consistency.
+* Feature: Font Options: Customize typography effortlessly with new font options.
+* Feature: Upload Logo: Personalize branding by uploading your logo directly to your cookie banner.
+* Feature: Add Custom CSS: Unleash creativity with the ability to add custom CSS to your cookie banner.
+* Fix: Minor bugs fixed within plugin.
 
 = 2.5.2 =
 * Fix: Minor bugs fixed within plugin.
