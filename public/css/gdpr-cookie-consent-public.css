@@ -54,6 +54,7 @@
 	font-size: 18px;
 	line-height: 1.5;
 	color:inherit;
+	font-family: inherit;
 }
 .gdprmodal-body #gdpr-cookie-consent-bar .gdpr_messagebar_content h3,
 #gdpr-cookie-consent-bar.gdpr-widget .gdpr_messagebar_content h3 {
