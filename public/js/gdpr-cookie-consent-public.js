@@ -1293,7 +1293,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 				$( "#gdpr-popup" ).gdprmodal( 'hide' );
 			}
 			this.show_again_elm.slideDown( this.settings.animate_speed_hide );
-			if ( this.settings.decline_reload == true ) {
+			if ( (this.settings.decline_reload == true  && !browser_dnt_value) || (this.settings.decline_reload == true && gdpr_do_not_track == 'false')) {
 				window.location.reload( true );
 			}
 			else{
