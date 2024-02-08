@@ -2886,13 +2886,21 @@ var gen = new Vue({
             this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
 
 			//set the disableSwitch value is pro is active/inactive
-			if( '1' === settings_obj.is_pro_active ) {
-				this.disableSwitch = false;
-			}else{
-				this.disableSwitch = true;
-				this.logging_on = false; //make enable consent switch turn off if pro is not active
-				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
-			}
+            if (this.isPluginVersionLessOrEqual('2.6.0')) {
+                if( '1' === settings_obj.is_pro_active ) {
+                    this.disableSwitch = false;
+                }else{
+                    this.disableSwitch = true;
+                    this.logging_on = false; //make enable consent switch turn off if pro is not active
+                    this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
+                }
+            }else{
+                console.log("version is greater than 2.5.2");
+                if ( ! this.isGdprProActive ) {
+                    this.disableSwitch = false;
+                }
+            }
+			
             // multiple entries for hide banner.
             for(let i=0; i<this.list_of_pages.length; i++) {
                 if( this.select_pages.includes(this.list_of_pages[i].code.toString()) ) {
