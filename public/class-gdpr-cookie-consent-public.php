@@ -667,7 +667,8 @@ class Gdpr_Cookie_Consent_Public {
 			if ( $the_options['consent_forward'] !== true ) {
 				$the_options['select_sites'] = null;
 			}
-
+			error_log("is_renew_button_Clicked");
+            error_log($the_options['is_renew_button_Clicked']);
 			$cookies_list_data = array(
 				'gdpr_cookies_list'       => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
 				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
@@ -677,9 +678,13 @@ class Gdpr_Cookie_Consent_Public {
 				'gdpr_select_pages'       => $the_options['select_pages'],
 				'gdpr_select_sites'       => $the_options['select_sites'],
 				'consent_forwarding'      => $the_options['consent_forward'],
+				'is_renew_button_Clicked' =>  $the_options['is_renew_button_Clicked'],
 			);
-
+			// $isRenewNowButton =false;
+			$the_options['is_renew_button_Clicked'] = false;
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
+			// $the_options['is_renew_button_Clicked'] = false;
+			// wp_localize_script($this->plugin_name, 'gdpr_cookies_obj', $isRenewNowButton )
 		}
 	}
 	/**

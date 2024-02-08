@@ -1026,6 +1026,7 @@ class Gdpr_Cookie_Consent {
 			'button_cancel_button_border_radius'   => $settings['button_cancel_button_border_radius'],
 			// consent forward .
 			'consent_forward'                      => $settings['consent_forward'],
+			'is_renew_button_Clicked'             =>   false,
 		);
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
 		if ( $wpl_pro_active ) {

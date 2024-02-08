@@ -1588,6 +1588,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
 			// consent renewed.
 			$the_options['consent_renew_enable'] = isset( $_POST['gcc-consent-renew-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-consent-renew-enable'] ) ) : 'false';
+			$the_options['is_renew_button_Clicked'] = isset( $_POST['gcc-consent-renew-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-consent-renew-enable'] ) ) : 'false';
 			// scan when.
 			$the_options['schedule_scan_when'] = isset( $_POST['gdpr-schedule-scan-when'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-when'] ) ) : 'Not Scheduled';
 			// scan type.
@@ -1914,6 +1915,9 @@ class Gdpr_Cookie_Consent_Admin {
 				$the_options['restrict_posts']       = $restricted_posts;
 				// consent forward .
 				$the_options['consent_forward'] = isset( $_POST['gcc-consent-forward'] ) && ( true === $_POST['gcc-consent-forward'] || 'true' === $_POST['gcc-consent-forward'] ) ? 'true' : 'false';
+				
+
+				
 				$the_options['select_sites']    = $selected_sites;
 				if ( isset( $the_options['cookie_usage_for'] ) ) {
 					switch ( $the_options['cookie_usage_for'] ) {
@@ -2211,11 +2215,16 @@ class Gdpr_Cookie_Consent_Admin {
 						$meta_key_cl_ip
 					)
 				);
+				// error_log(print_r($results,true));
 
 				if ( $results ) {
 					foreach ( $results as $result ) {
 						$post_id       = $result->post_id;
 						$consent_value = $the_options['consent_renew_enable'];
+						// error_log(print_r($the_options['consent_renew_enable'],true));
+						// error_log(print_r($post_id,true));
+						// error_log(print_r(get_post_meta( $post_id, $meta_key_cl_renew_consent, true ),true));
+
 
 						// Check if _wpl_renew_consent meta key exists, and add if it doesn't.
 						if ( ! get_post_meta( $post_id, $meta_key_cl_renew_consent, true ) ) {
