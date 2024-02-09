@@ -2895,7 +2895,6 @@ var gen = new Vue({
                     this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
                 }
             }else{
-                console.log("version is greater than 2.5.2");
                 if ( ! this.isGdprProActive ) {
                     this.disableSwitch = false;
                 }
