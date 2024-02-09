@@ -15,6 +15,7 @@ $baseurl = '';
 if ( isset( $_SERVER['PHP_SELF'] ) ) {
 	$baseurl = esc_url_raw( wp_unslash( $_SERVER['PHP_SELF'] ) );
 }
+$plugin_version   = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
 ?>
 <div id="gdpr-before-mount" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-settings-app">
@@ -638,6 +639,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-col>
 									</c-row>
 									<!-- renew consent free  -->
+								<?php	if ( version_compare( $plugin_version, '2.7.0', '<=' )){ ?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Renew User Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( "If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent' ); ?>"></tooltip>
 										</label>
@@ -656,6 +658,35 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											</div>
 										</c-col>
 									</c-row>
+									<?php }
+									else{?>
+
+										<c-row>
+			<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Renew User Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( "If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent' ); ?>"></tooltip>
+			</label>
+			</c-col>
+			<c-col class="col-sm-8">
+			<c-button class="gdpr-renew-now-btn pro" variant="outline" @click="onClickRenewConsent"><?php esc_html_e( 'Renew Now', 'gdpr-cookie-consent' ); ?></c-button>
+			<input type="hidden" name="gcc-consent-renew-enable" v-model="is_consent_renewed">
+			<!-- last renewed  -->
+			<div class="gdpr-last-renew-container">
+				<div class="gdpr-last-renew-label">
+				Last renewed :
+				</div>
+				<div class="gdpr-last-renew-details">
+				<?php
+					$last_renewed_at = get_option( 'wpl_consent_timestamp' );
+				if ( $last_renewed_at ) {
+					echo esc_attr( gmdate( 'F j, Y g:i a T', get_option( 'wpl_consent_timestamp' ) ) );
+				} else {
+					echo esc_attr_e( ' Not renewed yet' );
+				}
+				?>
+				</div>
+			</div>
+			</c-col>
+
+							<?php		} ?>
 								<?php endif ?>
 								<?php do_action( 'gdpr_consent_settings_pro_bottom' ); ?>
 							</c-card-body>

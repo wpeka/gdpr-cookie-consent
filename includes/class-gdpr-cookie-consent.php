@@ -200,6 +200,12 @@ class Gdpr_Cookie_Consent {
 
 			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview' );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete' );
+			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+        if ( version_compare( $plugin_version, '2.5.2', '<=' ) ){
+			// action hooks for renew consnet.
+			$this->loader->add_action( 'wp_ajax_nopriv_gdpr_renew_consent_bar', $plugin_admin, 'gdpr_renew_consent_bar' );
+			$this->loader->add_action( 'wp_ajax_gdpr_renew_consent_bar', $plugin_admin, 'gdpr_renew_consent_bar' );
+		}
 
 		}
 	}
