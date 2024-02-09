@@ -45,33 +45,26 @@ function print_template_boxes( $name, $templates, $checked ) {
 				$square = false;
 			}
 			?>
-		<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
-			<div class="gdpr-left-field">
-			<c-input type="radio" :disabled="disableSwitch" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
 			<?php
-			if ( $template['name'] === $checked ) {
-				echo ':checked="true"';
-			}
+				$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+				if ( version_compare( $plugin_version, '2.6.0', '<=' ) ) {
 			?>
-			>
-			</div>
-			<div class="gdpr-right-field" style="<?php echo esc_attr( $template['css'] ); ?>">
-				<div class="gdpr-right-field-content">
-					<div class="gdpr-group-description" style="margin-top:20px">
-						<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
-						<?php if ( $column ) : ?>
-							<p>{{gdpr_message}}</p>
-							<?php
-							if ( isset( $template['readmore'] ) ) :
-								$class = '';
-								if ( $template['readmore']['as_button'] ) :
-									$class = 'btn btn-sm';
-								endif;
-								?>
-								<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a></p>
-							<?php endif; ?>
-						<?php else : ?>
-							<p>{{gdpr_message}}
+			<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
+				<div class="gdpr-left-field">
+				<c-input type="radio" :disabled="disableSwitch" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
+				<?php
+				if ( $template['name'] === $checked ) {
+					echo ':checked="true"';
+				}
+				?>
+				>
+				</div>
+				<div class="gdpr-right-field" style="<?php echo esc_attr( $template['css'] ); ?>">
+					<div class="gdpr-right-field-content">
+						<div class="gdpr-group-description" style="margin-top:20px">
+							<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+							<?php if ( $column ) : ?>
+								<p>{{gdpr_message}}</p>
 								<?php
 								if ( isset( $template['readmore'] ) ) :
 									$class = '';
@@ -79,79 +72,197 @@ function print_template_boxes( $name, $templates, $checked ) {
 										$class = 'btn btn-sm';
 									endif;
 									?>
-									<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a>
+									<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a></p>
 								<?php endif; ?>
-							</p>
-						<?php endif; ?>
-					</div>
-					<div class="gdpr-group-buttons">
-						<?php if ( $square ) : ?>
-							<?php
-							if ( isset( $template['decline'] ) ) :
-								$class = '';
-								if ( $template['decline']['as_button'] ) :
-									$class = 'btn btn-sm';
-								endif;
-								?>
-								<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+							<?php else : ?>
+								<p>{{gdpr_message}}
+									<?php
+									if ( isset( $template['readmore'] ) ) :
+										$class = '';
+										if ( $template['readmore']['as_button'] ) :
+											$class = 'btn btn-sm';
+										endif;
+										?>
+										<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a>
+									<?php endif; ?>
+								</p>
 							<?php endif; ?>
-							<?php
-							if ( isset( $template['settings'] ) ) :
-								$class = '';
-								if ( $template['settings']['as_button'] ) :
-									$class = 'btn btn-sm';
-								endif;
-								?>
-								<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+						</div>
+						<div class="gdpr-group-buttons">
+							<?php if ( $square ) : ?>
+								<?php
+								if ( isset( $template['decline'] ) ) :
+									$class = '';
+									if ( $template['decline']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['settings'] ) ) :
+									$class = '';
+									if ( $template['settings']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['accept'] ) ) :
+									$class = '';
+									if ( $template['accept']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
+								<?php endif; ?>
+							<?php else : ?>
+								<?php
+								if ( isset( $template['accept'] ) ) :
+									$class = '';
+									if ( $template['accept']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['decline'] ) ) :
+									$class = '';
+									if ( $template['decline']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['settings'] ) ) :
+									$class = '';
+									if ( $template['settings']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+								<?php endif; ?>
 							<?php endif; ?>
-							<?php
-							if ( isset( $template['accept'] ) ) :
-								$class = '';
-								if ( $template['accept']['as_button'] ) :
-									$class = 'btn btn-sm';
-								endif;
-								?>
-								<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
-							<?php endif; ?>
-						<?php else : ?>
-							<?php
-							if ( isset( $template['accept'] ) ) :
-								$class = '';
-								if ( $template['accept']['as_button'] ) :
-									$class = 'btn btn-sm';
-								endif;
-								?>
-								<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
-							<?php endif; ?>
-							<?php
-							if ( isset( $template['decline'] ) ) :
-								$class = '';
-								if ( $template['decline']['as_button'] ) :
-									$class = 'btn btn-sm';
-								endif;
-								?>
-								<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
-							<?php endif; ?>
-							<?php
-							if ( isset( $template['settings'] ) ) :
-								$class = '';
-								if ( $template['settings']['as_button'] ) :
-									$class = 'btn btn-sm';
-								endif;
-								?>
-								<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
-							<?php endif; ?>
-						<?php endif; ?>
-					</div>
-					<!-- go pro label image for pro templates-->
+						</div>
+						<!-- go pro label image for pro templates-->
 
-					<div class="gdpr-go-pro-label">
-								<div class="go-pro-label-image" ><img src="<?php echo esc_url( $image_path ) . 'go-pro.png'; ?>"></div>
-					</div>
+						<div class="gdpr-go-pro-label">
+									<div class="go-pro-label-image" ><img src="<?php echo esc_url( $image_path ) . 'go-pro.png'; ?>"></div>
+						</div>
 
+					</div>
 				</div>
 			</div>
-		</div>
+			<?php 
+				} else{
+			?>
+			<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
+				<div class="gdpr-left-field">
+				<c-input type="radio" :disabled="disableSwitch" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
+				<?php
+				if ( $template['name'] === $checked ) {
+					echo ':checked="true"';
+				}
+				?>
+				>
+				</div>
+				<div class="gdpr-right-field" style="<?php echo esc_attr( $template['css'] ); ?>">
+					<div class="gdpr-right-field-content">
+						<div class="gdpr-group-description" style="margin-top:20px">
+							<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+							<?php if ( $column ) : ?>
+								<p>{{gdpr_message}}</p>
+								<?php
+								if ( isset( $template['readmore'] ) ) :
+									$class = '';
+									if ( $template['readmore']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a></p>
+								<?php endif; ?>
+							<?php else : ?>
+								<p>{{gdpr_message}}
+									<?php
+									if ( isset( $template['readmore'] ) ) :
+										$class = '';
+										if ( $template['readmore']['as_button'] ) :
+											$class = 'btn btn-sm';
+										endif;
+										?>
+										<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a>
+									<?php endif; ?>
+								</p>
+							<?php endif; ?>
+						</div>
+						<div class="gdpr-group-buttons">
+							<?php if ( $square ) : ?>
+								<?php
+								if ( isset( $template['decline'] ) ) :
+									$class = '';
+									if ( $template['decline']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['settings'] ) ) :
+									$class = '';
+									if ( $template['settings']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['accept'] ) ) :
+									$class = '';
+									if ( $template['accept']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
+								<?php endif; ?>
+							<?php else : ?>
+								<?php
+								if ( isset( $template['accept'] ) ) :
+									$class = '';
+									if ( $template['accept']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['decline'] ) ) :
+									$class = '';
+									if ( $template['decline']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['settings'] ) ) :
+									$class = '';
+									if ( $template['settings']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+								<?php endif; ?>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<?php
+				}
+			?>
 	<?php endforeach; ?>
 	</div>
 	<?php
