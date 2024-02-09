@@ -208,6 +208,7 @@ class Gdpr_Cookie_Consent {
         	if ( version_compare( $plugin_version, '2.6.0', '>' ) ){
 				if ( !$wpl_pro_active ) {
 				$this->loader->add_filter( 'gdpr_get_templates', $plugin_admin, 'get_templates', 10, 1 );
+				//Move pro template to free
 				$this->loader->add_action( 'gdpr_cookie_template', $plugin_admin, 'wpl_cookie_template' );
 
 				}
