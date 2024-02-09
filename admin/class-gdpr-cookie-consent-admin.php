@@ -3554,9 +3554,8 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 				}
 			}else{
-				error_log("Inside else in wizard");
+
 				if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' !== get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
-					error_log("You are inside wizard setting function else->else versions is greater than 2.6.0 and pro deactive");
 					$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 
 					$the_options['banner_template'] = isset( $_POST['gdpr-banner-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-banner-template'] ) ) : 'banner-default';
@@ -3695,7 +3694,6 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 				}
 				else{
-					error_log("You are inside wizard setting function else->else when version is greater than 2.6.0 ");
 					$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 
 					$the_options['banner_template'] = isset( $_POST['gdpr-banner-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-banner-template'] ) ) : 'banner-default';
@@ -4574,7 +4572,6 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
 			if ( version_compare( $plugin_version, '2.6.0', '<=' ) ) {
-				error_log("ajax save settings if condition");
 				if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
 
 					$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
@@ -4713,7 +4710,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 				}
 			} else {
-				error_log("ajax save settings else condition");
 				$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 				$the_options['banner_template']      = isset( $_POST['gdpr-banner-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-banner-template'] ) ) : 'banner-default';
 				$the_options['popup_template']       = isset( $_POST['gdpr-popup-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-popup-template'] ) ) : 'popup-default';

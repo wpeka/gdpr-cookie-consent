@@ -48,7 +48,6 @@ function print_template_boxes( $name, $templates, $checked ) {
 			<?php
 				$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
 				if ( version_compare( $plugin_version, '2.6.0', '<=' ) ) {
-					error_log("Inside loop");
 			?>
 			<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 				<div class="gdpr-left-field">
