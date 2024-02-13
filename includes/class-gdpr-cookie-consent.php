@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '2.6.0';
+			$this->version = '2.7.0';
 		}
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -200,6 +200,19 @@ class Gdpr_Cookie_Consent {
 
 			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview' );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete' );
+
+			$wpl_pro_active = get_option( 'wpl_pro_active' );
+			
+
+			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+        	if ( version_compare( $plugin_version, '2.6.0', '>' ) ){
+				if ( !$wpl_pro_active ) {
+				$this->loader->add_filter( 'gdpr_get_templates', $plugin_admin, 'get_templates', 10, 1 );
+				//Move pro template to free
+				$this->loader->add_action( 'gdpr_cookie_template', $plugin_admin, 'wpl_cookie_template' );
+
+				}
+			}
 
 		}
 	}
