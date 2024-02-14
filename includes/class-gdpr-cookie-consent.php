@@ -208,6 +208,13 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview' );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete' );
 
+			$wpl_pro_active = get_option( 'wpl_pro_active' );
+			if( ! $wpl_pro_active){
+				$this->loader->add_filter( 'gdpr_get_templates', $plugin_admin, 'get_templates', 10, 1 );
+				$this->loader->add_action( 'gdpr_cookie_template', $plugin_admin, 'wpl_cookie_template' );
+			}
+
+
 		}
 	}
 
