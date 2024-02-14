@@ -3021,7 +3021,7 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .overlay-script-style{
 	z-index: 99;
     display: grid;
-    grid-template-columns: 1270px auto;
+    grid-template-columns: 1444px auto;
     position: absolute;
     top: 43px;
     left: 0;

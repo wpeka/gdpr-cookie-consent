@@ -687,19 +687,16 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<?php if ( ! $is_pro_active ) : ?>
 								<c-row>
-									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Safe Mode for Cookies', 'gdpr-cookie-consent' ); ?>
-									<tooltip text="<?php esc_html_e( 'When safe mode is enabled, all integrations will be disabled temporarily.', 'gdpr-cookie-consent' ); ?>"></tooltip>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Safe Mode for Cookies', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'When safe mode is enabled, all integrations will be disabled temporarily.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+												<input type="hidden" name="gcc-enable-safe" v-model="enable_safe">					<c-switch  v-bind="labelIcon " id="gdpr-cookie-consent-enable-safe" variant="3d" color="success" :checked="enable_safe" v-on:update:checked="onSwitchEnableSafe" v-model="enable_safe"></c-switch>
 
-										</label>
-										<div class="gdpr-pro-label absolute" style="right: 5px;"><div class="gdpr-pro-label-text">Pro</div></div>
-									</c-col>
-									<c-col class="col-sm-8">
-										<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" id="gdpr-cookie-consent-enable-safe" variant="3d" color="success"></c-switch>
-										<input type="hidden" name="gcc-enable-safe" v-model="enable_safe">
-									</c-col>
+										</c-col>
 								</c-row>
 								<?php endif; ?>
+								<?php if (  $is_pro_active ) : ?>
 								<?php do_action( 'gdpr_consent_settings_safe_enable' ); ?>
+								<?php endif; ?>
 								<c-row>
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Export Personal Data', 'gdpr-cookie-consent' ); ?> </label></c-col>
 								<c-col class="col-sm-8">
