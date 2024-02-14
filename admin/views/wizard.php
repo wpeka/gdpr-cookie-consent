@@ -2513,23 +2513,11 @@ function get_templates( $template_type ) {
 							<div class="enable-script-blocker-content">
 								<c-col class="enable-script-blocker-label"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="enable-consent-log-switch">
-									<c-switch v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="is_script_blocker_on" :disabled="disableSwitch" v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
+									<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="is_script_blocker_on"  v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
 									<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on">
 								</c-col>
 							</div>
 							<?php
-								// if gdpr-pro is disable only then add pro label.
-							if ( ! $is_pro ) {
-
-								?>
-
-									<div class="gdpr-pro-label">
-										<div class="gdpr-pro-label-text" >Pro</div>
-									</div>
-
-								<?php
-							}
-
 							?>
 						</div>
 

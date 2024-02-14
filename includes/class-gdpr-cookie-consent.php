@@ -128,7 +128,14 @@ class Gdpr_Cookie_Consent {
 		 * side of the site.
 		 */
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/class-gdpr-cookie-consent-public.php';
-
+		/**
+		 * The class responsible for orchestrating the actions and filters of the
+		 * Script blocker.
+		 */
+		$wpl_pro_active = get_option( 'wpl_pro_active' );
+		if ( !$wpl_pro_active ){
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
+		}
 		$this->loader = new Gdpr_Cookie_Consent_Loader();
 	}
 

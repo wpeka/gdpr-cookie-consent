@@ -1237,6 +1237,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @since 1.0.0
 	 * @return array
+	 *
 	 * @phpcs:enable
 	 */
 	public function get_fonts() {
@@ -1366,6 +1367,11 @@ class Gdpr_Cookie_Consent_Admin {
 				} else {
 					$the_options['is_ccpa_iab_on'] = 'true';
 				}
+			}
+			if(!get_option( 'wpl_pro_active' ))
+			{
+				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
+				$the_options['enable_safe']          = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
 			}
 			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
 				// For EU.
@@ -1889,6 +1895,13 @@ class Gdpr_Cookie_Consent_Admin {
 				// storing id of pages in database.
 				$the_options['select_pages'] = $selected_pages;
 			}
+
+			if(!get_option( 'wpl_pro_active' ))
+			{
+				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
+				$the_options['enable_safe']          = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
+			}
+
 			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
 				$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 				$restricted_posts = array();
