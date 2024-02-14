@@ -4,7 +4,7 @@ Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
 Requires at least: 3.3.1
 Tested up to: 6.4
-Stable tag: 2.5.2
+Stable tag: 2.6.1
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -200,6 +200,18 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+
+= 2.6.1 =
+* Fix: Minor bugs fixed within plugin.
+
+= 2.6.0 =
+* Feature: Respect Do Not Track & Global Privacy Control: Prioritize user privacy by respecting Do Not Track settings and Global Privacy Control.
+* Feature: Hide Cookie Banner on Specific Pages: Selectively hide the cookie banner on specific pages for a more tailored user experience.
+* Feature: Feature: Import Settings: Easily import cookie banner settings, streamlining workflow and ensuring consistency.
+* Feature: Font Options: Customize typography effortlessly with new font options.
+* Feature: Upload Logo: Personalize branding by uploading your logo directly to your cookie banner.
+* Feature: Add Custom CSS: Unleash creativity with the ability to add custom CSS to your cookie banner.
+* Fix: Minor bugs fixed within plugin.
 
 = 2.5.2 =
 * Fix: Minor bugs fixed within plugin.
@@ -481,6 +493,18 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 2.6.1 =
+* Fix: Minor bugs fixed within plugin.
+
+= 2.6.0 =
+* Feature: Respect Do Not Track & Global Privacy Control: Prioritize user privacy by respecting Do Not Track settings and Global Privacy Control.
+* Feature: Hide Cookie Banner on Specific Pages: Selectively hide the cookie banner on specific pages for a more tailored user experience.
+* Feature: Feature: Import Settings: Easily import cookie banner settings, streamlining workflow and ensuring consistency.
+* Feature: Font Options: Customize typography effortlessly with new font options.
+* Feature: Upload Logo: Personalize branding by uploading your logo directly to your cookie banner.
+* Feature: Add Custom CSS: Unleash creativity with the ability to add custom CSS to your cookie banner.
+* Fix: Minor bugs fixed within plugin.
 
 = 2.5.2 =
 * Fix: Minor bugs fixed within plugin.

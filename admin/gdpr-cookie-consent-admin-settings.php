@@ -11,7 +11,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 $baseurl = '';
 if ( isset( $_SERVER['PHP_SELF'] ) ) {
 	$baseurl = esc_url_raw( wp_unslash( $_SERVER['PHP_SELF'] ) );
@@ -59,7 +58,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 
 									<h3 v-show="is_gdpr && !is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit'
 										}">{{gdpr_message_heading}}</h3>
-                                     <h3 v-show="is_lgpd" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{lgpd_message_heading}}</h3>
+									<h3 v-show="is_lgpd" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{lgpd_message_heading}}</h3>
 									<h3 v-show="is_gdpr && is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{gdpr_message_heading}}</h3>
 									<p v-show="is_gdpr" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{gdpr_message}}
 									<br v-show="popup_template == 'popup-almond_column' && show_cookie_as == 'popup'">
@@ -573,7 +572,11 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<!-- Do Not Track  -->
-								<?php if ( ! $is_pro_active ) : ?>
+								<?php
+								$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+								if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+									if ( ! $is_pro_active ) :
+										?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
 											<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
@@ -582,8 +585,19 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" variant="3d" color="success"></c-switch>
 										</c-col>
 									</c-row>
-								<?php endif ?>
-								<?php do_action( 'gdpr_consent_settings_dnt' ); ?>
+									<?php endif ?>
+									<?php
+									do_action( 'gdpr_consent_settings_dnt' ); } else {
+									?>
+									<c-row>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
+										</c-col>
+										<c-col class="col-sm-8">
+											<c-switch v-bind= labelIcon v-model="do_not_track_on" id="gdpr-cookie-do-not-track" variant="3d" color="success" :checked="do_not_track_on" v-on:update:checked="onSwitchDntEnable"></c-switch>
+											<input type="hidden" name="gcc-do-not-track" v-model="do_not_track_on">
+										</c-col>
+									</c-row>
+								<?php } ?>
 								<!-- Data Requests  -->
 								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
@@ -598,8 +612,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<?php endif ?>
 								<?php do_action( 'gdpr_consent_settings_data_reqs' ); ?>
 								<!-- Consent  Forwarding -->
-								<?php 
-								if ( ! $is_pro_active ) : ?>
+								<?php
+								if ( ! $is_pro_active ) :
+									?>
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Consent Forwarding', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'If you have multiple WordPress sites for one organization, you can get user consent on one site, and it will count for selected sites in the network. ', 'gdpr-cookie-consent' ); ?>" style="left:10px;"></tooltip></label>
 										<div class="gdpr-pro-label absolute" style="top: 1.5px;" ><div class="gdpr-pro-label-text">Pro</div></div>
@@ -770,18 +785,34 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 								</c-row>
 								<!-- For hide banner -->
-								<?php if ( ! $is_pro_active ) : ?>
-									<c-row>
-										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Hide cookie banner on specific pages', 'gdpr-cookie-consent' ); ?></label>
-											<div class="gdpr-pro-label absolute" style="top: -1.5px;" ><div class="gdpr-pro-label-text">Pro</div></div>
-										</c-col>
-										<c-col class="col-sm-8">
-										<v-select disabled id="gdpr-cookie-consent-hide-banner" :reduce="label => label.code" class="form-group" :options="list_of_pages" multiple></v-select>
-										<input type="hidden" name="gcc-selected-pages">
-										</c-col>
-									</c-row>
-								<?php endif ?>
-								<?php do_action( 'gdpr_hide_pages' ); ?>
+								<?php
+								$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+								if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+									if ( ! $is_pro_active ) :
+										?>
+										<c-row>
+											<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Hide cookie banner on specific pages', 'gdpr-cookie-consent' ); ?></label>
+												<div class="gdpr-pro-label absolute" style="top: -1.5px;" ><div class="gdpr-pro-label-text">Pro</div></div>
+											</c-col>
+											<c-col class="col-sm-8">
+											<v-select disabled id="gdpr-cookie-consent-hide-banner" :reduce="label => label.code" class="form-group" :options="list_of_pages" multiple></v-select>
+											<input type="hidden" name="gcc-selected-pages">
+											</c-col>
+										</c-row>
+									<?php endif ?>
+									<?php
+									do_action( 'gdpr_hide_pages' );
+								} else {
+									?>
+										<c-row>
+											<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Hide cookie banner on specific pages', 'gdpr-cookie-consent' ); ?></label>
+											</c-col>
+											<c-col class="col-sm-8">
+												<v-select id="gdpr-cookie-consent-hide-banner" placeholder="Select pages":reduce="label => label.code" class="form-group" :options="list_of_pages" multiple v-model="select_pages_array" @input="onPageSelect"></v-select>
+												<input type="hidden" name="gcc-selected-pages" v-model="select_pages">
+											</c-col>
+										</c-row>
+									<?php } ?>
 							</c-card-body>
 						</c-card>
 
@@ -805,11 +836,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<div style="display:flex" >
 
 									<label style="margin-bottom:0;cursor:pointer"><?php esc_attr_e( 'Import Settings', 'gdpr-cookie-consent' ); ?></label>
-									<?php if ( ! $is_pro_active ) : ?>
+									<?php
+									$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+									if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+										if ( ! $is_pro_active ) :
+											?>
 									<div class="gdpr-pro-label" style="margin-bottom:0;margin-top:3px;" >
 												<div class="gdpr-pro-label-text">Pro</div>
 											</div>
-											<?php endif; ?>
+												<?php endif; } ?>
 									</div  >
 										<div style="font-size: 10px;" v-if="selectedFile">{{ selectedFile.name }} <span style="color:#00CF21;font-weight:500;margin-left:5px" > Uploaded </span> <span style="color: #8996AD;text-decoration:underline;margin-left:5px;position:absolute" class="remove-button" @click="removeFile">Remove</span> </div>
 										<div style="font-size: 10px;" v-else>No File Chosen</div>
@@ -817,11 +852,19 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 	
 
 									<c-col class="col-sm-8 text-right" >
-										<label style="margin-bottom:0; font-size:0.875rem; <?php echo ! $is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff; '; ?> text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
-										<input style="display: none;" type="file" <?php echo $is_pro_active ? '' : 'disabled'; ?> @change="updateFileName" name="fileInput" accept=".json" id="fileInput">
-									<c-button variant="outline" color="info" class="disable-import-button"
-									@click="importsettings" id="importButton" disabled>
-										<?php esc_html_e( 'Import', 'gdpr-cookie-consent' ); ?>
+										<label style="margin-bottom:0; font-size:0.875rem; 
+										<?php
+										echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff;' ) : 'color:#3399ff;';
+										?>
+										text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
+										<input style="display: none;" type="file" 
+										<?php
+										echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? '' : 'disabled' ) : '';
+										?>
+										@change="updateFileName" name="fileInput" accept=".json" id="fileInput">
+										<c-button variant="outline" color="info" class="disable-import-button"
+										@click="importsettings" id="importButton" disabled>
+											<?php esc_html_e( 'Import', 'gdpr-cookie-consent' ); ?>
 									</c-button>
 									</c-col>
 
@@ -902,23 +945,62 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius" v-model="cookie_bar_border_radius"></c-input>
 									</c-col>
 								</c-row>
-								<?php if ( ! $is_pro_active ) : ?>
+								<?php
+								$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+								if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+									if ( ! $is_pro_active ) :
+										?>
+										<c-row>
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Font', 'gdpr-cookie-consent' ); ?></label>
+												<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
+											</c-col>
+											<c-col class="col-sm-8">
+												<v-select disabled class="form-group" id="gdpr-cookie-font" :reduce="label => label.code" :options="font_options" v-model="cookie_font">
+												</v-select>
+												<input type="hidden" name="gdpr-cookie-font" v-model="cookie_font">
+											</c-col>
+										</c-row>
+									<?php endif ?>
+									<?php
+									do_action( 'gdpr_cookie_font' );
+								} else {
+									?>
+										<c-row>
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Font', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<v-select class="form-group" id="gdpr-cookie-font" :reduce="label => label.code" :options="font_options" v-model="cookie_font">
+												</v-select>
+												<input type="hidden" name="gdpr-cookie-font" v-model="cookie_font">
+											</c-col>
+										</c-row>
+									<?php } ?>
+								<?php
+								$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+								if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+									if ( ! $is_pro_active ) {
+										?>
 									<c-row>
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Font', 'gdpr-cookie-consent' ); ?></label>
+										<c-col class="col-sm-4">
+											<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 											<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
 										</c-col>
-										<c-col class="col-sm-8">
-											<v-select disabled class="form-group" id="gdpr-cookie-font" :reduce="label => label.code" :options="font_options" v-model="cookie_font">
-											</v-select>
-											<input type="hidden" name="gdpr-cookie-font" v-model="cookie_font">
+										<c-col class="col-sm-8 ">
+											<c-button disabled color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
+												<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
+											</c-button>
+											<c-button disabled color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
+												<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
+											</c-button>
+											<p class="image-upload-notice" style="margin-left: 10px;">
+												<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
+											</p>
+											<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
 										</c-col>
 									</c-row>
-								<?php endif ?>
-								<?php do_action( 'gdpr_cookie_font' ); ?>
-								<?php
-								if ( $is_pro_active ) {
+										<?php
+									}
+								} else {
 									?>
-
 									<c-row>
 										<c-col class="col-sm-4">
 											<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
@@ -934,27 +1016,6 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 											$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 											?>
 											<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
-											<p class="image-upload-notice" style="margin-left: 10px;">
-												<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
-											</p>
-											<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
-										</c-col>
-									</c-row>
-									<?php
-								} else {
-									?>
-									<c-row>
-										<c-col class="col-sm-4">
-											<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-											<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
-										</c-col>
-										<c-col class="col-sm-8 ">
-											<c-button disabled color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
-												<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
-											</c-button>
-											<c-button disabled color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
-												<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
-											</c-button>
 											<p class="image-upload-notice" style="margin-left: 10px;">
 												<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 											</p>
@@ -1819,9 +1880,12 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 						<!-- add custom css card  -->
 						<?php
+						$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+						if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
 						if ( $is_pro_active ) {
 							do_action( 'gdpr_custom_css' );
-						} else {
+						} 
+					else {
 							?>
 										<c-card >
 										<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
@@ -1831,7 +1895,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-card-header>
 										<c-card-body>
 											<c-col class="col-sm-12">
-												<aceeditor
+												<aceeditor 
 													id = "aceEditorFree"
 													v-model="gdpr_css_text_free"
 													@init="editorInit"
@@ -1856,6 +1920,38 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-card>
 								<?php
 						}
+					}else{ ?>
+						<c-card >
+			<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></c-card-header>
+			<c-card-body>
+				<c-col class="col-sm-12">
+					<aceeditor
+						id = "aceEditor"
+						name="gdpr_css_text_field"
+						v-model="gdpr_css_text"
+						@init="editorInit"
+						lang="css"
+						theme="monokai"
+						width="100%"
+						height="300px"
+						:options="{
+							enableBasicAutocompletion: true,
+							enableLiveAutocompletion: true,
+							fontSize: 14,
+							highlightActiveLine: true,
+							enableSnippets: true,
+							showLineNumbers: true,
+							tabSize: 2,
+							showPrintMargin: false,
+							showGutter: true,
+						}"
+					/>
+
+				</c-col>
+
+			</c-card-body>
+		</c-card>
+				<?php	}
 						?>
 					</c-tab>
 					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list">

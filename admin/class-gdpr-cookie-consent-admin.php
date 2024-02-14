@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl','gr' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr' );
 
 	/**
 	 * The version of this plugin.
@@ -284,7 +284,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 			$policy_data = new GDPR_Policy_Data_Table();
 			$policy_data->prepare_items();
-			?>
+		?>
 			<div class="wpl-consentlogs">
 				<h1 class="wp-heading-inline"><?php _e( 'Policy Data', 'gdpr-cookie-consent' ); ?>
 
@@ -299,12 +299,12 @@ class Gdpr_Cookie_Consent_Admin {
 			</div>
 				<?php
 
-			$content = ob_get_clean();
-			$args    = array(
-				'page'    => 'policy-data-tab',
-				'content' => $content,
-			);
-			echo $this->wpl_get_template( 'gdpr-policy-data-tab-template.php', $args );
+				$content = ob_get_clean();
+				$args    = array(
+					'page'    => 'policy-data-tab',
+					'content' => $content,
+				);
+				echo $this->wpl_get_template( 'gdpr-policy-data-tab-template.php', $args );
 	}
 
 	/**
@@ -351,7 +351,7 @@ class Gdpr_Cookie_Consent_Admin {
 			&& isset( $_GET['id'] )
 		) {
 
-			wp_delete_post($_GET['id'], true);
+			wp_delete_post( $_GET['id'], true );
 			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
 			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' . $paged ) );
 		}
@@ -770,9 +770,9 @@ class Gdpr_Cookie_Consent_Admin {
 			'code'  => 'sl',
 		);
 		$show_language_as_options[11] = array(
-			'label'=> 'Greek',
-			'code'=> 'gr',
-			);
+			'label' => 'Greek',
+			'code'  => 'gr',
+		);
 
 		// dropdown option for schedule scan.
 		$schedule_scan_options    = array();
@@ -857,24 +857,23 @@ class Gdpr_Cookie_Consent_Admin {
 			++$indx;
 		}
 		// sites for consent forward.
-		if(is_multisite()){
+		if ( is_multisite() ) {
 
-		
-	$list_of_sites   = array();
-	$sites_list      = get_sites();
-	$idx             = 0;
-	$current_site_id = get_current_blog_id();
-	foreach ( $sites_list as $site ) {
-		if ( $site->blog_id != $current_site_id ) {
-			$site_details = get_blog_details( $site->blog_id );
-			$list_of_sites[ $idx ] = array(
-				'label' => $site_details->blogname,
-				'code'  => (int) $site_details->blog_id,
-			);
-			++$idx;
+			$list_of_sites   = array();
+			$sites_list      = get_sites();
+			$idx             = 0;
+			$current_site_id = get_current_blog_id();
+			foreach ( $sites_list as $site ) {
+				if ( $site->blog_id != $current_site_id ) {
+					$site_details          = get_blog_details( $site->blog_id );
+					$list_of_sites[ $idx ] = array(
+						'label' => $site_details->blogname,
+						'code'  => (int) $site_details->blog_id,
+					);
+					++$idx;
+				}
+			}
 		}
-	}
-	}
 		$show_as_options      = array();
 		$show_as_options[0]   = array(
 			'label' => 'Button',
@@ -903,8 +902,13 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => $border_styles[ $styles_keys[ $i ] ],
 			);
 		}
-		$cookie_font  = array();
-		$cookie_font  = apply_filters( 'gcc_font_options', $cookie_font );
+		$cookie_font    = array();
+		$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+		if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+			$cookie_font = apply_filters( 'gcc_font_options', $cookie_font );
+		} else {
+			$cookie_font = self::get_fonts();
+		}
 		$font_length  = count( $cookie_font );
 		$font_keys    = array_keys( $cookie_font );
 		$font_options = array();
@@ -1056,7 +1060,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'list_of_pages'                    => $list_of_pages,
 				// for sites.
 				'list_of_sites'                    => is_multisite() ? $list_of_sites : null,
-    )
+			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
 		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-admin-settings.php';
@@ -1228,6 +1232,31 @@ class Gdpr_Cookie_Consent_Admin {
 		return $options;
 	}
 
+	/**
+	 * Function returns list of supported fonts, used when printing admin form.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 * @phpcs:enable
+	 */
+	public function get_fonts() {
+		$fonts = array(
+			__( 'Default theme font', 'gdpr-cookie-consent' ) => 'inherit',
+			'Sans Serif'      => 'Helvetica, Arial, sans-serif',
+			'Serif'           => 'Georgia, Times New Roman, Times, serif',
+			'Arial'           => 'Arial, Helvetica, sans-serif',
+			'Arial Black'     => 'Arial Black,Gadget,sans-serif',
+			'Georgia'         => 'Georgia, serif',
+			'Helvetica'       => 'Helvetica, sans-serif',
+			'Lucida'          => 'Lucida Sans Unicode, Lucida Grande, sans-serif',
+			'Tahoma'          => 'Tahoma, Geneva, sans-serif',
+			'Times New Roman' => 'Times New Roman, Times, serif',
+			'Trebuchet'       => 'Trebuchet MS, sans-serif',
+			'Verdana'         => 'Verdana, Geneva',
+		);
+		$fonts = apply_filters( 'gdprcookieconsent_fonts', $fonts );
+		return $fonts;
+	}
 	/**
 	 * Returns button sizes, used when printing admin form.
 	 *
@@ -1555,6 +1584,7 @@ class Gdpr_Cookie_Consent_Admin {
 				return;
 			}
 			$the_options                  = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$plugin_version               = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
 			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
 			// consent renewed.
 			$the_options['consent_renew_enable'] = isset( $_POST['gcc-consent-renew-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-consent-renew-enable'] ) ) : 'false';
@@ -1851,14 +1881,25 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( $the_options['data_req_editor_message'] == '' ) {
 				$the_options['data_req_editor_message'] = '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;';
 			}
-
+			// pro features to free.
+			if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+				// hide banner
+				$selected_pages = array();
+				$selected_pages = isset( $_POST['gcc-selected-pages'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-pages'] ) ) ) : '';
+				// storing id of pages in database.
+				$the_options['select_pages'] = $selected_pages;
+			}
 			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
 				$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 				$restricted_posts = array();
 				$restricted_posts = isset( $_POST['gcc-restrict-posts'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-restrict-posts'] ) ) ) : '';
-				// hide banner
-				$selected_pages = array();
-				$selected_pages = isset( $_POST['gcc-selected-pages'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-pages'] ) ) ) : '';
+				if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+					// hide banner
+					$selected_pages = array();
+					$selected_pages = isset( $_POST['gcc-selected-pages'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-pages'] ) ) ) : '';
+					// storing id of pages in database.
+					$the_options['select_pages'] = $selected_pages;
+				}
 				// consent forward .
 				$selected_sites                      = array();
 				$selected_sites                      = isset( $_POST['gcc-selected-sites'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-sites'] ) ) ) : '';
@@ -1874,8 +1915,6 @@ class Gdpr_Cookie_Consent_Admin {
 				// consent forward .
 				$the_options['consent_forward'] = isset( $_POST['gcc-consent-forward'] ) && ( true === $_POST['gcc-consent-forward'] || 'true' === $_POST['gcc-consent-forward'] ) ? 'true' : 'false';
 				$the_options['select_sites']    = $selected_sites;
-				// storing id of pages in database.
-				$the_options['select_pages'] = $selected_pages;
 				if ( isset( $the_options['cookie_usage_for'] ) ) {
 					switch ( $the_options['cookie_usage_for'] ) {
 						case 'both':
@@ -2188,8 +2227,8 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 				}
 
-				$option_name = 'wpl_consent_timestamp';
-				$timestamp_value             = time();
+				$option_name     = 'wpl_consent_timestamp';
+				$timestamp_value = time();
 
 				// Check if the option already exists.
 				if ( false === get_option( $option_name ) ) {
@@ -2395,9 +2434,9 @@ class Gdpr_Cookie_Consent_Admin {
 			'code'  => 'sl',
 		);
 		$show_language_as_options[11] = array(
-			'label'=> 'Greek',
-			'code'=> 'gr',
-			);
+			'label' => 'Greek',
+			'code'  => 'gr',
+		);
 		// dropdown option for schedule scan.
 		$schedule_scan_options    = array();
 		$schedule_scan_options[0] = array(
@@ -2507,8 +2546,13 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => $border_styles[ $styles_keys[ $i ] ],
 			);
 		}
-		$cookie_font  = array();
-		$cookie_font  = apply_filters( 'gcc_font_options', $cookie_font );
+		$cookie_font    = array();
+		$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+		if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+			$cookie_font = apply_filters( 'gcc_font_options', $cookie_font );
+		} else {
+			$cookie_font = self::get_fonts();
+		}
 		$font_length  = count( $cookie_font );
 		$font_keys    = array_keys( $cookie_font );
 		$font_options = array();
@@ -2695,7 +2739,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 		// find out if data reqs is on.
-		$data_reqs_on = $the_options['data_reqs_on'];
+		$data_reqs_on = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
 
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script(
