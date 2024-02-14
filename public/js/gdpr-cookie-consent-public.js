@@ -814,7 +814,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			}
 
 			if (template.includes( 'square' )) {
-				this.settings_button.css( 'width', '42%' );
+				this.settings_button.css( 'width', '40%' );
 				this.settings_button.css( 'float', 'right' );
 			} else if (template.includes( 'row' ) || template.includes( 'column' )) {
 
@@ -962,7 +962,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			}
 
 			if (template.includes( 'square' )) {
-				this.reject_button.css( 'width', '42%' );
+				this.reject_button.css( 'width', '40%' );
 			} else if (template.includes( 'dark' ) && this.settings.cookie_bar_as == 'banner') {
 				this.reject_button.css( 'float', 'right' );
 			}
