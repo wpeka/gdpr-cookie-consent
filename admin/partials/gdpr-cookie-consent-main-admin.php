@@ -91,6 +91,12 @@ $is_data_req_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_r
 					<p class="gdpr-cookie-consent-admin-tab-name">Cookie&nbsp;Settings</p>
 				</div>
 				<?php
+				if ( !$pro_is_activated )  ?>
+				<!-- consent log tab  -->
+						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
+							<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
+						</div>
+				<?php
 
 				if ( $pro_is_activated ) {
 

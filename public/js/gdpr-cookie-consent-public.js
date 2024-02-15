@@ -1309,7 +1309,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			return false;
 		},
 		logConsent:function(btn_action) {
-			if (!consent_forwarding  && this.settings.logging_on && this.settings.pro_active) {
+			if (!consent_forwarding  && this.settings.logging_on ) {
 				jQuery.ajax(
 					{
 						url: log_obj.ajax_url,

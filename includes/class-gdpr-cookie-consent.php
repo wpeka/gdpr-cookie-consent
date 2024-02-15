@@ -135,6 +135,7 @@ class Gdpr_Cookie_Consent {
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
 		if ( !$wpl_pro_active ){
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
 		}
 		$this->loader = new Gdpr_Cookie_Consent_Loader();
 	}

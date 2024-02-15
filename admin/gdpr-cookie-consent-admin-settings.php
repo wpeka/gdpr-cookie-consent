@@ -498,18 +498,16 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<?php if ( ! $is_pro_active ) : ?>
 
 									<c-row>
-										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to log user’s consent.', 'gdpr-cookie-consent' ); ?>"></tooltip>
-
-											</label>
-											<div class="gdpr-pro-label absolute" style="right: 20px;"><div class="gdpr-pro-label-text">Pro</div></div>
-										</c-col>
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to log user’s consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 										<c-col class="col-sm-8">
-											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" id="gdpr-cookie-consent-logging-on" variant="3d" color="success" :checked="logging_on"></c-switch>
+											<c-switch v-bind="labelIcon" v-model="logging_on" id="gdpr-cookie-consent-logging-on" variant="3d"  color="success" :checked="logging_on" v-on:update:checked="onSwitchLoggingOn"></c-switch>
 											<input type="hidden" name="gcc-logging-on" v-model="logging_on">
 										</c-col>
 									</c-row>
 								<?php endif; ?>
+								<?php if (  $is_pro_active ) : ?>
 								<?php do_action( 'gdpr_consent_settings_pro_top' ); ?>
+								<?php endif; ?>
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Autotick for Non-Necessary Cookies ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Pre-select non-necessary cookie checkboxes.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">

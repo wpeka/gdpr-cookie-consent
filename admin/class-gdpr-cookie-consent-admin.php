@@ -86,6 +86,9 @@ class Gdpr_Cookie_Consent_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
+		if( ! get_option( 'wpl_pro_active' ) ) {
+			add_action( 'add_consent_log_content', array( $this, 'wpl_consent_log_overview' ) );
+		}
 	}
 
 	/**
@@ -138,6 +141,76 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name . '-dashboard', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-dashboard.js', array( 'jquery' ), $this->version, false );
 	}
 
+
+	/**
+	 * Consent Log overview
+	 *
+	 * @return void
+	 */
+	public function wpl_consent_log_overview() {
+		ob_start();
+		include GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-consent-logs.php';
+		// Style for consent log report.
+		wp_register_style( 'wplcookieconsent_data_reqs_style', plugin_dir_url( __FILE__ ) . 'data-req/data-request-style' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
+		wp_enqueue_style( 'wplcookieconsent_data_reqs_style' );
+
+		$consent_logs = new WPL_Consent_Logs_Table();
+		$consent_logs->prepare_items();
+		?>
+		<div class="wpl-consentlogs">
+			<h1 class="wp-heading-inline"><?php _e( 'Consent Logs', 'gdpr-cookie-consent' ); ?>
+
+			</h1>
+			<form id="wpl-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ); ?>">
+			<?php
+				$consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
+				$consent_logs->display();
+			?>
+				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
+			</form>
+		</div>
+			<?php
+
+			$content = ob_get_clean();
+			$args    = array(
+				'page'    => 'do-not-sell-my-personal-information',
+				'content' => $content,
+			);
+			echo $this->wpl_get_consent_template( 'gdpr-consent-logs-tab-template.php', $args );
+	}
+
+	/**
+	 * Get a template based on filename, overridable in theme dir
+	 *
+	 * @param string $filename
+	 * @param array  $args
+	 * @param string $path
+	 * @return string
+	 */
+	public function wpl_get_consent_template( $filename, $args = array(), $path = false ) {
+
+		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-consent-logs-tab-template.php';
+
+		if ( ! file_exists( $file ) ) {
+			return false;
+		}
+
+		if ( strpos( $file, '.php' ) !== false ) {
+			ob_start();
+			require $file;
+			$contents = ob_get_clean();
+		} else {
+			$contents = file_get_contents( $file );
+		}
+
+		if ( ! empty( $args ) && is_array( $args ) ) {
+			foreach ( $args as $fieldname => $value ) {
+				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
+			}
+		}
+
+		return $contents;
+	}
 	/**
 	 * Register admin modules
 	 *
@@ -3387,6 +3460,7 @@ class Gdpr_Cookie_Consent_Admin {
 			{
 				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
 				$the_options['enable_safe']          = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
+				$the_options['logging_on'] = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 			}
 			if( !get_option( 'wpl_pro_active' )){
 
@@ -4269,8 +4343,9 @@ class Gdpr_Cookie_Consent_Admin {
 			{
 				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
 				$the_options['enable_safe']          = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
+				$the_options['logging_on']           = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 			}
-			if( get_option( 'wpl_pro_active' ) ){
+			if( !get_option( 'wpl_pro_active' ) ){
 
 				$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 				$the_options['banner_template'] = isset( $_POST['gdpr-banner-template'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-banner-template'] ) ) : 'banner-default';
