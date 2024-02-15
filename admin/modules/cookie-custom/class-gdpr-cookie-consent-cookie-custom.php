@@ -49,6 +49,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	/**
 	 * Gdpr_Cookie_Consent_Cookie_Custom constructor.
 	 */
+	public $status_labels;
 	public function __construct() {
 		// Creating necessary tables for cookie custom.
 		register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'gdpr_activator' ) );

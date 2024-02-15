@@ -12,8 +12,8 @@
  */
 
 $pro_is_activated = get_option( 'wpl_pro_active', false );
-$the_options                  = Gdpr_Cookie_Consent::gdpr_get_settings();
-$is_data_req_on = $the_options['data_reqs_on'];
+$the_options      = Gdpr_Cookie_Consent::gdpr_get_settings();
+$is_data_req_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
 
 
 ?>
@@ -64,14 +64,14 @@ $is_data_req_on = $the_options['data_reqs_on'];
 
 		if ( ! $pro_is_activated ) {
 
-		?>
+			?>
 			<div class="gdpr-cookie-consent-admin-promotional-banner">
 				<a href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=sub_menu&utm_campaign=upgrade-to-pro" target="_blank">
 				<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_upgrade_to_pro.png'; ?>" alt="WP Cookie Consent Promotional Banner"></a>
 			</div>
-		<?php
+			<?php
 
-		};
+		}
 
 
 		?>
@@ -92,17 +92,17 @@ $is_data_req_on = $the_options['data_reqs_on'];
 				</div>
 				<?php
 
-					if ( $pro_is_activated ) {
+				if ( $pro_is_activated ) {
 
-						?>
+					?>
 							<!-- consent log tab  -->
 							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
 								<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
 							</div>
 
-							<?php
+						<?php
 
-							if ( $is_data_req_on ) {
+						if ( $is_data_req_on ) {
 
 							?>
 							<!-- data req tab  -->
@@ -112,15 +112,15 @@ $is_data_req_on = $the_options['data_reqs_on'];
 
 							<?php
 
-							}
-							?>
+						}
+						?>
 							<!-- integration tab  -->
 							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-integrations-data-tab" data-tab="integrations">
 							<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>
 							</div>
 						<?php
 
-					};
+				}
 
 
 				?>
@@ -155,7 +155,7 @@ $is_data_req_on = $the_options['data_reqs_on'];
 				</div>
 				<!-- policy data content  -->
 				<div class="gdpr-cookie-consent-admin-policy-data-content gdpr-cookie-consent-admin-tab-content" id="policy_data">
-					<?php do_action('add_policy_data_content') ?>
+					<?php do_action( 'add_policy_data_content' ); ?>
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-policy-data-tab-template.php'; ?>
 				</div>
 				<!-- integration data content  -->
@@ -164,12 +164,12 @@ $is_data_req_on = $the_options['data_reqs_on'];
 				</div>
 				<!-- consent log data content  -->
 				<div class="gdpr-cookie-consent-admin-consent-logs-data-content gdpr-cookie-consent-admin-tab-content" id="consent_logs">
-				<?php do_action('add_consent_log_content') ?>
+				<?php do_action( 'add_consent_log_content' ); ?>
 				<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-consent-logs-tab-template.php'; ?>
 				</div>
 				<!-- data req data content  -->
 				<div class="gdpr-cookie-consent-admin-data-request-data-content gdpr-cookie-consent-admin-tab-content" id="data_request">
-					<?php do_action('add_data_request_content') ?>
+					<?php do_action( 'add_data_request_content' ); ?>
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-data-request-tab-template.php'; ?>
 				</div>
 				<!-- legal pages  -->

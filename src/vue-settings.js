@@ -311,9 +311,13 @@ var gen = new Vue({
             select_sites: settings_obj.the_options.hasOwnProperty('select_sites') ? settings_obj.the_options['select_sites'] : [],
             select_sites_array:[],
             list_of_sites: settings_obj.list_of_sites,
+            pluginVersion: typeof GDPR_COOKIE_CONSENT_VERSION !== 'undefined' ? GDPR_COOKIE_CONSENT_VERSION : '',
         }
     },
     methods: {
+        isPluginVersionLessOrEqual(version) {
+            return this.pluginVersion && this.pluginVersion <= version;
+          },
         stripSlashes( value ) {
             return value.replace(/\\(.)/mg, "$1");
         },
@@ -479,25 +483,23 @@ var gen = new Vue({
             this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
             this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
 
-			//set the disableSwitch value is pro is active/inactive
-			if( '1' === settings_obj.is_pro_active ) {
-				this.disableSwitch = false;
-			}else{
-				this.disableSwitch = true;
-				this.logging_on = false; //make enable consent switch turn off if pro is not active
-				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
-			}
+			
+            this.disableSwitch = false;
+            this.logging_on = false; 
+				
             // multiple entries for hide banner.
             for(let i=0; i<this.list_of_pages.length; i++) {
                 if( this.select_pages.includes(this.list_of_pages[i].code.toString()) ) {
                     this.select_pages_array.push(this.list_of_pages [i])
                 }
             }
+            if(this.list_of_sites && this.list_of_sites.length){
             // multiple entries for the consent forward .
             for(let i=0; i<this.list_of_sites.length; i++) {
                 if( this.select_sites.includes(this.list_of_sites[i].code.toString()) ) {
                     this.select_sites_array.push(this.list_of_sites[i])
                 }
+            }
             }
         },
         editorInit: function () {
@@ -2329,15 +2331,15 @@ var gen = new Vue({
             this.setScanListValues();
         }
 		//Make AceEditor ReadOnly for the Free
+        if (this.isPluginVersionLessOrEqual('2.5.2')) {
+            if ( ! this.isGdprProActive ) {
 
-		if ( ! this.isGdprProActive ) {
-
-			var editor = ace.edit("aceEditorFree");
-			editor.setValue(this.gdpr_css_text_free);
-			editor.setReadOnly(true);
-		}
-
-		// Add a new input field for whitelist
+                var editor = ace.edit("aceEditorFree");
+                editor.setValue(this.gdpr_css_text_free);
+                editor.setReadOnly(true);
+            }
+          }
+	    // Add a new input field for whitelist
 		jQuery(document).on("click", '.wpl_add_url', function(){
 		let container_div = jQuery(this).closest('div');
 		let templ = jQuery('.wpl-url-template').get(0).innerHTML;
@@ -2879,14 +2881,10 @@ var gen = new Vue({
             this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
             this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
 
-			//set the disableSwitch value is pro is active/inactive
-			if( '1' === settings_obj.is_pro_active ) {
-				this.disableSwitch = false;
-			}else{
-				this.disableSwitch = true;
-				this.logging_on = false; //make enable consent switch turn off if pro is not active
-				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
-			}
+			
+            this.disableSwitch = false;
+            this.logging_on = false; 
+				
             // multiple entries for hide banner.
             for(let i=0; i<this.list_of_pages.length; i++) {
                 if( this.select_pages.includes(this.list_of_pages[i].code.toString()) ) {
