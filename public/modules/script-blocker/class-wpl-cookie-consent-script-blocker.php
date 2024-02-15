@@ -821,7 +821,10 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	 */
 	public function get_categories() {
 		global $wpdb;
-		$data_arr = $wpdb->get_results( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories' );  // db call ok; no-cache ok.
+		$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
+		if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name){
+		$data_arr = $wpdb->get_results( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories' ); 
+		} // db call ok; no-cache ok.
 		return $data_arr;
 	}
 
@@ -835,9 +838,13 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	public function get_category_by_id( $id = '' ) {
 		global $wpdb;
 		$data_arr = array();
+		$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
+		if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name){
 		if ( isset( $id ) && ! empty( $id ) ) {
 			$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories WHERE id_gdpr_cookie_category = %d', array( $id ) ) );  // db call ok; no-cache ok.
 		}
+
+	}
 		return $data_arr;
 	}
 
@@ -851,9 +858,12 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	public function get_category_by_slug( $slug = '' ) {
 		global $wpdb;
 		$data_arr = array();
+		$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
+		if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name){
 		if ( isset( $slug ) && ! empty( $slug ) ) {
 			$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories WHERE gdpr_cookie_category_slug = %s', array( $slug ) ) );  // db call ok; no-cache ok.
 		}
+	}
 		return $data_arr;
 	}
 
