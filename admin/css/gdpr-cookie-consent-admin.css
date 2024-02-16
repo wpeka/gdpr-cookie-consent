@@ -302,7 +302,7 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
 }
 
 .disable-import-button{
-	color:#D8DBE0 !important; 
+	color:#D8DBE0 !important;
 	border: 1px solid #D8DBE0 !important;
 }
 
@@ -3353,6 +3353,220 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     font-size: 11px;
     padding: 5px;
     text-align: center;
-    line-height: 18px;	
+    line-height: 18px;
 	display: none;
+}
+
+/* Connect to API  Framework Banner Style */
+
+.gdpr-cookie-consent-connect-api-container{
+	background: #EDF6FB;
+	margin: 20px;
+}
+.gdpr-api-info-content {
+    display: flex;
+	padding: 60px;
+}
+
+.gdpr-api-detailed-info {
+    flex: 75%;
+}
+.gdpr-api-detailed-info p span img{
+	height: 25px;
+	width: 25px;
+	margin-bottom: 5px;
+}
+.gdpr-api-connection-btns {
+    flex: 25%;
+	display: flex;
+    flex-direction: column;
+    margin: auto;
+	padding-left: 90px;
+}
+
+.gdpr-api-info-content .gdpr-api-detailed-info h2{
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+	padding-bottom: 15px;
+}
+.gdpr-api-info-content .gdpr-api-detailed-info p{
+	font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #52525B;
+}
+.gdpr-api-info-content .gdpr-api-detailed-info p.italic{
+	font-style: italic;
+}
+
+.gdpr-api-info-content .gdpr-api-connection-btns .rst-start-auth{
+	width: 215px;
+    height: 45px;
+    border-radius: 4px;
+    padding: 12px 16px 12px 16px;
+	margin-bottom: 20px;
+    background: #0059B3;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #fff;
+    border: none;
+}
+
+.gdpr-api-info-content .gdpr-api-connection-btns .api-connect-to-account-btn{
+	width: 215px;
+    height: 45px;
+    border-radius: 4px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+    background: #EDF6FB;
+    color: #2A4A7E;
+    border: 1px solid #7195D0;
+}
+
+/* API DISCONNECT  */
+
+.gdpr-cookie-consent-disconnect-api-container{
+	background: #EDF6FB;
+	margin: 20px;
+}
+
+.gdpr-api-disconnect-content{
+	padding: 30px;
+}
+.gdpr-api-disconnect-content .api-connection-disconnect-btn{
+	width: 215px;
+    height: 45px;
+    border-radius: 4px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+    background: #EDF6FB;
+    color: #EB4143;
+    border: 1px solid #EB4143;
+	margin-top: 20px;
+}
+.gdpr-api-disconnect-content .gdpr-api-disconnect-text h2{
+	font-family: Roboto;
+    font-size: 25px;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.gdpr-api-disconnect-content p{
+	font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #52525B;
+	margin-top: 15px;
+}
+.gdpr-api-disconnect-content .gdpr-api-disconnect-text{
+	display: flex;
+}
+.gdpr-api-disconnect-content .gdpr-api-disconnect-text img{
+	height: 25px;
+	width: 25px;
+	margin-right: 10px;
+
+}
+
+/* spinner for ajax calls */
+.gdpr-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #333;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    z-index: 9999; /* Ensure the spinner is above other elements */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* successfull connection  */
+
+.gdpr_app-connect-success{
+	width: calc(100% - 160px);
+    height: calc(100vh - 32px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 32px;
+    left: 160px;
+    z-index: 999;
+}
+.gdpr_app-connect-success-container{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.gdpr_app-connect-success .gdpr_app-connect-success-icon {
+    background-image: url(../images/connect-success.svg);
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.gdpr_app-connect-success .gdpr_app-connect-success-message {
+    margin-top: 34px;
+    margin-bottom: 34px;
+    text-align: center;
+}
+.gdpr_app-connect-success-message h2 {
+	margin-top: 0;
+	margin-bottom: 22px;
+    font-size: 22px;
+    line-height: 20px;
+	color: #3F3F46;
+}
+.gdpr_app-connect-success-message p {
+    font-weight: 400;
+    font-size: 16px;
+	color: #52525B;
+    margin: 0;
+	line-height: 24px;
+}
+.gdpr_app-connect-success-actions button {
+	padding: 12px;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 20px;
+	color: #FFF;
+	background-color: #0059B3;
+	width: 215px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
 }

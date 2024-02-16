@@ -136,7 +136,22 @@ class Gdpr_Cookie_Consent {
 		if ( !$wpl_pro_active ){
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
 		}
+
+		/**
+		 * The class responsible for defining App Authentication functionality
+		 * of the plugin.
+		 */
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-app-auth.php';
+
+		$this->library_auth      = new GDPR_Cookie_Consent_App_Auth();
+
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-api.php';
+
+		$this->respadons_api      = new GDPR_Cookie_Consent_Api();
+
+
 		$this->loader = new Gdpr_Cookie_Consent_Loader();
+
 	}
 
 	/**
