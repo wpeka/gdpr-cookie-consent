@@ -148,7 +148,7 @@ class GDPR_Cookie_Consent_App_Auth {
 		}
 
 		// Update option with auth data.
-		update_option( 'reads_app_settings', $data );
+		update_option( 'gdpr_api_framework_app_settings', $data );
 
 		$this->auth_data = $data;
 
@@ -245,7 +245,7 @@ class GDPR_Cookie_Consent_App_Auth {
 	 */
 	public function get_auth_data() {
 		if ( ! isset( $this->auth_data ) ) {
-		$this->auth_data = get_option( 'reads_app_settings', false );
+		$this->auth_data = get_option( 'gdpr_api_framework_app_settings', false );
 		}
 		return $this->auth_data;
 	}

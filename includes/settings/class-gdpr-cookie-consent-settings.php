@@ -86,7 +86,7 @@ class GDPR_Cookie_Consent_Settings {
 	 * @return array
 	 */
 	public function get( $group = '', $key = '' ) {
-		$settings = get_option( 'reads_app_settings', $this->data );
+		$settings = get_option( 'gdpr_api_framework_app_settings', $this->data );
 
 		if ( empty( $key ) && empty( $group ) ) {
 			return $settings;
@@ -107,13 +107,13 @@ class GDPR_Cookie_Consent_Settings {
 	 */
 	public function update( $data ) {
 
-		$settings = get_option( 'reads_app_settings', $this->data );
+		$settings = get_option( 'gdpr_api_framework_app_settings', $this->data );
 		if ( empty( $settings ) ) {
 			$settings = $this->data;
 		}
 		$settings = $data;
 
-		update_option( 'reads_app_settings', $settings );
+		update_option( 'gdpr_api_framework_app_settings', $settings );
 	}
 
 	// Getter Functions.
