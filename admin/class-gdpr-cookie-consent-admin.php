@@ -5280,6 +5280,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'is_pro_activated' => $pro_is_activated,
 				'is_data_req_on'   => $data_reqs_on,
 				'gdpr_app_url'	   => GDPR_APP_URL,
+				'_ajax_nonce' 	   => wp_create_nonce( 'gdpr-cookie-consent' )
 			)
 		);
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-admin.php';
