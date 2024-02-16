@@ -46,6 +46,12 @@ define( 'GDPR_URL', plugins_url( '/', __FILE__ ) );
 if ( ! defined( 'GDPR_CC_SUFFIX' ) ) {
 	define( 'GDPR_CC_SUFFIX', ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min' );
 }
+/**
+ * Check if the constant GDPR_APP_URL is not already defined.
+*/
+if ( ! defined( 'GDPR_APP_URL' ) ) {
+	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com' );
+}
 
 
 /**
