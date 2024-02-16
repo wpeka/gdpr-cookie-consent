@@ -4,7 +4,7 @@ jQuery(document).ready(function () {
     // localised variable
     const isProActivated = gdpr_localize_data.is_pro_activated;
     const adminUrl = gdpr_localize_data.admin_url;
-
+	const ajaxurl = gdpr_localize_data.ajaxurl;
     if (isProActivated) {
         jQuery('.gdpr-cookie-consent-admin-tabs-section').addClass('pro-is-activated');
         jQuery('.gdpr-cookie-consent-admin-tab').addClass('pro-is-activated');
@@ -204,6 +204,224 @@ jQuery(document).ready(function () {
 		href += '#policy_data';
 		jQuery(this).attr('href', href);
 	});
+
+	/**
+	 * Javascript functionality for SaaS API Framework.
+	*/
+
+	/**
+	 * Add an event listener to listen for messages sent from the server.
+	*/
+	window.addEventListener("message", function(event) {
+		//event is originated on server
+		if ( event.isTrusted && event.origin === gdpr_localize_data.gdpr_app_url ) {
+			storeAuth(event.data)
+		}
+	});
+
+	/**
+	 * start authentication process
+	*/
+
+	/**
+	 * clicked on new account.
+	*/
+	jQuery('.rst-start-auth').on('click', startAuth );
+
+	/**
+	 * Clicked on connect to exiting account.
+	*/
+	jQuery('.api-connect-to-account-btn').on('click', startAuth );
+
+	/**
+	 * Function to Start the Authentication Process.
+	 *
+	 * @param {*} event
+	 */
+	function startAuth(event) {
+
+		// Prevent the default action of the event.
+		event.preventDefault();
+
+		// Create spinner element
+		var spinner = jQuery('<div class="gdpr-spinner"></div>');
+
+		// Append spinner to .gdpr-cookie-consent-connect-api-container div.
+
+		var container = jQuery('.gdpr-cookie-consent-connect-api-container');
+		container.css('position', 'relative'); // Ensure container has relative positioning.
+		container.append(spinner);
+
+		// Make an AJAX request.
+		jQuery.ajax(
+			{
+				url  : gdpr_localize_data.ajaxurl,
+				type : 'POST',
+				data : {
+					action      : 'gdpr_cookie_consent_app_start_auth',
+					_ajax_nonce : gdpr_localize_data._ajax_nonce,
+				},
+				beforeSend: function() {
+					// Show spinner before AJAX call starts
+					spinner.show();
+				},
+				complete: function() {
+					// Hide spinner after AJAX call completes
+					spinner.hide();
+				}
+			}
+		)
+		.done(
+			function ( response ) {
+
+				// Get the width and height of the viewport.
+				var viewportWidth = window.innerWidth;
+				var viewportHeight = window.innerHeight;
+
+				// Set the dimensions of the popup.
+				var popupWidth = 367;
+				var popupHeight = 650;
+
+				// Calculate the position to center the popup.
+				var leftPosition = (viewportWidth - popupWidth) / 2;
+				var topPosition = (viewportHeight - popupHeight) / 2;
+
+				// Open the popup window at the calculated position.
+				var e = window.open(
+				response.data.url,
+				"_blank",
+				"location=no,width=" + popupWidth + ",height=" + popupHeight + ",left=" + leftPosition + ",top=" + topPosition + ",scrollbars=0"
+				);
+
+				if (null === e) {
+					console.log('Failed to open the authentication window');
+				} else {
+					e.focus();// Focus on the popup window.
+				}
+
+			}
+		);
+
+
+	}
+
+	/**
+	 * Store the Authentication Data
+	 * @param {*} data
+	*/
+	function storeAuth(data) {
+
+		// Create spinner element
+		var spinner = jQuery('<div class="gdpr-spinner"></div>');
+   		jQuery('#wpbody-content').append(spinner);
+
+		//Make Ajax Call
+		jQuery.ajax({
+			type: 'POST',
+			url: gdpr_localize_data.ajaxurl,
+			data: {
+				action: 'gdpr_cookie_consent_app_store_auth',
+				_ajax_nonce : gdpr_localize_data._ajax_nonce,
+				response: data.response,
+				origin: data.origin,
+
+			},
+			success: function(response) {
+
+				// Hide the spinner after the success HTML is loaded
+				spinner.hide();
+
+				// Html content to display sucsess screen after successfull connection.
+				var successHtml = '<div id="gdpr_app-connect-success" class="gdpr_app-connect-success">' +
+				'<div class="gdpr_app-connect-success-container">' +
+				'<div class="gdpr_app-connect-success-icon"></div>' +
+				'<div class="gdpr_app-connect-success-message">' +
+				'<h2>Your website is connected to WP Cookie Consent</h2>' +
+				'<p>You can now continue to manage all your existing settings and access all WP Cookie Consent features from your web app account.</p>' +
+				'</div>' +
+				'<div class="gdpr_app-connect-success-actions">' +
+				'<button id="gdpr_app-connect-success-action" class="rst-button rst-button-medium rst-external-link">Go to the plugin</button>' +
+				'</div>' +
+				'</div>' +
+				'</div>';
+
+				jQuery('#wpbody-content').html(successHtml);
+
+				//reload the window when button is clicked.
+				jQuery('#gdpr_app-connect-success-action').on('click', function() {
+					location.reload();
+				});
+				//reload the window after settimeout.
+				setTimeout(function() {
+					location.reload();
+				}, 3000);
+			},
+			error: function(error) {
+				// Handle error response
+				console.error('Error sending data to PHP:', error);
+			}
+		});
+
+	}
+
+	/**
+	 * click on disconnect button to disconnect api connection.
+	*/
+	jQuery('.api-connection-disconnect-btn').on('click', disconnectAppAuth );
+
+	/**
+	 * Function to Disconnect the API Connection
+	*/
+	function disconnectAppAuth () {
+
+		// Create spinner element
+		var spinner = jQuery('<div class="gdpr-spinner"></div>');
+
+		// Append spinner to .gdpr-cookie-consent-connect-api-container div
+		var container = jQuery('.gdpr-cookie-consent-disconnect-api-container');
+		container.css('position', 'relative'); // Ensure container has relative positioning
+		container.append(spinner);
+
+		//Make Ajax Requests.
+		jQuery.ajax(
+			{
+				url  : gdpr_localize_data.ajaxurl,
+				type : 'POST',
+				data : {
+					action      : 'gdpr_cookie_consent_app_delete_auth',
+					_ajax_nonce : gdpr_localize_data._ajax_nonce,
+				},
+				beforeSend: function() {
+					// Show spinner before AJAX call starts
+					spinner.show();
+				},
+				complete: function() {
+					// Hide spinner after AJAX call completes
+					spinner.hide();
+				}
+			}
+		).done(
+			function ( response ) {
+
+				// Html content to display success screen after disconnect.
+				var successHtml = '<div id="gdpr_app-connect-success" class="gdpr_app-connect-success">' +
+				'<div class="gdpr_app-connect-success-container">' +
+				'<div class="gdpr_app-connect-success-icon"></div>' +
+				'<div class="gdpr_app-connect-success-message">' +
+				'<h2>Successfully disconnected!!!</h2>' +
+				'</div>' +
+				'</div>' +
+				'</div>';
+
+				jQuery('#wpbody-content').html(successHtml);
+
+				//reload the window after settimeout.
+				setTimeout(function() {
+					location.reload();
+				}, 3000);
+			}
+		);
+	}
 
 
 });

@@ -15,6 +15,15 @@ $pro_is_activated = get_option( 'wpl_pro_active', false );
 $the_options      = Gdpr_Cookie_Consent::gdpr_get_settings();
 $is_data_req_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
 
+// Require the class file for responsive add-ons settings.
+require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+$this->settings = new GDPR_Cookie_Consent_Settings();
+
+// Call the is_connected() method from the instantiated object to check if the user is connected.
+$is_user_connected = $this->settings->is_connected();
+
 
 ?>
 
@@ -59,22 +68,63 @@ $is_data_req_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_r
 					</div>
 				</div>
 		</div>
-		<!-- promotional banner  -->
+		<!-- connect your website to WP Cookie Consent  -->
+
+		<?php
+		if ( $is_user_connected != true ) {
+		?>
+		<div class="gdpr-cookie-consent-connect-api-container">
+			<div class="gdpr-api-info-content">
+				<div class="gdpr-api-detailed-info">
+					<h2>
+					Connect your website to WP Cookie Consent
+					</h2>
+					<p>Sign up for a free account to integrate seamlessly with the WP Cookie Consent server. Once connected, gain full control over your settings and unlock advanced features:</p>
+					<p>
+					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Cookie Scanner :</strong> Identify cookies on your website and automatically block them before user consent (essential for legal compliance).</p>
+					<p>
+					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Consent Log :</strong> Maintain a detailed record of user consents, ensuring evidence of compliance with regulations.</p>
+					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Geo-targeting :</strong> Display or hide the GDPR cookie consent notice depending on the visitor’s location.</p>
+				</div>
+				<div class="gdpr-api-connection-btns">
+					<button class="rst-start-auth">New? Create a free account</button>
+					<button class="api-connect-to-account-btn">Connect your existing account</button>
+				</div>
+
+			</div>
+
+		</div>
+
 		<?php
 
-		if ( ! $pro_is_activated ) {
-
-			?>
-			<div class="gdpr-cookie-consent-admin-promotional-banner">
-				<a href="https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=sub_menu&utm_campaign=upgrade-to-pro" target="_blank">
-				<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_upgrade_to_pro.png'; ?>" alt="WP Cookie Consent Promotional Banner"></a>
-			</div>
-			<?php
-
 		}
+		?>
 
+		<?php
+
+		if ( $is_user_connected == true  ) {
 
 		?>
+		<!-- Disconnect your website to WP Cookie Consent  -->
+		<div class="gdpr-cookie-consent-disconnect-api-container">
+			<div class="gdpr-api-disconnect-content">
+				<div class="gdpr-api-disconnect-text">
+					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/check_ring.png'; ?>" alt="API Connection Success Mark">
+					<h2>Your website is connected to WP Cookie Consent</h2>
+				</div>
+				<p>
+					You can access all the plugin settings (Cookie Banner, Cookie Manager, Languages & Policy Generators) on the web app and unlock new features like Cookie Scan and Consent Log.
+				</p>
+				<button class="api-connection-disconnect-btn">Disconnect</button>
+
+			</div>
+
+		</div>
+
+		<?php
+		}
+		?>
+
 		<!-- tabs -->
 		<div class="gdpr-cookie-consent-admin-tabs-section">
 			<div class="gdpr-cookie-consent-admin-tabs">
