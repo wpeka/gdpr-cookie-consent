@@ -55,7 +55,6 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	 */
 	public function __construct() {
 		global $status, $page;
-		error_log("This is omendra");
 		// Set parent defaults
 		parent::__construct(
 			array(

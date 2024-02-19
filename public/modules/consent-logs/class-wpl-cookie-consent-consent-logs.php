@@ -27,7 +27,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 */
 
 	public function __construct() {
-		error_log("This is got called2");
 		register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'wplcl_activator' ) );
 		add_action( 'init', array( $this, 'wplcl_register_custom_post_type' ) );
 
