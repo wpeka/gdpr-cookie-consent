@@ -3863,7 +3863,6 @@ class Gdpr_Cookie_Consent_Admin {
 								<?php
 								if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) :
 									?>
-	
 								<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
 								<h3 v-if="gdpr_message_heading.length>0">{{lgpd_message_heading}}</h3>
@@ -4492,7 +4491,7 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 
 			}
-			
+
 			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
 				$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 				$restricted_posts = array();
@@ -5363,6 +5362,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'admin_url'        => admin_url(),
 				'is_pro_activated' => $pro_is_activated,
 				'is_data_req_on'   => $data_reqs_on,
+				'gdpr_app_url'	   => GDPR_APP_URL,
+				'_ajax_nonce' 	   => wp_create_nonce( 'gdpr-cookie-consent' )
 			)
 		);
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-admin.php';
