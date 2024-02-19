@@ -47,9 +47,9 @@ class GDPR_Cookie_Consent_Api extends WP_REST_Controller {
 			'/' . $this->rest_base,
 			array(
 				array(
-					'methods'             => WP_REST_Server::READABLE,
+					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'permission_callback' => array( $this, 'create_items_permissions_check' ),
 				),
 			)
 		);
@@ -74,8 +74,25 @@ class GDPR_Cookie_Consent_Api extends WP_REST_Controller {
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
 	 */
-	public function get_items_permissions_check( $request ) {
-		return true;
+	public function create_items_permissions_check( $request ) {
+
+		$permission_check = false;
+		// Check if Authorization header exists.
+		$authorization = $request->get_header( 'Authorization' );
+		if ( ! $authorization ) {
+			return new WP_Error( 'rest_forbidden', esc_html__( 'Invalid Authorization.', 'gdpr-cookie-consent' ), array( 'status' => 401 ) );
+		}
+
+		$token            = str_replace( 'Bearer ', '', $authorization );
+		$request_platform = $request->get_param( 'platform' );
+
+		if ( isset( $token ) && $request_platform === 'wordpress' ) {
+			return true;
+		} else {
+			return new WP_Error( 'rest_forbidden', esc_html__( 'Invalid Authorization.', 'gdpr-cookie-consent' ), array( 'status' => 401 ) );
+		}
+
+		return $permission_check;
 	}
 
 }
