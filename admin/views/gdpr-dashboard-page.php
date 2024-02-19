@@ -212,7 +212,6 @@ if ( $table_exists ) {
 			</c-card-body>
 		</c-card>
 		<!-- cookie insights and cookie summary card  -->
-		<?php if ( $is_pro_active ) : ?>
 		<div class="gdpr-dashboard-promotional-cards-insights">
 			<c-card class="gdpr-dashboard-promotional-card">
 				<c-card-header class="gdpr-dashboard-promotional-card-header">
@@ -387,9 +386,7 @@ if ( $table_exists ) {
 				</c-card-body>
 			</c-card>
 		</div>
-		<?php endif ?>
 		<!-- show consent log and promotional section when pro is activated  -->
-		<?php if ( $is_pro_active ) : ?>
 		<div class="gdpr-dashboard-promotional-cards">
 
 		<!-- consent log card  -->
@@ -500,8 +497,7 @@ if ( $table_exists ) {
 					</c-row>
 				</c-card-body>
 			</c-card>
-		</div>
-		<?php endif ?>
+		</div>	
 		<c-card class="gdpr-dashboard-quick-links-card">
 			<c-card-header class="gdpr-dashboard-quick-links-card-header">
 				<span class="gdpr-dashboard-quick-links-heading">
@@ -526,7 +522,7 @@ if ( $table_exists ) {
 				</span>
 			</c-card-header>
 			<c-card-body class="gdpr-dashboard-quick-links-body">
-				<c-row v-show="pro_installed && pro_activated && api_key_activated" class="gdpr-quick-links-images-row">
+				<c-row class="gdpr-quick-links-images-row">
 					<span class="gdpr-quick-link-item settings">
 						<a class="gdpr-quick-link" :href="show_cookie_url">
 							<img class="gdpr-quick-link-image" :src="settings_image.default">
@@ -592,7 +588,7 @@ if ( $table_exists ) {
 						</span>
 					</span>
 				</c-row>
-				<c-row v-show="!pro_installed || !pro_activated || !api_key_activated" class="gdpr-quick-links-images-row">
+				<!-- <c-row v-show="!pro_installed || !pro_activated || !api_key_activated" class="gdpr-quick-links-images-row">
 					<span class="gdpr-quick-link-item settings_free">
 						<a class="gdpr-quick-link" :href="show_cookie_url">
 							<img class="gdpr-quick-link-image" :src="settings_image.default">
@@ -657,96 +653,8 @@ if ( $table_exists ) {
 						<?php esc_html_e( 'Third Party Details', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</span>
-				</c-row>
+				</c-row> -->
 			</c-card-body>
 		</c-card>
-		<?php if ( ! $is_pro_active ) : ?>
-		<div class="gdpr-dashboard-promotional-cards">
-			<c-card class="gdpr-dashboard-promotional-card">
-				<c-card-header class="gdpr-dashboard-promotional-card-header">
-					<span class="gdpr-dashboard-promotional-heading">
-						<?php esc_html_e( 'Tips and Tricks', 'gdpr-cookie-consent' ); ?>
-					</span>
-				</c-card-header>
-				<c-card-body>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq1_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'How to activate your License Key?', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq2_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'What you need to know about the EU Cookie law?', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq3_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'Frequently asked questions', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq4_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'What are the CCPA regulations and how we can comply?', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-					<c-row class="gdpr-dashboard-faq-row">
-						<img :src="arrow_icon.default" class="gdpr-dashboard-faq-icon">
-						<a target="blank" :href="faq5_url" class="gdpr-dashboard-faq-link">
-							<?php esc_html_e( 'All you need to know about IAB', 'gdpr-cookie-consent' ); ?>
-						</a>
-					</c-row>
-				</c-card-body>
-			</c-card>
-			<c-card class="gdpr-dashboard-promotional-card">
-				<c-card-header class="gdpr-dashboard-promotional-card-header">
-					<span class="gdpr-dashboard-promotional-heading">
-						<?php esc_html_e( 'Other Plugins', 'gdpr-cookie-consent' ); ?>
-					</span>
-				</c-card-header>
-				<c-card-body class="gdpr-dashboard-promotional-card-body">
-					<div>
-						<c-row class="gdpr-dashboard-plugins-row">
-							<span>
-								<img :src="legalpages_icon.default" class="gdpr-dashboard-plugins-icon">
-								<?php esc_html_e( 'WP LegalPages', 'gdpr-cookie-consent' ); ?>
-							</span>
-							<a target="blank" :href="legalpages_url" class="gdpr-dashboard-plugins-link">
-								<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
-							</a>
-						</c-row>
-						<c-row class="gdpr-dashboard-plugins-row">
-							<span>
-								<img :src="adcenter_icon.default" class="gdpr-dashboard-plugins-icon">
-								<?php esc_html_e( 'WP Adcenter', 'gdpr-cookie-consent' ); ?>
-							</span>
-							<a target="blank" :href="adcenter_url" class="gdpr-dashboard-plugins-link">
-								<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
-							</a>
-						</c-row>
-						<c-row class="gdpr-dashboard-plugins-row">
-							<span>
-								<img :src="survey_funnel_icon.default" class="gdpr-dashboard-plugins-icon">
-								<?php esc_html_e( 'Survey Funnel', 'gdpr-cookie-consent' ); ?>
-							</span>
-							<a target="blank" :href="survey_funnel_url" class="gdpr-dashboard-plugins-link">
-								<?php esc_html_e( 'Install', 'gdpr-cookie-consent' ); ?>
-							</a>
-						</c-row>
-					</div>
-					<c-row class="gdpr-dashboard-all-plugins-row">
-						<a target="blank" :href="all_plugins_url" class="gdpr-dashboard-plugins-link">
-							<c-button class="gdpr-progress-view-plugins-link" color="info" variant="outline">
-							<?php esc_html_e( 'View all Plugins', 'gdpr-cookie-consent' ); ?>
-							</c-button>
-						</a>
-					</c-row>
-				</c-card-body>
-			</c-card>
-		</div>
-		<?php endif ?>
 	</c-container>
 </div>
