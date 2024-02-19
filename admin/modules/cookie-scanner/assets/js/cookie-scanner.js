@@ -1,8 +1,8 @@
 /**
  * Module CookieScanner JavaScript.
  *
- * @package    Wpl_Cookie_Consent
- * @subpackage Wpl_Cookie_Consent/admin/modules
+ * @package    Gdpr_Cookie_Consent
+ * @subpackage Gdpr_Cookie_Consent/admin/modules
  * @author     wpeka <https://club.wpeka.com>
  */
 
