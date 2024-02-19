@@ -130,11 +130,13 @@ class Gdpr_Cookie_Consent {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/class-gdpr-cookie-consent-public.php';
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
-		 * Script blocker.
+		 * Script blocker, Cookie Scan.
 		 */
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
 		if ( !$wpl_pro_active ){
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
+
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
 		}
 
 		/**
