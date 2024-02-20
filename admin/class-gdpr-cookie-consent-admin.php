@@ -4491,6 +4491,10 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 
 			}
+			// restrict posts when gpdr free is activated.
+			$restricted_posts = array();
+			$restricted_posts = isset( $_POST['gcc-restrict-posts'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-restrict-posts'] ) ) ) : '';
+			$the_options['restrict_posts']       = $restricted_posts;
 
 			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
 				$saved_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );

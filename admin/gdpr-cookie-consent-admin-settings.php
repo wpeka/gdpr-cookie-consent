@@ -665,13 +665,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								<?php endif ?>
 								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
-										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Restrict Pages and/or Posts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent' ); ?>"></tooltip>
-
-											</label>
-											<div class="gdpr-pro-label absolute" style="top: 7.5px;" ><div class="gdpr-pro-label-text">Pro</div></div>
-										</c-col>
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Restrict Pages and/or Posts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 										<c-col class="col-sm-8">
-											<v-select disabled id="gdpr-cookie-consent-restrict-posts" :reduce="label => label.code" class="form-group" :options="list_of_contents" multiple v-model="restrict_array" @input="onPostsSelect"></v-select>
+											<v-select id="gdpr-cookie-consent-restrict-posts" :reduce="label => label.code" class="form-group" :options="list_of_contents" multiple v-model="restrict_array" @input="onPostsSelect"></v-select>
 											<input type="hidden" name="gcc-restrict-posts" v-model="restrict_posts">
 										</c-col>
 									</c-row>
@@ -891,15 +887,15 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										<div style="font-size: 10px;" v-if="selectedFile">{{ selectedFile.name }} <span style="color:#00CF21;font-weight:500;margin-left:5px" > Uploaded </span> <span style="color: #8996AD;text-decoration:underline;margin-left:5px;position:absolute" class="remove-button" @click="removeFile">Remove</span> </div>
 										<div style="font-size: 10px;" v-else>No File Chosen</div>
 									</c-col>
-	
+
 
 									<c-col class="col-sm-8 text-right" >
-										<label style="margin-bottom:0; font-size:0.875rem; 
+										<label style="margin-bottom:0; font-size:0.875rem;
 										<?php
 										echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff;' ) : 'color:#3399ff;';
 										?>
 										text-decoration:underline;margin-right:10px" for="fileInput">Choose file</label>
-										<input style="display: none;" type="file" 
+										<input style="display: none;" type="file"
 										<?php
 										echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? '' : 'disabled' ) : '';
 										?>
@@ -911,7 +907,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									</c-col>
 
 								</c-row>
-								
+
 								<!-- Reset Settings -->
 								<c-row class="pt-1 mb-0" >
 									<c-col class="col-sm-4">
@@ -1936,7 +1932,7 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-card-header>
 										<c-card-body>
 											<c-col class="col-sm-12">
-												<aceeditor 
+												<aceeditor
 													id = "aceEditorFree"
 													v-model="gdpr_css_text_free"
 													@init="editorInit"
