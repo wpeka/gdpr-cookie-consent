@@ -141,22 +141,23 @@ $is_user_connected = $this->settings->is_connected();
 					<p class="gdpr-cookie-consent-admin-tab-name">Cookie&nbsp;Settings</p>
 				</div>
 				<?php
+				if ( !$pro_is_activated )  ?>
+				<!-- consent log tab  -->
+						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
+							<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
+						</div>
+				<?php
 
 				if ( $pro_is_activated ) {
 
 					?>
-							<!-- consent log tab  -->
-							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-								<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
-							</div>
-
 						<?php
 
 						if ( $is_data_req_on ) {
 
 							?>
 							<!-- data req tab  -->
-							<div class="gdpr-cookie-consent-admin-tab		gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
+							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
 							<p class="gdpr-cookie-consent-admin-tab-name">Data&nbsp;Request</p>
 							</div>
 
