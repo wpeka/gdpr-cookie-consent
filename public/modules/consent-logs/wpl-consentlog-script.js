@@ -2,7 +2,7 @@
 
 This function is used for generating the dynamic pdf (Proof of consent) it utilizes js-pdf library
 along with autotable to dynamically display proof of consnet.
-@since 2.10.5
+@since 3.0.0
 
 */
 function generatePDF(

@@ -505,8 +505,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-col>
 									</c-row>
 								<?php endif; ?>
-								<?php if (  $is_pro_active ) : ?>
-								<?php do_action( 'gdpr_consent_settings_pro_top' ); ?>
+								<?php if ( $is_pro_active ) : ?>
+									<?php do_action( 'gdpr_consent_settings_pro_top' ); ?>
 								<?php endif; ?>
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Autotick for Non-Necessary Cookies ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Pre-select non-necessary cookie checkboxes.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
@@ -660,8 +660,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 								</c-row>
 								<?php } ?>
 								<?php endif ?>
-								<?php if (  $is_pro_active ) : ?>
-								<?php do_action( 'gdpr_consent_settings_consent_forward' ); ?>
+								<?php if ( $is_pro_active ) : ?>
+									<?php do_action( 'gdpr_consent_settings_consent_forward' ); ?>
 								<?php endif ?>
 								<?php if ( ! $is_pro_active ) : ?>
 									<c-row>
@@ -679,23 +679,30 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 									<c-row>
 										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Renew User Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( "If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent' ); ?>"></tooltip>
 										</label>
-										<div class="gdpr-pro-label absolute" style="top: 15px;"><div class="gdpr-pro-label-text">Pro</div></div>
 										</c-col>
-										<c-col class="col-sm-8 gdpr-renew-now-col">
-										<c-button disabled class="gdpr-renew-now-btn" variant="outline"><?php esc_html_e( 'Renew Now', 'gdpr-cookie-consent' ); ?></c-button>
+										<c-col class="col-sm-8">
+										<c-button class="gdpr-renew-now-btn pro" variant="outline" @click="onClickRenewConsent"><?php esc_html_e( 'Renew Now', 'gdpr-cookie-consent' ); ?></c-button>
+										<input type="hidden" name="gcc-consent-renew-enable" v-model="is_consent_renewed">
 										<!-- last renewed  -->
-											<div class="gdpr-last-renew-container">
-												<div class="gdpr-last-renew-label free">
-												Last renewed :
-												</div>
-												<div class="gdpr-last-renew-details free">
-												Not renewed yet
-												</div>
+										<div class="gdpr-last-renew-container">
+											<div class="gdpr-last-renew-label">
+											Last renewed :
 											</div>
+											<div class="gdpr-last-renew-details">
+										<?php
+											$last_renewed_at = get_option( 'wpl_consent_timestamp' );
+										if ( $last_renewed_at ) {
+											echo esc_attr( gmdate( 'F j, Y g:i a T', get_option( 'wpl_consent_timestamp' ) ) );
+										} else {
+											echo esc_attr_e( ' Not renewed yet' );
+										}
+										?>
+											</div>
+										</div>
 										</c-col>
 									</c-row>
+									<?php do_action( 'gdpr_consent_settings_pro_bottom' ); ?>
 								<?php endif ?>
-								<?php do_action( 'gdpr_consent_settings_pro_bottom' ); ?>
 							</c-card-body>
 						</c-card>
 						<c-card>
@@ -732,8 +739,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-col>
 								</c-row>
 								<?php endif; ?>
-								<?php if (  $is_pro_active ) : ?>
-								<?php do_action( 'gdpr_consent_settings_safe_enable' ); ?>
+								<?php if ( $is_pro_active ) : ?>
+									<?php do_action( 'gdpr_consent_settings_safe_enable' ); ?>
 								<?php endif; ?>
 								<c-row>
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Export Personal Data', 'gdpr-cookie-consent' ); ?> </label></c-col>
@@ -1917,11 +1924,10 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						<?php
 						$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
 						if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-						if ( $is_pro_active ) {
-							do_action( 'gdpr_custom_css' );
-						} 
-					else {
-							?>
+							if ( $is_pro_active ) {
+								do_action( 'gdpr_custom_css' );
+							} else {
+								?>
 										<c-card >
 										<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
 
@@ -1954,8 +1960,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</c-card-body>
 									</c-card>
 								<?php
-						}
-					}else{ ?>
+							}
+						} else {
+							?>
 						<c-card >
 			<c-card-header><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></c-card-header>
 			<c-card-body>
@@ -1986,7 +1993,8 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 
 			</c-card-body>
 		</c-card>
-				<?php	}
+							<?php
+						}
 						?>
 					</c-tab>
 					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list">

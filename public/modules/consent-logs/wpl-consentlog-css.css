@@ -1,6 +1,6 @@
 /*
 This file contains the necessary CSS for the consent log table on admin section.
-@since 2.10.5
+@since 3.0.0
 */
 #consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts tfoot{
     display:none;

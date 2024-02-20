@@ -104,7 +104,6 @@ function get_requests( $args ) {
 				'wplconsentlogsdates'   => $wplconsentlogs_dates,
 				'wplconsentlogsdetails' => $wplconsentlogs_details,
 			);
-
 		}
 	} else {
 		foreach ( $custom_posts as $post ) {
@@ -148,7 +147,6 @@ function get_requests( $args ) {
 				'wplconsentlogsdates'   => $wplconsentlogs_dates,
 				'wplconsentlogsdetails' => $wplconsentlogs_details,
 			);
-
 		}
 	}
 
