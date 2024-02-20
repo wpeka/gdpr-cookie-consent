@@ -1,11 +1,20 @@
 <?php
-// No need for the template engine
+/**
+ * The CSV functionality for consent logs of the plugin.
+ *
+ * @link       https://club.wpeka.com/
+ * @since      3.0.0
+ *
+ * @package    Gdpr_Cookie_Consent
+ */
+
+// No need for the template engine.
 define( 'WP_USE_THEMES', false );
 
-// find the base path
+// find the base path.
 define( 'BASE_PATH', find_wordpress_base_path() . '/' );
 
-// Load WordPress Core
+// Load WordPress Core.
 if ( ! file_exists( BASE_PATH . 'wp-load.php' ) ) {
 	die( 'WordPress not installed here' );
 }
@@ -22,6 +31,15 @@ if ( isset( $_GET['nonce'] ) ) {
 	die( '2 invalid command' );
 }
 
+/**
+ * Convert an array to a CSV file and trigger a download.
+ *
+ * @param array  $array     The array to be converted to CSV.
+ * @param string $filename  Optional. The filename for the downloaded CSV. Defaults to 'export.csv'.
+ * @param string $delimiter Optional. The CSV field delimiter. Defaults to ';'.
+ *
+ * @return void
+ */
 function array_to_csv_download(
 	$array,
 	$filename = 'export.csv',
@@ -29,10 +47,10 @@ function array_to_csv_download(
 ) {
 	header( 'Content-Type: application/csv;charset=UTF-8' );
 	header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
-	// fix ö ë etc character encoding issues:
-	echo "\xEF\xBB\xBF"; // UTF-8 BOM
-	// open the "output" stream
-	// see http://www.php.net/manual/en/wrappers.php.php#refsect2-wrappers.php-unknown-unknown-unknown-descriptioq
+	// fix ö ë etc character encoding issues:.
+	echo "\xEF\xBB\xBF"; // UTF-8 BOM.
+	// open the "output" stream.
+	// see http://www.php.net/manual/en/wrappers.php.php#refsect2-wrappers.php-unknown-unknown-unknown-descriptioq.
 	$f = fopen( 'php://output', 'w' );
 
 	foreach ( $array as $line ) {
@@ -43,6 +61,20 @@ function array_to_csv_download(
 $file_title = 'consent-logs-export-' . date( 'j' ) . ' ' . __( date( 'F' ) ) . ' ' . date( 'Y' );
 array_to_csv_download( export_array(), $file_title . '.csv' );
 
+/**
+ * Get consent log requests based on provided arguments.
+ *
+ * @param array $args {
+ *     Optional. Arguments for retrieving consent log requests.
+ *
+ *     @type int $number Number of consent log requests to retrieve. Default is 10.
+ *     @type int $offset Offset for pagination. Default is 0.
+ * }
+ *
+ * @global WP_Post $post WordPress post object.
+ *
+ * @return array An array containing consent log request data.
+ */
 function get_requests( $args ) {
 
 	global $post;
@@ -53,23 +85,23 @@ function get_requests( $args ) {
 		'post_type'      => 'wplconsentlogs',
 		'posts_per_page' => -1,
 		'offset'         => $offset,
-		'post_status'    => 'publish', // Retrieve all posts
+		'post_status'    => 'publish', // Retrieve all posts.
 		'orderby'        => 'ID',
 		'order'          => 'DESC',
 		'meta_query'     => array(),
 	);
 
 	$custom_posts     = get_posts( $post_args );
-	$all_consent_data = array(); // Initialize the $data array
+	$all_consent_data = array(); // Initialize the $data array.
 
 	if ( ! is_multisite() ) {
 		foreach ( $custom_posts as $post ) {
 
-			setup_postdata( $post ); // Setup post data for each post
+			setup_postdata( $post ); // Setup post data for each post.
 
 			$post_id = $post->ID;
 
-			// Fetch specific values from post meta using keys
+			// Fetch specific values from post meta using keys.
 			$wplconsentlogs_ip = get_post_meta( $post_id, '_wplconsentlogs_ip', true );
 
 			$wplconsentlogs_country = get_post_meta( $post_id, '_wplconsentlogs_country', true );
@@ -78,7 +110,7 @@ function get_requests( $args ) {
 				$wplconsentlogs_country = 'Unknown';
 			}
 
-			// date
+			// date.
 			$content_post = get_post( $post_id );
 
 			$time_utc      = $content_post->post_date_gmt;
@@ -91,13 +123,13 @@ function get_requests( $args ) {
 				$wplconsentlogs_dates = $local_time;
 			}
 
-			// consent status
+			// consent status.
 
 			$wplconsentlogs_details = get_post_meta( $post_id, '_wplconsentlogs_details', true );
 
 			$wplconsentlogs_details = 'wpl_viewed_cookie : ' . $wplconsentlogs_details['wpl_viewed_cookie'] . $wplconsentlogs_details['wpl_user_preference'];
 
-			// all data for table
+			// all data for table.
 			$all_consent_data[] = array(
 				'ID'                    => $post_id,
 				'wplconsentlogsip'      => $wplconsentlogs_ip,
@@ -108,11 +140,11 @@ function get_requests( $args ) {
 	} else {
 		foreach ( $custom_posts as $post ) {
 
-			setup_postdata( $post ); // Setup post data for each post
+			setup_postdata( $post ); // Setup post data for each post.
 
 			$post_id = $post->ID;
 
-			// Fetch specific values from post meta using keys
+			// Fetch specific values from post meta using keys.
 			$wplconsentlogs_ip = get_post_meta( $post_id, '_wplconsentlogs_ip_cf', true );
 
 			$wplconsentlogs_country = get_post_meta( $post_id, '_wplconsentlogs_country_cf', true );
@@ -121,7 +153,7 @@ function get_requests( $args ) {
 				$wplconsentlogs_country = 'Unknown';
 			}
 
-			// date
+			// date.
 			$content_post = get_post( $post_id );
 
 			$time_utc      = $content_post->post_date_gmt;
@@ -134,13 +166,13 @@ function get_requests( $args ) {
 				$wplconsentlogs_dates = $local_time;
 			}
 
-			// consent status
+			// consent status.
 
 			$wplconsentlogs_details = get_post_meta( $post_id, '_wplconsentlogs_details_cf', true );
 
 			$wplconsentlogs_details = 'wpl_viewed_cookie : ' . $wplconsentlogs_details['wpl_viewed_cookie'] . $wplconsentlogs_details['wpl_user_preference'];
 
-			// all data for table
+			// all data for table.
 			$all_consent_data[] = array(
 				'ID'                    => $post_id,
 				'wplconsentlogsip'      => $wplconsentlogs_ip,
@@ -153,6 +185,11 @@ function get_requests( $args ) {
 	return $all_consent_data;
 }
 
+/**
+ * Export consent log data as an array for further processing or display.
+ *
+ * @return array An array containing consent log data for export.
+ */
 function export_array() {
 
 	$requests = get_requests(
@@ -176,11 +213,21 @@ function export_array() {
 	return $output;
 }
 
+/**
+ * Find the base path of the WordPress installation.
+ *
+ * This function searches for the WordPress installation path starting from the current directory
+ * and traverses up the directory structure until it finds the wp-config.php file. It then checks
+ * if the wp-load.php file exists in the same directory or any subdirectory, and returns the path
+ * where it is found.
+ *
+ * @return string|false The path to the WordPress installation or false if not found.
+ */
 function find_wordpress_base_path() {
 	$path = __DIR__;
 
 	do {
-		// it is possible to check for other files here
+		// it is possible to check for other files here.
 		if ( file_exists( $path . '/wp-config.php' ) ) {
 			// check if the wp-load.php file exists here. If not, we assume it's in a subdir.
 			if ( file_exists( $path . '/wp-load.php' ) ) {

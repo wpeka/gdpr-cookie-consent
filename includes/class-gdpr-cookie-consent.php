@@ -107,13 +107,13 @@ class Gdpr_Cookie_Consent {
 	private function load_dependencies() {
 
 		/**
-		 * The class responsible for orchestrating the actions and filters of the
+		 * The class responsible for orchestrating the actions and filters of the.
 		 * core plugin.
 		 */
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-loader.php';
 
 		/**
-		 * The class responsible for defining internationalization functionality
+		 * The class responsible for defining internationalization functionality.
 		 * of the plugin.
 		 */
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-i18n.php';
@@ -124,20 +124,20 @@ class Gdpr_Cookie_Consent {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/class-gdpr-cookie-consent-admin.php';
 
 		/**
-		 * The class responsible for defining all actions that occur in the public-facing
+		 * The class responsible for defining all actions that occur in the public-facing.
 		 * side of the site.
 		 */
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/class-gdpr-cookie-consent-public.php';
 		/**
-		 * The class responsible for orchestrating the actions and filters of the
+		 * The class responsible for orchestrating the actions and filters of the.
 		 * Script blocker, Cookie Scan.
 		 */
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
-		if ( !$wpl_pro_active ){
-		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
+		if ( ! $wpl_pro_active ) {
+			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
 
-		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
-		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
+			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
+			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
 		}
 
 		/**
@@ -146,15 +146,13 @@ class Gdpr_Cookie_Consent {
 		 */
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-app-auth.php';
 
-		$this->library_auth      = new GDPR_Cookie_Consent_App_Auth();
+		$this->library_auth = new GDPR_Cookie_Consent_App_Auth();
 
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-api.php';
 
-		$this->respadons_api      = new GDPR_Cookie_Consent_Api();
-
+		$this->respadons_api = new GDPR_Cookie_Consent_Api();
 
 		$this->loader = new Gdpr_Cookie_Consent_Loader();
-
 	}
 
 	/**
@@ -208,9 +206,9 @@ class Gdpr_Cookie_Consent {
 		$plugin_admin->admin_modules();
 		$this->loader->add_action( 'init', $plugin_admin, 'gdpr_register_block_type' );
 		if ( self::is_request( 'admin' ) ) {
-			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 ); /*
-			Adding admin menu */
-			// $this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
+			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 );
+			// Adding admin menu.
+			// $this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );.
 			$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init', 5 );
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -218,21 +216,19 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
-			// added ajax callback for wizard
+			// added ajax callback for wizard.
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
-			// added ajax for import settings
+			// added ajax for import settings.
 			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
 
 			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview' );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete' );
 
 			$wpl_pro_active = get_option( 'wpl_pro_active' );
-			if( ! $wpl_pro_active){
+			if ( ! $wpl_pro_active ) {
 				$this->loader->add_filter( 'gdpr_get_templates', $plugin_admin, 'get_templates', 10, 1 );
 				$this->loader->add_action( 'gdpr_cookie_template', $plugin_admin, 'wpl_cookie_template' );
 			}
-
-
 		}
 	}
 
@@ -255,7 +251,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 			$this->loader->add_action( 'template_redirect', $plugin_public, 'gdprcookieconsent_template_redirect', 99 );
 			$this->loader->add_action( 'wp_footer', $plugin_public, 'gdprcookieconsent_inject_gdpr_script' );
-			// added rest endpoint for fetching current options for banner
+			// added rest endpoint for fetching current options for banner.
 			$this->loader->add_action( 'rest_api_init', $plugin_public, 'gdpr_cookie_data_endpoint' );
 		}
 	}
@@ -798,11 +794,11 @@ class Gdpr_Cookie_Consent {
 			case 'restrict_posts':
 				$ret = $value;
 				break;
-			// hide banner
+			// hide banner.
 			case 'select_pages':
 				$ret = $value;
 				break;
-				// consent forward
+				// consent forward.
 			case 'select_sites':
 				$ret = $value;
 				break;

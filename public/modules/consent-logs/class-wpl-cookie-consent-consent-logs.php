@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The consent logs functionality of the plugin.
  *
@@ -57,14 +56,14 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 * @since 3.0.0
 	 */
 	public function enqueue_custom_admin_styles() {
-		// Css for consent log table on admin section
+		// Css for consent log table on admin section.
 		wp_enqueue_style( 'custom-post-table-styles', plugin_dir_url( __FILE__ ) . '/wpl-consentlog-css.css' );
-		// Js file for creating the dynamic pdf for consent log
+		// Js file for creating the dynamic pdf for consent log.
 		wp_enqueue_script( 'custom-admin-script', plugin_dir_url( __FILE__ ) . '/wpl-consentlog-script.js', array(), '1.0.0', true );
-		// jspdf library used for generating pdf
+		// jspdf library used for generating pdf.
 		wp_enqueue_script( 'jspdf', 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', array(), '2.5.1', true );
 		wp_enqueue_script( 'html2canvas', 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', array(), '1.4.1', true );
-		// jspdf autotable library for creating tables in pdf
+		// jspdf autotable library for creating tables in pdf.
 		wp_enqueue_script( 'jspdf-autotable', 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.6.0/jspdf.plugin.autotable.min.js', array(), '3.6.0', true );
 		wp_script_add_data( 'jspdf-autotable', 'integrity', 'sha512-DgV2mIRy66quVbkj4yS6FN7cccMH/iPXhDOi/ckWIAANbOL78RuoaA6MAu9BAdYEyAdIuIm63LzsaFmHGd7L8w==' );
 		wp_script_add_data( 'jspdf-autotable', 'crossorigin', 'anonymous' );
@@ -147,23 +146,23 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	public function fetch_cookie_scan_data() {
 		global $wpdb;
 
-		// Define the table name
+		// Define the table name.
 		$table_name = $wpdb->prefix . 'wpl_cookie_scan_cookies';
 
-		// Define the SQL query to select the desired columns
+		// Define the SQL query to select the desired columns.
 		$sql = "SELECT name, duration, category, description FROM $table_name";
 
-		// Execute the SQL query
+		// Execute the SQL query.
 		$results = $wpdb->get_results( $sql );
 
-		// Check if there are results
+		// Check if there are results.
 		if ( $results ) {
-			// Convert the results to an object
+			// Convert the results to an object.
 			$data = (object) $results;
 			return $data;
 		}
 
-		return null; // Return null if no data is found
+		return null; // Return null if no data is found.
 	}
 
 	/**
@@ -475,7 +474,11 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 * Save consent log into custom post type.
 	 *
 	 * @since 3.0.0
-	 * @param array $args Consent details.
+	 *
+	 * @param array  $args Consent details.
+	 * @param int    $subSiteId Subsite ID.
+	 * @param string $SiteURL Site URL.
+	 * @param bool   $consent_forward Consent forward flag.
 	 *
 	 * @return bool|int|WP_Error
 	 *
@@ -651,8 +654,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 * Consent Log details for the insights pie chart.
 	 *
 	 * @since 3.0.0
-	 * @param void
-	 *
+	 * 
 	 * @return void
 	 */
 	public function wpl_cl_cookie_details_pie_chart() {
@@ -767,17 +769,17 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		$processedData = array();
 
 		foreach ( $results as $item ) {
-			$metaValue = unserialize( $item->meta_value ); // Deserialize the serialized data
+			$metaValue = unserialize( $item->meta_value ); // Deserialize the serialized data.
 			if ( isset( $metaValue['wpl_user_preference'] ) ) {
-				$wplUserPreference = json_decode( $metaValue['wpl_user_preference'], true ); // Decode the JSON data
+				$wplUserPreference = json_decode( $metaValue['wpl_user_preference'], true ); // Decode the JSON data.
 			} else {
-				$wplUserPreference = array(); // Default value if the key doesn't exist
+				$wplUserPreference = array(); // Default value if the key doesn't exist.
 			}
 
 			$processedData[] = array(
 				'post_id'             => $item->post_id,
 				'wpl_user_preference' => $wplUserPreference,
-				'wpl_viewed_cookie'   => isset( $metaValue['wpl_viewed_cookie'] ) ? $metaValue['wpl_viewed_cookie'] : null, // Check if 'wpl_viewed_cookie' key exists
+				'wpl_viewed_cookie'   => isset( $metaValue['wpl_viewed_cookie'] ) ? $metaValue['wpl_viewed_cookie'] : null, // Check if 'wpl_viewed_cookie' key exists.
 			);
 		}
 
@@ -799,7 +801,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						true
 					);
 				} else {
-					// Treat as though all values are 'no' if 'wpl_user_preference' is not an array
+					// Treat as though all values are 'no' if 'wpl_user_preference' is not an array.
 					$allYes = false;
 				}
 
@@ -811,12 +813,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 		}
 
-		// Define the option name
+		// Define the option name.
 		$wpl_cl_decline_option_name          = 'wpl_cl_decline';
 		$wpl_cl_accept_option_name           = 'wpl_cl_accept';
 		$wpl_cl_partially_accept_option_name = 'wpl_cl_partially_accept';
 
-		// Check if the option already exists
+		// Check if the option already exists.
 		$current_value_decline          = get_option( $wpl_cl_decline_option_name );
 		$current_value_accept           = get_option( $wpl_cl_accept_option_name );
 		$current_value_partially_accept = get_option( $wpl_cl_partially_accept_option_name );
@@ -857,7 +859,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		echo '<th>' . __( 'Country', 'gdpr-cookie-consent' ) . '</th>';
 		echo '<th>' . __( 'Consent Status', 'gdpr-cookie-consent' ) . '</th>';
 		echo '<th>' . __( 'Visited Date', 'gdpr-cookie-consent' ) . '</th>';
-		// Add more table headers for other custom fields if needed
+		// Add more table headers for other custom fields if needed.
 		echo '</tr></thead>';
 		echo '<tbody>';
 		if ( ! is_multisite() ) {
@@ -866,20 +868,20 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 					$loop->the_post();
 					echo '<tr>';
 
-					// Output custom fields
+					// Output custom fields.
 					$custom = get_post_custom();
 
 					echo '<td class="wplconsentlogsip">' . ( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_html( $custom['_wplconsentlogs_ip'][0] ) : '' ) . '</td>';
-					// country
+					// country.
 					if ( isset( $custom['_wplconsentlogs_ip'][0] ) ) {
 						$ip_address = $custom['_wplconsentlogs_ip'][0];
 
-						// Fetch country information using ip-api.com
+						// Fetch country information using ip-api.com.
 						$api_url  = 'http://ip-api.com/json/' . $ip_address;
 						$response = wp_safe_remote_get( $api_url );
 
 						if ( is_wp_error( $response ) ) {
-							echo '<td>' . ( esc_html( 'Unknown', 'gdpr-cookie-consent' ) ) . '</td>'; // Handle the error gracefully
+							echo '<td>' . ( esc_html( 'Unknown', 'gdpr-cookie-consent' ) ) . '</td>'; // Handle the error gracefully.
 						} else {
 							$body = wp_remote_retrieve_body( $response );
 							$data = json_decode( $body );
@@ -891,15 +893,15 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							}
 						}
 					}
-					// consent status
+					// consent status.
 					if ( isset( $custom['_wplconsentlogs_details'][0] ) ) {
 						$cookies             = unserialize( $custom['_wplconsentlogs_details'][0] );
 						$wpl_viewed_cookie   = isset( $cookies['wpl_viewed_cookie'] ) ? $cookies['wpl_viewed_cookie'] : '';
 						$wpl_user_preference = isset( $cookies['wpl_user_preference'] ) ? json_decode( $cookies['wpl_user_preference'] ) : '';
 						$wpl_optout_cookie   = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
-						// convert the std obj in a php array
-						$allYes = true; // Initialize a flag variable
+						// convert the std obj in a php array.
+						$allYes = true; // Initialize a flag variable.
 
 						if ( isset( $cookies['wpl_user_preference'] ) ) {
 							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
@@ -907,7 +909,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 							foreach ( $wpl_user_preference_array as $value ) {
 								if ( $value === 'no' ) {
-									$allYes = false; // If any element is 'no', set the flag to false and break the loop
+									$allYes = false; // If any element is 'no', set the flag to false and break the loop.
 									break;
 								}
 							}
@@ -923,7 +925,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							echo '<td style="color: blue;text-align:center">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
 						}
 					}
-					// consent date
+					// consent date.
 					$content_post  = get_post( $post_id );
 					$time_utc      = $content_post->post_date_gmt;
 					$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
@@ -937,13 +939,13 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 					echo '</tr>';
 				endwhile;
 			else :
-				// No posts found, display a message
+				// No posts found, display a message.
 				echo '<tr><td colspan="4">' . __( 'No logs found', 'gdpr-cookie-consent' ) . '</td></tr>';
 			endif;
 
 			echo '</tbody>';
 			echo '</table>';
-			// Restore the global post data
+			// Restore the global post data.
 			wp_reset_postdata();
 		} else {
 			if ( class_exists( 'Gdpr_Cookie_Consent' ) ) {
@@ -965,16 +967,16 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 					if ( $siteurl == $forwarded_site_url1 && $is_consent_status1 != true ) {
 						echo '<td class="wplconsentlogsip">' . ( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_html( $custom['_wplconsentlogs_ip'][0] ) : '' ) . '</td>';
-						// country
+						// country.
 						if ( isset( $custom['_wplconsentlogs_ip'][0] ) ) {
 							$ip_address = $custom['_wplconsentlogs_ip'][0];
 
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url  = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get( $api_url );
 
 							if ( is_wp_error( $response ) ) {
-								echo '<td>' . ( esc_html( 'Unknown', 'gdpr-cookie-consent' ) ) . '</td>'; // Handle the error gracefully
+								echo '<td>' . ( esc_html( 'Unknown', 'gdpr-cookie-consent' ) ) . '</td>'; // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body( $response );
 								$data = json_decode( $body );
@@ -986,15 +988,15 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								}
 							}
 						}
-						// consent status
+						// consent status.
 						if ( isset( $custom['_wplconsentlogs_details'][0] ) ) {
 							$cookies             = unserialize( $custom['_wplconsentlogs_details'][0] );
 							$wpl_viewed_cookie   = isset( $cookies['wpl_viewed_cookie'] ) ? $cookies['wpl_viewed_cookie'] : '';
 							$wpl_user_preference = isset( $cookies['wpl_user_preference'] ) ? json_decode( $cookies['wpl_user_preference'] ) : '';
 							$wpl_optout_cookie   = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
-							// convert the std obj in a php array
-							$allYes = true; // Initialize a flag variable
+							// convert the std obj in a php array.
+							$allYes = true; // Initialize a flag variable.
 
 							if ( isset( $cookies['wpl_user_preference'] ) ) {
 								$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
@@ -1002,7 +1004,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 								foreach ( $wpl_user_preference_array as $value ) {
 									if ( $value === 'no' ) {
-										$allYes = false; // If any element is 'no', set the flag to false and break the loop
+										$allYes = false; // If any element is 'no', set the flag to false and break the loop.
 										break;
 									}
 								}
@@ -1018,7 +1020,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								echo '<td style="color: blue;text-align:center">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
 							}
 						}
-						// consent date
+						// consent date.
 						$content_post  = get_post( $post_id );
 						$time_utc      = $content_post->post_date_gmt;
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
@@ -1032,16 +1034,16 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						echo '</tr>';
 					} elseif ( $siteurl !== $forwarded_site_url && $is_consent_status == true ) {
 						echo '<td class="wplconsentlogsip">' . ( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_html( $custom['_wplconsentlogs_ip_cf'][0] ) : '' ) . '</td>';
-						// country
+						// country.
 						if ( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ) {
 							$ip_address = $custom['_wplconsentlogs_ip_cf'][0];
 
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url  = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get( $api_url );
 
 							if ( is_wp_error( $response ) ) {
-								echo '<td>' . ( esc_html( 'Unknown', 'gdpr-cookie-consent' ) ) . '</td>'; // Handle the error gracefully
+								echo '<td>' . ( esc_html( 'Unknown', 'gdpr-cookie-consent' ) ) . '</td>'; // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body( $response );
 								$data = json_decode( $body );
@@ -1053,15 +1055,15 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								}
 							}
 						}
-						// consent status
+						// consent status.
 						if ( isset( $custom['_wplconsentlogs_details_cf'][0] ) ) {
 							$cookies             = unserialize( $custom['_wplconsentlogs_details_cf'][0] );
 							$wpl_viewed_cookie   = isset( $cookies['wpl_viewed_cookie'] ) ? $cookies['wpl_viewed_cookie'] : '';
 							$wpl_user_preference = isset( $cookies['wpl_user_preference'] ) ? json_decode( $cookies['wpl_user_preference'] ) : '';
 							$wpl_optout_cookie   = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
-							// convert the std obj in a php array
-							$allYes = true; // Initialize a flag variable
+							// convert the std obj in a php array.
+							$allYes = true; // Initialize a flag variable.
 
 							if ( isset( $cookies['wpl_user_preference'] ) ) {
 								$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
@@ -1069,7 +1071,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 								foreach ( $wpl_user_preference_array as $value ) {
 									if ( $value === 'no' ) {
-										$allYes = false; // If any element is 'no', set the flag to false and break the loop
+										$allYes = false; // If any element is 'no', set the flag to false and break the loop.
 										break;
 									}
 								}
@@ -1085,7 +1087,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								echo '<td style="color: blue;text-align:center">' . ( esc_html( 'Partially Accepted ', 'gdpr-cookie-consent' ) ) . '<span style="color: orange; text-align:center;">( Forwarded )</span></td>';
 							}
 						}
-						// consent date
+						// consent date.
 						$content_post  = get_post( $post_id );
 						$time_utc      = $content_post->post_date_gmt;
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
@@ -1099,16 +1101,16 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						echo '</tr>';
 					} elseif ( $siteurl == $forwarded_site_url && $is_consent_status == true ) {
 						echo '<td class="wplconsentlogsip">' . ( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_html( $custom['_wplconsentlogs_ip_cf'][0] ) : '' ) . '</td>';
-						// country
+						// country.
 						if ( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ) {
 							$ip_address = $custom['_wplconsentlogs_ip_cf'][0];
 
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url  = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get( $api_url );
 
 							if ( is_wp_error( $response ) ) {
-								echo '<td>' . ( esc_html( 'Unknown', 'gdpr-cookie-consent' ) ) . '</td>'; // Handle the error gracefully
+								echo '<td>' . ( esc_html( 'Unknown', 'gdpr-cookie-consent' ) ) . '</td>'; // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body( $response );
 								$data = json_decode( $body );
@@ -1120,15 +1122,15 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								}
 							}
 						}
-						// consent status
+						// consent status.
 						if ( isset( $custom['_wplconsentlogs_details_cf'][0] ) ) {
 							$cookies             = unserialize( $custom['_wplconsentlogs_details_cf'][0] );
 							$wpl_viewed_cookie   = isset( $cookies['wpl_viewed_cookie'] ) ? $cookies['wpl_viewed_cookie'] : '';
 							$wpl_user_preference = isset( $cookies['wpl_user_preference'] ) ? json_decode( $cookies['wpl_user_preference'] ) : '';
 							$wpl_optout_cookie   = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
-							// convert the std obj in a php array
-							$allYes = true; // Initialize a flag variable
+							// convert the std obj in a php array.
+							$allYes = true; // Initialize a flag variable.
 
 							if ( isset( $cookies['wpl_user_preference'] ) ) {
 								$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
@@ -1136,7 +1138,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 								foreach ( $wpl_user_preference_array as $value ) {
 									if ( $value === 'no' ) {
-										$allYes = false; // If any element is 'no', set the flag to false and break the loop
+										$allYes = false; // If any element is 'no', set the flag to false and break the loop.
 										break;
 									}
 								}
@@ -1152,7 +1154,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								echo '<td style="color: blue;text-align:center">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
 							}
 						}
-						// consent date
+						// consent date.
 						$content_post  = get_post( $post_id );
 						$time_utc      = $content_post->post_date_gmt;
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
@@ -1166,16 +1168,16 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						echo '</tr>';
 					} else {
 						echo '<td class="wplconsentlogsip">' . ( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_html( $custom['_wplconsentlogs_ip_cf'][0] ) : '' ) . '</td>';
-						// country
+						// country.
 						if ( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ) {
 							$ip_address = $custom['_wplconsentlogs_ip_cf'][0];
 
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url  = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get( $api_url );
 
 							if ( is_wp_error( $response ) ) {
-								echo '<td>' . ( esc_html( 'Unknown', 'gdpr-cookie-consent' ) ) . '</td>'; // Handle the error gracefully
+								echo '<td>' . ( esc_html( 'Unknown', 'gdpr-cookie-consent' ) ) . '</td>'; // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body( $response );
 								$data = json_decode( $body );
@@ -1187,15 +1189,15 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								}
 							}
 						}
-						// consent status
+						// consent status.
 						if ( isset( $custom['_wplconsentlogs_details_cf'][0] ) ) {
 							$cookies             = unserialize( $custom['_wplconsentlogs_details_cf'][0] );
 							$wpl_viewed_cookie   = isset( $cookies['wpl_viewed_cookie'] ) ? $cookies['wpl_viewed_cookie'] : '';
 							$wpl_user_preference = isset( $cookies['wpl_user_preference'] ) ? json_decode( $cookies['wpl_user_preference'] ) : '';
 							$wpl_optout_cookie   = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
-							// convert the std obj in a php array
-							$allYes = true; // Initialize a flag variable
+							// convert the std obj in a php array.
+							$allYes = true; // Initialize a flag variable.
 
 							if ( isset( $cookies['wpl_user_preference'] ) ) {
 								$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
@@ -1203,7 +1205,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 								foreach ( $wpl_user_preference_array as $value ) {
 									if ( $value === 'no' ) {
-										$allYes = false; // If any element is 'no', set the flag to false and break the loop
+										$allYes = false; // If any element is 'no', set the flag to false and break the loop.
 										break;
 									}
 								}
@@ -1219,7 +1221,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								echo '<td style="color: blue;text-align:center">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
 							}
 						}
-						// consent date
+						// consent date.
 						$content_post  = get_post( $post_id );
 						$time_utc      = $content_post->post_date_gmt;
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
@@ -1234,12 +1236,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 					}
 				endwhile;
 			else :
-				// No posts found, display a message
+				// No posts found, display a message.
 				echo '<tr><td colspan="4">' . __( 'No logs found', 'gdpr-cookie-consent' ) . '</td></tr>';
 			endif;
 			echo '</tbody>';
 			echo '</table>';
-			// Restore the global post data
+			// Restore the global post data.
 			wp_reset_postdata();
 		}
 	}
@@ -1298,12 +1300,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 					if (isset($custom['_wplconsentlogs_ip'][0])) {
 						$ip_address = $custom['_wplconsentlogs_ip'][0];
 
-						// Fetch country information using ip-api.com
+						// Fetch country information using ip-api.com.
 						$api_url = 'http://ip-api.com/json/' . $ip_address;
 						$response = wp_safe_remote_get($api_url);
 
 						if (is_wp_error($response)) {
-							echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully
+							echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully.
 						} else {
 							$body = wp_remote_retrieve_body($response);
 							$data = json_decode($body);
@@ -1324,19 +1326,19 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
 						$wpl_optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 
-						//convert the std obj in a php array
+						//convert the std obj in a php array.
 						if (isset($cookies['wpl_user_preference'])) {
 							$decodedText = html_entity_decode($cookies['wpl_user_preference']);
 							$wpl_user_preference_array = json_decode($decodedText, true);
 
 
-							$allYes = true; // Initialize a flag variable
+							$allYes = true; // Initialize a flag variable.
 
 							if (!is_null($wpl_user_preference_array) && is_array($wpl_user_preference_array) && count($wpl_user_preference_array) > 0) {
 
 								foreach ($wpl_user_preference_array as $value) {
 									if ($value === 'no') {
-										$allYes = false; // If any element is 'no', set the flag to false
+										$allYes = false; // If any element is 'no', set the flag to false.
 										break;
 									}
 								}
@@ -1374,23 +1376,23 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
 						$optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 						$consent_status = 'Unknown';
-						$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value
+						$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value.
 						$wpl_user_preference_array = [];
 						if (isset($wpl_user_preference) && isset($cookies['wpl_user_preference'])) {
 							$preferencesDecoded = json_encode($wpl_user_preference);
-							// convert the std obj to a PHP array
+							// convert the std obj to a PHP array.
 							$decodedText = html_entity_decode($cookies['wpl_user_preference']);
 							$wpl_user_preference_array = json_decode($decodedText, true);
 						}
 
 
-						$allYes = true; // Initialize a flag variable
+						$allYes = true; // Initialize a flag variable.
 
 						if (!is_null($wpl_user_preference_array) && is_array($wpl_user_preference_array) && count($wpl_user_preference_array) > 0) {
 
 							foreach ($wpl_user_preference_array as $value) {
 								if ($value === 'no') {
-									$allYes = false; // If any element is 'no', set the flag to false
+									$allYes = false; // If any element is 'no', set the flag to false.
 									break;
 								}
 							}
@@ -1402,12 +1404,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						} else {
 							$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
 						}
-						// Fetch country information using ip-api.com
+						// Fetch country information using ip-api.com.
 						$api_url = 'http://ip-api.com/json/' . $ip_address;
 						$response = wp_safe_remote_get($api_url);
 
 						if (is_wp_error($response)) {
-							echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully
+							echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully.
 						} else {
 							$body = wp_remote_retrieve_body($response);
 							$data = json_decode($body);
@@ -1478,12 +1480,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if (isset($custom['_wplconsentlogs_ip'][0])) {
 							$ip_address = $custom['_wplconsentlogs_ip'][0];
 
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get($api_url);
 
 							if (is_wp_error($response)) {
-								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully
+								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body($response);
 								$data = json_decode($body);
@@ -1504,19 +1506,19 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
 							$wpl_optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 
-							//convert the std obj in a php array
+							//convert the std obj in a php array.
 							if (isset($cookies['wpl_user_preference'])) {
 								$decodedText = html_entity_decode($cookies['wpl_user_preference']);
 								$wpl_user_preference_array = json_decode($decodedText, true);
 
 
-								$allYes = true; // Initialize a flag variable
+								$allYes = true; // Initialize a flag variable.
 
 								if (!is_null($wpl_user_preference_array) && is_array($wpl_user_preference_array) && count($wpl_user_preference_array) > 0) {
 
 									foreach ($wpl_user_preference_array as $value) {
 										if ($value === 'no') {
-											$allYes = false; // If any element is 'no', set the flag to false
+											$allYes = false; // If any element is 'no', set the flag to false.
 											break;
 										}
 									}
@@ -1562,23 +1564,23 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
 							$optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 							$consent_status = 'Unknown';
-							$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value
+							$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value.
 							$wpl_user_preference_array = [];
 							if (isset($wpl_user_preference) && isset($cookies['wpl_user_preference'])) {
 								$preferencesDecoded = json_encode($wpl_user_preference);
-								// convert the std obj to a PHP array
+								// convert the std obj to a PHP array.
 								$decodedText = html_entity_decode($cookies['wpl_user_preference']);
 								$wpl_user_preference_array = json_decode($decodedText, true);
 							}
 
 
-							$allYes = true; // Initialize a flag variable
+							$allYes = true; // Initialize a flag variable.
 
 							if (!is_null($wpl_user_preference_array) && is_array($wpl_user_preference_array) && count($wpl_user_preference_array) > 0) {
 
 								foreach ($wpl_user_preference_array as $value) {
 									if ($value === 'no') {
-										$allYes = false; // If any element is 'no', set the flag to false
+										$allYes = false; // If any element is 'no', set the flag to false.
 										break;
 									}
 								}
@@ -1590,12 +1592,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							} else {
 								$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
 							}
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get($api_url);
 
 							if (is_wp_error($response)) {
-								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully
+								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body($response);
 								$data = json_decode($body);
@@ -1665,12 +1667,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if (isset($custom['_wplconsentlogs_ip_cf'][0])) {
 							$ip_address = $custom['_wplconsentlogs_ip_cf'][0];
 
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get($api_url);
 
 							if (is_wp_error($response)) {
-								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully
+								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body($response);
 								$data = json_decode($body);
@@ -1691,19 +1693,19 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
 							$wpl_optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 
-							//convert the std obj in a php array
+							//convert the std obj in a php array.
 							if (isset($cookies['wpl_user_preference'])) {
 								$decodedText = html_entity_decode($cookies['wpl_user_preference']);
 								$wpl_user_preference_array = json_decode($decodedText, true);
 
 
-								$allYes = true; // Initialize a flag variable
+								$allYes = true; // Initialize a flag variable.
 
 								if (!is_null($wpl_user_preference_array) && is_array($wpl_user_preference_array) && count($wpl_user_preference_array) > 0) {
 
 									foreach ($wpl_user_preference_array as $value) {
 										if ($value === 'no') {
-											$allYes = false; // If any element is 'no', set the flag to false
+											$allYes = false; // If any element is 'no', set the flag to false.
 											break;
 										}
 									}
@@ -1750,23 +1752,23 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
 							$optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 							$consent_status = 'Unknown';
-							$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value
+							$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value.
 							$wpl_user_preference_array = [];
 							if (isset($wpl_user_preference) && isset($cookies['wpl_user_preference'])) {
 								$preferencesDecoded = json_encode($wpl_user_preference);
-								// convert the std obj to a PHP array
+								// convert the std obj to a PHP array.
 								$decodedText = html_entity_decode($cookies['wpl_user_preference']);
 								$wpl_user_preference_array = json_decode($decodedText, true);
 							}
 
 
-							$allYes = true; // Initialize a flag variable
+							$allYes = true; // Initialize a flag variable.
 
 							if (!is_null($wpl_user_preference_array) && is_array($wpl_user_preference_array) && count($wpl_user_preference_array) > 0) {
 
 								foreach ($wpl_user_preference_array as $value) {
 									if ($value === 'no') {
-										$allYes = false; // If any element is 'no', set the flag to false
+										$allYes = false; // If any element is 'no', set the flag to false.
 										break;
 									}
 								}
@@ -1778,12 +1780,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							} else {
 								$consent_status = $allYes ? 'Approved ( Forwarded )' : 'Partially Accepted ( Forwarded )';
 							}
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get($api_url);
 
 							if (is_wp_error($response)) {
-								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully
+								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body($response);
 								$data = json_decode($body);
@@ -1853,12 +1855,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if (isset($custom['_wplconsentlogs_ip_cf'][0])) {
 							$ip_address = $custom['_wplconsentlogs_ip_cf'][0];
 
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get($api_url);
 
 							if (is_wp_error($response)) {
-								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully
+								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body($response);
 								$data = json_decode($body);
@@ -1879,19 +1881,19 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
 							$wpl_optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 
-							//convert the std obj in a php array
+							//convert the std obj in a php array.
 							if (isset($cookies['wpl_user_preference'])) {
 								$decodedText = html_entity_decode($cookies['wpl_user_preference']);
 								$wpl_user_preference_array = json_decode($decodedText, true);
 
 
-								$allYes = true; // Initialize a flag variable
+								$allYes = true; // Initialize a flag variable.
 
 								if (!is_null($wpl_user_preference_array) && is_array($wpl_user_preference_array) && count($wpl_user_preference_array) > 0) {
 
 									foreach ($wpl_user_preference_array as $value) {
 										if ($value === 'no') {
-											$allYes = false; // If any element is 'no', set the flag to false
+											$allYes = false; // If any element is 'no', set the flag to false.
 											break;
 										}
 									}
@@ -1938,23 +1940,23 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
 							$optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 							$consent_status = 'Unknown';
-							$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value
+							$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value.
 							$wpl_user_preference_array = [];
 							if (isset($wpl_user_preference) && isset($cookies['wpl_user_preference'])) {
 								$preferencesDecoded = json_encode($wpl_user_preference);
-								// convert the std obj to a PHP array
+								// convert the std obj to a PHP array.
 								$decodedText = html_entity_decode($cookies['wpl_user_preference']);
 								$wpl_user_preference_array = json_decode($decodedText, true);
 							}
 
 
-							$allYes = true; // Initialize a flag variable
+							$allYes = true; // Initialize a flag variable.
 
 							if (!is_null($wpl_user_preference_array) && is_array($wpl_user_preference_array) && count($wpl_user_preference_array) > 0) {
 
 								foreach ($wpl_user_preference_array as $value) {
 									if ($value === 'no') {
-										$allYes = false; // If any element is 'no', set the flag to false
+										$allYes = false; // If any element is 'no', set the flag to false.
 										break;
 									}
 								}
@@ -1966,12 +1968,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							} else {
 								$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
 							}
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get($api_url);
 
 							if (is_wp_error($response)) {
-								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully
+								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body($response);
 								$data = json_decode($body);
@@ -2041,12 +2043,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if (isset($custom['_wplconsentlogs_ip_cf'][0])) {
 							$ip_address = $custom['_wplconsentlogs_ip_cf'][0];
 
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get($api_url);
 
 							if (is_wp_error($response)) {
-								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully
+								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body($response);
 								$data = json_decode($body);
@@ -2068,19 +2070,19 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
 							$wpl_optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 
-							//convert the std obj in a php array
+							//convert the std obj in a php array.
 							if (isset($cookies['wpl_user_preference'])) {
 								$decodedText = html_entity_decode($cookies['wpl_user_preference']);
 								$wpl_user_preference_array = json_decode($decodedText, true);
 
 
-								$allYes = true; // Initialize a flag variable
+								$allYes = true; // Initialize a flag variable.
 
 								if (!is_null($wpl_user_preference_array) && is_array($wpl_user_preference_array) && count($wpl_user_preference_array) > 0) {
 
 									foreach ($wpl_user_preference_array as $value) {
 										if ($value === 'no') {
-											$allYes = false; // If any element is 'no', set the flag to false
+											$allYes = false; // If any element is 'no', set the flag to false.
 											break;
 										}
 									}
@@ -2127,23 +2129,23 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
 							$optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 							$consent_status = 'Unknown';
-							$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value
+							$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value.
 							$wpl_user_preference_array = [];
 							if (isset($wpl_user_preference) && isset($cookies['wpl_user_preference'])) {
 								$preferencesDecoded = json_encode($wpl_user_preference);
-								// convert the std obj to a PHP array
+								// convert the std obj to a PHP array.
 								$decodedText = html_entity_decode($cookies['wpl_user_preference']);
 								$wpl_user_preference_array = json_decode($decodedText, true);
 							}
 
 
-							$allYes = true; // Initialize a flag variable
+							$allYes = true; // Initialize a flag variable.
 
 							if (!is_null($wpl_user_preference_array) && is_array($wpl_user_preference_array) && count($wpl_user_preference_array) > 0) {
 
 								foreach ($wpl_user_preference_array as $value) {
 									if ($value === 'no') {
-										$allYes = false; // If any element is 'no', set the flag to false
+										$allYes = false; // If any element is 'no', set the flag to false.
 										break;
 									}
 								}
@@ -2156,12 +2158,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								$consent_status = $allYes ? 'Approved ( Forwarded )' : 'Partially Accepted ( 
 								Forwarded )';
 							}
-							// Fetch country information using ip-api.com
+							// Fetch country information using ip-api.com.
 							$api_url = 'http://ip-api.com/json/' . $ip_address;
 							$response = wp_safe_remote_get($api_url);
 
 							if (is_wp_error($response)) {
-								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully
+								echo esc_attr_e('Unknown', 'gdpr-cookie-consent'); // Handle the error gracefully.
 							} else {
 								$body = wp_remote_retrieve_body($response);
 								$data = json_decode($body);
@@ -2229,12 +2231,13 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	}
 
 	/**
-	 * Get a template based on filename, overridable in theme dir
+	 * Get a template based on filename, overridable in the theme directory.
 	 *
-	 * @param string $filename
-	 * @param array  $args
-	 * @param string $path
-	 * @return string
+	 * @param string $filename The name of the template file.
+	 * @param array  $args     Optional. Arguments to pass to the template file.
+	 * @param string $path     Optional. The path to the template file.
+	 *
+	 * @return string The content of the template file.
 	 */
 	public function wpl_get_template( $filename, $args = array(), $path = false ) {
 

@@ -1,24 +1,32 @@
 <?php
-
 /**
  * Consent Logs Reports Table Class
+ *
+ * @package Gdpr_Cookie_Consent
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Load WP_List_Table if not loaded
+// Load WP_List_Table if not loaded.
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
-class WPL_Consent_Logs_Table extends WP_List_Table {
+/**
+ * The frontend-specific functionality for consent log.
+ *
+ * @package    Gdpr_Cookie_Consent
+ * @subpackage Gdpr_Cookie_Consent/public/modules
+ * @author     wpeka <https://club.wpeka.com>
+ */
+class WPL_Consent_Logs extends WP_List_Table {
 
 
 	/**
-	 * Number of items per page
+	 * Number of items per page.
 	 *
 	 * @var int
 	 * @since 3.0.0
@@ -26,7 +34,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	public $per_page = 10;
 
 	/**
-	 * Number of results found
+	 * Number of results found.
 	 *
 	 * @var int
 	 * @since 3.0.0
@@ -34,7 +42,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	public $count = 0;
 
 	/**
-	 * Total results
+	 * Total results.
 	 *
 	 * @var int
 	 * @since 3.0.0
@@ -42,7 +50,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	public $total = 0;
 
 	/**
-	 * The arguments for the data set
+	 * The arguments for the data set.
 	 *
 	 * @var array
 	 * @since  3.0.0
@@ -50,14 +58,14 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	public $args = array();
 
 	/**
-	 * Get things started
+	 * Get things started.
 	 *
 	 * @since 3.0.0
 	 * @see   WP_List_Table::__construct()
 	 */
 	public function __construct() {
 		global $status, $page;
-		// Set parent defaults
+		// Set parent defaults.
 		parent::__construct(
 			array(
 				'singular' => __( 'User', 'gdpr-cookie-consent' ),
@@ -68,10 +76,10 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Show the search field
+	 * Show the search field.
 	 *
-	 * @param string $text     Label for the search box
-	 * @param string $input_id ID of the search box
+	 * @param string $text     Label for the search box.
+	 * @param string $input_id ID of the search box.
 	 *
 	 * @return void
 	 * @since 3.0.0
@@ -81,7 +89,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			echo '<input type="hidden" name="orderby" value="'
-				. esc_attr( $_REQUEST['orderby'] ) . '" />';
+				. esc_attr( wp_unslash( $_REQUEST['orderby'] ) ) . '" />';
 		}
 		if ( ! empty( $_REQUEST['order'] ) ) {
 			echo '<input type="hidden" name="order" value="'
@@ -129,8 +137,8 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	/**
 	 * This function renders most of the columns in the list table.
 	 *
-	 * @param array  $item        Contains all the data of the customers
-	 * @param string $column_name The name of the column
+	 * @param array  $item Contains all the data of the customers.
+	 * @param string $column_name The name of the column.
 	 *
 	 * @return string Column Name
 	 * @since 3.0.0
@@ -150,7 +158,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	/**
 	 * Column name
 	 *
-	 * @param array $item
+	 * @param array $item Contains all the data of the customers.
 	 *
 	 * @return string
 	 */
@@ -185,7 +193,13 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 		$columns['wplconsentlogspdf'] = __( 'Proof Of Consent', 'gdpr-cookie-consent' );
 		return apply_filters( 'wpl_report_customer_columns', $columns );
 	}
-
+	/**
+	 * Column name
+	 *
+	 * @param array $item Contains all the data of the customers.
+	 *
+	 * @return string
+	 */
 	public function column_cb( $item ) {
 		return sprintf(
 			'<input type="checkbox" name="%1$s_id[]" value="%2$s" />',
@@ -216,6 +230,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	/**
 	 * Outputs the reporting views
 	 *
+	 * @param string $which The context of the bulk actions. Default empty.
 	 * @return void
 	 * @since 3.0.0
 	 */
@@ -284,12 +299,17 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 		return ! empty( $_GET['s'] ) ? urldecode( trim( $_GET['s'] ) ) : false;
 	}
 
-
+	/**
+	 * Generates a dropdown select for filtering by resolved dates.
+	 *
+	 * @return void
+	 * @since 3.0.0
+	 */
 	public function resolved_select() {
 
 		$options = array();
 
-		// Query to get all posts
+		// Query to get all posts.
 		$all_posts = get_posts(
 			array(
 				'post_type'      => 'wplconsentlogs',
@@ -300,19 +320,19 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 			)
 		);
 
-		// Loop through each post to extract creation dates and populate the options array
+		// Loop through each post to extract creation dates and populate the options array.
 		foreach ( $all_posts as $post ) {
-			$post_date  = strtotime( $post->post_date ); // Get the UNIX timestamp of the post creation date
-			$month_year = date( 'F Y', $post_date ); // Format the timestamp to month and year
+			$post_date  = strtotime( $post->post_date ); // Get the UNIX timestamp of the post creation date.
+			$month_year = date( 'F Y', $post_date ); // Format the timestamp to month and year.
 
-			// Check if the month_year is not already added to the options array
+			// Check if the month_year is not already added to the options array.
 			if ( ! in_array( $month_year, $options ) ) {
-				// Add the month_year as an option
+				// Add the month_year as an option.
 				$options[] = $month_year;
 			}
 		}
 
-		// Add an 'ALL Dates' option at the beginning of the array
+		// Add an 'ALL Dates' option at the beginning of the array.
 		array_unshift( $options, __( 'ALL Dates', 'gdpr-cookie-consent' ) );
 
 		$selected = 0;
@@ -345,8 +365,8 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	/**
 	 * Build all the reports data
 	 *
-	 * @return array $reports_data All the data for customer reports
-	 * @global object $wpdb Used to query the database using the WordPress
+	 * @return array $reports_data All the data for customer reports.
+	 * @global object $wpdb Used to query the database using the WordPress.
 	 *                      Database API
 	 * @since 3.0.0
 	 */
@@ -407,7 +427,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	 */
 	public function prepare_items() {
 		$columns  = $this->get_columns();
-		$hidden   = array(); // No hidden columns
+		$hidden   = array(); // No hidden columns .
 		$sortable = $this->get_sortable_columns();
 		$this->process_bulk_action();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
@@ -424,9 +444,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Count number of users
-	 *
-	 * @param $args
+	 * Count the number of users.
 	 *
 	 * @return int
 	 */
@@ -437,11 +455,11 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 			array(
 				'post_type'      => 'wplconsentlogs',
 				'posts_per_page' => -1,
-				'post_status'    => 'publish', // Retrieve all posts
+				'post_status'    => 'publish', // Retrieve all posts.
 			)
 		);
 
-		$data  = array(); // Initialize the $data array
+		$data  = array(); // Initialize the $data array.
 		$count = 0;
 		foreach ( $custom_posts as $post ) {
 			++$count;
@@ -451,11 +469,17 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get users
+	 * Get users.
 	 *
-	 * @param array $args
+	 * @param array $args {
+	 *     Optional. Array of parameters for retrieving requests.
 	 *
-	 * @return array
+	 *     @type int    $number Number of requests to retrieve. Default is 10.
+	 *     @type int    $offset Offset for pagination. Default is 0.
+	 *     @type string $search Search term for filtering requests. Default is an empty string.
+	 *     @type int    $month  Month for filtering requests. Default is 0 (no specific month).
+	 * }
+	 * @return array Array of requests.
 	 */
 	public function get_requests( $args ) {
 		global $post;
@@ -468,12 +492,12 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 			'post_type'      => 'wplconsentlogs',
 			'posts_per_page' => $number,
 			'offset'         => $offset,
-			'post_status'    => 'publish', // Retrieve all posts
+			'post_status'    => 'publish', // Retrieve all posts.
 			'orderby'        => 'ID',
 			'order'          => 'DESC',
 			'meta_query'     => array(),
 		);
-		// search on the basis of IP
+		// search on the basis of IP.
 		if ( ! empty( $search ) ) {
 			$post_args['meta_query'][] = array(
 				'key'     => '_wplconsentlogs_ip',
@@ -491,18 +515,18 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 		}
 
 		$custom_posts     = get_posts( $post_args );
-		$all_consent_data = array(); // Initialize the $data array
+		$all_consent_data = array(); // Initialize the $data array.
 
 		// consent forwarding.
 
 		if ( ! is_multisite() ) {
 			foreach ( $custom_posts as $post ) {
 
-				setup_postdata( $post ); // Setup post data for each post
+				setup_postdata( $post ); // Setup post data for each post.
 
 				$post_id = $post->ID;
 
-				// Fetch specific values from post meta using keys
+				// Fetch specific values from post meta using keys.
 				$wplconsentlogs_ip = get_post_meta( $post_id, '_wplconsentlogs_ip', true );
 
 				$wplconsentlogs_country = get_post_meta( $post_id, '_wplconsentlogs_country', true );
@@ -511,7 +535,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 					$wplconsentlogs_country = 'Unknown';
 				}
 
-				// date
+				// date.
 				$content_post = get_post( $post_id );
 
 				$time_utc      = $content_post->post_date_gmt;
@@ -524,7 +548,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 					$wplconsentlogs_dates = $local_time;
 				}
 
-				// consent status
+				// consent status.
 
 				$wplconsentlogs_details = get_post_meta( $post_id, '_wplconsentlogs_details', true );
 
@@ -540,13 +564,13 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$decodedText               = html_entity_decode( $wpl_user_preference );
 						$wpl_user_preference_array = json_decode( $decodedText, true );
 
-						$allYes = true; // Initialize a flag variable
+						$allYes = true; // Initialize a flag variable.
 
 						if ( ! is_null( $wpl_user_preference_array ) && is_array( $wpl_user_preference_array ) && count( $wpl_user_preference_array ) > 0 ) {
 
 							foreach ( $wpl_user_preference_array as $value ) {
 								if ( $value === 'no' ) {
-									$allYes = false; // If any element is 'no', set the flag to false
+									$allYes = false; // If any element is 'no', set the flag to false.
 									break;
 								}
 							}
@@ -564,7 +588,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 					}
 				}
 				$siteaddress = null;
-				// pdfs
+				// pdfs.
 
 				$custom       = get_post_custom( $post_id );
 				$content_post = get_post( $post_id );
@@ -587,22 +611,22 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 					$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
 					$consent_status            = 'Unknown';
-					$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value
+					$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 					$wpl_user_preference_array = array();
 					if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
 						$preferencesDecoded = json_encode( $wpl_user_preference );
-						// convert the std obj to a PHP array
+						// convert the std obj to a PHP array.
 						$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 						$wpl_user_preference_array = json_decode( $decodedText, true );
 					}
 
-					$allYes = true; // Initialize a flag variable
+					$allYes = true; // Initialize a flag variable.
 
 					if ( ! is_null( $wpl_user_preference_array ) && is_array( $wpl_user_preference_array ) && count( $wpl_user_preference_array ) > 0 ) {
 
 						foreach ( $wpl_user_preference_array as $value ) {
 							if ( $value === 'no' ) {
-								$allYes = false; // If any element is 'no', set the flag to false
+								$allYes = false; // If any element is 'no', set the flag to false.
 								break;
 							}
 						}
@@ -641,7 +665,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 
 				$wplconsentlogspdf = ob_get_clean();
 
-				// all data for table
+				// all data for table.
 				$all_consent_data[] = array(
 					'ID'                    => $post_id,
 					'wplconsentlogsip'      => $wplconsentlogs_ip,
@@ -663,11 +687,11 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 				$forwarded_site_url1 = isset( $custom['_wplconsentlogs_siteurl'][0] ) ? $custom['_wplconsentlogs_siteurl'][0] : '';
 				$is_consent_status1  = isset( $custom['_wplconsentlogs_consent_forward'][0] ) ? $custom['_wplconsentlogs_consent_forward'][0] : '';
 
-				setup_postdata( $post ); // Setup post data for each post
+				setup_postdata( $post ); // Setup post data for each post.
 				$post_id = $post->ID;
 
 				if ( $siteurl == $forwarded_site_url1 && $is_consent_status1 != true ) {
-					// Fetch specific values from post meta using keys
+					// Fetch specific values from post meta using keys.
 					$wplconsentlogs_ip = get_post_meta( $post_id, '_wplconsentlogs_ip', true );
 
 					$wplconsentlogs_country = get_post_meta( $post_id, '_wplconsentlogs_country', true );
@@ -676,7 +700,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$wplconsentlogs_country = 'Unknown';
 					}
 
-					// date
+					// date.
 					$content_post = get_post( $post_id );
 
 					$time_utc      = $content_post->post_date_gmt;
@@ -689,7 +713,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$wplconsentlogs_dates = $local_time;
 					}
 
-					// consent status
+					// consent status.
 
 					$wplconsentlogs_details = get_post_meta( $post_id, '_wplconsentlogs_details', true );
 
@@ -705,13 +729,13 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 							$decodedText               = html_entity_decode( $wpl_user_preference );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
 
-							$allYes = true; // Initialize a flag variable
+							$allYes = true; // Initialize a flag variable.
 
 							if ( ! is_null( $wpl_user_preference_array ) && is_array( $wpl_user_preference_array ) && count( $wpl_user_preference_array ) > 0 ) {
 
 								foreach ( $wpl_user_preference_array as $value ) {
 									if ( $value === 'no' ) {
-										$allYes = false; // If any element is 'no', set the flag to false
+										$allYes = false; // If any element is 'no', set the flag to false.
 										break;
 									}
 								}
@@ -738,7 +762,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 					} else {
 						$siteaddress = $siteurl;
 					}
-					// pdfs
+					// pdfs.
 
 					$custom       = get_post_custom( $post_id );
 					$content_post = get_post( $post_id );
@@ -761,22 +785,22 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
 						$consent_status            = 'Unknown';
-						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value
+						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 						$wpl_user_preference_array = array();
 						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
 							$preferencesDecoded = json_encode( $wpl_user_preference );
-							// convert the std obj to a PHP array
+							// convert the std obj to a PHP array.
 							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
 						}
 
-						$allYes = true; // Initialize a flag variable
+						$allYes = true; // Initialize a flag variable.
 
 						if ( ! is_null( $wpl_user_preference_array ) && is_array( $wpl_user_preference_array ) && count( $wpl_user_preference_array ) > 0 ) {
 
 							foreach ( $wpl_user_preference_array as $value ) {
 								if ( $value === 'no' ) {
-									$allYes = false; // If any element is 'no', set the flag to false
+									$allYes = false; // If any element is 'no', set the flag to false.
 									break;
 								}
 							}
@@ -815,7 +839,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 
 					$wplconsentlogspdf = ob_get_clean();
 
-					// all data for table
+					// all data for table.
 					$all_consent_data[] = array(
 						'ID'                      => $post_id,
 						'wplconsentlogsip'        => $wplconsentlogs_ip,
@@ -826,7 +850,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						'wplconsentlogspdf'       => $wplconsentlogspdf,
 					);
 				} elseif ( $siteurl !== $forwarded_site_url && $is_consent_status == true ) {
-					// Fetch specific values from post meta using keys
+					// Fetch specific values from post meta using keys.
 					$wplconsentlogs_ip = get_post_meta( $post_id, '_wplconsentlogs_ip_cf', true );
 
 					$wplconsentlogs_country = get_post_meta( $post_id, '_wplconsentlogs_country_cf', true );
@@ -835,7 +859,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$wplconsentlogs_country = 'Unknown';
 					}
 
-					// date
+					// date.
 					$content_post = get_post( $post_id );
 
 					$time_utc      = $content_post->post_date_gmt;
@@ -848,7 +872,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$wplconsentlogs_dates = $local_time;
 					}
 
-					// consent status
+					// consent status.
 
 					$wplconsentlogs_details = get_post_meta( $post_id, '_wplconsentlogs_details_cf', true );
 
@@ -864,13 +888,13 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 							$decodedText               = html_entity_decode( $wpl_user_preference );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
 
-							$allYes = true; // Initialize a flag variable
+							$allYes = true; // Initialize a flag variable.
 
 							if ( ! is_null( $wpl_user_preference_array ) && is_array( $wpl_user_preference_array ) && count( $wpl_user_preference_array ) > 0 ) {
 
 								foreach ( $wpl_user_preference_array as $value ) {
 									if ( $value === 'no' ) {
-										$allYes = false; // If any element is 'no', set the flag to false
+										$allYes = false; // If any element is 'no', set the flag to false.
 										break;
 									}
 								}
@@ -897,7 +921,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 					} else {
 						$siteaddress = $siteurl;
 					}
-					// pdfs
+					// pdfs.
 
 					$custom       = get_post_custom( $post_id );
 					$content_post = get_post( $post_id );
@@ -920,22 +944,22 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
 						$consent_status            = 'Unknown';
-						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value
+						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 						$wpl_user_preference_array = array();
 						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
 							$preferencesDecoded = json_encode( $wpl_user_preference );
-							// convert the std obj to a PHP array
+							// convert the std obj to a PHP array.
 							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
 						}
 
-						$allYes = true; // Initialize a flag variable
+						$allYes = true; // Initialize a flag variable.
 
 						if ( ! is_null( $wpl_user_preference_array ) && is_array( $wpl_user_preference_array ) && count( $wpl_user_preference_array ) > 0 ) {
 
 							foreach ( $wpl_user_preference_array as $value ) {
 								if ( $value === 'no' ) {
-									$allYes = false; // If any element is 'no', set the flag to false
+									$allYes = false; // If any element is 'no', set the flag to false.
 									break;
 								}
 							}
@@ -974,7 +998,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 
 					$wplconsentlogspdf = ob_get_clean();
 
-					// all data for table
+					// all data for table.
 					$all_consent_data[] = array(
 						'ID'                      => $post_id,
 						'wplconsentlogsip'        => $wplconsentlogs_ip,
@@ -985,7 +1009,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						'wplconsentlogspdf'       => $wplconsentlogspdf,
 					);
 				} elseif ( $siteurl == $forwarded_site_url && $is_consent_status == true ) {
-					// Fetch specific values from post meta using keys
+					// Fetch specific values from post meta using keys.
 					$wplconsentlogs_ip = get_post_meta( $post_id, '_wplconsentlogs_ip_cf', true );
 
 					$wplconsentlogs_country = get_post_meta( $post_id, '_wplconsentlogs_country_cf', true );
@@ -994,7 +1018,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$wplconsentlogs_country = 'Unknown';
 					}
 
-					// date
+					// date.
 					$content_post = get_post( $post_id );
 
 					$time_utc      = $content_post->post_date_gmt;
@@ -1007,7 +1031,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$wplconsentlogs_dates = $local_time;
 					}
 
-					// consent status
+					// consent status.
 
 					$wplconsentlogs_details = get_post_meta( $post_id, '_wplconsentlogs_details_cf', true );
 
@@ -1023,13 +1047,13 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 							$decodedText               = html_entity_decode( $wpl_user_preference );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
 
-							$allYes = true; // Initialize a flag variable
+							$allYes = true; // Initialize a flag variable.
 
 							if ( ! is_null( $wpl_user_preference_array ) && is_array( $wpl_user_preference_array ) && count( $wpl_user_preference_array ) > 0 ) {
 
 								foreach ( $wpl_user_preference_array as $value ) {
 									if ( $value === 'no' ) {
-										$allYes = false; // If any element is 'no', set the flag to false
+										$allYes = false; // If any element is 'no', set the flag to false.
 										break;
 									}
 								}
@@ -1079,22 +1103,22 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
 						$consent_status            = 'Unknown';
-						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value
+						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 						$wpl_user_preference_array = array();
 						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
 							$preferencesDecoded = json_encode( $wpl_user_preference );
-							// convert the std obj to a PHP array
+							// convert the std obj to a PHP array.
 							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
 						}
 
-						$allYes = true; // Initialize a flag variable
+						$allYes = true; // Initialize a flag variable.
 
 						if ( ! is_null( $wpl_user_preference_array ) && is_array( $wpl_user_preference_array ) && count( $wpl_user_preference_array ) > 0 ) {
 
 							foreach ( $wpl_user_preference_array as $value ) {
 								if ( $value === 'no' ) {
-									$allYes = false; // If any element is 'no', set the flag to false
+									$allYes = false; // If any element is 'no', set the flag to false.
 									break;
 								}
 							}
@@ -1133,7 +1157,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 
 					$wplconsentlogspdf = ob_get_clean();
 
-					// all data for table
+					// all data for table.
 					$all_consent_data[] = array(
 						'ID'                      => $post_id,
 						'wplconsentlogsip'        => $wplconsentlogs_ip,
@@ -1144,7 +1168,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						'wplconsentlogspdf'       => $wplconsentlogspdf,
 					);
 				} else {
-					// Fetch specific values from post meta using keys
+					// Fetch specific values from post meta using keys.
 					$wplconsentlogs_ip = get_post_meta( $post_id, '_wplconsentlogs_ip_cf', true );
 
 					$wplconsentlogs_country = get_post_meta( $post_id, '_wplconsentlogs_country_cf', true );
@@ -1153,7 +1177,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$wplconsentlogs_country = 'Unknown';
 					}
 
-					// date
+					// date.
 					$content_post = get_post( $post_id );
 
 					$time_utc      = $content_post->post_date_gmt;
@@ -1166,7 +1190,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$wplconsentlogs_dates = $local_time;
 					}
 
-					// consent status
+					// consent status.
 
 					$wplconsentlogs_details = get_post_meta( $post_id, '_wplconsentlogs_details_cf', true );
 
@@ -1182,13 +1206,13 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 							$decodedText               = html_entity_decode( $wpl_user_preference );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
 
-							$allYes = true; // Initialize a flag variable
+							$allYes = true; // Initialize a flag variable.
 
 							if ( ! is_null( $wpl_user_preference_array ) && is_array( $wpl_user_preference_array ) && count( $wpl_user_preference_array ) > 0 ) {
 
 								foreach ( $wpl_user_preference_array as $value ) {
 									if ( $value === 'no' ) {
-										$allYes = false; // If any element is 'no', set the flag to false
+										$allYes = false; // If any element is 'no', set the flag to false.
 										break;
 									}
 								}
@@ -1215,7 +1239,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 					} else {
 						$siteaddress = $siteurl;
 					}
-					// pdfs
+					// pdfs.
 
 					$custom       = get_post_custom( $post_id );
 					$content_post = get_post( $post_id );
@@ -1238,22 +1262,22 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 						$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
 						$consent_status            = 'Unknown';
-						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value
+						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 						$wpl_user_preference_array = array();
 						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
 							$preferencesDecoded = json_encode( $wpl_user_preference );
-							// convert the std obj to a PHP array
+							// convert the std obj to a PHP array.
 							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
 						}
 
-						$allYes = true; // Initialize a flag variable
+						$allYes = true; // Initialize a flag variable.
 
 						if ( ! is_null( $wpl_user_preference_array ) && is_array( $wpl_user_preference_array ) && count( $wpl_user_preference_array ) > 0 ) {
 
 							foreach ( $wpl_user_preference_array as $value ) {
 								if ( $value === 'no' ) {
-									$allYes = false; // If any element is 'no', set the flag to false
+									$allYes = false; // If any element is 'no', set the flag to false.
 									break;
 								}
 							}
@@ -1292,7 +1316,7 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 
 					$wplconsentlogspdf = ob_get_clean();
 
-					// all data for table
+					// all data for table.
 					$all_consent_data[] = array(
 						'ID'                      => $post_id,
 						'wplconsentlogsip'        => $wplconsentlogs_ip,
@@ -1308,7 +1332,13 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 
 		return $all_consent_data;
 	}
-
+	/**
+	 * Localize and format a Unix timestamp to a human-readable date.
+	 *
+	 * @param int $unix_time The Unix timestamp to be formatted.
+	 *
+	 * @return string Formatted and localized date.
+	 */
 	public function wpl_localize_date( $unix_time ) {
 
 		$formatted_date    = date( get_option( 'date_format' ), $unix_time );
@@ -1320,7 +1350,11 @@ class WPL_Consent_Logs_Table extends WP_List_Table {
 		$date              = str_replace( $weekday, $weekday_localized, $date );
 		return $date;
 	}
-
+	/**
+	 * Custom sprintf function with additional checks for translation errors.
+	 *
+	 * @return string Formatted string or a string with a translation error message.
+	 */
 	public function wpl_sprintf() {
 
 		$args       = func_get_args();
