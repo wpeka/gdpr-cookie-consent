@@ -496,11 +496,6 @@ if ($table_exists) {
 					<?php esc_html_e('Quick Links', 'gdpr-cookie-consent'); ?>
 				</span>
 				<span>
-					<a v-show="!pro_installed" class="gdpr-progress-list-link" :href="gdpr_pro_url" target="_blank">
-						<c-button class="gdpr-upgrade-pro-button" color="info" :variant="highlight_variant">
-							<?php esc_html_e('Upgrade to Pro', 'gdpr-cookie-consent'); ?>
-						</c-button>
-					</a>
 					<a v-show="pro_installed && !pro_activated" class="gdpr-progress-list-link" :href="plugin_page_url" target="_blank">
 						<c-button class="gdpr-upgrade-pro-button" color="info" :variant="highlight_variant">
 							<?php esc_html_e('Activate Pro', 'gdpr-cookie-consent'); ?>
@@ -580,72 +575,6 @@ if ($table_exists) {
 						</span>
 					</span>
 				</c-row>
-				<!-- <c-row v-show="!pro_installed || !pro_activated || !api_key_activated" class="gdpr-quick-links-images-row">
-					<span class="gdpr-quick-link-item settings_free">
-						<a class="gdpr-quick-link" :href="show_cookie_url">
-							<img class="gdpr-quick-link-image" :src="settings_image.default">
-						</a>
-						<span class="gdpr-quick-link-caption">
-						<?php esc_html_e('Settings', 'gdpr-cookie-consent'); ?>
-						</span>
-					</span>
-					<span class="gdpr-quick-link-item cookie_banner_free">
-						<a class="gdpr-quick-link" :href="cookie_design_url">
-							<img class="gdpr-quick-link-image" :src="cookie_design_image.default">
-						</a>
-						<span class="gdpr-quick-link-caption">
-						<?php esc_html_e('Design Cookie Banner', 'gdpr-cookie-consent'); ?>
-						</span>
-					</span>
-					<span class="gdpr-quick-link-item">
-						<c-button class="gdpr-dashboard-disabled-icon" @mouseover="highlight_variant=''" @mouseleave="highlight_variant='outline'">
-							<img class="gdpr-quick-link-image" :src="script_blocker_image_disabled.default">
-						</c-button>
-						<span class="gdpr-quick-link-caption">
-						<?php esc_html_e('Script Blocker', 'gdpr-cookie-consent'); ?>
-						</span>
-					</span>
-					<span class="gdpr-quick-link-item">
-						<c-button class="gdpr-dashboard-disabled-icon" @mouseover="highlight_variant=''" @mouseleave="highlight_variant='outline'">
-							<img class="gdpr-quick-link-image" :src="consent_log_image_disabled.default">
-						</c-button>
-						<span class="gdpr-quick-link-caption">
-						<?php esc_html_e('Consent Log', 'gdpr-cookie-consent'); ?>
-						</span>
-					</span>
-					<span class="gdpr-quick-link-item">
-						<c-button class="gdpr-dashboard-disabled-icon" @mouseover="highlight_variant=''" @mouseleave="highlight_variant='outline'">
-							<img class="gdpr-quick-link-image" :src="cookie_scan_image_disabled.default">
-						</c-button>
-						<span class="gdpr-quick-link-caption">
-						<?php esc_html_e('Scan Cookies', 'gdpr-cookie-consent'); ?>
-						</span>
-					</span>
-					<span class="gdpr-quick-link-item">
-						<c-button class="gdpr-dashboard-disabled-icon" @mouseover="highlight_variant=''" @mouseleave="highlight_variant='outline'">
-							<img class="gdpr-quick-link-image" :src="geolocation_image_disabled.default">
-						</c-button>
-						<span class="gdpr-quick-link-caption">
-						<?php esc_html_e('Geotargeting', 'gdpr-cookie-consent'); ?>
-						</span>
-					</span>
-					<span class="gdpr-quick-link-item">
-						<c-button class="gdpr-dashboard-disabled-icon" @mouseover="highlight_variant=''" @mouseleave="highlight_variant='outline'">
-							<img class="gdpr-quick-link-image" :src="cookie_template_image_disabled.default">
-						</c-button>
-						<span class="gdpr-quick-link-caption">
-						<?php esc_html_e('Banner Templates', 'gdpr-cookie-consent'); ?>
-						</span>
-					</span>
-					<span class="gdpr-quick-link-item">
-						<c-button class="gdpr-dashboard-disabled-icon" @mouseover="highlight_variant=''" @mouseleave="highlight_variant='outline'">
-							<img class="gdpr-quick-link-image" :src="cookie_table_image_disabled.default">
-						</c-button>
-						<span class="gdpr-quick-link-caption">
-						<?php esc_html_e('Third Party Details', 'gdpr-cookie-consent'); ?>
-						</span>
-					</span>
-				</c-row> -->
 			</c-card-body>
 		</c-card>
 	</c-container>
