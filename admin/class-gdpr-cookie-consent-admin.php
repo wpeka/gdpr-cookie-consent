@@ -86,6 +86,21 @@ class Gdpr_Cookie_Consent_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
+		$pro_is_activated = get_option( 'wpl_pro_active', false );
+
+		if(!$pro_is_activated){
+		if ( ! shortcode_exists( 'wpl_data_request' ) ) {
+			add_shortcode( 'wpl_data_request', array( $this, 'wpl_data_reqs_shortcode' ) );         // a shortcode [wpl_data_request].
+		}
+
+		if ( class_exists( 'Gdpr_Cookie_Consent' ) ) {
+			$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		}
+
+		add_action( 'admin_init', array( $this, 'wpl_data_req_process_resolve' ) );
+		add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
+		add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
+		}
 	}
 
 	/**
@@ -229,6 +244,354 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
+	 * DATA Reqs Shortcode callback function
+	 *
+	 * @return string|void
+	 */
+	public function wpl_data_reqs_shortcode() {
+		wp_register_script( 'wplcookieconsent_data_reqs', plugin_dir_url( __FILE__ ) . 'data-req/data-request' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( 'wplcookieconsent_data_reqs' );
+		wp_localize_script(
+			'wplcookieconsent_data_reqs',
+			'data_req_obj',
+			array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+			)
+		);
+		ob_start();
+		?>
+			<div class="wpl-datarequest wpl-alert">
+				<span class="wpl-close">&times;</span>
+				<span id="wpl-message"></span>
+			</div>
+			<form id="wpl-datarequest-form">
+				<input type="hidden" name="wpl_data_req_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'wpl-data-req-form-nonce' ) ); ?>"/>
+				<label for="wpl_datarequest_firstname" class="wpl-first-name"><?php echo __( 'Name', 'gdpr-cookie-consent' ); ?>
+					<input type="search" class="datarequest-firstname" value="" placeholder="your first name" id="wpl_datarequest_firstname" name="wpl_datarequest_firstname" >
+				</label>
+				<div>
+					<label for="wpl_datarequest_name"><?php echo __( 'Name', 'gdpr-cookie-consent' ); ?></label>
+					<input type="text" required value="" placeholder="<?php echo __( 'Your name', 'gdpr-cookie-consent' ); ?>" id="wpl_datarequest_name" name="wpl_datarequest_name">
+				</div>
+				<div>
+					<label for="wpl_datarequest_email"><?php echo __( 'Email', 'gdpr-cookie-consent' ); ?></label>
+					<input type="email" required value="" placeholder="<?php echo __( 'email@email.com', 'gdpr-cookie-consent' ); ?>" id="wpl_datarequest_email" name="wpl_datarequest_email">
+				</div>
+				<?php
+					$options = $this->wpl_data_reqs_options();
+				foreach ( $options as $id => $label ) {
+					?>
+						<div class="wpl_datarequest wpl_datarequest_<?php echo esc_attr( $id ); ?>">
+							<label for="wpl_datarequest_<?php echo esc_attr( $id ); ?>">
+								<input type="checkbox" value="1" name="wpl_datarequest_<?php echo esc_attr( $id ); ?>" id="wpl_datarequest_<?php echo esc_attr( $id ); ?>"/>
+								<?php echo esc_html( $label['long'] ); ?>
+							</label>
+						</div>
+				<?php } ?>
+				<input type="button" id="wpl-datarequest-submit"  value="<?php echo __( 'Send', 'gdpr-cookie-consent' ); ?>">
+			</form>
+			<style>
+				/* first-name is honeypot */
+				.wpl-first-name {
+					position: absolute !important;
+					left: -5000px !important;
+				}
+				.wpl-alert {
+					display: none;
+					padding: 7px;
+					color: white;
+					margin: 10px 0;
+				}
+				.wpl-alert.wpl-error {
+					background-color: #f44336;
+				}
+				.wpl-alert.wpl-success {
+					background-color: green;
+				}
+			</style>
+		<?php
+		return ob_get_clean();
+	}
+    
+
+	/**
+	 * DATA Reqs data reqs options
+	 *
+	 * @param array $options
+	 *
+	 * @return array
+	 */
+	public static function wpl_data_reqs_options( $options = array() ) {
+		$options = $options + array(
+			'request_for_access'        => array(
+				'short' => __( 'Request for access', 'gdpr-cookie-consent' ),
+				'long'  => __( 'Submit a request for access to the data we process about you.', 'gdpr-cookie-consent' ),
+				'slug'  => 'docs/wp-cookie-consent/how-to-guides/what-is-the-right-to-access/',
+			),
+			'right_to_be_forgotten'     => array(
+				'short' => __( 'Right to be forgotten', 'gdpr-cookie-consent' ),
+				'long'  => __( 'Submit a request for deletion of the data if it is no longer relevant.', 'gdpr-cookie-consent' ),
+				'slug'  => 'docs/wp-cookie-consent/how-to-guides/right-to-be-forgotten/',
+			),
+			'right_to_data_portability' => array(
+				'short' => __( 'Right to data portability', 'gdpr-cookie-consent' ),
+				'long'  => __( 'Submit a request to receive an export file of the data we process about you.', 'gdpr-cookie-consent' ),
+				'slug'  => 'docs/wp-cookie-consent/how-to-guides/right-to-data-portability/',
+			),
+		);
+		return $options;
+	}
+	/**
+	 * Process the form submit
+	 *
+	 * @return void
+	 */
+	public function wpl_data_reqs_handle_form_submit() {
+			// Get the form data from the post.
+			if ( isset( $_POST['form_data'] ) && ! empty( $_POST['form_data']) ) {
+				$form_data   = $_POST['form_data'];
+			}
+			$new_request = false;
+			$error       = false;
+			$message     = '';
+			// Initialize an empty array
+			$decoded_data = array();
+			// Parse the serialized form data into an associative array
+			parse_str( $form_data, $decoded_data );
+			// Now, $decoded_data contains the form data as an array
+			// Submit form nonce verification.
+			if ( isset( $_POST['form_data'] ) ) {
+				if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $decoded_data['wpl_data_req_form_nonce'] ) ), 'wpl-data-req-form-nonce' ) ) {
+					return;
+				}
+			}
+			$params = $decoded_data;
+			// check honeypot.
+			if ( isset( $params['wpl_datarequest_firstname'] ) && ! empty( $params['wpl_datarequest_firstname'] ) ) {
+				$error   = true;
+				$message = __( "Sorry, it looks like you're a bot", 'gdpr-cookie-consent' );
+			}
+			if ( ! isset( $params['wpl_datarequest_email'] ) || ! is_email( $params['wpl_datarequest_email'] ) ) {
+				$error   = true;
+				$message = __( 'Please enter a valid email address.', 'gdpr-cookie-consent' );
+			}
+			if ( ! isset( $params['wpl_datarequest_name'] ) || empty( $params['wpl_datarequest_name'] ) ) {
+				$error   = true;
+				$message = __( 'Please enter your name', 'gdpr-cookie-consent' );
+			}
+			if ( strlen( $params['wpl_datarequest_name'] ) > 100 ) {
+				$error   = true;
+				$message = __( "That's a long name you got there. Please try to shorten the name.", 'gdpr-cookie-consent' );
+			}
+			if ( ! $error ) {
+				$email = sanitize_email( $params['wpl_datarequest_email'] );
+				$name  = sanitize_text_field( $params['wpl_datarequest_name'] );
+				// check if this email address is already registered:
+				global $wpdb;
+				$options = $this->wpl_data_reqs_options();
+				foreach ( $options as $fieldname => $label ) {
+					$value = isset( $params[ 'wpl_datarequest_' . $fieldname ] ) ? intval( $params[ 'wpl_datarequest_' . $fieldname ] ) : false;
+					if ( $value === 1 ) {
+						$count = $wpdb->get_var( $wpdb->prepare( "SELECT count(*) from {$wpdb->prefix}wpl_data_req WHERE email = %s and $fieldname=1", $email ) );
+						if ( $count == 0 ) {
+							$new_request = true;
+							$wpdb->insert(
+								$wpdb->prefix . 'wpl_data_req',
+								array(
+									'name'         => $name,
+									'email'        => $email,
+									$fieldname     => $value,
+									'request_date' => time(),
+								)
+							);
+						}
+					}
+				}
+				// sending mail
+				if ( $new_request ) {
+				$this->wpl_send_confirmation_mail( $email, $name );
+				$this->wpl_send_notification_mail();
+				$message = __( "Your request has been processed successfully!", 'gdpr-cookie-consent' );
+				} else {
+				$message = __( "Your request could not be processed. A request is already in progress for this email address or the form is not complete.", 'gdpr-cookie-consent' );
+				}
+			}
+			// response for ajax
+			$response = array(
+				'message' => $message,
+				'success' => ! $error,
+			);
+			wp_send_json($response);
+	}
+	/**
+	 * Send confirmation mail
+	 *
+	 * @param string $email
+	 * @param string $name
+	 *
+	 * @return void
+	 */
+	private function wpl_send_confirmation_mail( $email, $name ) {
+		$the_options                  = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$message = $the_options['data_req_editor_message'];
+		$message = html_entity_decode($message);
+		$message = stripslashes($message);
+		$subject = $the_options['data_req_subject'];
+		$message = str_replace( '{name}', $name, $message );
+		$message = str_replace( '{blogname}', get_bloginfo( 'name' ), $message );
+		$this->wpl_send_mail( $email, $subject, $message );
+	}
+	/**
+	 * Send confirmation mail
+	 *
+	 * @return void
+	 */
+	private function wpl_send_notification_mail(  ) {
+		
+		$email   = sanitize_email( get_option( 'admin_email' ) );
+		$subject = "You have received a new data request on ".get_bloginfo( 'name' );
+		$message = $subject.'<br />'.'Please check the data request on '.'<a href="'.site_url().'" target="_blank">'.site_url().'</a>';
+		error_log($email);
+		error_log($subject);
+		error_log($message);
+		$this->wpl_send_mail( $email, $subject, $message );
+	}
+	/**
+	 * Send an email
+	 * @param string $email
+	 * @param string $subject
+	 * @param string $message
+	 *
+	 * @return bool
+	 */
+	private function wpl_send_mail( $email, $subject, $message ) {
+		$the_options                  = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$headers = [];
+		$from_name  = get_bloginfo( 'name' );
+		$from_email = $the_options['data_req_email_address'];
+		add_filter( 'wp_mail_content_type', function ( $content_type ) {
+			return 'text/html';
+		} );
+		if ( ! empty( $from_email ) ) {
+			$headers[] = 'From: ' . $from_name . ' <' . $from_email . '>'
+							. "\r\n";
+		}
+		$success = true;
+		if ( wp_mail( $email, $subject, $message, $headers ) === false ) {
+			$success = false;
+		}
+		// Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
+		remove_filter( 'wp_mail_content_type', 'set_html_content_type' );
+		return $success;
+	}
+	/**
+	 * Extend the table to include pro data request options
+	 *
+	 * @return void
+	 */
+	public function update_db_check() {
+		if ( get_option( 'wpl_datarequests_db_version' ) != GDPR_COOKIE_CONSENT_VERSION ) {
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			global $wpdb;
+			$charset_collate = $wpdb->get_charset_collate();
+			$table_name      = $wpdb->prefix . 'wpl_data_req';
+			$sql             = "CREATE TABLE $table_name (
+			  `ID` int(11) NOT NULL AUTO_INCREMENT,
+			  `name` varchar(255) NOT NULL,
+			  `email` varchar(255) NOT NULL,
+			  `request_date` int(11) NOT NULL,
+			  `resolved` int(11) NOT NULL,
+			  `request_for_access` int(11) NOT NULL,
+			  `right_to_be_forgotten` int(11) NOT NULL,
+			  `right_to_data_portability` int(11) NOT NULL,
+			  PRIMARY KEY  (ID)
+			) $charset_collate;";
+			dbDelta( $sql );
+			update_option( 'wpl_datarequests_db_version', GDPR_COOKIE_CONSENT_VERSION );
+		}
+	}
+	
+	/**
+	 * Removed users overview
+	 *
+	 * @return void
+	 */
+	
+
+	public function wpl_data_requests_overview() {
+		ob_start();
+		include __DIR__ . '/data-req/class-wpl-data-req-table.php';
+		// Style for data request report.
+		wp_register_style( 'wplcookieconsent_data_reqs_style', plugin_dir_url( __FILE__ ) . 'data-req/data-request-style' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
+		wp_enqueue_style( 'wplcookieconsent_data_reqs_style' );
+
+		$datarequests = new WPL_Data_Req_Table();
+		$datarequests->prepare_items();
+		?>
+		<div class="wpl-datarequests">
+			<h1 class="wp-heading-inline"><?php _e( 'Data Requests', 'gdpr-cookie-consent' ); ?>
+
+			</h1>
+			<form id="wpl-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ); ?>">
+			<?php
+				$datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
+				$datarequests->display();
+			?>
+				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
+			</form>
+		</div>
+			<?php
+
+			$content = ob_get_clean();
+			$args    = array(
+				'page'    => 'do-not-sell-my-personal-information',
+				'content' => $content,
+			);
+			echo $this->wpl_get_template( 'gdpr-data-request-tab-template.php', $args );
+	}
+	
+	/**
+	 * Handle  resolve request
+	*/
+	public function wpl_data_req_process_resolve() {
+
+		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' )
+		&& isset( $_GET['action'] )
+		&& $_GET['action'] == 'resolve'
+		&& isset( $_GET['id'] )
+		) {
+			global $wpdb;
+			$wpdb->update(
+				$wpdb->prefix . 'wpl_data_req',
+				array(
+					'resolved' => 1,
+				),
+				array( 'ID' => intval( $_GET['id'] ) )
+			);
+			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
+			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
+			exit;
+		}
+	}
+	/**
+	 * Handle delete request.
+	 */
+	public function wpl_data_req_process_delete() {
+		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' )
+			&& isset( $_GET['action'] )
+			&& $_GET['action'] == 'delete'
+			&& isset( $_GET['id'] )
+		) {
+			global $wpdb;
+			$wpdb->delete( $wpdb->prefix . 'wpl_data_req', array( 'ID' => intval( $_GET['id'] ) ) );
+			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
+			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
+		}
+	}
+
+
+
+	/**
 	 * Modify admin footer text.
 	 *
 	 * @param string $footer Footer text.
@@ -316,9 +679,12 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @return string
 	 */
 	public function wpl_get_template( $filename, $args = array(), $path = false ) {
-
-		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-policy-data-tab-template.php';
-
+		$pro_is_activated = get_option( 'wpl_pro_active', false );
+		if(!$pro_is_activated){
+		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-data-request-tab-template.php';
+		}else{
+			$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-policy-data-tab-template.php';
+		}
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}

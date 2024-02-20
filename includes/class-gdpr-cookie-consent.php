@@ -135,7 +135,7 @@ class Gdpr_Cookie_Consent {
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
 		if ( !$wpl_pro_active ){
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
-		}
+			}
 
 		/**
 		 * The class responsible for defining App Authentication functionality
@@ -227,9 +227,16 @@ class Gdpr_Cookie_Consent {
 			if( ! $wpl_pro_active){
 				$this->loader->add_filter( 'gdpr_get_templates', $plugin_admin, 'get_templates', 10, 1 );
 				$this->loader->add_action( 'gdpr_cookie_template', $plugin_admin, 'wpl_cookie_template' );
+				$this->loader->add_filter( 'gdpr_datarequest_options', $plugin_admin, 'wpl_data_reqs_options' );
+				// action hooks for data reqs.
+				$this->loader->add_action( 'wp_ajax_nopriv_data_reqs_form_submit', $plugin_admin, 'wpl_data_reqs_handle_form_submit' );
+				$this->loader->add_action( 'wp_ajax_data_reqs_form_submit', $plugin_admin, 'wpl_data_reqs_handle_form_submit' );
+				// create table in db.
+				$this->loader->add_action( 'activated_plugin', $plugin_admin, 'update_db_check' );
+				$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'update_db_check' );
+	
 			}
-
-
+		
 		}
 	}
 
