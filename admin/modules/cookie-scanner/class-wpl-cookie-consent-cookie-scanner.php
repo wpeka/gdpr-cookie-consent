@@ -81,6 +81,30 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * @var int $fetch_page_maxdata Pages to fetch.
 	 */
 	public $fetch_page_maxdata = 100;
+	/**
+	 * Check if user is connected to the app.wplegalpages.com.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var bool $is_user_connected Keep records of user's connection.
+	 */
+	public $is_user_connected = false;
+	/**
+	 * Class for bluring the content.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string $class_for_blur_content Blur class for styling.
+	 */
+	public $class_for_blur_content = '';
+	/**
+	 * Class for making the body content blur.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string $class_for_card_body_blur_content Blur class for styling.
+	 */
+	public $class_for_card_body_blur_content = '';
 
 	/**
 	 * Gdpr_Cookie_Consent_Cookie_Scanner constructor.
@@ -101,6 +125,17 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			add_filter( 'gdpr_settings_cookie_scan_values', array( $this, 'wpl_settings_cookie_scan_values' ), 10, 1 );
 		}
 		add_filter( 'gdprcookieconsent_cookies', array( $this, 'wpl_get_scan_cookies' ), 10, 1 );
+
+		// Require the class file for gdpr cookie consent api framework settings.
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+		// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+		// Call the is_connected() method from the instantiated object to check if the user is connected.
+		$this->is_user_connected = $this->settings->is_connected();
+		$this->class_for_blur_content = $this->is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes
+		$this->class_for_card_body_blur_content = $this->is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes
+
 	}
 
 	/**
@@ -282,14 +317,22 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
        		 </div>
 
 		</div>
-		<c-card>
+		<c-card class="<?php echo $this->class_for_blur_content; ?>" >
+			<!-- API Connection Screen  -->
+			<?php if ( ! $this->is_user_connected ) : ?>
+				<div class="gdpr-overlay">
+					<p class="enable-text"><?php esc_html_e( 'To enable Cookie Scan, create your FREE WP Cookie Consent account.', 'gdpr-cookie-consent' ); ?></p>
+					<button class="rst-start-auth"><?php esc_html_e( 'New? Create an account', 'gdpr-cookie-consent' ); ?></button>
+					<p><span class="already-have-acc"><?php esc_html_e( 'Already have an account?', 'gdpr-cookie-consent' ); ?></span><span class="api-connect-to-account-btn" ><?php esc_html_e( ' Connect your existing account', 'gdpr-cookie-consent' ); ?></span></p>
+				</div>
+			<?php endif; ?>
 			<c-card-header class="discovered-cookies-container"><span><?php esc_html_e( 'Discovered Cookies', 'gdpr-cookie-consent' ); ?></span>
 			<div class="schedule-scan-buttons">
 				<c-button class="schedule-scan-start-btn" @click="scheduleScanShow"><span>Schedule Scan</span></c-button>
 				<c-button class="scan-now-btn" color="info" @click="onClickStartScan"><span>Scan Now</span></c-button>
 			</div>
 		</c-card-header>
-			<c-card-body>
+			<c-card-body class="<?php echo $this->class_for_card_body_blur_content; ?>" >
 				<div class="gdpr_scanbar_staypage"><?php esc_attr_e( 'Please do not leave this page until the progress bar reaches 100%', 'gdpr-cookie-consent' ); ?></div>
 				<div class="gdpr_scanbar">
 					<div class="gdpr_infobox">

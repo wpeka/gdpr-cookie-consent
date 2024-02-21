@@ -15,6 +15,19 @@ $baseurl = '';
 if ( isset( $_SERVER['PHP_SELF'] ) ) {
 	$baseurl = esc_url_raw( wp_unslash( $_SERVER['PHP_SELF'] ) );
 }
+
+// Require the class file for gdpr cookie consent api framework settings.
+require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+$this->settings = new GDPR_Cookie_Consent_Settings();
+
+// Call the methods from the instantiated object to get user parameters.
+$is_user_connected = $this->settings->is_connected();
+$api_user_email = $this->settings->get_email();
+$api_user_site_key = $this->settings->get_website_key();
+$api_user_plan = $this->settings->get_plan();
+
 ?>
 <div id="gdpr-before-mount" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-settings-app">
@@ -2007,8 +2020,34 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 						</c-card>
 
 					</c-tab>
+					<!-- Connection Tab  -->
+					<?php if ( $is_user_connected ) : ?>
+						<c-tab title="<?php esc_attr_e( 'Connection', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#connection">
 
+						<c-card class="gdpr-connection-tab-card">
 
+								<c-card-header><?php esc_html_e( 'Connection', 'gdpr-cookie-consent' ); ?>
+								</c-card-header>
+								<c-card-body class="gdpr-connection-card-body" >
+									<div class="gdpr-connection-success-tick">
+										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/check_ring.png'; ?>" alt="API Connection Success Mark">
+									</div>
+									<div class="gdpr-connect-information">
+
+										<h3><?php esc_html_e( 'Your website is connected to WP Cookie Consent', 'gdpr-cookie-consent' ); ?></h3>
+
+										<p class="gpdr-email-info"><span class="gdpr-info-title" ><?php esc_html_e( 'Email : ', 'gdpr-cookie-consent' ); ?></span> <?php echo $api_user_email ?>  </p>
+										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Site Key : ', 'gdpr-cookie-consent' ); ?></span> <?php echo $api_user_site_key ?>  </p>
+										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Plan : ', 'gdpr-cookie-consent' ); ?></span> <?php echo $api_user_plan ?>  </p>
+										<!-- API Disconnect Button  -->
+										<div class="api-connection-disconnect-btn" ><?php esc_attr_e( 'Disconnect', 'gdpr-cookie-consent' ); ?></div>
+
+									</div>
+								</c-card-body>
+							</c-card>
+
+						</c-tab>
+					<?php endif; ?>
 				</c-tabs>
 				</c-tabs>
 
