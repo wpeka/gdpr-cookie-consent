@@ -2600,25 +2600,10 @@ function get_templates( $template_type ) {
 							<div class="enable-consent-log-content">
 								<c-col class="enable-consent-log-content-label"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="enable-consent-log-switch">
-									<c-switch v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="logging_on" id="gdpr-cookie-consent-logging-on" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
+									<c-switch v-bind="	 labelIcon " v-model="logging_on" id="gdpr-cookie-consent-logging-on" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
 									<input type="hidden" name="gcc-logging-on" v-model="logging_on">
 								</c-col>
 							</div>
-
-							<?php
-								// if gdpr-pro is disable only then add pro label.
-							if ( ! $is_pro ) {
-
-								?>
-
-									<div class="gdpr-pro-label">
-										<div class="gdpr-pro-label-text" >Pro</div>
-									</div>
-
-								<?php
-							}
-							?>
-
 						</div>
 
 						<!-- enable/disbale script blocker  -->

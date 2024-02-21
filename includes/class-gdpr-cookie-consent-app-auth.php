@@ -139,8 +139,8 @@ class GDPR_Cookie_Consent_App_Auth {
 		}
 
 		// Get data from POST request.
-		$data = $_POST['response'];
-		$origin   = ! empty( $_POST['origin'] ) ? esc_url_raw( wp_unslash( $_POST['origin'] ) ) : false;
+		$data   = $_POST['response'];
+		$origin = ! empty( $_POST['origin'] ) ? esc_url_raw( wp_unslash( $_POST['origin'] ) ) : false;
 
 		// Verify data and origin.
 		if ( empty( $data ) || GDPR_APP_URL !== $origin ) {
@@ -173,14 +173,14 @@ class GDPR_Cookie_Consent_App_Auth {
 
 		// Require necessary file and get settings.
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
-		$settings =  new GDPR_Cookie_Consent_Settings();
+		$settings = new GDPR_Cookie_Consent_Settings();
 		$options  = $settings->get();
 
 		// Make auth request.
 		$this->make_auth_request();
 
 		// Make POST request to disconnect plugin.
-		$response      = $this->post(
+		$response = $this->post(
 			'plugin/disconnect',
 			wp_json_encode(
 				array(
@@ -218,9 +218,9 @@ class GDPR_Cookie_Consent_App_Auth {
 	 */
 	public function has_auth() {
 		if ( ! isset( $this->has_auth ) ) {
-		$auth_key = $this->get_auth_key();
+			$auth_key = $this->get_auth_key();
 
-		$this->has_auth = ! empty( $auth_key );
+			$this->has_auth = ! empty( $auth_key );
 		}
 		return $this->has_auth;
 	}
@@ -232,8 +232,8 @@ class GDPR_Cookie_Consent_App_Auth {
 	 */
 	public function get_auth_key() {
 		if ( ! isset( $this->auth_key ) ) {
-		$data           = $this->get_auth_data();
-		$this->auth_key = isset( $data['api']['token'] ) ? $data['api']['token'] : false;
+			$data           = $this->get_auth_data();
+			$this->auth_key = isset( $data['api']['token'] ) ? $data['api']['token'] : false;
 		}
 		return $this->auth_key;
 	}
@@ -245,7 +245,7 @@ class GDPR_Cookie_Consent_App_Auth {
 	 */
 	public function get_auth_data() {
 		if ( ! isset( $this->auth_data ) ) {
-		$this->auth_data = get_option( 'gdpr_api_framework_app_settings', false );
+			$this->auth_data = get_option( 'gdpr_api_framework_app_settings', false );
 		}
 		return $this->auth_data;
 	}
