@@ -220,6 +220,36 @@ jQuery(document).ready(function () {
 	});
 
 	/**
+	 * close the popup of successfull connection
+	*/
+
+	// Check if the 'gdprConnectPopupHide' item in localStorage is set to 'true'.
+	if (localStorage.getItem('gdprConnectPopupHide') === 'true') {
+		jQuery('.gdpr-cookie-consent-disconnect-api-container').hide();
+	}
+
+	// Add a click event listener to the element with class 'gdpr-close'.
+	jQuery('.gdpr-cookie-consent-disconnect-api-container .gdpr-close').on('click', closeDiv );
+
+	/**
+	 * Method to close the div.
+	*/
+	function closeDiv (){
+		jQuery('.gdpr-cookie-consent-disconnect-api-container').hide();
+		localStorage.setItem('gdprConnectPopupHide', 'true');
+	}
+
+	var disconnectContainer = jQuery('.gdpr-cookie-consent-disconnect-api-container');
+
+	// Check if the popup is not hidden
+    if (!disconnectContainer.is(':hidden')) {
+        setTimeout(function() {
+            disconnectContainer.hide();
+			localStorage.setItem('gdprConnectPopupHide', 'true');
+        }, 5000); // Hide the element after 5 seconds
+    }
+
+	/**
 	 * start authentication process
 	*/
 
@@ -347,6 +377,9 @@ jQuery(document).ready(function () {
 
 				jQuery('#wpbody-content').html(successHtml);
 
+				// remove hidden instance from the local storage
+				localStorage.removeItem('gdprConnectPopupHide');
+
 				//reload the window when button is clicked.
 				jQuery('#gdpr_app-connect-success-action').on('click', function() {
 					location.reload();
@@ -377,8 +410,8 @@ jQuery(document).ready(function () {
 		// Create spinner element
 		var spinner = jQuery('<div class="gdpr-spinner"></div>');
 
-		// Append spinner to .gdpr-cookie-consent-connect-api-container div
-		var container = jQuery('.gdpr-cookie-consent-disconnect-api-container');
+		// Append spinner to .gdpr-connection-tab-card div
+		var container = jQuery('.gdpr-connection-tab-card');
 		container.css('position', 'relative'); // Ensure container has relative positioning
 		container.append(spinner);
 
