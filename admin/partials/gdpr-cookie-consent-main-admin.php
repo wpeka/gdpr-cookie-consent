@@ -71,7 +71,7 @@ $is_user_connected = $this->settings->is_connected();
 		<!-- connect your website to WP Cookie Consent  -->
 
 		<?php
-		if ( $is_user_connected != true ) {
+		if ( $is_user_connected != true && ! $pro_is_activated ) {
 		?>
 		<div class="gdpr-cookie-consent-connect-api-container">
 			<div class="gdpr-api-info-content">
@@ -102,25 +102,24 @@ $is_user_connected = $this->settings->is_connected();
 
 		<?php
 
-		if ( $is_user_connected == true  ) {
+		if ( $is_user_connected == true && ! $pro_is_activated  ) {
 
 		?>
 		<!-- Disconnect your website to WP Cookie Consent  -->
 		<div class="gdpr-cookie-consent-disconnect-api-container">
+			<div class="gdpr-close"></div>
 			<div class="gdpr-api-disconnect-content">
 				<div class="gdpr-api-disconnect-text">
 					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/check_ring.png'; ?>" alt="API Connection Success Mark">
-					<h2>Your website is connected to WP Cookie Consent</h2>
+					<h2><?php esc_html_e( 'Your website is connected to WP Cookie Consent', 'gdpr-cookie-consent' ); ?></h2>
 				</div>
 				<p>
-					You can access all the plugin settings (Cookie Banner, Cookie Manager, Languages & Policy Generators) on the web app and unlock new features like Cookie Scan and Consent Log.
+				<?php esc_html_e( "You get full control of your website's cookie compliance with comprehensive settings and features, including a built-in Cookie scanner, Consent log, and advanced Geo-targeting capabilities.", 'gdpr-cookie-consent' ); ?>
 				</p>
-				<button class="api-connection-disconnect-btn">Disconnect</button>
 
 			</div>
 
 		</div>
-
 		<?php
 		}
 		?>
@@ -148,23 +147,36 @@ $is_user_connected = $this->settings->is_connected();
 						</div>
 				<?php
 
+             
+			if ( $is_data_req_on && !$pro_is_activated ) {
+
+								?>
+								<!-- data req tab  -->
+								<div class="gdpr-cookie-consent-admin-tab		gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
+								<p class="gdpr-cookie-consent-admin-tab-name">Data&nbsp;Request</p>
+								</div>
+
+								<?php
+
+							}
+
 				if ( $pro_is_activated ) {
 
 					?>
-						<?php
-
-						if ( $is_data_req_on ) {
-
-							?>
-							<!-- data req tab  -->
-							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-							<p class="gdpr-cookie-consent-admin-tab-name">Data&nbsp;Request</p>
-							</div>
-
+							
 							<?php
 
-						}
-						?>
+                        if ( $is_data_req_on ) {
+
+	                          ?>
+							<!-- data req tab  -->
+							<div class="gdpr-cookie-consent-admin-tab		gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
+								<p class="gdpr-cookie-consent-admin-tab-name">Data&nbsp;Request</p>
+								</div>
+								<?php
+
+                                  }
+									?>
 							<!-- integration tab  -->
 							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-integrations-data-tab" data-tab="integrations">
 							<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>

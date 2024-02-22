@@ -1,8 +1,8 @@
 /**
  * Module ScriptBlocker JavaScript.
  *
- * @package    Wpl_Cookie_Consent
- * @subpackage Wpl_Cookie_Consent/public/modules
+ * @package    Gdpr_Cookie_Consent
+ * @subpackage Gdpr_Cookie_Consent/public/modules
  * @author     wpeka <https://club.wpeka.com>
  */
 
