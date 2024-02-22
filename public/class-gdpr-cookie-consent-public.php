@@ -128,7 +128,6 @@ class Gdpr_Cookie_Consent_Public {
 	 * @since 2.11.1
 	 */
 	public function gdpr_renew_consent_bar() {
-		error_log("This is got called");
 		check_ajax_referer( 'wpl_consent_renew_nonce', 'security' );
 
 		global $wpdb;
@@ -716,7 +715,6 @@ class Gdpr_Cookie_Consent_Public {
 			if ( $the_options['consent_forward'] !== true ) {
 				$the_options['select_sites'] = null;
 			}
-
 			$cookies_list_data = array(
 				'gdpr_cookies_list'       => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
 				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
