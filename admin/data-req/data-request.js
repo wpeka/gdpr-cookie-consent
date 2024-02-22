@@ -1,8 +1,8 @@
 /**
  * Frontend JavaScript.
  *
- * @package    WPL_Cookie_Consent
- * @subpackage WPL_Cookie_Consent/admin
+ * @package    GDPR_Cookie_Consent
+ * @subpackage GDPR_Cookie_Consent/admin
  * @author     wpeka <https://club.wpeka.com>
  */
 (function ( $ ){
