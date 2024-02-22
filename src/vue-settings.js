@@ -823,12 +823,7 @@ var gen = new Vue({
                 this.is_eprivacy = false;
                 this.is_lgpd = false;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }
-                else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
             }
             else if(value === 'lgpd') {
                 this.is_ccpa = false;

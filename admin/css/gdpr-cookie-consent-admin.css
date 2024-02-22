@@ -3070,7 +3070,7 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
     padding: 0;
     bottom: 0;
     right: 0;
-	height:90px;
+	height:127px;
 	width: 100%;
 }.overlay_eu_visitors_message{
 	position: absolute;

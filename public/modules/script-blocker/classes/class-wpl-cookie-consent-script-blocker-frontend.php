@@ -41,7 +41,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 		if ( true === $the_options['is_on'] && true === $the_options['is_script_blocker_on'] ) {
 			if ( true === $the_options['is_eu_on'] ) {
 				require WPL_PLUGIN_PATH . 'public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
-				$geoip = new Wpl_Cookie_Consent_Geo_Ip();
+				$geoip = new Gdpr_Cookie_Consent_Geo_Ip();
 				if ( ! $geoip->wpl_is_eu_country() ) {
 					return;
 				}

@@ -2516,69 +2516,63 @@ function get_templates( $template_type ) {
 					} else {
 
 						?>
-					<!-- When Pro is not activated  -->
-						<!-- gdpr free selection with Pro Tag -->
-						<div class="geo-location-ques-container gdpr-free-geo-ques">
+						<!-- When Pro is not activated  -->
+							<!-- gdpr free selection with Pro Tag -->
+							<div class="geo-location-ques-container gdpr-free-geo-ques">
 
-								<c-row class="gdpr-selection" v-show="is_gdpr">
-										<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
-										<c-col class="gdpr-options">
-											<label class="gdpr-yes-option">
-											<input disabled type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('yes')">
+									<c-row class="gdpr-selection" v-show="is_gdpr">
+											<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
+											<c-col class="gdpr-options">
+												<label class="gdpr-yes-option">
+												<input type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('yes')">
+												Yes
+												</label>
+												<label>
+												<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')">
+												No
+												</label>
+												<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
+											</c-col>
+									</c-row>
+							</div>
+							<!-- IAB free selection with Pro Tag  -->
+							<div class="geo-location-ques-container iab-free-geo-ques">
+								<c-row class="ccpa-iab-selection" v-show="is_ccpa" >
+										<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> </label></c-col>
+										<c-col class="iab-options">
+											<label>
+											<input type="radio" name="gcc-iab-enable" value="yes" v-model="selectedRadioIab" @click="onSwitchIABEnable('yes')">
 											Yes
 											</label>
 											<label>
-											<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')">
+											<input type="radio" name="gcc-iab-enable" value="no" v-model="selectedRadioIab" @click="onSwitchIABEnable('no')">
 											No
 											</label>
-											<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
+											<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
 										</c-col>
-								</c-row>
-								<div class="gdpr-pro-label" v-show="is_gdpr">
-									<div class="gdpr-pro-label-text" >Pro</div>
-								</div>
-						</div>
-						<!-- IAB free selection with Pro Tag  -->
-						<div class="geo-location-ques-container iab-free-geo-ques">
-							<c-row class="ccpa-iab-selection" v-show="is_ccpa" >
-									<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> </label></c-col>
-									<c-col class="iab-options">
-										<label>
-										<input type="radio" name="gcc-iab-enable" value="yes" v-model="selectedRadioIab" @click="onSwitchIABEnable('yes')">
-										Yes
-										</label>
-										<label>
-										<input type="radio" name="gcc-iab-enable" value="no" v-model="selectedRadioIab" @click="onSwitchIABEnable('no')">
-										No
-										</label>
-										<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
-									</c-col>
-								</c-row>
-						</div>
+									</c-row>
+							</div>
 
-						<!--  CCPA free selection with Pro Tag -->
-						<div class="geo-location-ques-container ccpa-free-geo-ques">
-							<c-row class="ccpa-selection"  v-show="is_ccpa" >
-									<c-col class="ccpa-selection-label"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
-									<c-col class="ccpa-options">
-										<label class="ccpa-yes-option">
-										<input disabled type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('yes')">
-										Yes
-										</label>
-										<label>
-										<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')">
-										No
-										</label>
-										<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
-									</c-col>
-								</c-row>
-								<div class="gdpr-pro-label" v-show="is_ccpa">
-										<div class="gdpr-pro-label-text" >Pro</div>
-								</div>
-						</div>
+							<!--  CCPA free selection with Pro Tag -->
+							<div class="geo-location-ques-container ccpa-free-geo-ques">
+								<c-row class="ccpa-selection"  v-show="is_ccpa" >
+										<c-col class="ccpa-selection-label"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
+										<c-col class="ccpa-options">
+											<label class="ccpa-yes-option">
+											<input type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('yes')">
+											Yes
+											</label>
+											<label>
+											<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')">
+											No
+											</label>
+											<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
+										</c-col>
+									</c-row>
+							</div>
 
-						<?php
-					}
+							<?php
+						}
 
 					?>
 

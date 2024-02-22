@@ -1,0 +1,174 @@
+#wpl-cookie-consent-integrations-alert {
+	position: fixed;
+	background-color: #72b85c;
+	padding: 10px;
+	width: 200px;
+	font-size: 18px;
+	text-align: center;
+	border-radius: 5px;
+	display: none;
+	color: #fff;
+	margin-left: 70%;
+	margin-top: 1%;
+	top: 10%;
+	z-index: 9999;
+}
+
+#wpl-cookie-consent-integrations-loader {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	background-color: #fff;
+}
+
+.wpl_integrations_spinner {
+	display:block;
+	position: fixed;
+	margin: 10px 0px;
+	left: 50%;
+	top: 50%;
+	height: 70px;
+	width: 70px;
+}
+
+#wpl-cookie-consent-overlay {
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-color: rgba(0,0,0,0.25);
+	z-index: 2;
+}
+
+#wpl-cookie-consent-integrations-page {
+
+	background-color: #FFF;
+	/* margin-left: -20px; */
+	padding: 32px 0;
+	/*font-family: 'Lato', sans-serif;*/
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font-size: 14px;
+	line-height: 20px;
+	min-height: 750px;
+	color: #3c4b64;
+	border-radius: 4px;
+	border-right: 1px solid var(--gray-200, #E4E4E7);
+	border-bottom: 1px solid var(--gray-200, #E4E4E7);
+	border-left: 1px solid var(--gray-200, #E4E4E7);
+	border-top: 1px solid var(--gray-200, #E4E4E7);
+}
+
+.wpl-cookie-consent-page-name {
+	width: 90%;
+	margin: auto;
+}
+
+.wpl-cookie-consent-integrations-form-container {
+	background-color: #fff;
+	width: 90%;
+	margin-top: 1rem;
+	padding: 1.5rem 2rem;
+}
+
+.wpl-cookie-consent-integrations-form-container .row {
+	margin-bottom: 0.5rem;
+}
+
+.wpl-cookie-consent-integrations-label {
+	font-weight: 600 !important
+}
+
+.wpl-cookie-consent-datbase-input {
+	width: 75% !important;
+}
+
+.wpl-cookie-consent-license-input {
+	width: 75% !important;
+}
+
+.wpl-cookie-consent-integrations-form-container .c-switch {
+	margin-bottom: 1rem;
+}
+
+.wpl-cookie-consent-register-area {
+	background-color: #c3e2f8;
+	padding: 0.8rem;
+	width: 100%;
+	font-size: 0.75rem;
+	border-radius: 0.2rem;
+}
+
+.wpl-cookie-consent-register-row {
+	margin-top: 2rem;
+}
+
+.wpl-cookie-consent-documentation-row {
+	margin-top: 2.5rem;
+}
+
+.wpl-cookie-consent-link {
+	color: #39f;
+	text-decoration: none;
+}
+
+.wpl-cookie-consent-link:hover {
+	color: #39f;
+	text-decoration: none;
+}
+
+.wpl-cookie-consent-video-row {
+	margin-top: 2rem;
+}
+
+.wpl-cookie-consent-support-row {
+	margin-top: 2rem;
+}
+
+.wpl-cookie-consent-save-button {
+	margin-left: 10%;
+	margin-top: -1rem;
+}
+.overlay-integration-style{
+	z-index: 99;
+	background: rgba(255,255,255,0.8);
+	top:0;
+	left:0;
+	width: 100%;
+	height:352px;
+	position:absolute;
+}
+.overlay-integration-style .overlay-integration-message{
+	position: absolute;
+    width: calc(100% - 43px);
+    bottom: 150px;
+	text-align: center;
+    background-color: #fff;
+    padding: 15px;
+    margin: 20px;
+    box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
+}
+.overlay-integration-style__disable{
+	z-index: 99;
+	background: rgba(255,255,255,0.8);
+	top:0;
+	left:0;
+	width: 100%;
+	height:156px;
+	position:absolute;
+
+}
+.overlay-integration-style__disable .overlay-integration-message__disable{
+	position: absolute;
+    width: calc(100% - 43px);
+    bottom: 24px;
+	text-align: center;
+    background-color: #fff;
+    padding: 15px;
+    margin: 20px;
+    box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
+}
