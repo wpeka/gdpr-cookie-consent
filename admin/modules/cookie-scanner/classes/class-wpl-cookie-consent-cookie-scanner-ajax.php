@@ -378,11 +378,13 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		unset( $post_types['attachment'] );
 		$the_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$restrict_posts = $the_options['restrict_posts'];
-		if ( empty( $restrict_posts ) ) {
-			$sql = " FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish'";
+
+		if (empty($restrict_posts)) {
+			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish'";
 		} else {
-			$sql = " FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' AND ID NOT IN (" . implode( ',', $restrict_posts ) . ')';
+			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish' AND ID NOT IN (" . implode(',', $restrict_posts) . ')';
 		}
+
 		if ( 0 === $total ) {
 			// Taking total.
 			if ( empty( $restrict_posts ) ) {
