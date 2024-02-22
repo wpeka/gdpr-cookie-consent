@@ -3202,7 +3202,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 }
 .gdpr-cookie-consent-admin-tab{
 	display: flex;
-	min-width: 263px;
+	min-width: 229px;
 	height: 44px;
 	flex-direction: column;
 	align-items: center;
