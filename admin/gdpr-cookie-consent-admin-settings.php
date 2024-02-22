@@ -15,6 +15,9 @@ $baseurl = '';
 if ( isset( $_SERVER['PHP_SELF'] ) ) {
 	$baseurl = esc_url_raw( wp_unslash( $_SERVER['PHP_SELF'] ) );
 }
+// check if pro is activated
+
+$pro_is_activated = get_option( 'wpl_pro_active', false );
 
 // Require the class file for gdpr cookie consent api framework settings.
 require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
@@ -2171,7 +2174,7 @@ $api_user_plan = $this->settings->get_plan();
 
 					</c-tab>
 					<!-- Connection Tab  -->
-					<?php if ( $is_user_connected ) : ?>
+					<?php if ( $is_user_connected && !$pro_is_activated ) : ?>
 						<c-tab title="<?php esc_attr_e( 'Connection', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#connection">
 
 						<c-card class="gdpr-connection-tab-card">

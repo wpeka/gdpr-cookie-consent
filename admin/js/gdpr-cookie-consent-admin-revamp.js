@@ -256,7 +256,8 @@ jQuery(document).ready(function () {
 	/**
 	 * clicked on new account.
 	*/
-	jQuery('.rst-start-auth').on('click', startAuth );
+	jQuery('.gdpr-start-auth').on('click', startAuth );
+	jQuery('.gdpr-dashboard-start-auth').on('click', startAuth );
 
 	/**
 	 * Clicked on connect to exiting account.

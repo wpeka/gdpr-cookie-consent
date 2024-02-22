@@ -378,17 +378,21 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		unset( $post_types['attachment'] );
 		$the_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$restrict_posts = $the_options['restrict_posts'];
-		if ( empty( $restrict_posts ) ) {
-			$sql = " FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish'";
+
+		if (empty($restrict_posts)) {
+			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish'";
 		} else {
-			$sql = " FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' AND ID NOT IN (" . implode( ',', $restrict_posts ) . ')';
+			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish' AND ID NOT IN (" . implode(',', $restrict_posts) . ')';
 		}
+
 		if ( 0 === $total ) {
 			// Taking total.
 			if ( empty( $restrict_posts ) ) {
 				$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' LIMIT $offset, $mxdata) AS T";
 			} else {
-				$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' AND ID NOT IN (" . implode( ',', $restrict_posts ) . ") LIMIT $offset, $mxdata) AS T";
+				// Check if $restrict_posts is not empty before constructing the IN clause
+				$restrict_posts_in_clause = implode( ',', $restrict_posts );
+				$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' AND ID NOT IN ($restrict_posts_in_clause) LIMIT $offset, $mxdata) AS T";
 			}
 			$total_rows   = $wpdb->get_row( $sql1, ARRAY_A );
 			$total        = $total_rows ? $total_rows['ttnum'] + 1 : 1; // always add 1 because home url is there.
@@ -402,7 +406,18 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		}
 
 		// Creating sql for fetching data.
-		$sql  = 'SELECT post_name,post_title,post_type,ID' . $sql . " ORDER BY post_type='page' ASC LIMIT $offset,$mxdata";
+		// Initialize an empty string to store the additional SQL query
+		$additionalSql = '';
+
+		// Check if the $sql variable is not empty
+		if (!empty($sql)) {
+			// If $sql is not empty, concatenate it with the additional SQL query
+			$additionalSql = ' ' . $sql;
+		}
+
+		// Construct the complete SQL query
+		$sqlQuery = 'SELECT post_name, post_title, post_type, ID' . $additionalSql . ' ORDER BY post_type=\'page\' ASC LIMIT ' . $offset . ', ' . $mxdata;
+
 		$data = $wpdb->get_results( $sql, ARRAY_A );
 		if ( ! empty( $data ) ) {
 			foreach ( $data as $value ) {

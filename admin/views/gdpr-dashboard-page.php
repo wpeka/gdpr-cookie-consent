@@ -18,6 +18,23 @@ $the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 $cookie_scan_settings = array();
 $cookie_scan_settings = apply_filters('gdpr_settings_cookie_scan_values', '');
 
+// check if pro is activated
+
+$pro_is_activated = get_option( 'wpl_pro_active', false );
+
+// Require the class file for gdpr cookie consent api framework settings.
+require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+$this->settings = new GDPR_Cookie_Consent_Settings();
+
+// Call the is_connected() method from the instantiated object to check if the user is connected.
+$is_user_connected = $this->settings->is_connected();
+
+$class_for_blur_content = $is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes
+
+$class_for_card_body_blur_content = $is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes
+
 /**
  * Total No of scanned cookies.
  */
@@ -129,15 +146,27 @@ if ($table_exists) {
 								<a class="gdpr-progress-list-link" :href="plugin_page_url"><?php esc_html_e(' Turn them off to avoid conflict.', 'gdpr-cookie-consent'); ?></a>
 							</span>
 						</c-row>
-						<c-row :class="['gdpr-progress-list-item', pro_installed && pro_activated && api_key_activated && cookie_scanned ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+						<c-row :class="['gdpr-progress-list-item', (pro_installed && pro_activated && api_key_activated && cookie_scanned)||(!pro_installed && is_user_connected && cookie_scanned) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span v-show="api_key_activated && cookie_scanned">
 								<?php esc_html_e('Cookies were last scanned on ', 'gdpr-cookie-consent'); ?>
 								{{last_scanned + '.'}}
 								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e('Scan again.', 'gdpr-cookie-consent'); ?></a>
 							</span>
-							<span v-show="!pro_installed">
+							<!-- when pro is not installed and user is conneted to the api and cookie scan performed -->
+							<span v-show="is_user_connected && cookie_scanned && !pro_installed">
+								<?php esc_html_e('Cookies were last scanned on ', 'gdpr-cookie-consent'); ?>
+								{{last_scanned + '.'}}
+								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e('Scan again.', 'gdpr-cookie-consent'); ?></a>
+							</span>
+							<!-- when pro is not installed and user is not conneted to the api -->
+							<span v-show="!pro_installed && !is_user_connected ">
 								<?php esc_html_e('Scan Cookies.', 'gdpr-cookie-consent'); ?>
-								<a class="gdpr-progress-list-link" target="_blank" :href="'#'"><?php esc_html_e('Connect Your Free Account', 'gdpr-cookie-consent'); ?></a>
+								<span class="gdpr-progress-list-link gdpr-dashboard-start-auth"><?php esc_html_e('Connect Your Free Account', 'gdpr-cookie-consent'); ?></span>
+							</span>
+							<!-- when pro is not installed and user is conneted to the api and cookie scan not performed-->
+							<span class="gdpr-dashboard-scan-now" v-show="!pro_installed && is_user_connected && !cookie_scanned">
+								{{last_scanned}}
+								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e('Scan now.', 'gdpr-cookie-consent'); ?></a>
 							</span>
 							<span v-show="pro_installed && !pro_activated">
 								<?php esc_html_e('Activate Pro plugin to scan cookies.', 'gdpr-cookie-consent'); ?>
@@ -161,13 +190,18 @@ if ($table_exists) {
 								<a class="gdpr-progress-list-link" :href="show_cookie_url"><?php esc_html_e('Click here to configure.', 'gdpr-cookie-consent'); ?></a>
 							</span>
 						</c-row>
-						<c-row :class="['gdpr-progress-list-item', pro_installed && pro_activated && api_key_activated ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+						<c-row :class="['gdpr-progress-list-item', (pro_installed && pro_activated && api_key_activated)||(!pro_installed && is_user_connected) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span v-show="pro_installed && pro_activated && api_key_activated">
 								<?php esc_html_e('GDPR Pro activated.', 'gdpr-cookie-consent'); ?>
 							</span>
-							<span v-show="!pro_installed">
+							<!-- when pro is not installed and user is not conneted to the api -->
+							<span v-show="!pro_installed && !is_user_connected">
 								<?php esc_html_e('Connect Your Free Account.', 'gdpr-cookie-consent'); ?>
-								<a class="gdpr-progress-list-link" target="_blank" :href="'#'"><?php esc_html_e('Click here.', 'gdpr-cookie-consent'); ?></a>
+								<span class="gdpr-progress-list-link gdpr-dashboard-start-auth"><?php esc_html_e('Click here.', 'gdpr-cookie-consent'); ?></span>
+							</span>
+							<!-- when pro is not installed and user is conneted to the api -->
+							<span v-show="!pro_installed && is_user_connected">
+								<?php esc_html_e('Website is connected to WP Cookie Consent.', 'gdpr-cookie-consent'); ?>
 							</span>
 							<span v-show="pro_installed && !pro_activated">
 								<?php esc_html_e('Activate GDPR Pro plugin.', 'gdpr-cookie-consent'); ?>
@@ -178,13 +212,23 @@ if ($table_exists) {
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e('Click here to activate.', 'gdpr-cookie-consent'); ?></a>
 							</span>
 						</c-row>
-						<c-row :class="['gdpr-progress-list-item', pro_installed && pro_activated && api_key_activated  && maxmind_integrated ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+						<c-row :class="['gdpr-progress-list-item', (pro_installed && pro_activated && api_key_activated  && maxmind_integrated)||(!pro_installed && is_user_connected && maxmind_integrated ) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span v-show="pro_installed && pro_activated && api_key_activated && maxmind_integrated">
 								<?php esc_html_e('Integrated with Maxmind.', 'gdpr-cookie-consent'); ?>
 							</span>
-							<span v-show="!pro_installed">
+							<!-- when pro is not installed and user is conneted to the api and maxmind is connected-->
+							<span v-show="!pro_installed && is_user_connected && maxmind_integrated">
+								<?php esc_html_e('Integrated with Maxmind.', 'gdpr-cookie-consent'); ?>
+							</span>
+							<!-- when pro is not installed and user is not conneted to the api -->
+							<span v-show="!pro_installed && !is_user_connected">
 								<?php esc_html_e('Enable Geotargeting With MaxMind Integration.', 'gdpr-cookie-consent'); ?>
-								<a class="gdpr-progress-list-link" target="_blank" :href="'#'"><?php esc_html_e('Connect Your Free Account.', 'gdpr-cookie-consent'); ?></a>
+								<span class="gdpr-progress-list-link gdpr-dashboard-start-auth"><?php esc_html_e('Connect Your Free Account.', 'gdpr-cookie-consent'); ?></span>
+							</span>
+							<!-- when pro is not installed and user is conneted to the api and maxmind is not connected -->
+							<span class="gdpr-dashboard-maxmind-integrate" v-show="!pro_installed && is_user_connected && !maxmind_integrated">
+								<?php esc_html_e('Integrate with Maxmind for free.', 'gdpr-cookie-consent'); ?>
+								<a class="gdpr-progress-list-link" :href="maxmind_url"><?php esc_html_e('Click here to configure.', 'gdpr-cookie-consent'); ?></a>
 							</span>
 							<span v-show="pro_installed && !pro_activated">
 								<?php esc_html_e('Activate Pro plugin to enable Geotargeting.', 'gdpr-cookie-consent'); ?>
@@ -211,7 +255,15 @@ if ($table_exists) {
 						<?php esc_html_e('Consent Insights', 'gdpr-cookie-consent'); ?>
 					</span>
 				</c-card-header>
-				<c-card-body>
+				<c-card-body class="<?php echo $pro_is_activated ? '' : esc_attr( $class_for_blur_content ); ?>">
+					<!-- API Connection Screen  -->
+					<?php if ( ! $is_user_connected && ! $pro_is_activated ) : ?>
+						<div class="gdpr-overlay">
+							<p class="enable-text"><?php esc_html_e( 'To enable this insight, create your FREE WP Cookie Consent account.', 'gdpr-cookie-consent' ); ?></p>
+							<button class="gdpr-start-auth"><?php esc_html_e( 'New? Create an account', 'gdpr-cookie-consent' ); ?></button>
+							<p><span class="already-have-acc"><?php esc_html_e( 'Already have an account?', 'gdpr-cookie-consent' ); ?></span><span class="api-connect-to-account-btn" ><?php esc_html_e( ' Connect your existing account', 'gdpr-cookie-consent' ); ?></span></p>
+						</div>
+					<?php endif; ?>
 
 					<!-- cookie insights apex pie chart  -->
 					<?php
@@ -221,7 +273,7 @@ if ($table_exists) {
 						(get_option('wpl_cl_decline') != 0 || get_option('wpl_cl_accept') != 0 || get_option('wpl_cl_partially_accept') != 0)
 					) :
 					?>
-						<div id="chart">
+						<div id="chart" class="<?php echo $pro_is_activated ? '' : esc_attr( $class_for_card_body_blur_content ); ?>">
 							<apexchart type="pie" width="480" :options="chartOptions" :series="series"></apexchart>
 						</div>
 
@@ -258,8 +310,16 @@ if ($table_exists) {
 					</span>
 				</c-card-header>
 				<!-- cookie summary body  -->
-				<c-card-body class="gdpr-cookie-summary-body">
-					<div class="gdpr-cookie-summary">
+				<c-card-body class="gdpr-cookie-summary-body <?php echo $pro_is_activated ? '' : esc_attr( $class_for_blur_content ); ?> ">
+					<!-- API Connection Screen  -->
+					<?php if ( ! $is_user_connected && ! $pro_is_activated ) : ?>
+						<div class="gdpr-overlay">
+							<p class="enable-text"><?php esc_html_e( 'To enable this Cookie Summary, create your FREE WP Cookie Consent account.', 'gdpr-cookie-consent' ); ?></p>
+							<button class="gdpr-start-auth"><?php esc_html_e( 'New? Create an account', 'gdpr-cookie-consent' ); ?></button>
+							<p><span class="already-have-acc"><?php esc_html_e( 'Already have an account?', 'gdpr-cookie-consent' ); ?></span><span class="api-connect-to-account-btn" ><?php esc_html_e( ' Connect your existing account', 'gdpr-cookie-consent' ); ?></span></p>
+						</div>
+					<?php endif; ?>
+					<div class="gdpr-cookie-summary <?php echo $pro_is_activated ? '' : esc_attr( $class_for_card_body_blur_content ); ?> ">
 						<div class="gdpr-cookie-summary-total-cookie-details">
 							<img :src="cookie_summary.default" class="gdpr-cookie-summary-icon">
 							<div class="gpdr-cookie-summary-total-cookies">
@@ -388,7 +448,15 @@ if ($table_exists) {
 						<?php esc_html_e('Recent Consent Logs', 'gdpr-cookie-consent'); ?>
 					</span>
 				</c-card-header>
-				<c-card-body>
+				<c-card-body class="<?php echo $pro_is_activated ? '' : esc_attr( $class_for_blur_content ); ?>" >
+					<!-- API Connection Screen  -->
+					<?php if ( ! $is_user_connected && ! $pro_is_activated ) : ?>
+						<div class="gdpr-overlay">
+							<p class="enable-text"><?php esc_html_e( 'To enable this Consents Logs, create your FREE WP Cookie Consent account.', 'gdpr-cookie-consent' ); ?></p>
+							<button class="gdpr-start-auth"><?php esc_html_e( 'New? Create an account', 'gdpr-cookie-consent' ); ?></button>
+							<p><span class="already-have-acc"><?php esc_html_e( 'Already have an account?', 'gdpr-cookie-consent' ); ?></span><span class="api-connect-to-account-btn" ><?php esc_html_e( ' Connect your existing account', 'gdpr-cookie-consent' ); ?></span></p>
+						</div>
+					<?php endif; ?>
 					<!-- add consent log table -->
 					<?php do_action('gdpr_consent_log_table_dashboard'); ?>
 					<div class="gdpr-dashboard-cl-view-all-logs">

@@ -81,6 +81,7 @@ var gen = new Vue({
 			accept_log: dashboard_options.hasOwnProperty('accept_log') ? dashboard_options['accept_log'] : 0,
 			partially_acc_log: dashboard_options.hasOwnProperty('partially_acc_log') ? dashboard_options['partially_acc_log'] : 0,
 			series: [Number(dashboard_options['accept_log']),Number(dashboard_options['decline_log']),Number(dashboard_options['partially_acc_log'])],
+			is_user_connected: dashboard_options.hasOwnProperty('is_user_connected') && dashboard_options['is_user_connected'] ===  'true' ? true : false,
 			chartOptions: {
 				chart: {
 				  width: 580,
@@ -165,11 +166,19 @@ var gen = new Vue({
 			if( this.pro_activated && this.last_scanned !== 'Perform your first Cookie Scan.' ) {
 				this.cookie_scanned = true;
 			}
+			// if user is connected to the api and last scan has not been performed, set cookie_scanned to true.
+			if( this.is_user_connected && this.last_scanned !== 'Perform your first Cookie Scan.' ) {
+				this.cookie_scanned = true;
+			}
 			let count_progress = 0;
 			if( ! this.other_plugins_active ) {
 				count_progress++;
 			}
 			if( this.api_key_activated && this.cookie_scanned ) {
+				count_progress++;
+			}
+			// increase progress when user is connected and scan performed.
+			if( this.is_user_connected && !this.pro_installed && this.cookie_scanned ) {
 				count_progress++;
 			}
 			if( this.showing_cookie_notice ) {
@@ -178,7 +187,15 @@ var gen = new Vue({
 			if( this.api_key_activated ) {
 				count_progress++;
 			}
+			// increase progress when user is connected to the api.
+			if( this.is_user_connected && !this.pro_installed ) {
+				count_progress++;
+			}
 			if( this.api_key_activated && this.maxmind_integrated ) {
+				count_progress++;
+			}
+			// increase progress when user is connected to the api and maxmind is integrated.
+			if( this.is_user_connected && !this.pro_installed && this.maxmind_integrated ) {
 				count_progress++;
 			}
 			this.progress = (count_progress/ 5 ) * 100;
