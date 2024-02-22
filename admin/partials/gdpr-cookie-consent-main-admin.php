@@ -87,7 +87,7 @@ $is_user_connected = $this->settings->is_connected();
 					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Geo-targeting :</strong> Display or hide the GDPR cookie consent notice depending on the visitor’s location.</p>
 				</div>
 				<div class="gdpr-api-connection-btns">
-					<button class="rst-start-auth">New? Create a free account</button>
+					<button class="gdpr-start-auth">New? Create a free account</button>
 					<button class="api-connect-to-account-btn">Connect your existing account</button>
 				</div>
 

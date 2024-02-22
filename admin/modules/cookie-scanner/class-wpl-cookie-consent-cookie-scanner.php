@@ -322,7 +322,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			<?php if ( ! $this->is_user_connected ) : ?>
 				<div class="gdpr-overlay">
 					<p class="enable-text"><?php esc_html_e( 'To enable Cookie Scan, create your FREE WP Cookie Consent account.', 'gdpr-cookie-consent' ); ?></p>
-					<button class="rst-start-auth"><?php esc_html_e( 'New? Create an account', 'gdpr-cookie-consent' ); ?></button>
+					<button class="gdpr-start-auth"><?php esc_html_e( 'New? Create an account', 'gdpr-cookie-consent' ); ?></button>
 					<p><span class="already-have-acc"><?php esc_html_e( 'Already have an account?', 'gdpr-cookie-consent' ); ?></span><span class="api-connect-to-account-btn" ><?php esc_html_e( ' Connect your existing account', 'gdpr-cookie-consent' ); ?></span></p>
 				</div>
 			<?php endif; ?>

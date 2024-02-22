@@ -5378,6 +5378,14 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+		// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+
+		// Call the is_connected() method from the instantiated object to check if the user is connected.
+		$is_user_connected = $this->settings->is_connected();
+
 		$installed_plugins = get_plugins();
 		$active_plugins    = $this->gdpr_cookie_consent_active_plugins();
 		$cookie_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
@@ -5389,10 +5397,33 @@ class Gdpr_Cookie_Consent_Admin {
 		$is_pro_active        = get_option( 'wpl_pro_active' );
 		$api_key_activated    = '';
 		$api_key_activated    = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
-		$max_mind_integrated  = '0';
-		$max_mind_integrated  = apply_filters( 'gdpr_get_maxmind_integrated', $max_mind_integrated );
-		$last_scanned_details = '';
-		$last_scanned_details = apply_filters( 'gdpr_get_last_scanned_details', $last_scanned_details );
+
+		// if pro is active then fetch $max_mind_integrated from pro otherwise from free
+		if ( $is_pro_active ) {
+
+			$max_mind_integrated  = '0';
+			$max_mind_integrated  = apply_filters( 'gdpr_get_maxmind_integrated', $max_mind_integrated );
+		}else{
+			$max_mind_integrated = get_option( 'wpl_pro_maxmind_integrated' );
+		}
+
+		// if pro is active then fetch last scanned details from pro otherwise from free
+		if ( $is_pro_active ) {
+
+			$last_scanned_details = '';
+			$last_scanned_details = apply_filters( 'gdpr_get_last_scanned_details', $last_scanned_details );
+
+		}else{
+			global $wpdb;
+			$scan_table           = $wpdb->prefix . 'wpl_cookie_scan';
+			$sql                  = "SELECT * FROM `$scan_table` ORDER BY id_wpl_cookie_scan DESC LIMIT 1";
+			$last_scanned_details = $wpdb->get_row( $sql, ARRAY_A ); //phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			if ( $last_scanned_details ) {
+				$last_scanned_details = gmdate( 'F j, Y g:i a T', $last_scanned_details['created_at'] );
+			} else {
+				$last_scanned_details = 'Perform your first Cookie Scan.';
+			}
+		}
 		$admin_url            = admin_url();
 		$admin_url_length     = strlen( $admin_url );
 		$show_cookie_url      = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#compliances';
@@ -5452,6 +5483,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'decline_log'           => $decline_log,
 				'accept_log'            => $accept_log,
 				'partially_acc_log'     => $partially_acc_log,
+				'is_user_connected'		=> $is_user_connected,
 			)
 		);
 		require_once plugin_dir_path( __FILE__ ) . 'views/gdpr-dashboard-page.php';
