@@ -1494,28 +1494,19 @@ var gen = new Vue({
 		onStartScheduleScan() {
 			this.schedule_scan_show = false; //make it false to close the popup
 
-			if (this.schedule_scan_as === "once") {
-				// Execute schedule scan once
+			if ( this.schedule_scan_as == "once" ) {
+				//execute schedule scan once
 				this.scheduleScanOnce();
 
-				// Set value for the Next Scan Details when Once
-				const selectedDate = new Date(this.schedule_scan_date);
-
-				// Check if the selected date is in the past
-				if (selectedDate < new Date()) {
-					// If the selected date has already passed, set next_scan_is_when to "Not Scheduled"
-					this.next_scan_is_when = "Not Scheduled";
-				} else {
-					// If the selected date is in the future, format and set it as the next scan date
-					const formattedDate = selectedDate.toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: 'short',
-						day: 'numeric',
-					});
-					this.next_scan_is_when = formattedDate;
-				}
-			}
-			else if ( this.schedule_scan_as == "monthly" ){
+				//set value for the Next Scan Details when Once
+				const dateObject = new Date(this.schedule_scan_date);
+				const formattedDate = dateObject.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: 'short',
+				day: 'numeric',
+				});
+				this.next_scan_is_when = formattedDate;
+			}else if ( this.schedule_scan_as == "monthly" ){
 				//execute scan schedule monthly
 				this.scanMonthly();
 
