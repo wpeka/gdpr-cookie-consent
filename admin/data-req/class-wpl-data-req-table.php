@@ -21,7 +21,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * Number of items per page
 	 *
 	 * @var int
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 */
 	public $per_page = 10;
 
@@ -29,7 +29,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * Number of results found
 	 *
 	 * @var int
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 */
 	public $count = 0;
 
@@ -37,7 +37,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * Total results
 	 *
 	 * @var int
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 */
 	public $total = 0;
 
@@ -45,14 +45,14 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * The arguments for the data set
 	 *
 	 * @var array
-	 * @since  2.13.0
+	 * @since   3.0.0
 	 */
 	public $args = array();
 
 	/**
 	 * Get things started
 	 *
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 * @see   WP_List_Table::__construct()
 	 */
 	public function __construct() {
@@ -74,7 +74,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * @param string $input_id ID of the search box
 	 *
 	 * @return void
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 *
 	 */
 	public function search_box( $text, $input_id ) {
@@ -115,7 +115,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * Gets the name of the primary column.
 	 *
 	 * @return string Name of the primary column.
-	 * @since  2.13.0
+	 * @since   3.0.0
 	 * @access protected
 	 *
 	 */
@@ -130,7 +130,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * @param string $column_name The name of the column
 	 *
 	 * @return string Column Name
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 *
 	 */
 	public function column_default( $item, $column_name ) {
@@ -165,7 +165,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * Retrieve the table columns
 	 *
 	 * @return array $columns Array of all the list table columns
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 */
 	public function get_columns() {
 		$columns = array(
@@ -192,7 +192,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * Get the sortable columns
 	 *
 	 * @return array Array of all the sortable columns
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 */
 	public function get_sortable_columns() {
 		return array(
@@ -210,7 +210,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * Outputs the reporting views
 	 *
 	 * @return void
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 */
 	public function get_bulk_actions( $which = '' ) {
 
@@ -226,7 +226,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * Process bulk actions
 	 *
 	 * @access      private
-	 * @since       2.13.0
+	 * @since        3.0.0
 	 * @return      void
 	 */
 	public function process_bulk_action() {
@@ -266,7 +266,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * Retrieve the current page number
 	 *
 	 * @return int Current page number
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 */
 	public function get_paged() {
 		return isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
@@ -276,7 +276,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * Retrieves the search query string
 	 *
 	 * @return mixed string If search is present, false otherwise
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 */
 	public function get_search() {
 		return ! empty( $_GET['s'] ) ? urldecode( trim( $_GET['s'] ) ) : false;
@@ -323,7 +323,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * @return array $reports_data All the data for customer reports
 	 * @global object $wpdb Used to query the database using the WordPress
 	 *                      Database API
-	 * @since 2.14.0
+	 * @since  3.0.0
 	 */
 
 	public function reports_data() {

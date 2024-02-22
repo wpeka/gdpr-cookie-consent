@@ -524,9 +524,6 @@ class Gdpr_Cookie_Consent_Admin {
 		$email   = sanitize_email( get_option( 'admin_email' ) );
 		$subject = "You have received a new data request on ".get_bloginfo( 'name' );
 		$message = $subject.'<br />'.'Please check the data request on '.'<a href="'.site_url().'" target="_blank">'.site_url().'</a>';
-		error_log($email);
-		error_log($subject);
-		error_log($message);
 		$this->wpl_send_mail( $email, $subject, $message );
 	}
 	/**
