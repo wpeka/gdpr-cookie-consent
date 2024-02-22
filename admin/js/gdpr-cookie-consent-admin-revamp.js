@@ -5,7 +5,7 @@ jQuery(document).ready(function () {
     const isProActivated = gdpr_localize_data.is_pro_activated;
     const adminUrl = gdpr_localize_data.admin_url;
 	const ajaxurl = gdpr_localize_data.ajaxurl;
-    if (isProActivated) {
+    if (!isProActivated) {
         jQuery('.gdpr-cookie-consent-admin-tabs-section').addClass('pro-is-activated');
         jQuery('.gdpr-cookie-consent-admin-tab').addClass('pro-is-activated');
     }

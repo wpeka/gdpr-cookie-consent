@@ -5,7 +5,7 @@
  * @link       https://club.wpeka.com/
  * @since      2.6
  *
- * @package    Wpl_Cookie_Consent
+ * @package    Gdpr_Cookie_Consent
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * The admin-specific ajax functionality for script blocker.
  *
- * @package    Wpl_Cookie_Consent
- * @subpackage Wpl_Cookie_Consent/public/modules
+ * @package    Gdpr_Cookie_Consent
+ * @subpackage Gdpr_Cookie_Consent/public/modules
  * @author     wpeka <https://club.wpeka.com>
  */
 class Gdpr_Cookie_Consent_Script_Blocker_Ajax extends Gdpr_Cookie_Consent_Script_Blocker {
