@@ -697,8 +697,9 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 										</div>
 										</c-col>
 									</c-row>
+									<?php endif ?>
 									<?php do_action( 'gdpr_consent_settings_pro_bottom' ); ?>
-								<?php endif ?>
+								
 							</c-card-body>
 						</c-card>
 						<c-card>

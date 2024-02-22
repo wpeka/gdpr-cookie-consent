@@ -114,6 +114,7 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_style( $this->plugin_name . '-wizard', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-wizard' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 		wp_register_style( $this->plugin_name . '-select2', plugin_dir_url( __FILE__ ) . 'css/select2.css', array(), $this->version, 'all' );
 		wp_register_style( 'gdpr_policy_data_tab_style', plugin_dir_url( __FILE__ ) . 'css/gdpr-policy-data-tab' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
+		wp_register_style( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'css/wpl-cookie-consent-integrations.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -139,9 +140,114 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name . '-select2', plugin_dir_url( __FILE__ ) . 'js/select2.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-main', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-main.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-dashboard', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-dashboard.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'js/vue/wpl-cookie-consent-admin-integrations.js', array( 'jquery' ), $this->version, false );
 	}
 
+	/**
+	 * Filter callback to return if maxmind is integrated
+	 *
+	 * @param String $maxmind_integrated Filter variable.
+	 *
+	 * @since 2.9.0
+	 */
+	public function wpl_get_maxmind_integrated( $maxmind_integrated ) {
+		return get_option( 'wpl_pro_maxmind_integrated' );
+	}
 
+	/**
+	 * Ajax callback function for Integrations Page.
+	 */
+	public function wpl_cookie_consent_integrations_settings() {
+		if ( isset( $_POST['_wpnonce'] ) ) {
+			check_admin_referer( 'wpl-update-maxmind-license' );
+			$geoip       = new Gdpr_Cookie_Consent_Geo_Ip();
+			$license_key = isset( $_POST['wpl-maxmind-license-key'] ) ? sanitize_text_field( wp_unslash( $_POST['wpl-maxmind-license-key'] ) ) : '';
+			$license_key = is_null( $license_key ) ? '' : $license_key;
+			$license_key = trim( stripslashes( $license_key ) );
+			if ( ! empty( $license_key ) ) {
+				$license_key = $geoip->validate_maxmind_license_key( $license_key );
+			}
+			$enable_geotargeting                = isset( $_POST['wpl-enable-geo-targeting'] ) && ( true === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) || 'true' === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) ) ? 'true' : 'false';
+			$geo_options                        = get_option( 'wpl_geo_options' );
+			$geo_options['maxmind_license_key'] = $license_key;
+			$geo_options['enable_geotargeting'] = $enable_geotargeting;
+			update_option( 'wpl_geo_options', $geo_options );
+			if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) ) {
+				wp_send_json_success();
+			}
+		}
+	}
+	/**
+	 * Print admin notices for Maxmind integration.
+	 */
+	public function wpl_admin_notices() {
+		if ( class_exists( 'Gdpr_Cookie_Consent' ) ) {
+			$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$style       = '';
+			if ( ! $the_options['is_eu_on'] && ! $the_options['is_ccpa_on'] ) {
+				$style = 'display:none';
+			}
+			$geo_options = get_option( 'wpl_geo_options' );
+			if ( '2' !== get_option( 'wpl_pro_maxmind_integrated' ) && ( ! isset( $geo_options['enable_geotargeting'] ) || 'true' !== $geo_options['enable_geotargeting'] ) ) {
+				?>
+				<div class="gdpr-maxmind-notice notice notice-error dismissible" style="<?php echo esc_attr( $style ); ?>">
+					<p>
+						<strong><?php esc_html_e( 'WP Cookie Consent Pro: Geotargeting not enabled and MaxMind integration has not been configured.', 'gdpr-cookie-consent' ); ?></strong>
+					</p>
+					<p>
+						<?php
+						echo wp_kses_post(
+							sprintf(
+								/* translators: %1%s: integration page */
+								__( 'You must enable geotargeting and enter a valid license key on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
+								admin_url( 'admin.php?page=gdpr-integrations' )
+							)
+						);
+						?>
+					</p>
+				</div>
+				<?php
+			} elseif ( '2' !== get_option( 'wpl_pro_maxmind_integrated' ) ) {
+				?>
+				<div class="gdpr-maxmind-notice notice notice-error dismissible" style="<?php echo esc_attr( $style ); ?>">
+					<p>
+						<strong><?php esc_html_e( 'WP Cookie Consent Pro: MaxMind integration has not been configured.', 'gdpr-cookie-consent' ); ?></strong>
+					</p>
+					<p>
+						<?php
+						echo wp_kses_post(
+							sprintf(
+								/* translators: %1%s: integration page */
+								__( 'You must enter a valid license key on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
+								admin_url( 'admin.php?page=gdpr-integrations' )
+							)
+						);
+						?>
+					</p>
+				</div>
+				<?php
+			} elseif ( ! isset( $geo_options['enable_geotargeting'] ) || 'true' !== $geo_options['enable_geotargeting'] ) {
+				?>
+				<div class="gdpr-maxmind-notice notice notice-error dismissible" style="<?php echo esc_attr( $style ); ?>">
+					<p>
+						<strong><?php esc_html_e( 'WP Cookie Consent Pro: Geotargeting is not enabled.', 'gdpr-cookie-consent' ); ?></strong>
+					</p>
+					<p>
+						<?php
+						echo wp_kses_post(
+							sprintf(
+								/* translators: %1%s: integration page */
+								__( 'You must enable geotargeting on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
+								admin_url( 'admin.php?page=gdpr-integrations' )
+							)
+						);
+						?>
+					</p>
+				</div>
+				<?php
+			}
+		}
+	}
 	/**
 	 * Consent Log overview
 	 *
@@ -454,6 +560,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 1.7.6
 	 */
 	public function admin_init() {
+		global $wpdb;
+		if ( ! get_option( 'wpl_pro_maxmind_integrated' ) ) {
+			add_option( 'wpl_pro_maxmind_integrated', '1' );
+		}
 		if ( ! get_option( 'gdpr_version_number' ) ) {
 			update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
 		} elseif ( get_option( 'gdpr_version_number' ) !== GDPR_COOKIE_CONSENT_VERSION ) {
@@ -3460,6 +3570,39 @@ class Gdpr_Cookie_Consent_Admin {
 				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
 				$the_options['enable_safe']          = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
 				$the_options['logging_on']           = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
+				// For EU.
+				if ( isset( $_POST['gcc-eu-enable'] ) ) {
+					if ( 'no' === $_POST['gcc-eu-enable'] ) {
+						$the_options['is_eu_on'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-eu-enable'] ) {
+						$the_options['is_eu_on'] = 'false';
+					} else {
+						$the_options['is_eu_on'] = 'true';
+					}
+				}
+				// For CCPA.
+				if ( isset( $_POST['gcc-ccpa-enable'] ) ) {
+					if ( 'no' === $_POST['gcc-ccpa-enable'] ) {
+						$the_options['is_ccpa_on'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-ccpa-enable'] ) {
+						$the_options['is_ccpa_on'] = 'false';
+					} else {
+						$the_options['is_ccpa_on'] = 'true';
+					}
+				}
+				if ( isset( $the_options['cookie_usage_for'] ) ) {
+					switch ( $the_options['cookie_usage_for'] ) {
+						case 'both':
+						case 'gdpr':
+						case 'lgpd':
+						case 'eprivacy':
+							update_option( 'wpl_bypass_script_blocker', 0 );
+							break;
+						case 'ccpa':
+							update_option( 'wpl_bypass_script_blocker', 1 );
+							break;
+					}
+				}
 			}
 			if ( ! get_option( 'wpl_pro_active' ) ) {
 
@@ -4348,6 +4491,39 @@ class Gdpr_Cookie_Consent_Admin {
 				$selected_sites                 = isset( $_POST['gcc-selected-sites'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-sites'] ) ) ) : '';
 				$the_options['consent_forward'] = isset( $_POST['gcc-consent-forward'] ) && ( true === $_POST['gcc-consent-forward'] || 'true' === $_POST['gcc-consent-forward'] ) ? 'true' : 'false';
 				$the_options['select_sites']    = $selected_sites;
+				// For EU.
+				if ( isset( $_POST['gcc-eu-enable'] ) ) {
+					if ( 'no' === $_POST['gcc-eu-enable'] ) {
+						$the_options['is_eu_on'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-eu-enable'] ) {
+						$the_options['is_eu_on'] = 'false';
+					} else {
+						$the_options['is_eu_on'] = 'true';
+					}
+				}
+				// For CCPA.
+				if ( isset( $_POST['gcc-ccpa-enable'] ) ) {
+					if ( 'no' === $_POST['gcc-ccpa-enable'] ) {
+						$the_options['is_ccpa_on'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-ccpa-enable'] ) {
+						$the_options['is_ccpa_on'] = 'false';
+					} else {
+						$the_options['is_ccpa_on'] = 'true';
+					}
+				}
+				if ( isset( $the_options['cookie_usage_for'] ) ) {
+					switch ( $the_options['cookie_usage_for'] ) {
+						case 'both':
+						case 'gdpr':
+						case 'lgpd':
+						case 'eprivacy':
+							update_option( 'wpl_bypass_script_blocker', 0 );
+							break;
+						case 'ccpa':
+							update_option( 'wpl_bypass_script_blocker', 1 );
+							break;
+					}
+				}
 			}
 			if ( ! get_option( 'wpl_pro_active' ) ) {
 

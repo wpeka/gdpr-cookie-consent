@@ -123,6 +123,52 @@ class Gdpr_Cookie_Consent_Public {
 	}
 
 	/**
+	 * Returns updated array with the consent renew values
+	 *
+	 * @since 2.11.1
+	 */
+	public function gdpr_renew_consent_bar() {
+		error_log("This is got called");
+		check_ajax_referer( 'wpl_consent_renew_nonce', 'security' );
+
+		global $wpdb;
+
+		if ( ! empty( $_POST['arrayValue'] ) ) {
+
+			$returned_array_from_public_js = $_POST['arrayValue'];
+
+			foreach ( $returned_array_from_public_js as $data ) {
+				$post_id       = $data['post_id'];
+				$consent_value = $data['consent_value'];
+
+				// Check if the post ID exists in the database.
+				$post_exists = $wpdb->get_var(
+					$wpdb->prepare(
+						"SELECT ID FROM {$wpdb->prefix}posts WHERE ID = %d",
+						$post_id
+					)
+				);
+
+				if ( $post_exists ) {
+					// Update '_wplconsentlogs_ip' and '_wpl_renew_consent' meta values.
+					update_post_meta( $post_id, '_wplconsentlogs_ip', $data['ip_value'] );
+
+					// Check if '_wpl_renew_consent' meta key exists, and add if it doesn't.
+					$existing_renew_consent = get_post_meta( $post_id, '_wpl_renew_consent', true );
+					if ( $existing_renew_consent == '' ) {
+						add_post_meta( $post_id, '_wpl_renew_consent', $consent_value, true );
+					} else {
+						// Update '_wpl_renew_consent' meta value if it exists.
+						update_post_meta( $post_id, '_wpl_renew_consent', $consent_value );
+					}
+				}
+			}
+
+			wp_send_json_success( $returned_array_from_public_js );
+
+		}
+	}
+	/**
 	 * Register public modules
 	 *
 	 * @since 1.0
