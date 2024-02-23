@@ -132,12 +132,16 @@ class Gdpr_Cookie_Consent {
 		 * The class responsible for orchestrating the actions and filters of the.
 		 * Script blocker, Cookie Scan.
 		 */
-		$wpl_pro_active = get_option( 'wpl_pro_active' );
+		$wpl_pro_active = get_option( 'wpl_pro_active', false );
+
 		if ( ! $wpl_pro_active ) {
 			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
 
 			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
+
 			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
+
+			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
 		}
 
 		/**
@@ -236,6 +240,9 @@ class Gdpr_Cookie_Consent {
 				$this->loader->add_action( 'activated_plugin', $plugin_admin, 'update_db_check' );
 				$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'update_db_check' );
 	
+				$this->loader->add_filter( 'gdpr_get_maxmind_integrated', $plugin_admin, 'wpl_get_maxmind_integrated' );
+				$this->loader->add_action( 'wp_ajax_wpl_cookie_consent_integrations_settings', $plugin_admin, 'wpl_cookie_consent_integrations_settings' );
+				$this->loader->add_action( 'admin_notices', $plugin_admin, 'wpl_admin_notices' );
 			}
 		
 		}
@@ -266,6 +273,10 @@ class Gdpr_Cookie_Consent {
 			// action hooks for renew consnet.
 			$this->loader->add_action( 'wp_ajax_nopriv_gdpr_renew_consent_bar', $plugin_public, 'gdpr_renew_consent_bar' );
 			$this->loader->add_action( 'wp_ajax_gdpr_renew_consent_bar', $plugin_public, 'gdpr_renew_consent_bar' );
+			//action hooks for geo integration.
+			$this->loader->add_action( 'wp_ajax_nopriv_show_cookie_consent_bar', $plugin_public, 'show_cookie_consent_bar' );
+			$this->loader->add_action( 'wp_ajax_show_cookie_consent_bar', $plugin_public, 'show_cookie_consent_bar' );
+			$this->loader->add_filter( 'gdprcookieconsent_json_settings', $plugin_public, 'wplcookieconsent_json_settings', 10, 1 );
 			}
 		}
 	}
@@ -620,7 +631,7 @@ class Gdpr_Cookie_Consent {
 			'is_eu_on'                             => false,
 			'is_ccpa_on'                           => false,
 			'is_ccpa_iab_on'                       => false,
-			'logging_on'                           => false,
+			'logging_on'                           => true,
 			'show_credits'                         => false,
 			'is_ticked'                            => false,
 			'show_again'                           => true,
@@ -671,6 +682,7 @@ class Gdpr_Cookie_Consent {
 			'enable_safe'                          => false,
 			'consent_forward'                      => false,
 			'select_sites'                         => array(),
+			'data_reqs_on'                         => true,
 		);
 		$settings = apply_filters( 'gdprcookieconsent_default_settings', $settings );
 		return '' !== $key ? $settings[ $key ] : $settings;

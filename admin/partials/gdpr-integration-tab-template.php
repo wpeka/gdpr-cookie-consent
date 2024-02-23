@@ -15,7 +15,7 @@ $the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 $geo_options = get_option( 'wpl_geo_options' );
 if ( ! isset( $geo_options['database_prefix'] ) ) {
 	$geo_options['maxmind_license_key'] = '';
-	$geo_options['database_prefix']     = wp_generate_password( 32, false,null );
+	$geo_options['database_prefix']     = wp_generate_password( 32, false,false );
 	update_option( 'wpl_geo_options', $geo_options );
 }
 if ( ! isset( $geo_options['enable_geotargeting'] ) ) {

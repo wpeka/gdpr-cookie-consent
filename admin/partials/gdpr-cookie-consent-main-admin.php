@@ -145,6 +145,10 @@ $is_user_connected = $this->settings->is_connected();
 						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
 							<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
 						</div>
+				<!-- integration tab  -->
+						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-integrations-data-tab" data-tab="integrations">
+							<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>
+						</div>
 				<?php
 
              
@@ -176,15 +180,7 @@ $is_user_connected = $this->settings->is_connected();
 								<?php
 
                                   }
-									?>
-							<!-- integration tab  -->
-							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-integrations-data-tab" data-tab="integrations">
-							<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>
-							</div>
-						<?php
-
-				}
-
+					}
 
 				?>
 				<!-- Policy data tab  -->
