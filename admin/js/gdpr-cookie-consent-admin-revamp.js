@@ -195,9 +195,7 @@ jQuery(document).ready(function () {
 	//check if data req is on, then show data req tab.
 	if ( gdpr_localize_data.is_data_req_on == 'false' ) {
 		jQuery('.gdpr-cookie-consent-admin-data-request-tab').hide();
-		jQuery('.gdpr-cookie-consent-admin-tab').css('min-width', '280px');
 	}
-
 	//jquery for paginations for consent log tab
 	jQuery('#consentLogDataTabContainer .pagination-links a').each(function() {
         var href = jQuery(this).attr('href');
@@ -216,10 +214,7 @@ jQuery(document).ready(function () {
 		href += '#policy_data';
 		jQuery(this).attr('href', href);
 	});
-	if ( gdpr_localize_data.is_data_req_on == 'true' ) {
-		jQuery('.gdpr-cookie-consent-admin-tab').css('min-width', '239px');
-	}
-
+	
 	/**
 	 * Javascript functionality for SaaS API Framework.
 	*/
