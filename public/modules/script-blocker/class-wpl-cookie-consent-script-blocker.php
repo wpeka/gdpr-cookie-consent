@@ -5,7 +5,7 @@
  * @link       https://club.wpeka.com/
  * @since      2.6
  *
- * @package    Wpl_Cookie_Consent
+ * @package    Gdpr_Cookie_Consent
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * The frontend-specific functionality for cookie script blocker.
  *
- * @package    Wpl_Cookie_Consent
+ * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/public/modules
  * @author     wpeka <https://club.wpeka.com>
  */

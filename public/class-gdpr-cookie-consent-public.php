@@ -123,6 +123,104 @@ class Gdpr_Cookie_Consent_Public {
 	}
 
 	/**
+	 * Returns JSON object containing the settings for the main script.
+	 *
+	 * @param Array $slim_settings Slim settings.
+	 * @return mixed
+	 */
+	public function wplcookieconsent_json_settings( $slim_settings ) {
+		$slim_settings['maxmind_integrated'] = get_option( 'wpl_pro_maxmind_integrated', '1' );
+		return $slim_settings;
+	}
+	/**
+	 * Returns updated array with the consent renew values
+	 *
+	 * @since 2.11.1
+	 */
+	public function gdpr_renew_consent_bar() {
+		check_ajax_referer( 'wpl_consent_renew_nonce', 'security' );
+
+		global $wpdb;
+
+		if ( ! empty( $_POST['arrayValue'] ) ) {
+
+			$returned_array_from_public_js = $_POST['arrayValue'];
+
+			foreach ( $returned_array_from_public_js as $data ) {
+				$post_id       = $data['post_id'];
+				$consent_value = $data['consent_value'];
+
+				// Check if the post ID exists in the database.
+				$post_exists = $wpdb->get_var(
+					$wpdb->prepare(
+						"SELECT ID FROM {$wpdb->prefix}posts WHERE ID = %d",
+						$post_id
+					)
+				);
+
+				if ( $post_exists ) {
+					// Update '_wplconsentlogs_ip' and '_wpl_renew_consent' meta values.
+					update_post_meta( $post_id, '_wplconsentlogs_ip', $data['ip_value'] );
+
+					// Check if '_wpl_renew_consent' meta key exists, and add if it doesn't.
+					$existing_renew_consent = get_post_meta( $post_id, '_wpl_renew_consent', true );
+					if ( $existing_renew_consent == '' ) {
+						add_post_meta( $post_id, '_wpl_renew_consent', $consent_value, true );
+					} else {
+						// Update '_wpl_renew_consent' meta value if it exists.
+						update_post_meta( $post_id, '_wpl_renew_consent', $consent_value );
+					}
+				}
+			}
+
+			wp_send_json_success( $returned_array_from_public_js );
+
+		}
+	}
+	/**
+	 * Returns cookie consent bar status.
+	 *
+	 * @since 2.0
+	 */
+	public function show_cookie_consent_bar() {
+		update_option( 'gdpr_settings_enabled', 0 );
+		$return_array = array(
+			'eu_status'   => 'on',
+			'ccpa_status' => 'on',
+		);
+		$the_options  = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$geo_options  = get_option( 'wpl_geo_options' );
+		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] ) {
+			if ( boolval( true ) === boolval( $the_options['is_eu_on'] ) ) {
+				// check if eu country.
+				$geoip      = new Gdpr_Cookie_Consent_Geo_Ip();
+				$eu_country = $geoip->wpl_is_eu_country();
+				if ( isset( $eu_country ) && true !== $eu_country ) {
+					$return_array['eu_status'] = 'off';
+				}
+			}
+			if ( boolval( true ) === boolval( $the_options['is_ccpa_on'] ) ) {
+				// check if ccpa country.
+				$geoip        = new Gdpr_Cookie_Consent_Geo_Ip();
+				$ccpa_country = $geoip->wpl_is_ccpa_country();
+				if ( isset( $ccpa_country ) && true !== $ccpa_country ) {
+					$return_array['ccpa_status'] = 'off';
+				}
+			}
+			if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
+				$return_array['ccpa_status'] = 'off';
+			}
+			if ( 'ccpa' === $the_options['cookie_usage_for'] ) {
+				$return_array['eu_status'] = 'off';
+			}
+			if ( 'eprivacy' === $the_options['cookie_usage_for'] ) {
+				$return_array['eu_status'] = 'on';
+			}
+		}
+		wp_send_json( $return_array );
+		wp_die();
+	}
+	/**
 	 * Register public modules
 	 *
 	 * @since 1.0
@@ -670,7 +768,6 @@ class Gdpr_Cookie_Consent_Public {
 			if ( $the_options['consent_forward'] !== true ) {
 				$the_options['select_sites'] = null;
 			}
-
 			$cookies_list_data = array(
 				'gdpr_cookies_list'       => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
 				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
