@@ -333,26 +333,62 @@ $api_user_plan = $this->settings->get_plan();
 									</c-col>
 								</c-row>
 								<?php if ( ! $is_pro_active ) : ?>
-									<c-row v-show="is_gdpr">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?>
-											</label>
-											<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
-										</c-col>
+									<c-row v-show="gdpr_policy === 'gdpr'">
+									<div v-show="enable_safe" class="overlay_eu_visitors">
+											<div class="overlay_eu_visitors_message">
+												<?php
+												esc_attr_e(
+													'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
+													'gdpr-cookie-consent'
+												);
+												?>
+											</div>
+										</div>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu-on" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
+										<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
+									</c-col>
+								</c-row>
+								<c-row v-show="gdpr_policy === 'ccpa'">
+										<div v-show="enable_safe "class="overlay_eu_visitors">
+											<div class="overlay_eu_visitors_message">
+												<?php
+												esc_attr_e(
+													'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
+													'gdpr-cookie-consent'
+												);
+												?>
+											</div>
+										</div>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-switch v-bind="labelIcon" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d"  color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
+										<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
+									</c-col>
+								</c-row>
+								<c-row v-show="gdpr_policy === 'both'">
+										<div v-show="enable_safe"class="overlay_eu_visitors overlay_eu_visitors--both">
+											<div class="overlay_eu_visitors_message overlay_eu_visitors_message--both">
+												<?php
+												esc_attr_e(
+													'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
+													'gdpr-cookie-consent'
+												);
+												?>
+											</div>
+										</div>
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8">
-											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="is_eu_on" id="gdpr-cookie-consent-eu-on" variant="3d" color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
-											<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
+											<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu-on" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
+										<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
 										</c-col>
-									</c-row>
-									<c-row v-show="is_ccpa">
-										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?>
-									</label>
-									<div class="gdpr-pro-label absolute" style="right: -5px;"><div class="gdpr-pro-label-text">Pro</div></div>
-										</c-col>
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8">
-											<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d" color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
-											<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
+										<c-switch v-bind="labelIcon" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d"  color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
+										<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
 										</c-col>
-									</c-row>
+								</c-row>
 								<?php endif ?>
 								<?php do_action( 'gdpr_enable_visitor_features' ); ?>
 							</c-card-body>
