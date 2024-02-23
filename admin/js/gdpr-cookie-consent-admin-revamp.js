@@ -61,6 +61,17 @@ jQuery(document).ready(function () {
 		window.history.scrollRestoration = 'manual'
 	  }
 
+	//scan again link redirection
+
+	jQuery('.gdpr_scan_again_link').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr_scan_again_link a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+
 	// for free links
 	jQuery('.gdpr-quick-link-item.settings_free').on('click', function(e) {
 
