@@ -243,6 +243,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * Add a card for scanning cookies.
 	 */
 	public function wpl_cookie_scanner_card() {
+		// check if pro is activated or installed.
+		$installed_plugins = get_plugins();
+		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 		$last_scan = $this->get_last_scan();
 		$error_message = '';
 
@@ -317,9 +320,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
        		 </div>
 
 		</div>
-		<c-card class="<?php echo $this->class_for_blur_content; ?>" >
+		<c-card class="<?php echo $pro_installed ? '' : esc_attr( $this->class_for_blur_content ); ?>" >
 			<!-- API Connection Screen  -->
-			<?php if ( ! $this->is_user_connected ) : ?>
+			<?php if ( ! $this->is_user_connected && ! $pro_installed ) : ?>
 				<div class="gdpr-overlay">
 					<p class="enable-text"><?php esc_html_e( 'To enable Cookie Scan, create your FREE WP Cookie Consent account.', 'gdpr-cookie-consent' ); ?></p>
 					<button class="gdpr-start-auth"><?php esc_html_e( 'New? Create an account', 'gdpr-cookie-consent' ); ?></button>
@@ -332,7 +335,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 				<c-button class="scan-now-btn" color="info" @click="onClickStartScan"><span>Scan Now</span></c-button>
 			</div>
 		</c-card-header>
-			<c-card-body class="<?php echo $this->class_for_card_body_blur_content; ?>" >
+			<c-card-body class="<?php echo $pro_installed ? '' : esc_attr( $this->class_for_card_body_blur_content ); ?>" >
 				<div class="gdpr_scanbar_staypage"><?php esc_attr_e( 'Please do not leave this page until the progress bar reaches 100%', 'gdpr-cookie-consent' ); ?></div>
 				<div class="gdpr_scanbar">
 					<div class="gdpr_infobox">

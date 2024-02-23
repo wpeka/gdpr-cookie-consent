@@ -10,11 +10,12 @@
  *
  * @package gdpr-cookie-consent
  */
-
+// check if pro is activated or installed.
 $pro_is_activated = get_option( 'wpl_pro_active', false );
 $the_options      = Gdpr_Cookie_Consent::gdpr_get_settings();
 $is_data_req_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
-
+$installed_plugins = get_plugins();
+$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 // Require the class file for gdpr cookie consent api framework settings.
 require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 
@@ -71,7 +72,7 @@ $is_user_connected = $this->settings->is_connected();
 		<!-- connect your website to WP Cookie Consent  -->
 
 		<?php
-		if ( $is_user_connected != true && ! $pro_is_activated ) {
+		if ( $is_user_connected != true && ! $pro_installed ) {
 		?>
 		<div class="gdpr-cookie-consent-connect-api-container">
 			<div class="gdpr-api-info-content">
@@ -102,7 +103,7 @@ $is_user_connected = $this->settings->is_connected();
 
 		<?php
 
-		if ( $is_user_connected == true && ! $pro_is_activated  ) {
+		if ( $is_user_connected == true && ! $pro_installed  ) {
 
 		?>
 		<!-- Disconnect your website to WP Cookie Consent  -->
@@ -151,7 +152,7 @@ $is_user_connected = $this->settings->is_connected();
 						</div>
 				<?php
 
-             
+
 			if ( $is_data_req_on && !$pro_is_activated ) {
 
 								?>
@@ -167,7 +168,7 @@ $is_user_connected = $this->settings->is_connected();
 				if ( $pro_is_activated ) {
 
 					?>
-							
+
 							<?php
 
                         if ( $is_data_req_on ) {
