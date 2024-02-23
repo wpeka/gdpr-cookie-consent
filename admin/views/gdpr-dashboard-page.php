@@ -153,7 +153,7 @@ if ($table_exists) {
 								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e('Scan again.', 'gdpr-cookie-consent'); ?></a>
 							</span>
 							<!-- when pro is not installed and user is conneted to the api and cookie scan performed -->
-							<span v-show="is_user_connected && cookie_scanned && !pro_installed">
+							<span class="gdpr_scan_again_link" v-show="is_user_connected && cookie_scanned && !pro_installed">
 								<?php esc_html_e('Cookies were last scanned on ', 'gdpr-cookie-consent'); ?>
 								{{last_scanned + '.'}}
 								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e('Scan again.', 'gdpr-cookie-consent'); ?></a>
