@@ -3388,7 +3388,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 .gdpr-api-info-content .gdpr-api-detailed-info h2{
     font-family: Roboto;
     font-size: 26px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 30px;
     letter-spacing: 0em;
     text-align: left;
@@ -3416,7 +3416,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     background: #0059B3;
     font-family: Roboto;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 20px;
     letter-spacing: 0em;
     text-align: center;
@@ -3432,7 +3432,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     background: #0059B3;
     font-family: Roboto;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 20px;
     letter-spacing: 0em;
     text-align: center;
@@ -3647,7 +3647,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     height: 100%;
     top: 0;
     left: 0;
-    backdrop-filter: blur(7px);
+    backdrop-filter: blur(3px);
     z-index: 0;
 }
 .gdpr-overlay{
@@ -3661,12 +3661,13 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     justify-content: center;
     align-items: center;
     z-index: 1; /* Ensure the overlay is on top of the blurred background */
+	background-color: rgba(255, 255, 255, 0.8);
 }
 
 .gdpr-blur-background .gdpr-overlay .enable-text{
 	font-family: Roboto !important;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 21px;
     letter-spacing: 0em;
     text-align: center;
@@ -3696,7 +3697,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	cursor: pointer;
 }
 .gdpr-body-blur-background{
-	filter: blur(7px);
+	filter: blur(3px);
 	background-color: rgba(255, 255, 255, 0.9);
 }
 
