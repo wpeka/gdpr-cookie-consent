@@ -1,6 +1,6 @@
 <?php
 /**
- * Policy data Reports Table Class
+ * Data Request Reports Table Class
  *
  *
  */
@@ -15,13 +15,13 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
-class GDPR_Policy_Data_Table extends WP_List_Table {
+class WPL_Data_Req_Table extends WP_List_Table {
 
 	/**
 	 * Number of items per page
 	 *
 	 * @var int
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 */
 	public $per_page = 10;
 
@@ -29,7 +29,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * Number of results found
 	 *
 	 * @var int
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 */
 	public $count = 0;
 
@@ -37,7 +37,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * Total results
 	 *
 	 * @var int
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 */
 	public $total = 0;
 
@@ -45,14 +45,14 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * The arguments for the data set
 	 *
 	 * @var array
-	 * @since  2.16.0
+	 * @since   3.0.0
 	 */
 	public $args = array();
 
 	/**
 	 * Get things started
 	 *
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 * @see   WP_List_Table::__construct()
 	 */
 	public function __construct() {
@@ -74,7 +74,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * @param string $input_id ID of the search box
 	 *
 	 * @return void
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 *
 	 */
 	public function search_box( $text, $input_id ) {
@@ -100,11 +100,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 				<?php submit_button( $text, 'button', false, false,
 					array( 'ID' => 'search-submit' ) ); ?>
 			</p>
-			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) ) ?>" target="_blank" class="button button-primary data-req-export-button"><?php _e("Export As CSV", "gdpr-cookie-consent")?></a>
-
-			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gdprpolicies' ) ) ?>" target="_blank" class="button button-primary policy-import-button"><?php _e("Import From CSV", "gdpr-cookie-consent")?></a>
-
-			<a href="<?php echo esc_url_raw( admin_url('post-new.php?post_type=gdprpolicies') ) ?>" target="_blank" class="button button-primary policy-data-add-new-button"><?php _e("Add New", "gdpr-cookie-consent")?></a>
+			<a href="<?php echo esc_url_raw( plugin_dir_url(__FILE__) . "csv.php?nonce=" . wp_create_nonce( 'wpl_csv_nonce' ) ) ?>" target="_blank" class="button button-primary data-req-export-button"><?php _e("Export", "gdpr-cookie-consent")?></a>
 
 			<?php
 
@@ -119,7 +115,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * Gets the name of the primary column.
 	 *
 	 * @return string Name of the primary column.
-	 * @since  2.16.0
+	 * @since   3.0.0
 	 * @access protected
 	 *
 	 */
@@ -134,16 +130,13 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * @param string $column_name The name of the column
 	 *
 	 * @return string Column Name
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 *
 	 */
 	public function column_default( $item, $column_name ) {
-
-		$this->column_name($item,$column_name);
-
 		switch ( $column_name ) {
-			case 'resolve' :
-				$value = $item['gdprdomain'] ? __('Resolved','gdpr-cookie-consent') : __('Open','gdpr-cookie-consent');
+			case 'resolved' :
+				$value = $item['resolved'] ? __('Resolved','gdpr-cookie-consent') : __('Open','gdpr-cookie-consent');
 				break;
 			default:
 				$value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : null;
@@ -158,59 +151,30 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 *
 	 * @return string
 	 */
-	public function column_name( $item,$column_name ) {
-
-		$item_ID = $item['ID'];
+	public function column_name( $item ) {
+		$name    = '#' . $item['ID'] . ' ';
+		$name    .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
 		$actions = array(
-			'edit' => '<a href="' . admin_url( 'post.php?post='.$item['ID'].'&action=edit' ) . '">' . __( 'Edit', 'gdpr-cookie-consent' ) . '</a>',
-			'policy_delete' => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=policy_delete&id=' . $item['ID'] ) . '">' . __( 'Trash', 'gdpr-cookie-consent' ) . '</a>',
+			'resolve' => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=resolve&id=' . $item['ID'] ) . '">' . __( 'Resolve', 'gdpr-cookie-consent' ) . '</a>',
+			'delete' => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=delete&id=' . $item['ID'] ) . '">' . __( 'Delete', 'gdpr-cookie-consent' ) . '</a>',
 		);
 
-		switch ( $column_name ) {
-			case 'title' :
-				$actions_to_be_inserted = $this->row_actions( $actions );
-				?>
-				<script>
-					jQuery(document).ready(function($) {
-						var itemId = <?php echo json_encode($item_ID); ?>;
-
-						// Find the matching checkbox and its parent row
-						var matchingRow = jQuery("input[type='checkbox'][value='" + itemId + "']").closest('tr');
-
-						if (matchingRow.length) {
-							// Get the HTML content
-							var actionsHtml = <?php echo json_encode($actions_to_be_inserted); ?>;
-
-							// Append the HTML to the row
-							jQuery(matchingRow).find('td.title').append(actionsHtml);
-						}
-					});
-
-				</script>
-
-				<?php
-				break;
-			default:
-				$value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : null;
-				break;
-		}
-
-
+		return $name . $this->row_actions( $actions );
 	}
-
 	/**
 	 * Retrieve the table columns
 	 *
 	 * @return array $columns Array of all the list table columns
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 */
 	public function get_columns() {
 		$columns = array(
 			'cb'          => '<input type="checkbox"/>',
-			'title'  => __( 'Company Name', 'gdpr-cookie-consent' ),
-			'gdprpurpose' => __( 'Policy Purpose', 'gdpr-cookie-consent' ),
-			'gdprlinks' => __( 'Links', 'gdpr-cookie-consent' ),
-			'gdprdomain' => __( 'Domain', 'gdpr-cookie-consent' ),
+			'name'  => __( 'Name', 'gdpr-cookie-consent' ),
+			'email' => __( 'Email', 'gdpr-cookie-consent' ),
+			'resolved' => __( 'Status', 'gdpr-cookie-consent' ),
+			'datarequest' => __( 'Data request', 'gdpr-cookie-consent' ),
+			'date' => __( 'Date', 'gdpr-cookie-consent' ),
 		);
 
 		return apply_filters( 'wpl_report_customer_columns', $columns );
@@ -228,16 +192,17 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * Get the sortable columns
 	 *
 	 * @return array Array of all the sortable columns
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 */
 	public function get_sortable_columns() {
 		return array(
-				'request_date' 				=> array( 'request_date', true ),
-				'title'  		=> array( 'title', true ),
-				'region'      				=> array( 'region', true ),
-				'gdprpurpose'       => array( 'gdprpurpose', true ),
-				'gdprlinks'     => array( 'gdprlinks', true ),
-				'gdprdomain'       => array( 'gdprdomain', true ),
+				'request_date' => array( 'request_date', true ),
+				'name'         => array( 'name', true ),
+				'region'       => array( 'region', true ),
+				'email'        => array( 'email', true ),
+				'resolved'     => array( 'resolved', true ),
+				'date'         => array( 'date', true ),
+				'datarequest'  => array( 'datarequest', true ),
 		);
 	}
 
@@ -245,12 +210,13 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * Outputs the reporting views
 	 *
 	 * @return void
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 */
 	public function get_bulk_actions( $which = '' ) {
 
 		$actions = array(
-			'delete'     => __( 'Move to Trash', 'gdpr-cookie-consent' ),
+			'delete'     => __( 'Delete', 'gdpr-cookie-consent' ),
+			'reslove'	 => __( 'Resolve', 'gdpr-cookie-consent' ),
 		);
 
 		return $actions;
@@ -260,7 +226,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * Process bulk actions
 	 *
 	 * @access      private
-	 * @since       2.16.0
+	 * @since        3.0.0
 	 * @return      void
 	 */
 	public function process_bulk_action() {
@@ -277,10 +243,21 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 
 		foreach ( $ids as $id ) {
 			if ( 'delete' === $this->current_action() ) {
-
-				wp_delete_post($id, true);
-
+				global $wpdb;
+				$wpdb->delete( $wpdb->prefix . 'wpl_data_req', array( 'ID' => intval( $id ) ) );
 				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
+				wp_redirect( admin_url( 'admin.php?page=wpl-datarequests' . $paged ) );
+			} else if ( 'reslove' === $this->current_action() ) {
+				global $wpdb;
+				$wpdb->update( $wpdb->prefix . 'wpl_data_req',
+						array(
+							'resolved' => 1
+						),
+						array( 'ID' => intval( $id ) )
+				);
+				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
+				wp_redirect( admin_url( 'admin.php?page=wpl-datarequests' . $paged ) );
+
 			}
 		}
 	}
@@ -289,7 +266,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * Retrieve the current page number
 	 *
 	 * @return int Current page number
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 */
 	public function get_paged() {
 		return isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
@@ -299,7 +276,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * Retrieves the search query string
 	 *
 	 * @return mixed string If search is present, false otherwise
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 */
 	public function get_search() {
 		return ! empty( $_GET['s'] ) ? urldecode( trim( $_GET['s'] ) ) : false;
@@ -307,33 +284,12 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 
 
 	public function resolved_select() {
-
-		$options = array();
-
-		// Query to get all posts
-		$all_posts = get_posts(array(
-			'post_type'      => 'gdprpolicies',
-			'posts_per_page' => -1,
-			'post_status'    => 'publish',
-			'orderby'        => 'ID',
-			'order'          => 'DESC',
-		));
-
-		// Loop through each post to extract creation dates and populate the options array
-		foreach ($all_posts as $post) {
-			$post_date = strtotime($post->post_date); // Get the UNIX timestamp of the post creation date
-			$month_year = date('F Y', $post_date); // Format the timestamp to month and year
-
-			// Check if the month_year is not already added to the options array
-			if (!in_array($month_year, $options)) {
-				// Add the month_year as an option
-				$options[] = $month_year;
-			}
-		}
-
-		// Add an 'ALL Dates' option at the beginning of the array
-		array_unshift($options, __('ALL Dates', "gdpr-cookie-consent"));
-
+		// Option Select
+		$options = [
+				0 => __('ALL',"gdpr-cookie-consent"),
+				1 => __('Resolved',"gdpr-cookie-consent"),
+				2 => __('Unresolved',"gdpr-cookie-consent"),
+		];
 		$selected = 0;
 		if ( isset($_GET['wpl_resolved_select'])		) {
 			$selected = intval($_GET['wpl_resolved_select']);
@@ -367,7 +323,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * @return array $reports_data All the data for customer reports
 	 * @global object $wpdb Used to query the database using the WordPress
 	 *                      Database API
-	 * @since 2.16.0
+	 * @since  3.0.0
 	 */
 
 	public function reports_data() {
@@ -396,21 +352,33 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		}
 
 		if ( isset( $_GET['wpl_resolved_select'] ) ) {
-			$args['month'] = intval($_GET['wpl_resolved_select']);
+			$args['resolved'] = intval($_GET['wpl_resolved_select']);
 		}
 
 		$this->args = $args;
-
 		$requests  = $this->get_requests( $args );
-
 		if ( $requests ) {
 			foreach ( $requests as $request ) {
+				$datarequest='';
+
+				$options = Gdpr_Cookie_Consent_Admin::wpl_data_reqs_options();
+
+				foreach ($options as $fieldname => $label ) {
+					if ( $request->{$fieldname}==1 ) {
+						$datarequest = '<a href="https://club.wpeka.com/'.$label['slug'].'" target="_blank">'.$label['short'].'</a>';
+					}
+				}
+				$time = date( get_option( 'time_format' ), $request->request_date );
+				$date = $this->wpl_localize_date($request->request_date);
+				$date = $this->wpl_sprintf( __( "%s at %s", 'gdpr-cookie-consent' ), $date, $time );
+
 				$data[] = array(
-					'ID'          				=> $request['ID'],
-					'title'						=> $request['title'],
-					'gdprpurpose'				=> $request['gdprpurpose'],
-					'gdprlinks' 				=> $request['gdprlinks'],
-					'gdprdomain' 				=> $request['gdprdomain'],
+						'ID'          => $request->ID,
+						'name'        => $request->name,
+						'email'       => $request->email,
+						'resolved'    => $request->resolved,
+						'datarequest' => $datarequest,
+						'date'       => $date,
 				);
 
 			}
@@ -431,7 +399,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		$this->process_bulk_action();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items = $this->reports_data();
-		$this->total = $this->count_requests( );
+		$this->total = $this->count_requests( $this->args );
 		$total_pages = $this->per_page ? ceil( (int) $this->total / (int) $this->per_page ) : 1;
 		$this->set_pagination_args( array(
 			'total_items' => $this->total,
@@ -446,23 +414,10 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 *
 	 * @return int
 	 */
-	public function count_requests( ) {
-
-		global $post;
-		$custom_posts = get_posts(array(
-			'post_type'      => 'gdprpolicies',
-			'posts_per_page' => -1,
-			'post_status'    => 'publish', // Retrieve all posts
-		));
-
-		$data = array(); // Initialize the $data array
-		$count = 0;
-		foreach ($custom_posts as $post) {
-			$count++;
-		}
-
-		return $count;
-
+	public function count_requests( $args ) {
+		unset( $args['number'] );
+		$users = $this->get_requests( $args );
+		return count( $users );
 	}
 
 	/**
@@ -472,83 +427,78 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * @return array
 	 */
 	public function get_requests( $args ) {
-		global $post;
-		$number = isset($args['number']) ? intval($args['number']) : 10;
-		$offset = isset($args['offset']) ? intval($args['offset']) : 0;
-		$search = isset($args['search']) ? sanitize_text_field($args['search']) : '';
-		$month = isset($args['month']) ? intval($args['month']) : 0;
 
-		$post_args = array(
-			'post_type'      => 'gdprpolicies',
-			'posts_per_page' => $number,
-			'offset'         => $offset,
-			'post_status'    => 'publish', // Retrieve all posts
-			'orderby'        => 'ID',
-			'order'          => 'DESC',
-			'meta_query'     => array(),
-		);
-		// search on the basis company name
-	 	// Search by post title
-		 if (!empty($search)) {
-			$post_args['s'] = $search;
-			$post_args['exact'] = true;
+		global $wpdb;
+
+		$sql        = "SELECT * from {$wpdb->prefix}wpl_data_req WHERE 1=1 ";
+		if ( isset( $args['email'] ) && ! empty( $args['email'] ) && is_email( $args['email'] ) ) {
+			$sql .= " AND email like '"."%" . sanitize_email( $args['email'] ) . "%"."'";
 		}
 
-		if ($month >= 1 && $month <= 12) {
-			$post_args['date_query'] = array(
-				array(
-					'month' => $month,
-				),
-			);
+		if ( isset( $args['name'] ) && ! empty( $args['name'] ) ) {
+			$sql .= " AND name like '%" . sanitize_text_field( $args['name'] ) . "%'";
 		}
 
-		$custom_posts = get_posts($post_args);
-		$all_consent_data = array(); // Initialize the $data array
+		if ( isset( $args['resolved'] )) {
 
-		foreach ( $custom_posts as $post ) {
+			if ( intval($args['resolved']) == 1 ) {
 
-			setup_postdata($post); // Setup post data for each post
+				$sql .= " AND resolved = " . intval($args['resolved']);
 
-			$post_id = $post->ID;
+			} else if ( intval($args['resolved']) == 2 ) {
 
-
-			//title
-
-			if ( isset( $post->post_title ) ) {
-				$policy_data_title =  $post->post_title;
+				$args['resolved'] = 0;
+				$sql .= " AND resolved = " . intval($args['resolved'] );
 			}
-
-			//purpose
-
-			if ( isset( $post->post_content ) ) {
-				$policy_data_purpose = esc_attr( $post->post_content );
-			}
-
-			//links
-
-			$custom = get_post_custom();
-			if ( isset( $custom['_gdpr_policies_links_editor'][0] ) ) {
-				$policy_data_links = wp_kses_post( $custom['_gdpr_policies_links_editor'][0] );
-			}
-			//Domain
-			if ( isset( $custom['_gdpr_policies_domain'][0] ) ) {
-				$policy_data_domain = esc_attr( $custom['_gdpr_policies_domain'][0] );
-			}
-
-			//all data for table
-			$all_consent_data[] = array(
-								'ID'          				=> $post_id,
-								'title'						=> $policy_data_title,
-								'gdprpurpose'				=> $policy_data_purpose,
-								'gdprlinks' 				=> $policy_data_links,
-								'gdprdomain' 				=> $policy_data_domain,
-						);
-
 
 		}
 
-		return $all_consent_data;
+		$sql .= " ORDER BY " . sanitize_title( $args['orderby'] ) . " " . sanitize_title( $args['order'] );
+		if ( isset( $args['number'] ) ) {
+			$sql .= " LIMIT " . intval( $args['number'] ) . " OFFSET " . intval( $args["offset"] );
+		}
 
+		return $wpdb->get_results( $sql );
 	}
+
+	public function wpl_localize_date( $unix_time ) {
+
+		$formatted_date    = date( get_option( 'date_format' ), $unix_time );
+		$month             = date( 'F', $unix_time );
+		$month_localized   = __( $month );
+		$date              = str_replace( $month, $month_localized, $formatted_date );
+		$weekday           = date( 'l', $unix_time );
+		$weekday_localized = __( $weekday );
+		$date              = str_replace( $weekday, $weekday_localized, $date );
+		return $date;
+	}
+
+	public function wpl_sprintf(){
+
+		$args = func_get_args();
+		$count = substr_count($args[0], '%s');
+		$args_count = count($args) - 1;
+		if ( $args_count === $count ){
+			return call_user_func_array('sprintf', $args);
+		} else {
+			$output = $args[0];
+			if ( is_admin() ){
+				$output .=  'Translation error';
+			}
+			return $output;
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
