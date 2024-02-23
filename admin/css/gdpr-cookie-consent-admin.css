@@ -3254,7 +3254,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 .gdpr-cookie-consent-admin-tabs-section.pro-is-activated{
 	padding-top: 20px;
 }
-.gdpr-cookie-consent-admin-tab.pro-is-activated{
+.gdpr-cookie-consent-admin-tab{
 	min-width: 183px;
 }
 .gdpr-cookie-consent-admin-tab.active-tab{
@@ -3326,7 +3326,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 /* Media query for MacBook Air */
 @media only screen and (max-device-width: 1440px) and (min-device-width: 1280px) {
 	/* Assuming MacBook Air screen size falls within these dimensions */
-	.gdpr-cookie-consent-admin-tab.pro-is-activated {
+	.gdpr-cookie-consent-admin-tab{
 		min-width: 167.7px;
 	}
 }
