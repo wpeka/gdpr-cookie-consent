@@ -3723,6 +3723,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 #gdpr-disconnect-wpcc-notice.gdpr-hidden{
 	display: none;
 }
-#gdpr-disconnect-wpcc-notice .gdpr-dashboard-start-auth{
+#gdpr-disconnect-wpcc-notice .api-connect-to-account-btn{
 	color: blue;
+	cursor: pointer;
 }
