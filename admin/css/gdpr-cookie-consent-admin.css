@@ -3448,7 +3448,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     border-radius: 4px;
     font-family: Roboto;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 20px;
     letter-spacing: 0em;
     text-align: center;
@@ -3518,7 +3518,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     border-radius: 4px;
     font-family: Roboto;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 20px;
     letter-spacing: 0em;
     text-align: center;
@@ -3647,7 +3647,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     height: 100%;
     top: 0;
     left: 0;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(3px);
     z-index: 0;
 }
 .gdpr-overlay{
@@ -3661,10 +3661,11 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     justify-content: center;
     align-items: center;
     z-index: 1; /* Ensure the overlay is on top of the blurred background */
+	background-color: rgba(255, 255, 255, 0.8);
 }
 
 .gdpr-blur-background .gdpr-overlay .enable-text{
-	font-family: Roboto;
+	font-family: Roboto !important;
     font-size: 16px;
     font-weight: 500;
     line-height: 21px;
@@ -3696,7 +3697,8 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	cursor: pointer;
 }
 .gdpr-body-blur-background{
-	filter: blur(4px);
+	filter: blur(3px);
+	background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* connection tab styling  */
