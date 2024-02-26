@@ -292,8 +292,8 @@ var gen = new Vue({
 			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
-			// Data Request
-			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
+			// Data Request.
+            data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] || '1' == settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
 			data_reqs_switch_clicked: false,
 			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
@@ -302,7 +302,7 @@ var gen = new Vue({
             enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
             reload_onSelect_law:false,
             reload_onSafeMode:false,
-            // hide banner..
+            // hide banner.
             select_pages: settings_obj.the_options.hasOwnProperty('select_pages') ? settings_obj.the_options['select_pages'] : [],
             select_pages_array:[],
             list_of_pages: settings_obj.list_of_pages,
@@ -399,11 +399,7 @@ var gen = new Vue({
                 this.is_eprivacy = false;
                 this.is_lgpd = false;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
             }
             else if(this.gdpr_policy === 'lgpd') {
                 this.is_gdpr = false;
@@ -823,12 +819,7 @@ var gen = new Vue({
                 this.is_eprivacy = false;
                 this.is_lgpd = false;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }
-                else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
             }
             else if(value === 'lgpd') {
                 this.is_ccpa = false;
@@ -836,13 +827,7 @@ var gen = new Vue({
                 this.is_gdpr = false;
                 this.is_lgpd = true;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }
-                else{
-                    this.show_visitor_conditions = false;
-                }
-
+                this.show_visitor_conditions = true;
             }
             else {
                 this.is_eprivacy = true;
@@ -1284,7 +1269,7 @@ var gen = new Vue({
 			this.selectedRadioGdpr = 'no';
 			this.selectedRadioCcpa = 'no';
             this.selectedRadioLgpd = 'no';
-            this.logging_on = false;
+            this.logging_on = true;
             this.show_credits = false;
             this.autotick = false;
             this.is_revoke_consent_on = true;
@@ -1330,7 +1315,7 @@ var gen = new Vue({
 			this.gdpr_css_text    = '';
 			this.gdpr_css_text_free = "/*Your CSS here*/";
 			this.do_not_track_on = false;
-			this.data_reqs_on = false;
+			this.data_reqs_on = true;
 			this.data_req_email_address = '';
 			this.data_req_subject = 'We have received your request';
             // consent forward.
@@ -2817,11 +2802,7 @@ var gen = new Vue({
                 this.is_eprivacy = false;
                 this.is_lgpd = false;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
             }
             else if(this.gdpr_policy === 'lgpd') {
                 this.is_gdpr = false;
@@ -3205,12 +3186,7 @@ var gen = new Vue({
                 this.is_eprivacy = false;
                 this.is_lgpd = false;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }
-                else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
             }
             else if(value === 'lgpd') {
                 this.is_ccpa = false;
@@ -3218,12 +3194,7 @@ var gen = new Vue({
                 this.is_gdpr = false;
                 this.is_lgpd = true;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }
-                else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
 
             }
             else {
@@ -3653,7 +3624,7 @@ var gen = new Vue({
 			this.selectedRadioGdpr = 'no';
 			this.selectedRadioCcpa = 'no';
             this.selectedRadioLgpd = 'no';
-            this.logging_on = false;
+            this.logging_on = true;
             this.show_credits = false;
             this.autotick = false;
             this.is_revoke_consent_on = true;
@@ -3699,7 +3670,7 @@ var gen = new Vue({
 			this.gdpr_css_text    = '';
 			this.gdpr_css_text_free = "/*Your CSS here*/";
 			this.do_not_track_on = false;
-			this.data_reqs_on = false;
+			this.data_reqs_on = true;
 			this.data_req_email_address = '';
 			this.data_req_subject = 'We have received your request';
             var data = {

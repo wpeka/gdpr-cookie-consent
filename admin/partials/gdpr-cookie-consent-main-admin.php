@@ -10,11 +10,12 @@
  *
  * @package gdpr-cookie-consent
  */
-
+// check if pro is activated or installed.
 $pro_is_activated = get_option( 'wpl_pro_active', false );
 $the_options      = Gdpr_Cookie_Consent::gdpr_get_settings();
 $is_data_req_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
-
+$installed_plugins = get_plugins();
+$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 // Require the class file for gdpr cookie consent api framework settings.
 require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 
@@ -71,7 +72,7 @@ $is_user_connected = $this->settings->is_connected();
 		<!-- connect your website to WP Cookie Consent  -->
 
 		<?php
-		if ( $is_user_connected != true && ! $pro_is_activated ) {
+		if ( $is_user_connected != true && ! $pro_installed ) {
 		?>
 		<div class="gdpr-cookie-consent-connect-api-container">
 			<div class="gdpr-api-info-content">
@@ -83,7 +84,7 @@ $is_user_connected = $this->settings->is_connected();
 					<p>
 					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Cookie Scanner :</strong> Identify cookies on your website and automatically block them before user consent (essential for legal compliance).</p>
 					<p>
-					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Consent Log :</strong> Maintain a detailed record of user consents, ensuring evidence of compliance with regulations.</p>
+					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Advanced Dashboard :</strong> Unlock useful insights on user's consent data, cookie summary, and consent logs.</p>
 					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Geo-targeting :</strong> Display or hide the GDPR cookie consent notice depending on the visitor’s location.</p>
 				</div>
 				<div class="gdpr-api-connection-btns">
@@ -97,30 +98,6 @@ $is_user_connected = $this->settings->is_connected();
 
 		<?php
 
-		}
-		?>
-
-		<?php
-
-		if ( $is_user_connected == true && ! $pro_is_activated  ) {
-
-		?>
-		<!-- Disconnect your website to WP Cookie Consent  -->
-		<div class="gdpr-cookie-consent-disconnect-api-container">
-			<div class="gdpr-close"></div>
-			<div class="gdpr-api-disconnect-content">
-				<div class="gdpr-api-disconnect-text">
-					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/check_ring.png'; ?>" alt="API Connection Success Mark">
-					<h2><?php esc_html_e( 'Your website is connected to WP Cookie Consent', 'gdpr-cookie-consent' ); ?></h2>
-				</div>
-				<p>
-				<?php esc_html_e( "You get full control of your website's cookie compliance with comprehensive settings and features, including a built-in Cookie scanner, Consent log, and advanced Geo-targeting capabilities.", 'gdpr-cookie-consent' ); ?>
-				</p>
-
-			</div>
-
-		</div>
-		<?php
 		}
 		?>
 
@@ -145,9 +122,13 @@ $is_user_connected = $this->settings->is_connected();
 						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
 							<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
 						</div>
+				<!-- integration tab  -->
+						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-integrations-data-tab" data-tab="integrations">
+							<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>
+						</div>
 				<?php
 
-             
+
 			if ( $is_data_req_on && !$pro_is_activated ) {
 
 								?>
@@ -163,7 +144,7 @@ $is_user_connected = $this->settings->is_connected();
 				if ( $pro_is_activated ) {
 
 					?>
-							
+
 							<?php
 
                         if ( $is_data_req_on ) {
@@ -176,15 +157,7 @@ $is_user_connected = $this->settings->is_connected();
 								<?php
 
                                   }
-									?>
-							<!-- integration tab  -->
-							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-integrations-data-tab" data-tab="integrations">
-							<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>
-							</div>
-						<?php
-
-				}
-
+					}
 
 				?>
 				<!-- Policy data tab  -->

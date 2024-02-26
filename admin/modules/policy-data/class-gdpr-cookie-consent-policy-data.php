@@ -367,7 +367,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 
 			if ( ! empty( $_FILES['policies_csv']['tmp_name'] ) ) {
 				// Setup settings variables.
-				$filename = sanitize_text_field( wp_unslash( $_FILES['policies_csv']['tmp_name'] ) );
+				$filename = sanitize_text_field( $_FILES['policies_csv']['tmp_name'] );
 
 				$result = $this->gdpr_import_csv_policies( $filename );
 
@@ -447,8 +447,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 			$csv_reader = new Gdpr_Cookies_Read_Csv( $file_handle, GDPR_CSV_DELIMITER, "\xEF\xBB\xBF" ); // Skip any UTF-8 byte order mark.
 			$first      = true;
 			$rkey       = 0;
-			while ( ( $csv_reader->get_row() ) !== null ) {
-				$line = $csv_reader->get_row();
+			while ( ( $line = $csv_reader->get_row() ) !== null ) {
 				if ( empty( $line ) ) {
 					if ( $first ) { // If the first line is empty, abort.
 						break;

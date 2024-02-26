@@ -3,7 +3,7 @@
  * The script blocker frontend functionality of the plugin.
  *
  * @link       https://club.wpeka.com/
- * @since      2.6
+ * @since      3.0.0
  *
  * @package    Wpl_Cookie_Consent
  */
@@ -23,7 +23,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	/**
 	 * Buffer type for content rendering.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @var int $buffer_type Buffer type.
 	 */
 	public $buffer_type = '1';
@@ -41,7 +41,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 		if ( true === $the_options['is_on'] && true === $the_options['is_script_blocker_on'] ) {
 			if ( true === $the_options['is_eu_on'] ) {
 				require WPL_PLUGIN_PATH . 'public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
-				$geoip = new Wpl_Cookie_Consent_Geo_Ip();
+				$geoip = new Gdpr_Cookie_Consent_Geo_Ip();
 				if ( ! $geoip->wpl_is_eu_country() ) {
 					return;
 				}
@@ -51,13 +51,12 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 		} else {
 			return;
 		}
-
 	}
 
 	/**
 	 * Blocks scripts.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 */
 	public function wpl_cookie_consent_template_redirect() {
 		ob_start();
@@ -67,34 +66,36 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	}
 
 	/**
-	 * Match the whitelisted url in scripts.
+	 * Match the whitelisted URL in scripts.
 	 *
+	 * @param array  $whitelist_urls An array of whitelisted URLs to match against.
+	 * @param string $html_Data      The HTML data containing scripts to check for matches.
 	 */
-	public function wpl_check_for_script_match($whitelist_urls, $html_Data) {
-	     // Convert $html_Data to lowercase for case-insensitive comparison
-		 $html_Data_lower = strtolower($html_Data);
+	public function wpl_check_for_script_match( $whitelist_urls, $html_Data ) {
+		// Convert $html_Data to lowercase for case-insensitive comparison.
+		$html_Data_lower = strtolower( $html_Data );
 
-		 // Loop through each element in $whitelist_urls
-		 foreach ($whitelist_urls as $key => $value) {
-			 // If the element is an array, skip it
-			 if (is_array($value)) {
-				 continue;
-			 }
+		// Loop through each element in $whitelist_urls.
+		foreach ( $whitelist_urls as $key => $value ) {
+			// If the element is an array, skip it.
+			if ( is_array( $value ) ) {
+				continue;
+			}
 
-			 // Check if the value exists in $html_Data (case-insensitive)
-			 $value_lower = strtolower($value);
-			 if (strpos($html_Data_lower, $value_lower) !== false) {
-				 return true; // Return true if a match is found
-			 }
-		 }
+			// Check if the value exists in $html_Data (case-insensitive).
+			$value_lower = strtolower( $value );
+			if ( strpos( $html_Data_lower, $value_lower ) !== false ) {
+				return true; // Return true if a match is found.
+			}
+		}
 
-		 return false; // Return false if no match is found
+		return false; // Return false if no match is found.
 	}
 
 	/**
 	 * Returns custom buffer along with blocking changes.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param string $buffer String buffer.
 	 * @return mixed|string
 	 */
@@ -155,24 +156,26 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 
 	/**
 	 * Fetch the scripts to be whitelisted.
-	 *
 	 */
-	public function wpl_whitelisted_scripts(  ) {
+	public function wpl_whitelisted_scripts() {
 
 		$whitelisted_script_tags = array();
-		$scripts = get_option("wpl_options_custom-scripts");
-		if ( is_array($scripts) && isset($scripts['whitelist_script']) && is_array($scripts['whitelist_script']) ) {
-			$custom_whitelisted_script_tags = array_filter( $scripts['whitelist_script'], function($script) {
-				return $script['enable'] == 1;
-			});
+		$scripts                 = get_option( 'wpl_options_custom-scripts' );
+		if ( is_array( $scripts ) && isset( $scripts['whitelist_script'] ) && is_array( $scripts['whitelist_script'] ) ) {
+			$custom_whitelisted_script_tags = array_filter(
+				$scripts['whitelist_script'],
+				function ( $script ) {
+					return $script['enable'] == 1;
+				}
+			);
 
-			//flatten array
+			// flatten array.
 			$flat = array();
 			foreach ( $custom_whitelisted_script_tags as $data ) {
-				$flat = array_merge($flat, $data['urls']);
+				$flat = array_merge( $flat, $data['urls'] );
 			}
 
-			$whitelisted_script_tags = array_merge($flat, $whitelisted_script_tags );
+			$whitelisted_script_tags = array_merge( $flat, $whitelisted_script_tags );
 		}
 		return $whitelisted_script_tags;
 	}
@@ -180,7 +183,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	/**
 	 * Returns parts of the buffer string.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param String $buffer Buffer.
 	 * @return array|bool
 	 * @throws \RuntimeException Run time exception.
@@ -209,7 +212,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	/**
 	 * Before automate block scripts.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param String $buffer Buffer.
 	 * @return string
 	 */
@@ -247,7 +250,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	/**
 	 * After automate block scripts.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param String $buffer Buffer.
 	 * @return mixed
 	 */
@@ -258,7 +261,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	/**
 	 * Automate block scripts.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param null  $type Type.
 	 * @param array $data Data.
 	 * @param array $parts Parts.
@@ -357,7 +360,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	/**
 	 * Prepare blocking script.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param string $patterns Patterns.
 	 * @param string $modifiers Modifiers.
 	 * @param null   $type Type.
@@ -397,7 +400,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	/**
 	 * Replace callback for blocking scripts.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param string $html HTML.
 	 * @param Array  $pattern Pattern.
 	 * @param Array  $data Data.
@@ -407,7 +410,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	public function wpl_script_replace_callback( $html, $pattern, $data, $elm_position = 'head' ) {
 		return preg_replace_callback(
 			$pattern,
-			function( $matches ) use ( $data, $elm_position ) {
+			function ( $matches ) use ( $data, $elm_position ) {
 				$placeholder          = '';
 				$script_category_slug = $data['category_slug'];
 				$script_label         = $data['label'];
@@ -417,9 +420,9 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 
 				$whitelist_urls = $this->wpl_whitelisted_scripts();
 
-				$result = $this->wpl_check_for_script_match($whitelist_urls, $match);
+				$result = $this->wpl_check_for_script_match( $whitelist_urls, $match );
 
-				if ($result) {
+				if ( $result ) {
 					// if whitelist script matches then bypass.
 					return $match;
 				} else {
@@ -432,19 +435,16 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 						$element_modded_src = str_replace( 'src=', $wpl_replace . ' data-wpl-placeholder="' . $placeholder . '" data-wpl-src=', $element_src );
 						$match              = str_replace( $element_src, $element_modded_src, $match );
 
-					} else {
-						if ( preg_match( '/type=/', $match ) ) {
+					} elseif ( preg_match( '/type=/', $match ) ) {
 							preg_match( "/(type=[\"|']text\/javascript[\"|']).*>(.*)/im", $match, $output_array );
-							if ( ! empty( $output_array ) ) {
-								$match = str_replace( $output_array[1], 'type="' . $script_type . '" ' . $wpl_replace, $match );
-							}
-							if ( 'Matomo Analytics' === $script_label ) {
-								$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
-							}
-						} else {
-							$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
-
+						if ( ! empty( $output_array ) ) {
+							$match = str_replace( $output_array[1], 'type="' . $script_type . '" ' . $wpl_replace, $match );
 						}
+						if ( 'Matomo Analytics' === $script_label ) {
+							$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
+						}
+					} else {
+						$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
 					}
 					return $match;
 				}

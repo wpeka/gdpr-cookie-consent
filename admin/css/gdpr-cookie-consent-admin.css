@@ -3254,7 +3254,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 .gdpr-cookie-consent-admin-tabs-section.pro-is-activated{
 	padding-top: 20px;
 }
-.gdpr-cookie-consent-admin-tab.pro-is-activated{
+.gdpr-cookie-consent-admin-tab{
 	min-width: 183px;
 }
 .gdpr-cookie-consent-admin-tab.active-tab{
@@ -3326,7 +3326,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 /* Media query for MacBook Air */
 @media only screen and (max-device-width: 1440px) and (min-device-width: 1280px) {
 	/* Assuming MacBook Air screen size falls within these dimensions */
-	.gdpr-cookie-consent-admin-tab.pro-is-activated {
+	.gdpr-cookie-consent-admin-tab{
 		min-width: 167.7px;
 	}
 }
@@ -3448,7 +3448,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     border-radius: 4px;
     font-family: Roboto;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 20px;
     letter-spacing: 0em;
     text-align: center;
@@ -3459,43 +3459,6 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 
 /* API DISCONNECT  */
 
-.gdpr-cookie-consent-disconnect-api-container{
-	background: #EDF6FB;
-	margin: 20px;
-	position: relative;
-}
-
-/* close button  */
-.gdpr-close {
-	position: absolute;
-	right: 32px;
-	top: 32px;
-	width: 32px;
-	height: 32px;
-	opacity: 0.3;
-	cursor: pointer;
-  }
-  .gdpr-close:hover {
-	opacity: 1;
-  }
-  .gdpr-close:before, .gdpr-close:after {
-	position: absolute;
-	left: 15px;
-	content: ' ';
-	height: 20px;
-	width: 2px;
-	background-color: #333;
-  }
-  .gdpr-close:before {
-	transform: rotate(45deg);
-  }
-  .gdpr-close:after {
-	transform: rotate(-45deg);
-  }
-
-.gdpr-api-disconnect-content{
-	padding: 30px;
-}
 .api-connection-disconnect-btn{
 	width: 140px;
     height: 45px;
@@ -3518,7 +3481,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     border-radius: 4px;
     font-family: Roboto;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 20px;
     letter-spacing: 0em;
     text-align: center;
@@ -3647,7 +3610,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     height: 100%;
     top: 0;
     left: 0;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(3px);
     z-index: 0;
 }
 .gdpr-overlay{
@@ -3661,10 +3624,11 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     justify-content: center;
     align-items: center;
     z-index: 1; /* Ensure the overlay is on top of the blurred background */
+	background-color: rgba(255, 255, 255, 0.8);
 }
 
 .gdpr-blur-background .gdpr-overlay .enable-text{
-	font-family: Roboto;
+	font-family: Roboto !important;
     font-size: 16px;
     font-weight: 500;
     line-height: 21px;
@@ -3696,7 +3660,8 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	cursor: pointer;
 }
 .gdpr-body-blur-background{
-	filter: blur(4px);
+	filter: blur(3px);
+	background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* connection tab styling  */
@@ -3733,4 +3698,27 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	font-family: roboto;
     font-size: 15px;
     font-weight: 500;
+}
+
+/* modal notices  */
+
+#gdpr-wpcc-notice{
+margin: 0;
+margin-top: 15px;
+}
+
+#gdpr-wpcc-notice.gdpr-hidden{
+	display: none;
+}
+
+#gdpr-disconnect-wpcc-notice{
+	margin: 0;
+	margin-top: 15px;
+}
+
+#gdpr-disconnect-wpcc-notice.gdpr-hidden{
+	display: none;
+}
+#gdpr-disconnect-wpcc-notice .gdpr-dashboard-start-auth{
+	color: blue;
 }

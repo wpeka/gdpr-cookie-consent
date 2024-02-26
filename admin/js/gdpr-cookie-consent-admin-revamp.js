@@ -5,6 +5,7 @@ jQuery(document).ready(function () {
     const isProActivated = gdpr_localize_data.is_pro_activated;
     const adminUrl = gdpr_localize_data.admin_url;
 	const ajaxurl = gdpr_localize_data.ajaxurl;
+	const is_user_connected = gdpr_localize_data.is_user_connected;
     if (!isProActivated) {
         jQuery('.gdpr-cookie-consent-admin-tabs-section').addClass('pro-is-activated');
         jQuery('.gdpr-cookie-consent-admin-tab').addClass('pro-is-activated');
@@ -196,7 +197,6 @@ jQuery(document).ready(function () {
 	if ( gdpr_localize_data.is_data_req_on == 'false' ) {
 		jQuery('.gdpr-cookie-consent-admin-data-request-tab').hide();
 	}
-
 	//jquery for paginations for consent log tab
 	jQuery('#consentLogDataTabContainer .pagination-links a').each(function() {
         var href = jQuery(this).attr('href');
@@ -231,34 +231,51 @@ jQuery(document).ready(function () {
 	});
 
 	/**
-	 * close the popup of successfull connection
+	 * modal pop after successfull connection or disconnection
 	*/
+
+	var fixedBanner = jQuery('.gdpr-cookie-consent-admin-fixed-banner');
+
+	jQuery('#gdpr-wpcc-notice').insertAfter(fixedBanner);
+	jQuery('#gdpr-disconnect-wpcc-notice').insertAfter(fixedBanner);
+
+	// check if user is connected, show connection popup
+	if ( is_user_connected ) {
+		jQuery('#gdpr-wpcc-notice').removeClass('gdpr-hidden');
+		jQuery('#gdpr-wpcc-notice').show();
+
+	}else if (localStorage.getItem('gdprDisconnect') === 'true'){
+		jQuery('#gdpr-disconnect-wpcc-notice').removeClass('gdpr-hidden');
+		jQuery('#gdpr-disconnect-wpcc-notice').show();
+	}
 
 	// Check if the 'gdprConnectPopupHide' item in localStorage is set to 'true'.
 	if (localStorage.getItem('gdprConnectPopupHide') === 'true') {
-		jQuery('.gdpr-cookie-consent-disconnect-api-container').hide();
+		jQuery('#gdpr-wpcc-notice').hide();
+		jQuery('#gdpr-disconnect-wpcc-notice').hide();
 	}
 
-	// Add a click event listener to the element with class 'gdpr-close'.
-	jQuery('.gdpr-cookie-consent-disconnect-api-container .gdpr-close').on('click', closeDiv );
+	// Add a click event listener to the element with class 'notice-dismiss'.
+	jQuery('#gdpr-wpcc-notice .notice-dismiss').on('click', closeDiv );
 
 	/**
 	 * Method to close the div.
 	*/
 	function closeDiv (){
-		jQuery('.gdpr-cookie-consent-disconnect-api-container').hide();
+		jQuery('#gdpr-wpcc-notice').hide();
 		localStorage.setItem('gdprConnectPopupHide', 'true');
 	}
 
-	var disconnectContainer = jQuery('.gdpr-cookie-consent-disconnect-api-container');
+	// Add a click event listener to the element with class 'notice-dismiss'.
+	jQuery('#gdpr-disconnect-wpcc-notice .notice-dismiss').on('click', closeDivDisconnect );
 
-	// Check if the popup is not hidden
-    if (!disconnectContainer.is(':hidden')) {
-        setTimeout(function() {
-            disconnectContainer.hide();
-			localStorage.setItem('gdprConnectPopupHide', 'true');
-        }, 5000); // Hide the element after 5 seconds
-    }
+	/**
+	 * Method to close the div.
+	*/
+	function closeDivDisconnect (){
+		jQuery('#gdpr-disconnect-wpcc-notice').hide();
+		localStorage.setItem('gdprConnectPopupHide', 'true');
+	}
 
 	/**
 	 * start authentication process
@@ -373,33 +390,16 @@ jQuery(document).ready(function () {
 				// Hide the spinner after the success HTML is loaded
 				spinner.hide();
 
-				// Html content to display sucsess screen after successfull connection.
-				var successHtml = '<div id="gdpr_app-connect-success" class="gdpr_app-connect-success">' +
-				'<div class="gdpr_app-connect-success-container">' +
-				'<div class="gdpr_app-connect-success-icon"></div>' +
-				'<div class="gdpr_app-connect-success-message">' +
-				'<h2>Your website is connected to WP Cookie Consent</h2>' +
-				'<p>You can now continue to manage all your existing settings and access all WP Cookie Consent features from your web app account.</p>' +
-				'</div>' +
-				'<div class="gdpr_app-connect-success-actions">' +
-				'<button id="gdpr_app-connect-success-action" class="rst-button rst-button-medium rst-external-link">Go to the plugin</button>' +
-				'</div>' +
-				'</div>' +
-				'</div>';
-
-				jQuery('#wpbody-content').html(successHtml);
-
 				// remove hidden instance from the local storage
 				localStorage.removeItem('gdprConnectPopupHide');
+				//remove disconnect from local storage when user connects to the api
+				localStorage.removeItem('gdprDisconnect');
 
-				//reload the window when button is clicked.
-				jQuery('#gdpr_app-connect-success-action').on('click', function() {
-					location.reload();
-				});
 				//reload the window after settimeout.
 				setTimeout(function() {
 					location.reload();
-				}, 3000);
+				}, 100);
+
 			},
 			error: function(error) {
 				// Handle error response
@@ -448,22 +448,15 @@ jQuery(document).ready(function () {
 		).done(
 			function ( response ) {
 
-				// Html content to display success screen after disconnect.
-				var successHtml = '<div id="gdpr_app-connect-success" class="gdpr_app-connect-success">' +
-				'<div class="gdpr_app-connect-success-container">' +
-				'<div class="gdpr_app-connect-success-icon"></div>' +
-				'<div class="gdpr_app-connect-success-message">' +
-				'<h2>Successfully disconnected!!!</h2>' +
-				'</div>' +
-				'</div>' +
-				'</div>';
-
-				jQuery('#wpbody-content').html(successHtml);
+				// remove hidden instance from the local storage
+				localStorage.removeItem('gdprConnectPopupHide');
+				// set the gdprDisconnect to true when user clicks on the disconnect.
+				localStorage.setItem('gdprDisconnect', 'true');
 
 				//reload the window after settimeout.
 				setTimeout(function() {
 					location.reload();
-				}, 3000);
+				}, 100);
 			}
 		);
 	}
