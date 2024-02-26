@@ -271,14 +271,14 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_footer', $plugin_public, 'gdprcookieconsent_inject_gdpr_script' );
 			// added rest endpoint for fetching current options for banner.
 			$this->loader->add_action( 'rest_api_init', $plugin_public, 'gdpr_cookie_data_endpoint' );
-			if(!get_option( 'wpl_pro_active' )){
-			// action hooks for renew consnet.
-			$this->loader->add_action( 'wp_ajax_nopriv_gdpr_renew_consent_bar', $plugin_public, 'gdpr_renew_consent_bar' );
-			$this->loader->add_action( 'wp_ajax_gdpr_renew_consent_bar', $plugin_public, 'gdpr_renew_consent_bar' );
-			//action hooks for geo integration.
-			$this->loader->add_action( 'wp_ajax_nopriv_show_cookie_consent_bar', $plugin_public, 'show_cookie_consent_bar' );
-			$this->loader->add_action( 'wp_ajax_show_cookie_consent_bar', $plugin_public, 'show_cookie_consent_bar' );
-			$this->loader->add_filter( 'gdprcookieconsent_json_settings', $plugin_public, 'wplcookieconsent_json_settings', 10, 1 );
+			if ( ! get_option( 'wpl_pro_active' ) ) {
+				// action hooks for renew consnet.
+				$this->loader->add_action( 'wp_ajax_nopriv_gdpr_renew_consent_bar', $plugin_public, 'gdpr_renew_consent_bar' );
+				$this->loader->add_action( 'wp_ajax_gdpr_renew_consent_bar', $plugin_public, 'gdpr_renew_consent_bar' );
+				// action hooks for geo integration.
+				$this->loader->add_action( 'wp_ajax_nopriv_show_cookie_consent_bar', $plugin_public, 'show_cookie_consent_bar' );
+				$this->loader->add_action( 'wp_ajax_show_cookie_consent_bar', $plugin_public, 'show_cookie_consent_bar' );
+				$this->loader->add_filter( 'gdprcookieconsent_json_settings', $plugin_public, 'wplcookieconsent_json_settings', 10, 1 );
 			}
 		}
 	}
