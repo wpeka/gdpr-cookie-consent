@@ -246,7 +246,6 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				global $wpdb;
 				$wpdb->delete( $wpdb->prefix . 'wpl_data_req', array( 'ID' => intval( $id ) ) );
 				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-				wp_redirect( admin_url( 'admin.php?page=wpl-datarequests' . $paged ) );
 			} else if ( 'reslove' === $this->current_action() ) {
 				global $wpdb;
 				$wpdb->update( $wpdb->prefix . 'wpl_data_req',
