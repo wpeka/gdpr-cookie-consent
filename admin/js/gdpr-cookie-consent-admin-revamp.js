@@ -302,6 +302,8 @@ jQuery(document).ready(function () {
 		// Prevent the default action of the event.
 		event.preventDefault();
 
+		var is_new_user = this.classList.contains('gdpr-start-auth');
+
 		// Create spinner element
 		var spinner = jQuery('<div class="gdpr-spinner"></div>');
 
@@ -319,6 +321,7 @@ jQuery(document).ready(function () {
 				data : {
 					action      : 'gdpr_cookie_consent_app_start_auth',
 					_ajax_nonce : gdpr_localize_data._ajax_nonce,
+					is_new_user : is_new_user,
 				},
 				beforeSend: function() {
 					// Show spinner before AJAX call starts
