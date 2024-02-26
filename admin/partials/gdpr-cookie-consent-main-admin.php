@@ -84,7 +84,7 @@ $is_user_connected = $this->settings->is_connected();
 					<p>
 					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Cookie Scanner :</strong> Identify cookies on your website and automatically block them before user consent (essential for legal compliance).</p>
 					<p>
-					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Consent Log :</strong> Maintain a detailed record of user consents, ensuring evidence of compliance with regulations.</p>
+					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Advanced Dashboard :</strong> Unlock useful insights on user's consent data, cookie summary, and consent logs.</p>
 					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Geo-targeting :</strong> Display or hide the GDPR cookie consent notice depending on the visitor’s location.</p>
 				</div>
 				<div class="gdpr-api-connection-btns">
@@ -98,30 +98,6 @@ $is_user_connected = $this->settings->is_connected();
 
 		<?php
 
-		}
-		?>
-
-		<?php
-
-		if ( $is_user_connected == true && ! $pro_installed  ) {
-
-		?>
-		<!-- Disconnect your website to WP Cookie Consent  -->
-		<div class="gdpr-cookie-consent-disconnect-api-container">
-			<div class="gdpr-close"></div>
-			<div class="gdpr-api-disconnect-content">
-				<div class="gdpr-api-disconnect-text">
-					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/check_ring.png'; ?>" alt="API Connection Success Mark">
-					<h2><?php esc_html_e( 'Your website is connected to WP Cookie Consent', 'gdpr-cookie-consent' ); ?></h2>
-				</div>
-				<p>
-				<?php esc_html_e( "You get full control of your website's cookie compliance with comprehensive settings and features, including a built-in Cookie scanner, Consent log, and advanced Geo-targeting capabilities.", 'gdpr-cookie-consent' ); ?>
-				</p>
-
-			</div>
-
-		</div>
-		<?php
 		}
 		?>
 

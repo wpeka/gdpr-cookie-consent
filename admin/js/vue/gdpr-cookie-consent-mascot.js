@@ -4,7 +4,8 @@
         data: function() {
             return {
                 showMenu: !1,
-                isPro:mascot_obj.is_pro
+                isPro:mascot_obj.is_pro,
+				isProInstalled:mascot_obj.pro_installed,
             }
         },
         computed: (
@@ -36,7 +37,7 @@
                             key: 'documentation'
                         }
                     ];
-                    if(!this.isPro) {
+                    if(!this.isPro && this.isProInstalled ) {
                         mItems.push({
                             icon: 'dashicons-star-filled',
                             tooltip: 'Upgrade to Pro »',
