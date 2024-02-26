@@ -201,6 +201,11 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Change Log ==
 
+= 3.0.0 =
+* New: With this update, we've added Pro features like script blocker, premium cookie banners, consent log, and more. Update now to unlock them!
+* New: Now you can also connect your site to WP Cookie Consent for cookie scanning, geo-targeting, and an advanced dashboard.
+* Fix: Minor bugs fixed within plugin.
+
 = 2.6.1 =
 * Fix: Minor bugs fixed within plugin.
 
@@ -493,6 +498,11 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.0.0 =
+* New: With this update, we've added Pro features like script blocker, premium cookie banners, consent log, and more. Update now to unlock them!
+* New: Now you can also connect your site to WP Cookie Consent for cookie scanning, geo-targeting, and an advanced dashboard.
+* Fix: Minor bugs fixed within plugin.
 
 = 2.6.1 =
 * Fix: Minor bugs fixed within plugin.
