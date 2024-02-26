@@ -239,12 +239,14 @@ class Gdpr_Cookie_Consent {
 				// create table in db.
 				$this->loader->add_action( 'activated_plugin', $plugin_admin, 'update_db_check' );
 				$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'update_db_check' );
-	
+
 				$this->loader->add_filter( 'gdpr_get_maxmind_integrated', $plugin_admin, 'wpl_get_maxmind_integrated' );
 				$this->loader->add_action( 'wp_ajax_wpl_cookie_consent_integrations_settings', $plugin_admin, 'wpl_cookie_consent_integrations_settings' );
 				$this->loader->add_action( 'admin_notices', $plugin_admin, 'wpl_admin_notices' );
+				//action to add admin notice for api connections
+				$this->loader->add_action( 'admin_notices', $plugin_admin, 'gdpr_admin_notices' );
 			}
-		
+
 		}
 	}
 

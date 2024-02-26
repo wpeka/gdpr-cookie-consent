@@ -192,6 +192,43 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 		}
 	}
+
+	/**
+	 * Displays admin notices related to GDPR Cookie Consent plugin.
+	 *
+	 * This function is responsible for displaying admin notices based on the
+	 * connection status of the user to the GDPR Cookie Consent plugin.
+	 *
+	 * @since 3.0.0
+	 */
+	public function gdpr_admin_notices() {
+
+		$installed_plugins = get_plugins();
+		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+		// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+
+		// Call the is_connected() method from the instantiated object to check if the user is connected.
+		$is_user_connected = $this->settings->is_connected();
+
+		if ( ! $pro_installed ) {
+			if ( isset($_GET['page']) && $_GET['page'] === 'gdpr-cookie-consent' && 		$is_user_connected ) {
+				// Display successfull connection notice.
+				echo '<div id="gdpr-wpcc-notice" class="notice notice-success is-dismissible wpcc-notice gdpr-hidden"><p>Successful Connection - You get full control of your website\'s cookie compliance with comprehensive settings and features, including a built-in Cookie scanner, advanced dashboard, and Geo-targeting capabilities.
+				</p></div>';
+			} elseif ( isset( $_GET['page'] ) && $_GET['page'] === 'gdpr-cookie-consent' && 		! $is_user_connected ) {
+				// Display  disconnection notice.
+				echo '<div id="gdpr-disconnect-wpcc-notice" class="notice notice-warning is-dismissible wpcc-notice gdpr-hidden"><p>Your website has been disconnected from WP Cookie Consent. Please <span class="gdpr-dashboard-start-auth">click here</span> to connect again and unlock advanced features.
+				</p></div>';
+			}
+		}
+
+	}
+
+
 	/**
 	 * Print admin notices for Maxmind integration.
 	 */
@@ -491,7 +528,7 @@ class Gdpr_Cookie_Consent_Admin {
 		<?php
 		return ob_get_clean();
 	}
-    
+
 
 	/**
 	 * DATA Reqs data reqs options
@@ -626,7 +663,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @return void
 	 */
 	private function wpl_send_notification_mail(  ) {
-		
+
 		$email   = sanitize_email( get_option( 'admin_email' ) );
 		$subject = "You have received a new data request on ".get_bloginfo( 'name' );
 		$message = $subject.'<br />'.'Please check the data request on '.'<a href="'.site_url().'" target="_blank">'.site_url().'</a>';
@@ -686,13 +723,13 @@ class Gdpr_Cookie_Consent_Admin {
 			update_option( 'wpl_datarequests_db_version', GDPR_COOKIE_CONSENT_VERSION );
 		}
 	}
-	
+
 	/**
 	 * Removed users overview
 	 *
 	 * @return void
 	 */
-	
+
 
 	public function wpl_data_requests_overview() {
 		ob_start();
@@ -725,7 +762,7 @@ class Gdpr_Cookie_Consent_Admin {
 			);
 			echo $this->wpl_get_template( 'gdpr-data-request-tab-template.php', $args );
 	}
-	
+
 	/**
 	 * Handle  resolve request
 	*/
@@ -764,7 +801,6 @@ class Gdpr_Cookie_Consent_Admin {
 			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
 		}
 	}
-
 
 
 	/**
@@ -3151,6 +3187,8 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 1.0
 	 */
 	public function admin_settings_page() {
+		$installed_plugins = get_plugins();
+		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 		$is_pro = get_option( 'wpl_pro_active', false );
 		if ( $is_pro ) {
 			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=support';
@@ -3173,6 +3211,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'faq_url'           => 'https://club.wpeka.com/docs/wp-cookie-consent/faqs/faq-2/',
 				'support_url'       => $support_url,
 				'upgrade_url'       => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
+				'pro_installed'		=> $pro_installed,
 			)
 		);
 		// Lock out non-admins.
@@ -5876,6 +5915,15 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 2.1.0
 	 */
 	public function gdpr_cookie_consent_new_admin_screen() {
+		// Require the class file for gdpr cookie consent api framework settings.
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+		// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+
+		// Call the is_connected() method from the instantiated object to check if the user is connected.
+		$is_user_connected = $this->settings->is_connected();
+
 		$pro_is_activated = get_option( 'wpl_pro_active', false );
 
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -5903,6 +5951,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'is_data_req_on'   => $data_reqs_on,
 				'gdpr_app_url'     => GDPR_APP_URL,
 				'_ajax_nonce'      => wp_create_nonce( 'gdpr-cookie-consent' ),
+				'is_user_connected'=> $is_user_connected,
 			)
 		);
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-admin.php';
