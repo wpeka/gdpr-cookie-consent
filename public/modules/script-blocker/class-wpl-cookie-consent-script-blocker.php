@@ -3,7 +3,7 @@
  * The cookie script blocker functionality of the plugin.
  *
  * @link       https://club.wpeka.com/
- * @since      2.6
+ * @since      3.0.0
  *
  * @package    Gdpr_Cookie_Consent
  */
@@ -22,7 +22,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Main scripts table.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @access public
 	 * @var string $main_table Main scripts table.
 	 */
@@ -51,7 +51,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Run during the plugin's activation to install required tables in database.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 */
 	public function wpl_activator() {
 		global $wpdb;
@@ -72,7 +72,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Installs necessary tables.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 */
 	public function wpl_install_tables() {
 		global $wpdb;
@@ -264,22 +264,22 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 			foreach ( $records as $key => $value ) {
 				$data_exists = $wpdb->get_row( $wpdb->prepare( 'SELECT id FROM ' . $wpdb->prefix . 'wpl_cookie_scripts WHERE `script_key`=%s', array( $value['script_key'] ) ), ARRAY_A ); // db call ok; no-cache ok.
 				if ( $data_exists ) {
-					// Update the script_title and script_description if the entry exists
+					// Update the script_title and script_description if the entry exists.
 					$wpdb->update(
 						$table_name,
 						array(
-							'script_title' => $value['script_title'], // Replace with the new title
-							'script_description' => $value['script_description'], // Replace with the new description
+							'script_title'       => $value['script_title'], // Replace with the new title.
+							'script_description' => $value['script_description'], // Replace with the new description.
 						),
 						array( 'id' => $data_exists['id'] ),
 						array(
-							'%s', // Format for script_title
-							'%s', // Format for script_description
+							'%s', // Format for script_title.
+							'%s', // Format for script_description.
 						),
-						array( '%d' ) // Format for WHERE clause
+						array( '%d' ) // Format for WHERE clause.
 					);
 				} else {
-					// Insert a new entry if it doesn't exist
+					// Insert a new entry if it doesn't exist.
 					$wpdb->insert( $table_name, $value ); // db call ok; no-cache ok.
 				}
 			}
@@ -300,7 +300,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Script blocker settings form.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 */
 	public function wpl_script_blocker_advanced_form() {
 		$data_arr      = $this->get_categories();
@@ -329,9 +329,9 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	}
 
 	/***
-	 * Script blocker localization values filter callback
+	 * Script blocker localization values filter callback.
 	 *
-	 * @since 2.9.0
+	 * @since 3.0.0
 	 */
 	public function wpl_script_blocker_values() {
 		$data_arr      = $this->get_categories();
@@ -357,9 +357,9 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	}
 
 	/**
-	 * Script blocker settings popup form
+	 * Script blocker settings popup form.
 	 *
-	 * @since 2.9.0
+	 * @since 3.0.0
 	 */
 	public function wpl_script_blocker_advanced_tab() {
 		?>
@@ -460,7 +460,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					</div>
 				</c-row>
 				<c-card-body>
-					<?php $this->whitelist_script() ?>
+					<?php $this->whitelist_script(); ?>
 				</c-card-body>
 			</c-card>
 		</c-tab>
@@ -468,24 +468,22 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	}
 
 	/**
-	 * Field for whitelisting scripts
-	 *
-	 * @param array $args
+	 * Field for whitelisting scripts.
 	 */
-	public function whitelist_script () {
-		//latest save
+	public function whitelist_script() {
+		// latest save.
 
 		$fieldname = 'whitelist_script';
-		$options = get_option( 'wpl_options_custom-scripts' );
-		$values   = isset( $options[ $fieldname ] ) ? $options[ $fieldname ] : false;
+		$options   = get_option( 'wpl_options_custom-scripts' );
+		$values    = isset( $options[ $fieldname ] ) ? $options[ $fieldname ] : false;
 
 		if ( empty( $values ) ) {
 			$values = array(
-					array(
-							'name' => __("Example", 'gdpr-cookie-consent'),
-							'urls' => array('https://www.example.com'),
-							'enable' => '0',
-					),
+				array(
+					'name'   => __( 'Example', 'gdpr-cookie-consent' ),
+					'urls'   => array( 'https://www.example.com' ),
+					'enable' => '0',
+				),
 			);
 		}
 
@@ -493,29 +491,32 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 			echo $this->get_whitelist_script_html( $value, $key );
 		}
 
-		?><button id="wpl-whitelist-add-new" type="button" class="button wpl_script_add" data-type="whitelist_script"><?php _e( "Add new", 'gdpr-cookie-consent' ) ?></button><?php
-
+		?>
+		<button id="wpl-whitelist-add-new" type="button" class="button wpl_script_add" data-type="whitelist_script"><?php _e( 'Add new', 'gdpr-cookie-consent' ); ?></button>
+		<?php
 	}
 
 	/**
-	 * HTML for whitelisting scripts
+	 * Get HTML for whitelisting scripts.
 	 *
+	 * @param mixed $value The value for whitelisting.
+	 * @param int   $i An integer parameter.
+	 * @param bool  $open A boolean parameter indicating whether it should be open or not (default is false).
 	 */
-	public function get_whitelist_script_html( $value, $i, $open = false )
-        {
-            $default_index = array(
-				'name' => __("New entry","gdpr-cookie-consent").' '.$i,
-                'urls' => array(''),
-                'enable' => '1',
-            );
+	public function get_whitelist_script_html( $value, $i, $open = false ) {
+			$default_index = array(
+				'name'   => __( 'New entry', 'gdpr-cookie-consent' ) . ' ' . $i,
+				'urls'   => array( '' ),
+				'enable' => '1',
+			);
 
-            $value = wp_parse_args( $value, $default_index );
+			$value   = wp_parse_args( $value, $default_index );
 			$enabled = $value['enable'] ? 'checked="checked"' : '';
 			$action  = $value['enable'] ? 'disable' : 'enable';
-			$size = 15;
-			$color = '';
+			$size    = 15;
+			$color   = '';
 
-            $html = '
+			$html            = '
             <div class="multiple-field">
                 <div>
                     <label>' . __( 'Name', 'gdpr-cookie-consent' ) . '</label>
@@ -524,82 +525,84 @@ class Gdpr_Cookie_Consent_Script_Blocker {
                     <input type="text"
                     		data-name="name"
                            class="wpl_name wpl-whitelist-name-field"
-                           name="wpl_whitelist_script['.$i.'][name]"
+                           name="wpl_whitelist_script[' . $i . '][name]"
                            value="' . esc_html( $value['name'] ) . '">
                 </div>
                 <div>
-                    <label>' . __( 'URLs that should be whitelisted.' , 'gdpr-cookie-consent' ). ''. '</label>
+                    <label>' . __( 'URLs that should be whitelisted.', 'gdpr-cookie-consent' ) . '' . '</label>
                 </div>
                       <div>
                       <div class="wpl-hidden wpl-url-template">
                       	<div><input type="text"
 							   data-name="urls"
-							   name="wpl_whitelist_script['.$i.'][urls][]"
-							   value=""><button type="button" class="wpl_remove_url">'.'<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+							   name="wpl_whitelist_script[' . $i . '][urls][]"
+							   value=""><button type="button" class="wpl_remove_url">' . '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
 							   height="' . $size . '" >
-							   <path fill="'.$color.'" d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"/>
-						   </svg>'.'</button></div></div>
+							   <path fill="' . $color . '" d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"/>
+						   </svg>' . '</button></div></div>
                       ';
 					$counter = 0;
-					if ( empty($value['urls'])) $value['urls'] = array(' ');
-					foreach ($value['urls'] as $url ){
-						$counter++;
-						$html .= '<div class="wpl-whitelist-plus-minus"><input type="text"
+			if ( empty( $value['urls'] ) ) {
+				$value['urls'] = array( ' ' );
+			}
+			foreach ( $value['urls'] as $url ) {
+				++$counter;
+				$html .= '<div class="wpl-whitelist-plus-minus"><input type="text"
 											   data-name="urls"
 											   class="wpl-whitelist-plus-script-field"
-											   name="wpl_whitelist_script['.$i.'][urls][]"
+											   name="wpl_whitelist_script[' . $i . '][urls][]"
 											   value="' . esc_html( $url ) . '">';
-						if ($counter==1){
-							$html .= '<button type="button" class="wpl_add_url">'.'<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+				if ( $counter == 1 ) {
+					$html .= '<button type="button" class="wpl_add_url">' . '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
 							height="' . $size . '" >
-							<path fill="'.$color.'" d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/>
-						</svg>'.'</button>';
-						} else {
-							$html .= '<button type="button" class="wpl_remove_url">'.'<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+							<path fill="' . $color . '" d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/>
+						</svg>' . '</button>';
+				} else {
+					$html .= '<button type="button" class="wpl_remove_url">' . '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
 							height="' . $size . '" >
-							<path fill="'.$color.'" d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"/>
-						</svg>'.'</button>';
-						}
-						$html.= '</div>';
-					}
+							<path fill="' . $color . '" d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"/>
+						</svg>' . '</button>';
+				}
+				$html .= '</div>';
+			}
 
-			$html.= '</div>
+			$html         .= '</div>
                 <div class="wpl-multiple-field-button-footer">
-                    <button id="wpl-whitelist-save-btn" class="button button-primary wpl_script_save" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="save">' . __( 'Save', 'gdpr-cookie-consent' ) . '</button>
-					<button id="wpl-whitelist-remove-btn" class="button button-primary button-red wpl_script_save" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="remove">' . __( "Remove", 'gdpr-cookie-consent' ) . '</button>
+                    <button id="wpl-whitelist-save-btn" class="button button-primary wpl_script_save" type="button" data-id="' . $i . '" data-type="whitelist_script" data-action="save">' . __( 'Save', 'gdpr-cookie-consent' ) . '</button>
+					<button id="wpl-whitelist-remove-btn" class="button button-primary button-red wpl_script_save" type="button" data-id="' . $i . '" data-type="whitelist_script" data-action="remove">' . __( 'Remove', 'gdpr-cookie-consent' ) . '</button>
                 </div>
             </div>';
-			$title = esc_html( $value['name'] ) !== '' ? esc_html( $value['name'] ) : __( 'New entry', 'gdpr-cookie-consent' ) ;
-			$custom_button = '<div class="wpl-checkbox wpl_script_save" data-action="'.$action.'" data-type="whitelist_script" data-id="'.$i.'">
+			$title         = esc_html( $value['name'] ) !== '' ? esc_html( $value['name'] ) : __( 'New entry', 'gdpr-cookie-consent' );
+			$custom_button = '<div class="wpl-checkbox wpl_script_save" data-action="' . $action . '" data-type="whitelist_script" data-id="' . $i . '">
 								<input type="hidden"
 									   value="0"
-										name="wpl_whitelist_script['.$i.'][enable]">
+										name="wpl_whitelist_script[' . $i . '][enable]">
 								<input type="checkbox"
-									   name="wpl_whitelist_script['.$i.'][enable]"
+									   name="wpl_whitelist_script[' . $i . '][enable]"
 									   class="wpl-checkbox wpl-enable"
 									   size="40"
 									   value="1"
 									   data-name="enable"
-									   '.$enabled.'/>
+									   ' . $enabled . '/>
 								<label class="wpl-label" for="wpl-enable" tabindex="0"></label>
 							</div>';
 
 			return $this->wpl_panel( $title, $html, $custom_button, '', false, $open );
-    }
+	}
 
 	/**
-	 * Whitelist Script Panel
+	 * Whitelist Script Panel.
 	 *
-	 * @param string $title
-	 * @param string $html
-	 * @param string $custom_btn
-	 * @param string $validate
-	 * @param bool   $echo
-	 * @param false  $open
+	 * @param string $title       The title for the script panel.
+	 * @param string $html        The HTML content for the script panel.
+	 * @param string $custom_btn  Optional custom button for the panel.
+	 * @param string $validate    Validation information for the panel.
+	 * @param bool   $echo        Whether to echo the panel content (default is true).
+	 * @param bool   $open        Whether the panel should be open or closed (default is false).
 	 *
-	 * @return string|void
+	 * @return string|void The panel content if $echo is false, otherwise void.
 	 */
-	public function wpl_panel($title, $html, $custom_btn = '', $validate = '', $echo = true, $open = false) {
+	public function wpl_panel( $title, $html, $custom_btn = '', $validate = '', $echo = true, $open = false ) {
 		if ( $title == '' ) {
 			return '';
 		}
@@ -630,158 +633,170 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		} else {
 			return $output;
 		}
-
 	}
 
 	/**
-	* Add a script
-	*/
-	public function wpl_ajax_script_add () {
+	 * Add a script.
+	 */
+	public function wpl_ajax_script_add() {
 
-		$html = "";
+		$html  = '';
 		$error = false;
 
-		if ( ! isset($_POST['type']) || ($_POST['type'] !== 'whitelist_script') ) {
+		if ( ! isset( $_POST['type'] ) || ( $_POST['type'] !== 'whitelist_script' ) ) {
 			$error = true;
 		}
 
-		if ( !$error ) {
-			//clear cache
-			delete_transient('wpl_blocked_scripts');
-			$scripts = get_option("wpl_options_custom-scripts");
+		if ( ! $error ) {
+			// clear cache.
+			delete_transient( 'wpl_blocked_scripts' );
+			$scripts = get_option( 'wpl_options_custom-scripts' );
 
-			if (!is_array($scripts)) {
-				$scripts = [
-						'whitelist_script' => [],
-				];
+			if ( ! is_array( $scripts ) ) {
+				$scripts = array(
+					'whitelist_script' => array(),
+				);
 			}
 
-			if ($_POST['type'] === 'whitelist_script') {
-				if ( !is_array($scripts['whitelist_script'])) {
-					$scripts['whitelist_script'] = [];
+			if ( $_POST['type'] === 'whitelist_script' ) {
+				if ( ! is_array( $scripts['whitelist_script'] ) ) {
+					$scripts['whitelist_script'] = array();
 				}
-				$new_id = !empty($scripts['whitelist_script']) ? max(array_keys($scripts['whitelist_script'])) + 1 : 1;
-				$scripts['whitelist_script'][$new_id] = [
-					'name' => '',
-					'urls' => [],
+				$new_id                                 = ! empty( $scripts['whitelist_script'] ) ? max( array_keys( $scripts['whitelist_script'] ) ) + 1 : 1;
+				$scripts['whitelist_script'][ $new_id ] = array(
+					'name'   => '',
+					'urls'   => array(),
 					'enable' => '1',
-				];
-				$html = $this->get_whitelist_script_html([], $new_id, true);
+				);
+				$html                                   = $this->get_whitelist_script_html( array(), $new_id, true );
 			}
-			update_option("wpl_options_custom-scripts", $scripts);
+			update_option( 'wpl_options_custom-scripts', $scripts );
 		}
 
-		$data     = array(
-			'success' => !$error,
+		$data = array(
+			'success' => ! $error,
 			'html'    => $html,
 		);
 
 		$response = json_encode( $data );
-		header( "Content-Type: application/json" );
+		header( 'Content-Type: application/json' );
 		echo $response;
 		exit;
 	}
 
 	/**
-	 * Save script center data
-	 *
+	 * Save script center data.
 	 */
 	public function wpl_ajax_script_save() {
 		$error = false;
 
-		if ( ! isset($_POST['data']) ) $error = true;
-		if ( ! isset($_POST['id']) ) $error = true;
-		if ( ! isset($_POST['type']) ) $error = true;
+		if ( ! isset( $_POST['data'] ) ) {
+			$error = true;
+		}
+		if ( ! isset( $_POST['id'] ) ) {
+			$error = true;
+		}
+		if ( ! isset( $_POST['type'] ) ) {
+			$error = true;
+		}
 
-		//clear transients when updating script
-		delete_transient('wpl_blocked_scripts');
-		if ( $_POST['type'] !== 'whitelist_script' ) $error = true;
-		if ( ! isset($_POST['button_action']) ) $error = true;
-		if ( $_POST['button_action'] !== 'save' && $_POST['button_action'] !== 'enable' && $_POST['button_action'] !== 'disable' && $_POST['button_action'] !== 'remove') $error = true;
-		if ( !$error ) {
-			$id = intval($_POST['id']);
-			$type = sanitize_text_field($_POST['type']);
-			$action = sanitize_title($_POST['button_action']);
-			$data = json_decode(stripslashes($_POST['data']), true);
-			$scripts = get_option("wpl_options_custom-scripts", array() );
-			if ( !$error ) {
-				if ($action === 'remove') {
-					unset($scripts[$type][$id]);
+		// clear transients when updating script.
+		delete_transient( 'wpl_blocked_scripts' );
+		if ( $_POST['type'] !== 'whitelist_script' ) {
+			$error = true;
+		}
+		if ( ! isset( $_POST['button_action'] ) ) {
+			$error = true;
+		}
+		if ( $_POST['button_action'] !== 'save' && $_POST['button_action'] !== 'enable' && $_POST['button_action'] !== 'disable' && $_POST['button_action'] !== 'remove' ) {
+			$error = true;
+		}
+		if ( ! $error ) {
+			$id      = intval( $_POST['id'] );
+			$type    = sanitize_text_field( $_POST['type'] );
+			$action  = sanitize_title( $_POST['button_action'] );
+			$data    = json_decode( stripslashes( $_POST['data'] ), true );
+			$scripts = get_option( 'wpl_options_custom-scripts', array() );
+			if ( ! $error ) {
+				if ( $action === 'remove' ) {
+					unset( $scripts[ $type ][ $id ] );
 				} else {
-					$scripts[$type][$id] = $this->sanitize_custom_scripts($data);;
+					$scripts[ $type ][ $id ] = $this->sanitize_custom_scripts( $data );
+
 				}
-				update_option("wpl_options_custom-scripts", $scripts);
+				update_option( 'wpl_options_custom-scripts', $scripts );
 			}
 		}
 
 		$data = array(
-			'success' => !$error,
+			'success' => ! $error,
 		);
 
 		$response = json_encode( $data );
-		header( "Content-Type: application/json" );
+		header( 'Content-Type: application/json' );
 		echo $response;
 		exit;
 	}
 
 	/**
-	 * Sanitize a custom script structure
-	 * @param array $arr
+	 * Sanitize a custom script structure.
 	 *
-	 * @return array mixed
+	 * @param array $arr The array to be sanitized.
+	 *
+	 * @return array|mixed The sanitized array.
 	 */
-	public function sanitize_custom_scripts ( $arr ) {
-		if (isset($arr['name']) ) {
-			$arr['name'] = sanitize_text_field($arr['name']);
+	public function sanitize_custom_scripts( $arr ) {
+		if ( isset( $arr['name'] ) ) {
+			$arr['name'] = sanitize_text_field( $arr['name'] );
 		}
-		if (isset($arr['async']) ) {
-			$arr['async'] = intval($arr['async']);
+		if ( isset( $arr['async'] ) ) {
+			$arr['async'] = intval( $arr['async'] );
 		}
-		if (isset($arr['category']) ) {
-			$arr['category'] = sanitize_title($arr['category']);
+		if ( isset( $arr['category'] ) ) {
+			$arr['category'] = sanitize_title( $arr['category'] );
 		}
-		if (isset($arr['category']) ) {
-			$arr['category'] = sanitize_title($arr['category']);
+		if ( isset( $arr['category'] ) ) {
+			$arr['category'] = sanitize_title( $arr['category'] );
 		}
-		if (isset($arr['enable_placeholder']) ) {
-			$arr['enable_placeholder'] = intval($arr['enable_placeholder']);
+		if ( isset( $arr['enable_placeholder'] ) ) {
+			$arr['enable_placeholder'] = intval( $arr['enable_placeholder'] );
 		}
-		if (isset($arr['iframe']) ) {
-			$arr['iframe'] = intval($arr['iframe']);
+		if ( isset( $arr['iframe'] ) ) {
+			$arr['iframe'] = intval( $arr['iframe'] );
 		}
-		if (isset($arr['placeholder_class']) ) {
-			$arr['placeholder_class'] = sanitize_text_field($arr['placeholder_class']);
+		if ( isset( $arr['placeholder_class'] ) ) {
+			$arr['placeholder_class'] = sanitize_text_field( $arr['placeholder_class'] );
 		}
-		if (isset($arr['placeholder']) ) {
-			$arr['placeholder'] = sanitize_title($arr['placeholder']);
+		if ( isset( $arr['placeholder'] ) ) {
+			$arr['placeholder'] = sanitize_title( $arr['placeholder'] );
 		}
-		if (isset($arr['enable_dependency']) ) {
-			$arr['enable_dependency'] = intval($arr['enable_dependency']);
+		if ( isset( $arr['enable_dependency'] ) ) {
+			$arr['enable_dependency'] = intval( $arr['enable_dependency'] );
 		}
-		if (isset($arr['dependency']) ) {
-			//maybe split array from ajax save
-			if (is_array($arr['dependency'])) {
-				foreach ($arr['dependency'] as $key => $value ) {
-					if (strpos($value, '|:|')!==false) {
-						$result = explode('|:|', $value);
-						unset($arr['dependency'][$key]);
-						$arr['dependency'][$result[0]] = $result[1];
+		if ( isset( $arr['dependency'] ) ) {
+			// maybe split array from ajax save.
+			if ( is_array( $arr['dependency'] ) ) {
+				foreach ( $arr['dependency'] as $key => $value ) {
+					if ( strpos( $value, '|:|' ) !== false ) {
+						$result = explode( '|:|', $value );
+						unset( $arr['dependency'][ $key ] );
+						$arr['dependency'][ $result[0] ] = $result[1];
 					}
 				}
 			}
-			//don't have to be valid URLs, so don't sanitize as such
-			$arr['dependency'] = array_map('sanitize_text_field', $arr['dependency']);
-			$arr['dependency'] = array_filter(array_map('trim', $arr['dependency']) );
+			// don't have to be valid URLs, so don't sanitize as such.
+			$arr['dependency'] = array_map( 'sanitize_text_field', $arr['dependency'] );
+			$arr['dependency'] = array_filter( array_map( 'trim', $arr['dependency'] ) );
 		}
 
-		if (isset($arr['enable']) ) {
-			$arr['enable'] = intval($arr['enable']);
+		if ( isset( $arr['enable'] ) ) {
+			$arr['enable'] = intval( $arr['enable'] );
 		}
 
-		if (isset($arr['urls']) ) {
-			//don't have to be valid URLs, so don't sanitize as such
-			$arr['urls'] = array_map('sanitize_text_field', $arr['urls']);
-			$arr['urls'] = array_filter(array_map('trim', $arr['urls']) );
+		if ( isset( $arr['urls'] ) ) {
+			// don't have to be valid URLs, so don't sanitize as such.
+			$arr['urls'] = array_map( 'sanitize_text_field', $arr['urls'] );
+			$arr['urls'] = array_filter( array_map( 'trim', $arr['urls'] ) );
 		}
 		return $arr;
 	}
@@ -789,7 +804,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Return Scripts.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param int $offset Offset.
 	 * @param int $limit Limit.
 	 * @return array
@@ -816,14 +831,14 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Returns script categories.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @return array|null|object
 	 */
 	public function get_categories() {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
-		if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name){
-		$data_arr = $wpdb->get_results( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories' ); 
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+			$data_arr = $wpdb->get_results( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories' );
 		} // db call ok; no-cache ok.
 		return $data_arr;
 	}
@@ -831,46 +846,45 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Returns script category by ID.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param string $id ID.
 	 * @return array|null|object
 	 */
 	public function get_category_by_id( $id = '' ) {
 		global $wpdb;
-		$data_arr = array();
+		$data_arr   = array();
 		$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
-		if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name){
-		if ( isset( $id ) && ! empty( $id ) ) {
-			$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories WHERE id_gdpr_cookie_category = %d', array( $id ) ) );  // db call ok; no-cache ok.
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+			if ( isset( $id ) && ! empty( $id ) ) {
+				$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories WHERE id_gdpr_cookie_category = %d', array( $id ) ) );  // db call ok; no-cache ok.
+			}
 		}
-
-	}
 		return $data_arr;
 	}
 
 	/**
 	 * Returns script category by slug.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param string $slug Slug.
 	 * @return array|null|object
 	 */
 	public function get_category_by_slug( $slug = '' ) {
 		global $wpdb;
-		$data_arr = array();
+		$data_arr   = array();
 		$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
-		if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name){
-		if ( isset( $slug ) && ! empty( $slug ) ) {
-			$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories WHERE gdpr_cookie_category_slug = %s', array( $slug ) ) );  // db call ok; no-cache ok.
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+			if ( isset( $slug ) && ! empty( $slug ) ) {
+				$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories WHERE gdpr_cookie_category_slug = %s', array( $slug ) ) );  // db call ok; no-cache ok.
+			}
 		}
-	}
 		return $data_arr;
 	}
 
 	/**
 	 * Returns blocking script patterns.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @return mixed|void
 	 */
 	public function wpl_get_script_patterns() {
@@ -1228,7 +1242,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Returns regex patterns.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @return mixed|void
 	 */
 	public function wpl_get_regex_patterns() {
@@ -1264,7 +1278,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Parse url for subdomain.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param string $url URL.
 	 * @param string $subdomain Sub Domain.
 	 * @return null|string|string[]
@@ -1278,7 +1292,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Escapes string for regex chars.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param string $str String to be escaped.
 	 * @return null|string|string[]
 	 */
@@ -1294,7 +1308,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	/**
 	 * Returns clean url.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @param string $url url.
 	 * @param bool   $strip_subdomain Sub domain strip.
 	 * @param string $subdomain Sub domain.

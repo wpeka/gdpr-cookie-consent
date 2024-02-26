@@ -3,7 +3,7 @@
  * The geo ip functionality of the plugin.
  *
  * @link       https://club.wpeka.com/
- * @since      1.3
+ * @since      3.0.0
  *
  * @package    Wpl_Cookie_Consent
  */
@@ -30,7 +30,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	/**
 	 * Gdpr_Cookie_Consent_Geo_Ip constructor.
 	 *
-	 * @since 1.3
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
@@ -229,7 +229,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	/**
 	 * Settings for Cookies About message under General Tab.
 	 *
-	 * @since 1.7
+	 * @since 3.0.0
 	 */
 	public function wplgip_cookie_usage_for_general() {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -256,7 +256,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	/**
 	 * Returns IP address of the user.
 	 *
-	 * @since 1.3
+	 * @since 3.0.0
 	 * @return string
 	 *
 	 * @phpcs:disable
@@ -285,7 +285,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	/**
 	 * Check the IP for eu country.
 	 *
-	 * @since 1.3
+	 * @since 3.0.0
 	 * @return bool
 	 * @phpcs:enable
 	 */
@@ -321,7 +321,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	/**
 	 * Check the IP for ccpa country.
 	 *
-	 * @since 2.7.2
+	 * @since 3.0.0
 	 * @return bool
 	 *
 	 * @phpcs:enable

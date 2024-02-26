@@ -292,8 +292,8 @@ var gen = new Vue({
 			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
-			// Data Request
-			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
+			// Data Request.
+            data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] || '1' == settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
 			data_reqs_switch_clicked: false,
 			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
@@ -302,7 +302,7 @@ var gen = new Vue({
             enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
             reload_onSelect_law:false,
             reload_onSafeMode:false,
-            // hide banner..
+            // hide banner.
             select_pages: settings_obj.the_options.hasOwnProperty('select_pages') ? settings_obj.the_options['select_pages'] : [],
             select_pages_array:[],
             list_of_pages: settings_obj.list_of_pages,

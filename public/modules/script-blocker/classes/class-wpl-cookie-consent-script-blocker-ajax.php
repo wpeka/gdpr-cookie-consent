@@ -3,7 +3,7 @@
  * The script blocker ajax functionality of the plugin.
  *
  * @link       https://club.wpeka.com/
- * @since      2.6
+ * @since      3.0.0
  *
  * @package    Gdpr_Cookie_Consent
  */
@@ -30,7 +30,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Ajax extends Gdpr_Cookie_Consent_Script
 	/**
 	 * Main ajax hook for processing request.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 */
 	public function ajax_script_blocker() {
 		$out = array(
@@ -52,7 +52,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Ajax extends Gdpr_Cookie_Consent_Script
 	/**
 	 * Ajax processing for updating script status.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @return array
 	 */
 	public function update_script_status() {
@@ -79,7 +79,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Ajax extends Gdpr_Cookie_Consent_Script
 	/**
 	 * Ajax processing for updating script category.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @return array
 	 */
 	public function update_script_category() {
@@ -106,7 +106,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Ajax extends Gdpr_Cookie_Consent_Script
 	/**
 	 * Ajax processing for updating script blocker.
 	 *
-	 * @since 2.6
+	 * @since 3.0.0
 	 * @return array
 	 */
 	public function update_script_blocker() {

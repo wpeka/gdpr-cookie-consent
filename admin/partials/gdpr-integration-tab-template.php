@@ -1,19 +1,18 @@
 <?php
-
 /**
  * Provide a integration tab view for the WP Cookie Consent plugin
  *
  * This file is used to markup the admin-facing aspects of the WP Cookie Consent plugin.
  *
  * @link       https://club.wpeka.com/
- * @since      2.4.1
+ * @since      3.0.0
  *
  * @package gdpr-cookie-consent
  */
 
-// // check if pro is activated or installed
+// check if pro is activated or installed.
 
-$pro_is_activated = get_option( 'wpl_pro_active', false );
+$pro_is_activated  = get_option( 'wpl_pro_active', false );
 $installed_plugins = get_plugins();
 $pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 
@@ -26,15 +25,18 @@ $this->settings = new GDPR_Cookie_Consent_Settings();
 // Call the is_connected() method from the instantiated object to check if the user is connected.
 $is_user_connected = $this->settings->is_connected();
 
-$class_for_blur_content = $is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes
+$class_for_blur_content = $is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes.
 
-$class_for_card_body_blur_content = $is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes
+$class_for_card_body_blur_content = $is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes.
 
 $the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 $geo_options = get_option( 'wpl_geo_options' );
+if (!is_array($geo_options)) {
+    $geo_options = array();
+}
 if ( ! isset( $geo_options['database_prefix'] ) ) {
 	$geo_options['maxmind_license_key'] = '';
-	$geo_options['database_prefix']     = wp_generate_password( 32, false,false );
+	$geo_options['database_prefix']     = wp_generate_password( 32, false, false );
 	update_option( 'wpl_geo_options', $geo_options );
 }
 if ( ! isset( $geo_options['enable_geotargeting'] ) ) {
@@ -56,11 +58,11 @@ wp_localize_script(
 );
 
 
-$the_options   = Gdpr_Cookie_Consent::gdpr_get_settings();
-$geo_options   = get_option( 'wpl_geo_options' );
+$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+$geo_options = get_option( 'wpl_geo_options' );
 
-$enable_value  = $the_options['enable_safe'] === 'true' ? 'overlay-integration-style' : '';
-if(!$geo_options['enable_geotargeting'] ) {
+$enable_value = $the_options['enable_safe'] === 'true' ? 'overlay-integration-style' : '';
+if ( ! $geo_options['enable_geotargeting'] ) {
 	$geo_options['enable_geotargeting'] = 'false';
 }
 $enable        = $geo_options['enable_geotargeting'];
@@ -109,9 +111,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 				<?php endif; ?>
 			</div>
-				<?php } elseif($geo_options['enable_geotargeting']==='false' && $the_options['enable_safe']==='true') { ?>
+				<?php } elseif ( $geo_options['enable_geotargeting'] === 'false' && $the_options['enable_safe'] === 'true' ) { ?>
 					<div class="<?php echo $enable_value1; ?>">
-					<?php if ( $the_options['enable_safe'] === 'true') : ?>
+					<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
 					<div class="overlay-integration-message__disable">
 						<?php
 						esc_attr_e(
