@@ -221,7 +221,7 @@ class Gdpr_Cookie_Consent_Admin {
 				</p></div>';
 			} elseif ( isset( $_GET['page'] ) && $_GET['page'] === 'gdpr-cookie-consent' && 		! $is_user_connected ) {
 				// Display  disconnection notice.
-				echo '<div id="gdpr-disconnect-wpcc-notice" class="notice notice-warning is-dismissible wpcc-notice gdpr-hidden"><p>Your website has been disconnected from WP Cookie Consent. Please <span class="gdpr-dashboard-start-auth">click here</span> to connect again and unlock advanced features.
+				echo '<div id="gdpr-disconnect-wpcc-notice" class="notice notice-warning is-dismissible wpcc-notice gdpr-hidden"><p>Your website has been disconnected from WP Cookie Consent. Please <span class="api-connect-to-account-btn">click here</span> to connect again and unlock advanced features.
 				</p></div>';
 			}
 		}

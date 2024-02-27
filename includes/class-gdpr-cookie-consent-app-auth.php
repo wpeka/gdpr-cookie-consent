@@ -77,19 +77,16 @@ class GDPR_Cookie_Consent_App_Auth {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( esc_html__( 'You do not have permissions to connect WP Cookie Consent.', 'gdpr-cookie-consent' ) );
 		}
-
-		// Get site URL and encode it.
-		$site_name = rawurlencode( get_site_url() );
-		if ( empty( $site_name ) ) {
-			$site_name = __( 'Your WordPress Site', 'gdpr-cookie-consent' );
-		}
+		$is_new_user = filter_input( INPUT_POST, 'is_new_user', FILTER_VALIDATE_BOOLEAN );
+		$site_address = rawurlencode( get_site_url() );
+		$api_auth_url = $is_new_user ? $this->get_api_url( 'signup' ) : $this->get_api_url( 'login' );
 
 		// Build auth URL with site name.
 		$auth_url = add_query_arg(
 			array(
-				'site' => $site_name,
+				'site' => $site_address,
 			),
-			$this->get_api_url( 'signup' )
+			$api_auth_url
 		);
 
 		// Send JSON response with auth URL.
