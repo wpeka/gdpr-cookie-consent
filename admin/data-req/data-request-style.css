@@ -79,12 +79,12 @@
 .search-and-export-container .search-box{
 	float:none;
 }
-#wpl-dnsmpd-filter .search-box #gdpr-cookie-consent-search-input{
+#wpl-dnsmpd-filter-datarequest .search-box #gdpr-cookie-consent-search-input{
 	height: 40px;
 	width: 250px;
 	border-color: #C6C6C6;
 }
-#wpl-dnsmpd-filter .search-box #search-submit{
+#wpl-dnsmpd-filter-datarequest .search-box #search-submit{
 	height: 40px;
 	margin: 0 15px;
 	color: #39F;
@@ -95,7 +95,7 @@
 	padding: 0px 15px;
 	border-color: #39F;
 }
-#wpl-dnsmpd-filter .data-req-export-button{
+#wpl-dnsmpd-filter-datarequest .data-req-export-button{
 	height: 40px;
 	border-radius: 4px;
 	background: #39F;
@@ -106,7 +106,7 @@
 	line-height: normal;
 	padding: 7px 20px;
 }
-#wpl_resolved_select{
+.wpl_resolved_select_filter{
 	position: absolute;
 	right: 0;
 	width: 120px;

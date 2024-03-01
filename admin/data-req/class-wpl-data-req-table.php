@@ -285,33 +285,36 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	public function resolved_select() {
 		// Option Select
 		$options = [
-				0 => __('ALL',"gdpr-cookie-consent"),
-				1 => __('Resolved',"gdpr-cookie-consent"),
-				2 => __('Unresolved',"gdpr-cookie-consent"),
+			0 => __('ALL', "gdpr-cookie-consent"),
+			1 => __('Resolved', "gdpr-cookie-consent"),
+			2 => __('Unresolved', "gdpr-cookie-consent"),
 		];
 		$selected = 0;
-		if ( isset($_GET['wpl_resolved_select'])		) {
+		if (isset($_GET['wpl_resolved_select'])) {
 			$selected = intval($_GET['wpl_resolved_select']);
 		}
-
+	
+		// Generate a unique identifier for the select element
+		$unique_id = uniqid('wpl_resolved_select_');
+	
 		?>
 		<!-- submit the form on change  -->
 		<script>
-			    document.addEventListener('DOMContentLoaded', function() {
-					var resolvedSelect = document.getElementById('wpl_resolved_select');
-					if (resolvedSelect) {
-						resolvedSelect.addEventListener('change', function() {
-							document.getElementById('wpl-dnsmpd-filter').submit();
-						});
-					}
-				});
+			document.addEventListener('DOMContentLoaded', function () {
+				var resolvedSelect = document.getElementById('<?php echo $unique_id; ?>');
+				if (resolvedSelect) {
+					resolvedSelect.addEventListener('change', function () {
+						document.getElementById('wpl-dnsmpd-filter-datarequest').submit();
+					});
+				}
+			});
 		</script>
-
+	
 		<?php
-
-		echo '<select name="wpl_resolved_select" id="wpl_resolved_select" class="wpl_resolved_select">';
-		foreach($options as $value => $label) {
-			echo '<option value="' . $value . '" ' . ($selected==$value ? 'selected' : '') . '>' . $label . '</option>';
+		// Use the unique identifier in the select element's id attribute
+		echo '<select name="wpl_resolved_select" id="' . $unique_id . '" class="wpl_resolved_select_filter">';
+		foreach ($options as $value => $label) {
+			echo '<option value="' . $value . '" ' . ($selected == $value ? 'selected' : '') . '>' . $label . '</option>';
 		}
 		echo '</select>';
 	}

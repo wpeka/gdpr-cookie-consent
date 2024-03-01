@@ -206,7 +206,7 @@ jQuery(document).ready(function () {
 	//jquery for paginations for data-req tab
 	jQuery('#dataRequestContainer .pagination-links a').each(function() {
         var href = jQuery(this).attr('href');
-        href += '#consent_logs';
+        href += '#data_request';
         jQuery(this).attr('href', href);
     });
 	//jquery for paginations for policy data tab
