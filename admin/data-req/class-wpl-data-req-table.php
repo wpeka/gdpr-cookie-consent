@@ -358,7 +358,6 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		}
         
 		$this->args = $args;
-		error_log(print_r($args, true));
 		$requests  = $this->get_requests( $args );
 		if ( $requests ) {
 			foreach ( $requests as $request ) {
