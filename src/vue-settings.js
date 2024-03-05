@@ -292,8 +292,8 @@ var gen = new Vue({
 			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
-			// Data Request
-			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
+			// Data Request.
+            data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] || '1' == settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
 			data_reqs_switch_clicked: false,
 			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
@@ -302,7 +302,7 @@ var gen = new Vue({
             enable_safe: settings_obj.the_options.hasOwnProperty('enable_safe') && ('true' === settings_obj.the_options['enable_safe'] || 1 === settings_obj.the_options['enable_safe'] ) ?  true:false ,
             reload_onSelect_law:false,
             reload_onSafeMode:false,
-            // hide banner..
+            // hide banner.
             select_pages: settings_obj.the_options.hasOwnProperty('select_pages') ? settings_obj.the_options['select_pages'] : [],
             select_pages_array:[],
             list_of_pages: settings_obj.list_of_pages,
@@ -399,11 +399,7 @@ var gen = new Vue({
                 this.is_eprivacy = false;
                 this.is_lgpd = false;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
             }
             else if(this.gdpr_policy === 'lgpd') {
                 this.is_gdpr = false;
@@ -483,14 +479,9 @@ var gen = new Vue({
             this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
             this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
 
-			//set the disableSwitch value is pro is active/inactive
-			if( '1' === settings_obj.is_pro_active ) {
-				this.disableSwitch = false;
-			}else{
-				this.disableSwitch = true;
-				this.logging_on = false; //make enable consent switch turn off if pro is not active
-				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
-			}
+
+				this.disableSwitch = false  ;
+
             // multiple entries for hide banner.
             for(let i=0; i<this.list_of_pages.length; i++) {
                 if( this.select_pages.includes(this.list_of_pages[i].code.toString()) ) {
@@ -628,7 +619,7 @@ var gen = new Vue({
         },
         onSwitchDeleteOnDeactivation() {
             this.delete_on_deactivation = !this.delete_on_deactivation;
-        }, 
+        },
         //consent forward.
         onSwitchConsentForward(){
             this.consent_forward = !this.consent_forward;
@@ -828,12 +819,7 @@ var gen = new Vue({
                 this.is_eprivacy = false;
                 this.is_lgpd = false;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }
-                else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
             }
             else if(value === 'lgpd') {
                 this.is_ccpa = false;
@@ -841,13 +827,7 @@ var gen = new Vue({
                 this.is_gdpr = false;
                 this.is_lgpd = true;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }
-                else{
-                    this.show_visitor_conditions = false;
-                }
-
+                this.show_visitor_conditions = true;
             }
             else {
                 this.is_eprivacy = true;
@@ -1055,15 +1035,15 @@ var gen = new Vue({
         },
         updateFileName(event){
             this.selectedFile = event.target.files[0];
-            document.getElementById("importButton").disabled=false;   
-            document.getElementById("importButton").classList.remove("disabled");   
-            document.getElementById("importButton").classList.remove("disable-import-button"); 
+            document.getElementById("importButton").disabled=false;
+            document.getElementById("importButton").classList.remove("disabled");
+            document.getElementById("importButton").classList.remove("disable-import-button");
             },
             removeFile(){
             this.selectedFile = null;
             document.getElementById("fileInput").value = "";
-            document.getElementById("importButton").disabled=true;  
-            document.getElementById("importButton").classList.add("disable-import-button");   
+            document.getElementById("importButton").disabled=true;
+            document.getElementById("importButton").classList.add("disable-import-button");
 
             },
             exportsettings() {
@@ -1121,7 +1101,7 @@ var gen = new Vue({
 
             if (file) {
             var reader = new FileReader();
-            document.getElementById("importButton").disabled=true; 
+            document.getElementById("importButton").disabled=true;
             document.getElementById("importButton").classList.add("disable-import-button") ;
           reader.onload = function(event) {
             var jsonData = event.target.result;
@@ -1140,15 +1120,15 @@ var gen = new Vue({
                     success: function (data)
                     {
                         if(data.success === true) {
-                                                   
+
                             setTimeout( function addsettings(){
                                 window.location.reload();
                                 },7000);
-    
+
                                 that.success_error_message = 'Your file has been imported successfully. Please click on the Save Changes button to make the changes.';
                                 j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
                                 j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(7000);                 
+                                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(7000);
                         }else{
                             that.success_error_message = 'Please try again.';
                             j("#gdpr-cookie-consent-save-settings-alert").css('background-color', '#72b85c' );
@@ -1174,7 +1154,7 @@ var gen = new Vue({
             } else {
             console.error('No file selected');
             }
-            
+
         },
         restoreDefaultSettings() {
             this.cookie_bar_color = '#ffffff';
@@ -1289,7 +1269,7 @@ var gen = new Vue({
 			this.selectedRadioGdpr = 'no';
 			this.selectedRadioCcpa = 'no';
             this.selectedRadioLgpd = 'no';
-            this.logging_on = false;
+            this.logging_on = true;
             this.show_credits = false;
             this.autotick = false;
             this.is_revoke_consent_on = true;
@@ -1335,11 +1315,11 @@ var gen = new Vue({
 			this.gdpr_css_text    = '';
 			this.gdpr_css_text_free = "/*Your CSS here*/";
 			this.do_not_track_on = false;
-			this.data_reqs_on = false;
+			this.data_reqs_on = true;
 			this.data_req_email_address = '';
 			this.data_req_subject = 'We have received your request';
             // consent forward.
-            this.consent_forward = false; 
+            this.consent_forward = false;
             this.select_sites    = [];
             var data = {
                 action: 'gcc_restore_default_settings',
@@ -1376,7 +1356,7 @@ var gen = new Vue({
             });
         },
         saveCookieSettings() {
-  
+
             // When Pro is activated set the values in the aceeditor
             if ( this.isGdprProActive ) {
                 //intializing the acecode editor
@@ -1422,7 +1402,7 @@ var gen = new Vue({
                 }
             });
         },
-		
+
         openMediaModal() {
             var image_frame = wp.media({
                 title: 'Select Media from here',
@@ -1523,31 +1503,43 @@ var gen = new Vue({
 				const targetDayOfMonth = dayNumber;
 
 				// Assuming this.schedule_scan_day contains the day of the month (1 to 31)
-				const dayOfMonth = targetDayOfMonth;
+				const dayOfMonth = parseInt(this.schedule_scan_day.replace('Day ', ''), 10);
 
 				if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31) {
-				console.error('Invalid day of the month:', dayOfMonth);
+					console.error('Invalid day of the month:', dayOfMonth);
 				} else {
-				// Get the current date
-				const currentDate = new Date();
+					// Get the current date and day of the month
+					const currentDate = new Date();
+					const currentDayOfMonth = currentDate.getDate();
 
-				// Set the day of the month to the specified value
-				currentDate.setDate(dayOfMonth);
+					// Get the selected day of the month for scanning
+					const targetDayOfMonth = dayOfMonth;
 
-				// Get the current year and month
-				const currentYear = currentDate.getFullYear();
-				const currentMonth = currentDate.getMonth();
+					// Get the number of days in the current month
+					const currentYear = currentDate.getFullYear();
+					const currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so we add 1
+					const daysInCurrentMonth = new Date(currentYear, currentMonth, 0).getDate();
 
-				// Create a new date with the same day of the month, current year, and month
-				const newDate = new Date(currentYear, currentMonth, dayOfMonth);
+					// Calculate the next scan date based on the current date and the selected day of the month
+					let nextScanDate;
+					if (dayOfMonth > daysInCurrentMonth || currentDayOfMonth > dayOfMonth) {
+						// If the selected day exceeds the number of days in the current month
+						// or if the current day is greater than the selected day,
+						// set the next scan date to the selected day of the month in the next month
+						nextScanDate = new Date(currentYear, currentMonth, targetDayOfMonth);
+					} else {
+						// If the current day of the month is less than or equal to the selected day of the month,
+						// set the next scan date to the selected day of the month in the current month
+						nextScanDate = new Date(currentYear, currentMonth - 1, targetDayOfMonth);
+					}
 
-				// Format the date as needed (e.g., 'Oct 10 2023')
-				const formattedDate = newDate.toLocaleDateString('en-US', {
-					year: 'numeric',
-					month: 'short',
-					day: 'numeric',
-				});
-				this.next_scan_is_when = formattedDate;
+					// Format the next scan date as needed (e.g., 'Mar 2, 2023')
+					const formattedDate = nextScanDate.toLocaleDateString('en-US', {
+						year: 'numeric',
+						month: 'short',
+						day: 'numeric',
+					});
+					this.next_scan_is_when = formattedDate;
 				}
 			}else if ( this.schedule_scan_as == "never" ) {
 				this.next_scan_is_when = "Not Scheduled";
@@ -2479,7 +2471,6 @@ var gen = new Vue({
             cancel_button_popup: false,
             opt_out_link_popup: false,
 			schedule_scan_show: false,
-			// is_consent_renewed: ( 'true' == settings_obj.the_options['consent_renew_enable'] || 1 === settings_obj.the_options['consent_renew_enable'] ) ? true : false,
             scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['total'] : 0,
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
@@ -2811,11 +2802,7 @@ var gen = new Vue({
                 this.is_eprivacy = false;
                 this.is_lgpd = false;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
             }
             else if(this.gdpr_policy === 'lgpd') {
                 this.is_gdpr = false;
@@ -2885,14 +2872,9 @@ var gen = new Vue({
             this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
             this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
 
-			//set the disableSwitch value is pro is active/inactive
-			if( '1' === settings_obj.is_pro_active ) {
+
 				this.disableSwitch = false;
-			}else{
-				this.disableSwitch = true;
-				this.logging_on = false; //make enable consent switch turn off if pro is not active
-				this.is_script_blocker_on = false; //make script blocker switch turn off if pro is not active
-			}
+
             // multiple entries for hide banner.
             for(let i=0; i<this.list_of_pages.length; i++) {
                 if( this.select_pages.includes(this.list_of_pages[i].code.toString()) ) {
@@ -3204,12 +3186,7 @@ var gen = new Vue({
                 this.is_eprivacy = false;
                 this.is_lgpd = false;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }
-                else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
             }
             else if(value === 'lgpd') {
                 this.is_ccpa = false;
@@ -3217,12 +3194,7 @@ var gen = new Vue({
                 this.is_gdpr = false;
                 this.is_lgpd = true;
                 this.show_revoke_card = true;
-                if( '1' === settings_obj.is_pro_active ) {
-                    this.show_visitor_conditions = true;
-                }
-                else{
-                    this.show_visitor_conditions = false;
-                }
+                this.show_visitor_conditions = true;
 
             }
             else {
@@ -3652,7 +3624,7 @@ var gen = new Vue({
 			this.selectedRadioGdpr = 'no';
 			this.selectedRadioCcpa = 'no';
             this.selectedRadioLgpd = 'no';
-            this.logging_on = false;
+            this.logging_on = true;
             this.show_credits = false;
             this.autotick = false;
             this.is_revoke_consent_on = true;
@@ -3698,7 +3670,7 @@ var gen = new Vue({
 			this.gdpr_css_text    = '';
 			this.gdpr_css_text_free = "/*Your CSS here*/";
 			this.do_not_track_on = false;
-			this.data_reqs_on = false;
+			this.data_reqs_on = true;
 			this.data_req_email_address = '';
 			this.data_req_subject = 'We have received your request';
             var data = {

@@ -1,0 +1,47 @@
+/*
+This file contains the necessary CSS for the consent log table on admin section.
+@since 3.0.0
+*/
+#consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts tfoot{
+    display:none;
+    }
+    #consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts thead{
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #D9D7D7;
+    }
+    #consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts tbody tr td{
+        padding: 20px 10px;
+        border-bottom: 1px solid #D9D7D7;
+    }
+    #consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts tbody .iedit.author-self .check-column{
+        padding: 20px 0 0 3px;
+        border-bottom: 1px solid #D9D7D7;
+    }
+    #consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts tbody tr .wplconsentlogsip{
+        border-right: 1px solid #D9D7D7;
+    }
+    #consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts tbody tr:hover{
+        background-color: #D7E9FC;
+    }
+    #consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts tbody tr:hover .column-wplconsentlogsip{
+        font-weight: 600;
+    }
+    #consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts tbody tr:hover .column-wplconsentlogsdates{
+        font-weight: 600;
+    }
+    #consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts thead th {
+        padding: 20px 10px;
+        font-weight: 600;
+    }
+
+    #consentLogDataTabContainer .iedit.author-self.level-0.type-wplconsentlogs.status-publish.hentry {
+        background-color: #fff; /* Example background color */
+    }
+    #consentLogDataTabContainer .wp-list-table.widefat.fixed.striped.table-view-list.posts {
+        margin: 20px 0;
+        border-radius: 10px;
+        border: 1px solid #D9D7D7;
+        background: #FFF;
+        box-shadow: 0 1.96875px 6.475px 0 rgba(0, 0, 0, 0.02), 0 9px 18.2px 0 rgba(0, 0, 0, 0.03), 0 22.78125px 48.825px 0 rgba(0, 0, 0, 0.04), 0 45px 112px 0 rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+    }

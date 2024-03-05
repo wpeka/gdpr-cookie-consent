@@ -198,10 +198,40 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 						<input type="radio" id="decline_reload_no" name="decline_reload_field" class="styled" value="false" <?php echo ( false === $the_options['decline_reload'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
 					</td>
 				</tr>
-				<?php
-				// general settings form fields for module.
-				do_action( 'gdpr_module_other_general' );
-				?>
+				<?php if ( ! $is_pro_active ) :
+					$the_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+					?>
+					<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr" gdpr_frm_tgl-val1="eprivacy">
+						<th scope="row"><label for="restrict_posts_field"><?php esc_attr_e( 'Restrict Pages and/or Posts', 'gdpr-cookie-consent' ); ?></label></th>
+						<td>
+							<select style="width: 25rem;" class="restrict_posts" name="restrict_posts_field[]" id="restrict_posts" multiple="multiple" data-allow-clear=true>
+							<?php
+							$get_pages = get_pages();
+							$get_posts = get_posts();
+							echo "<optgroup label='Pages'>";
+							if ( is_array( $get_pages ) ) {
+								foreach ( $get_pages as $item ) {
+									echo '<option value=' . esc_html( $item->ID ) . '' . selected( in_array( $item->ID, $the_options['restrict_posts'] ) ) . '>' . esc_html( $item->post_title ) . '</option>'; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+								}
+							}
+							echo '<optgroup />';
+							echo "<optgroup label='Posts'>";
+							if ( is_array( $get_posts ) ) {
+								foreach ( $get_posts as $item ) {
+									echo '<option value=' . esc_html( $item->ID ) . '' . selected( in_array( $item->ID, $the_options['restrict_posts'] ) ) . '>' . esc_html( $item->post_title ) . '</option>'; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+								}
+							}
+							echo '<optgroup />';
+							?>
+							</select>
+							<span class="gdpr_form_help"><?php esc_attr_e( 'Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent' ); ?>
+						</td>
+					</tr>
+					<?php endif ?>
+					<?php
+					// general settings form fields for module.
+					do_action( 'gdpr_module_other_general' );
+					?>
 				<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr" gdpr_frm_tgl-val1="eprivacy">
 					<th scope="row"><label for="cookie_expiry_field"><?php esc_attr_e( 'Cookie Expiry', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>

@@ -281,7 +281,6 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 				wp_delete_post($id, true);
 
 				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-				wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' . $paged ) );
 			}
 		}
 	}
