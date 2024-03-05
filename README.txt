@@ -4,7 +4,7 @@ Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
 Requires at least: 3.3.1
 Tested up to: 6.4
-Stable tag: 2.6.1
+Stable tag: 3.0.0
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -200,6 +200,11 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+
+= 3.0.0 =
+* New: With this update, we've added Pro features like script blocker, premium cookie banners, consent log, and more. Update now to unlock them!
+* New: Now you can also connect your site to WP Cookie Consent for cookie scanning, geo-targeting, and an advanced dashboard.
+* Fix: Minor bugs fixed within plugin.
 
 = 2.6.1 =
 * Fix: Minor bugs fixed within plugin.
@@ -493,6 +498,11 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.0.0 =
+* New: With this update, we've added Pro features like script blocker, premium cookie banners, consent log, and more. Update now to unlock them!
+* New: Now you can also connect your site to WP Cookie Consent for cookie scanning, geo-targeting, and an advanced dashboard.
+* Fix: Minor bugs fixed within plugin.
 
 = 2.6.1 =
 * Fix: Minor bugs fixed within plugin.

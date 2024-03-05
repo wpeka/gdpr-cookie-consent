@@ -30,6 +30,8 @@ $is_pro     = get_option( 'wpl_pro_active', false );
 function print_template_boxes( $name, $templates, $checked ) {
 
 	$image_path = GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/';
+	$is_pro     = get_option( 'wpl_pro_active', false );
+
 	?>
 	<div class="gdpr-templates-field-container">
 		<?php
@@ -45,6 +47,114 @@ function print_template_boxes( $name, $templates, $checked ) {
 				$square = false;
 			}
 			?>
+		
+		<?php
+			if ( ! $is_pro) {
+			?>
+			<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
+				<div class="gdpr-left-field">
+				<c-input type="radio" :disabled="false" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
+				<?php
+				if ( $template['name'] === $checked ) {
+					echo ':checked="true"';
+				}
+				?>
+				>
+				</div>
+				<div class="gdpr-right-field" style="<?php echo esc_attr( $template['css'] ); ?>">
+					<div class="gdpr-right-field-content">
+						<div class="gdpr-group-description" style="margin-top:20px">
+							<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+							<?php if ( $column ) : ?>
+								<p>{{gdpr_message}}</p>
+								<?php
+								if ( isset( $template['readmore'] ) ) :
+									$class = '';
+									if ( $template['readmore']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a></p>
+								<?php endif; ?>
+							<?php else : ?>
+								<p>{{gdpr_message}}
+									<?php
+									if ( isset( $template['readmore'] ) ) :
+										$class = '';
+										if ( $template['readmore']['as_button'] ) :
+											$class = 'btn btn-sm';
+										endif;
+										?>
+										<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a>
+									<?php endif; ?>
+								</p>
+							<?php endif; ?>
+						</div>
+						<div class="gdpr-group-buttons">
+							<?php if ( $square ) : ?>
+								<?php
+								if ( isset( $template['decline'] ) ) :
+									$class = '';
+									if ( $template['decline']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['settings'] ) ) :
+									$class = '';
+									if ( $template['settings']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['accept'] ) ) :
+									$class = '';
+									if ( $template['accept']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
+								<?php endif; ?>
+							<?php else : ?>
+								<?php
+								if ( isset( $template['accept'] ) ) :
+									$class = '';
+									if ( $template['accept']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['decline'] ) ) :
+									$class = '';
+									if ( $template['decline']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+								<?php endif; ?>
+								<?php
+								if ( isset( $template['settings'] ) ) :
+									$class = '';
+									if ( $template['settings']['as_button'] ) :
+										$class = 'btn btn-sm';
+									endif;
+									?>
+									<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+								<?php endif; ?>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php
+			} else {
+		?>
 		<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 			<div class="gdpr-left-field">
 			<c-input type="radio" :disabled="disableSwitch" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
@@ -152,6 +262,9 @@ function print_template_boxes( $name, $templates, $checked ) {
 				</div>
 			</div>
 		</div>
+		<?php
+			}
+		?>
 	<?php endforeach; ?>
 	</div>
 	<?php
@@ -2403,72 +2516,120 @@ function get_templates( $template_type ) {
 					} else {
 
 						?>
-					<!-- When Pro is not activated  -->
-						<!-- gdpr free selection with Pro Tag -->
-						<div class="geo-location-ques-container gdpr-free-geo-ques">
+						<div>
+						<c-row class="gdpr-selection gdpr-pro-geo-ques" v-show="is_gdpr" >
+								<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
+								<c-col class="gdpr-options">
+									<label class="wizard_eu_safe">
+									<?php
+									$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
-								<c-row class="gdpr-selection" v-show="is_gdpr">
-										<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
-										<c-col class="gdpr-options">
-											<label class="gdpr-yes-option">
-											<input disabled type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('yes')">
+									if ( $the_options['enable_safe'] === 'true' ) :
+										?>
+										<label class="display_block">
+										<div class="opacity_yes">
+											<input class ="display_block"type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled >
+											Yes</div>
+											<div class="wizard_eu_safe_message">
+												<?php
+												esc_attr_e(
+													'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
+													'gdpr-cookie-consent'
+												);
+												?>
+											</div>
+											</label>
+											<?php if ($the_options['enable_safe'] === 'true') : ?>
+												<label class="display_block">
+													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
+													No
+												</label>
+											<?php endif; ?>
+										<?php
+									else :
+										?>
+										<label>
+											<input type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('yes')">
 											Yes
-											</label>
-											<label>
-											<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')">
-											No
-											</label>
-											<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
-										</c-col>
-								</c-row>
-								<div class="gdpr-pro-label" v-show="is_gdpr">
-									<div class="gdpr-pro-label-text" >Pro</div>
-								</div>
-						</div>
-						<!-- IAB free selection with Pro Tag  -->
-						<div class="geo-location-ques-container iab-free-geo-ques">
-							<c-row class="ccpa-iab-selection" v-show="is_ccpa" >
-									<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> </label></c-col>
-									<c-col class="iab-options">
-										<label>
-										<input type="radio" name="gcc-iab-enable" value="yes" v-model="selectedRadioIab" @click="onSwitchIABEnable('yes')">
-										Yes
 										</label>
 										<label>
-										<input type="radio" name="gcc-iab-enable" value="no" v-model="selectedRadioIab" @click="onSwitchIABEnable('no')">
+										<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')">
 										No
 										</label>
-										<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
-									</c-col>
-								</c-row>
+										<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
+										<?php
+									endif;
+									?>
+								</c-col>
+							</c-row>
+						<!-- IAB geo selection for pro -->
+							<c-row class="ccpa-iab-selection iab-pro-geo-ques" v-show="is_ccpa" >
+								<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> </label></c-col>
+								<c-col class="iab-options">
+									<label>
+									<input type="radio" name="gcc-iab-enable" value="yes" v-model="selectedRadioIab" @click="onSwitchIABEnable('yes')">
+									Yes
+									</label>
+									<label>
+									<input type="radio" name="gcc-iab-enable" value="no" v-model="selectedRadioIab" @click="onSwitchIABEnable('no')">
+									No
+									</label>
+									<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
+								</c-col>
+							</c-row>
+
+						<!-- ccpa geo selection for pro  -->
+
+						<c-row class="ccpa-selection ccpa-pro-geo-ques"  v-show="is_ccpa" >
+							<c-col class="ccpa-selection-label"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
+							<c-col class="ccpa-options">
+							<label class="wizard_eu_safe">
+									<?php
+									$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+									if ( $the_options['enable_safe'] === 'true' ) :
+										?>
+										<label class="display_block">
+											<div class="opacity_yes">
+											<input class ="display_block"type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled >
+											Yes</div>
+											<div class="wizard_eu_safe_message ">
+												<?php
+												esc_attr_e(
+													'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
+													'gdpr-cookie-consent'
+												);
+												?>
+											</div>
+											</label>
+											<?php if ($the_options['enable_safe'] === 'true') : ?>
+												<label class="display_block">
+													<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
+													No
+												</label>
+											<?php endif; ?>
+										<?php
+									else :
+										?>
+								<label>
+								<input type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('yes')">
+								Yes
+								</label>
+								<label>
+								<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')">
+								No
+								</label>
+								<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
+								<?php
+									endif;
+									?>
+							</c-col>
+						</c-row>
+
 						</div>
-
-						<!--  CCPA free selection with Pro Tag -->
-						<div class="geo-location-ques-container ccpa-free-geo-ques">
-							<c-row class="ccpa-selection"  v-show="is_ccpa" >
-									<c-col class="ccpa-selection-label"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
-									<c-col class="ccpa-options">
-										<label class="ccpa-yes-option">
-										<input disabled type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('yes')">
-										Yes
-										</label>
-										<label>
-										<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')">
-										No
-										</label>
-										<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
-									</c-col>
-								</c-row>
-								<div class="gdpr-pro-label" v-show="is_ccpa">
-										<div class="gdpr-pro-label-text" >Pro</div>
-								</div>
-						</div>
-
-						<?php
-					}
-
-					?>
-
+												
+						<?php }?>
+											
 				</div>
 
 				<input type="button" name="next-step" class="next-step first-next-step" value="Save & Continue" />
@@ -2487,25 +2648,10 @@ function get_templates( $template_type ) {
 							<div class="enable-consent-log-content">
 								<c-col class="enable-consent-log-content-label"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="enable-consent-log-switch">
-									<c-switch v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="logging_on" id="gdpr-cookie-consent-logging-on" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
+									<c-switch v-bind="	 labelIcon " v-model="logging_on" id="gdpr-cookie-consent-logging-on" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
 									<input type="hidden" name="gcc-logging-on" v-model="logging_on">
 								</c-col>
 							</div>
-
-							<?php
-								// if gdpr-pro is disable only then add pro label.
-							if ( ! $is_pro ) {
-
-								?>
-
-									<div class="gdpr-pro-label">
-										<div class="gdpr-pro-label-text" >Pro</div>
-									</div>
-
-								<?php
-							}
-							?>
-
 						</div>
 
 						<!-- enable/disbale script blocker  -->
@@ -2513,23 +2659,11 @@ function get_templates( $template_type ) {
 							<div class="enable-script-blocker-content">
 								<c-col class="enable-script-blocker-label"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="enable-consent-log-switch">
-									<c-switch v-bind="isGdprProActive ? labelIcon : labelIconNew" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="is_script_blocker_on" :disabled="disableSwitch" v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
+									<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="is_script_blocker_on"  v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
 									<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on">
 								</c-col>
 							</div>
 							<?php
-								// if gdpr-pro is disable only then add pro label.
-							if ( ! $is_pro ) {
-
-								?>
-
-									<div class="gdpr-pro-label">
-										<div class="gdpr-pro-label-text" >Pro</div>
-									</div>
-
-								<?php
-							}
-
 							?>
 						</div>
 
