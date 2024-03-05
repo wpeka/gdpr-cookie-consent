@@ -749,7 +749,7 @@ class Gdpr_Cookie_Consent_Admin {
 			<h1 class="wp-heading-inline"><?php _e( 'Data Requests', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ); ?>">
+			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ); ?>">
 			<?php
 				$datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$datarequests->display();
