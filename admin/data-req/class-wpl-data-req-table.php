@@ -290,6 +290,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 			2 => __('Unresolved', "gdpr-cookie-consent"),
 		];
 		$selected = 0;
+	
 		if (isset($_GET['wpl_resolved_select'])) {
 			$selected = intval($_GET['wpl_resolved_select']);
 		}
@@ -299,6 +300,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		?>
 		<!-- submit the form on change  -->
 		<script>
+			
 			document.addEventListener('DOMContentLoaded', function () {
 				var resolvedSelect = document.getElementById('<?php echo $unique_id; ?>');
 				if (resolvedSelect) {
@@ -355,7 +357,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		if ( isset( $_GET['wpl_resolved_select'] ) ) {
 			$args['resolved'] = intval($_GET['wpl_resolved_select']);
 		}
-
+        
 		$this->args = $args;
 		$requests  = $this->get_requests( $args );
 		if ( $requests ) {
