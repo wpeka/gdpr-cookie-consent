@@ -79,7 +79,12 @@
 .search-and-export-container .search-box{
 	float:none;
 }
-#wpl-dnsmpd-filter .search-box #gdpr-cookie-consent-search-input{
+#wpl-dnsmpd-filter .search-box #gdpr-cookie-consent-search-input-policy-data{
+	height: 40px;
+	width: 250px;
+	border-color: #C6C6C6;
+}
+#wpl-dnsmpd-filter-consent-log .search-box #gdpr-cookie-consent-search-input{
 	height: 40px;
 	width: 250px;
 	border-color: #C6C6C6;
@@ -95,7 +100,29 @@
 	padding: 0px 15px;
 	border-color: #39F;
 }
+#wpl-dnsmpd-filter-consent-log .search-box #search-submit-consent-log{
+	height: 40px;
+	margin: 0 15px;
+	color: #39F;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 0px 15px;
+	border-color: #39F;
+}
 #wpl-dnsmpd-filter .data-req-export-button{
+	height: 40px;
+	border-radius: 4px;
+	background: #39F;
+	color: #FFF;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 7px 20px;
+}
+#wpl-dnsmpd-filter-consent-log .data-req-export-button{
 	height: 40px;
 	border-radius: 4px;
 	background: #39F;
@@ -153,8 +180,12 @@
 	min-height: 38px;
 	line-height: 2.1;
 }
+	
+#wpl-dnsmpd-filter  #current-page-selector-policy-data{
+	height: 38px;
+}
 
-#wpl-dnsmpd-filter  #current-page-selector{
+#wpl-dnsmpd-filter-consent-logs  #current-page-selector-consent_logs{
 	height: 38px;
 }
 #dataRequestContainer.wpl.wrap{

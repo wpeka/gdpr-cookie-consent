@@ -206,7 +206,7 @@ jQuery(document).ready(function () {
 	//jquery for paginations for data-req tab
 	jQuery('#dataRequestContainer .pagination-links a').each(function() {
         var href = jQuery(this).attr('href');
-        href += '#consent_logs';
+        href += '#data_request';
         jQuery(this).attr('href', href);
     });
 	//jquery for paginations for policy data tab
@@ -465,4 +465,14 @@ jQuery(document).ready(function () {
 	}
 
 
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+	jQuery('#data_request input[id="current-page-selector"]').attr('id', 'current-page-selector-data-request');
+	jQuery('#consent_logs input[id="current-page-selector"]').attr('id', 'current-page-selector-consent_logs');
+	jQuery('#policy_data input[id="current-page-selector"]').attr('id', 'current-page-selector-policy-data');
+	jQuery('#wpl-dnsmpd-filter-datarequest input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-datarequest');
+	jQuery('#wpl-dnsmpd-filter-consent-log input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-consent-log');
+	jQuery('#wpl-dnsmpd-filter input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-policy-data');
+	
 });

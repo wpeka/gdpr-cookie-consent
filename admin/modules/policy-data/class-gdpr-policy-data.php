@@ -78,7 +78,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 *
 	 */
 	public function search_box( $text, $input_id ) {
-		$input_id = $input_id . '-search-input';
+		$input_id = $input_id . '-search-input-policy-data';
 
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			echo '<input type="hidden" name="orderby" value="'
