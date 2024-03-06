@@ -78,7 +78,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 *
 	 */
 	public function search_box( $text, $input_id ) {
-		$input_id = $input_id . '-search-input';
+		$input_id = $input_id . '-search-input-data-request';
 
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			echo '<input type="hidden" name="orderby" value="'
@@ -90,15 +90,15 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		}
 		$search = $this->get_search();
 		?>
-
 		<div class="search-and-export-container">
 			<p class="search-box">
 				<label class="screen-reader-text"
 					for="<?php echo esc_attr($input_id) ?>"><?php echo esc_html($text); ?>:</label>
 				<input type="search" id="<?php echo esc_attr($input_id) ?>" name="s"
 					value="<?php echo esc_html($search) ?>"/>
+					
 				<?php submit_button( $text, 'button', false, false,
-					array( 'ID' => 'search-submit' ) ); ?>
+					array( 'ID' => 'search-submit-data' ) ); ?>
 			</p>
 			<a href="<?php echo esc_url_raw( plugin_dir_url(__FILE__) . "csv.php?nonce=" . wp_create_nonce( 'wpl_csv_nonce' ) ) ?>" target="_blank" class="button button-primary data-req-export-button"><?php _e("Export", "gdpr-cookie-consent")?></a>
 
@@ -290,16 +290,17 @@ class WPL_Data_Req_Table extends WP_List_Table {
 			2 => __('Unresolved', "gdpr-cookie-consent"),
 		];
 		$selected = 0;
+	
 		if (isset($_GET['wpl_resolved_select'])) {
 			$selected = intval($_GET['wpl_resolved_select']);
 		}
-	
 		// Generate a unique identifier for the select element
 		$unique_id = uniqid('wpl_resolved_select_');
 	
 		?>
 		<!-- submit the form on change  -->
 		<script>
+			
 			document.addEventListener('DOMContentLoaded', function () {
 				var resolvedSelect = document.getElementById('<?php echo $unique_id; ?>');
 				if (resolvedSelect) {
@@ -311,7 +312,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		</script>
 	
 		<?php
-	
+		// Use the unique identifier in the select element's id attribute
 		echo '<select name="wpl_resolved_select" id="' . $unique_id . '" class="wpl_resolved_select_filter">';
 		foreach ($options as $value => $label) {
 			echo '<option value="' . $value . '" ' . ($selected == $value ? 'selected' : '') . '>' . $label . '</option>';

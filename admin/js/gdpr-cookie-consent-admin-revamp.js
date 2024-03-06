@@ -466,3 +466,13 @@ jQuery(document).ready(function () {
 
 
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+	jQuery('#data_request input[id="current-page-selector"]').attr('id', 'current-page-selector-data-request');
+	jQuery('#consent_logs input[id="current-page-selector"]').attr('id', 'current-page-selector-consent_logs');
+	jQuery('#policy_data input[id="current-page-selector"]').attr('id', 'current-page-selector-policy-data');
+	jQuery('#wpl-dnsmpd-filter-datarequest input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-datarequest');
+	jQuery('#wpl-dnsmpd-filter-consent-log input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-consent-log');
+	jQuery('#wpl-dnsmpd-filter input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-policy-data');
+	
+});

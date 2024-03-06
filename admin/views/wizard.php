@@ -2648,7 +2648,7 @@ function get_templates( $template_type ) {
 							<div class="enable-consent-log-content">
 								<c-col class="enable-consent-log-content-label"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="enable-consent-log-switch">
-									<c-switch v-bind="	 labelIcon " v-model="logging_on" id="gdpr-cookie-consent-logging-on" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
+									<c-switch v-bind="	 labelIcon " v-model="logging_on" id="gdpr-cookie-consent-logging" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
 									<input type="hidden" name="gcc-logging-on" v-model="logging_on">
 								</c-col>
 							</div>
@@ -2659,7 +2659,7 @@ function get_templates( $template_type ) {
 							<div class="enable-script-blocker-content">
 								<c-col class="enable-script-blocker-label"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="enable-consent-log-switch">
-									<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="is_script_blocker_on"  v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
+									<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker" variant="3d"  color="success" :checked="is_script_blocker_on"  v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
 									<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on">
 								</c-col>
 							</div>

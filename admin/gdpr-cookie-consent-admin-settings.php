@@ -244,7 +244,7 @@ $api_user_plan = $this->settings->get_plan();
 						<div class="banner-preview-container">
 							<div class="banner-preview-label"><label><?php esc_attr_e( 'Banner Preview', 'gdpr-cookie-consent' ); ?></label></div>
 							<div class="banner-preview-swtich">
-								<c-switch v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview-on" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
+								<c-switch v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 							</div>
 						</div>
@@ -346,7 +346,7 @@ $api_user_plan = $this->settings->get_plan();
 										</div>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
-										<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu-on" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
+										<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
 										<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
 									</c-col>
 								</c-row>
@@ -385,7 +385,7 @@ $api_user_plan = $this->settings->get_plan();
 										</c-col>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8">
-										<c-switch v-bind="labelIcon" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d"  color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
+										<c-switch v-bind="labelIcon" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa" variant="3d"  color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
 										<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
 										</c-col>
 								</c-row>
@@ -1082,7 +1082,7 @@ $api_user_plan = $this->settings->get_plan();
 						<div class="banner-preview-container">
 							<div class="banner-preview-label"><label><?php esc_attr_e( 'Banner Preview', 'gdpr-cookie-consent' ); ?></label></div>
 							<div class="banner-preview-swtich">
-								<c-switch v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview-on" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
+								<c-switch v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-previews" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 							</div>
 						</div>
@@ -1225,7 +1225,7 @@ $api_user_plan = $this->settings->get_plan();
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-5">
-										<c-switch v-bind="labelIcon" v-model="cookie_accept_on" id="gdpr-cookie-consent-cookie-on" variant="3d"  color="success" :checked="cookie_accept_on" v-on:update:checked="onSwitchCookieAcceptEnable"></c-switch>
+										<c-switch v-bind="labelIcon" v-model="cookie_accept_on" id="gdpr-cookie-consent-cookie" variant="3d"  color="success" :checked="cookie_accept_on" v-on:update:checked="onSwitchCookieAcceptEnable"></c-switch>
 										<input type="hidden" name="gcc-cookie-accept-enable" v-model="cookie_accept_on">
 									</c-col>
 									<c-col class="col-sm-3">
@@ -1804,7 +1804,7 @@ $api_user_plan = $this->settings->get_plan();
 										<?php do_action( 'gdpr_cookie_layout_skin_markup' ); ?>
 									</c-col>
 									<c-col v-show="settings_layout"  class="col-sm-6">
-										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend" id="gdpr-cookie-consent-cookie-on-frontend" variant="3d"  color="success" :checked="cookie_on_frontend" v-on:update:checked="onSwitchCookieOnFrontend"></c-switch>
+										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend" id="gdpr-cookie-consent-cookie-frontend" variant="3d"  color="success" :checked="cookie_on_frontend" v-on:update:checked="onSwitchCookieOnFrontend"></c-switch>
 										<input type="hidden" name="gcc-cookie-on-frontend" v-model="cookie_on_frontend">
 									</c-col>
 								</c-row>

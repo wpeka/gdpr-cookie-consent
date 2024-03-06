@@ -108,7 +108,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'button',
 					false,
 					false,
-					array( 'ID' => 'search-submit' )
+					array( 'ID' => 'search-submit-consent-log' )
 				);
 				?>
 			</p>
@@ -343,10 +343,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 		<!-- submit the form on change  -->
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
-				var resolvedSelect = document.getElementById('wpl_resolved_select');
+				var resolvedSelect = document.getElementById('wpl_resolved_select_consent_log');
 				if (resolvedSelect) {
 					resolvedSelect.addEventListener('change', function() {
-						document.getElementById('wpl-dnsmpd-filter').submit();
+						document.getElementById('wpl-dnsmpd-filter-consent-log').submit();
 					});
 				}
 			});
@@ -354,7 +354,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 		<?php
 
-		echo '<select name="wpl_resolved_select" id="wpl_resolved_select" class="wpl_resolved_select">';
+		echo '<select name="wpl_resolved_select" id="wpl_resolved_select_consent_log" class="wpl_resolved_select_filter">';
 		foreach ( $options as $value => $label ) {
 			echo '<option value="' . $value . '" ' . ( $selected == $value ? 'selected' : '' ) . '>' . $label . '</option>';
 		}
