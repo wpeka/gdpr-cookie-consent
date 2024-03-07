@@ -197,6 +197,11 @@ jQuery(document).ready(function () {
 	if ( gdpr_localize_data.is_data_req_on == 'false' ) {
 		jQuery('.gdpr-cookie-consent-admin-data-request-tab').hide();
 	}
+
+		//check if consent log is on, then show consent log tab.
+	if ( gdpr_localize_data.is_consent_log_on == 'false' ) {
+		jQuery('.gdpr-cookie-consent-admin-consent-logs-tab').hide();
+	}
 	//jquery for paginations for consent log tab
 	jQuery('#consentLogDataTabContainer .pagination-links a').each(function() {
         var href = jQuery(this).attr('href');
