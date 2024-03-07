@@ -32,7 +32,18 @@ module.exports = function (grunt) {
 						],
 						dest: 'release/<%= pkg.version %>/admin/js/',
 						ext: '.min.js'
-					}]
+					},
+						{
+							expand: true,
+							cwd: 'release/<%= pkg.version %>/admin/data-req/',
+							src: [
+								'*.js',
+								'!*.min.js'
+							],
+							dest: 'release/<%= pkg.version %>/admin/data-req/',
+							ext: '.min.js'
+						}
+					]
 				},
 				adminm: {
 					files: [{
@@ -57,7 +68,17 @@ module.exports = function (grunt) {
 						],
 						dest: 'release/<%= pkg.version %>/public/js/',
 						ext: '.min.js'
-					}]
+					},
+				{
+					expand: true,
+						cwd: 'release/<%= pkg.version %>/public/modules/script-blocker/assets/js/',
+						src: [
+						'*.js',
+						'!*.min.js'
+						],
+						dest: 'release/<%= pkg.version %>/public/modules/script-blocker/assets/js/',
+						ext: '.min.js'
+				}]
 				},
 			},
 			cssmin: {
@@ -74,7 +95,17 @@ module.exports = function (grunt) {
 						],
 						dest: 'release/<%= pkg.version %>/admin/css/',
 						ext: '.min.css'
-					}]
+					},
+					{
+						expand: true,
+						cwd: 'release/<%= pkg.version %>/admin/data-req/',
+						src: [
+						'*.css',
+						'!*.min.css'
+						],
+						dest: 'release/<%= pkg.version %>/admin/data-req/',
+						ext: '.min.css'
+						}]
 				},
 				frontend: {
 					files: [{
