@@ -292,6 +292,8 @@ var gen = new Vue({
 			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
+            //Consent Log
+            consent_log_switch_clicked: false,
 			// Data Request.
             data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] || '1' == settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
@@ -639,6 +641,7 @@ var gen = new Vue({
         },
         onSwitchLoggingOn() {
             this.logging_on = !this.logging_on;
+            this.consent_log_switch_clicked= true;
         },
 		onClickRenewConsent() {
 			this.is_consent_renewed = true;
@@ -1390,6 +1393,10 @@ var gen = new Vue({
                 that.is_logo_removed = false;
                 if ( that.data_reqs_switch_clicked == true ) {
                     that.data_reqs_switch_clicked = false;
+                    location.reload();
+                }
+                if ( that.consent_log_switch_clicked == true ) {
+                    that.consent_log_switch_clicked = false;
                     location.reload();
                 }
                 if(that.reload_onSelect_law==true){
@@ -2704,6 +2711,8 @@ var gen = new Vue({
 			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
+            //Consent Log
+            consent_log_switch_clicked: false,
 			// Data Request
 			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
@@ -3020,6 +3029,8 @@ var gen = new Vue({
         },
         onSwitchLoggingOn() {
             this.logging_on = !this.logging_on;
+            this.consent_log_switch_clicked = true;
+
         },
 		onClickAddMedia() {
 			// Get the button element
@@ -3741,6 +3752,10 @@ var gen = new Vue({
                 that.is_logo_removed = false;
                 if ( that.data_reqs_switch_clicked == true ) {
                     that.data_reqs_switch_clicked = false;
+                    location.reload();
+                }
+                if ( that.consent_log_switch_clicked == true ) {
+                    that.consent_log_switch_clicked = false;
                     location.reload();
                 }
                 if(that.reload_onSelect_law==true){
