@@ -84,7 +84,9 @@ class GDPR_Cookie_Consent_App_Auth {
 		// Build auth URL with site name.
 		$auth_url = add_query_arg(
 			array(
+				'platform' => 'wordpress',
 				'site' => $site_address,
+				'rest_url' => rawurlencode(get_rest_url()),
 			),
 			$api_auth_url
 		);
