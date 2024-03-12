@@ -479,5 +479,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	jQuery('#wpl-dnsmpd-filter-datarequest input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-datarequest');
 	jQuery('#wpl-dnsmpd-filter-consent-log input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-consent-log');
 	jQuery('#wpl-dnsmpd-filter input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-policy-data');
-	
+	jQuery('#wp-admin-bar-nexcess-mapps-delete-expired-transients input[id="nonce"]').attr('id', 'nonce-delete-expired-transients');
+
 });
