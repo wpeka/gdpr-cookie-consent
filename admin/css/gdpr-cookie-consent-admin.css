@@ -2451,17 +2451,19 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
     color: #fff;
     border-radius: 4px;
     width:92px;
-    height:43px;
     gap: 10px;
-    padding: 11px 20px 11px 20px;
+    padding: 6px 12px 9px 12px;
     margin-bottom:10px;
     font-family: 'Roboto',sans-serif;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 16px;
     line-height: 21.09px;
 }
 .export-btn:hover{
     color: #fff;
+}
+.btn-outline-danger, .btn-info{
+	font-size: 16px;
 }
 .gdpr-renew-now-btn{
 	border-radius: 5px;
@@ -2470,7 +2472,8 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	text-align: center;
 	font-style: normal;
 	line-height: normal;
-	font-weight: 600;
+	font-weight: 400;
+    font-size: 16px;
 }
 .gdpr-renew-now-btn:hover{
 	color: #39F;
@@ -2536,14 +2539,14 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 .erase-btn{
     color:#FF6969;
     width: 85px;
-    height:43px;
     border-radius: 4px;
-    padding: 11px 20px 11px 20px;
+    padding: 6px 12px 9px 12px;
     margin-bottom: 13px;
     gap:10px;
     font-family: 'Roboto',sans-serif;
     font-weight: 400px;
     font-size: 16px;
+	line-height: unset;
 }
 .erase-btn:hover{
     background-color: white;
@@ -2888,7 +2891,7 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	border-radius: 4px;
 	border: 1px solid #39F;
 	background: white;
-	padding: 11px 15px;
+	padding: 6px 12px;
 }
 #wpl-whitelist-save-btn{
 	border-radius: 4px;
@@ -3199,10 +3202,10 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	flex-grow: 0;
 	justify-content: space-evenly;
 	align-items: center;
+	min-width: 100%;
 }
 .gdpr-cookie-consent-admin-tab{
 	display: flex;
-	min-width: 229px;
 	height: 44px;
 	flex-direction: column;
 	align-items: center;
@@ -3211,6 +3214,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	border: 1px solid var(--gray-200, #E4E4E7);
 	background: var(--gray-50, #FAFAFA);
 	cursor: pointer;
+	flex: 1;
 }
 .gdpr-cookie-consent-admin-tab .gdpr-cookie-consent-admin-tab-name{
 	color: var(--gray-700, #3F3F46);
@@ -3253,9 +3257,6 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 
 .gdpr-cookie-consent-admin-tabs-section.pro-is-activated{
 	padding-top: 20px;
-}
-.gdpr-cookie-consent-admin-tab{
-	min-width: 183px;
 }
 .gdpr-cookie-consent-admin-tab.active-tab{
 	border-bottom-color: #0059B3;
@@ -3323,13 +3324,6 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	display: none;
 }
 
-/* Media query for MacBook Air */
-@media only screen and (max-device-width: 1440px) and (min-device-width: 1280px) {
-	/* Assuming MacBook Air screen size falls within these dimensions */
-	.gdpr-cookie-consent-admin-tab{
-		min-width: 167.7px;
-	}
-}
 #consentLogDataTabContainer .wplconsentlogspdf.column-wplconsentlogspdf div{
 	padding-left: 25%;
 }
