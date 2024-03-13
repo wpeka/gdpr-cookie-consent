@@ -197,6 +197,11 @@ jQuery(document).ready(function () {
 	if ( gdpr_localize_data.is_data_req_on == 'false' ) {
 		jQuery('.gdpr-cookie-consent-admin-data-request-tab').hide();
 	}
+
+		//check if consent log is on, then show consent log tab.
+	if ( gdpr_localize_data.is_consent_log_on == 'false' ) {
+		jQuery('.gdpr-cookie-consent-admin-consent-logs-tab').hide();
+	}
 	//jquery for paginations for consent log tab
 	jQuery('#consentLogDataTabContainer .pagination-links a').each(function() {
         var href = jQuery(this).attr('href');
@@ -206,7 +211,7 @@ jQuery(document).ready(function () {
 	//jquery for paginations for data-req tab
 	jQuery('#dataRequestContainer .pagination-links a').each(function() {
         var href = jQuery(this).attr('href');
-        href += '#consent_logs';
+        href += '#data_request';
         jQuery(this).attr('href', href);
     });
 	//jquery for paginations for policy data tab
@@ -464,5 +469,16 @@ jQuery(document).ready(function () {
 		);
 	}
 
+
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+	jQuery('#data_request input[id="current-page-selector"]').attr('id', 'current-page-selector-data-request');
+	jQuery('#consent_logs input[id="current-page-selector"]').attr('id', 'current-page-selector-consent_logs');
+	jQuery('#policy_data input[id="current-page-selector"]').attr('id', 'current-page-selector-policy-data');
+	jQuery('#wpl-dnsmpd-filter-datarequest input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-datarequest');
+	jQuery('#wpl-dnsmpd-filter-consent-log input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-consent-log');
+	jQuery('#wpl-dnsmpd-filter input[id="_wpnonce"]').attr('id', 'wpnonce-wpl-dnsmpd-filter-policy-data');
+	jQuery('#wp-admin-bar-nexcess-mapps-delete-expired-transients input[id="nonce"]').attr('id', 'nonce-delete-expired-transients');
 
 });

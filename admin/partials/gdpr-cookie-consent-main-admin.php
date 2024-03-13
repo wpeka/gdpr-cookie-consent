@@ -14,6 +14,7 @@
 $pro_is_activated = get_option( 'wpl_pro_active', false );
 $the_options      = Gdpr_Cookie_Consent::gdpr_get_settings();
 $is_data_req_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
+$is_consent_log_on =isset(  $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
 $installed_plugins = get_plugins();
 $pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 // Require the class file for gdpr cookie consent api framework settings.
@@ -117,11 +118,29 @@ $is_user_connected = $this->settings->is_connected();
 					<p class="gdpr-cookie-consent-admin-tab-name">Cookie&nbsp;Settings</p>
 				</div>
 				<?php
+					if ( $is_consent_log_on && !$pro_is_activated ) {
+				?>
+									<!-- consent log tab  -->
+										<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
+											<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
+										</div>
+					<?php
+					}
+						if ( $pro_is_activated ) {
+							if ( $is_consent_log_on ) {
+							?>
+									<!-- consent log tab  -->
+									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
+										<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
+									</div>
+								<?php
+									}
+						}
+
+				?>
+				<?php
 				if ( !$pro_is_activated )  ?>
-				<!-- consent log tab  -->
-						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-							<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
-						</div>
+	
 				<!-- integration tab  -->
 						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-integrations-data-tab" data-tab="integrations">
 							<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>
@@ -160,6 +179,7 @@ $is_user_connected = $this->settings->is_connected();
 					}
 
 				?>
+
 				<!-- Policy data tab  -->
 				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-policy-data-tab" data-tab="policy_data">
 				<p class="gdpr-cookie-consent-admin-tab-name">Policy&nbsp;Data</p>

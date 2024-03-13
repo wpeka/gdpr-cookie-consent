@@ -319,13 +319,24 @@ class Gdpr_Cookie_Consent_Admin {
 			<h1 class="wp-heading-inline"><?php _e( 'Consent Logs', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ); ?>">
+			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ); ?>">
 			<?php
 				$consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$consent_logs->display();
 			?>
 				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
+				
 			</form>
+			<script>
+    				document.addEventListener('DOMContentLoaded', function() {
+						
+				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction"]').attr('id', 'consentLogApplyButton');
+				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction2"]').attr('id', 'consentLogApplyButton2');
+				jQuery('#wpl-dnsmpd-filter-consent-log select[id="bulk-action-selector-bottom"]').attr('id', 'bulk-action-selector-consent-log-bottom');
+				jQuery('#wpl-dnsmpd-filter-consent-log select[id="bulk-action-selector-top"]').attr('id', 'bulk-action-selector-consent-log-top');
+
+	});
+</script>
 		</div>
 			<?php
 
@@ -749,7 +760,7 @@ class Gdpr_Cookie_Consent_Admin {
 			<h1 class="wp-heading-inline"><?php _e( 'Data Requests', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ); ?>">
+			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ); ?>">
 			<?php
 				$datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$datarequests->display();
@@ -4599,6 +4610,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['do_not_track_on'] = isset( $_POST['gcc-do-not-track'] ) && ( true === $_POST['gcc-do-not-track'] || 'true' === $_POST['gcc-do-not-track'] ) ? 'true' : 'false';
 			// Data Reqs.
 			$the_options['data_reqs_on'] = isset( $_POST['gcc-data_reqs'] ) && ( true === $_POST['gcc-data_reqs'] || 'true' === $_POST['gcc-data_reqs'] ) ? 'true' : 'false';
+			//Consent log
+			$the_options['logging_on'] = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 
 			$the_options['is_on']                              = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'false';
 			$the_options['cookie_usage_for']                   = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
@@ -5934,6 +5947,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// find out if data reqs is on.
 		$data_reqs_on = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
+		$consent_log_on =isset(  $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
 
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script(
@@ -5953,6 +5967,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'admin_url'        => admin_url(),
 				'is_pro_activated' => $pro_is_activated,
 				'is_data_req_on'   => $data_reqs_on,
+				'is_consent_log_on'=> $consent_log_on,
 				'gdpr_app_url'     => GDPR_APP_URL,
 				'_ajax_nonce'      => wp_create_nonce( 'gdpr-cookie-consent' ),
 				'is_user_connected'=> $is_user_connected,

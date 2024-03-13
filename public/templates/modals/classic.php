@@ -100,7 +100,7 @@
 													<?php
 													foreach ( $category['data'] as $cookie ) {
 														?>
-														<td>
+														<tr><td>
 															<?php
 															if ( $cookie['name'] ) {
 																echo esc_html( $cookie['name'] );
@@ -144,7 +144,7 @@
 																echo esc_html( '---' );
 															}
 															?>
-															</td>
+															</td></tr>
 														<?php
 													}
 													?>
