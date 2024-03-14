@@ -145,6 +145,7 @@ $is_user_connected = $this->settings->is_connected();
 						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-integrations-data-tab" data-tab="integrations">
 							<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>
 						</div>
+				
 				<?php
 
 
@@ -188,6 +189,16 @@ $is_user_connected = $this->settings->is_connected();
 				<!-- <div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-legalpage-data-tab" data-tab="legal_page">
 					<p class="gdpr-cookie-consent-admin-tab-name">Legal&nbsp;Page</p>
 				</div> -->
+				<?php 
+				if($pro_is_activated){
+					?>
+					<!-- Pro activation key -->
+				        <div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-pro-activation-tab" data-tab="activation_key">
+							<p class="gdpr-cookie-consent-admin-tab-name">Pro Activation</p>
+						</div>
+				<?php }
+				
+				?>
 			</div>
 		</div>
 
@@ -227,6 +238,11 @@ $is_user_connected = $this->settings->is_connected();
 				<div class="gdpr-cookie-consent-admin-data-request-data-content gdpr-cookie-consent-admin-tab-content" id="data_request">
 					<?php do_action( 'add_data_request_content' ); ?>
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-data-request-tab-template.php'; ?>
+				</div>
+				<!-- activation key content  -->
+				<div class="gdpr-cookie-consent-admin-data-request-activation-key gdpr-cookie-consent-admin-tab-content" id="activation_key">
+					<?php do_action( 'add_activation_key_content' ); ?>
+					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookies-activation-key.php'; ?>
 				</div>
 				<!-- legal pages  -->
 				<!-- <div class="gdpr-cookie-consent-admin-legal-pages-content gdpr-cookie-consent-admin-tab-content" id="legal_page">
