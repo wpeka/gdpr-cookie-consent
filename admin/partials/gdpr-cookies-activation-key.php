@@ -6,7 +6,7 @@
  * This file is used to markup the admin-facing aspects of the WP Cookie Consent plugin.
  *
  * @link       https://club.wpeka.com/
- * @since      2.4.1
+ * @since      3.0.2
  *
  * @package gdpr-cookie-consent
  */
