@@ -219,7 +219,7 @@ $is_user_connected = $this->settings->is_connected();
 					<?php do_action( 'add_data_request_content' ); ?>
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-data-request-tab-template.php'; ?>
 				</div>
-				<!-- data req data content  -->
+				<!-- activation key content  -->
 				<div class="gdpr-cookie-consent-admin-data-request-activation-key gdpr-cookie-consent-admin-tab-content" id="activation_key">
 					<?php do_action( 'add_activation_key_content' ); ?>
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-data-request-tab-template.php'; ?>
