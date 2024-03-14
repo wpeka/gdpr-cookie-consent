@@ -222,7 +222,7 @@ $is_user_connected = $this->settings->is_connected();
 				<!-- activation key content  -->
 				<div class="gdpr-cookie-consent-admin-data-request-activation-key gdpr-cookie-consent-admin-tab-content" id="activation_key">
 					<?php do_action( 'add_activation_key_content' ); ?>
-					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-data-request-tab-template.php'; ?>
+					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookies-activation-key.php'; ?>
 				</div>
 				<!-- legal pages  -->
 				<!-- <div class="gdpr-cookie-consent-admin-legal-pages-content gdpr-cookie-consent-admin-tab-content" id="legal_page">
