@@ -6034,7 +6034,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$maxmind_url         = $admin_url . 'admin.php?page=gdpr-cookie-consent#integrations';
 		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list';
 		$plugin_page_url     = $admin_url . 'plugins.php';
-		$key_activate_url    = $admin_url . 'admin.php?page=wc_am_client_wpl_cookie_consent_dashboard';
+		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
 		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
 		$cookie_design_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
 		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#configuration';

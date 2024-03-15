@@ -120,6 +120,14 @@ jQuery(document).ready(function () {
 		location.reload();
 	});
 
+	jQuery('.gdpr-dashboard-activation-tab ').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr-dashboard-activation-tab a').attr('href');
+		
+		window.location.assign(linkUrl);
+		location.reload();
+	});
+
 	jQuery('.gdpr-quick-link-item.scan_cookies').on('click', function(e) {
 
 		var linkUrl = jQuery('.gdpr-quick-link-item.scan_cookies a').attr('href');
