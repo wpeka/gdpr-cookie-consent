@@ -173,7 +173,7 @@ if ( $table_exists ) {
 								<?php esc_html_e( 'Activate Pro plugin to scan cookies.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="plugin_page_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
-							<span v-show="pro_installed && pro_activated && !api_key_activated">
+							<span class="gdpr-dashboard-activation-tab" v-show="pro_installed && pro_activated && !api_key_activated">
 								<?php esc_html_e( 'Activate API license key to scan cookies.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
@@ -208,7 +208,7 @@ if ( $table_exists ) {
 								<?php esc_html_e( 'Activate GDPR Pro plugin.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="plugin_page_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
-							<span v-show="pro_installed && pro_activated && !api_key_activated">
+							<span class="gdpr-dashboard-activation-tab" v-show="pro_installed && pro_activated && !api_key_activated">
 								<?php esc_html_e( 'Activate your API license key.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
@@ -235,7 +235,7 @@ if ( $table_exists ) {
 								<?php esc_html_e( 'Activate Pro plugin to enable Geotargeting.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="plugin_page_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
-							<span v-show="pro_installed && pro_activated && !api_key_activated">
+							<span class="gdpr-dashboard-activation-tab" v-show="pro_installed && pro_activated && !api_key_activated">
 								<?php esc_html_e( 'Activate API license key to enable Geotargeting.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
