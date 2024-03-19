@@ -8,9 +8,9 @@
 	border-radius: 5px;
 	display: none;
 	color: #fff;
-	margin-left: 70%;
+	margin-left: 50%;
 	margin-top: 1%;
-	top: 10%;
+	top: 13%;
 	z-index: 9999;
 }
 
@@ -35,12 +35,12 @@
 }
 
 #wpl-cookie-consent-overlay {
-	position: fixed;
+	position: absolute;
 	display: none;
-	width: 100%;
+	width: 1443px;
 	height: 100%;
-	top: 0;
-	left: 0;
+	/* top: 0;
+	left: 0; */
 	background-color: rgba(0,0,0,0.25);
 	z-index: 2;
 }
@@ -64,7 +64,7 @@
 }
 
 .wpl-cookie-consent-page-name {
-	width: 90%;
+	width: 100%;
 	margin: auto;
 }
 
@@ -73,14 +73,14 @@
 	width: 90%;
 	margin-top: 1rem;
 	padding: 1.5rem 2rem;
+	left: -63px;
+    top: -11px;
 }
-
+.wpl-cookie-consent-integrations-form .row .col-sm-8 col{
+	left : -107px;
+}
 .wpl-cookie-consent-integrations-form-container .row {
 	margin-bottom: 0.5rem;
-}
-
-.wpl-cookie-consent-integrations-label {
-	font-weight: 600 !important
 }
 
 .wpl-cookie-consent-datbase-input {
@@ -171,4 +171,7 @@
     padding: 15px;
     margin: 20px;
     box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
+}
+#Geotargeting{
+	left:-107px;
 }

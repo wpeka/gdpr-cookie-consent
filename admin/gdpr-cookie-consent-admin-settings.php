@@ -2190,11 +2190,12 @@ $api_user_plan = $this->settings->get_plan();
 						</c-card>
 						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
 					</c-tab>
+					<!-- Script Blocker -->
 					<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
+					<!-- Integration -->
+					<?php do_action( 'gdpr_setting_integration_tab'); ?>
 					<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#language">
-
 					<c-card>
-
 							<c-card-header><?php esc_html_e( 'Languages', 'gdpr-cookie-consent' ); ?>
 							</c-card-header>
 							<c-card-body>
