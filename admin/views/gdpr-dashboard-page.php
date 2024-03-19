@@ -100,43 +100,48 @@ if ( $table_exists ) {
 ob_start(); // Start output buffering
 
 // Trigger the gdpr_consent_log_table_dashboard action
-do_action( 'gdpr_consent_log_table_dashboard' );
+do_action('gdpr_consent_log_table_dashboard');
 
 // Get the buffered content and clean the buffer
 $consent_log_table = ob_get_clean();
 
+/**
+ * Send a POST request to the GDPR API endpoint 'get_data'
+*/
 
 $response = wp_remote_post(
-	WPLEGAL_API_URL . 'get_data',
+	GDPR_API_URL . 'get_dashboard_data',
 	array(
 		'body' => array(
-			'cookie_scan_settings'             => $cookie_scan_settings,
-			'the_options'                      => $the_options,
-			'pro_installed'                    => $pro_installed,
-			'is_user_connected'                => $is_user_connected,
-			'class_for_blur_content'           => $class_for_blur_content,
-			'class_for_card_body_blur_content' => $class_for_card_body_blur_content,
-			'total_no_of_found_cookies'        => $total_no_of_found_cookies,
-			'total_scanned_pages'              => $total_scanned_pages,
-			'number_of_categories'             => $number_of_categories,
-			'wpl_cl_decline'                   => get_option( 'wpl_cl_decline' ),
-			'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
-			'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
-			'consent_log_table'                => $consent_log_table,
+			'cookie_scan_settings'       				=> $cookie_scan_settings,
+			'the_options'    	 						=> $the_options,
+			'pro_installed' 			 				=> $pro_installed,
+			'is_user_connected'         				=> $is_user_connected,
+			'class_for_blur_content'    				=> $class_for_blur_content ,
+			'class_for_card_body_blur_content'          => $class_for_card_body_blur_content ,
+			'total_no_of_found_cookies'         		=> $total_no_of_found_cookies ,
+			'total_scanned_pages'         				=> $total_scanned_pages ,
+			'number_of_categories'         			    => $number_of_categories ,
+			'wpl_cl_decline'							=> get_option( 'wpl_cl_decline' ),
+			'wpl_cl_accept'								=> get_option( 'wpl_cl_accept' ),
+			'wpl_cl_partially_accept'					=> get_option( 'wpl_cl_partially_accept' ),
+			'consent_log_table'							=> $consent_log_table,
 		),
 	)
 );
 
+// Check if there's an error with the request.
 if ( is_wp_error( $response ) ) {
-	$text = '';
+	// Set $api_gdpr_dashboard to an empty string if there's an error.
+	$api_gdpr_dashboard = '';
 }
-
+// Retrieve the response status code.
 $response_status = wp_remote_retrieve_response_code( $response );
 
-error_log( 'STATUS->' . $response_status );
-
+// Check if the response status is 200 (success).
 if ( 200 === $response_status ) {
-	$text = json_decode( wp_remote_retrieve_body( $response ) );
+	// Decode the JSON response body and assign it to $api_gdpr_dashboard.
+	$api_gdpr_dashboard = json_decode( wp_remote_retrieve_body( $response ) );
 }
 
 
@@ -294,9 +299,8 @@ if ( 200 === $response_status ) {
 		</c-card>
 		<!-- cookie insights and cookie summary card  -->
 
-		<?php echo $text; ?>
+		<?php echo $api_gdpr_dashboard; ?>
 
-		<!-- <?php do_action( 'gdpr_consent_log_table_dashboard' ); ?> -->
 		<c-card class="gdpr-dashboard-quick-links-card">
 			<c-card-header class="gdpr-dashboard-quick-links-card-header">
 				<span class="gdpr-dashboard-quick-links-heading">

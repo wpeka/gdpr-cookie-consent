@@ -55,7 +55,9 @@ if ( ! defined( 'GDPR_APP_URL' ) ) {
 if ( ! defined( 'WPLEGAL_API_URL' ) ) {
 	define( 'WPLEGAL_API_URL', 'http://localhost:10051/wp-json/wplegal/v2/' );
 }
-
+if ( ! defined( 'GDPR_API_URL' ) ) {
+	define( 'GDPR_API_URL', 'https://app.wplegalpages.com/wp-json/gdpr/v2/' );
+}
 
 /**
  * Clean variables using sanitize_text_field. Arrays are cleaned recursively.

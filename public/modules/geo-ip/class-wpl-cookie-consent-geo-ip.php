@@ -82,7 +82,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 					exit;
 				}
 				$response_maxmind = wp_remote_post(
-					WPLEGAL_API_URL . 'get_maxmind_data',
+					GDPR_API_URL . 'get_maxmind_data',
 					array(
 						'body' => array(
 							'the_options'                      => $the_options,
