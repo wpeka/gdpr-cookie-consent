@@ -103,7 +103,7 @@ color: #FFF;
 font-size: 16px;
 font-style: normal;
 font-weight: 400;
-line-height: normal;
+line-height: unset;
 padding: 7px 20px;
 }
 .wpl_resolved_select_filter{
