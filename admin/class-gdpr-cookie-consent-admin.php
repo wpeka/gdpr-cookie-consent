@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr','hu' );
 
 	/**
 	 * The version of this plugin.
@@ -191,6 +191,7 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 		}
 	}
+
 	/**
 	 * Displays admin notices related to GDPR Cookie Consent plugin.
 	 *
@@ -268,7 +269,7 @@ class Gdpr_Cookie_Consent_Admin {
 							sprintf(
 								/* translators: %1%s: integration page */
 								__( 'You must enter a valid license key on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-integrations' )
+								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
 							)
 						);
 						?>
@@ -287,7 +288,7 @@ class Gdpr_Cookie_Consent_Admin {
 							sprintf(
 								/* translators: %1%s: integration page */
 								__( 'You must enable geotargeting on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-integrations' )
+								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
 							)
 						);
 						?>
@@ -316,13 +317,24 @@ class Gdpr_Cookie_Consent_Admin {
 			<h1 class="wp-heading-inline"><?php _e( 'Consent Logs', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ); ?>">
+			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ); ?>">
 			<?php
 				$consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$consent_logs->display();
 			?>
 				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
+				
 			</form>
+			<script>
+					document.addEventListener('DOMContentLoaded', function() {
+						
+				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction"]').attr('id', 'consentLogApplyButton');
+				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction2"]').attr('id', 'consentLogApplyButton2');
+				jQuery('#wpl-dnsmpd-filter-consent-log select[id="bulk-action-selector-bottom"]').attr('id', 'bulk-action-selector-consent-log-bottom');
+				jQuery('#wpl-dnsmpd-filter-consent-log select[id="bulk-action-selector-top"]').attr('id', 'bulk-action-selector-consent-log-top');
+
+	});
+</script>
 		</div>
 			<?php
 
@@ -744,7 +756,7 @@ class Gdpr_Cookie_Consent_Admin {
 			<h1 class="wp-heading-inline"><?php _e( 'Data Requests', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ); ?>">
+			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ); ?>">
 			<?php
 				$datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$datarequests->display();
@@ -3323,55 +3335,22 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 
 		$show_language_as_options     = array();
-		$show_language_as_options[0]  = array(
-			'label' => 'English',
-			'code'  => 'en',
+		$show_language_as_options = array(
+			array('label' => 'Bulgarian', 'code' => 'bg'),
+			array('label' => 'Croatian', 'code' => 'hr'),
+			array('label' => 'Czech', 'code' => 'cs'),
+			array('label' => 'Danish', 'code' => 'da'),
+			array('label' => 'Dutch', 'code' => 'nl'),
+			array('label' => 'English', 'code' => 'en'),
+			array('label' => 'French', 'code' => 'fr'),
+			array('label' => 'German', 'code' => 'de'),
+			array('label' => 'Greek', 'code' => 'gr'),
+			array('label' => 'Hungarian', 'code' => 'hu'),
+			array('label' => 'Icelandic', 'code' => 'is'),
+			array('label' => 'Slovenian', 'code' => 'sl'),
+			array('label' => 'Spanish', 'code' => 'es')
 		);
-		$show_language_as_options[1]  = array(
-			'label' => 'French',
-			'code'  => 'fr',
-		);
-		$show_language_as_options[2]  = array(
-			'label' => 'Dutch',
-			'code'  => 'nl',
-		);
-		$show_language_as_options[3]  = array(
-			'label' => 'Bulgarian',
-			'code'  => 'bg',
-		);
-		$show_language_as_options[4]  = array(
-			'label' => 'Czech',
-			'code'  => 'cs',
-		);
-		$show_language_as_options[5]  = array(
-			'label' => 'Danish',
-			'code'  => 'da',
-		);
-		$show_language_as_options[6]  = array(
-			'label' => 'German',
-			'code'  => 'de',
-		);
-		$show_language_as_options[7]  = array(
-			'label' => 'Spanish',
-			'code'  => 'es',
-		);
-		$show_language_as_options[8]  = array(
-			'label' => 'Croatian',
-			'code'  => 'hr',
-		);
-		$show_language_as_options[9]  = array(
-			'label' => 'Icelandic',
-			'code'  => 'is',
-		);
-		$show_language_as_options[10] = array(
-			'label' => 'Slovenian',
-			'code'  => 'sl',
-		);
-		$show_language_as_options[11] = array(
-			'label' => 'Greek',
-			'code'  => 'gr',
-		);
-
+		
 		// dropdown option for schedule scan.
 		$schedule_scan_options    = array();
 		$schedule_scan_options[0] = array(
@@ -3632,52 +3611,52 @@ class Gdpr_Cookie_Consent_Admin {
 		$geo_options['database_file_path'] = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/' . $geo_options['database_prefix'] . '-GeoLite2-City.mmdb';
 		update_option( 'wpl_geo_options', $geo_options );
 		wp_enqueue_style( 'gdpr-cookie-consent-integrations' );
-				wp_localize_script(
-					$this->plugin_name . '-main',
-					'settings_obj',
-					array(
-						'the_options'                      => $settings,
-						'ajaxurl'                          => admin_url( 'admin-ajax.php' ),
-						'policies'                         => $policies,
-						'position_options'                 => $position_options,
-						'show_cookie_as_options'           => $show_cookie_as_options,
-						'show_language_as_options'         => $show_language_as_options,
-						'schedule_scan_options'            => $schedule_scan_options,
-						'schedule_scan_day_options'        => $schedule_scan_day_options,
-						'on_hide_options'                  => $on_hide_options,
-						'on_load_options'                  => $on_load_options,
-						'is_pro_active'                    => $is_pro_active,
-						'tab_position_options'             => $tab_position_options,
-						'cookie_expiry_options'            => $cookie_expiry_options,
-						'list_of_contents'                 => $list_of_contents,
-						'border_style_options'             => $border_style_options,
-						'show_as_options'                  => $show_as_options,
-						'url_type_options'                 => $url_type_options,
-						'privacy_policy_options'           => $privacy_policy_page_options,
-						'button_size_options'              => $button_size_options,
-						'accept_size_options'              => $accept_size_options,
-						'accept_action_options'            => $accept_action_options,
-						'accept_button_as_options'         => $accept_button_as_options,
-						'open_url_options'                 => $open_url_options,
-						'widget_position_options'          => $widget_position_options,
-						'decline_action_options'           => $decline_action_options,
-						'settings_layout_options'          => $settings_layout_options,
-						'settings_layout_options_extended' => $settings_layout_options_extended,
-						'script_blocker_settings'          => $script_blocker_settings,
-						'font_options'                     => $font_options,
-						'layout_skin_options'              => $layout_skin_options,
-						'cookie_list_settings'             => $cookie_list_settings,
-						'cookie_scan_settings'             => $cookie_scan_settings,
-						'restore_settings_nonce'           => wp_create_nonce( 'restore_default_settings' ),
-						// added nonce for.
-						'import_settings_nonce'            => wp_create_nonce( 'import_settings' ),
-						// for pages.
-						'list_of_pages'                    => $list_of_pages,
-						// for sites.
-						'list_of_sites'                    => is_multisite() ? $list_of_sites : null,
-						'geo_options'                      => $geo_options,
-					)
-				);
+		wp_localize_script(
+			$this->plugin_name . '-main',
+			'settings_obj',
+			array(
+				'the_options'                      => $settings,
+				'ajaxurl'                          => admin_url( 'admin-ajax.php' ),
+				'policies'                         => $policies,
+				'position_options'                 => $position_options,
+				'show_cookie_as_options'           => $show_cookie_as_options,
+				'show_language_as_options'         => $show_language_as_options,
+				'schedule_scan_options'            => $schedule_scan_options,
+				'schedule_scan_day_options'        => $schedule_scan_day_options,
+				'on_hide_options'                  => $on_hide_options,
+				'on_load_options'                  => $on_load_options,
+				'is_pro_active'                    => $is_pro_active,
+				'tab_position_options'             => $tab_position_options,
+				'cookie_expiry_options'            => $cookie_expiry_options,
+				'list_of_contents'                 => $list_of_contents,
+				'border_style_options'             => $border_style_options,
+				'show_as_options'                  => $show_as_options,
+				'url_type_options'                 => $url_type_options,
+				'privacy_policy_options'           => $privacy_policy_page_options,
+				'button_size_options'              => $button_size_options,
+				'accept_size_options'              => $accept_size_options,
+				'accept_action_options'            => $accept_action_options,
+				'accept_button_as_options'         => $accept_button_as_options,
+				'open_url_options'                 => $open_url_options,
+				'widget_position_options'          => $widget_position_options,
+				'decline_action_options'           => $decline_action_options,
+				'settings_layout_options'          => $settings_layout_options,
+				'settings_layout_options_extended' => $settings_layout_options_extended,
+				'script_blocker_settings'          => $script_blocker_settings,
+				'font_options'                     => $font_options,
+				'layout_skin_options'              => $layout_skin_options,
+				'cookie_list_settings'             => $cookie_list_settings,
+				'cookie_scan_settings'             => $cookie_scan_settings,
+				'restore_settings_nonce'           => wp_create_nonce( 'restore_default_settings' ),
+				// added nonce for.
+				'import_settings_nonce'            => wp_create_nonce( 'import_settings' ),
+				// for pages.
+				'list_of_pages'                    => $list_of_pages,
+				// for sites.
+				'list_of_sites'                    => is_multisite() ? $list_of_sites : null,
+				'geo_options'                      => $geo_options,
+			)
+		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
 		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-admin-settings.php';
 	}
@@ -4612,6 +4591,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['do_not_track_on'] = isset( $_POST['gcc-do-not-track'] ) && ( true === $_POST['gcc-do-not-track'] || 'true' === $_POST['gcc-do-not-track'] ) ? 'true' : 'false';
 			// Data Reqs.
 			$the_options['data_reqs_on'] = isset( $_POST['gcc-data_reqs'] ) && ( true === $_POST['gcc-data_reqs'] || 'true' === $_POST['gcc-data_reqs'] ) ? 'true' : 'false';
+			// Consent log
+			$the_options['logging_on'] = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 
 			$the_options['is_on']                              = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'false';
 			$the_options['cookie_usage_for']                   = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
@@ -5587,54 +5568,22 @@ class Gdpr_Cookie_Consent_Admin {
 			'code'  => 'widget',
 		);
 		$show_language_as_options     = array();
-		$show_language_as_options[0]  = array(
-			'label' => 'English',
-			'code'  => 'en',
+		$show_language_as_options = array(
+			array('label' => 'Bulgarian', 'code' => 'bg'),
+			array('label' => 'Croatian', 'code' => 'hr'),
+			array('label' => 'Czech', 'code' => 'cs'),
+			array('label' => 'Danish', 'code' => 'da'),
+			array('label' => 'Dutch', 'code' => 'nl'),
+			array('label' => 'English', 'code' => 'en'),
+			array('label' => 'French', 'code' => 'fr'),
+			array('label' => 'German', 'code' => 'de'),
+			array('label' => 'Greek', 'code' => 'gr'),
+			array('label' => 'Hungarian', 'code' => 'hu'),
+			array('label' => 'Icelandic', 'code' => 'is'),
+			array('label' => 'Slovenian', 'code' => 'sl'),
+			array('label' => 'Spanish', 'code' => 'es')
 		);
-		$show_language_as_options[1]  = array(
-			'label' => 'French',
-			'code'  => 'fr',
-		);
-		$show_language_as_options[2]  = array(
-			'label' => 'Dutch',
-			'code'  => 'nl',
-		);
-		$show_language_as_options[3]  = array(
-			'label' => 'Bulgarian',
-			'code'  => 'bg',
-		);
-		$show_language_as_options[4]  = array(
-			'label' => 'Czech',
-			'code'  => 'cs',
-		);
-		$show_language_as_options[5]  = array(
-			'label' => 'Danish',
-			'code'  => 'da',
-		);
-		$show_language_as_options[6]  = array(
-			'label' => 'German',
-			'code'  => 'de',
-		);
-		$show_language_as_options[7]  = array(
-			'label' => 'Spanish',
-			'code'  => 'es',
-		);
-		$show_language_as_options[8]  = array(
-			'label' => 'Croatian',
-			'code'  => 'hr',
-		);
-		$show_language_as_options[9]  = array(
-			'label' => 'Icelandic',
-			'code'  => 'is',
-		);
-		$show_language_as_options[10] = array(
-			'label' => 'Slovenian',
-			'code'  => 'sl',
-		);
-		$show_language_as_options[11] = array(
-			'label' => 'Greek',
-			'code'  => 'gr',
-		);
+		
 		// dropdown option for schedule scan.
 		$schedule_scan_options    = array();
 		$schedule_scan_options[0] = array(
@@ -5946,7 +5895,8 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 		// find out if data reqs is on.
-		$data_reqs_on = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
+		$data_reqs_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
+		$consent_log_on = isset( $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
 
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script(
@@ -5966,6 +5916,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'admin_url'         => admin_url(),
 				'is_pro_activated'  => $pro_is_activated,
 				'is_data_req_on'    => $data_reqs_on,
+				'is_consent_log_on' => $consent_log_on,
 				'gdpr_app_url'      => GDPR_APP_URL,
 				'_ajax_nonce'       => wp_create_nonce( 'gdpr-cookie-consent' ),
 				'is_user_connected' => $is_user_connected,

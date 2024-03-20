@@ -40,14 +40,6 @@ var gen = new Vue({
 				labelOn: '\u2713',
 				labelOff: '\uD83D\uDD12',
 			},
-            enable_geotargeting   : settings_obj.geo_options.hasOwnProperty('enable_geotargeting') && (true === settings_obj.geo_options['enable_geotargeting'] || 'true' === settings_obj.geo_options['enable_geotargeting'] ) ? true : false,
-            database_file_path    : settings_obj.geo_options.hasOwnProperty('database_file_path') ? settings_obj.geo_options['database_file_path'] : '',
-            maxmind_license_key   : settings_obj.geo_options.hasOwnProperty('maxmind_license_key') ? settings_obj.geo_options['maxmind_license_key'] : '',
-            alert_message         : 'Maxmind Key Integrated',
-            maxmind_register_link : 'https://www.maxmind.com/en/geolite2/signup',
-            document_link         : 'https://club.wpeka.com/docs/wp-cookie-consent/',
-            video_link            : 'https://www.youtube.com/embed/hrfSoFjEpzQ',
-            support_link          : 'https://club.wpeka.com/my-account/?utm_source=gdpr&utm_medium=plugin&utm_campaign=integrations',
 			isGdprProActive:'1' === settings_obj.is_pro_active,
 			disableSwitch: false,
             is_template_changed: false,
@@ -300,6 +292,8 @@ var gen = new Vue({
 			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
+            //Consent Log
+            consent_log_switch_clicked: false,
 			// Data Request.
             data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] || '1' == settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
@@ -320,48 +314,18 @@ var gen = new Vue({
             select_sites_array:[],
             list_of_sites: settings_obj.list_of_sites,
             pluginVersion: typeof GDPR_COOKIE_CONSENT_VERSION !== 'undefined' ? GDPR_COOKIE_CONSENT_VERSION : '',
+            //maxmind integration.
+            enable_geotargeting   : settings_obj.geo_options.hasOwnProperty('enable_geotargeting') && (true === settings_obj.geo_options['enable_geotargeting'] || 'true' === settings_obj.geo_options['enable_geotargeting'] ) ? true : false,
+            database_file_path    : settings_obj.geo_options.hasOwnProperty('database_file_path') ? settings_obj.geo_options['database_file_path'] : '',
+            maxmind_license_key   : settings_obj.geo_options.hasOwnProperty('maxmind_license_key') ? settings_obj.geo_options['maxmind_license_key'] : '',
+            alert_message         : 'Maxmind Key Integrated',
+            maxmind_register_link : 'https://www.maxmind.com/en/geolite2/signup',
+            document_link         : 'https://club.wpeka.com/docs/wp-cookie-consent/',
+            video_link            : 'https://www.youtube.com/embed/hrfSoFjEpzQ',
+            support_link          : 'https://club.wpeka.com/my-account/?utm_source=gdpr&utm_medium=plugin&utm_campaign=integrations',
         }
     },
     methods: {
-		OnEnableGeotargeting() {
-			this.enable_geotargeting = !this.enable_geotargeting;
-		  },
-		  onSubmitIntegrations() {
-              let that = this;
-              if( this.maxmind_license_key === '' && this.enable_geotargeting ) {
-                  this.alert_message = 'Please enter a valid license key';
-                  j("#wpl-cookie-consent-integrations-alert").css('background-color', '#e55353' );
-                  j("#wpl-cookie-consent-integrations-alert").fadeIn(400);
-                  j("#wpl-cookie-consent-integrations-alert").fadeOut(2500);
-                  return;
-                }
-                var spinner = j('.wpl_integrations_spinner');
-                spinner.show();
-                spinner.css( { visibility: 'visible' } );
-                j('#wpl-cookie-consent-overlay').css('display', 'block');
-                var dataV = j("#wpl-cookie-consent-integrations-form").serialize();
-                jQuery.ajax({
-                    type: 'POST',
-                    url: settings_obj.ajaxurl,
-                    data: dataV + '&action=wpl_cookie_consent_integrations_settings',
-                }).done(function (data) {
-                if( data.success ) {
-                    that.alert_message = that.enable_geotargeting ? 'Maxmind Integrated Omendra' : 'Settings Saved';
-                    j("#wpl-cookie-consent-integrations-alert").css('background-color', '#72b85c' );
-                    j("#wpl-cookie-consent-integrations-alert").fadeIn(400);
-                    j("#wpl-cookie-consent-integrations-alert").fadeOut(2500);
-                } else {
-                    that.alert_message = 'Please enter a valid license key';
-                    j("#wpl-cookie-consent-integrations-alert").css('background-color', '#e55353' );
-                    j("#wpl-cookie-consent-integrations-alert").fadeIn(400);
-                    j("#wpl-cookie-consent-integrations-alert").fadeOut(2500);
-                }
-                j('#wpl-cookie-consent-overlay').css('display', 'none');
-                spinner.css( { visibility: 'hidden' } );
-                spinner.hide();
-                location.reload();   
-                });
-		  },
         isPluginVersionLessOrEqual(version) {
             return this.pluginVersion && this.pluginVersion <= version;
           },
@@ -686,6 +650,7 @@ var gen = new Vue({
         },
         onSwitchLoggingOn() {
             this.logging_on = !this.logging_on;
+            this.consent_log_switch_clicked= true;
         },
 		onClickRenewConsent() {
 			this.is_consent_renewed = true;
@@ -1437,6 +1402,10 @@ var gen = new Vue({
                 that.is_logo_removed = false;
                 if ( that.data_reqs_switch_clicked == true ) {
                     that.data_reqs_switch_clicked = false;
+                    location.reload();
+                }
+                if ( that.consent_log_switch_clicked == true ) {
+                    that.consent_log_switch_clicked = false;
                     location.reload();
                 }
                 if(that.reload_onSelect_law==true){
@@ -2357,12 +2326,47 @@ var gen = new Vue({
                 }
             );
         },
+        OnEnableGeotargeting() {
+			this.enable_geotargeting = !this.enable_geotargeting;
+		  },
+		  onSubmitIntegrations() {
+              let that = this;
+              if( this.maxmind_license_key === '' && this.enable_geotargeting ) {
+                  this.alert_message = 'Please enter a valid license key';
+                  j("#wpl-cookie-consent-integrations-alert").css('background-color', '#e55353' );
+                  j("#wpl-cookie-consent-integrations-alert").fadeIn(400);
+                  j("#wpl-cookie-consent-integrations-alert").fadeOut(2500);
+                  return;
+                }
+                var spinner = j('.wpl_integrations_spinner');
+                spinner.show();
+                spinner.css( { visibility: 'visible' } );
+                j('#wpl-cookie-consent-overlay').css('display', 'block');
+                var dataV = j("#wpl-cookie-consent-integrations-form").serialize();
+                jQuery.ajax({
+                    type: 'POST',
+                    url: settings_obj.ajaxurl,
+                    data: dataV + '&action=wpl_cookie_consent_integrations_settings',
+                }).done(function (data) {
+                if( data.success ) {
+                    that.alert_message = that.enable_geotargeting ? 'Maxmind Integrated' : 'Settings Saved';
+                    j("#wpl-cookie-consent-integrations-alert").css('background-color', '#72b85c' );
+                    j("#wpl-cookie-consent-integrations-alert").fadeIn(400);
+                    j("#wpl-cookie-consent-integrations-alert").fadeOut(2500);
+                } else {
+                    that.alert_message = 'Please enter a valid license key';
+                    j("#wpl-cookie-consent-integrations-alert").css('background-color', '#e55353' );
+                    j("#wpl-cookie-consent-integrations-alert").fadeIn(400);
+                    j("#wpl-cookie-consent-integrations-alert").fadeOut(2500);
+                }
+                j('#wpl-cookie-consent-overlay').css('display', 'none');
+                spinner.css( { visibility: 'hidden' } );
+                spinner.hide();
+                location.reload();   
+                });
+		  },
     },
     mounted() {
-		j('#wpl-cookie-consent-integrations-loader').css('display','none');
-		var spinner = j('.wpl_integrations_spinner');
-		spinner.css( { visibility: 'hidden' } );
-			  spinner.hide();
         j('#gdpr-before-mount').css('display','none');
         this.setValues();
         this.setPostListValues();
@@ -2489,6 +2493,10 @@ var gen = new Vue({
 						//
 				});
 			}
+        j('#wpl-cookie-consent-integrations-loader').css('display','none');
+		var spinner = j('.wpl_integrations_spinner');
+		spinner.css( { visibility: 'hidden' } );
+		spinner.hide();
     },
     icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep }
 })
@@ -2755,6 +2763,8 @@ var gen = new Vue({
 			do_not_track_on: ( 'true' == settings_obj.the_options['do_not_track_on'] || 1 === settings_obj.the_options['do_not_track_on'] ) ? true : false,
             //import file selected
             selectedFile: '',
+            //Consent Log
+            consent_log_switch_clicked: false,
 			// Data Request
 			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
@@ -3071,6 +3081,8 @@ var gen = new Vue({
         },
         onSwitchLoggingOn() {
             this.logging_on = !this.logging_on;
+            this.consent_log_switch_clicked = true;
+
         },
 		onClickAddMedia() {
 			// Get the button element
@@ -3792,6 +3804,10 @@ var gen = new Vue({
                 that.is_logo_removed = false;
                 if ( that.data_reqs_switch_clicked == true ) {
                     that.data_reqs_switch_clicked = false;
+                    location.reload();
+                }
+                if ( that.consent_log_switch_clicked == true ) {
+                    that.consent_log_switch_clicked = false;
                     location.reload();
                 }
                 if(that.reload_onSelect_law==true){

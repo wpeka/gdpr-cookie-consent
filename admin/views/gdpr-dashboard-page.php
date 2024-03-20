@@ -137,7 +137,7 @@ if ( is_wp_error( $response ) ) {
 }
 // Retrieve the response status code.
 $response_status = wp_remote_retrieve_response_code( $response );
-
+error_log($response_status);
 // Check if the response status is 200 (success).
 if ( 200 === $response_status ) {
 	// Decode the JSON response body and assign it to $api_gdpr_dashboard.

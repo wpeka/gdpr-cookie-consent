@@ -39,7 +39,6 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 			add_action('gdpr_setting_integration_tab',array( $this, 'wp_settings_integration_tab' ) );
 		}
 	}
-	
 	/**
 	 * Maxming geo integration settings form.
 	 *
@@ -57,7 +56,6 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 
 				// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
 				$this->settings = new GDPR_Cookie_Consent_Settings();
-
 				// Call the is_connected() method from the instantiated object to check if the user is connected.
 				$is_user_connected = $this->settings->is_connected();
 
@@ -98,7 +96,6 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 						),
 					)
 				);
-
 				if ( is_wp_error( $response_maxmind ) ) {
 					$maxmind_text = '';
 				}
