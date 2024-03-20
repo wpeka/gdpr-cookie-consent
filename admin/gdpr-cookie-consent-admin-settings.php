@@ -249,7 +249,9 @@ $api_user_plan = $this->settings->get_plan();
 							</div>
 						</div>
 						<c-card class="compliances_card">
-							<c-card-header><?php esc_html_e( 'Cookie Notice', 'gdpr-cookie-consent' ); ?></c-card-header>
+							<c-card-header class="compliances-save-btn"><?php esc_html_e( 'Cookie Notice', 'gdpr-cookie-consent' ); ?>
+							<c-button color="info" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
+							</c-card-header>
 							<c-card-body>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Cookie Notice', 'gdpr-cookie-consent' ); ?></label></c-col>
@@ -934,7 +936,9 @@ $api_user_plan = $this->settings->get_plan();
 							</div>
 						</div>
 						<c-card class="configuration_card">
-							<c-card-header><?php esc_html_e( 'Configure Cookie Bar', 'gdpr-cookie-consent' ); ?></c-card-header>
+							<c-card-header class="configuration-save-btn"><?php esc_html_e( 'Configure Cookie Bar', 'gdpr-cookie-consent' ); ?>
+							<c-button color="info" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
+							</c-card-header>
 							<c-card-body>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show Cookie Notice as', 'gdpr-cookie-consent' ); ?></label></c-col>
@@ -1087,7 +1091,9 @@ $api_user_plan = $this->settings->get_plan();
 							</div>
 						</div>
 						<c-card class="desgin_card">
-							<c-card-header><?php esc_html_e( 'Cookie Bar Body Design', 'gdpr-cookie-consent' ); ?></c-card-header>
+							<c-card-header class="design-save-btn"><?php esc_html_e( 'Cookie Bar Body Design', 'gdpr-cookie-consent' ); ?>
+							<c-button color="info" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
+							</c-card-header>
 							<c-card-body>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></c-col>
@@ -2151,7 +2157,9 @@ $api_user_plan = $this->settings->get_plan();
 					</c-tab>
 					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list">
 						<c-card>
-							<c-card-header><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?></c-card-header>
+							<c-card-header class="CookieList-save-btn"><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?>
+							<c-button color="info" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
+							</c-card-header>
 							<c-card-body>
 								<div v-show="show_add_custom_button" class="gdpr_cookie_custom_postbar" style="display:none;margin-bottom: 10px;">
 									<a class="gdpr-custom-cookie-link" @click="showCustomCookieAddForm"><?php esc_attr_e( 'Add New Cookie', 'gdpr-cookie-consent' ); ?></a>
@@ -2198,7 +2206,9 @@ $api_user_plan = $this->settings->get_plan();
 
 					<c-card>
 
-							<c-card-header><?php esc_html_e( 'Languages', 'gdpr-cookie-consent' ); ?>
+							<c-card-header class="language-save-btn">
+								<?php esc_html_e( 'Languages', 'gdpr-cookie-consent' ); ?>
+								<c-button color="info" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
 							</c-card-header>
 							<c-card-body>
 								<c-row>
@@ -2242,12 +2252,7 @@ $api_user_plan = $this->settings->get_plan();
 					<?php endif; ?>
 				</c-tabs>
 				</c-tabs>
-
-
-
 			</div>
-
-
 			<div class="gdpr-cookie-consent-settings-bottom">
 				<div class="gdpr-cookie-consent-save-button">
 					<c-button color="info" @click="saveCookieSettings"><span>Save Changes</span></c-button>

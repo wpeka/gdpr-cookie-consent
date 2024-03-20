@@ -928,21 +928,21 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     font-weight: 600;
 }
 
-#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-bottom,
+/* #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-bottom,
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-top {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 32px;
-}
-#gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-bottom .gdpr-cookie-consent-save-button,
+} */
+/* #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-bottom .gdpr-cookie-consent-save-button,
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-top .gdpr-cookie-consent-save-button {
     width: 750px;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-bottom .gdpr-cookie-consent-save-button button,
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-top .gdpr-cookie-consent-save-button button {
     float: right;
-}
+} */
 
 /* form elements css */
 #gdpr-cookie-consent-settings-app .form-control {
@@ -1370,10 +1370,12 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 /* Button for on/off Banner Preview */
 .banner-preview-container {
 	display: flex;
-	margin-left: 40.9em;
+	/* margin-left: 40.9em; */
 	position: relative;
 	top: 10px;
 	z-index: 1;
+	top: 21px;
+    left: 549px;
 }
 .banner-preview-label {
 	margin-right: 15px;
@@ -3720,4 +3722,9 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 #gdpr-disconnect-wpcc-notice .api-connect-to-account-btn{
 	color: blue;
 	cursor: pointer;
+}
+.language-save-btn ,.CookieList-save-btn,.design-save-btn,.compliances-save-btn,.configuration-save-btn,.scriptblocker-save-btn{
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
