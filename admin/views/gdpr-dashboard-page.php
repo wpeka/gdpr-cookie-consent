@@ -126,6 +126,7 @@ $response = wp_remote_post(
 			'wpl_cl_accept'								=> get_option( 'wpl_cl_accept' ),
 			'wpl_cl_partially_accept'					=> get_option( 'wpl_cl_partially_accept' ),
 			'consent_log_table'							=> $consent_log_table,
+			'admin_url'									=> admin_url(),
 		),
 	)
 );
