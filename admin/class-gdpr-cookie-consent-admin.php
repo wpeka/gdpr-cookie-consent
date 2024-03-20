@@ -163,7 +163,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @param String $maxmind_integrated Filter variable.
 	 *
-	 * @since 3.0.0
+	 * @since 3.0.2
 	 */
 	public function wpl_get_maxmind_integrated( $maxmind_integrated ) {
 		return get_option( 'wpl_pro_maxmind_integrated' );
@@ -174,7 +174,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function wpl_cookie_consent_integrations_settings() {
 		if ( isset( $_POST['_wpnonce'] ) ) {
-			check_admin_referer( 'wpl-update-maxmind-license' );
 			$geoip       = new Gdpr_Cookie_Consent_Geo_Ip();
 			$license_key = isset( $_POST['wpl-maxmind-license-key'] ) ? sanitize_text_field( wp_unslash( $_POST['wpl-maxmind-license-key'] ) ) : '';
 			$license_key = is_null( $license_key ) ? '' : $license_key;
@@ -251,7 +250,7 @@ class Gdpr_Cookie_Consent_Admin {
 							sprintf(
 								/* translators: %1%s: integration page */
 								__( 'You must enable geotargeting and enter a valid license key on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-integrations' )
+								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
 							)
 						);
 						?>
@@ -270,7 +269,7 @@ class Gdpr_Cookie_Consent_Admin {
 							sprintf(
 								/* translators: %1%s: integration page */
 								__( 'You must enter a valid license key on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-integrations' )
+								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
 							)
 						);
 						?>
@@ -289,7 +288,7 @@ class Gdpr_Cookie_Consent_Admin {
 							sprintf(
 								/* translators: %1%s: integration page */
 								__( 'You must enable geotargeting on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-integrations' )
+								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
 							)
 						);
 						?>
@@ -3595,6 +3594,23 @@ class Gdpr_Cookie_Consent_Admin {
 		$script_blocker_settings             = apply_filters( 'gdpr_settings_script_blocker_values', '' );
 		$cookie_list_settings                = apply_filters( 'gdpr_settings_cookie_list_values', '' );
 		$cookie_scan_settings                = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
+		$geo_options                         = get_option( 'wpl_geo_options' );
+		if ( ! is_array( $geo_options ) ) {
+			$geo_options = array();
+		}
+		if ( ! isset( $geo_options['database_prefix'] ) ) {
+			$geo_options['maxmind_license_key'] = '';
+			$geo_options['database_prefix']     = wp_generate_password( 32, false, false );
+			update_option( 'wpl_geo_options', $geo_options );
+		}
+		if ( ! isset( $geo_options['enable_geotargeting'] ) ) {
+			$geo_options['enable_geotargeting'] = false;
+			update_option( 'wpl_geo_options', $geo_options );
+		}
+		$uploads_dir                       = wp_upload_dir();
+		$geo_options['database_file_path'] = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/' . $geo_options['database_prefix'] . '-GeoLite2-City.mmdb';
+		update_option( 'wpl_geo_options', $geo_options );
+		wp_enqueue_style( 'gdpr-cookie-consent-integrations' );
 		wp_localize_script(
 			$this->plugin_name . '-main',
 			'settings_obj',
@@ -3638,6 +3654,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'list_of_pages'                    => $list_of_pages,
 				// for sites.
 				'list_of_sites'                    => is_multisite() ? $list_of_sites : null,
+				'geo_options'                      => $geo_options,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
@@ -5967,10 +5984,10 @@ class Gdpr_Cookie_Consent_Admin {
 		$admin_url_length    = strlen( $admin_url );
 		$show_cookie_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#compliances';
 		$language_url        = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#language';
-		$maxmind_url         = $admin_url . 'admin.php?page=gdpr-cookie-consent#integrations';
+		$maxmind_url         = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations';
 		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list';
 		$plugin_page_url     = $admin_url . 'plugins.php';
-		$key_activate_url    = $admin_url . 'admin.php?page=wc_am_client_wpl_cookie_consent_dashboard';
+		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
 		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
 		$cookie_design_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
 		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#configuration';
