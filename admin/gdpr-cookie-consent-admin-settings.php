@@ -239,7 +239,7 @@ $api_user_plan     = $this->settings->get_plan();
 				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 
-					<c-tab classs="parent-card"title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#compliances">
+					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#compliances">
 						<!-- Complianz Banner preview  -->
 						<c-card class="compliances_card">
 							<c-card-header class="compliances-save-btn"><?php esc_html_e( 'Cookie Notice', 'gdpr-cookie-consent' ); ?>
