@@ -1352,13 +1352,9 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 /* Button for on/off Banner Preview */
 .banner-preview-container {
 	display: flex;
-	/* margin-left: 40.9em; */
 	position: relative;
 	top: 10px;
 	z-index: 1;
-	top: 21px;
-	width:188px;
-	left:77%;
 }
 
 .banner-preview-label {
