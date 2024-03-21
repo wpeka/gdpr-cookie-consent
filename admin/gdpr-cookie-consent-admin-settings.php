@@ -242,14 +242,14 @@ $api_user_plan     = $this->settings->get_plan();
 					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#compliances">
 						<!-- Complianz Banner preview  -->
 						<c-card class="compliances_card">
-							<c-card-header class="compliances-save-btn"><?php esc_html_e( 'Cookie Notice', 'gdpr-cookie-consent' ); ?>
-							<div class="preview-publish-btn">
-								<div class="preview-toggle-btn">
-									<label class="btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
-										<c-switch class="btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
+							<c-card-header class="gdpr-compliances-save-btn"><?php esc_html_e( 'Cookie Notice', 'gdpr-cookie-consent' ); ?>
+							<div class="gdpr-preview-publish-btn">
+								<div class="gdpr-preview-toggle-btn">
+									<label class="gdpr-btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
+										<c-switch class="gdpr-btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 										<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 								</div>
-								<c-button class="publish-btn"@click="saveCookieSettings"><span>Publish Changes</span></c-button>
+								<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><span>Publish Changes</span></c-button>
 							</div>
 							</c-card-header>
 							<c-card-body>
@@ -929,14 +929,14 @@ $api_user_plan     = $this->settings->get_plan();
 
 						<!-- Configure Banner preview  -->
 						<c-card class="configuration_card">
-							<c-card-header class="configuration-save-btn"><?php esc_html_e( 'Configure Cookie Bar', 'gdpr-cookie-consent' ); ?>
-							<div class="preview-publish-btn">
-								<div class="preview-toggle-btn">
-									<label class="btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
-										<c-switch class="btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
+							<c-card-header class="gdpr-configuration-save-btn"><?php esc_html_e( 'Configure Cookie Bar', 'gdpr-cookie-consent' ); ?>
+							<div class="gdpr-preview-publish-btn">
+								<div class="gdpr-preview-toggle-btn">
+									<label class="gdpr-btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
+										<c-switch class="gdpr-btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 										<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 								</div>
-								<c-button class="publish-btn"@click="saveCookieSettings"><span>Publish Changes</span></c-button>
+								<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><span>Publish Changes</span></c-button>
 							</div>
 							</c-card-header>
 							<c-card-body>
@@ -1084,14 +1084,14 @@ $api_user_plan     = $this->settings->get_plan();
 					<c-tab title="<?php esc_attr_e( 'Design', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#gdpr_design">
 						<!-- Desgin Banner preview  -->
 						<c-card class="desgin_card">
-							<c-card-header class="design-save-btn"><?php esc_html_e( 'Cookie Bar Body Design', 'gdpr-cookie-consent' ); ?>
-							<div class="preview-publish-btn">
-								<div class="preview-toggle-btn">
-									<label class="btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
-										<c-switch class="btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
+							<c-card-header class="gdpr-design-save-btn"><?php esc_html_e( 'Cookie Bar Body Design', 'gdpr-cookie-consent' ); ?>
+							<div class="gdpr-preview-publish-btn">
+								<div class="gdpr-preview-toggle-btn">
+									<label class="gdpr-btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
+										<c-switch class="gdpr-btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 										<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 								</div>
-								<c-button class="publish-btn"@click="saveCookieSettings"><span>Publish Changes</span></c-button>
+								<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><span>Publish Changes</span></c-button>
 							</div>
 							</c-card-header>
 							<c-card-body>
@@ -2157,8 +2157,8 @@ $api_user_plan     = $this->settings->get_plan();
 					</c-tab>
 					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list">
 						<c-card>
-							<c-card-header class="cookieList-save-btn"><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?>
-							<c-button class="publish-btn" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
+							<c-card-header class="gdpr-cookieList-save-btn"><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?>
+							<c-button class="gdpr-publish-btn" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
 							</c-card-header>
 							<c-card-body>
 								<div v-show="show_add_custom_button" class="gdpr_cookie_custom_postbar" style="display:none;margin-bottom: 10px;">
@@ -2206,9 +2206,9 @@ $api_user_plan     = $this->settings->get_plan();
 
 					<c-card>
 
-							<c-card-header class="language-save-btn">
+							<c-card-header class="gdpr-language-save-btn">
 								<?php esc_html_e( 'Languages', 'gdpr-cookie-consent' ); ?>
-								<c-button class="publish-btn" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
+								<c-button class="gdpr-publish-btn" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
 							</c-card-header>
 							<c-card-body>
 								<c-row>
