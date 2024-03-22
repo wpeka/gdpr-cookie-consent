@@ -52,7 +52,9 @@ if ( ! defined( 'GDPR_CC_SUFFIX' ) ) {
 if ( ! defined( 'GDPR_APP_URL' ) ) {
 	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com' );
 }
-
+if ( ! defined( 'GDPR_API_URL' ) ) {
+	define( 'GDPR_API_URL', 'https://d8c7243ac1.nxcli.io/wp-json/gdpr/v2/' );
+}
 
 /**
  * Clean variables using sanitize_text_field. Arrays are cleaned recursively.
