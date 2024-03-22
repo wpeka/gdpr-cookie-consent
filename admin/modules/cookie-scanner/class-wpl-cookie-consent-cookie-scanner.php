@@ -774,7 +774,24 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			$domain      = $cookie_data->domain;
 			$category    = isset( $cookie_data->category ) ? $cookie_data->category : 'Unclassified';
 			$description = addslashes( $cookie_data->description );
-			$category_id = $wpdb->get_var( "SELECT `id_gdpr_cookie_category` FROM `$cat_table` WHERE `gdpr_cookie_category_name` = '$category'" );
+			$category_id = -1;
+					switch ( $category ) {
+						case 'Analytics':
+							$category_id = 1;
+							break;
+						case 'Marketing':
+							$category_id = 2;
+							break;
+						case 'Necessary':
+							$category_id = 3;
+							break;
+						case 'Preferences':
+							$category_id = 4;
+							break;
+						case 'Unclassified':
+							$category_id = 5;
+							break;
+					}
 			$out[]       = '&nbsp;&nbsp;&nbsp;' . $name;
 			$sql_arr[]   = "('$scan_id','$url_id','$name','$duration','$domain','$type','$category','$category_id','$description')";
 			$sql         = $sql . implode( ',', $sql_arr );
