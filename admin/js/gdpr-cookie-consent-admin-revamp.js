@@ -73,6 +73,17 @@ jQuery(document).ready(function () {
 
 	});
 
+	//cookie notice configure link redirection
+
+	jQuery('.gdpr_notice_configure_link').on('click', function(e) {
+
+		var linkUrl = jQuery('.gdpr_notice_configure_link a').attr('href');
+
+		window.location.assign(linkUrl);
+		location.reload();
+
+	});
+
 	// for free links
 	jQuery('.gdpr-quick-link-item.settings_free').on('click', function(e) {
 
@@ -123,7 +134,7 @@ jQuery(document).ready(function () {
 	jQuery('.gdpr-dashboard-activation-tab ').on('click', function(e) {
 
 		var linkUrl = jQuery('.gdpr-dashboard-activation-tab a').attr('href');
-		
+
 		window.location.assign(linkUrl);
 		location.reload();
 	});
