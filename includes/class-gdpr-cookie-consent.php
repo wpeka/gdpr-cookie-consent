@@ -140,10 +140,9 @@ class Gdpr_Cookie_Consent {
 			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
 
 			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
-
-			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
 		}
 
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
 		/**
 		 * The class responsible for defining App Authentication functionality
 		 * of the plugin.
@@ -227,6 +226,8 @@ class Gdpr_Cookie_Consent {
 
 			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview' );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete' );
+			$this->loader->add_filter( 'gdpr_get_maxmind_integrated', $plugin_admin, 'wpl_get_maxmind_integrated' );
+			$this->loader->add_action( 'wp_ajax_wpl_cookie_consent_integrations_settings', $plugin_admin, 'wpl_cookie_consent_integrations_settings' );
 			$wpl_pro_active = get_option( 'wpl_pro_active' );
 			if ( ! $wpl_pro_active ) {
 				$this->loader->add_filter( 'gdpr_get_templates', $plugin_admin, 'get_templates', 10, 1 );
@@ -238,8 +239,6 @@ class Gdpr_Cookie_Consent {
 				// create table in db.
 				$this->loader->add_action( 'activated_plugin', $plugin_admin, 'update_db_check' );
 				$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'update_db_check' );
-				$this->loader->add_filter( 'gdpr_get_maxmind_integrated', $plugin_admin, 'wpl_get_maxmind_integrated' );
-				$this->loader->add_action( 'wp_ajax_wpl_cookie_consent_integrations_settings', $plugin_admin, 'wpl_cookie_consent_integrations_settings' );
 				$this->loader->add_action( 'admin_notices', $plugin_admin, 'wpl_admin_notices' );
 				//action to add admin notice for api connections
 				$this->loader->add_action( 'admin_notices', $plugin_admin, 'gdpr_admin_notices' );
