@@ -77,19 +77,13 @@ class GDPR_Cookie_Consent_Api extends WP_REST_Controller {
 	public function create_items_permissions_check( $request ) {
 
 		$permission_check = false;
-		// Check if Authorization header exists.
-		$authorization = $request->get_header( 'Authorization' );
-		if ( ! $authorization ) {
-			return new WP_Error( 'rest_forbidden', esc_html__( 'Invalid Authorization.', 'gdpr-cookie-consent' ), array( 'status' => 401 ) );
-		}
-
-		$token            = str_replace( 'Bearer ', '', $authorization );
+		$token            = $request->get_param( 'token' );
 		$request_platform = $request->get_param( 'platform' );
 
 		if ( isset( $token ) && 'wordpress' === $request_platform ) {
 			return true;
 		} else {
-			return new WP_Error( 'rest_forbidden', esc_html__( 'Invalid Authorization.', 'gdpr-cookie-consent' ), array( 'status' => 401 ) );
+			return new WP_Error( 'rest_forbidden', esc_html__( 'Invalid Authorization.', 'gdpr-cookie-consent' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return $permission_check;
