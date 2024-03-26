@@ -136,19 +136,6 @@ $is_user_connected = $this->settings->is_connected();
 								<?php
 									}
 						}
-
-				?>
-				<?php
-				if ( !$pro_is_activated )  ?>
-	
-				<!-- integration tab  -->
-						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-integrations-data-tab" data-tab="integrations">
-							<p class="gdpr-cookie-consent-admin-tab-name">Integrations</p>
-						</div>
-				
-				<?php
-
-
 			if ( $is_data_req_on && !$pro_is_activated ) {
 
 								?>
@@ -224,10 +211,6 @@ $is_user_connected = $this->settings->is_connected();
 				<div class="gdpr-cookie-consent-admin-policy-data-content gdpr-cookie-consent-admin-tab-content" id="policy_data">
 					<?php do_action( 'add_policy_data_content' ); ?>
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-policy-data-tab-template.php'; ?>
-				</div>
-				<!-- integration data content  -->
-				<div class="gdpr-cookie-consent-admin-integration-data-content gdpr-cookie-consent-admin-tab-content" id="integrations">
-					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-integration-tab-template.php'; ?>
 				</div>
 				<!-- consent log data content  -->
 				<div class="gdpr-cookie-consent-admin-consent-logs-data-content gdpr-cookie-consent-admin-tab-content" id="consent_logs">

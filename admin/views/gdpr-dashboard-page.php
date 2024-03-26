@@ -126,6 +126,7 @@ $response = wp_remote_post(
 			'wpl_cl_accept'								=> get_option( 'wpl_cl_accept' ),
 			'wpl_cl_partially_accept'					=> get_option( 'wpl_cl_partially_accept' ),
 			'consent_log_table'							=> $consent_log_table,
+			'admin_url'									=> admin_url(),
 		),
 	)
 );
@@ -197,7 +198,7 @@ if ( 200 === $response_status ) {
 							</span>
 						</c-row>
 						<c-row :class="['gdpr-progress-list-item', (pro_installed && pro_activated && api_key_activated && cookie_scanned)||(!pro_installed && is_user_connected && cookie_scanned) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
-							<span v-show="api_key_activated && cookie_scanned">
+							<span class="gdpr_scan_again_link" v-show="api_key_activated && cookie_scanned">
 								<?php esc_html_e( 'Cookies were last scanned on ', 'gdpr-cookie-consent' ); ?>
 								{{last_scanned + '.'}}
 								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e( 'Scan again.', 'gdpr-cookie-consent' ); ?></a>
@@ -235,7 +236,7 @@ if ( 200 === $response_status ) {
 							<span v-show="showing_cookie_notice">
 								<?php esc_html_e( 'Showing Cookie Notice on Website.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<span v-show="!showing_cookie_notice">
+							<span class="gdpr_notice_configure_link" v-show="!showing_cookie_notice">
 								<?php esc_html_e( 'Cookie Notice disabled.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="show_cookie_url"><?php esc_html_e( 'Click here to configure.', 'gdpr-cookie-consent' ); ?></a>
 							</span>

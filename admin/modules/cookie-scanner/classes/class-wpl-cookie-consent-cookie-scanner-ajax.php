@@ -36,7 +36,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			'message'  => __( 'Unable to handle your request.', 'gdpr-cookie-consent' ),
 		);
 		check_ajax_referer( 'wpl_cookie_scanner', 'security' );
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_options' )){
 			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
 		if ( isset( $_POST['wpl_scanner_action'] ) ) {
@@ -79,7 +79,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		$data_arr   = array(
 			'current_action' => 'get_post_scan_cookies',
 		);
-
 		$data = $wpdb->get_results( $wpdb->prepare( 'SELECT id_wpl_cookie_scan_url,url FROM ' . $wpdb->prefix . 'wpl_cookie_scan_url WHERE id_wpl_cookie_scan=%d ORDER BY id_wpl_cookie_scan_url ASC LIMIT %d,%d', array( $scan_id, $offset, $mxdata ) ), ARRAY_A ); // db call ok; no-cache ok.
 		if ( ! empty( $data ) ) {
 			$data_for_api = array(); // data for API request.
@@ -336,11 +335,10 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			$data_arr['status'] = 1; // status uncompleted.
 		}
 		$this->update_scan_entry( $data_arr, $scan_id );
-		$out = $this->scan_urls( $scan_id, $offset, $mxdata, $out, $hash );
-
+		$out = $this->scan_urls( $scan_id, $offset, $mxdata, $out, $hash );    
 		// just give list of cookies.
 		$cookies_list         = $this->get_scan_cookies( $scan_id, 0, 1 );
-		$out['total_cookies'] = $cookies_list['total'];
+		$out['total_cookies'] = $cookies_list['total'];	
 		return $out;
 	}
 
@@ -378,22 +376,22 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		unset( $post_types['attachment'] );
 		$the_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$restrict_posts = $the_options['restrict_posts'];
+			
 
-		if (empty($restrict_posts)) {
+		if (empty($restrict_posts) || implode( ',', $restrict_posts ) == "") {
 			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish'";
 		} else {
 			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish' AND ID NOT IN (" . implode(',', $restrict_posts) . ')';
 		}
 
 		if ( 0 === $total ) {
-			// Taking total.
-			if ( empty( $restrict_posts ) ) {
-				$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' LIMIT $offset, $mxdata) AS T";
-			} else {
-				// Check if $restrict_posts is not empty before constructing the IN clause
 				$restrict_posts_in_clause = implode( ',', $restrict_posts );
+				if(empty($restrict_posts_in_clause)){
+					$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' LIMIT $offset, $mxdata) AS T";
+				}else{
 				$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' AND ID NOT IN ($restrict_posts_in_clause) LIMIT $offset, $mxdata) AS T";
-			}
+	
+		}
 			$total_rows   = $wpdb->get_row( $sql1, ARRAY_A );
 			$total        = $total_rows ? $total_rows['ttnum'] + 1 : 1; // always add 1 because home url is there.
 			$out['total'] = $total;
@@ -495,7 +493,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 				$url_id_arr[]             = $v['id_wpl_cookie_scan_url'];
 			}
 			$api_data_chunks = array_chunk( $data_for_api, $this->scan_page_maxdata ); // !important do not give value more than 5
-
 			// Cookie serve API.
 			include plugin_dir_path( __FILE__ ) . 'class-wpl-cookie-consent-cookie-serve-api.php';
 			$cookie_serve_api = new Gdpr_Cookie_Consent_Cookie_Serve_Api();
