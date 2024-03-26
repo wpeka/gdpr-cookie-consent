@@ -46,7 +46,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	 */
 	public function wp_settings_integration_tab(){ ?>
 		<c-tab title="<?php esc_attr_e( 'Integration', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#integration">
-			<?Php 
+			<?Php
 				$pro_is_activated  = get_option( 'wpl_pro_active', false );
 				$installed_plugins = get_plugins();
 				$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
@@ -83,7 +83,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 					GDPR_API_URL . 'get_maxmind_data',
 					array(
 						'body' => array(
-							'the_options'                      => $the_options,
+							'the_options_enable_safe'          => $the_options['enable_safe'],
 							'pro_installed'                    => $pro_installed,
 							'is_user_connected'                => $is_user_connected,
 							'class_for_blur_content'           => $class_for_blur_content,

@@ -114,7 +114,7 @@ $response = wp_remote_post(
 	array(
 		'body' => array(
 			'cookie_scan_settings'       				=> $cookie_scan_settings,
-			'the_options'    	 						=> $the_options,
+			'schedule_scan_when'    	 				=> $the_options['schedule_scan_when'],
 			'pro_installed' 			 				=> $pro_installed,
 			'is_user_connected'         				=> $is_user_connected,
 			'class_for_blur_content'    				=> $class_for_blur_content ,
