@@ -95,7 +95,7 @@
 
 .wpl-cookie-consent-register-area {
 	background-color: #c3e2f8;
-	padding: 0.8rem;
+	padding: 9px;
 	width: 100%;
 	font-size: 0.75rem;
 	border-radius: 0.2rem;
@@ -169,7 +169,4 @@
     padding: 15px;
     margin: 20px;
     box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
-}
-#Geotargeting{
-	left:-107px;
 }
