@@ -204,6 +204,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Feature: Added translation support for Hungarian language.
 * Fix: Minor bugs fixed within plugin.
 
+= 3.0.2 =
+* Feature: Added translation support for Hungarian language.
+* Fix: Minor bugs fixed within plugin.
+
 = 3.0.1 =
 * Fix: Minor bugs fixed within plugin.
 
@@ -504,6 +508,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+= 3.0.2 =
+* Feature: Added translation support for Hungarian language.
+* Fix: Minor bugs fixed within plugin.
+
 = 3.0.2 =
 * Feature: Added translation support for Hungarian language.
 * Fix: Minor bugs fixed within plugin.

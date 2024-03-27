@@ -240,10 +240,9 @@ class Gdpr_Cookie_Consent {
 				$this->loader->add_action( 'activated_plugin', $plugin_admin, 'update_db_check' );
 				$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'update_db_check' );
 				$this->loader->add_action( 'admin_notices', $plugin_admin, 'wpl_admin_notices' );
-				//action to add admin notice for api connections
+				// action to add admin notice for api connections
 				$this->loader->add_action( 'admin_notices', $plugin_admin, 'gdpr_admin_notices' );
 			}
-
 		}
 	}
 

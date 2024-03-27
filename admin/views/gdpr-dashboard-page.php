@@ -100,7 +100,7 @@ if ( $table_exists ) {
 ob_start(); // Start output buffering
 
 // Trigger the gdpr_consent_log_table_dashboard action
-do_action('gdpr_consent_log_table_dashboard');
+do_action( 'gdpr_consent_log_table_dashboard' );
 
 // Get the buffered content and clean the buffer
 $consent_log_table = ob_get_clean();
@@ -113,20 +113,20 @@ $response = wp_remote_post(
 	GDPR_API_URL . 'get_dashboard_data',
 	array(
 		'body' => array(
-			'cookie_scan_settings'       				=> $cookie_scan_settings,
-			'schedule_scan_when'    	 				=> $the_options['schedule_scan_when'],
-			'pro_installed' 			 				=> $pro_installed,
-			'is_user_connected'         				=> $is_user_connected,
-			'class_for_blur_content'    				=> $class_for_blur_content ,
-			'class_for_card_body_blur_content'          => $class_for_card_body_blur_content ,
-			'total_no_of_found_cookies'         		=> $total_no_of_found_cookies ,
-			'total_scanned_pages'         				=> $total_scanned_pages ,
-			'number_of_categories'         			    => $number_of_categories ,
-			'wpl_cl_decline'							=> get_option( 'wpl_cl_decline' ),
-			'wpl_cl_accept'								=> get_option( 'wpl_cl_accept' ),
-			'wpl_cl_partially_accept'					=> get_option( 'wpl_cl_partially_accept' ),
-			'consent_log_table'							=> $consent_log_table,
-			'admin_url'									=> admin_url(),
+			'cookie_scan_settings'             => $cookie_scan_settings,
+			'schedule_scan_when'               => isset( $the_options['schedule_scan_when'] ) ? $the_options['schedule_scan_when'] : null,
+			'pro_installed'                    => $pro_installed,
+			'is_user_connected'                => $is_user_connected,
+			'class_for_blur_content'           => $class_for_blur_content,
+			'class_for_card_body_blur_content' => $class_for_card_body_blur_content,
+			'total_no_of_found_cookies'        => $total_no_of_found_cookies,
+			'total_scanned_pages'              => $total_scanned_pages,
+			'number_of_categories'             => $number_of_categories,
+			'wpl_cl_decline'                   => get_option( 'wpl_cl_decline' ),
+			'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
+			'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
+			'consent_log_table'                => $consent_log_table,
+			'admin_url'                        => admin_url(),
 		),
 	)
 );
