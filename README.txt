@@ -200,6 +200,9 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+= 3.0.2 =
+* Feature: Added translation support for Hungarian language.
+* Fix: Minor bugs fixed within plugin.
 
 = 3.0.2 =
 * Feature: Added translation support for Hungarian language.
@@ -505,6 +508,9 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+= 3.0.2 =
+* Feature: Added translation support for Hungarian language.
+* Fix: Minor bugs fixed within plugin.
 
 = 3.0.2 =
 * Feature: Added translation support for Hungarian language.
