@@ -92,7 +92,7 @@ font-size: 16px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
-padding: 0px 15px;
+padding: 0px 20px;
 border-color: #39F;
 }
 #wpl-dnsmpd-filter-datarequest .data-req-export-button{
@@ -103,7 +103,7 @@ color: #FFF;
 font-size: 16px;
 font-style: normal;
 font-weight: 400;
-line-height: normal;
+line-height: unset;
 padding: 7px 20px;
 }
 .wpl_resolved_select_filter{

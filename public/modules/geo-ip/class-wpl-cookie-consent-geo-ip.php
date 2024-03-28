@@ -36,9 +36,80 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_action( 'gdpr_module_settings_cookie_usage_for', array( $this, 'wplgip_cookie_usage_for_general' ), 5 );
 			// add_action( 'admin_menu', array( $this, 'wplgip_admin_menu' ), 15 );
+			add_action('gdpr_setting_integration_tab',array( $this, 'wp_settings_integration_tab' ) );
 		}
 	}
+	/**
+	 * Maxming geo integration settings form.
+	 *
+	 * @since 3.0.2
+	 */
+	public function wp_settings_integration_tab(){ ?>
+		<c-tab title="<?php esc_attr_e( 'Integration', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#integration">
+			<?Php
+				$pro_is_activated  = get_option( 'wpl_pro_active', false );
+				$installed_plugins = get_plugins();
+				$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 
+				// Require the class file for gdpr cookie consent api framework settings.
+				require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+				// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+				$this->settings = new GDPR_Cookie_Consent_Settings();
+				// Call the is_connected() method from the instantiated object to check if the user is connected.
+				$is_user_connected = $this->settings->is_connected();
+
+				$class_for_blur_content = $is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes.
+
+				$class_for_card_body_blur_content = $is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes.
+
+				$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+				$geo_options = get_option( 'wpl_geo_options' );
+
+
+				$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+				$geo_options = get_option( 'wpl_geo_options' );
+
+				$enable_value = $the_options['enable_safe'] === 'true' ? 'overlay-integration-style' : '';
+				if ( ! $geo_options['enable_geotargeting'] ) {
+					$geo_options['enable_geotargeting'] = 'false';
+				}
+				$enable        = $geo_options['enable_geotargeting'];
+				$enable_value1 = $geo_options['enable_geotargeting'] === 'false' ? 'overlay-integration-style__disable' : '';
+				if ( ! defined( 'ABSPATH' ) ) {
+					exit;
+				}
+				$response_maxmind = wp_remote_post(
+					GDPR_API_URL . 'get_maxmind_data',
+					array(
+						'body' => array(
+							'the_options_enable_safe'          => $the_options['enable_safe'],
+							'pro_installed'                    => $pro_installed,
+							'is_user_connected'                => $is_user_connected,
+							'class_for_blur_content'           => $class_for_blur_content,
+							'class_for_card_body_blur_content' => $class_for_card_body_blur_content,
+							'wpl_pro_active'                   => $geo_options,
+							'enable_geotargeting'              => $geo_options['enable_geotargeting'],
+							'enable_safe'					   => $the_options['enable_safe'],
+							'enable_value2'                    => $the_options['enable_safe'] === 'true' ? 'overlay-integration-style' : '',
+							'enable_value1'                    => $geo_options['enable_geotargeting'] === 'false' ? 'overlay-integration-style__disable' : '',
+						),
+					)
+				);
+				if ( is_wp_error( $response_maxmind ) ) {
+					$maxmind_text = '';
+				}
+
+				$response_status = wp_remote_retrieve_response_code( $response_maxmind );
+
+
+				if ( 200 === $response_status ) {
+					$maxmind_text = json_decode( wp_remote_retrieve_body( $response_maxmind ) );
+				}
+				?>
+				<?php echo $maxmind_text; ?>
+		</c-tab>
+	<?}
 	/**
 	 * Add error message.
 	 *

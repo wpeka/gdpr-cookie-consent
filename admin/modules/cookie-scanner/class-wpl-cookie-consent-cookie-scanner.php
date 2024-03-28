@@ -263,115 +263,46 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 				$error_message .= ' ' . __( 'Scanning will not work on local server.', 'gdpr-cookie-consent' );
 			}
 		}
+
+
+		/**
+		 * Send a POST request to the GDPR API endpoint 'get_data'
+		*/
+
+		$response = wp_remote_post(
+			GDPR_API_URL . 'get_cookie_scan_data',
+			array(
+				'body' => array(
+					'error_message'       				=> $error_message,
+					'gdpr_plugin_url'    				=> GDPR_COOKIE_CONSENT_PLUGIN_URL,
+					'pro_installed' 			 		=> $pro_installed,
+					'is_user_connected'         		=> $this->is_user_connected,
+					'class_for_blur_content'    		=> $this->class_for_blur_content ,
+					'class_for_card_body_blur_content'  => $this->class_for_card_body_blur_content ,
+					'last_scan'         				=> $last_scan ,
+				),
+			)
+		);
+
+		// Check if there's an error with the request.
+		if ( is_wp_error( $response ) ) {
+			// Set $api_gdpr_cookie_scan to an empty string if there's an error.
+			$api_gdpr_cookie_scan = '';
+		}
+		// Retrieve the response status code.
+		$response_status = wp_remote_retrieve_response_code( $response );
+
+		// Check if the response status is 200 (success).
+		if ( 200 === $response_status ) {
+			// Decode the JSON response body and assign it to $api_gdpr_cookie_scan.
+			$api_gdpr_cookie_scan = json_decode( wp_remote_retrieve_body( $response ) );
+		}
+
 		?>
-		<!-- Scan Schedule Popup -->
-		<div id="popup-container" class="schedule-popup-container card-body" :class="{'show-schedule-popup':schedule_scan_show,'popup-overlay':schedule_scan_show }">
-			<div class="schedule-popup-content">
-				<div class="schedule-popup-header">
-					<span class="schedule-popup-header-text">Schedule Cookie Scan</span>
-					<span id="close-popup" @click="scheduleScanHide">&times;</span>
-				</div>
-				<div class="schedule-popup-body">
-					<div class="scan-frequency">
-					Scan Frequency
-					</div>
-					<div class="scan-frequency-content" :class="{'align-scantype-left':schedule_scan_as == 'never'}">
-						<!-- scan type picker  -->
-						<div class="scan-frequency-type">
-							<c-row class="table-rows">
-								<c-col class="col-sm-6 table-cols-left"><v-select class="gdpr-custom-cookie-select form-group" :reduce="label => label.code" :options="schedule_scan_options" v-model="schedule_scan_as" @input="scanTypeChange" ></v-select></c-col>
-								<input type="hidden" name="gdpr-schedule-scan-freq-type" v-model="schedule_scan_as">
-							</c-row>
-						</div>
-						<!-- date picker  -->
-						<div v-show="schedule_scan_as == 'once'" class="scan-frequency-date">
-							<div class="date-picker">
 
-								<img class="calender-icon" src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL.'admin/images/calender.png'; ?>">
+		<!-- Cookie Scanning -->
+		<?php echo $api_gdpr_cookie_scan; ?>
 
-								<datepicker v-model="schedule_scan_date" class="calender-content" placeholder="Select a date" @input="scanDateChange" ></datepicker>
-								<input type="hidden" name="gdpr-schedule-scan-date" v-model="schedule_scan_date">
-							</div>
-						</div>
-						<!-- day picker  -->
-						<div v-show="schedule_scan_as == 'monthly'" class="scan-frequency-day">
-							<c-row class="table-rows">
-								<c-col class="col-sm-6 table-cols-left"><v-select class="gdpr-custom-cookie-select form-group" :reduce="label => label.code" :options="schedule_scan_day_options" v-model="schedule_scan_day" @input="scanDayChange" ></v-select></c-col>
-								<input type="hidden" name="gdpr-schedule-scan-day" v-model="schedule_scan_day">
-							</c-row>
-						</div>
-						<!-- time picker  -->
-						<div v-show="schedule_scan_as != 'never'" class="scan-frequency-time">
-							<div class="time-picker-content">
-								<img class="calender-icon" src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL.'admin/images/time.png'; ?>">
-								<vue-timepicker close-on-complete v-model="schedule_scan_time_value" placeholder="Choose time" @input="scanTimeChange"  format="hh:mm A"></vue-timepicker>
-								<input type="hidden" name="gdpr-schedule-scan-time" v-model="schedule_scan_time_value">
-							</div>
-						</div>
-
-					</div>
-					<div class="scan-cancel-save">
-						<c-button class="scan-cancel-btn" @click="scheduleScanHide"><span>Cancel</span></c-button>
-						<c-button class="scan-save-btn" color="info" @click="onStartScheduleScan"><span>Save</span></c-button>
-					</div>
-
-				</div>
-
-       		 </div>
-
-		</div>
-		<c-card class="<?php echo $pro_installed ? '' : esc_attr( $this->class_for_blur_content ); ?>" >
-			<!-- API Connection Screen  -->
-			<?php if ( ! $this->is_user_connected && ! $pro_installed ) : ?>
-				<div class="gdpr-overlay">
-					<p class="enable-text"><?php esc_html_e( 'To enable Cookie Scan, create your FREE WP Cookie Consent account.', 'gdpr-cookie-consent' ); ?></p>
-					<button class="gdpr-start-auth"><?php esc_html_e( 'New? Create an account', 'gdpr-cookie-consent' ); ?></button>
-					<p><span class="already-have-acc"><?php esc_html_e( 'Already have an account?', 'gdpr-cookie-consent' ); ?></span><span class="api-connect-to-account-btn" ><?php esc_html_e( ' Connect your existing account', 'gdpr-cookie-consent' ); ?></span></p>
-				</div>
-			<?php endif; ?>
-			<c-card-header class="discovered-cookies-container"><span><?php esc_html_e( 'Discovered Cookies', 'gdpr-cookie-consent' ); ?></span>
-			<div class="schedule-scan-buttons">
-				<c-button class="schedule-scan-start-btn" @click="scheduleScanShow"><span>Schedule Scan</span></c-button>
-				<c-button class="scan-now-btn" color="info" @click="onClickStartScan"><span>Scan Now</span></c-button>
-			</div>
-		</c-card-header>
-			<c-card-body class="<?php echo $pro_installed ? '' : esc_attr( $this->class_for_card_body_blur_content ); ?>" >
-				<div class="gdpr_scanbar_staypage"><?php esc_attr_e( 'Please do not leave this page until the progress bar reaches 100%', 'gdpr-cookie-consent' ); ?></div>
-				<div class="gdpr_scanbar">
-					<div class="gdpr_infobox">
-						<?php if ( '' === $error_message ) : ?>
-							<?php
-							if ( $last_scan ) {
-								?> <span class="gdpr_last_scan_text"> <?php	esc_attr_e( 'Last successful scan : ', 'gdpr-cookie-consent' ); ?>  </span> <?php
-								?>
-								<span class="gdpr_last_scan_details"> <?php
-								echo esc_attr( date( 'F j, Y g:i a T', $last_scan['created_at'] ) ); ?>
-								</span>
-								<?php
-							} else {
-								esc_attr_e( 'You haven\'t performed a site scan yet.', 'gdpr-cookie-consent' );
-							}
-							?>
-						<div class="gdpr_next_scan_content">
-							<span class="gdpr_next_scan_text">Next scan : </span>
-							<span class="gdpr_next_scan_details" v-model="next_scan_is_when">
-								{{ next_scan_is_when }}
-							</span>
-							<input type="hidden" name="gdpr-schedule-scan-when" v-model="next_scan_is_when">
-						</div>
-						<a style="display:none" class="gdpr-custom-cookie-link pull-right" @click="onClickStartScan"><?php esc_attr_e( 'Scan Now', 'gdpr-cookie-consent' ); ?></a>
-							<?php
-						else :
-							echo esc_attr( $error_message );
-						endif;
-						?>
-					</div>
-				</div>
-				<div id="gdpr-scan-cookie-list">
-					<?php  require plugin_dir_path( __FILE__ ) . '/views/gdpr-scanned-cookies.php'; ?>
-				</div>
-			</c-card-body>
-		</c-card>
 		<?php
 	}
 
@@ -774,7 +705,24 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			$domain      = $cookie_data->domain;
 			$category    = isset( $cookie_data->category ) ? $cookie_data->category : 'Unclassified';
 			$description = addslashes( $cookie_data->description );
-			$category_id = $wpdb->get_var( "SELECT `id_gdpr_cookie_category` FROM `$cat_table` WHERE `gdpr_cookie_category_name` = '$category'" );
+			$category_id = -1;
+					switch ( $category ) {
+						case 'Analytics':
+							$category_id = 1;
+							break;
+						case 'Marketing':
+							$category_id = 2;
+							break;
+						case 'Necessary':
+							$category_id = 3;
+							break;
+						case 'Preferences':
+							$category_id = 4;
+							break;
+						case 'Unclassified':
+							$category_id = 5;
+							break;
+					}
 			$out[]       = '&nbsp;&nbsp;&nbsp;' . $name;
 			$sql_arr[]   = "('$scan_id','$url_id','$name','$duration','$domain','$type','$category','$category_id','$description')";
 			$sql         = $sql . implode( ',', $sql_arr );

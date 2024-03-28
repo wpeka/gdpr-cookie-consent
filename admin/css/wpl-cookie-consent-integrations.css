@@ -8,9 +8,9 @@
 	border-radius: 5px;
 	display: none;
 	color: #fff;
-	margin-left: 70%;
+	margin-left: 50%;
 	margin-top: 1%;
-	top: 10%;
+	top: 13%;
 	z-index: 9999;
 }
 
@@ -35,12 +35,10 @@
 }
 
 #wpl-cookie-consent-overlay {
-	position: fixed;
+	position: absolute;
 	display: none;
-	width: 100%;
+	width: 1443px;
 	height: 100%;
-	top: 0;
-	left: 0;
 	background-color: rgba(0,0,0,0.25);
 	z-index: 2;
 }
@@ -64,7 +62,7 @@
 }
 
 .wpl-cookie-consent-page-name {
-	width: 90%;
+	width: 100%;
 	margin: auto;
 }
 
@@ -73,14 +71,14 @@
 	width: 90%;
 	margin-top: 1rem;
 	padding: 1.5rem 2rem;
+	left: -63px;
+    top: -11px;
 }
-
+.wpl-cookie-consent-integrations-form .row .col-sm-8 col{
+	left : -107px;
+}
 .wpl-cookie-consent-integrations-form-container .row {
 	margin-bottom: 0.5rem;
-}
-
-.wpl-cookie-consent-integrations-label {
-	font-weight: 600 !important
 }
 
 .wpl-cookie-consent-datbase-input {
@@ -97,7 +95,7 @@
 
 .wpl-cookie-consent-register-area {
 	background-color: #c3e2f8;
-	padding: 0.8rem;
+	padding: 9px;
 	width: 100%;
 	font-size: 0.75rem;
 	border-radius: 0.2rem;
