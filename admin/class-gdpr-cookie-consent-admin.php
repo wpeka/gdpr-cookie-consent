@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr','hu' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr','hu', 'po' );
 
 	/**
 	 * The version of this plugin.
@@ -953,6 +953,9 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @return array
 	 */
 	public function admin_plugin_action_links( $links ) {
+		$current_url = get_site_url();
+        $current_url = $current_url.'/wp-admin/admin.php?page=gdpr-cookie-consent#create_cookie_banner';
+				
 		if ( ! get_option( 'wpl_pro_active' ) ) {
 			$links = array_merge(
 				array(
@@ -961,6 +964,12 @@ class Gdpr_Cookie_Consent_Admin {
 				$links
 			);
 		}
+		$links = array_merge(
+			array(
+				'<a href="' . esc_url( $current_url ) . '" target="_self" rel="noopener noreferrer"><strong style="color: #11967A; display: inline;">' . __( 'Create Cookie Banner', 'gdpr-cookie-consent' ) . '</strong></a>',
+			),
+			$links
+		);
 		return $links;
 	}
 
@@ -3348,7 +3357,9 @@ class Gdpr_Cookie_Consent_Admin {
 			array('label' => 'Hungarian', 'code' => 'hu'),
 			array('label' => 'Icelandic', 'code' => 'is'),
 			array('label' => 'Slovenian', 'code' => 'sl'),
-			array('label' => 'Spanish', 'code' => 'es')
+			array('label' => 'Spanish', 'code' => 'es'),
+			array('label' => 'Polish', 'code' => 'po')
+
 		);
 		
 		// dropdown option for schedule scan.
@@ -5581,7 +5592,8 @@ class Gdpr_Cookie_Consent_Admin {
 			array('label' => 'Hungarian', 'code' => 'hu'),
 			array('label' => 'Icelandic', 'code' => 'is'),
 			array('label' => 'Slovenian', 'code' => 'sl'),
-			array('label' => 'Spanish', 'code' => 'es')
+			array('label' => 'Spanish', 'code' => 'es'),
+			array('label' => 'Polish', 'code' => 'po')
 		);
 		
 		// dropdown option for schedule scan.

@@ -60,11 +60,11 @@ $is_user_connected = $this->settings->is_connected();
 						<!-- //support  -->
 						<div class="gdpr-cookie-consent-admin-support-icon">
 							<!-- //image  -->
-							<a href="https://club.wpeka.com/my-account/?utm_source=plugin&utm_medium=gdpr&utm_campaign=dashboard&utm_content=support" target="_blank">
+							<a href="https://club.wpeka.com/contact" target="_blank">
 							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_support.png'; ?>" alt="WP Cookie Consent Support">
 							</a>
 						</div>
-						<div class="gdpr-cookie-consent-admin-support-text"><a href="https://club.wpeka.com/my-account/?utm_source=plugin&utm_medium=gdpr&utm_campaign=dashboard&utm_content=support" target="_blank">
+						<div class="gdpr-cookie-consent-admin-support-text"><a href="https://club.wpeka.com/contact" target="_blank">
 							Support</a>
 						</div>
 					</div>
