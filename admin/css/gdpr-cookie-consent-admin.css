@@ -1075,6 +1075,10 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	font-size: 12px;
 }
 
+.policy-description{
+	font-size: 14px ;
+}
+
 /***Vue Modal CSS***/
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .vm {
     max-width: 900px;
