@@ -3356,10 +3356,9 @@ class Gdpr_Cookie_Consent_Admin {
 			array('label' => 'Greek', 'code' => 'gr'),
 			array('label' => 'Hungarian', 'code' => 'hu'),
 			array('label' => 'Icelandic', 'code' => 'is'),
+			array('label' => 'Polish', 'code' => 'po'),
 			array('label' => 'Slovenian', 'code' => 'sl'),
 			array('label' => 'Spanish', 'code' => 'es'),
-			array('label' => 'Polish', 'code' => 'po')
-
 		);
 		
 		// dropdown option for schedule scan.
@@ -5591,9 +5590,9 @@ class Gdpr_Cookie_Consent_Admin {
 			array('label' => 'Greek', 'code' => 'gr'),
 			array('label' => 'Hungarian', 'code' => 'hu'),
 			array('label' => 'Icelandic', 'code' => 'is'),
+			array('label' => 'Polish', 'code' => 'po'),
 			array('label' => 'Slovenian', 'code' => 'sl'),
 			array('label' => 'Spanish', 'code' => 'es'),
-			array('label' => 'Polish', 'code' => 'po')
 		);
 		
 		// dropdown option for schedule scan.
