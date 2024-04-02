@@ -246,6 +246,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		// check if pro is activated or installed.
 		$installed_plugins = get_plugins();
 		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+		$pro_is_activated = get_option( 'wpl_pro_active', false );
+		$api_key_activated = '';
+		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
 		$last_scan = $this->get_last_scan();
 		$error_message = '';
 
@@ -276,6 +279,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 					'error_message'       				=> $error_message,
 					'gdpr_plugin_url'    				=> GDPR_COOKIE_CONSENT_PLUGIN_URL,
 					'pro_installed' 			 		=> $pro_installed,
+					'pro_is_activated'                  => $pro_is_activated,
+					'api_key_activated'                 => $api_key_activated,
 					'is_user_connected'         		=> $this->is_user_connected,
 					'class_for_blur_content'    		=> $this->class_for_blur_content ,
 					'class_for_card_body_blur_content'  => $this->class_for_card_body_blur_content ,

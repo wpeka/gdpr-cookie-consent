@@ -3596,7 +3596,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 1; /* Ensure the overlay is on top of the blurred background */
+    z-index: 9; /* Ensure the overlay is on top of the blurred background */
 	background-color: rgba(255, 255, 255, 0.8);
 }
 
@@ -3736,4 +3736,48 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 }
 .gdpr-btn-switch{
 	margin-left:12px;
+}
+.gdpr-activate-plugin{
+	width: 215px;
+    height: 45px;
+    border-radius: 4px;
+    padding: 12px 16px 12px 16px;
+	margin-bottom: 20px;
+    background: #0059B3;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #fff;
+    border: none;
+}
+.gdpr-activate-api-plugin{
+	width: 215px;
+    height: 45px;
+    border-radius: 4px;
+    padding: 12px 16px 12px 16px;
+	margin-bottom: 20px;
+    background: #0059B3;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #fff;
+    border: none;
+}
+.key-text{
+	font-family: Roboto !important;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 30px;
+	color: #000000;
+	width: 50%;
 }
