@@ -107,6 +107,17 @@ do_action( 'gdpr_consent_log_table_dashboard' );
 // Get the buffered content and clean the buffer
 $consent_log_table = ob_get_clean();
 
+// Get the current selected policy name
+$cookie_usage_for = $the_options['cookie_usage_for'];
+$gdpr_policy = '';
+
+if($cookie_usage_for == 'eprivacy'){
+	$gdpr_policy = 'ePrivacy';
+}elseif($cookie_usage_for == 'both'){
+	$gdpr_policy = 'GDPR & CCPA';
+}else{
+	$gdpr_policy = strtoupper($cookie_usage_for);
+}
 /**
  * Send a POST request to the GDPR API endpoint 'get_data'
 */
@@ -131,6 +142,7 @@ $response = wp_remote_post(
 			'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
 			'consent_log_table'                => $consent_log_table,
 			'admin_url'                        => admin_url(),
+			'cookie_usage_for'                 => $gdpr_policy
 		),
 	)
 );
