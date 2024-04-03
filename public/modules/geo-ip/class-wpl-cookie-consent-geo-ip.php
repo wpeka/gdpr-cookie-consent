@@ -50,7 +50,9 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 				$pro_is_activated  = get_option( 'wpl_pro_active', false );
 				$installed_plugins = get_plugins();
 				$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
-
+				$pro_is_activated = get_option( 'wpl_pro_active', false );
+				$api_key_activated = '';
+				$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
 				// Require the class file for gdpr cookie consent api framework settings.
 				require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 
@@ -85,6 +87,8 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 						'body' => array(
 							'the_options_enable_safe'          => $the_options['enable_safe'],
 							'pro_installed'                    => $pro_installed,
+							'pro_is_activated'                  => $pro_is_activated,
+							'api_key_activated'                 => $api_key_activated,
 							'is_user_connected'                => $is_user_connected,
 							'class_for_blur_content'           => $class_for_blur_content,
 							'class_for_card_body_blur_content' => $class_for_card_body_blur_content,

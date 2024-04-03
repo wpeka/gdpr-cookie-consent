@@ -136,12 +136,9 @@ class Gdpr_Cookie_Consent {
 
 		if ( ! $wpl_pro_active ) {
 			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
-
-			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
-
 			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
 		}
-
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
 		/**
 		 * The class responsible for defining App Authentication functionality
