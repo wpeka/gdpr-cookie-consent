@@ -50,10 +50,10 @@ if ( ! defined( 'GDPR_CC_SUFFIX' ) ) {
  * Check if the constant GDPR_APP_URL is not already defined.
 */
 if ( ! defined( 'GDPR_APP_URL' ) ) {
-	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com' );
+	define( 'GDPR_APP_URL', 'https://d8c7243ac1.nxcli.io' );
 }
 if ( ! defined( 'GDPR_API_URL' ) ) {
-	define( 'GDPR_API_URL', 'https://app.wplegalpages.com/wp-json/gdpr/v2/' );
+	define( 'GDPR_API_URL', 'https://d8c7243ac1.nxcli.io/wp-json/gdpr/v2/' );
 }
 
 /**

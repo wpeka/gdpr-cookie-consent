@@ -74,7 +74,6 @@ var gen = new Vue({
 			search_icon:  require('../admin/images/dashboard-icons/summary/search-icon.svg'),
 			page_icon:  require('../admin/images/dashboard-icons/summary/pages.svg'),
 			next_scan_icon:  require('../admin/images/dashboard-icons/summary/next-scan.svg'),
-			// cookie_icon:  require('../admin/images/dashboard-icons/summary/cookies.png'),
 			view_all_logs:  require('../admin/images/dashboard-icons/summary/view-all-logs.png'),
 			policy_icon:   require('../admin/images/dashboard-icons/summary/vector.svg'),
 			highlight_variant: 'outline',
