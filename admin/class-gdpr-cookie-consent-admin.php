@@ -198,7 +198,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * 
 	 * 2 Ajax function callback method.
 	 */
-	public static function gdpr_cookie_consent_deactivatePopup(){
+	public static function gdpr_cookie_consent_deactivate_popup(){
 		// Verify AJAX nonce.
 		check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
 		
@@ -208,7 +208,7 @@ class Gdpr_Cookie_Consent_Admin {
 		if (!empty($_POST) && isset($_POST['reason'])) {
 			$reason = $_POST['reason'];
 		
-			if ($reason === 'with_data') {
+			if ($reason === 'gdpr-plugin-deactivate-with-data') {
 				delete_option('gdpr_admin_modules');
 				delete_option('gdpr_public_modules');
 				delete_option('wpl_pro_maxmind_integrated');
@@ -244,8 +244,8 @@ class Gdpr_Cookie_Consent_Admin {
 
 				// Deactivating the gdpr-cookie-consent plugin.
 				deactivate_plugins('gdpr-cookie-consent/gdpr-cookie-consent.php');
-			} elseif ($reason === 'without_data') {
-				// Code to execute if 'reason' is 'without_data'.
+			} elseif ($reason === 'gdpr-plugin-deactivate-without-data') {
+				// Code to execute if 'reason' is 'gdpr-plugin-deactivate-without-data'.
 				deactivate_plugins('gdpr-cookie-consent/gdpr-cookie-consent.php');
 				wp_send_json_success();
 

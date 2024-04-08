@@ -84,7 +84,7 @@ class Gdpr_Cookie_Consent {
 			if ( ! $this->is_plugins_screen() ) {
 				return;
 			}
-			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_deactivatePopup_dialog_scripts' ] );
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_deactivate_popup_dialog_scripts' ] );
 		} );
 		$this->plugin_name = 'gdpr-cookie-consent';
 
@@ -247,8 +247,8 @@ class Gdpr_Cookie_Consent {
 				$this->loader->add_action( 'admin_notices', $plugin_admin, 'gdpr_admin_notices' );
 			}
 			// Deactivate Popup action hooks. 
-			$this->loader->add_action( 'wp_ajax_gdpr_cookie_consent_deactivatePopup',$plugin_admin, 'gdpr_cookie_consent_deactivatePopup');
-			$this->loader->add_action( 'wp_ajax_nopriv_gdpr_cookie_consent_deactivatePopup',$plugin_admin, 'gdpr_cookie_consent_deactivatePopup');
+			$this->loader->add_action( 'wp_ajax_gdpr_cookie_consent_deactivate_popup',$plugin_admin, 'gdpr_cookie_consent_deactivate_popup');
+			$this->loader->add_action( 'wp_ajax_nopriv_gdpr_cookie_consent_deactivate_popup',$plugin_admin, 'gdpr_cookie_consent_deactivate_popup');
 		}
 	}
 
@@ -341,28 +341,28 @@ class Gdpr_Cookie_Consent {
 	 * @since 3.0.2
 	 * @access public
 	 */
-	public function enqueue_deactivatePopup_dialog_scripts() {
+	public function enqueue_deactivate_popup_dialog_scripts() {
 		wp_enqueue_style(
-			'gdpr-cookie-consent-admin-deactivatePopup', // Handle for the stylesheet
-			GDPR_URL . 'admin/css/wpl-cookie-consent-deactivatePopup.css', // URL to the CSS file
+			'gdpr-cookie-consent-admin-deactivate-popup', // Handle for the stylesheet
+			GDPR_URL . 'admin/css/wpl-cookie-consent-deactivate-popup.css', // URL to the CSS file
 			GDPR_COOKIE_CONSENT_VERSION 
 		);
 		wp_enqueue_script(
-			'gdpr-cookie-consent-admin-deactivatePopup',
-			GDPR_URL . 'admin/js/DeactivatePopup/gdpr-cookie-consent-admin-deactivatePopup.js',
+			'gdpr-cookie-consent-admin-deactivate-popup',
+			GDPR_URL . 'admin/js/DeactivatePopup/gdpr-cookie-consent-admin-deactivate-popup.js',
 			array( 'jquery' ),
 			GDPR_COOKIE_CONSENT_VERSION,
 			true
 		);
 		wp_localize_script(
-			'gdpr-cookie-consent-admin-deactivatePopup',
-			'gdpr_localize_deactivatePopup_data',
+			'gdpr-cookie-consent-admin-deactivate-popup',
+			'gdpr_localize_deactivate_popup_data',
 			array(
 				'ajaxurl'           => admin_url( 'admin-ajax.php' ),
 				'_ajax_nonce'       => wp_create_nonce( 'gdpr-cookie-consent' ),
 			)
 		);
-		add_action( 'admin_footer', [ $this, 'print_deactivate_deactivatePopup_dialog' ] );
+		add_action( 'admin_footer', [ $this, 'print_deactivate_popup_dialog' ] );
 	}
 	/**
 	 * Print deactivate Popup dialog.
@@ -374,31 +374,31 @@ class Gdpr_Cookie_Consent {
 	 * @since 3.0.2
 	 * @access public
 	 */
-	public function print_deactivate_deactivatePopup_dialog() { ?>
-		<div class="gdpr-deactivatePopup-form-wrapper-outer">
-            <div class="gdpr-deactivatePopup-form-wrapper">
-                <form class="gdpr-deactivatePopup-form">
+	public function print_deactivate_popup_dialog() { ?>
+		<div class="gdpr-deactivate-popup-form-wrapper-outer">
+            <div class="gdpr-deactivate-popup-form-wrapper">
+                <form class="gdpr-deactivate-popup-form">
                     <div>
-                    <p class="deactivatePopup-form-title">Deactivate WP Cookie Consent :</p>
-					<div class="deactivatePopup-form-description">
-					<p class="deactivatePopup-form-description-content">You are about to deactivate WP Cookie Consent. Would you like to delete its data or keep it in place?</p>
+                    <p class="gdpr-deactivate-popup-form-title">Deactivate WP Cookie Consent :</p>
+					<div class="gdpr-deactivate-popup-form-description">
+					<p class="gdpr-deactivate-popup-form-description-content">You are about to deactivate WP Cookie Consent. Would you like to delete its data or keep it in place?</p>
 					</div>
-                    <div class="deactivatePopup-inputs">
-                      <div class="input-choices">
-                        <input type="radio" id="without_data" name="reason" value="without_data">
-                    <label for="without_data">Keep all WP Cookie Consent tables and data</label><br>
+                    <div class="gdpr-deactivate-popup-inputs">
+                      <div class="gdpr-deactivate-input-choices">
+                        <input type="radio" id="gdpr-plugin-deactivate-without-data" name="reason" value="gdpr-plugin-deactivate-without-data">
+                    <label for="gdpr-plugin-deactivate-without-data">Keep all WP Cookie Consent tables and data</label><br>
                       </div>
-                      <div class="input-choices">
-                        <input type="radio" id="with_data" name="reason" value="with_data">
-                    <label for="with_data">Delete all WP Cookie Consent tables and data</label><br>
+                      <div class="gdpr-deactivate-input-choices">
+                        <input type="radio" id="gdpr-plugin-deactivate-with-data" name="reason" value="gdpr-plugin-deactivate-with-data">
+                    <label for="gdpr-plugin-deactivate-with-data">Delete all WP Cookie Consent tables and data</label><br>
                       </div>
                     </div>
                     </div>
-                  <div class="deactivatePopup-form-buttons-wrap">
-                    <div class="deactivatePopup-form-buttons">
-                     <button class="deactivate-delete-button" id="gdpr-deactivate-delete">DEACTIVATE AND DELETE DATA</button>
-                    <button class="deactivate-button" id="gdpr-deactivate">DEACTIVATE</button>
-                      <button class="cancel-button" id="gdpr-cancel">CANCEL</button>
+                  <div class="gdpr-gdpr-deactivate-popup-form-buttons-wrap">
+                    <div class="gdpr-deactivate-popup-form-buttons">
+                     <button class="gdpr-deactivate-delete-button" id="gdpr-deactivate-delete">DEACTIVATE AND DELETE DATA</button>
+                    <button class="gdpr-deactivate-button" id="gdpr-deactivate">DEACTIVATE</button>
+                      <button class="gdpr-cancel-button" id="gdpr-cancel">CANCEL</button>
                     </div>
                   </div>
                     
