@@ -48,6 +48,11 @@ array_to_csv_download( export_array(), $file_title . ".csv" );
 function get_requests( $args ) {
 
 	global $wpdb;
+	$table_name = $wpdb->prefix . 'wpl_data_req';
+    if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) !== $table_name ) {
+        // Table doesn't exist yet, return empty result set or handle as needed
+        return array();
+    }
 	$sql        = "SELECT * from {$wpdb->prefix}wpl_data_req WHERE 1=1 ";
 	if ( isset( $args['email'] ) && ! empty( $args['email'] ) && is_email( $args['email'] ) ) {
 		$sql .= " AND email like '"."%" . sanitize_email( $args['email'] ) . "%"."'";
