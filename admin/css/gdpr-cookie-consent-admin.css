@@ -3110,8 +3110,10 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-label{
 	margin-left: 15px;
 }
-.gdpr-cookie-consent-admin-label_wp_label{
-	padding-bottom: 5px;
+.gdpr-cookie-consent-admin-label_wp_label span{
+	color: #fff;
+    font-weight: 900;
+    font-size: 18px;
 }
 .gdpr-cookie-consent-admin-help,.gdpr-cookie-consent-admin-support{
 	display: flex;
@@ -3156,10 +3158,9 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	height: 14.785px;
 	flex-shrink: 0;
 }
-.gdpr-cookie-consent-admin-label_gdpr_label img {
-	width: 85px;
-	height: 13.333px;
-	flex-shrink: 0;
+.gdpr-cookie-consent-admin-label_gdpr_label span {
+	color: #fff;
+    font-weight: 500;
 }
 .gdpr-cookie-consent-admin-help-icon img,.gdpr-cookie-consent-admin-support-icon img {
 	width: 18px;
@@ -3709,19 +3710,66 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     justify-content: space-between;
     align-items: center;
 }
-.gdpr-publish-btn{
-	background-color: #14873E; 
-	color: white; 
+.gdpr-preview-publish-btn .gdpr-publish-btn{
+	background-color: #14873E ; 
+	color: white ; 
 	font-family: Roboto; 
 	font-size: 14px; 
 	font-weight: 600; 
 	line-height: 20px; 
 	text-align: center;
 }
-.gdpr-publish-btn:hover{
+.gdpr-preview-publish-btn .gdpr-publish-btn:hover{
 	color:white;
 	background-color: #3a5f48;
 }
+
+.gdpr-language-save-btn .gdpr-publish-btn{
+	background-color: #14873E ; 
+	color: white ; 
+	font-family: Roboto; 
+	font-size: 14px; 
+	font-weight: 600; 
+	line-height: 20px; 
+	text-align: center;
+}
+
+
+.gdpr-language-save-btn .gdpr-publish-btn:hover{
+	color:white;
+	background-color: #3a5f48;
+}
+
+.gdpr-scriptblocker-save-btn .gdpr-publish-btn{
+	background-color: #14873E ; 
+	color: white ; 
+	font-family: Roboto; 
+	font-size: 14px; 
+	font-weight: 600; 
+	line-height: 20px; 
+	text-align: center;
+}
+
+.gdpr-scriptblocker-save-btn .gdpr-publish-btn:hover{
+	color:white;
+	background-color: #3a5f48;
+}
+
+.gdpr-cookieList-save-btn .gdpr-publish-btn{
+	background-color: #14873E ; 
+	color: white ; 
+	font-family: Roboto; 
+	font-size: 14px; 
+	font-weight: 600; 
+	line-height: 20px; 
+	text-align: center;
+}
+
+.gdpr-cookieList-save-btn .gdpr-publish-btn:hover{
+	color:white;
+	background-color: #3a5f48;
+}
+
 .gdpr-preview-publish-btn{
 	display: flex;
 	justify-content: end;
