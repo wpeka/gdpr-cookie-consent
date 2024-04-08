@@ -36,12 +36,12 @@ $is_user_connected = $this->settings->is_connected();
 				<div class="gdpr-cookie-consent-admin-logo-and-label">
 					<div class="gdpr-cookie-consent-admin-logo">
 						<!-- //image  -->
-						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_consent_logo.png'; ?>" alt="WP Cookie Consent Logo">
+						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp-cookie-consent-logo.png'; ?>" alt="WP Cookie Consent Logo">
 					</div>
 					<div class="gdpr-cookie-consent-admin-label">
 						<!-- //label  -->
-						<div class="gdpr-cookie-consent-admin-label_wp_label"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_consent_label.png'; ?>" alt="WP Cookie Consent Label"></div>
-						<div class="gdpr-cookie-consent-admin-label_gdpr_label"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_ccpa_label.png'; ?>" alt="WP Cookie Consent CCPA Label"></div>
+						<div class="gdpr-cookie-consent-admin-label_wp_label"><span>WP COOKIE CONSENT </span></div>
+						<div class="gdpr-cookie-consent-admin-label_gdpr_label"><span>GDPR/CCPA</span></div>
 					</div>
 				</div>
 				<div class="gdpr-cookie-consent-admin-help-and-support">
@@ -49,7 +49,7 @@ $is_user_connected = $this->settings->is_connected();
 						<div class="gdpr-cookie-consent-admin-help-icon">
 							<!-- //image  -->
 							<a href="https://club.wpeka.com/docs/wp-cookie-consent/" target="_blank">
-								<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.png'; ?>" alt="WP Cookie Consent Help">
+								<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.svg'; ?>" alt="WP Cookie Consent Help">
 							</a>
 						</div>
 						<div class="gdpr-cookie-consent-admin-help-text"><a href="https://club.wpeka.com/docs/wp-cookie-consent/" target="_blank">
@@ -61,7 +61,7 @@ $is_user_connected = $this->settings->is_connected();
 						<div class="gdpr-cookie-consent-admin-support-icon">
 							<!-- //image  -->
 							<a href="https://club.wpeka.com/contact" target="_blank">
-							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_support.png'; ?>" alt="WP Cookie Consent Support">
+							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_support.svg'; ?>" alt="WP Cookie Consent Support">
 							</a>
 						</div>
 						<div class="gdpr-cookie-consent-admin-support-text"><a href="https://club.wpeka.com/contact" target="_blank">
