@@ -265,7 +265,19 @@ $api_user_plan     = $this->settings->get_plan();
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-consent-policy-type" :reduce="label => label.code" :options="policy_options" v-model="gdpr_policy" @input="cookiePolicyChange">
 										</v-select>
-										<input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
+										  <input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
+									</c-col>
+								</c-row>
+								<c-row v-show="is_gdpr && !is_ccpa">
+									<c-col class="col-sm-4"></c-col>
+									<c-col class="col-sm-8 ">        
+									<p class="policy-description">The chosen law template supports various global privacy regulations including GDPR (EU & UK), PIPEDA (Canada), Law 25 (Quebec), POPIA (South Africa), nFADP (Switzerland), Privacy Act (Australia), PDPL (Saudi Arabia), PDPL (Argentina), PDPL (Andorra), and DPA (Faroe Islands).</p>								
+									</c-col>
+								</c-row>
+								<c-row v-show="is_ccpa && !is_gdpr">
+									<c-col class="col-sm-4"></c-col>
+									<c-col class="col-sm-8">								
+								    <p class="policy-description" >The chosen law template supports CCPA/CPRA (California), VCDPA (Virginia), CPA (Colorado), CTDPA (Connecticut), & UCPA (Utah).</p>									
 									</c-col>
 								</c-row>
 								<c-row v-show="is_gdpr">
