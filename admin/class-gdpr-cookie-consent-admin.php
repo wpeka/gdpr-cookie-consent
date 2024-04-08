@@ -191,7 +191,68 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 		}
 	}
+	/**
+	 * Ajax callback function for Deactivation Popup.
+	 * 
+	 * @since 3.0.2
+	 * 
+	 * 2 Ajax function callback method.
+	 */
+	public static function gdpr_cookie_consent_deactivatePopup(){
+		// Verify AJAX nonce.
+		check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
+		
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_send_json_error( 'Permission denied' );
+		}
+		if (!empty($_POST) && isset($_POST['reason'])) {
+			$reason = $_POST['reason'];
+		
+			if ($reason === 'with_data') {
+				delete_option('gdpr_admin_modules');
+				delete_option('gdpr_public_modules');
+				delete_option('wpl_pro_maxmind_integrated');
+				delete_option('gdpr_version_number');
+				delete_option('	analytics_activation_redirect_gdpr-cookie-consent');
+				delete_option('wpl_logs_admin');
+				delete_option('wpl_datarequests_db_version');
+				delete_option('wpl_cl_decline');
+				delete_option('wpl_cl_accept');
+				delete_option('wpl_cl_partially_accept');
+				delete_option('wpl_geo_options');
+				delete_option('wpl_bypass_script_blocker');
+				delete_option('wpl_consent_timestamp');
+				delete_option('GDPR_COOKIE_CONSENT_SETTINGS_FIELD');
+				global $wpdb;
+				$tables_arr = array(
+					'wpl_cookie_scan',
+					'wpl_cookie_scan_url',
+					'wpl_cookie_scan_cookies',
+					'wpl_cookie_scripts',
+					'wpl_data_req',
+					'gdpr_cookie_post_cookies',
+					'gdpr_cookie_scan_categories',
+				);
 
+				foreach ($tables_arr as $table) {
+					$tablename = $wpdb->prefix . $table;
+					$wpdb->query("DROP TABLE IF EXISTS $tablename"); // SQL query included to drop tables
+				}
+
+				$option_name = 'GDPRCookieConsent-9.0';
+				$wpdb->query($wpdb->prepare("DELETE FROM $wpdb->options WHERE option_name = %s", $option_name)); // SQL query included to delete option
+
+				// Deactivating the gdpr-cookie-consent plugin.
+				deactivate_plugins('gdpr-cookie-consent/gdpr-cookie-consent.php');
+			} elseif ($reason === 'without_data') {
+				// Code to execute if 'reason' is 'without_data'.
+				deactivate_plugins('gdpr-cookie-consent/gdpr-cookie-consent.php');
+				wp_send_json_success();
+
+			}
+			wp_send_json_success();
+		}
+	}
 	/**
 	 * Displays admin notices related to GDPR Cookie Consent plugin.
 	 *
