@@ -84,6 +84,7 @@
       <key name="show_again"/>
       <key name="is_script_blocker_on"/>
       <key name="auto_hide"/>
+      <key name="auto_banner_initialize"/>
       <key name="auto_scroll"/>
       <key name="auto_scroll_reload"/>
       <key name="accept_reload"/>
@@ -92,6 +93,7 @@
       <key name="show_again_text"/>
       <key name="show_again_margin"/>
       <key name="auto_hide_delay"/>
+      <key name="auto_banner_initialize_delay" />
       <key name="auto_scroll_offset"/>
       <key name="cookie_expiry"/>
       <key name="show_again_div_id"/>

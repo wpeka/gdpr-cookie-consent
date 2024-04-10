@@ -632,6 +632,7 @@ class Gdpr_Cookie_Consent {
 			'show_again'                           => true,
 			'is_script_blocker_on'                 => false,
 			'auto_hide'                            => false,
+			'auto_banner_initialize'               => false,
 			'auto_scroll'                          => false,
 			'auto_click'                           => false,
 			'auto_scroll_reload'                   => false,
@@ -643,6 +644,7 @@ class Gdpr_Cookie_Consent {
 			'show_again_text'                      => 'Cookie Settings',
 			'show_again_margin'                    => '5',
 			'auto_hide_delay'                      => '10000',
+			'auto_banner_initialize_delay'         => '10000',
 			'auto_scroll_offset'                   => '10',
 			'cookie_expiry'                        => '365',
 			'show_again_div_id'                    => '#gdpr-cookie-consent-show-again',
@@ -703,6 +705,7 @@ class Gdpr_Cookie_Consent {
 			case 'is_script_blocker_on':
 			case 'show_again':
 			case 'auto_hide':
+			case 'auto_banner_initialize':
 			case 'auto_scroll':
 			case 'auto_click':
 			case 'auto_scroll_reload':
@@ -1031,6 +1034,8 @@ class Gdpr_Cookie_Consent {
 			'delete_on_deactivation'               => $settings['delete_on_deactivation'],
 			'auto_hide'                            => $settings['auto_hide'],
 			'auto_hide_delay'                      => $settings['auto_hide_delay'],
+			'auto_banner_initialize'               => $settings['auto_banner_initialize'],
+			'auto_banner_initialize_delay'         => $settings['auto_banner_initialize_delay'],
 			'auto_scroll_offset'                   => $settings['auto_scroll_offset'],
 			'cookie_expiry'                        => $settings['cookie_expiry'],
 			'show_again'                           => $settings['show_again'],
