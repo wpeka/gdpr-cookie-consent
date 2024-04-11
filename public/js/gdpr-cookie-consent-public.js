@@ -1476,7 +1476,6 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			}
 			if (this.settings.cookie_bar_as == 'popup') {
 				if( !gdpr_flag || !ccpa_flag || !lgpd_flag){
-				// $( "#gdpr-popup" ).gdprmodal( 'show' );
 				if(this.settings.auto_banner_initialize){
 					let banner_delay = this.settings.auto_banner_initialize_delay;
 					setTimeout(function(){
