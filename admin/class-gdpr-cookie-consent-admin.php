@@ -833,7 +833,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'page'    => 'do-not-sell-my-personal-information',
 				'content' => $content,
 			);
-			echo $this->wpl_get_template( 'gdpr-data-request-tab-template.php', $args );
+			echo $this->wpl_get_template_data_request( 'gdpr-data-request-tab-template.php', $args );
 	}
 
 	/**
@@ -952,24 +952,52 @@ class Gdpr_Cookie_Consent_Admin {
 					'page'    => 'policy-data-tab',
 					'content' => $content,
 				);
-				echo $this->wpl_get_template( 'gdpr-policy-data-tab-template.php', $args );
+				echo $this->wpl_get_template_policy_data( 'gdpr-policy-data-tab-template.php', $args );
 	}
-
-	/**
-	 * Get a template based on filename, overridable in the theme directory.
+     
+    /**
+	 * Get a template for data request based on filename, overridable in the theme directory.
 	 *
 	 * @param string $filename The name of the template file.
 	 * @param array  $args     An array of arguments to pass to the template.
 	 * @param string $path     The path to the template file (optional).
 	 * @return string The content of the template.
 	 */
-	public function wpl_get_template( $filename, $args = array(), $path = false ) {
-		$pro_is_activated = get_option( 'wpl_pro_active', false );
-		if ( ! $pro_is_activated ) {
-			$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-data-request-tab-template.php';
-		} else {
-			$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-policy-data-tab-template.php';
+	public function wpl_get_template_data_request($filename, $args = array(), $path = false){		
+		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-data-request-tab-template.php';
+		
+		if ( ! file_exists( $file ) ) {
+			return false;
 		}
+
+		if ( strpos( $file, '.php' ) !== false ) {
+			ob_start();
+			require $file;
+			$contents = ob_get_clean();
+		} else {
+			$contents = file_get_contents( $file );
+		}
+
+		if ( ! empty( $args ) && is_array( $args ) ) {
+			foreach ( $args as $fieldname => $value ) {
+				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
+			}
+		}
+		
+		return $contents;
+	}
+	/**
+	 * Get a template for policy data based on filename, overridable in the theme directory.
+	 *
+	 * @param string $filename The name of the template file.
+	 * @param array  $args     An array of arguments to pass to the template.
+	 * @param string $path     The path to the template file (optional).
+	 * @return string The content of the template.
+	 */
+	public function wpl_get_template_policy_data( $filename, $args = array(), $path = false ) {
+	
+		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-policy-data-tab-template.php';
+
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
