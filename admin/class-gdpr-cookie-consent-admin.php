@@ -385,11 +385,11 @@ class Gdpr_Cookie_Consent_Admin {
 				$consent_logs->display();
 			?>
 				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
-				
+
 			</form>
 			<script>
 					document.addEventListener('DOMContentLoaded', function() {
-						
+
 				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction"]').attr('id', 'consentLogApplyButton');
 				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction2"]').attr('id', 'consentLogApplyButton2');
 				jQuery('#wpl-dnsmpd-filter-consent-log select[id="bulk-action-selector-bottom"]').attr('id', 'bulk-action-selector-consent-log-bottom');
@@ -996,15 +996,22 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function gdpr_policy_process_delete() {
 
-		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' )
-			&& isset( $_GET['action'] )
+		// Check if the user is logged in and has the necessary capability
+		if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
+			// Verify nonce
+			if ( isset( $_GET['page'], $_GET['action'], $_GET['id'], $_GET['_wpnonce'] )
+			&& $_GET['page'] == 'gdpr-cookie-consent'
 			&& $_GET['action'] == 'policy_delete'
-			&& isset( $_GET['id'] )
-		) {
+			&& wp_verify_nonce( $_GET['_wpnonce'], 'gdpr_policy_delete_nonce_' . $_GET['id'] ) ) { // Verify nonce using the ID appended to the nonce name
 
+			// Delete the post
 			wp_delete_post( $_GET['id'], true );
+
+			// Redirect back to the admin page
 			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
 			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' . $paged ) );
+			exit; // Always exit after a wp_redirect()
+		}
 		}
 	}
 
