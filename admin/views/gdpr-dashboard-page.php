@@ -319,11 +319,11 @@ if ( 200 === $response_status ) {
 		<?php echo $api_gdpr_dashboard; ?>
 
 		<c-card class="gdpr-dashboard-quick-links-card">
-			<c-card-header class="gdpr-dashboard-quick-links-card-header">
-				<span class="gdpr-dashboard-quick-links-heading">
+			<!-- <c-card-header class="gdpr-dashboard-quick-links-card-header"> -->
+				<h1 class="gdpr-dashboard-quick-links-heading">
 					<?php esc_html_e( 'Quick Links', 'gdpr-cookie-consent' ); ?>
-				</span>
-				<span>
+				</h1>
+				<!-- <span>
 					<a v-show="pro_installed && !pro_activated" class="gdpr-progress-list-link" :href="plugin_page_url" target="_blank">
 						<c-button class="gdpr-upgrade-pro-button" color="info" :variant="highlight_variant">
 							<?php esc_html_e( 'Activate Pro', 'gdpr-cookie-consent' ); ?>
@@ -334,74 +334,103 @@ if ( 200 === $response_status ) {
 							<?php esc_html_e( 'Activate License Key', 'gdpr-cookie-consent' ); ?>
 						</c-button>
 					</a>
-				</span>
-			</c-card-header>
+				</span> -->
+			<!-- </c-card-header> -->
 			<c-card-body class="gdpr-dashboard-quick-links-body">
 				<c-row class="gdpr-quick-links-images-row">
-					<span class="gdpr-quick-link-item settings">
+					<div class="gdpr-quick-link-item settings">
 						<a class="gdpr-quick-link" :href="show_cookie_url">
 							<img class="gdpr-quick-link-image" :src="settings_image.default">
 						</a>
 						<span class="gdpr-quick-link-caption">
 							<?php esc_html_e( 'Settings', 'gdpr-cookie-consent' ); ?>
 						</span>
-					</span>
-					<span class="gdpr-quick-link-item consent_logs">
-						<a class="gdpr-quick-link" :href="consent_log_url">
-							<img class="gdpr-quick-link-image" :src="consent_log_image.default">
-						</a>
-						<span class="gdpr-quick-link-caption">
-							<?php esc_html_e( 'Consent Log', 'gdpr-cookie-consent' ); ?>
+						<span class="gdpr-quick-link-description">
+							<?php esc_html_e( 'Configure your cookie banner settings easily.', 'gdpr-cookie-consent' ); ?>
 						</span>
-					</span>
-					<span class="gdpr-quick-link-item scan_cookies">
-						<a class="gdpr-quick-link" :href="cookie_scan_url">
-							<img class="gdpr-quick-link-image" :src="cookie_scan_image.default">
-						</a>
-						<span class="gdpr-quick-link-caption">
-							<?php esc_html_e( 'Scan Cookies', 'gdpr-cookie-consent' ); ?>
-						</span>
-					</span>
-					<span class="gdpr-quick-link-item geo_targeting">
-						<a class="gdpr-quick-link" :href="maxmind_url">
-							<img class="gdpr-quick-link-image" :src="geolocation_image.default">
-						</a>
-						<span class="gdpr-quick-link-caption">
-							<?php esc_html_e( 'Geotargeting', 'gdpr-cookie-consent' ); ?>
-						</span>
-					</span>
-					<span class="gdpr-quick-link-item cookie_banner">
+					</div>
+					<div class="gdpr-quick-link-item cookie_banner">
 						<a class="gdpr-quick-link" :href="cookie_design_url">
 							<img class="gdpr-quick-link-image" :src="cookie_design_image.default">
 						</a>
 						<span class="gdpr-quick-link-caption">
 							<?php esc_html_e( 'Design Cookie Banner', 'gdpr-cookie-consent' ); ?>
 						</span>
-					</span>
-					<span class="gdpr-quick-link-item banner_template">
-						<a class="gdpr-quick-link" :href="cookie_template_url">
-							<img class="gdpr-quick-link-image" :src="cookie_template_image.default">
-						</a>
-						<span class="gdpr-quick-link-caption">
-							<?php esc_html_e( 'Banner Templates', 'gdpr-cookie-consent' ); ?>
+						<span class="gdpr-quick-link-description">
+							<?php esc_html_e( 'Effortlessly design your cookie banner.', 'gdpr-cookie-consent' ); ?>
 						</span>
-					</span>
-					<span class="gdpr-quick-link-item script_blocker">
+					</div>
+					<div class="gdpr-quick-link-item script_blocker">
 						<a class="gdpr-quick-link" :href="script_blocker_url">
 							<img class="gdpr-quick-link-image" :src="script_blocker_image.default">
 						</a>
 						<span class="gdpr-quick-link-caption">
 							<?php esc_html_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>
 						</span>
-					</span>
-					<span class="gdpr-quick-link-item policy_data">
+						<span class="gdpr-quick-link-description">
+							<?php esc_html_e( 'Auto-block known third-party cookies.', 'gdpr-cookie-consent' ); ?>
+						</span>
+					</div>
+					<div class="gdpr-quick-link-item consent_logs">
+						<a class="gdpr-quick-link" :href="consent_log_url">
+							<img class="gdpr-quick-link-image" :src="consent_log_image.default">
+						</a>
+						<span class="gdpr-quick-link-caption">
+							<?php esc_html_e( 'Consent Log', 'gdpr-cookie-consent' ); ?>
+						</span>
+						<span class="gdpr-quick-link-description">
+							<?php esc_html_e( 'Stores a consent log of consents given by website visitors.', 'gdpr-cookie-consent' ); ?>
+						</span>
+					</div>
+				</c-row>
+
+				<c-row class="gdpr-quick-links-images-row">
+				<div class="gdpr-quick-link-item scan_cookies">
+						<a class="gdpr-quick-link" :href="cookie_scan_url">
+							<img class="gdpr-quick-link-image" :src="cookie_scan_image.default">
+						</a>
+						<span class="gdpr-quick-link-caption">
+							<?php esc_html_e( 'Scan Cookies', 'gdpr-cookie-consent' ); ?>
+						</span>
+						<span class="gdpr-quick-link-description">
+							<?php esc_html_e( 'Quickly detects all your website cookies in one-click.', 'gdpr-cookie-consent' ); ?>
+						</span>
+					</div>
+					<div class="gdpr-quick-link-item geo_targeting">
+						<a class="gdpr-quick-link" :href="maxmind_url">
+							<img class="gdpr-quick-link-image" :src="geolocation_image.default">
+						</a>
+						<span class="gdpr-quick-link-caption">
+							<?php esc_html_e( 'Geotargeting', 'gdpr-cookie-consent' ); ?>
+						</span>
+						<span class="gdpr-quick-link-description">
+							<?php esc_html_e( "Display or hide the cookie consent based on visitor's location.", 'gdpr-cookie-consent' ); ?>
+						</span>
+					</div>
+					
+					<div class="gdpr-quick-link-item banner_template">
+						<a class="gdpr-quick-link" :href="cookie_template_url">
+							<img class="gdpr-quick-link-image" :src="cookie_template_image.default">
+						</a>
+						<span class="gdpr-quick-link-caption">
+							<?php esc_html_e( 'Banner Templates', 'gdpr-cookie-consent' ); ?>
+						</span>
+						<span class="gdpr-quick-link-description">
+							<?php esc_html_e( 'Choose a banner design from a set of pre-designed templates.', 'gdpr-cookie-consent' ); ?>
+						</span>
+					</div>
+					
+					<div class="gdpr-quick-link-item policy_data">
 						<a class="gdpr-quick-link" :href="third_party_url">
 							<img class="gdpr-quick-link-image" :src="cookie_table_image.default">
 						</a>
 						<span class="gdpr-quick-link-caption">
 							<?php esc_html_e( 'Third Party Details', 'gdpr-cookie-consent' ); ?>
 						</span>
-					</span>
+						<span class="gdpr-quick-link-description">
+							<?php esc_html_e( 'Automatically fetches the 3rd party cookie details.', 'gdpr-cookie-consent' ); ?>
+						</span>
+					</div>
 				</c-row>
 			</c-card-body>
 		</c-card>
