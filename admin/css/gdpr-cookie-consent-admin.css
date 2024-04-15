@@ -2195,11 +2195,12 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	margin: auto 0;
 }
 
-.schedule-scan-start-btn{
+.schedule-scan-start-btn span{
 	border-radius: 5px;
 	border: 1px solid #39F;
 	color: #3399FF;
 	margin-right: 25px;
+	padding: 8px 12px;
 }
 
 .scan-now-btn{
@@ -2432,7 +2433,7 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
 	font-weight: 400;
 	line-height: normal;
 }
-.export-btn{
+a .export-btn{
     background-color: #3399FF;
     color: #fff;
     border-radius: 4px;
@@ -2445,13 +2446,23 @@ input.readonly, input[readonly], textarea.readonly, textarea[readonly] {
     font-size: 16px;
     line-height: 21.09px;
 }
-.export-btn:hover{
+a .export-btn:hover{
     color: #fff;
 }
 .btn-outline-danger, .btn-info{
 	font-size: 16px;
 }
 .gdpr-renew-now-btn{
+	border-radius: 5px;
+	border: 2px solid #39F;
+	color: #39F;
+	text-align: center;
+	font-style: normal;
+	line-height: normal;
+	font-weight: 400;
+    font-size: 16px;
+}
+.gdpr-renew-now-btn.pro{
 	border-radius: 5px;
 	border: 2px solid #39F;
 	color: #39F;
