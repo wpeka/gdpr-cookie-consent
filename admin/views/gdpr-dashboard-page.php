@@ -319,25 +319,11 @@ if ( 200 === $response_status ) {
 		<?php echo $api_gdpr_dashboard; ?>
 
 		<c-card class="gdpr-dashboard-quick-links-card">
-			<!-- <c-card-header class="gdpr-dashboard-quick-links-card-header"> -->
 				<h1 class="gdpr-dashboard-quick-links-heading">
 					<?php esc_html_e( 'Quick Links', 'gdpr-cookie-consent' ); ?>
 				</h1>
-				<!-- <span>
-					<a v-show="pro_installed && !pro_activated" class="gdpr-progress-list-link" :href="plugin_page_url" target="_blank">
-						<c-button class="gdpr-upgrade-pro-button" color="info" :variant="highlight_variant">
-							<?php esc_html_e( 'Activate Pro', 'gdpr-cookie-consent' ); ?>
-						</c-button>
-					</a>
-					<a v-show="pro_installed && pro_activated && !api_key_activated " class="gdpr-progress-list-link" :href="key_activate_url" target="_blank">
-						<c-button class="gdpr-upgrade-pro-button" color="info" :variant="highlight_variant">
-							<?php esc_html_e( 'Activate License Key', 'gdpr-cookie-consent' ); ?>
-						</c-button>
-					</a>
-				</span> -->
-			<!-- </c-card-header> -->
+			
 			<c-card-body class="gdpr-dashboard-quick-links-body">
-				<c-row class="gdpr-quick-links-images-row">
 					<div class="gdpr-quick-link-item settings">
 						<a class="gdpr-quick-link" :href="show_cookie_url">
 							<img class="gdpr-quick-link-image" :src="settings_image.default">
@@ -382,9 +368,6 @@ if ( 200 === $response_status ) {
 							<?php esc_html_e( 'Stores a consent log of consents given by website visitors.', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</div>
-				</c-row>
-
-				<c-row class="gdpr-quick-links-images-row">
 				<div class="gdpr-quick-link-item scan_cookies">
 						<a class="gdpr-quick-link" :href="cookie_scan_url">
 							<img class="gdpr-quick-link-image" :src="cookie_scan_image.default">
@@ -431,8 +414,7 @@ if ( 200 === $response_status ) {
 							<?php esc_html_e( 'Automatically fetches the 3rd party cookie details.', 'gdpr-cookie-consent' ); ?>
 						</span>
 					</div>
-				</c-row>
-			</c-card-body>
+				</c-card-body>
 		</c-card>
 	</c-container>
 </div>
