@@ -148,33 +148,29 @@
 .gdpr-dashboard-quick-links-card {
 	min-width: 100%;
 	max-width: 100%;
-	padding-left: 0;
-	padding-right: 0;
+	padding: 20px;
 }
 
 .gdpr-dashboard-quick-links-card-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border-bottom: 1px solid #f2f2f2;
 	padding-left: 3.25rem;
 	padding-right: 3.25rem;
 }
 
 .gdpr-dashboard-quick-links-body {
-	padding: 0;
-}
-
-.gdpr-quick-links-images-row {
-	padding: 1.25rem;
-	display: grid;
-	grid-template-columns: repeat(8, 1fr);
-	justify-items: center;
+	padding-bottom: 20px;
+    display: grid;
+	grid-template-columns: repeat(4,1fr);
+	grid-template-rows: repeat(2,1fr);
+	grid-row-gap: 25px;
+	grid-column-gap: 40px;
 }
 
 .gdpr-quick-link-image {
-	width: 40;
-	height: 40px;
+	width: 48px;
+	height: 48px;
 }
 
 .gdpr-upgrade-pro-button:hover {
@@ -206,14 +202,26 @@
 	justify-content: center;
 	align-items: center;
 	text-align: center;
+	border: 1px solid #D4D4D8;
+	border-radius: 4px;
+	padding: 35px 20px;
 }
 
 .gdpr-quick-link-caption {
-	margin-top: 0.75rem !important;
+	margin-top: 15px;
+	font-size: 16px;
+	font-weight: 500;
+}
+
+.gdpr-quick-link-description{
+	margin-top: 6px;
+	max-width: 222px;
+	color:  #71717A;
 }
 
 .gdpr-dashboard-quick-links-heading {
 	font-size: 1.5rem;
+	margin-left: 18px;
 }
 
 .gdpr-quick-link:focus {
