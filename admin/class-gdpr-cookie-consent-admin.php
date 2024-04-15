@@ -833,7 +833,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'page'    => 'do-not-sell-my-personal-information',
 				'content' => $content,
 			);
-			echo $this->wpl_get_template( 'gdpr-data-request-tab-template.php', $args );
+			echo $this->wpl_get_template_data_request( 'gdpr-data-request-tab-template.php', $args );
 	}
 
 	/**
@@ -952,24 +952,52 @@ class Gdpr_Cookie_Consent_Admin {
 					'page'    => 'policy-data-tab',
 					'content' => $content,
 				);
-				echo $this->wpl_get_template( 'gdpr-policy-data-tab-template.php', $args );
+				echo $this->wpl_get_template_policy_data( 'gdpr-policy-data-tab-template.php', $args );
 	}
-
-	/**
-	 * Get a template based on filename, overridable in the theme directory.
+     
+    /**
+	 * Get a template for data request based on filename, overridable in the theme directory.
 	 *
 	 * @param string $filename The name of the template file.
 	 * @param array  $args     An array of arguments to pass to the template.
 	 * @param string $path     The path to the template file (optional).
 	 * @return string The content of the template.
 	 */
-	public function wpl_get_template( $filename, $args = array(), $path = false ) {
-		$pro_is_activated = get_option( 'wpl_pro_active', false );
-		if ( ! $pro_is_activated ) {
-			$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-data-request-tab-template.php';
-		} else {
-			$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-policy-data-tab-template.php';
+	public function wpl_get_template_data_request($filename, $args = array(), $path = false){		
+		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-data-request-tab-template.php';
+		
+		if ( ! file_exists( $file ) ) {
+			return false;
 		}
+
+		if ( strpos( $file, '.php' ) !== false ) {
+			ob_start();
+			require $file;
+			$contents = ob_get_clean();
+		} else {
+			$contents = file_get_contents( $file );
+		}
+
+		if ( ! empty( $args ) && is_array( $args ) ) {
+			foreach ( $args as $fieldname => $value ) {
+				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
+			}
+		}
+		
+		return $contents;
+	}
+	/**
+	 * Get a template for policy data based on filename, overridable in the theme directory.
+	 *
+	 * @param string $filename The name of the template file.
+	 * @param array  $args     An array of arguments to pass to the template.
+	 * @param string $path     The path to the template file (optional).
+	 * @return string The content of the template.
+	 */
+	public function wpl_get_template_policy_data( $filename, $args = array(), $path = false ) {
+	
+		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-policy-data-tab-template.php';
+
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
@@ -1087,18 +1115,20 @@ class Gdpr_Cookie_Consent_Admin {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-2.0' );
 		}
-		// Update settings from Version 1.7.9.
+		// Update settings from Version 1.7.9. 
 		$prev_gdpr_option = get_option( 'GDPRCookieConsent-3.0' );
 		if ( isset( $prev_gdpr_option['is_on'] ) ) {
 			$prev_gdpr_option['bar_heading_text']     = '';
 			$prev_gdpr_option['show_again']           = true;
 			$prev_gdpr_option['is_script_blocker_on'] = false;
 			$prev_gdpr_option['auto_hide']            = false;
+			$prev_gdpr_option['auto_banner_initialize']  = false;
 			$prev_gdpr_option['auto_scroll']          = false;
 			$prev_gdpr_option['show_again_position']  = 'right';
 			$prev_gdpr_option['show_again_text']      = 'Cookie Settings';
 			$prev_gdpr_option['show_again_margin']    = '5%';
 			$prev_gdpr_option['auto_hide_delay']      = '10000';
+			$prev_gdpr_option['auto_banner_initialize_delay']  = '10000';
 			$prev_gdpr_option['show_again_div_id']    = '#gdpr-cookie-consent-show-again';
 
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
@@ -4877,7 +4907,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'b'      => array(),
 					'div'    => array(),
 					'label'  => array(),
-				)
+				)     
 			) : 'In case of sale of your personal information, you may opt out by using the link';
 			$the_options['optout_text']                          = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
 			$the_options['is_ccpa_iab_on']                       = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
@@ -4888,6 +4918,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['is_ticked']                            = isset( $_POST['gcc-autotick'] ) && ( true === $_POST['gcc-autotick'] || 'true' === $_POST['gcc-autotick'] ) ? 'true' : 'false';
 			$the_options['auto_hide']                            = isset( $_POST['gcc-auto-hide'] ) && ( true === $_POST['gcc-auto-hide'] || 'true' === $_POST['gcc-auto-hide'] ) ? 'true' : 'false';
 			$the_options['auto_hide_delay']                      = isset( $_POST['gcc-auto-hide-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-hide-delay'] ) ) : '10000';
+			$the_options['auto_banner_initialize']               = isset( $_POST['gcc-auto-banner-initialize'] ) && ( true === $_POST['gcc-auto-banner-initialize'] || 'true' === $_POST['gcc-auto-banner-initialize'] ) ? 'true' : 'false';
+			$the_options['auto_banner_initialize_delay']         = isset( $_POST['gcc-auto-banner-initialize-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-banner-initialize-delay'] ) ) : '10000';
 			$the_options['auto_scroll']                          = isset( $_POST['gcc-auto-scroll'] ) && ( true === $_POST['gcc-auto-scroll'] || 'true' === $_POST['gcc-auto-scroll'] ) ? 'true' : 'false';
 			$the_options['auto_click']                           = isset( $_POST['gcc-auto-click'] ) && ( true === $_POST['gcc-auto-click'] || 'true' === $_POST['gcc-auto-click'] ) ? 'true' : 'false';
 			$the_options['auto_scroll_offset']                   = isset( $_POST['gcc-auto-scroll-offset'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-scroll-offset'] ) ) : '10';
