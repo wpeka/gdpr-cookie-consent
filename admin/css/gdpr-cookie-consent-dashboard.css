@@ -668,3 +668,80 @@
 #dataRequestContainer .gdpr-maxmind-notice {
 	display: none;
 }
+
+.gdpr-dashboard-other-plugin-card{
+	min-width: 100%;
+	max-width: 100%;
+	padding: 20px;
+}
+
+.gdpr-dashboard-other-plugin-heading {
+	font-size: 1.5rem;
+	margin-left: 18px;
+}
+
+.gdpr-dashboard-other-plugin-body {
+	padding-bottom: 20px;
+    display: grid;
+	grid-template-columns: repeat(4,1fr);
+	grid-template-rows: repeat(2,1fr);
+	grid-row-gap: 25px;
+	grid-column-gap: 30px;
+}
+
+.gdpr-other-plugin-item {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	border: 1px solid #D4D4D8;
+	border-radius: 4px;
+	padding: 20px;
+	padding-right: 10px;
+}
+
+.gdpr-other-plugin:focus{
+	box-shadow: none;
+	outline: none;
+}
+
+.gdpr-other-plugin-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  text-align: left;
+  margin-top: 15px;
+}
+
+.gdpr-other-plugin-caption {
+	margin-top: 18px;
+	font-size: 18px;
+	font-weight: 500;
+}
+
+.gdpr-other-plugin-description{
+	margin-top: 12px;
+	max-width: 250px;
+	color:  #71717A;
+	height: 55px;
+}
+
+.gdpr-other-plugin-button{
+	margin-top: 10px;
+}
+
+.gdpr-other-plugin-arrow{
+  height: 16px;
+  width: 16px;
+}
+
+.gdpr-other-plugin-button:focus {
+	box-shadow: none;
+	outline: none;
+	text-decoration: none;
+}
+
+.gdpr-other-plugin-image {
+	width: 48px;
+	height: 48px;
+}
