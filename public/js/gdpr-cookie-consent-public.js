@@ -1430,7 +1430,16 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			if( !gdpr_flag || !ccpa_flag || !lgpd_flag ){
 				var animate_on_load = GDPR.settings.notify_animate_show;
 				if(force_display_bar || animate_on_load){
-					this.bar_elm.slideDown(this.settings.animate_speed_hide);
+						if(this.settings.auto_banner_initialize){
+						var banner = this.bar_elm;
+						var banner_delay =  this.settings.auto_banner_initialize_delay;
+						var animate_speed_hide = this.settings.animate_speed_hide;
+							setTimeout(function(){
+							banner.slideDown(animate_speed_hide);
+					}		,banner_delay);
+					}else{
+						banner.slideDown(animate_speed_hide);
+					}
 				}
 				else{
 					if(this.settings.auto_banner_initialize){
