@@ -86,17 +86,19 @@ class Gdpr_Cookie_Consent_Activator {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-2.0' );
 		}
-		// Update settings from Version 1.7.9.
+		// Update settings from Version 1.7.9.   
 		$prev_gdpr_option = get_option( 'GDPRCookieConsent-3.0' );
 		if ( isset( $prev_gdpr_option['is_on'] ) ) {
 			$prev_gdpr_option['bar_heading_text']     = '';
 			$prev_gdpr_option['show_again']           = true;
 			$prev_gdpr_option['is_script_blocker_on'] = false;
 			$prev_gdpr_option['auto_hide']            = false;
+			$prev_gdpr_option['auto_banner_initialize'] = false;
 			$prev_gdpr_option['auto_scroll']          = false;
 			$prev_gdpr_option['show_again_position']  = 'right';
 			$prev_gdpr_option['show_again_text']      = 'Cookie Settings';
 			$prev_gdpr_option['auto_hide_delay']      = '10000';
+			$prev_gdpr_option['auto_banner_initialize_delay'] = '10000';
 			$prev_gdpr_option['show_again_margin']    = '5%';
 			$prev_gdpr_option['show_again_div_id']    = '#gdpr-cookie-consent-show-again';
 
