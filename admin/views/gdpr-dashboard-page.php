@@ -169,39 +169,24 @@ if ( 200 === $response_status ) {
 	<c-container class="gdpr-cookie-consent-dashboard-container">
 		<c-card class="gdpr-progress-bar-card">
 			<c-card-body>
-				<c-row>
+				<c-row class="gdpr-progress-bar-heading">
 					<c-col class="col-sm-6">
 						<span class="gdpr-progress-heading">Your Progress</span>
 					</c-col class="col-sm-6">
-					<c-col class="col-sm-6 gdpr-progress-bar-buttons">
-						<a class="gdpr-progress-list-link" :href="documentation_url" target="_blank">
-							<c-button color="info" variant="outline" class="gdpr-progress-bar-button">
-								<?php esc_html_e( 'Documentation', 'gdpr-cookie-consent' ); ?>
-							</c-button>
-						</a>
-						<a class="gdpr-progress-list-link" :href="videos_url" target="_blank">
-							<c-button color="info" variant="outline" class="gdpr-progress-bar-button">
-								<?php esc_html_e( 'Video Guides', 'gdpr-cookie-consent' ); ?>
-							</c-button>
-						</a>
-						<a class="gdpr-progress-list-link" :href="pro_support_url" target="_blank">
-							<c-button v-show="pro_installed" color="info" variant="outline" class="gdpr-progress-bar-button">
-								<?php esc_html_e( 'Support', 'gdpr-cookie-consent' ); ?>
-							</c-button>
-						</a>
-						<a class="gdpr-progress-list-link" :href="free_support_url" target="_blank">
-							<c-button v-show="!pro_installed" color="info" variant="outline" class="gdpr-progress-bar-button">
-								<?php esc_html_e( 'Support', 'gdpr-cookie-consent' ); ?>
-							</c-button>
-						</a>
-					</c-col class="col-sm-6">
 				</c-row>
 				<c-row>
-					<c-col class="col-sm-5 gdpr-progress-circle-column">
-						<vue-ellipse-progress class="gdpr-progress-bar-class" :progress="progress" font-size="4.5rem" font-color="#39f" color="#39f" :size="250" :thickness="20" :dot="0">
+					<c-col class="col-sm-5 ">
+					<div class="gdpr-progress-circle-column">
+					<vue-ellipse-progress class="gdpr-progress-bar-class" :progress="progress" line="square" font-size="60px" font-color="#0059B3" color="#0059B3" :size="250" :thickness="20" :dot="0">
 							<span class="gdpr-progress-circle-legend" slot="legend-value">%</span>
 							<p class="gdpr-progress-circle-caption" slot="legend-caption">Complete</p>
 						</vue-ellipse-progress>
+						<div class="progress-bar-caption">
+							   <div>
+                                <span class="progress-bar-caption-text">Cookie Notice Status : </span><button class="progress-bar-caption-button"><?php if($the_options['is_on'] == '1'){echo "Live";}else{echo "Inactive";} ?></button>
+							   </div>
+						</div>
+					</div>
 					</c-col>
 					<c-col class="col-sm-7 gdpr-progress-list-column">
 						<c-row :class="['gdpr-progress-list-item', !other_plugins_active ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
@@ -484,6 +469,42 @@ if ( 200 === $response_status ) {
 						</div>
 					</div>
 				</c-card-body>
+		</c-card>
+
+		<c-card class="gdpr-dashboard-tips-tricks-card">
+			<header class="gdpr-dashboard-tips-tricks-heading">
+				<h1 class="gdpr-dashboard-tips-tricks-title">
+					<?php esc_html_e( 'Tips and Tricks', 'gdpr-cookie-consent' ); ?>
+				</h1>
+				<a href="https://www.wpeka.com/" target="_blank">
+				<button class="gdpr-dashboard-tips-tricks-button">
+                <?php esc_html_e('Visit Our Blog ','gdpr-cookie-consent') ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"> 
+				</button>
+				</a>
+			</header>
+
+			<c-card-body class="gdpr-dashboard-tips-tricks-body">
+             <div class="gdpr-dashboard-tips-tricks-body-parts">
+              <span class="gdpr-dashboard-tips-tricks-text">How to activate your License Key?</span>
+			  <a href="https://www.youtube.com/watch?v=ZESzSKnUkOg" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
+			 </div>
+			 <div class="gdpr-dashboard-tips-tricks-body-parts">
+              <span class="gdpr-dashboard-tips-tricks-text">What you need to know about the EU Cookie law?</span>
+			  <a href="https://wplegalpages.com/blog/what-you-need-to-know-about-the-eu-cookie-law/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=eu-cookie-law" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
+			 </div>
+			 <div class="gdpr-dashboard-tips-tricks-body-parts">
+              <span class="gdpr-dashboard-tips-tricks-text">Frequently asked questions</span>
+			  <a href="https://club.wpeka.com/docs/wp-cookie-consent/faqs/faq-2/" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
+			 </div>
+			 <div class="gdpr-dashboard-tips-tricks-body-parts">
+              <span class="gdpr-dashboard-tips-tricks-text">What are the CCPA regulations and how we can comply?</span>
+			  <a href="https://wplegalpages.com/blog/california-consumer-privacy-act-become-ccpa-compliant-today/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=ccpa-regulations" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
+			 </div>
+			 <div class="gdpr-dashboard-tips-tricks-body-parts">
+              <span class="gdpr-dashboard-tips-tricks-text">All you need to know about IAB</span>
+			  <a href="https://wplegalpages.com/blog/interactive-advertising-bureau-all-you-need-to-know/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=iab" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
+			 </div>
+			</c-card-body>
 		</c-card>
 	</c-container>
 </div>
