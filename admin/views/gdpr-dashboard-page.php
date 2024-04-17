@@ -198,7 +198,7 @@ if ( 200 === $response_status ) {
 				</c-row>
 				<c-row>
 					<c-col class="col-sm-5 gdpr-progress-circle-column">
-						<vue-ellipse-progress class="gdpr-progress-bar-class" :progress="progress" font-size="60px" font-color="#0059B3" color="#0059B3" :size="250" :thickness="20" :dot="0">
+						<vue-ellipse-progress class="gdpr-progress-bar-class" :progress="progress" line="square" font-size="60px" font-color="#0059B3" color="#0059B3" :size="250" :thickness="20" :dot="0">
 							<span class="gdpr-progress-circle-legend" slot="legend-value">%</span>
 							<p class="gdpr-progress-circle-caption" slot="legend-caption">Complete</p>
 						</vue-ellipse-progress>

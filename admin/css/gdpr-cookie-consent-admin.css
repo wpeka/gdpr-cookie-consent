@@ -3625,7 +3625,6 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     justify-content: center;
     align-items: center;
     z-index: 9; /* Ensure the overlay is on top of the blurred background */
-	/* background-color: rgba(255, 255, 255, 0.8); */
 	background-color: #141722D9;
 	opacity: 8.5;
 	border-radius: 6px;
