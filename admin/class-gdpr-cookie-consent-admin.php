@@ -916,6 +916,92 @@ class Gdpr_Cookie_Consent_Admin {
 			array( $this, 'gdpr_cookie_consent_new_admin_screen' )
 		);
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
+
+
+		// Check if $_GET['scan_url'] is set
+		$scan_url_value = isset($_GET['scan_url']) ? $_GET['scan_url'] : '';
+
+		// Check if the key exists in the options table
+		if (get_option('gdpr_single_page_scan_url') !== false) {
+			// Update the existing option
+			update_option('gdpr_single_page_scan_url', $scan_url_value);
+		} else {
+			// Add a new option
+			add_option('gdpr_single_page_scan_url', $scan_url_value);
+		}
+
+
+	}
+
+	/**
+	 * Registers menu options, hooked into admin_menu.
+	 *
+	 * @since 3.1.0
+	 */
+	public function gdpr_quick_toolbar_menu ( $wp_admin_bar ) {
+
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		//cookie banner enable
+		$is_banner_active = $the_options['is_on'];
+		//script blocker enable
+		$is_script_blocker_active = $the_options['is_script_blocker_on'];
+
+		$enabled_label = '<span style="color:#05E900; font-size:13px;">&#11044;</span>';
+		$disabled_label = '<span style="color:#E10101; font-size:13px;;">&#11044;</span>';
+
+		// Add parent menu item
+		$args = array(
+			'id'    => 'gdpr-quick-menu',
+			'title' => 'WP Cookie Consent <span class="custom-icon" style="float:right;width:22px !important;height:22px !important;margin: 5px 5px 0 !important;"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.36305 18.2675C7.43268 18.739 8.57557 18.9748 9.79172 18.9748C11.0079 18.9742 12.1508 18.7384 13.2204 18.2675C14.29 17.7965 15.2205 17.1532 16.0117 16.3376C16.8023 15.522 17.4286 14.572 17.8904 13.4877C18.3523 12.4033 18.5832 11.2478 18.5832 10.0211C18.5838 9.85589 18.5803 9.7024 18.5727 9.56058C18.565 9.41875 18.5539 9.26556 18.5392 9.101C17.5728 9.07108 16.844 8.65219 16.3528 7.84433C15.8617 7.03648 15.8066 6.19122 16.1875 5.30856C15.5434 5.53297 14.9172 5.57037 14.3088 5.42077C13.7004 5.27116 13.1764 4.99799 12.7369 4.60124C12.2973 4.20509 11.9676 3.70781 11.7478 3.1094C11.528 2.51099 11.4841 1.87518 11.616 1.20196C11.2789 1.12716 10.9493 1.0748 10.6269 1.04488C10.3046 1.01496 9.98953 1 9.68183 1C8.40707 0.999403 7.23487 1.25732 6.16524 1.77375C5.09561 2.29018 4.17983 2.97087 3.4179 3.81583C2.65597 4.66138 2.06255 5.62273 1.63763 6.69987C1.2127 7.77701 1.00024 8.87659 1.00024 9.99862C1.00083 11.2403 1.23175 12.4072 1.69301 13.4993C2.15427 14.5914 2.78052 15.5414 3.57175 16.3493C4.36299 17.1565 5.29342 17.7959 6.36305 18.2675Z" fill="white"/><ellipse cx="5.10827" cy="6.64684" rx="1.75451" ry="1.79137" fill="#171C1F"/><ellipse cx="7.11088" cy="14.1328" rx="1.40361" ry="1.43309" fill="#171C1F"/><ellipse cx="4.05556" cy="10.8357" rx="0.701803" ry="0.716547" fill="#171C1F"/><circle cx="9.72125" cy="8.8703" r="0.877254" fill="#171C1F"/><ellipse cx="14.9546" cy="10.2109" rx="1.40361" ry="1.43309" fill="#171C1F"/><circle cx="12.5134" cy="14.7998" r="1.31588" fill="#171C1F"/><ellipse cx="9.5458" cy="4.00341" rx="0.701803" ry="0.716547" fill="#171C1F"/></svg></span>',
+			'href'  => admin_url( 'admin.php?page=gdpr-cookie-consent' ), // Add your custom URL here
+			'meta'  => array(
+				'class'  => 'gdpr-quick-menu-item',
+				'target' => '' // Add target attribute if needed
+			)
+		);
+
+		$wp_admin_bar->add_node( $args );
+
+		$args = array(
+			'id'     => 'gdpr-quick-menu-item-1',
+			'title'  => 'Scan this Page',
+			'parent' => 'gdpr-quick-menu',
+			'href'   => admin_url( 'admin.php?page=gdpr-cookie-consent&scan_url=' ).get_permalink().'#cookie_settings#cookie_list',
+		);
+
+		$wp_admin_bar->add_node( $args );
+
+		$args = array(
+			'id'     => 'gdpr-quick-menu-item-2',
+			'title'  => 'Settings',
+			'parent' => 'gdpr-quick-menu',
+			'href'   => admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings' ),
+		);
+		$wp_admin_bar->add_node( $args );
+
+		$wp_admin_bar->add_node( $args );
+
+
+		$banner_title = 'Cookie Banner : ' . ($is_banner_active ? 'Enabled ' . $enabled_label : 'Disabled ' . $disabled_label);
+
+		$args = array(
+			'id'     => 'gdpr-quick-menu-item-3',
+			'title'  => $banner_title,
+			'parent' => 'gdpr-quick-menu',
+			'href'   => '',
+		);
+		$wp_admin_bar->add_node( $args );
+
+
+		$script_blocker_title = 'Script Blocker : ' . ($is_script_blocker_active ? 'Enabled ' . $enabled_label : 'Disabled ' . $disabled_label);
+		$args = array(
+			'id'     => 'gdpr-quick-menu-item-4',
+			'title'  => $script_blocker_title,
+			'parent' => 'gdpr-quick-menu',
+			'href'   => '',
+		);
+		$wp_admin_bar->add_node( $args );
+
 	}
 
 	/**
@@ -954,7 +1040,7 @@ class Gdpr_Cookie_Consent_Admin {
 				);
 				echo $this->wpl_get_template_policy_data( 'gdpr-policy-data-tab-template.php', $args );
 	}
-     
+
     /**
 	 * Get a template for data request based on filename, overridable in the theme directory.
 	 *
@@ -963,9 +1049,9 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @param string $path     The path to the template file (optional).
 	 * @return string The content of the template.
 	 */
-	public function wpl_get_template_data_request($filename, $args = array(), $path = false){		
+	public function wpl_get_template_data_request($filename, $args = array(), $path = false){
 		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-data-request-tab-template.php';
-		
+
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
@@ -983,7 +1069,7 @@ class Gdpr_Cookie_Consent_Admin {
 				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
 			}
 		}
-		
+
 		return $contents;
 	}
 	/**
@@ -995,7 +1081,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @return string The content of the template.
 	 */
 	public function wpl_get_template_policy_data( $filename, $args = array(), $path = false ) {
-	
+
 		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-policy-data-tab-template.php';
 
 		if ( ! file_exists( $file ) ) {
@@ -1115,7 +1201,7 @@ class Gdpr_Cookie_Consent_Admin {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-2.0' );
 		}
-		// Update settings from Version 1.7.9. 
+		// Update settings from Version 1.7.9.
 		$prev_gdpr_option = get_option( 'GDPRCookieConsent-3.0' );
 		if ( isset( $prev_gdpr_option['is_on'] ) ) {
 			$prev_gdpr_option['bar_heading_text']     = '';
@@ -4907,7 +4993,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'b'      => array(),
 					'div'    => array(),
 					'label'  => array(),
-				)     
+				)
 			) : 'In case of sale of your personal information, you may opt out by using the link';
 			$the_options['optout_text']                          = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
 			$the_options['is_ccpa_iab_on']                       = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
