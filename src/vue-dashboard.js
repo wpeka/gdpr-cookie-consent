@@ -76,6 +76,7 @@ var gen = new Vue({
 			next_scan_icon:  require('../admin/images/dashboard-icons/summary/next-scan.svg'),
 			view_all_logs:  require('../admin/images/dashboard-icons/summary/view-all-logs.png'),
 			policy_icon:   require('../admin/images/dashboard-icons/summary/vector.svg'),
+			admin_icon:    require('../admin/images/dashboard-icons/summary/admin.svg'),
 			highlight_variant: 'outline',
 			decline_log: dashboard_options.hasOwnProperty('decline_log') ? dashboard_options['decline_log'] : 0,
 			accept_log: dashboard_options.hasOwnProperty('accept_log') ? dashboard_options['accept_log'] : 0,

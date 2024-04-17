@@ -72,11 +72,11 @@
 }
 
 .gdpr-progress-circle-column {
-	background-color: #F6FAFF;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding: 1.5rem;
+	flex-direction: column;
 }
 
 .ep-legend--container {
@@ -90,9 +90,38 @@
 }
 
 .gdpr-progress-circle-caption {
-	font-size: 1.25rem;
 	font-weight: 300;
 	margin-left: -0.5rem;
+	color: #71717A;
+	font-style: Roboto;
+    font-size: 20px;
+}
+
+.progress-bar-caption{
+	margin-top: 15px;
+	/* height: 60px;
+	width: 250px; */
+	/* display: flex;
+	align-items: center;
+	justify-content: center; */
+	padding: 16px 20px 16px 20px;
+	border-radius: 6px;
+	border: 1px solid #F4F4F5;
+}
+
+.progress-bar-caption-text{
+	font-weight: 400;
+	font-size: 14px;
+}
+
+.progress-bar-caption-button{
+    border-radius: 6px;
+	padding: 6px 20px 6px 20px;
+	border: 1px solid #0059B31F;
+	background: #EEF6FF;
+	color: #0059B3;
+	font-size: 16px;
+    margin-left: 5px;
 }
 
 .gdpr-progress-list-column {
@@ -200,6 +229,14 @@
 	filter: drop-shadow( -1px 0 4px rgba(177, 214, 248, 0.8));
 }
 
+.gdpr-progress-bar-class .ep-legend--value__counter{
+	font-weight: 700;
+}
+.gdpr-progress-circle-legend{
+	font-weight: 700;
+	font-size: 60px;
+}
+
 .gdpr-quick-link-item {
 	display: flex;
 	flex-direction: column;
@@ -252,7 +289,7 @@
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid #f2f2f2;
-	padding-left: 3.25rem;
+	padding-left: 5px;
 	padding-right: 3.25rem;
 }
 
@@ -389,6 +426,10 @@
 .gdpr-cookie-summary-last-scan-icon{
 	width:	20px;
 	height: 20px;
+}
+.gdpr-dashboard-admin-icon{
+	height: 36px;
+	width: 36px;
 }
 .gdpr-cookie-summary-manage-cookies-icon{
 	width:	14px;

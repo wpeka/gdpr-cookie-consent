@@ -198,10 +198,15 @@ if ( 200 === $response_status ) {
 				</c-row>
 				<c-row>
 					<c-col class="col-sm-5 gdpr-progress-circle-column">
-						<vue-ellipse-progress class="gdpr-progress-bar-class" :progress="progress" font-size="4.5rem" font-color="#39f" color="#39f" :size="250" :thickness="20" :dot="0">
+						<vue-ellipse-progress class="gdpr-progress-bar-class" :progress="progress" font-size="60px" font-color="#0059B3" color="#0059B3" :size="250" :thickness="20" :dot="0">
 							<span class="gdpr-progress-circle-legend" slot="legend-value">%</span>
 							<p class="gdpr-progress-circle-caption" slot="legend-caption">Complete</p>
 						</vue-ellipse-progress>
+						<div class="progress-bar-caption">
+							   <div>
+                                <span class="progress-bar-caption-text">Cookie Notice Status : </span><button class="progress-bar-caption-button"><?php if($the_options['is_on'] == '1'){echo "Live";}else{echo "Inactive";} ?></button>
+							   </div>
+							</div>
 					</c-col>
 					<c-col class="col-sm-7 gdpr-progress-list-column">
 						<c-row :class="['gdpr-progress-list-item', !other_plugins_active ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
