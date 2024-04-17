@@ -249,7 +249,7 @@ $api_user_plan     = $this->settings->get_plan();
 										<c-switch class="gdpr-btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 										<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 								</div>
-								<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><span>Publish Changes</span></c-button>
+								<c-button class="gdpr-publish-btn"@click="saveCookieSettings">Publish Changes</c-button>
 							</div>
 							</c-card-header>
 							<c-card-body>
@@ -948,7 +948,7 @@ $api_user_plan     = $this->settings->get_plan();
 										<c-switch class="gdpr-btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 										<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 								</div>
-								<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><span>Publish Changes</span></c-button>
+								<c-button class="gdpr-publish-btn"@click="saveCookieSettings">Publish Changes</c-button>
 							</div>
 							</c-card-header>
 							<c-card-body>
@@ -992,6 +992,19 @@ $api_user_plan     = $this->settings->get_plan();
 									<c-col class="col-sm-8">
 									<v-select class="form-group" id="gdpr-cookie-consent-on-load" :reduce="label => label.code" :options="on_load_options" v-model="on_load"></v-select>
 									<input type="hidden" name="gcc-gdpr-cookie-on-load" v-model="on_load">
+									</c-col>
+								</c-row>
+								<c-row>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Initialization', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-switch v-bind="labelIcon" v-model="auto_banner_initialize" id="gdpr-cookie-consent-auto_initialize" variant="3d"  color="success" :checked="auto_banner_initialize" v-on:update:checked="onSwitchAutoBannerInitialize"></c-switch>
+										<input type="hidden" name="gcc-auto-banner-initialize" v-model="auto_banner_initialize">
+									</c-col>
+								</c-row>
+								<c-row v-show="auto_banner_initialize">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Initialization Delay (in milliseconds)', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-input type="number" min="0" max="60000" step="1000" name="gcc-auto-banner-initialize-delay" v-model="auto_banner_initialize_delay"></c-input>
 									</c-col>
 								</c-row>
 								<!-- For hide banner -->
@@ -1103,7 +1116,7 @@ $api_user_plan     = $this->settings->get_plan();
 										<c-switch class="gdpr-btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 										<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 								</div>
-								<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><span>Publish Changes</span></c-button>
+								<c-button class="gdpr-publish-btn"@click="saveCookieSettings">Publish Changes</c-button>
 							</div>
 							</c-card-header>
 							<c-card-body>
@@ -2170,7 +2183,7 @@ $api_user_plan     = $this->settings->get_plan();
 					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list">
 						<c-card>
 							<c-card-header class="gdpr-cookieList-save-btn"><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?>
-							<c-button class="gdpr-publish-btn" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
+							<c-button class="gdpr-publish-btn" @click="saveCookieSettings">Publish Changes</c-button>
 							</c-card-header>
 							<c-card-body>
 								<div v-show="show_add_custom_button" class="gdpr_cookie_custom_postbar" style="display:none;margin-bottom: 10px;">
@@ -2220,7 +2233,7 @@ $api_user_plan     = $this->settings->get_plan();
 
 							<c-card-header class="gdpr-language-save-btn">
 								<?php esc_html_e( 'Languages', 'gdpr-cookie-consent' ); ?>
-								<c-button class="gdpr-publish-btn" @click="saveCookieSettings"><span>Publish Changes</span></c-button>
+								<c-button class="gdpr-publish-btn" @click="saveCookieSettings">Publish Changes</c-button>
 							</c-card-header>
 							<c-card-body>
 								<c-row>
