@@ -171,19 +171,19 @@ if ( 200 === $response_status ) {
 			<c-card-body>
 				<c-row class="gdpr-progress-bar-heading">
 					<c-col class="col-sm-6">
-						<span class="gdpr-progress-heading">Your Progress</span>
+						<span class="gdpr-progress-heading"><?php esc_html_e( 'Your Progress', 'gdpr-cookie-consent' ); ?></span>
 					</c-col class="col-sm-6">
 				</c-row>
 				<c-row>
 					<c-col class="col-sm-5 ">
 					<div class="gdpr-progress-circle-column">
 					<vue-ellipse-progress class="gdpr-progress-bar-class" :progress="progress" line="square" font-size="60px" font-color="#0059B3" color="#0059B3" :size="250" :thickness="20" :dot="0">
-							<span class="gdpr-progress-circle-legend" slot="legend-value">%</span>
-							<p class="gdpr-progress-circle-caption" slot="legend-caption">Completed</p>
+							<span class="gdpr-progress-circle-legend" slot="legend-value"><?php esc_html_e( '%', 'gdpr-cookie-consent' ); ?></span>
+							<p class="gdpr-progress-circle-caption" slot="legend-caption"><?php esc_html_e( 'Completed', 'gdpr-cookie-consent' ); ?></p>
 						</vue-ellipse-progress>
 						<div class="progress-bar-caption">
 							   <div>
-                                <span class="progress-bar-caption-text">Cookie Notice Status : </span><span class="progress-bar-caption-button"><?php if($the_options['is_on'] == '1'){echo "Live";}else{echo "Inactive";} ?></span>
+                                <span class="progress-bar-caption-text"><?php esc_html_e( 'Cookie Notice Status : ', 'gdpr-cookie-consent' ); ?></span><span class="progress-bar-caption-button"><?php if($the_options['is_on'] == '1'){echo esc_html_e( 'Live', 'gdpr-cookie-consent' );}else{echo esc_html_e( 'Inactive', 'gdpr-cookie-consent' );} ?></span>
 							   </div>
 						</div>
 					</div>
@@ -485,23 +485,23 @@ if ( 200 === $response_status ) {
 
 			<c-card-body class="gdpr-dashboard-tips-tricks-body">
              <div class="gdpr-dashboard-tips-tricks-body-parts">
-              <span class="gdpr-dashboard-tips-tricks-text">How to activate your License Key?</span>
+              <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'How to activate your License Key?', 'gdpr-cookie-consent' ); ?></span>
 			  <a href="https://www.youtube.com/watch?v=ZESzSKnUkOg" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
 			 </div>
 			 <div class="gdpr-dashboard-tips-tricks-body-parts">
-              <span class="gdpr-dashboard-tips-tricks-text">What you need to know about the EU Cookie law?</span>
+              <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'What you need to know about the EU Cookie law?', 'gdpr-cookie-consent' ); ?></span>
 			  <a href="https://wplegalpages.com/blog/what-you-need-to-know-about-the-eu-cookie-law/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=eu-cookie-law" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
 			 </div>
 			 <div class="gdpr-dashboard-tips-tricks-body-parts">
-              <span class="gdpr-dashboard-tips-tricks-text">Frequently asked questions</span>
+              <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'Frequently asked questions', 'gdpr-cookie-consent' ); ?></span>
 			  <a href="https://club.wpeka.com/docs/wp-cookie-consent/faqs/faq-2/" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
 			 </div>
 			 <div class="gdpr-dashboard-tips-tricks-body-parts">
-              <span class="gdpr-dashboard-tips-tricks-text">What are the CCPA regulations and how we can comply?</span>
+              <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'What are the CCPA regulations and how we can comply?', 'gdpr-cookie-consent' ); ?></span>
 			  <a href="https://wplegalpages.com/blog/california-consumer-privacy-act-become-ccpa-compliant-today/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=ccpa-regulations" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
 			 </div>
 			 <div class="gdpr-dashboard-tips-tricks-body-parts">
-              <span class="gdpr-dashboard-tips-tricks-text">All you need to know about IAB</span>
+              <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'All you need to know about IAB', 'gdpr-cookie-consent' ); ?></span>
 			  <a href="https://wplegalpages.com/blog/interactive-advertising-bureau-all-you-need-to-know/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=iab" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
 			 </div>
 			</c-card-body>
