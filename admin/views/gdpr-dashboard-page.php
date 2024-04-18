@@ -179,11 +179,11 @@ if ( 200 === $response_status ) {
 					<div class="gdpr-progress-circle-column">
 					<vue-ellipse-progress class="gdpr-progress-bar-class" :progress="progress" line="square" font-size="60px" font-color="#0059B3" color="#0059B3" :size="250" :thickness="20" :dot="0">
 							<span class="gdpr-progress-circle-legend" slot="legend-value">%</span>
-							<p class="gdpr-progress-circle-caption" slot="legend-caption">Complete</p>
+							<p class="gdpr-progress-circle-caption" slot="legend-caption">Completed</p>
 						</vue-ellipse-progress>
 						<div class="progress-bar-caption">
 							   <div>
-                                <span class="progress-bar-caption-text">Cookie Notice Status : </span><button class="progress-bar-caption-button"><?php if($the_options['is_on'] == '1'){echo "Live";}else{echo "Inactive";} ?></button>
+                                <span class="progress-bar-caption-text">Cookie Notice Status : </span><span class="progress-bar-caption-button"><?php if($the_options['is_on'] == '1'){echo "Live";}else{echo "Inactive";} ?></span>
 							   </div>
 						</div>
 					</div>
