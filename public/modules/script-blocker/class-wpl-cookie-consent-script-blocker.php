@@ -363,10 +363,10 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	 */
 	public function wpl_script_blocker_advanced_tab() {
 		?>
-		<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#script_blocker">
+		<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#script_blocker" id="gdpr-cookie-consent-script-blocker">
 			<c-card >
 				<c-card-header class="gdpr-scriptblocker-save-btn"><?php esc_html_e( 'Script Blocker Settings', 'gdpr-cookie-consent' ); ?>
-				<c-button class="gdpr-publish-btn" @click="saveCookieSettings">Publish Changes</c-button>
+				<c-button class="gdpr-publish-btn" @click="saveCookieSettings"><?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?></c-button>
 				</c-card-header>
 				<c-row :class="{ 'overlay-script-style': enable_safe}"v-show="enable_safe">
 					<div :class="{ 'overlay-script-message': enable_safe}">
