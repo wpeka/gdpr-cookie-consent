@@ -249,7 +249,7 @@ $api_user_plan     = $this->settings->get_plan();
 											<c-switch class="gdpr-btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 											<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 									</div>
-									<c-button class="gdpr-publish-btn"@click="saveCookieSettings">Save Changes</c-button>
+									<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?></c-button>
 								</div>
 								</c-card-header>
 								<c-card-body>
@@ -271,13 +271,13 @@ $api_user_plan     = $this->settings->get_plan();
 									<c-row v-show="is_gdpr && !is_ccpa">
 										<c-col class="col-sm-4"></c-col>
 										<c-col class="col-sm-8 ">        
-										<p class="policy-description">The chosen law template supports various global privacy regulations including GDPR (EU & UK), PIPEDA (Canada), Law 25 (Quebec), POPIA (South Africa), nFADP (Switzerland), Privacy Act (Australia), PDPL (Saudi Arabia), PDPL (Argentina), PDPL (Andorra), and DPA (Faroe Islands).</p>								
+										<p class="policy-description"><?php esc_html_e( 'The chosen law template supports various global privacy regulations including GDPR (EU & UK), PIPEDA (Canada), Law 25 (Quebec), POPIA (South Africa), nFADP (Switzerland), Privacy Act (Australia), PDPL (Saudi Arabia), PDPL (Argentina), PDPL (Andorra), and DPA (Faroe Islands).', 'gdpr-cookie-consent' ); ?></p>								
 										</c-col>
 									</c-row>
 									<c-row v-show="is_ccpa && !is_gdpr">
 										<c-col class="col-sm-4"></c-col>
 										<c-col class="col-sm-8">								
-										<p class="policy-description" >The chosen law template supports CCPA/CPRA (California), VCDPA (Virginia), CPA (Colorado), CTDPA (Connecticut), & UCPA (Utah).</p>									
+										<p class="policy-description" ><?php esc_html_e( 'The chosen law template supports CCPA/CPRA (California), VCDPA (Virginia), CPA (Colorado), CTDPA (Connecticut), & UCPA (Utah).', 'gdpr-cookie-consent' ); ?></p>									
 										</c-col>
 									</c-row>
 									<c-row v-show="is_gdpr">
@@ -689,7 +689,7 @@ $api_user_plan     = $this->settings->get_plan();
 													<!-- notification sender email  -->
 													<div class="gdpr-data-req-sender-email">
 														<c-col class="col-sm-12">
-															<span>Notification Sender Email Address</span>
+															<span><?php esc_html_e( 'Notification Sender Email Address', 'gdpr-cookie-consent' ); ?></span>
 														</c-col>
 														<!-- notification sender email text box  -->
 														<c-col class="col-sm-12 gdpr-data-req-sender-email-input">
@@ -730,7 +730,7 @@ $api_user_plan     = $this->settings->get_plan();
 													<div class="gdpr-data-req-email-subject">
 														<!-- notification email subject  -->
 														<c-col class="col-sm-12">
-															<span>Notification Email Subject</span>
+															<span><?php esc_html_e( 'Notification Email Subject', 'gdpr-cookie-consent' ); ?></span>
 														</c-col>
 														<!-- notification email subject text box  -->
 														<c-col class="col-sm-12 gdpr-data-req-subject-input">
@@ -948,7 +948,7 @@ $api_user_plan     = $this->settings->get_plan();
 										<c-switch class="gdpr-btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 										<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 								</div>
-								<c-button class="gdpr-publish-btn"@click="saveCookieSettings">Save Changes</c-button>
+								<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?></c-button>
 							</div>
 							</c-card-header>
 							<c-card-body>
@@ -1116,7 +1116,7 @@ $api_user_plan     = $this->settings->get_plan();
 										<c-switch class="gdpr-btn-switch"v-bind="labelIcon" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 										<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 								</div>
-								<c-button class="gdpr-publish-btn"@click="saveCookieSettings">Save Changes</c-button>
+								<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?></c-button>
 							</div>
 							</c-card-header>
 							<c-card-body>
@@ -2183,7 +2183,7 @@ $api_user_plan     = $this->settings->get_plan();
 					<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" id="gdpr-cookie-consent-cookies-list">
 						<c-card>
 							<c-card-header class="gdpr-cookieList-save-btn"><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?>
-							<c-button class="gdpr-publish-btn" @click="saveCookieSettings">Save Changes</c-button>
+							<c-button class="gdpr-publish-btn" @click="saveCookieSettings"><?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?></c-button>
 							</c-card-header>
 							<c-card-body>
 								<div v-show="show_add_custom_button" class="gdpr_cookie_custom_postbar" style="display:none;margin-bottom: 10px;">
@@ -2233,7 +2233,7 @@ $api_user_plan     = $this->settings->get_plan();
 
 							<c-card-header class="gdpr-language-save-btn">
 								<?php esc_html_e( 'Languages', 'gdpr-cookie-consent' ); ?>
-								<c-button class="gdpr-publish-btn" @click="saveCookieSettings">Save Changes</c-button>
+								<c-button class="gdpr-publish-btn" @click="saveCookieSettings"><?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?></c-button>
 							</c-card-header>
 							<c-card-body>
 								<c-row>
