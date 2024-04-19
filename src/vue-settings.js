@@ -95,6 +95,8 @@ var gen = new Vue({
             autotick: settings_obj.the_options.hasOwnProperty('is_ticked') && (true === settings_obj.the_options['is_ticked'] || 1 === settings_obj.the_options['is_ticked'] ) ? true : false,
             auto_hide: settings_obj.the_options.hasOwnProperty('auto_hide') && (true === settings_obj.the_options['auto_hide'] || 1 === settings_obj.the_options['auto_hide'] ) ? true : false,
             auto_hide_delay: settings_obj.the_options.hasOwnProperty('auto_hide_delay') ? settings_obj.the_options['auto_hide_delay'] : '10000',
+            auto_banner_initialize: settings_obj.the_options.hasOwnProperty('auto_banner_initialize') && (true === settings_obj.the_options['auto_banner_initialize'] || 1 === settings_obj.the_options['auto_banner_initialize'] ) ? true : false,
+            auto_banner_initialize_delay: settings_obj.the_options.hasOwnProperty('auto_banner_initialize_delay') ? settings_obj.the_options['auto_banner_initialize_delay'] : '10000',
             auto_scroll: settings_obj.the_options.hasOwnProperty('auto_scroll') && (true === settings_obj.the_options['auto_scroll'] || 1 === settings_obj.the_options['auto_scroll'] ) ? true : false,
             auto_click: settings_obj.the_options.hasOwnProperty('auto_click') && (true === settings_obj.the_options['auto_click'] || 1 === settings_obj.the_options['auto_click'] ) ? true : false,
             auto_scroll_offset: settings_obj.the_options.hasOwnProperty('auto_scroll_offset') ? settings_obj.the_options['auto_scroll_offset'] : '10',
@@ -612,6 +614,9 @@ var gen = new Vue({
         },
         onSwitchAutoHide() {
             this.auto_hide = !this.auto_hide;
+        },
+        onSwitchAutoBannerInitialize(){
+            this.auto_banner_initialize = !this.auto_banner_initialize;
         },
         onSwitchAutoScroll() {
             this.auto_scroll = !this.auto_scroll;
@@ -1287,6 +1292,7 @@ var gen = new Vue({
             this.is_revoke_consent_on = true;
             this.is_script_blocker_on = false;
             this.auto_hide = false;
+            this.auto_banner_initialize = false;
             this.auto_scroll = false;
             this.auto_click = false;
             this.auto_scroll_reload = false;
@@ -1297,6 +1303,7 @@ var gen = new Vue({
             this.tab_text = 'Cookie Settings';
             this.tab_margin = '5';
             this.auto_hide_delay = '10000';
+            this.auto_banner_initialize_delay = '10000';
             this.auto_scroll_offset =  '10';
             this.cookie_expiry = '365';
             this.on_hide = true;
@@ -2566,6 +2573,8 @@ var gen = new Vue({
             autotick: settings_obj.the_options.hasOwnProperty('is_ticked') && (true === settings_obj.the_options['is_ticked'] || 1 === settings_obj.the_options['is_ticked'] ) ? true : false,
             auto_hide: settings_obj.the_options.hasOwnProperty('auto_hide') && (true === settings_obj.the_options['auto_hide'] || 1 === settings_obj.the_options['auto_hide'] ) ? true : false,
             auto_hide_delay: settings_obj.the_options.hasOwnProperty('auto_hide_delay') ? settings_obj.the_options['auto_hide_delay'] : '10000',
+            auto_banner_initialize: settings_obj.the_options.hasOwnProperty('auto_banner_initialize') && (true === settings_obj.the_options['auto_banner_initialize'] || 1 === settings_obj.the_options['auto_banner_initialize'] ) ? true : false,
+            auto_banner_initialize_delay: settings_obj.the_options.hasOwnProperty('auto_banner_initialize_delay') ? settings_obj.the_options['auto_banner_initialize_delay'] : '10000',
             auto_scroll: settings_obj.the_options.hasOwnProperty('auto_scroll') && (true === settings_obj.the_options['auto_scroll'] || 1 === settings_obj.the_options['auto_scroll'] ) ? true : false,
             auto_click: settings_obj.the_options.hasOwnProperty('auto_click') && (true === settings_obj.the_options['auto_click'] || 1 === settings_obj.the_options['auto_click'] ) ? true : false,
             auto_scroll_offset: settings_obj.the_options.hasOwnProperty('auto_scroll_offset') ? settings_obj.the_options['auto_scroll_offset'] : '10',
@@ -3047,6 +3056,9 @@ var gen = new Vue({
         },
         onSwitchAutoHide() {
             this.auto_hide = !this.auto_hide;
+        },
+        onSwitchAutoBannerInitialize(){
+            this.auto_banner_initialize = !this.auto_banner_initialize;
         },
         onSwitchAutoScroll() {
             this.auto_scroll = !this.auto_scroll;
@@ -3693,6 +3705,7 @@ var gen = new Vue({
             this.is_revoke_consent_on = true;
             this.is_script_blocker_on = false;
             this.auto_hide = false;
+            this.auto_banner_initialize = false;
             this.auto_scroll = false;
             this.auto_click = false;
             this.auto_scroll_reload = false;
@@ -3703,6 +3716,7 @@ var gen = new Vue({
             this.tab_text = 'Cookie Settings';
             this.tab_margin = '5';
             this.auto_hide_delay = '10000';
+            this.auto_banner_initialize = '10000';
             this.auto_scroll_offset =  '10';
             this.cookie_expiry = '365';
             this.on_hide = true;
