@@ -87,6 +87,7 @@ class GDPR_Cookie_Consent_App_Auth {
 				'platform' => 'wordpress',
 				'site' => $site_address,
 				'rest_url' => rawurlencode(get_rest_url()),
+				'src_plugin' => 'wpcookieconsent',
 			),
 			$api_auth_url
 		);

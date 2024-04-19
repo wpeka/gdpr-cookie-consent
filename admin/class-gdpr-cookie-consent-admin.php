@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr','hu' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po' );
 
 	/**
 	 * The version of this plugin.
@@ -130,6 +130,7 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_style( $this->plugin_name . '-select2', plugin_dir_url( __FILE__ ) . 'css/select2.css', array(), $this->version, 'all' );
 		wp_register_style( 'gdpr_policy_data_tab_style', plugin_dir_url( __FILE__ ) . 'css/gdpr-policy-data-tab' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
 		wp_register_style( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'css/wpl-cookie-consent-integrations.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name );
 	}
 
 	/**
@@ -191,7 +192,68 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 		}
 	}
+	/**
+	 * Ajax callback function for Deactivation Popup.
+	 *
+	 * @since 3.1.0
+	 *
+	 * 2 Ajax function callback method.
+	 */
+	public static function gdpr_cookie_consent_deactivate_popup() {
+		// Verify AJAX nonce.
+		check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
 
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_send_json_error( 'Permission denied' );
+		}
+		if ( ! empty( $_POST ) && isset( $_POST['reason'] ) ) {
+			$reason = $_POST['reason'];
+
+			if ( $reason === 'gdpr-plugin-deactivate-with-data' ) {
+				delete_option( 'gdpr_admin_modules' );
+				delete_option( 'gdpr_public_modules' );
+				delete_option( 'wpl_pro_maxmind_integrated' );
+				delete_option( 'gdpr_version_number' );
+				delete_option( '	analytics_activation_redirect_gdpr-cookie-consent' );
+				delete_option( 'wpl_logs_admin' );
+				delete_option( 'wpl_datarequests_db_version' );
+				delete_option( 'wpl_cl_decline' );
+				delete_option( 'wpl_cl_accept' );
+				delete_option( 'wpl_cl_partially_accept' );
+				delete_option( 'wpl_geo_options' );
+				delete_option( 'wpl_bypass_script_blocker' );
+				delete_option( 'wpl_consent_timestamp' );
+				delete_option( 'GDPR_COOKIE_CONSENT_SETTINGS_FIELD' );
+				global $wpdb;
+				$tables_arr = array(
+					'wpl_cookie_scan',
+					'wpl_cookie_scan_url',
+					'wpl_cookie_scan_cookies',
+					'wpl_cookie_scripts',
+					'wpl_data_req',
+					'gdpr_cookie_post_cookies',
+					'gdpr_cookie_scan_categories',
+				);
+
+				foreach ( $tables_arr as $table ) {
+					$tablename = $wpdb->prefix . $table;
+					$wpdb->query( "DROP TABLE IF EXISTS $tablename" ); // SQL query included to drop tables
+				}
+
+				$option_name = 'GDPRCookieConsent-9.0';
+				$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name = %s", $option_name ) ); // SQL query included to delete option
+
+				// Deactivating the gdpr-cookie-consent plugin.
+				deactivate_plugins( 'gdpr-cookie-consent/gdpr-cookie-consent.php' );
+			} elseif ( $reason === 'gdpr-plugin-deactivate-without-data' ) {
+				// Code to execute if 'reason' is 'gdpr-plugin-deactivate-without-data'.
+				deactivate_plugins( 'gdpr-cookie-consent/gdpr-cookie-consent.php' );
+				wp_send_json_success();
+
+			}
+			wp_send_json_success();
+		}
+	}
 	/**
 	 * Displays admin notices related to GDPR Cookie Consent plugin.
 	 *
@@ -323,11 +385,11 @@ class Gdpr_Cookie_Consent_Admin {
 				$consent_logs->display();
 			?>
 				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
-				
+
 			</form>
 			<script>
 					document.addEventListener('DOMContentLoaded', function() {
-						
+
 				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction"]').attr('id', 'consentLogApplyButton');
 				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction2"]').attr('id', 'consentLogApplyButton2');
 				jQuery('#wpl-dnsmpd-filter-consent-log select[id="bulk-action-selector-bottom"]').attr('id', 'bulk-action-selector-consent-log-bottom');
@@ -934,15 +996,22 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function gdpr_policy_process_delete() {
 
-		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' )
-			&& isset( $_GET['action'] )
+		// Check if the user is logged in and has the necessary capability
+		if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
+			// Verify nonce
+			if ( isset( $_GET['page'], $_GET['action'], $_GET['id'], $_GET['_wpnonce'] )
+			&& $_GET['page'] == 'gdpr-cookie-consent'
 			&& $_GET['action'] == 'policy_delete'
-			&& isset( $_GET['id'] )
-		) {
+			&& wp_verify_nonce( $_GET['_wpnonce'], 'gdpr_policy_delete_nonce_' . $_GET['id'] ) ) { // Verify nonce using the ID appended to the nonce name
 
+			// Delete the post
 			wp_delete_post( $_GET['id'], true );
+
+			// Redirect back to the admin page
 			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
 			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' . $paged ) );
+			exit; // Always exit after a wp_redirect()
+		}
 		}
 	}
 
@@ -953,6 +1022,9 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @return array
 	 */
 	public function admin_plugin_action_links( $links ) {
+		$current_url = get_site_url();
+		$current_url = $current_url . '/wp-admin/admin.php?page=gdpr-cookie-consent#create_cookie_banner';
+
 		if ( ! get_option( 'wpl_pro_active' ) ) {
 			$links = array_merge(
 				array(
@@ -961,6 +1033,12 @@ class Gdpr_Cookie_Consent_Admin {
 				$links
 			);
 		}
+		$links = array_merge(
+			array(
+				'<a href="' . esc_url( $current_url ) . '" target="_self" rel="noopener noreferrer"><strong style="color: #11967A; display: inline;">' . __( 'Create Cookie Banner', 'gdpr-cookie-consent' ) . '</strong></a>',
+			),
+			$links
+		);
 		return $links;
 	}
 
@@ -3334,23 +3412,66 @@ class Gdpr_Cookie_Consent_Admin {
 			'code'  => 'widget',
 		);
 
-		$show_language_as_options     = array();
+		$show_language_as_options = array();
 		$show_language_as_options = array(
-			array('label' => 'Bulgarian', 'code' => 'bg'),
-			array('label' => 'Croatian', 'code' => 'hr'),
-			array('label' => 'Czech', 'code' => 'cs'),
-			array('label' => 'Danish', 'code' => 'da'),
-			array('label' => 'Dutch', 'code' => 'nl'),
-			array('label' => 'English', 'code' => 'en'),
-			array('label' => 'French', 'code' => 'fr'),
-			array('label' => 'German', 'code' => 'de'),
-			array('label' => 'Greek', 'code' => 'gr'),
-			array('label' => 'Hungarian', 'code' => 'hu'),
-			array('label' => 'Icelandic', 'code' => 'is'),
-			array('label' => 'Slovenian', 'code' => 'sl'),
-			array('label' => 'Spanish', 'code' => 'es')
+			array(
+				'label' => 'Bulgarian',
+				'code'  => 'bg',
+			),
+			array(
+				'label' => 'Croatian',
+				'code'  => 'hr',
+			),
+			array(
+				'label' => 'Czech',
+				'code'  => 'cs',
+			),
+			array(
+				'label' => 'Danish',
+				'code'  => 'da',
+			),
+			array(
+				'label' => 'Dutch',
+				'code'  => 'nl',
+			),
+			array(
+				'label' => 'English',
+				'code'  => 'en',
+			),
+			array(
+				'label' => 'French',
+				'code'  => 'fr',
+			),
+			array(
+				'label' => 'German',
+				'code'  => 'de',
+			),
+			array(
+				'label' => 'Greek',
+				'code'  => 'gr',
+			),
+			array(
+				'label' => 'Hungarian',
+				'code'  => 'hu',
+			),
+			array(
+				'label' => 'Icelandic',
+				'code'  => 'is',
+			),
+			array(
+				'label' => 'Polish',
+				'code'  => 'po',
+			),
+			array(
+				'label' => 'Slovenian',
+				'code'  => 'sl',
+			),
+			array(
+				'label' => 'Spanish',
+				'code'  => 'es',
+			),
 		);
-		
+
 		// dropdown option for schedule scan.
 		$schedule_scan_options    = array();
 		$schedule_scan_options[0] = array(
@@ -5554,36 +5675,79 @@ class Gdpr_Cookie_Consent_Admin {
 			'code'  => 'top_right',
 		);
 
-		$show_cookie_as_options       = array();
-		$show_cookie_as_options[0]    = array(
+		$show_cookie_as_options    = array();
+		$show_cookie_as_options[0] = array(
 			'label' => 'Banner',
 			'code'  => 'banner',
 		);
-		$show_cookie_as_options[1]    = array(
+		$show_cookie_as_options[1] = array(
 			'label' => 'Popup',
 			'code'  => 'popup',
 		);
-		$show_cookie_as_options[2]    = array(
+		$show_cookie_as_options[2] = array(
 			'label' => 'Widget',
 			'code'  => 'widget',
 		);
-		$show_language_as_options     = array();
-		$show_language_as_options = array(
-			array('label' => 'Bulgarian', 'code' => 'bg'),
-			array('label' => 'Croatian', 'code' => 'hr'),
-			array('label' => 'Czech', 'code' => 'cs'),
-			array('label' => 'Danish', 'code' => 'da'),
-			array('label' => 'Dutch', 'code' => 'nl'),
-			array('label' => 'English', 'code' => 'en'),
-			array('label' => 'French', 'code' => 'fr'),
-			array('label' => 'German', 'code' => 'de'),
-			array('label' => 'Greek', 'code' => 'gr'),
-			array('label' => 'Hungarian', 'code' => 'hu'),
-			array('label' => 'Icelandic', 'code' => 'is'),
-			array('label' => 'Slovenian', 'code' => 'sl'),
-			array('label' => 'Spanish', 'code' => 'es')
+		$show_language_as_options  = array();
+		$show_language_as_options  = array(
+			array(
+				'label' => 'Bulgarian',
+				'code'  => 'bg',
+			),
+			array(
+				'label' => 'Croatian',
+				'code'  => 'hr',
+			),
+			array(
+				'label' => 'Czech',
+				'code'  => 'cs',
+			),
+			array(
+				'label' => 'Danish',
+				'code'  => 'da',
+			),
+			array(
+				'label' => 'Dutch',
+				'code'  => 'nl',
+			),
+			array(
+				'label' => 'English',
+				'code'  => 'en',
+			),
+			array(
+				'label' => 'French',
+				'code'  => 'fr',
+			),
+			array(
+				'label' => 'German',
+				'code'  => 'de',
+			),
+			array(
+				'label' => 'Greek',
+				'code'  => 'gr',
+			),
+			array(
+				'label' => 'Hungarian',
+				'code'  => 'hu',
+			),
+			array(
+				'label' => 'Icelandic',
+				'code'  => 'is',
+			),
+			array(
+				'label' => 'Polish',
+				'code'  => 'po',
+			),
+			array(
+				'label' => 'Slovenian',
+				'code'  => 'sl',
+			),
+			array(
+				'label' => 'Spanish',
+				'code'  => 'es',
+			),
 		);
-		
+
 		// dropdown option for schedule scan.
 		$schedule_scan_options    = array();
 		$schedule_scan_options[0] = array(

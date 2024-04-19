@@ -45,7 +45,7 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr','hu' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr','hu','po' );
 
 	/**
 	 * Public module list, Module folder and main file must be same as that of module name.

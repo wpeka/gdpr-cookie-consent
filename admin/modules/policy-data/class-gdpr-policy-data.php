@@ -161,9 +161,10 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	public function column_name( $item,$column_name ) {
 
 		$item_ID = $item['ID'];
+		$nonce = wp_create_nonce( 'gdpr_policy_delete_nonce_' . $item_ID ); // Create nonce using the item's ID
 		$actions = array(
-			'edit' => '<a href="' . admin_url( 'post.php?post='.$item['ID'].'&action=edit' ) . '">' . __( 'Edit', 'gdpr-cookie-consent' ) . '</a>',
-			'policy_delete' => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=policy_delete&id=' . $item['ID'] ) . '">' . __( 'Trash', 'gdpr-cookie-consent' ) . '</a>',
+			'edit' => '<a href="' . admin_url( 'post.php?post=' . $item['ID'] . '&action=edit' ) . '">' . __( 'Edit', 'gdpr-cookie-consent' ) . '</a>',
+			'policy_delete' => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=policy_delete&id=' . $item['ID'] . '&_wpnonce=' . $nonce ) . '">' . __( 'Trash', 'gdpr-cookie-consent' ) . '</a>', // Add nonce to the delete action URL
 		);
 
 		switch ( $column_name ) {

@@ -311,6 +311,31 @@ jQuery(document).ready(function () {
 	jQuery('.gdpr-start-auth').on('click', startAuth );
 	jQuery('.gdpr-dashboard-start-auth').on('click', startAuth );
 
+	// clicked for activate pro plugin
+	jQuery(document).ready(function($) {
+        $('.gdpr-activate-plugin').on('click', function(e) {
+            e.preventDefault();
+            // Get the base URL of the current page
+            var baseURL = window.location.origin;
+            // Construct the URL for plugins.php
+            var pluginsPageURL = baseURL + '/wp-admin/plugins.php';
+            // Redirect to the plugins.php page
+            window.location.href = pluginsPageURL;
+        });
+    });
+	jQuery(document).ready(function($) {
+        $('.gdpr-activate-api-plugin').on('click', function(e) {
+            e.preventDefault();
+            // Get the base URL of the current page
+            var baseURL = window.location.origin;
+            // Construct the URL for plugins.php
+            var pluginsPageURL = baseURL + '/wp-admin/admin.php?page=gdpr-cookie-consent#activation_key';
+            // Redirect to the plugins.php page
+            window.location.href = pluginsPageURL;
+			location.reload();
+        });
+    });
+
 	/**
 	 * Clicked on connect to exiting account.
 	*/
