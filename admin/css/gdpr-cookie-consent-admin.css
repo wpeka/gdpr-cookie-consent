@@ -1017,6 +1017,18 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 #gdpr-cookie-consent-integration a.nav-link.active:before{
 	content: url('../images/integrations_blue.svg');
 }
+
+#gdpr-cookie-consent-connection a.nav-link:before{
+	content: url('../images/connection_grey.svg'); 
+	margin-right: 8px; 
+	display: inline-block; 
+	height: 15px; 
+	width: 15px; 
+}
+
+#gdpr-cookie-consent-connection a.nav-link.active:before{
+	content: url('../images/connection_blue.svg');
+}
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card {
     padding: 0;
     margin: 0;
