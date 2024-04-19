@@ -77,21 +77,26 @@ $is_user_connected = $this->settings->is_connected();
 		?>
 		<div class="gdpr-cookie-consent-connect-api-container">
 			<div class="gdpr-api-info-content">
-				<div class="gdpr-api-detailed-info">
-					<h2>
-					Connect your website to WP Cookie Consent
-					</h2>
-					<p>Sign up for a free account to integrate seamlessly with the WP Cookie Consent server. Once connected, gain full control over your settings and unlock advanced features:</p>
-					<p>
-					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Cookie Scanner :</strong> Identify cookies on your website and automatically block them before user consent (essential for legal compliance).</p>
-					<p>
-					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Advanced Dashboard :</strong> Unlock useful insights on user's consent data, cookie summary, and consent logs.</p>
-					<p><span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="API Connection Success Mark"></span> <strong>Geo-targeting :</strong> Display or hide the GDPR cookie consent notice depending on the visitor’s location.</p>
-				</div>
-				<div class="gdpr-api-connection-btns">
-					<button class="gdpr-start-auth">New? Create a free account</button>
-					<button class="api-connect-to-account-btn">Connect your existing account</button>
-				</div>
+			<div class="gdpr-api-detailed-info">
+			<h2>
+				<?php echo esc_html( 'Connect your website to WP Cookie Consent', 'gdpr-cookie-consent' ); ?>
+			</h2>
+			<p><?php echo esc_html( 'Sign up for a free account to integrate seamlessly with the WP Cookie Consent server. Once connected, gain full control over your settings and unlock advanced features:' , 'gdpr-cookie-consent'); ?></p>
+			<p>
+				<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Cookie Scanner:' , 'gdpr-cookie-consent'); ?></strong> <?php echo esc_html( 'Identify cookies on your website and automatically block them before user consent (essential for legal compliance).', 'gdpr-cookie-consent' ); ?>
+			</p>
+			<p>
+				<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Advanced Dashboard:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Unlock useful insights on user\'s consent data, cookie summary, and consent logs.', 'gdpr-cookie-consent' ); ?>
+			</p>
+			<p>
+				<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Geo-targeting:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Display or hide the GDPR cookie consent notice depending on the visitor’s location.' , 'gdpr-cookie-consent'); ?>
+			</p>
+		</div>
+		<div class="gdpr-api-connection-btns">
+			<button class="gdpr-start-auth"><?php echo esc_html( 'New? Create a free account', 'gdpr-cookie-consent' ); ?></button>
+			<button class="api-connect-to-account-btn"><?php echo esc_html( 'Connect your existing account', 'gdpr-cookie-consent' ); ?></button>
+		</div>
+
 
 			</div>
 
