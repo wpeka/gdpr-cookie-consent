@@ -923,13 +923,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	border-radius: 0px;
 }
 
-    font-weight: 500;
-	display: flex;
-	padding: 12px 30px;
-	border: 1px solid #E4E4E7;
-	border-right: 0px;
-	border-radius: 0px;
-}
 
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav > div:nth-child(1) ul li.nav-item a.nav-link.active {
     color: #0059B3;
