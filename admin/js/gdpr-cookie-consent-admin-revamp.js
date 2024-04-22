@@ -250,7 +250,7 @@ jQuery(document).ready(function () {
 	window.addEventListener("message", function(event) {
 		//event is originated on server
 		if ( event.isTrusted && event.origin === gdpr_localize_data.gdpr_app_url ) {
-			storeAuth(event.data)
+			gdprStoreAuth(event.data)
 		}
 	});
 
@@ -308,8 +308,8 @@ jQuery(document).ready(function () {
 	/**
 	 * clicked on new account.
 	*/
-	jQuery('.gdpr-start-auth').on('click', startAuth );
-	jQuery('.gdpr-dashboard-start-auth').on('click', startAuth );
+	jQuery('.gdpr-start-auth').on('click', gdprStartAuth );
+	jQuery('.gdpr-dashboard-start-auth').on('click', gdprStartAuth );
 
 	// clicked for activate pro plugin
 	jQuery(document).ready(function($) {
@@ -339,14 +339,14 @@ jQuery(document).ready(function () {
 	/**
 	 * Clicked on connect to exiting account.
 	*/
-	jQuery('.api-connect-to-account-btn').on('click', startAuth );
+	jQuery('.api-connect-to-account-btn').on('click', gdprStartAuth );
 
 	/**
 	 * Function to Start the Authentication Process.
 	 *
 	 * @param {*} event
 	 */
-	function startAuth(event) {
+	function gdprStartAuth(event) {
 
 		// Prevent the default action of the event.
 		event.preventDefault();
@@ -420,7 +420,7 @@ jQuery(document).ready(function () {
 	 * Store the Authentication Data
 	 * @param {*} data
 	*/
-	function storeAuth(data) {
+	function gdprStoreAuth(data) {
 
 		// Create spinner element
 		var spinner = jQuery('<div class="gdpr-spinner"></div>');
