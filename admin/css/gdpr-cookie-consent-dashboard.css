@@ -874,6 +874,8 @@
 
 .gdpr-other-plugin-button{
 	margin-top: 10px;
+	color: #004080;
+
 }
 
 .gdpr-other-plugin-arrow{
@@ -894,6 +896,8 @@
 
 .gdpr-help-button{
 	margin-top: 10px;
+	color: #004080;
+
 }
 .gdpr-help-button:focus {
 	box-shadow: none;
