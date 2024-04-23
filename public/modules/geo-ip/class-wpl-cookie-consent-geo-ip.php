@@ -45,7 +45,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	 * @since 3.0.2
 	 */
 	public function wp_settings_integration_tab(){ ?>
-		<c-tab title="<?php esc_attr_e( 'Integration', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#integration" id="gdpr-cookie-consent-integration">
+		<c-tab title="<?php esc_attr_e( 'Integration', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#integration">
 			<?Php
 				$pro_is_activated  = get_option( 'wpl_pro_active', false );
 				$installed_plugins = get_plugins();
