@@ -347,7 +347,7 @@ $api_user_plan     = $this->settings->get_plan();
 										</c-col>
 									</c-row>
 									<?php if ( ! $is_pro_active ) : ?>
-										<c-row v-show="gdpr_policy === 'gdpr'">
+									<c-row v-show="gdpr_policy === 'gdpr'">
 										<div v-show="enable_safe" class="overlay_eu_visitors">
 												<div class="overlay_eu_visitors_message">
 													<?php
@@ -357,7 +357,15 @@ $api_user_plan     = $this->settings->get_plan();
 													);
 													?>
 												</div>
+										</div>
+										<?php $geo_options = get_option( 'wpl_geo_options' ); 
+										if ( $geo_options['enable_geotargeting'] == 'false' ): ?>
+											<div class="overlay_eu_visitors">
+												<div class="overlay_eu_visitors_message">
+													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
+												</div>
 											</div>
+										<?php endif; ?>										
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8">
 											<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
@@ -375,6 +383,14 @@ $api_user_plan     = $this->settings->get_plan();
 													?>
 												</div>
 											</div>
+											<?php $geo_options = get_option( 'wpl_geo_options' ); 
+											if ( $geo_options['enable_geotargeting'] == 'false' ): ?>
+												<div class="overlay_eu_visitors">
+													<div class="overlay_eu_visitors_message">
+														<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
+													</div>
+												</div>
+											<?php endif; ?>		
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8">
 											<c-switch v-bind="labelIcon" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d"  color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
@@ -392,6 +408,14 @@ $api_user_plan     = $this->settings->get_plan();
 													?>
 												</div>
 											</div>
+											<?php $geo_options = get_option( 'wpl_geo_options' ); 
+											if ( $geo_options['enable_geotargeting'] == 'false' ): ?>
+												<div class="overlay_eu_visitors overlay_eu_visitors--both">
+													<div class="overlay_eu_visitors_message overlay_eu_visitors_message--both">
+														<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
+													</div>
+												</div>
+											<?php endif; ?>		
 											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 											<c-col class="col-sm-8">
 												<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu-on" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
