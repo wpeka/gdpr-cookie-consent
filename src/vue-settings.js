@@ -2689,6 +2689,17 @@ var gen = new Vue({
     },
     mounted() {
         j('#gdpr-before-mount').css('display','none');
+
+		if (performance.navigation.type !== 1) {
+			const urlParams = new URLSearchParams(window.location.search);
+			const scanUrlParam = urlParams.get('scan_url');
+			// Check if the 'scan' parameter is present and has the value '1'
+			if ( scanUrlParam ) {
+				// Run the onClickStartScan() method
+				this.onClickStartScan();
+			}
+		}
+
         this.setValues();
         this.setPostListValues();
         j('.gdpr-cookie-consent-settings-nav .nav .nav-item .nav-link').on('click', function() {

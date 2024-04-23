@@ -214,6 +214,9 @@ class Gdpr_Cookie_Consent {
 		 */
 		$plugin_admin->admin_modules();
 		$this->loader->add_action( 'init', $plugin_admin, 'gdpr_register_block_type' );
+		if ( ! self::is_request( 'admin' ) ) {
+			$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'gdpr_quick_toolbar_menu', 999 );
+		}
 		if ( self::is_request( 'admin' ) ) {
 			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 );
 			// Adding admin menu.
@@ -405,10 +408,10 @@ class Gdpr_Cookie_Consent {
 						<button class="gdpr-cancel-button" id="gdpr-cancel">CANCEL</button>
 					</div>
 					</div>
-					
+
 				</form>
 			</div>
-		</div>		
+		</div>
 		<?php
 	}
 
