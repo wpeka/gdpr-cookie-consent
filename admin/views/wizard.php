@@ -48,9 +48,9 @@ function print_template_boxes( $name, $templates, $checked ) {
 			}
 			?>
 		
-		<?php
-			if ( ! $is_pro) {
-			?>
+			<?php
+			if ( ! $is_pro ) {
+				?>
 			<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 				<div class="gdpr-left-field">
 				<c-input type="radio" :disabled="false" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
@@ -152,17 +152,17 @@ function print_template_boxes( $name, $templates, $checked ) {
 					</div>
 				</div>
 			</div>
-		<?php
+				<?php
 			} else {
-		?>
+				?>
 		<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 			<div class="gdpr-left-field">
 			<c-input type="radio" :disabled="disableSwitch" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
-			<?php
-			if ( $template['name'] === $checked ) {
-				echo ':checked="true"';
-			}
-			?>
+				<?php
+				if ( $template['name'] === $checked ) {
+					echo ':checked="true"';
+				}
+				?>
 			>
 			</div>
 			<div class="gdpr-right-field" style="<?php echo esc_attr( $template['css'] ); ?>">
@@ -262,9 +262,9 @@ function print_template_boxes( $name, $templates, $checked ) {
 				</div>
 			</div>
 		</div>
-		<?php
+				<?php
 			}
-		?>
+			?>
 	<?php endforeach; ?>
 	</div>
 	<?php
@@ -2406,18 +2406,21 @@ function get_templates( $template_type ) {
 										<label class="wizard_eu_safe">
 										<?php
 										$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-										$geo_options = get_option( 'wpl_geo_options' ); 
-										 if ( $the_options['enable_safe'] === 'true' ) : ?>
+										$geo_options = get_option( 'wpl_geo_options' );
+										if ( $the_options['enable_safe'] === 'true' ) :
+											?>
 											<label class="display_block">
 												<div class="opacity_yes">
 													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
 													Yes
 												</div>
 												<div class="wizard_eu_safe_message">
-													<?php esc_attr_e(
+													<?php
+													esc_attr_e(
 														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
 														'gdpr-cookie-consent'
-													); ?>
+													);
+													?>
 												</div>
 											</label>
 											<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
@@ -2433,9 +2436,11 @@ function get_templates( $template_type ) {
 													Yes
 												</div>
 												<div class="wizard_eu_safe_message">
-													<?php esc_attr_e(
+													<?php
+													esc_attr_e(
 														'To enable this feature, enable the geotargeting and integrate with MaxMind key'
-													); ?>
+													);
+													?>
 												</div>
 											</label>
 											<?php if ( $geo_options['enable_geotargeting'] == 'false' ) : ?>
@@ -2481,18 +2486,21 @@ function get_templates( $template_type ) {
 								<label class="wizard_eu_safe">
 										<?php
 										$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-										$geo_options = get_option( 'wpl_geo_options' ); 
-										if ( $the_options['enable_safe'] === 'true' ) : ?>
+										$geo_options = get_option( 'wpl_geo_options' );
+										if ( $the_options['enable_safe'] === 'true' ) :
+											?>
 											<label class="display_block">
 												<div class="opacity_yes">
 													<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
 													Yes
 												</div>
 												<div class="wizard_eu_safe_message">
-													<?php esc_attr_e(
+													<?php
+													esc_attr_e(
 														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
 														'gdpr-cookie-consent'
-													); ?>
+													);
+													?>
 												</div>
 											</label>
 											<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
@@ -2508,9 +2516,11 @@ function get_templates( $template_type ) {
 													Yes
 												</div>
 												<div class="wizard_eu_safe_message">
-													<?php esc_attr_e(
+													<?php
+													esc_attr_e(
 														'To enable this feature, enable the geotargeting and integrate with MaxMind key'
-													); ?>
+													);
+													?>
 												</div>
 											</label>
 											<label class="display_block">
@@ -2546,18 +2556,21 @@ function get_templates( $template_type ) {
 									<?php
 									$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
-									$geo_options = get_option( 'wpl_geo_options' ); 
-										 if ( $the_options['enable_safe'] === 'true' ) : ?>
+									$geo_options = get_option( 'wpl_geo_options' );
+									if ( $the_options['enable_safe'] === 'true' ) :
+										?>
 											<label class="display_block">
 												<div class="opacity_yes">
 													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
 													Yes
 												</div>
 												<div class="wizard_eu_safe_message">
-													<?php esc_attr_e(
+													<?php
+													esc_attr_e(
 														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
 														'gdpr-cookie-consent'
-													); ?>
+													);
+													?>
 												</div>
 											</label>
 											<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
@@ -2573,9 +2586,11 @@ function get_templates( $template_type ) {
 													Yes
 												</div>
 												<div class="wizard_eu_safe_message">
-													<?php esc_attr_e(
+													<?php
+													esc_attr_e(
 														'To enable this feature, enable the geotargeting and integrate with MaxMind key'
-													); ?>
+													);
+													?>
 												</div>
 											</label>
 											<?php if ( $geo_options['enable_geotargeting'] == 'false' ) : ?>
@@ -2621,18 +2636,21 @@ function get_templates( $template_type ) {
 							<label class="wizard_eu_safe">
 									<?php
 									$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-									$geo_options = get_option( 'wpl_geo_options' ); 
-									if ( $the_options['enable_safe'] === 'true' ) : ?>
+									$geo_options = get_option( 'wpl_geo_options' );
+									if ( $the_options['enable_safe'] === 'true' ) :
+										?>
 										<label class="display_block">
 											<div class="opacity_yes">
 												<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
 												Yes
 											</div>
 											<div class="wizard_eu_safe_message">
-												<?php esc_attr_e(
+												<?php
+												esc_attr_e(
 													'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
 													'gdpr-cookie-consent'
-												); ?>
+												);
+												?>
 											</div>
 										</label>
 										<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
@@ -2648,9 +2666,11 @@ function get_templates( $template_type ) {
 												Yes
 											</div>
 											<div class="wizard_eu_safe_message">
-												<?php esc_attr_e(
+												<?php
+												esc_attr_e(
 													'To enable this feature, enable the geotargeting and integrate with MaxMind key'
-												); ?>
+												);
+												?>
 											</div>
 										</label>
 										<label class="display_block">
@@ -2671,7 +2691,7 @@ function get_templates( $template_type ) {
 							</c-col>
 						</c-row>
 						</div>				
-						<?php }?>
+						<?php } ?>
 											
 				</div>
 
@@ -2706,8 +2726,6 @@ function get_templates( $template_type ) {
 									<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on">
 								</c-col>
 							</div>
-							<?php
-							?>
 						</div>
 
 						<!-- show cookie notice  -->
