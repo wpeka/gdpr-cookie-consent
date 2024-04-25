@@ -3848,6 +3848,17 @@ class Gdpr_Cookie_Consent_Admin {
 		$geo_options['database_file_path'] = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/' . $geo_options['database_prefix'] . '-GeoLite2-City.mmdb';
 		update_option( 'wpl_geo_options', $geo_options );
 		wp_enqueue_style( 'gdpr-cookie-consent-integrations' );
+
+		// Require the class file for gdpr cookie consent api framework settings.
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+		// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+
+		// Call the is_connected() method from the instantiated object to check if the user is connected.
+		$is_user_connected = $this->settings->is_connected();
+
+
 		wp_localize_script(
 			$this->plugin_name . '-main',
 			'settings_obj',
@@ -3892,6 +3903,7 @@ class Gdpr_Cookie_Consent_Admin {
 				// for sites.
 				'list_of_sites'                    => is_multisite() ? $list_of_sites : null,
 				'geo_options'                      => $geo_options,
+				'is_user_connected'				   => $is_user_connected,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
