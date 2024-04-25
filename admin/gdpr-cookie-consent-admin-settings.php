@@ -360,7 +360,7 @@ $api_user_plan     = $this->settings->get_plan();
 										</div>
 										<?php
 										$geo_options = get_option( 'wpl_geo_options' );
-										if ( $geo_options['enable_geotargeting'] == 'false' ) :
+										if ( $geo_options['enable_geotargeting']==false || $geo_options['enable_geotargeting']=='false' ) :
 											?>
 										<div class="overlay_eu_visitors">
 											<div class="overlay_eu_visitors_message">
@@ -387,7 +387,7 @@ $api_user_plan     = $this->settings->get_plan();
 										</div>
 										<?php
 										$geo_options = get_option( 'wpl_geo_options' );
-										if ( $geo_options['enable_geotargeting'] == 'false' ) :
+										if ( $geo_options['enable_geotargeting']==false || $geo_options['enable_geotargeting']=='false' ) :
 											?>
 										<div class="overlay_eu_visitors">
 											<div class="overlay_eu_visitors_message">
@@ -414,7 +414,7 @@ $api_user_plan     = $this->settings->get_plan();
 										</div>
 										<?php
 										$geo_options = get_option( 'wpl_geo_options' );
-										if ( $geo_options['enable_geotargeting'] == 'false' ) :
+										if ( $geo_options['enable_geotargeting']==false || $geo_options['enable_geotargeting']=='false' ) :
 											?>
 											<div class="overlay_eu_visitors overlay_eu_visitors--both">
 												<div class="overlay_eu_visitors_message overlay_eu_visitors_message--both">
