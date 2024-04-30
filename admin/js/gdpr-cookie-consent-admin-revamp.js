@@ -517,7 +517,7 @@ jQuery(document).ready(function () {
 	 * cookie settings perferences functionality
 	 */
 	jQuery(document).ready(function($) {
-		$('#cookie_action_settings_preview').on('click', function(e) {
+		$('.gpdr_cookie_settings_btn').on('click', function(e) {
 			e.preventDefault();
 			// Fade out the div to the bottom
 			$('#banner-preview-main-container').animate({
