@@ -35,7 +35,8 @@ $api_user_plan     = $this->settings->get_plan();
 <div id="gdpr-before-mount" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-settings-app">
 	<!-- main preview container -->
-	<div v-if="show_cookie_as === 'banner'">
+		<!-- Banner preferences skins  -->
+		<div v-if="show_cookie_as === 'banner'">
 		<div v-show="banner_template == 'banner-default'">
 		<?php require plugin_dir_path( __FILE__ ).'templates/skin/default.php' ;  ?>
 		</div>
@@ -58,7 +59,7 @@ $api_user_plan     = $this->settings->get_plan();
 		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark.php' ;  ?>
 		</div>
 	</div>
-
+	<!-- widget preferences skins  -->
 	<div v-if="show_cookie_as === 'widget'">
 		<div v-show="widget_template == 'widget-default'">
 		<?php require plugin_dir_path( __FILE__ ).'templates/skin/default.php' ;  ?>
@@ -86,7 +87,7 @@ $api_user_plan     = $this->settings->get_plan();
 		</div>
 
 	</div>
-
+	<!-- popup preferences skins  -->
 	<div v-if="show_cookie_as === 'popup'">
 		<div v-show="popup_template == 'popup-default'">
 		<?php require plugin_dir_path( __FILE__ ).'templates/skin/default.php' ;  ?>
@@ -114,7 +115,6 @@ $api_user_plan     = $this->settings->get_plan();
 		</div>
 
 	</div>
-
 
 	<!-- adding divs conditionally for popup preview -->
 	<div v-if="show_cookie_as === 'popup'" class="banner-preview-modal gdprfade" :class="{'hide-popup':!banner_preview_is_on , 'overlay':cookie_add_overlay}">
@@ -345,7 +345,7 @@ $api_user_plan     = $this->settings->get_plan();
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-consent-policy-type" :reduce="label => label.code" :options="policy_options" v-model="gdpr_policy" @input="cookiePolicyChange">
 										</v-select>
-										  <input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
+											<input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
 									</c-col>
 								</c-row>
 								<c-row v-show="is_gdpr && !is_ccpa">
@@ -357,7 +357,7 @@ $api_user_plan     = $this->settings->get_plan();
 								<c-row v-show="is_ccpa && !is_gdpr">
 									<c-col class="col-sm-4"></c-col>
 									<c-col class="col-sm-8">
-								    <p class="policy-description" >The chosen law template supports CCPA/CPRA (California), VCDPA (Virginia), CPA (Colorado), CTDPA (Connecticut), & UCPA (Utah).</p>
+									<p class="policy-description" >The chosen law template supports CCPA/CPRA (California), VCDPA (Virginia), CPA (Colorado), CTDPA (Connecticut), & UCPA (Utah).</p>
 									</c-col>
 								</c-row>
 								<c-row v-show="is_gdpr">
@@ -438,6 +438,16 @@ $api_user_plan     = $this->settings->get_plan();
 												?>
 											</div>
 										</div>
+										<?php
+										$geo_options = get_option( 'wpl_geo_options' );
+										if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
+											?>
+										<div class="overlay_eu_visitors">
+											<div class="overlay_eu_visitors_message">
+													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
+											</div>
+										</div>
+										<?php endif; ?>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
@@ -455,6 +465,16 @@ $api_user_plan     = $this->settings->get_plan();
 												?>
 											</div>
 										</div>
+										<?php
+										$geo_options = get_option( 'wpl_geo_options' );
+										if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
+											?>
+										<div class="overlay_eu_visitors">
+											<div class="overlay_eu_visitors_message">
+													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
+											</div>
+										</div>
+										<?php endif; ?>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d"  color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
@@ -472,6 +492,16 @@ $api_user_plan     = $this->settings->get_plan();
 												?>
 											</div>
 										</div>
+										<?php
+										$geo_options = get_option( 'wpl_geo_options' );
+										if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
+											?>
+											<div class="overlay_eu_visitors overlay_eu_visitors--both">
+												<div class="overlay_eu_visitors_message overlay_eu_visitors_message--both">
+													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
+												</div>
+											</div>
+										<?php endif; ?>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8">
 											<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu-on" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
