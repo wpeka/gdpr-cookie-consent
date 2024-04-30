@@ -6192,6 +6192,31 @@ class Gdpr_Cookie_Consent_Admin {
 		$data_reqs_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
 		$consent_log_on = isset( $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
 
+		if ( true === $the_options['is_on'] ) {
+			$template           = $the_options['template'];
+			if ( 'none' !== $template ) {
+				$template_parts = explode( '-', $template );
+				$template       = array_pop( $template_parts );
+			}
+			$the_options['template_parts'] = $template;
+			if ( in_array( $template, array( 'navy_blue_center', 'navy_blue_box', 'navy_blue_square' ), true ) ) {
+				$template_parts_background = '#354e8e';
+			} elseif ( in_array( $template, array( 'almond_column' ), true ) ) {
+				$template_parts_background = '#f2ecd8';
+			} elseif ( in_array( $template, array( 'grey_column', 'grey_center' ), true ) ) {
+				$template_parts_background = '#e0e0e0';
+			} elseif ( in_array( $template, array( 'dark' ), true ) ) {
+				$template_parts_background = '#3a3a3a';
+			} elseif ( in_array( $template, array( 'dark_row' ), true ) ) {
+				$template_parts_background = '#434a58';
+			} else {
+				$template_parts_background = '#ebebeb';
+			}
+		}
+
+
+
+
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script(
 			'gdpr-cookie-consent-admin-revamp',
@@ -6214,8 +6239,23 @@ class Gdpr_Cookie_Consent_Admin {
 				'gdpr_app_url'      => GDPR_APP_URL,
 				'_ajax_nonce'       => wp_create_nonce( 'gdpr-cookie-consent' ),
 				'is_user_connected' => $is_user_connected,
+				'background'		=> $template_parts_background,
+				'button_accept_button_color' => $the_options['button_accept_button_color'],
 			)
 		);
+		?>
+		<style>
+			.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label:after,
+			.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input:checked+label:after {
+				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+			}
+
+			.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
+			#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
+				color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+			}
+		</style>
+		<?php
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-admin.php';
 	}
 	/**

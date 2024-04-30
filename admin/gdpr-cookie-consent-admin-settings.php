@@ -35,6 +35,86 @@ $api_user_plan     = $this->settings->get_plan();
 <div id="gdpr-before-mount" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-settings-app">
 	<!-- main preview container -->
+		<!-- Banner preferences skins  -->
+		<div v-if="show_cookie_as === 'banner'">
+		<div v-show="banner_template == 'banner-default'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/default.php' ;  ?>
+		</div>
+		<div v-show="banner_template == 'banner-almond_column'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/banner_almond.php' ;  ?>
+		</div>
+		<div v-show="banner_template == 'banner-navy_blue_center'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/navy_blue_center.php' ;  ?>
+		</div>
+		<div v-show="banner_template == 'banner-grey_column'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_column.php' ;  ?>
+		</div>
+		<div v-show="banner_template == 'banner-grey_center'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_center.php' ;  ?>
+		</div>
+		<div v-show="banner_template == 'banner-dark_row'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark_row.php' ;  ?>
+		</div>
+		<div v-show="banner_template == 'banner-dark'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark.php' ;  ?>
+		</div>
+	</div>
+	<!-- widget preferences skins  -->
+	<div v-if="show_cookie_as === 'widget'">
+		<div v-show="widget_template == 'widget-default'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/default.php' ;  ?>
+		</div>
+		<div v-show="widget_template == 'widget-almond_column'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/banner_almond.php' ;  ?>
+		</div>
+		<div v-show="widget_template == 'widget-navy_blue_center' || widget_template == 'widget-navy_blue_box'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/navy_blue_center.php' ;  ?>
+		</div>
+		<div v-show="widget_template == 'widget-navy_blue_square' ">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/navy_blue_square.php' ;  ?>
+		</div>
+		<div v-show="widget_template == 'widget-grey_column'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_column.php' ;  ?>
+		</div>
+		<div v-show="widget_template == 'widget-grey_center'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_center.php' ;  ?>
+		</div>
+		<div v-show="widget_template == 'widget-dark_row'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark_row.php' ;  ?>
+		</div>
+		<div v-show="widget_template == 'widget-dark'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark.php' ;  ?>
+		</div>
+
+	</div>
+	<!-- popup preferences skins  -->
+	<div v-if="show_cookie_as === 'popup'">
+		<div v-show="popup_template == 'popup-default'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/default.php' ;  ?>
+		</div>
+		<div v-show="popup_template == 'popup-almond_column'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/banner_almond.php' ;  ?>
+		</div>
+		<div v-show="popup_template == 'popup-navy_blue_center' || popup_template == 'popup-navy_blue_box' ">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/navy_blue_center.php' ;  ?>
+		</div>
+		<div v-show="popup_template == 'popup-navy_blue_square' ">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/navy_blue_square.php' ;  ?>
+		</div>
+		<div v-show="popup_template == 'popup-grey_column'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_column.php' ;  ?>
+		</div>
+		<div v-show="popup_template == 'popup-grey_center'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_center.php' ;  ?>
+		</div>
+		<div v-show="popup_template == 'popup-dark_row'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark_row.php' ;  ?>
+		</div>
+		<div v-show="popup_template == 'popup-dark'">
+		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark.php' ;  ?>
+		</div>
+
+	</div>
 
 	<!-- adding divs conditionally for popup preview -->
 	<div v-if="show_cookie_as === 'popup'" class="banner-preview-modal gdprfade" :class="{'hide-popup':!banner_preview_is_on , 'overlay':cookie_add_overlay}">
@@ -270,14 +350,14 @@ $api_user_plan     = $this->settings->get_plan();
 								</c-row>
 								<c-row v-show="is_gdpr && !is_ccpa">
 									<c-col class="col-sm-4"></c-col>
-									<c-col class="col-sm-8 ">        
-									<p class="policy-description">The chosen law template supports various global privacy regulations including GDPR (EU & UK), PIPEDA (Canada), Law 25 (Quebec), POPIA (South Africa), nFADP (Switzerland), Privacy Act (Australia), PDPL (Saudi Arabia), PDPL (Argentina), PDPL (Andorra), and DPA (Faroe Islands).</p>								
+									<c-col class="col-sm-8 ">
+									<p class="policy-description">The chosen law template supports various global privacy regulations including GDPR (EU & UK), PIPEDA (Canada), Law 25 (Quebec), POPIA (South Africa), nFADP (Switzerland), Privacy Act (Australia), PDPL (Saudi Arabia), PDPL (Argentina), PDPL (Andorra), and DPA (Faroe Islands).</p>
 									</c-col>
 								</c-row>
 								<c-row v-show="is_ccpa && !is_gdpr">
 									<c-col class="col-sm-4"></c-col>
-									<c-col class="col-sm-8">								
-									<p class="policy-description" >The chosen law template supports CCPA/CPRA (California), VCDPA (Virginia), CPA (Colorado), CTDPA (Connecticut), & UCPA (Utah).</p>									
+									<c-col class="col-sm-8">
+									<p class="policy-description" >The chosen law template supports CCPA/CPRA (California), VCDPA (Virginia), CPA (Colorado), CTDPA (Connecticut), & UCPA (Utah).</p>
 									</c-col>
 								</c-row>
 								<c-row v-show="is_gdpr">
@@ -367,7 +447,7 @@ $api_user_plan     = $this->settings->get_plan();
 													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
 											</div>
 										</div>
-										<?php endif; ?>	
+										<?php endif; ?>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
@@ -394,7 +474,7 @@ $api_user_plan     = $this->settings->get_plan();
 													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
 											</div>
 										</div>
-										<?php endif; ?>	
+										<?php endif; ?>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d"  color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
@@ -806,7 +886,7 @@ $api_user_plan     = $this->settings->get_plan();
 									</c-row>
 
 								<?php } ?>
-								
+
 								<?php do_action( 'gdpr_consent_settings_data_reqs' ); ?>
 								<!-- Consent  Forwarding -->
 								<?php
@@ -898,7 +978,7 @@ $api_user_plan     = $this->settings->get_plan();
 									</c-row>
 									<?php endif ?>
 									<?php do_action( 'gdpr_consent_settings_pro_bottom' ); ?>
-								
+
 							</c-card-body>
 						</c-card>
 						<c-card>
