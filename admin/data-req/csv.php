@@ -111,11 +111,11 @@ function export_array() {
 
 	$output = array();
 	$output[] = array(
-		__( "Name", 'complianz-gdpr' ),
-		__( "Email", 'complianz-gdpr' ),
-		__( "Resolved", 'complianz-gdpr' ),
-		__( "Data request", 'complianz-gdpr' ),
-		__( "Date", 'complianz-gdpr' ),
+		__( "Name", 'gdpr-cookie-consent' ),
+		__( "Email", 'gdpr-cookie-consent' ),
+		__( "Resolved", 'gdpr-cookie-consent' ),
+		__( "Data request", 'gdpr-cookie-consent' ),
+		__( "Date", 'gdpr-cookie-consent' ),
 	);
 
 	foreach ( $requests as $request ) {
@@ -128,7 +128,7 @@ function export_array() {
 		}
 		$time = date( get_option( 'time_format' ), $request->request_date );
 		$date = wpl_localize_date($request->request_date);
-		$date = wpl_sprintf( __( "%s at %s", 'complianz-gdpr' ), $date, $time );
+		$date = wpl_sprintf( __( "%s at %s", 'gdpr-cookie-consent' ), $date, $time );
 		$output[] = array( $request->name, $request->email, $request->resolved, $datarequest, $date );
 	}
 

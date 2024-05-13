@@ -100,7 +100,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				<?php submit_button( $text, 'button', false, false,
 					array( 'ID' => 'search-submit-data' ) ); ?>
 			</p>
-			<a href="<?php echo esc_url_raw( plugin_dir_url(__FILE__) . "csv.php?nonce=" . wp_create_nonce( 'wpl_csv_nonce' ) ) ?>" target="_blank" class="button button-primary data-req-export-button"><?php _e("Export", "gdpr-cookie-consent")?></a>
+			<a href="<?php echo esc_url_raw( plugin_dir_url(__FILE__) . "csv.php?nonce=" . wp_create_nonce( 'wpl_csv_nonce' ) ) ?>" target="_blank" class="button button-primary data-req-export-button"><?php esc_html_e("Export", "gdpr-cookie-consent")?></a>
 
 			<?php
 
