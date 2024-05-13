@@ -376,10 +376,10 @@ class Gdpr_Cookie_Consent_Admin {
 		$consent_logs->prepare_items();
 		?>
 		<div class="wpl-consentlogs">
-			<h1 class="wp-heading-inline"><?php _e( 'Consent Logs', 'gdpr-cookie-consent' ); ?>
+			<h1 class="wp-heading-inline"><?php esc_html_e( 'Consent Logs', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ); ?>">
+			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php esc_html_e( admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ) ); ?>">
 			<?php
 				$consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$consent_logs->display();
@@ -553,16 +553,16 @@ class Gdpr_Cookie_Consent_Admin {
 			</div>
 			<form id="wpl-datarequest-form">
 				<input type="hidden" name="wpl_data_req_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'wpl-data-req-form-nonce' ) ); ?>"/>
-				<label for="wpl_datarequest_firstname" class="wpl-first-name"><?php echo __( 'Name', 'gdpr-cookie-consent' ); ?>
+				<label for="wpl_datarequest_firstname" class="wpl-first-name"><?php echo esc_html__( 'Name', 'gdpr-cookie-consent' ); ?>
 					<input type="search" class="datarequest-firstname" value="" placeholder="your first name" id="wpl_datarequest_firstname" name="wpl_datarequest_firstname" >
 				</label>
 				<div>
-					<label for="wpl_datarequest_name"><?php echo __( 'Name', 'gdpr-cookie-consent' ); ?></label>
-					<input type="text" required value="" placeholder="<?php echo __( 'Your name', 'gdpr-cookie-consent' ); ?>" id="wpl_datarequest_name" name="wpl_datarequest_name">
+					<label for="wpl_datarequest_name"><?php echo esc_html__( 'Name', 'gdpr-cookie-consent' ); ?></label>
+					<input type="text" required value="" placeholder="<?php echo esc_html__( 'Your name', 'gdpr-cookie-consent' ); ?>" id="wpl_datarequest_name" name="wpl_datarequest_name">
 				</div>
 				<div>
-					<label for="wpl_datarequest_email"><?php echo __( 'Email', 'gdpr-cookie-consent' ); ?></label>
-					<input type="email" required value="" placeholder="<?php echo __( 'email@email.com', 'gdpr-cookie-consent' ); ?>" id="wpl_datarequest_email" name="wpl_datarequest_email">
+					<label for="wpl_datarequest_email"><?php echo esc_html__( 'Email', 'gdpr-cookie-consent' ); ?></label>
+					<input type="email" required value="" placeholder="<?php echo esc_html__( 'email@email.com', 'gdpr-cookie-consent' ); ?>" id="wpl_datarequest_email" name="wpl_datarequest_email">
 				</div>
 				<?php
 					$options = $this->wpl_data_reqs_options();
@@ -575,7 +575,7 @@ class Gdpr_Cookie_Consent_Admin {
 							</label>
 						</div>
 				<?php } ?>
-				<input type="button" id="wpl-datarequest-submit"  value="<?php echo __( 'Send', 'gdpr-cookie-consent' ); ?>">
+				<input type="button" id="wpl-datarequest-submit"  value="<?php echo esc_html__( 'Send', 'gdpr-cookie-consent' ); ?>">
 			</form>
 			<style>
 				/* first-name is honeypot */
@@ -815,10 +815,10 @@ class Gdpr_Cookie_Consent_Admin {
 		$datarequests->prepare_items();
 		?>
 		<div class="wpl-datarequests">
-			<h1 class="wp-heading-inline"><?php _e( 'Data Requests', 'gdpr-cookie-consent' ); ?>
+			<h1 class="wp-heading-inline"><?php esc_html_e( 'Data Requests', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ); ?>">
+			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php esc_html_e( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ) ); ?>">
 			<?php
 				$datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$datarequests->display();
@@ -1020,10 +1020,10 @@ class Gdpr_Cookie_Consent_Admin {
 			$policy_data->prepare_items();
 		?>
 			<div class="wpl-consentlogs">
-				<h1 class="wp-heading-inline"><?php _e( 'Policy Data', 'gdpr-cookie-consent' ); ?>
+				<h1 class="wp-heading-inline"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?>
 
 				</h1>
-				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ); ?>">
+				<form id="wpl-dnsmpd-filter" method="get" action="<?php esc_html_e( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ) ); ?>">
 				<?php
 					$policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 					$policy_data->display();

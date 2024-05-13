@@ -857,10 +857,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		$is_consent_status1  = isset( $custom['_wplconsentlogs_consent_forward'][0] ) ? $custom['_wplconsentlogs_consent_forward'][0] : null;
 		echo '<table class="wp-list-table widefat fixed striped gdpr-consent-log-dashboard">';
 		echo '<thead><tr>';
-		echo '<th>' . __( 'IP Address', 'gdpr-cookie-consent' ) . '</th>';
-		echo '<th>' . __( 'Country', 'gdpr-cookie-consent' ) . '</th>';
-		echo '<th>' . __( 'Consent Status', 'gdpr-cookie-consent' ) . '</th>';
-		echo '<th>' . __( 'Visited Date', 'gdpr-cookie-consent' ) . '</th>';
+		echo '<th>' . esc_html__( 'IP Address', 'gdpr-cookie-consent' ) . '</th>';
+		echo '<th>' . esc_html__( 'Country', 'gdpr-cookie-consent' ) . '</th>';
+		echo '<th>' . esc_html__( 'Consent Status', 'gdpr-cookie-consent' ) . '</th>';
+		echo '<th>' . esc_html__( 'Visited Date', 'gdpr-cookie-consent' ) . '</th>';
 		// Add more table headers for other custom fields if needed.
 		echo '</tr></thead>';
 		echo '<tbody>';
@@ -942,7 +942,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 				endwhile;
 			else :
 				// No posts found, display a message.
-				echo '<tr><td colspan="4">' . __( 'No logs found', 'gdpr-cookie-consent' ) . '</td></tr>';
+				echo '<tr><td colspan="4">' . esc_html__( 'No logs found', 'gdpr-cookie-consent' ) . '</td></tr>';
 			endif;
 
 			echo '</tbody>';
@@ -1239,7 +1239,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 				endwhile;
 			else :
 				// No posts found, display a message.
-				echo '<tr><td colspan="4">' . __( 'No logs found', 'gdpr-cookie-consent' ) . '</td></tr>';
+				echo '<tr><td colspan="4">' . esc_html__( 'No logs found', 'gdpr-cookie-consent' ) . '</td></tr>';
 			endif;
 			echo '</tbody>';
 			echo '</table>';

@@ -320,7 +320,7 @@ $api_user_plan     = $this->settings->get_plan();
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 
 					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#compliances">
-						<!-- Complianz Banner preview  -->
+						<!--  Banner preview  -->
 						<c-card class="compliances_card">
 							<c-card-header class="gdpr-compliances-save-btn"><?php esc_html_e( 'Cookie Notice', 'gdpr-cookie-consent' ); ?>
 							<div class="gdpr-preview-publish-btn">
