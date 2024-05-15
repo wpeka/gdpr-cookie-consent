@@ -373,17 +373,20 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				}
 				$time = date( get_option( 'time_format' ), $request->request_date );
 				$date = $this->wpl_localize_date($request->request_date);
-				$date = $this->wpl_sprintf( __( "%s at %s", 'gdpr-cookie-consent' ), $date, $time );
+				
+				// Translators: Placeholder %1$s represents the date, %2$s represents the time.
+				$date_time_format = __( "%1\$s at %2\$s", 'gdpr-cookie-consent' );
+
+				$date = sprintf( $date_time_format, $date, $time );
 
 				$data[] = array(
-						'ID'          => $request->ID,
-						'name'        => $request->name,
-						'email'       => $request->email,
-						'resolved'    => $request->resolved,
-						'datarequest' => $datarequest,
-						'date'       => $date,
+					'ID'          => $request->ID,
+					'name'        => $request->name,
+					'email'       => $request->email,
+					'resolved'    => $request->resolved,
+					'datarequest' => $datarequest,
+					'date'        => $date,
 				);
-
 			}
 		}
 

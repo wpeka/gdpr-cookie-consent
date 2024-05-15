@@ -182,7 +182,8 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( ! empty( $license_key ) ) {
 				$license_key = $geoip->validate_maxmind_license_key( $license_key );
 			}
-			$enable_geotargeting                = isset( $_POST['wpl-enable-geo-targeting'] ) && ( true === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) || 'true' === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) ) ? 'true' : 'false';
+			$enable_geotargeting = isset( $_POST['wpl-enable-geo-targeting'] ) ?
+    ( true === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) || 'true' === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) ) ? 'true' : 'false' : 'false';
 			$geo_options                        = get_option( 'wpl_geo_options' );
 			$geo_options['maxmind_license_key'] = $license_key;
 			$geo_options['enable_geotargeting'] = $enable_geotargeting;

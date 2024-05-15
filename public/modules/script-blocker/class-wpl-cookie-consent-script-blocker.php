@@ -490,11 +490,12 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		}
 
 		foreach ( $values as $key => $value ) {
-			echo $this->get_whitelist_script_html( $value, $key );
+			// All the value getting in the $value is already escaped so it not needed to do here.
+			echo $this->get_whitelist_script_html( $value, $key ); // phpcs:ignore
 		}
 
 		?>
-		<button id="wpl-whitelist-add-new" type="button" class="button wpl_script_add" data-type="whitelist_script"><?php _e( 'Add new', 'gdpr-cookie-consent' ); ?></button>
+		<button id="wpl-whitelist-add-new" type="button" class="button wpl_script_add" data-type="whitelist_script"><?php esc_attr_e( 'Add new', 'gdpr-cookie-consent' ); ?></button>
 		<?php
 	}
 
