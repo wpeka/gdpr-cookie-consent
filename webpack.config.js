@@ -11,6 +11,7 @@
  
  var vueconfig = {
      entry: {
+         tcf: './public/js/tcf/src/index.js',
          main: './src/vue-settings.js',
          dashboard: './src/vue-dashboard.js'
          
