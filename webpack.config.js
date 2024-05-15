@@ -37,7 +37,7 @@
                 use: ['file-loader']
              }
          ]
-     },
+     }
  }
 
  module.exports = [
