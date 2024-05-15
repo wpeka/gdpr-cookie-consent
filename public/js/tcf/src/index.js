@@ -10,14 +10,17 @@ GVL.baseUrl = "http://localhost:8888/wordpress/";
 
 const gvl = new GVL();
 
-console.log("Here");
+console.log("Here is the GVL object");
 console.log(gvl);
 
 // create a new TC string
 const tcModel = new TCModel(gvl);
-tcModel.cmpId = 332;
-tcModel.cmpVersion = 1;
+tcModel.cmpId = 2; // test id 
+tcModel.cmpVersion = 1; // test version 
 
+console.log("Here is the tcModel object :");
+console.log(tcModel);
+tcModel.vendorConsents.set([4, 1]);
 
 // Some fields will not be populated until a GVL is loaded
 tcModel.gvl.readyPromise.then(() => {
