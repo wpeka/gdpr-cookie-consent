@@ -63,6 +63,7 @@ var gen = new Vue({
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
             cookie_is_on: settings_obj.the_options.hasOwnProperty('is_on') && (true === settings_obj.the_options['is_on'] || 1 === settings_obj.the_options['is_on'] ) ? true : false,
+            iabtcf_is_on: settings_obj.the_options.hasOwnProperty('is_iabtcf_on') && (true === settings_obj.the_options['is_iabtcf_on'] || 1 === settings_obj.the_options['is_iabtcf_on'] ) ? true : false,
 			banner_preview_is_on: ( 'true' == settings_obj.the_options['banner_preview_enable'] || 1 === settings_obj.the_options['banner_preview_enable'] ) ? true : false,
             policy_options: settings_obj.policies,
             gdpr_policy: settings_obj.the_options.hasOwnProperty('cookie_usage_for') ? settings_obj.the_options['cookie_usage_for'] : 'gdpr',
@@ -547,6 +548,9 @@ var gen = new Vue({
         },
         onSwitchCookieEnable() {
             this.cookie_is_on = !this.cookie_is_on;
+        },
+		onSwitchIabtcfEnable() {
+            this.iabtcf_is_on = !this.iabtcf_is_on;
         },
 		onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
             this.banner_preview_is_on = !this.banner_preview_is_on;
@@ -1593,6 +1597,7 @@ var gen = new Vue({
             this.cancel_border_radius = '0';
             this.cookie_font = 'inherit';
             this.cookie_is_on =  true;
+            this.iabtcf_is_on = true;
             this.is_eu_on = false;
             this.is_ccpa_on = false;
             this.is_iab_on = false;
@@ -2868,6 +2873,7 @@ var gen = new Vue({
             scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty('scripts_list') ? settings_obj.script_blocker_settings.scripts_list['data'] : [],
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
             cookie_is_on: settings_obj.the_options.hasOwnProperty('is_on') && (true === settings_obj.the_options['is_on'] || 1 === settings_obj.the_options['is_on'] ) ? true : false,
+            iabtcf_is_on: settings_obj.the_options.hasOwnProperty('is_iabtcf_on') && (true === settings_obj.the_options['is_iabtcf_on'] || 1 === settings_obj.the_options['is_iabtcf_on'] ) ? true : false,
 			banner_preview_is_on: ( 'true' == settings_obj.the_options['banner_preview_enable'] || 1 === settings_obj.the_options['banner_preview_enable'] ) ? true : false,
             policy_options: settings_obj.policies,
             gdpr_policy: settings_obj.the_options.hasOwnProperty('cookie_usage_for') ? settings_obj.the_options['cookie_usage_for'] : 'gdpr',
@@ -3317,7 +3323,10 @@ var gen = new Vue({
         onSwitchCookieEnable() {
             this.cookie_is_on = !this.cookie_is_on;
         },
-		onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
+		onSwitchIabtcfEnable() {
+            this.iabtcf_is_on = !this.iabtcf_is_on;
+        },
+        onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
             this.banner_preview_is_on = !this.banner_preview_is_on;
         },
 		onSwitchDntEnable() {//changing the value of do_not_track_on enable/disable
@@ -4019,6 +4028,7 @@ var gen = new Vue({
             this.cancel_border_radius = '0';
             this.cookie_font = 'inherit';
             this.cookie_is_on =  true;
+            this.iabtcf_is_on = true;
             this.is_eu_on = false;
             this.is_ccpa_on = false;
             this.is_iab_on = false;
