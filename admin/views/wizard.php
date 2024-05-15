@@ -2429,7 +2429,7 @@ function get_templates( $template_type ) {
 													No
 												</label>
 											<?php endif; ?>
-										<?php elseif ( isset($geo_options['enable_geotargeting']) && ($geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false') ) : ?>
+										<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
 											<label class="display_block">
 												<div class="opacity_yes">
 													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
@@ -2443,7 +2443,7 @@ function get_templates( $template_type ) {
 													?>
 												</div>
 											</label>
-											<?php if ( isset($geo_options['enable_geotargeting']) && ($geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false')): ?>
+											<?php if ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
 												<label class="display_block">
 													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
 													No
@@ -2509,7 +2509,7 @@ function get_templates( $template_type ) {
 													No
 												</label>
 											<?php endif; ?>
-										<?php elseif ( isset($geo_options['enable_geotargeting']) && ($geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false')) : ?>
+										<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
 											<label class="display_block">
 												<div class="opacity_yes">
 													<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
@@ -2579,7 +2579,7 @@ function get_templates( $template_type ) {
 													No
 												</label>
 											<?php endif; ?>
-										<?php elseif ( isset($geo_options['enable_geotargeting']) && ($geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false')) : ?>
+										<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
 											<label class="display_block">
 												<div class="opacity_yes">
 													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
@@ -2593,7 +2593,7 @@ function get_templates( $template_type ) {
 													?>
 												</div>
 											</label>
-											<?php if ( isset($geo_options['enable_geotargeting']) && ($geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false')) : ?>
+											<?php if ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
 												<label class="display_block">
 													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
 													No
@@ -2659,7 +2659,7 @@ function get_templates( $template_type ) {
 												No
 											</label>
 										<?php endif; ?>
-									<?php elseif (isset($geo_options['enable_geotargeting']) && ($geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false')) : ?>
+									<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
 										<label class="display_block">
 											<div class="opacity_yes">
 												<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>

@@ -100,11 +100,11 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 				<?php submit_button( $text, 'button', false, false,
 					array( 'ID' => 'search-submit' ) ); ?>
 			</p>
-			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) ) ?>" target="_blank" class="button button-primary data-req-export-button"><?php _e("Export As CSV", "gdpr-cookie-consent")?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) ) ?>" target="_blank" class="button button-primary data-req-export-button"><?php esc_html_e("Export As CSV", "gdpr-cookie-consent")?></a>
 
-			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gdprpolicies' ) ) ?>" target="_blank" class="button button-primary policy-import-button"><?php _e("Import From CSV", "gdpr-cookie-consent")?></a>
+			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gdprpolicies' ) ) ?>" target="_blank" class="button button-primary policy-import-button"><?php esc_html_e("Import From CSV", "gdpr-cookie-consent")?></a>
 
-			<a href="<?php echo esc_url_raw( admin_url('post-new.php?post_type=gdprpolicies') ) ?>" target="_blank" class="button button-primary policy-data-add-new-button"><?php _e("Add New", "gdpr-cookie-consent")?></a>
+			<a href="<?php echo esc_url_raw( admin_url('post-new.php?post_type=gdprpolicies') ) ?>" target="_blank" class="button button-primary policy-data-add-new-button"><?php esc_html_e("Add New", "gdpr-cookie-consent")?></a>
 
 			<?php
 
