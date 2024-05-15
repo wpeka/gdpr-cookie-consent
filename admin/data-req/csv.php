@@ -128,7 +128,9 @@ function export_array() {
 		}
 		$time = date( get_option( 'time_format' ), $request->request_date );
 		$date = wpl_localize_date($request->request_date);
-		$date = wpl_sprintf( __( "%s at %s", 'complianz-gdpr' ), $date, $time );
+		// Translators: Placeholder %1$s represents the date, %2$s represents the time.
+		$date_time_format = __( "%1\$s at %2\$s", 'gdpr-cookie-consent' );
+		$date = sprintf( $date_time_format, $date, $time );
 		$output[] = array( $request->name, $request->email, $request->resolved, $datarequest, $date );
 	}
 
