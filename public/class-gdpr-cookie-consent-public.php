@@ -353,6 +353,10 @@ class Gdpr_Cookie_Consent_Public {
 			if ( 'ccpa' === $the_options['cookie_usage_for'] || 'both' === $the_options['cookie_usage_for'] ) {
 				wp_enqueue_script( $this->plugin_name . '-uspapi', plugin_dir_url( __FILE__ ) . 'js/iab/uspapi.js', array( 'jquery' ), $this->version, false );
 			}
+			//tcf
+			// wp_enqueue_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/tcf/src/index.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . '../admin/js/vue/gdpr-cookie-consent-admin-tcf.js', array( 'jquery' ), $this->version, false );
+
 			wp_enqueue_style( $this->plugin_name );
 			wp_enqueue_style( $this->plugin_name . '-custom' );
 			wp_enqueue_script( $this->plugin_name . '-bootstrap-js' );
