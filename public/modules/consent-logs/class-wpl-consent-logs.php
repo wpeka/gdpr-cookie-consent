@@ -117,7 +117,6 @@ class WPL_Consent_Logs extends WP_List_Table {
 			<?php
 
 			echo $this->resolved_select();
-
 			?>
 		</div>
 		<?php
@@ -322,8 +321,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 		// Loop through each post to extract creation dates and populate the options array.
 		foreach ( $all_posts as $post ) {
 			$post_date  = strtotime( $post->post_date ); // Get the UNIX timestamp of the post creation date.
-			$month_year = date( 'F Y', $post_date ); // Format the timestamp to month and year.
-
+			$month_year = gmdate( 'F Y', $post_date ); // Format the timestamp to month and year.
 			// Check if the month_year is not already added to the options array.
 			if ( ! in_array( $month_year, $options ) ) {
 				// Add the month_year as an option.
@@ -541,7 +539,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 				$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 				$tz_string     = wp_timezone_string();
 				$timezone      = new DateTimeZone( $tz_string );
-				$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+				$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 
 				if ( $content_post ) {
 					$wplconsentlogs_dates = $local_time;
@@ -596,7 +594,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 					$tz_string     = wp_timezone_string();
 					$timezone      = new DateTimeZone( $tz_string );
-					$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+					$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 				}
 
 				if ( isset( $custom['_wplconsentlogs_ip'][0] ) ) {
@@ -613,7 +611,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 					$wpl_user_preference_array = array();
 					if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
-						$preferencesDecoded = json_encode( $wpl_user_preference );
+						$preferencesDecoded = wp_json_encode( $wpl_user_preference );
 						// convert the std obj to a PHP array.
 						$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 						$wpl_user_preference_array = json_decode( $decodedText, true );
@@ -706,7 +704,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 					$tz_string     = wp_timezone_string();
 					$timezone      = new DateTimeZone( $tz_string );
-					$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+					$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 
 					if ( $content_post ) {
 						$wplconsentlogs_dates = $local_time;
@@ -770,7 +768,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 						$tz_string     = wp_timezone_string();
 						$timezone      = new DateTimeZone( $tz_string );
-						$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+						$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 					}
 
 					if ( isset( $custom['_wplconsentlogs_ip'][0] ) ) {
@@ -787,7 +785,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 						$wpl_user_preference_array = array();
 						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
-							$preferencesDecoded = json_encode( $wpl_user_preference );
+							$preferencesDecoded = wp_json_encode( $wpl_user_preference );
 							// convert the std obj to a PHP array.
 							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
@@ -865,7 +863,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 					$tz_string     = wp_timezone_string();
 					$timezone      = new DateTimeZone( $tz_string );
-					$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+					$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 
 					if ( $content_post ) {
 						$wplconsentlogs_dates = $local_time;
@@ -929,7 +927,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 						$tz_string     = wp_timezone_string();
 						$timezone      = new DateTimeZone( $tz_string );
-						$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+						$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 					}
 
 					if ( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ) {
@@ -946,7 +944,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 						$wpl_user_preference_array = array();
 						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
-							$preferencesDecoded = json_encode( $wpl_user_preference );
+							$preferencesDecoded = wp_json_encode( $wpl_user_preference );
 							// convert the std obj to a PHP array.
 							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
@@ -1024,7 +1022,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 					$tz_string     = wp_timezone_string();
 					$timezone      = new DateTimeZone( $tz_string );
-					$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+					$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 
 					if ( $content_post ) {
 						$wplconsentlogs_dates = $local_time;
@@ -1088,7 +1086,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 						$tz_string     = wp_timezone_string();
 						$timezone      = new DateTimeZone( $tz_string );
-						$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+						$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 					}
 
 					if ( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ) {
@@ -1105,7 +1103,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 						$wpl_user_preference_array = array();
 						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
-							$preferencesDecoded = json_encode( $wpl_user_preference );
+							$preferencesDecoded = wp_json_encode( $wpl_user_preference );
 							// convert the std obj to a PHP array.
 							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
@@ -1183,7 +1181,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 					$tz_string     = wp_timezone_string();
 					$timezone      = new DateTimeZone( $tz_string );
-					$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+					$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 
 					if ( $content_post ) {
 						$wplconsentlogs_dates = $local_time;
@@ -1247,7 +1245,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 						$tz_string     = wp_timezone_string();
 						$timezone      = new DateTimeZone( $tz_string );
-						$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+						$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 					}
 
 					if ( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ) {
@@ -1264,7 +1262,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 						$wpl_user_preference_array = array();
 						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
-							$preferencesDecoded = json_encode( $wpl_user_preference );
+							$preferencesDecoded = wp_json_encode( $wpl_user_preference );
 							// convert the std obj to a PHP array.
 							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 							$wpl_user_preference_array = json_decode( $decodedText, true );
@@ -1340,11 +1338,11 @@ class WPL_Consent_Logs extends WP_List_Table {
 	 */
 	public function wpl_localize_date( $unix_time ) {
 
-		$formatted_date    = date( get_option( 'date_format' ), $unix_time );
-		$month             = date( 'F', $unix_time );
+		$formatted_date    = gmdate( get_option( 'date_format' ), $unix_time );
+		$month             = gmdate( 'F', $unix_time );
 		$month_localized   = __( $month );
 		$date              = str_replace( $month, $month_localized, $formatted_date );
-		$weekday           = date( 'l', $unix_time );
+		$weekday           = gmdate( 'l', $unix_time );
 		$weekday_localized = __( $weekday );
 		$date              = str_replace( $weekday, $weekday_localized, $date );
 		return $date;
