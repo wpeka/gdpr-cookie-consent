@@ -794,21 +794,21 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$ipaddress = '';
 		if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-			$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+			$ipaddress = filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ipaddress = filter_var($_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_X_FORWARDED'])) {
-			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+			$ipaddress = filter_var($_SERVER['HTTP_X_FORWARDED'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
-			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+			$ipaddress = filter_var($_SERVER['HTTP_FORWARDED_FOR'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_FORWARDED'])) {
-			$ipaddress = $_SERVER['HTTP_FORWARDED'];
+			$ipaddress = filter_var($_SERVER['HTTP_FORWARDED'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['REMOTE_ADDR'])) {
-			$ipaddress = $_SERVER['REMOTE_ADDR'];
+			$ipaddress = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
 		} else {
 			$ipaddress = 'UNKNOWN';
 		}
-		return $ipaddress;
+		return esc_html($ipaddress);
 	}
 
 	/**
