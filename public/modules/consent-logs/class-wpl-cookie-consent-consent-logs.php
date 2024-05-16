@@ -153,7 +153,8 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		$sql = "SELECT name, duration, category, description FROM $table_name";
 
 		// Execute the SQL query.
-		$results = $wpdb->get_results( $sql );
+		// $wpdb->prepare() is not needed as no values is injecting in the query.
+		$results = $wpdb->get_results( $sql ); // phpcs:ignore 
 
 		// Check if there are results.
 		if ( $results ) {
@@ -548,8 +549,8 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 				update_post_meta( $post_id, '_wplconsentlogs_country', $user_country );
 				update_post_meta( $post_id, '_wplconsentlogs_siteurl', $SiteURL );
 				update_post_meta( $post_id, '_wplconsentlogs_consent_forward', $consent_forward );
-				if (isset($the_options['consent_renew_enable'])) {
-					update_post_meta($post_id, '_wpl_renew_consent', $the_options['consent_renew_enable']);
+				if ( isset( $the_options['consent_renew_enable'] ) ) {
+					update_post_meta( $post_id, '_wpl_renew_consent', $the_options['consent_renew_enable'] );
 				}
 			}
 
@@ -656,7 +657,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 * Consent Log details for the insights pie chart.
 	 *
 	 * @since 3.0.0
-	 * 
+	 *
 	 * @return void
 	 */
 	public function wpl_cl_cookie_details_pie_chart() {
@@ -933,8 +934,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 					$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 					$tz_string     = wp_timezone_string();
 					$timezone      = new DateTimeZone( $tz_string );
-					$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
-
+					$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 					if ( $content_post ) {
 						echo '<td>' . ( isset( $content_post ) ? esc_html( $local_time, 'gdpr-cookie-consent' ) : '' ) . '</td>';
 					}
@@ -1028,7 +1028,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 						$tz_string     = wp_timezone_string();
 						$timezone      = new DateTimeZone( $tz_string );
-						$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+						$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 
 						if ( $content_post ) {
 							echo '<td>' . ( isset( $content_post ) ? esc_html( $local_time, 'gdpr-cookie-consent' ) : '' ) . '</td>';
@@ -1095,7 +1095,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 						$tz_string     = wp_timezone_string();
 						$timezone      = new DateTimeZone( $tz_string );
-						$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+						$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 
 						if ( $content_post ) {
 							echo '<td>' . ( isset( $content_post ) ? esc_html( $local_time, 'gdpr-cookie-consent' ) : '' ) . '</td>';
@@ -1162,7 +1162,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 						$tz_string     = wp_timezone_string();
 						$timezone      = new DateTimeZone( $tz_string );
-						$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+						$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 
 						if ( $content_post ) {
 							echo '<td>' . ( isset( $content_post ) ? esc_html( $local_time, 'gdpr-cookie-consent' ) : '' ) . '</td>';
@@ -1229,7 +1229,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 						$tz_string     = wp_timezone_string();
 						$timezone      = new DateTimeZone( $tz_string );
-						$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+						$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 
 						if ( $content_post ) {
 							echo '<td>' . ( isset( $content_post ) ? esc_html( $local_time, 'gdpr-cookie-consent' ) : '' ) . '</td>';
@@ -2229,7 +2229,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			'page'    => 'consent-logs-data-tab',
 			'content' => $content,
 		);
-		echo $this->wpl_get_template( 'gdpr-consent-logs-tab-template.php', $args );
+		echo esc_html($this->wpl_get_template( 'gdpr-consent-logs-tab-template.php', $args ));
 	}
 
 	/**
@@ -2254,7 +2254,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			require $file;
 			$contents = ob_get_clean();
 		} else {
-			$contents = file_get_contents( $file );
+			$contents = wp_remote_get( $file );
 		}
 
 		if ( ! empty( $args ) && is_array( $args ) ) {
