@@ -461,7 +461,7 @@ Bootstrap CSS for frontend UI
 	flex-direction: column;
 	width: 100%;
 	pointer-events: auto;
-	background-color: #f5f5f5;
+	background-color: #fff;
 	outline: 0;
 }
 
@@ -1001,6 +1001,36 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	background-color: none;
 	border-style:none;
 }
+
+/* Navbar for IAB TCF */
+.gdpr_messagebar_detail .gdpr-iab-navbar {
+	list-style: none;
+	display: flex;
+	column-gap: 24px;
+	padding: 0px 20px;
+	margin: 0;
+}
+
+.gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button{
+	padding: 14px 0;
+    color: #000;
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+	font-weight: 400;
+    line-height: 14.06px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    text-transform: none;
+    min-height: 0;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button .active{
+	border-bottom: 2px, solid, #118635;
+}
+
 .gdpr_messagebar_detail .category-group {
 	margin: 0;
 	padding-left: 0;
@@ -1030,7 +1060,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	min-width: 0;
 	max-width: none;
 	border-radius: 0;
-	border: none;
+	border-bottom: 1px solid #F4F4F5;
 	clear: none;
 	float: none;
 	position: static;
@@ -1073,11 +1103,11 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	width: 25%;
 	float: left;
 	cursor: pointer;
-	background-color: #ebebeb;
-	padding: 10px;
+	background-color: #fff;
+	padding: 14px;
 	vertical-align: middle;
 	outline: none;
-	margin: 10px 10px 0 10px;
+	margin: 0;
 	border-radius: 5px;
 	box-sizing: border-box;
 }
@@ -1110,8 +1140,8 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	margin-bottom: unset;
 }
 .gdpr_messagebar_detail .category-group .category-item .gdpr-column .gdpr-columns.active-group {
-	color: #ffffff;
-	background-color: #7b7b7b;
+	color: #000;
+	background-color: #fff;
 }
 .gdpr_messagebar_detail.layout-classic .category-group .category-item .gdpr-column .gdpr-columns.active-group {
 	border-bottom-left-radius: 0px;
@@ -1136,7 +1166,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	float:unset;
 	position: relative;
 	padding: 0 10px;
-	background-color: #f5f5f5;
+	background-color: #fff;
 	background-clip: content-box;
 }
 .gdpr_messagebar_detail .category-group .category-item div:focus,
@@ -1252,7 +1282,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox label,
 .gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox label {
-	background: #ffffff;
+	background: #D4D4D8;
 	border: none;
 	height: 20px;
 	width: 35px;
@@ -1273,7 +1303,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	left: 1px;
 	top: 1px;
 	z-index: 2;
-	background: #7b7b7b;
+	background: #fff;
 	transition: 0.4s;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox .label-text,
@@ -1293,7 +1323,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked + label:after,
 .gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input:checked + label:after {
-	background: #333333;
+	background: #fff;
 	left: 16px;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox:not(:checked),

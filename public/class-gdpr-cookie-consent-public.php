@@ -354,8 +354,9 @@ class Gdpr_Cookie_Consent_Public {
 				wp_enqueue_script( $this->plugin_name . '-uspapi', plugin_dir_url( __FILE__ ) . 'js/iab/uspapi.js', array( 'jquery' ), $this->version, false );
 			}
 			//tcf
+			if ( true === $the_options['is_iabtcf_on'] ) {error_log("Hello");
 			wp_enqueue_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . '../admin/js/vue/gdpr-cookie-consent-admin-tcf.js', array( 'jquery' ), $this->version, false );
-			
+			}
 			wp_enqueue_style( $this->plugin_name );
 			wp_enqueue_style( $this->plugin_name . '-custom' );
 			wp_enqueue_script( $this->plugin_name . '-bootstrap-js' );
@@ -709,8 +710,8 @@ class Gdpr_Cookie_Consent_Public {
 			include plugin_dir_path( __FILE__ ) . 'templates/default.php';
 			?>
 			<style>
-				.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label:after,
-				.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input:checked+label:after {
+				.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
+				.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input:checked+label {
 					background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
 				}
 

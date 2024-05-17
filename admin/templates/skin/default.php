@@ -27,12 +27,12 @@
 												<ul class="category-group">
 															<li class="category-item">
 																			<div class="toggle-group">
-										<div class="always-active" style="color: rgb(102, 204, 102);">Always Active</div>
+										<div class="always-active" style="color: rgb(17, 134, 53);">Always Active</div>
 										<input id="gdpr_messagebar_body_button_necessary" type="hidden" name="gdpr_messagebar_body_button_necessary" value="necessary">
 									</div>
 																		<div class="gdpr-column gdpr-category-toggle default">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0">Necessary</a>
 									</div>
 								</div>
@@ -58,7 +58,7 @@
 									</div>
 																		<div class="gdpr-column gdpr-category-toggle default">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0">Marketing</a>
 									</div>
 								</div>
@@ -84,7 +84,7 @@
 									</div>
 																		<div class="gdpr-column gdpr-category-toggle default">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0">Analytics</a>
 									</div>
 								</div>
@@ -110,7 +110,7 @@
 									</div>
 																		<div class="gdpr-column gdpr-category-toggle default">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0">Preference</a>
 									</div>
 								</div>
@@ -136,7 +136,7 @@
 									</div>
 																		<div class="gdpr-column gdpr-category-toggle default">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0">Unclassified</a>
 									</div>
 								</div>
@@ -152,7 +152,7 @@
 				</div>
 			</div>
 			<div class="gdprmodal-footer">
-								<button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="gdprmodal" style="color: rgb(255, 255, 255); background-color: rgb(102, 204, 102); border: 0px none rgb(102, 204, 102); border-radius: 0px;">Save And Accept</button>
+								<button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="gdprmodal" style="color: rgb(255, 255, 255); background-color: rgb(17, 134, 53); border: 0px none rgb(17, 134, 53); border-radius: 0px;">Save And Accept</button>
 			</div>
 		</div>
 	</div>

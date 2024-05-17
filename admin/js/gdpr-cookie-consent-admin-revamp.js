@@ -568,21 +568,21 @@ jQuery(document).ready(function () {
 					$( ".gdpr-category-toggle.gdpr-column", this );
 					if ( ! $( this ).children( ".gdpr-columns" ).hasClass( "active-group" ) ) {
 						$( ".gdpr-columns" ).removeClass( "active-group" );
-						$( ".gdpr-columns" ).css( 'background-color', gdpr_localize_data.background );
-						$( ".gdpr-columns .dashicons" ).removeClass( "dashicons-minus" );
-						$( ".gdpr-columns .dashicons" ).addClass( "dashicons-plus" );
+						$( ".gdpr-columns" ).css( 'background-color', '#fff' );
+						$( ".gdpr-columns .dashicons" ).removeClass( "dashicons-arrow-up-alt2" );
+						$( ".gdpr-columns .dashicons" ).addClass( "dashicons-arrow-down-alt2" );
 						$( this ).children( ".gdpr-columns" ).addClass( "active-group" );
 						$( '.toggle-group' ).find( 'div.always-active' ).css( 'color',gdpr_localize_data.button_accept_button_color );
-						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color','#ffffff' );
-						$( this ).children( ".gdpr-columns" ).css( 'background-color', gdpr_localize_data.button_accept_button_color );
-						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-plus" );
-						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-minus" );
+						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color',gdpr_localize_data.button_accept_button_color );
+						$( this ).children( ".gdpr-columns" ).css( 'background-color', '#fff' );
+						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-arrow-down-alt2" );
+						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-arrow-up-alt2" );
 					} else {
 						$( ".gdpr-columns" ).removeClass( "active-group" );
 						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color',gdpr_localize_data.button_accept_button_color );
-						$( ".gdpr-columns" ).css( 'background-color', gdpr_localize_data.background );
-						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-minus" );
-						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-plus" );
+						$( ".gdpr-columns" ).css( 'background-color', '#fff' );
+						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-arrow-up-alt2" );
+						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-arrow-down-alt2" );
 					}
 					if ( $( this ).siblings( ".description-container" ).hasClass( "hide" ) ) {
 						$( ".description-container" ).addClass( "hide" )

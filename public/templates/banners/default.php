@@ -11,6 +11,7 @@
 ?>
 <div>
 	<?php echo esc_html( $cookie_data['consent_notice'] ); ?>
+	<p>Here I am</p>
 </div>
 <div id="gdpr_messagebar_body_buttons_select_pane">
 	<?php

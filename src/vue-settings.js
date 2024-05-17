@@ -810,8 +810,8 @@ var gen = new Vue({
 					this.button_readmore_link_color = '#369EE3';
 				} else if ( this.banner_template == 'banner-default' ) {
 					this.cookie_bar_color = '#FFFFFF';
-					this.accept_background_color = '#66CC66';
-					this.accept_all_background_color = '#66CC66';
+					this.accept_background_color = '#118635';
+					this.accept_all_background_color = '#118635';
 					this.decline_background_color = '#EF5454';
 					this.settings_background_color = '#007CBA';
 					this.settings_style = 'none';
@@ -898,8 +898,8 @@ var gen = new Vue({
 					this.cookie_bar_border_radius = '0';
 				} else if ( this.popup_template == 'popup-default' ) {
 					this.cookie_bar_color = '#FFFFFF';
-					this.accept_background_color = '#66CC66';
-					this.accept_all_background_color = '#66CC66';
+					this.accept_background_color = '#118635';
+					this.accept_all_background_color = '#118635';
 					this.decline_background_color = '#EF5454';
 					this.settings_background_color = '#007CBA';
 					this.settings_style = 'none';
@@ -1022,8 +1022,8 @@ var gen = new Vue({
 					this.cookie_bar_border_radius = '0';
 				} else if ( this.widget_template == 'widget-default' ) {
 					this.cookie_bar_color = '#FFFFFF';
-					this.accept_background_color = '#66CC66';
-					this.accept_all_background_color = '#66CC66';
+					this.accept_background_color = '#118635';
+					this.accept_all_background_color = '#118635';
 					this.decline_background_color = '#EF5454';
 					this.settings_background_color = '#007CBA';
 					this.settings_style = 'none';

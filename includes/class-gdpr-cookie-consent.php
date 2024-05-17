@@ -722,6 +722,7 @@ class Gdpr_Cookie_Consent {
 			'font_family'                          => 'inherit', // Pick the family, not the easy name (see helper function below).
 
 			'is_on'                                => true,
+			'is_iabtcf_on'                                => true,
 			'is_eu_on'                             => false,
 			'is_ccpa_on'                           => false,
 			'is_ccpa_iab_on'                       => false,
@@ -798,6 +799,7 @@ class Gdpr_Cookie_Consent {
 		switch ( $key ) {
 			// Convert all boolean values from text to bool.
 			case 'is_on':
+			case 'is_iabtcf_on':
 			case 'is_eu_on':
 			case 'is_ccpa_on':
 			case 'is_ccpa_iab_on':

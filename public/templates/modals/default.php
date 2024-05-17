@@ -18,7 +18,7 @@
 					<span class="dashicons dashicons-dismiss">Close</span>
 				</button>
 			</div>
-			<div class="gdprmodal-body">
+			<div class="gdprmodal-body nvg">
 				<div class="gdpr-details-content">
 					<div class="gdpr-groups-container">
 						<ul class="category-group">

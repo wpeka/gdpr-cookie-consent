@@ -18,16 +18,21 @@
 					<span class="dashicons dashicons-dismiss">Close</span>
 				</button>
 			</div>
-			<div class="gdprmodal-body">
+			<div class="gdprmodal-body classic-nvg">
 				<div class="gdpr-details-content">
 					<div class="gdpr-groups-container">
-                 	<?php if ( $the_options['cookie_usage_for']==='gdpr' ) :?>
-						<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
+                 		<?php if ( $the_options['cookie_usage_for']==='gdpr' ) :?>
+							<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
 						<?php elseif (  $the_options['cookie_usage_for']==='lgpd') :?>
-						<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['lgpd'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
+							<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['lgpd'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
 						<?php elseif ( $the_options['cookie_usage_for']==='both' ) :?>
-						<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
-					<?php endif; ?>
+							<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
+						<?php endif; ?>
+						<ul class="gdpr-iab-navbar">
+							<li class="gdpr-iab-navbar-item"><button class="gdpr-iab-navbar-button">Cookie Categories</button></li>
+							<li class="gdpr-iab-navbar-item"><button class="gdpr-iab-navbar-button">Purposes and Features</button></li>
+							<li class="gdpr-iab-navbar-item"><button class="gdpr-iab-navbar-button">Vendors</button></li>
+						</ul>
 						<ul class="category-group">
 							<?php
 							foreach ( $cookie_data['categories'] as $category ) {
@@ -72,7 +77,7 @@
 									?>
 								<div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0"><?php echo esc_html__( $category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
 									</div>
 								</div>
