@@ -671,8 +671,7 @@ class Gdpr_Cookie_Consent_Public {
 
 					// Load and decode translations from JSON file.
 					$translations_file = plugin_dir_path( __FILE__ ) . 'translations/public-translations.json';
-					$translations      = json_decode( file_get_contents( $translations_file ), true );
-
+					$translations      = json_decode( wp_remote_get( $translations_file ), true );
 					// Define an array of text keys to translate.
 					$text_keys_to_translate = array(
 						'about',

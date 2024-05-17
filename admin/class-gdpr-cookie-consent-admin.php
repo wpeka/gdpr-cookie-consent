@@ -430,7 +430,7 @@ class Gdpr_Cookie_Consent_Admin {
 			require $file;
 			$contents = ob_get_clean();
 		} else {
-			$contents = file_get_contents( $file );
+			$contents = wp_remote_get( $file );
 		}
 
 		if ( ! empty( $args ) && is_array( $args ) ) {
@@ -1062,7 +1062,7 @@ class Gdpr_Cookie_Consent_Admin {
 			require $file;
 			$contents = ob_get_clean();
 		} else {
-			$contents = file_get_contents( $file );
+			$contents = wp_remote_get( $file );
 		}
 
 		if ( ! empty( $args ) && is_array( $args ) ) {
@@ -1094,7 +1094,7 @@ class Gdpr_Cookie_Consent_Admin {
 			require $file;
 			$contents = ob_get_clean();
 		} else {
-			$contents = file_get_contents( $file );
+			$contents = wp_remote_get( $file );
 		}
 
 		if ( ! empty( $args ) && is_array( $args ) ) {
@@ -5493,7 +5493,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 				// Load and decode translations from JSON file.
 				$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
-				$translations      = json_decode( file_get_contents( $translations_file ), true );
+				$translations      = json_decode( wp_remote_get( $translations_file ), true );
 
 				// Define an array of text keys to translate.
 				$text_keys_to_translate = array(
@@ -6402,7 +6402,7 @@ class Gdpr_Cookie_Consent_Admin {
 			// restore translation of public facing side text.
 			// Load and decode translations from JSON file.
 			$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
-			$translations      = json_decode( file_get_contents( $translations_file ), true );
+			$translations      = json_decode( wp_remote_get( $translations_file ), true );
 
 			// Define an array of text keys to translate.
 			$text_keys_to_translate = array(

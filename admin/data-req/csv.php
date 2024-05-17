@@ -44,7 +44,7 @@ function array_to_csv_download(
 	}
 }
 
-$file_title = 'wpl-export-' . date( 'j' ) . ' ' . __( date( 'F' ) ) . ' ' . date( 'Y' );
+$file_title = 'wpl-export-' . gmdate( 'j' ) . ' ' . __( gmdate( 'F' ) ) . ' ' . gmdate( 'Y' );
 array_to_csv_download( export_array(), $file_title . '.csv' );
 
 function get_requests( $args ) {
@@ -73,16 +73,17 @@ function get_requests( $args ) {
 		$sql .= ' LIMIT ' . intval( $args['number'] ) . ' OFFSET ' . intval( $args['offset'] );
 	}
 
-	return $wpdb->get_results( $sql );
+	// as no data is inserting into the table.
+	return $wpdb->get_results( $sql ); // phpcs:ignore
 }
 
 function wpl_localize_date( $unix_time ) {
 
-	$formatted_date    = date( get_option( 'date_format' ), $unix_time );
-	$month             = date( 'F', $unix_time ); // june
+	$formatted_date    = gmdate( get_option( 'date_format' ), $unix_time );
+	$month             = gmdate( 'F', $unix_time ); // june
 	$month_localized   = __( $month ); // juni
 	$date              = str_replace( $month, $month_localized, $formatted_date );
-	$weekday           = date( 'l', $unix_time ); // wednesday
+	$weekday           = gmdate( 'l', $unix_time ); // wednesday
 	$weekday_localized = __( $weekday ); // woensdag
 	$date              = str_replace( $weekday, $weekday_localized, $date );
 	return $date;
@@ -130,7 +131,7 @@ function export_array() {
 				$datarequest = $label['short'];
 			}
 		}
-		$time = date( get_option( 'time_format' ), $request->request_date );
+		$time = gmdate( get_option( 'time_format' ), $request->request_date );
 		$date = wpl_localize_date( $request->request_date );
 		// Translators: Placeholder %1$s represents the date, %2$s represents the time.
 		$date_time_format = __( '%1$s at %2$s', 'gdpr-cookie-consent' );
