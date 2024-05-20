@@ -380,7 +380,7 @@ class Gdpr_Cookie_Consent_Admin {
 			<h1 class="wp-heading-inline"><?php esc_html_e( 'Consent Logs', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php esc_html_e( admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ) ); ?>">
+			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ) ); ?>">
 			<?php
 				$consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$consent_logs->display();
@@ -406,7 +406,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'page'    => 'do-not-sell-my-personal-information',
 				'content' => $content,
 			);
-			echo $this->wpl_get_consent_template( 'gdpr-consent-logs-tab-template.php', $args );
+			// All the data of consent log is not user generated and the entries of the logs in the table is triggered by the accept/decline button.
+			echo $this->wpl_get_consent_template( 'gdpr-consent-logs-tab-template.php', $args ); //phpcs:ignore
 	}
 
 	/**
@@ -420,7 +421,6 @@ class Gdpr_Cookie_Consent_Admin {
 	public function wpl_get_consent_template( $filename, $args = array(), $path = false ) {
 
 		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-consent-logs-tab-template.php';
-
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
@@ -438,7 +438,6 @@ class Gdpr_Cookie_Consent_Admin {
 				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
 			}
 		}
-
 		return $contents;
 	}
 	/**
@@ -819,7 +818,7 @@ class Gdpr_Cookie_Consent_Admin {
 			<h1 class="wp-heading-inline"><?php esc_html_e( 'Data Requests', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php esc_html_e( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ) ); ?>">
+			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ) ); ?>">
 			<?php
 				$datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$datarequests->display();
@@ -1024,7 +1023,7 @@ class Gdpr_Cookie_Consent_Admin {
 				<h1 class="wp-heading-inline"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?>
 
 				</h1>
-				<form id="wpl-dnsmpd-filter" method="get" action="<?php esc_html_e( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ) ); ?>">
+				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ) ); ?>">
 				<?php
 					$policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 					$policy_data->display();
@@ -5492,8 +5491,9 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( $_POST['lang_changed'] == 'true' && isset( $_POST['select-banner-lan'] ) && in_array( $_POST['select-banner-lan'], $this->supported_languages ) ) {  //phpcs:ignore
 
 				// Load and decode translations from JSON file.
-				$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
-				$translations      = json_decode( wp_remote_get( $translations_file ), true );
+				$translations_file = get_site_url(). '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
+				$translations      = wp_remote_get( $translations_file );
+				$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
 
 				// Define an array of text keys to translate.
 				$text_keys_to_translate = array(
@@ -6401,8 +6401,9 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			// restore translation of public facing side text.
 			// Load and decode translations from JSON file.
-			$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
-			$translations      = json_decode( wp_remote_get( $translations_file ), true );
+			$translations_file = get_site_url(). '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
+			$translations      = wp_remote_get( $translations_file );
+			$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
 
 			// Define an array of text keys to translate.
 			$text_keys_to_translate = array(

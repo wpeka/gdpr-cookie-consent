@@ -670,8 +670,9 @@ class Gdpr_Cookie_Consent_Public {
 				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {
 
 					// Load and decode translations from JSON file.
-					$translations_file = plugin_dir_path( __FILE__ ) . 'translations/public-translations.json';
-					$translations      = json_decode( wp_remote_get( $translations_file ), true );
+					$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/public/translations/public-translations.json';
+					$translations      = wp_remote_get( $translations_file );
+					$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
 					// Define an array of text keys to translate.
 					$text_keys_to_translate = array(
 						'about',

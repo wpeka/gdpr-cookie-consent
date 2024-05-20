@@ -321,7 +321,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 		// Loop through each post to extract creation dates and populate the options array.
 		foreach ( $all_posts as $post ) {
 			$post_date  = strtotime( $post->post_date ); // Get the UNIX timestamp of the post creation date.
-			$month_year = gmdate( 'F Y', $post_date ); // Format the timestamp to month and year.
+			$month_year = date( 'F Y', $post_date ); // Format the timestamp to month and year.
 			// Check if the month_year is not already added to the options array.
 			if ( ! in_array( $month_year, $options ) ) {
 				// Add the month_year as an option.
