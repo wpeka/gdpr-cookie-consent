@@ -297,7 +297,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 			return new WP_Error( 'wplgip_maxmind_database_archive', $exception->getMessage() );
 		} finally {
 			// Remove the archive since we only care about a single file in it.
-			unlink( $tmp_archive_path );
+			wp_delete_file( $tmp_archive_path );
 		}
 
 		return $tmp_database_path;

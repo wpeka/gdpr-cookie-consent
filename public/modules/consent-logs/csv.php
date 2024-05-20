@@ -58,7 +58,7 @@ function array_to_csv_download(
 	}
 }
 
-$file_title = 'consent-logs-export-' . date( 'j' ) . ' ' . __( date( 'F' ) ) . ' ' . date( 'Y' );
+$file_title = 'consent-logs-export-' . gmdate( 'j' ) . ' ' . __( gmdate( 'F' ) ) . ' ' . gmdate( 'Y' );
 array_to_csv_download( export_array(), $file_title . '.csv' );
 
 /**
@@ -117,8 +117,7 @@ function get_requests( $args ) {
 			$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 			$tz_string     = wp_timezone_string();
 			$timezone      = new DateTimeZone( $tz_string );
-			$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
-
+			$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 			if ( $content_post ) {
 				$wplconsentlogs_dates = $local_time;
 			}
@@ -160,7 +159,7 @@ function get_requests( $args ) {
 			$utc_timestamp = get_date_from_gmt( $time_utc, 'U' );
 			$tz_string     = wp_timezone_string();
 			$timezone      = new DateTimeZone( $tz_string );
-			$local_time    = date( 'd', $utc_timestamp ) . '/' . date( 'm', $utc_timestamp ) . '/' . date( 'Y', $utc_timestamp );
+			$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
 
 			if ( $content_post ) {
 				$wplconsentlogs_dates = $local_time;

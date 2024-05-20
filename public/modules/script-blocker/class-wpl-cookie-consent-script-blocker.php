@@ -681,7 +681,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 			'html'    => $html,
 		);
 
-		$response = json_encode( $data );
+		$response = wp_json_encode( $data );
 		header( 'Content-Type: application/json' );
 		echo $response;
 		exit;
@@ -725,7 +725,6 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					unset( $scripts[ $type ][ $id ] );
 				} else {
 					$scripts[ $type ][ $id ] = $this->sanitize_custom_scripts( $data );
-
 				}
 				update_option( 'wpl_options_custom-scripts', $scripts );
 			}
@@ -735,7 +734,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 			'success' => ! $error,
 		);
 
-		$response = json_encode( $data );
+		$response = wp_json_encode( $data );
 		header( 'Content-Type: application/json' );
 		echo $response;
 		exit;
