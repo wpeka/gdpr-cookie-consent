@@ -1963,7 +1963,25 @@ var gen = new Vue({
 		},
         onClickStartScan() {
             this.continue_scan = 1;
+
+			// if the scan limit exceeds for the free users
+			if ( settings_obj.gdpr_no_of_page_scan >= 100 ) {
+				jQuery(document).ready(function() {
+					jQuery('.scan-now-btn').on('click', function() {
+						jQuery('#popup').fadeIn();
+					});
+
+					jQuery('#popup').on('click', function(e) {
+						if (jQuery(e.target).is('#popup')) {
+							jQuery('#popup').fadeOut();
+						}
+					});
+				});
+				return
+			}
+
             this.doScan();
+
         },
         doScan() {
             var that = this;

@@ -317,6 +317,18 @@ $api_user_plan     = $this->settings->get_plan();
 
 				<div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>
 				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
+				<div id="popup" class="popup-overlay">
+				<div class="popup-content">
+					<div class="popup-header">
+						</div>
+						<div class="popup-body">
+						<h2>Attention! Cookie Scan Limit Exceeded.</h2>
+						<p>You've reached the maximum number of free cookie scans for your account.</p>
+						<p>To scan more, you'll need to upgrade to a premium plan.</p>
+						<button class="upgrade-button">Upgrade to PRO</button>
+					</div>
+				</div>
+			</div>
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 
 					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#compliances">

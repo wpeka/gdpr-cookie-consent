@@ -1171,6 +1171,10 @@ class Gdpr_Cookie_Consent_Admin {
 		} elseif ( get_option( 'gdpr_version_number' ) !== GDPR_COOKIE_CONSENT_VERSION ) {
 				update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
 		}
+		// Check if the key exists in the options table
+		if ( get_option('gdpr_no_of_page_scan') == false ) {
+			add_option('gdpr_no_of_page_scan', 0 );
+		}
 		// Update settings from Version 1.7.6.
 		$prev_gdpr_option = get_option( 'GDPRCookieConsent-2.0' );
 		if ( isset( $prev_gdpr_option['is_on'] ) ) {
@@ -3904,6 +3908,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'list_of_sites'                    => is_multisite() ? $list_of_sites : null,
 				'geo_options'                      => $geo_options,
 				'is_user_connected'				   => $is_user_connected,
+				'gdpr_no_of_page_scan'			   => get_option('gdpr_no_of_page_scan')
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
