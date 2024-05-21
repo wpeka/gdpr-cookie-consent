@@ -43,8 +43,15 @@ function array_to_csv_download(
 		fputcsv( $f, $line, $delimiter );
 	}
 }
+$gmt_offset = get_option('gmt_offset');
+$date_format = 'j F Y';
 
-$file_title = 'wpl-export-' . gmdate( 'j' ) . ' ' . __( gmdate( 'F' ) ) . ' ' . gmdate( 'Y' );
+// Get the current time in Unix timestamp
+$unix_time = time();
+
+// Generate the file title using date_i18n for localization
+$file_title = 'wpl-export-' . date_i18n( $date_format, $unix_time, true );
+
 array_to_csv_download( export_array(), $file_title . '.csv' );
 
 function get_requests( $args ) {
@@ -81,10 +88,10 @@ function wpl_localize_date( $unix_time ) {
 
 	$formatted_date    = gmdate( get_option( 'date_format' ), $unix_time );
 	$month             = gmdate( 'F', $unix_time ); // june
-	$month_localized   = __( $month ); // juni
+	$month_localized   = date_i18n( 'F', $unix_time );
 	$date              = str_replace( $month, $month_localized, $formatted_date );
 	$weekday           = gmdate( 'l', $unix_time ); // wednesday
-	$weekday_localized = __( $weekday ); // woensdag
+	$weekday_localized = date_i18n( 'l', $unix_time );
 	$date              = str_replace( $weekday, $weekday_localized, $date );
 	return $date;
 }

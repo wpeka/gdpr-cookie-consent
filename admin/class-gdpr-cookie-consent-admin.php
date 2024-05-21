@@ -406,8 +406,98 @@ class Gdpr_Cookie_Consent_Admin {
 				'page'    => 'do-not-sell-my-personal-information',
 				'content' => $content,
 			);
-			// All the data of consent log is not user generated and the entries of the logs in the table is triggered by the accept/decline button.
-			echo $this->wpl_get_consent_template( 'gdpr-consent-logs-tab-template.php', $args ); //phpcs:ignore
+			$allowed_consent_log_html = array(
+				'div' => array(
+					'class' => array(),
+					'id' => array(),
+					'style'=>array(),
+				),
+				'h1' => array(
+					'class' => array(),
+				),
+				'form' => array(
+					'id' => array(),
+					'method' => array(),
+					'action' => array(),
+				),
+				'p' => array(
+					'class' => array(),
+				),
+				'label' => array(
+					'class' => array(),
+					'for' => array(),
+				),
+				'input' => array(
+					'type' => array(),
+					'id' => array(),
+					'name' => array(),
+					'value' => array(),
+					'class' => array(),
+				),
+				'a' => array(
+					'href' => array(),
+					'target' => array(),
+					'class' => array(),
+					'onclick'=>array(),
+				),
+				'select' => array(
+					'name' => array(),
+					'id' => array(),
+					'class' => array(),
+				),
+				'option' => array(
+					'value' => array(),
+					'selected' => array(),
+				),
+				'script' => array(
+					'type' => array(),
+				),
+				'thead' => array(),
+				'tr' => array(),
+				'th' => array(
+					'scope' => array(),
+					'id' => array(),
+					'class' => array(),
+				),
+				'span' => array(
+					'class' => array(),
+					'aria-hidden' => array(),
+				),
+				'tbody' => array(),
+				'td' => array(
+					'class' => array(),
+					'data-colname' => array(),
+					'colspan'=>array(),
+				),
+				'tfoot' => array(),
+				'button' => array(
+					'type' => array(),
+					'class' => array(),
+				),
+				'table' =>array(
+					'class' => array(),
+				),
+				'svg' => array(
+					'width'=>array(),
+					'height'=>array(),
+					'viewBox'=>array(),
+					'fill'=>array(),
+					'xmlns'=>array(),
+				),
+				'g'=>array(
+					'clip-path'=>array(),
+				),
+				'path'=>array(
+					'd'=>array(),
+					'fill' => array(),
+				),
+				'defs' =>array(
+					'clipPath'=>array(),
+				),
+				'rect'=>array(),
+			);
+			echo wp_kses($this->wpl_get_consent_template( 'gdpr-consent-logs-tab-template.php', $args ),$allowed_consent_log_html); 
+
 	}
 
 	/**
@@ -833,7 +923,76 @@ class Gdpr_Cookie_Consent_Admin {
 				'page'    => 'do-not-sell-my-personal-information',
 				'content' => $content,
 			);
-			echo $this->wpl_get_template_data_request( 'gdpr-data-request-tab-template.php', $args );
+			$allowed_data_req_html = array(
+				'div' => array(
+					'class' => array(),
+					'id' => array(),
+				),
+				'h1' => array(
+					'class' => array(),
+				),
+				'form' => array(
+					'id' => array(),
+					'method' => array(),
+					'action' => array(),
+				),
+				'p' => array(
+					'class' => array(),
+				),
+				'label' => array(
+					'class' => array(),
+					'for' => array(),
+				),
+				'input' => array(
+					'type' => array(),
+					'id' => array(),
+					'name' => array(),
+					'value' => array(),
+					'class' => array(),
+				),
+				'a' => array(
+					'href' => array(),
+					'target' => array(),
+					'class' => array(),
+				),
+				'select' => array(
+					'name' => array(),
+					'id' => array(),
+					'class' => array(),
+				),
+				'option' => array(
+					'value' => array(),
+					'selected' => array(),
+				),
+				'script' => array(
+					'type' => array(),
+				),
+				'thead' => array(),
+				'tr' => array(),
+				'th' => array(
+					'scope' => array(),
+					'id' => array(),
+					'class' => array(),
+				),
+				'span' => array(
+					'class' => array(),
+					'aria-hidden' => array(),
+				),
+				'tbody' => array(),
+				'td' => array(
+					'class' => array(),
+					'data-colname' => array(),
+				),
+				'tfoot' => array(),
+				'button' => array(
+					'type' => array(),
+					'class' => array(),
+				),
+				'table' =>array(
+					'class' => array(),
+				)
+			);
+			echo wp_kses($this->wpl_get_template_data_request( 'gdpr-data-request-tab-template.php', $args ),$allowed_data_req_html);
 	}
 
 	/**
@@ -1038,7 +1197,8 @@ class Gdpr_Cookie_Consent_Admin {
 					'page'    => 'policy-data-tab',
 					'content' => $content,
 				);
-				echo $this->wpl_get_template_policy_data( 'gdpr-policy-data-tab-template.php', $args );
+				// as the content is already escaped so there is no need to excape the $this.
+				echo $this->wpl_get_template_policy_data( 'gdpr-policy-data-tab-template.php', $args ); // phpcs:ignore
 	}
 
     /**
@@ -4909,7 +5069,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 			// Open the CSS file for writing.
 			$css_file = fopen( $css_file_path, 'w' );
-
 			// Check if the file was opened successfully.
 			if ( $css_file ) {
 				// Write the CSS code to the file.

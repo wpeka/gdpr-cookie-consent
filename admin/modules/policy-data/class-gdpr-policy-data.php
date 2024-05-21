@@ -113,7 +113,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 
 			<?php
 
-			echo $this->resolved_select();
+			echo $this->resolved_select(); //phpcs:ignore
 
 			?>
 		</div>
@@ -181,6 +181,8 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 
 						// Find the matching checkbox and its parent row
 						var matchingRow = jQuery("input[type='checkbox'][value='" + itemId + "']").closest('tr');
+						console.log(matchingRow.length);
+						console.log(matchingRow);
 
 						if (matchingRow.length) {
 							// Get the HTML content
@@ -361,7 +363,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 
 		echo '<select name="wpl_resolved_select" id="wpl_resolved_select" class="wpl_resolved_select">';
 		foreach ( $options as $value => $label ) {
-			echo '<option value="' . $value . '" ' . ( $selected == $value ? 'selected' : '' ) . '>' . $label . '</option>';
+			echo '<option value="' . esc_attr( $value ) . '" ' . ( $selected == $value ? 'selected' : '' ) . '>' . esc_html( $label ) . '</option>';
 		}
 		echo '</select>';
 	}

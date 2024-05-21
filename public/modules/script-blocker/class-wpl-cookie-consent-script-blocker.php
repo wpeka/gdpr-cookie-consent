@@ -631,10 +631,60 @@ class Gdpr_Cookie_Consent_Script_Blocker {
             </div>
         </details>';
 
+		$allowed_whitelist_html = array(
+			'details' => array(
+				'class' => array(),
+			),
+			'summary' => array(),
+			'div' => array(
+				'class' => array(),
+				'data-action' => array(),
+				'data-type' => array(),
+				'data-id' => array(),
+			),
+			'span' => array(
+				'class' => array(),
+			),
+			'input' => array(
+				'type' => array(),
+				'hidden' => array(),
+				'value' => array(),
+				'name' => array(),
+				'class' => array(),
+				'size' => array(),
+				'checked' => array(),
+				'data-name' => array(),
+			),
+			'label' => array(
+				'class' => array(),
+				'for' => array(),
+				'tabindex' => array(),
+			),
+			'button' => array(
+				'type' => array(),
+				'class' => array(),
+				'data-id' => array(),
+				'data-type' => array(),
+				'data-action' => array(),
+				'id' => array(),
+			),
+			'svg' => array(
+				'aria-hidden' => array(),
+				'focusable' => array(),
+				'role' => array(),
+				'xmlns' => array(),
+				'viewBox' => array(),
+				'height' => array(),
+			),
+			'path' => array(
+				'fill' => array(),
+				'd' => array(),
+			),
+		);
 		if ( $echo ) {
-			echo $output;
+			echo wp_kses($output,$allowed_whitelist_html);
 		} else {
-			return $output;
+			return wp_kses($output,$allowed_whitelist_html);
 		}
 	}
 
@@ -683,7 +733,8 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 
 		$response = wp_json_encode( $data );
 		header( 'Content-Type: application/json' );
-		echo $response;
+		// The content of the response variable is already escaped.
+		echo $response; //phpcs:ignore 
 		exit;
 	}
 
@@ -736,7 +787,8 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 
 		$response = wp_json_encode( $data );
 		header( 'Content-Type: application/json' );
-		echo $response;
+		// The content of the response variable is already escaped.
+		echo $response; //phpcs:ignore 
 		exit;
 	}
 
