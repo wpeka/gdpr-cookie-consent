@@ -8,6 +8,16 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/admin
  */
+if ( ! function_exists( 'request_filesystem_credentials' ) ) {
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+}
+$creds = request_filesystem_credentials( site_url() );
+if ( ! $creds ) {
+    return; // Stop if credentials are not available
+}
+if ( ! WP_Filesystem( $creds ) ) {
+    return; // Stop if WP_Filesystem initialization fails
+}
 
 /**
  * The admin-specific functionality of the plugin.
@@ -182,8 +192,8 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( ! empty( $license_key ) ) {
 				$license_key = $geoip->validate_maxmind_license_key( $license_key );
 			}
-			$enable_geotargeting = isset( $_POST['wpl-enable-geo-targeting'] ) ?
-    ( true === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) || 'true' === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) ) ? 'true' : 'false' : 'false';
+			$enable_geotargeting                = isset( $_POST['wpl-enable-geo-targeting'] ) ?
+			( true === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) || 'true' === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) ) ? 'true' : 'false' : 'false';
 			$geo_options                        = get_option( 'wpl_geo_options' );
 			$geo_options['maxmind_license_key'] = $license_key;
 			$geo_options['enable_geotargeting'] = $enable_geotargeting;
@@ -380,7 +390,7 @@ class Gdpr_Cookie_Consent_Admin {
 			<h1 class="wp-heading-inline"><?php esc_html_e( 'Consent Logs', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php esc_html_e( admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ) ); ?>">
+			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ) ); ?>">
 			<?php
 				$consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$consent_logs->display();
@@ -401,12 +411,102 @@ class Gdpr_Cookie_Consent_Admin {
 		</div>
 			<?php
 
-			$content = ob_get_clean();
-			$args    = array(
+			$content                  = ob_get_clean();
+			$args                     = array(
 				'page'    => 'do-not-sell-my-personal-information',
 				'content' => $content,
 			);
-			echo $this->wpl_get_consent_template( 'gdpr-consent-logs-tab-template.php', $args );
+			$allowed_consent_log_html = array(
+				'div'    => array(
+					'class' => array(),
+					'id'    => array(),
+					'style' => array(),
+				),
+				'h1'     => array(
+					'class' => array(),
+				),
+				'form'   => array(
+					'id'     => array(),
+					'method' => array(),
+					'action' => array(),
+				),
+				'p'      => array(
+					'class' => array(),
+				),
+				'label'  => array(
+					'class' => array(),
+					'for'   => array(),
+				),
+				'input'  => array(
+					'type'  => array(),
+					'id'    => array(),
+					'name'  => array(),
+					'value' => array(),
+					'class' => array(),
+				),
+				'a'      => array(
+					'href'    => array(),
+					'target'  => array(),
+					'class'   => array(),
+					'onclick' => array(),
+				),
+				'select' => array(
+					'name'  => array(),
+					'id'    => array(),
+					'class' => array(),
+				),
+				'option' => array(
+					'value'    => array(),
+					'selected' => array(),
+				),
+				'script' => array(
+					'type' => array(),
+				),
+				'thead'  => array(),
+				'tr'     => array(),
+				'th'     => array(
+					'scope' => array(),
+					'id'    => array(),
+					'class' => array(),
+				),
+				'span'   => array(
+					'class'       => array(),
+					'aria-hidden' => array(),
+				),
+				'tbody'  => array(),
+				'td'     => array(
+					'class'        => array(),
+					'data-colname' => array(),
+					'colspan'      => array(),
+				),
+				'tfoot'  => array(),
+				'button' => array(
+					'type'  => array(),
+					'class' => array(),
+				),
+				'table'  => array(
+					'class' => array(),
+				),
+				'svg'    => array(
+					'width'   => array(),
+					'height'  => array(),
+					'viewBox' => array(),
+					'fill'    => array(),
+					'xmlns'   => array(),
+				),
+				'g'      => array(
+					'clip-path' => array(),
+				),
+				'path'   => array(
+					'd'    => array(),
+					'fill' => array(),
+				),
+				'defs'   => array(
+					'clipPath' => array(),
+				),
+				'rect'   => array(),
+			);
+			echo wp_kses( $this->wpl_get_consent_template( 'gdpr-consent-logs-tab-template.php', $args ), $allowed_consent_log_html );
 	}
 
 	/**
@@ -420,7 +520,6 @@ class Gdpr_Cookie_Consent_Admin {
 	public function wpl_get_consent_template( $filename, $args = array(), $path = false ) {
 
 		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-consent-logs-tab-template.php';
-
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
@@ -438,7 +537,6 @@ class Gdpr_Cookie_Consent_Admin {
 				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
 			}
 		}
-
 		return $contents;
 	}
 	/**
@@ -819,7 +917,7 @@ class Gdpr_Cookie_Consent_Admin {
 			<h1 class="wp-heading-inline"><?php esc_html_e( 'Data Requests', 'gdpr-cookie-consent' ); ?>
 
 			</h1>
-			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php esc_html_e( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ) ); ?>">
+			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ) ); ?>">
 			<?php
 				$datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$datarequests->display();
@@ -829,12 +927,81 @@ class Gdpr_Cookie_Consent_Admin {
 		</div>
 			<?php
 
-			$content = ob_get_clean();
-			$args    = array(
+			$content               = ob_get_clean();
+			$args                  = array(
 				'page'    => 'do-not-sell-my-personal-information',
 				'content' => $content,
 			);
-			echo $this->wpl_get_template_data_request( 'gdpr-data-request-tab-template.php', $args );
+			$allowed_data_req_html = array(
+				'div'    => array(
+					'class' => array(),
+					'id'    => array(),
+				),
+				'h1'     => array(
+					'class' => array(),
+				),
+				'form'   => array(
+					'id'     => array(),
+					'method' => array(),
+					'action' => array(),
+				),
+				'p'      => array(
+					'class' => array(),
+				),
+				'label'  => array(
+					'class' => array(),
+					'for'   => array(),
+				),
+				'input'  => array(
+					'type'  => array(),
+					'id'    => array(),
+					'name'  => array(),
+					'value' => array(),
+					'class' => array(),
+				),
+				'a'      => array(
+					'href'   => array(),
+					'target' => array(),
+					'class'  => array(),
+				),
+				'select' => array(
+					'name'  => array(),
+					'id'    => array(),
+					'class' => array(),
+				),
+				'option' => array(
+					'value'    => array(),
+					'selected' => array(),
+				),
+				'script' => array(
+					'type' => array(),
+				),
+				'thead'  => array(),
+				'tr'     => array(),
+				'th'     => array(
+					'scope' => array(),
+					'id'    => array(),
+					'class' => array(),
+				),
+				'span'   => array(
+					'class'       => array(),
+					'aria-hidden' => array(),
+				),
+				'tbody'  => array(),
+				'td'     => array(
+					'class'        => array(),
+					'data-colname' => array(),
+				),
+				'tfoot'  => array(),
+				'button' => array(
+					'type'  => array(),
+					'class' => array(),
+				),
+				'table'  => array(
+					'class' => array(),
+				),
+			);
+			echo wp_kses( $this->wpl_get_template_data_request( 'gdpr-data-request-tab-template.php', $args ), $allowed_data_req_html );
 	}
 
 	/**
@@ -918,20 +1085,17 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
 
-
 		// Check if $_GET['scan_url'] is set
-		$scan_url_value = isset($_GET['scan_url']) ? $_GET['scan_url'] : '';
+		$scan_url_value = isset( $_GET['scan_url'] ) ? $_GET['scan_url'] : '';
 
 		// Check if the key exists in the options table
-		if (get_option('gdpr_single_page_scan_url') !== false) {
+		if ( get_option( 'gdpr_single_page_scan_url' ) !== false ) {
 			// Update the existing option
-			update_option('gdpr_single_page_scan_url', $scan_url_value);
+			update_option( 'gdpr_single_page_scan_url', $scan_url_value );
 		} else {
 			// Add a new option
-			add_option('gdpr_single_page_scan_url', $scan_url_value);
+			add_option( 'gdpr_single_page_scan_url', $scan_url_value );
 		}
-
-
 	}
 
 	/**
@@ -939,15 +1103,15 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @since 3.2.0
 	 */
-	public function gdpr_quick_toolbar_menu ( $wp_admin_bar ) {
+	public function gdpr_quick_toolbar_menu( $wp_admin_bar ) {
 
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-		//cookie banner enable
+		// cookie banner enable
 		$is_banner_active = $the_options['is_on'];
-		//script blocker enable
+		// script blocker enable
 		$is_script_blocker_active = $the_options['is_script_blocker_on'];
 
-		$enabled_label = '<span style="color:#05E900; font-size:13px;">&#11044;</span>';
+		$enabled_label  = '<span style="color:#05E900; font-size:13px;">&#11044;</span>';
 		$disabled_label = '<span style="color:#E10101; font-size:13px;;">&#11044;</span>';
 
 		// Add parent menu item
@@ -957,8 +1121,8 @@ class Gdpr_Cookie_Consent_Admin {
 			'href'  => admin_url( 'admin.php?page=gdpr-cookie-consent' ), // Add your custom URL here
 			'meta'  => array(
 				'class'  => 'gdpr-quick-menu-item',
-				'target' => '' // Add target attribute if needed
-			)
+				'target' => '', // Add target attribute if needed
+			),
 		);
 
 		$wp_admin_bar->add_node( $args );
@@ -967,7 +1131,7 @@ class Gdpr_Cookie_Consent_Admin {
 			'id'     => 'gdpr-quick-menu-item-1',
 			'title'  => 'Scan this Page',
 			'parent' => 'gdpr-quick-menu',
-			'href'   => admin_url( 'admin.php?page=gdpr-cookie-consent&scan_url=' ).get_permalink().'#cookie_settings#cookie_list',
+			'href'   => admin_url( 'admin.php?page=gdpr-cookie-consent&scan_url=' ) . get_permalink() . '#cookie_settings#cookie_list',
 		);
 
 		$wp_admin_bar->add_node( $args );
@@ -982,8 +1146,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		$wp_admin_bar->add_node( $args );
 
-
-		$banner_title = 'Cookie Banner : ' . ($is_banner_active ? 'Enabled ' . $enabled_label : 'Disabled ' . $disabled_label);
+		$banner_title = 'Cookie Banner : ' . ( $is_banner_active ? 'Enabled ' . $enabled_label : 'Disabled ' . $disabled_label );
 
 		$args = array(
 			'id'     => 'gdpr-quick-menu-item-3',
@@ -993,16 +1156,14 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$wp_admin_bar->add_node( $args );
 
-
-		$script_blocker_title = 'Script Blocker : ' . ($is_script_blocker_active ? 'Enabled ' . $enabled_label : 'Disabled ' . $disabled_label);
-		$args = array(
+		$script_blocker_title = 'Script Blocker : ' . ( $is_script_blocker_active ? 'Enabled ' . $enabled_label : 'Disabled ' . $disabled_label );
+		$args                 = array(
 			'id'     => 'gdpr-quick-menu-item-4',
 			'title'  => $script_blocker_title,
 			'parent' => 'gdpr-quick-menu',
 			'href'   => '',
 		);
 		$wp_admin_bar->add_node( $args );
-
 	}
 
 	/**
@@ -1024,7 +1185,7 @@ class Gdpr_Cookie_Consent_Admin {
 				<h1 class="wp-heading-inline"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?>
 
 				</h1>
-				<form id="wpl-dnsmpd-filter" method="get" action="<?php esc_html_e( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ) ); ?>">
+				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ) ); ?>">
 				<?php
 					$policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 					$policy_data->display();
@@ -1039,10 +1200,11 @@ class Gdpr_Cookie_Consent_Admin {
 					'page'    => 'policy-data-tab',
 					'content' => $content,
 				);
-				echo $this->wpl_get_template_policy_data( 'gdpr-policy-data-tab-template.php', $args );
+				// as the content is already escaped so there is no need to excape the $this.
+				echo $this->wpl_get_template_policy_data( 'gdpr-policy-data-tab-template.php', $args ); // phpcs:ignore
 	}
 
-    /**
+	/**
 	 * Get a template for data request based on filename, overridable in the theme directory.
 	 *
 	 * @param string $filename The name of the template file.
@@ -1050,7 +1212,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @param string $path     The path to the template file (optional).
 	 * @return string The content of the template.
 	 */
-	public function wpl_get_template_data_request($filename, $args = array(), $path = false){
+	public function wpl_get_template_data_request( $filename, $args = array(), $path = false ) {
 		$file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-data-request-tab-template.php';
 
 		if ( ! file_exists( $file ) ) {
@@ -1119,14 +1281,14 @@ class Gdpr_Cookie_Consent_Admin {
 			&& $_GET['action'] == 'policy_delete'
 			&& wp_verify_nonce( $_GET['_wpnonce'], 'gdpr_policy_delete_nonce_' . $_GET['id'] ) ) { // Verify nonce using the ID appended to the nonce name
 
-			// Delete the post
-			wp_delete_post( $_GET['id'], true );
+				// Delete the post
+				wp_delete_post( $_GET['id'], true );
 
-			// Redirect back to the admin page
-			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' . $paged ) );
-			exit; // Always exit after a wp_redirect()
-		}
+				// Redirect back to the admin page
+				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
+				wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' . $paged ) );
+				exit; // Always exit after a wp_redirect()
+			}
 		}
 	}
 
@@ -1205,18 +1367,18 @@ class Gdpr_Cookie_Consent_Admin {
 		// Update settings from Version 1.7.9.
 		$prev_gdpr_option = get_option( 'GDPRCookieConsent-3.0' );
 		if ( isset( $prev_gdpr_option['is_on'] ) ) {
-			$prev_gdpr_option['bar_heading_text']     = '';
-			$prev_gdpr_option['show_again']           = true;
-			$prev_gdpr_option['is_script_blocker_on'] = false;
-			$prev_gdpr_option['auto_hide']            = false;
-			$prev_gdpr_option['auto_banner_initialize']  = false;
-			$prev_gdpr_option['auto_scroll']          = false;
-			$prev_gdpr_option['show_again_position']  = 'right';
-			$prev_gdpr_option['show_again_text']      = 'Cookie Settings';
-			$prev_gdpr_option['show_again_margin']    = '5%';
-			$prev_gdpr_option['auto_hide_delay']      = '10000';
-			$prev_gdpr_option['auto_banner_initialize_delay']  = '10000';
-			$prev_gdpr_option['show_again_div_id']    = '#gdpr-cookie-consent-show-again';
+			$prev_gdpr_option['bar_heading_text']             = '';
+			$prev_gdpr_option['show_again']                   = true;
+			$prev_gdpr_option['is_script_blocker_on']         = false;
+			$prev_gdpr_option['auto_hide']                    = false;
+			$prev_gdpr_option['auto_banner_initialize']       = false;
+			$prev_gdpr_option['auto_scroll']                  = false;
+			$prev_gdpr_option['show_again_position']          = 'right';
+			$prev_gdpr_option['show_again_text']              = 'Cookie Settings';
+			$prev_gdpr_option['show_again_margin']            = '5%';
+			$prev_gdpr_option['auto_hide_delay']              = '10000';
+			$prev_gdpr_option['auto_banner_initialize_delay'] = '10000';
+			$prev_gdpr_option['show_again_div_id']            = '#gdpr-cookie-consent-show-again';
 
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-3.0' );
@@ -3859,7 +4021,6 @@ class Gdpr_Cookie_Consent_Admin {
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$is_user_connected = $this->settings->is_connected();
 
-
 		wp_localize_script(
 			$this->plugin_name . '-main',
 			'settings_obj',
@@ -3904,7 +4065,7 @@ class Gdpr_Cookie_Consent_Admin {
 				// for sites.
 				'list_of_sites'                    => is_multisite() ? $list_of_sites : null,
 				'geo_options'                      => $geo_options,
-				'is_user_connected'				   => $is_user_connected,
+				'is_user_connected'                => $is_user_connected,
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
@@ -4910,7 +5071,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 			// Open the CSS file for writing.
 			$css_file = fopen( $css_file_path, 'w' );
-
 			// Check if the file was opened successfully.
 			if ( $css_file ) {
 				// Write the CSS code to the file.
@@ -5492,8 +5652,9 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( $_POST['lang_changed'] == 'true' && isset( $_POST['select-banner-lan'] ) && in_array( $_POST['select-banner-lan'], $this->supported_languages ) ) {  //phpcs:ignore
 
 				// Load and decode translations from JSON file.
-				$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
-				$translations      = json_decode( wp_remote_get( $translations_file ), true );
+				$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
+				$translations      = wp_remote_get( $translations_file );
+				$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
 
 				// Define an array of text keys to translate.
 				$text_keys_to_translate = array(
@@ -6194,7 +6355,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$consent_log_on = isset( $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
 
 		if ( true === $the_options['is_on'] ) {
-			$template           = $the_options['template'];
+			$template = $the_options['template'];
 			if ( 'none' !== $template ) {
 				$template_parts = explode( '-', $template );
 				$template       = array_pop( $template_parts );
@@ -6215,9 +6376,6 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 		}
 
-
-
-
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script(
 			'gdpr-cookie-consent-admin-revamp',
@@ -6230,17 +6388,17 @@ class Gdpr_Cookie_Consent_Admin {
 			'gdpr-cookie-consent-admin-revamp',
 			'gdpr_localize_data',
 			array(
-				'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-				'gdprurl'           => GDPR_URL,
-				'siteurl'           => site_url(),
-				'admin_url'         => admin_url(),
-				'is_pro_activated'  => $pro_is_activated,
-				'is_data_req_on'    => $data_reqs_on,
-				'is_consent_log_on' => $consent_log_on,
-				'gdpr_app_url'      => GDPR_APP_URL,
-				'_ajax_nonce'       => wp_create_nonce( 'gdpr-cookie-consent' ),
-				'is_user_connected' => $is_user_connected,
-				'background'		=> $template_parts_background,
+				'ajaxurl'                    => admin_url( 'admin-ajax.php' ),
+				'gdprurl'                    => GDPR_URL,
+				'siteurl'                    => site_url(),
+				'admin_url'                  => admin_url(),
+				'is_pro_activated'           => $pro_is_activated,
+				'is_data_req_on'             => $data_reqs_on,
+				'is_consent_log_on'          => $consent_log_on,
+				'gdpr_app_url'               => GDPR_APP_URL,
+				'_ajax_nonce'                => wp_create_nonce( 'gdpr-cookie-consent' ),
+				'is_user_connected'          => $is_user_connected,
+				'background'                 => $template_parts_background,
 				'button_accept_button_color' => $the_options['button_accept_button_color'],
 			)
 		);
@@ -6401,8 +6559,9 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			// restore translation of public facing side text.
 			// Load and decode translations from JSON file.
-			$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
-			$translations      = json_decode( wp_remote_get( $translations_file ), true );
+			$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
+			$translations      = wp_remote_get( $translations_file );
+			$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
 
 			// Define an array of text keys to translate.
 			$text_keys_to_translate = array(

@@ -109,7 +109,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 
 			<?php
 
-			echo $this->resolved_select();
+			echo $this->resolved_select();//phpcs:ignore
 
 			?>
 		</div>
@@ -307,7 +307,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		<script>
 			
 			document.addEventListener('DOMContentLoaded', function () {
-				var resolvedSelect = document.getElementById('<?php echo $unique_id; ?>');
+				var resolvedSelect = document.getElementById('<?php echo esc_js( $unique_id ); ?>');
 				if (resolvedSelect) {
 					resolvedSelect.addEventListener('change', function () {
 						document.getElementById('wpl-dnsmpd-filter-datarequest').submit();
@@ -318,9 +318,9 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	
 		<?php
 		// Use the unique identifier in the select element's id attribute
-		echo '<select name="wpl_resolved_select" id="' . $unique_id . '" class="wpl_resolved_select_filter">';
+		echo '<select name="wpl_resolved_select" id="' . esc_js( $unique_id ) . '" class="wpl_resolved_select_filter">';
 		foreach ( $options as $value => $label ) {
-			echo '<option value="' . $value . '" ' . ( $selected == $value ? 'selected' : '' ) . '>' . $label . '</option>';
+			echo '<option value="' . esc_attr( $value ) . '" ' . ( $selected == $value ? 'selected' : '' ) . '>' . esc_html( $label ) . '</option>';
 		}
 		echo '</select>';
 	}
@@ -482,10 +482,10 @@ class WPL_Data_Req_Table extends WP_List_Table {
 
 		$formatted_date    = gmdate( get_option( 'date_format' ), $unix_time );
 		$month             = gmdate( 'F', $unix_time );
-		$month_localized   = __( $month );
+		$month_localized   = date_i18n( 'F', $unix_time );
 		$date              = str_replace( $month, $month_localized, $formatted_date );
 		$weekday           = gmdate( 'l', $unix_time );
-		$weekday_localized = __( $weekday );
+		$weekday_localized = date_i18n( 'l', $unix_time );
 		$date              = str_replace( $weekday, $weekday_localized, $date );
 		return $date;
 	}

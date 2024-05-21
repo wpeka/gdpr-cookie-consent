@@ -670,8 +670,9 @@ class Gdpr_Cookie_Consent_Public {
 				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {
 
 					// Load and decode translations from JSON file.
-					$translations_file = plugin_dir_path( __FILE__ ) . 'translations/public-translations.json';
-					$translations      = json_decode( wp_remote_get( $translations_file ), true );
+					$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/public/translations/public-translations.json';
+					$translations      = wp_remote_get( $translations_file );
+					$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
 					// Define an array of text keys to translate.
 					$text_keys_to_translate = array(
 						'about',
@@ -793,21 +794,21 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$ipaddress = '';
 		if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-			$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+			$ipaddress = filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ipaddress = filter_var($_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_X_FORWARDED'])) {
-			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+			$ipaddress = filter_var($_SERVER['HTTP_X_FORWARDED'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
-			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+			$ipaddress = filter_var($_SERVER['HTTP_FORWARDED_FOR'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_FORWARDED'])) {
-			$ipaddress = $_SERVER['HTTP_FORWARDED'];
+			$ipaddress = filter_var($_SERVER['HTTP_FORWARDED'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['REMOTE_ADDR'])) {
-			$ipaddress = $_SERVER['REMOTE_ADDR'];
+			$ipaddress = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
 		} else {
 			$ipaddress = 'UNKNOWN';
 		}
-		return $ipaddress;
+		return esc_html($ipaddress);
 	}
 
 	/**

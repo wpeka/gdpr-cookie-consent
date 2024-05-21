@@ -115,8 +115,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 			<a href="<?php echo esc_url_raw( plugin_dir_url( __FILE__ ) . 'csv.php?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="button button-primary data-req-export-button"><?php esc_html_e( 'Export As CSV', 'gdpr-cookie-consent' ); ?></a>
 
 			<?php
-
-			echo $this->resolved_select();
+			echo wp_kses_post( $this->resolved_select() );
 			?>
 		</div>
 		<?php
@@ -354,7 +353,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 		echo '<select name="wpl_resolved_select" id="wpl_resolved_select_consent_log" class="wpl_resolved_select_filter">';
 		foreach ( $options as $value => $label ) {
-			echo '<option value="' . $value . '" ' . ( $selected == $value ? 'selected' : '' ) . '>' . $label . '</option>';
+			echo '<option value="' . esc_attr( $value ) . '" ' . ( $selected == $value ? 'selected' : '' ) . '>' . esc_html( $label ) . '</option>';
 		}
 		echo '</select>';
 	}
@@ -646,7 +645,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 					'<?php echo esc_attr( $consent_status ); ?>',
 					'<?php echo esc_attr( $siteaddress ); ?>',
-					<?php echo htmlspecialchars( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+					<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' );?>,
 					)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<g clip-path="url(#clip0_103_5501)">
 								<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -820,7 +819,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 							'<?php echo esc_attr( $consent_status ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
-								<?php echo htmlspecialchars( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+								<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 							)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<g clip-path="url(#clip0_103_5501)">
 									<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -979,7 +978,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 						'<?php echo esc_attr( $consent_status ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
-							<?php echo htmlspecialchars( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+							<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 						)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<g clip-path="url(#clip0_103_5501)">
 									<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -1138,7 +1137,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 							'<?php echo esc_attr( $consent_status ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
-							<?php echo htmlspecialchars( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+							<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 							)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<g clip-path="url(#clip0_103_5501)">
 									<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -1297,7 +1296,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 						'<?php echo esc_attr( $consent_status ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
-						<?php echo htmlspecialchars( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+						<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 						)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<g clip-path="url(#clip0_103_5501)">
 									<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -1328,24 +1327,6 @@ class WPL_Consent_Logs extends WP_List_Table {
 		}
 
 		return $all_consent_data;
-	}
-	/**
-	 * Localize and format a Unix timestamp to a human-readable date.
-	 *
-	 * @param int $unix_time The Unix timestamp to be formatted.
-	 *
-	 * @return string Formatted and localized date.
-	 */
-	public function wpl_localize_date( $unix_time ) {
-
-		$formatted_date    = gmdate( get_option( 'date_format' ), $unix_time );
-		$month             = gmdate( 'F', $unix_time );
-		$month_localized   = __( $month );
-		$date              = str_replace( $month, $month_localized, $formatted_date );
-		$weekday           = gmdate( 'l', $unix_time );
-		$weekday_localized = __( $weekday );
-		$date              = str_replace( $weekday, $weekday_localized, $date );
-		return $date;
 	}
 	/**
 	 * Custom sprintf function with additional checks for translation errors.
