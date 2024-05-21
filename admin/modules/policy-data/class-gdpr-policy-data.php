@@ -181,9 +181,6 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 
 						// Find the matching checkbox and its parent row
 						var matchingRow = jQuery("input[type='checkbox'][value='" + itemId + "']").closest('tr');
-						console.log(matchingRow.length);
-						console.log(matchingRow);
-
 						if (matchingRow.length) {
 							// Get the HTML content
 							var actionsHtml = <?php echo wp_json_encode( $actions_to_be_inserted ); ?>;
