@@ -25,7 +25,20 @@ $this->settings = new GDPR_Cookie_Consent_Settings();
 
 // Call the is_connected() method from the instantiated object to check if the user is connected.
 $is_user_connected = $this->settings->is_connected();
+$api_user_plan     = $this->settings->get_plan();
+// $api_user_plan = 'pro';
 
+/*
+* Number of scans on the basis of user's plan
+*/
+if ( $api_user_plan == 'free' ) {
+	$total_no_of_free_scans = 100;
+}else{
+	$total_no_of_free_scans = 200000;
+}
+
+$gdpr_no_of_page_scan = $total_no_of_free_scans - get_option('gdpr_no_of_page_scan');
+$remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total_no_of_free_scans )*100;
 
 ?>
 
@@ -70,6 +83,35 @@ $is_user_connected = $this->settings->is_connected();
 					</div>
 				</div>
 		</div>
+
+		<!-- scans -->
+		<?php
+		// if user is connected to the app.wplegalpages then show remaining scans
+		if ( $is_user_connected == true ) {
+		?>
+			<div class="gdpr-remaining-scans-content" >
+				<div class="gdpr-remaining-scans-container">
+					<span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan;  ?> / <?php echo $total_no_of_free_scans;  ?><span><span> (<?php echo $remaining_percentage_scan_limit ?>%)</span>
+				</div>
+				<div class="gdpr-current-plan-container">
+					<p><span>Current Plan: </span><?php echo $api_user_plan ?></p>
+					<?php
+					if ( $api_user_plan == 'free' ) {
+					?>
+					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_upgrade_btn.png'; ?>" alt="<?php echo esc_attr( 'Upgrade Button', 'gdpr-cookie-consent' ); ?>">
+					<?php
+					}
+					?>
+				</div>
+
+
+
+			</div>
+		<?php
+
+		}
+		?>
+
 		<!-- connect your website to WP Cookie Consent  -->
 
 		<?php
@@ -177,11 +219,7 @@ $is_user_connected = $this->settings->is_connected();
 				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-policy-data-tab" data-tab="policy_data">
 				<p class="gdpr-cookie-consent-admin-tab-name">Policy&nbsp;Data</p>
 				</div>
-				<!-- tab for legal page promotion  -->
-				<!-- <div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-legalpage-data-tab" data-tab="legal_page">
-					<p class="gdpr-cookie-consent-admin-tab-name">Legal&nbsp;Page</p>
-				</div> -->
-				<?php 
+				<?php
 				if($pro_is_activated){
 					?>
 					<!-- Pro activation key -->
@@ -189,7 +227,7 @@ $is_user_connected = $this->settings->is_connected();
 							<p class="gdpr-cookie-consent-admin-tab-name">Pro Activation</p>
 						</div>
 				<?php }
-				
+
 				?>
 			</div>
 		</div>
@@ -232,10 +270,6 @@ $is_user_connected = $this->settings->is_connected();
 					<?php do_action( 'add_activation_key_content' ); ?>
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookies-activation-key.php'; ?>
 				</div>
-				<!-- legal pages  -->
-				<!-- <div class="gdpr-cookie-consent-admin-legal-pages-content gdpr-cookie-consent-admin-tab-content" id="legal_page">
-					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-legal-pages-tab-template.php'; ?>
-				</div> -->
 			</div>
 		</div>
 
