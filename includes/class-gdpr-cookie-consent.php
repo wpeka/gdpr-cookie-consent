@@ -597,7 +597,7 @@ class Gdpr_Cookie_Consent {
 			'gdpr_cookie_bar_logo_url_holder'      => '',
 			'animate_speed_hide'                   => '500',
 			'animate_speed_show'                   => '500',
-
+			'vendors_array'								=> ['First vendor', 'Second Vendor', 'Third Vendor', 'And so on...'],
 			'background'                           => '#ffffff',
 			'opacity'                              => '0.80',
 			'background_border_width'              => '0',
@@ -953,6 +953,49 @@ class Gdpr_Cookie_Consent {
 		}
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
 		return $settings;
+	}
+
+	/**
+	 * Save Vendor Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_save_vendors($data) {
+		// $settings             = self::gdpr_get_default_settings();
+		self::$stored_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
+		// if ( ! empty( self::$stored_options ) ) {
+		// 	foreach ( self::$stored_options as $key => $option ) {
+		// 		$settings[ $key ] = self::gdpr_sanitise_settings( $key, $option );
+		// 	}
+		// }
+		if($data) {
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $data );
+			error_log("I am adding actual json");
+		}
+		else{
+			// update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, "Demo" );
+			error_log("I am not adding default text");
+		}
+		// return $settings;
+	}
+
+	/**
+	 * Get Vendor Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_get_vendors() {
+		// $settings             = self::gdpr_get_default_settings();
+		$vendors = new stdClass();
+		$vendors = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
+		// if ( ! empty( self::$stored_options ) ) {
+		// 	foreach ( self::$stored_options as $key => $option ) {
+		// 		$settings[ $key ] = self::gdpr_sanitise_settings( $key, $option );
+		// 	}
+		// }
+		// update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $data );
+		// error_log("I am sending vendor data".$vendors);
+		return $vendors;
 	}
 
 	/**

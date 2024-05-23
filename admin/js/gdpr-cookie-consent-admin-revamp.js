@@ -517,6 +517,7 @@ jQuery(document).ready(function () {
 	 * cookie settings perferences functionality
 	 */
 	jQuery(document).ready(function($) {
+
 		$('.gpdr_cookie_settings_btn').on('click', function(e) {
 			e.preventDefault();
 			// Fade out the div to the bottom
@@ -548,6 +549,7 @@ jQuery(document).ready(function () {
 	});
 
 	jQuery(document).ready(function($) {
+		$( ".gdpr_messagebar_detail .category-group .category-item" ).css( 'border-color', gdpr_localize_data.button_accept_button_color );
 			$( ".gdpr-default-category-toggle.gdpr-column" ).click(
 				function() {
 					$( ".gdpr-default-category-toggle.gdpr-column", this );
@@ -572,7 +574,7 @@ jQuery(document).ready(function () {
 						$( ".gdpr-columns .dashicons" ).removeClass( "dashicons-arrow-up-alt2" );
 						$( ".gdpr-columns .dashicons" ).addClass( "dashicons-arrow-down-alt2" );
 						$( this ).children( ".gdpr-columns" ).addClass( "active-group" );
-						$( '.toggle-group' ).find( 'div.always-active' ).css( 'color',gdpr_localize_data.button_accept_button_color );
+						$( '.toggle-group' ).find( 'div.always-active' ).css( 'color',gdpr_localize_data.button_accept_button_color );console.log("always-active color : "+gdpr_localize_data.button_accept_button_color);
 						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color',gdpr_localize_data.button_accept_button_color );
 						$( this ).children( ".gdpr-columns" ).css( 'background-color', '#fff' );
 						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-arrow-down-alt2" );

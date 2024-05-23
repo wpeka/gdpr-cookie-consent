@@ -8,7 +8,30 @@
  * @subpackage Gdpr_Cookie_Consent/public
  */
 
+ /*
+ This works for string array of vendors
+	$data = wp_unslash(print_r($_POST['json'],true));
+	error_log("type: ".print_r(explode(",", $data), true));
+	error_log(print_r("Hello ".$data, true));
+*/
+/*
+$data = json_decode(wp_unslash(print_r($_POST['json'],true)));
+	$vendor = $data[0]; //accessing array item
+	$name = $vendor->name;   //accessing object item
+	error_log($name);
+	error_log(print_r($vendor, true));
+*/
+
+// $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
+// 	$vendor = $data[0];
+// 	$name = $vendor->name;
+// 	foreach ( $data as $vendor) {
+// 		error_log($vendor->name);
+// 	}
+	// error_log(print_r($vendor, true));
+	
 ?>
+
 <div class="gdprmodal gdprfade" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_html( $cookie_data['backdrop'] ); ?>">
 	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
 		<!-- Modal content-->
@@ -27,13 +50,16 @@
 							<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['lgpd'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
 						<?php elseif ( $the_options['cookie_usage_for']==='both' ) :?>
 							<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
-						<?php endif; ?>
+						<?php endif; 
+						if ( $the_options['is_iabtcf_on']) :
+						?>
 						<ul class="gdpr-iab-navbar">
-							<li class="gdpr-iab-navbar-item"><button class="gdpr-iab-navbar-button">Cookie Categories</button></li>
-							<li class="gdpr-iab-navbar-item"><button class="gdpr-iab-navbar-button">Purposes and Features</button></li>
-							<li class="gdpr-iab-navbar-item"><button class="gdpr-iab-navbar-button">Vendors</button></li>
+							<li class="gdpr-iab-navbar-item" id="gdprIABTabCategory"><button class="gdpr-iab-navbar-button active">Cookie Categories</button></li>
+							<li class="gdpr-iab-navbar-item" id="gdprIABTabFeatures"><button class="gdpr-iab-navbar-button">Purposes and Features</button></li>
+							<li class="gdpr-iab-navbar-item" id="gdprIABTabVendors"><button class="gdpr-iab-navbar-button">Vendors</button></li>
 						</ul>
-						<ul class="category-group">
+						<?php endif; ?>
+						<ul class="cat category-group tabContainer">
 							<?php
 							foreach ( $cookie_data['categories'] as $category ) {
 								?>
@@ -168,6 +194,198 @@
 							}
 							?>
 						</ul>
+						
+						<ul class="category-group feature-group tabContainer">
+							<?php
+						    $features = ["Purposes", "Special Purposes","Features","Special Features"];
+							foreach ( $features as $feature ) {
+								?>
+								<li class="category-item">
+									<?php
+									if( "Purposes" === $feature || "Special Features" === $feature ) {
+									?>
+										<div class="toggle-group">
+										<div class="toggle">
+											<div class="checkbox">
+												<!-- DYNAMICALLY GENERATE Input ID  -->
+												<input 
+												<?php
+												if ( ! empty( $the_options['is_ticked'] ) && ! $the_options['viewed_cookie'] ) {
+													?>
+													checked="checked"
+													<?php
+												} elseif ( ! empty( $category['is_ticked'] ) ) {
+													?>
+													checked="checked"
+													<?php
+												}
+												?>
+												id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+												<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+													<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+												</label>
+												<!-- DYNAMICALLY GENERATE Input ID  -->
+											</div>
+										</div>
+									</div>
+									<?php } ?>
+										
+								<div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
+									<div class="gdpr-columns">
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
+										<a href="#" class="btn category-header" tabindex="0"><?php echo esc_html__( $feature, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+									</div>
+								</div>
+								<div class="description-container hide">
+												<ul class="category-group feature-group tabContainer">
+												<?php
+												$features = ["feature 1", "feature 2","feature 3","feature 4"];
+												foreach ( $features as $feature ) {
+													?>
+													<li class="category-item">
+															<div class="toggle-group">
+															<div class="toggle">
+																<div class="checkbox">
+																	<!-- DYNAMICALLY GENERATE Input ID  -->
+																	<input 
+																	<?php
+																	if ( ! empty( $the_options['is_ticked'] ) && ! $the_options['viewed_cookie'] ) {
+																		?>
+																		checked="checked"
+																		<?php
+																	} elseif ( ! empty( $category['is_ticked'] ) ) {
+																		?>
+																		checked="checked"
+																		<?php
+																	}
+																	?>
+																	id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+																	<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+																		<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+																	</label>
+																	<!-- DYNAMICALLY GENERATE Input ID  -->
+																</div>
+															</div>
+														</div>
+															
+													<div class="inner-gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
+														<div class="inner-gdpr-columns">
+															<span class="dashicons dashicons-arrow-down-alt2"></span>
+															<a href="#" class="btn category-header" tabindex="0"><?php echo esc_html__( $feature, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+														</div>
+													</div>
+													<div class="inner-description-container hide">
+														<div class="group-description" tabindex="0"><?php echo esc_html__( $category['gdpr_cookie_category_description'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
+													</div>
+												</li>
+													<?php
+												}
+												?>
+											</ul>
+								</div>
+							</li>
+								<?php
+							}
+							?>
+						</ul>
+						<ul class="category-group vendor-group tabContainer">
+							<?php
+						    $vendors = ["Third Party Vendors"];
+							foreach ( $vendors as $vendor ) {
+								?>
+								
+								<li class="category-item">
+										<div class="toggle-group">
+										<div class="toggle">
+											<div class="checkbox">
+												<!-- DYNAMICALLY GENERATE Input ID  -->
+												<input 
+												<?php
+												if ( ! empty( $the_options['is_ticked'] ) && ! $the_options['viewed_cookie'] ) {
+													?>
+													checked="checked"
+													<?php
+												} elseif ( ! empty( $category['is_ticked'] ) ) {
+													?>
+													checked="checked"
+													<?php
+												}
+												?>
+												id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+												<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+													<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+												</label>
+												<!-- DYNAMICALLY GENERATE Input ID  -->
+											</div>
+										</div>
+									</div>
+										
+								<div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
+									<div class="gdpr-columns">
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
+										<a href="#" class="btn category-header" tabindex="0"><?php echo esc_html__( $vendor, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+									</div>
+								</div>
+								<div class="description-container hide">
+												<ul class="category-group vendor-group tabContainer">
+												<script>
+</script>
+												<?php
+												$data = Gdpr_Cookie_Consent::gdpr_get_vendors();
+
+												$vendordata  = $data->vendors;
+
+												error_log("Data : ".print_r(Gdpr_Cookie_Consent::gdpr_get_vendors(), true));
+												foreach ( $vendordata as $vendor ) {
+													
+													?>
+													<li class="category-item">
+															<div class="toggle-group">
+															<div class="toggle">
+																<div class="checkbox">
+																	<!-- DYNAMICALLY GENERATE Input ID  -->
+																	<input 
+																	<?php
+																	if ( ! empty( $the_options['is_ticked'] ) && ! $the_options['viewed_cookie'] ) {
+																		?>
+																		checked="checked"
+																		<?php
+																	} elseif ( ! empty( $category['is_ticked'] ) ) {
+																		?>
+																		checked="checked"
+																		<?php
+																	}
+																	?>
+																	id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+																	<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+																		<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+																	</label>
+																	<!-- DYNAMICALLY GENERATE Input ID  -->
+																</div>
+															</div>
+														</div>
+															
+													<div class="inner-gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
+														<div class="inner-gdpr-columns">
+															<span class="dashicons dashicons-arrow-down-alt2"></span><?php if($vendor->legIntPurposes){echo "LegInt";}?>
+															<a href="#" class="btn category-header" tabindex="0"><?php echo esc_html__( $vendor->name, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+														</div>
+													</div>
+													<div class="inner-description-container hide">
+														<div class="group-description" tabindex="0"><?php echo "Desc"; // phpcs:ignore ?></div>
+													</div>
+												</li>
+													<?php
+												}
+												?>
+											</ul>
+								</div>
+							</li>
+								<?php
+							}
+							?>
+						</ul>
+						
 					</div>
 				</div>
 			</div>

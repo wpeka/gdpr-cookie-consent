@@ -75,6 +75,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public static $existing_modules = array();
 
+	public $the_options = array();
+
+	public $tcf_json_data;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -104,6 +108,9 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 		}
+		$tcf_json_data = json_decode(wp_unslash(print_r($_POST['json'],true)));
+			error_log("Hello from admind dashboard : ".print_r($tcf_json_data, true));
+			Gdpr_Cookie_Consent::gdpr_save_vendors($tcf_json_data);
 	}
 
 	/**
@@ -157,6 +164,21 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name . '-main', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-main.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-dashboard', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-dashboard.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'js/vue/wpl-cookie-consent-admin-integrations.js', array( 'jquery' ), $this->version, false );
+		//tcf
+		// if ( $the_options['is_iabtcf_on'] ) {error_log("Hello from inside admin");
+			wp_register_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-tcf.js');
+			wp_localize_script(
+				$this->plugin_name . '-tcf',
+				'nayan',
+				array(
+					'ajax_url'              => "nayan_url",
+					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
+					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
+				)
+			);
+			wp_enqueue_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-tcf.js', array( 'jquery' ), $this->version, false );
+			
+		// }
 	}
 
 	/**
@@ -4816,6 +4838,9 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Ajax callback for setting page.
 	 */
 	public function gdpr_cookie_consent_ajax_save_settings() {
+		$tcf_json_data = json_decode(wp_unslash(print_r($_POST['json'],true)));
+		error_log("Hello from admind dashboard function: ".print_r($tcf_json_data, true));
+
 		if ( isset( $_POST['gcc_settings_form_nonce'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce'] ) ), 'gcc-settings-form-nonce' ) ) {
 				return;
@@ -5680,7 +5705,7 @@ class Gdpr_Cookie_Consent_Admin {
 			} elseif ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
 				// Update the option if a new logo is provided.
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) );
-			}error_log("Here................................");error_log($the_options['is_iabtcf_on']);
+			}
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			wp_send_json_success( array( 'form_options_saved' => true ) );
 		}
@@ -6247,14 +6272,22 @@ class Gdpr_Cookie_Consent_Admin {
 		?>
 		<style>
 			.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
+			.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input:checked+label,
 			.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input:checked+label {
+				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+			}
+			.gdprmodal-dialog .gdprmodal-footer button {
 				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
 			}
 
 			.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
-			#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
+			#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close,
+			.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .always-active {
 				color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
 			}
+			/* .gdpr_messagebar_detail .category-group .category-item {
+				border-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?>;
+			} */
 		</style>
 		<?php
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-admin.php';
