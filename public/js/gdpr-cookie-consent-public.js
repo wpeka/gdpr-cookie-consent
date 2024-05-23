@@ -86,7 +86,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			this.set( name, "", -10 );
 		},
 	}
-
+	var consentArray = [];
 	var gdpr_cookiebar_settings = gdpr_cookies_obj.gdpr_cookiebar_settings;
 	var gdpr_cookies_list = gdpr_cookies_obj.gdpr_cookies_list;
 	var gdpr_consent_renew = gdpr_cookies_obj.gdpr_consent_renew;
@@ -514,7 +514,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					var button_action            = elm.attr( 'data-gdpr_action' );
 					var open_link                = elm[0].hasAttribute( "href" ) && elm.attr( "href" ) != '#' ? true : false;
 					var new_window               = false;
-					if (button_action == 'accept') {
+					if (button_action == 'accept') {alert("Heelllooo");alert(JSON.stringify(e))
 						GDPR.accept_close();
 						new_window               = GDPR.settings.button_accept_new_win ? true : false;
 						gdpr_user_preference     = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
@@ -1813,7 +1813,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 
 	$( document ).ready(
 		function() {
-			
+			var consentArray = [];
 			$( ".gdpr_messagebar_detail .category-group .category-item" ).css( 'border-color', GDPR.settings.button_accept_button_color );
 			$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('color', GDPR.settings.button_accept_button_color);
 			$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border-bottom', '2px solid '+GDPR.settings.button_accept_button_color);
@@ -1839,6 +1839,35 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						$( this ).children( ".gdpr-iab-navbar-button" ).css( 'border-bottom', '2px solid '+GDPR.settings.button_accept_button_color )
 						$( this ).siblings( ".gdpr-iab-navbar-button" ).css( 'display', 'none')
 					}
+				}
+			);
+
+			$( ".gdpr_messagebar_detail .category-group .category-item .vendor-all-switch-handler" ).click(
+				function() {
+					$( ".vendor-all-switch-handler", this );
+					if ( $( this ).is(":checked")) {
+						$( ".vendor-switch-handler" ).prop( 'checked', true );
+					}
+					else {
+						$( ".vendor-switch-handler" ).prop( 'checked', false );
+					}
+				}
+			);
+
+			$( ".vendor-switch-handler" ).click(
+				function() {
+					if ( $( this ).is(":checked")) {
+						consentArray.push($( this ).val());
+						$( this ).prop( 'checked', true );
+					}
+					else {
+						// alert(consentArray.indexOf($(this).val()))
+						$( this ).prop( 'checked', false );
+						// consentArray.pop();
+						consentArray.splice(consentArray.indexOf($( this ).val()), 1);						
+					}
+					console.log("Consent Array : "+consentArray);
+					$("#cookie_action_save").setAttribute("nayan", consentArray)
 				}
 			);
 

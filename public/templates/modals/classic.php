@@ -90,7 +90,8 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 													<?php
 												}
 												?>
-												id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+												id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+												class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 												<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 													<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
 												</label>
@@ -311,7 +312,11 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 													<?php
 												}
 												?>
-												id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+												id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+												class="vendor-all-switch-handler" 
+												type="checkbox" 
+												name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+												value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 												<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 													<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
 												</label>
@@ -356,7 +361,11 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 																		<?php
 																	}
 																	?>
-																	id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+																	id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+																	class="vendor-switch-handler" 
+																	type="checkbox" 
+																	name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+																	value="<?php echo esc_html( $vendor->id ); ?>">
 																	<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 																		<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
 																	</label>
