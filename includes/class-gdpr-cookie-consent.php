@@ -986,6 +986,21 @@ class Gdpr_Cookie_Consent {
 	}
 
 	/**
+	 * Get Vendor Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_get_vendor_consent_data() {
+		// $settings             = self::gdpr_get_default_settings();
+		// $vendors = new stdClass();
+		$consent = [];
+		$consent = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT );
+		if(empty($consent))
+		$consent = [];
+		return $consent;
+	}
+
+	/**
 	 * Color shift a hex value by a specific percentage factor.
 	 *
 	 * @since 1.0

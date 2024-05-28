@@ -1038,6 +1038,42 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .feature-group, .vendor-group {
 	display: none;
 }
+
+.vendor-switch-wrapper, .purposes-switch-wrapper, .special-features-switch-wrapper {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.vendor-legitimate-switch-wrapper, .vendor-consent-switch-wrapper,
+.purposes-legitimate-switch-wrapper, .purposes-consent-switch-wrapper,
+.special-features-consent-switch-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.vendor-legitimate-switch-wrapper,
+.purposes-legitimate-switch-wrapper {
+	border-right: 1px solid #d0d5d2;
+    padding: 0 17px 0 0;
+}
+
+.vendor-consent-switch-wrapper, 
+.purposes-consent-switch-wrapper,
+.special-features-consent-switch-wrapper {
+	padding: 0 0 0 17px;
+}
+
+.vendor-switch-label, .purposes-switch-label, .special-features-switch-label{
+	font-size: 11px;
+	font-weight: 400;
+    line-height: 24px;
+    margin: 0 8px 0 0;
+	vertical-align: middle;
+}
+
 .gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active{	
 	border-bottom: 2px, solid;
 }
