@@ -1885,15 +1885,15 @@ var consentArray = consent_data;
 				function() {
 					$( ".purposes-all-switch-handler", this );
 					if ( $( this ).is(":checked")) {
-						$( ".purpose-switch-handler" ).prop( 'checked', true );
+						$( ".purposes-switch-handler" ).prop( 'checked', true );
 					}
 					else {
-						$( ".purpose-switch-handler" ).prop( 'checked', false );
+						$( ".purposes-switch-handler" ).prop( 'checked', false );
 					}
 				}
 			);
 
-			$( ".purpose-switch-handler" ).click(
+			$( ".purposes-switch-handler" ).click(
 				function() {
 					if ( $( this ).is(":checked")) {
 						// consentArray.push($( this ).val());
@@ -1912,7 +1912,7 @@ var consentArray = consent_data;
 
 			$( ".special-features-all-switch-handler" ).click(
 				function() {
-					$( ".special-featuress-all-switch-handler", this );
+					$( ".special-features-all-switch-handler", this );
 					if ( $( this ).is(":checked")) {
 						$( ".special-features-switch-handler" ).prop( 'checked', true );
 					}
@@ -1930,7 +1930,7 @@ var consentArray = consent_data;
 					}
 					else {
 						$( this ).prop( 'checked', false );
-						$( ".special-featuress-all-switch-handler" ).prop( 'checked', false );
+						$( ".special-features-all-switch-handler" ).prop( 'checked', false );
 						// consentArray.splice(consentArray.indexOf($( this ).val()), 1);						
 					}
 					// console.log("Consent Array : "+consentArray);
