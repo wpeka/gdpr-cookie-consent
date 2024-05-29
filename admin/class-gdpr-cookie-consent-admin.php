@@ -8,16 +8,16 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/admin
  */
-if ( ! function_exists( 'request_filesystem_credentials' ) ) {
-    require_once ABSPATH . 'wp-admin/includes/file.php';
-}
-$creds = request_filesystem_credentials( site_url() );
-if ( ! $creds ) {
-    return; // Stop if credentials are not available
-}
-if ( ! WP_Filesystem( $creds ) ) {
-    return; // Stop if WP_Filesystem initialization fails
-}
+// if ( ! function_exists( 'request_filesystem_credentials' ) ) {
+// 	require_once ABSPATH . 'wp-admin/includes/file.php';
+// }
+// $creds = request_filesystem_credentials( site_url() );
+// if ( ! $creds ) {
+// 	return; // Stop if credentials are not available
+// }
+// if ( ! WP_Filesystem( $creds ) ) {
+// 	return; // Stop if WP_Filesystem initialization fails
+// }
 
 /**
  * The admin-specific functionality of the plugin.
@@ -5061,6 +5061,7 @@ class Gdpr_Cookie_Consent_Admin {
 			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
 			$the_options['bar_heading_text']                   = isset( $_POST['bar_heading_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_field'] ) ) : '';
 			$the_options['bar_heading_lgpd_text']              = isset( $_POST['bar_heading_text_lgpd_field'] ) ? sanitize_text_field( wp_unslash( $_POST['bar_heading_text_lgpd_field'] ) ) : '';
+
 			// custom css.
 			$the_options['gdpr_css_text'] = isset( $_POST['gdpr_css_text_field'] ) ? wp_kses( wp_unslash( $_POST['gdpr_css_text_field'] ), array(), array( 'style' => array() ) ) : '';
 			$css_file_path                = ABSPATH . 'wp-content/plugins/gdpr-cookie-consent/public/css/gdpr-cookie-consent-public-custom.css';
@@ -5069,26 +5070,20 @@ class Gdpr_Cookie_Consent_Admin {
 
 			$css_code_to_add = $the_options['gdpr_css_text'];
 
-			// Open the CSS file for writing.
-			$css_file = fopen( $css_file_path, 'w' );
-			// Check if the file was opened successfully.
-			if ( $css_file ) {
-				// Write the CSS code to the file.
-				fwrite( $css_file, $css_code_to_add );
+			// Allow us to easily interact with the filesystem.
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+			global $wp_filesystem;
 
-				// Close the file.
-				fclose( $css_file );
+			if ( ! $wp_filesystem->put_contents( $css_file_path, $css_code_to_add, FS_CHMOD_FILE ) ) {
+				// Handle error.
+				error_log( 'Failed to write to ' . $css_file_path );
 			}
-			// Open the CSS min file for writing.
-			$css_min_file = fopen( $css_min_file_path, 'w' );
-
-			// Check if the file was opened successfully.
-			if ( $css_min_file ) {
-				// Write the CSS code to the file.
-				fwrite( $css_min_file, $css_code_to_add );
-
-				// Close the file.
-				fclose( $css_min_file );
+		
+			//  Writing the CSS code to the minified CSS file.
+			if ( ! $wp_filesystem->put_contents( $css_min_file_path, $css_code_to_add, FS_CHMOD_FILE ) ) {
+				// Handle error.
+				error_log( 'Failed to write to ' . $css_min_file_path );
 			}
 
 			$encode_css                   = $this->encode_css( $the_options['gdpr_css_text'] );
@@ -6681,27 +6676,20 @@ class Gdpr_Cookie_Consent_Admin {
 			$all_settings['gdpr_css_text'] = '';
 			$css_code_to_add               = $all_settings['gdpr_css_text'];
 
-			// Open the CSS file for writing.
-			$css_file = fopen( $css_file_path, 'w' );
+			// Allow us to easily interact with the filesystem.
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+			global $wp_filesystem;
 
-			// Check if the file was opened successfully.
-			if ( $css_file ) {
-				// Write the CSS code to the file.
-				fwrite( $css_file, $css_code_to_add );
-
-				// Close the file.
-				fclose( $css_file );
+			if ( ! $wp_filesystem->put_contents( $css_file_path, $css_code_to_add, FS_CHMOD_FILE ) ) {
+				// Handle error.
+				error_log( 'Failed to write to ' . $css_file_path );
 			}
-			// Open the CSS min file for writing.
-			$css_min_file = fopen( $css_min_file_path, 'w' );
-
-			// Check if the file was opened successfully.
-			if ( $css_min_file ) {
-				// Write the CSS code to the file.
-				fwrite( $css_min_file, $css_code_to_add );
-
-				// Close the file.
-				fclose( $css_min_file );
+		
+			//  Writing the CSS code to the minified CSS file.
+			if ( ! $wp_filesystem->put_contents( $css_min_file_path, $css_code_to_add, FS_CHMOD_FILE ) ) {
+				// Handle error.
+				error_log( 'Failed to write to ' . $css_min_file_path );
 			}
 
 			$the_options                            = Gdpr_Cookie_Consent::gdpr_get_default_settings();
