@@ -1876,6 +1876,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						$( ".vendor-all-switch-handler" ).prop( 'checked', false );
 						iabtcf_consent_data.consent.splice(iabtcf_consent_data.consent.indexOf($( this ).val()), 1);						
 					}
+					console.log("kuchh to print kar")
 					console.log(iabtcf_consent_data)					
 				}
 			);

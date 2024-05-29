@@ -963,6 +963,13 @@ class Gdpr_Cookie_Consent {
 	public static function gdpr_save_vendors($data) {
 		self::$stored_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
 		error_log("First TIme : ".print_r(get_option( "iabtcfConsent" ),true));
+
+		$vendors = [];
+		$vendors["consent"]=[];
+		$vendors["legint"]=[];
+		if(! get_option( "iabtcfConsent" )) {
+			update_option( "iabtcfConsent", $vendors );
+		}
 		if($data) {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $data );
 			error_log("I am adding actual json");
