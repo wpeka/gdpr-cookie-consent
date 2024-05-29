@@ -109,7 +109,6 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 		}
 		$tcf_json_data = json_decode(wp_unslash(print_r($_POST['json'],true)));
-			error_log("Hello from admind dashboard : ".print_r($tcf_json_data, true));
 			Gdpr_Cookie_Consent::gdpr_save_vendors($tcf_json_data);
 	}
 
@@ -4839,7 +4838,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function gdpr_cookie_consent_ajax_save_settings() {
 		$tcf_json_data = json_decode(wp_unslash(print_r($_POST['json'],true)));
-		error_log("Hello from admind dashboard function: ".print_r($tcf_json_data, true));
 
 		if ( isset( $_POST['gcc_settings_form_nonce'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce'] ) ), 'gcc-settings-form-nonce' ) ) {

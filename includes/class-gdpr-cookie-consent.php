@@ -962,7 +962,11 @@ class Gdpr_Cookie_Consent {
 	 */
 	public static function gdpr_save_vendors($data) {
 		self::$stored_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
-		
+		// $iabtcf = new stdClass();
+		// $iabtcf->consent = [];
+		// $iabtcf->legint = [];
+		// update_option( "iabtcfConsent", $iabtcf );
+		error_log("First TIme : ".print_r(get_option( "iabtcfConsent" ),true));
 		if($data) {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $data );
 			error_log("I am adding actual json");
@@ -986,18 +990,42 @@ class Gdpr_Cookie_Consent {
 	}
 
 	/**
-	 * Get Vendor Data.
+	 * Get Vendor Consennt  Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_get_iabtcf_vendor_consent_data() {
+		$consent = [];
+		$consent = get_option( "iabtcfConsent" );
+		if(empty($consent))
+		$consent = [];
+		return $consent;
+	}
+
+	/**
+	 * Get Vendor Consennt  Data.
 	 *
 	 * @return array|mixed
 	 */
 	public static function gdpr_get_vendor_consent_data() {
-		// $settings             = self::gdpr_get_default_settings();
-		// $vendors = new stdClass();
 		$consent = [];
 		$consent = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT );
 		if(empty($consent))
 		$consent = [];
 		return $consent;
+	}
+
+	/**
+	 * Get Vendor Legint Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_get_vendor_legint_data() {
+		$legint = [];
+		$legint = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_LEGINT );
+		if(empty($legint))
+		$legint = [];
+		return $legint;
 	}
 
 	/**

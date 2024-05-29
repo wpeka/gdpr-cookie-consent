@@ -29,10 +29,13 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 // 		error_log($vendor->name);
 // 	}
 	// error_log(print_r($vendor, true));
+	
 	$data = Gdpr_Cookie_Consent::gdpr_get_vendors();
-	$consent_data = Gdpr_Cookie_Consent::gdpr_get_vendor_consent_data();
+	$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
+	$consent_data = isset( $iabtcf_consent_data["consent"] ) ? $iabtcf_consent_data["consent"] : [];
+	$legint_data = isset( $iabtcf_consent_data["legint"] ) ? $iabtcf_consent_data["legint"] : [];
 
-	error_log("Hurreyyy....I now have it here...".$consent_data);
+	error_log("Hurreyyy.... Vendor All data : ".print_r($iabtcf_consent_data,true));
 ?>
 
 <div class="gdprmodal gdprfade" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_html( $cookie_data['backdrop'] ); ?>">
@@ -449,7 +452,6 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 
 												$vendordata  = $data->vendors;
 
-												// error_log("Data : ".print_r(Gdpr_Cookie_Consent::gdpr_get_vendors(), true));
 												foreach ( $vendordata as $key=>$vendor ) {
 													
 													?>
@@ -466,16 +468,11 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 																				<!-- DYNAMICALLY GENERATE Input ID  -->
 																				<input 
 																				<?php
-																				
-																				if ( ! empty( $the_options['is_ticked'] ) && ! $the_options['viewed_cookie'] ) {
+																				if ( in_array($vendor->id, $legint_data) ) {
 																					?>
 																					checked="checked"
 																					<?php
-																				} elseif ( ! empty( $category['is_ticked'] ) ) {
-																					?>
-																					checked="checked"
-																					<?php
-																				}
+																				} 
 																				?>
 																				id="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_html($vendor->id);?>" 
 																				class="vendor-switch-handler <?php echo esc_html("legint-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor->id);?>"  
@@ -498,15 +495,7 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 																				<input 
 																				<?php 
 
-																				error_log("unstoppable".$key." vendor id: ".$vendor->id);
-																				if( in_array($vendor->id, $consent_data) ) {
-																					error_log("Vendor ".$vendor->id." is set");
-																				}
 																				if ( in_array($vendor->id, $consent_data) ) {
-																					?>
-																					checked="checked"
-																					<?php
-																				} elseif ( ! empty( $category['is_ticked'] ) ) {
 																					?>
 																					checked="checked"
 																					<?php

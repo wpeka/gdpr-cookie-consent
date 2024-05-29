@@ -189,7 +189,7 @@ class Gdpr_Cookie_Consent_Public {
 			'ccpa_status' => 'on',
 		);
 		$the_options  = Gdpr_Cookie_Consent::gdpr_get_settings();
-		$consent_data = Gdpr_Cookie_Consent::gdpr_get_vendor_consent_data();
+		$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 
 		$geo_options  = get_option( 'wpl_geo_options' );
 		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] ) {
@@ -663,16 +663,14 @@ class Gdpr_Cookie_Consent_Public {
 
 			// Checking, if post value is 
     // set by user or not 
-    if(isset($_POST['btnValue'])) 
+    if(isset($_POST['iabtcfConsentData'])) 
     { 
-        // Getting the value of button 
-        // in $btnValue variable 
-        $btnValue = $_POST['btnValue']; 
+        $iabtcfConsentData = $_POST['iabtcfConsentData']; 
         
-         // Sending Response 
-        error_log( "Success Nayan..... ".$btnValue); 
-		update_option( 'vendorconsent', $btnValue );
+        error_log( "Success Nayan.....iabtcfConsentData : ".$iabtcfConsentData); 
+		update_option( 'iabtcfConsent', $iabtcfConsentData );
     } 
+	
 
 			if ( true === $the_options['button_settings_is_on'] || true === $the_options['button_accept_all_is_on'] || true === $the_options['button_accept_is_on'] ) {
 				$cookie_data                      = array();
@@ -801,7 +799,7 @@ class Gdpr_Cookie_Consent_Public {
 			$cookies_list_data = array(
 				'gdpr_cookies_list'       => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
 				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
-				'consent_data'				=> $consent_data,
+				'iabtcf_consent_data'				=> $iabtcf_consent_data,
 				'gdpr_consent_renew'      => $the_options['ip_and_consent_renew'],
 				'gdpr_user_ip'            => $user_ip,
 				'gdpr_do_not_track'       => $the_options['do_not_track_on'],
