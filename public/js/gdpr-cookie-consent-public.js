@@ -519,12 +519,11 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					var open_link                = elm[0].hasAttribute( "href" ) && elm.attr( "href" ) != '#' ? true : false;
 					var new_window               = false;
 					if (button_action == 'accept') {
-						// alert(elm.attr('vendor-consent-array'));
+						
 						// jQuery Ajax Post Request 
-    $.post('classic.php', { 
-        // btnValue: elm.attr('vendor-consent-array') 
-		iabtcfConsentData: iabtcf_consent_data
-    }); 
+					$.post('classic.php', { 
+						iabtcfConsentData: iabtcf_consent_data
+					}); 
 						GDPR.accept_close();
 						new_window               = GDPR.settings.button_accept_new_win ? true : false;
 						gdpr_user_preference     = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
