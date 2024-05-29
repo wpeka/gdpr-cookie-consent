@@ -8,16 +8,6 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/admin
  */
-// if ( ! function_exists( 'request_filesystem_credentials' ) ) {
-// 	require_once ABSPATH . 'wp-admin/includes/file.php';
-// }
-// $creds = request_filesystem_credentials( site_url() );
-// if ( ! $creds ) {
-// 	return; // Stop if credentials are not available
-// }
-// if ( ! WP_Filesystem( $creds ) ) {
-// 	return; // Stop if WP_Filesystem initialization fails
-// }
 
 /**
  * The admin-specific functionality of the plugin.
