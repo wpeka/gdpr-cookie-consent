@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po',"pt" );
 
 	/**
 	 * The version of this plugin.
@@ -3732,6 +3732,10 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => 'po',
 			),
 			array(
+				'label' => 'Portuguese',
+				'code'  => 'pt',
+			),
+			array(
 				'label' => 'Slovenian',
 				'code'  => 'sl',
 			),
@@ -6014,6 +6018,10 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'label' => 'Polish',
 				'code'  => 'po',
+			),
+			array(
+				'label' => 'Portuguese',
+				'code'  => 'pt',
 			),
 			array(
 				'label' => 'Slovenian',
