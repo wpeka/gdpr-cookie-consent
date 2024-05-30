@@ -20,6 +20,7 @@ console.log("Here is the GVL object");
 gvl.readyPromise.then(() => {
   gvl.narrowVendorsTo([1,2,4,6,8,10,11,12,14]);
   console.log(gvl);
+  console.log("Hello there... "+nayan.ajax_url)
 
   const data = {};
   const vendorMap = gvl.vendors;

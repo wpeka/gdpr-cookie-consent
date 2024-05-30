@@ -34,6 +34,9 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 	$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 	$consent_data = isset( $iabtcf_consent_data["consent"] ) ? $iabtcf_consent_data["consent"] : [];
 	$legint_data = isset( $iabtcf_consent_data["legint"] ) ? $iabtcf_consent_data["legint"] : [];
+	$purpose_consent_data = isset( $iabtcf_consent_data["purpose_consent"] ) ? $iabtcf_consent_data["purpose_consent"] : [];
+	$purpose_legint_data = isset( $iabtcf_consent_data["purpose_legint"] ) ? $iabtcf_consent_data["purpose_legint"] : [];
+	$feature_consent_data = isset( $iabtcf_consent_data["feature_consent"] ) ? $iabtcf_consent_data["feature_consent"] : [];
 
 	error_log("Hurreyyy.... Vendor All data : ".print_r($iabtcf_consent_data,true));
 ?>
@@ -215,6 +218,7 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 										$count = $data->purposeVendorCount;
 										$legintcount = $data->legintPurposeVendorCount;
 										$display = true;
+										$consentArray = $purpose_consent_data;
 										$displayLegint = true;
 										$classnames = "purposes";
 										break;
@@ -232,6 +236,7 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 										$values  = $data->specialFeatures;
 										$count = $data->specialFeatureVendorCount;
 										$display = true;
+										$consentArray = $feature_consent_data;
 										$displayLegint = false;
 										$classnames = "special-features";
 										break;
@@ -300,11 +305,7 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 																				<!-- DYNAMICALLY GENERATE Input ID  -->
 																				<input 
 																				<?php
-																				if ( ! empty( $the_options['is_ticked'] ) && ! $the_options['viewed_cookie'] ) {
-																					?>
-																					checked="checked"
-																					<?php
-																				} elseif ( ! empty( $category['is_ticked'] ) ) {
+																				if ( in_array($value->id, $purpose_legint_data) ) {
 																					?>
 																					checked="checked"
 																					<?php
@@ -330,15 +331,11 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 																				<!-- DYNAMICALLY GENERATE Input ID  -->
 																				<input 
 																				<?php
-																				if ( ! empty( $the_options['is_ticked'] ) && ! $the_options['viewed_cookie'] ) {
+																				if ( in_array($value->id, $consentArray) ) {
 																					?>
 																					checked="checked"
 																					<?php
-																				} elseif ( ! empty( $category['is_ticked'] ) ) {
-																					?>
-																					checked="checked"
-																					<?php
-																				}
+																				} 
 																				?>
 																				id="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
 																				class="<?php echo esc_html($classnames)?>-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($value->id);?>"

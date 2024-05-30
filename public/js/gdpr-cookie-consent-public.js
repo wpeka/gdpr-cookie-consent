@@ -86,11 +86,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			this.set( name, "", -10 );
 		},
 	}
-
-	// var iabtcf_consent_data ={};
 	
-	var iabtcf_consent_data = gdpr_cookies_obj.iabtcf_consent_data
-	console.log(iabtcf_consent_data);
 	var gdpr_cookiebar_settings = gdpr_cookies_obj.gdpr_cookiebar_settings;
 	var gdpr_cookies_list = gdpr_cookies_obj.gdpr_cookies_list;
 	var gdpr_consent_renew = gdpr_cookies_obj.gdpr_consent_renew;
@@ -521,9 +517,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					if (button_action == 'accept') {
 						
 						// jQuery Ajax Post Request 
-					$.post('classic.php', { 
-						iabtcfConsentData: iabtcf_consent_data
-					}); 
+					
 						GDPR.accept_close();
 						new_window               = GDPR.settings.button_accept_new_win ? true : false;
 						gdpr_user_preference     = JSON.parse( GDPR_Cookie.read( 'wpl_user_preference' ) );
@@ -1852,112 +1846,6 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					}
 				}
 			);
-
-			$( ".vendor-all-switch-handler" ).click(
-				function() {
-					$( ".vendor-all-switch-handler", this );
-					if ( $( this ).is(":checked")) {
-						$( ".vendor-switch-handler" ).prop( 'checked', true );
-					}
-					else {
-						$( ".vendor-switch-handler" ).prop( 'checked', false );
-					}
-				}
-			);
-
-			$( ".vendor-switch-handler.consent-switch" ).click(
-				function() {
-					if ( $( this ).is(":checked")) {
-						iabtcf_consent_data.consent.push($( this ).val());
-						$( this ).prop( 'checked', true );
-					}
-					else {
-						$( this ).prop( 'checked', false );
-						$( ".vendor-all-switch-handler" ).prop( 'checked', false );
-						iabtcf_consent_data.consent.splice(iabtcf_consent_data.consent.indexOf($( this ).val()), 1);						
-					}
-					console.log("kuchh to print kar")
-					console.log(iabtcf_consent_data)					
-				}
-			);
-
-			$( ".vendor-switch-handler.legint-switch" ).click(
-				function() {
-					// var legintArr = iabtcf_consent_data.legint;
-					if ( $( this ).is(":checked")) {
-						iabtcf_consent_data.legint.push($( this ).val());
-						$( this ).prop( 'checked', true );
-					}
-					else {
-						$( this ).prop( 'checked', false );
-						$( ".vendor-all-switch-handler" ).prop( 'checked', false );
-						iabtcf_consent_data.legint.splice(iabtcf_consent_data.legint.indexOf($( this ).val()), 1);						
-					}
-					console.log(iabtcf_consent_data)
-
-					// $("#cookie_action_save.gdpr_action_button").attr("vendor-consent-array", consentArray)
-					
-				}
-			);
-
-			$( ".purposes-all-switch-handler" ).click(
-				function() {
-					$( ".purposes-all-switch-handler", this );
-					if ( $( this ).is(":checked")) {
-						$( ".purposes-switch-handler" ).prop( 'checked', true );
-					}
-					else {
-						$( ".purposes-switch-handler" ).prop( 'checked', false );
-					}
-				}
-			);
-
-			$( ".purposes-switch-handler" ).click(
-				function() {
-					if ( $( this ).is(":checked")) {
-						// consentArray.push($( this ).val());
-						$( this ).prop( 'checked', true );
-					}
-					else {
-						$( this ).prop( 'checked', false );
-						$( ".purposes-all-switch-handler" ).prop( 'checked', false );
-						// consentArray.splice(consentArray.indexOf($( this ).val()), 1);						
-					}
-					// console.log("Consent Array : "+consentArray);
-					// $("#cookie_action_save.gdpr_action_button").attr("vendor-consent-array", consentArray)
-					
-				}
-			);
-
-			$( ".special-features-all-switch-handler" ).click(
-				function() {
-					$( ".special-features-all-switch-handler", this );
-					if ( $( this ).is(":checked")) {
-						$( ".special-features-switch-handler" ).prop( 'checked', true );
-					}
-					else {
-						$( ".special-features-switch-handler" ).prop( 'checked', false );
-					}
-				}
-			);
-
-			$( ".special-features-switch-handler" ).click(
-				function() {
-					if ( $( this ).is(":checked")) {
-						// consentArray.push($( this ).val());
-						$( this ).prop( 'checked', true );
-					}
-					else {
-						$( this ).prop( 'checked', false );
-						$( ".special-features-all-switch-handler" ).prop( 'checked', false );
-						// consentArray.splice(consentArray.indexOf($( this ).val()), 1);						
-					}
-					// console.log("Consent Array : "+consentArray);
-					// $("#cookie_action_save.gdpr_action_button").attr("vendor-consent-array", consentArray)
-					
-				}
-			);
-
 			$( ".gdpr-default-category-toggle.gdpr-column" ).click(
 				function() {
 					$( ".gdpr-default-category-toggle.gdpr-column", this );

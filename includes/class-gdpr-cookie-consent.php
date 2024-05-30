@@ -962,13 +962,16 @@ class Gdpr_Cookie_Consent {
 	 */
 	public static function gdpr_save_vendors($data) {
 		self::$stored_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
-		error_log("First TIme : ".print_r(get_option( "iabtcfConsent" ),true));
 
-		$vendors = [];
-		$vendors["consent"]=[];
-		$vendors["legint"]=[];
-		if(! get_option( "iabtcfConsent" )) {
-			update_option( "iabtcfConsent", $vendors );
+		$iabtcf_consent_data = [];
+		$iabtcf_consent_data["consent"]=[];
+		$iabtcf_consent_data["legint"]=[];
+		$iabtcf_consent_data["purpose_consent"]=[];
+		$iabtcf_consent_data["purpose_legint"]=[];
+		$iabtcf_consent_data["feature_consent"]=[];
+
+		if(! get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT )) {
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT, $iabtcf_consent_data );
 		}
 		if($data) {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $data );
@@ -998,11 +1001,9 @@ class Gdpr_Cookie_Consent {
 	 * @return array|mixed
 	 */
 	public static function gdpr_get_iabtcf_vendor_consent_data() {
-		$consent = [];
-		$consent = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT );
-		if(empty($consent))
-		$consent = [];
-		return $consent;
+		$iabtcf_consent_data = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT );
+	
+		return $iabtcf_consent_data;
 	}
 
 	/**
