@@ -969,6 +969,8 @@ class Gdpr_Cookie_Consent {
 		$iabtcf_consent_data["purpose_consent"]=[];
 		$iabtcf_consent_data["purpose_legint"]=[];
 		$iabtcf_consent_data["feature_consent"]=[];
+		$iabtcf_consent_data["allVendorsSelected"]=false;
+		$iabtcf_consent_data["allVendorsRejected"]=false;
 
 		if(! get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT )) {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT, $iabtcf_consent_data );

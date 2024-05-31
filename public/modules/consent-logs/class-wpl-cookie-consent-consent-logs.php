@@ -422,11 +422,16 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 				$subSiteId = sanitize_text_field( wp_unslash( $_POST['subSiteId'] ) );
 			}
 			if ( isset( $_POST['currentSite'] ) ) {
-				$SiteURL = esc_url( $_POST['currentSite'] );
+				$SiteURL = esc_url( $_POST['currentSite'] )."nayan";
+				error_log("log consent".$SiteURL);
 			}
 			if ( isset( $_POST['consent_forward'] ) ) {
 				$consent_forward = $_POST['consent_forward'];
 			}
+			// if(isset($_POST['iabtcfConsentData'])) {
+			// 	$SiteURL = $_POST['iabtcfConsentData'];
+				
+			// }
 			if ( isset( $_POST['gdpr_user_action'] ) ) {
 				$gdpr_user_action = sanitize_text_field( wp_unslash( $_POST['gdpr_user_action'] ) );
 				if ( isset( $_POST['cookie_list'] ) && is_array( $_POST['cookie_list'] ) ) {
