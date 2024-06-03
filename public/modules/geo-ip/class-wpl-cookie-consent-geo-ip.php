@@ -36,7 +36,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_action( 'gdpr_module_settings_cookie_usage_for', array( $this, 'wplgip_cookie_usage_for_general' ), 5 );
 			// add_action( 'admin_menu', array( $this, 'wplgip_admin_menu' ), 15 );
-			add_action('gdpr_setting_integration_tab',array( $this, 'wp_settings_integration_tab' ) );
+			add_action( 'gdpr_setting_integration_tab', array( $this, 'wp_settings_integration_tab' ) );
 		}
 	}
 	/**
@@ -44,13 +44,14 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	 *
 	 * @since 3.0.2
 	 */
-	public function wp_settings_integration_tab(){ ?>
+	public function wp_settings_integration_tab() {
+		?>
 		<c-tab title="<?php esc_attr_e( 'Integration', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#integration">
-			<?Php
+			<?php
 				$pro_is_activated  = get_option( 'wpl_pro_active', false );
 				$installed_plugins = get_plugins();
 				$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
-				$pro_is_activated = get_option( 'wpl_pro_active', false );
+				$pro_is_activated  = get_option( 'wpl_pro_active', false );
 				$api_key_activated = '';
 				$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
 				// Require the class file for gdpr cookie consent api framework settings.
@@ -68,52 +69,53 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 				$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 				$geo_options = get_option( 'wpl_geo_options' );
 
-
 				$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 				$geo_options = get_option( 'wpl_geo_options' );
 
 				$enable_value = $the_options['enable_safe'] === 'true' ? 'overlay-integration-style' : '';
-				if ( ! $geo_options['enable_geotargeting'] ) {
-					$geo_options['enable_geotargeting'] = 'false';
-				}
+			if ( ! $geo_options['enable_geotargeting'] ) {
+				$geo_options['enable_geotargeting'] = 'false';
+			}
 				$enable        = $geo_options['enable_geotargeting'];
 				$enable_value1 = $geo_options['enable_geotargeting'] === 'false' ? 'overlay-integration-style__disable' : '';
-				if ( ! defined( 'ABSPATH' ) ) {
-					exit;
-				}
+			if ( ! defined( 'ABSPATH' ) ) {
+				exit;
+			}
 				$response_maxmind = wp_remote_post(
 					GDPR_API_URL . 'get_maxmind_data',
 					array(
 						'body' => array(
-							'the_options_enable_safe'          => $the_options['enable_safe'],
-							'pro_installed'                    => $pro_installed,
-							'pro_is_activated'                  => $pro_is_activated,
-							'api_key_activated'                 => $api_key_activated,
-							'is_user_connected'                => $is_user_connected,
-							'class_for_blur_content'           => $class_for_blur_content,
+							'the_options_enable_safe' => $the_options['enable_safe'],
+							'pro_installed'           => $pro_installed,
+							'pro_is_activated'        => $pro_is_activated,
+							'api_key_activated'       => $api_key_activated,
+							'is_user_connected'       => $is_user_connected,
+							'class_for_blur_content'  => $class_for_blur_content,
 							'class_for_card_body_blur_content' => $class_for_card_body_blur_content,
-							'wpl_pro_active'                   => $geo_options,
-							'enable_geotargeting'              => $geo_options['enable_geotargeting'],
-							'enable_safe'					   => $the_options['enable_safe'],
-							'enable_value2'                    => $the_options['enable_safe'] === 'true' ? 'overlay-integration-style' : '',
-							'enable_value1'                    => $geo_options['enable_geotargeting'] === 'false' ? 'overlay-integration-style__disable' : '',
+							'wpl_pro_active'          => $geo_options,
+							'enable_geotargeting'     => $geo_options['enable_geotargeting'],
+							'enable_safe'             => $the_options['enable_safe'],
+							'enable_value2'           => $the_options['enable_safe'] === 'true' ? 'overlay-integration-style' : '',
+							'enable_value1'           => $geo_options['enable_geotargeting'] === 'false' ? 'overlay-integration-style__disable' : '',
 						),
 					)
 				);
-				if ( is_wp_error( $response_maxmind ) ) {
-					$maxmind_text = '';
-				}
+			if ( is_wp_error( $response_maxmind ) ) {
+				$maxmind_text = '';
+			}
 
 				$response_status = wp_remote_retrieve_response_code( $response_maxmind );
 
-
-				if ( 200 === $response_status ) {
-					$maxmind_text = json_decode( wp_remote_retrieve_body( $response_maxmind ) );
-				}
-				?>
-				<?php echo $maxmind_text; ?>
+			if ( 200 === $response_status ) {
+				$maxmind_text = json_decode( wp_remote_retrieve_body( $response_maxmind ) );
+			}
+			?>
+				<?php 
+				// The data is coming from the SaaS server, so it is not user-generated.
+				echo $maxmind_text; // phpcs:ignore?> 
 		</c-tab>
-	<?}
+		<?php
+	}
 	/**
 	 * Add error message.
 	 *
@@ -295,7 +297,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 			return new WP_Error( 'wplgip_maxmind_database_archive', $exception->getMessage() );
 		} finally {
 			// Remove the archive since we only care about a single file in it.
-			unlink( $tmp_archive_path );
+			wp_delete_file( $tmp_archive_path );
 		}
 
 		return $tmp_database_path;

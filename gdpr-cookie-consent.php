@@ -7,7 +7,7 @@
  * @package           Gdpr_Cookie_Consent
  *
  * @wordpress-plugin
- * Plugin Name:       WP Cookie Consent
+ * Plugin Name:       Cookie Consent for WP - Cookie Consent, Consent Log, Cookie Scanner, Script Blocker (for GDPR, CCPA & ePrivacy)
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
  * Version:           3.2.0
@@ -45,6 +45,9 @@ define( 'GDPR_CSV_DELIMITER', ',' );
 define( 'GDPR_URL', plugins_url( '/', __FILE__ ) );
 if ( ! defined( 'GDPR_CC_SUFFIX' ) ) {
 	define( 'GDPR_CC_SUFFIX', ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min' );
+}
+if ( ! defined( 'FS_CHMOD_FILE' ) ) {
+	define( 'FS_CHMOD_FILE', ( fileperms( ABSPATH . 'index.php' ) & 0777 | 0644 ) );
 }
 /**
  * Check if the constant GDPR_APP_URL is not already defined.
