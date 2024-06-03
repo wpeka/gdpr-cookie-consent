@@ -10,6 +10,7 @@ function generatePDF(
   ipAddress,
   country,
   consentStatus,
+  tcString,
   siteaddress,
   preferences,
   cookieData,
@@ -96,7 +97,7 @@ function generatePDF(
   doc.setFont(undefined, "bold"); // Set font type to bold
   doc.text("TC String:", 10, 110);
   doc.setFont(undefined, "normal"); // Reset font type to normal
-  doc.text(consentStatus, 44,95);
+  doc.text(tcString, 32,110);
 
   if(siteaddress){
     doc.setFont(undefined, "bold"); // Set font type to bold

@@ -486,7 +486,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$offset = isset( $args['offset'] ) ? intval( $args['offset'] ) : 0;
 		$search = isset( $args['search'] ) ? sanitize_text_field( $args['search'] ) : '';
 		$month  = isset( $args['month'] ) ? intval( $args['month'] ) : 0;
-
+$tcString = 'harcoded';
 		$post_args = array(
 			'post_type'      => 'wplconsentlogs',
 			'posts_per_page' => $number,
@@ -647,6 +647,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip'][0] ) : 'Unknown' ); ?>',
 					'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 					'<?php echo esc_attr( $consent_status ); ?>',
+					'<?php echo esc_attr( $tcString ); ?>',
 					'<?php echo esc_attr( $siteaddress ); ?>',
 					<?php echo htmlspecialchars( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 					)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -821,6 +822,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip'][0] ) : 'Unknown' ); ?>',
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 							'<?php echo esc_attr( $consent_status ); ?>',
+							'<?php echo esc_attr( $tcString ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
 								<?php echo htmlspecialchars( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 							)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -980,6 +982,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 						'<?php echo esc_attr( $consent_status ); ?>',
+						'<?php echo esc_attr( $tcString ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
 							<?php echo htmlspecialchars( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 						)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1139,6 +1142,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 							'<?php echo esc_attr( $consent_status ); ?>',
+							'<?php echo esc_attr( $tcString ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
 							<?php echo htmlspecialchars( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 							)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1298,6 +1302,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 						'<?php echo esc_attr( $consent_status ); ?>',
+						'<?php echo esc_attr( $tcString ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
 						<?php echo htmlspecialchars( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 						)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
