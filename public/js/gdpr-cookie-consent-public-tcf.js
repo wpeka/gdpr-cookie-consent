@@ -39,6 +39,7 @@ gvl.readyPromise.then(() => {
 
 // create a new TC string
 const tcModel = new TCModel(gvl);
+var encodedString="default tc string...";
 tcModel.cmpId = 2; // test id 
 tcModel.cmpVersion = 1; // test version 
 
@@ -47,9 +48,6 @@ $( '.gdpr_action_button' ).click(
         var elm                      = $( this );
         var button_action            = elm.attr( 'data-gdpr_action' );
         if (button_action == 'accept') {
-        $.post('classic.php', { 
-            iabtcfConsentData:  iabtcf.consentdata
-        }); 
         
         // Some fields will not be populated until a GVL is loaded
         tcModel.gvl.readyPromise.then(() => {
@@ -65,9 +63,17 @@ $( '.gdpr_action_button' ).click(
             tcModel.specialFeatureOptins.set((iabtcf.consentdata.feature_consent).map(Number));
             
             // Set values on tcModel...           
-            const encodedString = TCString.encode(tcModel);
+            encodedString = TCString.encode(tcModel);
+            iabtcf.consentdata.tcString = encodedString
+            console.log("Here")
+            console.log(iabtcf.consentdata)
             console.log(encodedString); // TC string encoded begins with 'C'
+            $.post('classic.php', { 
+                iabtcfConsentData:  iabtcf.consentdata
+                }); 
            });
+
+           
         }
     }
 );

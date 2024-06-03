@@ -38,7 +38,7 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 	$purpose_legint_data = isset( $iabtcf_consent_data["purpose_legint"] ) ? $iabtcf_consent_data["purpose_legint"] : [];
 	$feature_consent_data = isset( $iabtcf_consent_data["feature_consent"] ) ? $iabtcf_consent_data["feature_consent"] : [];
 
-	error_log("Hurreyyy.... Vendor All data : ".print_r($iabtcf_consent_data,true));
+	error_log("Classic.php to display in banner : ".print_r($iabtcf_consent_data,true));
 ?>
 
 <div class="gdprmodal gdprfade" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_html( $cookie_data['backdrop'] ); ?>">

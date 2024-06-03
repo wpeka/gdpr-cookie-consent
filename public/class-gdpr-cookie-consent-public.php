@@ -359,7 +359,7 @@ class Gdpr_Cookie_Consent_Public {
 			// //tcf
 			wp_enqueue_script( $this->plugin_name. '-tcf' );
 			$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
-			error_log("Ammm");
+			error_log("Passing data to js using wp_localize_script ");
 			error_log(print_r($iabtcf_consent_data,true));
 			wp_localize_script(
 				$this->plugin_name.'-tcf',
@@ -670,9 +670,10 @@ class Gdpr_Cookie_Consent_Public {
     if(isset($_POST['iabtcfConsentData'])) 
     { 
         $iabtcfConsentData = $_POST['iabtcfConsentData']; 
+		error_log("To be saved in db".print_r($iabtcfConsentData,true));
         update_option( 'iabtcfConsent', $iabtcfConsentData );
     } 
-	
+
 
 			if ( true === $the_options['button_settings_is_on'] || true === $the_options['button_accept_all_is_on'] || true === $the_options['button_accept_is_on'] ) {
 				$cookie_data                      = array();

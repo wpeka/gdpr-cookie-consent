@@ -971,7 +971,7 @@ class Gdpr_Cookie_Consent {
 		$iabtcf_consent_data["feature_consent"]=['12345'];
 		$iabtcf_consent_data["allVendorsSelected"]=false;
 		$iabtcf_consent_data["allVendorsRejected"]=false;
-
+		$iabtcf_consent_data["tcString"]="none";
 		if(! get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT )) {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT, $iabtcf_consent_data );
 		}

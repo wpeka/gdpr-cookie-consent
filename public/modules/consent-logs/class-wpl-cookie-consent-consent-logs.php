@@ -423,7 +423,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 			if ( isset( $_POST['currentSite'] ) ) {
 				$SiteURL = esc_url( $_POST['currentSite'] )."nayan";
-				error_log("log consent".$SiteURL);
 			}
 			if ( isset( $_POST['consent_forward'] ) ) {
 				$consent_forward = $_POST['consent_forward'];

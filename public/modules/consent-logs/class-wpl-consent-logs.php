@@ -401,7 +401,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$this->args = $args;
 
 		$requests = $this->get_requests( $args );
-
+		
 		if ( $requests ) {
 			foreach ( $requests as $request ) {
 				$data[] = array(
@@ -486,7 +486,12 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$offset = isset( $args['offset'] ) ? intval( $args['offset'] ) : 0;
 		$search = isset( $args['search'] ) ? sanitize_text_field( $args['search'] ) : '';
 		$month  = isset( $args['month'] ) ? intval( $args['month'] ) : 0;
-$tcString = 'harcoded';
+		$tcString = 'harcoded';
+		$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
+		error_log("Consent log: ".print_r($iabtcf_consent_data,true));
+		$tcString = $iabtcf_consent_data["tcString"];
+		error_log("Here: ".$tcString);
+		
 		$post_args = array(
 			'post_type'      => 'wplconsentlogs',
 			'posts_per_page' => $number,
