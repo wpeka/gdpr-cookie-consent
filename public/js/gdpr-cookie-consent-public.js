@@ -95,6 +95,9 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 	var gdpr_select_pages      =  gdpr_cookies_obj.gdpr_select_pages;
 	var gdpr_select_sites      =  gdpr_cookies_obj.gdpr_select_sites;
 	var consent_forwarding    = gdpr_cookies_obj.consent_forwarding;
+	var button_revoke_consent_text_color = gdpr_cookies_obj.button_revoke_consent_text_color;
+	var button_revoke_consent_background_color = gdpr_cookies_obj.button_revoke_consent_background_color;
+
 	var browser_dnt_value     = '';
 	// Set the browser DNT value
 	if (navigator.doNotTrack === "1") {
@@ -146,7 +149,15 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			this.attachEvents();
 			this.configButtons();
 			this.consent_renew_method();
-		
+			
+			// changing the color and background of cookie setting button.
+			var revoke_color = document.getElementById('gdpr-cookie-consent-show-again');
+			// Check if the element exists before applying the style
+			if (revoke_color) {
+				revoke_color.style.color = button_revoke_consent_text_color;
+				revoke_color.style.backgroundColor= button_revoke_consent_background_color;
+			}
+
 			// hide banner.
 			window.addEventListener("load", function() {
 				for(var id=0;id<gdpr_select_pages.length;id++)

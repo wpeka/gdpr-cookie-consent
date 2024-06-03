@@ -769,14 +769,16 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['select_sites'] = null;
 			}
 			$cookies_list_data = array(
-				'gdpr_cookies_list'       => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
-				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
-				'gdpr_consent_renew'      => $the_options['ip_and_consent_renew'],
-				'gdpr_user_ip'            => $user_ip,
-				'gdpr_do_not_track'       => $the_options['do_not_track_on'],
-				'gdpr_select_pages'       => $the_options['select_pages'],
-				'gdpr_select_sites'       => $the_options['select_sites'],
-				'consent_forwarding'      => $the_options['consent_forward'],
+				'gdpr_cookies_list'                 		=> str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
+				'gdpr_cookiebar_settings'          		 	=> wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
+				'gdpr_consent_renew' 						=> $the_options['ip_and_consent_renew'],
+				'gdpr_user_ip'           					=> $user_ip,
+				'gdpr_do_not_track'      		    		=> $the_options['do_not_track_on'],
+				'gdpr_select_pages'       					=> $the_options['select_pages'],
+				'gdpr_select_sites'      					=> $the_options['select_sites'],
+				'consent_forwarding'      					=> $the_options['consent_forward'],
+				'button_revoke_consent_text_color' 			=> $the_options['button_revoke_consent_text_color'],
+				'button_revoke_consent_background_color'	=> $the_options['button_revoke_consent_background_color']
 			);
 
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
