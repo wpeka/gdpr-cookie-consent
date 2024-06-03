@@ -754,7 +754,6 @@ var gen = new Vue({
         onTemplateChange(value) {
             
             if( this.show_cookie_as === 'banner' ) {
-                console.log("This is got called from cookie setting");
                 this.banner_template = value;
                 this.template = value;
 				if ( this.banner_template == 'banner-dark_row' ) {
