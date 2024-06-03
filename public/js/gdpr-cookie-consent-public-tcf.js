@@ -8,23 +8,33 @@
 import {TCModel, TCString, GVL} from '@iabtechlabtcf/core';
 
 (function( $ ) {
-    console.log("Hello there"+iabtcf.sourcejs)
-console.log(iabtcf.consentdata)
-console.log("----------parsed")
-console.log(iabtcf.consentdata.consent)
 /**
 *  the IAB requires CMPs to host their own vendor-list.json files.  This must
 *  be set before creating any instance of the GVL class.
 */
 GVL.baseUrl = "http://localhost:8888/wordpress/";
 const gvl = new GVL();
-console.log("Here is the GVL object");
-// console.log(gvl);
+console.log(gvl);
 
 gvl.readyPromise.then(() => {
   gvl.narrowVendorsTo([1,2,4,6,8,10,11,12,14]);
   console.log(gvl);
-  
+  if(iabtcf.consentdata.consent === "undefined")
+  iabtcf.consentdata.consent=[];
+  if(iabtcf.consentdata.legint === "undefined")
+  iabtcf.consentdata.legint=[];
+  if(iabtcf.consentdata.purpose_consent === "undefined")
+  iabtcf.consentdata.purpose_consent=[];
+  if(iabtcf.consentdata.purpose_legint === "undefined")
+  iabtcf.consentdata.purpose_legint=[];
+  if(iabtcf.consentdata.feature_consent === "undefined")
+  iabtcf.consentdata.feature_consent=[];
+  console.log( iabtcf.consentdata.consent)
+  console.log( iabtcf.consentdata.legint)
+  console.log( iabtcf.consentdata.purpose_consent)
+  console.log( iabtcf.consentdata.purpose_legint)
+  console.log( iabtcf.consentdata.feature_consent)
+ 
 });
 
 // create a new TC string
@@ -32,13 +42,11 @@ const tcModel = new TCModel(gvl);
 tcModel.cmpId = 2; // test id 
 tcModel.cmpVersion = 1; // test version 
 
-// var consentArr = iabtcf.consentdata.consent;
 $( '.gdpr_action_button' ).click(
     function(e){
         var elm                      = $( this );
         var button_action            = elm.attr( 'data-gdpr_action' );
         if (button_action == 'accept') {
-        alert(" btn is clicked")
         $.post('classic.php', { 
             iabtcfConsentData:  iabtcf.consentdata
         }); 
@@ -55,15 +63,10 @@ $( '.gdpr_action_button' ).click(
             tcModel.purposeConsents.set((iabtcf.consentdata.purpose_consent).map(Number));
             tcModel.purposeLegitimateInterests.set((iabtcf.consentdata.purpose_legint).map(Number));
             tcModel.specialFeatureOptins.set((iabtcf.consentdata.feature_consent).map(Number));
-            // Set values on tcModel...
-           
-           
+            
+            // Set values on tcModel...           
             const encodedString = TCString.encode(tcModel);
-           
-           
             console.log(encodedString); // TC string encoded begins with 'C'
-           
-           
            });
         }
     }
