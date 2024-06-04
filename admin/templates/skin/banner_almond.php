@@ -15,12 +15,13 @@
 	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
 		<!-- Modal content-->
 		<div class="gdprmodal-content">
-			<div class="gdprmodal-header">
-				<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close">
+			<div class="gdprmodal-header"><p>Hellooooo</p>
+				<button type="button" class="gdpr_action_button close nayan" data-dismiss="gdprmodal" data-gdpr_action="close">
 					<span class="dashicons dashicons-dismiss">Close</span>
 				</button>
 			</div>
 			<div class="gdprmodal-body">
+				<p></p>
 				<div class="gdpr-details-content">
 					<div class="gdpr-groups-container">
 						<ul class="category-group">
