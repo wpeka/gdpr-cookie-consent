@@ -38,80 +38,80 @@ $api_user_plan     = $this->settings->get_plan();
 		<!-- Banner preferences skins  -->
 		<div v-if="show_cookie_as === 'banner'">
 		<div v-show="banner_template == 'banner-default'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/default.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/default.php'; ?>
 		</div>
 		<div v-show="banner_template == 'banner-almond_column'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/banner_almond.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/banner_almond.php'; ?>
 		</div>
 		<div v-show="banner_template == 'banner-navy_blue_center'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/navy_blue_center.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/navy_blue_center.php'; ?>
 		</div>
 		<div v-show="banner_template == 'banner-grey_column'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_column.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/grey_column.php'; ?>
 		</div>
 		<div v-show="banner_template == 'banner-grey_center'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_center.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/grey_center.php'; ?>
 		</div>
 		<div v-show="banner_template == 'banner-dark_row'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark_row.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/dark_row.php'; ?>
 		</div>
 		<div v-show="banner_template == 'banner-dark'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/dark.php'; ?>
 		</div>
 	</div>
 	<!-- widget preferences skins  -->
 	<div v-if="show_cookie_as === 'widget'">
 		<div v-show="widget_template == 'widget-default'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/default.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/default.php'; ?>
 		</div>
 		<div v-show="widget_template == 'widget-almond_column'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/banner_almond.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/banner_almond.php'; ?>
 		</div>
 		<div v-show="widget_template == 'widget-navy_blue_center' || widget_template == 'widget-navy_blue_box'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/navy_blue_center.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/navy_blue_center.php'; ?>
 		</div>
 		<div v-show="widget_template == 'widget-navy_blue_square' ">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/navy_blue_square.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/navy_blue_square.php'; ?>
 		</div>
 		<div v-show="widget_template == 'widget-grey_column'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_column.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/grey_column.php'; ?>
 		</div>
 		<div v-show="widget_template == 'widget-grey_center'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_center.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/grey_center.php'; ?>
 		</div>
 		<div v-show="widget_template == 'widget-dark_row'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark_row.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/dark_row.php'; ?>
 		</div>
 		<div v-show="widget_template == 'widget-dark'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/dark.php'; ?>
 		</div>
 
 	</div>
 	<!-- popup preferences skins  -->
 	<div v-if="show_cookie_as === 'popup'">
 		<div v-show="popup_template == 'popup-default'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/default.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/default.php'; ?>
 		</div>
 		<div v-show="popup_template == 'popup-almond_column'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/banner_almond.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/banner_almond.php'; ?>
 		</div>
 		<div v-show="popup_template == 'popup-navy_blue_center' || popup_template == 'popup-navy_blue_box' ">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/navy_blue_center.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/navy_blue_center.php'; ?>
 		</div>
 		<div v-show="popup_template == 'popup-navy_blue_square' ">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/navy_blue_square.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/navy_blue_square.php'; ?>
 		</div>
 		<div v-show="popup_template == 'popup-grey_column'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_column.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/grey_column.php'; ?>
 		</div>
 		<div v-show="popup_template == 'popup-grey_center'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/grey_center.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/grey_center.php'; ?>
 		</div>
 		<div v-show="popup_template == 'popup-dark_row'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark_row.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/dark_row.php'; ?>
 		</div>
 		<div v-show="popup_template == 'popup-dark'">
-		<?php require plugin_dir_path( __FILE__ ).'templates/skin/dark.php' ;  ?>
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/dark.php'; ?>
 		</div>
 
 	</div>
@@ -182,7 +182,6 @@ $api_user_plan     = $this->settings->get_plan();
 										<!-- accept button preview configuration  -->
 										<a v-show="cookie_accept_on && popup_template != 'popup-navy_blue_square'" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button,'button-as-link':!accept_as_button,  'btn-lg': accept_as_button && accept_size === 'large','btn-sm': accept_as_button && accept_size === 'small','widget-accept-preview': show_cookie_as == 'widget','popup-accept-preview': show_cookie_as == 'popup' }" aria-label="Accept" href="#":style="{ color:accept_text_color,'border-style': accept_style, 'border-width': accept_as_button ? accept_border_width + 'px':'0', 'border-color': accept_border_color, 'border-radius': accept_border_radius+'px','background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
 										}" >{{ accept_text }}</a>
-
 										<!-- accept all button preview configuration  -->
 										<a v-show="cookie_accept_all_on && popup_template != 'popup-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button,'button-as-link':!accept_all_as_button,  'btn-lg': accept_all_as_button && accept_all_size === 'large','btn-sm': accept_all_as_button && accept_all_size === 'small','widget-accept-all-preview': show_cookie_as == 'widget','popup-accept-all-preview': show_cookie_as == 'popup' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color,'border-style': accept_all_style, 'border-width': accept_all_as_button ? accept_all_border_width + 'px':'0', 'border-color': accept_all_border_color, 'border-radius': accept_all_border_radius+'px','background-color': accept_all_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font
 										}"  >{{ accept_all_text }}</a>
@@ -654,6 +653,26 @@ $api_user_plan     = $this->settings->get_plan();
 									</c-col>
 								</c-row>
 								<c-row v-show="is_revoke_consent_on">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Text', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-input name="show_again_text_field" v-model="tab_text"></c-input>
+									</c-col>
+								</c-row>
+								<c-row v-show="is_revoke_consent_on">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8 gdpr-color-pick" >
+										<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_text_color"></c-input>
+										<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color"></c-input>
+									</c-col>
+								</c-row>
+								<c-row v-show="is_revoke_consent_on">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8 gdpr-color-pick" >
+										<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_background_color"></c-input>
+										<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color"></c-input>
+									</c-col>
+								</c-row>
+								<c-row v-show="is_revoke_consent_on">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Position', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-consent-tab-position" :reduce="label => label.code" :options="tab_position_options" v-model="tab_position">
@@ -665,12 +684,6 @@ $api_user_plan     = $this->settings->get_plan();
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab margin (in percent)', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<c-input type="number" min="0" max="100" name="gcc-tab-margin" v-model="tab_margin"></c-input>
-									</c-col>
-								</c-row>
-								<c-row v-show="is_revoke_consent_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Text', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8">
-										<c-input name="show_again_text_field" v-model="tab_text"></c-input>
 									</c-col>
 								</c-row>
 							</c-card-body>
@@ -2380,9 +2393,9 @@ $api_user_plan     = $this->settings->get_plan();
 
 										<h3><?php esc_html_e( 'Your website is connected to WP Cookie Consent', 'gdpr-cookie-consent' ); ?></h3>
 
-										<p class="gpdr-email-info"><span class="gdpr-info-title" ><?php esc_html_e( 'Email : ', 'gdpr-cookie-consent' ); ?></span> <?php echo $api_user_email; ?>  </p>
-										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Site Key : ', 'gdpr-cookie-consent' ); ?></span> <?php echo $api_user_site_key; ?>  </p>
-										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Plan : ', 'gdpr-cookie-consent' ); ?></span> <?php echo $api_user_plan; ?>  </p>
+										<p class="gpdr-email-info"><span class="gdpr-info-title" ><?php esc_html_e( 'Email : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html($api_user_email); ?>  </p>
+										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Site Key : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html($api_user_site_key); ?>  </p>
+										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Plan : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html($api_user_plan); ?>  </p>
 										<!-- API Disconnect Button  -->
 										<div class="api-connection-disconnect-btn" ><?php esc_attr_e( 'Disconnect', 'gdpr-cookie-consent' ); ?></div>
 

@@ -643,7 +643,7 @@ class Gdpr_Cookie_Consent {
 			'button_readmore_url'                  => '#',
 			'button_readmore_action'               => 'CONSTANT_OPEN_URL',
 			'button_readmore_link_color'           => '#359bf5',
-			'button_readmore_button_color'         => '#333333',
+ 			'button_readmore_button_color'         => '#333333',
 			'button_readmore_new_win'              => false,
 			'button_readmore_as_button'            => false,
 			'button_readmore_button_size'          => 'medium',
@@ -743,6 +743,8 @@ class Gdpr_Cookie_Consent {
 			'show_again_position'                  => 'right', // 'left' = left | 'right' = right.
 			'show_again_text'                      => 'Cookie Settings',
 			'show_again_margin'                    => '5',
+			'button_revoke_consent_text_color'     => '#000000',
+			'button_revoke_consent_background_color' => '#ffffff',
 			'auto_hide_delay'                      => '10000',
 			'auto_banner_initialize_delay'         => '10000',
 			'auto_scroll_offset'                   => '10',
@@ -868,6 +870,8 @@ class Gdpr_Cookie_Consent {
 			case 'button_accept_all_button_color':
 			case 'button_accept_all_btn_border_color':
 			case 'button_readmore_link_color':
+			case 'button_revoke_consent_background_color':
+			case 'button_revoke_consent_text_color':
 			case 'button_readmore_button_color':
 			case 'button_readmore_button_border_color':
 			case 'button_decline_link_color':
@@ -1137,6 +1141,8 @@ class Gdpr_Cookie_Consent {
 			'button_cancel_is_on'                  => $settings['button_cancel_is_on'],
 			'button_confirm_is_on'                 => $settings['button_confirm_is_on'],
 			'button_readmore_link_color'           => $settings['button_readmore_link_color'],
+			'button_revoke_consent_text_color'     =>  $settings['button_revoke_consent_text_color'],
+			'button_revoke_consent_background_color'=>  $settings['button_revoke_consent_background_color'],
 			'button_readmore_button_color'         => $settings['button_readmore_button_color'],
 			'button_readmore_button_hover'         => ( self::gdpr_su_hex_shift( $settings['button_readmore_button_color'], 'down', 20 ) ),
 			'button_readmore_as_button'            => $settings['button_readmore_as_button'],

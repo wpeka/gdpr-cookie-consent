@@ -2753,6 +2753,8 @@ function get_templates( $template_type ) {
 									<c-row v-show="show_banner_template" class="show-banner-template">
 										<c-col class="col-sm-3 left-side-banner-template" >
 											<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
+											<input type="hidden" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color">
+											<input type="hidden" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color">
 										</c-col>
 										<div class="">
 										<?php print_template_boxes( 'banner', get_templates( 'banner' ), $the_options['banner_template'] ); ?>
@@ -2762,6 +2764,8 @@ function get_templates( $template_type ) {
 									<c-row v-show="show_popup_template">
 										<c-col class="col-sm-4 left-side-popup-template">
 											<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
+											<input type="hidden" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color">
+											<input type="hidden" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color">
 										</c-col>
 										<div class="">
 										<?php print_template_boxes( 'popup', get_templates( 'popup' ), $the_options['popup_template'] ); ?>
@@ -2771,6 +2775,8 @@ function get_templates( $template_type ) {
 									<c-row v-show="show_widget_template">
 										<c-col class="col-sm-4 left-side-widget-template">
 											<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
+											<input type="hidden" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color">
+											<input type="hidden" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color">
 										</c-col>
 										<div class="">
 										<?php print_template_boxes( 'widget', get_templates( 'widget' ), $the_options['widget_template'] ); ?>
