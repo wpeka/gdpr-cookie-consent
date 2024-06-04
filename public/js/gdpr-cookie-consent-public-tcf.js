@@ -8,6 +8,7 @@
 import {TCModel, TCString, GVL} from '@iabtechlabtcf/core';
 
 (function( $ ) {
+    'use strict';
 /**
 *  the IAB requires CMPs to host their own vendor-list.json files.  This must
 *  be set before creating any instance of the GVL class.
