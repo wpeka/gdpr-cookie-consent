@@ -3156,7 +3156,7 @@ var gen = new Vue({
             //Consent Log
             consent_log_switch_clicked: false,
 			// Data Request
-			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
+            data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] || '1' == settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
 			data_reqs_switch_clicked: false,
 			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
