@@ -44,13 +44,13 @@ define( 'GDPR_POLICY_DATA_POST_TYPE', 'gdprpolicies' );
 define( 'GDPR_CSV_DELIMITER', ',' );
 define( 'GDPR_URL', plugins_url( '/', __FILE__ ) );
 if ( ! defined( 'GDPR_CC_SUFFIX' ) ) {
-	define( 'GDPR_CC_SUFFIX', ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min' );
+	define( 'GDPR_CC_SUFFIX', ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '' );
 }
 /**
  * Check if the constant GDPR_APP_URL is not already defined.
 */
 if ( ! defined( 'GDPR_APP_URL' ) ) {
-	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com' );
+	define( 'GDPR_APP_URL', 'https://d8c7243ac1.nxcli.io' );
 }
 if ( ! defined( 'GDPR_API_URL' ) ) {
 	define( 'GDPR_API_URL', 'https://app.wplegalpages.com/wp-json/gdpr/v2/' );
@@ -70,6 +70,21 @@ function gdprcc_clean( $var ) {
 	} else {
 		return is_scalar( $var ) ? sanitize_text_field( $var ) : $var;
 	}
+}
+
+/**
+ * Load WC_AM_Client class if it exists.
+ */
+if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
+	require_once plugin_dir_path( __FILE__ ) . 'wc-am-client-gdpr.php';
+}
+
+/*
+ * Instantiate WC_AM_Client class object if the WC_AM_Client class is loaded.
+ */
+if ( class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
+
+	$wcam_lib_gdpr = new WC_AM_Client_2_7_WPGDPR( __FILE__, '', '3.2.0', 'plugin', GDPR_APP_URL, 'WP Cookie Consent', 'gdpr-cookie-consent' );
 }
 
 /**

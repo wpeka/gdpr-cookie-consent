@@ -113,7 +113,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 				?>
 				<?php echo $maxmind_text; ?>
 		</c-tab>
-	<?}
+	<?php }
 	/**
 	 * Add error message.
 	 *

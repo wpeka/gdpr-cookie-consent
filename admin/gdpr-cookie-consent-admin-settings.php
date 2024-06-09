@@ -30,6 +30,17 @@ $is_user_connected = $this->settings->is_connected();
 $api_user_email    = $this->settings->get_email();
 $api_user_site_key = $this->settings->get_website_key();
 $api_user_plan     = $this->settings->get_plan();
+$no_of_pages_scan = get_option('gdpr_no_of_page_scan');
+$total_pages_scan_limit = 15;
+
+if($api_user_plan == 'free'){
+	$total_pages_scan_limit = 15;
+}else{
+	$total_pages_scan_limit = 25;
+}
+
+$gdpr_no_of_page_scan_left = $total_pages_scan_limit - get_option('gdpr_no_of_page_scan');
+$remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total_pages_scan_limit )*100;
 
 ?>
 <div id="gdpr-before-mount" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
@@ -308,7 +319,6 @@ $api_user_plan     = $this->settings->get_plan();
 				</div>
 		</div>
 	</div>
-
 	<c-container class="gdpr-cookie-consent-settings-container">
 
 		<c-form id="gcc-save-settings-form" spellcheck="false" class="gdpr-cookie-consent-settings-form">
@@ -319,13 +329,16 @@ $api_user_plan     = $this->settings->get_plan();
 				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
 				<div id="popup" class="popup-overlay">
 				<div class="popup-content">
-					<div class="popup-header">
-						</div>
+				<div class="popup-header">
+    				<div class="popup-title"><span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan_left;  ?> / <?php echo $total_pages_scan_limit;  ?><span><span> (<?php echo $remaining_percentage_scan_limit ?>%)</span></div>
+    				<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Right Corner Image" class="popup-image">
+				</div>
+
 						<div class="popup-body">
 						<h2>Attention! Cookie Scan Limit Exceeded.</h2>
 						<p>You've reached the maximum number of free cookie scans for your account.</p>
 						<p>To scan more, you'll need to upgrade to a premium plan.</p>
-						<button class="upgrade-button">Upgrade to PRO</button>
+						<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button">Upgrade to PRO</button>
 					</div>
 				</div>
 			</div>
