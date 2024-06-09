@@ -472,8 +472,8 @@ class GDPR_Cookie_Consent_App_Auth {
            }
 
 		
-		
-        error_log("activation_status".print_r($activation_status,true));
+		update_option('gdpr_no_of_page_scan', 0);
+		error_log("activation_status".print_r($activation_status,true));
 		error_log("activation_status args".print_r($args,true));
 		error_log("activation_status product_id".print_r($product_id,true));
 		error_log("activation_status  product_id".print_r($wcam_lib_gdpr->product_id,true));
