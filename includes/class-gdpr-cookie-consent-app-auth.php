@@ -414,45 +414,6 @@ class GDPR_Cookie_Consent_App_Auth {
 		// Verify AJAX nonce.
 		check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
 
-		// Require necessary file and get settings.
-		// require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
-		// $settings = new GDPR_Cookie_Consent_Settings();
-		// $options  = $settings->get();
-
-		// // Make auth request.
-		// $this->make_auth_request();
-
-		// // Make POST request to disconnect plugin.
-		// $response = $this->post(
-		// 	'plugin/disconnect',
-		// 	wp_json_encode(
-		// 		array(
-		// 			'id'       => $settings->get_user_id(),
-		// 			'site_key' => $settings->get_website_key(),
-		// 			'platform' => 'wordpress',
-		// 		)
-		// 	)
-		// );
-
-		// $response_code = wp_remote_retrieve_response_code( $response );
-
-		// // Check response code and update settings.
-		// if ( 200 !== $response_code ) {
-		// 	wp_send_json_error();
-		// }
-		// $options['api']['token'] = '';
-		// $settings->update( $options );
-		// $options['account']['connected'] = false;
-		// $settings->update( $options );
-
-		// // Send success response.
-		// wp_send_json_success(
-		// 	array(
-		// 		'title' => __( 'Plugin disconnected', 'responsive-addons' ),
-		// 		'text'  => __( 'Reloading page, please wait.', 'responsive-addons' ),
-		// 	)
-		// );
-
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 	    $settings = new GDPR_Cookie_Consent_Settings();
 	    $options  = $settings->get_defaults();

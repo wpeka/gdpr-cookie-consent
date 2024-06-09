@@ -182,7 +182,7 @@ class GDPR_Cookie_Consent_Settings {
 
 	 public function set_plan($new_value) {
 		// Retrieve the current settings from the database
-		$settings = get_option('wplegal_api_framework_app_settings', array(
+		$settings = get_option('gdpr_api_framework_app_settings', array(
 			'site'    => array(
 				'url'       => get_site_url(),
 				'installed' => time(),
@@ -212,7 +212,7 @@ class GDPR_Cookie_Consent_Settings {
 		$settings['account']['plan'] = $new_value;
 	
 		// Update the settings in the database
-		update_option('wplegal_api_framework_app_settings', $settings);
+		update_option('gdpr_api_framework_app_settings', $settings);
 	}
 
 }
