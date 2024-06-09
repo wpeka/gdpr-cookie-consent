@@ -174,15 +174,24 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 		 * Generate the default data.
 		 */
 		public function activation() {
-			$instance_exists = get_option( $this->wc_am_instance_key );
+			// Get the instance key and instance option from the database
+			$instance_exists = get_option($this->wc_am_instance_key);
+			$instance_option = get_option('wc_am_client_wplegalpages_instance');
 
-			if ( get_option( $this->data_key ) === false || $instance_exists === false ) {
-				if ( $instance_exists === false ) {
-					update_option( $this->wc_am_instance_key, wp_generate_password( 12, false ) );
-				}
+			// Check if the data key or instance key does not exist
+			if (get_option($this->data_key) === false || $instance_exists === false) {
+    		// If instance option exists, update the instance key with the instance option
+    		if ($instance_option !== false) {
+    	    update_option($this->wc_am_instance_key, $instance_option);
+    		} 
+    		// If instance does not exist and instance option is also false, generate a new instance key
+    		else if ($instance_exists === false) {
+    	    update_option($this->wc_am_instance_key, wp_generate_password(12, false));
+   			 }
 
-				update_option( $this->wc_am_deactivate_checkbox_key, 'on' );
-				update_option( $this->wc_am_activated_key, 'Deactivated' );
+    		// Update the deactivate checkbox key and activated key options
+    		update_option($this->wc_am_deactivate_checkbox_key, 'on');
+    		update_option($this->wc_am_activated_key, 'Deactivated');
 			}
 		}
 
