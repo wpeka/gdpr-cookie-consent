@@ -248,11 +248,25 @@ jQuery(document).ready(function () {
 	 * Add an event listener to listen for messages sent from the server.
 	*/
 	window.addEventListener("message", function(event) {
-		//event is originated on server
-		if ( event.isTrusted && event.origin === gdpr_localize_data.gdpr_app_url ) {
-			gdprStoreAuth(event.data)
+		// Check if the event is originated on server and not successful
+		if (!event.data.success) {
+			
+			const scanBtn = jQuery('.scan-now-btn');
+                const popup = jQuery('#popup');
+                  const cancelButton = jQuery('.popup-image');
+        
+                     popup.fadeIn();
+               
+                cancelButton.off('click').on('click', function(e) {
+                        console.log("popup clicked");
+                        popup.fadeOut();
+                   
+                });
+		} else if (event.isTrusted && event.origin === gdpr_localize_data.gdpr_app_url) {
+			gdprStoreAuth(event.data);
 		}
 	});
+	
 
 	/**
 	 * modal pop after successfull connection or disconnection
@@ -417,11 +431,83 @@ jQuery(document).ready(function () {
 	}
 
 	/**
+	* Clicked on connect to exiting account.
+	*/
+	jQuery('.gdpr-cookie-consent-admin-upgrade-button').on('click', gdprPaidAuth );
+	/**
+	 * Store the Authentication Data
+	 * @param {*} data
+	*/
+	
+	function gdprPaidAuth (event) {
+			// Prevent the default action of the event.
+			event.preventDefault();
+
+			var is_new_user = this.classList.contains('gdpr-start-auth');
+	
+			// Create spinner element
+			var spinner = jQuery('<div class="gdpr-spinner"></div>');
+	
+			// Append spinner to .gdpr-cookie-consent-connect-api-container div.
+	
+			var container = jQuery('.gdpr-cookie-consent-connect-api-container');
+			container.css('position', 'relative'); // Ensure container has relative positioning.
+			container.append(spinner);
+	
+	   
+		// Make an AJAX request.
+		jQuery.ajax(
+			{
+				url  : gdpr_localize_data.ajaxurl,
+				type : 'POST',
+				data : {
+					action      : 'gdpr_cookie_consent_app_paid_auth',
+					_ajax_nonce : gdpr_localize_data._ajax_nonce,
+				},
+				beforeSend: function() {
+					// Show spinner before AJAX call starts
+					spinner.show();
+				},
+				complete: function() {
+					// Hide spinner after AJAX call completes
+					spinner.hide();
+				}
+			}
+		)
+		.done(
+			function ( response ) {
+
+				 // Get the width and height of the viewport
+				 var viewportWidth = window.innerWidth;
+				 var viewportHeight = window.innerHeight;
+
+				 // Set the dimensions of the popup
+				 var popupWidth = 1260;
+				 var popupHeight = 740;
+
+				 // Calculate the position to center the popup
+				 var leftPosition = (viewportWidth - popupWidth) / 2;
+				 var topPosition = (viewportHeight - popupHeight) / 2;
+				 // Open the popup window at the calculated position
+				 var e = window.open(
+				 response.data.url,
+				 "_blank",
+				 "location=no,width=" + popupWidth + ",height=" + popupHeight + ",left=" + leftPosition + ",top=" + topPosition + ",scrollbars=0"
+				 );
+				 if( null == e ) {
+					 console.log( 'error while opening the popup window' );
+				 }
+				
+			}
+		);
+
+	}
+
+	/**
 	 * Store the Authentication Data
 	 * @param {*} data
 	*/
 	function gdprStoreAuth(data) {
-
 		// Create spinner element
 		var spinner = jQuery('<div class="gdpr-spinner"></div>');
    		jQuery('#wpbody-content').append(spinner);
@@ -453,9 +539,10 @@ jQuery(document).ready(function () {
 				}, 100);
 
 			},
-			error: function(error) {
+			error: function(jqXHR, textStatus, errorThrown) {
 				// Handle error response
-				console.error('Error sending data to PHP:', error);
+				console.error('AJAX call failed:', textStatus, errorThrown);
+				console.error('Response text:', jqXHR.responseText);
 			}
 		});
 
