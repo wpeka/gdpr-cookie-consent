@@ -32,9 +32,9 @@ $api_user_plan     = $this->settings->get_plan();
 * Number of scans on the basis of user's plan
 */
 if ( $api_user_plan == 'free' ) {
-	$total_no_of_free_scans = 100;
+	$total_no_of_free_scans = 15;
 }else{
-	$total_no_of_free_scans = 200000;
+	$total_no_of_free_scans = 25;
 }
 
 $gdpr_no_of_page_scan = $total_no_of_free_scans - get_option('gdpr_no_of_page_scan');
@@ -98,7 +98,7 @@ $remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total
 					<?php
 					if ( $api_user_plan == 'free' ) {
 					?>
-					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_upgrade_btn.png'; ?>" alt="<?php echo esc_attr( 'Upgrade Button', 'gdpr-cookie-consent' ); ?>">
+					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_upgrade_btn.png'; ?>" class="gdpr-cookie-consent-admin-upgrade-button" alt="<?php echo esc_attr( 'Upgrade Button', 'gdpr-cookie-consent' ); ?>">
 					<?php
 					}
 					?>
