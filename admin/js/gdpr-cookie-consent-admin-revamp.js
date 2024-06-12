@@ -532,9 +532,16 @@ jQuery(document).ready(function () {
 				localStorage.removeItem('gdprConnectPopupHide');
 				//remove disconnect from local storage when user connects to the api
 				localStorage.removeItem('gdprDisconnect');
-
+				var baseUrl = window.location.origin;
+				var relativePath = "/wp-admin/admin.php?page=gdpr-cookie-consent";
+				var tabHash = "#cookie_settings#cookie_list"; // Adjust this to your specific hash
+	
+				// Construct the full URL
+				var fullUrl = baseUrl + relativePath + tabHash;
+	
 				//reload the window after settimeout.
 				setTimeout(function() {
+					window.location.href = fullUrl;
 					location.reload();
 				}, 100);
 
