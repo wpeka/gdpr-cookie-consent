@@ -141,7 +141,21 @@ $remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total
 
 
 			</div>
+			<div id="popup" class="popup-overlay">
+				<div class="popup-content">
+				<div class="popup-header">
+    				<div class="popup-title"><span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan_left;  ?> / <?php echo $total_pages_scan_limit;  ?><span><span> (<?php echo $remaining_percentage_scan_limit ?>%)</span></div>
+    				<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Right Corner Image" class="popup-image">
+				</div>
 
+						<div class="popup-body">
+						<h2>Attention! Cookie Scan Limit Exceeded.</h2>
+						<p>You've reached the maximum number of free cookie scans for your account.</p>
+						<p>To scan more, you'll need to upgrade to a premium plan.</p>
+						<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button">Upgrade to PRO</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<?php
