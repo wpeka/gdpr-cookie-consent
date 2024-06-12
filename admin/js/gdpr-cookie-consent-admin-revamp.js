@@ -533,11 +533,19 @@ jQuery(document).ready(function () {
 				//remove disconnect from local storage when user connects to the api
 				localStorage.removeItem('gdprDisconnect');
 
+				// url redirection to the cookie scan subtab.
+				var baseUrl = window.location.origin;
+				var relativePath = "/wp-admin/admin.php?page=gdpr-cookie-consent";
+				var tabHash = "#cookie_settings#cookie_list"; // Adjust this to your specific hash
+
+				// Construct the full URL
+				var fullUrl = baseUrl + relativePath + tabHash;
+
 				//reload the window after settimeout.
 				setTimeout(function() {
+					window.location.href = fullUrl;
 					location.reload();
 				}, 100);
-
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				// Handle error response
