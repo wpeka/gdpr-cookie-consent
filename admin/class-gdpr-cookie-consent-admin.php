@@ -108,8 +108,10 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 		}
-		$tcf_json_data = json_decode(wp_unslash(print_r($_POST['json'],true)));
+		if(isset($_POST['json'])) {
+			$tcf_json_data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 			Gdpr_Cookie_Consent::gdpr_save_vendors($tcf_json_data);
+		}
 	}
 
 	/**

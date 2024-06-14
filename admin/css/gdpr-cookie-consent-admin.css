@@ -4760,12 +4760,12 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container,
 .gdpr_messagebar_detail .category-group .category-item .inner-description-container {
-	/* position: absolute;
+	position: absolute;
 	max-width: 75%;
 	left: 25%;
 	float: left;
 	padding: 0 5%;
-	height: 100%; */
+	height: 100%; 
 	overflow:scroll;
 	box-sizing: border-box;
 }

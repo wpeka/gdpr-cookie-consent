@@ -12,7 +12,7 @@
  var vueconfig = {
      entry: {
          tcf: './public/js/tcf/src/index.js',
-         tcstring: './public/js/gdpr-cookie-consent-public-tcf.js',
+         tcstring: './public/js/tcf/src/gdpr-cookie-consent-public-tcf.js',
          main: './src/vue-settings.js',
          dashboard: './src/vue-dashboard.js'
          

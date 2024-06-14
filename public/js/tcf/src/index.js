@@ -5,14 +5,14 @@
  * @subpackage Gdpr_Cookie_Consent/public
  * @author     wpeka <https://club.wpeka.com>
  */
-import {TCModel, TCString, GVL} from '@iabtechlabtcf/core';
+import { TCModel, TCString, GVL } from '@iabtechlabtcf/core';
 
 
 /**
 *  the IAB requires CMPs to host their own vendor-list.json files.  This must
 *  be set before creating any instance of the GVL class.
 */
-GVL.baseUrl = "https://devtest.wpeka.com/";
+GVL.baseUrl = "http://localhost:8888/wordpress/";
 const gvl = new GVL();
 console.log("Here is the GVL object");
 // console.log(gvl);
@@ -20,49 +20,78 @@ console.log("Here is the GVL object");
 gvl.readyPromise.then(() => {
   gvl.narrowVendorsTo([1,2,4,6,8,10,11,12,14]);
   console.log(gvl);
-  console.log("Hello there... "+nayan.ajax_url)
 
   const data = {};
   const vendorMap = gvl.vendors;
   const purposeMap = gvl.purposes;
   const featureMap = gvl.features;
+  const dataCategoriesMap = gvl.dataCategories;
   const specialPurposeMap = gvl.specialPurposes;
   const specialFeatureMap = gvl.specialFeatures;
   const purposeVendorMap = gvl.byPurposeVendorMap;
 
-var vendor_array = [], feature_array = [], purpose_array = [], special_feature_array = [], special_purpose_array = [], purpose_vendor_array = [];
+var vendor_array = [], vendor_id_array=[], vendor_legint_id_array=[], data_categories_array = [], nayan = [];
+var feature_array = [], special_feature_id_array=[], special_feature_array = [], special_purpose_array = [];
+var purpose_id_array=[], purpose_legint_id_array=[], purpose_array = [], purpose_vendor_array = [];
 var purpose_vendor_count_array = [], feature_vendor_count_array = [], special_purpose_vendor_count_array = [], special_feature_vendor_count_array = [], legint_purpose_vendor_count_array = [], legint_feature_vendor_count_array = [];
-Object.keys(vendorMap).forEach(key => vendor_array.push(vendorMap[key]));
+Object.keys(vendorMap).forEach(key => {
+  vendor_array.push(vendorMap[key])
+  vendor_id_array.push(vendorMap[key].id)
+  if(vendorMap[key].legIntPurposes.length)
+  vendor_legint_id_array.push(vendorMap[key].id)
+});
 data.vendors = vendor_array;
+data.allvendors = vendor_id_array;
+data.allLegintVendors = vendor_legint_id_array;
+console.log("vendors with legint")
+console.log(vendor_legint_id_array)
 
 Object.keys(featureMap).forEach(key => {
   feature_array.push(featureMap[key]);
   feature_vendor_count_array.push(Object.keys((gvl.getVendorsWithFeature(featureMap[key].id))).length); 
-  // legint_feature_vendor_count_array.push(Object.keys((gvl.getVendorsWithLegIntFeature(featureMap[key].id))).length); 
 });
-// console.log("legint_feature_vendor_count_array 1"+gvl.getVendorsWithLegIntFeature(1));
-// console.log("legint_feature_vendor_count_array 2"+gvl.getVendorsWithLegIntFeature(1));
 data.features = feature_array;
 data.featureVendorCount = feature_vendor_count_array;
 console.log("feature_vendor_count_array: "+ data.featureVendorCount); 
 
+Object.keys(dataCategoriesMap).forEach(key => {
+  // data_categories_array.push(dataCategoriesMap[key]);
+  // nayan.push(dataCategoriesMap[key]);
+});
+data.dataCategories = nayan;
+console.log("Data categories here : ");
+console.log(data.dataCategories);
+
+var legintCount=0;
+const purposeLegint = new Map()
 Object.keys(purposeMap).forEach(key => {
+  console.log(purposeMap[key])
   purpose_array.push(purposeMap[key]);
+  purpose_id_array.push(purposeMap[key].id)
   purpose_vendor_count_array.push(Object.keys((gvl.getVendorsWithConsentPurpose(purposeMap[key].id))).length); 
-  legint_purpose_vendor_count_array.push(Object.keys((gvl.getVendorsWithLegIntPurpose(purposeMap[key].id))).length); 
+  legintCount = Object.keys((gvl.getVendorsWithLegIntPurpose(purposeMap[key].id))).length
+  legint_purpose_vendor_count_array.push(legintCount); 
+  if(legintCount){
+    purposeLegint.set(purposeMap[key].id, legintCount)
+    purpose_legint_id_array.push(purposeMap[key].id)
+  }
   
   // console.log(Object.keys((gvl.getVendorsWithConsentPurpose(purposeMap[key].id))).length);
-});console.log("Test : "+legint_purpose_vendor_count_array);
+});console.log("Test purposes with legint : "+purpose_legint_id_array);
 data.purposes = purpose_array;
+data.allPurposes = purpose_id_array;
 data.purposeVendorCount = purpose_vendor_count_array;
+data.allLegintPurposes = purpose_legint_id_array;
 data.legintPurposeVendorCount = legint_purpose_vendor_count_array;
-console.log("purpose_vendor_count_array: "+ data.purposeVendorCount); 
+
 
 Object.keys(specialFeatureMap).forEach(key => {
   special_feature_array.push(specialFeatureMap[key]);
+  special_feature_id_array.push(specialFeatureMap[key].id)
   special_feature_vendor_count_array.push(Object.keys((gvl.getVendorsWithSpecialFeature(specialFeatureMap[key].id))).length); 
 });
 data.specialFeatures = special_feature_array;
+data.allSpecialFeatures = special_feature_id_array;
 data.specialFeatureVendorCount = special_feature_vendor_count_array;
 console.log("special_feature_vendor_count_array: "+ data.specialFeatureVendorCount); 
 
@@ -78,14 +107,15 @@ console.log("special_purpose_vendor_count_array: "+ data.specialPurposeVendorCou
 
 Object.keys(purposeVendorMap).forEach(key => purpose_vendor_array.push(purposeVendorMap[key].legInt.size));
 data.purposeVendorMap = purpose_vendor_array;
-console.log(data.purposeVendorCount);
+console.log(data);
 
 var xhr = new XMLHttpRequest();
 xhr.open("POST", "test.php");
 xhr.onreadystatechange = function() { if (xhr.readyState === 4 && xhr.status === 200) { console.log(xhr.responseText); } }
 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 xhr.send("json=" + encodeURIComponent(JSON.stringify(data))); 
-// console.log(JSON.stringify(gvl));
+console.log("Final Data here")
+console.log(JSON.stringify(data));
 });
 
 // create a new TC string

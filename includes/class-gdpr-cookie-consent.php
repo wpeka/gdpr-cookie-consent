@@ -968,20 +968,27 @@ class Gdpr_Cookie_Consent {
 		self::$stored_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
 
 		$iabtcf_consent_data = [];
-		$iabtcf_consent_data["consent"]=['12345'];
-		$iabtcf_consent_data["legint"]=['12345'];
-		$iabtcf_consent_data["purpose_consent"]=['12345'];
-		$iabtcf_consent_data["purpose_legint"]=['12345'];
-		$iabtcf_consent_data["feature_consent"]=['12345'];
+		$iabtcf_consent_data["consent"]=["12345"];
+		$iabtcf_consent_data["legint"]=[12345];
+		$iabtcf_consent_data["purpose_consent"]=[12345];
+		$iabtcf_consent_data["purpose_legint"]=[12345];
+		$iabtcf_consent_data["feature_consent"]=[12345];
 		$iabtcf_consent_data["allVendorsSelected"]=false;
 		$iabtcf_consent_data["allVendorsRejected"]=false;
 		$iabtcf_consent_data["tcString"]="none";
-		if(! get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT )) {
-			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT, $iabtcf_consent_data );
-		}
+		
 		if($data) {
+			$iabtcf_consent_data["allvendorIds"]= $data->allvendors;
+			$iabtcf_consent_data["allVendorsWithLegint"]= $data->allLegintVendors;
+			$iabtcf_consent_data["allPurposesWithLegint"]= $data->allLegintPurposes;
+			$iabtcf_consent_data["allPurposeIds"]= $data->allPurposes;
+			$iabtcf_consent_data["allSpecialFeatureIds"]= $data->allSpecialFeatures;
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $data );
-			error_log("I am adding actual json");
+			error_log(print_r($iabtcf_consent_data,true));
+			error_log("I am adding actual json".print_r($data,true));
+			if(! get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT )) {
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT, $iabtcf_consent_data );
+			}
 		}
 		else{
 			error_log("I am not adding default text");
@@ -997,7 +1004,8 @@ class Gdpr_Cookie_Consent {
 		// $settings             = self::gdpr_get_default_settings();
 		$vendors = new stdClass();
 		$vendors = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
-		
+		error_log("nayan");
+		error_log(print_r($vendors,true));
 		return $vendors;
 	}
 

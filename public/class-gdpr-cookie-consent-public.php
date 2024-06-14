@@ -359,6 +359,7 @@ class Gdpr_Cookie_Consent_Public {
 			// //tcf
 			wp_enqueue_script( $this->plugin_name. '-tcf' );
 			$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
+			$iabtcf_data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 			error_log("Passing data to js using wp_localize_script ");
 			error_log(print_r($iabtcf_consent_data,true));
 			wp_localize_script(
@@ -366,7 +367,7 @@ class Gdpr_Cookie_Consent_Public {
 				'iabtcf',
 				array(
 					'consentdata'              => $iabtcf_consent_data,
-					'sourcejs'					=> "bundled",
+					'data'					=> $iabtcf_data,
 					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
 					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
 				)
