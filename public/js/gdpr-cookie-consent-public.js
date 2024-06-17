@@ -1829,9 +1829,9 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 	$( document ).ready(
 		function() {
 			
-			$( ".gdpr_messagebar_detail .category-group .category-item" ).css( 'border-color', GDPR.settings.button_accept_button_color );
+			$( ".gdpr_messagebar_detail .category-group .category-item hr" ).css( 'border-top', '1px solid '+GDPR.settings.button_accept_button_color );
 			$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('color', GDPR.settings.button_accept_button_color);
-			$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border-bottom', '2px solid '+GDPR.settings.button_accept_button_color);
+			$( ".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border-bottom', '2px solid '+GDPR.settings.button_accept_button_color);
 			// GDPR.settings.button_accept_button_color = "#00f";
 			$( ".gdpr-iab-navbar-item" ).click(
 				function() {
@@ -1855,6 +1855,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						$( this ).children( ".gdpr-iab-navbar-button" ).css( 'border-bottom', '2px solid '+GDPR.settings.button_accept_button_color )
 						$( this ).siblings( ".gdpr-iab-navbar-button" ).css( 'display', 'none')
 					}
+					$( ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border', 'none');
 				}
 			);
 			$( ".gdpr-default-category-toggle.gdpr-column" ).click(
@@ -1877,19 +1878,20 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					$( ".gdpr-category-toggle.gdpr-column", this );
 					if ( ! $( this ).children( ".gdpr-columns" ).hasClass( "active-group" ) ) {
 						$( ".gdpr-columns" ).removeClass( "active-group" );
-						$( ".gdpr-columns" ).css( 'background-color', '#fff' );
+						$( ".gdpr-columns" ).css( 'background-color', background_obj.background );
+						alert(background_obj.background)						
 						$( ".gdpr-columns .dashicons" ).removeClass( "dashicons-arrow-up-alt2" );
 						$( ".gdpr-columns .dashicons" ).addClass( "dashicons-arrow-down-alt2" );
 						$( this ).children( ".gdpr-columns" ).addClass( "active-group" );
 						$( '.toggle-group' ).find( 'div.always-active' ).css( 'color',GDPR.settings.button_accept_button_color );
 						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color',GDPR.settings.button_accept_button_color );
-						$( this ).children( ".gdpr-columns" ).css( 'background-color', '#fff' );
+						$( this ).children( ".gdpr-columns" ).css( 'background-color', background_obj.background );
 						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-arrow-down-alt2" );
 						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-arrow-up-alt2" );
 					} else {
 						$( ".gdpr-columns" ).removeClass( "active-group" );
 						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color',GDPR.settings.button_accept_button_color );
-						$( ".gdpr-columns" ).css( 'background-color', '#fff' );
+						$( ".gdpr-columns" ).css( 'background-color', background_obj.background );
 						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-arrow-up-alt2" );
 						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-arrow-down-alt2" );
 					}
@@ -1908,19 +1910,19 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					if ( ! $( this ).children( ".inner-gdpr-columns" ).hasClass( "active-group" ) ) {
 
 						$( ".inner-gdpr-columns" ).removeClass( "active-group" );
-						$( ".inner-gdpr-columns" ).css( 'background-color', '#fff' );
+						$( ".inner-gdpr-columns" ).css( 'background-color', background_obj.background );
 						$( ".inner-gdpr-columns .dashicons" ).removeClass( "dashicons-arrow-up-alt2" );
 						$( ".inner-gdpr-columns .dashicons" ).addClass( "dashicons-arrow-down-alt2" );
 						$( this ).children( ".inner-gdpr-columns" ).addClass( "active-group" );
 						$( '.toggle-group' ).find( 'div.always-active' ).css( 'color',GDPR.settings.button_accept_button_color );
 						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color',GDPR.settings.button_accept_button_color );
-						$( this ).children( ".inner-gdpr-columns" ).css( 'background-color', '#fff' );
+						$( this ).children( ".inner-gdpr-columns" ).css( 'background-color', background_obj.background );
 						$( this ).children( ".inner-gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-arrow-down-alt2" );
 						$( this ).children( ".inner-gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-arrow-up-alt2" );
 					} else {
 						$( ".inner-gdpr-columns" ).removeClass( "active-group" );
 						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color',GDPR.settings.button_accept_button_color );
-						$( ".inner-gdpr-columns" ).css( 'background-color', '#fff' );
+						$( ".inner-gdpr-columns" ).css( 'background-color', background_obj.background );
 						$( this ).children( ".inner-gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-arrow-up-alt2" );
 						$( this ).children( ".inner-gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-arrow-down-alt2" );
 					}

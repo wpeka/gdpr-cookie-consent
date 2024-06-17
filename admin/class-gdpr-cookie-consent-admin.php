@@ -6430,7 +6430,7 @@ class Gdpr_Cookie_Consent_Admin {
 		<style>
 			.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
 			.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input:checked+label,
-			.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input:checked+label {
+			.gdpr_messagebar_detail .category-group .toggle-group .checkbox input:checked+label {
 				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
 			}
 			.gdprmodal-dialog .gdprmodal-footer button {

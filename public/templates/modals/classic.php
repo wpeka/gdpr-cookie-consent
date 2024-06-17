@@ -626,6 +626,7 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 												?>
 											</ul>
 								</div>
+								<hr>
 							</li>
 								<?php
 							}

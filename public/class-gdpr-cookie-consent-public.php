@@ -445,15 +445,15 @@ class Gdpr_Cookie_Consent_Public {
 			if ( in_array( $template, array( 'navy_blue_center', 'navy_blue_box', 'navy_blue_square' ), true ) ) {
 				$template_parts_background = '#354e8e';
 			} elseif ( in_array( $template, array( 'almond_column' ), true ) ) {
-				$template_parts_background = '#f2ecd8';
+				$template_parts_background = '#FCF5DF';
 			} elseif ( in_array( $template, array( 'grey_column', 'grey_center' ), true ) ) {
-				$template_parts_background = '#e0e0e0';
+				$template_parts_background = '#F4F4F4';
 			} elseif ( in_array( $template, array( 'dark' ), true ) ) {
 				$template_parts_background = '#3a3a3a';
 			} elseif ( in_array( $template, array( 'dark_row' ), true ) ) {
 				$template_parts_background = '#434a58';
 			} else {
-				$template_parts_background = '#ebebeb';
+				$template_parts_background = '#ffffff';
 			}
 			wp_localize_script( $this->plugin_name, 'background_obj', array( 'background' => $template_parts_background ) );
 
@@ -739,7 +739,7 @@ class Gdpr_Cookie_Consent_Public {
 			<style>
 				.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
 				.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input:checked+label,
-				.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input:checked+label {
+				.gdpr_messagebar_detail .category-group .toggle-group .checkbox input:checked+label {
 					background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
 				}
 

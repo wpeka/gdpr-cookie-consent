@@ -13,6 +13,8 @@ import { TCModel, TCString, GVL } from '@iabtechlabtcf/core';
 *  be set before creating any instance of the GVL class.
 */
 GVL.baseUrl = "http://localhost:8888/wordpress/";
+// GVL.baseUrl = "https://923b74fe37.nxcli.io/rgh/";
+
 const gvl = new GVL();
 console.log("Here is the GVL object");
 // console.log(gvl);
