@@ -5475,6 +5475,25 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	text-align: center;
 
 }
+.excausted-popup-body h2{
+ margin-top: 28px;
+ margin-bottom: 24px;
+ font-size: 32px;
+ font-weight: 600;
+ color: #000000;
+}
+
+.excausted-popup-body p {
+    margin: 0;
+	font-size: 14px;
+    color: #000000;
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 16.41px;
+	text-align: center;
+	margin-top:24px;
+}
 
 .upgrade-button {
     margin-top: 30px;

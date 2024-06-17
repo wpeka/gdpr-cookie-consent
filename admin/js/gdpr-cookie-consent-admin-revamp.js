@@ -249,10 +249,11 @@ jQuery(document).ready(function () {
 	*/
 	window.addEventListener("message", function(event) {
 		// Check if the event is originated on server and not successful
-		if (!event.data.success) {
+		if (event.isTrusted && event.origin === gdpr_localize_data.gdpr_app_url) {
+			if (!event.data.success) {
 			
 			const scanBtn = jQuery('.scan-now-btn');
-                const popup = jQuery('#popup');
+                const popup = jQuery('#popup-site-excausted');
                   const cancelButton = jQuery('.popup-image');
         
                      popup.fadeIn();
@@ -262,9 +263,10 @@ jQuery(document).ready(function () {
                         popup.fadeOut();
                    
                 });
-		} else if (event.isTrusted && event.origin === gdpr_localize_data.gdpr_app_url) {
+		} else {
 			gdprStoreAuth(event.data);
 		}
+	}
 	});
 	
 
@@ -521,6 +523,7 @@ jQuery(document).ready(function () {
 				_ajax_nonce : gdpr_localize_data._ajax_nonce,
 				response: data.response,
 				origin: data.origin,
+				no_of_scans:data.no_of_scans ? data.no_of_scans:'',
 
 			},
 			success: function(response) {

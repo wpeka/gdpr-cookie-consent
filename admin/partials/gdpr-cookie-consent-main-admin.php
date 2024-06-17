@@ -11,10 +11,10 @@
  * @package gdpr-cookie-consent
  */
 // check if pro is activated or installed.
-$pro_is_activated = get_option( 'wpl_pro_active', false );
-$the_options      = Gdpr_Cookie_Consent::gdpr_get_settings();
-$is_data_req_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
-$is_consent_log_on =isset(  $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
+$pro_is_activated  = get_option( 'wpl_pro_active', false );
+$the_options       = Gdpr_Cookie_Consent::gdpr_get_settings();
+$is_data_req_on    = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
+$is_consent_log_on = isset( $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
 $installed_plugins = get_plugins();
 $pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 // Require the class file for gdpr cookie consent api framework settings.
@@ -33,12 +33,12 @@ $api_user_plan     = $this->settings->get_plan();
 */
 if ( $api_user_plan == 'free' ) {
 	$total_no_of_free_scans = 15;
-}else{
+} else {
 	$total_no_of_free_scans = 25;
 }
 
-$gdpr_no_of_page_scan = $total_no_of_free_scans - get_option('gdpr_no_of_page_scan');
-$remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total_no_of_free_scans )*100;
+$gdpr_no_of_page_scan            = $total_no_of_free_scans - get_option( 'gdpr_no_of_page_scan' );
+$remaining_percentage_scan_limit = round((get_option('gdpr_no_of_page_scan') / $total_no_of_free_scans) * 100);
 
 ?>
 
@@ -88,18 +88,18 @@ $remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total
 		<?php
 		// if user is connected to the app.wplegalpages then show remaining scans
 		if ( $is_user_connected == true ) {
-		?>
+			?>
 			<div class="gdpr-remaining-scans-content" >
 				<div class="gdpr-remaining-scans-container">
-					<span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan;  ?> / <?php echo $total_no_of_free_scans;  ?><span><span> (<?php echo $remaining_percentage_scan_limit ?>%)</span>
+					<span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan; ?> / <?php echo $total_no_of_free_scans; ?><span><span> (<?php echo $remaining_percentage_scan_limit; ?>%)</span>
 				</div>
 				<div class="gdpr-current-plan-container">
-					<p><span>Current Plan: </span><?php echo $api_user_plan ?></p>
+					<p><span>Current Plan: </span><?php echo $api_user_plan; ?></p>
 					<?php
 					if ( $api_user_plan == 'free' ) {
-					?>
+						?>
 					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_upgrade_btn.png'; ?>" class="gdpr-cookie-consent-admin-upgrade-button" alt="<?php echo esc_attr( 'Upgrade Button', 'gdpr-cookie-consent' ); ?>">
-					<?php
+						<?php
 					}
 					?>
 				</div>
@@ -107,7 +107,7 @@ $remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total
 
 
 			</div>
-		<?php
+			<?php
 
 		}
 		?>
@@ -116,49 +116,45 @@ $remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total
 
 		<?php
 		if ( $is_user_connected != true && ! $pro_installed ) {
-		?>
+			?>
 		<div class="gdpr-cookie-consent-connect-api-container">
 			<div class="gdpr-api-info-content">
 			<div class="gdpr-api-detailed-info">
 			<h2>
 				<?php echo esc_html( 'Connect your website to WP Cookie Consent', 'gdpr-cookie-consent' ); ?>
 			</h2>
-			<p><?php echo esc_html( 'Sign up for a free account to integrate seamlessly with the WP Cookie Consent server. Once connected, gain full control over your settings and unlock advanced features:' , 'gdpr-cookie-consent'); ?></p>
+			<p><?php echo esc_html( 'Sign up for a free account to integrate seamlessly with the WP Cookie Consent server. Once connected, gain full control over your settings and unlock advanced features:', 'gdpr-cookie-consent' ); ?></p>
 			<p>
-				<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Cookie Scanner:' , 'gdpr-cookie-consent'); ?></strong> <?php echo esc_html( 'Identify cookies on your website and automatically block them before user consent (essential for legal compliance).', 'gdpr-cookie-consent' ); ?>
+				<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Cookie Scanner:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Identify cookies on your website and automatically block them before user consent (essential for legal compliance).', 'gdpr-cookie-consent' ); ?>
 			</p>
 			<p>
 				<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Advanced Dashboard:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Unlock useful insights on user\'s consent data, cookie summary, and consent logs.', 'gdpr-cookie-consent' ); ?>
 			</p>
 			<p>
-				<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Geo-targeting:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Display or hide the GDPR cookie consent notice depending on the visitor’s location.' , 'gdpr-cookie-consent'); ?>
+				<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Geo-targeting:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Display or hide the GDPR cookie consent notice depending on the visitor’s location.', 'gdpr-cookie-consent' ); ?>
 			</p>
 		</div>
 		<div class="gdpr-api-connection-btns">
 			<button class="gdpr-start-auth"><?php echo esc_html( 'New? Create a free account', 'gdpr-cookie-consent' ); ?></button>
 			<button class="api-connect-to-account-btn"><?php echo esc_html( 'Connect your existing account', 'gdpr-cookie-consent' ); ?></button>
 		</div>
-
-
 			</div>
-			<div id="popup" class="popup-overlay">
+			<div id="popup-site-excausted" class="popup-overlay">
 				<div class="popup-content">
-				<div class="popup-header">
-    				<div class="popup-title"><span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan_left;  ?> / <?php echo $total_pages_scan_limit;  ?><span><span> (<?php echo $remaining_percentage_scan_limit ?>%)</span></div>
-    				<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Right Corner Image" class="popup-image">
-				</div>
-
-						<div class="popup-body">
-						<h2>Attention! Cookie Scan Limit Exceeded.</h2>
-						<p>You've reached the maximum number of free cookie scans for your account.</p>
-						<p>To scan more, you'll need to upgrade to a premium plan.</p>
-						<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button">Upgrade to PRO</button>
+					<div class="popup-header">
+						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Right Corner Image" class="popup-image">
 					</div>
+						<div class="excausted-popup-body">
+							<h2>Attention! Usage Limit Reached</h2>
+							<p>You've reached your license limit. Please upgrade to continue using the plugin on this site.</p>
+							<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button">Upgrade Plan</button>
+							<p>Need to activate on a new site? Manage your licenses in <a href="https://d8c7243ac1.nxcli.io/signup/api-keys/" target="_blank">My Account.</a></p>
+						</div>
 				</div>
 			</div>
 		</div>
 
-		<?php
+			<?php
 
 		}
 		?>
@@ -179,27 +175,27 @@ $remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total
 					<p class="gdpr-cookie-consent-admin-tab-name">Cookie&nbsp;Settings</p>
 				</div>
 				<?php
-					if ( $is_consent_log_on && !$pro_is_activated ) {
-				?>
+				if ( $is_consent_log_on && ! $pro_is_activated ) {
+					?>
 									<!-- consent log tab  -->
 										<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
 											<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
 										</div>
 					<?php
-					}
-						if ( $pro_is_activated ) {
-							if ( $is_consent_log_on ) {
-							?>
+				}
+				if ( $pro_is_activated ) {
+					if ( $is_consent_log_on ) {
+						?>
 									<!-- consent log tab  -->
 									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
 										<p class="gdpr-cookie-consent-admin-tab-name">Consent&nbsp;Logs</p>
 									</div>
 								<?php
-									}
-						}
-			if ( $is_data_req_on && !$pro_is_activated ) {
+					}
+				}
+				if ( $is_data_req_on && ! $pro_is_activated ) {
 
-								?>
+					?>
 								<!-- data req tab  -->
 								<div class="gdpr-cookie-consent-admin-tab		gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
 								<p class="gdpr-cookie-consent-admin-tab-name">Data&nbsp;Request</p>
@@ -207,7 +203,7 @@ $remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total
 
 								<?php
 
-							}
+				}
 
 				if ( $pro_is_activated ) {
 
@@ -215,17 +211,17 @@ $remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total
 
 							<?php
 
-                        if ( $is_data_req_on ) {
+							if ( $is_data_req_on ) {
 
-	                          ?>
+								?>
 							<!-- data req tab  -->
 							<div class="gdpr-cookie-consent-admin-tab		gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
 								<p class="gdpr-cookie-consent-admin-tab-name">Data&nbsp;Request</p>
 								</div>
 								<?php
 
-                                  }
-					}
+							}
+				}
 
 				?>
 
@@ -234,13 +230,14 @@ $remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total
 				<p class="gdpr-cookie-consent-admin-tab-name">Policy&nbsp;Data</p>
 				</div>
 				<?php
-				if($pro_is_activated){
+				if ( $pro_is_activated ) {
 					?>
 					<!-- Pro activation key -->
-				        <div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-pro-activation-tab" data-tab="activation_key">
+						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-pro-activation-tab" data-tab="activation_key">
 							<p class="gdpr-cookie-consent-admin-tab-name">Pro Activation</p>
 						</div>
-				<?php }
+					<?php
+				}
 
 				?>
 			</div>

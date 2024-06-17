@@ -2187,16 +2187,13 @@ var gen = new Vue({
             console.log("showScanNowPopup");
             this.$nextTick(() => {
                 const scanBtn = jQuery('.scan-now-btn');
-                const popup = jQuery('#popup');
+                const popup = jQuery('#popup-site-excausted');
                 const cancelButton = jQuery('.popup-image');
-        
-               
-                 popup.fadeIn();
-               
+                popup.fadeIn();
                 cancelButton.off('click').on('click', function(e) {
-                        console.log("popup clicked");
-                        popup.fadeOut();
-                   
+                    console.log("popup clicked");
+                    popup.fadeOut();
+                    window.location.reload();
                 });
             });
         }   
