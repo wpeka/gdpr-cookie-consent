@@ -359,7 +359,7 @@ class GDPR_Cookie_Consent_App_Auth {
 			update_option( 'gdpr_no_of_page_scan', $no_of_scans );
 		}
 		// Update option with auth data.
-		update_option( 'gdpr_api_framework_app_settings', $data );
+		update_option( 'wpeka_api_framework_app_settings', $data );
 		global $wcam_lib_gdpr;
 
 		$wcam_lib_gdpr->product_id = isset( $_POST['response']['account']['product_id'] ) ? $_POST['response']['account']['product_id'] : '';
@@ -421,7 +421,7 @@ class GDPR_Cookie_Consent_App_Auth {
 		$args = array(
 			'api_key' => $settings->get( 'api', 'token' ),
 		);
-		update_option( 'gdpr_api_framework_app_settings', $options );
+		update_option( 'wpeka_api_framework_app_settings', $options );
 
 		if ( false !== get_option( 'wplegal_api_framework_app_settings' ) ) {
 			update_option( 'wplegal_api_framework_app_settings', $options );
@@ -507,7 +507,7 @@ class GDPR_Cookie_Consent_App_Auth {
 	 */
 	public function get_auth_data() {
 		if ( ! isset( $this->auth_data ) ) {
-			$this->auth_data = get_option( 'gdpr_api_framework_app_settings', false );
+			$this->auth_data = get_option( 'wpeka_api_framework_app_settings', false );
 		}
 		return $this->auth_data;
 	}

@@ -87,7 +87,7 @@ class GDPR_Cookie_Consent_Settings {
 	 * @return array
 	 */
 	public function get( $group = '', $key = '' ) {
-		$settings = get_option( 'gdpr_api_framework_app_settings', $this->data );
+		$settings = get_option( 'wpeka_api_framework_app_settings', $this->data );
 
 		if ( empty( $key ) && empty( $group ) ) {
 			return $settings;
@@ -108,13 +108,13 @@ class GDPR_Cookie_Consent_Settings {
 	 */
 	public function update( $data ) {
 
-		$settings = get_option( 'gdpr_api_framework_app_settings', $this->data );
+		$settings = get_option( 'wpeka_api_framework_app_settings', $this->data );
 		if ( empty( $settings ) ) {
 			$settings = $this->data;
 		}
 		$settings = $data;
 
-		update_option( 'gdpr_api_framework_app_settings', $settings );
+		update_option( 'wpeka_api_framework_app_settings', $settings );
 	}
 
 	// Getter Functions.
@@ -170,7 +170,16 @@ class GDPR_Cookie_Consent_Settings {
 	 * @return boolean
 	 */
 	public function is_connected() {
-		return $this->get( 'account', 'connected' );
+		$gdpr_connected = $this->get('account', 'connected');
+
+		if ($gdpr_connected) {
+			update_option('gdpr_connected', true);
+		}
+		else{
+			update_option('gdpr_connected', false);
+		}
+		
+		return $gdpr_connected;
 	}
 
 	/**
@@ -182,7 +191,7 @@ class GDPR_Cookie_Consent_Settings {
 
 	 public function set_plan($new_value) {
 		// Retrieve the current settings from the database
-		$settings = get_option('gdpr_api_framework_app_settings', array(
+		$settings = get_option('wpeka_api_framework_app_settings', array(
 			'site'    => array(
 				'url'       => get_site_url(),
 				'installed' => time(),
@@ -212,7 +221,7 @@ class GDPR_Cookie_Consent_Settings {
 		$settings['account']['plan'] = $new_value;
 	
 		// Update the settings in the database
-		update_option('gdpr_api_framework_app_settings', $settings);
+		update_option('wpeka_api_framework_app_settings', $settings);
 	}
 
 }
