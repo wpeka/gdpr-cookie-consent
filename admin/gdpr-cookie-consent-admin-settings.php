@@ -367,7 +367,7 @@ $remaining_percentage_scan_limit = ( get_option('gdpr_no_of_page_scan') / $total
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select the Type of Law', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
-										<v-select class="form-group" id="gdpr-cookie-consent-policy-type" :reduce="label => label.code" :options="policy_options" v-model="gdpr_policy" @input="cookiePolicyChange">
+										<v-select class="form-group" id="gdpr-cookie-consent-policy-type" :reduce="label => label.code" :options="policy_options" v-model="gdpr_policy" @input="cookiePolicyChange" :searchable="false">
 										</v-select>
 											<input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
 									</c-col>
