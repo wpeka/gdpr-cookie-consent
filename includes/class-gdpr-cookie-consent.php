@@ -845,6 +845,7 @@ class Gdpr_Cookie_Consent {
 			case 'button_cancel_is_on':
 			case 'button_confirm_as_button':
 			case 'button_confirm_is_on':
+			case 'data_reqs_on':
 				// consent forward .
 			case 'consent_forward':
 				if ( 'true' === $value || true === $value ) {
@@ -1185,6 +1186,7 @@ class Gdpr_Cookie_Consent {
 			'button_cancel_button_border_radius'   => $settings['button_cancel_button_border_radius'],
 			// consent forward .
 			'consent_forward'                      => $settings['consent_forward'],
+			'data_reqs_on'                         => $settings['data_reqs_on'],
 		);
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
 		if ( $wpl_pro_active ) {
