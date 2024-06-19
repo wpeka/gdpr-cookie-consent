@@ -6423,6 +6423,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'is_user_connected'          => $is_user_connected,
 				'background'                 => $template_parts_background,
 				'button_accept_button_color' => $the_options['button_accept_button_color'],
+				'is_iabtcf_on' => $the_options['is_iabtcf_on']
 			)
 		);
 		?>
@@ -6433,7 +6434,7 @@ class Gdpr_Cookie_Consent_Admin {
 				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
 			}
 			.gdprmodal-dialog .gdprmodal-footer button {
-				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> ;
 			}
 
 			.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,

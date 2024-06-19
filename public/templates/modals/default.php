@@ -67,7 +67,7 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 								<li class="gdpr-iab-navbar-item" id="gdprIABTabVendors"><button class="gdpr-iab-navbar-button">Vendors<span class="dashicons dashicons-arrow-right-alt2"></span></button></li>
 							</ul>
 						<div class="outer-container">
-							<ul class="cat category-group tabContainer">
+							<ul class="cat category-group outer tabContainer">
 								<?php
 								foreach ( $cookie_data['categories'] as $category ) {
 									?>
@@ -204,7 +204,7 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 								}
 								?>
 							</ul>
-							<ul class="category-group feature-group tabContainer">
+							<ul class="category-group outer feature-group tabContainer">
 								<?php
 								$values = ["Purposes", "Special Purposes","Features","Special Features"];
 								foreach ( $values as $value ) {
@@ -305,7 +305,7 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 										</div>
 									</div>
 									<div class="description-container hide">
-													<ul class="category-group feature-group tabContainer">
+													<ul class="category-group  feature-group tabContainer">
 													<?php 
 													
 													
@@ -428,7 +428,7 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 								}
 								?>
 							</ul>
-							<ul class="category-group vendor-group tabContainer">
+							<ul class="category-group outer vendor-group tabContainer">
 								<?php
 								$vendors = ["Third Party Vendors"];
 								foreach ( $vendors as $vendor ) {
@@ -467,7 +467,7 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 												</div>
 											</div>
 											<div class="description-container hide">
-															<ul class="category-group vendor-group tabContainer">
+															<ul class="category-group  vendor-group tabContainer">
 															
 															<?php
 															
@@ -614,7 +614,7 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 							</ul>
 						</div>
 						<?php } else{ ?>
-							<ul class="category-group">
+							<ul class="category-group ">
 								<li class="category-item">
 									<div class="gdpr-column gdpr-default-category-toggle">
 										<div class="gdpr-columns active-group" tabindex="0">

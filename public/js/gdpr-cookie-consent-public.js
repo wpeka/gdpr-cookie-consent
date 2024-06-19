@@ -1832,6 +1832,8 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			$( ".gdpr_messagebar_detail .category-group .category-item hr" ).css( 'border-top', '1px solid '+GDPR.settings.button_accept_button_color );
 			$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('color', GDPR.settings.button_accept_button_color);
 			$( ".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border-bottom', '2px solid '+GDPR.settings.button_accept_button_color);
+			$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group").css( 'background-color', background_obj.background );
+			$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group.outer").css( 'border-left', '1px solid '+GDPR.settings.button_accept_button_color );
 			// GDPR.settings.button_accept_button_color = "#00f";
 			$( ".gdpr-iab-navbar-item" ).click(
 				function() {

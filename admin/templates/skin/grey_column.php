@@ -7,7 +7,39 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/public
  */
+$data = Gdpr_Cookie_Consent::gdpr_get_vendors();
+	$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
+	$consent_data = isset( $iabtcf_consent_data["consent"] ) ? $iabtcf_consent_data["consent"] : [];
+	$legint_data = isset( $iabtcf_consent_data["legint"] ) ? $iabtcf_consent_data["legint"] : [];
+	$purpose_consent_data = isset( $iabtcf_consent_data["purpose_consent"] ) ? $iabtcf_consent_data["purpose_consent"] : [];
+	$purpose_legint_data = isset( $iabtcf_consent_data["purpose_legint"] ) ? $iabtcf_consent_data["purpose_legint"] : [];
+	$feature_consent_data = isset( $iabtcf_consent_data["feature_consent"] ) ? $iabtcf_consent_data["feature_consent"] : [];
+	$allVendors = isset( $iabtcf_consent_data["allvendorIds"] ) ? $iabtcf_consent_data["allvendorIds"] : [];
+	$allSpecialFeatures = isset( $iabtcf_consent_data["allSpecialFeatureIds"] ) ? $iabtcf_consent_data["allSpecialFeatureIds"] : [];
+	// error_log("Classic.php data : ".print_r($data,true));
 
+	// error_log("consent_data data : ".print_r($consent_data,true));
+	// error_log("All vendors data : ".print_r($allVendors,true));
+	$allVendorsFlag = false;	//flag for all vendors toggle button
+	foreach ( $data->vendors as $vendor ) {
+		if ( in_array($vendor->id, $consent_data) ) {
+			if( $vendor->legIntPurposes ) {
+				if ( ! in_array($vendor->id, $legint_data) ) {
+					$allVendorsFlag = false;
+					break;
+				}
+			}
+			$allVendorsFlag = true;
+		}
+		else {
+			$allVendorsFlag = false;
+			break;
+		}
+		// error_log($vendor->id." flag:".$allVendorsFlag);
+	}
+	$allFeaturesFlag = false;
+	
+	error_log("From banner prev Classic.php to display in banner : ".print_r($iabtcf_consent_data,true));
 ?>
 <div class="gdpr_messagebar_detail layout-classic grey_column theme-twentytwentyfour hide-popup">
 			<div class="gdprmodal gdprfade gdprshow" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="false" aria-gdprmodal="true" style="padding-right: 15px; display: block;">
@@ -22,7 +54,13 @@
 			<div class="gdprmodal-body">
 				<div class="gdpr-details-content">
 					<div class="gdpr-groups-container">
-                 							<div class="gdpr-about-cookies">Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.</div>
+                 		<div class="gdpr-about-cookies">Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.</div>
+						
+						<ul class="gdpr-iab-navbar">
+							<li class="gdpr-iab-navbar-item" id="gdprIABTabCategory"><button class="gdpr-iab-navbar-button active">Cookie Categories</button></li>
+							<li class="gdpr-iab-navbar-item" id="gdprIABTabFeatures"><button class="gdpr-iab-navbar-button">Purposes and Features</button></li>
+							<li class="gdpr-iab-navbar-item" id="gdprIABTabVendors"><button class="gdpr-iab-navbar-button">Vendors</button></li>
+						</ul>
 												<ul class="category-group">
 															<li class="category-item">
 																			<div class="toggle-group">

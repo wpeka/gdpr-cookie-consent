@@ -4,7 +4,6 @@
  */
 
  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@300;400;500;600&display=swap');
-
 body.post-type-wplconsentlogs .wrap .subsubsub {
 	display: none;
 }
@@ -4642,6 +4641,153 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	background-color: none;
 	border-style:none;
 }
+.gdpr-about-cookies.iabtcf{
+	display: none;
+}
+/* Navbar for IAB TCF */
+.gdpr_messagebar_detail .gdpr-iab-navbar {
+	list-style: none;
+	display: flex;
+	column-gap: 24px;
+	margin: 0;
+}
+.gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar {
+	padding: 0px 20px;
+}
+.gdpr_messagebar_detail.layout-default .gdpr-iab-navbar {
+	flex-direction: column;
+	width: 27%;
+	float: left;
+}
+.gdpr_messagebar_detail.layout-default .outer-container{
+	width: 73%;
+	float: right;
+}
+.gdpr_messagebar_detail.layout-default .gdpr-iab-navbar .gdpr-iab-navbar-button {
+	text-align: left;
+}
+
+.gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button{
+    color: #000;
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+	font-weight: 600;
+    line-height: 14.06px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    text-transform: none;
+    min-height: 0;
+    text-shadow: none;
+    box-shadow: none;
+}
+.gdpr_messagebar_detail.layout-default .gdpr-iab-navbar .gdpr-iab-navbar-button{
+	padding: 10px ;
+
+}
+.gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button{
+	padding: 14px 0;
+
+}
+.gdpr_messagebar_detail .gdpr-iab-navbar .dashicons{
+	line-height: 0.8;
+}
+.feature-group, .vendor-group {
+	display: none;
+}
+
+.vendor-switch-wrapper, .purposes-switch-wrapper, .special-features-switch-wrapper {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.gdpr_messagebar_detail.layout-default .vendor-switch-wrapper, 
+.gdpr_messagebar_detail.layout-default .purposes-switch-wrapper, 
+.gdpr_messagebar_detail.layout-default .special-features-switch-wrapper {
+	flex-direction: column;
+	align-items: end;
+}
+.vendor-legitimate-switch-wrapper, .vendor-consent-switch-wrapper,
+.purposes-legitimate-switch-wrapper, .purposes-consent-switch-wrapper,
+.special-features-consent-switch-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.vendor-legitimate-switch-wrapper,
+.purposes-legitimate-switch-wrapper {
+	border-right: 1px solid #d0d5d2;
+    padding: 0 17px 0 0;
+}
+.gdpr_messagebar_detail.layout-default .vendor-legitimate-switch-wrapper,
+.gdpr_messagebar_detail.layout-default .purposes-legitimate-switch-wrapper{
+	padding: 0;
+	border: none;
+}
+.vendor-consent-switch-wrapper, 
+.purposes-consent-switch-wrapper,
+.special-features-consent-switch-wrapper {
+	padding: 0 0 0 17px;
+}
+
+.vendor-switch-label, .purposes-switch-label, .special-features-switch-label{
+	font-size: 11px;
+	font-weight: 400;
+    line-height: 24px;
+    margin: 0 8px 0 0;
+	vertical-align: middle;
+}
+
+/* purpose and feature description */
+.gdpr-ad-purpose-details {
+	color: #212121;
+    font-size: 12px;
+    line-height: 24px;
+    margin: 0 0 0 18px;
+}
+.gdpr_messagebar_detail.layout-default .gdpr-ad-purpose-details {
+	margin: 0;
+}
+.gdpr-ad-purpose-details * {
+	font-size: 12px;
+    line-height: 24px;
+    word-wrap: break-word;
+}
+
+.gdpr-ad-purpose-details-desc {
+	margin-bottom: 13px;
+	margin-top: 0;
+}
+
+.gdpr-ad-purpose-details .gdpr-ad-purpose-illustrations-title{
+	font-weight: 700;
+	margin: 0;
+}
+
+.gdpr-ad-purpose-details .gdpr-ad-purpose-vendor-count-wrapper {
+	margin-top: 11px;
+	font-weight: 700;
+}
+
+.gdpr-vendor-privacy-link-title, .gdpr-vendor-legitimate-link-title, .gdpr-vendor-data-retention-value, .gdpr-vendor-purposes-title,
+.gdpr-vendor-special-purposes-title, .gdpr-vendor-features-title, .gdpr-vendor-data-categories-title {
+	font-weight: 700;
+}
+
+.gdpr-vendor-privacy-link, .gdpr-vendor-legitimate-link, .gdpr-vendor-data-retention-section,
+.gdpr-vendor-purposes-section, .gdpr-vendor-special-purposes-section, .gdpr-vendor-features-section {
+	margin: 0 0 13px 0;	
+}
+
+.gdpr-vendor-purposes-title, .gdpr-vendor-special-purposes-title, .gdpr-vendor-features-title, .gdpr-vendor-data-categories-title {
+	margin:0;
+}
+
+.gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active{	
+	border-bottom: 2px, solid;
+}
+
 .gdpr_messagebar_detail .category-group {
 	margin: 0;
 	padding-left: 0;

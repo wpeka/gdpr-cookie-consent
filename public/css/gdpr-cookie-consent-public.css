@@ -1170,6 +1170,9 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	overflow: scroll;
 }
 .gdpr_messagebar_detail.layout-default .iabtcf .category-group {
+	min-height: 300px;
+}
+.gdpr_messagebar_detail.layout-default .iabtcf .category-group.outer {
 	border-left: 1px solid #B1500F;
 }
 .gdpr_messagebar_detail.layout-classic .category-group {
