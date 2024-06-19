@@ -627,9 +627,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		global $wpdb;
 
 		// We are not planning to keep records of old scans.
-		if ( $this->not_keep_records ) {
-			$this->flush_scan_records();
-		}
+		// if ( $this->not_keep_records ) {
+		// 	$this->flush_scan_records();
+		// }
 
 		$scan_table = $wpdb->prefix . $this->main_table;
 		$data_arr   = array(
@@ -654,7 +654,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 *
 	 * @return bool
 	 */
-	protected function update_scan_entry( $data_arr, $scan_id ) {
+	public function update_scan_entry( $data_arr, $scan_id ) {
+		error_log("Rohit is calling");
 		global $wpdb;
 		$scan_table = $wpdb->prefix . $this->main_table;
 		if ( $wpdb->update( $scan_table, $data_arr, array( 'id_wpl_cookie_scan' => $scan_id ) ) ) {
@@ -835,27 +836,44 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 *
 	 * @return array
 	 */
-	public function get_scan_cookie_list( $offset = 0, $limit = 100 ) {
-		global $wpdb;
-		$out           = array(
-			'total' => 0,
-			'data'  => array(),
-		);
-		$cookies_table = $wpdb->prefix . $this->cookies_table;
-		$cat_table     = $wpdb->prefix . $this->category_table;
-		$count_sql     = "SELECT COUNT(id_wpl_cookie_scan_cookies) AS ttnum FROM $cookies_table";
-		$count_arr     = $wpdb->get_row( $count_sql, ARRAY_A );
-		if ( $count_arr ) {
-			$out['total'] = $count_arr['ttnum'];
+		public function get_scan_cookie_list( $offset = 0, $limit = 100 ) {
+			global $wpdb;
+			$out           = array(
+				'total' => 0,
+				'data'  => array(),
+			);
+			$cookies_table = $wpdb->prefix . $this->cookies_table;
+			$cat_table     = $wpdb->prefix . $this->category_table;
+			$scan_table    = $wpdb->prefix . 'wpl_cookie_scan'; // Replace with your actual scan table name
+		
+			// Get the latest scan ID with current_action = 'scan_pages'
+			$latest_scan_id = $wpdb->get_var("SELECT id_wpl_cookie_scan FROM $scan_table WHERE current_action = 'scan_pages' ORDER BY created_at DESC LIMIT 1");
+		
+			if ($latest_scan_id) {
+				$count_sql     = $wpdb->prepare("SELECT COUNT(id_wpl_cookie_scan_cookies) AS ttnum FROM $cookies_table WHERE id_wpl_cookie_scan = %d", $latest_scan_id);
+				$count_arr     = $wpdb->get_row($count_sql, ARRAY_A);
+				if ( $count_arr ) {
+					$out['total'] = $count_arr['ttnum'];
+				}
+		
+				$sql      = $wpdb->prepare(
+					"SELECT * FROM $cookies_table 
+					 INNER JOIN $cat_table ON $cookies_table.category_id = $cat_table.id_gdpr_cookie_category 
+					 WHERE $cookies_table.id_wpl_cookie_scan = %d 
+					 ORDER BY id_wpl_cookie_scan_cookies ASC" . ( $limit > 0 ? " LIMIT %d,%d" : '' ),
+					$latest_scan_id, $offset, $limit
+				);
+		
+				$data_arr = $wpdb->get_results($sql, ARRAY_A);
+				if ( $data_arr ) {
+					$out['data'] = $data_arr;
+				}
+			}
+		
+			return $out;
 		}
-
-		$sql      = "SELECT * FROM $cookies_table INNER JOIN $cat_table ON $cookies_table.category_id = $cat_table.id_gdpr_cookie_category ORDER BY id_wpl_cookie_scan_cookies ASC" . ( $limit > 0 ? " LIMIT $offset,$limit" : '' );
-		$data_arr = $wpdb->get_results( $sql, ARRAY_A );
-		if ( $data_arr ) {
-			$out['data'] = $data_arr;
-		}
-		return $out;
-	}
+		
+		
 
 	/**
 	 * Deletes all previous scan records.

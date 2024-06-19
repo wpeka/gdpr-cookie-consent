@@ -285,6 +285,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	 */
 	public function stop_scan() {
 		check_ajax_referer( 'wpl_cookie_scanner', 'security' );
+		error_log("This is got called form stop_scan()");
 		$scan_id  = (int) isset( $_POST['scan_id'] ) ? sanitize_text_field( wp_unslash( $_POST['scan_id'] ) ) : 0;
 		$data_arr = array( 'status' => 3 ); // updating scan status to stopped.
 		$this->update_scan_entry( $data_arr, $scan_id );
@@ -385,11 +386,11 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		}
 
 		if ( 0 === $total ) {
-				$restrict_posts_in_clause = implode( ',', $restrict_posts );
-				if(empty($restrict_posts_in_clause)){
-					$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' LIMIT $offset, $mxdata) AS T";
-				}else{
-				$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' AND ID NOT IN ($restrict_posts_in_clause) LIMIT $offset, $mxdata) AS T";
+			$restrict_posts_in_clause = implode( ',', $restrict_posts );
+			if(empty($restrict_posts_in_clause)){
+				$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' LIMIT $offset, $mxdata) AS T";
+			}else{
+			$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' AND ID NOT IN ($restrict_posts_in_clause) LIMIT $offset, $mxdata) AS T";
 	
 		}
 			$total_rows   = $wpdb->get_row( $sql1, ARRAY_A );
@@ -429,13 +430,13 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			}
 		}
 		// Saving current action status.
-		$data_arr = array(
-			'current_action' => 'get_pages',
-			'current_offset' => $offset,
-			'status'         => 1,
-			'total_url'      => $out['total'],
-		);
-		$this->update_scan_entry( $data_arr, $scan_id );
+		// $data_arr = array(
+		// 	'current_action' => 'get_pages',
+		// 	'current_offset' => $offset,
+		// 	'status'         => 1,
+		// 	'total_url'      => $out['total'],
+		// );
+		// $this->update_scan_entry( $data_arr, $scan_id );
 		return $out;
 	}
 

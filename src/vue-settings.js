@@ -2066,7 +2066,7 @@ var gen = new Vue({
 			);
 			this.takePages( 0,0,0,0,singlePageScan );
         },
-        animateProgressBar(offset,total,msg) {
+        animateProgressBar(offset,total,msg,hide=false) {
             var prgElm = j( '.gdpr_progress_bar' );
             var w      = prgElm.width();
             var sp     = 100 / total;
@@ -2135,7 +2135,10 @@ var gen = new Vue({
                     var ndata = {
                         action: 'wpl_cookie_scanner_view_capabilities',
                         security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-                        no_of_scan: singlePageScan == true ? 1 : data.log.length
+                        no_of_scan: singlePageScan == true ? 1 : data.log.length,
+                        offset: offset,
+                        scan_id : scan_id ? scan_id : 0,
+                        total_pages : data.total,
                     };
                     console.log(ndata);
                     jQuery.ajax({
@@ -2196,7 +2199,7 @@ var gen = new Vue({
                     window.location.reload();
                 });
             });
-        }   
+        } 
         ,    
         scanPages(scan_id,offset,total) {
             var that = this;
@@ -2807,7 +2810,7 @@ var gen = new Vue({
 				const scanUrlParam = urlParams.get('scan_url');
 				// Check if the 'scan' parameter is present and has the value '1'
                 console.log(scanUrlParam);
-                
+                console.log("This is call from mounted");
 				if ( scanUrlParam ) {
 					// Run the onClickStartScan() method
                     const singlePageScan = true;

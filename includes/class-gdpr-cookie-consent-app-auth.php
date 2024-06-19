@@ -9,7 +9,7 @@
  * Class GDPR_Cookie_Consent_App_Auth.
  */
 class GDPR_Cookie_Consent_App_Auth {
-
+	// extends Gdpr_Cookie_Consent_Cookie_Scanner
 	/**
 	 * Base URL of GDPR Cookie Consent App API
 	 */
@@ -182,8 +182,16 @@ class GDPR_Cookie_Consent_App_Auth {
 		require_once plugin_dir_path( __DIR__ ) . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 		$settings = new GDPR_Cookie_Consent_Settings();
 
+		require_once plugin_dir_path( __DIR__ ) . 'admin/modules/cookie-scanner/classes/class-wpl-cookie-consent-cookie-scanner-ajax.php';
+		$cookies_scan = new Gdpr_Cookie_Consent_Cookie_Scanner_Ajax();
+		error_log( 'Ojas is here-> ' . print_r( $cookies_scan, true ) );
+
 		global $wcam_lib_gdpr;
 		// $wcam_lib_responsive_addons = new WC_AM_Client_2_7_Responsive_Addons( __FILE__, '', '3.0.5', 'plugin', CC_APP_URL, 'Responsive Addons', 'responsive-addons' );
+		$offset  = (int) isset( $_POST['offset'] ) ? sanitize_text_field( wp_unslash( $_POST['offset'] ) ) : 0;
+		$scan_id = (int) isset( $_POST['scan_id'] ) ? sanitize_text_field( wp_unslash( $_POST['scan_id'] ) ) : 0;
+		// total_pages
+		$total_pages = (int) isset( $_POST['total_pages'] ) ? sanitize_text_field( wp_unslash( $_POST['total_pages'] ) ) : 0;
 
 		$api_key    = $settings->get( 'api', 'token' );
 		$product_id = $settings->get( 'account', 'product_id' );
@@ -289,6 +297,15 @@ class GDPR_Cookie_Consent_App_Auth {
 		if ( isset( $response_body->current_instance ) && $response_body->current_instance == 'active' && $response_body->allow_scan ) {
 			$settings->set_plan( $response_body->plan );
 			update_option( 'gdpr_no_of_page_scan', $response_body->no_of_scan );
+			// Saving current action status.
+			$data_arr = array(
+				'current_action' => 'get_pages',
+				'current_offset' => $offset,
+				'status'         => 1,
+				'total_url'      => $total_pages,
+			);
+			error_log("Virat is from -> ".print_r($data_arr,true));
+			$cookies_scan->update_scan_entry( $data_arr, $scan_id );
 			wp_send_json_success(
 				array(
 					'connection_status' => $response_body->current_instance,
@@ -296,6 +313,8 @@ class GDPR_Cookie_Consent_App_Auth {
 				),
 			);
 		} else {
+			$data_arr = array( 'status' => 3 , 'current_action' => 'get_pages'); // updating scan status to stopped.
+			$cookies_scan->update_scan_entry( $data_arr, $scan_id );
 			wp_send_json_error(
 				array(
 					'connection_status' => $response_body->current_instance,
@@ -354,8 +373,8 @@ class GDPR_Cookie_Consent_App_Auth {
 			ob_end_clean();
 			wp_send_json_error();
 		}
-		error_log("Value if number of scans ".print_r($no_of_scans,true));
-		if($no_of_scans != ''){
+		error_log( 'Value if number of scans ' . print_r( $no_of_scans, true ) );
+		if ( $no_of_scans != '' ) {
 			update_option( 'gdpr_no_of_page_scan', $no_of_scans );
 		}
 		// Update option with auth data.
