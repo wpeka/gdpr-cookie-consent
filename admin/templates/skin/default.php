@@ -32,7 +32,7 @@
 									</div>
 																		<div class="gdpr-column gdpr-category-toggle default">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0">Necessary</a>
 									</div>
 								</div>
@@ -58,7 +58,7 @@
 									</div>
 																		<div class="gdpr-column gdpr-category-toggle default">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0">Marketing</a>
 									</div>
 								</div>
@@ -84,7 +84,7 @@
 									</div>
 																		<div class="gdpr-column gdpr-category-toggle default">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0">Analytics</a>
 									</div>
 								</div>
@@ -110,7 +110,7 @@
 									</div>
 																		<div class="gdpr-column gdpr-category-toggle default">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0">Preference</a>
 									</div>
 								</div>
@@ -136,7 +136,7 @@
 									</div>
 																		<div class="gdpr-column gdpr-category-toggle default">
 									<div class="gdpr-columns">
-										<span class="dashicons dashicons-plus"></span>
+										<span class="dashicons dashicons-arrow-down-alt2"></span>
 										<a href="#" class="btn category-header" tabindex="0">Unclassified</a>
 									</div>
 								</div>

@@ -597,7 +597,7 @@ class Gdpr_Cookie_Consent {
 			'gdpr_cookie_bar_logo_url_holder'      => '',
 			'animate_speed_hide'                   => '500',
 			'animate_speed_show'                   => '500',
-
+			'vendors_array'								=> ['First vendor', 'Second Vendor', 'Third Vendor', 'And so on...'],
 			'background'                           => '#ffffff',
 			'opacity'                              => '0.80',
 			'background_border_width'              => '0',
@@ -722,6 +722,7 @@ class Gdpr_Cookie_Consent {
 			'font_family'                          => 'inherit', // Pick the family, not the easy name (see helper function below).
 
 			'is_on'                                => true,
+			'is_iabtcf_on'                                => true,
 			'is_eu_on'                             => false,
 			'is_ccpa_on'                           => false,
 			'is_ccpa_iab_on'                       => false,
@@ -800,6 +801,7 @@ class Gdpr_Cookie_Consent {
 		switch ( $key ) {
 			// Convert all boolean values from text to bool.
 			case 'is_on':
+			case 'is_iabtcf_on':
 			case 'is_eu_on':
 			case 'is_ccpa_on':
 			case 'is_ccpa_iab_on':
@@ -956,6 +958,67 @@ class Gdpr_Cookie_Consent {
 		}
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
 		return $settings;
+	}
+
+	/**
+	 * Save Vendor Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_save_vendors($data) {
+		self::$stored_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
+
+		$iabtcf_consent_data = [];
+		$iabtcf_consent_data["consent"]=["12345"];
+		$iabtcf_consent_data["legint"]=[12345];
+		$iabtcf_consent_data["purpose_consent"]=[12345];
+		$iabtcf_consent_data["purpose_legint"]=[12345];
+		$iabtcf_consent_data["feature_consent"]=[12345];
+		$iabtcf_consent_data["allVendorsSelected"]=false;
+		$iabtcf_consent_data["allVendorsRejected"]=false;
+		$iabtcf_consent_data["tcString"]="none";
+		
+		if($data) {
+			$iabtcf_consent_data["allvendorIds"]= $data->allvendors;
+			$iabtcf_consent_data["allVendorsWithLegint"]= $data->allLegintVendors;
+			$iabtcf_consent_data["allPurposesWithLegint"]= $data->allLegintPurposes;
+			$iabtcf_consent_data["allPurposeIds"]= $data->allPurposes;
+			$iabtcf_consent_data["allSpecialFeatureIds"]= $data->allSpecialFeatures;
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $data );
+			// error_log(print_r($iabtcf_consent_data,true));
+			// error_log("I am adding actual json".print_r($data,true));
+			if(! get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT )) {
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT, $iabtcf_consent_data );
+			}
+		}
+		else{
+			error_log("I am not adding default text");
+		}
+	}
+
+	/**
+	 * Get Vendor Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_get_vendors() {
+		// $settings             = self::gdpr_get_default_settings();
+		$vendors = new stdClass();
+		$vendors = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
+		// error_log("nayan");
+		// error_log(print_r($vendors,true));
+		return $vendors;
+	}
+
+	/**
+	 * Get Vendor Consennt  Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_get_iabtcf_vendor_consent_data() {
+		$iabtcf_consent_data = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT );
+	
+		return $iabtcf_consent_data;
 	}
 
 	/**
