@@ -360,8 +360,8 @@ class Gdpr_Cookie_Consent_Public {
 			wp_enqueue_script( $this->plugin_name. '-tcf' );
 			$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 			$iabtcf_data = Gdpr_Cookie_Consent::gdpr_get_vendors();
-			error_log("Passing data to js using wp_localize_script ");
-			error_log(print_r($iabtcf_consent_data,true));
+			// error_log("Passing data to js using wp_localize_script ");
+			// error_log(print_r($iabtcf_consent_data,true));
 			wp_localize_script(
 				$this->plugin_name.'-tcf',
 				'iabtcf',
@@ -671,7 +671,7 @@ class Gdpr_Cookie_Consent_Public {
     if(isset($_POST['iabtcfConsentData'])) 
     { 
         $iabtcfConsentData = $_POST['iabtcfConsentData']; 
-		error_log("To be saved in db".print_r($iabtcfConsentData,true));
+		// error_log("To be saved in db".print_r($iabtcfConsentData,true));
         update_option( 'iabtcfConsent', $iabtcfConsentData );
     } 
 
@@ -696,6 +696,7 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['cookies_not_found'] = __( 'We do not use cookies of this type.', 'gdpr-cookie-consent' );
 				$cookie_data['consent_notice']    = __( 'I consent to the use of following cookies:', 'gdpr-cookie-consent' );
 				$the_options['cookie_data']       = $cookie_data;
+				// error_log("Nayan the_option ".print_r($the_options['cookie_data'], true));
 
 				// language translation based on the selected language for the public facing.
 				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {

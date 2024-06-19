@@ -984,8 +984,8 @@ class Gdpr_Cookie_Consent {
 			$iabtcf_consent_data["allPurposeIds"]= $data->allPurposes;
 			$iabtcf_consent_data["allSpecialFeatureIds"]= $data->allSpecialFeatures;
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $data );
-			error_log(print_r($iabtcf_consent_data,true));
-			error_log("I am adding actual json".print_r($data,true));
+			// error_log(print_r($iabtcf_consent_data,true));
+			// error_log("I am adding actual json".print_r($data,true));
 			if(! get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT )) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT, $iabtcf_consent_data );
 			}
@@ -1004,8 +1004,8 @@ class Gdpr_Cookie_Consent {
 		// $settings             = self::gdpr_get_default_settings();
 		$vendors = new stdClass();
 		$vendors = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
-		error_log("nayan");
-		error_log(print_r($vendors,true));
+		// error_log("nayan");
+		// error_log(print_r($vendors,true));
 		return $vendors;
 	}
 

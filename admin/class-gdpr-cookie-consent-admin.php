@@ -169,7 +169,6 @@ class Gdpr_Cookie_Consent_Admin {
 		// if ( $the_options['is_iabtcf_on'] ) {error_log("Hello from inside admin");
 			wp_register_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-tcf.js');
 			$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
-			error_log("Hey there");
 			wp_localize_script(
 				$this->plugin_name . '-tcf',
 				'nayan',

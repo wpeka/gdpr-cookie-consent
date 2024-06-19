@@ -16,10 +16,10 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 	$feature_consent_data = isset( $iabtcf_consent_data["feature_consent"] ) ? $iabtcf_consent_data["feature_consent"] : [];
 	$allVendors = isset( $iabtcf_consent_data["allvendorIds"] ) ? $iabtcf_consent_data["allvendorIds"] : [];
 	$allSpecialFeatures = isset( $iabtcf_consent_data["allSpecialFeatureIds"] ) ? $iabtcf_consent_data["allSpecialFeatureIds"] : [];
-	error_log("Classic.php data : ".print_r($data,true));
+	// error_log("Classic.php data : ".print_r($data,true));
 
-	error_log("consent_data data : ".print_r($consent_data,true));
-	error_log("All vendors data : ".print_r($allVendors,true));
+	// error_log("consent_data data : ".print_r($consent_data,true));
+	// error_log("All vendors data : ".print_r($allVendors,true));
 	$allVendorsFlag = false;	//flag for all vendors toggle button
 	foreach ( $data->vendors as $vendor ) {
 		if ( in_array($vendor->id, $consent_data) ) {
@@ -786,7 +786,9 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 					<?php
 				}
 				?>
-				<button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="gdprmodal"><?php echo esc_html( $cookie_data['save_button'] ); ?></button>
+				<button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="gdprmodal"><?php 
+				error_log("Cookie data Nayan:".print_r($cookie_data,true));
+				echo esc_html( $cookie_data['save_button'] ); ?></button>
 			</div>
 		</div>
 	</div>
