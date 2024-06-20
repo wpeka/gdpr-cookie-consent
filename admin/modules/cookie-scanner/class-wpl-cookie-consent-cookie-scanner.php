@@ -655,7 +655,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * @return bool
 	 */
 	public function update_scan_entry( $data_arr, $scan_id ) {
-		error_log("Rohit is calling");
 		global $wpdb;
 		$scan_table = $wpdb->prefix . $this->main_table;
 		if ( $wpdb->update( $scan_table, $data_arr, array( 'id_wpl_cookie_scan' => $scan_id ) ) ) {

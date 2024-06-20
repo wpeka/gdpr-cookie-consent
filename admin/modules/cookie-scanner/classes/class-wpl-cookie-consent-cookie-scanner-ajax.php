@@ -285,7 +285,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	 */
 	public function stop_scan() {
 		check_ajax_referer( 'wpl_cookie_scanner', 'security' );
-		error_log("This is got called form stop_scan()");
 		$scan_id  = (int) isset( $_POST['scan_id'] ) ? sanitize_text_field( wp_unslash( $_POST['scan_id'] ) ) : 0;
 		$data_arr = array( 'status' => 3 ); // updating scan status to stopped.
 		$this->update_scan_entry( $data_arr, $scan_id );

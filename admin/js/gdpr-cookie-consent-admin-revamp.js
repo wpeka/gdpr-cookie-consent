@@ -259,7 +259,6 @@ jQuery(document).ready(function () {
                      popup.fadeIn();
                
                 cancelButton.off('click').on('click', function(e) {
-                        console.log("popup clicked");
                         popup.fadeOut();
                    
                 });

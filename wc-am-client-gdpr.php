@@ -341,13 +341,8 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 			);
 		}
 			$args       = wp_parse_args( $defaults, $args );
-			error_log("deactivate function");
-			error_log("deactivate args".print_r($args,true));
 			$target_url = esc_url_raw( $this->create_software_api_url( $args ) );
-			error_log("deactivate target_url".print_r($target_url,true));
-
 			$request    = wp_safe_remote_post( $target_url, array( 'timeout' => 15 ) );
-			error_log("deactivate request".print_r($request,true));
 
 			if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
 				// Request failed

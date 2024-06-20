@@ -2023,7 +2023,6 @@ var gen = new Vue({
         },
         doScan(singlePageScan = false) {
             var that = this;
-            console.log("first doscan");
             var data    = {
                 action: 'wpl_cookie_scanner',
                 security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
@@ -2125,13 +2124,8 @@ var gen = new Vue({
                 dataType: 'json',
                 type: 'POST',
                 success: function (data) {
-                    console.log("takePages");
-                    console.log(data);
                     const urlParams = new URLSearchParams(window.location.search);
                     const scanUrlParam = urlParams.get('scan_url');
-                    console.log("singlePageScan");
-                    console.log(singlePageScan);
-                    console.log(data.log.length);
                     var ndata = {
                         action: 'wpl_cookie_scanner_view_capabilities',
                         security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
@@ -2140,16 +2134,13 @@ var gen = new Vue({
                         scan_id : scan_id ? scan_id : 0,
                         total_pages : data.total,
                     };
-                    console.log(ndata);
                     jQuery.ajax({
                         url: settings_obj.cookie_scan_settings.ajax_url,
                         data: ndata,
                         dataType: 'json',
                         type: 'POST',
                     }).done(function (response) {
-                        console.log(response);
                         if (response.success && response.data.connection_status === 'active') {
-                            console.log("ndata");
                             that.scan_id = data.scan_id !== undefined ? data.scan_id : 0;
                             if (that.continue_scan == 0) {
                                 return false;
@@ -2167,7 +2158,6 @@ var gen = new Vue({
                                 that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
                             }
                         } else {
-                            console.log("error");
                             that.showScanNowPopup();
                         }
                     }).fail(function () {
@@ -2187,14 +2177,12 @@ var gen = new Vue({
         },
         
         showScanNowPopup() {
-            console.log("showScanNowPopup");
             this.$nextTick(() => {
                 const scanBtn = jQuery('.scan-now-btn');
                 const popup = jQuery('#popup-site-excausted');
                 const cancelButton = jQuery('.popup-image');
                 popup.fadeIn();
                 cancelButton.off('click').on('click', function(e) {
-                    console.log("popup clicked");
                     popup.fadeOut();
                     window.location.reload();
                 });
@@ -2222,8 +2210,6 @@ var gen = new Vue({
                     dataType: 'json',
                     type: 'POST',
                     success:function(data) {
-                        console.log("scan pages");
-                        console.log(data);
                         that.scan_id = typeof data.scan_id != 'undefined' ? data.scan_id : 0;
                         if (that.continue_scan == 0) {
                             return false;
@@ -2272,8 +2258,6 @@ var gen = new Vue({
                     dataType: 'json',
                     type: 'POST',
                     success:function(data) {
-                        console.log("getscancookies");
-                        console.log(data);
                         if (data.response == true) {
                             var prg_offset = parseInt( offset ) + parseInt( data.total_scanned );
                             var prg_msg    = settings_obj.cookie_scan_settings.labels.scanning + ' ';
@@ -2809,8 +2793,6 @@ var gen = new Vue({
 				const urlParams = new URLSearchParams(window.location.search);
 				const scanUrlParam = urlParams.get('scan_url');
 				// Check if the 'scan' parameter is present and has the value '1'
-                console.log(scanUrlParam);
-                console.log("This is call from mounted");
 				if ( scanUrlParam ) {
 					// Run the onClickStartScan() method
                     const singlePageScan = true;
@@ -4872,12 +4854,10 @@ var gen = new Vue({
 		},
         onClickStartScan() {
             this.continue_scan = 1;
-            console.log("second one");
-            // this.doScan();
+            this.doScan();
         },
         doScan() {
             var that = this;
-            console.log("second do dcan");
             var data    = {
                 action: 'wpl_cookie_scanner',
                 security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
@@ -4908,7 +4888,6 @@ var gen = new Vue({
         },
         scanNow() {
             var html    = this.makeHtml();
-            console.log("second scan now");
 			var scanbar = j( '.gdpr_scanbar' );
 			scanbar.html( html );
 			j( '.gdpr_scanbar_staypage' ).show();
@@ -4957,7 +4936,6 @@ var gen = new Vue({
         },
         takePages(offset,limit,total,scan_id) {
             var that = this;
-            console.log("second take pages");
             var data = {
                 action: 'wpl_cookie_scanner',
                 security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
