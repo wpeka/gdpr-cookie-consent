@@ -91,7 +91,7 @@ $remaining_percentage_scan_limit = round((get_option('gdpr_no_of_page_scan') / $
 			?>
 			<div class="gdpr-remaining-scans-content" >
 				<div class="gdpr-remaining-scans-container">
-					<span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan; ?> / <?php echo $total_no_of_free_scans; ?><span><span> (<?php echo $remaining_percentage_scan_limit; ?>%)</span>
+					<span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan; ?> / <?php echo $total_no_of_free_scans; ?><span><span> (<?php echo ceil($remaining_percentage_scan_limit); ?>%)</span>
 				</div>
 				<div class="gdpr-current-plan-container">
 					<p><span>Current Plan: </span><?php echo $api_user_plan; ?></p>
