@@ -428,14 +428,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 				}
 			}
 		}
-		// Saving current action status.
-		// $data_arr = array(
-		// 	'current_action' => 'get_pages',
-		// 	'current_offset' => $offset,
-		// 	'status'         => 1,
-		// 	'total_url'      => $out['total'],
-		// );
-		// $this->update_scan_entry( $data_arr, $scan_id );
 		return $out;
 	}
 

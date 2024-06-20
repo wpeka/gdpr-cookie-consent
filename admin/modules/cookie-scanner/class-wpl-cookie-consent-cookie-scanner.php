@@ -625,12 +625,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 */
 	protected function create_scan_entry( $total_url = 0 ) {
 		global $wpdb;
-
-		// We are not planning to keep records of old scans.
-		// if ( $this->not_keep_records ) {
-		// 	$this->flush_scan_records();
-		// }
-
 		$scan_table = $wpdb->prefix . $this->main_table;
 		$data_arr   = array(
 			'created_at'    => time(),

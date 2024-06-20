@@ -3269,8 +3269,6 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 }
 
 .wpgdpr-api-connection-popup .wpgdpr-paid-api-connect{
-	/* width: 215px; */
-    /* height: 45px; */
     border-radius: 4px;
     padding: 16px 23px 16px 23px;
     margin-bottom: 20px;

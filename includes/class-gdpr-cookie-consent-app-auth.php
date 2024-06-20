@@ -9,7 +9,7 @@
  * Class GDPR_Cookie_Consent_App_Auth.
  */
 class GDPR_Cookie_Consent_App_Auth {
-	// extends Gdpr_Cookie_Consent_Cookie_Scanner
+	
 	/**
 	 * Base URL of GDPR Cookie Consent App API
 	 */
@@ -178,7 +178,6 @@ class GDPR_Cookie_Consent_App_Auth {
 		require_once plugin_dir_path( __DIR__ ) . 'admin/modules/cookie-scanner/classes/class-wpl-cookie-consent-cookie-scanner-ajax.php';
 		$cookies_scan = new Gdpr_Cookie_Consent_Cookie_Scanner_Ajax();
 		global $wcam_lib_gdpr;
-		// $wcam_lib_responsive_addons = new WC_AM_Client_2_7_Responsive_Addons( __FILE__, '', '3.0.5', 'plugin', CC_APP_URL, 'Responsive Addons', 'responsive-addons' );
 		$offset  = (int) isset( $_POST['offset'] ) ? sanitize_text_field( wp_unslash( $_POST['offset'] ) ) : 0;
 		$scan_id = (int) isset( $_POST['scan_id'] ) ? sanitize_text_field( wp_unslash( $_POST['scan_id'] ) ) : 0;
 		// total_pages
@@ -400,9 +399,8 @@ class GDPR_Cookie_Consent_App_Auth {
 		}
 
 		update_option( 'gdpr_no_of_page_scan', 0 );
-		// if ( 'Activated' === $activation_status ) {
-			// deactivates API Key activation.
-			$deactivate_results = json_decode( $wcam_lib_gdpr->deactivate( $args, $product_id ), true );
+		
+		$deactivate_results = json_decode( $wcam_lib_gdpr->deactivate( $args, $product_id ), true );
 
 		if ( true === $deactivate_results['success'] && true === $deactivate_results['deactivated'] ) {
 			if ( ! empty( $wcam_lib_gdpr->wc_am_activated_key ) ) {

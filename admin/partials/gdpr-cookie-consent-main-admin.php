@@ -26,8 +26,6 @@ $this->settings = new GDPR_Cookie_Consent_Settings();
 // Call the is_connected() method from the instantiated object to check if the user is connected.
 $is_user_connected = $this->settings->is_connected();
 $api_user_plan     = $this->settings->get_plan();
-// $api_user_plan = 'pro';
-
 /*
 * Number of scans on the basis of user's plan
 */

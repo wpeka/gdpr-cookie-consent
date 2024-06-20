@@ -2065,7 +2065,7 @@ var gen = new Vue({
 			);
 			this.takePages( 0,0,0,0,singlePageScan );
         },
-        animateProgressBar(offset,total,msg,hide=false) {
+        animateProgressBar(offset,total,msg) {
             var prgElm = j( '.gdpr_progress_bar' );
             var w      = prgElm.width();
             var sp     = 100 / total;
