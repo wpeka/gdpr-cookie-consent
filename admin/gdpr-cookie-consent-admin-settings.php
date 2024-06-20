@@ -26,10 +26,21 @@ require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-coo
 $this->settings = new GDPR_Cookie_Consent_Settings();
 
 // Call the methods from the instantiated object to get user parameters.
-$is_user_connected = $this->settings->is_connected();
-$api_user_email    = $this->settings->get_email();
-$api_user_site_key = $this->settings->get_website_key();
-$api_user_plan     = $this->settings->get_plan();
+$is_user_connected      = $this->settings->is_connected();
+$api_user_email         = $this->settings->get_email();
+$api_user_site_key      = $this->settings->get_website_key();
+$api_user_plan          = $this->settings->get_plan();
+$no_of_pages_scan       = get_option( 'gdpr_no_of_page_scan' );
+$total_pages_scan_limit = 15;
+
+if ( $api_user_plan == 'free' ) {
+	$total_pages_scan_limit = 15;
+} else {
+	$total_pages_scan_limit = 25;
+}
+
+$gdpr_no_of_page_scan_left       = $total_pages_scan_limit - get_option( 'gdpr_no_of_page_scan' );
+$remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $total_pages_scan_limit ) * 100;
 
 ?>
 <div id="gdpr-before-mount" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
@@ -307,7 +318,6 @@ $api_user_plan     = $this->settings->get_plan();
 				</div>
 		</div>
 	</div>
-
 	<c-container class="gdpr-cookie-consent-settings-container">
 
 		<c-form id="gcc-save-settings-form" spellcheck="false" class="gdpr-cookie-consent-settings-form">
@@ -316,6 +326,21 @@ $api_user_plan     = $this->settings->get_plan();
 
 				<div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>
 				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
+				<div id="popup-site-excausted" class="popup-overlay">
+				<div class="popup-content">
+				<div class="popup-header">
+					<div class="popup-title"><span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan_left; ?> / <?php echo $total_pages_scan_limit; ?><span><span> (<?php echo ceil($remaining_percentage_scan_limit); ?>%)</span></div>
+					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Right Corner Image" class="popup-image">
+				</div>
+
+						<div class="popup-body">
+						<h2>Attention! Cookie Scan Limit Exceeded.</h2>
+						<p>You've reached the maximum number of free cookie scans for your account.</p>
+						<p>To scan more, you'll need to upgrade to a premium plan.</p>
+						<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button">Upgrade to PRO</button>
+					</div>
+				</div>
+			</div>
 				<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 
 					<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#compliances">
@@ -342,7 +367,7 @@ $api_user_plan     = $this->settings->get_plan();
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select the Type of Law', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
-										<v-select class="form-group" id="gdpr-cookie-consent-policy-type" :reduce="label => label.code" :options="policy_options" v-model="gdpr_policy" @input="cookiePolicyChange">
+										<v-select class="form-group" id="gdpr-cookie-consent-policy-type" :reduce="label => label.code" :options="policy_options" v-model="gdpr_policy" @input="cookiePolicyChange" :searchable="false">
 										</v-select>
 											<input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
 									</c-col>
@@ -2386,9 +2411,9 @@ $api_user_plan     = $this->settings->get_plan();
 
 										<h3><?php esc_html_e( 'Your website is connected to WP Cookie Consent', 'gdpr-cookie-consent' ); ?></h3>
 
-										<p class="gpdr-email-info"><span class="gdpr-info-title" ><?php esc_html_e( 'Email : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html($api_user_email); ?>  </p>
-										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Site Key : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html($api_user_site_key); ?>  </p>
-										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Plan : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html($api_user_plan); ?>  </p>
+										<p class="gpdr-email-info"><span class="gdpr-info-title" ><?php esc_html_e( 'Email : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_email ); ?>  </p>
+										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Site Key : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_site_key ); ?>  </p>
+										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Plan : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_plan ); ?>  </p>
 										<!-- API Disconnect Button  -->
 										<div class="api-connection-disconnect-btn" ><?php esc_attr_e( 'Disconnect', 'gdpr-cookie-consent' ); ?></div>
 

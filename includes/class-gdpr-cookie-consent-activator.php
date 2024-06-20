@@ -29,7 +29,7 @@ class Gdpr_Cookie_Consent_Activator {
 	 * @since    1.0
 	 */
 	public static function activate() {
-
+		
 		// previous version settings.
 		$gdpr_option = get_option( 'GDPRCookieConsent-1.0' );
 		$wpl_option  = get_option( 'WPLCookieConsent-1.0' );
