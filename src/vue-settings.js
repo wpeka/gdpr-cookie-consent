@@ -64,6 +64,7 @@ var gen = new Vue({
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
             cookie_is_on: settings_obj.the_options.hasOwnProperty('is_on') && (true === settings_obj.the_options['is_on'] || 1 === settings_obj.the_options['is_on'] ) ? true : false,
             iabtcf_is_on: settings_obj.the_options.hasOwnProperty('is_iabtcf_on') && (true === settings_obj.the_options['is_iabtcf_on'] || 1 === settings_obj.the_options['is_iabtcf_on'] ) ? true : false,
+            iabtcf_msg: "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.",
 			banner_preview_is_on: ( 'true' == settings_obj.the_options['banner_preview_enable'] || 1 === settings_obj.the_options['banner_preview_enable'] ) ? true : false,
             policy_options: settings_obj.policies,
             gdpr_policy: settings_obj.the_options.hasOwnProperty('cookie_usage_for') ? settings_obj.the_options['cookie_usage_for'] : 'gdpr',
@@ -74,9 +75,9 @@ var gen = new Vue({
             eprivacy_message: settings_obj.the_options.hasOwnProperty('notify_message_eprivacy') ? this.stripSlashes(settings_obj.the_options['notify_message_eprivacy']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_text']) : "",
             lgpd_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_lgpd_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_lgpd_text']) : "",
-            gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+            gdpr_message: settings_obj.the_options.hasOwnProperty('is_iabtcf_on') && (true === settings_obj.the_options['is_iabtcf_on'] || 1 === settings_obj.the_options['is_iabtcf_on'] ) ? "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience." : settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             lgpd_message: settings_obj.the_options.hasOwnProperty('notify_message_lgpd') ? this.stripSlashes(settings_obj.the_options['notify_message_lgpd']) : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
-            gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
+            gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty('is_iabtcf_on') && (true === settings_obj.the_options['is_iabtcf_on'] || 1 === settings_obj.the_options['is_iabtcf_on'] ) ? "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require explicit consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest." : settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
             lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message_lgpd') ? this.stripSlashes(settings_obj.the_options['about_message_lgpd']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
             ccpa_message: settings_obj.the_options.hasOwnProperty('notify_message_ccpa') ? this.stripSlashes(settings_obj.the_options['notify_message_ccpa']) : "In case of sale of your personal information, you may opt out by using the link",
             ccpa_optout_message: settings_obj.the_options.hasOwnProperty('optout_text') ? this.stripSlashes(settings_obj.the_options['optout_text']) : "Do you really wish to opt-out?",
@@ -554,6 +555,13 @@ var gen = new Vue({
         },
 		onSwitchIabtcfEnable() {
             this.iabtcf_is_on = !this.iabtcf_is_on;
+            if(this.iabtcf_is_on){
+                this.gdpr_message = "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.";;
+                this.gdpr_about_cookie_message = "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require explicit consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest."
+            } else{
+                this.gdpr_message = "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish."
+                this.gdpr_about_cookie_message = "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages."
+            }
         },
 		onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
             this.banner_preview_is_on = !this.banner_preview_is_on;
@@ -776,8 +784,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#323742';
 				} else if ( this.banner_template == 'banner-almond_column' ) {
 					this.cookie_bar_color = '#E8DDBB';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
@@ -787,24 +795,24 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#E8DDBB';
 				} else if ( this.banner_template == 'banner-grey_center' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#DE7834';
+					this.button_readmore_link_color = '#AC4008';
 					this.settings_style = 'none';
 					this.settings_text_color = '#FFFFFF';
                     this.button_revoke_consent_text_color='#000000';
                     this.button_revoke_consent_background_color = '#F4F4F4';
 				} else if ( this.banner_template == 'banner-grey_column' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#E14469';
-					this.accept_all_background_color = '#E14469';
+					this.accept_background_color = '#C1263E';
+					this.accept_all_background_color = '#C1263E';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#E14469';
+					this.button_readmore_link_color = '#C1263E';
 					this.settings_style = 'none';
 					this.settings_text_color = '#FFFFFF';
                     this.button_revoke_consent_text_color='#000000';
@@ -869,8 +877,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#323742';
 				} else if ( this.popup_template == 'popup-almond_column' ) {
 					this.cookie_bar_color = '#E8DDBB';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
@@ -882,12 +890,12 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#E8DDBB';
 				} else if ( this.popup_template == 'popup-grey_center' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#DE7834';
+					this.button_readmore_link_color = '#AC4008';
 					this.settings_style = 'none';
 					this.decline_style = 'none';
 					this.settings_text_color = '#FFFFFF';
@@ -896,12 +904,12 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#F4F4F4';
 				} else if ( this.popup_template == 'popup-grey_column' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#E14469';
-					this.accept_all_background_color = '#E14469';
+					this.accept_background_color = '#C1263E';
+					this.accept_all_background_color = '#C1263E';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#E14469';
+					this.button_readmore_link_color = '#C1263E';
 					this.settings_style = 'none';
 					this.decline_style = 'none';
 					this.settings_text_color = '#FFFFFF';
@@ -1011,8 +1019,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#323742';
 				} else if ( this.widget_template == 'widget-almond_column' ) {
 					this.cookie_bar_color = '#E8DDBB';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
@@ -1024,12 +1032,12 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#E8DDBB';
 				} else if ( this.widget_template == 'widget-grey_center' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#DE7834';
+					this.button_readmore_link_color = '#AC4008';
 					this.settings_style = 'none';
 					this.decline_style = 'none';
 					this.settings_text_color = '#FFFFFF';
@@ -1038,12 +1046,12 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#F4F4F4';
 				} else if ( this.widget_template == 'widget-grey_column' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#E14469';
-					this.accept_all_background_color = '#E14469';
+					this.accept_background_color = '#C1263E';
+					this.accept_all_background_color = '#C1263E';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#E14469';
+					this.button_readmore_link_color = '#C1263E';
 					this.settings_style = 'none';
 					this.decline_style = 'none';
 					this.settings_text_color = '#FFFFFF';
@@ -1651,7 +1659,7 @@ var gen = new Vue({
             this.cancel_border_radius = '0';
             this.cookie_font = 'inherit';
             this.cookie_is_on =  true;
-            this.iabtcf_is_on = true;
+            this.iabtcf_is_on = false;
             this.is_eu_on = false;
             this.is_ccpa_on = false;
             this.is_iab_on = false;
@@ -2928,7 +2936,7 @@ var gen = new Vue({
             category_list_options: settings_obj.script_blocker_settings.hasOwnProperty('category_list') ? settings_obj.script_blocker_settings['category_list'] : [],
             cookie_is_on: settings_obj.the_options.hasOwnProperty('is_on') && (true === settings_obj.the_options['is_on'] || 1 === settings_obj.the_options['is_on'] ) ? true : false,
             iabtcf_is_on: settings_obj.the_options.hasOwnProperty('is_iabtcf_on') && (true === settings_obj.the_options['is_iabtcf_on'] || 1 === settings_obj.the_options['is_iabtcf_on'] ) ? true : false,
-			banner_preview_is_on: ( 'true' == settings_obj.the_options['banner_preview_enable'] || 1 === settings_obj.the_options['banner_preview_enable'] ) ? true : false,
+            banner_preview_is_on: ( 'true' == settings_obj.the_options['banner_preview_enable'] || 1 === settings_obj.the_options['banner_preview_enable'] ) ? true : false,
             policy_options: settings_obj.policies,
             gdpr_policy: settings_obj.the_options.hasOwnProperty('cookie_usage_for') ? settings_obj.the_options['cookie_usage_for'] : 'gdpr',
             is_gdpr: this.gdpr_policy === 'gdpr' || this.gdpr_policy === 'both' ? true : false,
@@ -2938,9 +2946,9 @@ var gen = new Vue({
             eprivacy_message: settings_obj.the_options.hasOwnProperty('notify_message_eprivacy') ? this.stripSlashes(settings_obj.the_options['notify_message_eprivacy']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             gdpr_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_text']) : "",
             lgpd_message_heading: settings_obj.the_options.hasOwnProperty('bar_heading_lgpd_text') ? this.stripSlashes(settings_obj.the_options['bar_heading_lgpd_text']) : "",
-            gdpr_message: settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+            gdpr_message: settings_obj.the_options.hasOwnProperty('is_iabtcf_on') && (true === settings_obj.the_options['is_iabtcf_on'] || 1 === settings_obj.the_options['is_iabtcf_on'] ) ? "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience." : settings_obj.the_options.hasOwnProperty('notify_message') ? this.stripSlashes(settings_obj.the_options['notify_message']) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
             lgpd_message: settings_obj.the_options.hasOwnProperty('notify_message_lgpd') ? this.stripSlashes(settings_obj.the_options['notify_message_lgpd']) : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
-            gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
+            gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty('is_iabtcf_on') && (true === settings_obj.the_options['is_iabtcf_on'] || 1 === settings_obj.the_options['is_iabtcf_on'] ) ? "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require explicit consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest." : settings_obj.the_options.hasOwnProperty('about_message') ? this.stripSlashes(settings_obj.the_options['about_message']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
             lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty('about_message_lgpd') ? this.stripSlashes(settings_obj.the_options['about_message_lgpd']) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
             ccpa_message: settings_obj.the_options.hasOwnProperty('notify_message_ccpa') ? this.stripSlashes(settings_obj.the_options['notify_message_ccpa']) : "In case of sale of your personal information, you may opt out by using the link",
             ccpa_optout_message: settings_obj.the_options.hasOwnProperty('optout_text') ? this.stripSlashes(settings_obj.the_options['optout_text']) : "Do you really wish to opt-out?",
@@ -3382,6 +3390,13 @@ var gen = new Vue({
         },
 		onSwitchIabtcfEnable() {
             this.iabtcf_is_on = !this.iabtcf_is_on;
+            if(this.iabtcf_is_on){
+                this.gdpr_message = "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.";
+                this.gdpr_about_cookie_message = "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require explicit consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest."
+            } else{
+                this.gdpr_message = "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish."
+                this.gdpr_about_cookie_message = "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages."
+            }
         },
         onSwitchBannerPreviewEnable() {//changing the value of banner_preview_swicth_value enable/disable
             this.banner_preview_is_on = !this.banner_preview_is_on;
@@ -3593,8 +3608,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#323742';
 				} else if ( this.banner_template == 'banner-almond_column' ) {
 					this.cookie_bar_color = '#E8DDBB';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
@@ -3604,24 +3619,24 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#E8DDBB';
 				} else if ( this.banner_template == 'banner-grey_center' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#DE7834';
+					this.button_readmore_link_color = '#AC4008';
 					this.settings_style = 'none';
 					this.settings_text_color = '#FFFFFF';
                     this.button_revoke_consent_text_color='#000000';
                     this.button_revoke_consent_background_color = '#F4F4F4';
 				} else if ( this.banner_template == 'banner-grey_column' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#E14469';
-					this.accept_all_background_color = '#E14469';
+					this.accept_background_color = '#C1263E';
+					this.accept_all_background_color = '#C1263E';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#E14469';
+					this.button_readmore_link_color = '#C1263E';
 					this.settings_style = 'none';
 					this.settings_text_color = '#FFFFFF';
                     this.button_revoke_consent_text_color='#000000';
@@ -3686,8 +3701,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#323742';
 				} else if ( this.popup_template == 'popup-almond_column' ) {
 					this.cookie_bar_color = '#E8DDBB';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
@@ -3699,12 +3714,12 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#E8DDBB';
 				} else if ( this.popup_template == 'popup-grey_center' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#DE7834';
+					this.button_readmore_link_color = '#AC4008';
 					this.settings_style = 'none';
 					this.decline_style = 'none';
 					this.settings_text_color = '#FFFFFF';
@@ -3713,12 +3728,12 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#F4F4F4';
 				} else if ( this.popup_template == 'popup-grey_column' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#E14469';
-					this.accept_all_background_color = '#E14469';
+					this.accept_background_color = '#C1263E';
+					this.accept_all_background_color = '#C1263E';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#E14469';
+					this.button_readmore_link_color = '#C1263E';
 					this.settings_style = 'none';
 					this.decline_style = 'none';
 					this.settings_text_color = '#FFFFFF';
@@ -3828,8 +3843,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#323742';
 				} else if ( this.widget_template == 'widget-almond_column' ) {
 					this.cookie_bar_color = '#E8DDBB';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
@@ -3841,12 +3856,12 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#E8DDBB';
 				} else if ( this.widget_template == 'widget-grey_center' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#DE7834';
-					this.accept_all_background_color = '#DE7834';
+					this.accept_background_color = '#AC4008';
+					this.accept_all_background_color = '#AC4008';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#DE7834';
+					this.button_readmore_link_color = '#AC4008';
 					this.settings_style = 'none';
 					this.decline_style = 'none';
 					this.settings_text_color = '#FFFFFF';
@@ -3855,12 +3870,12 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#F4F4F4';
 				} else if ( this.widget_template == 'widget-grey_column' ) {
 					this.cookie_bar_color = '#F4F4F4';
-					this.accept_background_color = '#E14469';
-					this.accept_all_background_color = '#E14469';
+					this.accept_background_color = '#C1263E';
+					this.accept_all_background_color = '#C1263E';
 					this.decline_background_color = '#252525';
 					this.settings_background_color = '#252525';
 					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
-					this.button_readmore_link_color = '#E14469';
+					this.button_readmore_link_color = '#C1263E';
 					this.settings_style = 'none';
 					this.decline_style = 'none';
 					this.settings_text_color = '#FFFFFF';
@@ -4449,7 +4464,7 @@ var gen = new Vue({
             this.cancel_border_radius = '0';
             this.cookie_font = 'inherit';
             this.cookie_is_on =  true;
-            this.iabtcf_is_on = true;
+            this.iabtcf_is_on = false;
             this.is_eu_on = false;
             this.is_ccpa_on = false;
             this.is_iab_on = false;

@@ -1815,14 +1815,14 @@ class Gdpr_Cookie_Consent_Admin {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#e14469;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#C1263E;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
 							'link_color'           => '#ffffff',
-							'button_color'         => '#e14469',
+							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
 							'button_opacity'       => '1',
 							'button_border_style'  => 'none',
 							'button_border_width'  => '0',
-							'button_border_color'  => '#e14469',
+							'button_border_color'  => '#C1263E',
 							'button_border_radius' => '0',
 						),
 						'settings'         => array(
@@ -1841,20 +1841,20 @@ class Gdpr_Cookie_Consent_Admin {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#e14469;',
-							'link_color' => '#e14469',
+							'css'        => 'color:#C1263E;',
+							'link_color' => '#C1263E',
 						),
 						'confirm'          => array(
 							'text'                 => __( 'Confirm', 'gdpr-cookie-consent' ),
 							'as_button'            => true,
-							'css'                  => 'background-color:#e14469;color:#ffffff;margin:0 0.5rem 0 0',
+							'css'                  => 'background-color:#C1263E;color:#ffffff;margin:0 0.5rem 0 0',
 							'link_color'           => '#ffffff',
-							'button_color'         => '#e14469',
+							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
 							'button_opacity'       => '1',
 							'button_border_style'  => 'none',
 							'button_border_width'  => '0',
-							'button_border_color'  => '#e14469',
+							'button_border_color'  => '#C1263E',
 							'button_border_radius' => '0',
 						),
 						'cancel'           => array(
@@ -1873,8 +1873,8 @@ class Gdpr_Cookie_Consent_Admin {
 						'donotsell'        => array(
 							'text'       => __( 'Do Not Sell My Personal Information', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'color:#e14469;',
-							'link_color' => '#e14469',
+							'css'        => 'color:#C1263E;',
+							'link_color' => '#C1263E',
 						),
 					),
 					'dark_row'         => array(
@@ -2692,14 +2692,14 @@ class Gdpr_Cookie_Consent_Admin {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#e14469;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#C1263E;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
 							'link_color'           => '#ffffff',
-							'button_color'         => '#e14469',
+							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
 							'button_opacity'       => '1',
 							'button_border_style'  => 'none',
 							'button_border_width'  => '0',
-							'button_border_color'  => '#e14469',
+							'button_border_color'  => '#C1263E',
 							'button_border_radius' => '0',
 						),
 						'settings'         => array(
@@ -2718,20 +2718,20 @@ class Gdpr_Cookie_Consent_Admin {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#e14469;',
-							'link_color' => '#e14469',
+							'css'        => 'color:#C1263E;',
+							'link_color' => '#C1263E',
 						),
 						'confirm'          => array(
 							'text'                 => __( 'Confirm', 'gdpr-cookie-consent' ),
 							'as_button'            => true,
-							'css'                  => 'background-color:#e14469;color:#ffffff;margin:0 0.5rem 0 0',
+							'css'                  => 'background-color:#C1263E;color:#ffffff;margin:0 0.5rem 0 0',
 							'link_color'           => '#ffffff',
-							'button_color'         => '#e14469',
+							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
 							'button_opacity'       => '1',
 							'button_border_style'  => 'none',
 							'button_border_width'  => '0',
-							'button_border_color'  => '#e14469',
+							'button_border_color'  => '#C1263E',
 							'button_border_radius' => '0',
 						),
 						'cancel'           => array(
@@ -2750,8 +2750,8 @@ class Gdpr_Cookie_Consent_Admin {
 						'donotsell'        => array(
 							'text'       => __( 'Do Not Sell My Personal Information', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'color:#e14469;',
-							'link_color' => '#e14469',
+							'css'        => 'color:#C1263E;',
+							'link_color' => '#C1263E',
 						),
 					),
 					'navy_blue_square' => array(
@@ -3335,14 +3335,14 @@ class Gdpr_Cookie_Consent_Admin {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#e14469;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#C1263E;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
 							'link_color'           => '#ffffff',
-							'button_color'         => '#e14469',
+							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
 							'button_opacity'       => '1',
 							'button_border_style'  => 'none',
 							'button_border_width'  => '0',
-							'button_border_color'  => '#e14469',
+							'button_border_color'  => '#C1263E',
 							'button_border_radius' => '0',
 						),
 						'settings'         => array(
@@ -3361,20 +3361,20 @@ class Gdpr_Cookie_Consent_Admin {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#e14469;',
-							'link_color' => '#e14469',
+							'css'        => 'color:#C1263E;',
+							'link_color' => '#C1263E',
 						),
 						'confirm'          => array(
 							'text'                 => __( 'Confirm', 'gdpr-cookie-consent' ),
 							'as_button'            => true,
-							'css'                  => 'background-color:#e14469;color:#ffffff;margin:0 0.5rem 0 0',
+							'css'                  => 'background-color:#C1263E;color:#ffffff;margin:0 0.5rem 0 0',
 							'link_color'           => '#ffffff',
-							'button_color'         => '#e14469',
+							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
 							'button_opacity'       => '1',
 							'button_border_style'  => 'none',
 							'button_border_width'  => '0',
-							'button_border_color'  => '#e14469',
+							'button_border_color'  => '#C1263E',
 							'button_border_radius' => '0',
 						),
 						'cancel'           => array(
@@ -3393,8 +3393,8 @@ class Gdpr_Cookie_Consent_Admin {
 						'donotsell'        => array(
 							'text'       => __( 'Do Not Sell My Personal Information', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'color:#e14469;',
-							'link_color' => '#e14469',
+							'css'        => 'color:#C1263E;',
+							'link_color' => '#C1263E',
 						),
 					),
 					'grey_center'      => array(
@@ -5111,7 +5111,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$encode_css                   = $this->encode_css( $the_options['gdpr_css_text'] );
 			$the_options['gdpr_css_text'] = $encode_css;
 
-			$the_options['notify_message']      = isset( $_POST['notify_message_field'] ) ? wp_kses(
+			$the_options['notify_message']      = 
+			isset( $_POST['notify_message_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_field'] ),
 				array(
 					'a'      => array(
@@ -5135,6 +5136,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'label'  => array(),
 				)
 			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+			if($the_options['is_iabtcf_on']) 
 			$the_options['notify_message_lgpd'] = isset( $_POST['notify_message_lgpd_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_lgpd_field'] ),
 				array(

@@ -722,7 +722,7 @@ class Gdpr_Cookie_Consent {
 			'font_family'                          => 'inherit', // Pick the family, not the easy name (see helper function below).
 
 			'is_on'                                => true,
-			'is_iabtcf_on'                                => true,
+			'is_iabtcf_on'                                => false,
 			'is_eu_on'                             => false,
 			'is_ccpa_on'                           => false,
 			'is_ccpa_iab_on'                       => false,

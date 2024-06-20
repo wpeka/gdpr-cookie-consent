@@ -29,7 +29,8 @@ $data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 // 		error_log($vendor->name);
 // 	}
 	// error_log(print_r($vendor, true));
-	
+	error_log("Notify me classic.php gdpr_str ".$the_options['gdpr_str'] );
+error_log("Notify me classic.php notify_message ".$the_options['notify_message'] );
 	$data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 	$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 	$consent_data = isset( $iabtcf_consent_data["consent"] ) ? $iabtcf_consent_data["consent"] : [];

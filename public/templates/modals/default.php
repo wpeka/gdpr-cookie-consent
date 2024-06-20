@@ -7,6 +7,8 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/public
  */
+error_log("Notify me default.php gdpr_str ".$the_options['gdpr_str'] );
+error_log("Notify me default.php notify_message ".$the_options['notify_message'] );
 $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 	$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 	$consent_data = isset( $iabtcf_consent_data["consent"] ) ? $iabtcf_consent_data["consent"] : [];
