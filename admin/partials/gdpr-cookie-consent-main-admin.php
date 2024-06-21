@@ -30,13 +30,13 @@ $api_user_plan     = $this->settings->get_plan();
 * Number of scans on the basis of user's plan
 */
 if ( $api_user_plan == 'free' ) {
-	$total_no_of_free_scans = 15;
+	$total_no_of_free_scans = 100;
 } else {
-	$total_no_of_free_scans = 25;
+	$total_no_of_free_scans = 20000; // actual 50000.
 }
 
 $gdpr_no_of_page_scan            = $total_no_of_free_scans - get_option( 'gdpr_no_of_page_scan' );
-$remaining_percentage_scan_limit = round((get_option('gdpr_no_of_page_scan') / $total_no_of_free_scans) * 100);
+$remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' ) / $total_no_of_free_scans ) * 100 );
 
 ?>
 
@@ -89,7 +89,7 @@ $remaining_percentage_scan_limit = round((get_option('gdpr_no_of_page_scan') / $
 			?>
 			<div class="gdpr-remaining-scans-content" >
 				<div class="gdpr-remaining-scans-container">
-					<span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan; ?> / <?php echo $total_no_of_free_scans; ?><span><span> (<?php echo ceil($remaining_percentage_scan_limit); ?>%)</span>
+					<span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan; ?> / <?php echo $total_no_of_free_scans; ?><span><span> (<?php echo ceil( $remaining_percentage_scan_limit ); ?>%)</span>
 				</div>
 				<div class="gdpr-current-plan-container">
 					<p><span>Current Plan: </span><?php echo $api_user_plan; ?></p>
@@ -146,7 +146,7 @@ $remaining_percentage_scan_limit = round((get_option('gdpr_no_of_page_scan') / $
 							<h2>Attention! Usage Limit Reached</h2>
 							<p>You've reached your license limit. Please upgrade to continue using the plugin on this site.</p>
 							<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button">Upgrade Plan</button>
-							<p>Need to activate on a new site? Manage your licenses in <a href="https://d8c7243ac1.nxcli.io/signup/api-keys/" target="_blank">My Account.</a></p>
+							<p>Need to activate on a new site? Manage your licenses in <a href="https://app.wplegalpages.com/signup/api-keys/" target="_blank">My Account.</a></p>
 						</div>
 				</div>
 			</div>
