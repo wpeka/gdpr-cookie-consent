@@ -53,7 +53,7 @@ if ( ! defined( 'FS_CHMOD_FILE' ) ) {
  * Check if the constant GDPR_APP_URL is not already defined.
 */
 if ( ! defined( 'GDPR_APP_URL' ) ) {
-	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com/' );
+	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com' );
 }
 if ( ! defined( 'GDPR_API_URL' ) ) {
 	define( 'GDPR_API_URL', 'https://app.wplegalpages.com/wp-json/gdpr/v2/' );
