@@ -4831,7 +4831,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	min-width: 0;
 	max-width: none;
 	border-radius: 0;
-	border-bottom: 1px solid #F4F4F5;
+	border: none;
 	clear: none;
 	float: none;
 	position: static;

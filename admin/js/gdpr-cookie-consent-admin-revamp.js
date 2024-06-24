@@ -548,9 +548,7 @@ jQuery(document).ready(function () {
 		});
 	});
 
-	jQuery(document).ready(function($) {
-		$( ".gdpr_messagebar_detail .category-group .category-item" ).css( 'border-color', gdpr_localize_data.button_accept_button_color );
-		
+	jQuery(document).ready(function($) {		
 		$( "#cookie_action_settings_preview" ).click(
 			function() {
 				if( "true" === $( "#gdpr-cookie-consent-iabtcf-on" ).attr('value')){
@@ -564,15 +562,17 @@ jQuery(document).ready(function () {
 				}
 			}
 		);
-		// $( ".gdpr_messagebar_detail .category-group .category-item hr" ).css( 'border-top', '1px solid '+gdpr_localize_data.button_accept_button_color );
-		// 	$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('color', gdpr_localize_data.button_accept_button_color);
-		// 	$( ".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border-bottom', '2px solid '+gdpr_localize_data.button_accept_button_color);
-		// 	$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group").css( 'background-color', gdpr_localize_data.background );
-		// 	$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group.outer").css( 'border-left', '1px solid '+gdpr_localize_data.button_accept_button_color );
-		// 	// gdpr_localize_data.button_accept_button_color = "#00f";
+			$( ".gdpr_messagebar_detail .category-group .category-item hr" ).css( 'border-top', '1px solid '+gdpr_localize_data.button_accept_button_color );
+			$( ".gdpr_messagebar_detail.dark_row .category-group .category-item hr" ).css( 'border-top', '1px solid #73DBC0' );
+			$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('color', gdpr_localize_data.button_accept_button_color);
+			$( ".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border-bottom', '2px solid '+gdpr_localize_data.button_accept_button_color);
+			$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group").css( 'background-color', gdpr_localize_data.background );
+			$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group.outer").css( 'border-left', '1px solid '+gdpr_localize_data.button_accept_button_color );
+			$( ".gdpr_messagebar_detail.layout-default.dark_row .iabtcf .category-group.outer").css( 'border-left', '1px solid #73DBC0' );
+			// gdpr_localize_data.button_accept_button_color = "#00f";
 			$( ".gdpr-iab-navbar-item" ).click(
 				function() {
-					// $( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('color', gdpr_localize_data.button_accept_button_color);
+					$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('color', gdpr_localize_data.button_accept_button_color);
 					$( ".gdpr-iab-navbar-item", this );
 					$( ".tabContainer").css( 'display', 'none')
 					alert(this.id)
@@ -586,12 +586,12 @@ jQuery(document).ready(function () {
 					}
 					if ( ! $( this ).children( ".gdpr-iab-navbar-button" ).hasClass( "active" ) ) {
 						$( ".gdpr-iab-navbar-button" ).removeClass( "active" )
-						$( ".gdpr-iab-navbar-button" ).css( 'color', '#000' );
+						$( ".gdpr-iab-navbar-button" ).css( 'color', "inherit" );
 						$( ".gdpr-iab-navbar-button" ).css( 'border-bottom', 'none' );
 						$( this ).children( ".gdpr-iab-navbar-button" ).addClass( "active" )
-						$( this ).children( ".gdpr-iab-navbar-button" ).css( 'color', gdpr_localize_data.button_accept_button_color )
-						$( this ).children( ".gdpr-iab-navbar-button" ).css( 'border-bottom', '2px solid '+gdpr_localize_data.button_accept_button_color )
-						$( this ).siblings( ".gdpr-iab-navbar-button" ).css( 'display', 'none')
+						$( this ).children( ".gdpr-iab-navbar-button.active" ).css( 'color', gdpr_localize_data.button_accept_button_color )
+						$( this ).children( ".gdpr-iab-navbar-button.active" ).css( 'border-bottom', '2px solid '+gdpr_localize_data.button_accept_button_color )
+						$( this ).siblings( ".gdpr-iab-navbar-button.active" ).css( 'display', 'none')
 					}
 					$( ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border', 'none');
 				}

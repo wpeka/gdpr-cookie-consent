@@ -556,7 +556,7 @@ var gen = new Vue({
 		onSwitchIabtcfEnable() {
             this.iabtcf_is_on = !this.iabtcf_is_on;
             if(this.iabtcf_is_on){
-                this.gdpr_message = "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.";;
+                this.gdpr_message = "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.";
                 this.gdpr_about_cookie_message = "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require explicit consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest."
             } else{
                 this.gdpr_message = "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish."
@@ -3656,8 +3656,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#2A3E71';
 				} else if ( this.banner_template == 'banner-default' ) {
 					this.cookie_bar_color = '#FFFFFF';
-					this.accept_background_color = '#66CC66';
-					this.accept_all_background_color = '#66CC66';
+					this.accept_background_color = '#118635';
+					this.accept_all_background_color = '#118635';
 					this.decline_background_color = '#EF5454';
 					this.settings_background_color = '#007CBA';
 					this.settings_style = 'none';
@@ -3758,8 +3758,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#2A3E71';
 				} else if ( this.popup_template == 'popup-default' ) {
 					this.cookie_bar_color = '#FFFFFF';
-					this.accept_background_color = '#66CC66';
-					this.accept_all_background_color = '#66CC66';
+					this.accept_background_color = '#118635';
+					this.accept_all_background_color = '#118635';
 					this.decline_background_color = '#EF5454';
 					this.settings_background_color = '#007CBA';
 					this.settings_style = 'none';
@@ -3900,8 +3900,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#2A3E71';
 				} else if ( this.widget_template == 'widget-default' ) {
 					this.cookie_bar_color = '#FFFFFF';
-					this.accept_background_color = '#66CC66';
-					this.accept_all_background_color = '#66CC66';
+					this.accept_background_color = '#118635';
+					this.accept_all_background_color = '#118635';
 					this.decline_background_color = '#EF5454';
 					this.settings_background_color = '#007CBA';
 					this.settings_style = 'none';
