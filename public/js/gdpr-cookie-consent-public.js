@@ -1829,11 +1829,13 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 	$( document ).ready(
 		function() {
 			
-			$( ".gdpr_messagebar_detail .category-group .category-item hr" ).css( 'border-top', '1px solid '+GDPR.settings.button_accept_button_color );
+			$( ".gdpr_messagebar_detail .category-group .category-item hr" ).css( 'border-top', '1px solid '+ GDPR.settings.button_accept_button_color );
+			$( ".gdpr_messagebar_detail.dark_row .category-group .category-item hr" ).css( 'border-top', '1px solid #73DBC0' );
 			$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('color', GDPR.settings.button_accept_button_color);
 			$( ".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border-bottom', '2px solid '+GDPR.settings.button_accept_button_color);
 			$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group").css( 'background-color', background_obj.background );
 			$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group.outer").css( 'border-left', '1px solid '+GDPR.settings.button_accept_button_color );
+			$( ".gdpr_messagebar_detail.layout-default.dark_row .iabtcf .category-group.outer").css( 'border-left', '1px solid #73DBC0' );
 			// GDPR.settings.button_accept_button_color = "#00f";
 			$( ".gdpr-iab-navbar-item" ).click(
 				function() {
@@ -1850,11 +1852,13 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					}
 					if ( ! $( this ).children( ".gdpr-iab-navbar-button" ).hasClass( "active" ) ) {
 						$( ".gdpr-iab-navbar-button" ).removeClass( "active" )
-						$( ".gdpr-iab-navbar-button" ).css( 'color', '#000' );
+						// $( ".gdpr-iab-navbar-button" ).css( 'color', '#000' );
 						$( ".gdpr-iab-navbar-button" ).css( 'border-bottom', 'none' );
 						$( this ).children( ".gdpr-iab-navbar-button" ).addClass( "active" )
-						$( this ).children( ".gdpr-iab-navbar-button" ).css( 'color', GDPR.settings.button_accept_button_color )
-						$( this ).children( ".gdpr-iab-navbar-button" ).css( 'border-bottom', '2px solid '+GDPR.settings.button_accept_button_color )
+						$( ".gdpr-iab-navbar-button" ).css( 'color', "inherit" )
+						$( this ).children( ".gdpr-iab-navbar-button.active" ).css( 'color', GDPR.settings.button_accept_button_color )
+						$( this ).children( ".gdpr-iab-navbar-button.active" ).css( 'color', GDPR.settings.button_accept_button_color )
+						$( this ).children( ".gdpr-iab-navbar-button.active" ).css( 'border-bottom', '2px solid '+GDPR.settings.button_accept_button_color )
 						$( this ).siblings( ".gdpr-iab-navbar-button" ).css( 'display', 'none')
 					}
 					$( ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border', 'none');
@@ -1881,7 +1885,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 					if ( ! $( this ).children( ".gdpr-columns" ).hasClass( "active-group" ) ) {
 						$( ".gdpr-columns" ).removeClass( "active-group" );
 						$( ".gdpr-columns" ).css( 'background-color', background_obj.background );
-						alert(background_obj.background)						
+						// alert(background_obj.background)						
 						$( ".gdpr-columns .dashicons" ).removeClass( "dashicons-arrow-up-alt2" );
 						$( ".gdpr-columns .dashicons" ).addClass( "dashicons-arrow-down-alt2" );
 						$( this ).children( ".gdpr-columns" ).addClass( "active-group" );
@@ -1890,6 +1894,7 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 						$( this ).children( ".gdpr-columns" ).css( 'background-color', background_obj.background );
 						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-arrow-down-alt2" );
 						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-arrow-up-alt2" );
+						// $( this ).children( ".gdpr-columns" ).find( ".btn.category-header" ).css( "color", button_revoke_consent_text_color );
 					} else {
 						$( ".gdpr-columns" ).removeClass( "active-group" );
 						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color',GDPR.settings.button_accept_button_color );

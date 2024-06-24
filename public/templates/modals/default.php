@@ -47,7 +47,7 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 		<div class="gdprmodal-content <?php if( $the_options['is_iabtcf_on']) echo "iabtcf";?>">
 			<div class="gdprmodal-header">
 				<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close">
-					<span class="dashicons dashicons-dismiss">Close</span>
+					<span class="dashicons dashicons-no">Close</span>
 				</button>
 			</div>
 			<div class="gdprmodal-body nvg">
@@ -583,15 +583,6 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 																					<ul class="gdpr-vendor-features-list">
 																						<?php foreach ( $vendor->features as $key => $value ) {?>
 																						<li><?php echo esc_html__( $data->features[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
-																						<?php } ?>
-																					</ul>
-																				</div>
-																				<div class="gdpr-vendor-data-categories-section">
-																				<p class="gdpr-vendor-data-categories-title"><?php echo esc_html("Data Categories ", "gdpr-cookie-consent");?></p>
-																					<ul class="gdpr-vendor-data-categories-list">
-																						<?php foreach ( $vendor->dataDeclaration as $key => $value ) {?>
-																						<!-- <li><?php echo esc_html__( $data->features[$value-1]->name, 'gdpr-cookie-consent' );  ?></li> -->
-																						<li><?php echo esc_html__( $value, 'gdpr-cookie-consent' );  error_log("Data Cat:".print_r($data->dataCategories, true))?></li>
 																						<?php } ?>
 																					</ul>
 																				</div>

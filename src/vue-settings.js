@@ -770,16 +770,16 @@ var gen = new Vue({
                 this.template = value;
 				if ( this.banner_template == 'banner-dark_row' ) {
 					this.cookie_bar_color = '#323742';
-					this.accept_background_color = '#3EAF9A';
-					this.accept_all_background_color = '#3EAF9A';
+					this.accept_background_color = '#2b806a';
+					this.accept_all_background_color = '#2b806a';
 					jQuery('.gdpr_preview').css('color', 'white');
 					this.decline_background_color = '#333333';
 					this.settings_background_color = '#323742';
 					this.settings_border_width = '1';
-					this.settings_border_color = '#3EAF9A';
+					this.settings_border_color = '#2b806a';
 					this.settings_style = 'solid';
-					this.button_readmore_link_color = '#3EAF9A';
-					this.settings_text_color = '#3EAF9A';
+					this.button_readmore_link_color = '#2b806a';
+					this.settings_text_color = '#2b806a';
                     this.button_revoke_consent_text_color='#FFFFFF';
                     this.button_revoke_consent_background_color = '#323742';
 				} else if ( this.banner_template == 'banner-almond_column' ) {
@@ -843,15 +843,15 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#FFFFFF';
 				} else if ( this.banner_template == 'banner-dark' ) {
 					this.cookie_bar_color = '#262626';
-					this.accept_background_color = '#6A8EE7';
-					this.accept_all_background_color = '#6A8EE7';
+					this.accept_background_color = '#4570dc';
+					this.accept_all_background_color = '#4570dc';
 					this.decline_background_color = '#808080';
 					this.settings_background_color = '#262626';
 					this.settings_border_width = '1';
 					this.settings_border_color = '#808080';
 					this.settings_style = 'solid';
 					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
-					this.button_readmore_link_color = '#6A8EE7';
+					this.button_readmore_link_color = '#4570dc';
 					this.settings_text_color = '#808080';
                     this.button_revoke_consent_text_color='#FFFFFF';
                     this.button_revoke_consent_background_color = '#262626';
@@ -861,17 +861,17 @@ var gen = new Vue({
                 this.template = value;
 				if ( this.popup_template == 'popup-dark_row' ) {
 					this.cookie_bar_color = '#323742';
-					this.accept_background_color = '#3EAF9A';
-					this.accept_all_background_color = '#3EAF9A';
+					this.accept_background_color = '#2b806a';
+					this.accept_all_background_color = '#2b806a';
 					jQuery('.gdpr_preview').css('color', 'white');
 					this.decline_background_color = '#333333';
 					this.settings_background_color = '#323742';
 					this.settings_border_width = '1';
-					this.settings_border_color = '#3EAF9A';
+					this.settings_border_color = '#2b806a';
 					this.settings_style = 'solid';
 					this.decline_style = 'none';
-					this.button_readmore_link_color = '#3EAF9A';
-					this.settings_text_color = '#3EAF9A';
+					this.button_readmore_link_color = '#2b806a';
+					this.settings_text_color = '#2b806a';
 					this.cookie_bar_border_radius = '0';
                     this.button_revoke_consent_text_color='#FFFFFF';
                     this.button_revoke_consent_background_color = '#323742';
@@ -948,8 +948,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#FFFFFF';
 				} else if ( this.popup_template == 'popup-dark' ) {
 					this.cookie_bar_color = '#262626';
-					this.accept_background_color = '#6A8EE7';
-					this.accept_all_background_color = '#6A8EE7';
+					this.accept_background_color = '#4570dc';
+					this.accept_all_background_color = '#4570dc';
 					this.decline_background_color = '#808080';
 					this.settings_background_color = '#262626';
 					this.settings_border_width = '1';
@@ -957,7 +957,7 @@ var gen = new Vue({
 					this.settings_style = 'solid';
 					this.decline_style = 'none';
 					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
-					this.button_readmore_link_color = '#6A8EE7';
+					this.button_readmore_link_color = '#4570dc';
 					this.settings_text_color = '#808080';
 					this.cookie_bar_border_radius = '0';
                     this.button_revoke_consent_text_color='#FFFFFF';
@@ -1003,17 +1003,17 @@ var gen = new Vue({
                 this.template = value;
 				if ( this.widget_template == 'widget-dark_row' ) {
 					this.cookie_bar_color = '#323742';
-					this.accept_background_color = '#3EAF9A';
-					this.accept_all_background_color = '#3EAF9A';
+					this.accept_background_color = '#2b806a';
+					this.accept_all_background_color = '#2b806a';
 					jQuery('.gdpr_preview').css('color', 'white');
 					this.decline_background_color = '#333333';
 					this.settings_background_color = '#323742';
 					this.settings_border_width = '1';
-					this.settings_border_color = '#3EAF9A';
+					this.settings_border_color = '#2b806a';
 					this.settings_style = 'solid';
 					this.decline_style = 'none';
-					this.button_readmore_link_color = '#3EAF9A';
-					this.settings_text_color = '#3EAF9A';
+					this.button_readmore_link_color = '#2b806a';
+					this.settings_text_color = '#2b806a';
 					this.cookie_bar_border_radius = '0';
                     this.button_revoke_consent_text_color='#FFFFFF';
                     this.button_revoke_consent_background_color = '#323742';
@@ -1090,8 +1090,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#FFFFFF';
 				} else if ( this.widget_template == 'widget-dark' ) {
 					this.cookie_bar_color = '#262626';
-					this.accept_background_color = '#6A8EE7';
-					this.accept_all_background_color = '#6A8EE7';
+					this.accept_background_color = '#4570dc';
+					this.accept_all_background_color = '#4570dc';
 					this.decline_background_color = '#808080';
 					this.settings_background_color = '#262626';
 					this.settings_border_width = '1';
@@ -1099,7 +1099,7 @@ var gen = new Vue({
 					this.settings_style = 'solid';
 					this.decline_style = 'none';
 					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
-					this.button_readmore_link_color = '#6A8EE7';
+					this.button_readmore_link_color = '#4570dc';
 					this.settings_text_color = '#808080';
 					this.cookie_bar_border_radius = '0';
                     this.button_revoke_consent_text_color='#FFFFFF';
@@ -3594,16 +3594,16 @@ var gen = new Vue({
                 this.template = value;
                 if ( this.banner_template == 'banner-dark_row' ) {
 					this.cookie_bar_color = '#323742';
-					this.accept_background_color = '#3EAF9A';
-					this.accept_all_background_color = '#3EAF9A';
+					this.accept_background_color = '#2b806a';
+					this.accept_all_background_color = '#2b806a';
 					jQuery('.gdpr_preview').css('color', 'white');
 					this.decline_background_color = '#333333';
 					this.settings_background_color = '#323742';
 					this.settings_border_width = '1';
-					this.settings_border_color = '#3EAF9A';
+					this.settings_border_color = '#2b806a';
 					this.settings_style = 'solid';
-					this.button_readmore_link_color = '#3EAF9A';
-					this.settings_text_color = '#3EAF9A';
+					this.button_readmore_link_color = '#2b806a';
+					this.settings_text_color = '#2b806a';
                     this.button_revoke_consent_text_color='#FFFFFF';
                     this.button_revoke_consent_background_color = '#323742';
 				} else if ( this.banner_template == 'banner-almond_column' ) {
@@ -3667,15 +3667,15 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#FFFFFF';
 				} else if ( this.banner_template == 'banner-dark' ) {
 					this.cookie_bar_color = '#262626';
-					this.accept_background_color = '#6A8EE7';
-					this.accept_all_background_color = '#6A8EE7';
+					this.accept_background_color = '#4570dc';
+					this.accept_all_background_color = '#4570dc';
 					this.decline_background_color = '#808080';
 					this.settings_background_color = '#262626';
 					this.settings_border_width = '1';
 					this.settings_border_color = '#808080';
 					this.settings_style = 'solid';
 					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
-					this.button_readmore_link_color = '#6A8EE7';
+					this.button_readmore_link_color = '#4570dc';
 					this.settings_text_color = '#808080';
                     this.button_revoke_consent_text_color='#FFFFFF';
                     this.button_revoke_consent_background_color = '#262626';
@@ -3685,17 +3685,17 @@ var gen = new Vue({
                 this.template = value;
                 if ( this.popup_template == 'popup-dark_row' ) {
 					this.cookie_bar_color = '#323742';
-					this.accept_background_color = '#3EAF9A';
-					this.accept_all_background_color = '#3EAF9A';
+					this.accept_background_color = '#2b806a';
+					this.accept_all_background_color = '#2b806a';
 					jQuery('.gdpr_preview').css('color', 'white');
 					this.decline_background_color = '#333333';
 					this.settings_background_color = '#323742';
 					this.settings_border_width = '1';
-					this.settings_border_color = '#3EAF9A';
+					this.settings_border_color = '#2b806a';
 					this.settings_style = 'solid';
 					this.decline_style = 'none';
-					this.button_readmore_link_color = '#3EAF9A';
-					this.settings_text_color = '#3EAF9A';
+					this.button_readmore_link_color = '#2b806a';
+					this.settings_text_color = '#2b806a';
 					this.cookie_bar_border_radius = '0';
                     this.button_revoke_consent_text_color='#FFFFFF';
                     this.button_revoke_consent_background_color = '#323742';
@@ -3772,8 +3772,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#FFFFFF';
 				} else if ( this.popup_template == 'popup-dark' ) {
 					this.cookie_bar_color = '#262626';
-					this.accept_background_color = '#6A8EE7';
-					this.accept_all_background_color = '#6A8EE7';
+					this.accept_background_color = '#4570dc';
+					this.accept_all_background_color = '#4570dc';
 					this.decline_background_color = '#808080';
 					this.settings_background_color = '#262626';
 					this.settings_border_width = '1';
@@ -3781,7 +3781,7 @@ var gen = new Vue({
 					this.settings_style = 'solid';
 					this.decline_style = 'none';
 					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
-					this.button_readmore_link_color = '#6A8EE7';
+					this.button_readmore_link_color = '#4570dc';
 					this.settings_text_color = '#808080';
 					this.cookie_bar_border_radius = '0';
                     this.button_revoke_consent_text_color='#FFFFFF';
@@ -3827,17 +3827,17 @@ var gen = new Vue({
                 this.template = value;
                 if ( this.widget_template == 'widget-dark_row' ) {
 					this.cookie_bar_color = '#323742';
-					this.accept_background_color = '#3EAF9A';
-					this.accept_all_background_color = '#3EAF9A';
+					this.accept_background_color = '#2b806a';
+					this.accept_all_background_color = '#2b806a';
 					jQuery('.gdpr_preview').css('color', 'white');
 					this.decline_background_color = '#333333';
 					this.settings_background_color = '#323742';
 					this.settings_border_width = '1';
-					this.settings_border_color = '#3EAF9A';
+					this.settings_border_color = '#2b806a';
 					this.settings_style = 'solid';
 					this.decline_style = 'none';
-					this.button_readmore_link_color = '#3EAF9A';
-					this.settings_text_color = '#3EAF9A';
+					this.button_readmore_link_color = '#2b806a';
+					this.settings_text_color = '#2b806a';
 					this.cookie_bar_border_radius = '0';
                     this.button_revoke_consent_text_color='#FFFFFF';
                     this.button_revoke_consent_background_color = '#323742';
@@ -3914,8 +3914,8 @@ var gen = new Vue({
                     this.button_revoke_consent_background_color = '#FFFFFF';
 				} else if ( this.widget_template == 'widget-dark' ) {
 					this.cookie_bar_color = '#262626';
-					this.accept_background_color = '#6A8EE7';
-					this.accept_all_background_color = '#6A8EE7';
+					this.accept_background_color = '#4570dc';
+					this.accept_all_background_color = '#4570dc';
 					this.decline_background_color = '#808080';
 					this.settings_background_color = '#262626';
 					this.settings_border_width = '1';
@@ -3923,7 +3923,7 @@ var gen = new Vue({
 					this.settings_style = 'solid';
 					this.decline_style = 'none';
 					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
-					this.button_readmore_link_color = '#6A8EE7';
+					this.button_readmore_link_color = '#4570dc';
 					this.settings_text_color = '#808080';
 					this.cookie_bar_border_radius = '0';
                     this.button_revoke_consent_text_color='#FFFFFF';

@@ -361,12 +361,15 @@ class Gdpr_Cookie_Consent_Public {
 			$iabtcf_data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 			// error_log("Passing data to js using wp_localize_script ");
 			// error_log(print_r($iabtcf_consent_data,true));
+			error_log("Ojas");
+			error_log(WP_PLUGIN_URL);
 			wp_localize_script(
 				$this->plugin_name.'-tcf',
 				'iabtcf',
 				array(
 					'consentdata'              => $iabtcf_consent_data,
 					'data'					=> $iabtcf_data,
+					'ajax_url'				=> WP_PLUGIN_URL.'/gdpr-cookie-consent/admin',
 					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
 					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
 				)
@@ -442,15 +445,15 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			$the_options['template_parts'] = $template;
 			if ( in_array( $template, array( 'navy_blue_center', 'navy_blue_box', 'navy_blue_square' ), true ) ) {
-				$template_parts_background = '#354e8e';
+				$template_parts_background = '#1c2e5a';
 			} elseif ( in_array( $template, array( 'almond_column' ), true ) ) {
 				$template_parts_background = '#FCF5DF';
 			} elseif ( in_array( $template, array( 'grey_column', 'grey_center' ), true ) ) {
 				$template_parts_background = '#F4F4F4';
 			} elseif ( in_array( $template, array( 'dark' ), true ) ) {
-				$template_parts_background = '#3a3a3a';
+				$template_parts_background = '#000000';
 			} elseif ( in_array( $template, array( 'dark_row' ), true ) ) {
-				$template_parts_background = '#434a58';
+				$template_parts_background = '#36423f';
 			} else {
 				$template_parts_background = '#ffffff';
 			}
@@ -742,8 +745,18 @@ class Gdpr_Cookie_Consent_Public {
 
 				.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
 				#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
-					color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+					background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
 				}
+				/* .gdpr_messagebar_detail.dark_row .gdprmodal-dialog .gdprmodal-header .close,
+				#gdpr-ccpa-gdprmodal.dark_row .gdprmodal-dialog .gdprmodal-body .close,
+				.gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-header .close,
+				#gdpr-ccpa-gdprmodal.navy_blue_center .gdprmodal-dialog .gdprmodal-body .close,
+				.gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-header .close,
+				#gdpr-ccpa-gdprmodal.navy_blue_square .gdprmodal-dialog .gdprmodal-body .close,
+				.gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-header .close,
+				#gdpr-ccpa-gdprmodal.navy_blue_box .gdprmodal-dialog .gdprmodal-body .close{
+					background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+				} */
 			</style>
 			<?php
 

@@ -4269,7 +4269,7 @@ Bootstrap CSS for frontend UI
 .gdpr_messagebar_detail.navy_blue_center .table .thead-dark th,
 .gdpr_messagebar_detail.navy_blue_box .table .thead-dark th,
 .gdpr_messagebar_detail.navy_blue_square .table .thead-dark th {
-	color: #e5e5e5;
+	color: #ffffff;
 	background-color: #354e8e;
 	border-color: rgba(58,86,156,0.5);
 }
@@ -4304,7 +4304,7 @@ Bootstrap CSS for frontend UI
 .gdpr_messagebar_detail.navy_blue_center .table tbody tr td,
 .gdpr_messagebar_detail.navy_blue_box .table tbody tr td,
 .gdpr_messagebar_detail.navy_blue_square .table tbody tr td {
-	color: #e5e5e5;
+	color: #ffffff;
 	border-color: rgba(58,86,156,0.5);
 }
 .gdpr_messagebar_detail.almond_column .table tbody tr td {
@@ -4479,7 +4479,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-content .gdprmodal-body,
 .gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-content .gdprmodal-body,
 .gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-content .gdprmodal-body {
-	color: #e5e5e5;
+	color: #ffffff;
 }
 .gdpr_messagebar_detail.almond_column .gdprmodal-dialog .gdprmodal-content .gdprmodal-body {
 	color: #1e3d59;
@@ -4521,15 +4521,26 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
 #gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
-	color: rgb(102 204 102);
-	background-color: transparent;
-	opacity:0.5;
+	color: #fff;
+	/* opacity:0.5; */
 	text-shadow: unset;
+	border: none;
+	border-radius: 50%;
 }
-#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close .dashicons.dashicons-dismiss {
+/* .gdpr_messagebar_detail.dark_row .gdprmodal-dialog .gdprmodal-header .close,
+#gdpr-ccpa-gdprmodal.dark_row .gdprmodal-dialog .gdprmodal-body .close,
+.gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-header .close,
+#gdpr-ccpa-gdprmodal.navy_blue_center .gdprmodal-dialog .gdprmodal-body .close,
+.gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-header .close,
+#gdpr-ccpa-gdprmodal.navy_blue_square .gdprmodal-dialog .gdprmodal-body .close,
+.gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-header .close,
+#gdpr-ccpa-gdprmodal.navy_blue_box .gdprmodal-dialog .gdprmodal-body .close{
+	color: #fff;
+} */
+#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close .dashicons.dashicons-no {
 	display: none;
 }
-.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close .dashicons.dashicons-dismiss {
+.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close .dashicons.dashicons-no {
 	overflow: hidden;
 }
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close:hover,
@@ -4596,7 +4607,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .navy_blue_center #gdpr-ccpa-gdprmodal .gdprmodal-content,
 .navy_blue_box #gdpr-ccpa-gdprmodal .gdprmodal-content,
 .navy_blue_square #gdpr-ccpa-gdprmodal .gdprmodal-content {
-	color: #e5e5e5;
+	color: #ffffff;
 	background-color: #2a3e71;
 }
 .almond_column #gdpr-ccpa-gdprmodal .gdprmodal-content {
@@ -4683,7 +4694,10 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 .gdpr_messagebar_detail.layout-default .gdpr-iab-navbar .gdpr-iab-navbar-button{
 	padding: 10px ;
-
+	color:#fff;
+}
+.gdpr_messagebar_detail.almond_column .gdpr-iab-navbar .gdpr-iab-navbar-button{
+	color: #000;
 }
 .gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button{
 	padding: 14px 0;
@@ -4850,7 +4864,11 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	line-height: 1.5;
 	color: inherit;
 }
-
+#gdpr-cookie-consent-settings-app textarea.form-control[readonly] {
+	padding: .375rem .75rem;
+    background: #fff;
+    opacity: 0.5;
+}
 .gdpr_messagebar_detail .category-group .category-item .gdpr-column {
 	width: 100%;
 }

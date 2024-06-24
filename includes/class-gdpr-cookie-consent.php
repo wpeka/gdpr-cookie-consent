@@ -970,10 +970,10 @@ class Gdpr_Cookie_Consent {
 
 		$iabtcf_consent_data = [];
 		$iabtcf_consent_data["consent"]=["12345"];
-		$iabtcf_consent_data["legint"]=[12345];
-		$iabtcf_consent_data["purpose_consent"]=[12345];
-		$iabtcf_consent_data["purpose_legint"]=[12345];
-		$iabtcf_consent_data["feature_consent"]=[12345];
+		$iabtcf_consent_data["legint"]=["12345"];
+		$iabtcf_consent_data["purpose_consent"]=["12345"];
+		$iabtcf_consent_data["purpose_legint"]=["12345"];
+		$iabtcf_consent_data["feature_consent"]=["12345"];
 		$iabtcf_consent_data["allVendorsSelected"]=false;
 		$iabtcf_consent_data["allVendorsRejected"]=false;
 		$iabtcf_consent_data["tcString"]="none";

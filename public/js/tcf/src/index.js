@@ -12,15 +12,29 @@ import { TCModel, TCString, GVL } from '@iabtechlabtcf/core';
 *  the IAB requires CMPs to host their own vendor-list.json files.  This must
 *  be set before creating any instance of the GVL class.
 */
-GVL.baseUrl = "http://localhost:8888/wordpress/";
-// GVL.baseUrl = "https://923b74fe37.nxcli.io/rgh/";
+// GVL.baseUrl = "http://localhost:8888/wordpress/";
+// GVL.baseUrl = "https://wplegalpages.com/vendor-list.json";
+// GVL.baseUrl = "http://localhost:10003"; //divyajeet
+GVL.baseUrl = "https://923b74fe37.nxcli.io/rgh/";
+// GVL.baseUrl = "https://app.wplegalpages.com/";
+// GVL.baseUrl = 'http://test.local/' //Rohan
+// GVL.baseUrl = ''
 
+// 
+// var request = new XMLHttpRequest();
+// request.open('GET', 'https://923b74fe37.nxcli.io/rgh/vendor-list.json', false); 
+// request.send(null);
+
+// if (request.status == 0)
+//     console.log(request.responseText);
+// 
+GVL.baseUrl = iabtcf.ajax_url
 const gvl = new GVL();
 console.log("Here is the GVL object");
 // console.log(gvl);
 
 gvl.readyPromise.then(() => {
-  gvl.narrowVendorsTo([1,2,4,6,8,10,11,12,14]);
+  // gvl.narrowVendorsTo([1,2,4,6,8,10,11,12,14]);
   console.log(gvl);
 
   const data = {};

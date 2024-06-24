@@ -9,12 +9,17 @@
 import { TCModel, TCString, GVL } from '@iabtechlabtcf/core';
 // const { TCModel, TCString, GVL } = require('@iabtechlabtcf/core');
 
-GVL.baseUrl = "http://localhost:8888/wordpress/";
+// GVL.baseUrl = "http://localhost:8888/wordpress/";
+// GVL.baseUrl = "https://app.wplegalpages.com/";
+// GVL.baseUrl = "https://wplegalpages.com/vendor-list.json";
+GVL.baseUrl = "https://923b74fe37.nxcli.io/rgh/";
+
+GVL.baseUrl = iabtcf.ajax_url
 const gvl = new GVL();
 console.log(gvl);
 
 gvl.readyPromise.then(() => {
-  gvl.narrowVendorsTo([1,2,4,6,8,10,11,12,14]);
+//   gvl.narrowVendorsTo([1,2,4,6,8,10,11,12,14]);
   console.log(gvl);
   if(iabtcf.consentdata.consent === "undefined")
   iabtcf.consentdata.consent=[];

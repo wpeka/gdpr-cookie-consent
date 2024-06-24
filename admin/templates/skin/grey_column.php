@@ -48,7 +48,7 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 		<div class="gdprmodal-content">
 			<div class="gdprmodal-header">
 				<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close">
-					<span class="dashicons dashicons-dismiss">Close</span>
+					<span class="dashicons dashicons-no">Close</span>
 				</button>
 			</div>
 			<div class="gdprmodal-body">
