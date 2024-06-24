@@ -10,7 +10,7 @@
  * Plugin Name:       Cookie Consent for WP - Cookie Consent, Consent Log, Cookie Scanner, Script Blocker (for GDPR, CCPA & ePrivacy)
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
- * Version:           3.2.0
+ * Version:           3.3.1
  * Author:            WPEkaClub
  * Author URI:        https://club.wpeka.com
  * License:           GPL-2.0+
@@ -31,7 +31,7 @@ define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Currently plugin version.
  */
-define( 'GDPR_COOKIE_CONSENT_VERSION', '3.2.0' );
+define( 'GDPR_COOKIE_CONSENT_VERSION', '3.3.1' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_DEVELOPMENT_MODE', false );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
@@ -75,6 +75,21 @@ function gdprcc_clean( $var ) {
 	} else {
 		return is_scalar( $var ) ? sanitize_text_field( $var ) : $var;
 	}
+}
+
+/**
+ * Load WC_AM_Client class if it exists.
+ */
+if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
+	require_once plugin_dir_path( __FILE__ ) . 'wc-am-client-gdpr.php';
+}
+
+/*
+ * Instantiate WC_AM_Client class object if the WC_AM_Client class is loaded.
+ */
+if ( class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
+
+	$wcam_lib_gdpr = new WC_AM_Client_2_7_WPGDPR( __FILE__, '', '3.2.0', 'plugin', GDPR_APP_URL, 'WP Cookie Consent', 'gdpr-cookie-consent' );
 }
 
 /**

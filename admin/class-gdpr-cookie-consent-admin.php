@@ -297,18 +297,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$is_user_connected = $this->settings->is_connected();
-
-		if ( ! $pro_installed ) {
-			if ( isset( $_GET['page'] ) && $_GET['page'] === 'gdpr-cookie-consent' && $is_user_connected ) {
-				// Display successfull connection notice.
-				echo '<div id="gdpr-wpcc-notice" class="notice notice-success is-dismissible wpcc-notice gdpr-hidden"><p>Successful Connection - You get full control of your website\'s cookie compliance with comprehensive settings and features, including a built-in Cookie scanner, advanced dashboard, and Geo-targeting capabilities.
-				</p></div>';
-			} elseif ( isset( $_GET['page'] ) && $_GET['page'] === 'gdpr-cookie-consent' && ! $is_user_connected ) {
-				// Display  disconnection notice.
-				echo '<div id="gdpr-disconnect-wpcc-notice" class="notice notice-warning is-dismissible wpcc-notice gdpr-hidden"><p>Your website has been disconnected from WP Cookie Consent. Please <span class="api-connect-to-account-btn">click here</span> to connect again and unlock advanced features.
-				</p></div>';
-			}
-		}
 	}
 
 
@@ -1345,6 +1333,10 @@ class Gdpr_Cookie_Consent_Admin {
 			update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
 		} elseif ( get_option( 'gdpr_version_number' ) !== GDPR_COOKIE_CONSENT_VERSION ) {
 				update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
+		}
+		// Check if the key exists in the options table
+		if ( get_option('gdpr_no_of_page_scan') == false ) {
+			add_option('gdpr_no_of_page_scan', 0 );
 		}
 		// Update settings from Version 1.7.6.
 		$prev_gdpr_option = get_option( 'GDPRCookieConsent-2.0' );
@@ -4080,7 +4072,8 @@ class Gdpr_Cookie_Consent_Admin {
 				// for sites.
 				'list_of_sites'                    => is_multisite() ? $list_of_sites : null,
 				'geo_options'                      => $geo_options,
-				'is_user_connected'                => $is_user_connected,
+				'is_user_connected'				   => $is_user_connected,
+				'gdpr_no_of_page_scan'			   => get_option('gdpr_no_of_page_scan')
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
