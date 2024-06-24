@@ -95,6 +95,8 @@ var gen = new Vue({
             autotick: settings_obj.the_options.hasOwnProperty('is_ticked') && (true === settings_obj.the_options['is_ticked'] || 1 === settings_obj.the_options['is_ticked'] ) ? true : false,
             auto_hide: settings_obj.the_options.hasOwnProperty('auto_hide') && (true === settings_obj.the_options['auto_hide'] || 1 === settings_obj.the_options['auto_hide'] ) ? true : false,
             auto_hide_delay: settings_obj.the_options.hasOwnProperty('auto_hide_delay') ? settings_obj.the_options['auto_hide_delay'] : '10000',
+            auto_banner_initialize: settings_obj.the_options.hasOwnProperty('auto_banner_initialize') && (true === settings_obj.the_options['auto_banner_initialize'] || 1 === settings_obj.the_options['auto_banner_initialize'] ) ? true : false,
+            auto_banner_initialize_delay: settings_obj.the_options.hasOwnProperty('auto_banner_initialize_delay') ? settings_obj.the_options['auto_banner_initialize_delay'] : '10000',
             auto_scroll: settings_obj.the_options.hasOwnProperty('auto_scroll') && (true === settings_obj.the_options['auto_scroll'] || 1 === settings_obj.the_options['auto_scroll'] ) ? true : false,
             auto_click: settings_obj.the_options.hasOwnProperty('auto_click') && (true === settings_obj.the_options['auto_click'] || 1 === settings_obj.the_options['auto_click'] ) ? true : false,
             auto_scroll_offset: settings_obj.the_options.hasOwnProperty('auto_scroll_offset') ? settings_obj.the_options['auto_scroll_offset'] : '10',
@@ -323,8 +325,12 @@ var gen = new Vue({
             document_link         : 'https://club.wpeka.com/docs/wp-cookie-consent/',
             video_link            : 'https://www.youtube.com/embed/hrfSoFjEpzQ',
             support_link          : 'https://club.wpeka.com/my-account/?utm_source=gdpr&utm_medium=plugin&utm_campaign=integrations',
+            // revoke consent text color.
+            button_revoke_consent_text_color:settings_obj.the_options.hasOwnProperty('button_revoke_consent_text_color') ? settings_obj.the_options['button_revoke_consent_text_color'] : '',
+            button_revoke_consent_background_color:settings_obj.the_options.hasOwnProperty('button_revoke_consent_background_color') ? settings_obj.the_options['button_revoke_consent_background_color'] : '',
         }
     },
+
     methods: {
         isPluginVersionLessOrEqual(version) {
             return this.pluginVersion && this.pluginVersion <= version;
@@ -613,6 +619,9 @@ var gen = new Vue({
         onSwitchAutoHide() {
             this.auto_hide = !this.auto_hide;
         },
+        onSwitchAutoBannerInitialize(){
+            this.auto_banner_initialize = !this.auto_banner_initialize;
+        },
         onSwitchAutoScroll() {
             this.auto_scroll = !this.auto_scroll;
         },
@@ -744,16 +753,381 @@ var gen = new Vue({
             }
         },
         onTemplateChange(value) {
+            
             if( this.show_cookie_as === 'banner' ) {
                 this.banner_template = value;
                 this.template = value;
+				if ( this.banner_template == 'banner-dark_row' ) {
+					this.cookie_bar_color = '#323742';
+					this.accept_background_color = '#3EAF9A';
+					this.accept_all_background_color = '#3EAF9A';
+					jQuery('.gdpr_preview').css('color', 'white');
+					this.decline_background_color = '#333333';
+					this.settings_background_color = '#323742';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#3EAF9A';
+					this.settings_style = 'solid';
+					this.button_readmore_link_color = '#3EAF9A';
+					this.settings_text_color = '#3EAF9A';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#323742';
+				} else if ( this.banner_template == 'banner-almond_column' ) {
+					this.cookie_bar_color = '#E8DDBB';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.settings_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+                    this.button_revoke_consent_text_color='#306189';
+                    this.button_revoke_consent_background_color = '#E8DDBB';
+				} else if ( this.banner_template == 'banner-grey_center' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#DE7834';
+					this.settings_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.banner_template == 'banner-grey_column' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#E14469';
+					this.accept_all_background_color = '#E14469';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#E14469';
+					this.settings_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.banner_template == 'banner-navy_blue_center' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#FFFFFF';
+					this.settings_style = 'solid';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				} else if ( this.banner_template == 'banner-default' ) {
+					this.cookie_bar_color = '#FFFFFF';
+					this.accept_background_color = '#66CC66';
+					this.accept_all_background_color = '#66CC66';
+					this.decline_background_color = '#EF5454';
+					this.settings_background_color = '#007CBA';
+					this.settings_style = 'none';
+					jQuery('.gdpr_preview').css('color', '#3c4b64');
+					this.button_readmore_link_color = '#007CBA';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#FFFFFF';
+				} else if ( this.banner_template == 'banner-dark' ) {
+					this.cookie_bar_color = '#262626';
+					this.accept_background_color = '#6A8EE7';
+					this.accept_all_background_color = '#6A8EE7';
+					this.decline_background_color = '#808080';
+					this.settings_background_color = '#262626';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#808080';
+					this.settings_style = 'solid';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#6A8EE7';
+					this.settings_text_color = '#808080';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#262626';
+				}
             }else if( this.show_cookie_as === 'popup' ) {
                 this.popup_template = value;
                 this.template = value;
+				if ( this.popup_template == 'popup-dark_row' ) {
+					this.cookie_bar_color = '#323742';
+					this.accept_background_color = '#3EAF9A';
+					this.accept_all_background_color = '#3EAF9A';
+					jQuery('.gdpr_preview').css('color', 'white');
+					this.decline_background_color = '#333333';
+					this.settings_background_color = '#323742';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#3EAF9A';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					this.button_readmore_link_color = '#3EAF9A';
+					this.settings_text_color = '#3EAF9A';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#323742';
+				} else if ( this.popup_template == 'popup-almond_column' ) {
+					this.cookie_bar_color = '#E8DDBB';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#306189';
+                    this.button_revoke_consent_background_color = '#E8DDBB';
+				} else if ( this.popup_template == 'popup-grey_center' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#DE7834';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.popup_template == 'popup-grey_column' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#E14469';
+					this.accept_all_background_color = '#E14469';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#E14469';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.popup_template == 'popup-navy_blue_center' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#FFFFFF';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				} else if ( this.popup_template == 'popup-default' ) {
+					this.cookie_bar_color = '#FFFFFF';
+					this.accept_background_color = '#66CC66';
+					this.accept_all_background_color = '#66CC66';
+					this.decline_background_color = '#EF5454';
+					this.settings_background_color = '#007CBA';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', '#3c4b64');
+					this.button_readmore_link_color = '#007CBA';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#FFFFFF';
+				} else if ( this.popup_template == 'popup-dark' ) {
+					this.cookie_bar_color = '#262626';
+					this.accept_background_color = '#6A8EE7';
+					this.accept_all_background_color = '#6A8EE7';
+					this.decline_background_color = '#808080';
+					this.settings_background_color = '#262626';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#808080';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#6A8EE7';
+					this.settings_text_color = '#808080';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#262626';
+				} else if ( this.popup_template == 'popup-navy_blue_square' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#2A3E71';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#369EE3';
+					this.settings_style = 'solid';
+					this.decline_style = 'solid';
+					this.decline_border_width = '1';
+					this.decline_border_color = '#369EE3';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				} else if ( this.popup_template == 'popup-navy_blue_box' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#FFFFFF';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					this.cookie_bar_border_radius = '15';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				}
             }
             else if( this.show_cookie_as === 'widget' ) {
                 this.widget_template = value;
                 this.template = value;
+				if ( this.widget_template == 'widget-dark_row' ) {
+					this.cookie_bar_color = '#323742';
+					this.accept_background_color = '#3EAF9A';
+					this.accept_all_background_color = '#3EAF9A';
+					jQuery('.gdpr_preview').css('color', 'white');
+					this.decline_background_color = '#333333';
+					this.settings_background_color = '#323742';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#3EAF9A';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					this.button_readmore_link_color = '#3EAF9A';
+					this.settings_text_color = '#3EAF9A';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#323742';
+				} else if ( this.widget_template == 'widget-almond_column' ) {
+					this.cookie_bar_color = '#E8DDBB';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#306189';
+                    this.button_revoke_consent_background_color = '#E8DDBB';
+				} else if ( this.widget_template == 'widget-grey_center' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#DE7834';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.widget_template == 'widget-grey_column' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#E14469';
+					this.accept_all_background_color = '#E14469';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#E14469';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.widget_template == 'widget-navy_blue_center' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#FFFFFF';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				} else if ( this.widget_template == 'widget-default' ) {
+					this.cookie_bar_color = '#FFFFFF';
+					this.accept_background_color = '#66CC66';
+					this.accept_all_background_color = '#66CC66';
+					this.decline_background_color = '#EF5454';
+					this.settings_background_color = '#007CBA';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', '#3c4b64');
+					this.button_readmore_link_color = '#007CBA';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#FFFFFF';
+				} else if ( this.widget_template == 'widget-dark' ) {
+					this.cookie_bar_color = '#262626';
+					this.accept_background_color = '#6A8EE7';
+					this.accept_all_background_color = '#6A8EE7';
+					this.decline_background_color = '#808080';
+					this.settings_background_color = '#262626';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#808080';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#6A8EE7';
+					this.settings_text_color = '#808080';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#262626';
+				} else if ( this.widget_template == 'widget-navy_blue_square' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#2A3E71';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#369EE3';
+					this.settings_style = 'solid';
+					this.decline_style = 'solid';
+					this.decline_border_width = '1';
+					this.decline_border_color = '#369EE3';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				} else if ( this.widget_template == 'widget-navy_blue_box' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#FFFFFF';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					this.cookie_bar_border_radius = '15';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				}
             }
             this.is_template_changed = true;
         },
@@ -1287,6 +1661,7 @@ var gen = new Vue({
             this.is_revoke_consent_on = true;
             this.is_script_blocker_on = false;
             this.auto_hide = false;
+            this.auto_banner_initialize = false;
             this.auto_scroll = false;
             this.auto_click = false;
             this.auto_scroll_reload = false;
@@ -1297,6 +1672,7 @@ var gen = new Vue({
             this.tab_text = 'Cookie Settings';
             this.tab_margin = '5';
             this.auto_hide_delay = '10000';
+            this.auto_banner_initialize_delay = '10000';
             this.auto_scroll_offset =  '10';
             this.cookie_expiry = '365';
             this.on_hide = true;
@@ -1640,11 +2016,12 @@ var gen = new Vue({
 			// Set an interval to check if the conditions for running the scan are met
 			setInterval(checkAndRunScan, 60000);
 		},
-        onClickStartScan() {
+        onClickStartScan(singlePageScan = false) {
             this.continue_scan = 1;
-            this.doScan();
+            this.doScan(singlePageScan);
+           
         },
-        doScan() {
+        doScan(singlePageScan = false) {
             var that = this;
             var data    = {
                 action: 'wpl_cookie_scanner',
@@ -1662,7 +2039,7 @@ var gen = new Vue({
                     success: function (data) {
                         scanbar.html( '' );
                         if (data.response === true) {
-                            that.scanNow();
+                            that.scanNow(singlePageScan);
                         } else {
                             that.serverUnavailable( scanbar,data.message );
                         }
@@ -1674,7 +2051,7 @@ var gen = new Vue({
                 }
             );
         },
-        scanNow() {
+        scanNow(singlePageScan = false) {
             var html    = this.makeHtml();
 			var scanbar = j( '.gdpr_scanbar' );
 			scanbar.html( html );
@@ -1686,7 +2063,7 @@ var gen = new Vue({
 				},
 				1000
 			);
-			this.takePages( 0 );
+			this.takePages( 0,0,0,0,singlePageScan );
         },
         animateProgressBar(offset,total,msg) {
             var prgElm = j( '.gdpr_progress_bar' );
@@ -1722,13 +2099,13 @@ var gen = new Vue({
                 );
             }
         },
-        takePages(offset,limit,total,scan_id) {
+        takePages(offset, limit, total, scan_id, singlePageScan = false) {
             var that = this;
             var data = {
                 action: 'wpl_cookie_scanner',
                 security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-                wpl_scanner_action:'get_pages',
-                offset:offset
+                wpl_scanner_action: 'get_pages',
+                offset: offset
             };
             if (limit) {
                 data['limit'] = limit;
@@ -1739,41 +2116,79 @@ var gen = new Vue({
             if (scan_id) {
                 data['scan_id'] = scan_id;
             }
-            // fake progress.
-            this.animateProgressBar( 1,100,settings_obj.cookie_scan_settings.labels.finding );
-            j.ajax(
-                {
-                    url: settings_obj.cookie_scan_settings.ajax_url,
-                    data: data,
-                    dataType: 'json',
-                    type: 'POST',
-                    success: function (data) {
-                        that.scan_id = typeof data.scan_id != 'undefined' ? data.scan_id : 0;
-                        if (that.continue_scan == 0) {
-                            return false;
-                        }
-                        if (typeof data.response != 'undefined' && data.response === true) {
-                            that.appendLogAnimate( data.log,0 );
-                            var new_offset = parseInt( data.offset ) + parseInt( data.limit );
-                            if ((data.total - 1) > new_offset) { // substract 1 from total because of home page.
-                                that.takePages( new_offset,data.limit,data.total,data.scan_id );
+            // Fake progress.
+            this.animateProgressBar(1, 100, settings_obj.cookie_scan_settings.labels.finding);
+            jQuery.ajax({
+                url: settings_obj.cookie_scan_settings.ajax_url,
+                data: data,
+                dataType: 'json',
+                type: 'POST',
+                success: function (data) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const scanUrlParam = urlParams.get('scan_url');
+                    var ndata = {
+                        action: 'wpl_cookie_scanner_view_capabilities',
+                        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+                        no_of_scan: singlePageScan == true ? 1 : data.log.length,
+                        offset: offset,
+                        scan_id : scan_id ? scan_id : 0,
+                        total_pages : data.total,
+                    };
+                    jQuery.ajax({
+                        url: settings_obj.cookie_scan_settings.ajax_url,
+                        data: ndata,
+                        dataType: 'json',
+                        type: 'POST',
+                    }).done(function (response) {
+                        if (response.success && response.data.connection_status === 'active') {
+                            that.scan_id = data.scan_id !== undefined ? data.scan_id : 0;
+                            if (that.continue_scan == 0) {
+                                return false;
+                            }
+                            if (data.response === true) {
+                                that.appendLogAnimate(data.log, 0);
+                                var new_offset = parseInt(data.offset) + parseInt(data.limit);
+                                if ((data.total - 1) > new_offset) { // subtract 1 from total because of home page.
+                                    that.takePages(new_offset, data.limit, data.total, data.scan_id);
+                                } else {
+                                    jQuery('.wpl_progress_action_main').html(settings_obj.cookie_scan_settings.labels.scanning);
+                                    that.scanPages(data.scan_id, 0, data.total);
+                                }
                             } else {
-                                j( '.wpl_progress_action_main' ).html( settings_obj.cookie_scan_settings.labels.scanning );
-                                that.scanPages( data.scan_id,0,data.total );
+                                that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
                             }
                         } else {
-                            that.showErrorScreen( settings_obj.cookie_scan_settings.labels.error );
+                            that.showScanNowPopup();
                         }
-                    },
-                    error:function() {
+                    }).fail(function () {
                         if (that.continue_scan == 0) {
                             return false;
                         }
-                        that.showErrorScreen( settings_obj.cookie_scan_settings.labels.error );
+                        that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
+                    });
+                },
+                error: function () {
+                    if (that.continue_scan == 0) {
+                        return false;
                     }
+                    that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
                 }
-            );
+            });
         },
+        
+        showScanNowPopup() {
+            this.$nextTick(() => {
+                const scanBtn = jQuery('.scan-now-btn');
+                const popup = jQuery('#popup-site-excausted');
+                const cancelButton = jQuery('.popup-image');
+                popup.fadeIn();
+                cancelButton.off('click').on('click', function(e) {
+                    popup.fadeOut();
+                    window.location.reload();
+                });
+            });
+        } 
+        ,    
         scanPages(scan_id,offset,total) {
             var that = this;
             var scanbar                  = j( '.gdpr_scanbar' );
@@ -1853,6 +2268,7 @@ var gen = new Vue({
                                 prg_msg  = settings_obj.cookie_scan_settings.labels.finished;
                                 prg_msg += ' (' + settings_obj.cookie_scan_settings.labels.total_cookies_found + ': ' + data.total_cookies + ')';
                                 that.showSuccessScreen( prg_msg,scan_id,1 );
+
                             }
                             that.animateProgressBar( prg_offset,total,prg_msg );
                         } else {
@@ -1968,6 +2384,9 @@ var gen = new Vue({
             j( '.gdpr_scanbar_staypage' ).hide();
             this.showScanCookieList();
             this.scanAgain();
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
         },
         scanAgain() {
             var that = this;
@@ -2362,12 +2781,26 @@ var gen = new Vue({
                 j('#wpl-cookie-consent-overlay').css('display', 'none');
                 spinner.css( { visibility: 'hidden' } );
                 spinner.hide();
-                location.reload();   
+                location.reload();
                 });
 		  },
     },
     mounted() {
         j('#gdpr-before-mount').css('display','none');
+
+		if ( settings_obj.is_user_connected ){
+			if (performance.navigation.type !== 1) {
+				const urlParams = new URLSearchParams(window.location.search);
+				const scanUrlParam = urlParams.get('scan_url');
+				// Check if the 'scan' parameter is present and has the value '1'
+				if ( scanUrlParam ) {
+					// Run the onClickStartScan() method
+                    const singlePageScan = true;
+					this.onClickStartScan(singlePageScan);
+				}
+			}
+		}
+
         this.setValues();
         this.setPostListValues();
         j('.gdpr-cookie-consent-settings-nav .nav .nav-item .nav-link').on('click', function() {
@@ -2566,6 +2999,8 @@ var gen = new Vue({
             autotick: settings_obj.the_options.hasOwnProperty('is_ticked') && (true === settings_obj.the_options['is_ticked'] || 1 === settings_obj.the_options['is_ticked'] ) ? true : false,
             auto_hide: settings_obj.the_options.hasOwnProperty('auto_hide') && (true === settings_obj.the_options['auto_hide'] || 1 === settings_obj.the_options['auto_hide'] ) ? true : false,
             auto_hide_delay: settings_obj.the_options.hasOwnProperty('auto_hide_delay') ? settings_obj.the_options['auto_hide_delay'] : '10000',
+            auto_banner_initialize: settings_obj.the_options.hasOwnProperty('auto_banner_initialize') && (true === settings_obj.the_options['auto_banner_initialize'] || 1 === settings_obj.the_options['auto_banner_initialize'] ) ? true : false,
+            auto_banner_initialize_delay: settings_obj.the_options.hasOwnProperty('auto_banner_initialize_delay') ? settings_obj.the_options['auto_banner_initialize_delay'] : '10000',
             auto_scroll: settings_obj.the_options.hasOwnProperty('auto_scroll') && (true === settings_obj.the_options['auto_scroll'] || 1 === settings_obj.the_options['auto_scroll'] ) ? true : false,
             auto_click: settings_obj.the_options.hasOwnProperty('auto_click') && (true === settings_obj.the_options['auto_click'] || 1 === settings_obj.the_options['auto_click'] ) ? true : false,
             auto_scroll_offset: settings_obj.the_options.hasOwnProperty('auto_scroll_offset') ? settings_obj.the_options['auto_scroll_offset'] : '10',
@@ -2766,7 +3201,7 @@ var gen = new Vue({
             //Consent Log
             consent_log_switch_clicked: false,
 			// Data Request
-			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
+            data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] || '1' == settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
 			data_reqs_switch_clicked: false,
 			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
@@ -2779,6 +3214,9 @@ var gen = new Vue({
             select_pages: settings_obj.the_options.hasOwnProperty('select_pages') ? settings_obj.the_options['select_pages'] : [],
             select_pages_array:[],
             list_of_pages: settings_obj.list_of_pages,
+            // revoke consent text color.
+            button_revoke_consent_text_color:settings_obj.the_options.hasOwnProperty('button_revoke_consent_text_color') ? settings_obj.the_options['button_revoke_consent_text_color'] : '',
+            button_revoke_consent_background_color:settings_obj.the_options.hasOwnProperty('button_revoke_consent_background_color') ? settings_obj.the_options['button_revoke_consent_background_color'] : '',
         }
     },
     methods: {
@@ -3048,6 +3486,9 @@ var gen = new Vue({
         onSwitchAutoHide() {
             this.auto_hide = !this.auto_hide;
         },
+        onSwitchAutoBannerInitialize(){
+            this.auto_banner_initialize = !this.auto_banner_initialize;
+        },
         onSwitchAutoScroll() {
             this.auto_scroll = !this.auto_scroll;
         },
@@ -3172,13 +3613,377 @@ var gen = new Vue({
             if( this.show_cookie_as === 'banner' ) {
                 this.banner_template = value;
                 this.template = value;
+                if ( this.banner_template == 'banner-dark_row' ) {
+					this.cookie_bar_color = '#323742';
+					this.accept_background_color = '#3EAF9A';
+					this.accept_all_background_color = '#3EAF9A';
+					jQuery('.gdpr_preview').css('color', 'white');
+					this.decline_background_color = '#333333';
+					this.settings_background_color = '#323742';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#3EAF9A';
+					this.settings_style = 'solid';
+					this.button_readmore_link_color = '#3EAF9A';
+					this.settings_text_color = '#3EAF9A';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#323742';
+				} else if ( this.banner_template == 'banner-almond_column' ) {
+					this.cookie_bar_color = '#E8DDBB';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.settings_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+                    this.button_revoke_consent_text_color='#306189';
+                    this.button_revoke_consent_background_color = '#E8DDBB';
+				} else if ( this.banner_template == 'banner-grey_center' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#DE7834';
+					this.settings_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.banner_template == 'banner-grey_column' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#E14469';
+					this.accept_all_background_color = '#E14469';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#E14469';
+					this.settings_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.banner_template == 'banner-navy_blue_center' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#FFFFFF';
+					this.settings_style = 'solid';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				} else if ( this.banner_template == 'banner-default' ) {
+					this.cookie_bar_color = '#FFFFFF';
+					this.accept_background_color = '#66CC66';
+					this.accept_all_background_color = '#66CC66';
+					this.decline_background_color = '#EF5454';
+					this.settings_background_color = '#007CBA';
+					this.settings_style = 'none';
+					jQuery('.gdpr_preview').css('color', '#3c4b64');
+					this.button_readmore_link_color = '#007CBA';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#FFFFFF';
+				} else if ( this.banner_template == 'banner-dark' ) {
+					this.cookie_bar_color = '#262626';
+					this.accept_background_color = '#6A8EE7';
+					this.accept_all_background_color = '#6A8EE7';
+					this.decline_background_color = '#808080';
+					this.settings_background_color = '#262626';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#808080';
+					this.settings_style = 'solid';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#6A8EE7';
+					this.settings_text_color = '#808080';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#262626';
+				}
             }else if( this.show_cookie_as === 'popup' ) {
                 this.popup_template = value;
                 this.template = value;
+                if ( this.popup_template == 'popup-dark_row' ) {
+					this.cookie_bar_color = '#323742';
+					this.accept_background_color = '#3EAF9A';
+					this.accept_all_background_color = '#3EAF9A';
+					jQuery('.gdpr_preview').css('color', 'white');
+					this.decline_background_color = '#333333';
+					this.settings_background_color = '#323742';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#3EAF9A';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					this.button_readmore_link_color = '#3EAF9A';
+					this.settings_text_color = '#3EAF9A';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#323742';
+				} else if ( this.popup_template == 'popup-almond_column' ) {
+					this.cookie_bar_color = '#E8DDBB';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#306189';
+                    this.button_revoke_consent_background_color = '#E8DDBB';
+				} else if ( this.popup_template == 'popup-grey_center' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#DE7834';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.popup_template == 'popup-grey_column' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#E14469';
+					this.accept_all_background_color = '#E14469';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#E14469';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.popup_template == 'popup-navy_blue_center' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#FFFFFF';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				} else if ( this.popup_template == 'popup-default' ) {
+					this.cookie_bar_color = '#FFFFFF';
+					this.accept_background_color = '#66CC66';
+					this.accept_all_background_color = '#66CC66';
+					this.decline_background_color = '#EF5454';
+					this.settings_background_color = '#007CBA';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', '#3c4b64');
+					this.button_readmore_link_color = '#007CBA';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#FFFFFF';
+				} else if ( this.popup_template == 'popup-dark' ) {
+					this.cookie_bar_color = '#262626';
+					this.accept_background_color = '#6A8EE7';
+					this.accept_all_background_color = '#6A8EE7';
+					this.decline_background_color = '#808080';
+					this.settings_background_color = '#262626';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#808080';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#6A8EE7';
+					this.settings_text_color = '#808080';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#262626';
+				} else if ( this.popup_template == 'popup-navy_blue_square' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#2A3E71';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#369EE3';
+					this.settings_style = 'solid';
+					this.decline_style = 'solid';
+					this.decline_border_width = '1';
+					this.decline_border_color = '#369EE3';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				} else if ( this.popup_template == 'popup-navy_blue_box' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#FFFFFF';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					this.cookie_bar_border_radius = '15';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				}
             }
             else if( this.show_cookie_as === 'widget' ) {
                 this.widget_template = value;
                 this.template = value;
+                if ( this.widget_template == 'widget-dark_row' ) {
+					this.cookie_bar_color = '#323742';
+					this.accept_background_color = '#3EAF9A';
+					this.accept_all_background_color = '#3EAF9A';
+					jQuery('.gdpr_preview').css('color', 'white');
+					this.decline_background_color = '#333333';
+					this.settings_background_color = '#323742';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#3EAF9A';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					this.button_readmore_link_color = '#3EAF9A';
+					this.settings_text_color = '#3EAF9A';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#323742';
+				} else if ( this.widget_template == 'widget-almond_column' ) {
+					this.cookie_bar_color = '#E8DDBB';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#306189';
+                    this.button_revoke_consent_background_color = '#E8DDBB';
+				} else if ( this.widget_template == 'widget-grey_center' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#DE7834';
+					this.accept_all_background_color = '#DE7834';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#DE7834';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.widget_template == 'widget-grey_column' ) {
+					this.cookie_bar_color = '#F4F4F4';
+					this.accept_background_color = '#E14469';
+					this.accept_all_background_color = '#E14469';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#252525';
+					jQuery('.gdpr_preview').css('color', 'rgb(30, 61, 89)');
+					this.button_readmore_link_color = '#E14469';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#F4F4F4';
+				} else if ( this.widget_template == 'widget-navy_blue_center' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#FFFFFF';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				} else if ( this.widget_template == 'widget-default' ) {
+					this.cookie_bar_color = '#FFFFFF';
+					this.accept_background_color = '#66CC66';
+					this.accept_all_background_color = '#66CC66';
+					this.decline_background_color = '#EF5454';
+					this.settings_background_color = '#007CBA';
+					this.settings_style = 'none';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', '#3c4b64');
+					this.button_readmore_link_color = '#007CBA';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#000000';
+                    this.button_revoke_consent_background_color = '#FFFFFF';
+				} else if ( this.widget_template == 'widget-dark' ) {
+					this.cookie_bar_color = '#262626';
+					this.accept_background_color = '#6A8EE7';
+					this.accept_all_background_color = '#6A8EE7';
+					this.decline_background_color = '#808080';
+					this.settings_background_color = '#262626';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#808080';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#6A8EE7';
+					this.settings_text_color = '#808080';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#262626';
+				} else if ( this.widget_template == 'widget-navy_blue_square' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#2A3E71';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#369EE3';
+					this.settings_style = 'solid';
+					this.decline_style = 'solid';
+					this.decline_border_width = '1';
+					this.decline_border_color = '#369EE3';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+					this.cookie_bar_border_radius = '0';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				} else if ( this.widget_template == 'widget-navy_blue_box' ) {
+					this.cookie_bar_color = '#2A3E71';
+					this.accept_background_color = '#369EE3';
+					this.accept_all_background_color = '#369EE3';
+					this.decline_background_color = '#252525';
+					this.settings_background_color = '#2A3E71';
+					this.settings_border_width = '1';
+					this.settings_border_color = '#FFFFFF';
+					this.settings_style = 'solid';
+					this.decline_style = 'none';
+					this.cookie_bar_border_radius = '15';
+					jQuery('.gdpr_preview').css('color', 'rgb(255, 255, 255)');
+					this.button_readmore_link_color = '#369EE3';
+					this.settings_text_color = '#FFFFFF';
+                    this.button_revoke_consent_text_color='#FFFFFF';
+                    this.button_revoke_consent_background_color = '#2A3E71';
+				}
             }
             this.is_template_changed = true;
         },
@@ -3693,6 +4498,7 @@ var gen = new Vue({
             this.is_revoke_consent_on = true;
             this.is_script_blocker_on = false;
             this.auto_hide = false;
+            this.auto_banner_initialize = false;
             this.auto_scroll = false;
             this.auto_click = false;
             this.auto_scroll_reload = false;
@@ -3703,6 +4509,7 @@ var gen = new Vue({
             this.tab_text = 'Cookie Settings';
             this.tab_margin = '5';
             this.auto_hide_delay = '10000';
+            this.auto_banner_initialize = '10000';
             this.auto_scroll_offset =  '10';
             this.cookie_expiry = '365';
             this.on_hide = true;

@@ -13,7 +13,8 @@
 		"sl": "O piškotkih",
 		"gr": "Σχετικά με τα cookies",
 		"hu": "A cookie-król",
-		"po": "O plikach cookie"
+		"po": "O plikach cookie",
+		"pt": "Sobre Cookies"
 	},
 	"declaration": {
 		"en": "Cookie Declaration",
@@ -29,7 +30,8 @@
 		"sl": "Izjava o piškotkih",
 		"gr": "Δήλωση cookie",
 		"hu": "Cookie nyilatkozat",
-		"po": "Deklaracja dotycząca plików cookie"
+		"po": "Deklaracja dotycząca plików cookie",
+		"pt": "Declaração de Cookies"
 	},
 	"always": {
 		"en": "Always Active",
@@ -45,7 +47,8 @@
 		"sl": "Vedno aktivno",
 		"gr": "Πάντα ενεργός",
 		"hu": "Mindig aktív",
-		"po": "Zawsze aktywny"
+		"po": "Zawsze aktywny",
+		"pt": "Sempre ativo"
 	},
 	"save_button": {
 		"en": "Save And Accept",
@@ -61,7 +64,8 @@
 		"sl": "Shrani in sprejmi",
 		"gr": "Αποθήκευση και αποδοχή",
 		"hu": "Mentés és elfogadás",
-		"po": "Zapisz i zaakceptuj"
+		"po": "Zapisz i zaakceptuj",
+		"pt": "Salvar e aceitar"
 	},
 	"name": {
 		"en": "Name",
@@ -77,7 +81,8 @@
 		"sl": "Ime",
 		"gr": "Ονομα",
 		"hu": "Név",
-		"po": "Nazwa"
+		"po": "Nazwa",
+		"pt": "Nome"
 	},
 	"domain": {
 		"en": "Domain",
@@ -93,7 +98,8 @@
 		"sl": "Domena",
 		"gr": "Τομέα",
 		"hu": "Tartomány",
-		"po": "Domena"
+		"po": "Domena",
+		"pt": "Domínio"
 	},
 	"purpose": {
 		"en": "Purpose",
@@ -109,7 +115,8 @@
 		"sl": "Namen",
 		"gr": "Σκοπός",
 		"hu": "Célja",
-		"po": "Zamiar"
+		"po": "Zamiar",
+		"pt": "Propósito"
 	},
 	"expiry": {
 		"en": "Expiry",
@@ -125,7 +132,8 @@
 		"sl": "Potek",
 		"gr": "Λήξη",
 		"hu": "Lejárat",
-		"po": "Wygaśnięcie"
+		"po": "Wygaśnięcie",
+		"pt": "Termo"
 	},
 	"type": {
 		"en": "Type",
@@ -141,7 +149,8 @@
 		"sl": "Vrsta",
 		"gr": "Τύπος",
 		"hu": "típus",
-		"po": "Typ"
+		"po": "Typ",
+		"pt": "Tipo"
 	},
 	"cookies_not_found": {
 		"en": "We do not use cookies of this type.",
@@ -157,7 +166,8 @@
 		"sl": "Ne uporabljamo piškotkov tega tipa.",
 		"gr": "Δεν χρησιμοποιούμε cookies αυτού του τύπου.",
 		"hu": "Nem használunk ilyen típusú sütiket.",
-		"po": "Nie używamy plików cookies tego typu."
+		"po": "Nie używamy plików cookies tego typu.",
+		"pt": "Não utilizamos cookies deste tipo."
 	},
 	"consent_notice": {
 		"en": "I consent to the use of following cookies:",
@@ -173,6 +183,7 @@
 		"sl": "Dovoljujem uporabo naslednjih piškotkov:",
 		"gr": "Συναινώ στη χρήση των παρακάτω cookies:",
 		"hu": "Hozzájárulok az alábbi cookie-k használatához:",
-		"po": "Wyrażam zgodę na używanie następujących plików cookies:"
+		"po": "Wyrażam zgodę na używanie następujących plików cookies:",
+		"pt": "Autorizo ​​a utilização dos seguintes cookies:"
 	}
 }

@@ -243,12 +243,21 @@ html {
 	line-height: normal;
 }
 
-.gdpr-selection-label,.ccpa-selection-label,.enable-consent-log-content-label,.show-cookie-content-label,.show-cookie-template-label,.enable-script-blocker-label{
+.gdpr-selection-label,.ccpa-selection-label,.enable-consent-log-content-label,.show-cookie-content-label,.show-cookie-template-label,.enable-script-blocker-label,.enable-respect-do-not-track-label,.enable-respect-data-request-label{
 	color: #000;
 	font-size: 17px;
 	font-style: normal;
 	font-weight: 500;
 	line-height: normal;
+}
+
+.enable-respect-data-request-shortcode-label{
+	color: #000;
+	font-size: 17px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	left:-14px;
 }
 
 .gdpr-free-container,.enable-consent-log,.geo-location-ques-container{
@@ -321,7 +330,7 @@ html {
 .enable-consent-log .gdpr-pro-label {
 	margin-left:0%;
 }
-.enable-consent-log-switch{
+.enable-consent-log-switch,.enable-respect-do-not-track-switch,.enable-data-request-switch{
 	margin-top: 5%;
 }
 
@@ -716,7 +725,7 @@ html {
 
 /* Script Blocker Feature  */
 
-.enable-script-blocker{
+.enable-script-blocker,.enable-respect-do-not-track,.enable-data-request{
 	display:flex;
 	margin-top: 4%;
 }
@@ -724,7 +733,7 @@ html {
 	margin:20px;
 }
 
-.enable-consent-log-switch{
+.enable-consent-log-switch,.enable-respect-do-not-track-switch,.enable-data-request-switch{
 	margin-top: 5%;
 }
 

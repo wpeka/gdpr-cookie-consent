@@ -45,7 +45,7 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr','hu','po' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr','hu','po','pt' );
 
 	/**
 	 * Public module list, Module folder and main file must be same as that of module name.
@@ -670,9 +670,9 @@ class Gdpr_Cookie_Consent_Public {
 				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {
 
 					// Load and decode translations from JSON file.
-					$translations_file = plugin_dir_path( __FILE__ ) . 'translations/public-translations.json';
-					$translations      = json_decode( file_get_contents( $translations_file ), true );
-
+					$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/public/translations/public-translations.json';
+					$translations      = wp_remote_get( $translations_file );
+					$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
 					// Define an array of text keys to translate.
 					$text_keys_to_translate = array(
 						'about',
@@ -769,14 +769,16 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['select_sites'] = null;
 			}
 			$cookies_list_data = array(
-				'gdpr_cookies_list'       => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
-				'gdpr_cookiebar_settings' => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
-				'gdpr_consent_renew'      => $the_options['ip_and_consent_renew'],
-				'gdpr_user_ip'            => $user_ip,
-				'gdpr_do_not_track'       => $the_options['do_not_track_on'],
-				'gdpr_select_pages'       => $the_options['select_pages'],
-				'gdpr_select_sites'       => $the_options['select_sites'],
-				'consent_forwarding'      => $the_options['consent_forward'],
+				'gdpr_cookies_list'                 		=> str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
+				'gdpr_cookiebar_settings'          		 	=> wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
+				'gdpr_consent_renew' 						=> $the_options['ip_and_consent_renew'],
+				'gdpr_user_ip'           					=> $user_ip,
+				'gdpr_do_not_track'      		    		=> $the_options['do_not_track_on'],
+				'gdpr_select_pages'       					=> $the_options['select_pages'],
+				'gdpr_select_sites'      					=> $the_options['select_sites'],
+				'consent_forwarding'      					=> $the_options['consent_forward'],
+				'button_revoke_consent_text_color' 			=> $the_options['button_revoke_consent_text_color'],
+				'button_revoke_consent_background_color'	=> $the_options['button_revoke_consent_background_color']
 			);
 
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
@@ -794,21 +796,21 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$ipaddress = '';
 		if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-			$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+			$ipaddress = filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ipaddress = filter_var($_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_X_FORWARDED'])) {
-			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+			$ipaddress = filter_var($_SERVER['HTTP_X_FORWARDED'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
-			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+			$ipaddress = filter_var($_SERVER['HTTP_FORWARDED_FOR'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['HTTP_FORWARDED'])) {
-			$ipaddress = $_SERVER['HTTP_FORWARDED'];
+			$ipaddress = filter_var($_SERVER['HTTP_FORWARDED'], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['REMOTE_ADDR'])) {
-			$ipaddress = $_SERVER['REMOTE_ADDR'];
+			$ipaddress = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
 		} else {
 			$ipaddress = 'UNKNOWN';
 		}
-		return $ipaddress;
+		return esc_html($ipaddress);
 	}
 
 	/**

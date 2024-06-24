@@ -15,7 +15,7 @@
 ?>
 
 <?php $high_contrast = 'wpl-high-contrast' ;?>
-<div class="wpl wrap <?php echo $high_contrast ?>" id="activationKeyContainer">
+<div class="wpl wrap <?php echo esc_attr( $high_contrast ); ?>" id="activationKeyContainer">
 	<div class="wpl-{page}">
 		
 	</div>

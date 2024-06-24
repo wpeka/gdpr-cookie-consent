@@ -80,6 +80,16 @@ if ( ! class_exists( 'Gdpr_Cookie_Consent_Cookie_Serve_Api' ) ) {
 		 * @return array
 		 */
 		public function get_cookies( $url_arr, $hash ) {
+
+			if ( get_option('gdpr_single_page_scan_url') ) {
+				$url_arr = array( get_option('gdpr_single_page_scan_url') );
+			}
+
+			$no_of_scan_pages = count($url_arr);
+
+			$final_no_of_scanned_pages = get_option('gdpr_no_of_page_scan') + $no_of_scan_pages;
+			
+
 			$out           = array();
 			$url_arr       = json_encode( $url_arr );
 			$site_url      = site_url();

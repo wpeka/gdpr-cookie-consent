@@ -29,18 +29,7 @@ class Gdpr_Cookie_Consent_Activator {
 	 * @since    1.0
 	 */
 	public static function activate() {
-		//geo integration.
-		add_option( 'wpl_pro_maxmind_integrated', '1' );
-		$uploads_dir = wp_upload_dir();
-		$file_base   = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads';
-		if ( wp_mkdir_p( $file_base ) && ! file_exists( trailingslashit( $file_base ) . '.htaccess' ) ) {
-			// The below phpcs ignore comments have been added after referring woocommerce plugin.
-			$file_handle = @fopen( trailingslashit( $file_base ) . '.htaccess', 'w' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fopen
-			if ( $file_handle ) {
-				fwrite( $file_handle, 'deny fron all' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
-				fclose( $file_handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
-			}
-		}
+		
 		// previous version settings.
 		$gdpr_option = get_option( 'GDPRCookieConsent-1.0' );
 		$wpl_option  = get_option( 'WPLCookieConsent-1.0' );
@@ -93,10 +82,12 @@ class Gdpr_Cookie_Consent_Activator {
 			$prev_gdpr_option['show_again']           = true;
 			$prev_gdpr_option['is_script_blocker_on'] = false;
 			$prev_gdpr_option['auto_hide']            = false;
+			$prev_gdpr_option['auto_banner_initialize'] = false;
 			$prev_gdpr_option['auto_scroll']          = false;
 			$prev_gdpr_option['show_again_position']  = 'right';
 			$prev_gdpr_option['show_again_text']      = 'Cookie Settings';
 			$prev_gdpr_option['auto_hide_delay']      = '10000';
+			$prev_gdpr_option['auto_banner_initialize_delay'] = '10000';
 			$prev_gdpr_option['show_again_margin']    = '5%';
 			$prev_gdpr_option['show_again_div_id']    = '#gdpr-cookie-consent-show-again';
 

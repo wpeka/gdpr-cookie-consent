@@ -377,7 +377,8 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 			$pattern[] = sprintf( $wrap_pattern, $ptrn );
 		}
 		if ( ! isset( $parts['head'] ) || ! isset( $parts['body'] ) ) {
-			throw new InvalidArgumentException( 'Parts array is not valid for ' . $type . ': head or body entry not found.' );
+			// the data in the $type is not the user generated code.
+			throw new InvalidArgumentException( 'Parts array is not valid for ' . $type . ': head or body entry not found.' ); // phpcs:ignore
 		}
 		$parts['head'] = $this->wpl_script_replace_callback( $parts['head'], $pattern, $data, 'head' );
 		if ( null === $parts['head'] ) {

@@ -1,8 +1,6 @@
 <?php
 /**
  * Data Request Reports Table Class
- *
- *
  */
 
 // Exit if accessed directly
@@ -59,12 +57,13 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		global $status, $page;
 
 		// Set parent defaults
-		parent::__construct( array(
-			'singular' => __( 'User', 'gdpr-cookie-consent' ),
-			'plural'   => __( 'Users', 'gdpr-cookie-consent' ),
-			'ajax'     => false,
-		) );
-
+		parent::__construct(
+			array(
+				'singular' => __( 'User', 'gdpr-cookie-consent' ),
+				'plural'   => __( 'Users', 'gdpr-cookie-consent' ),
+				'ajax'     => false,
+			)
+		);
 	}
 
 	/**
@@ -75,36 +74,42 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 *
 	 * @return void
 	 * @since  3.0.0
-	 *
 	 */
 	public function search_box( $text, $input_id ) {
 		$input_id = $input_id . '-search-input-data-request';
 
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			echo '<input type="hidden" name="orderby" value="'
-			     . esc_attr( $_REQUEST['orderby'] ) . '" />';
+				. esc_attr( $_REQUEST['orderby'] ) . '" />';
 		}
 		if ( ! empty( $_REQUEST['order'] ) ) {
 			echo '<input type="hidden" name="order" value="'
-			     . esc_attr( $_REQUEST['order'] ) . '" />';
+				. esc_attr( $_REQUEST['order'] ) . '" />';
 		}
 		$search = $this->get_search();
 		?>
 		<div class="search-and-export-container">
 			<p class="search-box">
 				<label class="screen-reader-text"
-					for="<?php echo esc_attr($input_id) ?>"><?php echo esc_html($text); ?>:</label>
-				<input type="search" id="<?php echo esc_attr($input_id) ?>" name="s"
-					value="<?php echo esc_html($search) ?>"/>
+					for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html( $text ); ?>:</label>
+				<input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s"
+					value="<?php echo esc_html( $search ); ?>"/>
 					
-				<?php submit_button( $text, 'button', false, false,
-					array( 'ID' => 'search-submit-data' ) ); ?>
+				<?php
+				submit_button(
+					$text,
+					'button',
+					false,
+					false,
+					array( 'ID' => 'search-submit-data' )
+				);
+				?>
 			</p>
-			<a href="<?php echo esc_url_raw( plugin_dir_url(__FILE__) . "csv.php?nonce=" . wp_create_nonce( 'wpl_csv_nonce' ) ) ?>" target="_blank" class="button button-primary data-req-export-button"><?php _e("Export", "gdpr-cookie-consent")?></a>
+			<a href="<?php echo esc_url_raw( plugin_dir_url( __FILE__ ) . 'csv.php?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="button button-primary data-req-export-button"><?php esc_html_e( 'Export', 'gdpr-cookie-consent' ); ?></a>
 
 			<?php
 
-			echo $this->resolved_select();
+			echo $this->resolved_select();//phpcs:ignore
 
 			?>
 		</div>
@@ -117,7 +122,6 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * @return string Name of the primary column.
 	 * @since   3.0.0
 	 * @access protected
-	 *
 	 */
 	protected function get_primary_column_name() {
 		return 'name';
@@ -131,12 +135,11 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 *
 	 * @return string Column Name
 	 * @since  3.0.0
-	 *
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
-			case 'resolved' :
-				$value = $item['resolved'] ? __('Resolved','gdpr-cookie-consent') : __('Open','gdpr-cookie-consent');
+			case 'resolved':
+				$value = $item['resolved'] ? __( 'Resolved', 'gdpr-cookie-consent' ) : __( 'Open', 'gdpr-cookie-consent' );
 				break;
 			default:
 				$value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : null;
@@ -147,16 +150,17 @@ class WPL_Data_Req_Table extends WP_List_Table {
 
 	/**
 	 * Column name
+	 *
 	 * @param array $item
 	 *
 	 * @return string
 	 */
 	public function column_name( $item ) {
 		$name    = '#' . $item['ID'] . ' ';
-		$name    .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
+		$name   .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
 		$actions = array(
 			'resolve' => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=resolve&id=' . $item['ID'] ) . '">' . __( 'Resolve', 'gdpr-cookie-consent' ) . '</a>',
-			'delete' => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=delete&id=' . $item['ID'] ) . '">' . __( 'Delete', 'gdpr-cookie-consent' ) . '</a>',
+			'delete'  => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=delete&id=' . $item['ID'] ) . '">' . __( 'Delete', 'gdpr-cookie-consent' ) . '</a>',
 		);
 
 		return $name . $this->row_actions( $actions );
@@ -170,11 +174,11 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	public function get_columns() {
 		$columns = array(
 			'cb'          => '<input type="checkbox"/>',
-			'name'  => __( 'Name', 'gdpr-cookie-consent' ),
-			'email' => __( 'Email', 'gdpr-cookie-consent' ),
-			'resolved' => __( 'Status', 'gdpr-cookie-consent' ),
+			'name'        => __( 'Name', 'gdpr-cookie-consent' ),
+			'email'       => __( 'Email', 'gdpr-cookie-consent' ),
+			'resolved'    => __( 'Status', 'gdpr-cookie-consent' ),
 			'datarequest' => __( 'Data request', 'gdpr-cookie-consent' ),
-			'date' => __( 'Date', 'gdpr-cookie-consent' ),
+			'date'        => __( 'Date', 'gdpr-cookie-consent' ),
 		);
 
 		return apply_filters( 'wpl_report_customer_columns', $columns );
@@ -196,13 +200,13 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 		return array(
-				'request_date' => array( 'request_date', true ),
-				'name'         => array( 'name', true ),
-				'region'       => array( 'region', true ),
-				'email'        => array( 'email', true ),
-				'resolved'     => array( 'resolved', true ),
-				'date'         => array( 'date', true ),
-				'datarequest'  => array( 'datarequest', true ),
+			'request_date' => array( 'request_date', true ),
+			'name'         => array( 'name', true ),
+			'region'       => array( 'region', true ),
+			'email'        => array( 'email', true ),
+			'resolved'     => array( 'resolved', true ),
+			'date'         => array( 'date', true ),
+			'datarequest'  => array( 'datarequest', true ),
 		);
 	}
 
@@ -215,8 +219,8 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	public function get_bulk_actions( $which = '' ) {
 
 		$actions = array(
-			'delete'     => __( 'Delete', 'gdpr-cookie-consent' ),
-			'reslove'	 => __( 'Resolve', 'gdpr-cookie-consent' ),
+			'delete'  => __( 'Delete', 'gdpr-cookie-consent' ),
+			'reslove' => __( 'Resolve', 'gdpr-cookie-consent' ),
 		);
 
 		return $actions;
@@ -233,7 +237,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 
 		$ids = isset( $_GET['user_id'] ) ? $_GET['user_id'] : false;
 
-		if( ! $ids ) {
+		if ( ! $ids ) {
 			return;
 		}
 
@@ -246,13 +250,14 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				global $wpdb;
 				$wpdb->delete( $wpdb->prefix . 'wpl_data_req', array( 'ID' => intval( $id ) ) );
 				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-			} else if ( 'reslove' === $this->current_action() ) {
+			} elseif ( 'reslove' === $this->current_action() ) {
 				global $wpdb;
-				$wpdb->update( $wpdb->prefix . 'wpl_data_req',
-						array(
-							'resolved' => 1
-						),
-						array( 'ID' => intval( $id ) )
+				$wpdb->update(
+					$wpdb->prefix . 'wpl_data_req',
+					array(
+						'resolved' => 1,
+					),
+					array( 'ID' => intval( $id ) )
 				);
 				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
 				wp_redirect( admin_url( 'admin.php?page=wpl-datarequests' . $paged ) );
@@ -284,25 +289,25 @@ class WPL_Data_Req_Table extends WP_List_Table {
 
 	public function resolved_select() {
 		// Option Select
-		$options = [
-			0 => __('ALL', "gdpr-cookie-consent"),
-			1 => __('Resolved', "gdpr-cookie-consent"),
-			2 => __('Unresolved', "gdpr-cookie-consent"),
-		];
+		$options  = array(
+			0 => __( 'ALL', 'gdpr-cookie-consent' ),
+			1 => __( 'Resolved', 'gdpr-cookie-consent' ),
+			2 => __( 'Unresolved', 'gdpr-cookie-consent' ),
+		);
 		$selected = 0;
-	
-		if (isset($_GET['wpl_resolved_select'])) {
-			$selected = intval($_GET['wpl_resolved_select']);
+
+		if ( isset( $_GET['wpl_resolved_select'] ) ) {
+			$selected = intval( $_GET['wpl_resolved_select'] );
 		}
 		// Generate a unique identifier for the select element
-		$unique_id = uniqid('wpl_resolved_select_');
-	
+		$unique_id = uniqid( 'wpl_resolved_select_' );
+
 		?>
 		<!-- submit the form on change  -->
 		<script>
 			
 			document.addEventListener('DOMContentLoaded', function () {
-				var resolvedSelect = document.getElementById('<?php echo $unique_id; ?>');
+				var resolvedSelect = document.getElementById('<?php echo esc_js( $unique_id ); ?>');
 				if (resolvedSelect) {
 					resolvedSelect.addEventListener('change', function () {
 						document.getElementById('wpl-dnsmpd-filter-datarequest').submit();
@@ -313,9 +318,9 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	
 		<?php
 		// Use the unique identifier in the select element's id attribute
-		echo '<select name="wpl_resolved_select" id="' . $unique_id . '" class="wpl_resolved_select_filter">';
-		foreach ($options as $value => $label) {
-			echo '<option value="' . $value . '" ' . ($selected == $value ? 'selected' : '') . '>' . $label . '</option>';
+		echo '<select name="wpl_resolved_select" id="' . esc_js( $unique_id ) . '" class="wpl_resolved_select_filter">';
+		foreach ( $options as $value => $label ) {
+			echo '<option value="' . esc_attr( $value ) . '" ' . ( $selected == $value ? 'selected' : '' ) . '>' . esc_html( $label ) . '</option>';
 		}
 		echo '</select>';
 	}
@@ -328,7 +333,6 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 *                      Database API
 	 * @since  3.0.0
 	 */
-
 	public function reports_data() {
 
 		$data    = array();
@@ -355,39 +359,42 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		}
 
 		if ( isset( $_GET['wpl_resolved_select'] ) ) {
-			$args['resolved'] = intval($_GET['wpl_resolved_select']);
+			$args['resolved'] = intval( $_GET['wpl_resolved_select'] );
 		}
-        
+
 		$this->args = $args;
-		$requests  = $this->get_requests( $args );
+		$requests   = $this->get_requests( $args );
 		if ( $requests ) {
 			foreach ( $requests as $request ) {
-				$datarequest='';
+				$datarequest = '';
 
 				$options = Gdpr_Cookie_Consent_Admin::wpl_data_reqs_options();
 
-				foreach ($options as $fieldname => $label ) {
-					if ( $request->{$fieldname}==1 ) {
-						$datarequest = '<a href="https://club.wpeka.com/'.$label['slug'].'" target="_blank">'.$label['short'].'</a>';
+				foreach ( $options as $fieldname => $label ) {
+					if ( $request->{$fieldname} == 1 ) {
+						$datarequest = '<a href="https://club.wpeka.com/' . $label['slug'] . '" target="_blank">' . $label['short'] . '</a>';
 					}
 				}
-				$time = date( get_option( 'time_format' ), $request->request_date );
-				$date = $this->wpl_localize_date($request->request_date);
-				$date = $this->wpl_sprintf( __( "%s at %s", 'gdpr-cookie-consent' ), $date, $time );
+				$time = gmdate( get_option( 'time_format' ), $request->request_date );
+				$date = $this->wpl_localize_date( $request->request_date );
+
+				// Translators: Placeholder %1$s represents the date, %2$s represents the time.
+				$date_time_format = __( '%1$s at %2$s', 'gdpr-cookie-consent' );
+
+				$date = sprintf( $date_time_format, $date, $time );
 
 				$data[] = array(
-						'ID'          => $request->ID,
-						'name'        => $request->name,
-						'email'       => $request->email,
-						'resolved'    => $request->resolved,
-						'datarequest' => $datarequest,
-						'date'       => $date,
+					'ID'          => $request->ID,
+					'name'        => $request->name,
+					'email'       => $request->email,
+					'resolved'    => $request->resolved,
+					'datarequest' => $datarequest,
+					'date'        => $date,
 				);
-
 			}
 		}
 
-		return apply_filters('wpl_datarequest_data', $data);
+		return apply_filters( 'wpl_datarequest_data', $data );
 	}
 
 	/**
@@ -401,18 +408,21 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		$sortable = $this->get_sortable_columns();
 		$this->process_bulk_action();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
-		$this->items = $this->reports_data();
-		$this->total = $this->count_requests( $this->args );
-		$total_pages = $this->per_page ? ceil( (int) $this->total / (int) $this->per_page ) : 1;
-		$this->set_pagination_args( array(
-			'total_items' => $this->total,
-			'per_page'    => $this->per_page,
-			'total_pages' => $total_pages,
-		) );
+		$this->items           = $this->reports_data();
+		$this->total           = $this->count_requests( $this->args );
+		$total_pages           = $this->per_page ? ceil( (int) $this->total / (int) $this->per_page ) : 1;
+		$this->set_pagination_args(
+			array(
+				'total_items' => $this->total,
+				'per_page'    => $this->per_page,
+				'total_pages' => $total_pages,
+			)
+		);
 	}
 
 	/**
 	 * Count number of users
+	 *
 	 * @param $args
 	 *
 	 * @return int
@@ -425,6 +435,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 
 	/**
 	 * Get users
+	 *
 	 * @param array $args
 	 *
 	 * @return array
@@ -437,75 +448,61 @@ class WPL_Data_Req_Table extends WP_List_Table {
 			// Table doesn't exist yet, return empty result set or handle as needed
 			return array();
 		}
-		$sql        = "SELECT * from {$wpdb->prefix}wpl_data_req WHERE 1=1 ";
+		$sql = "SELECT * from {$wpdb->prefix}wpl_data_req WHERE 1=1 ";
 		if ( isset( $args['email'] ) && ! empty( $args['email'] ) && is_email( $args['email'] ) ) {
-			$sql .= " AND email like '"."%" . sanitize_email( $args['email'] ) . "%"."'";
+			$sql .= " AND email like '" . '%' . sanitize_email( $args['email'] ) . '%' . "'";
 		}
 
 		if ( isset( $args['name'] ) && ! empty( $args['name'] ) ) {
 			$sql .= " AND name like '%" . sanitize_text_field( $args['name'] ) . "%'";
 		}
 
-		if ( isset( $args['resolved'] )) {
+		if ( isset( $args['resolved'] ) ) {
 
-			if ( intval($args['resolved']) == 1 ) {
+			if ( intval( $args['resolved'] ) == 1 ) {
 
-				$sql .= " AND resolved = " . intval($args['resolved']);
+				$sql .= ' AND resolved = ' . intval( $args['resolved'] );
 
-			} else if ( intval($args['resolved']) == 2 ) {
+			} elseif ( intval( $args['resolved'] ) == 2 ) {
 
 				$args['resolved'] = 0;
-				$sql .= " AND resolved = " . intval($args['resolved'] );
+				$sql             .= ' AND resolved = ' . intval( $args['resolved'] );
 			}
-
 		}
 
-		$sql .= " ORDER BY " . sanitize_title( $args['orderby'] ) . " " . sanitize_title( $args['order'] );
+		$sql .= ' ORDER BY ' . sanitize_title( $args['orderby'] ) . ' ' . sanitize_title( $args['order'] );
 		if ( isset( $args['number'] ) ) {
-			$sql .= " LIMIT " . intval( $args['number'] ) . " OFFSET " . intval( $args["offset"] );
+			$sql .= ' LIMIT ' . intval( $args['number'] ) . ' OFFSET ' . intval( $args['offset'] );
 		}
-
-		return $wpdb->get_results( $sql );
+		// as no data is inserting into the table so no $wpdb->prepare() is needed;
+		return $wpdb->get_results( $sql ); // phpcs:ignore
 	}
 
 	public function wpl_localize_date( $unix_time ) {
 
-		$formatted_date    = date( get_option( 'date_format' ), $unix_time );
-		$month             = date( 'F', $unix_time );
-		$month_localized   = __( $month );
+		$formatted_date    = gmdate( get_option( 'date_format' ), $unix_time );
+		$month             = gmdate( 'F', $unix_time );
+		$month_localized   = date_i18n( 'F', $unix_time );
 		$date              = str_replace( $month, $month_localized, $formatted_date );
-		$weekday           = date( 'l', $unix_time );
-		$weekday_localized = __( $weekday );
+		$weekday           = gmdate( 'l', $unix_time );
+		$weekday_localized = date_i18n( 'l', $unix_time );
 		$date              = str_replace( $weekday, $weekday_localized, $date );
 		return $date;
 	}
 
-	public function wpl_sprintf(){
+	public function wpl_sprintf() {
 
-		$args = func_get_args();
-		$count = substr_count($args[0], '%s');
-		$args_count = count($args) - 1;
-		if ( $args_count === $count ){
-			return call_user_func_array('sprintf', $args);
+		$args       = func_get_args();
+		$count      = substr_count( $args[0], '%s' );
+		$args_count = count( $args ) - 1;
+		if ( $args_count === $count ) {
+			return call_user_func_array( 'sprintf', $args );
 		} else {
 			$output = $args[0];
-			if ( is_admin() ){
-				$output .=  'Translation error';
+			if ( is_admin() ) {
+				$output .= 'Translation error';
 			}
 			return $output;
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

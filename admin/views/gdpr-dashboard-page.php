@@ -316,7 +316,8 @@ if ( 200 === $response_status ) {
 		</c-card>
 		<!-- cookie insights and cookie summary card  -->
 
-		<?php echo $api_gdpr_dashboard; ?>
+		<!-- There is no user generated data so there is no escape needed for the below variable -->
+		<?php echo $api_gdpr_dashboard; //phpcs:ignore ?>  
 
 		<c-card class="gdpr-dashboard-quick-links-card">
 			<c-card-header class="gdpr-dashboard-quick-links-card-header">

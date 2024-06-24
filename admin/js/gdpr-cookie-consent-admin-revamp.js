@@ -248,11 +248,26 @@ jQuery(document).ready(function () {
 	 * Add an event listener to listen for messages sent from the server.
 	*/
 	window.addEventListener("message", function(event) {
-		//event is originated on server
-		if ( event.isTrusted && event.origin === gdpr_localize_data.gdpr_app_url ) {
-			storeAuth(event.data)
+		// Check if the event is originated on server and not successful
+		if (event.isTrusted && event.origin === gdpr_localize_data.gdpr_app_url) {
+			if (!event.data.success) {
+			
+			const scanBtn = jQuery('.scan-now-btn');
+                const popup = jQuery('#popup-site-excausted');
+                  const cancelButton = jQuery('.popup-image');
+        
+                     popup.fadeIn();
+               
+                cancelButton.off('click').on('click', function(e) {
+                        popup.fadeOut();
+                   
+                });
+		} else {
+			gdprStoreAuth(event.data);
 		}
+	}
 	});
+	
 
 	/**
 	 * modal pop after successfull connection or disconnection
@@ -308,8 +323,8 @@ jQuery(document).ready(function () {
 	/**
 	 * clicked on new account.
 	*/
-	jQuery('.gdpr-start-auth').on('click', startAuth );
-	jQuery('.gdpr-dashboard-start-auth').on('click', startAuth );
+	jQuery('.gdpr-start-auth').on('click', gdprStartAuth );
+	jQuery('.gdpr-dashboard-start-auth').on('click', gdprStartAuth );
 
 	// clicked for activate pro plugin
 	jQuery(document).ready(function($) {
@@ -339,14 +354,14 @@ jQuery(document).ready(function () {
 	/**
 	 * Clicked on connect to exiting account.
 	*/
-	jQuery('.api-connect-to-account-btn').on('click', startAuth );
+	jQuery('.api-connect-to-account-btn').on('click', gdprStartAuth );
 
 	/**
 	 * Function to Start the Authentication Process.
 	 *
 	 * @param {*} event
 	 */
-	function startAuth(event) {
+	function gdprStartAuth(event) {
 
 		// Prevent the default action of the event.
 		event.preventDefault();
@@ -417,11 +432,83 @@ jQuery(document).ready(function () {
 	}
 
 	/**
+	* Clicked on connect to exiting account.
+	*/
+	jQuery('.gdpr-cookie-consent-admin-upgrade-button').on('click', gdprPaidAuth );
+	/**
 	 * Store the Authentication Data
 	 * @param {*} data
 	*/
-	function storeAuth(data) {
+	
+	function gdprPaidAuth (event) {
+			// Prevent the default action of the event.
+			event.preventDefault();
 
+			var is_new_user = this.classList.contains('gdpr-start-auth');
+	
+			// Create spinner element
+			var spinner = jQuery('<div class="gdpr-spinner"></div>');
+	
+			// Append spinner to .gdpr-cookie-consent-connect-api-container div.
+	
+			var container = jQuery('.gdpr-cookie-consent-connect-api-container');
+			container.css('position', 'relative'); // Ensure container has relative positioning.
+			container.append(spinner);
+	
+	   
+		// Make an AJAX request.
+		jQuery.ajax(
+			{
+				url  : gdpr_localize_data.ajaxurl,
+				type : 'POST',
+				data : {
+					action      : 'gdpr_cookie_consent_app_paid_auth',
+					_ajax_nonce : gdpr_localize_data._ajax_nonce,
+				},
+				beforeSend: function() {
+					// Show spinner before AJAX call starts
+					spinner.show();
+				},
+				complete: function() {
+					// Hide spinner after AJAX call completes
+					spinner.hide();
+				}
+			}
+		)
+		.done(
+			function ( response ) {
+
+				 // Get the width and height of the viewport
+				 var viewportWidth = window.innerWidth;
+				 var viewportHeight = window.innerHeight;
+
+				 // Set the dimensions of the popup
+				 var popupWidth = 1260;
+				 var popupHeight = 740;
+
+				 // Calculate the position to center the popup
+				 var leftPosition = (viewportWidth - popupWidth) / 2;
+				 var topPosition = (viewportHeight - popupHeight) / 2;
+				 // Open the popup window at the calculated position
+				 var e = window.open(
+				 response.data.url,
+				 "_blank",
+				 "location=no,width=" + popupWidth + ",height=" + popupHeight + ",left=" + leftPosition + ",top=" + topPosition + ",scrollbars=0"
+				 );
+				 if( null == e ) {
+					 console.log( 'error while opening the popup window' );
+				 }
+				
+			}
+		);
+
+	}
+
+	/**
+	 * Store the Authentication Data
+	 * @param {*} data
+	*/
+	function gdprStoreAuth(data) {
 		// Create spinner element
 		var spinner = jQuery('<div class="gdpr-spinner"></div>');
    		jQuery('#wpbody-content').append(spinner);
@@ -435,6 +522,7 @@ jQuery(document).ready(function () {
 				_ajax_nonce : gdpr_localize_data._ajax_nonce,
 				response: data.response,
 				origin: data.origin,
+				no_of_scans:data.no_of_scans ? data.no_of_scans:'',
 
 			},
 			success: function(response) {
@@ -446,16 +534,24 @@ jQuery(document).ready(function () {
 				localStorage.removeItem('gdprConnectPopupHide');
 				//remove disconnect from local storage when user connects to the api
 				localStorage.removeItem('gdprDisconnect');
-
+				var baseUrl = window.location.origin;
+				var relativePath = "/wp-admin/admin.php?page=gdpr-cookie-consent";
+				var tabHash = "#cookie_settings#cookie_list"; // Adjust this to your specific hash
+	
+				// Construct the full URL
+				var fullUrl = baseUrl + relativePath + tabHash;
+	
 				//reload the window after settimeout.
 				setTimeout(function() {
+					window.location.href = fullUrl;
 					location.reload();
 				}, 100);
 
 			},
-			error: function(error) {
+			error: function(jqXHR, textStatus, errorThrown) {
 				// Handle error response
-				console.error('Error sending data to PHP:', error);
+				console.error('AJAX call failed:', textStatus, errorThrown);
+				console.error('Response text:', jqXHR.responseText);
 			}
 		});
 
@@ -513,7 +609,87 @@ jQuery(document).ready(function () {
 		);
 	}
 
+	/**
+	 * cookie settings perferences functionality
+	 */
+	jQuery(document).ready(function($) {
+		$('.gpdr_cookie_settings_btn').on('click', function(e) {
+			e.preventDefault();
+			// Fade out the div to the bottom
+			$('#banner-preview-main-container').animate({
+				opacity: 0,
+				height: 'toggle'
+			}, 'fast', function() {
+				// Animation complete
+				// You can add any additional actions here if needed
+			});
 
+			$('.gdpr_messagebar_detail').removeClass('hide-popup');
+
+			// Fade in the .gdpr_messagebar_detail element
+			$('.gdpr_messagebar_detail').fadeIn('slow');
+		});
+
+		// Handle close button click
+		$('.gdpr_action_button.close').on('click', function(e) {
+			e.preventDefault();
+			// Fade out the .gdpr_messagebar_detail
+			$('.gdpr_messagebar_detail').fadeOut('fast', function() {
+			});
+			$('#banner-preview-main-container').animate({
+					opacity: 1,
+					height: 'toggle'
+				}, 'slow');
+		});
+	});
+
+	jQuery(document).ready(function($) {
+			$( ".gdpr-default-category-toggle.gdpr-column" ).click(
+				function() {
+					$( ".gdpr-default-category-toggle.gdpr-column", this );
+					if ( ! $( this ).children( ".gdpr-columns" ).hasClass( "active-group" ) ) {
+						$( ".gdpr-columns" ).removeClass( "active-group" )
+						$( ".gdpr-columns" ).css( 'background-color', gdpr_localize_data.background );
+						$( this ).children( ".gdpr-columns" ).addClass( "active-group" )
+						$( this ).children( ".gdpr-columns" ).css( 'background-color', gdpr_localize_data.button_accept_button_color )
+					}
+					if ( $( this ).siblings( ".description-container" ).hasClass( "hide" ) ) {
+						$( ".description-container" ).addClass( "hide" )
+						$( this ).siblings( ".description-container" ).removeClass( "hide" )
+					}
+				}
+			);
+			$( ".gdpr-category-toggle.gdpr-column" ).click(
+				function() {
+					$( ".gdpr-category-toggle.gdpr-column", this );
+					if ( ! $( this ).children( ".gdpr-columns" ).hasClass( "active-group" ) ) {
+						$( ".gdpr-columns" ).removeClass( "active-group" );
+						$( ".gdpr-columns" ).css( 'background-color', gdpr_localize_data.background );
+						$( ".gdpr-columns .dashicons" ).removeClass( "dashicons-minus" );
+						$( ".gdpr-columns .dashicons" ).addClass( "dashicons-plus" );
+						$( this ).children( ".gdpr-columns" ).addClass( "active-group" );
+						$( '.toggle-group' ).find( 'div.always-active' ).css( 'color',gdpr_localize_data.button_accept_button_color );
+						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color','#ffffff' );
+						$( this ).children( ".gdpr-columns" ).css( 'background-color', gdpr_localize_data.button_accept_button_color );
+						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-plus" );
+						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-minus" );
+					} else {
+						$( ".gdpr-columns" ).removeClass( "active-group" );
+						$( this ).siblings( '.toggle-group' ).find( 'div.always-active' ).css( 'color',gdpr_localize_data.button_accept_button_color );
+						$( ".gdpr-columns" ).css( 'background-color', gdpr_localize_data.background );
+						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).removeClass( "dashicons-minus" );
+						$( this ).children( ".gdpr-columns" ).find( ".dashicons" ).addClass( "dashicons-plus" );
+					}
+					if ( $( this ).siblings( ".description-container" ).hasClass( "hide" ) ) {
+						$( ".description-container" ).addClass( "hide" )
+						$( this ).siblings( ".description-container" ).removeClass( "hide" )
+					} else {
+						$( ".description-container" ).addClass( "hide" )
+					}
+				}
+			);
+		}
+	);
 });
 
 document.addEventListener('DOMContentLoaded', function() {

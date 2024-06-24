@@ -1,10 +1,10 @@
-=== WP Cookie Consent ( for GDPR, CCPA & ePrivacy ) ===
+=== Cookie Consent for WP - Cookie Consent, Consent Log, Cookie Scanner, Script Blocker (for GDPR, CCPA & ePrivacy) ===
 Contributors: wpeka-club
 Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
 Requires at least: 3.3.1
 Tested up to: 6.5
-Stable tag: 3.1.0
+Stable tag: 3.3.1
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -200,6 +200,20 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+= 3.3.1 =
+* Fix: Minor bugs fixed within plugin.
+
+= 3.3.0 =
+* Feature: Enhanced Customization: You can now customize the background color of the "Revoke Consent" button for a more cohesive design with your website's theme.
+* Feature: Portuguese Language Support: We're happy to announce support for the Portuguese language! This allows you to display your cookie consent message in Portuguese, catering to a wider audience.
+* Update: This update includes security fixes and improvements to ensure your website remains protected.
+
+= 3.2.0 =
+* Feature: Enhanced Cookie Scanning: We've introduced a new shortcut button directly in your top WordPress menu bar. With a single click, you can now scan any page on your website for cookies used, along with the cookie banner activation status and script blocker status.
+* Feature: Live Banner Preview: Enjoy a more dynamic experience with the real-time preview of your chosen banner template. See how your website will look with the selected design without saving changes.
+* Feature: Comprehensive Preview: Gain a complete picture! The banner preview now includes a view of the preference center along with the cookie banner itself. Visualize the entire user experience for managing cookie consent.
+* Fix: Minor bugs fixed within plugin.
+
 = 3.1.0 =
 * Feature: Added translation support for Polish language.
 * Fix: Minor bugs fixed within plugin.
@@ -512,6 +526,20 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+= 3.3.1 =
+* Fix: Minor bugs fixed within plugin.
+
+= 3.3.0 =
+* Feature: Enhanced Customization: You can now customize the background color of the "Revoke Consent" button for a more cohesive design with your website's theme.
+* Feature: Portuguese Language Support: We're happy to announce support for the Portuguese language! This allows you to display your cookie consent message in Portuguese, catering to a wider audience.
+* Update: This update includes security fixes and improvements to ensure your website remains protected.
+
+= 3.2.0 =
+* Feature: Enhanced Cookie Scanning: We've introduced a new shortcut button directly in your top WordPress menu bar. With a single click, you can now scan any page on your website for cookies used, along with the cookie banner activation status and script blocker status.
+* Feature: Live Banner Preview: Enjoy a more dynamic experience with the real-time preview of your chosen banner template. See how your website will look with the selected design without saving changes.
+* Feature: Comprehensive Preview: Gain a complete picture! The banner preview now includes a view of the preference center along with the cookie banner itself. Visualize the entire user experience for managing cookie consent.
+* Fix: Minor bugs fixed within plugin.
+
 = 3.1.0 =
 * Feature: Added translation support for Polish language.
 * Fix: Minor bugs fixed within plugin.

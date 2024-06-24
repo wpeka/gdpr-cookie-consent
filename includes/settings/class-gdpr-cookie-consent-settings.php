@@ -74,6 +74,7 @@ class GDPR_Cookie_Consent_Settings {
 				'connected' => false,
 				'plan'      => 'free',
 				'site_key'  => '',
+				'product_id' => '',
 			),
 		);
 	}
@@ -86,7 +87,7 @@ class GDPR_Cookie_Consent_Settings {
 	 * @return array
 	 */
 	public function get( $group = '', $key = '' ) {
-		$settings = get_option( 'gdpr_api_framework_app_settings', $this->data );
+		$settings = get_option( 'wpeka_api_framework_app_settings', $this->data );
 
 		if ( empty( $key ) && empty( $group ) ) {
 			return $settings;
@@ -107,13 +108,13 @@ class GDPR_Cookie_Consent_Settings {
 	 */
 	public function update( $data ) {
 
-		$settings = get_option( 'gdpr_api_framework_app_settings', $this->data );
+		$settings = get_option( 'wpeka_api_framework_app_settings', $this->data );
 		if ( empty( $settings ) ) {
 			$settings = $this->data;
 		}
 		$settings = $data;
 
-		update_option( 'gdpr_api_framework_app_settings', $settings );
+		update_option( 'wpeka_api_framework_app_settings', $settings );
 	}
 
 	// Getter Functions.
@@ -169,7 +170,58 @@ class GDPR_Cookie_Consent_Settings {
 	 * @return boolean
 	 */
 	public function is_connected() {
-		return $this->get( 'account', 'connected' );
+		$gdpr_connected = $this->get('account', 'connected');
+
+		if ($gdpr_connected) {
+			update_option('gdpr_connected', true);
+		}
+		else{
+			update_option('gdpr_connected', false);
+		}
+		
+		return $gdpr_connected;
+	}
+
+	/**
+	 * update the value of  plan
+	 *
+	 * @return boolean
+	 */
+
+
+	 public function set_plan($new_value) {
+		// Retrieve the current settings from the database
+		$settings = get_option('wpeka_api_framework_app_settings', array(
+			'site'    => array(
+				'url'       => get_site_url(),
+				'installed' => time(),
+			),
+			'api'     => array(
+				'token' => '',
+			),
+			'account' => array(
+				'email'     => '',
+				'id'        => '',
+				'connected' => false,
+				'plan'      => 'free',
+				'site_key'  => '',
+				'product_id' => '',
+			),
+			'src_plugin' => array(
+				'plugin' => '',
+			),
+		));
+	
+		// Ensure 'account' key exists and is an array
+		if (!isset($settings['account']) || !is_array($settings['account'])) {
+			$settings['account'] = array();
+		}
+	
+		// Update the 'plan' key with the new value
+		$settings['account']['plan'] = $new_value;
+	
+		// Update the settings in the database
+		update_option('wpeka_api_framework_app_settings', $settings);
 	}
 
 }
