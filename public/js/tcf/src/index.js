@@ -34,7 +34,7 @@ console.log("Here is the GVL object");
 // console.log(gvl);
 
 gvl.readyPromise.then(() => {
-  // gvl.narrowVendorsTo([1,2,4,6,8,10,11,12,14]);
+  gvl.narrowVendorsTo([1,2,4,6,8,10,11,12,14]);
   console.log(gvl);
 
   const data = {};

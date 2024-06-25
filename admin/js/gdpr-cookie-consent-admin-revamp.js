@@ -648,13 +648,18 @@ jQuery(document).ready(function () {
 		$( "#cookie_action_settings_preview" ).click(
 			function() {
 				if( "true" === $( "#gdpr-cookie-consent-iabtcf-on" ).attr('value')){
-					$( ".gdpr_messagebar_detail .gdpr-iab-navbar.preview" ).css( 'display', 'flex' );
-					$( ".gdpr-about-cookies" ).css( 'display', 'none' );
-					$( ".gdpr-about-cookies.iabtcf" ).css( 'display', 'block' );
-					
+					$( ".gdpr_messagebar_detail .gdpr-about-cookies" ).css( 'display', 'none' );
+					$( ".gdpr_messagebar_detail .gdpr-about-cookies.iabtcf" ).css( 'display', 'block' );
+					$( ".gdpr_messagebar_detail .gdpr-iab-navbar" ).css( 'display', 'flex' );
+					// $( ".gdpr_messagebar_detail .category-group.iabtcf-off" ).css( 'display', 'none' );
+					$( ".gdpr_messagebar_detail .outer-container" ).css( 'display', 'block' );
 				}
 				if( "false" === $( "#gdpr-cookie-consent-iabtcf-on" ).attr('value')){
-					$( ".gdpr_messagebar_detail .gdpr-iab-navbar.preview" ).css( 'display', 'none' );
+					$( ".gdpr_messagebar_detail .gdpr-iab-navbar" ).css( 'display', 'none' );
+					$( ".gdpr_messagebar_detail .gdpr-about-cookies" ).css( 'display', 'block' );
+					$( ".gdpr_messagebar_detail .gdpr-about-cookies.iabtcf" ).css( 'display', 'none' );
+					// $( ".gdpr_messagebar_detail .category-group.iabtcf-off" ).css( 'display', 'block' );
+					$( ".gdpr_messagebar_detail .outer-container" ).css( 'display', 'none' );
 				}
 			}
 		);
@@ -665,13 +670,14 @@ jQuery(document).ready(function () {
 			$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group").css( 'background-color', gdpr_localize_data.background );
 			$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group.outer").css( 'border-left', '1px solid '+gdpr_localize_data.button_accept_button_color );
 			$( ".gdpr_messagebar_detail.layout-default.dark_row .iabtcf .category-group.outer").css( 'border-left', '1px solid #73DBC0' );
-			// gdpr_localize_data.button_accept_button_color = "#00f";
+			$( '.gdpr_messagebar_detail .category-group .toggle-group .always-active' ).css( 'color', gdpr_localize_data.button_accept_button_color );
+			$( '.gdpr_messagebar_detail .category-group .toggle-group .always-active' ).css( 'color', gdpr_localize_data.button_accept_button_color );
+			// gdpr_localize_data.button_accept_button_color = "#00f";cookie_action_save
 			$( ".gdpr-iab-navbar-item" ).click(
 				function() {
 					$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('color', gdpr_localize_data.button_accept_button_color);
 					$( ".gdpr-iab-navbar-item", this );
 					$( ".tabContainer").css( 'display', 'none')
-					alert(this.id)
 					switch(this.id) {
 						case "gdprIABTabCategory" : $( ".cat").css( 'display', 'block')
 							break;
