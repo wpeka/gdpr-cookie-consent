@@ -1832,9 +1832,9 @@ GDPR_CCPA_COOKIE_EXPIRE   = (typeof GDPR_CCPA_COOKIE_EXPIRE !== 'undefined' ? GD
 			$( ".gdpr_messagebar_detail.dark_row .category-group .category-item hr" ).css( 'border-top', '1px solid #73DBC0' );
 			$( ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('color', GDPR.settings.button_accept_button_color);
 			$( ".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button.active").css('border-bottom', '2px solid '+GDPR.settings.button_accept_button_color);
-			$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group").css( 'background-color', background_obj.background );
-			$( ".gdpr_messagebar_detail.layout-default .iabtcf .category-group.outer").css( 'border-left', '1px solid '+GDPR.settings.button_accept_button_color );
-			$( ".gdpr_messagebar_detail.layout-default.dark_row .iabtcf .category-group.outer").css( 'border-left', '1px solid #73DBC0' );
+			$( ".gdpr_messagebar_detail.layout-default  .category-group").css( 'background-color', background_obj.background );
+			$( ".gdpr_messagebar_detail.layout-default  .category-group.outer").css( 'border-left', '1px solid '+GDPR.settings.button_accept_button_color );
+			$( ".gdpr_messagebar_detail.layout-default.dark_row  .category-group.outer").css( 'border-left', '1px solid #73DBC0' );
 			// GDPR.settings.button_accept_button_color = "#00f";
 			$( ".gdpr-iab-navbar-item" ).click(
 				function() {
