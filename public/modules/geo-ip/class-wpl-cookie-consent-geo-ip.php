@@ -110,7 +110,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 				$maxmind_text = json_decode( wp_remote_retrieve_body( $response_maxmind ) );
 			}
 			?>
-				<?php 
+				<?php
 				// The data is coming from the SaaS server, so it is not user-generated.
 				echo $maxmind_text; // phpcs:ignore?> 
 		</c-tab>

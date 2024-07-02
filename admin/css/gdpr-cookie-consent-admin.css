@@ -4,7 +4,6 @@
  */
 
  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@300;400;500;600&display=swap');
-
 body.post-type-wplconsentlogs .wrap .subsubsub {
 	display: none;
 }
@@ -3113,6 +3112,8 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	justify-content: space-between;
 	height: 100px;
 	background: #346DB1;
+	position: relative;
+	z-index: 9001;
 }
 .gdpr-cookie-consent-main-admin-structure .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-logo-and-label{
 	display: flex;
@@ -3187,6 +3188,111 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 .gdpr-cookie-consent-admin-help-icon img,.gdpr-cookie-consent-admin-support-icon img {
 	width: 18px;
 	height: 18px;
+}
+
+/* api overlay styling */
+
+.wpgdpr-api-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+}
+
+.wpgdpr-api-connection-popup{
+	position: fixed;
+    top: 50%;
+    left: 50%;
+	width: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1010;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	padding: 35px;
+    text-align: center;
+    background: white;
+}
+
+.wpgdpr-api-connection-popup h3{
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 21.09px;
+    text-align: center;
+    margin: 0;
+}
+
+.wpgdpr-api-connection-popup .wpgdpr-api-upgrade-text{
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22.75px;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.wpgdpr-api-connection-popup .wpgdpr-api-connect-text{
+    margin: 0;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+    color: grey;
+}
+
+.wpgdpr-api-connection-popup .wpgdpr-api-connect-existing a{
+	color: #0A6CD0;
+}
+
+.wpgdpr-api-connection-popup .wplegal-api-connect-new{
+	width: 215px;
+    height: 45px;
+    border-radius: 4px;
+    padding: 12px 16px 12px 16px;
+    margin-bottom: 20px;
+    background: #0059B3;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #fff;
+    border: none;
+	cursor: pointer;
+}
+
+.wpgdpr-api-connection-popup .wpgdpr-paid-api-connect{
+    border-radius: 4px;
+    padding: 16px 23px 16px 23px;
+    margin-bottom: 20px;
+    background: #074EA8;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #fff;
+    border: none;
+	cursor: pointer;
+}
+
+.wpgdpr-api-close-icon{
+	position: absolute;
+    top: 0px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 25px;
+    color: grey;
+}
+.wpgdpr-api-close-icon:hover{
+    color: black;
 }
 
 /* tabs styling  */
@@ -4102,7 +4208,7 @@ Bootstrap CSS for frontend UI
 	flex-direction: column;
 	width: 100%;
 	pointer-events: auto;
-	background-color: #f5f5f5;
+	background-color: #fff;
 	outline: 0;
 }
 
@@ -4207,7 +4313,7 @@ Bootstrap CSS for frontend UI
 
 @media (min-width: 768px) {
 	.gdprmodal-dialog-centered .gdprmodal-content {
-		min-width: 550px;
+		min-width: 760px;
 	}
 }
 
@@ -4270,29 +4376,29 @@ Bootstrap CSS for frontend UI
 .gdpr_messagebar_detail.navy_blue_center .table .thead-dark th,
 .gdpr_messagebar_detail.navy_blue_box .table .thead-dark th,
 .gdpr_messagebar_detail.navy_blue_square .table .thead-dark th {
-	color: #e5e5e5;
-	background-color: #354e8e;
+	color: #ffffff;
+	background-color: #1c2e5a;
 	border-color: rgba(58,86,156,0.5);
 }
 .gdpr_messagebar_detail.almond_column .table .thead-dark th {
 	color: #1e3d59;
-	background-color: #f2ecd8;
+	background-color: #FCF5DF;
 	border-color: rgba(247,243,231,0.5);
 }
 .gdpr_messagebar_detail.grey_center .table .thead-dark th,
 .gdpr_messagebar_detail.grey_column .table .thead-dark th {
 	color: #000000;
-	background-color: #e0e0e0;
+	background-color: #f4f4f4;
 	border-color: rgba(215,215,215,0.5);
 }
 .gdpr_messagebar_detail.dark .table .thead-dark th {
 	color: #ffffff;
-	background-color: #3a3a3a;
+	background-color: #000000;
 	border-color: rgba(67,67,67,0.5);
 }
 .gdpr_messagebar_detail.dark_row .table .thead-dark th {
 	color: #ffffff;
-	background-color: #434a58;
+	background-color: #36423f;
 	border-color: rgba(75,83,99,0.5);
 }
 .gdpr_messagebar_detail #cookie_credit_link {
@@ -4305,7 +4411,7 @@ Bootstrap CSS for frontend UI
 .gdpr_messagebar_detail.navy_blue_center .table tbody tr td,
 .gdpr_messagebar_detail.navy_blue_box .table tbody tr td,
 .gdpr_messagebar_detail.navy_blue_square .table tbody tr td {
-	color: #e5e5e5;
+	color: #ffffff;
 	border-color: rgba(58,86,156,0.5);
 }
 .gdpr_messagebar_detail.almond_column .table tbody tr td {
@@ -4461,11 +4567,11 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	background-color: #2f467f;
 }
 .gdpr_messagebar_detail.almond_column .gdprmodal-dialog .gdprmodal-content {
-	background-color: #ede4ca;
+	background-color: #F9EBBF;
 }
 .gdpr_messagebar_detail.grey_center .gdprmodal-dialog .gdprmodal-content,
 .gdpr_messagebar_detail.grey_column .gdprmodal-dialog .gdprmodal-content {
-	background-color: #eaeaea;
+	background-color: #f4f4f4;
 }
 .gdpr_messagebar_detail.dark .gdprmodal-dialog .gdprmodal-content {
 	background-color: #303030;
@@ -4480,7 +4586,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-content .gdprmodal-body,
 .gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-content .gdprmodal-body,
 .gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-content .gdprmodal-body {
-	color: #e5e5e5;
+	color: #ffffff;
 }
 .gdpr_messagebar_detail.almond_column .gdprmodal-dialog .gdprmodal-content .gdprmodal-body {
 	color: #1e3d59;
@@ -4508,7 +4614,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	background-color: #2a3e71;
 }
 .gdpr_messagebar_detail.almond_column .gdprmodal-dialog .gdprmodal-header {
-	background-color: #e8ddbb;
+	background-color: #F9EBBF;
 }
 .gdpr_messagebar_detail.grey_center .gdprmodal-dialog .gdprmodal-header,
 .gdpr_messagebar_detail.grey_column .gdprmodal-dialog .gdprmodal-header {
@@ -4522,15 +4628,26 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
 #gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
-	color: rgb(102 204 102);
-	background-color: transparent;
-	opacity:0.5;
+	color: #fff;
+	opacity:1;
 	text-shadow: unset;
+	border: none;
+	border-radius: 50%;
 }
-#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close .dashicons.dashicons-dismiss {
+/* .gdpr_messagebar_detail.dark_row .gdprmodal-dialog .gdprmodal-header .close,
+#gdpr-ccpa-gdprmodal.dark_row .gdprmodal-dialog .gdprmodal-body .close,
+.gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-header .close,
+#gdpr-ccpa-gdprmodal.navy_blue_center .gdprmodal-dialog .gdprmodal-body .close,
+.gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-header .close,
+#gdpr-ccpa-gdprmodal.navy_blue_square .gdprmodal-dialog .gdprmodal-body .close,
+.gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-header .close,
+#gdpr-ccpa-gdprmodal.navy_blue_box .gdprmodal-dialog .gdprmodal-body .close{
+	color: #fff;
+} */
+#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close .dashicons.dashicons-no {
 	display: none;
 }
-.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close .dashicons.dashicons-dismiss {
+.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close .dashicons.dashicons-no {
 	overflow: hidden;
 }
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close:hover,
@@ -4554,7 +4671,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	background-color: #2a3e71;
 }
 .gdpr_messagebar_detail.almond_column .gdprmodal-dialog .gdprmodal-footer {
-	background-color: #e8ddbb;
+	background-color: #F9EBBF;
 }
 .gdpr_messagebar_detail.grey_center .gdprmodal-dialog .gdprmodal-footer,
 .gdpr_messagebar_detail.grey_column .gdprmodal-dialog .gdprmodal-footer {
@@ -4597,12 +4714,12 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .navy_blue_center #gdpr-ccpa-gdprmodal .gdprmodal-content,
 .navy_blue_box #gdpr-ccpa-gdprmodal .gdprmodal-content,
 .navy_blue_square #gdpr-ccpa-gdprmodal .gdprmodal-content {
-	color: #e5e5e5;
+	color: #ffffff;
 	background-color: #2a3e71;
 }
 .almond_column #gdpr-ccpa-gdprmodal .gdprmodal-content {
 	color: #1e3d59;
-	background-color: #e8ddbb;
+	background-color: #F9EBBF;
 }
 .grey_center #gdpr-ccpa-gdprmodal .gdprmodal-content,
 .grey_column #gdpr-ccpa-gdprmodal .gdprmodal-content {
@@ -4642,6 +4759,184 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	background-color: none;
 	border-style:none;
 }
+.gdpr-about-cookies.iabtcf{
+	display: none;
+}
+/* Navbar for IAB TCF */
+.gdpr_messagebar_detail .gdpr-iab-navbar {
+	list-style: none;
+	display: flex;
+	column-gap: 24px;
+	margin: 0;
+	padding-left: 10px;
+}
+.gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar {
+	padding: 0px 20px;
+}
+.gdpr_messagebar_detail.layout-default .gdpr-iab-navbar {
+	flex-direction: column;
+	width: 27%;
+	float: left;
+}
+.gdpr_messagebar_detail.layout-default .outer-container{
+	width: 73%;
+	float: right;
+
+}
+.gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button:focus {
+	outline: none;
+}
+.gdpr_messagebar_detail.layout-default .gdpr-iab-navbar .gdpr-iab-navbar-button {
+	text-align: left;
+}
+
+.gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button{
+    color: #000;
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+	font-weight: 600;
+    line-height: 14.06px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    text-transform: none;
+    min-height: 0;
+    text-shadow: none;
+    box-shadow: none;
+}
+.gdpr_messagebar_detail.layout-default .gdpr-iab-navbar .gdpr-iab-navbar-button{
+	padding: 10px ;
+	color:#fff;
+}
+.gdpr_messagebar_detail.almond_column .gdpr-iab-navbar .gdpr-iab-navbar-button{
+	color: #000;
+}
+.gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button{
+	padding: 14px 0;
+
+}
+.gdpr_messagebar_detail .gdpr-iab-navbar .dashicons{
+	line-height: 0.8;
+}
+.feature-group, .vendor-group {
+	display: none;
+}
+
+.vendor-switch-wrapper, .purposes-switch-wrapper, .special-features-switch-wrapper {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.gdpr_messagebar_detail.layout-default .vendor-switch-wrapper, 
+.gdpr_messagebar_detail.layout-default .purposes-switch-wrapper, 
+.gdpr_messagebar_detail.layout-default .special-features-switch-wrapper {
+	flex-direction: column;
+	align-items: end;
+}
+.vendor-legitimate-switch-wrapper, .vendor-consent-switch-wrapper,
+.purposes-legitimate-switch-wrapper, .purposes-consent-switch-wrapper,
+.special-features-consent-switch-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.vendor-legitimate-switch-wrapper,
+.purposes-legitimate-switch-wrapper {
+	border-right: 1px solid #d0d5d2;
+    padding: 0 17px 0 0;
+}
+.gdpr_messagebar_detail.layout-default .vendor-legitimate-switch-wrapper,
+.gdpr_messagebar_detail.layout-default .purposes-legitimate-switch-wrapper{
+	padding: 0;
+	border: none;
+}
+.vendor-consent-switch-wrapper, 
+.purposes-consent-switch-wrapper,
+.special-features-consent-switch-wrapper {
+	padding: 0 0 0 17px;
+}
+
+.vendor-switch-label, .purposes-switch-label, .special-features-switch-label{
+	font-size: 11px;
+	font-weight: 400;
+    line-height: 24px;
+    margin: 0 8px 0 0;
+	vertical-align: middle;
+}
+
+/* purpose and feature description */
+.gdpr-ad-purpose-details {
+	color: #555555;
+    font-size: 12px;
+    line-height: 24px;
+    margin: 0 0 0 18px;
+}
+.navy_blue_center .gdpr-ad-purpose-details,
+.navy_blue_box .gdpr-ad-purpose-details,
+.navy_blue_square.gdpr-ad-purpose-details {
+	color: #b3ddfc;
+}
+.dark_row .gdpr-ad-purpose-details {
+	color: #98b2ab;
+}
+.dark .gdpr-ad-purpose-details {
+	color: #949494;
+}
+.gdpr-ad-purpose-details a {
+	color: #115ca7;
+}
+.navy_blue_center .gdpr-ad-purpose-details a,
+.navy_blue_box .gdpr-ad-purpose-details a,
+.navy_blue_square .gdpr-ad-purpose-details a,
+.dark_row .gdpr-ad-purpose-details a {
+	color: #0093ff;
+}
+.dark .gdpr-ad-purpose-details a {
+	color: #4570dc;
+}
+.gdpr_messagebar_detail.layout-default .gdpr-ad-purpose-details {
+	margin: 0;
+}
+.gdpr-ad-purpose-details * {
+	font-size: 12px;
+    line-height: 24px;
+    word-wrap: break-word;
+}
+
+.gdpr-ad-purpose-details-desc {
+	margin-bottom: 13px;
+	margin-top: 0;
+}
+
+.gdpr-ad-purpose-details .gdpr-ad-purpose-illustrations-title{
+	font-weight: 700;
+	margin: 0;
+}
+
+.gdpr-ad-purpose-details .gdpr-ad-purpose-vendor-count-wrapper {
+	margin-top: 11px;
+	font-weight: 700;
+}
+
+.gdpr-vendor-privacy-link-title, .gdpr-vendor-legitimate-link-title, .gdpr-vendor-data-retention-value, .gdpr-vendor-purposes-title,
+.gdpr-vendor-special-purposes-title, .gdpr-vendor-features-title, .gdpr-vendor-data-categories-title {
+	font-weight: 700;
+}
+
+.gdpr-vendor-privacy-link, .gdpr-vendor-legitimate-link, .gdpr-vendor-data-retention-section,
+.gdpr-vendor-purposes-section, .gdpr-vendor-special-purposes-section, .gdpr-vendor-features-section {
+	margin: 0 0 13px 0;	
+}
+
+.gdpr-vendor-purposes-title, .gdpr-vendor-special-purposes-title, .gdpr-vendor-features-title, .gdpr-vendor-data-categories-title {
+	margin:0;
+}
+
+.gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active{	
+	border-bottom: 2px, solid;
+}
+
 .gdpr_messagebar_detail .category-group {
 	margin: 0;
 	padding-left: 0;
@@ -4692,7 +4987,17 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	z-index: auto;
 	box-shadow: none;
 }
-.gdpr_messagebar_detail.layout-classic .category-group .category-item {
+.gdpr_messagebar_detail .category-group .category-item hr{
+    margin: 0 20px 0 10px;
+	border: 0;
+}
+.gdpr_messagebar_detail .category-group .category-item .description-container hr,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container hr {
+	margin:0 20px;
+	padding:0;
+}
+.gdpr_messagebar_detail.layout-classic .category-group .category-item,
+.gdpr_messagebar_detail.layout-default  .category-group .category-item {
 	position: relative;
 }
 .gdpr_messagebar_detail .category-group .category-item h3 {
@@ -4704,43 +5009,68 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	line-height: 1.5;
 	color: inherit;
 }
-
-.gdpr_messagebar_detail .category-group .category-item .gdpr-column {
+#gdpr-cookie-consent-settings-app textarea.form-control[readonly] {
+	padding: .375rem .75rem;
+    background: #fff;
+    opacity: 0.5;
+}
+.gdpr_messagebar_detail .category-group .category-item .gdpr-column, 
+.gdpr_messagebar_detail .category-group .category-item .inner-gdpr-column {
 	width: 100%;
 }
 
-.gdpr_messagebar_detail .category-group .category-item .gdpr-column .gdpr-columns {
+.gdpr_messagebar_detail .category-group .category-item .gdpr-column .gdpr-columns, 
+.gdpr_messagebar_detail .category-group .category-item .inner-gdpr-column .inner-gdpr-columns {
 	clear: both;
 	width: 25%;
 	float: left;
 	cursor: pointer;
-	background-color: #ebebeb;
-	padding: 10px;
+	/* background-color: #fff; */
+	padding: 14px;
 	vertical-align: middle;
 	outline: none;
 	margin: 10px 10px 0 10px;
 	border-radius: 5px;
 	box-sizing: border-box;
 }
+.gdpr_messagebar_detail  .category-group .category-item .gdpr-column .gdpr-columns, 
+.gdpr_messagebar_detail  .category-group .category-item .inner-gdpr-column .inner-gdpr-columns {
+	margin: 0;
+}
+.gdpr_messagebar_detail.layout-default  .category-group .category-item .inner-gdpr-column .inner-gdpr-columns {
+	width: 100%;
+	float: none;
+	padding-left: 25px;
+}
 .gdpr_messagebar_detail.navy_blue_center .category-group .category-item .gdpr-column .gdpr-columns,
 .gdpr_messagebar_detail.navy_blue_box .category-group .category-item .gdpr-column .gdpr-columns,
-.gdpr_messagebar_detail.navy_blue_square .category-group .category-item .gdpr-column .gdpr-columns {
-	background-color: #354e8e;
+.gdpr_messagebar_detail.navy_blue_square .category-group .category-item .gdpr-column .gdpr-columns
+.gdpr_messagebar_detail.navy_blue_center .category-group .category-item .inner-gdpr-column .inner-gdpr-columns,
+.gdpr_messagebar_detail.navy_blue_box .category-group .category-item .inner-gdpr-column .inner-gdpr-columns,
+.gdpr_messagebar_detail.navy_blue_square .category-group .category-item .inner-gdpr-column .inner-gdpr-columns {
+	background-color: #1c2e5a;
 }
-.gdpr_messagebar_detail.almond_column .category-group .category-item .gdpr-column .gdpr-columns {
-	background-color: #f2ecd8;
+.gdpr_messagebar_detail.almond_column .category-group .category-item .gdpr-column .gdpr-columns,
+.gdpr_messagebar_detail.almond_column .category-group .category-item .inner-gdpr-column .inner-gdpr-columns {
+	background-color: #FCF5DF;
 }
 .gdpr_messagebar_detail.grey_center .category-group .category-item .gdpr-column .gdpr-columns,
-.gdpr_messagebar_detail.grey_column .category-group .category-item .gdpr-column .gdpr-columns {
-	background-color: #e0e0e0;
+.gdpr_messagebar_detail.grey_column .category-group .category-item .gdpr-column .gdpr-columns,
+.gdpr_messagebar_detail.grey_center .category-group .category-item .inner-gdpr-column .inner-gdpr-columns,
+.gdpr_messagebar_detail.grey_column .category-group .category-item .inner-gdpr-column .inner-gdpr-columns {
+	background-color: #f4f4f4;
 }
-.gdpr_messagebar_detail.dark .category-group .category-item .gdpr-column .gdpr-columns {
-	background-color: #3a3a3a;
+.gdpr_messagebar_detail.dark .category-group .category-item .gdpr-column .gdpr-columns,
+.gdpr_messagebar_detail.dark .category-group .category-item .inner-gdpr-column .inner-gdpr-columns {
+	background-color: #000000;
 }
-.gdpr_messagebar_detail.dark_row .category-group .category-item .gdpr-column .gdpr-columns {
-	background-color: #434a58;
+.gdpr_messagebar_detail.dark_row .category-group .category-item .gdpr-column .gdpr-columns,
+.gdpr_messagebar_detail.dark_row .category-group .category-item .inner-gdpr-column .inner-gdpr-columns {
+	background-color: #36423f;
 }
-.gdpr_messagebar_detail.layout-classic .category-group .category-item .gdpr-column .gdpr-columns {
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .gdpr-column .gdpr-columns,
+.gdpr_messagebar_detail.layout-default  .category-group .category-item .gdpr-column .gdpr-columns,
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .inner-gdpr-column .inner-gdpr-columns {
 	width: auto;
 	float: unset;
 }
@@ -4750,92 +5080,115 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .gdpr_messagebar_detail.layout-classic .category-group .category-item:last-child .gdpr-column .gdpr-columns.active-group {
 	margin-bottom: unset;
 }
-.gdpr_messagebar_detail .category-group .category-item .gdpr-column .gdpr-columns.active-group {
-	color: #ffffff;
-	background-color: #7b7b7b;
+.gdpr_messagebar_detail .category-group .category-item .gdpr-column .gdpr-columns.active-group,
+.gdpr_messagebar_detail .category-group .category-item .inner-gdpr-column .inner-gdpr-columns.active-group {
+	/* color: #000;
+	background-color: #fff; */
 }
-.gdpr_messagebar_detail.layout-classic .category-group .category-item .gdpr-column .gdpr-columns.active-group {
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .gdpr-column .gdpr-columns.active-group,
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .inner-gdpr-column .inner-gdpr-columns.active-group {
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 }
-.gdpr_messagebar_detail .category-group .category-item .description-container {
+.gdpr_messagebar_detail  .category-group .category-item .description-container,
+.gdpr_messagebar_detail  .category-group .category-item .inner-description-container {
+	padding: 0 5%;
+	height: 100%; 
+	overflow:scroll;
+	box-sizing: border-box;
+}
+.gdpr_messagebar_detail .category-group .category-item .description-container{
 	position: absolute;
 	max-width: 75%;
 	left: 25%;
 	float: left;
 	padding: 0 5%;
-	height: 100%;
+	height: 100%; 
 	overflow:scroll;
 	box-sizing: border-box;
 }
-.gdpr_messagebar_detail.theme-dt-the7 .category-group .category-item .description-container {
+.gdpr_messagebar_detail .category-group .category-item .description-container {
+	max-width: 100%;
+}
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .inner-description-container{
+	position: absolute;
+	/* max-width: 75%; */
+	left: 25%;
+	float: left;
+}
+.gdpr_messagebar_detail.theme-dt-the7 .category-group .category-item .description-container,
+.gdpr_messagebar_detail.theme-dt-the7 .category-group .category-item .inner-description-container {
 	left: 30%;
 }
-.gdpr_messagebar_detail.layout-classic .category-group .category-item .description-container {
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .description-container,
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .inner-description-container,
+.gdpr_messagebar_detail.layout-default  .category-group .category-item .description-container {
 	width: 100%;
 	left: unset;
 	float:unset;
 	position: relative;
 	padding: 0 10px;
-	background-color: #f5f5f5;
+	/* background-color: #fff; */
 	background-clip: content-box;
 }
 .gdpr_messagebar_detail .category-group .category-item div:focus,
 .gdpr_messagebar_detail.layout-classic .category-group .category-item div:focus {
 	outline: none;
 }
-.gdpr_messagebar_detail.layout-classic .category-group .category-item:last-child .description-container {
+.gdpr_messagebar_detail.layout-classic .category-group .category-item:last-child .description-container,
+.gdpr_messagebar_detail.layout-classic .category-group .category-item:last-child .inner-description-container {
 	padding: 0 10px 10px;
 }
-.gdpr_messagebar_detail.layout-classic.navy_blue_center .category-group .category-item .description-container,
-.gdpr_messagebar_detail.layout-classic.navy_blue_box .category-group .category-item .description-container,
-.gdpr_messagebar_detail.layout-classic.navy_blue_square .category-group .category-item .description-container {
-	background-color: #2f467f;
-}
-.gdpr_messagebar_detail.layout-classic.almond_column .category-group .category-item .description-container {
-	background-color: #ede4ca;
+.gdpr_messagebar_detail .category-group .toggle-group .checkbox label {
+	background: #D4D4D8;
 }
 .gdpr_messagebar_detail.layout-classic.grey_center .category-group .category-item .description-container,
-.gdpr_messagebar_detail.layout-classic.grey_column .category-group .category-item .description-container {
-	background-color: #eaeaea;
+.gdpr_messagebar_detail.layout-classic.grey_column .category-group .category-item .description-container,
+.gdpr_messagebar_detail.layout-classic.grey_center .category-group .category-item .inner-description-container,
+.gdpr_messagebar_detail.layout-classic.grey_column .category-group .category-item .inner-description-container {
+	background-color: #f4f4f4;
 }
-.gdpr_messagebar_detail.layout-classic.dark .category-group .category-item .description-container {
-	background-color: #303030;
-}
-.gdpr_messagebar_detail.layout-classic.dark_row .category-group .category-item .description-container {
-	background-color: #3a404d;
-}
-.gdpr_messagebar_detail .category-group .category-item .description-container div.group-description {
+.gdpr_messagebar_detail .category-group .category-item .description-container div.group-description,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container div.group-description {
 	padding: 15px 0;
 	color:inherit;
 }
-.gdpr_messagebar_detail.layout-classic .category-group .category-item .description-container div.group-description {
+/* .gdpr_messagebar_detail.layout-classic .category-group .category-item .description-container div.group-description,
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .inner-description-container div.group-description {
 	padding: 10px;
+} */
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .description-container div.group-description,
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .inner-description-container div.group-description,
+.gdpr_messagebar_detail  .category-group .category-item .description-container div.group-description,
+.gdpr_messagebar_detail  .category-group .category-item .inner-description-container div.group-description{
+	padding: 0 20px 0 0;
 }
-.gdpr_messagebar_detail .category-group .category-item .description-container .category-cookies-list-container {
+.gdpr_messagebar_detail .category-group .category-item .description-container .category-cookies-list-container,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .category-cookies-list-container {
 	font-size: inherit;
 	line-height: inherit;
 	overflow-x: auto;
 	padding: 15px 0;
 }
-.gdpr_messagebar_detail.layout-classic .category-group .category-item .description-container .category-cookies-list-container {
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .description-container .category-cookies-list-container,
+.gdpr_messagebar_detail.layout-classic .category-group .category-item .inner-description-container .category-cookies-list-container {
 	padding: 0 10px 10px 10px;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .category-cookies-list-container table,
 .gdpr_messagebar_detail .category-group .category-item .description-container .category-cookies-list-container table th,
-.gdpr_messagebar_detail .category-group .category-item .description-container .category-cookies-list-container table td {
+.gdpr_messagebar_detail .category-group .category-item .description-container .category-cookies-list-container table td,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .category-cookies-list-container table,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .category-cookies-list-container table th,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .category-cookies-list-container table td {
 	font-size: inherit;
 	line-height: inherit;
 	margin: 0;
 	background-color: inherit;
 	word-break: inherit;
 }
-.gdpr_messagebar_detail .category-group .category-item .description-container hr {
-	margin:0;
-	padding:0;
-	margin-bottom: 15px;
-}
-.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle {
+
+.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle {
 	display: inline-block;
 	width: 100%;
 	padding: 15px 0;
@@ -4843,23 +5196,46 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 .gdpr_messagebar_detail.navy_blue_center .category-group .category-item .description-container .group-toggle,
 .gdpr_messagebar_detail.navy_blue_box .category-group .category-item .description-container .group-toggle,
-.gdpr_messagebar_detail.navy_blue_square .category-group .category-item .description-container .group-toggle {
+.gdpr_messagebar_detail.navy_blue_square .category-group .category-item .description-container .group-toggle,
+.gdpr_messagebar_detail.navy_blue_center .category-group .category-item .inner-description-container .group-toggle,
+.gdpr_messagebar_detail.navy_blue_box .category-group .category-item .inner-description-container .group-toggle,
+.gdpr_messagebar_detail.navy_blue_square .category-group .category-item .inner-description-container .group-toggle {
 	border-bottom-color: rgba(58,86,156,0.5);
 }
-.gdpr_messagebar_detail.almond_column .category-group .category-item .description-container .group-toggle {
+.gdpr_messagebar_detail.navy_blue_center .category-group .category-item .checkbox label,
+.gdpr_messagebar_detail.navy_blue_box .category-group .category-item .checkbox label,
+.gdpr_messagebar_detail.navy_blue_square .category-group .category-item .checkbox label,
+.gdpr_messagebar_detail.navy_blue_center .category-group .category-item .checkbox label,
+.gdpr_messagebar_detail.navy_blue_box .category-group .category-item .checkbox label,
+.gdpr_messagebar_detail.navy_blue_square .category-group .category-item .checkbox label {
+	background-color: #2a3e71;
+}
+.gdpr_messagebar_detail.almond_column .category-group .category-item .description-container .group-toggle,
+.gdpr_messagebar_detail.almond_column .category-group .category-item .inner-description-container .group-toggle {
 	border-bottom-color: rgba(247,243,231,0.5);
 }
+.gdpr_messagebar_detail.almond_column .category-group .category-item .checkbox label {
+	background-color: #FFCEAD;
+}
 .gdpr_messagebar_detail.grey_center .category-group .category-item .description-container .group-toggle,
-.gdpr_messagebar_detail.grey_column .category-group .category-item .description-container .group-toggle {
+.gdpr_messagebar_detail.grey_column .category-group .category-item .description-container .group-toggle,
+.gdpr_messagebar_detail.grey_center .category-group .category-item .inner-description-container .group-toggle,
+.gdpr_messagebar_detail.grey_column .category-group .category-item .inner-description-container .group-toggle {
 	border-bottom-color: rgba(215,215,215,0.5);
 }
-.gdpr_messagebar_detail.dark .category-group .category-item .description-container .group-toggle {
+.gdpr_messagebar_detail.dark .category-group .category-item .description-container .group-toggle,
+.gdpr_messagebar_detail.dark .category-group .category-item .inner-description-container .group-toggle {
 	border-bottom-color: rgba(67,67,67,0.5);
 }
-.gdpr_messagebar_detail.dark_row .category-group .category-item .description-container .group-toggle {
+.gdpr_messagebar_detail.dark_row .category-group .category-item .description-container .group-toggle,
+.gdpr_messagebar_detail.dark_row .category-group .category-item .inner-description-container .group-toggle {
 	border-bottom-color: rgba(75,83,99,0.5);
 }
-.gdpr_messagebar_detail.layout-classic .category-group .toggle-group {
+.gdpr_messagebar_detail.dark_row .category-group .category-item .checkbox label {
+	background-color: #73dbc0;
+}
+.gdpr_messagebar_detail.layout-classic .category-group .toggle-group,
+.gdpr_messagebar_detail.layout-default  .category-group .toggle-group {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -4867,23 +5243,27 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	display: inline;
 	border: unset;
 }
-.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .toggle-group {
+.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .toggle-group,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .toggle-group {
 	float: right;
 	display: inline-block;
 	vertical-align: middle;
 }
-.gdpr_messagebar_detail.layout-classic .category-group .toggle-group {
+.gdpr_messagebar_detail.layout-classic .category-group .toggle-group,
+.gdpr_messagebar_detail.layout-default  .category-group .toggle-group {
 	float: right;
 	display: inline-block;
 	vertical-align: middle;
 }
-.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox {
+.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox {
 	background-color: inherit;
 	position: relative;
 	display: inline-block;
 	z-index: 1;
 }
-.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox {
+.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox,
+.gdpr_messagebar_detail.layout-default  .category-group .toggle-group .checkbox {
 	background-color: transparent;
 	position: relative;
 	display: inline-block;
@@ -4892,8 +5272,10 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	margin: 0;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox label,
-.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox label {
-	background: #ffffff;
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox label,
+.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox label,
+.gdpr_messagebar_detail.layout-default  .category-group .toggle-group .checkbox label {
+	/* background: #D4D4D8; */
 	border: none;
 	height: 20px;
 	width: 35px;
@@ -4904,7 +5286,9 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	margin-bottom: 0;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox label:after,
-.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox label:after {
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox label:after,
+.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox label:after,
+.gdpr_messagebar_detail.layout-default  .category-group .toggle-group .checkbox label:after {
 	cursor: pointer;
 	content: "";
 	position: absolute;
@@ -4914,15 +5298,19 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	left: 1px;
 	top: 1px;
 	z-index: 2;
-	background: #7b7b7b;
+	background: #fff;
 	transition: 0.4s;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox .label-text,
-.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox .label-text {
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox .label-text,
+.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox .label-text,
+.gdpr_messagebar_detail.layout-default  .category-group .toggle-group .checkbox .label-text {
 	display: none;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input,
-.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input {
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input,
+.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input,
+.gdpr_messagebar_detail.layout-default  .category-group .toggle-group .checkbox input {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -4933,20 +5321,27 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	cursor: pointer;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked + label:after,
-.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input:checked + label:after {
-	background: #333333;
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input:checked + label:after,
+.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox input:checked + label:after,
+.gdpr_messagebar_detail.layout-default  .category-group .toggle-group .checkbox input:checked + label:after {
+	background: #fff;
 	left: 16px;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox:not(:checked),
-.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox:not(:checked) {
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox:not(:checked),
+.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .checkbox:not(:checked),
+.gdpr_messagebar_detail.layout-default  .category-group .toggle-group .checkbox:not(:checked) {
 	pointer-events: initial;
 }
 .gdpr_messagebar_detail .category-group .category-item .description-container .toggle-group .always-active,
-.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .always-active {
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container .toggle-group .always-active,
+.gdpr_messagebar_detail.layout-classic .category-group .toggle-group .always-active,
+.gdpr_messagebar_detail.layout-default  .category-group .toggle-group .always-active {
 	line-height: 1.3;
 	color: #333333;
 }
-.gdpr_messagebar_detail .category-group .category-item .description-container {
+.gdpr_messagebar_detail .category-group .category-item .description-container,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container {
 	visibility: visible;
 	opacity: 1;
 	-webkit-transition:   opacity 0.5s ease;
@@ -4956,7 +5351,8 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	transition:  opacity 0.5s ease;
 	transition-delay:0.2s;
 }
-.gdpr_messagebar_detail .category-group .category-item .description-container.hide {
+.gdpr_messagebar_detail .category-group .category-item .description-container.hide,
+.gdpr_messagebar_detail .category-group .category-item .inner-description-container.hide {
 	visibility: hidden;
 	height:0;
 	opacity:0;
@@ -5221,6 +5617,183 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	display: none;
 }
 
-.gdprmodal-content .gdprmodal-body .gdpr-columns .dashicons.dashicons-plus{
+.gdprmodal-content .gdprmodal-body .gdpr-columns .dashicons.dashicons-arrow-down-alt2{
 	margin: 3px;
+}
+
+.gdpr-cookie-consent-main-admin-header .gdpr-remaining-scans-content{
+	min-height: 4em;
+	background-color: #16A34A;
+	display: flex;
+    justify-content: space-between;
+	position: relative;
+	z-index: 9001;
+}
+
+.gdpr-remaining-scans-content .gdpr-remaining-scans-container{
+	margin: auto 0;
+    margin-left: 20px;
+}
+
+.gdpr-remaining-scans-content .gdpr-remaining-scans-container span{
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 18px;
+	text-align: center;
+	color: #FFFFFF;
+}
+
+.gdpr-remaining-scans-content .gdpr-remaining-scans-title{
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 18px;
+	text-align: center;
+	color: #FFFFFF;
+}
+
+.gdpr-remaining-scans-content .gdpr-current-plan-container{
+	display: flex;
+    margin: auto 0;
+    margin-right: 35px;
+}
+.gdpr-remaining-scans-content .gdpr-current-plan-container p{
+	margin: 0;
+    margin-right: 25px;
+	margin-top: 5px;
+	font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+}
+.gdpr-remaining-scans-content .gdpr-current-plan-container span{
+	font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+}
+.gdpr-remaining-scans-content .gdpr-current-plan-container img{
+	height: 2.2em;
+    width: 6.53em;
+	cursor: pointer;
+}
+
+/* scan limit popup  */
+
+#openPopup {
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 23, 34, 0.85);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: #fff;
+	top: 40%;
+    left: 25%;
+    border-radius: 5px;
+    max-width: 900px;
+	height: 300px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.popup-header{
+	height: 43px;
+	background: #E9F1F8;
+	border-radius: 5px 5px 0px 0px;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px; /* Adjust padding as needed */
+    position: relative;
+}
+.popup-title {
+    flex: 1; /* Allow the title to grow and take available space */
+    text-align: center; /* Center the text */
+	font-size: 14px;
+	font-weight: 500;
+	color: #074EA8;
+}
+.gdpr-remaining-scans-title{
+	font-weight: 600px;
+}
+
+.popup-image {
+    flex-shrink: 0; /* Prevent the image from shrinking */
+    margin-left: auto; /* Push the image to the right */
+    /* Optional styling for the image */
+    width: 23px; /* Adjust size as needed */
+    height: 23px;
+}
+
+.popup-body h2{
+ margin-top: 40px;
+ margin-bottom: 24px;
+ font-size: 32px;
+ font-weight: 500;
+ color: #000000;
+}
+
+.popup-body p {
+    margin: 0;
+	font-size: 14px;
+    color: #000000;
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 16.41px;
+	text-align: center;
+
+}
+.excausted-popup-body h2{
+ margin-top: 28px;
+ margin-bottom: 24px;
+ font-size: 32px;
+ font-weight: 600;
+ color: #000000;
+}
+
+.excausted-popup-body p {
+    margin: 0;
+	font-size: 14px;
+    color: #000000;
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 16.41px;
+	text-align: center;
+	margin-top:24px;
+}
+
+.upgrade-button {
+    margin-top: 30px;
+    padding: 16px 23px;
+    background-color: #074EA8;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+	font-weight: 600;
+}
+
+.upgrade-button:hover {
+    background-color: #0056b3;
 }

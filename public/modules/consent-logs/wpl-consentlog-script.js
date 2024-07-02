@@ -10,6 +10,7 @@ function generatePDF(
   ipAddress,
   country,
   consentStatus,
+  tcString,
   siteaddress,
   preferences,
   cookieData,
@@ -92,21 +93,26 @@ function generatePDF(
   doc.text("Consent Status:", 10, 95);
   doc.setFont(undefined, "normal"); // Reset font type to normal
   doc.text(consentStatus, 44,95);
+ 
+  doc.setFont(undefined, "bold"); // Set font type to bold
+  doc.text("TC String:", 10, 110);
+  doc.setFont(undefined, "normal"); // Reset font type to normal
+  doc.text(tcString, 32,110);
 
   if(siteaddress){
     doc.setFont(undefined, "bold"); // Set font type to bold
-    doc.text("Forwarded From:", 10, 110);
+    doc.text("Forwarded From:", 10, 125);
     doc.setFont(undefined, "normal"); // Reset font type to normal
-    doc.text(siteaddress, 48,110);
+    doc.text(siteaddress, 48,125);
 
     const fontSizeSubheading = 16;
   doc.setFontSize(fontSizeSubheading);
   doc.setFont(undefined, "bold");
-  doc.text("Cookie Consent Details:", 10, 125);
+  doc.text("Cookie Consent Details:", 10, 140);
   doc.setFont(undefined, "normal"); // Reset font type to normal
   doc.setFontSize(fontSizeText);
   if (preferences) {
-    let startY = 140; // Initial startY for content
+    let startY = 170; // Initial startY for content
 
     // Check and display status for Necessary
     if (preferences.necessary === "yes") {
@@ -272,11 +278,11 @@ function generatePDF(
   const fontSizeSubheading = 16;
   doc.setFontSize(fontSizeSubheading);
   doc.setFont(undefined, "bold");
-  doc.text("Cookie Consent Details:", 10, 110);
+  doc.text("Cookie Consent Details:", 10, 125);
   doc.setFont(undefined, "normal"); // Reset font type to normal
   doc.setFontSize(fontSizeText);
   if (preferences) {
-    let startY = 120; // Initial startY for content
+    let startY = 135; // Initial startY for content
 
     // Check and display status for Necessary
     if (preferences.necessary === "yes") {
