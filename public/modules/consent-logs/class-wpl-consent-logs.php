@@ -86,22 +86,25 @@ class WPL_Consent_Logs extends WP_List_Table {
 	 */
 	public function search_box( $text, $input_id ) {
 		$input_id = $input_id . '-search-input';
-
+	
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			echo '<input type="hidden" name="orderby" value="'
 				. esc_attr( wp_unslash( $_REQUEST['orderby'] ) ) . '" />';
 		}
 		if ( ! empty( $_REQUEST['order'] ) ) {
 			echo '<input type="hidden" name="order" value="'
-				. esc_attr( $_REQUEST['order'] ) . '" />';
+				. esc_attr( wp_unslash( $_REQUEST['order'] ) ) . '" />';
 		}
 		$search = $this->get_search();
 		?>
-
+	
 		<div class="search-and-export-container">
-			<p class="search-box">
-				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html( $text ); ?>:</label>
-				<input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>" />
+			<div class="search-box">
+				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
+					<?php echo esc_html( $text ); ?>:
+				</label>
+				<input placeholder="Search Consent Logs" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
+				<img id="search-logo-consent-log" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 				<?php
 				submit_button(
 					$text,
@@ -111,13 +114,13 @@ class WPL_Consent_Logs extends WP_List_Table {
 					array( 'ID' => 'search-submit-consent-log' )
 				);
 				?>
-			</p>
-			<a href="<?php echo esc_url_raw( plugin_dir_url( __FILE__ ) . 'csv.php?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="button button-primary data-req-export-button"><?php esc_html_e( 'Export As CSV', 'gdpr-cookie-consent' ); ?></a>
-
-			<?php
-			echo wp_kses_post( $this->resolved_select() );
-			?>
+			</div>
 		</div>
+		<script type="text/javascript">
+			document.getElementById('search-logo-consent-log').addEventListener('click', function() {
+				document.getElementById('search-submit-consent-log').click();
+			});
+		</script>
 		<?php
 	}
 
@@ -179,7 +182,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'                    => '<input type="checkbox"/>',
+			'cb'                    => '<input class="consent-log-cb" type="checkbox"/>',
 			'wplconsentlogsip'      => __( 'IP Address', 'gdpr-cookie-consent' ),
 			'wplconsentlogsdates'   => __( 'Visited Date', 'gdpr-cookie-consent' ),
 			'wplconsentlogscountry' => __( 'Country', 'gdpr-cookie-consent' ),
@@ -237,7 +240,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$actions = array(
 			'delete' => __( 'Delete', 'gdpr-cookie-consent' ),
 		);
-
+		echo wp_kses_post( $this->resolved_select() );
 		return $actions;
 	}
 
@@ -575,12 +578,12 @@ class WPL_Consent_Logs extends WP_List_Table {
 					}
 
 					if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
-						$wplconsentlogstatus = '<div style="color: red;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
+						$wplconsentlogstatus = '<div style="color: #B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
 					} elseif ( $new_consent_status ) {
 
-						$wplconsentlogstatus = '<div style="color: green;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '</div>';
+						$wplconsentlogstatus = '<div style="color: #15803D;font-weight:500;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '</div>';
 					} else {
-						$wplconsentlogstatus = '<div style="color: blue;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '</div>';
+						$wplconsentlogstatus = '<div style="color: #DB6200;font-weight:500;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '</div>';
 					}
 				}
 				$siteaddress = null;
@@ -638,24 +641,15 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 				ob_start();
 				?>
-				<div>
-					<a href="#consent_logs" class="download-pdf-button" onclick="generatePDF(
+				<div class="download-pdf-button">
+					<a href="#consent_logs" onclick="generatePDF(
 					'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 					'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip'][0] ) : 'Unknown' ); ?>',
 					'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 					'<?php echo esc_attr( $consent_status ); ?>',
 					'<?php echo esc_attr( $siteaddress ); ?>',
-					<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' );?>,
-					)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<g clip-path="url(#clip0_103_5501)">
-								<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
-							</g>
-							<defs>
-								<clipPath id="clip0_103_5501">
-									<rect width="20" height="20" fill="white" />
-								</clipPath>
-							</defs>
-						</svg></a>
+					<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+					)">Download</a>
 				</div>
 				<?php
 
@@ -740,18 +734,18 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 
 						if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
-							$wplconsentlogstatus = '<div style="color: red;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
+							$wplconsentlogstatus = '<div style="color: #B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
 						} elseif ( $new_consent_status ) {
 
-							$wplconsentlogstatus = '<div style="color: green;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '</div>';
+							$wplconsentlogstatus = '<div style="color: #15803D;font-weight:500;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '</div>';
 						} else {
-							$wplconsentlogstatus = '<div style="color: blue;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '</div>';
+							$wplconsentlogstatus = '<div style="color: #DB6200;font-weight:500;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '</div>';
 						}
 					}
 					if ( $siteurl == $forwarded_site_url1 ) {
-						$wplconsentlogsforwarded = '<div style="color:blue;text-align:center">' . $siteurl . '</div>';
+						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . $siteurl . '</div>';
 					} else {
-						$wplconsentlogsforwarded = '<div style="color:blue;text-align:center">' . $forwarded_site_url1 . '</div>';
+						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . $forwarded_site_url1 . '</div>';
 					}
 					if ( $siteurl !== $forwarded_site_url1 ) {
 						$siteaddress = $forwarded_site_url1;
@@ -812,24 +806,15 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 					ob_start();
 					?>
-					<div>
-						<a href="#consent_logs" class="download-pdf-button" onclick="generatePDF(
+					<div class="download-pdf-button">
+						<a href="#consent_logs" onclick="generatePDF(
 							'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 							'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip'][0] ) : 'Unknown' ); ?>',
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 							'<?php echo esc_attr( $consent_status ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
 								<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
-							)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<g clip-path="url(#clip0_103_5501)">
-									<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
-								</g>
-								<defs>
-									<clipPath id="clip0_103_5501">
-										<rect width="20" height="20" fill="white" />
-									</clipPath>
-								</defs>
-							</svg></a>
+							)">Download</a>
 					</div>
 					<?php
 
@@ -899,18 +884,18 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 
 						if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
-							$wplconsentlogstatus = '<div style="color: red;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
+							$wplconsentlogstatus = '<div style="color: #B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
 						} elseif ( $new_consent_status ) {
 
-							$wplconsentlogstatus = '<div style="color: green;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
+							$wplconsentlogstatus = '<div style="color: #15803D;font-weight:500;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
 						} else {
-							$wplconsentlogstatus = '<div style="color: blue;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
+							$wplconsentlogstatus = '<div style="color: #DB6200;font-weight:500; ">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
 						}
 					}
 					if ( $siteurl == $forwarded_site_url ) {
-						$wplconsentlogsforwarded = '<div style="color:blue;text-align:center">' . $siteurl . '</div>';
+						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;">' . $siteurl . '</div>';
 					} else {
-						$wplconsentlogsforwarded = '<div style="color:blue;text-align:center">' . $forwarded_site_url . '</div>';
+						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;">' . $forwarded_site_url . '</div>';
 					}
 					if ( $siteurl !== $forwarded_site_url ) {
 						$siteaddress = $forwarded_site_url;
@@ -971,24 +956,15 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 					ob_start();
 					?>
-					<div>
-						<a href="#consent_logs" class="download-pdf-button" onclick="generatePDF(
+					<div class="download-pdf-button">
+						<a href="#consent_logs" onclick="generatePDF(
 						'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 						'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 						'<?php echo esc_attr( $consent_status ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
 							<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
-						)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<g clip-path="url(#clip0_103_5501)">
-									<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
-								</g>
-								<defs>
-									<clipPath id="clip0_103_5501">
-										<rect width="20" height="20" fill="white" />
-									</clipPath>
-								</defs>
-							</svg></a>
+						)">Download</a>
 					</div>
 					<?php
 
@@ -1058,18 +1034,18 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 
 						if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
-							$wplconsentlogstatus = '<div style="color: red;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
+							$wplconsentlogstatus = '<div style="color:#B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
 						} elseif ( $new_consent_status ) {
 
-							$wplconsentlogstatus = '<div style="color: green;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '</div>';
+							$wplconsentlogstatus = '<div style="color: #15803D;font-weight:500;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '</div>';
 						} else {
-							$wplconsentlogstatus = '<div style="color: blue;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '</div>';
+							$wplconsentlogstatus = '<div style="color: #DB6200;font-weight:500;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '</div>';
 						}
 					}
 					if ( $siteurl == $forwarded_site_url ) {
-						$wplconsentlogsforwarded = '<div style="color:blue;text-align:center"> ' . $siteurl . '</div>';
+						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;"> ' . $siteurl . '</div>';
 					} else {
-						$wplconsentlogsforwarded = '<div style="color:blue;text-align:center">' . $forwarded_site_url . '</div>';
+						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;">' . $forwarded_site_url . '</div>';
 					}
 					if ( $siteurl !== $forwarded_site_url ) {
 						$siteaddress = $forwarded_site_url;
@@ -1130,24 +1106,15 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 					ob_start();
 					?>
-					<div>
-						<a href="#consent_logs" class="download-pdf-button" onclick="generatePDF(
+					<div class="download-pdf-button">
+						<a href="#consent_logs" onclick="generatePDF(
 							'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 							'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 							'<?php echo esc_attr( $consent_status ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
 							<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
-							)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<g clip-path="url(#clip0_103_5501)">
-									<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
-								</g>
-								<defs>
-									<clipPath id="clip0_103_5501">
-										<rect width="20" height="20" fill="white" />
-									</clipPath>
-								</defs>
-							</svg></a>
+							)">Download</a>
 					</div>
 					<?php
 
@@ -1217,18 +1184,18 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 
 						if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
-							$wplconsentlogstatus = '<div style="color: red;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
+							$wplconsentlogstatus = '<div style="color: #B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
 						} elseif ( $new_consent_status ) {
 
-							$wplconsentlogstatus = '<div style="color: green;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
+							$wplconsentlogstatus = '<div style="color: #15803D;font-weight:500;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
 						} else {
-							$wplconsentlogstatus = '<div style="color: blue;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
+							$wplconsentlogstatus = '<div style="color: #DB6200;font-weight:500;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
 						}
 					}
 					if ( $siteurl == $forwarded_site_url ) {
-						$wplconsentlogsforwarded = '<div style="color:blue;text-align:center"> ' . $siteurl . '</div>';
+						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;"> ' . $siteurl . '</div>';
 					} else {
-						$wplconsentlogsforwarded = '<div style="color:blue;text-align:center">' . $forwarded_site_url . '</div>';
+						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;">' . $forwarded_site_url . '</div>';
 					}
 					if ( $siteurl !== $forwarded_site_url ) {
 						$siteaddress = $forwarded_site_url;
@@ -1289,24 +1256,15 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 					ob_start();
 					?>
-					<div>
-						<a href="#consent_logs" class="download-pdf-button" onclick="generatePDF(
+					<div class="download-pdf-button" >
+						<a href="#consent_logs" onclick="generatePDF(
 						'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 						'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 						'<?php echo esc_attr( $consent_status ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
 						<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
-						)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<g clip-path="url(#clip0_103_5501)">
-									<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
-								</g>
-								<defs>
-									<clipPath id="clip0_103_5501">
-										<rect width="20" height="20" fill="white" />
-									</clipPath>
-								</defs>
-							</svg></a>
+						)">Download</a>
 					</div>
 					<?php
 

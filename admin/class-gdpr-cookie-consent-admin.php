@@ -365,30 +365,23 @@ class Gdpr_Cookie_Consent_Admin {
 		$consent_logs->prepare_items();
 		?>
 		<div class="wpl-consentlogs">
-			<h1 class="wp-heading-inline"><?php esc_html_e( 'Consent Logs', 'gdpr-cookie-consent' ); ?>
-
-			</h1>
 			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ) ); ?>">
+				<div class="wpl-heading-export-consentlogs">
+					<div class="consent-log-heading-export">
+						<h1 class="wp-heading"><?php esc_html_e( 'Consent Logs', 'gdpr-cookie-consent' ); ?></h1>
+						<a href="<?php echo esc_url_raw( plugins_url( 'public/modules/consent-logs/csv.php', dirname(__FILE__) ) . '?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
+					</div>
+					<div class="consent-log-search-log"> 
+						<?php  $consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+				 	</div>
+				</div>
 			<?php
-				$consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$consent_logs->display();
 			?>
-				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
-
+			<input type="hidden" name="page" value="gdpr-cookie-consent"/>
 			</form>
-			<script>
-					document.addEventListener('DOMContentLoaded', function() {
-
-				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction"]').attr('id', 'consentLogApplyButton');
-				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction2"]').attr('id', 'consentLogApplyButton2');
-				jQuery('#wpl-dnsmpd-filter-consent-log select[id="bulk-action-selector-bottom"]').attr('id', 'bulk-action-selector-consent-log-bottom');
-				jQuery('#wpl-dnsmpd-filter-consent-log select[id="bulk-action-selector-top"]').attr('id', 'bulk-action-selector-consent-log-top');
-
-	});
-</script>
 		</div>
 			<?php
-
 			$content                  = ob_get_clean();
 			$args                     = array(
 				'page'    => 'do-not-sell-my-personal-information',
@@ -408,6 +401,12 @@ class Gdpr_Cookie_Consent_Admin {
 					'method' => array(),
 					'action' => array(),
 				),
+				'img' => array(
+					'class'=>array(),
+					'src'=>array(),
+					'alt'=>array(),
+					'id'=>array(),
+				),
 				'p'      => array(
 					'class' => array(),
 				),
@@ -421,6 +420,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'name'  => array(),
 					'value' => array(),
 					'class' => array(),
+					'placeholder'=>array(),
 				),
 				'a'      => array(
 					'href'    => array(),
@@ -892,14 +892,20 @@ class Gdpr_Cookie_Consent_Admin {
 		$datarequests->prepare_items();
 		?>
 		<div class="wpl-datarequests">
-			<h1 class="wp-heading-inline"><?php esc_html_e( 'Data Requests', 'gdpr-cookie-consent' ); ?>
-
-			</h1>
 			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ) ); ?>">
-			<?php
-				$datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
-				$datarequests->display();
-			?>
+				<div class="wpl-heading-export-datarequest">
+					<div class="data-request-heading-export">
+						<h1 class="wp-heading"><?php esc_html_e( 'Data Requests', 'gdpr-cookie-consent' ); ?></h1>
+						<a href="<?php echo esc_url_raw( plugins_url( 'admin/data-req/csv.php', dirname(__FILE__) ) . '?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
+	                </div>
+					<div class="data-request-search-log"> 
+						<?php $datarequests->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+				 	</div>
+				</div>
+				<?php
+					// $datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
+					$datarequests->display();
+				?>
 				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
 			</form>
 		</div>
@@ -923,6 +929,12 @@ class Gdpr_Cookie_Consent_Admin {
 					'method' => array(),
 					'action' => array(),
 				),
+				'img' => array(
+					'class'=>array(),
+					'src'=>array(),
+					'alt'=>array(),
+					'id'=>array(),
+				),
 				'p'      => array(
 					'class' => array(),
 				),
@@ -936,6 +948,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'name'  => array(),
 					'value' => array(),
 					'class' => array(),
+					'placeholder'=>array(),
 				),
 				'a'      => array(
 					'href'   => array(),
@@ -1161,14 +1174,22 @@ class Gdpr_Cookie_Consent_Admin {
 			$policy_data->prepare_items();
 		?>
 			<div class="wpl-consentlogs">
-				<h1 class="wp-heading-inline"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?>
-
-				</h1>
 				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ) ); ?>">
-				<?php
-					$policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
-					$policy_data->display();
-				?>
+					<div class="wpl-heading-export-consentlogs">
+						<div class="policy-data-heading-export">
+							<h1 class="wp-heading"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?></h1>
+							<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export As CSV', 'gdpr-cookie-consent' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Import From CSV', 'gdpr-cookie-consent' ); ?></a>
+							<a href="<?php echo esc_url_raw( admin_url( 'post-new.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Add New', 'gdpr-cookie-consent' ); ?></a>
+						</div>
+						<div class="policy-data-search-log"> 
+							<?php $policy_data->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+				 		</div>
+					</div>
+					<?php
+						// $policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
+						$policy_data->display();
+					?>
 					<input type="hidden" name="page" value="gdpr-cookie-consent"/>
 				</form>
 			</div>
