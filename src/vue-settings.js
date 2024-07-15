@@ -2023,7 +2023,6 @@ var gen = new Vue({
         },
         doScan(singlePageScan = false) {
             var that = this;
-            console.log("first doscan");
             var data    = {
                 action: 'wpl_cookie_scanner',
                 security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
@@ -2125,54 +2124,67 @@ var gen = new Vue({
                 dataType: 'json',
                 type: 'POST',
                 success: function (data) {
-                    console.log("takePages");
-                    console.log(data);
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const scanUrlParam = urlParams.get('scan_url');
-                    console.log("singlePageScan");
-                    console.log(singlePageScan);
-                    console.log(data.log.length);
-                    var ndata = {
-                        action: 'wpl_cookie_scanner_view_capabilities',
-                        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-                        no_of_scan: singlePageScan == true ? 1 : data.log.length
-                    };
-                    console.log(ndata);
-                    jQuery.ajax({
-                        url: settings_obj.cookie_scan_settings.ajax_url,
-                        data: ndata,
-                        dataType: 'json',
-                        type: 'POST',
-                    }).done(function (response) {
-                        console.log(response);
-                        if (response.success && response.data.connection_status === 'active') {
-                            console.log("ndata");
-                            that.scan_id = data.scan_id !== undefined ? data.scan_id : 0;
-                            if (that.continue_scan == 0) {
-                                return false;
-                            }
-                            if (data.response === true) {
-                                that.appendLogAnimate(data.log, 0);
-                                var new_offset = parseInt(data.offset) + parseInt(data.limit);
-                                if ((data.total - 1) > new_offset) { // subtract 1 from total because of home page.
-                                    that.takePages(new_offset, data.limit, data.total, data.scan_id);
-                                } else {
-                                    jQuery('.wpl_progress_action_main').html(settings_obj.cookie_scan_settings.labels.scanning);
-                                    that.scanPages(data.scan_id, 0, data.total);
-                                }
-                            } else {
-                                that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-                            }
-                        } else {
-                            console.log("error");
-                            that.showScanNowPopup();
-                        }
-                    }).fail(function () {
+                    if(that.isGdprProActive){
+                        that.scan_id = typeof data.scan_id != 'undefined' ? data.scan_id : 0;
                         if (that.continue_scan == 0) {
                             return false;
                         }
-                        that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-                    });
+                        if (typeof data.response != 'undefined' && data.response === true) {
+                            that.appendLogAnimate( data.log,0 );
+                            var new_offset = parseInt( data.offset ) + parseInt( data.limit );
+                            if ((data.total - 1) > new_offset) { // substract 1 from total because of home page.
+                                that.takePages( new_offset,data.limit,data.total,data.scan_id );
+                            } else {
+                                j( '.wpl_progress_action_main' ).html( settings_obj.cookie_scan_settings.labels.scanning );
+                                that.scanPages( data.scan_id,0,data.total );
+                            }
+                        } else {
+                            that.showErrorScreen( settings_obj.cookie_scan_settings.labels.error );
+                        }
+                    }else{
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const scanUrlParam = urlParams.get('scan_url');
+                        var ndata = {
+                            action: 'wpl_cookie_scanner_view_capabilities',
+                            security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+                            no_of_scan: singlePageScan == true ? 1 : data.log.length,
+                            offset: offset,
+                            scan_id : scan_id ? scan_id : 0,
+                            total_pages : data.total,
+                        };
+                        jQuery.ajax({
+                            url: settings_obj.cookie_scan_settings.ajax_url,
+                            data: ndata,
+                            dataType: 'json',
+                            type: 'POST',
+                        }).done(function (response) {
+                            if (response.success && response.data.connection_status === 'active') {
+                                that.scan_id = data.scan_id !== undefined ? data.scan_id : 0;
+                                if (that.continue_scan == 0) {
+                                    return false;
+                                }
+                                if (data.response === true) {
+                                    that.appendLogAnimate(data.log, 0);
+                                    var new_offset = parseInt(data.offset) + parseInt(data.limit);
+                                    if ((data.total - 1) > new_offset) { // subtract 1 from total because of home page.
+                                        that.takePages(new_offset, data.limit, data.total, data.scan_id);
+                                    } else {
+                                        jQuery('.wpl_progress_action_main').html(settings_obj.cookie_scan_settings.labels.scanning);
+                                        that.scanPages(data.scan_id, 0, data.total);
+                                    }
+                                } else {
+                                    that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
+                                }
+                            } else {
+                                that.showScanNowPopup();
+                            }
+                        }).fail(function () {
+                            if (that.continue_scan == 0) {
+                                return false;
+                            }
+                            that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
+                        });
+                    }
                 },
                 error: function () {
                     if (that.continue_scan == 0) {
@@ -2184,22 +2196,17 @@ var gen = new Vue({
         },
         
         showScanNowPopup() {
-            console.log("showScanNowPopup");
             this.$nextTick(() => {
                 const scanBtn = jQuery('.scan-now-btn');
-                const popup = jQuery('#popup');
+                const popup = jQuery('#popup-site-excausted');
                 const cancelButton = jQuery('.popup-image');
-        
-               
-                 popup.fadeIn();
-               
+                popup.fadeIn();
                 cancelButton.off('click').on('click', function(e) {
-                        console.log("popup clicked");
-                        popup.fadeOut();
-                   
+                    popup.fadeOut();
+                    window.location.reload();
                 });
             });
-        }   
+        } 
         ,    
         scanPages(scan_id,offset,total) {
             var that = this;
@@ -2222,8 +2229,6 @@ var gen = new Vue({
                     dataType: 'json',
                     type: 'POST',
                     success:function(data) {
-                        console.log("scan pages");
-                        console.log(data);
                         that.scan_id = typeof data.scan_id != 'undefined' ? data.scan_id : 0;
                         if (that.continue_scan == 0) {
                             return false;
@@ -2272,8 +2277,6 @@ var gen = new Vue({
                     dataType: 'json',
                     type: 'POST',
                     success:function(data) {
-                        console.log("getscancookies");
-                        console.log(data);
                         if (data.response == true) {
                             var prg_offset = parseInt( offset ) + parseInt( data.total_scanned );
                             var prg_msg    = settings_obj.cookie_scan_settings.labels.scanning + ' ';
@@ -2809,8 +2812,6 @@ var gen = new Vue({
 				const urlParams = new URLSearchParams(window.location.search);
 				const scanUrlParam = urlParams.get('scan_url');
 				// Check if the 'scan' parameter is present and has the value '1'
-                console.log(scanUrlParam);
-                
 				if ( scanUrlParam ) {
 					// Run the onClickStartScan() method
                     const singlePageScan = true;
@@ -3219,7 +3220,7 @@ var gen = new Vue({
             //Consent Log
             consent_log_switch_clicked: false,
 			// Data Request
-			data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] ) ? true : false,
+            data_reqs_on: ( 'true' == settings_obj.the_options['data_reqs_on'] || 1 === settings_obj.the_options['data_reqs_on'] || '1' == settings_obj.the_options['data_reqs_on'] ) ? true : false,
 			shortcode_copied: false,
 			data_reqs_switch_clicked: false,
 			data_req_email_address: settings_obj.the_options.hasOwnProperty('data_req_email_address') ? settings_obj.the_options['data_req_email_address'] : '',
@@ -4872,12 +4873,10 @@ var gen = new Vue({
 		},
         onClickStartScan() {
             this.continue_scan = 1;
-            console.log("second one");
-            // this.doScan();
+            this.doScan();
         },
         doScan() {
             var that = this;
-            console.log("second do dcan");
             var data    = {
                 action: 'wpl_cookie_scanner',
                 security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
@@ -4908,7 +4907,6 @@ var gen = new Vue({
         },
         scanNow() {
             var html    = this.makeHtml();
-            console.log("second scan now");
 			var scanbar = j( '.gdpr_scanbar' );
 			scanbar.html( html );
 			j( '.gdpr_scanbar_staypage' ).show();
@@ -4957,7 +4955,6 @@ var gen = new Vue({
         },
         takePages(offset,limit,total,scan_id) {
             var that = this;
-            console.log("second take pages");
             var data = {
                 action: 'wpl_cookie_scanner',
                 security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,

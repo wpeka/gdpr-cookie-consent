@@ -3269,8 +3269,6 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 }
 
 .wpgdpr-api-connection-popup .wpgdpr-paid-api-connect{
-	/* width: 215px; */
-    /* height: 45px; */
     border-radius: 4px;
     padding: 16px 23px 16px 23px;
     margin-bottom: 20px;
@@ -5460,7 +5458,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
  margin-top: 40px;
  margin-bottom: 24px;
  font-size: 32px;
- font-weight: 600;
+ font-weight: 500;
  color: #000000;
 }
 
@@ -5474,6 +5472,25 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	line-height: 16.41px;
 	text-align: center;
 
+}
+.excausted-popup-body h2{
+ margin-top: 28px;
+ margin-bottom: 24px;
+ font-size: 32px;
+ font-weight: 600;
+ color: #000000;
+}
+
+.excausted-popup-body p {
+    margin: 0;
+	font-size: 14px;
+    color: #000000;
+	font-family: Roboto;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 16.41px;
+	text-align: center;
+	margin-top:24px;
 }
 
 .upgrade-button {

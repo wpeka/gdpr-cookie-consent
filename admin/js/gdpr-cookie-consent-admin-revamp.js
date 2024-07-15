@@ -249,22 +249,23 @@ jQuery(document).ready(function () {
 	*/
 	window.addEventListener("message", function(event) {
 		// Check if the event is originated on server and not successful
-		if (!event.data.success) {
+		if (event.isTrusted && event.origin === gdpr_localize_data.gdpr_app_url) {
+			if (!event.data.success) {
 			
 			const scanBtn = jQuery('.scan-now-btn');
-                const popup = jQuery('#popup');
+                const popup = jQuery('#popup-site-excausted');
                   const cancelButton = jQuery('.popup-image');
         
                      popup.fadeIn();
                
                 cancelButton.off('click').on('click', function(e) {
-                        console.log("popup clicked");
                         popup.fadeOut();
                    
                 });
-		} else if (event.isTrusted && event.origin === gdpr_localize_data.gdpr_app_url) {
+		} else {
 			gdprStoreAuth(event.data);
 		}
+	}
 	});
 	
 
@@ -521,6 +522,7 @@ jQuery(document).ready(function () {
 				_ajax_nonce : gdpr_localize_data._ajax_nonce,
 				response: data.response,
 				origin: data.origin,
+				no_of_scans:data.no_of_scans ? data.no_of_scans:'',
 
 			},
 			success: function(response) {
@@ -532,15 +534,13 @@ jQuery(document).ready(function () {
 				localStorage.removeItem('gdprConnectPopupHide');
 				//remove disconnect from local storage when user connects to the api
 				localStorage.removeItem('gdprDisconnect');
-
-				// url redirection to the cookie scan subtab.
 				var baseUrl = window.location.origin;
 				var relativePath = "/wp-admin/admin.php?page=gdpr-cookie-consent";
 				var tabHash = "#cookie_settings#cookie_list"; // Adjust this to your specific hash
-
+	
 				// Construct the full URL
 				var fullUrl = baseUrl + relativePath + tabHash;
-
+	
 				//reload the window after settimeout.
 				setTimeout(function() {
 					window.location.href = fullUrl;
