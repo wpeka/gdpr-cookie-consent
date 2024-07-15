@@ -9,7 +9,7 @@
  * Class GDPR_Cookie_Consent_App_Auth.
  */
 class GDPR_Cookie_Consent_App_Auth {
-	
+
 	/**
 	 * Base URL of GDPR Cookie Consent App API
 	 */
@@ -137,7 +137,7 @@ class GDPR_Cookie_Consent_App_Auth {
 		$instance_id      = $wcam_lib_gdpr->wc_am_instance_id;
 		$object           = $wcam_lib_gdpr->wc_am_domain;
 		$software_version = $wcam_lib_gdpr->wc_am_software_version;
-		$api_auth_url = $this->get_api_url( 'pricing' );
+		$api_auth_url     = $this->get_api_url( 'pricing' );
 
 		$auth_url = add_query_arg(
 			array(
@@ -272,7 +272,10 @@ class GDPR_Cookie_Consent_App_Auth {
 				),
 			);
 		} else {
-			$data_arr = array( 'status' => 3 , 'current_action' => 'get_pages'); // updating scan status to stopped.
+			$data_arr = array(
+				'status'         => 3,
+				'current_action' => 'get_pages',
+			); // updating scan status to stopped.
 			$cookies_scan->update_scan_entry( $data_arr, $scan_id );
 			wp_send_json_error(
 				array(
@@ -365,8 +368,8 @@ class GDPR_Cookie_Consent_App_Auth {
 		// Send success response.
 		wp_send_json_success(
 			array(
-				'title' => __( 'Authentication successfully completed', 'insert-headers-and-footers' ),
-				'text'  => __( 'Reloading page, please wait.', 'insert-headers-and-footers' ),
+				'title' => __( 'Authentication successfully completed', 'gdpr-cookie-consent' ),
+				'text'  => __( 'Reloading page, please wait.', 'gdpr-cookie-consent' ),
 			)
 		);
 	}
@@ -399,7 +402,7 @@ class GDPR_Cookie_Consent_App_Auth {
 		}
 
 		update_option( 'gdpr_no_of_page_scan', 0 );
-		
+
 		$deactivate_results = json_decode( $wcam_lib_gdpr->deactivate( $args, $product_id ), true );
 
 		if ( true === $deactivate_results['success'] && true === $deactivate_results['deactivated'] ) {
