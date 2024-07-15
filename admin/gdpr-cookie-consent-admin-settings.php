@@ -468,7 +468,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											?>
 										<div class="overlay_eu_visitors">
 											<div class="overlay_eu_visitors_message">
-													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
+													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
 											</div>
 										</div>
 										<?php endif; ?>
@@ -495,7 +495,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											?>
 										<div class="overlay_eu_visitors">
 											<div class="overlay_eu_visitors_message">
-													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
+													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
 											</div>
 										</div>
 										<?php endif; ?>
@@ -522,7 +522,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											?>
 											<div class="overlay_eu_visitors overlay_eu_visitors--both">
 												<div class="overlay_eu_visitors_message overlay_eu_visitors_message--both">
-													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key' ); ?>
+													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
 												</div>
 											</div>
 										<?php endif; ?>
@@ -822,7 +822,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-row>
 									<!-- clipboard for shortcode to copy  -->
 									<c-row v-show="data_reqs_on">
-										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Shortcode for Data Request' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+										<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 										</c-col>
 										<c-col class="col-sm-8">
 											<c-button class="btn btn-info" variant="outline" @click="copyTextToClipboard">{{ shortcode_copied ? 'Shortcode Copied!' : 'Click to Copy' }}</c-button>
@@ -1007,7 +1007,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										if ( $last_renewed_at ) {
 											echo esc_attr( gmdate( 'F j, Y g:i a T', get_option( 'wpl_consent_timestamp' ) ) );
 										} else {
-											echo esc_attr_e( ' Not renewed yet' );
+											echo esc_attr_e( ' Not renewed yet', 'gdpr-cookie-consent' );
 										}
 										?>
 											</div>

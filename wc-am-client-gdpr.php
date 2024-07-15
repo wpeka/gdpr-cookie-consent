@@ -121,10 +121,10 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 				$this->wc_am_deactivate_checkbox_key     = $this->data_key . '_deactivate_checkbox';
 				$this->wc_am_activation_tab_key          = $this->data_key . '_dashboard';
 				$this->wc_am_deactivation_tab_key        = $this->data_key . '_deactivation';
-				$this->wc_am_settings_menu_title         = $this->software_title . esc_html__( ' Activation', $this->text_domain );
-				$this->wc_am_settings_title              = $this->software_title . esc_html__( ' API Key Activation', $this->text_domain );
-				$this->wc_am_menu_tab_activation_title   = esc_html__( 'API Key Activation', $this->text_domain );
-				$this->wc_am_menu_tab_deactivation_title = esc_html__( 'API Key Deactivation', $this->text_domain );
+				$this->wc_am_settings_menu_title         = $this->software_title . esc_html__( ' Activation', $this->text_domain, 'gdpr-cookie-consent' );
+				$this->wc_am_settings_title              = $this->software_title . esc_html__( ' API Key Activation', $this->text_domain, 'gdpr-cookie-consent' );
+				$this->wc_am_menu_tab_activation_title   = esc_html__( 'API Key Activation', $this->text_domain, 'gdpr-cookie-consent' );
+				$this->wc_am_menu_tab_deactivation_title = esc_html__( 'API Key Deactivation', $this->text_domain, 'gdpr-cookie-consent' );
 
 				/**
 				 * Set all software update data here
@@ -270,7 +270,7 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 				if ( ! defined( 'WP_ACCESSIBLE_HOSTS' ) || stristr( WP_ACCESSIBLE_HOSTS, $host ) === false ) {
 					?>
                     <div class="notice notice-error">
-                        <p><?php printf( __( '<b>Warning!</b> You\'re blocking external requests which means you won\'t be able to get %s updates. Please add %s to %s.', $this->text_domain ), $this->software_title, '<strong>' . $host . '</strong>', '<code>WP_ACCESSIBLE_HOSTS</code>' ); ?></p>
+                        <p><?php printf( __( '<b>Warning!</b> You\'re blocking external requests which means you won\'t be able to get %s updates. Please add %s to %s.', $this->text_domain, 'gdpr-cookie-consent' ), $this->software_title, '<strong>' . $host . '</strong>', '<code>WP_ACCESSIBLE_HOSTS</code>' ); ?></p>
                     </div>
 					<?php
 				}
