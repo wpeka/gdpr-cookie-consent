@@ -255,6 +255,9 @@ class Gdpr_Cookie_Consent {
 			// Deactivate Popup action hooks.
 			$this->loader->add_action( 'wp_ajax_gdpr_cookie_consent_deactivate_popup', $plugin_admin, 'gdpr_cookie_consent_deactivate_popup' );
 			$this->loader->add_action( 'wp_ajax_nopriv_gdpr_cookie_consent_deactivate_popup', $plugin_admin, 'gdpr_cookie_consent_deactivate_popup' );
+			//action to add review notice
+			$this->loader->add_action( 'admin_notices', $plugin_admin, 'gdpr_admin_review_notice' );
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_review_already_done', 5 );
 		}
 	}
 
