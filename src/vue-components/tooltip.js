@@ -12,7 +12,7 @@ export default {
 	},
 	data() {
 		return {
-			tooltip: require('../../admin/images/tooltip-icon.png')
+			tooltip: require('../../admin/images/tooltip-icon.svg')
 		}
 	}
 }

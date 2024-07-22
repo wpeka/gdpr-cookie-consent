@@ -33,8 +33,6 @@ var gen = new Vue({
     data() {
         return {
             labelIcon: {
-                labelOn: '\u2713',
-                labelOff: '\u2715',
             },
 			labelIconNew: {
 				labelOn: '\u2713',
@@ -2957,8 +2955,6 @@ var gen = new Vue({
     data() {
         return {
             labelIcon: {
-                labelOn: '\u2713',
-                labelOff: '\u2715',
             },
 			labelIconNew: {
 				labelOn: '\u2713',
