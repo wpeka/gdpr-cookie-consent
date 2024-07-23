@@ -31,12 +31,12 @@ $api_user_email         = $this->settings->get_email();
 $api_user_site_key      = $this->settings->get_website_key();
 $api_user_plan          = $this->settings->get_plan();
 $no_of_pages_scan       = get_option( 'gdpr_no_of_page_scan' );
-$total_pages_scan_limit = 15;
+$total_pages_scan_limit = 100;
 
 if ( $api_user_plan == 'free' ) {
-	$total_pages_scan_limit = 15;
+	$total_pages_scan_limit = 100;
 } else {
-	$total_pages_scan_limit = 25;
+	$total_pages_scan_limit = 20000;
 }
 
 $gdpr_no_of_page_scan_left       = $total_pages_scan_limit - get_option( 'gdpr_no_of_page_scan' );
@@ -329,7 +329,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				<div id="popup-site-excausted" class="popup-overlay">
 				<div class="popup-content">
 				<div class="popup-header">
-					<div class="popup-title"><span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan_left; ?> / <?php echo $total_pages_scan_limit; ?><span><span> (<?php echo ceil($remaining_percentage_scan_limit); ?>%)</span></div>
+					<div class="popup-title"><span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan_left; ?> / <?php echo $total_pages_scan_limit; ?><span><span> (<?php echo ceil( $remaining_percentage_scan_limit ); ?>%)</span></div>
 					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Right Corner Image" class="popup-image">
 				</div>
 
