@@ -2124,48 +2124,67 @@ var gen = new Vue({
                 dataType: 'json',
                 type: 'POST',
                 success: function (data) {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const scanUrlParam = urlParams.get('scan_url');
-                    var ndata = {
-                        action: 'wpl_cookie_scanner_view_capabilities',
-                        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-                        no_of_scan: singlePageScan == true ? 1 : data.log.length,
-                        offset: offset,
-                        scan_id : scan_id ? scan_id : 0,
-                        total_pages : data.total,
-                    };
-                    jQuery.ajax({
-                        url: settings_obj.cookie_scan_settings.ajax_url,
-                        data: ndata,
-                        dataType: 'json',
-                        type: 'POST',
-                    }).done(function (response) {
-                        if (response.success && response.data.connection_status === 'active') {
-                            that.scan_id = data.scan_id !== undefined ? data.scan_id : 0;
-                            if (that.continue_scan == 0) {
-                                return false;
-                            }
-                            if (data.response === true) {
-                                that.appendLogAnimate(data.log, 0);
-                                var new_offset = parseInt(data.offset) + parseInt(data.limit);
-                                if ((data.total - 1) > new_offset) { // subtract 1 from total because of home page.
-                                    that.takePages(new_offset, data.limit, data.total, data.scan_id);
-                                } else {
-                                    jQuery('.wpl_progress_action_main').html(settings_obj.cookie_scan_settings.labels.scanning);
-                                    that.scanPages(data.scan_id, 0, data.total);
-                                }
-                            } else {
-                                that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-                            }
-                        } else {
-                            that.showScanNowPopup();
-                        }
-                    }).fail(function () {
+                    if(that.isGdprProActive){
+                        that.scan_id = typeof data.scan_id != 'undefined' ? data.scan_id : 0;
                         if (that.continue_scan == 0) {
                             return false;
                         }
-                        that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-                    });
+                        if (typeof data.response != 'undefined' && data.response === true) {
+                            that.appendLogAnimate( data.log,0 );
+                            var new_offset = parseInt( data.offset ) + parseInt( data.limit );
+                            if ((data.total - 1) > new_offset) { // substract 1 from total because of home page.
+                                that.takePages( new_offset,data.limit,data.total,data.scan_id );
+                            } else {
+                                j( '.wpl_progress_action_main' ).html( settings_obj.cookie_scan_settings.labels.scanning );
+                                that.scanPages( data.scan_id,0,data.total );
+                            }
+                        } else {
+                            that.showErrorScreen( settings_obj.cookie_scan_settings.labels.error );
+                        }
+                    }else{
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const scanUrlParam = urlParams.get('scan_url');
+                        var ndata = {
+                            action: 'wpl_cookie_scanner_view_capabilities',
+                            security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+                            no_of_scan: singlePageScan == true ? 1 : data.log.length,
+                            offset: offset,
+                            scan_id : scan_id ? scan_id : 0,
+                            total_pages : data.total,
+                        };
+                        jQuery.ajax({
+                            url: settings_obj.cookie_scan_settings.ajax_url,
+                            data: ndata,
+                            dataType: 'json',
+                            type: 'POST',
+                        }).done(function (response) {
+                            if (response.success && response.data.connection_status === 'active') {
+                                that.scan_id = data.scan_id !== undefined ? data.scan_id : 0;
+                                if (that.continue_scan == 0) {
+                                    return false;
+                                }
+                                if (data.response === true) {
+                                    that.appendLogAnimate(data.log, 0);
+                                    var new_offset = parseInt(data.offset) + parseInt(data.limit);
+                                    if ((data.total - 1) > new_offset) { // subtract 1 from total because of home page.
+                                        that.takePages(new_offset, data.limit, data.total, data.scan_id);
+                                    } else {
+                                        jQuery('.wpl_progress_action_main').html(settings_obj.cookie_scan_settings.labels.scanning);
+                                        that.scanPages(data.scan_id, 0, data.total);
+                                    }
+                                } else {
+                                    that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
+                                }
+                            } else {
+                                that.showScanNowPopup();
+                            }
+                        }).fail(function () {
+                            if (that.continue_scan == 0) {
+                                return false;
+                            }
+                            that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
+                        });
+                    }
                 },
                 error: function () {
                     if (that.continue_scan == 0) {
