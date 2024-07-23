@@ -29,6 +29,13 @@ class Gdpr_Cookie_Consent_Activator {
 	 * @since    1.0
 	 */
 	public static function activate() {
+
+		//fetching options for review 
+		$gdpr_review_option_exists = get_option( 'gdpr_review_pending' );
+		if ( ! $gdpr_review_option_exists ) {
+			add_option( 'gdpr_review_pending', '0', '', true );
+			
+		}
 		
 		// previous version settings.
 		$gdpr_option = get_option( 'GDPRCookieConsent-1.0' );
