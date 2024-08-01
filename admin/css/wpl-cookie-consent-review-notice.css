@@ -1,0 +1,60 @@
+.gdpr-review-notice .updated {
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.gdpr-review-btns {
+  background-color: #2271b1;
+  padding: 10px;
+  max-width: 150px;
+  text-align: center;
+  border-radius: 2px;
+  color: white;
+  border: solid 1px gray;
+  cursor: pointer;
+}
+
+.gdpr-review-already-done-btn {
+  margin-left: 10px;
+}
+.gdpr-review-btns-container {
+  display: flex;
+  flex-direction: row;
+}
+.gdpr-review-btns:hover {
+  background-color: #135e96;
+}
+.gdpr-review-btns > a {
+  color: #fff;
+  text-decoration: none;
+}
+.gdpr-review-already-done-btn > a > i,
+.gdpr-review-rate-us-btn > a > i {
+  margin-left: 5px;
+}
+.gdpr-review-notice-text-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.gdpr-review-dismiss-btn {
+  display: flex;
+  margin-top: 10px;
+  text-decoration: none;
+  cursor: pointer;
+
+  :hover {
+    scale: 110%;
+  }
+}
+.gdpr-review-dismiss-btn > i {
+  font-size: 15px;
+}
+.gdpr-review-dismiss-btn > .dashicons-dismiss:before {
+  vertical-align: middle;
+}
+@media (max-width: 768px) {
+  .gdpr-review-notice.updated {
+    padding-bottom: 2% !important;
+  }
+}
