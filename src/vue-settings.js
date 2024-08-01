@@ -44,7 +44,7 @@ var gen = new Vue({
 			is_lang_changed:false,
 			is_logo_removed:false,
             appendField: ".gdpr-cookie-consent-settings-container",
-            configure_image_url: require('../admin/images/configure-icon.png'),
+            configure_image_url: require('../admin/images/configure-icon.svg'),
             closeOnBackdrop: true,
             centered: true,
             accept_button_popup: false,
@@ -326,6 +326,7 @@ var gen = new Vue({
             // revoke consent text color.
             button_revoke_consent_text_color:settings_obj.the_options.hasOwnProperty('button_revoke_consent_text_color') ? settings_obj.the_options['button_revoke_consent_text_color'] : '',
             button_revoke_consent_background_color:settings_obj.the_options.hasOwnProperty('button_revoke_consent_background_color') ? settings_obj.the_options['button_revoke_consent_background_color'] : '',
+            selectedPosition:'',
         }
     },
 
@@ -750,8 +751,86 @@ var gen = new Vue({
                 }
             }
         },
+        cookiebannerPositionChange(position) {
+            // Ensure jQuery is available and use no-conflict mode if necessary
+            jQuery(document).ready(function($) {
+                if (position === 'top') {
+                    this.cookie_position = 'top';
+                    console.log("this is called from top");
+                    $('#banner-position-top-id').addClass('banner-position-top');
+                    $('#banner-position-bottom-id').removeClass('banner-position-bottom');
+                    //icons
+                    $('#banner-position-top-icon').addClass('dashicons dashicons-saved');
+                    $('#banner-position-bottom-icon').removeClass('dashicons dashicons-saved');
+                } else if (position === 'bottom') {
+                    this.cookie_position = 'bottom';
+                    console.log("this is called from bottom");
+                    $('#banner-position-bottom-id').addClass('banner-position-bottom');
+                    $('#banner-position-top-id').removeClass('banner-position-top');
+                    //icons
+                    $('#banner-position-bottom-icon').addClass('dashicons dashicons-saved');
+                    $('#banner-position-top-icon').removeClass('dashicons dashicons-saved');
+                }
+            }.bind(this));  // Bind 'this' to ensure it refers to the Vue instance
+        },
+        cookiewidgetPositionChange(value){
+            console.log("This is called");
+            jQuery(document).ready(function($) {
+            if(value === "left"){
+                console.log("position is ->",value);
+                this.cookie_widget_position = "left";
+                $('#widget-position-left-id').addClass('widget-position-top');
+                $('#widget-position-right-id').removeClass('widget-position-top');
+                $('#widget-position-top_left-id').removeClass('widget-position-top');
+                $('#widget-position-top_right-id').removeClass('widget-position-top');
+                // icon
+                $('#widget-position-left-icon').addClass('dashicons dashicons-saved');
+                $('#widget-position-right-icon').removeClass('dashicons dashicons-saved');
+                $('#widget-position-top_left-icon').removeClass('dashicons dashicons-saved');
+                $('#widget-position-top_right-icon').removeClass('dashicons dashicons-saved');
+            }
+            else if(value === "right"){
+                console.log("position is ->",value);
+                this.cookie_widget_position = "right";
+                $('#widget-position-right-id').addClass('widget-position-top');
+                $('#widget-position-left-id').removeClass('widget-position-top');
+                $('#widget-position-top_left-id').removeClass('widget-position-top');
+                $('#widget-position-top_right-id').removeClass('widget-position-top');
+                //icons
+                $('#widget-position-right-icon').addClass('dashicons dashicons-saved');
+                $('#widget-position-left-icon').removeClass('dashicons dashicons-saved');
+                $('#widget-position-top_left-icon').removeClass('dashicons dashicons-saved');
+                $('#widget-position-top_right-icon').removeClass('dashicons dashicons-saved');
+            }
+            else if(value === "top_left"){
+                console.log("position is ->",value);
+                this.cookie_widget_position = "top_left";
+                $('#widget-position-top_left-id').addClass('widget-position-top');
+                $('#widget-position-right-id').removeClass('widget-position-top');
+                $('#widget-position-left-id').removeClass('widget-position-top');
+                $('#widget-position-top_right-id').removeClass('widget-position-top');
+                //icons
+                $('#widget-position-top_left-icon').addClass('dashicons dashicons-saved');
+                $('#widget-position-right-icon').removeClass('dashicons dashicons-saved');
+                $('#widget-position-left-icon').removeClass('dashicons dashicons-saved');
+                $('#widget-position-top_right-icon').removeClass('dashicons dashicons-saved');
+            }
+            else if(value === "top_right"){
+                console.log("position is ->",value);
+                this.cookie_widget_position = "top_right";
+                    $('#widget-position-top_right-id').addClass('widget-position-top');
+                    $('#widget-position-right-id').removeClass('widget-position-top');
+                    $('#widget-position-left-id').removeClass('widget-position-top');
+                    $('#widget-position-top_left-id').removeClass('widget-position-top');
+                    //icons
+                    $('#widget-position-top_right-icon').addClass('dashicons dashicons-saved');
+                    $('#widget-position-right-icon').removeClass('dashicons dashicons-saved');
+                    $('#widget-position-top_left-icon').removeClass('dashicons dashicons-saved');
+                    $('#widget-position-left-icon').removeClass('dashicons dashicons-saved');
+            }
+            }.bind(this)); 
+        },
         onTemplateChange(value) {
-            
             if( this.show_cookie_as === 'banner' ) {
                 this.banner_template = value;
                 this.template = value;
@@ -1681,6 +1760,7 @@ var gen = new Vue({
             this.ccpa_message = 'In case of sale of your personal information, you may opt out by using the link';
             this.ccpa_optout_message = 'Do you really wish to opt-out?';
             this.cookie_position = 'bottom';
+            // this.selectedPosition = 'bottom';
             this.cookie_widget_position = 'left';
             this.cookie_text_color = '#000000';
             this.gdpr_message_heading = '';
@@ -2966,7 +3046,7 @@ var gen = new Vue({
 			is_lang_changed:false,
 			is_logo_removed:false,
             appendField: ".gdpr-cookie-consent-settings-container",
-            configure_image_url: require('../admin/images/configure-icon.png'),
+            configure_image_url: require('../admin/images/configure-icon.svg'),
             closeOnBackdrop: true,
             centered: true,
             accept_button_popup: false,
@@ -3232,6 +3312,7 @@ var gen = new Vue({
             // revoke consent text color.
             button_revoke_consent_text_color:settings_obj.the_options.hasOwnProperty('button_revoke_consent_text_color') ? settings_obj.the_options['button_revoke_consent_text_color'] : '',
             button_revoke_consent_background_color:settings_obj.the_options.hasOwnProperty('button_revoke_consent_background_color') ? settings_obj.the_options['button_revoke_consent_background_color'] : '',
+            selectedPosition:'',
         }
     },
     methods: {

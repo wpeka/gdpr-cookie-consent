@@ -85,7 +85,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 		<!-- scans -->
 		<?php
 		// if user is connected to the app.wplegalpages then show remaining scans
-		if ( $is_user_connected == true ) {
+		if ( $is_user_connected == true && !$pro_installed ) {
 			?>
 			<div class="gdpr-remaining-scans-content" >
 				<div class="gdpr-remaining-scans-container">
@@ -115,6 +115,10 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 		<?php
 		if ( $is_user_connected != true && ! $pro_installed ) {
 			?>
+		<a href="https://app.wplegalpages.com/pricing/" target="_blank">
+				<img class="cookie-consent-upgrade-to-pro-banner" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/upgrade-to-pro-banner-cookieconsent.jpg'; ?>" alt="WP Cookie Consent Help">
+			</a> 
+		
 		<div class="gdpr-cookie-consent-connect-api-container">
 			<div class="gdpr-api-info-content">
 			<div class="gdpr-api-detailed-info">
