@@ -320,9 +320,9 @@ var gen = new Vue({
             maxmind_license_key   : settings_obj.geo_options.hasOwnProperty('maxmind_license_key') ? settings_obj.geo_options['maxmind_license_key'] : '',
             alert_message         : 'Maxmind Key Integrated',
             maxmind_register_link : 'https://www.maxmind.com/en/geolite2/signup',
-            document_link         : 'https://club.wpeka.com/docs/wp-cookie-consent/',
+            document_link         : 'https://wplegalpages.com/docs/wp-cookie-consent/',
             video_link            : 'https://www.youtube.com/embed/hrfSoFjEpzQ',
-            support_link          : 'https://club.wpeka.com/my-account/?utm_source=gdpr&utm_medium=plugin&utm_campaign=integrations',
+            support_link          : 'https://wplegalpages.com/contact-us/',
             // revoke consent text color.
             button_revoke_consent_text_color:settings_obj.the_options.hasOwnProperty('button_revoke_consent_text_color') ? settings_obj.the_options['button_revoke_consent_text_color'] : '',
             button_revoke_consent_background_color:settings_obj.the_options.hasOwnProperty('button_revoke_consent_background_color') ? settings_obj.the_options['button_revoke_consent_background_color'] : '',

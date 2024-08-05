@@ -433,6 +433,7 @@ jQuery(document).ready(function () {
 	* Clicked on connect to exiting account.
 	*/
 	jQuery('.gdpr-cookie-consent-admin-upgrade-button').on('click', gdprPaidAuth );
+	jQuery('.cookie-consent-upgrade-to-pro-banner').on('click', gdprPaidAuth );
 	/**
 	 * Store the Authentication Data
 	 * @param {*} data

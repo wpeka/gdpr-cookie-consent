@@ -387,30 +387,30 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<v-select class="form-group" id="gdpr-cookie-consent-policy-type" :reduce="label => label.code" :options="policy_options" v-model="gdpr_policy" @input="cookiePolicyChange" :searchable="false">
 										</v-select>
 											<input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
-											<div  v-show="is_eprivacy" class="consent-log-readmore-container">
-											<a class="consent-log-readmore" href="https://club.wpeka.com/docs/wp-cookie-consent/settings/eprivacy-settings/" target="_blank">
+											<div  v-show="is_eprivacy" class="cookie-notice-readmore-container">
+											<a class="cookie-notice-readmore" href="https://wplegalpages.com/docs/wp-cookie-consent/settings/eprivacy-settings/" target="_blank">
 												<?php esc_attr_e( 'Learn more about setting up an ePrivacy notice', 'gdpr-cookie-consent' ); ?>
 											</a>
 											</div>
 									</c-col>
 								</c-row>
-								<c-row v-show="is_gdpr && !is_ccpa">
+								<c-row class="gdpr-cookie-consent-laws-type" v-show="is_gdpr && !is_ccpa">
 									<c-col class="col-sm-4"></c-col>
 									<c-col class="col-sm-8 ">
 									<p class="policy-description">The chosen law template supports various global privacy regulations including GDPR (EU & UK), PIPEDA (Canada), Law 25 (Quebec), POPIA (South Africa), nFADP (Switzerland), Privacy Act (Australia), PDPL (Saudi Arabia), PDPL (Argentina), PDPL (Andorra), and DPA (Faroe Islands).</p>
-										<div class="consent-log-readmore-container">
-												<a class="consent-log-readmore" href="https://club.wpeka.com/docs/wp-cookie-consent/settings/gdpr-settings/" target="_blank">
+										<div class="cookie-notice-readmore-container">
+												<a class="cookie-notice-readmore" href="https://wplegalpages.com/docs/wp-cookie-consent/settings/gdpr-settings/" target="_blank">
 													<?php esc_attr_e( 'Learn more about setting up an GDPR notice', 'gdpr-cookie-consent' ); ?>
 												</a>
 										</div>
 									</c-col>
 								</c-row>
-								<c-row v-show="is_ccpa && !is_gdpr">
+								<c-row class="gdpr-cookie-consent-laws-type" v-show="is_ccpa && !is_gdpr">
 									<c-col class="col-sm-4"></c-col>
 									<c-col class="col-sm-8">
 									<p class="policy-description" >The chosen law template supports CCPA/CPRA (California), VCDPA (Virginia), CPA (Colorado), CTDPA (Connecticut), & UCPA (Utah).</p>
-										<div class="consent-log-readmore-container">
-												<a class="consent-log-readmore" href="https://club.wpeka.com/docs/wp-cookie-consent/settings/ccpa-settings/" target="_blank">
+										<div class="cookie-notice-readmore-container">
+												<a class="cookie-notice-readmore" href="https://wplegalpages.com/docs/wp-cookie-consent/settings/ccpa-settings/" target="_blank">
 													<?php esc_attr_e( 'Learn more about setting up an CCPA notice', 'gdpr-cookie-consent' ); ?>
 												</a>
 										</div>
@@ -423,7 +423,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 								</c-row>
 								<c-row v-show="is_eprivacy">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as ePrivacy notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'ePrivacy Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as ePrivacy notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<c-textarea name="notify_message_eprivacy_field" v-model="eprivacy_message"></c-textarea>
 									</c-col>
@@ -668,7 +668,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</c-col>
 									</c-row>
 									<c-row v-show="button_readmore_url_type">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Synchronize with WordPress Policy Page', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Sync with WordPress Policy Page', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 										<c-col class="col-sm-8">
 											<c-switch v-bind="labelIcon" v-model="button_readmore_wp_page" id="gdpr-cookie-consent-readmore-wp-page" variant="3d"  color="success" :checked="button_readmore_wp_page" v-on:update:checked="onSwitchButtonReadMoreWpPage"></c-switch>
 											<input type="hidden" name="gcc-readmore-wp-page" v-model="button_readmore_wp_page">
@@ -740,7 +740,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<?php if ( ! $is_pro_active ) : ?>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to log user’s consent.', 'gdpr-cookie-consent' ); ?>"></tooltip><div class="consent-log-readmore-container">
-											<a class="consent-log-readmore" href="https://club.wpeka.com/docs/wp-cookie-consent/settings/consent-logging/" target="_blank">
+											<a class="consent-log-readmore" href="https://wplegalpages.com/docs/wp-cookie-consent/settings/consent-logging/" target="_blank">
 												<?php esc_attr_e( 'Learn more about consent logging', 'gdpr-cookie-consent' ); ?>
 											</a>
 											</div></label></c-col>											
@@ -1132,7 +1132,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<v-select class="form-group" id="gdpr-show-cookie-as" :reduce="label => label.code" :options="show_cookie_as_options" v-model="show_cookie_as"  @input="cookieTypeChange"></v-select>
 								</c-col>
 							</c-row>
-							<c-row v-show="show_cookie_as === 'banner'">
+							<c-row style="margin-top:-28px;"v-show="show_cookie_as === 'banner'">
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
 								<div
@@ -1166,7 +1166,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<input type="hidden" name="gcc-gdpr-cookie-position" v-model="cookie_position">
 								</c-row>
 							</c-row>
-							<c-row v-show="show_cookie_as === 'widget'">
+							<c-row style="margin-top:-28px;" v-show="show_cookie_as === 'widget'">
 							<!-- notify_position_horizontal -->
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
@@ -1283,7 +1283,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-button id="export-settings-configuration" color="info" variant="outline" @click="exportsettings"><?php esc_html_e( 'Export', 'gdpr-cookie-consent' ); ?></c-button>
 								</c-col>
 							</c-row>
-							<c-row class="mb-3 border-bottom border-#D8DBE0 pb-3" >
+							<c-row class="mb-3 pb-3" >
 									<c-col class="col-sm-4" style="flex-direction:column;align-items:baseline;position: relative;">
 									<div style="display:flex" >
 
@@ -1311,7 +1311,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<?php
 										echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff;' ) : 'color:#3399ff;';
 										?>
-										text-decoration:underline;margin-left: 44px;margin-top: 6px;" for="fileInput">Choose file</label>
+										text-decoration:underline;margin-left: 44px;margin-top: 6px;cursor:pointer;" for="fileInput">Choose file</label>
 										<input style="display: none;" type="file"
 										<?php
 										echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? '' : 'disabled' ) : '';
@@ -1320,14 +1320,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</div>
 									</c-col>
 
-								</c-row>
+							</c-row>
 							<c-row class="pt-1 mb-0" >
 								<c-col class="col-sm-4">
 									<label style="margin-bottom:0"><?php esc_attr_e( 'Reset Settings ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'This will reset all settings to defaults. All data in the WP Cookie Consent plugin will be deleted. ', 'gdpr-cookie-consent' ); ?>">
 											</tooltip></label>
 								</c-col>
 								<c-col class="col-sm-8">
-									<c-button id="reset-settings-configuration" color="danger" variant="outline" @click="onClickRestoreButton"><?php esc_html_e( 'Reset', 'gdpr-cookie-consent' ); ?></c-button>
+									<c-button id="reset-settings-configuration" color="danger" variant="outline" @click="onClickRestoreButton"><?php esc_html_e( 'Reset to Default', 'gdpr-cookie-consent' ); ?></c-button>
 								</c-col>
 							</c-row>
 						</c-card-body>
@@ -1461,7 +1461,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 										?>
 										<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
-										<p class="image-upload-notice" style="margin-left: 10px; font-size:14px; font-weight:14px;">
+										<p class="image-upload-notice" style="margin-left: 10px; font-size:14px; font-weight:14px;color:#d4d4d8;">
 											<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 										</p>
 										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>

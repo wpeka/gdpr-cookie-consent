@@ -977,7 +977,6 @@ class Gdpr_Cookie_Consent_Admin {
 					</div>
 				</div>
 				<?php
-					// $datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 					$datarequests->display();
 				?>
 				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
@@ -4101,7 +4100,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$is_user_connected = $this->settings->is_connected();
-		error_log("Position options is -> ".print_r($position_options,true));
 		wp_localize_script(
 			$this->plugin_name . '-main',
 			'settings_obj',
@@ -5081,7 +5079,6 @@ class Gdpr_Cookie_Consent_Admin {
 				return;
 			}
 			$the_options                  = Gdpr_Cookie_Consent::gdpr_get_settings();
-			error_log("Value is ->".print_r($the_options,true));
 			$plugin_version               = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
 			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
 			// consent renewed.

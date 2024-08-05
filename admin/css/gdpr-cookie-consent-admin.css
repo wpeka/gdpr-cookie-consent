@@ -883,6 +883,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	position: sticky;
 	top: 32px;
 	z-index: 9;
+	border-bottom: none;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav > div:nth-child(1){
     display: flex;
@@ -890,6 +891,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     /* align-items: center; */
 	min-width: 260px;
 	/* width: 100%; */
+	padding-top: 28px;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav > div:nth-child(2) {
     /* display: flex; */
@@ -897,7 +899,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 	/* justify-content: flex-end; */
     /* align-items: center; */
 	/* min-width: 260px; */
-	width: 100%;
+	/* width: 100%; */
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav > div:nth-child(1) ul li.nav-item {
     margin: 0;
@@ -1039,7 +1041,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 }
 /* form elements css */
 #gdpr-cookie-consent-settings-app .form-control {
-    border-color: #A1A1AA;
+    border-color: #D4D4D8;
     color: #3c4b64;
 	font-family: 'Roboto', sans-serif;
 	font-weight: 400;
@@ -1101,7 +1103,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
     margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 14px;
-	color: #3c4b64;
+	color: #52525B;
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card .card-body .row .col.col-sm-8 div.form-group.v-select input[type="search"]:focus {
     box-shadow: unset;
@@ -1216,7 +1218,11 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 }
 
 .policy-description{
-	font-size: 14px ;
+	color:#71717A;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 24px;
 }
 
 /***Vue Modal CSS***/
@@ -2904,6 +2910,7 @@ a .export-btn:hover{
 	padding: 15px 20px;
 	cursor: pointer;
 	background-color: #F4F4F5;
+	border: 1px solid #E4E4E7;
   }
   .wpl-slide-panel .wpl-panel-title .wpl-custom-btns {
 	display: flex;
@@ -3966,7 +3973,6 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
     z-index: 9; /* Ensure the overlay is on top of the blurred background */
 	background-color: #141722D9;
 	opacity: 8.5;
-	border-radius: 6px;
 }
 
 .gdpr-blur-background .gdpr-overlay .enable-text{
@@ -4101,7 +4107,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent{
 	font-weight: 600; 
 	line-height: 20px; 
 	text-align: center;
-	margin-right: 28px;
+	margin-right: 38px;
 }
 .gdpr-preview-publish-btn .gdpr-publish-btn:hover{
 	color:white;
@@ -5792,6 +5798,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
     display: flex;
     align-items: center;
 	column-gap: 14px;
+	margin-left: -19px;
 }
 .gdpr-banner-preview-logo{
 	height:39px;
@@ -5818,7 +5825,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
     line-height: 20px;
     padding-bottom: 14px;
     border-bottom: 1px solid #F4F4F5;
-	border-top: 1px solid #F4F4F5;
+	border-top: 1px solid #E4E4E7;
     padding-top: 40px;
 }
 .gdpr-cookie-consent-settings-nav #gdpr-cookie-consent-settings-cookie-notice-top, .gdpr-cookie-consent-settings-nav #gdpr-cookie-consent-settings-configure-cookie-bar-top{
@@ -5830,7 +5837,8 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 	color:#3F3F46;
 }
 .compliances_card .card-body,.configuration_card .card-body,.desgin_card .card-body,.cookie_list .card-body,.language-card .card-body,.script-blocker-card .card-body{
-	width: 894px;;
+	width: 894px;
+	padding-top: 28px;
 }
 img.gdpr-tooltip-image{
 	margin-bottom: 3px;
@@ -5845,6 +5853,15 @@ button.btn.gdpr-renew-now-btn.pro, #data-request-btn, .export-btn ,.erase-btn, #
 	height: 44px;
 	width: 160px;
 }
+#data-request-btn{
+	border: 1px solid #7195D0;
+	color:#2A4A7E;
+	background-color: #fff;
+}
+#data-request-btn:hover{
+	background-color: #7195D0;
+	color: #fff;
+}
 #renew-consent-img{
 	margin-bottom: 3px;
 	padding-left: 9px;
@@ -5854,6 +5871,13 @@ button.btn.gdpr-renew-now-btn.pro, #data-request-btn, .export-btn ,.erase-btn, #
 	font-family: 'Roboto', sans-serif;
 	font-weight: 400 !important;
 	font-size: 12px !important;
+	line-height: 20px;
+}
+.cookie-notice-readmore-container .cookie-notice-readmore{
+	color:#0059B3 !important;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400 !important;
+	font-size: 14px !important;
 	line-height: 20px;
 }
 #export-settings-configuration, #import-settings-configuration ,#reset-settings-configuration{
@@ -5886,10 +5910,9 @@ button.btn.gdpr-renew-now-btn.pro, #data-request-btn, .export-btn ,.erase-btn, #
 }
 .cookie-consent-upgrade-to-pro-banner{
 	width: 100%;
-	padding-top: 24px;
-	padding-right: 22px;
-	padding-bottom: 50px;
-	padding-left: 25px;
+}
+.cookie-consent-upgrade-to-pro-banner-container{
+	margin:24px;
 }
 #banner_position_options{
 	display: flex;
@@ -5928,9 +5951,29 @@ button.btn.gdpr-renew-now-btn.pro, #data-request-btn, .export-btn ,.erase-btn, #
 .gdpr-color-input input{
 	border-right:none;
 }
-#image-upload-button,#image-delete-button{
+#image-upload-button{
 	height: 44px;
 	width: 160px;
+	border: 1px solid #7195D0;
+	color:#2A4A7E;
+	background-color: #fff;
+	line-height: 16px !important;
+}
+#image-delete-button{
+	height: 44px;
+	width: 160px;
+	color: #e55353;
+    border-color: #e55353;
+	background-color: #fff;
+	line-height: 16px !important;
+}
+#image-delete-button:hover{
+	background-color:#e55353;
+	color: #fff;
+}
+#image-upload-button:hover{
+	background-color: #7195D0;
+	color: #fff;
 }
 #script-blocker-advanced-settings-btn,#maxmind-integration-save-settings-btn{
 	border:1px solid #7195D0;
@@ -5948,4 +5991,21 @@ button.btn.gdpr-renew-now-btn.pro, #data-request-btn, .export-btn ,.erase-btn, #
 .banner-position-bottom,.banner-position-top,.widget-position-top{
 	border: 1px solid #16A34A99;
     border-radius: 4px;
+}
+.gdpr-cookie-consent-laws-type{
+	margin-top: -28px;
+}
+.vs__selected{
+	color:#52525B !important;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400 !important;
+	font-size: 14px !important;
+	line-height: 20px;
+}
+.vs__clear{
+	fill:#52525B !important;
+	margin-right: 17.75px !important;
+}
+.vs__open-indicator{
+	fill:#52525B !important;
 }

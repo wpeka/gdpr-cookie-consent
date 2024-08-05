@@ -166,7 +166,7 @@
 	height: 36px;
 	margin-bottom: 20px;
 	border-color: #C6C6C6;
-	background-color: #D4D4D8;
+	background-color: #f4f4f5;
 	font-family: "Poppins", sans-serif;
 	color: #52525B;
 	font-size: 12px;
@@ -180,7 +180,7 @@
 	height: 36px;
 	margin-bottom: 20px;
 	border-color: #C6C6C6;
-	background-color: #D4D4D8;
+	background-color: #F4F4F5;
 	font-family: "Poppins", sans-serif;
 	color: #52525B;
 	font-size: 12px;
@@ -190,18 +190,19 @@
 }
 
 #wpl-dnsmpd-filter #doaction,#wpl-dnsmpd-filter #doaction2{
-	height: 40px;
+	height: 36px;
 	border-radius: 4px;
-	border: 1px solid #39F;
-	background: #F8F8F8;
-	color: #39F;
-	font-size: 16px;
+	border: 1px solid #7195D0;
+	background: #FFFFFF;
+	color: #2A4A7E;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 600;
 	line-height: normal;
-	width: 80px;
+	width: 100px;
 	margin-left: 6px;
-	margin-right:20px
+ 	margin-right: 20px;
 }
 
 #wpl-dnsmpd-filter .current-page,#wpl-dnsmpd-filter .next-page,#wpl-dnsmpd-filter .last-page{
@@ -416,7 +417,7 @@ input[type=checkbox]:checked::before {
 	height: 36px;
 	margin-bottom: 20px;
 	border-color: #C6C6C6;
-	background-color: #D4D4D8;
+	background-color: #F4F4F5;
 	font-family: "Poppins", sans-serif;
 	color: #52525B;
 	font-size: 12px;
@@ -429,7 +430,7 @@ input[type=checkbox]:checked::before {
 	height: 36px;
 	margin-bottom: 20px;
 	border-color: #C6C6C6;
-	background-color: #D4D4D8;
+	background-color: #F4F4F5;
 	font-family: "Poppins", sans-serif;
 	color: #52525B;
 	font-size: 12px;
