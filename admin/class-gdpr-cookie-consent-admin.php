@@ -130,7 +130,9 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_style( $this->plugin_name . '-select2', plugin_dir_url( __FILE__ ) . 'css/select2.css', array(), $this->version, 'all' );
 		wp_register_style( 'gdpr_policy_data_tab_style', plugin_dir_url( __FILE__ ) . 'css/gdpr-policy-data-tab' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
 		wp_register_style( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'css/wpl-cookie-consent-integrations.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name . '-review-notice', plugin_dir_url( __FILE__ ) . 'css/wpl-cookie-consent-review-notice' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name );
+		wp_enqueue_style( $this->plugin_name . '-review-notice' );
 	}
 
 	/**
@@ -255,6 +257,78 @@ class Gdpr_Cookie_Consent_Admin {
 			wp_send_json_success();
 		}
 	}
+
+
+	/**
+	 * Function to display gdpr review notice on admin page.
+	 *
+	 * @return void
+	 */
+	public function gdpr_admin_review_notice() {
+		$gdpr_review_option_exists = get_option( 'gdpr_review_pending' );
+		switch ( $gdpr_review_option_exists ) {
+			case '0':
+				$check_for_review_transient = get_transient( 'gdpr_review_transient' );
+				if ( false === $check_for_review_transient ) {
+					set_transient( 'gdpr_review_transient', 'Review Pending', 2592000 );
+					update_option( 'gdpr_review_pending', '1', true );
+				}
+				break;
+			case '1':
+				$check_for_review_transient = get_transient( 'gdpr_review_transient' );
+				if ( false === $check_for_review_transient ) {
+					wp_enqueue_style( $this->plugin_name . 'review-notice' );
+					echo sprintf(
+						'
+						<div class="gdpr-review-notice updated">
+						<form method="post" action="%2$s" id="review_form">
+							<div class="gdpr-review-notice-text-container">
+								<p><span>%3$s<strong>Cookie Consent fro WP</strong>.%4$s</span></p>
+								<button class="gdpr-review-dismiss-btn" style="border: none;padding:0;background: none;color: #2271b1;"href="%2$s"><i class="dashicons dashicons-dismiss"></i>%5$s</button>
+							</div>
+							<div class="gdpr-review-btns-container">
+								<button class="gdpr-review-btns gdpr-review-rate-us-btn"><a href="%1$s" target="_blank">%6$s<i class="dashicons dashicons-thumbs-up"></i></a></button>
+								<button class="gdpr-review-btns gdpr-review-already-done-btn" href="%2$s" >%7$s<i class="dashicons dashicons-smiley"></i></button>
+							</div>
+							<input type="hidden" id="gdpr_review_nonce" name="gdpr_review_nonce" value="' . esc_attr( wp_create_nonce( 'gdpr_review' ) ) . '" />
+						</form>
+						</div>
+						',
+						esc_url( 'https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews/' ),
+						esc_url( get_admin_url() . '?already_done=1' ),
+						esc_html__( 'Hey, we hope you are enjoying managing cookies with ', 'gdpr' ),
+						esc_html__( ' Could you please write us a review and give it a 5- star rating on WordPress? Just to help us spread the word and boost our motivation.', 'gdpr' ),
+						esc_html__( 'Dismiss', 'gdpr' ),
+						esc_html__( 'Rate Us', 'gdpr' ),
+						esc_html__( 'I already did', 'gdpr' )
+					);
+				}
+				break;
+			case '2':
+				break;
+			default:
+				break;
+		}
+	}
+	/**
+	 * Function to check the user's input on gdpr review notice.
+	 *
+	 * @return void
+	 */
+	public function gdpr_review_already_done() {
+		$dnd = '';
+		if ( isset( $_POST['gdpr_review_nonce'] ) && check_admin_referer( 'gdpr_review', 'gdpr_review_nonce' ) ) {
+			if ( isset( $_GET['already_done'] ) && ! empty( $_GET['already_done'] ) ) {
+				$dnd = sanitize_text_field( wp_unslash( $_GET['already_done'] ) );
+			}
+			if ( '1' === $dnd ) {
+				update_option( 'gdpr_review_pending', '2', true );
+			}
+		}
+	}
+
+
+
 	/**
 	 * Displays admin notices related to GDPR Cookie Consent plugin.
 	 *
@@ -903,7 +977,6 @@ class Gdpr_Cookie_Consent_Admin {
 					</div>
 				</div>
 				<?php
-					// $datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 					$datarequests->display();
 				?>
 				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
@@ -3654,11 +3727,11 @@ class Gdpr_Cookie_Consent_Admin {
 			);
 		}
 		$position_options           = array();
-		$position_options[0]        = array(
+		$position_options[0]       = array(
 			'label' => 'Top',
 			'code'  => 'top',
 		);
-		$position_options[1]        = array(
+		$position_options[1]      = array(
 			'label' => 'Bottom',
 			'code'  => 'bottom',
 		);
@@ -4027,7 +4100,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$is_user_connected = $this->settings->is_connected();
-
 		wp_localize_script(
 			$this->plugin_name . '-main',
 			'settings_obj',
@@ -4950,8 +5022,9 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
 			<c-card v-show="is_gdpr || is_lgpd">
-				<c-card-header><?php esc_html_e( 'Cookie Bar Template', 'gdpr-cookie-consent' ); ?></c-card-header>
-				<c-card-body>
+					<c-row>
+						<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Bar Template', 'gdpr-cookie-consent' ); ?></div></c-col>
+					</c-row>
 					<c-row v-show="!show_banner_template">
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Templates', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use a pre-built template to style your Cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
@@ -4973,29 +5046,28 @@ class Gdpr_Cookie_Consent_Admin {
 							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
 						</c-col>
 						<c-col class="col-sm-9">
-				<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'] ); ?>
-						</c-col>
-					</c-row>
-					<c-row v-show="show_popup_template">
-						<c-col class="col-sm-4">
-							<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
-						</c-col>
-						<c-col class="col-sm-8">
-				<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'] ); ?>
-						</c-col>
-					</c-row>
-					<c-row v-show="show_widget_template">
-						<c-col class="col-sm-4">
-							<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
-						</c-col>
-						<c-col class="col-sm-8">
-				<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'] ); ?>
-						</c-col>
+					<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'] ); ?>
+							</c-col>
+						</c-row>
+						<c-row v-show="show_popup_template">
+							<c-col class="col-sm-3">
+								<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
+							</c-col>
+							<c-col class="col-sm-9">
+					<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'] ); ?>
+							</c-col>
+						</c-row>
+						<c-row v-show="show_widget_template">
+							<c-col class="col-sm-3">
+								<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
+							</c-col>
+							<c-col class="col-sm-9">
+					<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'] ); ?>
+							</c-col>
 					</c-row>
 					<input type="hidden" name="gdpr-template" v-model="template">
-				</c-card-body>
 			</c-card>
-			<?php
+				<?php
 	}
 
 	/**

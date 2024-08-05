@@ -103,7 +103,6 @@ class GDPR_Cookie_Consent_App_Auth {
 			),
 			$api_auth_url
 		);
-
 		// Send JSON response with auth URL.
 		wp_send_json_success(
 			array(
