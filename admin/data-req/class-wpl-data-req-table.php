@@ -89,30 +89,28 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		$search = $this->get_search();
 		?>
 		<div class="search-and-export-container">
-			<p class="search-box">
-				<label class="screen-reader-text"
-					for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html( $text ); ?>:</label>
-				<input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s"
-					value="<?php echo esc_html( $search ); ?>"/>
-					
+			<div class="search-box">
+				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
+					<?php echo esc_html( $text ); ?>:
+				</label>
+				<input placeholder="Search Requests" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
+				<img id="search-logo-data-request" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 				<?php
 				submit_button(
 					$text,
 					'button',
 					false,
 					false,
-					array( 'ID' => 'search-submit-data' )
+					array( 'ID' => 'search-submit-data-request' )
 				);
 				?>
-			</p>
-			<a href="<?php echo esc_url_raw( plugin_dir_url( __FILE__ ) . 'csv.php?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="button button-primary data-req-export-button"><?php esc_html_e( 'Export', 'gdpr-cookie-consent' ); ?></a>
-
-			<?php
-
-			echo $this->resolved_select();//phpcs:ignore
-
-			?>
+			</div>
 		</div>
+		<script type="text/javascript">
+			document.getElementById('search-logo-data-request').addEventListener('click', function() {
+				document.getElementById('search-submit-data-request').click();
+			});
+		</script>
 		<?php
 	}
 
@@ -156,14 +154,25 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_name( $item ) {
-		$name    = '#' . $item['ID'] . ' ';
-		$name   .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
+		$name  = '#' . $item['ID'] . ' ';
+		$name .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
+		return $name;
+	}
+
+	/**
+	 * Column name actions
+	 *
+	 * @param array $item
+	 *
+	 * @return string
+	 */
+	public function column_actions_resolve_delete( $item ) {
 		$actions = array(
 			'resolve' => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=resolve&id=' . $item['ID'] ) . '">' . __( 'Resolve', 'gdpr-cookie-consent' ) . '</a>',
 			'delete'  => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=delete&id=' . $item['ID'] ) . '">' . __( 'Delete', 'gdpr-cookie-consent' ) . '</a>',
 		);
 
-		return $name . $this->row_actions( $actions );
+		return $this->row_actions( $actions );
 	}
 	/**
 	 * Retrieve the table columns
@@ -173,12 +182,13 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'          => '<input type="checkbox"/>',
-			'name'        => __( 'Name', 'gdpr-cookie-consent' ),
-			'email'       => __( 'Email', 'gdpr-cookie-consent' ),
-			'resolved'    => __( 'Status', 'gdpr-cookie-consent' ),
-			'datarequest' => __( 'Data request', 'gdpr-cookie-consent' ),
-			'date'        => __( 'Date', 'gdpr-cookie-consent' ),
+			'cb'                     => '<input type="checkbox"/>',
+			'name'                   => __( 'Name', 'gdpr-cookie-consent' ),
+			'email'                  => __( 'Email', 'gdpr-cookie-consent' ),
+			'resolved'               => __( 'Status', 'gdpr-cookie-consent' ),
+			'datarequest'            => __( 'Data request', 'gdpr-cookie-consent' ),
+			'date'                   => __( 'Date', 'gdpr-cookie-consent' ),
+			'actions_resolve_delete' => __( 'Actions', 'gdpr-cookie-consent' ),
 		);
 
 		return apply_filters( 'wpl_report_customer_columns', $columns );
@@ -200,13 +210,14 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 		return array(
-			'request_date' => array( 'request_date', true ),
-			'name'         => array( 'name', true ),
-			'region'       => array( 'region', true ),
-			'email'        => array( 'email', true ),
-			'resolved'     => array( 'resolved', true ),
-			'date'         => array( 'date', true ),
-			'datarequest'  => array( 'datarequest', true ),
+			'request_date'           => array( 'request_date', true ),
+			'name'                   => array( 'name', true ),
+			'region'                 => array( 'region', true ),
+			'email'                  => array( 'email', true ),
+			'resolved'               => array( 'resolved', true ),
+			'date'                   => array( 'date', true ),
+			'datarequest'            => array( 'datarequest', true ),
+			'actions_resolve_delete' => array( 'actions_resolve_delete', true ),
 		);
 	}
 
@@ -218,11 +229,11 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions( $which = '' ) {
 
-		$actions = array(
+		$actions      = array(
 			'delete'  => __( 'Delete', 'gdpr-cookie-consent' ),
 			'reslove' => __( 'Resolve', 'gdpr-cookie-consent' ),
 		);
-
+		echo $this->resolved_select();
 		return $actions;
 	}
 
@@ -369,7 +380,6 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				$datarequest = '';
 
 				$options = Gdpr_Cookie_Consent_Admin::wpl_data_reqs_options();
-
 				foreach ( $options as $fieldname => $label ) {
 					if ( $request->{$fieldname} == 1 ) {
 						$datarequest = '<a href="https://club.wpeka.com/' . $label['slug'] . '" target="_blank">' . $label['short'] . '</a>';

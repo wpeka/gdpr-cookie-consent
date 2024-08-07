@@ -546,7 +546,6 @@ jQuery(document).ready(function () {
 					window.location.href = fullUrl;
 					location.reload();
 				}, 100);
-
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				// Handle error response
