@@ -1124,7 +1124,6 @@ class Gdpr_Cookie_Consent_Admin {
 					</div>
 				</div>
 				<?php
-					// $datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 					$datarequests->display();
 				?>
 				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
@@ -3875,11 +3874,11 @@ class Gdpr_Cookie_Consent_Admin {
 			);
 		}
 		$position_options           = array();
-		$position_options[0]        = array(
+		$position_options[0]       = array(
 			'label' => 'Top',
 			'code'  => 'top',
 		);
-		$position_options[1]        = array(
+		$position_options[1]      = array(
 			'label' => 'Bottom',
 			'code'  => 'bottom',
 		);
@@ -4253,7 +4252,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$is_user_connected = $this->settings->is_connected();
-
 		wp_localize_script(
 			$this->plugin_name . '-main',
 			'settings_obj',
@@ -5177,8 +5175,9 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
 			<c-card v-show="is_gdpr || is_lgpd">
-				<c-card-header><?php esc_html_e( 'Cookie Bar Template', 'gdpr-cookie-consent' ); ?></c-card-header>
-				<c-card-body>
+					<c-row>
+						<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Bar Template', 'gdpr-cookie-consent' ); ?></div></c-col>
+					</c-row>
 					<c-row v-show="!show_banner_template">
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Templates', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use a pre-built template to style your Cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
@@ -5200,29 +5199,28 @@ class Gdpr_Cookie_Consent_Admin {
 							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
 						</c-col>
 						<c-col class="col-sm-9">
-				<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'] ); ?>
-						</c-col>
-					</c-row>
-					<c-row v-show="show_popup_template">
-						<c-col class="col-sm-4">
-							<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
-						</c-col>
-						<c-col class="col-sm-8">
-				<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'] ); ?>
-						</c-col>
-					</c-row>
-					<c-row v-show="show_widget_template">
-						<c-col class="col-sm-4">
-							<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
-						</c-col>
-						<c-col class="col-sm-8">
-				<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'] ); ?>
-						</c-col>
+					<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'] ); ?>
+							</c-col>
+						</c-row>
+						<c-row v-show="show_popup_template">
+							<c-col class="col-sm-3">
+								<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
+							</c-col>
+							<c-col class="col-sm-9">
+					<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'] ); ?>
+							</c-col>
+						</c-row>
+						<c-row v-show="show_widget_template">
+							<c-col class="col-sm-3">
+								<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
+							</c-col>
+							<c-col class="col-sm-9">
+					<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'] ); ?>
+							</c-col>
 					</c-row>
 					<input type="hidden" name="gdpr-template" v-model="template">
-				</c-card-body>
 			</c-card>
-			<?php
+				<?php
 	}
 
 	/**

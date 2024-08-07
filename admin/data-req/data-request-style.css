@@ -113,8 +113,8 @@
   width: 128px;
 	height: 36px;
 	margin-bottom: 20px;
-	border-color: #C6C6C6;
-	background-color: #D4D4D8 !important;
+	border-color: #C6C6C6 !important;
+	background-color: #F4F4F5 !important;
 	font-family: "Poppins", sans-serif;
 	color: #52525B !important;
 	font-size: 12px !important;
@@ -140,7 +140,7 @@
 	height: 36px;
 	margin-bottom: 20px;
 	border-color: #C6C6C6;
-	background-color: #D4D4D8;
+	background-color: #f4f4f5;
 	font-family: "Poppins", sans-serif;
 	color: #52525B;
 	font-size: 12px;
@@ -235,4 +235,7 @@ input[type=checkbox]:checked::before {
 #actions_resolve_delete a{
   display: flex;
   justify-content: center;
+}
+.data-request-search-log{
+  display: flex;
 }

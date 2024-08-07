@@ -111,6 +111,11 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				document.getElementById('search-submit-data-request').click();
 			});
 		</script>
+					<?php
+
+			echo $this->resolved_select();
+
+			?>
 		<?php
 	}
 
@@ -233,7 +238,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 			'delete'  => __( 'Delete', 'gdpr-cookie-consent' ),
 			'reslove' => __( 'Resolve', 'gdpr-cookie-consent' ),
 		);
-		echo $this->resolved_select();
+		// echo $this->resolved_select();
 		return $actions;
 	}
 

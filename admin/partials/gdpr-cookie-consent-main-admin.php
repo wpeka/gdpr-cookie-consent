@@ -71,11 +71,11 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 						<!-- //support  -->
 						<div class="gdpr-cookie-consent-admin-support-icon">
 							<!-- //image  -->
-							<a href="https://club.wpeka.com/contact" target="_blank">
+							<a href="https://wplegalpages.com/contact-us/" target="_blank">
 							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_support.svg'; ?>" alt="WP Cookie Consent Support">
 							</a>
 						</div>
-						<div class="gdpr-cookie-consent-admin-support-text"><a href="https://club.wpeka.com/contact" target="_blank">
+						<div class="gdpr-cookie-consent-admin-support-text"><a href="https://wplegalpages.com/contact-us/" target="_blank">
 							Support</a>
 						</div>
 					</div>
@@ -85,7 +85,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 		<!-- scans -->
 		<?php
 		// if user is connected to the app.wplegalpages then show remaining scans
-		if ( $is_user_connected == true ) {
+		if ( $is_user_connected == true && !$pro_installed ) {
 			?>
 			<div class="gdpr-remaining-scans-content" >
 				<div class="gdpr-remaining-scans-container">
@@ -109,6 +109,14 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 
 		}
 		?>
+		<!-- Upgrade to pro banner  -->
+		<?php
+		if ( $is_user_connected == true && ! $pro_installed && $api_user_plan == 'free' ) {
+			?>
+			<div class="cookie-consent-upgrade-to-pro-banner-container">
+				<img class="cookie-consent-upgrade-to-pro-banner" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/upgrade-to-pro-banner-cookieconsent.jpg'; ?>" alt="WP Cookie Consent Help">
+			</div>
+		<?php }?>
 
 		<!-- connect your website to WP Cookie Consent  -->
 

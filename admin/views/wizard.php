@@ -33,7 +33,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 	$is_pro     = get_option( 'wpl_pro_active', false );
 
 	?>
-	<div class="gdpr-templates-field-container">
+	<div class="gdpr-templates-field-container-wizard">
 		<?php
 		foreach ( $templates as $key => $template ) :
 			if ( false !== strpos( $template['name'], 'column' ) ) {
@@ -52,7 +52,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 			if ( ! $is_pro ) {
 				?>
 			<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
-				<div class="gdpr-left-field">
+				<div class="gdpr-left-field-wizard">
 				<c-input type="radio" :disabled="false" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
 				<?php
 				if ( $template['name'] === $checked ) {
@@ -156,7 +156,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 			} else {
 				?>
 		<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
-			<div class="gdpr-left-field">
+			<div class="gdpr-left-field-wizard">
 			<c-input type="radio" :disabled="disableSwitch" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
 				<?php
 				if ( $template['name'] === $checked ) {

@@ -463,7 +463,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'Report bugs in the WP Cookie Consent plugin by creating a helpdesk ticket.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://club.wpeka.com/contact/" target="__blank" class="gdpr-help-button"><?php esc_html_e( 'Go To Help Desk', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/contact-us/" target="__blank" class="gdpr-help-button"><?php esc_html_e( 'Go To Help Desk', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>
 					</div>
 				</c-card-body>
@@ -543,7 +543,7 @@ if ( 200 === $response_status ) {
 				<h1 class="gdpr-dashboard-tips-tricks-title">
 					<?php esc_html_e( 'Tips and Tricks', 'gdpr-cookie-consent' ); ?>
 				</h1>
-				<a href="https://www.wpeka.com/" target="_blank">
+				<a href="https://wplegalpages.com/blog/" target="_blank">
 				<button class="gdpr-dashboard-tips-tricks-button">
                 <?php esc_html_e('Visit Our Blog ','gdpr-cookie-consent') ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"> 
 				</button>

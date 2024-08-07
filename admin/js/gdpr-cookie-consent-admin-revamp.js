@@ -15,7 +15,6 @@ jQuery(document).ready(function () {
     jQuery('.gdpr-cookie-consent-admin-tab-content').not(':first').hide();
 	jQuery('.gdpr-cookie-consent-admin-dashboard-tab').addClass('active-tab');
     jQuery('#gdpr_dashboard').show();
-
     // On tab click, show the corresponding content and update URL hash
     jQuery('.gdpr-cookie-consent-admin-tabs').on('click', '.gdpr-cookie-consent-admin-tab', function (event) {
 		event.preventDefault();
@@ -411,7 +410,6 @@ jQuery(document).ready(function () {
 				// Calculate the position to center the popup.
 				var leftPosition = (viewportWidth - popupWidth) / 2;
 				var topPosition = (viewportHeight - popupHeight) / 2;
-
 				// Open the popup window at the calculated position.
 				var e = window.open(
 				response.data.url,
@@ -435,6 +433,7 @@ jQuery(document).ready(function () {
 	* Clicked on connect to exiting account.
 	*/
 	jQuery('.gdpr-cookie-consent-admin-upgrade-button').on('click', gdprPaidAuth );
+	jQuery('.cookie-consent-upgrade-to-pro-banner').on('click', gdprPaidAuth );
 	/**
 	 * Store the Authentication Data
 	 * @param {*} data
