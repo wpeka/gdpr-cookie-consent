@@ -33,7 +33,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 	$is_pro     = get_option( 'wpl_pro_active', false );
 
 	?>
-	<div class="gdpr-templates-field-container">
+	<div class="gdpr-templates-field-container-wizard">
 		<?php
 		foreach ( $templates as $key => $template ) :
 			if ( false !== strpos( $template['name'], 'column' ) ) {
@@ -52,7 +52,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 			if ( ! $is_pro ) {
 				?>
 			<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
-				<div class="gdpr-left-field">
+				<div class="gdpr-left-field-wizard">
 				<c-input type="radio" :disabled="false" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
 				<?php
 				if ( $template['name'] === $checked ) {
@@ -156,7 +156,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 			} else {
 				?>
 		<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
-			<div class="gdpr-left-field">
+			<div class="gdpr-left-field-wizard">
 			<c-input type="radio" :disabled="disableSwitch" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
 				<?php
 				if ( $template['name'] === $checked ) {
@@ -2438,8 +2438,7 @@ function get_templates( $template_type ) {
 												<div class="wizard_eu_safe_message">
 													<?php
 													esc_attr_e(
-														'To enable this feature, enable the geotargeting and integrate with MaxMind key'
-													);
+														'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
 													?>
 												</div>
 											</label>
@@ -2518,8 +2517,7 @@ function get_templates( $template_type ) {
 												<div class="wizard_eu_safe_message">
 													<?php
 													esc_attr_e(
-														'To enable this feature, enable the geotargeting and integrate with MaxMind key'
-													);
+														'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
 													?>
 												</div>
 											</label>
@@ -2588,8 +2586,7 @@ function get_templates( $template_type ) {
 												<div class="wizard_eu_safe_message">
 													<?php
 													esc_attr_e(
-														'To enable this feature, enable the geotargeting and integrate with MaxMind key'
-													);
+														'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
 													?>
 												</div>
 											</label>
@@ -2668,8 +2665,7 @@ function get_templates( $template_type ) {
 											<div class="wizard_eu_safe_message">
 												<?php
 												esc_attr_e(
-													'To enable this feature, enable the geotargeting and integrate with MaxMind key'
-												);
+													'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
 												?>
 											</div>
 										</label>
@@ -2755,7 +2751,7 @@ function get_templates( $template_type ) {
 						<div class="enable-data-request">
 							<div class="enable-data-request-content">
 								<c-col v-show="data_reqs_on">
-									<c-col class="enable-respect-data-request-shortcode-label"><label><?php esc_attr_e( 'Shortcode for Data Request' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+									<c-col class="enable-respect-data-request-shortcode-label"><label><?php esc_attr_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 									</c-col>
 									<c-col class="enable-data-request-switch">
 										<c-button class="btn btn-info" variant="outline" @click="copyTextToClipboard">{{ shortcode_copied ? 'Shortcode Copied!' : 'Click to Copy' }}</c-button>

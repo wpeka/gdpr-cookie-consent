@@ -1,32 +1,52 @@
 /* Policy data report  */
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 .wpl-content-area{
 	background-color: white;
 	padding: 30px;
 }
-.wp-heading-inline{
-	color: #000;
-	font-size: 24px;
-	font-style: normal;
-	font-weight: 500 !important;
-	line-height: normal;
+.wpl-heading-export-consentlogs{
+    display: flex;
+	justify-content: space-between;
+}
+.wp-heading{
+  color: #000;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px !important;
+  font-style: normal;
+  font-weight: 500 !important;
+  line-height: normal;
+  margin-right: 20px !important;
+}
+.data-req-export-button{
+	color:#2A4A7E;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 20px;
+    margin-top: 13px;
+	margin-left: 20px;
+	text-decoration: underline
+}
+.data-req-export-button:hover{
+	color:#0073AA;
 }
 #wpl-dnsmpd-filter .sorting-indicators{
-	display: none; /* remove display none property if order by is needed in the report table  */
+	display: none;
 }
 #wpl-dnsmpd-filter .manage-column a span {
-	color: #000;
-	font-size: 15px;
+	color: #3F3F46;
+	font-size: 14px;
 	font-style: normal;
 	font-weight: 500;
 	line-height: normal;
 }
 
 #wpl-dnsmpd-filter tbody td{
-	color: #333;
-	font-size: 13px;
+	color: #3F3F46;
+	font-size: 14px;
+	font-family: 'Roboto', sans-serif;
 	font-style: normal;
-	font-weight: 480;
+	font-weight: 400;
 	line-height: normal;
 }
 #wpl-dnsmpd-filter table thead tr th {
@@ -49,20 +69,23 @@
 	left: 0;
 }
 #wpl-dnsmpd-filter .row-actions .resolve a{
-	color: #39F;
-	font-size: 13px;
+	color: #0059B3;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: normal;
+	line-height: 20px;
+	padding-right:20px;
 }
 #wpl-dnsmpd-filter .row-actions .delete a{
-	color: #FF6969;
-	font-size: 13px;
+	color: #D92D20;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: normal;
+	line-height: 20px;
+	padding-left:20px;
 }
-
 .datarequest.column-datarequest a{
 	color: #39F;
 	font-size: 13px;
@@ -72,27 +95,37 @@
 }
 .search-and-export-container{
 	display: flex;
-	margin-top: 20px;
 	margin-bottom: 40px;
-	position: relative;
+	/* position: relative;
+	left:100% */
 }
 .search-and-export-container .search-box{
 	float:none;
 }
 #wpl-dnsmpd-filter .search-box #gdpr-cookie-consent-search-input-policy-data{
-	height: 40px;
-	width: 250px;
-	border-color: #C6C6C6;
+	height: 36px;
+	width: 349px;
+	border:none;
 }
-#wpl-dnsmpd-filter-consent-log .search-box #gdpr-cookie-consent-search-input{
-	height: 40px;
-	width: 250px;
-	border-color: #C6C6C6;
+#wpl-dnsmpd-filter .search-box #gdpr-cookie-consent-search-input-policy-data{
+	box-shadow: none;
+}
+#wpl-dnsmpd-filter-consent-log .search-box #gdpr-cookie-consent-search-input { 
+	height: 36px;
+	width: 349px;
+	border:none;
+	padding-top:10px
+}
+#wpl-dnsmpd-filter-consent-log .search-box #gdpr-cookie-consent-search-input:focus { 
+	box-shadow: none;
 }
 #wpl-dnsmpd-filter-datarequest .search-box #gdpr-cookie-consent-search-input{
-	height: 40px;
-	width: 250px;
-	border-color: #C6C6C6;
+	height: 36px;
+	width: 349px;
+	border:none;
+}
+#wpl-dnsmpd-filter-datarequest .search-box #gdpr-cookie-consent-search-input:focus{
+	box-shadow: none;
 }
 #wpl-dnsmpd-filter-datarequest .search-box #search-submit{
 	height: 40px;
@@ -128,75 +161,48 @@
 	padding: 0px 20px;
 	border-color: #39F;
 }
-#wpl-dnsmpd-filter-datarequest .data-req-export-button{
-	height: 40px;
-	border-radius: 4px;
-	background: #39F;
-	color: #FFF;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: unset;
-	padding: 7px 20px;
-}
-#wpl-dnsmpd-filter-consent-log .data-req-export-button{
-	height: 40px;
-	border-radius: 4px;
-	background: #39F;
-	color: #FFF;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: unset;
-	padding: 7px 20px;
-}
-#wpl-dnsmpd-filter .data-req-export-button{
-	height: 40px;
-	border-radius: 4px;
-	background: #39F;
-	color: #FFF;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: unset;
-	padding: 7px 20px;
-}
 #wpl_resolved_select{
-	position: absolute;
-	right: 0;
-	width: 120px;
-	height: 40px;
-	border-color: #C6C6C6;
-	color: #000;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
-}
-#wpl-dnsmpd-filter #bulk-action-selector-top,#wpl-dnsmpd-filter #bulk-action-selector-bottom{
-	width: 250px;
-	height: 40px;
+	width: 128px;
+	height: 36px;
 	margin-bottom: 20px;
 	border-color: #C6C6C6;
-	color: #333;
-	font-size: 16px;
+	background-color: #f4f4f5;
+	font-family: "Poppins", sans-serif;
+	color: #52525B;
+	font-size: 12px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 500;
+	line-height: normal;
+	margin-left:20px;
+}
+#wpl-dnsmpd-filter #bulk-action-selector-top,#wpl-dnsmpd-filter #bulk-action-selector-bottom{
+	width: 128px;
+	height: 36px;
+	margin-bottom: 20px;
+	border-color: #C6C6C6;
+	background-color: #F4F4F5;
+	font-family: "Poppins", sans-serif;
+	color: #52525B;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
 	line-height: normal;
 }
 
 #wpl-dnsmpd-filter #doaction,#wpl-dnsmpd-filter #doaction2{
-	height: 40px;
+	height: 36px;
 	border-radius: 4px;
-	border: 1px solid #39F;
-	background: #F8F8F8;
-	color: #39F;
-	font-size: 16px;
+	border: 1px solid #7195D0;
+	background: #FFFFFF;
+	color: #2A4A7E;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 600;
 	line-height: normal;
-	width: 80px;
-	margin-left: 10px;
+	width: 100px;
+	margin-left: 6px;
+ 	margin-right: 20px;
 }
 
 #wpl-dnsmpd-filter .current-page,#wpl-dnsmpd-filter .next-page,#wpl-dnsmpd-filter .last-page{
@@ -255,16 +261,16 @@
 
 
 
-
 #wpl-dnsmpd-filter-consent-log .sorting-indicators{
 	display: none; /* remove display none property if order by is needed in the report table  */
 }
 #wpl-dnsmpd-filter-consent-log .manage-column a span {
-	color: #000;
-	font-size: 15px;
+	color: #3F3F46;
+	font-size: 14px;
+	font-family: 'Roboto', sans-serif;
 	font-style: normal;
 	font-weight: 500;
-	line-height: normal;
+	line-height: 20px;
 }
 
 #wwpl-dnsmpd-filter-consent-log tbody td{
@@ -275,13 +281,69 @@
 	line-height: normal;
 }
 #wpl-dnsmpd-filter-consent-log table thead tr th {
-	padding: 10px;
+	padding: 8px;
 }
+/* revamp of consen log tab */
+#wpl-dnsmpd-filter-consent-log table thead ,#wpl-dnsmpd-filter-consent-log tbody tr{
+	border:1px solid #E4E4E7;
+}
+.wplconsentlogsip, .wplconsentlogsdates,.wplconsentlogscountry ,.wplconsentlogstatus,.wplconsentlogspdf{
+	color:#3F3F46;
+	font-size: 14px !important;
+	line-height: 20px;
+	font-weight: 400px;
+	font-family: 'Roboto', sans-serif;
+	border:1px solid #E4E4E7;
+	border-collapse: collapse;
+}
+#wplconsentlogsip , #wplconsentlogsdates,#wplconsentlogscountry ,#wplconsentlogstatus,#wplconsentlogspdf{
+	background-color: #F4F4F5;
+	border:1px solid #E4E4E7;
+	border-collapse: collapse;
+}
+.check-column label {
+	background-color: #F4F4F5;
+}
+.striped>tbody>:nth-child(even){
+    background-color: #f6f7f7;
+}
+.striped>tbody>:nth-child(odd){
+    background-color: #FFFFFF;
+}
+.widefat tbody th.check-column{
+	padding: 16px 0 0 3px;
+}
+.widefat .check-column{
+	width: 4.2em;
+}
+.widefat th input ,.widefat thead td input {
+	margin: 0 0 0 16px;
+}
+input[type=checkbox]{
+	border: 1px solid #E4E4E7;
+	height:20px;
+	width:20px;
+	box-shadow: none;
+}
+input[type=checkbox]:checked::before {
+	margin: -1px 0px 0px -2px;
+}
+.download-pdf-button{
+	color:#0059B3;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 400px;
+	text-decoration: underline;
+}
+.download-pdf-button a{
+	color:#0059B3;
+} 
 #wpl-dnsmpd-filter-consent-log tbody tr td{
 	padding: 15px;
 }
 #wpl-dnsmpd-filter-consent-log table {
-	border-radius: 5px;
+	border:1px solid #E4E4E7;
 }
 #wpl-dnsmpd-filter-consent-log table tfoot{
 	display: none;
@@ -308,21 +370,13 @@
 	line-height: normal;
 }
 
-
-#wpl-dnsmpd-filter-consent-log .search-box #gdpr-cookie-consent-search-input-policy-data{
+#wpl-dnsmpd-filter-datarequest.search-box #gdpr-cookie-consent-search-input{
 	height: 40px;
 	width: 250px;
-	border-color: #C6C6C6;
+	border:none;
 }
-#wpl-dnsmpd-filter-consent-log .search-box #gdpr-cookie-consent-search-input{
-	height: 40px;
-	width: 250px;
-	border-color: #C6C6C6;
-}
-#wpl-dnsmpd-filter-datarequest .search-box #gdpr-cookie-consent-search-input{
-	height: 40px;
-	width: 250px;
-	border-color: #C6C6C6;
+#wpl-dnsmpd-filter-datarequest.search-box #gdpr-cookie-consent-search-input:focus{
+	box-shadow: none;
 }
 #wpl-dnsmpd-filter-datarequest .search-box #search-submit{
 	height: 40px;
@@ -358,75 +412,47 @@
 	padding: 0px 15px;
 	border-color: #39F;
 }
-#wpl-dnsmpd-filter-datarequest .data-req-export-button{
-	height: 40px;
-	border-radius: 4px;
-	background: #39F;
-	color: #FFF;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: unset;
-	padding: 7px 20px;
-}
-#wpl-dnsmpd-filter-consent-log .data-req-export-button{
-	height: 40px;
-	border-radius: 4px;
-	background: #39F;
-	color: #FFF;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: unset;
-	padding: 7px 20px;
-}
-#wpl-dnsmpd-filter-consent-log .data-req-export-button{
-	height: 40px;
-	border-radius: 4px;
-	background: #39F;
-	color: #FFF;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: unset;
-	padding: 7px 20px;
-}
-#wpl_resolved_select{
-	position: absolute;
-	right: 0;
-	width: 120px;
-	height: 40px;
-	border-color: #C6C6C6;
-	color: #000;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
-}
 #wpl-dnsmpd-filter-consent-log #bulk-action-selector-top,#wpl-dnsmpd-filter-consent-log #bulk-action-selector-bottom{
-	width: 250px;
-	height: 40px;
+	width: 128px;
+	height: 36px;
 	margin-bottom: 20px;
 	border-color: #C6C6C6;
-	color: #333;
-	font-size: 16px;
+	background-color: #F4F4F5;
+	font-family: "Poppins", sans-serif;
+	color: #52525B;
+	font-size: 12px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 500;
 	line-height: normal;
 }
-
-#wpl-dnsmpd-filter-consent-log #doaction,#wpl-dnsmpd-filter-consent-log #doaction2{
-	height: 40px;
-	border-radius: 4px;
-	border: 1px solid #39F;
-	background: #F8F8F8;
-	color: #39F;
-	font-size: 16px;
+#wpl_resolved_select_consent_log{
+	width: 128px;
+	height: 36px;
+	margin-bottom: 20px;
+	border-color: #C6C6C6;
+	background-color: #F4F4F5;
+	font-family: "Poppins", sans-serif;
+	color: #52525B;
+	font-size: 12px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 500;
 	line-height: normal;
-	width: 80px;
-	margin-left: 10px;
+	margin-left:20px;
+}
+#wpl-dnsmpd-filter-consent-log #doaction,#wpl-dnsmpd-filter-consent-log #doaction2{
+	height: 36px;
+	border-radius: 4px;
+	border: 1px solid #7195D0;
+	background: #FFFFFF;
+	color: #2A4A7E;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	width: 100px;
+	margin-left: 6px;
+	margin-right: 20px;
 }
 
 #wpl-dnsmpd-filter-consent-log .current-page,#wpl-dnsmpd-filter-consent-log .next-page,#wpl-dnsmpd-filter-consent-log .last-page{
@@ -473,4 +499,100 @@
 }
 #policyDataTabContainer .wpl-datarequests .notice.notice-error{
 	display: none;
+}
+#title, #gdprpurpose, #gdprlinks, #gdprdomain, #actions_policy_data{
+	background-color: #F4F4F5;
+	border:1px solid #E4E4E7;
+	border-collapse: collapse;
+}
+.title, .gdprpurpose, .gdprlinks, .gdprdomain, .actions_policy_data{
+	color:#3F3F46;
+	font-size: 14px !important;
+	line-height: 20px;
+	font-weight: 400 !important;
+	font-family: 'Roboto', sans-serif;
+	border:1px solid #E4E4E7;
+	border-collapse: collapse;
+}
+#wpl-dnsmpd-filter-datarequest .row-actions{
+	text-align: center;
+  }
+  .widefat tbody th.check-column{
+	  padding: 16px 0 0 3px;
+	  border:1px solid #E4E4E7;
+  }
+  .widefat .check-column{
+	  width: 4.2em;
+  }
+  .widefat th input ,.widefat thead td input {
+	  margin: 0 0 0 16px;
+  }
+  input[type=checkbox]{
+	  border: 1px solid #E4E4E7;
+	  height:20px;
+	  width:20px;
+	  box-shadow: none;
+  }
+  input[type=checkbox]:checked::before {
+	  margin: -1px 0px 0px -2px;
+  }
+  .actions_policy_data .row-actions{
+	text-align: center;
+  }
+  #actions_policy_data a{
+	display: flex;
+	justify-content: center;
+  }
+  .row-actions .edit a{
+	color: #0059B3;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+	padding-right:20px;
+}
+.row-actions .policy_delete a{
+	color: #D92D20;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+	padding-left:20px;
+}
+.tablenav .actions{
+	display: flex;
+    align-items: baseline;
+    flex-direction: row-reverse;
+}
+#bulk-action-selector-top,#bulk-action-selector-bottom{
+	order:2;
+}
+#search-submit-consent-log , #search-submit-data-request , #search-submit-policy-data{
+	display: none;
+}
+.search-box{
+	position: relative;
+	border-bottom: 1px solid #D4D4D8;
+}
+#search-logo-consent-log , #search-logo-data-request ,#search-logo-policy-data{
+	position: relative;
+	top:6px;
+	right:15px;
+}
+.search-box input[name="s"]{
+	margin: 0 25px 0px 0px;
+}
+.consent-log-heading-export , .data-request-heading-export , .policy-data-heading-export{
+	display: flex;
+}
+input#gdpr-cookie-consent-search-input{
+	padding-bottom:10px;	
+}
+input#gdpr-cookie-consent-search-input-policy-data ,input#gdpr-cookie-consent-search-input-data-request ,input#gdpr-cookie-consent-search-input{
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
 }

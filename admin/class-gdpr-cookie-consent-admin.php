@@ -439,30 +439,23 @@ class Gdpr_Cookie_Consent_Admin {
 		$consent_logs->prepare_items();
 		?>
 		<div class="wpl-consentlogs">
-			<h1 class="wp-heading-inline"><?php esc_html_e( 'Consent Logs', 'gdpr-cookie-consent' ); ?>
-
-			</h1>
 			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ) ); ?>">
+				<div class="wpl-heading-export-consentlogs">
+					<div class="consent-log-heading-export">
+						<h1 class="wp-heading"><?php esc_html_e( 'Consent Logs', 'gdpr-cookie-consent' ); ?></h1>
+						<a href="<?php echo esc_url_raw( plugins_url( 'public/modules/consent-logs/csv.php', __DIR__ ) . '?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
+					</div>
+					<div class="consent-log-search-log"> 
+						<?php $consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+					</div>
+				</div>
 			<?php
-				$consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 				$consent_logs->display();
 			?>
-				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
-
+			<input type="hidden" name="page" value="gdpr-cookie-consent"/>
 			</form>
-			<script>
-					document.addEventListener('DOMContentLoaded', function() {
-
-				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction"]').attr('id', 'consentLogApplyButton');
-				jQuery('#wpl-dnsmpd-filter-consent-log input[id="doaction2"]').attr('id', 'consentLogApplyButton2');
-				jQuery('#wpl-dnsmpd-filter-consent-log select[id="bulk-action-selector-bottom"]').attr('id', 'bulk-action-selector-consent-log-bottom');
-				jQuery('#wpl-dnsmpd-filter-consent-log select[id="bulk-action-selector-top"]').attr('id', 'bulk-action-selector-consent-log-top');
-
-	});
-</script>
 		</div>
 			<?php
-
 			$content                  = ob_get_clean();
 			$args                     = array(
 				'page'    => 'do-not-sell-my-personal-information',
@@ -482,6 +475,12 @@ class Gdpr_Cookie_Consent_Admin {
 					'method' => array(),
 					'action' => array(),
 				),
+				'img'    => array(
+					'class' => array(),
+					'src'   => array(),
+					'alt'   => array(),
+					'id'    => array(),
+				),
 				'p'      => array(
 					'class' => array(),
 				),
@@ -490,11 +489,12 @@ class Gdpr_Cookie_Consent_Admin {
 					'for'   => array(),
 				),
 				'input'  => array(
-					'type'  => array(),
-					'id'    => array(),
-					'name'  => array(),
-					'value' => array(),
-					'class' => array(),
+					'type'        => array(),
+					'id'          => array(),
+					'name'        => array(),
+					'value'       => array(),
+					'class'       => array(),
+					'placeholder' => array(),
 				),
 				'a'      => array(
 					'href'    => array(),
@@ -966,14 +966,19 @@ class Gdpr_Cookie_Consent_Admin {
 		$datarequests->prepare_items();
 		?>
 		<div class="wpl-datarequests">
-			<h1 class="wp-heading-inline"><?php esc_html_e( 'Data Requests', 'gdpr-cookie-consent' ); ?>
-
-			</h1>
 			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ) ); ?>">
-			<?php
-				$datarequests->search_box( __( 'Search Requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
-				$datarequests->display();
-			?>
+				<div class="wpl-heading-export-datarequest">
+					<div class="data-request-heading-export">
+						<h1 class="wp-heading"><?php esc_html_e( 'Data Requests', 'gdpr-cookie-consent' ); ?></h1>
+						<a href="<?php echo esc_url_raw( plugins_url( 'admin/data-req/csv.php', __DIR__ ) . '?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
+					</div>
+					<div class="data-request-search-log"> 
+						<?php $datarequests->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+					</div>
+				</div>
+				<?php
+					$datarequests->display();
+				?>
 				<input type="hidden" name="page" value="gdpr-cookie-consent"/>
 			</form>
 		</div>
@@ -997,6 +1002,12 @@ class Gdpr_Cookie_Consent_Admin {
 					'method' => array(),
 					'action' => array(),
 				),
+				'img'    => array(
+					'class' => array(),
+					'src'   => array(),
+					'alt'   => array(),
+					'id'    => array(),
+				),
 				'p'      => array(
 					'class' => array(),
 				),
@@ -1005,11 +1016,12 @@ class Gdpr_Cookie_Consent_Admin {
 					'for'   => array(),
 				),
 				'input'  => array(
-					'type'  => array(),
-					'id'    => array(),
-					'name'  => array(),
-					'value' => array(),
-					'class' => array(),
+					'type'        => array(),
+					'id'          => array(),
+					'name'        => array(),
+					'value'       => array(),
+					'class'       => array(),
+					'placeholder' => array(),
 				),
 				'a'      => array(
 					'href'   => array(),
@@ -1235,14 +1247,22 @@ class Gdpr_Cookie_Consent_Admin {
 			$policy_data->prepare_items();
 		?>
 			<div class="wpl-consentlogs">
-				<h1 class="wp-heading-inline"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?>
-
-				</h1>
 				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ) ); ?>">
-				<?php
-					$policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
-					$policy_data->display();
-				?>
+					<div class="wpl-heading-export-consentlogs">
+						<div class="policy-data-heading-export">
+							<h1 class="wp-heading"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?></h1>
+							<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export As CSV', 'gdpr-cookie-consent' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Import From CSV', 'gdpr-cookie-consent' ); ?></a>
+							<a href="<?php echo esc_url_raw( admin_url( 'post-new.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Add New', 'gdpr-cookie-consent' ); ?></a>
+						</div>
+						<div class="policy-data-search-log"> 
+							<?php $policy_data->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+						</div>
+					</div>
+					<?php
+						// $policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
+						$policy_data->display();
+					?>
 					<input type="hidden" name="page" value="gdpr-cookie-consent"/>
 				</form>
 			</div>
@@ -1388,8 +1408,8 @@ class Gdpr_Cookie_Consent_Admin {
 				update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
 		}
 		// Check if the key exists in the options table
-		if ( get_option('gdpr_no_of_page_scan') == false ) {
-			add_option('gdpr_no_of_page_scan', 0 );
+		if ( get_option( 'gdpr_no_of_page_scan' ) == false ) {
+			add_option( 'gdpr_no_of_page_scan', 0 );
 		}
 		// Update settings from Version 1.7.6.
 		$prev_gdpr_option = get_option( 'GDPRCookieConsent-2.0' );
@@ -3707,11 +3727,11 @@ class Gdpr_Cookie_Consent_Admin {
 			);
 		}
 		$position_options           = array();
-		$position_options[0]        = array(
+		$position_options[0]       = array(
 			'label' => 'Top',
 			'code'  => 'top',
 		);
-		$position_options[1]        = array(
+		$position_options[1]      = array(
 			'label' => 'Bottom',
 			'code'  => 'bottom',
 		);
@@ -4080,7 +4100,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$is_user_connected = $this->settings->is_connected();
-
 		wp_localize_script(
 			$this->plugin_name . '-main',
 			'settings_obj',
@@ -4125,8 +4144,8 @@ class Gdpr_Cookie_Consent_Admin {
 				// for sites.
 				'list_of_sites'                    => is_multisite() ? $list_of_sites : null,
 				'geo_options'                      => $geo_options,
-				'is_user_connected'				   => $is_user_connected,
-				'gdpr_no_of_page_scan'			   => get_option('gdpr_no_of_page_scan')
+				'is_user_connected'                => $is_user_connected,
+				'gdpr_no_of_page_scan'             => get_option( 'gdpr_no_of_page_scan' ),
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . '-main' );
@@ -4416,7 +4435,7 @@ class Gdpr_Cookie_Consent_Admin {
 				return;
 			}
 
-			$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$the_options                          = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$the_options['is_on']                 = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'true';
 			$the_options['cookie_usage_for']      = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
 			$the_options['cookie_bar_as']         = isset( $_POST['show-cookie-as'] ) ? sanitize_text_field( wp_unslash( $_POST['show-cookie-as'] ) ) : 'banner';
@@ -5003,8 +5022,9 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
 			<c-card v-show="is_gdpr || is_lgpd">
-				<c-card-header><?php esc_html_e( 'Cookie Bar Template', 'gdpr-cookie-consent' ); ?></c-card-header>
-				<c-card-body>
+					<c-row>
+						<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Bar Template', 'gdpr-cookie-consent' ); ?></div></c-col>
+					</c-row>
 					<c-row v-show="!show_banner_template">
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Templates', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use a pre-built template to style your Cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
@@ -5026,29 +5046,28 @@ class Gdpr_Cookie_Consent_Admin {
 							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
 						</c-col>
 						<c-col class="col-sm-9">
-				<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'] ); ?>
-						</c-col>
-					</c-row>
-					<c-row v-show="show_popup_template">
-						<c-col class="col-sm-4">
-							<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
-						</c-col>
-						<c-col class="col-sm-8">
-				<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'] ); ?>
-						</c-col>
-					</c-row>
-					<c-row v-show="show_widget_template">
-						<c-col class="col-sm-4">
-							<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
-						</c-col>
-						<c-col class="col-sm-8">
-				<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'] ); ?>
-						</c-col>
+					<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'] ); ?>
+							</c-col>
+						</c-row>
+						<c-row v-show="show_popup_template">
+							<c-col class="col-sm-3">
+								<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
+							</c-col>
+							<c-col class="col-sm-9">
+					<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'] ); ?>
+							</c-col>
+						</c-row>
+						<c-row v-show="show_widget_template">
+							<c-col class="col-sm-3">
+								<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
+							</c-col>
+							<c-col class="col-sm-9">
+					<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'] ); ?>
+							</c-col>
 					</c-row>
 					<input type="hidden" name="gdpr-template" v-model="template">
-				</c-card-body>
 			</c-card>
-			<?php
+				<?php
 	}
 
 	/**
@@ -5166,7 +5185,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$encode_css                   = $this->encode_css( $the_options['gdpr_css_text'] );
 			$the_options['gdpr_css_text'] = $encode_css;
 
-			$the_options['notify_message']      = isset( $_POST['notify_message_field'] ) ? wp_kses(
+			$the_options['notify_message']                       = isset( $_POST['notify_message_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_field'] ),
 				array(
 					'a'      => array(
@@ -5190,7 +5209,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'label'  => array(),
 				)
 			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
-			$the_options['notify_message_lgpd'] = isset( $_POST['notify_message_lgpd_field'] ) ? wp_kses(
+			$the_options['notify_message_lgpd']                  = isset( $_POST['notify_message_lgpd_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_lgpd_field'] ),
 				array(
 					'a'      => array(
@@ -5214,9 +5233,9 @@ class Gdpr_Cookie_Consent_Admin {
 					'label'  => array(),
 				)
 			) : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.";
-			$the_options['about_message']       = isset( $_POST['about_message_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
-			$the_options['about_message_lgpd']  = isset( $_POST['about_message_lgpd_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_lgpd_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
-			$the_options['notify_message_ccpa'] = isset( $_POST['notify_message_ccpa_field'] ) ? wp_kses(
+			$the_options['about_message']                        = isset( $_POST['about_message_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
+			$the_options['about_message_lgpd']                   = isset( $_POST['about_message_lgpd_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_lgpd_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
+			$the_options['notify_message_ccpa']                  = isset( $_POST['notify_message_ccpa_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_ccpa_field'] ),
 				array(
 					'a'      => array(
@@ -5240,42 +5259,42 @@ class Gdpr_Cookie_Consent_Admin {
 					'label'  => array(),
 				)
 			) : 'In case of sale of your personal information, you may opt out by using the link';
-			$the_options['optout_text']         = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
-			$the_options['is_ccpa_iab_on']      = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
-			$the_options['show_again']          = isset( $_POST['gcc-revoke-consent-enable'] ) && ( true === $_POST['gcc-revoke-consent-enable'] || 'true' === $_POST['gcc-revoke-consent-enable'] ) ? 'true' : 'false';
-			$the_options['show_again_position'] = isset( $_POST['gcc-tab-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-position'] ) ) : 'right';
-			$the_options['show_again_margin']   = isset( $_POST['gcc-tab-margin'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-margin'] ) ) : '5';
-			$the_options['show_again_text']     = isset( $_POST['show_again_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['show_again_text_field'] ) ) : 'Cookie Settings';
-			$the_options['is_ticked']                              = isset( $_POST['gcc-autotick'] ) && ( true === $_POST['gcc-autotick'] || 'true' === $_POST['gcc-autotick'] ) ? 'true' : 'false';
-			$the_options['auto_hide']                              = isset( $_POST['gcc-auto-hide'] ) && ( true === $_POST['gcc-auto-hide'] || 'true' === $_POST['gcc-auto-hide'] ) ? 'true' : 'false';
-			$the_options['auto_hide_delay']                        = isset( $_POST['gcc-auto-hide-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-hide-delay'] ) ) : '10000';
-			$the_options['auto_banner_initialize']                 = isset( $_POST['gcc-auto-banner-initialize'] ) && ( true === $_POST['gcc-auto-banner-initialize'] || 'true' === $_POST['gcc-auto-banner-initialize'] ) ? 'true' : 'false';
-			$the_options['auto_banner_initialize_delay']           = isset( $_POST['gcc-auto-banner-initialize-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-banner-initialize-delay'] ) ) : '10000';
-			$the_options['auto_scroll']                            = isset( $_POST['gcc-auto-scroll'] ) && ( true === $_POST['gcc-auto-scroll'] || 'true' === $_POST['gcc-auto-scroll'] ) ? 'true' : 'false';
-			$the_options['auto_click']                             = isset( $_POST['gcc-auto-click'] ) && ( true === $_POST['gcc-auto-click'] || 'true' === $_POST['gcc-auto-click'] ) ? 'true' : 'false';
-			$the_options['auto_scroll_offset']                     = isset( $_POST['gcc-auto-scroll-offset'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-scroll-offset'] ) ) : '10';
-			$the_options['auto_scroll_reload']                     = isset( $_POST['gcc-auto-scroll-reload'] ) && ( true === $_POST['gcc-auto-scroll-reload'] || 'true' === $_POST['gcc-auto-scroll-reload'] ) ? 'true' : 'false';
-			$the_options['accept_reload']                          = isset( $_POST['gcc-accept-reload'] ) && ( true === $_POST['gcc-accept-reload'] || 'true' === $_POST['gcc-accept-reload'] ) ? 'true' : 'false';
-			$the_options['decline_reload']                         = isset( $_POST['gcc-decline-reload'] ) && ( true === $_POST['gcc-decline-reload'] || 'true' === $_POST['gcc-decline-reload'] ) ? 'true' : 'false';
-			$the_options['delete_on_deactivation']                 = isset( $_POST['gcc-delete-on-deactivation'] ) && ( true === $_POST['gcc-delete-on-deactivation'] || 'true' === $_POST['gcc-delete-on-deactivation'] ) ? 'true' : 'false';
-			$the_options['show_credits']                           = isset( $_POST['gcc-show-credits'] ) && ( true === $_POST['gcc-show-credits'] || 'true' === $_POST['gcc-show-credits'] ) ? 'true' : 'false';
-			$the_options['cookie_expiry']                          = isset( $_POST['gcc-cookie-expiry'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-cookie-expiry'] ) ) : '365';
-			$the_options['button_readmore_is_on']                  = isset( $_POST['gcc-readmore-is-on'] ) && ( true === $_POST['gcc-readmore-is-on'] || 'true' === $_POST['gcc-readmore-is-on'] ) ? 'true' : 'false';
-			$the_options['button_readmore_text']                   = isset( $_POST['button_readmore_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['button_readmore_text_field'] ) ) : 'Read More';
-			$the_options['button_readmore_link_color']             = isset( $_POST['gcc-readmore-link-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-link-color'] ) ) : '#359bf5';
-			$the_options['button_readmore_as_button']              = isset( $_POST['gcc-readmore-as-button'] ) && ( true === $_POST['gcc-readmore-as-button'] || 'true' === $_POST['gcc-readmore-as-button'] ) ? 'true' : 'false';
-			$the_options['button_readmore_url_type']               = isset( $_POST['gcc-readmore-url-type'] ) && ( false === $_POST['gcc-readmore-url-type'] || 'false' === $_POST['gcc-readmore-url-type'] ) ? 'false' : 'true';
-			$the_options['button_readmore_page']                   = isset( $_POST['gcc-readmore-page'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-page'] ) ) : '0';
-			$the_options['button_readmore_wp_page']                = isset( $_POST['gcc-readmore-wp-page'] ) && ( true === $_POST['gcc-readmore-wp-page'] || 'true' === $_POST['gcc-readmore-wp-page'] ) ? 'true' : 'false';
-			$the_options['button_readmore_new_win']                = isset( $_POST['gcc-readmore-new-win'] ) && ( true === $_POST['gcc-readmore-new-win'] || 'true' === $_POST['gcc-readmore-new-win'] ) ? 'true' : 'false';
-			$the_options['button_readmore_url']                    = isset( $_POST['gcc-readmore-url'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-url'] ) ) : '#';
-			$the_options['button_readmore_button_color']           = isset( $_POST['gcc-readmore-button-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-color'] ) ) : '#000000';
-			$the_options['button_readmore_button_opacity']         = isset( $_POST['gcc-readmore-button-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-opacity'] ) ) : '1';
-			$the_options['button_readmore_button_border_style']    = isset( $_POST['gcc-readmore-button-border-style'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-style'] ) ) : '1';
-			$the_options['button_readmore_button_border_width']    = isset( $_POST['gcc-readmore-button-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-width'] ) ) : '0';
-			$the_options['button_readmore_button_border_color']    = isset( $_POST['gcc-readmore-button-border-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-color'] ) ) : '#000000';
-			$the_options['button_readmore_button_border_radius']   = isset( $_POST['gcc-readmore-button-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-radius'] ) ) : '0';
-			$the_options['button_readmore_button_size']            = isset( $_POST['gcc-readmore-button-size'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-size'] ) ) : 'medium';
+			$the_options['optout_text']                          = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
+			$the_options['is_ccpa_iab_on']                       = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
+			$the_options['show_again']                           = isset( $_POST['gcc-revoke-consent-enable'] ) && ( true === $_POST['gcc-revoke-consent-enable'] || 'true' === $_POST['gcc-revoke-consent-enable'] ) ? 'true' : 'false';
+			$the_options['show_again_position']                  = isset( $_POST['gcc-tab-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-position'] ) ) : 'right';
+			$the_options['show_again_margin']                    = isset( $_POST['gcc-tab-margin'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-margin'] ) ) : '5';
+			$the_options['show_again_text']                      = isset( $_POST['show_again_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['show_again_text_field'] ) ) : 'Cookie Settings';
+			$the_options['is_ticked']                            = isset( $_POST['gcc-autotick'] ) && ( true === $_POST['gcc-autotick'] || 'true' === $_POST['gcc-autotick'] ) ? 'true' : 'false';
+			$the_options['auto_hide']                            = isset( $_POST['gcc-auto-hide'] ) && ( true === $_POST['gcc-auto-hide'] || 'true' === $_POST['gcc-auto-hide'] ) ? 'true' : 'false';
+			$the_options['auto_hide_delay']                      = isset( $_POST['gcc-auto-hide-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-hide-delay'] ) ) : '10000';
+			$the_options['auto_banner_initialize']               = isset( $_POST['gcc-auto-banner-initialize'] ) && ( true === $_POST['gcc-auto-banner-initialize'] || 'true' === $_POST['gcc-auto-banner-initialize'] ) ? 'true' : 'false';
+			$the_options['auto_banner_initialize_delay']         = isset( $_POST['gcc-auto-banner-initialize-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-banner-initialize-delay'] ) ) : '10000';
+			$the_options['auto_scroll']                          = isset( $_POST['gcc-auto-scroll'] ) && ( true === $_POST['gcc-auto-scroll'] || 'true' === $_POST['gcc-auto-scroll'] ) ? 'true' : 'false';
+			$the_options['auto_click']                           = isset( $_POST['gcc-auto-click'] ) && ( true === $_POST['gcc-auto-click'] || 'true' === $_POST['gcc-auto-click'] ) ? 'true' : 'false';
+			$the_options['auto_scroll_offset']                   = isset( $_POST['gcc-auto-scroll-offset'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-scroll-offset'] ) ) : '10';
+			$the_options['auto_scroll_reload']                   = isset( $_POST['gcc-auto-scroll-reload'] ) && ( true === $_POST['gcc-auto-scroll-reload'] || 'true' === $_POST['gcc-auto-scroll-reload'] ) ? 'true' : 'false';
+			$the_options['accept_reload']                        = isset( $_POST['gcc-accept-reload'] ) && ( true === $_POST['gcc-accept-reload'] || 'true' === $_POST['gcc-accept-reload'] ) ? 'true' : 'false';
+			$the_options['decline_reload']                       = isset( $_POST['gcc-decline-reload'] ) && ( true === $_POST['gcc-decline-reload'] || 'true' === $_POST['gcc-decline-reload'] ) ? 'true' : 'false';
+			$the_options['delete_on_deactivation']               = isset( $_POST['gcc-delete-on-deactivation'] ) && ( true === $_POST['gcc-delete-on-deactivation'] || 'true' === $_POST['gcc-delete-on-deactivation'] ) ? 'true' : 'false';
+			$the_options['show_credits']                         = isset( $_POST['gcc-show-credits'] ) && ( true === $_POST['gcc-show-credits'] || 'true' === $_POST['gcc-show-credits'] ) ? 'true' : 'false';
+			$the_options['cookie_expiry']                        = isset( $_POST['gcc-cookie-expiry'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-cookie-expiry'] ) ) : '365';
+			$the_options['button_readmore_is_on']                = isset( $_POST['gcc-readmore-is-on'] ) && ( true === $_POST['gcc-readmore-is-on'] || 'true' === $_POST['gcc-readmore-is-on'] ) ? 'true' : 'false';
+			$the_options['button_readmore_text']                 = isset( $_POST['button_readmore_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['button_readmore_text_field'] ) ) : 'Read More';
+			$the_options['button_readmore_link_color']           = isset( $_POST['gcc-readmore-link-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-link-color'] ) ) : '#359bf5';
+			$the_options['button_readmore_as_button']            = isset( $_POST['gcc-readmore-as-button'] ) && ( true === $_POST['gcc-readmore-as-button'] || 'true' === $_POST['gcc-readmore-as-button'] ) ? 'true' : 'false';
+			$the_options['button_readmore_url_type']             = isset( $_POST['gcc-readmore-url-type'] ) && ( false === $_POST['gcc-readmore-url-type'] || 'false' === $_POST['gcc-readmore-url-type'] ) ? 'false' : 'true';
+			$the_options['button_readmore_page']                 = isset( $_POST['gcc-readmore-page'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-page'] ) ) : '0';
+			$the_options['button_readmore_wp_page']              = isset( $_POST['gcc-readmore-wp-page'] ) && ( true === $_POST['gcc-readmore-wp-page'] || 'true' === $_POST['gcc-readmore-wp-page'] ) ? 'true' : 'false';
+			$the_options['button_readmore_new_win']              = isset( $_POST['gcc-readmore-new-win'] ) && ( true === $_POST['gcc-readmore-new-win'] || 'true' === $_POST['gcc-readmore-new-win'] ) ? 'true' : 'false';
+			$the_options['button_readmore_url']                  = isset( $_POST['gcc-readmore-url'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-url'] ) ) : '#';
+			$the_options['button_readmore_button_color']         = isset( $_POST['gcc-readmore-button-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-color'] ) ) : '#000000';
+			$the_options['button_readmore_button_opacity']       = isset( $_POST['gcc-readmore-button-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-opacity'] ) ) : '1';
+			$the_options['button_readmore_button_border_style']  = isset( $_POST['gcc-readmore-button-border-style'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-style'] ) ) : '1';
+			$the_options['button_readmore_button_border_width']  = isset( $_POST['gcc-readmore-button-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-width'] ) ) : '0';
+			$the_options['button_readmore_button_border_color']  = isset( $_POST['gcc-readmore-button-border-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-color'] ) ) : '#000000';
+			$the_options['button_readmore_button_border_radius'] = isset( $_POST['gcc-readmore-button-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-radius'] ) ) : '0';
+			$the_options['button_readmore_button_size']          = isset( $_POST['gcc-readmore-button-size'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-size'] ) ) : 'medium';
 			// The below phpcs ignore comments have been added after referring competitor wordpress.org plugins.
 			$the_options['header_scripts']                       = isset( $_POST['gcc-header-scripts'] ) ? wp_unslash( $_POST['gcc-header-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$the_options['body_scripts']                         = isset( $_POST['gcc-body-scripts'] ) ? wp_unslash( $_POST['gcc-body-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -5348,9 +5367,9 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( ! $the_options['data_req_subject'] ) {
 				$the_options['data_req_subject'] = 'We have received your request';
 			}
-			
+
 			$the_options['data_req_editor_message'] = isset( $_POST['data_req_mail_content_text_field'] ) ? htmlentities( $_POST['data_req_mail_content_text_field'] ) : '';
-			
+
 			if ( $the_options['data_req_editor_message'] == '' ) {
 				$the_options['data_req_editor_message'] = '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;';
 			}

@@ -2229,7 +2229,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			'page'    => 'consent-logs-data-tab',
 			'content' => $content,
 		);
-		echo esc_html($this->wpl_get_template( 'gdpr-consent-logs-tab-template.php', $args ));
+		echo esc_html( $this->wpl_get_template( 'gdpr-consent-logs-tab-template.php', $args ) );
 	}
 
 	/**
