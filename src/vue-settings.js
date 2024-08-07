@@ -1501,13 +1501,15 @@ var gen = new Vue({
             document.getElementById("importButton").disabled=false;
             document.getElementById("importButton").classList.remove("disabled");
             document.getElementById("importButton").classList.remove("disable-import-button");
+            document.getElementById("importButton").classList.remove("disable-import-button");
+            document.getElementById("importButton").add("#importButton");
             },
             removeFile(){
             this.selectedFile = null;
             document.getElementById("fileInput").value = "";
             document.getElementById("importButton").disabled=true;
             document.getElementById("importButton").classList.add("disable-import-button");
-
+            document.getElementById("importButton").remove("#importButton");
             },
             exportsettings() {
                 const siteAddress = window.location.origin;

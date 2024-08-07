@@ -302,7 +302,20 @@ ul.gdpr_cookie_sub_tab li:first-child, ul.gdpr_sub_tab li:first-child{ border-le
 	color:#D8DBE0 !important;
 	border: 1px solid #D8DBE0 !important;
 }
-
+#importButton{
+	border: 1px solid #7195D0;
+	border-radius: 4px;
+	height: 44px;
+	width: 160px;
+	padding: 12px, 16px, 12px, 16px;
+	color: #2A4A7E;
+	font-size: 16px;
+	font-weight: 600;
+}
+#import-btn-container{
+	display: flex;
+	flex-direction: column-reverse;
+}
 .notify_msg{ position:fixed; width:300px; padding:15px; color:#ffffff; right:60px; top:0px; opacity:0; box-shadow:0px 2px 2px #cccccc; border-radius:5px;}
 .gdpr-indent-15{  }
 .gdpr-indent-15 th{ padding-left: 15px; }
@@ -1261,14 +1274,14 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 .advanced-settings-wrapper .advanced-settings-table-container tbody tr td{
 	padding: 12px 20px;
 }
-.advances-settings-tittle-bar{
+.advances-settings-tittle-bar,.optout-settings-tittle-bar{
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid #E4E4E7;
     padding-bottom: 28px;
 }
-.advances-setting-tittle{
+.advances-setting-tittle,.optout-setting-tittle{
 	font-family: 'Roboto', sans-serif;
 	font-weight: 500;
 	font-size: 20px;
@@ -1482,6 +1495,17 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 .modal-content {
 	min-width: 1336px;
     right: 24%;
+}
+@media (max-width: 1440px) and (max-height: 900px) {
+	.modal-content {
+		min-width: 1100px;
+		right: 60px;
+    	top: 21px;
+	}
+	.gdpr-slider-select{
+		width: 175%;
+		margin-right: 1%;
+	}
 }
 .gdpr-label-row {
 	margin-bottom: 0 !important;
@@ -4537,16 +4561,6 @@ Bootstrap CSS for frontend UI
 footer.modal-footer{
 	flex-direction: column;
 }
-.modal-footer .popup-done-btn{
-	background-color: #0059B3;
-    color: #fff;
-    height: 44px;
-    width: 160px;
-}
-.modal-footer .popup-done-btn:hover{
-	color: #fff;
-	background-color: #0d86ff;
-}
 .gdprmodal-footer > :not(:first-child) {
 	margin-left: .25rem;
 }
@@ -6008,4 +6022,29 @@ button.btn.gdpr-renew-now-btn.pro, #data-request-btn, .export-btn ,.erase-btn, #
 }
 .vs__open-indicator{
 	fill:#52525B !important;
+}
+.opt-out-link-container .modal-header,.opt-out-link-container .modal-footer{
+	display: none;
+}
+.opt-out-link-container .optout-settings-main-container{
+	padding-top: 39px;
+}
+.done-button-settings{
+	background-color:#0059B3;
+    font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+	margin-left:44%;
+	height: 44px;
+	width: 160px;
+	border: unset;
+	border-radius: 4px;
+}
+.done-button-settings:hover{
+	background-color: #39f;
+}
+.opt-out-link-container .modal-body{
+	padding: 40px 28px 40px 28px;
 }
