@@ -481,7 +481,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
 									</c-col>
 								</c-row>
-								<?php if ( ! $is_pro_active ) : ?>
 								<c-row v-show="gdpr_policy === 'gdpr'">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
@@ -568,8 +567,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
 										</c-col>
 								</c-row>
-									<?php do_action( 'gdpr_enable_visitor_features' ); ?>
-								<?php endif ?>
 								<!-- Privacy Policy Settings -->
 								<c-row v-show="show_revoke_card || is_lgpd">
 									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
