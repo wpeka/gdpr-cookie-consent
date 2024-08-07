@@ -164,21 +164,6 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		switch ( $column_name ) {
 			case 'title':
 				?>
-				<script>
-					jQuery(document).ready(function($) {
-						var itemId = <?php echo wp_json_encode( $item_ID ); ?>;
-						// Find the matching checkbox and its parent row
-						var matchingRow = jQuery("input[type='checkbox'][value='" + itemId + "']").closest('tr');
-						if (matchingRow.length) {
-							// Get the HTML content
-							var actionsHtml = <?php echo wp_json_encode( $actions_to_be_inserted ); ?>;
-
-							// Append the HTML to the row
-							jQuery(matchingRow).find('td.title').append(actionsHtml);
-						}
-					});
-
-				</script>
 
 				<?php
 				break;

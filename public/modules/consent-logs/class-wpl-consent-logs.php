@@ -553,7 +553,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 				if ( $wplconsentlogs_details ) {
 					$cookies = $wplconsentlogs_details;
-
+					$new_consent_status =false;
 					$wpl_viewed_cookie   = isset( $cookies['wpl_viewed_cookie'] ) ? $cookies['wpl_viewed_cookie'] : '';
 					$wpl_user_preference = isset( $cookies['wpl_user_preference'] ) ? $cookies['wpl_user_preference'] : '';
 					$wpl_optout_cookie   = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
@@ -580,7 +580,6 @@ class WPL_Consent_Logs extends WP_List_Table {
 					if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
 						$wplconsentlogstatus = '<div style="color: #B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
 					} elseif ( $new_consent_status ) {
-
 						$wplconsentlogstatus = '<div style="color: #15803D;font-weight:500;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '</div>';
 					} else {
 						$wplconsentlogstatus = '<div style="color: #DB6200;font-weight:500;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '</div>';
