@@ -7263,7 +7263,8 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .gdpr-cookie-consent-settings-nav
   #gdpr-cookie-consent-settings-cookie-notice-top,
 .gdpr-cookie-consent-settings-nav
-  #gdpr-cookie-consent-settings-configure-cookie-bar-top {
+  #gdpr-cookie-consent-settings-configure-cookie-bar-top,
+.gdpr-cookie-consent-settings-nav #gdpr-cookie-consent-settings-ab-testing-top {
   font-size: 16px;
   font-weight: 500;
   line-height: 20px;

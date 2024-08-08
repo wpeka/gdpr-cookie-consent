@@ -2782,6 +2782,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					}
 					?>
 					</c-card>
+					</c-card>
 
 
 					<!-- Desgin Banner preview if A/B Testing is enabled-->
@@ -3390,6 +3391,20 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</span>
 									</c-button>
 								</c-col>
+								<c-col class="col-sm-4">
+										<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-4">
+										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend1" id="gdpr-cookie-consent-cookie-on-frontend1" variant="3d"  color="success" :checked="cookie_on_frontend1" v-on:update:checked="onSwitchCookieOnFrontend1"></c-switch>
+										<input type="hidden" name="gcc-cookie-on-frontend1" v-model="cookie_on_frontend1">
+									</c-col>
+									<c-col class="col-sm-4">
+										<?php do_action( 'gdpr_cookie_layout_skin_label' ); ?>
+									</c-col>
+									<c-col class="col-sm-4">
+										<?php do_action( 'gdpr_cookie_layout_skin_markup' ); ?>
+									</c-col>
+
 							</c-row>
 							<c-modal
 								title="Settings Button"
@@ -3500,30 +3515,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-radius1" v-model="settings_border_radius1"></c-input>
 								</c-col>
 							</c-row>
-							<c-row class="gdpr-label-row">
-								<c-col v-show="!settings_layout1" class="col-sm-6">
-									<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
-								</c-col>
-								<c-col v-show="settings_layout1" class="col-sm-6">
-									<?php do_action( 'gdpr_cookie_layout_skin_label' ); ?>
-								</c-col>
-								<c-col v-show="settings_layout1" class="col-sm-6">
-									<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
-								</c-col>
-							</c-row>
-							<c-row>
-								<c-col v-show="!settings_layout1" class="col-sm-6">
-									<c-switch v-bind="labelIcon" v-model="cookie_on_frontend1" id="gdpr-cookie-consent-cookie-on-frontend1" variant="3d"  color="success" :checked="cookie_on_frontend1" v-on:update:checked="onSwitchCookieOnFrontend1"></c-switch>
-									<input type="hidden" name="gcc-cookie-on-frontend1" v-model="cookie_on_frontend1">
-								</c-col>
-								<c-col v-show="settings_layout1"  class="col-sm-6">
-									<?php do_action( 'gdpr_cookie_layout_skin_markup' ); ?>
-								</c-col>
-								<c-col v-show="settings_layout1"  class="col-sm-6">
-									<c-switch v-bind="labelIcon" v-model="cookie_on_frontend1" id="gdpr-cookie-consent-cookie-frontend1" variant="3d"  color="success" :checked="cookie_on_frontend1" v-on:update:checked="onSwitchCookieOnFrontend1"></c-switch>
-									<input type="hidden" name="gcc-cookie-on-frontend1" v-model="cookie_on_frontend1">
-								</c-col>
-							</c-row>
+							
 							<template v-slot:footer>
 										<c-button color="info" @click="settings_button_popup1=false"><span>Done</span></c-button>
 								</template>
@@ -4465,6 +4457,21 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</span>
 									</c-button>
 								</c-col>
+								<c-col class="col-sm-4">
+										<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="col-sm-4">
+										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend2" id="gdpr-cookie-consent-cookie-on-frontend2" variant="3d"  color="success" :checked="cookie_on_frontend2" v-on:update:checked="onSwitchCookieOnFrontend2"></c-switch>
+										<input type="hidden" name="gcc-cookie-on-frontend2" v-model="cookie_on_frontend2">
+									</c-col>
+									<c-col class="col-sm-4">
+										<?php do_action( 'gdpr_cookie_layout_skin_label' ); ?>
+									</c-col>
+									<c-col class="col-sm-4">
+										<?php do_action( 'gdpr_cookie_layout_skin_markup' ); ?>
+									</c-col>
+
+									
 							</c-row>
 							<c-modal
 								title="Settings Button"
@@ -4575,30 +4582,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-radius2" v-model="settings_border_radius2"></c-input>
 								</c-col>
 							</c-row>
-							<c-row class="gdpr-label-row">
-								<c-col v-show="!settings_layout2" class="col-sm-6">
-									<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
-								</c-col>
-								<c-col v-show="settings_layout2" class="col-sm-6">
-									<?php do_action( 'gdpr_cookie_layout_skin_label' ); ?>
-								</c-col>
-								<c-col v-show="settings_layout2" class="col-sm-6">
-									<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
-								</c-col>
-							</c-row>
-							<c-row>
-								<c-col v-show="!settings_layout2" class="col-sm-6">
-									<c-switch v-bind="labelIcon" v-model="cookie_on_frontend2" id="gdpr-cookie-consent-cookie-on-frontend2" variant="3d"  color="success" :checked="cookie_on_frontend2" v-on:update:checked="onSwitchCookieOnFrontend2"></c-switch>
-									<input type="hidden" name="gcc-cookie-on-frontend2" v-model="cookie_on_frontend2">
-								</c-col>
-								<c-col v-show="settings_layout2"  class="col-sm-6">
-									<?php do_action( 'gdpr_cookie_layout_skin_markup' ); ?>
-								</c-col>
-								<c-col v-show="settings_layout2"  class="col-sm-6">
-									<c-switch v-bind="labelIcon" v-model="cookie_on_frontend2" id="gdpr-cookie-consent-cookie-frontend2" variant="3d"  color="success" :checked="cookie_on_frontend2" v-on:update:checked="onSwitchCookieOnFrontend2"></c-switch>
-									<input type="hidden" name="gcc-cookie-on-frontend2" v-model="cookie_on_frontend2">
-								</c-col>
-							</c-row>
+							
 							<template v-slot:footer>
 										<c-button color="info" @click="settings_button_popup2=false"><span>Done</span></c-button>
 								</template>

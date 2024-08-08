@@ -68,6 +68,8 @@ class Gdpr_Cookie_Consent_AB_Testing {
 				
 
 				$ab_testing_transient = get_transient('gdpr_ab_testing_transient');
+				$days;
+				$hours;
 				if ($ab_testing_transient !== false) {
 					$current_time = time();
 					$creation_time = $ab_testing_transient['creation_time'];
@@ -78,80 +80,40 @@ class Gdpr_Cookie_Consent_AB_Testing {
 						$hours = floor(($remaining_time % 86400) / 3600);
 					} 
 				}
-				ob_start(); ?> 
-				<c-card class="ab_testing-card ">
-					<c-card-body class="card-body" >
-						<c-row>
-							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-ab-testing-top"><?php esc_html_e( 'A/B Testing', 'gdpr-cookie-consent' ); ?></div></c-col>
-						</c-row>
-							<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable A/B Testing', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-8">
-									<c-switch v-bind="labelIcon" v-model="ab_testing_enabled" id="gdpr-cookie-consent-ab-testing-on" variant="3d"  color="success" :checked="ab_testing_enabled" v-on:update:checked="onSwitchABTestingEnable"></c-switch>
-									<input type="hidden" name="gcc-ab-testing-enable" v-model="ab_testing_enabled">
-								</c-col> 
-								<p class="ab-testing-info">If enabled, the plugin will track which cookie banner has the best conversion rate</p>
-							</c-row>
-							
-							<c-row v-show="ab_testing_enabled">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Duration of A/B Testing Period (in Days)', 'gdpr-cookie-consent' ); ?> </label></c-col>
-								<c-col class="col-sm-8">
-									<c-input name="ab_testing_period_text_field" v-model="ab_testing_period"></c-input>
-								</c-col>
-							</c-row>
-							<c-row class="statistics" v-show="ab_testing_enabled">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Statistics', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<?php if($check_for_ab_testing_transient): ?>
-								<p class="ab-testing-timer" >A/B tracking is still in progress, in approximately <?php echo $days;?> days and <?php echo $hours ?> hours the application will automatically enable the best performing banner.</p>
-								<?php endif; ?>
-								<div id="ab-testing-chart" style="position: relative;">
-  									<ab-testing-chart>
-									</ab-testing-chart>
-									<?php if(!$check_for_ab_testing_transient || ($ab_options['necessary1'] == 0 && $ab_options['marketing1'] == 0 && $ab_options['analytics1'] == 0 && $ab_options['noChoice1'] == 0 && $ab_options['noWarning1'] == 0 && $ab_options['DNT1'] == 0 && $ab_options['necessary2'] == 0 && $ab_options['marketing2'] == 0 && $ab_options['analytics2'] == 0 && $ab_options['noChoice2'] == 0 && $ab_options['noWarning2'] == 0 && $ab_options['DNT2'] == 0)): ?> 
-										<div class="ab_testing_graph_overlay">There is nothing to show here yet</div>
-									<?php endif; ?>
-								</div>
-                            
-                        </c-row>
-					</c-card-body>
-				</c-card>
-				<?php
-				echo ob_get_clean();
-			// if ( ! defined( 'ABSPATH' ) ) {
-			// 	exit;
-			// }
-			// 	$response_maxmind = wp_remote_post(
-			// 		GDPR_API_URL . 'get_maxmind_data',
-			// 		array(
-			// 			'body' => array(
-			// 				'the_options_enable_safe' => $the_options['enable_safe'],
-			// 				'pro_installed'           => $pro_installed,
-			// 				'pro_is_activated'        => $pro_is_activated,
-			// 				'api_key_activated'       => $api_key_activated,
-			// 				'is_user_connected'       => $is_user_connected,
-			// 				'class_for_blur_content'  => $class_for_blur_content,
-			// 				'class_for_card_body_blur_content' => $class_for_card_body_blur_content,
-			// 				'wpl_pro_active'          => $geo_options,
-			// 				'enable_geotargeting'     => $geo_options['enable_geotargeting'],
-			// 				'enable_safe'             => $the_options['enable_safe'],
-			// 				'enable_value2'           => $the_options['enable_safe'] === 'true' ? 'overlay-integration-style' : '',
-			// 				'enable_value1'           => $geo_options['enable_geotargeting'] === 'false' ? 'overlay-integration-style__disable' : '',
-			// 			),
-			// 		)
-			// 	);
-			// if ( is_wp_error( $response_maxmind ) ) {
-			// 	$maxmind_text = '';
-			// }
+				if ( ! defined( 'ABSPATH' ) ) {
+					exit;
+				}
+			 	$response_ab_testing = wp_remote_post(
+						GDPR_API_URL . 'get_ab_testing_data',
+						array(
+							'body' => array(
+								'the_options_enable_safe' => $the_options['enable_safe'],
+								'pro_installed'           => $pro_installed,
+								'pro_is_activated'        => $pro_is_activated,
+								'api_key_activated'       => $api_key_activated,
+								'is_user_connected'       => $is_user_connected,
+								'class_for_blur_content'  => $class_for_blur_content,
+								'class_for_card_body_blur_content' => $class_for_card_body_blur_content,
+								'wpl_ab_options'          => $ab_options,
+								'check_for_ab_testing_transient'     => $check_for_ab_testing_transient,
+								'days'             		  => $days,
+								'hours'        		      => $hours,
+							),
+						)
+					);
+				if ( is_wp_error( $response_ab_testing ) ) {
+			 	$ab_testing_text = '';
+			}
 
-			// 	$response_status = wp_remote_retrieve_response_code( $response_maxmind );
+			 	$response_status = wp_remote_retrieve_response_code( $response_ab_testing );
 
-			// if ( 200 === $response_status ) {
-			// 	$maxmind_text = json_decode( wp_remote_retrieve_body( $response_maxmind ) );
-			// }
-			// ?>
+				if ( 200 === $response_status ) {
+					$ab_testing_text = json_decode( wp_remote_retrieve_body( $response_ab_testing ) );
+				}
+				?>
 			 	<?php
-			// 	// The data is coming from the SaaS server, so it is not user-generated.
-			// 	echo $maxmind_text; // phpcs:ignore?> 
+					// The data is coming from the SaaS server, so it is not user-generated.
+					echo $ab_testing_text; // phpcs:ignore?> 
 		</c-tab>
 		<?php
 	}
