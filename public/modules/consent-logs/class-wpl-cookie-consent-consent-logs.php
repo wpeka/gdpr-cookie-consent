@@ -47,6 +47,8 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 		add_action( 'wp_ajax_nopriv_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
 		add_action( 'wp_ajax_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
+		add_action( 'wp_ajax_gdpr_collect_abtesting_data_action', array( $this, 'wplcl_collect_abtesting_data_action' ) );
+		add_action( 'wp_ajax_nopriv_gdpr_collect_abtesting_data_action', array( $this, 'wplcl_collect_abtesting_data_action' ) );
 
 		add_action( 'add_consent_log_data', array( $this, 'wplcl_consent_data_overview' ) );
 	}
@@ -406,6 +408,43 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 */
 	public static function wrap_column( $data ) {
 		return '"' . str_replace( '"', '""', $data ) . '"';
+	}
+
+	public function wplcl_collect_abtesting_data_action() {
+		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
+		$ab_option = get_option('wpl_ab_options');
+		if($ab_option['ab_testing_enabled'] == false || $ab_option['ab_testing_enabled'] == "false") return;  //do not collect data if a/b testing is disabled.
+		$chosenBanner = $_POST['chosenBanner'];
+		$user_preference = $_POST['user_preference'];
+		if($chosenBanner == 1){
+			if($user_preference == "no choice"){
+				$ab_option["noChoice1"]++;
+			}
+			else if($user_preference == "reject"){
+				$ab_option["noChoice1"]--;
+			}
+			else{
+				foreach($user_preference as $category => $value){
+					if($value == "yes" && ($category == "necessary" || $category == "marketing" || $category == "analytics"|| $category == "DNT")) $ab_option[$category."1"]++;
+				}
+				if($category != "DNT") $ab_option["noChoice1"]--;
+			}
+		}
+		else{
+			if($user_preference == "no choice"){
+				$ab_option["noChoice2"]++;
+			}
+			else if($user_preference == "reject"){
+				$ab_option["noChoice2"]--;
+			}
+			else{
+				foreach($user_preference as $category => $value){
+					if($value == "yes" && ($category == "necessary" || $category == "marketing" || $category == "analytics"|| $category == "DNT")) $ab_option[$category."2"]++;
+				}
+				if($category != "DNT") $ab_option["noChoice2"]--;
+			}
+		}
+		update_option('wpl_ab_options',$ab_option);
 	}
 	/**
 	 * Save consent logs.
