@@ -78,26 +78,38 @@ if ( ! empty( $cookie_scan_settings ) ) {
  */
 global $wpdb;
 
-// The table name you want to check for existence.
-$table_name = $wpdb->prefix . 'wpl_cookie_scan';
+// // The table name you want to check for existence.
+// $table_name = $wpdb->prefix . 'wpl_cookie_scan';
 
-// Check if the table exists in the database.
-$table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name;   //phpcs:ignore
+// // Check if the table exists in the database.
+// $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name;   //phpcs:ignore
 
-if ( $table_exists ) {
-	// The table exists, so you can fetch the total_url.
-	$result = $wpdb->get_results("SELECT total_url FROM $table_name");  //phpcs:ignore
+// if ( $table_exists ) {
+// 	// The table exists, so you can fetch the total_url.
+// 	$result = $wpdb->get_results("SELECT total_url FROM $table_name");  //phpcs:ignore
+// 	// echo '<pre>';
+//     // print_r(get_option('gdpr_no_of_page_scan'));
+//     // echo '</pre>';
 
-	if ( ! empty( $result ) ) {
-		// Access the value of total_url.
-		$total_scanned_pages = $result[0]->total_url;
-	} else {
-		$total_scanned_pages = '0 Pages';
-	}
-} else {
-	// The table doesn't exist, so set $total_scanned_pages to "0 Pages".
-	$total_scanned_pages = '0 Pages';
-}
+// 	if ( ! empty( $result ) ) {
+// 		// Access the value of total_url.
+
+// 		$total_scanned_pages = $result[0]->total_url;
+// 	} else {
+// 		$total_scanned_pages = '0 Pages';
+// 	}
+// } else {
+// 	// The table doesn't exist, so set $total_scanned_pages to "0 Pages".
+// 	$total_scanned_pages = '0 Pages';
+// }
+$total_scanned_pages = get_option('last_scan') . " Pages";
+
+// $total_scanned_pages = count($url_arr);
+
+
+// // Print or use the $total_cookies value
+// echo "Total Cookies: " . $total_cookies;
+
 
 ob_start(); // Start output buffering
 
