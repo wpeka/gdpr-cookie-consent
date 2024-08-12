@@ -96,8 +96,8 @@ class Gdpr_Cookie_Consent_AB_Testing {
 								'class_for_card_body_blur_content' => $class_for_card_body_blur_content,
 								'wpl_ab_options'          => $ab_options,
 								'check_for_ab_testing_transient'     => $check_for_ab_testing_transient,
-								'days'             		  => $days,
-								'hours'        		      => $hours,
+								'days'             		  => isset($days)?$days:0,
+								'hours'        		      => isset($hours)?$hours:0,
 							),
 						)
 					);

@@ -69,60 +69,7 @@ export default Vue.component("ab-testing-chart", {
       <apexchart class="ab_testing_analytics" type="bar" height="500" :options="chartOptions" :series="series"></apexchart>
     </div>
   `,
-  props: {
-    name1: {
-      type: String,
-    },
-    name2: {
-      type: String,
-    },
-    necessary1: {
-      type: Number,
-    },
-    marketing1: {
-      type: Number,
-      required: true,
-    },
-    analytics1: {
-      type: Number,
-      required: true,
-    },
-    DNT1: {
-      type: Number,
-      required: true,
-    },
-    noChoice1: {
-      type: Number,
-      required: true,
-    },
-    noWarning1: {
-      type: Number,
-      required: true,
-    },
-    necessary2: {
-      type: Number,
-    },
-    marketing2: {
-      type: Number,
-      required: true,
-    },
-    analytics2: {
-      type: Number,
-      required: true,
-    },
-    DNT2: {
-      type: Number,
-      required: true,
-    },
-    noChoice2: {
-      type: Number,
-      required: true,
-    },
-    noWarning2: {
-      type: Number,
-      required: true,
-    },
-  },
+
   data() {
     const series = [
       {
@@ -210,16 +157,13 @@ export default Vue.component("ab-testing-chart", {
           opacity: 1,
         },
         tooltip: {
+          theme: "dark",
+
           y: {
             formatter: function (val) {
               return val;
             },
           },
-          style: {
-            fontSize: "12px",
-            fontFamily: undefined,
-          },
-          theme: "dark",
           onDatasetHover: {
             highlightDataSeries: false,
           },
@@ -236,5 +180,16 @@ export default Vue.component("ab-testing-chart", {
         },
       },
     };
+  },
+  mounted() {
+    // Custom CSS for tooltip text color
+    const style = document.createElement("style");
+    style.type = "text/css";
+    style.innerHTML = `
+      .apexcharts-tooltip {
+        color: #ffffff !important;
+      }
+    `;
+    document.getElementsByTagName("head")[0].appendChild(style);
   },
 });

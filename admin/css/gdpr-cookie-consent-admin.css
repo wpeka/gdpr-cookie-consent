@@ -7271,6 +7271,8 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   padding-bottom: 14px;
   border-bottom: 1px solid #f4f4f5;
   color: #3f3f46;
+  margin-top: 8px;
+  margin-left: 5px;
 }
 .compliances_card .card-body,
 .configuration_card .card-body,
