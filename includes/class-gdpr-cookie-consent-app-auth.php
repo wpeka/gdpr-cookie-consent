@@ -255,7 +255,7 @@ class GDPR_Cookie_Consent_App_Auth {
 		}
 		if ( isset( $response_body->current_instance ) && $response_body->current_instance == 'active' && $response_body->allow_scan ) {
 			$settings->set_plan( $response_body->plan );
-			update_option('last_scan',$response_body->no_of_scan-get_option('gdpr_no_of_page_scan'));
+			update_option('gdpr_last_scan',$response_body->no_of_scan-get_option('gdpr_no_of_page_scan'));
 			
 			// updating the option to store the last scanned pages
 			update_option( 'gdpr_no_of_page_scan', $response_body->no_of_scan);

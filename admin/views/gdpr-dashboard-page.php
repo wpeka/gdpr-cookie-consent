@@ -102,7 +102,7 @@ global $wpdb;
 // 	// The table doesn't exist, so set $total_scanned_pages to "0 Pages".
 // 	$total_scanned_pages = '0 Pages';
 // }
-$total_scanned_pages = get_option('last_scan') . " Pages";
+$total_scanned_pages = get_option('gdpr_last_scan') . " Pages";
 
 // $total_scanned_pages = count($url_arr);
 
