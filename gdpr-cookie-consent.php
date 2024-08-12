@@ -56,7 +56,7 @@ if ( ! defined( 'GDPR_APP_URL' ) ) {
 	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com' );
 }
 if ( ! defined( 'GDPR_API_URL' ) ) {
-	define( 'GDPR_API_URL', 'http://app.wplegalpages.com/wp-json/gdpr/v2/' );
+	define( 'GDPR_API_URL', 'http://8c607d71ed.nxcli.io/wp-json/gdpr/v2/' );
 }
 
 /**

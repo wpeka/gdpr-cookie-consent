@@ -981,17 +981,67 @@ GDPR_CCPA_COOKIE_EXPIRE =
             .removeClass(
               "gdpr_messagebar_detail_body_content_tab_item_selected"
             );
-          elm.addClass("gdpr_messagebar_detail_body_content_tab_item_selected");
-          elm.css("border-bottom-color", GDPR.settings.border_active_color);
-          elm.css("background-color", GDPR.settings.background_active_color);
-          jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
-            "border-bottom-color",
-            GDPR.settings.border_color
-          );
-          jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
-            "background-color",
-            GDPR.settings.background_color
-          );
+          if (
+            gdpr_ab_options.ab_testing_enabled === "false" ||
+            gdpr_ab_options.ab_testing_enabled === false
+          ) {
+            elm.addClass(
+              "gdpr_messagebar_detail_body_content_tab_item_selected"
+            );
+            elm.css("border-bottom-color", GDPR.settings.border_active_color);
+            elm.css("background-color", GDPR.settings.background_active_color);
+            jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
+              "border-bottom-color",
+              GDPR.settings.border_color
+            );
+            jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
+              "background-color",
+              GDPR.settings.background_color
+            );
+          } else {
+            if (Number(chosenBanner) === 1) {
+              elm.addClass(
+                "gdpr_messagebar_detail_body_content_tab_item_selected"
+              );
+              elm.css(
+                "border-bottom-color",
+                GDPR.settings.border_active_color1
+              );
+              elm.css(
+                "background-color",
+                GDPR.settings.background_active_color1
+              );
+              jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
+                "border-bottom-color",
+                GDPR.settings.border_color1
+              );
+              jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
+                "background-color",
+                GDPR.settings.background_color1
+              );
+            } else {
+              elm.addClass(
+                "gdpr_messagebar_detail_body_content_tab_item_selected"
+              );
+              elm.css(
+                "border-bottom-color",
+                GDPR.settings.border_active_color2
+              );
+              elm.css(
+                "background-color",
+                GDPR.settings.background_active_color2
+              );
+              jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
+                "border-bottom-color",
+                GDPR.settings.border_color2
+              );
+              jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
+                "background-color",
+                GDPR.settings.background_color2
+              );
+            }
+          }
+
           jQuery("#gdpr_messagebar_detail_body_content_about").hide();
           jQuery("#gdpr_messagebar_detail_body_content_overview").show();
         }
@@ -1007,17 +1057,67 @@ GDPR_CCPA_COOKIE_EXPIRE =
             .removeClass(
               "gdpr_messagebar_detail_body_content_tab_item_selected"
             );
-          elm.addClass("gdpr_messagebar_detail_body_content_tab_item_selected");
-          elm.css("border-bottom-color", GDPR.settings.border_active_color);
-          elm.css("background-color", GDPR.settings.background_active_color);
-          jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
-            "border-bottom-color",
-            GDPR.settings.border_color
-          );
-          jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
-            "background-color",
-            GDPR.settings.background_color
-          );
+          if (
+            gdpr_ab_options.ab_testing_enabled === "false" ||
+            gdpr_ab_options.ab_testing_enabled === false
+          ) {
+            elm.addClass(
+              "gdpr_messagebar_detail_body_content_tab_item_selected"
+            );
+            elm.css("border-bottom-color", GDPR.settings.border_active_color);
+            elm.css("background-color", GDPR.settings.background_active_color);
+            jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
+              "border-bottom-color",
+              GDPR.settings.border_color
+            );
+            jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
+              "background-color",
+              GDPR.settings.background_color
+            );
+          } else {
+            if (Number(chosenBanner) === 1) {
+              elm.addClass(
+                "gdpr_messagebar_detail_body_content_tab_item_selected"
+              );
+              elm.css(
+                "border-bottom-color",
+                GDPR.settings.border_active_color1
+              );
+              elm.css(
+                "background-color",
+                GDPR.settings.background_active_color1
+              );
+              jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
+                "border-bottom-color",
+                GDPR.settings.border_color1
+              );
+              jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
+                "background-color",
+                GDPR.settings.background_color1
+              );
+            } else {
+              elm.addClass(
+                "gdpr_messagebar_detail_body_content_tab_item_selected"
+              );
+              elm.css(
+                "border-bottom-color",
+                GDPR.settings.border_active_color2
+              );
+              elm.css(
+                "background-color",
+                GDPR.settings.background_active_color2
+              );
+              jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
+                "border-bottom-color",
+                GDPR.settings.border_color2
+              );
+              jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
+                "background-color",
+                GDPR.settings.background_color2
+              );
+            }
+          }
+
           jQuery("#gdpr_messagebar_detail_body_content_overview").hide();
           jQuery("#gdpr_messagebar_detail_body_content_about").show();
         }
@@ -1029,20 +1129,70 @@ GDPR_CCPA_COOKIE_EXPIRE =
           e.preventDefault();
           var elm = jQuery(this);
           var prnt = elm.parent();
-          prnt
-            .find("a")
-            .removeClass(
+          if (
+            gdpr_ab_options.ab_testing_enabled === "false" ||
+            gdpr_ab_options.ab_testing_enabled === false
+          ) {
+            prnt
+              .find("a")
+              .removeClass(
+                "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
+              );
+            prnt
+              .find("a")
+              .css("border-right-color", GDPR.settings.border_color);
+            prnt
+              .find("a")
+              .css("background-color", GDPR.settings.background_color);
+            elm.addClass(
               "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
             );
-          prnt.find("a").css("border-right-color", GDPR.settings.border_color);
-          prnt
-            .find("a")
-            .css("background-color", GDPR.settings.background_color);
-          elm.addClass(
-            "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-          );
-          elm.css("border-right-color", GDPR.settings.border_active_color);
-          elm.css("background-color", GDPR.settings.background_active_color);
+            elm.css("border-right-color", GDPR.settings.border_active_color);
+            elm.css("background-color", GDPR.settings.background_active_color);
+          } else {
+            if (Number(chosenBanner) === 1) {
+              prnt
+                .find("a")
+                .removeClass(
+                  "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
+                );
+              prnt
+                .find("a")
+                .css("border-right-color", GDPR.settings.border_color1);
+              prnt
+                .find("a")
+                .css("background-color", GDPR.settings.background_color1);
+              elm.addClass(
+                "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
+              );
+              elm.css("border-right-color", GDPR.settings.border_active_color1);
+              elm.css(
+                "background-color",
+                GDPR.settings.background_active_color1
+              );
+            } else {
+              prnt
+                .find("a")
+                .removeClass(
+                  "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
+                );
+              prnt
+                .find("a")
+                .css("border-right-color", GDPR.settings.border_color2);
+              prnt
+                .find("a")
+                .css("background-color", GDPR.settings.background_color2);
+              elm.addClass(
+                "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
+              );
+              elm.css("border-right-color", GDPR.settings.border_active_color2);
+              elm.css(
+                "background-color",
+                GDPR.settings.background_active_color2
+              );
+            }
+          }
+
           var trgt = jQuery(this).attr("data-target");
           var cntr = prnt.siblings(
             "#gdpr_messagebar_detail_body_content_overview_cookie_container_type_details"
@@ -1443,7 +1593,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_settings_link_color1
           );
-          if (this.settings.button_settings_as_button1) {
+          if (
+            this.settings.button_settings_as_button1 === true ||
+            this.settings.button_settings_as_button1 === "true"
+          ) {
             var settings_background = this.convertToHex(
               this.settings.button_settings_button_color1,
               this.settings.button_settings_button_opacity1
@@ -1535,7 +1688,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_accept_link_color1
           );
-          if (this.settings.button_accept_as_button1) {
+          if (
+            this.settings.button_accept_as_button1 === true ||
+            this.settings.button_accept_as_button1 === "true"
+          ) {
             var main_background = this.convertToHex(
               this.settings.button_accept_button_color1,
               this.settings.button_accept_button_opacity1
@@ -1574,7 +1730,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_accept_all_link_color1
           );
-          if (this.settings.button_accept_all_as_button1) {
+          if (
+            this.settings.button_accept_all_as_button1 === true ||
+            this.settings.button_accept_all_as_button1 === "true"
+          ) {
             var accept_all_background = this.convertToHex(
               this.settings.button_accept_all_button_color1,
               this.settings.button_accept_all_btn_opacity1
@@ -1616,7 +1775,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_confirm_link_color1
           );
-          if (this.settings.button_confirm_as_button1) {
+          if (
+            this.settings.button_confirm_as_button1 === true ||
+            this.settings.button_confirm_as_button1 === "true"
+          ) {
             var confirm_background = this.convertToHex(
               this.settings.button_confirm_button_color1,
               this.settings.button_confirm_button_opacity1
@@ -1691,7 +1853,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_decline_link_color
           );
-          if (this.settings.button_decline_as_button1) {
+          if (
+            this.settings.button_decline_as_button1 === true ||
+            this.settings.button_decline_as_button1 === "true"
+          ) {
             var decline_background = this.convertToHex(
               this.settings.button_decline_button_color1,
               this.settings.button_decline_button_opacity1
@@ -1734,7 +1899,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_cancel_link_color1
           );
-          if (this.settings.button_cancel_as_button1) {
+          if (
+            this.settings.button_cancel_as_button1 === true ||
+            this.settings.button_cancel_as_button1 === "true"
+          ) {
             var cancel_background = this.convertToHex(
               this.settings.button_cancel_button_color1,
               this.settings.button_cancel_button_opacity1
@@ -1787,6 +1955,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
               jQuery(this).css("background-color", main_background);
             }
           );
+          console.log("Setting colors");
           this.details_elm
             .find(
               "table.gdpr_messagebar_detail_body_content_cookie_type_table tr"
@@ -1845,7 +2014,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_settings_link_color2
           );
-          if (this.settings.button_settings_as_button2) {
+          if (
+            this.settings.button_settings_as_button2 === true ||
+            this.settings.button_settings_as_button2 === "true"
+          ) {
             var settings_background = this.convertToHex(
               this.settings.button_settings_button_color2,
               this.settings.button_settings_button_opacity2
@@ -1937,7 +2109,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_accept_link_color2
           );
-          if (this.settings.button_accept_as_button2) {
+          if (
+            this.settings.button_accept_as_button2 === true ||
+            this.settings.button_accept_as_button2 === "true"
+          ) {
             var main_background = this.convertToHex(
               this.settings.button_accept_button_color2,
               this.settings.button_accept_button_opacity2
@@ -1976,7 +2151,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_accept_all_link_color2
           );
-          if (this.settings.button_accept_all_as_button2) {
+          if (
+            this.settings.button_accept_all_as_button2 === true ||
+            this.settings.button_accept_all_as_button2 === "true"
+          ) {
             var accept_all_background = this.convertToHex(
               this.settings.button_accept_all_button_color2,
               this.settings.button_accept_all_btn_opacity2
@@ -2018,7 +2196,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_confirm_link_color2
           );
-          if (this.settings.button_confirm_as_button2) {
+          if (
+            this.settings.button_confirm_as_button2 === true ||
+            this.settings.button_confirm_as_button2 === "true"
+          ) {
             var confirm_background = this.convertToHex(
               this.settings.button_confirm_button_color2,
               this.settings.button_confirm_button_opacity2
@@ -2093,7 +2274,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_decline_link_color
           );
-          if (this.settings.button_decline_as_button2) {
+          if (
+            this.settings.button_decline_as_button2 === true ||
+            this.settings.button_decline_as_button2 === "true"
+          ) {
             var decline_background = this.convertToHex(
               this.settings.button_decline_button_color2,
               this.settings.button_decline_button_opacity2
@@ -2136,7 +2320,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             "color",
             this.settings.button_cancel_link_color2
           );
-          if (this.settings.button_cancel_as_button2) {
+          if (
+            this.settings.button_cancel_as_button2 === true ||
+            this.settings.button_cancel_as_button2 === "true"
+          ) {
             var cancel_background = this.convertToHex(
               this.settings.button_cancel_button_color2,
               this.settings.button_cancel_button_opacity2

@@ -6280,7 +6280,6 @@ class Gdpr_Cookie_Consent_Admin {
 			} 
 			$ab_options['ab_testing_enabled'] = isset( $_POST['gcc-ab-testing-enable']) ? sanitize_text_field( wp_unslash( $_POST['gcc-ab-testing-enable']) ) :'false';
 			update_option( 'wpl_ab_options', $ab_options );
-
 			if ( isset( $_POST['logo_removed'] ) && 'true' == $_POST['logo_removed'] ) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' );
 			} elseif ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {

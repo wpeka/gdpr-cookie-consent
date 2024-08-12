@@ -65,7 +65,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			}
 			?>
 		</div>
-		<?php if(!$ab_options['ab_testing_enabled']) { ?>
+		<?php if($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false) { ?>
 			<div class="gdpr group-description-buttons">
 					<?php
 					if ( ! empty( $the_options['button_accept_is_on'] ) ) {
@@ -438,7 +438,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 			}
 			?>
 		</div>
-		<?php if(!$ab_options['ab_testing_enabled']) { ?>
+		<?php if($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false) { ?>
 			<div class="gdpr group-description-buttons">
 					<?php
 					if ( ! empty( $the_options['button_accept_is_on'] ) ) {
@@ -818,7 +818,7 @@ elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 				?>
 			</p>
 		</div>
-		<?php if(!$ab_options['ab_testing_enabled']) { ?>
+		<?php if($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false) { ?>
 			<div class="gdpr group-description-buttons">
 					<?php
 					if ( ! empty( $the_options['button_accept_is_on'] ) ) {

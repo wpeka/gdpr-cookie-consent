@@ -2675,6 +2675,8 @@ var gen = new Vue({
         this.template = value;
         if (this.banner_template == "banner-dark_row") {
           this.cookie_bar_color = "#323742";
+          this.cookie_bar_color1 = "#323742";
+          this.cookie_bar_color2 = "#323742";
           this.accept_background_color = "#3EAF9A";
           this.accept_all_background_color = "#3EAF9A";
           jQuery(".gdpr_preview").css("color", "white");
@@ -2687,6 +2689,28 @@ var gen = new Vue({
           this.settings_text_color = "#3EAF9A";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#3EAF9A";
+          this.accept_all_background_color1 = "#3EAF9A";
+          this.decline_background_color1 = "#333333";
+          this.settings_background_color1 = "#323742";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#3EAF9A";
+          this.settings_style1 = "solid";
+          this.button_readmore_link_color1 = "#3EAF9A";
+          this.settings_text_color1 = "#3EAF9A";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#3EAF9A";
+          this.accept_all_background_color2 = "#3EAF9A";
+          this.decline_background_color2 = "#333333";
+          this.settings_background_color2 = "#323742";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#3EAF9A";
+          this.settings_style2 = "solid";
+          this.button_readmore_link_color2 = "#3EAF9A";
+          this.settings_text_color2 = "#3EAF9A";
         } else if (this.banner_template == "banner-almond_column") {
           this.cookie_bar_color = "#E8DDBB";
           this.accept_background_color = "#DE7834";
@@ -2698,6 +2722,24 @@ var gen = new Vue({
           this.settings_text_color = "#FFFFFF";
           this.button_revoke_consent_text_color = "#306189";
           this.button_revoke_consent_background_color = "#E8DDBB";
+          this.cookie_text_color1 = "#111111";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_text_color2 = "#111111";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color1 = "#E8DDBB";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_color2 = "#E8DDBB";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
         } else if (this.banner_template == "banner-grey_center") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#DE7834";
@@ -2705,6 +2747,24 @@ var gen = new Vue({
           this.decline_background_color = "#252525";
           this.settings_background_color = "#252525";
           jQuery(".gdpr_preview").css("color", "rgb(30, 61, 89)");
+          this.cookie_text_color1 = "#111111";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_text_color2 = "#111111";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
           this.button_readmore_link_color = "#DE7834";
           this.settings_style = "none";
           this.settings_text_color = "#FFFFFF";
@@ -2720,6 +2780,24 @@ var gen = new Vue({
           this.button_readmore_link_color = "#E14469";
           this.settings_style = "none";
           this.settings_text_color = "#FFFFFF";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.cookie_text_color1 = "#1E3D59";
+          this.accept_background_color1 = "#E14469";
+          this.accept_all_background_color1 = "#E14469";
+          this.accept_text_color1 = "#ffffff";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_text_color2 = "#1E3D59";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#E14469";
+          this.accept_all_background_color2 = "#E14469";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
         } else if (this.banner_template == "banner-navy_blue_center") {
@@ -2731,6 +2809,26 @@ var gen = new Vue({
           this.settings_border_width = "1";
           this.settings_border_color = "#FFFFFF";
           this.settings_style = "solid";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#369EE3";
           this.button_revoke_consent_text_color = "#FFFFFF";
@@ -2742,6 +2840,20 @@ var gen = new Vue({
           this.decline_background_color = "#EF5454";
           this.settings_background_color = "#007CBA";
           this.settings_style = "none";
+          this.cookie_bar_color1 = "#FFFFFF";
+          this.cookie_text_color1 = "#111111";
+          this.accept_background_color1 = "#66CC66";
+          this.accept_all_background_color1 = "#66CC66";
+          this.decline_background_color1 = "#EF5454";
+          this.settings_background_color1 = "#007CBA";
+          this.settings_style1 = "none";
+          this.cookie_bar_color2 = "#FFFFFF";
+          this.cookie_text_color1 = "#111111";
+          this.accept_background_color2 = "#66CC66";
+          this.accept_all_background_color2 = "#66CC66";
+          this.decline_background_color2 = "#EF5454";
+          this.settings_background_color2 = "#007CBA";
+          this.settings_style2 = "none";
           jQuery(".gdpr_preview").css("color", "#3c4b64");
           this.button_readmore_link_color = "#007CBA";
           this.button_revoke_consent_text_color = "#000000";
@@ -2755,6 +2867,26 @@ var gen = new Vue({
           this.settings_border_width = "1";
           this.settings_border_color = "#808080";
           this.settings_style = "solid";
+          this.cookie_bar_color1 = "#262626";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#6A8EE7";
+          this.accept_all_background_color1 = "#6A8EE7";
+          this.decline_background_color1 = "#808080";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#808080";
+          this.settings_style1 = "solid";
+          this.settings_text_color1 = "#808080";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#6A8EE7";
+          this.accept_all_background_color2 = "#6A8EE7";
+          this.decline_background_color2 = "#808080";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#808080";
+          this.settings_style2 = "solid";
+          this.settings_text_color2 = "#808080";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#6A8EE7";
           this.settings_text_color = "#808080";
@@ -2780,6 +2912,30 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
+          this.cookie_bar_color1 = "#323742";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#3EAF9A";
+          this.accept_all_background_color1 = "#3EAF9A";
+          this.decline_background_color1 = "#333333";
+          this.settings_background_color1 = "#323742";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#3EAF9A";
+          this.settings_style1 = "solid";
+          this.decline_style1 = "none";
+          this.settings_text_color1 = "#3EAF9A";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#323742";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#3EAF9A";
+          this.accept_all_background_color2 = "#3EAF9A";
+          this.decline_background_color2 = "#333333";
+          this.settings_background_color2 = "#323742";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#3EAF9A";
+          this.settings_style2 = "solid";
+          this.decline_style2 = "none";
+          this.settings_text_color2 = "#3EAF9A";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.popup_template == "popup-almond_column") {
           this.cookie_bar_color = "#E8DDBB";
           this.accept_background_color = "#DE7834";
@@ -2791,6 +2947,26 @@ var gen = new Vue({
           this.decline_style = "none";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
+          this.cookie_bar_color1 = "#E8DDBB";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.decline_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#E8DDBB";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.decline_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
+          this.cookie_bar_border_radius2 = "0";
           this.button_revoke_consent_text_color = "#306189";
           this.button_revoke_consent_background_color = "#E8DDBB";
         } else if (this.popup_template == "popup-grey_center") {
@@ -2807,6 +2983,26 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
+          this.cookie_text_color1 = "#111111";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_text_color2 = "#111111";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.popup_template == "popup-grey_column") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#E14469";
@@ -2819,6 +3015,26 @@ var gen = new Vue({
           this.decline_style = "none";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.cookie_text_color1 = "#1E3D59";
+          this.accept_background_color1 = "#E14469";
+          this.accept_all_background_color1 = "#E14469";
+          this.accept_text_color1 = "#ffffff";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_text_color2 = "#1E3D59";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#E14469";
+          this.accept_all_background_color2 = "#E14469";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
         } else if (this.popup_template == "popup-navy_blue_center") {
@@ -2835,8 +3051,30 @@ var gen = new Vue({
           this.button_readmore_link_color = "#369EE3";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         } else if (this.popup_template == "popup-default") {
           this.cookie_bar_color = "#FFFFFF";
           this.accept_background_color = "#66CC66";
@@ -2849,8 +3087,24 @@ var gen = new Vue({
           this.button_readmore_link_color = "#007CBA";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
+          this.cookie_bar_color1 = "#FFFFFF";
+          this.cookie_text_color1 = "#111111";
+          this.accept_background_color1 = "#66CC66";
+          this.accept_all_background_color1 = "#66CC66";
+          this.decline_background_color1 = "#EF5454";
+          this.settings_background_color1 = "#007CBA";
+          this.settings_style1 = "none";
+          this.cookie_bar_color2 = "#FFFFFF";
+          this.cookie_text_color2 = "#111111";
+          this.accept_background_color2 = "#66CC66";
+          this.accept_all_background_color2 = "#66CC66";
+          this.decline_background_color2 = "#EF5454";
+          this.settings_background_color2 = "#007CBA";
+          this.settings_style2 = "none";
         } else if (this.popup_template == "popup-dark") {
           this.cookie_bar_color = "#262626";
           this.accept_background_color = "#6A8EE7";
@@ -2867,6 +3121,28 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
+          this.cookie_bar_color1 = "#262626";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#6A8EE7";
+          this.accept_all_background_color1 = "#6A8EE7";
+          this.decline_background_color1 = "#808080";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#808080";
+          this.settings_style1 = "solid";
+          this.settings_text_color1 = "#808080";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#6A8EE7";
+          this.accept_all_background_color2 = "#6A8EE7";
+          this.decline_background_color2 = "#808080";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#808080";
+          this.settings_style2 = "solid";
+          this.settings_text_color2 = "#808080";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.popup_template == "popup-navy_blue_square") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -2885,6 +3161,28 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         } else if (this.popup_template == "popup-navy_blue_box") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -2901,6 +3199,30 @@ var gen = new Vue({
           this.settings_text_color = "#FFFFFF";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#2A3E71";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#FFFFFF";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         }
       } else if (this.show_cookie_as === "widget") {
         this.widget_template = value;
@@ -2921,6 +3243,30 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
+          this.cookie_bar_color1 = "#323742";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#3EAF9A";
+          this.accept_all_background_color1 = "#3EAF9A";
+          this.decline_background_color1 = "#333333";
+          this.settings_background_color1 = "#323742";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#3EAF9A";
+          this.settings_style1 = "solid";
+          this.decline_style1 = "none";
+          this.settings_text_color1 = "#3EAF9A";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#323742";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#3EAF9A";
+          this.accept_all_background_color2 = "#3EAF9A";
+          this.decline_background_color2 = "#333333";
+          this.settings_background_color2 = "#323742";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#3EAF9A";
+          this.settings_style2 = "solid";
+          this.decline_style2 = "none";
+          this.settings_text_color2 = "#3EAF9A";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-almond_column") {
           this.cookie_bar_color = "#E8DDBB";
           this.accept_background_color = "#DE7834";
@@ -2934,6 +3280,26 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#306189";
           this.button_revoke_consent_background_color = "#E8DDBB";
+          this.cookie_bar_color1 = "#E8DDBB";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.decline_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#E8DDBB";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.decline_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-grey_center") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#DE7834";
@@ -2948,6 +3314,26 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
+          this.cookie_text_color1 = "#111111";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_text_color2 = "#111111";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-grey_column") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#E14469";
@@ -2962,6 +3348,26 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.cookie_text_color1 = "#1E3D59";
+          this.accept_background_color1 = "#E14469";
+          this.accept_all_background_color1 = "#E14469";
+          this.accept_text_color1 = "#ffffff";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_text_color2 = "#1E3D59";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#E14469";
+          this.accept_all_background_color2 = "#E14469";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
         } else if (this.widget_template == "widget-navy_blue_center") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -2978,6 +3384,28 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         } else if (this.widget_template == "widget-default") {
           this.cookie_bar_color = "#FFFFFF";
           this.accept_background_color = "#66CC66";
@@ -2992,6 +3420,22 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_bar_color1 = "#FFFFFF";
+          this.cookie_text_color1 = "#111111";
+          this.accept_background_color1 = "#66CC66";
+          this.accept_all_background_color1 = "#66CC66";
+          this.decline_background_color1 = "#EF5454";
+          this.settings_background_color1 = "#007CBA";
+          this.settings_style1 = "none";
+          this.cookie_bar_color2 = "#FFFFFF";
+          this.cookie_text_color2 = "#111111";
+          this.accept_background_color2 = "#66CC66";
+          this.accept_all_background_color2 = "#66CC66";
+          this.decline_background_color2 = "#EF5454";
+          this.settings_background_color2 = "#007CBA";
+          this.settings_style2 = "none";
         } else if (this.widget_template == "widget-dark") {
           this.cookie_bar_color = "#262626";
           this.accept_background_color = "#6A8EE7";
@@ -3008,6 +3452,28 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
+          this.cookie_bar_color1 = "#262626";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#6A8EE7";
+          this.accept_all_background_color1 = "#6A8EE7";
+          this.decline_background_color1 = "#808080";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#808080";
+          this.settings_style1 = "solid";
+          this.settings_text_color1 = "#808080";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#6A8EE7";
+          this.accept_all_background_color2 = "#6A8EE7";
+          this.decline_background_color2 = "#808080";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#808080";
+          this.settings_style2 = "solid";
+          this.settings_text_color2 = "#808080";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-navy_blue_square") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -3026,6 +3492,28 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         } else if (this.widget_template == "widget-navy_blue_box") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -3042,6 +3530,30 @@ var gen = new Vue({
           this.settings_text_color = "#FFFFFF";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#2A3E71";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#FFFFFF";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         }
       }
       this.is_template_changed = true;
@@ -3999,17 +4511,36 @@ var gen = new Vue({
           type: "image",
         },
       });
+      console.log("trying");
       jQuery("#image-upload-button")
         .unbind()
         .click(
           image_frame.on("close", function () {
             var selection = image_frame.state().get("selection");
+            console.log("setting");
             selection.each(function (attachment) {
+              console.log(attachment.attributes.url);
               jQuery("#gdpr-cookie-bar-logo-holder").attr(
                 "src",
                 attachment.attributes.url
               );
+              jQuery("#gdpr-cookie-bar-logo-holder1").attr(
+                "src",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-holder2").attr(
+                "src",
+                attachment.attributes.url
+              );
               jQuery("#gdpr-cookie-bar-logo-url-holder").attr(
+                "value",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-url-holder1").attr(
+                "value",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-url-holder2").attr(
                 "value",
                 attachment.attributes.url
               );
@@ -5157,6 +5688,12 @@ var gen = new Vue({
       });
     },
     onSwitchABTestingEnable() {
+      console.log(
+        this.accept_as_button1,
+        this.accept_all_as_button1,
+        this.decline_as_button1,
+        this.settings_as_button1
+      );
       this.ab_testing_enabled = !this.ab_testing_enabled;
       if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
     },
