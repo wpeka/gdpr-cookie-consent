@@ -7527,6 +7527,7 @@ button.btn.gdpr-renew-now-btn.pro,
   font-size: x-small;
   display: flex;
   align-items: center;
+  margin-left: 15px;
 }
 
 .ab_testing-card .ab-testing-timer:before {

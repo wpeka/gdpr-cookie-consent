@@ -915,11 +915,11 @@ var gen = new Vue({
         : "inherit",
       cookie_accept_on1:
         settings_obj.the_options.hasOwnProperty("button_accept_is_on1") &&
-        (true === settings_obj.the_options["button_accept_is_on1"] ||
-          1 === settings_obj.the_options["button_accept_is_on1"] ||
-          "true" === settings_obj.the_options["button_accept_is_on1"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_accept_is_on1"] ||
+          0 === settings_obj.the_options["button_accept_is_on1"] ||
+          "false" === settings_obj.the_options["button_accept_is_on1"])
+          ? false
+          : true,
       accept_text1: settings_obj.the_options.hasOwnProperty(
         "button_accept_text1"
       )
@@ -945,11 +945,11 @@ var gen = new Vue({
         : "#",
       accept_as_button1:
         settings_obj.the_options.hasOwnProperty("button_accept_as_button1") &&
-        (true === settings_obj.the_options["button_accept_as_button1"] ||
-          1 === settings_obj.the_options["button_accept_as_button1"] ||
-          "true" === settings_obj.the_options["button_accept_as_button1"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_accept_as_button1"] ||
+          0 === settings_obj.the_options["button_accept_as_button1"] ||
+          "false" === settings_obj.the_options["button_accept_as_button1"])
+          ? false
+          : true,
       open_url1:
         settings_obj.the_options.hasOwnProperty("button_accept_new_win1") &&
         (true === settings_obj.the_options["button_accept_new_win1"] ||
@@ -1008,11 +1008,11 @@ var gen = new Vue({
         settings_obj.the_options.hasOwnProperty(
           "button_accept_all_as_button1"
         ) &&
-        (true === settings_obj.the_options["button_accept_all_as_button1"] ||
-          1 === settings_obj.the_options["button_accept_all_as_button1"] ||
-          "true" === settings_obj.the_options["button_accept_all_as_button1"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_accept_all_as_button1"] ||
+          0 === settings_obj.the_options["button_accept_all_as_button1"] ||
+          "false" === settings_obj.the_options["button_accept_all_as_button1"])
+          ? false
+          : true,
       accept_all_action1: settings_obj.the_options.hasOwnProperty(
         "button_accept_all_action1"
       )
@@ -1068,11 +1068,11 @@ var gen = new Vue({
 
       cookie_decline_on1:
         settings_obj.the_options.hasOwnProperty("button_decline_is_on1") &&
-        (true === settings_obj.the_options["button_decline_is_on1"] ||
-          1 === settings_obj.the_options["button_decline_is_on1"] ||
-          "true" === settings_obj.the_options["button_decline_is_on1"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_decline_is_on1"] ||
+          0 === settings_obj.the_options["button_decline_is_on1"] ||
+          "false" === settings_obj.the_options["button_decline_is_on1"])
+          ? false
+          : true,
       decline_text1: settings_obj.the_options.hasOwnProperty(
         "button_decline_text1"
       )
@@ -1085,11 +1085,11 @@ var gen = new Vue({
         : "#ffffff",
       decline_as_button1:
         settings_obj.the_options.hasOwnProperty("button_decline_as_button1") &&
-        (true === settings_obj.the_options["button_decline_as_button1"] ||
-          1 === settings_obj.the_options["button_decline_as_button1"] ||
-          "true" === settings_obj.the_options["button_decline_as_button1"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_decline_as_button1"] ||
+          0 === settings_obj.the_options["button_decline_as_button1"] ||
+          "false" === settings_obj.the_options["button_decline_as_button1"])
+          ? false
+          : true,
       decline_background_color1: settings_obj.the_options.hasOwnProperty(
         "button_decline_button_color1"
       )
@@ -1146,11 +1146,11 @@ var gen = new Vue({
 
       cookie_settings_on1:
         settings_obj.the_options.hasOwnProperty("button_settings_is_on1") &&
-        (true === settings_obj.the_options["button_settings_is_on1"] ||
-          1 === settings_obj.the_options["button_settings_is_on1"] ||
-          "true" === settings_obj.the_options["button_settings_is_on1"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_settings_is_on1"] ||
+          0 === settings_obj.the_options["button_settings_is_on1"] ||
+          "false" === settings_obj.the_options["button_settings_is_on1"])
+          ? false
+          : true,
 
       settings_layout1:
         settings_obj.the_options.hasOwnProperty("button_settings_as_popup1") &&
@@ -1176,11 +1176,11 @@ var gen = new Vue({
         : "#ffffff",
       settings_as_button1:
         settings_obj.the_options.hasOwnProperty("button_settings_as_button1") &&
-        (true === settings_obj.the_options["button_settings_as_button1"] ||
-          1 === settings_obj.the_options["button_settings_as_button1"] ||
-          "true" === settings_obj.the_options["button_settings_as_button1"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_settings_as_button1"] ||
+          0 === settings_obj.the_options["button_settings_as_button1"] ||
+          "false" === settings_obj.the_options["button_settings_as_button1"])
+          ? false
+          : true,
       settings_background_color1: settings_obj.the_options.hasOwnProperty(
         "button_settings_button_color1"
       )
@@ -1371,11 +1371,11 @@ var gen = new Vue({
         : "inherit",
       cookie_accept_on2:
         settings_obj.the_options.hasOwnProperty("button_accept_is_on2") &&
-        (true === settings_obj.the_options["button_accept_is_on2"] ||
-          1 === settings_obj.the_options["button_accept_is_on2"] ||
-          "true" === settings_obj.the_options["button_accept_is_on2"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_accept_is_on2"] ||
+          0 === settings_obj.the_options["button_accept_is_on2"] ||
+          "false" === settings_obj.the_options["button_accept_is_on2"])
+          ? false
+          : true,
       accept_text2: settings_obj.the_options.hasOwnProperty(
         "button_accept_text2"
       )
@@ -1401,11 +1401,11 @@ var gen = new Vue({
         : "#",
       accept_as_button2:
         settings_obj.the_options.hasOwnProperty("button_accept_as_button2") &&
-        (true === settings_obj.the_options["button_accept_as_button2"] ||
-          1 === settings_obj.the_options["button_accept_as_button2"] ||
-          "true" === settings_obj.the_options["button_accept_as_button2"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_accept_as_button2"] ||
+          0 === settings_obj.the_options["button_accept_as_button2"] ||
+          "false" === settings_obj.the_options["button_accept_as_button2"])
+          ? false
+          : true,
       open_url2:
         settings_obj.the_options.hasOwnProperty("button_accept_new_win2") &&
         (true === settings_obj.the_options["button_accept_new_win2"] ||
@@ -1464,11 +1464,11 @@ var gen = new Vue({
         settings_obj.the_options.hasOwnProperty(
           "button_accept_all_as_button2"
         ) &&
-        (true === settings_obj.the_options["button_accept_all_as_button2"] ||
-          1 === settings_obj.the_options["button_accept_all_as_button2"] ||
-          "true" === settings_obj.the_options["button_accept_all_as_button2"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_accept_all_as_button2"] ||
+          0 === settings_obj.the_options["button_accept_all_as_button2"] ||
+          "false" === settings_obj.the_options["button_accept_all_as_button2"])
+          ? false
+          : true,
       accept_all_action2: settings_obj.the_options.hasOwnProperty(
         "button_accept_all_action2"
       )
@@ -1524,11 +1524,11 @@ var gen = new Vue({
 
       cookie_decline_on2:
         settings_obj.the_options.hasOwnProperty("button_decline_is_on2") &&
-        (true === settings_obj.the_options["button_decline_is_on2"] ||
-          1 === settings_obj.the_options["button_decline_is_on2"] ||
-          "true" === settings_obj.the_options["button_decline_is_on2"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_decline_is_on2"] ||
+          0 === settings_obj.the_options["button_decline_is_on2"] ||
+          "false" === settings_obj.the_options["button_decline_is_on2"])
+          ? false
+          : true,
       decline_text2: settings_obj.the_options.hasOwnProperty(
         "button_decline_text2"
       )
@@ -1541,11 +1541,11 @@ var gen = new Vue({
         : "#ffffff",
       decline_as_button2:
         settings_obj.the_options.hasOwnProperty("button_decline_as_button2") &&
-        (true === settings_obj.the_options["button_decline_as_button2"] ||
-          1 === settings_obj.the_options["button_decline_as_button2"] ||
-          "true" === settings_obj.the_options["button_decline_as_button2"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_decline_as_button2"] ||
+          0 === settings_obj.the_options["button_decline_as_button2"] ||
+          "false" === settings_obj.the_options["button_decline_as_button2"])
+          ? false
+          : true,
       decline_background_color2: settings_obj.the_options.hasOwnProperty(
         "button_decline_button_color2"
       )
@@ -1602,11 +1602,11 @@ var gen = new Vue({
 
       cookie_settings_on2:
         settings_obj.the_options.hasOwnProperty("button_settings_is_on2") &&
-        (true === settings_obj.the_options["button_settings_is_on2"] ||
+        (false === settings_obj.the_options["button_settings_is_on2"] ||
           1 === settings_obj.the_options["button_settings_is_on2"] ||
-          "true" === settings_obj.the_options["button_settings_is_on2"])
-          ? true
-          : false,
+          "false" === settings_obj.the_options["button_settings_is_on2"])
+          ? false
+          : true,
 
       settings_layout2:
         settings_obj.the_options.hasOwnProperty("button_settings_as_popup2") &&
@@ -1632,11 +1632,11 @@ var gen = new Vue({
         : "#ffffff",
       settings_as_button2:
         settings_obj.the_options.hasOwnProperty("button_settings_as_button2") &&
-        (true === settings_obj.the_options["button_settings_as_button2"] ||
-          1 === settings_obj.the_options["button_settings_as_button2"] ||
-          "true" === settings_obj.the_options["button_settings_as_button2"])
-          ? true
-          : false,
+        (false === settings_obj.the_options["button_settings_as_button2"] ||
+          0 === settings_obj.the_options["button_settings_as_button2"] ||
+          "false" === settings_obj.the_options["button_settings_as_button2"])
+          ? false
+          : true,
       settings_background_color2: settings_obj.the_options.hasOwnProperty(
         "button_settings_button_color2"
       )
@@ -5688,12 +5688,6 @@ var gen = new Vue({
       });
     },
     onSwitchABTestingEnable() {
-      console.log(
-        this.accept_as_button1,
-        this.accept_all_as_button1,
-        this.decline_as_button1,
-        this.settings_as_button1
-      );
       this.ab_testing_enabled = !this.ab_testing_enabled;
       if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
     },
@@ -6698,6 +6692,12 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_donotsell_link_color"]
         : "#359bf5",
+
+      cookie_bar_color1: settings_obj.the_options.hasOwnProperty(
+        "cookie_bar_color1"
+      )
+        ? settings_obj.the_options["cookie_bar_color1"]
+        : "#ffffff",
       is_script_blocker_on:
         settings_obj.the_options.hasOwnProperty("is_script_blocker_on") &&
         (true === settings_obj.the_options["is_script_blocker_on"] ||

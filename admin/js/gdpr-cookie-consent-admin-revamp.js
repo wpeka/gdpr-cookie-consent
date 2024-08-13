@@ -620,41 +620,6 @@ jQuery(document).ready(function () {
         "slow"
       );
     });
-
-    $(".gpdr_cookie_settings_btn1").on("click", function (e) {
-      e.preventDefault();
-      // Fade out the div to the bottom
-      $("#banner-preview-main-container1").animate(
-        {
-          opacity: 0,
-          height: "toggle",
-        },
-        "fast",
-        function () {
-          // Animation complete
-          // You can add any additional actions here if needed
-        }
-      );
-
-      $(".gdpr_messagebar_detail1").removeClass("hide-popup");
-
-      // Fade in the .gdpr_messagebar_detail element
-      $(".gdpr_messagebar_detail1").fadeIn("slow");
-    });
-
-    // Handle close button click
-    $(".gdpr_action_button1.close").on("click", function (e) {
-      e.preventDefault();
-      // Fade out the .gdpr_messagebar_detail
-      $(".gdpr_messagebar_detail1").fadeOut("fast", function () {});
-      $("#banner-preview-main-container1").animate(
-        {
-          opacity: 1,
-          height: "toggle",
-        },
-        "slow"
-      );
-    });
   });
 
   jQuery(document).ready(function ($) {
