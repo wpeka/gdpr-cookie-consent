@@ -6698,6 +6698,908 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["cookie_bar_color1"]
         : "#ffffff",
+      cookie_text_color1: settings_obj.the_options.hasOwnProperty(
+        "cookie_text_color1"
+      )
+        ? settings_obj.the_options["cookie_text_color1"]
+        : "#000000",
+      cookie_bar_opacity1: settings_obj.the_options.hasOwnProperty(
+        "cookie_bar_opacity1"
+      )
+        ? settings_obj.the_options["cookie_bar_opacity1"]
+        : "0.80",
+      cookie_bar_border_width1: settings_obj.the_options.hasOwnProperty(
+        "cookie_bar_border_width1"
+      )
+        ? settings_obj.the_options["cookie_bar_border_width1"]
+        : "0",
+      border_style1: settings_obj.the_options.hasOwnProperty("border_style1")
+        ? settings_obj.the_options["border_style1"]
+        : "none",
+      cookie_border_color1: settings_obj.the_options.hasOwnProperty(
+        "cookie_border_color1"
+      )
+        ? settings_obj.the_options["cookie_border_color1"]
+        : "#ffffff",
+      cookie_bar_border_radius1: settings_obj.the_options.hasOwnProperty(
+        "cookie_bar_border_radius1"
+      )
+        ? settings_obj.the_options["cookie_bar_border_radius1"]
+        : "0",
+      cookie_font1: settings_obj.the_options.hasOwnProperty("cookie_font1")
+        ? settings_obj.the_options["cookie_font1"]
+        : "inherit",
+      cookie_accept_on1:
+        settings_obj.the_options.hasOwnProperty("button_accept_is_on1") &&
+        (false === settings_obj.the_options["button_accept_is_on1"] ||
+          0 === settings_obj.the_options["button_accept_is_on1"] ||
+          "false" === settings_obj.the_options["button_accept_is_on1"])
+          ? false
+          : true,
+      accept_text1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_text1"
+      )
+        ? settings_obj.the_options["button_accept_text1"]
+        : "Accept",
+      accept_text_color1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_link_color1"
+      )
+        ? settings_obj.the_options["button_accept_link_color1"]
+        : "#ffffff",
+      accept_size1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_size1"
+      )
+        ? settings_obj.the_options["button_accept_button_size1"]
+        : "medium",
+      accept_action1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_action1"
+      )
+        ? settings_obj.the_options["button_accept_action1"]
+        : "#cookie_action_close_header",
+      accept_url1: settings_obj.the_options.hasOwnProperty("button_accept_url1")
+        ? settings_obj.the_options["button_accept_url1"]
+        : "#",
+      accept_as_button1:
+        settings_obj.the_options.hasOwnProperty("button_accept_as_button1") &&
+        (false === settings_obj.the_options["button_accept_as_button1"] ||
+          0 === settings_obj.the_options["button_accept_as_button1"] ||
+          "false" === settings_obj.the_options["button_accept_as_button1"])
+          ? false
+          : true,
+      open_url1:
+        settings_obj.the_options.hasOwnProperty("button_accept_new_win1") &&
+        (true === settings_obj.the_options["button_accept_new_win1"] ||
+          1 === settings_obj.the_options["button_accept_new_win1"] ||
+          "true" === settings_obj.the_options["button_accept_new_win1"])
+          ? true
+          : false,
+      accept_background_color1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_color1"
+      )
+        ? settings_obj.the_options["button_accept_button_color1"]
+        : "#18a300",
+      accept_opacity1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_opacity1"
+      )
+        ? settings_obj.the_options["button_accept_button_opacity1"]
+        : "1",
+      accept_style1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_border_style1"
+      )
+        ? settings_obj.the_options["button_accept_button_border_style1"]
+        : "none",
+      accept_border_color1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_border_color1"
+      )
+        ? settings_obj.the_options["button_accept_button_border_color1"]
+        : "#18a300",
+      accept_border_width1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_border_width1"
+      )
+        ? settings_obj.the_options["button_accept_button_border_width1"]
+        : "0",
+      accept_border_radius1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_border_radius1"
+      )
+        ? settings_obj.the_options["button_accept_button_border_radius1"]
+        : "0",
+      cookie_accept_all_on1:
+        settings_obj.the_options.hasOwnProperty("button_accept_all_is_on1") &&
+        (true === settings_obj.the_options["button_accept_all_is_on1"] ||
+          1 === settings_obj.the_options["button_accept_all_is_on1"] ||
+          "true" === settings_obj.the_options["button_accept_all_is_on1"])
+          ? true
+          : false,
+      accept_all_text1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_text1"
+      )
+        ? settings_obj.the_options["button_accept_all_text1"]
+        : "Accept All",
+      accept_all_text_color1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_link_color1"
+      )
+        ? settings_obj.the_options["button_accept_all_link_color1"]
+        : "#ffffff",
+      accept_all_as_button1:
+        settings_obj.the_options.hasOwnProperty(
+          "button_accept_all_as_button1"
+        ) &&
+        (false === settings_obj.the_options["button_accept_all_as_button1"] ||
+          0 === settings_obj.the_options["button_accept_all_as_button1"] ||
+          "false" === settings_obj.the_options["button_accept_all_as_button1"])
+          ? false
+          : true,
+      accept_all_action1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_action1"
+      )
+        ? settings_obj.the_options["button_accept_all_action1"]
+        : "#cookie_action_close_header",
+      accept_all_url1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_url1"
+      )
+        ? settings_obj.the_options["button_accept_all_url1"]
+        : "#",
+      accept_all_new_win1:
+        settings_obj.the_options.hasOwnProperty("button_accept_all_new_win1") &&
+        (true === settings_obj.the_options["button_accept_all_new_win1"] ||
+          1 === settings_obj.the_options["button_accept_all_new_win1"] ||
+          "true" === settings_obj.the_options["button_accept_all_new_win1"])
+          ? true
+          : false,
+      accept_all_background_color1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_button_color1"
+      )
+        ? settings_obj.the_options["button_accept_all_button_color1"]
+        : "#18a300",
+      accept_all_size1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_button_size1"
+      )
+        ? settings_obj.the_options["button_accept_all_button_size1"]
+        : "medium",
+      accept_all_style1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_border_style1"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_border_style1"]
+        : "none",
+      accept_all_border_color1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_border_color1"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_border_color1"]
+        : "#18a300",
+      accept_all_opacity1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_opacity1"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_opacity1"]
+        : "1",
+      accept_all_border_width1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_border_width1"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_border_width1"]
+        : "0",
+      accept_all_border_radius1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_border_radius1"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_border_radius1"]
+        : "0",
+
+      cookie_decline_on1:
+        settings_obj.the_options.hasOwnProperty("button_decline_is_on1") &&
+        (false === settings_obj.the_options["button_decline_is_on1"] ||
+          0 === settings_obj.the_options["button_decline_is_on1"] ||
+          "false" === settings_obj.the_options["button_decline_is_on1"])
+          ? false
+          : true,
+      decline_text1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_text1"
+      )
+        ? settings_obj.the_options["button_decline_text1"]
+        : "Decline",
+      decline_text_color1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_link_color1"
+      )
+        ? settings_obj.the_options["button_decline_link_color1"]
+        : "#ffffff",
+      decline_as_button1:
+        settings_obj.the_options.hasOwnProperty("button_decline_as_button1") &&
+        (false === settings_obj.the_options["button_decline_as_button1"] ||
+          0 === settings_obj.the_options["button_decline_as_button1"] ||
+          "false" === settings_obj.the_options["button_decline_as_button1"])
+          ? false
+          : true,
+      decline_background_color1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_color1"
+      )
+        ? settings_obj.the_options["button_decline_button_color1"]
+        : "#333333",
+      decline_opacity1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_opacity1"
+      )
+        ? settings_obj.the_options["button_decline_button_opacity1"]
+        : "1",
+      decline_style1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_border_style1"
+      )
+        ? settings_obj.the_options["button_decline_button_border_style1"]
+        : "none",
+      decline_border_color1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_border_color1"
+      )
+        ? settings_obj.the_options["button_decline_button_border_color1"]
+        : "#333333",
+      decline_border_width1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_border_width1"
+      )
+        ? settings_obj.the_options["button_decline_button_border_width1"]
+        : "0",
+      decline_border_radius1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_border_radius1"
+      )
+        ? settings_obj.the_options["button_decline_button_border_radius1"]
+        : "0",
+      decline_size1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_size1"
+      )
+        ? settings_obj.the_options["button_decline_button_size1"]
+        : "medium",
+      decline_action1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_action1"
+      )
+        ? settings_obj.the_options["button_decline_action1"]
+        : "#cookie_action_close_header_reject",
+
+      decline_url1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_url1"
+      )
+        ? settings_obj.the_options["button_decline_url1"]
+        : "#",
+      open_decline_url1:
+        settings_obj.the_options.hasOwnProperty("button_decline_new_win1") &&
+        (true === settings_obj.the_options["button_decline_new_win1"] ||
+          1 === settings_obj.the_options["button_decline_new_win1"] ||
+          "true" === settings_obj.the_options["button_decline_new_win1"])
+          ? true
+          : false,
+
+      cookie_settings_on1:
+        settings_obj.the_options.hasOwnProperty("button_settings_is_on1") &&
+        (false === settings_obj.the_options["button_settings_is_on1"] ||
+          0 === settings_obj.the_options["button_settings_is_on1"] ||
+          "false" === settings_obj.the_options["button_settings_is_on1"])
+          ? false
+          : true,
+
+      settings_layout1:
+        settings_obj.the_options.hasOwnProperty("button_settings_as_popup1") &&
+        (true === settings_obj.the_options["button_settings_as_popup1"] ||
+          1 === settings_obj.the_options["button_settings_as_popup1"] ||
+          "true" === settings_obj.the_options["button_settings_as_popup1"])
+          ? true
+          : false,
+      layout_skin1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_layout_skin1"
+      )
+        ? settings_obj.the_options["button_settings_layout_skin1"]
+        : "layout-default",
+      settings_text1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_text1"
+      )
+        ? settings_obj.the_options["button_settings_text1"]
+        : "Cookie Settings",
+      settings_text_color1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_link_color1"
+      )
+        ? settings_obj.the_options["button_settings_link_color1"]
+        : "#ffffff",
+      settings_as_button1:
+        settings_obj.the_options.hasOwnProperty("button_settings_as_button1") &&
+        (false === settings_obj.the_options["button_settings_as_button1"] ||
+          0 === settings_obj.the_options["button_settings_as_button1"] ||
+          "false" === settings_obj.the_options["button_settings_as_button1"])
+          ? false
+          : true,
+      settings_background_color1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_color1"
+      )
+        ? settings_obj.the_options["button_settings_button_color1"]
+        : "#333333",
+      settings_opacity1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_opacity1"
+      )
+        ? settings_obj.the_options["button_settings_button_opacity1"]
+        : "1",
+      settings_style1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_border_style1"
+      )
+        ? settings_obj.the_options["button_settings_button_border_style1"]
+        : "none",
+      settings_border_color1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_border_color1"
+      )
+        ? settings_obj.the_options["button_settings_button_border_color1"]
+        : "#333333",
+      settings_border_width1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_border_width1"
+      )
+        ? settings_obj.the_options["button_settings_button_border_width1"]
+        : "0",
+      settings_border_radius1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_border_radius1"
+      )
+        ? settings_obj.the_options["button_settings_button_border_radius1"]
+        : "0",
+      settings_size1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_size1"
+      )
+        ? settings_obj.the_options["button_settings_button_size1"]
+        : "medium",
+      cookie_on_frontend1:
+        settings_obj.the_options.hasOwnProperty(
+          "button_settings_display_cookies1"
+        ) &&
+        (true ===
+          settings_obj.the_options["button_settings_display_cookies1"] ||
+          1 === settings_obj.the_options["button_settings_display_cookies1"] ||
+          "true" ===
+            settings_obj.the_options["button_settings_display_cookies1"])
+          ? true
+          : false,
+      confirm_text1: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_text1"
+      )
+        ? settings_obj.the_options["button_confirm_text1"]
+        : "Confirm",
+      confirm_text_color1: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_link_color1"
+      )
+        ? settings_obj.the_options["button_confirm_link_color1"]
+        : "#ffffff",
+      confirm_background_color1: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_color1"
+      )
+        ? settings_obj.the_options["button_confirm_button_color1"]
+        : "#18a300",
+      confirm_opacity1: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_opacity1"
+      )
+        ? settings_obj.the_options["button_confirm_button_opacity1"]
+        : "1",
+      confirm_style1: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_border_style1"
+      )
+        ? settings_obj.the_options["button_confirm_button_border_style1"]
+        : "none",
+      confirm_border_color1: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_border_color1"
+      )
+        ? settings_obj.the_options["button_confirm_button_border_color1"]
+        : "#18a300",
+      confirm_border_width1: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_border_width1"
+      )
+        ? settings_obj.the_options["button_confirm_button_border_width1"]
+        : "0",
+      confirm_border_radius1: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_border_radius1"
+      )
+        ? settings_obj.the_options["button_confirm_button_border_radius1"]
+        : "0",
+      confirm_size1: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_size1"
+      )
+        ? settings_obj.the_options["button_confirm_button_size1"]
+        : "medium",
+      cancel_text1: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_text1"
+      )
+        ? settings_obj.the_options["button_cancel_text1"]
+        : "Cancel",
+      cancel_text_color1: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_link_color1"
+      )
+        ? settings_obj.the_options["button_cancel_link_color1"]
+        : "#ffffff",
+      cancel_background_color1: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_color1"
+      )
+        ? settings_obj.the_options["button_cancel_button_color1"]
+        : "#333333",
+      cancel_opacity1: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_opacity1"
+      )
+        ? settings_obj.the_options["button_cancel_button_opacity1"]
+        : "1",
+      cancel_style1: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_border_style1"
+      )
+        ? settings_obj.the_options["button_cancel_button_border_style1"]
+        : "none",
+      cancel_border_color1: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_border_color1"
+      )
+        ? settings_obj.the_options["button_cancel_button_border_color1"]
+        : "#333333",
+      cancel_border_width1: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_border_width1"
+      )
+        ? settings_obj.the_options["button_cancel_button_border_width1"]
+        : "0",
+      cancel_border_radius1: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_border_radius1"
+      )
+        ? settings_obj.the_options["button_cancel_button_border_radius1"]
+        : "0",
+      cancel_size1: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_size1"
+      )
+        ? settings_obj.the_options["button_cancel_button_size1"]
+        : "medium",
+      opt_out_text1: settings_obj.the_options.hasOwnProperty(
+        "button_donotsell_text1"
+      )
+        ? settings_obj.the_options["button_donotsell_text1"]
+        : "Do Not Sell My Personal Information",
+      opt_out_text_color1: settings_obj.the_options.hasOwnProperty(
+        "button_donotsell_link_color1"
+      )
+        ? settings_obj.the_options["button_donotsell_link_color1"]
+        : "#359bf5",
+      cookie_bar2_name: settings_obj.the_options.hasOwnProperty(
+        "cookie_bar2_name"
+      )
+        ? settings_obj.the_options["cookie_bar2_name"]
+        : "Test Banner B",
+
+      cookie_bar_color2: settings_obj.the_options.hasOwnProperty(
+        "cookie_bar_color2"
+      )
+        ? settings_obj.the_options["cookie_bar_color2"]
+        : "#ffffff",
+      cookie_text_color2: settings_obj.the_options.hasOwnProperty(
+        "cookie_text_color2"
+      )
+        ? settings_obj.the_options["cookie_text_color2"]
+        : "#000000",
+      cookie_bar_opacity2: settings_obj.the_options.hasOwnProperty(
+        "cookie_bar_opacity2"
+      )
+        ? settings_obj.the_options["cookie_bar_opacity2"]
+        : "0.80",
+      cookie_bar_border_width2: settings_obj.the_options.hasOwnProperty(
+        "cookie_bar_border_width2"
+      )
+        ? settings_obj.the_options["cookie_bar_border_width2"]
+        : "0",
+      border_style2: settings_obj.the_options.hasOwnProperty("border_style2")
+        ? settings_obj.the_options["border_style2"]
+        : "none",
+      cookie_border_color2: settings_obj.the_options.hasOwnProperty(
+        "cookie_border_color2"
+      )
+        ? settings_obj.the_options["cookie_border_color2"]
+        : "#ffffff",
+      cookie_bar_border_radius2: settings_obj.the_options.hasOwnProperty(
+        "cookie_bar_border_radius2"
+      )
+        ? settings_obj.the_options["cookie_bar_border_radius2"]
+        : "0",
+      cookie_font2: settings_obj.the_options.hasOwnProperty("cookie_font2")
+        ? settings_obj.the_options["cookie_font2"]
+        : "inherit",
+      cookie_accept_on2:
+        settings_obj.the_options.hasOwnProperty("button_accept_is_on2") &&
+        (false === settings_obj.the_options["button_accept_is_on2"] ||
+          0 === settings_obj.the_options["button_accept_is_on2"] ||
+          "false" === settings_obj.the_options["button_accept_is_on2"])
+          ? false
+          : true,
+      accept_text2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_text2"
+      )
+        ? settings_obj.the_options["button_accept_text2"]
+        : "Accept",
+      accept_text_color2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_link_color2"
+      )
+        ? settings_obj.the_options["button_accept_link_color2"]
+        : "#ffffff",
+      accept_size2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_size2"
+      )
+        ? settings_obj.the_options["button_accept_button_size2"]
+        : "medium",
+      accept_action2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_action2"
+      )
+        ? settings_obj.the_options["button_accept_action2"]
+        : "#cookie_action_close_header",
+      accept_url2: settings_obj.the_options.hasOwnProperty("button_accept_url2")
+        ? settings_obj.the_options["button_accept_url2"]
+        : "#",
+      accept_as_button2:
+        settings_obj.the_options.hasOwnProperty("button_accept_as_button2") &&
+        (false === settings_obj.the_options["button_accept_as_button2"] ||
+          0 === settings_obj.the_options["button_accept_as_button2"] ||
+          "false" === settings_obj.the_options["button_accept_as_button2"])
+          ? false
+          : true,
+      open_url2:
+        settings_obj.the_options.hasOwnProperty("button_accept_new_win2") &&
+        (true === settings_obj.the_options["button_accept_new_win2"] ||
+          1 === settings_obj.the_options["button_accept_new_win2"] ||
+          "true" === settings_obj.the_options["button_accept_new_win2"])
+          ? true
+          : false,
+      accept_background_color2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_color2"
+      )
+        ? settings_obj.the_options["button_accept_button_color2"]
+        : "#18a300",
+      accept_opacity2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_opacity2"
+      )
+        ? settings_obj.the_options["button_accept_button_opacity2"]
+        : "1",
+      accept_style2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_border_style2"
+      )
+        ? settings_obj.the_options["button_accept_button_border_style2"]
+        : "none",
+      accept_border_color2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_border_color2"
+      )
+        ? settings_obj.the_options["button_accept_button_border_color2"]
+        : "#18a300",
+      accept_border_width2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_border_width2"
+      )
+        ? settings_obj.the_options["button_accept_button_border_width2"]
+        : "0",
+      accept_border_radius2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_border_radius2"
+      )
+        ? settings_obj.the_options["button_accept_button_border_radius2"]
+        : "0",
+      cookie_accept_all_on2:
+        settings_obj.the_options.hasOwnProperty("button_accept_all_is_on2") &&
+        (true === settings_obj.the_options["button_accept_all_is_on2"] ||
+          1 === settings_obj.the_options["button_accept_all_is_on2"] ||
+          "true" === settings_obj.the_options["button_accept_all_is_on2"])
+          ? true
+          : false,
+      accept_all_text2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_text2"
+      )
+        ? settings_obj.the_options["button_accept_all_text2"]
+        : "Accept All",
+      accept_all_text_color2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_link_color2"
+      )
+        ? settings_obj.the_options["button_accept_all_link_color2"]
+        : "#ffffff",
+      accept_all_as_button2:
+        settings_obj.the_options.hasOwnProperty(
+          "button_accept_all_as_button2"
+        ) &&
+        (false === settings_obj.the_options["button_accept_all_as_button2"] ||
+          0 === settings_obj.the_options["button_accept_all_as_button2"] ||
+          "false" === settings_obj.the_options["button_accept_all_as_button2"])
+          ? false
+          : true,
+      accept_all_action2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_action2"
+      )
+        ? settings_obj.the_options["button_accept_all_action2"]
+        : "#cookie_action_close_header",
+      accept_all_url2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_url2"
+      )
+        ? settings_obj.the_options["button_accept_all_url2"]
+        : "#",
+      accept_all_new_win2:
+        settings_obj.the_options.hasOwnProperty("button_accept_all_new_win2") &&
+        (true === settings_obj.the_options["button_accept_all_new_win2"] ||
+          1 === settings_obj.the_options["button_accept_all_new_win2"] ||
+          "true" === settings_obj.the_options["button_accept_all_new_win2"])
+          ? true
+          : false,
+      accept_all_background_color2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_button_color2"
+      )
+        ? settings_obj.the_options["button_accept_all_button_color2"]
+        : "#18a300",
+      accept_all_size2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_button_size2"
+      )
+        ? settings_obj.the_options["button_accept_all_button_size2"]
+        : "medium",
+      accept_all_style2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_border_style2"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_border_style2"]
+        : "none",
+      accept_all_border_color2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_border_color2"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_border_color2"]
+        : "#18a300",
+      accept_all_opacity2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_opacity2"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_opacity2"]
+        : "1",
+      accept_all_border_width2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_border_width2"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_border_width2"]
+        : "0",
+      accept_all_border_radius2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_border_radius2"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_border_radius2"]
+        : "0",
+
+      cookie_decline_on2:
+        settings_obj.the_options.hasOwnProperty("button_decline_is_on2") &&
+        (false === settings_obj.the_options["button_decline_is_on2"] ||
+          0 === settings_obj.the_options["button_decline_is_on2"] ||
+          "false" === settings_obj.the_options["button_decline_is_on2"])
+          ? false
+          : true,
+      decline_text2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_text2"
+      )
+        ? settings_obj.the_options["button_decline_text2"]
+        : "Decline",
+      decline_text_color2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_link_color2"
+      )
+        ? settings_obj.the_options["button_decline_link_color2"]
+        : "#ffffff",
+      decline_as_button2:
+        settings_obj.the_options.hasOwnProperty("button_decline_as_button2") &&
+        (false === settings_obj.the_options["button_decline_as_button2"] ||
+          0 === settings_obj.the_options["button_decline_as_button2"] ||
+          "false" === settings_obj.the_options["button_decline_as_button2"])
+          ? false
+          : true,
+      decline_background_color2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_color2"
+      )
+        ? settings_obj.the_options["button_decline_button_color2"]
+        : "#333333",
+      decline_opacity2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_opacity2"
+      )
+        ? settings_obj.the_options["button_decline_button_opacity2"]
+        : "1",
+      decline_style2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_border_style2"
+      )
+        ? settings_obj.the_options["button_decline_button_border_style2"]
+        : "none",
+      decline_border_color2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_border_color2"
+      )
+        ? settings_obj.the_options["button_decline_button_border_color2"]
+        : "#333333",
+      decline_border_width2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_border_width2"
+      )
+        ? settings_obj.the_options["button_decline_button_border_width2"]
+        : "0",
+      decline_border_radius2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_border_radius2"
+      )
+        ? settings_obj.the_options["button_decline_button_border_radius2"]
+        : "0",
+      decline_size2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_size2"
+      )
+        ? settings_obj.the_options["button_decline_button_size2"]
+        : "medium",
+      decline_action2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_action2"
+      )
+        ? settings_obj.the_options["button_decline_action2"]
+        : "#cookie_action_close_header_reject",
+
+      decline_url2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_url2"
+      )
+        ? settings_obj.the_options["button_decline_url2"]
+        : "#",
+      open_decline_url2:
+        settings_obj.the_options.hasOwnProperty("button_decline_new_win2") &&
+        (true === settings_obj.the_options["button_decline_new_win2"] ||
+          1 === settings_obj.the_options["button_decline_new_win2"] ||
+          "true" === settings_obj.the_options["button_decline_new_win2"])
+          ? true
+          : false,
+
+      cookie_settings_on2:
+        settings_obj.the_options.hasOwnProperty("button_settings_is_on2") &&
+        (false === settings_obj.the_options["button_settings_is_on2"] ||
+          1 === settings_obj.the_options["button_settings_is_on2"] ||
+          "false" === settings_obj.the_options["button_settings_is_on2"])
+          ? false
+          : true,
+
+      settings_layout2:
+        settings_obj.the_options.hasOwnProperty("button_settings_as_popup2") &&
+        (true === settings_obj.the_options["button_settings_as_popup2"] ||
+          1 === settings_obj.the_options["button_settings_as_popup2"] ||
+          "true" === settings_obj.the_options["button_settings_as_popup2"])
+          ? true
+          : false,
+      layout_skin2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_layout_skin2"
+      )
+        ? settings_obj.the_options["button_settings_layout_skin2"]
+        : "layout-default",
+      settings_text2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_text2"
+      )
+        ? settings_obj.the_options["button_settings_text2"]
+        : "Cookie Settings",
+      settings_text_color2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_link_color2"
+      )
+        ? settings_obj.the_options["button_settings_link_color2"]
+        : "#ffffff",
+      settings_as_button2:
+        settings_obj.the_options.hasOwnProperty("button_settings_as_button2") &&
+        (false === settings_obj.the_options["button_settings_as_button2"] ||
+          0 === settings_obj.the_options["button_settings_as_button2"] ||
+          "false" === settings_obj.the_options["button_settings_as_button2"])
+          ? false
+          : true,
+      settings_background_color2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_color2"
+      )
+        ? settings_obj.the_options["button_settings_button_color2"]
+        : "#333333",
+      settings_opacity2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_opacity2"
+      )
+        ? settings_obj.the_options["button_settings_button_opacity2"]
+        : "1",
+      settings_style2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_border_style2"
+      )
+        ? settings_obj.the_options["button_settings_button_border_style2"]
+        : "none",
+      settings_border_color2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_border_color2"
+      )
+        ? settings_obj.the_options["button_settings_button_border_color2"]
+        : "#333333",
+      settings_border_width2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_border_width2"
+      )
+        ? settings_obj.the_options["button_settings_button_border_width2"]
+        : "0",
+      settings_border_radius2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_border_radius2"
+      )
+        ? settings_obj.the_options["button_settings_button_border_radius2"]
+        : "0",
+      settings_size2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_size2"
+      )
+        ? settings_obj.the_options["button_settings_button_size2"]
+        : "medium",
+      cookie_on_frontend2:
+        settings_obj.the_options.hasOwnProperty(
+          "button_settings_display_cookies2"
+        ) &&
+        (true ===
+          settings_obj.the_options["button_settings_display_cookies2"] ||
+          1 === settings_obj.the_options["button_settings_display_cookies2"] ||
+          "true" ===
+            settings_obj.the_options["button_settings_display_cookies2"])
+          ? true
+          : false,
+      confirm_text2: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_text2"
+      )
+        ? settings_obj.the_options["button_confirm_text2"]
+        : "Confirm",
+      confirm_text_color2: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_link_color2"
+      )
+        ? settings_obj.the_options["button_confirm_link_color2"]
+        : "#ffffff",
+      confirm_background_color2: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_color2"
+      )
+        ? settings_obj.the_options["button_confirm_button_color2"]
+        : "#18a300",
+      confirm_opacity2: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_opacity2"
+      )
+        ? settings_obj.the_options["button_confirm_button_opacity2"]
+        : "1",
+      confirm_style2: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_border_style2"
+      )
+        ? settings_obj.the_options["button_confirm_button_border_style2"]
+        : "none",
+      confirm_border_color2: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_border_color2"
+      )
+        ? settings_obj.the_options["button_confirm_button_border_color2"]
+        : "#18a300",
+      confirm_border_width2: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_border_width2"
+      )
+        ? settings_obj.the_options["button_confirm_button_border_width2"]
+        : "0",
+      confirm_border_radius2: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_border_radius2"
+      )
+        ? settings_obj.the_options["button_confirm_button_border_radius2"]
+        : "0",
+      confirm_size2: settings_obj.the_options.hasOwnProperty(
+        "button_confirm_button_size2"
+      )
+        ? settings_obj.the_options["button_confirm_button_size2"]
+        : "medium",
+      cancel_text2: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_text2"
+      )
+        ? settings_obj.the_options["button_cancel_text2"]
+        : "Cancel",
+      cancel_text_color2: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_link_color2"
+      )
+        ? settings_obj.the_options["button_cancel_link_color2"]
+        : "#ffffff",
+      cancel_background_color2: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_color2"
+      )
+        ? settings_obj.the_options["button_cancel_button_color2"]
+        : "#333333",
+      cancel_opacity2: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_opacity2"
+      )
+        ? settings_obj.the_options["button_cancel_button_opacity2"]
+        : "1",
+      cancel_style2: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_border_style2"
+      )
+        ? settings_obj.the_options["button_cancel_button_border_style2"]
+        : "none",
+      cancel_border_color2: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_border_color2"
+      )
+        ? settings_obj.the_options["button_cancel_button_border_color2"]
+        : "#333333",
+      cancel_border_width2: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_border_width2"
+      )
+        ? settings_obj.the_options["button_cancel_button_border_width2"]
+        : "0",
+      cancel_border_radius2: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_border_radius2"
+      )
+        ? settings_obj.the_options["button_cancel_button_border_radius2"]
+        : "0",
+      cancel_size2: settings_obj.the_options.hasOwnProperty(
+        "button_cancel_button_size2"
+      )
+        ? settings_obj.the_options["button_cancel_button_size2"]
+        : "medium",
+      opt_out_text2: settings_obj.the_options.hasOwnProperty(
+        "button_donotsell_text2"
+      )
+        ? settings_obj.the_options["button_donotsell_text2"]
+        : "Do Not Sell My Personal Information",
+      opt_out_text_color2: settings_obj.the_options.hasOwnProperty(
+        "button_donotsell_link_color2"
+      )
+        ? settings_obj.the_options["button_donotsell_link_color2"]
+        : "#359bf5",
+
       is_script_blocker_on:
         settings_obj.the_options.hasOwnProperty("is_script_blocker_on") &&
         (true === settings_obj.the_options["is_script_blocker_on"] ||
@@ -7350,6 +8252,8 @@ var gen = new Vue({
         this.template = value;
         if (this.banner_template == "banner-dark_row") {
           this.cookie_bar_color = "#323742";
+          this.cookie_bar_color1 = "#323742";
+          this.cookie_bar_color2 = "#323742";
           this.accept_background_color = "#3EAF9A";
           this.accept_all_background_color = "#3EAF9A";
           jQuery(".gdpr_preview").css("color", "white");
@@ -7362,6 +8266,28 @@ var gen = new Vue({
           this.settings_text_color = "#3EAF9A";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#3EAF9A";
+          this.accept_all_background_color1 = "#3EAF9A";
+          this.decline_background_color1 = "#333333";
+          this.settings_background_color1 = "#323742";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#3EAF9A";
+          this.settings_style1 = "solid";
+          this.button_readmore_link_color1 = "#3EAF9A";
+          this.settings_text_color1 = "#3EAF9A";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#3EAF9A";
+          this.accept_all_background_color2 = "#3EAF9A";
+          this.decline_background_color2 = "#333333";
+          this.settings_background_color2 = "#323742";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#3EAF9A";
+          this.settings_style2 = "solid";
+          this.button_readmore_link_color2 = "#3EAF9A";
+          this.settings_text_color2 = "#3EAF9A";
         } else if (this.banner_template == "banner-almond_column") {
           this.cookie_bar_color = "#E8DDBB";
           this.accept_background_color = "#DE7834";
@@ -7373,6 +8299,24 @@ var gen = new Vue({
           this.settings_text_color = "#FFFFFF";
           this.button_revoke_consent_text_color = "#306189";
           this.button_revoke_consent_background_color = "#E8DDBB";
+          this.cookie_text_color1 = "#111111";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_text_color2 = "#111111";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color1 = "#E8DDBB";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_color2 = "#E8DDBB";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
         } else if (this.banner_template == "banner-grey_center") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#DE7834";
@@ -7380,6 +8324,24 @@ var gen = new Vue({
           this.decline_background_color = "#252525";
           this.settings_background_color = "#252525";
           jQuery(".gdpr_preview").css("color", "rgb(30, 61, 89)");
+          this.cookie_text_color1 = "#111111";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_text_color2 = "#111111";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
           this.button_readmore_link_color = "#DE7834";
           this.settings_style = "none";
           this.settings_text_color = "#FFFFFF";
@@ -7395,6 +8357,24 @@ var gen = new Vue({
           this.button_readmore_link_color = "#E14469";
           this.settings_style = "none";
           this.settings_text_color = "#FFFFFF";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.cookie_text_color1 = "#1E3D59";
+          this.accept_background_color1 = "#E14469";
+          this.accept_all_background_color1 = "#E14469";
+          this.accept_text_color1 = "#ffffff";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_text_color2 = "#1E3D59";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#E14469";
+          this.accept_all_background_color2 = "#E14469";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
         } else if (this.banner_template == "banner-navy_blue_center") {
@@ -7406,6 +8386,26 @@ var gen = new Vue({
           this.settings_border_width = "1";
           this.settings_border_color = "#FFFFFF";
           this.settings_style = "solid";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#369EE3";
           this.button_revoke_consent_text_color = "#FFFFFF";
@@ -7417,6 +8417,20 @@ var gen = new Vue({
           this.decline_background_color = "#EF5454";
           this.settings_background_color = "#007CBA";
           this.settings_style = "none";
+          this.cookie_bar_color1 = "#FFFFFF";
+          this.cookie_text_color1 = "#111111";
+          this.accept_background_color1 = "#66CC66";
+          this.accept_all_background_color1 = "#66CC66";
+          this.decline_background_color1 = "#EF5454";
+          this.settings_background_color1 = "#007CBA";
+          this.settings_style1 = "none";
+          this.cookie_bar_color2 = "#FFFFFF";
+          this.cookie_text_color1 = "#111111";
+          this.accept_background_color2 = "#66CC66";
+          this.accept_all_background_color2 = "#66CC66";
+          this.decline_background_color2 = "#EF5454";
+          this.settings_background_color2 = "#007CBA";
+          this.settings_style2 = "none";
           jQuery(".gdpr_preview").css("color", "#3c4b64");
           this.button_readmore_link_color = "#007CBA";
           this.button_revoke_consent_text_color = "#000000";
@@ -7430,6 +8444,26 @@ var gen = new Vue({
           this.settings_border_width = "1";
           this.settings_border_color = "#808080";
           this.settings_style = "solid";
+          this.cookie_bar_color1 = "#262626";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#6A8EE7";
+          this.accept_all_background_color1 = "#6A8EE7";
+          this.decline_background_color1 = "#808080";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#808080";
+          this.settings_style1 = "solid";
+          this.settings_text_color1 = "#808080";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#6A8EE7";
+          this.accept_all_background_color2 = "#6A8EE7";
+          this.decline_background_color2 = "#808080";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#808080";
+          this.settings_style2 = "solid";
+          this.settings_text_color2 = "#808080";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#6A8EE7";
           this.settings_text_color = "#808080";
@@ -7455,6 +8489,30 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
+          this.cookie_bar_color1 = "#323742";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#3EAF9A";
+          this.accept_all_background_color1 = "#3EAF9A";
+          this.decline_background_color1 = "#333333";
+          this.settings_background_color1 = "#323742";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#3EAF9A";
+          this.settings_style1 = "solid";
+          this.decline_style1 = "none";
+          this.settings_text_color1 = "#3EAF9A";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#323742";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#3EAF9A";
+          this.accept_all_background_color2 = "#3EAF9A";
+          this.decline_background_color2 = "#333333";
+          this.settings_background_color2 = "#323742";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#3EAF9A";
+          this.settings_style2 = "solid";
+          this.decline_style2 = "none";
+          this.settings_text_color2 = "#3EAF9A";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.popup_template == "popup-almond_column") {
           this.cookie_bar_color = "#E8DDBB";
           this.accept_background_color = "#DE7834";
@@ -7466,6 +8524,26 @@ var gen = new Vue({
           this.decline_style = "none";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
+          this.cookie_bar_color1 = "#E8DDBB";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.decline_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#E8DDBB";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.decline_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
+          this.cookie_bar_border_radius2 = "0";
           this.button_revoke_consent_text_color = "#306189";
           this.button_revoke_consent_background_color = "#E8DDBB";
         } else if (this.popup_template == "popup-grey_center") {
@@ -7482,6 +8560,26 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
+          this.cookie_text_color1 = "#111111";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_text_color2 = "#111111";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.popup_template == "popup-grey_column") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#E14469";
@@ -7494,6 +8592,26 @@ var gen = new Vue({
           this.decline_style = "none";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.cookie_text_color1 = "#1E3D59";
+          this.accept_background_color1 = "#E14469";
+          this.accept_all_background_color1 = "#E14469";
+          this.accept_text_color1 = "#ffffff";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_text_color2 = "#1E3D59";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#E14469";
+          this.accept_all_background_color2 = "#E14469";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
         } else if (this.popup_template == "popup-navy_blue_center") {
@@ -7510,8 +8628,30 @@ var gen = new Vue({
           this.button_readmore_link_color = "#369EE3";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         } else if (this.popup_template == "popup-default") {
           this.cookie_bar_color = "#FFFFFF";
           this.accept_background_color = "#66CC66";
@@ -7524,8 +8664,24 @@ var gen = new Vue({
           this.button_readmore_link_color = "#007CBA";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
+          this.cookie_bar_color1 = "#FFFFFF";
+          this.cookie_text_color1 = "#111111";
+          this.accept_background_color1 = "#66CC66";
+          this.accept_all_background_color1 = "#66CC66";
+          this.decline_background_color1 = "#EF5454";
+          this.settings_background_color1 = "#007CBA";
+          this.settings_style1 = "none";
+          this.cookie_bar_color2 = "#FFFFFF";
+          this.cookie_text_color2 = "#111111";
+          this.accept_background_color2 = "#66CC66";
+          this.accept_all_background_color2 = "#66CC66";
+          this.decline_background_color2 = "#EF5454";
+          this.settings_background_color2 = "#007CBA";
+          this.settings_style2 = "none";
         } else if (this.popup_template == "popup-dark") {
           this.cookie_bar_color = "#262626";
           this.accept_background_color = "#6A8EE7";
@@ -7542,6 +8698,28 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
+          this.cookie_bar_color1 = "#262626";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#6A8EE7";
+          this.accept_all_background_color1 = "#6A8EE7";
+          this.decline_background_color1 = "#808080";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#808080";
+          this.settings_style1 = "solid";
+          this.settings_text_color1 = "#808080";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#6A8EE7";
+          this.accept_all_background_color2 = "#6A8EE7";
+          this.decline_background_color2 = "#808080";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#808080";
+          this.settings_style2 = "solid";
+          this.settings_text_color2 = "#808080";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.popup_template == "popup-navy_blue_square") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -7560,6 +8738,28 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         } else if (this.popup_template == "popup-navy_blue_box") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -7576,6 +8776,30 @@ var gen = new Vue({
           this.settings_text_color = "#FFFFFF";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#2A3E71";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#FFFFFF";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         }
       } else if (this.show_cookie_as === "widget") {
         this.widget_template = value;
@@ -7596,6 +8820,30 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
+          this.cookie_bar_color1 = "#323742";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#3EAF9A";
+          this.accept_all_background_color1 = "#3EAF9A";
+          this.decline_background_color1 = "#333333";
+          this.settings_background_color1 = "#323742";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#3EAF9A";
+          this.settings_style1 = "solid";
+          this.decline_style1 = "none";
+          this.settings_text_color1 = "#3EAF9A";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#323742";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#3EAF9A";
+          this.accept_all_background_color2 = "#3EAF9A";
+          this.decline_background_color2 = "#333333";
+          this.settings_background_color2 = "#323742";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#3EAF9A";
+          this.settings_style2 = "solid";
+          this.decline_style2 = "none";
+          this.settings_text_color2 = "#3EAF9A";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-almond_column") {
           this.cookie_bar_color = "#E8DDBB";
           this.accept_background_color = "#DE7834";
@@ -7609,6 +8857,26 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#306189";
           this.button_revoke_consent_background_color = "#E8DDBB";
+          this.cookie_bar_color1 = "#E8DDBB";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.decline_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#E8DDBB";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.decline_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-grey_center") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#DE7834";
@@ -7623,6 +8891,26 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
+          this.cookie_text_color1 = "#111111";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_text_color2 = "#111111";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.accept_background_color1 = "#DE7834";
+          this.accept_all_background_color1 = "#DE7834";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#DE7834";
+          this.accept_all_background_color2 = "#DE7834";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-grey_column") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#E14469";
@@ -7637,6 +8925,26 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_bar_color1 = "#F4F4F4";
+          this.cookie_text_color1 = "#1E3D59";
+          this.accept_background_color1 = "#E14469";
+          this.accept_all_background_color1 = "#E14469";
+          this.accept_text_color1 = "#ffffff";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#252525";
+          this.settings_style1 = "none";
+          this.settings_text_color1 = "#FFFFFF";
+          this.cookie_text_color2 = "#1E3D59";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#F4F4F4";
+          this.accept_background_color2 = "#E14469";
+          this.accept_all_background_color2 = "#E14469";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#252525";
+          this.settings_style2 = "none";
+          this.settings_text_color2 = "#FFFFFF";
         } else if (this.widget_template == "widget-navy_blue_center") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -7653,6 +8961,28 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         } else if (this.widget_template == "widget-default") {
           this.cookie_bar_color = "#FFFFFF";
           this.accept_background_color = "#66CC66";
@@ -7667,6 +8997,22 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_bar_color1 = "#FFFFFF";
+          this.cookie_text_color1 = "#111111";
+          this.accept_background_color1 = "#66CC66";
+          this.accept_all_background_color1 = "#66CC66";
+          this.decline_background_color1 = "#EF5454";
+          this.settings_background_color1 = "#007CBA";
+          this.settings_style1 = "none";
+          this.cookie_bar_color2 = "#FFFFFF";
+          this.cookie_text_color2 = "#111111";
+          this.accept_background_color2 = "#66CC66";
+          this.accept_all_background_color2 = "#66CC66";
+          this.decline_background_color2 = "#EF5454";
+          this.settings_background_color2 = "#007CBA";
+          this.settings_style2 = "none";
         } else if (this.widget_template == "widget-dark") {
           this.cookie_bar_color = "#262626";
           this.accept_background_color = "#6A8EE7";
@@ -7683,6 +9029,28 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
+          this.cookie_bar_color1 = "#262626";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_background_color1 = "#6A8EE7";
+          this.accept_all_background_color1 = "#6A8EE7";
+          this.decline_background_color1 = "#808080";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#808080";
+          this.settings_style1 = "solid";
+          this.settings_text_color1 = "#808080";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_background_color2 = "#6A8EE7";
+          this.accept_all_background_color2 = "#6A8EE7";
+          this.decline_background_color2 = "#808080";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#808080";
+          this.settings_style2 = "solid";
+          this.settings_text_color2 = "#808080";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-navy_blue_square") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -7701,6 +9069,28 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#252525";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         } else if (this.widget_template == "widget-navy_blue_box") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -7717,6 +9107,30 @@ var gen = new Vue({
           this.settings_text_color = "#FFFFFF";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.cookie_text_color1 = "#ffffff";
+          this.accept_text_color1 = "#ffffff";
+          this.cookie_bar_color1 = "#2A3E71";
+          this.accept_background_color1 = "#369EE3";
+          this.accept_all_background_color1 = "#369EE3";
+          this.decline_background_color1 = "#2A3E71";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#FFFFFF";
+          this.settings_background_color1 = "#2A3E71";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#FFFFFF";
+          this.settings_style1 = "solid";
+          this.cookie_text_color2 = "#ffffff";
+          this.accept_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_background_color2 = "#369EE3";
+          this.accept_all_background_color2 = "#369EE3";
+          this.decline_background_color2 = "#252525";
+          this.settings_background_color2 = "#2A3E71";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#FFFFFF";
+          this.settings_style2 = "solid";
         }
       }
       this.is_template_changed = true;
