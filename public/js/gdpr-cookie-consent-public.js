@@ -1955,7 +1955,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
               jQuery(this).css("background-color", main_background);
             }
           );
-          console.log("Setting colors");
           this.details_elm
             .find(
               "table.gdpr_messagebar_detail_body_content_cookie_type_table tr"
@@ -2537,7 +2536,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
             this.settings.background + " 0 0 8px"
           );
         }
-        // console.log(this.bar_config);
         this.bar_elm.css(this.bar_config).hide();
         this.show_again_elm.css(this.show_config).hide();
       } else {
@@ -2734,7 +2732,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           this.bar_elm.css(this.bar_config).hide();
           this.show_again_elm.css(this.show_config).hide();
         }
-        // console.log(this.settings);
       }
     },
 
