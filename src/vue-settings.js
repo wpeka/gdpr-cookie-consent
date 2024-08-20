@@ -2083,30 +2083,16 @@ var gen = new Vue({
         )
           ? settings_obj.the_options["button_revoke_consent_background_color"]
           : "",
-      selectedRadioCountry:
-        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
-        (true === settings_obj.the_options["is_selectedCountry_on"] ||
-          1 === settings_obj.the_options["is_selectedCountry_on"])
-          ? "yes"
-          : "no",
-
       is_selectedCountry_on:
         settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
         (true === settings_obj.the_options["is_selectedCountry_on"] ||
           1 === settings_obj.the_options["is_selectedCountry_on"])
           ? true
           : false,
-      selectedRadioCountry:
-        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
-        (true === settings_obj.the_options["is_selectedCountry_on"] ||
-          1 === settings_obj.the_options["is_selectedCountry_on"])
-          ? "yes"
-          : "no",
-
-      is_selectedCountry_on:
-        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
-        (true === settings_obj.the_options["is_selectedCountry_on"] ||
-          1 === settings_obj.the_options["is_selectedCountry_on"])
+      is_worldwide_on:
+        settings_obj.the_options.hasOwnProperty("is_worldwide_on") &&
+        (true === settings_obj.the_options["is_worldwide_on"] ||
+          1 === settings_obj.the_options["is_worldwide_on"])
           ? true
           : false,
       selectedRadioWorldWide:
@@ -2115,12 +2101,6 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_worldwide_on"])
           ? "yes"
           : "no",
-      is_worldwide_on:
-        settings_obj.the_options.hasOwnProperty("is_worldwide_on") &&
-        (true === settings_obj.the_options["is_worldwide_on"] ||
-          1 === settings_obj.the_options["is_worldwide_on"])
-          ? true
-          : false,
       list_of_countries: settings_obj.list_of_countries,
       select_countries: settings_obj.the_options.hasOwnProperty(
         "select_countries"
