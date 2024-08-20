@@ -45,7 +45,7 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr','hu','po','pt' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt' );
 
 	/**
 	 * Public module list, Module folder and main file must be same as that of module name.
@@ -64,9 +64,9 @@ class Gdpr_Cookie_Consent_Public {
 	 * @var array $existing_modules Existing modules array.
 	 */
 	public static $existing_modules = array();
-	
+
 	public $chosenBanner = 1;
-			
+
 
 	/**
 	 * Initialize the class and set its properties.
@@ -83,10 +83,12 @@ class Gdpr_Cookie_Consent_Public {
 		if ( ! shortcode_exists( 'wpl_cookie_details' ) ) {
 			add_shortcode( 'wpl_cookie_details', array( $this, 'gdprcookieconsent_shortcode_cookie_details' ) );         // a shortcode [wpl_cookie_details].
 		}
-		$min = 0;
-		$max = 1;
-		$randomNumber = mt_rand($min, $max);
-		if($randomNumber < 0.5) $this->chosenBanner = 2;
+		$min          = 0;
+		$max          = 1;
+		$randomNumber = mt_rand( $min, $max );
+		if ( $randomNumber < 0.5 ) {
+			$this->chosenBanner = 2;
+		}
 	}
 
 	/**
@@ -197,7 +199,7 @@ class Gdpr_Cookie_Consent_Public {
 		);
 		$the_options  = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$geo_options  = get_option( 'wpl_geo_options' );
-		$ab_option = get_option('wpl_ab_options');
+		$ab_option    = get_option( 'wpl_ab_options' );
 		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] ) {
 			if ( boolval( true ) === boolval( $the_options['is_eu_on'] ) ) {
 				// check if eu country.
@@ -205,8 +207,8 @@ class Gdpr_Cookie_Consent_Public {
 				$eu_country = $geoip->wpl_is_eu_country();
 				if ( isset( $eu_country ) && true !== $eu_country ) {
 					$return_array['eu_status'] = 'off';
-					$ab_option["noWarning".$this->chosenBanner]++;				// a/b testing no warning data collection
-					update_option('wpl_ab_options',$ab_option);
+					++$ab_option[ 'noWarning' . $this->chosenBanner ];              // a/b testing no warning data collection
+					update_option( 'wpl_ab_options', $ab_option );
 				}
 			}
 			if ( boolval( true ) === boolval( $the_options['is_ccpa_on'] ) ) {
@@ -215,8 +217,29 @@ class Gdpr_Cookie_Consent_Public {
 				$ccpa_country = $geoip->wpl_is_ccpa_country();
 				if ( isset( $ccpa_country ) && true !== $ccpa_country ) {
 					$return_array['ccpa_status'] = 'off';
-					$ab_option["noWarning".$this->chosenBanner]++;				// a/b testing no warning data collection
-					update_option('wpl_ab_options',$ab_option);
+					++$ab_option[ 'noWarning' . $this->chosenBanner ];              // a/b testing no warning data collection
+					update_option( 'wpl_ab_options', $ab_option );
+				}
+			}
+			if ( boolval( true ) === boolval( $the_options['is_selectedCountry_on'] ) ) {
+				// check if selected country.
+				$geoip               = new Gdpr_Cookie_Consent_Geo_Ip();
+				$is_selected_country = $geoip->wpl_is_selected_country();
+				if ( ! in_array( $is_selected_country, $the_options['select_countries'] ) ) {
+					++$ab_option[ 'noWarning' . $this->chosenBanner ];              // a/b testing no warning data collection
+					update_option( 'wpl_ab_options', $ab_option );
+					if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
+						$return_array['eu_status'] = 'off';
+					}
+					if ( 'ccpa' === $the_options['cookie_usage_for'] ) {
+						$return_array['ccpa_status'] = 'off';
+					}
+					if ( 'eprivacy' === $the_options['cookie_usage_for'] ) {
+						$return_array['eu_status'] = 'off';
+					}
+					if ( 'both' === $the_options['cookie_usage_for'] ) {
+						$return_array['both_status'] = 'off';
+					}
 				}
 			}
 			if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
@@ -631,7 +654,7 @@ class Gdpr_Cookie_Consent_Public {
 			if ( '' !== $preference_cookies ) {
 				$preference_cookies = $this->gdpr_cookie_consent_sanitize_decoded_json( $preference_cookies );
 			}
-			
+
 			$viewed_cookie                = isset( $_COOKIE['wpl_viewed_cookie'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wpl_viewed_cookie'] ) ) : '';
 			$the_options['viewed_cookie'] = $viewed_cookie;
 			foreach ( $categories as $category ) {
@@ -717,7 +740,6 @@ class Gdpr_Cookie_Consent_Public {
 
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
 
-			
 			$chosenBanner = $this->chosenBanner;
 			include plugin_dir_path( __FILE__ ) . 'templates/default.php';
 			?>
@@ -785,18 +807,18 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['select_sites'] = null;
 			}
 			$cookies_list_data = array(
-				'gdpr_cookies_list'                 		=> str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
-				'gdpr_cookiebar_settings'          		 	=> wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
-				'gdpr_ab_options'							=> get_option('wpl_ab_options'),
-				'gdpr_consent_renew' 						=> $the_options['ip_and_consent_renew'],
-				'gdpr_user_ip'           					=> $user_ip,
-				'gdpr_do_not_track'      		    		=> $the_options['do_not_track_on'],
-				'gdpr_select_pages'       					=> $the_options['select_pages'],
-				'gdpr_select_sites'      					=> $the_options['select_sites'],
-				'consent_forwarding'      					=> $the_options['consent_forward'],
-				'button_revoke_consent_text_color' 			=> $the_options['button_revoke_consent_text_color'],
-				'button_revoke_consent_background_color'	=> $the_options['button_revoke_consent_background_color'],
-				'chosenBanner'								=> $chosenBanner
+				'gdpr_cookies_list'                      => str_replace( "'", "\'", wp_json_encode( $categories_json_data ) ),
+				'gdpr_cookiebar_settings'                => wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
+				'gdpr_ab_options'                        => get_option( 'wpl_ab_options' ),
+				'gdpr_consent_renew'                     => $the_options['ip_and_consent_renew'],
+				'gdpr_user_ip'                           => $user_ip,
+				'gdpr_do_not_track'                      => $the_options['do_not_track_on'],
+				'gdpr_select_pages'                      => $the_options['select_pages'],
+				'gdpr_select_sites'                      => $the_options['select_sites'],
+				'consent_forwarding'                     => $the_options['consent_forward'],
+				'button_revoke_consent_text_color'       => $the_options['button_revoke_consent_text_color'],
+				'button_revoke_consent_background_color' => $the_options['button_revoke_consent_background_color'],
+				'chosenBanner'                           => $chosenBanner,
 			);
 
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );

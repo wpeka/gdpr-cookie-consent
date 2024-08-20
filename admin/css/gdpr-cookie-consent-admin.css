@@ -4154,10 +4154,10 @@ a .export-btn:hover {
   position: absolute;
   margin: 0;
   padding: 0;
-  bottom: 0;
-  right: 16px;
+  bottom: -15px;
+  right: 120px;
   height: 70px;
-  width: 100%;
+  width: 70%;
 }
 .overlay_eu_visitors_message {
   text-align: center;
@@ -7259,6 +7259,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   border-bottom: 1px solid #f4f4f5;
   border-top: 1px solid #e4e4e7;
   padding-top: 40px;
+  margin-top: 40px;
 }
 .gdpr-cookie-consent-settings-nav
   #gdpr-cookie-consent-settings-cookie-notice-top,
@@ -7586,4 +7587,74 @@ button.btn.gdpr-renew-now-btn.pro,
 }
 .desgin_card .gdpr-cookie-consent-design-subheading {
   border-bottom: 1px solid rgb(238, 238, 238);
+}
+.compliances_card .gdpr-visitors-condition {
+  display: flex;
+  position: relative;
+  gap: 60px;
+}
+.compliances_card .gdpr-visiotrs-condition-radio-btn {
+  position: relative;
+  bottom: 2px;
+  height: 20px;
+  width: 20px;
+  margin-right: 19px;
+}
+.compliances_card input[type="radio"]:checked::before {
+  background-color: #ffa319;
+  margin: 0;
+  width: 10px;
+  height: 10px;
+  border: none;
+  position: relative;
+  top: 4px;
+  left: 4px;
+  border-color: #ffa319;
+}
+.compliances_card .gdpr-visiotrs-condition-radio-btn:checked {
+  border-color: #ffa319;
+}
+.compliances_card .select-countries-dropdown {
+  margin-top: 20px;
+}
+.select-countries-dropdown input[type="search"] {
+  border: none;
+}
+.select-countries-dropdown input[type="search"]:focus {
+  border: none;
+}
+.select-countries-dropdown .vs__selected {
+  color: #0073e6 !important;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 24px !important;
+  background-color: #eef6ff !important;
+  border: 1px solid #0059b333 !important;
+  display: flex !important;
+  justify-content: space-around !important;
+  gap: 10px !important;
+  padding: 2px 12px 2px 12px !important;
+  margin-left: 12px !important;
+  margin-top: 8px !important;
+  margin-bottom: 4px !important;
+}
+.select-countries-dropdown .vs__dropdown-option {
+  border-bottom: 1px solid #e4e4e7 !important;
+}
+.gdpr-eu_visitors_message-gdpr,
+.gdpr-eu_visitors_message-ccpa,
+.gdpr-eu_visitors_message-both {
+  display: none;
+}
+.gdpr-eu_visitors_message-gdpr,
+.gdpr-eu_visitors_message-ccpa,
+.gdpr-eu_visitors_message-both {
+  width: 140px;
+  position: relative;
+  right: 49px;
+  background: black;
+  padding: 10px;
+  color: white;
+  border: 1px solid #ccc;
 }

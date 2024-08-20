@@ -149,27 +149,27 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	 * MaxMind Geolocation integration menu callback.
 	 */
 	// public function wplgip_integrations() {
-	// 	wp_enqueue_style( 'gdpr-cookie-consent' );
-	// 	$geo_options = get_option( 'wpl_geo_options' );
-	// 	if ( ! isset( $geo_options['database_prefix'] ) ) {
-	// 		$geo_options['maxmind_license_key'] = '';
-	// 		$geo_options['database_prefix']     = wp_generate_password( 32, false );
-	// 		update_option( 'wpl_geo_options', $geo_options );
-	// 	}
-	// 	$uploads_dir                       = wp_upload_dir();
-	// 	$geo_options['database_file_path'] = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/' . $geo_options['database_prefix'] . '-GeoLite2-City.mmdb';
-	// 	if ( isset( $_POST['maxmind_license_submit'] ) ) {
-	// 		check_admin_referer( 'wpl-update-maxmind-license' );
-	// 		$license_key = isset( $_POST['maxmind_license_key'] ) ? sanitize_text_field( wp_unslash( $_POST['maxmind_license_key'] ) ) : '';
-	// 		$license_key = is_null( $license_key ) ? '' : $license_key;
-	// 		$license_key = trim( stripslashes( $license_key ) );
-	// 		if ( ! empty( $license_key ) ) {
-	// 			$license_key = $this->validate_maxmind_license_key( $license_key );
-	// 		}
-	// 		$geo_options['maxmind_license_key'] = $license_key;
-	// 		update_option( 'wpl_geo_options', $geo_options );
-	// 	}
-	// 	require_once plugin_dir_path( __FILE__ ) . 'views/integrations.php';
+	// wp_enqueue_style( 'gdpr-cookie-consent' );
+	// $geo_options = get_option( 'wpl_geo_options' );
+	// if ( ! isset( $geo_options['database_prefix'] ) ) {
+	// $geo_options['maxmind_license_key'] = '';
+	// $geo_options['database_prefix']     = wp_generate_password( 32, false );
+	// update_option( 'wpl_geo_options', $geo_options );
+	// }
+	// $uploads_dir                       = wp_upload_dir();
+	// $geo_options['database_file_path'] = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/' . $geo_options['database_prefix'] . '-GeoLite2-City.mmdb';
+	// if ( isset( $_POST['maxmind_license_submit'] ) ) {
+	// check_admin_referer( 'wpl-update-maxmind-license' );
+	// $license_key = isset( $_POST['maxmind_license_key'] ) ? sanitize_text_field( wp_unslash( $_POST['maxmind_license_key'] ) ) : '';
+	// $license_key = is_null( $license_key ) ? '' : $license_key;
+	// $license_key = trim( stripslashes( $license_key ) );
+	// if ( ! empty( $license_key ) ) {
+	// $license_key = $this->validate_maxmind_license_key( $license_key );
+	// }
+	// $geo_options['maxmind_license_key'] = $license_key;
+	// update_option( 'wpl_geo_options', $geo_options );
+	// }
+	// require_once plugin_dir_path( __FILE__ ) . 'views/integrations.php';
 	// }
 
 	/**
@@ -433,6 +433,44 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 			} else {
 				return false;
 			}
+		}
+	}
+
+	/**
+	 * Check the IP for country selected by user.
+	 *
+	 * @since 3.0.0
+	 * @return bool
+	 *
+	 * @phpcs:enable
+	 */
+	public function wpl_is_selected_country() {
+		$uploads_dir   = wp_upload_dir();
+		$geo_options   = get_option( 'wpl_geo_options' );
+		$database_path = '';
+		if ( isset( $geo_options['database_prefix'] ) && ! empty( $geo_options['database_prefix'] ) ) {
+			$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/' . $geo_options['database_prefix'] . '-GeoLite2-City.mmdb';
+		}
+		$user_ip      = $this->wplgip_get_user_ip();
+		$country_code = '';
+		$state_code   = '';
+		if ( $user_ip && 'UNKNOWN' !== $user_ip && ! empty( $database_path ) ) {
+			try {
+				$reader = new Reader( $database_path );
+				try {
+					$record        = $reader->city( $user_ip );
+					$country_code  = $record->country->isoCode;
+					$sub_divisions = $record->subdivisions;
+					if ( $sub_divisions && isset( $sub_divisions[0] ) ) {
+						$state_code = $sub_divisions[0]->isoCode;
+					}
+				} catch ( \GeoIp2\Exception\AddressNotFoundException $e ) {
+					return false;
+				}
+			} catch ( \MaxMind\Db\Reader\InvalidDatabaseException $e ) {
+				return false;
+			}
+			return $country_code;
 		}
 	}
 
