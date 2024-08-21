@@ -1,0 +1,141 @@
+/**
+ * All of the variables for CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+:root {
+  /* Typography Variables */
+  --text-3xs-font-size: 8px;
+  --text-3xs-font-size-rem: 0.5rem; /* Equivalent to size in rem */
+  --text-3xs-line-height: 12px;
+  --text-3xs-line-height-rem: 0.75rem; /* Equivalent to line-height in rem */
+
+  --text-2xs-font-size: 10px;
+  --text-2xs-font-size-rem: 0.625rem; /* Equivalent to size in rem */
+  --text-2xs-line-height: 14px;
+  --text-2xs-line-height-rem: 0.875rem; /* Equivalent to line-height in rem */
+
+  --text-xs-font-size: 12px;
+  --text-xs-font-size-rem: 0.75rem; /* Equivalent to size in rem */
+  --text-xs-line-height: 16px;
+  --text-xs-line-height-rem: 1rem; /* Equivalent to line-height in rem */
+
+  --text-sm-font-size: 14px;
+  --text-sm-font-size-rem: 0.875rem; /* Equivalent to size in rem */
+  --text-sm-line-height: 20px;
+  --text-sm-line-height-rem: 1.25rem; /* Equivalent to line-height in rem */
+
+  --text-base-font-size: 16px;
+  --text-base-font-size-rem: 1rem; /* Equivalent to size in rem */
+  --text-base-line-height: 24px;
+  --text-base-line-height-rem: 1.5rem; /* Equivalent to line-height in rem */
+
+  --text-lg-font-size: 18px;
+  --text-lg-font-size-rem: 1.125rem; /* Equivalent to size in rem */
+  --text-lg-line-height: 28px;
+  --text-lg-line-height-rem: 1.75rem; /* Equivalent to line-height in rem */
+
+  --text-xl-font-size: 20px;
+  --text-xl-font-size-rem: 1.25rem; /* Equivalent to size in rem */
+  --text-xl-line-height: 28px;
+  --text-xl-line-height-rem: 1.75rem; /* Equivalent to line-height in rem */
+
+  --text-2xl-font-size: 24px;
+  --text-2xl-font-size-rem: 1.5rem; /* Equivalent to size in rem */
+  --text-2xl-line-height: 32px;
+  --text-2xl-line-height-rem: 2rem; /* Equivalent to line-height in rem */
+
+  --text-3xl-font-size: 30px;
+  --text-3xl-font-size-rem: 1.875rem; /* Equivalent to size in rem */
+  --text-3xl-line-height: 36px;
+  --text-3xl-line-height-rem: 2.25rem; /* Equivalent to line-height in rem */
+
+  --text-4xl-font-size: 36px;
+  --text-4xl-font-size-rem: 2.25rem; /* Equivalent to size in rem */
+  --text-4xl-line-height: 40px;
+  --text-4xl-line-height-rem: 2.5rem; /* Equivalent to line-height in rem */
+
+  --text-5xl-font-size: 48px;
+  --text-5xl-font-size-rem: 3rem; /* Equivalent to size in rem */
+  --text-5xl-line-height: 48px;
+  --text-5xl-line-height-rem: 3rem; /* Equivalent to line-height in rem */
+
+  --text-6xl-font-size: 60px;
+  --text-6xl-font-size-rem: 3.75rem; /* Equivalent to size in rem */
+  --text-6xl-line-height: 60px;
+  --text-6xl-line-height-rem: 3.75rem; /* Equivalent to line-height in rem */
+
+  --text-7xl-font-size: 72px;
+  --text-7xl-font-size-rem: 4.5rem; /* Equivalent to size in rem */
+  --text-7xl-line-height: 72px;
+  --text-7xl-line-height-rem: 4.5rem; /* Equivalent to line-height in rem */
+
+  --text-8xl-font-size: 96px;
+  --text-8xl-font-size-rem: 6rem; /* Equivalent to size in rem */
+  --text-8xl-line-height: 96px;
+  --text-8xl-line-height-rem: 6rem; /* Equivalent to line-height in rem */
+
+  --text-9xl-font-size: 128px;
+  --text-9xl-font-size-rem: 8rem; /* Equivalent to size in rem */
+  --text-9xl-line-height: 128px;
+  --text-9xl-line-height-rem: 8rem; /* Equivalent to line-height in rem */
+
+  /* Font weights */
+  --text-regular-font-weight: 400;
+  --text-semi-bold-font-weight: 600;
+  --text-bold-font-weight: 700;
+  --text-extra-bold-font-weight: 800;
+
+  /* Color Variables */
+  --white-50: #f6f7f7;
+  --white-100: #ffffff;
+  --black-50: #000000;
+  --red-50: #f00;
+  --red-100: #935687;
+  --orange-50: #ffa319;
+  /* Gray Color variables */
+   --gray-50: #FAFAFA;
+   --gray-100: #F4F4F5;
+   --gray-200: #E4E4E7;
+   --gray-300: #D4D4D8;
+   --gray-400: #A1A1AA;
+   --gray-500: #71717A;
+   --gray-600: #52525B;
+   --gray-700: #3F3F46;
+   --gray-800: #27272A;
+   --gray-901: #141722;
+   --gray-902: #999;
+   --gray-903: #d8dbe0;
+   --gray-904: #cccccc;
+   --gray-905: #e5e5e5;
+   --gray-906: #e0e0e0;
+   --gray-907: #aaa;
+
+  /* Blue Color variables */
+  --blue-50: #e6eef7;
+  --blue-100: #b0cce7;
+  --blue-200: #8ab3dc;
+  --blue-300: #5490cc;
+  --blue-400: #337ac2;
+  --blue-500: #0059b3;
+  --blue-600: #0051a3;
+  --blue-700: #003f7f;
+  --blue-800: #003162;
+  --blue-900: #00254b;
+  --blue-901: #2a4a7e;
+  --blue-902: #1e3d59;
+  --blue-1000: #2271b1;
+  --blue-2000: #0073aa;
+  --blue-903: #3c4b64;
+  --blue-904: #39f;
+
+
+  /* Green Color variables */
+  --green-50: #e9f9ef;
+  --green-100: #a4e7bd;
+  --green-200: #7fdda2;
+  --green-300: #48cf79;
+  --green-400: #22c55e;
+  --green-500: #188a42;
+  --green-600: #157839;
+}
