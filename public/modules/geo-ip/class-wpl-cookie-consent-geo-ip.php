@@ -359,6 +359,42 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	}
 
 	/**
+	 * Check the IP for eu country.
+	 *
+	 * @since 3.0.0
+	 * @return bool
+	 * @phpcs:enable
+	 */
+	public function wpl_is_eu_country() {
+		$uploads_dir   = wp_upload_dir();
+		$geo_options   = get_option( 'wpl_geo_options' );
+		$database_path = '';
+		if ( isset( $geo_options['database_prefix'] ) && ! empty( $geo_options['database_prefix'] ) ) {
+			$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/' . $geo_options['database_prefix'] . '-GeoLite2-City.mmdb';
+		}
+		$user_ip      = $this->wplgip_get_user_ip();
+		$country_code = '';
+		if ( $user_ip && 'UNKNOWN' !== $user_ip && ! empty( $database_path ) ) {
+			try {
+				$reader = new Reader( $database_path );
+				try {
+					$record       = $reader->city( $user_ip );
+					$country_code = $record->country->isoCode;
+				} catch ( \GeoIp2\Exception\AddressNotFoundException $e ) {
+					return false;
+				}
+			} catch ( \MaxMind\Db\Reader\InvalidDatabaseException $e ) {
+				return false;
+			}
+			if ( in_array( $country_code, Gdpr_Cookie_Consent::get_eu_countries(), true ) ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/**
 	 * Check the IP for country of user.
 	 *
 	 * @since 3.0.0
