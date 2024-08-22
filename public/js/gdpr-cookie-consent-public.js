@@ -228,7 +228,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
         // Decline the cookies
         GDPR.reject_close();
         var cookie_data = { DNT: "yes" };
-        console.log(log_obj.ajax_url, log_obj.consent_logging_nonce);
         //ab-testing-data-collection
         jQuery.ajax({
           url: log_obj.ajax_url,

@@ -188,14 +188,14 @@ var gen = new Vue({
         settings_obj.the_options.hasOwnProperty("is_eu_on") &&
         (true === settings_obj.the_options["is_eu_on"] ||
           1 === settings_obj.the_options["is_eu_on"])
-          ? "yes"
-          : "no",
+          ? true
+          : false,
       selectedRadioCcpa:
         settings_obj.the_options.hasOwnProperty("is_ccpa_on") &&
         (true === settings_obj.the_options["is_ccpa_on"] ||
           1 === settings_obj.the_options["is_ccpa_on"])
-          ? "yes"
-          : "no",
+          ? true
+          : false,
       is_iab_on:
         settings_obj.the_options.hasOwnProperty("is_ccpa_iab_on") &&
         (true === settings_obj.the_options["is_ccpa_iab_on"] ||
@@ -2099,8 +2099,8 @@ var gen = new Vue({
         settings_obj.the_options.hasOwnProperty("is_worldwide_on") &&
         (true === settings_obj.the_options["is_worldwide_on"] ||
           1 === settings_obj.the_options["is_worldwide_on"])
-          ? "yes"
-          : "no",
+          ? true
+          : false,
       list_of_countries: settings_obj.list_of_countries,
       select_countries: settings_obj.the_options.hasOwnProperty(
         "select_countries"
@@ -2109,6 +2109,12 @@ var gen = new Vue({
         : [],
       select_countries_array: [],
       show_Select_Country: false,
+      selectedRadioCountry:
+        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
+        (true === settings_obj.the_options["is_selectedCountry_on"] ||
+          1 === settings_obj.the_options["is_selectedCountry_on"])
+          ? true
+          : false,
     };
   },
 
@@ -2399,54 +2405,57 @@ var gen = new Vue({
     onSwitchEUEnable(value) {
       this.is_eu_on = !this.is_eu_on;
       if (value) {
-        this.selectedRadioGdpr = value === "yes" ? "yes" : "no";
+        this.selectedRadioGdpr = value === true ? true : false;
       }
     },
     onSwitchCCPAEnable(value) {
       this.is_ccpa_on = !this.is_ccpa_on;
       if (value) {
-        this.selectedRadioCcpa = value === "yes" ? "yes" : "no";
+        this.selectedRadioCcpa = value === true ? true : false;
       }
     },
     onSwitchWorldWideEnable() {
       this.selectedRadioWorldWide = "yes";
-      this.selectedRadioGdpr = "no";
-      this.selectedRadioCountry = "no";
-      this.selectedRadioCcpa = "no";
+      this.selectedRadioGdpr = false;
+      this.selectedRadioCountry = false;
+      this.selectedRadioCcpa = false;
       this.is_worldwide_on = true;
       this.is_eu_on = false;
       this.is_selectedCountry_on = false;
       this.is_ccpa_on = false;
     },
-    onSwitchEUEnable() {
-      this.selectedRadioGdpr = "yes";
-      this.selectedRadioWorldWide = "no";
-      this.selectedRadioCountry = "no";
-      this.selectedRadioCcpa = "no";
-      this.is_eu_on = true;
-      this.is_worldwide_on = false;
-      this.is_selectedCountry_on = false;
-      this.is_ccpa_on = false;
+    onSwitchEUEnable(isChecked) {
+      if (isChecked) {
+        this.selectedRadioGdpr = true;
+        this.selectedRadioWorldWide = false;
+        this.is_eu_on = true;
+        this.is_worldwide_on = false;
+      } else {
+        this.selectedRadioGdpr = false;
+        this.is_eu_on = false;
+      }
     },
-    onSwitchSelectedCountryEnable() {
-      this.selectedRadioCountry = "yes";
-      this.selectedRadioGdpr = "no";
-      this.selectedRadioWorldWide = "no";
-      this.selectedRadioCcpa = "no";
-      this.is_selectedCountry_on = true;
-      this.is_eu_on = false;
-      this.is_worldwide_on = false;
-      this.is_ccpa_on = false;
+    onSwitchSelectedCountryEnable(isChecked) {
+      if (isChecked) {
+        this.is_selectedCountry_on = true;
+        this.selectedRadioCountry = true;
+        this.selectedRadioWorldWide = false;
+        this.is_worldwide_on = false;
+      } else {
+        this.is_selectedCountry_on = false;
+        this.selectedRadioCountry = false;
+      }
     },
-    onSwitchCCPAEnable() {
-      this.selectedRadioCcpa = "yes";
-      this.selectedRadioCountry = "no";
-      this.selectedRadioGdpr = "no";
-      this.selectedRadioWorldWide = "no";
-      this.is_ccpa_on = true;
-      this.is_selectedCountry_on = false;
-      this.is_eu_on = false;
-      this.is_worldwide_on = false;
+    onSwitchCCPAEnable(isChecked) {
+      if (isChecked) {
+        this.selectedRadioCcpa = true;
+        this.selectedRadioWorldWide = false;
+        this.is_ccpa_on = true;
+        this.is_worldwide_on = false;
+      } else {
+        this.selectedRadioCcpa = false;
+        this.is_ccpa_on = false;
+      }
     },
     onCountrySelect(value) {
       this.select_countries = this.select_countries_array.join(",");
@@ -2623,7 +2632,6 @@ var gen = new Vue({
         function ($) {
           if (position === "top") {
             this.cookie_position = "top";
-            console.log("this is called from top");
             $("#banner-position-top-id").addClass("banner-position-top");
             $("#banner-position-bottom-id").removeClass(
               "banner-position-bottom"
@@ -2637,7 +2645,6 @@ var gen = new Vue({
             );
           } else if (position === "bottom") {
             this.cookie_position = "bottom";
-            console.log("this is called from bottom");
             $("#banner-position-bottom-id").addClass("banner-position-bottom");
             $("#banner-position-top-id").removeClass("banner-position-top");
             //icons
@@ -2652,11 +2659,9 @@ var gen = new Vue({
       ); // Bind 'this' to ensure it refers to the Vue instance
     },
     cookiewidgetPositionChange(value) {
-      console.log("This is called");
       jQuery(document).ready(
         function ($) {
           if (value === "left") {
-            console.log("position is ->", value);
             this.cookie_widget_position = "left";
             $("#widget-position-left-id").addClass("widget-position-top");
             $("#widget-position-right-id").removeClass("widget-position-top");
@@ -2680,7 +2685,6 @@ var gen = new Vue({
               "dashicons dashicons-saved"
             );
           } else if (value === "right") {
-            console.log("position is ->", value);
             this.cookie_widget_position = "right";
             $("#widget-position-right-id").addClass("widget-position-top");
             $("#widget-position-left-id").removeClass("widget-position-top");
@@ -2704,7 +2708,6 @@ var gen = new Vue({
               "dashicons dashicons-saved"
             );
           } else if (value === "top_left") {
-            console.log("position is ->", value);
             this.cookie_widget_position = "top_left";
             $("#widget-position-top_left-id").addClass("widget-position-top");
             $("#widget-position-right-id").removeClass("widget-position-top");
@@ -2726,7 +2729,6 @@ var gen = new Vue({
               "dashicons dashicons-saved"
             );
           } else if (value === "top_right") {
-            console.log("position is ->", value);
             this.cookie_widget_position = "top_right";
             $("#widget-position-top_right-id").addClass("widget-position-top");
             $("#widget-position-right-id").removeClass("widget-position-top");
@@ -4459,16 +4461,18 @@ var gen = new Vue({
       // consent forward.
       this.consent_forward = false;
       this.select_sites = [];
-      this.selectedRadioCountry = "no";
+      this.selectedRadioCountry = false;
       this.is_selectedCountry_on = false;
-      this.selectedRadioCountry = "no";
-      this.is_selectedCountry_on = false;
-      this.selectedRadioWorldWide = "no";
+      this.selectedRadioWorldWide = false;
       this.is_worldwide_on = false;
       this.list_of_countries = [];
       this.select_countries = [];
       this.select_countries_array = [];
       this.show_Select_Country = false;
+      this.cookie_font1 = "inherit";
+      this.cookie_text_color1 = "#000000";
+      this.cookie_font2 = "inherit";
+      this.cookie_text_color2 = "#000000";
       var data = {
         action: "gcc_restore_default_settings",
         security: settings_obj.restore_settings_nonce,
@@ -4603,15 +4607,12 @@ var gen = new Vue({
           type: "image",
         },
       });
-      console.log("trying");
       jQuery("#image-upload-button")
         .unbind()
         .click(
           image_frame.on("close", function () {
             var selection = image_frame.state().get("selection");
-            console.log("setting");
             selection.each(function (attachment) {
-              console.log(attachment.attributes.url);
               jQuery("#gdpr-cookie-bar-logo-holder").attr(
                 "src",
                 attachment.attributes.url
