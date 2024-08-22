@@ -196,50 +196,101 @@ class Gdpr_Cookie_Consent_Public {
 		$return_array = array(
 			'eu_status'   => 'on',
 			'ccpa_status' => 'on',
+			'both_status' => 'on',
 		);
 		$the_options  = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$geo_options  = get_option( 'wpl_geo_options' );
 		$ab_option    = get_option( 'wpl_ab_options' );
-		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] ) {
-			if ( boolval( true ) === boolval( $the_options['is_eu_on'] ) ) {
-				// check if eu country.
-				$geoip      = new Gdpr_Cookie_Consent_Geo_Ip();
-				$eu_country = $geoip->wpl_is_eu_country();
-				if ( isset( $eu_country ) && true !== $eu_country ) {
+		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] && $the_options['is_worldwide_on'] === false) {
+			$show_banner_for_selected_countries = array();
+			if ( true === boolval( $the_options['is_eu_on'] ) ) {
+				// Add the list of EU countries to the array
+				$eu_countries = array(
+					'AT', // Austria.
+					'BE', // Belgium.
+					'BG', // Bulgaria.
+					'HR', // Croatia.
+					'CY', // Cyprus.
+					'CZ', // Czech Republic.
+					'DK', // Denmark.
+					'EE', // Estonia.
+					'FI', // Finland.
+					'FR', // France.
+					'DE', // Germany.
+					'GR', // Greece.
+					'HU', // Hungary.
+					'IE', // Ireland.
+					'IT', // Italy.
+					'LV', // Latvia.
+					'LT', // Lithuania.
+					'LU', // Luxembourg.
+					'MT', // Malta.
+					'NL', // Netherlands.
+					'PL', // Poland.
+					'PT', // Portugal.
+					'RO', // Romania.
+					'SK', // Slovakia.
+					'SI', // Slovenia.
+					'ES', // Spain.
+					'SE', // Sweden.
+					'GB', // United Kingdom.
+				);
+
+				// Merge the EU countries with the existing selected countries
+				$show_banner_for_selected_countries = array_merge( $show_banner_for_selected_countries, $eu_countries );
+			}
+			if ( true === boolval( $the_options['is_ccpa_on'] ) ) {
+				// Add the list of EU countries to the array
+				$ccpa_countries = array(
+					'US',
+				);
+
+				// Merge the EU countries with the existing selected countries
+				$show_banner_for_selected_countries = array_merge( $show_banner_for_selected_countries, $ccpa_countries );
+			}
+			if ( true === boolval( $the_options['is_selectedCountry_on'] ) ) {
+				// Ensure that $the_options['select_countries'] is an array before merging
+				if ( isset( $the_options['select_countries'] ) && is_array( $the_options['select_countries'] ) ) {
+					// Merge the selected countries with the existing selected countries array
+					$show_banner_for_selected_countries = array_merge( $show_banner_for_selected_countries, $the_options['select_countries'] );
+				}
+			}
+			$geoip             = new Gdpr_Cookie_Consent_Geo_Ip();
+			$user_country_code = $geoip->wpl_is_selected_country();
+			if ( ! in_array( $user_country_code, $show_banner_for_selected_countries ) ) {
+				if ( $ab_option['ab_testing_enabled'] === true || $ab_option['ab_testing_enabled'] === 'true' ) {
+					++$ab_option[ 'noWarning' . $this->chosenBanner ];     // a/b testing no warning data collection
+					update_option( 'wpl_ab_options', $ab_option );
+				}
+				if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
 					$return_array['eu_status'] = 'off';
-					++$ab_option[ 'noWarning' . $this->chosenBanner ];              // a/b testing no warning data collection
-					update_option( 'wpl_ab_options', $ab_option );
 				}
-			}
-			if ( boolval( true ) === boolval( $the_options['is_ccpa_on'] ) ) {
-				// check if ccpa country.
-				$geoip        = new Gdpr_Cookie_Consent_Geo_Ip();
-				$ccpa_country = $geoip->wpl_is_ccpa_country();
-				if ( isset( $ccpa_country ) && true !== $ccpa_country ) {
+				if ( 'ccpa' === $the_options['cookie_usage_for'] ) {
 					$return_array['ccpa_status'] = 'off';
-					++$ab_option[ 'noWarning' . $this->chosenBanner ];              // a/b testing no warning data collection
-					update_option( 'wpl_ab_options', $ab_option );
+				}
+				if ( 'eprivacy' === $the_options['cookie_usage_for'] ) {
+					$return_array['eu_status'] = 'off';
+				}
+				if ( 'both' === $the_options['cookie_usage_for'] ) {
+					$return_array['both_status'] = 'off';
 				}
 			}
-			if ( boolval( true ) === boolval( $the_options['is_selectedCountry_on'] ) ) {
-				// check if selected country.
-				$geoip               = new Gdpr_Cookie_Consent_Geo_Ip();
-				$is_selected_country = $geoip->wpl_is_selected_country();
-				if ( ! in_array( $is_selected_country, $the_options['select_countries'] ) ) {
-					++$ab_option[ 'noWarning' . $this->chosenBanner ];              // a/b testing no warning data collection
-					update_option( 'wpl_ab_options', $ab_option );
-					if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
-						$return_array['eu_status'] = 'off';
+			// update the status of the banner if the law is gdpr & ccpa.
+			if ( $return_array['both_status'] === 'on' && 'both' === $the_options['cookie_usage_for'] ) {
+				$is_in_eu   = in_array( $user_country_code, Gdpr_Cookie_Consent::get_eu_countries(), true );
+				$is_in_ccpa = in_array( $user_country_code, Gdpr_Cookie_Consent::get_ccpa_countries(), true );
+				if ( $is_in_eu ) {
+					if ( $ab_option['ab_testing_enabled'] === true || $ab_option['ab_testing_enabled'] === 'true' ) {
+						++$ab_option[ 'noWarning' . $this->chosenBanner ];     // a/b testing no warning data collection
+						update_option( 'wpl_ab_options', $ab_option );
 					}
-					if ( 'ccpa' === $the_options['cookie_usage_for'] ) {
-						$return_array['ccpa_status'] = 'off';
+					$return_array['ccpa_status'] = 'off';
+				} elseif ( $is_in_ccpa ) {
+					if ( $ab_option['ab_testing_enabled'] === true || $ab_option['ab_testing_enabled'] === 'true' ) {
+						++$ab_option[ 'noWarning' . $this->chosenBanner ];     // a/b testing no warning data collection
+						update_option( 'wpl_ab_options', $ab_option );
 					}
-					if ( 'eprivacy' === $the_options['cookie_usage_for'] ) {
-						$return_array['eu_status'] = 'off';
-					}
-					if ( 'both' === $the_options['cookie_usage_for'] ) {
-						$return_array['both_status'] = 'off';
-					}
+					$return_array['eu_status'] = 'off';
 				}
 			}
 			if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
