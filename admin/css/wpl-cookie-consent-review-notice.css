@@ -4,12 +4,12 @@
   flex-direction: column;
 }
 .gdpr-review-btns {
-  background-color: #2271b1;
+  background-color: var(--blue-1000);
   padding: 10px;
   max-width: 150px;
   text-align: center;
   border-radius: 2px;
-  color: white;
+  color: var(--white-100);
   border: solid 1px gray;
   cursor: pointer;
 }
@@ -25,7 +25,7 @@
   background-color: #135e96;
 }
 .gdpr-review-btns > a {
-  color: #fff;
+  color: var(--white-100);
   text-decoration: none;
 }
 .gdpr-review-already-done-btn > a > i,
@@ -48,7 +48,7 @@
   }
 }
 .gdpr-review-dismiss-btn > i {
-  font-size: 15px;
+  font-size: var(--text-sm-font-size);
 }
 .gdpr-review-dismiss-btn > .dashicons-dismiss:before {
   vertical-align: middle;

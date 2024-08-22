@@ -18,11 +18,11 @@ html {
 }
 
 .gdpr-main-heading {
-	color: #000;
+	color: var(--black-50);
 	font-family: Roboto;
 	font-size: 40px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
 	margin: auto 0;
 }
@@ -62,8 +62,8 @@ html {
 	width: 167px;
 	height: 43px;
 	flex-shrink: 0;
-	font-weight: bold;
-	color: white;
+	font-weight: var(--text-bold-font-weight);
+	color: var(--white-100);
 	border: 0 none;
 	border-radius: 0px;
 	cursor: pointer;
@@ -76,8 +76,8 @@ html {
 	width: 167px;
 	height: 43px;
 	flex-shrink: 0;
-	font-weight: bold;
-	color:	#39F;
+	font-weight: var(--text-bold-font-weight);
+	color:	var(--blue-904);
 	border: 0 none;
 	border-radius: 0px;
 	cursor: pointer;
@@ -95,15 +95,15 @@ html {
 
 .form, .previous-step {
 
-	color: #39F;
+	color: var(--blue-904);
 }
 
 .form, .next-step {
-	background: #39F;
+	background: var(--blue-904);
 }
 
 .form, .submit-button {
-	background: #39F;
+	background: var(--blue-904);
 }
 
 #gcc-save-settings-form-wizard .next-step:hover,
@@ -122,13 +122,13 @@ html {
 	width: 25%;
 	float: left;
 	position: relative;
-	font-weight: 400
+	font-weight: var(--text-regular-font-weight)
 }
 
 .line {
 	width: 100%;
 	height: 1px;
-	background-color: #ccc;
+	background-color: var(--gray-904);
   }
 
 .container {
@@ -138,7 +138,7 @@ html {
 .horizontal-line {
 	width: 100%;
 	height: 2px;
-	background-color: #ccc;
+	background-color: var(--gray-904);
 	position: absolute;
 	top: 50%;
 	left:0;
@@ -158,7 +158,7 @@ html {
 }
 
 .line-step-1{
-	background: #39F;
+	background: var(--blue-904);
 }
 
 .line-step-2,.left-side-line{
@@ -180,7 +180,7 @@ html {
 .step-images{
 	height:32px;
 	width:32px;
-	background-color: white;
+	background-color: var(--white-100);
 }
 
 .selected-step-img,.not-selected-step-img,.finish-step-img {
@@ -200,26 +200,26 @@ html {
 }
 
 .select-law-rule-label{
-    color: #000;
+    color: var(--black-50);
     font-size: 17px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: var(--text-regular-font-weight);
     line-height: normal;
 	margin-bottom: 20px;
 }
 
 .select-law-rule-options{
-    color: #000;
+    color: var(--black-50);
     font-size: 15px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: var(--text-regular-font-weight);
     line-height: normal;
 }
 .progress-bar-label{
-	color: #000;
-	font-size: 18px;
+	color: var(--black-50);
+	font-size: var(--text-lg-font-size);
 	font-style: normal;
-	font-weight: 500;
+	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
 }
 
@@ -236,26 +236,26 @@ html {
 .gdpr-options,.ccpa-options,.iab-options{
 	display:flex;
 	flex-direction:column;
-	color: #000;
+	color: var(--black-50);
 	font-size: 15px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
 }
 
 .gdpr-selection-label,.ccpa-selection-label,.enable-consent-log-content-label,.show-cookie-content-label,.show-cookie-template-label,.enable-script-blocker-label,.enable-respect-do-not-track-label,.enable-respect-data-request-label{
-	color: #000;
+	color: var(--black-50);
 	font-size: 17px;
 	font-style: normal;
-	font-weight: 500;
+	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
 }
 
 .enable-respect-data-request-shortcode-label{
-	color: #000;
+	color: var(--black-50);
 	font-size: 17px;
 	font-style: normal;
-	font-weight: 500;
+	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
 	left:-14px;
 }
@@ -286,7 +286,7 @@ html {
 	width: 33px;
 	height: 15px;
 	flex-shrink: 0;
-	background: #39F;
+	background: var(--blue-904);
 	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 	text-align: center;
 	margin-left: 15px;
@@ -295,10 +295,10 @@ html {
 }
 
 .gdpr-pro-label-text{
-	color: #FFF;
-	font-size: 12px;
+	color: var(--white-100);
+	font-size: var(--text-xs-font-size);
 	font-style: normal;
-	font-weight: 500;
+	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
 
 }
@@ -308,7 +308,7 @@ html {
  /* general tab content */
 
 .general-tab-content,.configure-tab-content,.finish-tab-content{
-	border: 0.5px solid #000;
+	border: 0.5px solid var(--black-50);
 }
 
 .configure-tab-content .vs__selected-options .vs__search {
@@ -379,7 +379,7 @@ html {
 
 
 .gdpr-templates-field-container-wizard {
-	font-size: 10px;
+	font-size: var(--text-2xs-font-size);
 }
 .gdpr-templates-field-container-wizard .gdpr-template-field {
 	margin: 10px 0;
@@ -468,7 +468,7 @@ html {
 }
 .gdpr-templates-field-container-wizard .btn {
 	display: inline-block;
-	font-weight: 400;
+	font-weight: var(--text-regular-font-weight);
 	text-align: center;
 	vertical-align: middle;
 	-webkit-user-select: none;
@@ -479,7 +479,7 @@ html {
 	background-color: transparent;
 	border: 1px solid transparent;
 	padding: 0.375rem 0.75rem;
-	font-size: 10px;
+	font-size: var(--text-2xs-font-size);
 	line-height: 1.5;
 	border-radius: 0;
 	text-transform: initial;
@@ -515,7 +515,7 @@ html {
 
 	width: 33px;
 	height: 15px;
-	background: #39F;
+	background: var(--blue-904);
 	text-align: center;
 	margin-left: 2%;
     margin-top: 1%;
@@ -532,8 +532,8 @@ html {
 	position: absolute;
 	top: 10px;
 	left: 15px;
-	color: #000;
-	font-weight: bold;
+	color: var(--black-50);
+	font-weight: var(--text-bold-font-weight);
   }
 
 /* Banner go pro templates  */
@@ -784,10 +784,10 @@ html {
 
 
 .thank-you-text{
-	color: #000;
-	font-size: 16px;
+	color: var(--black-50);
+	font-size: var(--text-base-font-size);
 	font-style: normal;
-	font-weight: 400;
+	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
 }
 
@@ -804,7 +804,7 @@ html {
 	height: 253px;
 	padding: 16px;
 	text-align: center;
-	background: #FFF;
+	background: var(--white-100);
 	box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.25), 4px 0px 12px 0px rgba(0, 0, 0, 0.25);
 
   }
@@ -827,31 +827,31 @@ html {
 .card-heading{
 	font-size: 15px;
 	font-style: normal;
-	font-weight: 500;
+	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
 	text-align: center;
 }
 .card-info{
-	color: #000;
+	color: var(--black-50);
 	text-align: center;
-	font-size: 14px;
+	font-size: var(--text-sm-font-size);
 	font-style: normal;
-	font-weight: 400;
+	font-weight: var(--text-regular-font-weight);
 	line-height: 1.2;
 	text-align: center;
 }
 .learn-more-link{
-	color: #39F;
+	color: var(--blue-904);
 	text-align: center;
-	font-size: 14px;
+	font-size: var(--text-sm-font-size);
 	font-style: normal;
-	font-weight: 400;
+	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
 	text-align: center;
 }
 
 .learn-more-link a{
-	color:#39F;
+	color:var(--blue-904);
 }
 
 .tab-card img {
@@ -951,8 +951,8 @@ html {
 .wizard_eu_safe_message{
     display: none;
     position: absolute;
-    background-color: black;
-    color:white;
+    background-color: var(--black-50);
+    color: var(--white-100);
     width:fit-content;
     padding:4px 6px;
     left:50px;

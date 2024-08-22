@@ -123,8 +123,8 @@ class Gdpr_Cookie_Consent_Admin {
 		 * class.
 		 */
 		wp_enqueue_style( 'wp-color-picker' );
-		wp_register_style( $this->plugin_name . '-variables', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-admin-variables' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name . '-variables' );
+		wp_register_style( $this->plugin_name . '-admin-variables', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-admin-variables' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . '-admin-variables' );
 		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-admin' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 		wp_register_style( $this->plugin_name . '-dashboard', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-dashboard' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 		// wizard style.

@@ -3,11 +3,11 @@
 	background-color: #72b85c;
 	padding: 10px;
 	width: 200px;
-	font-size: 18px;
+	font-size: var(--text-lg-font-size);
 	text-align: center;
 	border-radius: 5px;
 	display: none;
-	color: #fff;
+	color: var(--white-100);
 	margin-left: 50%;
 	margin-top: 1%;
 	top: 13%;
@@ -21,7 +21,7 @@
 	top: 0;
 	left: 0;
 	right: 0;
-	background-color: #fff;
+	background-color: var(--white-100);
 }
 
 .wpl_integrations_spinner {
@@ -46,20 +46,20 @@
 
 #wpl-cookie-consent-integrations-page {
 
-	background-color: #FFF;
+	background-color: var(--white-100);
 	/* margin-left: -20px; */
 	padding: 32px 0;
 	/*font-family: 'Lato', sans-serif;*/
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-	font-size: 14px;
-	line-height: 20px;
+	font-size: var(--text-sm-font-size);
+	line-height: var(--text-sm-line-height);
 	min-height: 750px;
-	color: #3c4b64;
+	color: var(--blue-903);
 	border-radius: 4px;
-	border-right: 1px solid var(--gray-200, #E4E4E7);
-	border-bottom: 1px solid var(--gray-200, #E4E4E7);
-	border-left: 1px solid var(--gray-200, #E4E4E7);
-	border-top: 1px solid var(--gray-200, #E4E4E7);
+	border-right: 1px solid var(--gray-200, var(--gray-200));
+	border-bottom: 1px solid var(--gray-200, var(--gray-200));
+	border-left: 1px solid var(--gray-200, var(--gray-200));
+	border-top: 1px solid var(--gray-200, var(--gray-200));
 }
 
 .wpl-cookie-consent-page-name {
@@ -68,7 +68,7 @@
 }
 
 .wpl-cookie-consent-integrations-form-container {
-	background-color: #fff;
+	background-color: var(--white-100);
 	width: 894px;
 	margin-top: 1rem;
 	padding: 1.5rem 2rem;
@@ -95,7 +95,7 @@
 .wpl-cookie-consent-register-area {
     padding: 9px;
     width: 100%;
-    font-size: 0.75rem;
+    font-size: var(--text-xs-font-size-rem);
     border-radius: 0.2rem;
     display: flex;
     align-items: center;
@@ -109,10 +109,10 @@
 
 #wpl-cookie-consent-register-area-description1,#wpl-cookie-consent-register-area-description2,#wpl-cookie-consent-support-text{
 	font-family: 'Roboto', sans-serif;
-	font-weight: 400 ;
-	font-size: 14px ;
-	line-height: 20px;
-	color: #52525B ;
+	font-weight: var(--text-regular-font-weight) ;
+	font-size: var(--text-sm-font-size) ;
+	line-height: var(--text-sm-line-height);
+	color:  var(--gray-600);
 }
 .wpl-cookie-consent-register-area-logo{
 	padding-left: 17.88px;
@@ -121,13 +121,13 @@
 #wpl-cookie-consent-license-input{
 	padding-left: 16px;
 	font-family: 'Roboto', sans-serif;
-	font-weight: 400 ;
-	font-size: 12px ;
-	line-height: 16px;
+	font-weight: var(--text-regular-font-weight) ;
+	font-size: var(--text-xs-font-size);
+	line-height: var(--text-xs-line-height);
 }
 
 #wpl-cookie-consent-database-input{
-	background-color: #F4F4F5;
+	background-color: var(--gray-100);
     padding-left: 16px;
 }
 
@@ -140,26 +140,26 @@
 }
 
 .wpl-cookie-consent-link {
-	color: #39f;
+	color: var(--blue-904);
 	text-decoration: none;
-	font-weight: 400 !important;
+	font-weight: var(--text-regular-font-weight) !important;
 }
 
 #guide-btn-integration{
 	font-family: 'Roboto', sans-serif;
-	font-weight: 500 ;
-	font-size: 20px ;
-	line-height: 20px;
-	color: #27272A;
+	font-weight: var(--text-regular-font-weight);
+	font-size: var(--text-xl-font-size);
+	line-height: var(--text-sm-line-height);
+	color: var(--gray-800);
 	margin-bottom: 10px;
 }
 
 .integraton-steps-description{
 	font-family: 'Roboto', sans-serif;
-	font-weight: 400 ;
-	font-size: 16px ;
-	line-height: 20px;
-	color: #71717A;
+	font-weight: var(--text-regular-font-weight) ;
+	font-size: var(--text-base-font-size);
+	line-height: var(--text-sm-line-height);
+	color: var(--gray-500);
 }
 
 #Geotargeting{
@@ -168,7 +168,7 @@
 }
 
 .wpl-cookie-consent-link:hover {
-	color: #39f;
+	color: var(--blue-904);
 	text-decoration: none;
 }
 
@@ -204,7 +204,7 @@
     width: calc(100% - 43px);
     bottom: 150px;
 	text-align: center;
-    background-color: #fff;
+    background-color: var(--white-100);
     padding: 15px;
     margin: 20px;
     box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
@@ -224,7 +224,7 @@
     width: calc(100% - 43px);
     bottom: 24px;
 	text-align: center;
-    background-color: #fff;
+    background-color: var(--white-100);
     padding: 15px;
     margin: 20px;
     box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
