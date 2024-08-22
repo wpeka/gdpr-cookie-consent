@@ -90,33 +90,28 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		?>
 
 		<div class="search-and-export-container">
-			<p class="search-box">
-				<label class="screen-reader-text"
-					for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html( $text ); ?>:</label>
-				<input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s"
-					value="<?php echo esc_html( $search ); ?>"/>
+			<div class="search-box">
+				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
+					<?php echo esc_html( $text ); ?>:
+				</label>
+				<input placeholder="Search Policy Data"type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
+				<img id="search-logo-policy-data" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 				<?php
 				submit_button(
 					$text,
 					'button',
 					false,
 					false,
-					array( 'ID' => 'search-submit' )
+					array( 'ID' => 'search-submit-policy-data' )
 				);
 				?>
-			</p>
-			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) ); ?>" target="_blank" class="button button-primary data-req-export-button"><?php esc_html_e( 'Export As CSV', 'gdpr-cookie-consent' ); ?></a>
-
-			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="button button-primary policy-import-button"><?php esc_html_e( 'Import From CSV', 'gdpr-cookie-consent' ); ?></a>
-
-			<a href="<?php echo esc_url_raw( admin_url( 'post-new.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="button button-primary policy-data-add-new-button"><?php esc_html_e( 'Add New', 'gdpr-cookie-consent' ); ?></a>
-
-			<?php
-
-			echo $this->resolved_select(); //phpcs:ignore
-
-			?>
+			</div>
 		</div>
+		<script type="text/javascript">
+			document.getElementById('search-logo-policy-data').addEventListener('click', function() {
+				document.getElementById('search-submit-policy-data').click();
+			});
+		</script>
 		<?php
 	}
 
@@ -166,31 +161,9 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 
 		$item_ID = $item['ID'];
 		$nonce   = wp_create_nonce( 'gdpr_policy_delete_nonce_' . $item_ID ); // Create nonce using the item's ID
-		$actions = array(
-			'edit'          => '<a href="' . admin_url( 'post.php?post=' . $item['ID'] . '&action=edit' ) . '">' . __( 'Edit', 'gdpr-cookie-consent' ) . '</a>',
-			'policy_delete' => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=policy_delete&id=' . $item['ID'] . '&_wpnonce=' . $nonce ) . '">' . __( 'Trash', 'gdpr-cookie-consent' ) . '</a>', // Add nonce to the delete action URL
-		);
-
 		switch ( $column_name ) {
 			case 'title':
-				$actions_to_be_inserted = $this->row_actions( $actions );
 				?>
-				<script>
-					jQuery(document).ready(function($) {
-						var itemId = <?php echo wp_json_encode( $item_ID ); ?>;
-
-						// Find the matching checkbox and its parent row
-						var matchingRow = jQuery("input[type='checkbox'][value='" + itemId + "']").closest('tr');
-						if (matchingRow.length) {
-							// Get the HTML content
-							var actionsHtml = <?php echo wp_json_encode( $actions_to_be_inserted ); ?>;
-
-							// Append the HTML to the row
-							jQuery(matchingRow).find('td.title').append(actionsHtml);
-						}
-					});
-
-				</script>
 
 				<?php
 				break;
@@ -199,7 +172,23 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 				break;
 		}
 	}
+	/**
+	 * Column name actions
+	 *
+	 * @param array $item
+	 *
+	 * @return string
+	 */
+	public function column_actions_policy_data( $item ) {
+		$item_ID = $item['ID'];
+		$nonce   = wp_create_nonce( 'gdpr_policy_delete_nonce_' . $item_ID ); // Create nonce using the item's ID
+		$actions = array(
+			'edit'          => '<a href="' . admin_url( 'post.php?post=' . $item['ID'] . '&action=edit' ) . '">' . __( 'Edit', 'gdpr-cookie-consent' ) . '</a>',
+			'policy_delete' => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=policy_delete&id=' . $item['ID'] . '&_wpnonce=' . $nonce ) . '">' . __( 'Trash', 'gdpr-cookie-consent' ) . '</a>', // Add nonce to the delete action URL
+		);
 
+		return $this->row_actions( $actions );
+	}
 	/**
 	 * Retrieve the table columns
 	 *
@@ -208,11 +197,12 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'          => '<input type="checkbox"/>',
-			'title'       => __( 'Company Name', 'gdpr-cookie-consent' ),
-			'gdprpurpose' => __( 'Policy Purpose', 'gdpr-cookie-consent' ),
-			'gdprlinks'   => __( 'Links', 'gdpr-cookie-consent' ),
-			'gdprdomain'  => __( 'Domain', 'gdpr-cookie-consent' ),
+			'cb'                  => '<input type="checkbox"/>',
+			'title'               => __( 'Company Name', 'gdpr-cookie-consent' ),
+			'gdprpurpose'         => __( 'Policy Purpose', 'gdpr-cookie-consent' ),
+			'gdprlinks'           => __( 'Links', 'gdpr-cookie-consent' ),
+			'gdprdomain'          => __( 'Domain', 'gdpr-cookie-consent' ),
+			'actions_policy_data' => __( 'Actions', 'gdpr-cookie-consent' ),
 		);
 
 		return apply_filters( 'wpl_report_customer_columns', $columns );
@@ -234,12 +224,13 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 		return array(
-			'request_date' => array( 'request_date', true ),
-			'title'        => array( 'title', true ),
-			'region'       => array( 'region', true ),
-			'gdprpurpose'  => array( 'gdprpurpose', true ),
-			'gdprlinks'    => array( 'gdprlinks', true ),
-			'gdprdomain'   => array( 'gdprdomain', true ),
+			'request_date'        => array( 'request_date', true ),
+			'title'               => array( 'title', true ),
+			'region'              => array( 'region', true ),
+			'gdprpurpose'         => array( 'gdprpurpose', true ),
+			'gdprlinks'           => array( 'gdprlinks', true ),
+			'gdprdomain'          => array( 'gdprdomain', true ),
+			'actions_policy_data' => array( 'actions_policy_data', true ),
 		);
 	}
 
@@ -251,10 +242,10 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions( $which = '' ) {
 
-		$actions = array(
+		$actions     = array(
 			'delete' => __( 'Move to Trash', 'gdpr-cookie-consent' ),
 		);
-
+		echo $this->resolved_select();
 		return $actions;
 	}
 

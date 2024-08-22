@@ -37,10 +37,11 @@
 #wpl-cookie-consent-overlay {
 	position: absolute;
 	display: none;
-	width: 1443px;
-	height: 100%;
+	width: 100%;
+	height: 98%;
 	background-color: rgba(0,0,0,0.25);
 	z-index: 2;
+	left:3px;
 }
 
 #wpl-cookie-consent-integrations-page {
@@ -68,11 +69,12 @@
 
 .wpl-cookie-consent-integrations-form-container {
 	background-color: #fff;
-	width: 90%;
+	width: 894px;
 	margin-top: 1rem;
 	padding: 1.5rem 2rem;
 	left: -63px;
     top: -11px;
+	margin-left:34px;
 }
 .wpl-cookie-consent-integrations-form .row .col-sm-8 col{
 	left : -107px;
@@ -85,20 +87,48 @@
 	width: 75% !important;
 }
 
-.wpl-cookie-consent-license-input {
-	width: 75% !important;
-}
 
 .wpl-cookie-consent-integrations-form-container .c-switch {
 	margin-bottom: 1rem;
 }
 
 .wpl-cookie-consent-register-area {
-	background-color: #c3e2f8;
-	padding: 9px;
-	width: 100%;
-	font-size: 0.75rem;
-	border-radius: 0.2rem;
+    padding: 9px;
+    width: 100%;
+    font-size: 0.75rem;
+    border-radius: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 7.87px;
+    box-shadow: 
+        0 0.32px 1.31px 0 rgba(12, 62, 138, 0.0139),
+        0 0.88px 3.63px 0 rgba(12, 62, 138, 0.02),
+        0 2.11px 8.74px 0 rgba(12, 62, 138, 0.0261),
+        0 7px 29px 0 rgba(12, 62, 138, 0.04);
+}
+
+#wpl-cookie-consent-register-area-description1,#wpl-cookie-consent-register-area-description2,#wpl-cookie-consent-support-text{
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400 ;
+	font-size: 14px ;
+	line-height: 20px;
+	color: #52525B ;
+}
+.wpl-cookie-consent-register-area-logo{
+	padding-left: 17.88px;
+}
+
+#wpl-cookie-consent-license-input{
+	padding-left: 16px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400 ;
+	font-size: 12px ;
+	line-height: 16px;
+}
+
+#wpl-cookie-consent-database-input{
+	background-color: #F4F4F5;
+    padding-left: 16px;
 }
 
 .wpl-cookie-consent-register-row {
@@ -112,6 +142,29 @@
 .wpl-cookie-consent-link {
 	color: #39f;
 	text-decoration: none;
+	font-weight: 400 !important;
+}
+
+#guide-btn-integration{
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500 ;
+	font-size: 20px ;
+	line-height: 20px;
+	color: #27272A;
+	margin-bottom: 10px;
+}
+
+.integraton-steps-description{
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400 ;
+	font-size: 16px ;
+	line-height: 20px;
+	color: #71717A;
+}
+
+#Geotargeting{
+	display: flex;
+	justify-content: space-between;
 }
 
 .wpl-cookie-consent-link:hover {
@@ -120,11 +173,17 @@
 }
 
 .wpl-cookie-consent-video-row {
-	margin-top: 2rem;
+	margin-top: 30px;
+}
+
+.integraiton-youtube-video-iframe{
+	height: 257px;
+    width: 552px;
+    border-radius: 12px;
 }
 
 .wpl-cookie-consent-support-row {
-	margin-top: 2rem;
+	margin-top: 40px;
 }
 
 .wpl-cookie-consent-save-button {
@@ -169,4 +228,8 @@
     padding: 15px;
     margin: 20px;
     box-shadow: rgba(0,0,0,0.1) 0 4px 6px -1px, rgba(0,0,0,0.06) 0 2px 4px -1px;
+}
+#maxmind-integration-save-settings-btn-container{
+	display: flex;
+	justify-content: flex-end;
 }
