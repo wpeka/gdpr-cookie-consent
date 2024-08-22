@@ -801,7 +801,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .gdpr_messagebar_detail .btn-sm,
 #gdpr-ccpa-gdprmodal .btn-sm {
 	padding: 0.25rem 0.5rem;
-	font-size: 11px;
+	font-size: var(--text-xs-font-size);
 	line-height: var(--text-lg-line-height);
 }
 
@@ -1363,10 +1363,10 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 		bottom: 0 !important;
 	}
 	.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-content {
-		font-size: 11px;
+		font-size: var(--text-xs-font-size);
 	}
 	#gdpr-cookie-consent-bar, #gdpr-cookie-consent-show-again {
-		font-size: 11px;
+		font-size: var(--text-xs-font-size);
 	}
 	#gdpr-cookie-consent-bar .gdpr_messagebar_content h3 {
 		font-size: var(--text-base-font-size);
