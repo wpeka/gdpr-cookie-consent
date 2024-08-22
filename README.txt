@@ -203,6 +203,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 = 3.4.2 =
 * New Features: Multi-Country Geo-Targeting: Added support for selecting multiple countries in the cookie banner geo-targeting settings. This allows for more precise targeting of visitors based on their location.
+* New Feature: Added translation support for 78 languages.
 
 = 3.4.1 =
 * New Feature: A/B Testing: Introduced A/B testing capabilities for cookie banners, allowing users to experiment with different banner designs and content to optimize user engagement and consent rates.
@@ -544,6 +545,8 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 = 3.4.2 =
 * New Features: Multi-Country Geo-Targeting: Added support for selecting multiple countries in the cookie banner geo-targeting settings. This allows for more precise targeting of visitors based on their location.
+* New Feature: Added translation support for 78 languages.
+
 
 = 3.4.1 =
 * New Feature: A/B Testing: Introduced A/B testing capabilities for cookie banners, allowing users to experiment with different banner designs and content to optimize user engagement and consent rates.
