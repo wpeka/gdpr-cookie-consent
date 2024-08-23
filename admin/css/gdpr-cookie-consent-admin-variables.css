@@ -20,6 +20,11 @@
   --text-xs-line-height: 16px;
   --text-xs-line-height-rem: 1rem; /* Equivalent to line-height in rem */
 
+  /* Other semantic text font-sizes */
+  --text-sem-13-font-size: 13px;
+  --text-sem-30-font-size: 30px;
+  --text-sem-60-font-size: 60px;
+
   --text-sm-font-size: 14px;
   --text-sm-font-size-rem: 0.875rem; /* Equivalent to size in rem */
   --text-sm-line-height: 20px;

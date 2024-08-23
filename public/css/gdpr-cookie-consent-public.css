@@ -166,7 +166,7 @@
 }
 .gdpr-plugin-button, .gdpr-plugin-button:visited,
 .medium.gdpr-plugin-button, .medium.gdpr-plugin-button:visited {
-	font-size: var(--text-xs-font-size);
+	font-size: var(--text-sem-13-font-size);
 	font-weight: var(--text-regular-font-weight);
 	line-height: var(--text-3xs-line-height);
 }
@@ -811,7 +811,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-content {
 	border:unset;
-	font-size: 13px;
+	font-size: var(--text-sem-13-font-size);
 	line-height: var(--text-lg-line-height);
 }
 .gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-content,

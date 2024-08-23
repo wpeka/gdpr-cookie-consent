@@ -88,7 +88,7 @@
 }
 .datarequest.column-datarequest a{
 	color: var(--blue-904);
-	font-size: var(--text-xs-font-size);
+	font-size: var(--text-sem-13-font-size);
 	font-style: normal;
 	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
@@ -275,7 +275,7 @@
 
 #wwpl-dnsmpd-filter-consent-log tbody td{
 	color: #333;
-	font-size: var(--text-xs-font-size);
+	font-size: var(--text-sem-13-font-size);
 	font-style: normal;
 	font-weight: 480;
 	line-height: normal;
@@ -357,14 +357,14 @@ input[type=checkbox]:checked::before {
 }
 #wpl-dnsmpd-filter-consent-log .row-actions .resolve a{
 	color: var(--blue-904);
-	font-size: var(--text-xs-font-size);
+	font-size: var(--text-sem-13-font-size);
 	font-style: normal;
 	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
 }
 #wpl-dnsmpd-filter-consent-log .row-actions .delete a{
 	color: #FF6969;
-	font-size: var(--text-xs-font-size);
+	font-size: var(--text-sem-13-font-size);
 	font-style: normal;
 	font-weight: var(--text-regular-font-weight);
 	line-height: normal;
