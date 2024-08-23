@@ -11,7 +11,6 @@
     font-weight: var(--text-semi-bold-font-weight);
     font-size: var(--text-sm-font-size);
     margin:5px 0;
-      border-bottom:1px solid #d9d9d9;
       padding:16px 10px;
       margin:0;
   }
@@ -54,8 +53,6 @@
     }
   
   .gdpr-gdpr-deactivate-popup-form-buttons-wrap{
-      background-color: #f1f1f1;
-      border-top:1px solid #d9d9d9;
       padding: 16px;
   }
   
@@ -78,21 +75,15 @@
   
   .gdpr-deactivate-popup-form-buttons>.gdpr-deactivate-delete-button{
       color: var(--white-100);
-      background-color: #930000;
-      border-color: #7a0000;
       display: none;
   }
   
   .gdpr-deactivate-popup-form-buttons>.gdpr-deactivate-button{
       color: var(--white-100);
-      background-color: #1B719E;
-      border-color: #005e85;
   }
   
   .gdpr-deactivate-popup-form-buttons>.gdpr-cancel-button{
-      color: #1B719E;
       background-color: var(--white-100);
-      border: solid 1px #1B719E;
   }
   .gdpr-deactivate-popup-form-description{
     padding:0 17px;
@@ -101,12 +92,4 @@
     font-size: var(--text-sm-font-size);
     color: var(--black-50);
   }
-  .gdpr-deactivate-delete-button:hover{
-    background-color: rgb(226, 92, 92);
-  }
-  .gdpr-deactivate-button:hover{
-    background-color: #143442;
-  }
-  .gdpr-cancel-button:hover{
-    background-color: rgb(201, 199, 199);
-  }
+ 

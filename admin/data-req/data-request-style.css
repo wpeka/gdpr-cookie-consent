@@ -29,7 +29,6 @@
 }
 
 #wpl-dnsmpd-filter-datarequest tbody td {
-  color: #333;
   font-size: var(--text-sem-13-font-size);
   font-style: normal;
   font-weight: var(--text-regular-font-weight);
@@ -64,7 +63,6 @@
   padding-right:20px;
 }
 #wpl-dnsmpd-filter-datarequest .row-actions .delete a {
-  color: #D92D20;
   font-family: 'Roboto', sans-serif;
   font-size: var(--text-sm-font-size);
   font-style: normal;
@@ -113,7 +111,6 @@
   width: 128px;
 	height: 36px;
 	margin-bottom: 20px;
-	border-color: #C6C6C6 !important;
 	background-color: var(--gray-100) !important;
 	font-family: "Poppins", sans-serif;
 	color: var(--gray-600) !important;
@@ -127,7 +124,6 @@
   right: 0;
   width: 120px;
   height: 40px;
-  border-color: #c6c6c6;
   color: var(--black-50);
   font-size: var(--text-base-font-size);
   font-style: normal;
@@ -139,7 +135,6 @@
   width: 128px;
 	height: 36px;
 	margin-bottom: 20px;
-	border-color: #C6C6C6;
 	background-color: var(--gray-100);
 	font-family: "Poppins", sans-serif;
 	color: var(--gray-600);
@@ -153,7 +148,6 @@
 #wpl-dnsmpd-filter-datarequest #doaction2 {
   height: 36px;
 	border-radius: 4px;
-	border: 1px solid #7195D0;
 	background: var(--white-100);
 	color: var(--blue-901);
 	font-family: 'Roboto', sans-serif;
@@ -164,12 +158,6 @@
 	width: 100px;
 	margin-left: 6px;
   margin-right: 20px;
-}
-
-#wpl-dnsmpd-filter-datarequest .current-page,
-#wpl-dnsmpd-filter-datarequest .next-page,
-#wpl-dnsmpd-filter-datarequest .last-page {
-  border-color: #3cf;
 }
 
 #wpl-dnsmpd-filter-datarequest .tablenav .tablenav-pages .button {
@@ -206,7 +194,6 @@
 	border-collapse: collapse;
 }
 #name, #email, #resolved, #datarequest, #date, #actions_resolve_delete{
-  background-color: #F4F4F5;
 	border:1px solid var(--gray-200);
 	border-collapse: collapse;
 }

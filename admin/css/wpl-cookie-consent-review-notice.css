@@ -10,7 +10,6 @@
   text-align: center;
   border-radius: 2px;
   color: var(--white-100);
-  border: solid 1px gray;
   cursor: pointer;
 }
 
@@ -21,9 +20,7 @@
   display: flex;
   flex-direction: row;
 }
-.gdpr-review-btns:hover {
-  background-color: #135e96;
-}
+
 .gdpr-review-btns > a {
   color: var(--white-100);
   text-decoration: none;
