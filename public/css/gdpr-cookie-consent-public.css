@@ -696,7 +696,7 @@ Bootstrap CSS for frontend UI
 	background-color: transparent;
 	border: 0 none transparent;
 	font-size: var(--text-sm-font-size);
-	line-height: var(--text-lg-line-height);
+	line-height: var(--text-sm-line-height);
 	text-transform: initial;
 	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
