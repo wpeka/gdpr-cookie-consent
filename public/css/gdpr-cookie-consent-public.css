@@ -165,7 +165,7 @@
 .gdpr-plugin-button, .gdpr-plugin-button:visited,
 .medium.gdpr-plugin-button, .medium.gdpr-plugin-button:visited {
 	font-size: var(--text-sem-13-font-size);
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: var(--text-3xs-line-height);
 }
 .large.gdpr-plugin-button, .large.gdpr-plugin-button:visited {

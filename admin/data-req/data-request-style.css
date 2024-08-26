@@ -13,7 +13,7 @@
   font-family: 'Roboto', sans-serif;
   font-size: var(--text-xl-font-size) !important;
   font-style: normal;
-  font-weight: var(--text-regular-font-weight) !important;
+  font-weight: var(--text-medium-font-weight) !important;
   line-height: normal;
   margin-right: 20px !important;
 }
@@ -24,7 +24,7 @@
   color: var(--gray-700);
   font-size: var(--text-sm-font-size);
   font-style: normal;
-  font-weight: var(--text-regular-font-weight);
+  font-weight: var(--text-medium-font-weight);
   line-height: normal;
 }
 
@@ -116,7 +116,7 @@
 	color: var(--gray-600) !important;
 	font-size: var(--text-xs-font-size) !important;
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
   margin-left:20px;
 }
@@ -140,7 +140,7 @@
 	color: var(--gray-600);
 	font-size: var(--text-xs-font-size);
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 }
 

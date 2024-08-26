@@ -120,7 +120,7 @@
 	color: var(--blue-500);
 	font-size: var(--text-base-font-size);
     margin-left: 5px;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 }
 
 .gdpr-progress-list-column {
@@ -235,7 +235,7 @@
 .gdpr-quick-link-caption {
 	margin-top: 15px;
 	font-size: var(--text-base-font-size);
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 }
 
 .gdpr-quick-link-description{
@@ -485,7 +485,7 @@
 	color: var(--blue-903);
 	font-size: var(--text-sm-font-size);
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 }
 
@@ -807,13 +807,13 @@
 .gdpr-other-plugin-caption {
 	margin-top: 18px;
 	font-size: var(--text-lg-font-size);
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 }
 
 .gdpr-help-caption {
 	margin-top: 18px;
 	font-size: var(--text-lg-font-size);
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 }
 
 .gdpr-other-plugin-description{

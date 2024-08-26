@@ -172,7 +172,7 @@ html {
     color: var(--black-50);
     font-size: 17px;
     font-style: normal;
-    font-weight: var(--text-regular-font-weight);
+    font-weight: var(--text-medium-font-weight);
     line-height: normal;
 	margin-bottom: 20px;
 }
@@ -181,14 +181,14 @@ html {
     color: var(--black-50);
     font-size: 15px;
     font-style: normal;
-    font-weight: var(--text-regular-font-weight);
+    font-weight: var(--text-medium-font-weight);
     line-height: normal;
 }
 .progress-bar-label{
 	color: var(--black-50);
 	font-size: var(--text-lg-font-size);
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 }
 
@@ -216,7 +216,7 @@ html {
 	color: var(--black-50);
 	font-size: 17px;
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 }
 
@@ -224,7 +224,7 @@ html {
 	color: var(--black-50);
 	font-size: 17px;
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 	left:-14px;
 }
@@ -267,7 +267,7 @@ html {
 	color: var(--white-100);
 	font-size: var(--text-xs-font-size);
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 
 }
@@ -790,7 +790,7 @@ html {
 .card-heading{
 	font-size: 15px;
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 	text-align: center;
 }

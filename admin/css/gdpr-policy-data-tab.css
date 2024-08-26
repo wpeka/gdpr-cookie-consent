@@ -13,14 +13,14 @@
   font-family: 'Roboto', sans-serif;
   font-size: var(--text-xl-font-size) !important;
   font-style: normal;
-  font-weight: var(--text-regular-font-weight) !important;
+  font-weight: var(--text-medium-font-weight) !important;
   line-height: normal;
   margin-right: 20px !important;
 }
 .data-req-export-button{
 	color:var(--blue-901);
 	font-family: 'Roboto', sans-serif;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	font-size: var(--text-xs-font-size);
 	line-height: var(--text-sm-line-height);
     margin-top: 13px;
@@ -37,7 +37,7 @@
 	color: var(--gray-700);
 	font-size: var(--text-sm-font-size);
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 }
 
@@ -169,7 +169,7 @@
 	color: var(--gray-600);
 	font-size: var(--text-xs-font-size);
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 	margin-left:20px;
 }
@@ -182,7 +182,7 @@
 	color: var(--gray-600);
 	font-size: var(--text-xs-font-size);
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 }
 
@@ -261,7 +261,7 @@
 	font-size: var(--text-sm-font-size);
 	font-family: 'Roboto', sans-serif;
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: var(--text-sm-line-height);
 }
 
@@ -411,7 +411,7 @@ input[type=checkbox]:checked::before {
 	color: var(--gray-600);
 	font-size: var(--text-xs-font-size);
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 }
 #wpl_resolved_select_consent_log{
@@ -423,7 +423,7 @@ input[type=checkbox]:checked::before {
 	color: var(--gray-600);
 	font-size: var(--text-xs-font-size);
 	font-style: normal;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 	margin-left:20px;
 }

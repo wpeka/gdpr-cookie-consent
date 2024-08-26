@@ -146,7 +146,7 @@
 
 #guide-btn-integration{
 	font-family: 'Roboto', sans-serif;
-	font-weight: var(--text-regular-font-weight);
+	font-weight: var(--text-medium-font-weight);
 	font-size: var(--text-xl-font-size);
 	line-height: var(--text-sm-line-height);
 	color: var(--gray-800);
