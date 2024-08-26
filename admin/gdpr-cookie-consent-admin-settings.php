@@ -863,7 +863,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<div class="gdpr-visitors-condition">
 										<div v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa'">
-											<div><input class="gdpr-visiotrs-condition-radio-btn" type="radio" name="gcc-worldwide-enable" value="yes" v-model="selectedRadioWorldWide" @click="onSwitchWorldWideEnable"><label><?php esc_attr_e( 'Worldwide', 'gdpr-cookie-consent' ); ?></label></div>
+											<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable"v-model="selectedRadioWorldWide" @click="onSwitchWorldWideEnable"><label><?php esc_attr_e( 'Worldwide', 'gdpr-cookie-consent' ); ?></label></div>
 											<div>
 												<input type="hidden" name="gcc-worldwide-enable" v-model="is_worldwide_on">
 											</div>
@@ -873,7 +873,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												$geo_options = get_option( 'wpl_geo_options' );
 												if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
 													?>
-													<div><input id="gdpr-visitors-condition-radio-btn-disabled-gdpr"class="gdpr-visiotrs-condition-radio-btn" type="radio" name="gcc-eu-enable" disabled><label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
+													<div><input id="gdpr-visitors-condition-radio-btn-disabled-gdpr"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled><label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
 													<p class=" gdpr-eu_visitors_message-gdpr">
 														<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
 													</p>
@@ -888,7 +888,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 															</div>
 														</div>
 												<?php else : ?>
-													<div><input class="gdpr-visiotrs-condition-radio-btn" type="radio" name="gcc-eu-enable" value="yes"v-model="selectedRadioGdpr" @click="onSwitchEUEnable"><label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
+													<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" v-model="selectedRadioGdpr" @click="onSwitchEUEnable($event.target.checked)"><label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
 														<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
 														<div v-show="enable_safe" class="overlay_eu_visitors">
 															<div class="overlay_eu_visitors_message">
@@ -907,7 +907,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												$geo_options = get_option( 'wpl_geo_options' );
 											if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
 												?>
-													<div><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa"class="gdpr-visiotrs-condition-radio-btn" type="radio" name="gcc-eu-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+													<div><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 													<p class=" gdpr-eu_visitors_message-ccpa">
 													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
 													</p>
@@ -922,7 +922,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													</div>
 												</div>
 												<?php else : ?>
-											<div><input class="gdpr-visiotrs-condition-radio-btn" type="radio" name="gcc-ccpa-enable"value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable"><label><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+											<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable($event.target.checked)"><label><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 													<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
 												<div v-show="enable_safe "class="overlay_eu_visitors">
 													<div class="overlay_eu_visitors_message">
@@ -941,20 +941,20 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												$geo_options = get_option( 'wpl_geo_options' );
 											if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
 												?>
-													<div><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="radio" name="gcc-select-countries-enable"disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+													<div><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="checkbox" name="gcc-select-countries-enable"disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 													<p class=" gdpr-eu_visitors_message-both">
 													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
 													</p>
 												<?php else : ?>
-												<div><input class="gdpr-visiotrs-condition-radio-btn" type="radio" name="gcc-select-countries-enable" value="yes" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable"><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+												<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 												<input type="hidden" name="gcc-select-countries-enable" v-model="is_selectedCountry_on">
 												<?php endif; ?>
-										</div>
-										</div>
-										<div class="select-countries-dropdown" v-show="(is_selectedCountry_on) && ( gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa' )">
-											<v-select id="gdpr-cookie-consent-geotargeting-countries" placeholder="Select Countries":reduce="label => label.code" class="form-group" :options="list_of_countries" multiple v-model="select_countries_array" @input="onCountrySelect"></v-select>
-											<input type="hidden" name="gcc-selected-countries" v-model="select_countries">
-										</div>
+												</div>
+												</div>
+												<div class="select-countries-dropdown" v-show="(is_selectedCountry_on) && ( gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa' )">
+													<v-select id="gdpr-cookie-consent-geotargeting-countries" placeholder="Select Countries":reduce="label => label.code" class="form-group" :options="list_of_countries" multiple v-model="select_countries_array" @input="onCountrySelect"></v-select>
+													<input type="hidden" name="gcc-selected-countries" v-model="select_countries">
+												</div>
 								<!-- Privacy Policy Settings -->
 								<c-row v-show="show_revoke_card || is_lgpd">
 									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
