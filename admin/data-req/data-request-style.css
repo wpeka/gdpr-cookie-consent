@@ -1,7 +1,7 @@
 /* Data request report */
 
 .wpl-content-area {
-  background-color: white;
+  background-color: var(--white-100);
   padding: 30px;
 }
 .wpl-heading-export-consentlogs,.wpl-heading-export-datarequest{
@@ -9,11 +9,11 @@
     justify-content: space-between;
 }
 .wp-heading{
-  color: #000;
+  color: var(--black-50);
   font-family: 'Roboto', sans-serif;
-  font-size: 20px !important;
+  font-size: var(--text-xl-font-size) !important;
   font-style: normal;
-  font-weight: 500 !important;
+  font-weight: var(--text-medium-font-weight) !important;
   line-height: normal;
   margin-right: 20px !important;
 }
@@ -21,18 +21,17 @@
   display: none;
 }
 #wpl-dnsmpd-filter-datarequest .manage-column a span {
-  color: #3F3F46;
-  font-size: 14px;
+  color: var(--gray-700);
+  font-size: var(--text-sm-font-size);
   font-style: normal;
-  font-weight: 500;
+  font-weight: var(--text-medium-font-weight);
   line-height: normal;
 }
 
 #wpl-dnsmpd-filter-datarequest tbody td {
-  color: #333;
-  font-size: 13px;
+  font-size: var(--text-sem-13-font-size);
   font-style: normal;
-  font-weight: 480;
+  font-weight: var(--text-regular-font-weight);
   line-height: normal;
 }
 #wpl-dnsmpd-filter-datarequest table thead tr th {
@@ -55,29 +54,28 @@
   left: 0;
 }
 #wpl-dnsmpd-filter-datarequest .row-actions .resolve a {
-  color: #0059B3;
+  color: var(--blue-500);
   font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+  font-size: var(--text-sm-font-size);
   font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
+  font-weight: var(--text-regular-font-weight);
+  line-height: var(--text-sm-line-height);
   padding-right:20px;
 }
 #wpl-dnsmpd-filter-datarequest .row-actions .delete a {
-  color: #D92D20;
   font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+  font-size: var(--text-sm-font-size);
   font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
+  font-weight: var(--text-regular-font-weight);
+  line-height: var(--text-sm-line-height);
   padding-left:20px;
 }
 
 .datarequest.column-datarequest a {
-  color: #39f;
-  font-size: 14px;
+  color: var(--blue-904);
+  font-size: var(--text-sm-font-size);
   font-style: normal;
-  font-weight: 400;
+  font-weight: var(--text-regular-font-weight);
   line-height: normal;
 }
 .search-and-export-container {
@@ -98,13 +96,13 @@
 #wpl-dnsmpd-filter-datarequest .search-box #search-submit-data {
   height: 40px;
   margin: 0 15px;
-  color: #39f;
-  font-size: 16px;
+  color: var(--blue-904);
+  font-size: var(--text-base-font-size);
   font-style: normal;
-  font-weight: 400;
+  font-weight: var(--text-regular-font-weight);
   line-height: normal;
   padding: 0px 20px;
-  border-color: #39f;
+  border-color: var(--blue-904);
 }
 #search-submit-data{
   display: none;
@@ -113,13 +111,12 @@
   width: 128px;
 	height: 36px;
 	margin-bottom: 20px;
-	border-color: #C6C6C6 !important;
-	background-color: #F4F4F5 !important;
+	background-color: var(--gray-100) !important;
 	font-family: "Poppins", sans-serif;
-	color: #52525B !important;
-	font-size: 12px !important;
+	color: var(--gray-600) !important;
+	font-size: var(--text-xs-font-size) !important;
 	font-style: normal;
-	font-weight: 500;
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
   margin-left:20px;
 }
@@ -127,11 +124,10 @@
   right: 0;
   width: 120px;
   height: 40px;
-  border-color: #c6c6c6;
-  color: #000;
-  font-size: 16px;
+  color: var(--black-50);
+  font-size: var(--text-base-font-size);
   font-style: normal;
-  font-weight: 400;
+  font-weight: var(--text-regular-font-weight);
   line-height: normal;
 }
 #wpl-dnsmpd-filter-datarequest #bulk-action-selector-top,
@@ -139,13 +135,12 @@
   width: 128px;
 	height: 36px;
 	margin-bottom: 20px;
-	border-color: #C6C6C6;
-	background-color: #f4f4f5;
+	background-color: var(--gray-100);
 	font-family: "Poppins", sans-serif;
-	color: #52525B;
-	font-size: 12px;
+	color: var(--gray-600);
+	font-size: var(--text-xs-font-size);
 	font-style: normal;
-	font-weight: 500;
+	font-weight: var(--text-medium-font-weight);
 	line-height: normal;
 }
 
@@ -153,23 +148,16 @@
 #wpl-dnsmpd-filter-datarequest #doaction2 {
   height: 36px;
 	border-radius: 4px;
-	border: 1px solid #7195D0;
-	background: #FFFFFF;
-	color: #2A4A7E;
+	background: var(--white-100);
+	color: var(--blue-901);
 	font-family: 'Roboto', sans-serif;
-	font-size: 14px;
+	font-size: var(--text-sm-font-size);
 	font-style: normal;
-	font-weight: 600;
+	font-weight: var(--text-semi-bold-font-weight);
 	line-height: normal;
 	width: 100px;
 	margin-left: 6px;
   margin-right: 20px;
-}
-
-#wpl-dnsmpd-filter-datarequest .current-page,
-#wpl-dnsmpd-filter-datarequest .next-page,
-#wpl-dnsmpd-filter-datarequest .last-page {
-  border-color: #3cf;
 }
 
 #wpl-dnsmpd-filter-datarequest .tablenav .tablenav-pages .button {
@@ -184,11 +172,11 @@
 #dataRequestContainer.wpl.wrap {
   margin: 0;
   border-radius: 4px;
-  border-right: 1px solid var(--Gray-200, #e4e4e7);
-  border-bottom: 1px solid var(--Gray-200, #e4e4e7);
-  border-left: 1px solid var(--Gray-200, #e4e4e7);
-  background: var(--white, #fff);
-  border-top: 1px solid var(--Gray-200, #e4e4e7);
+  border-right: 1px solid var(--Gray-200, var(--gray-200));
+  border-bottom: 1px solid var(--Gray-200, var(--gray-200));
+  border-left: 1px solid var(--Gray-200, var(--gray-200));
+  background: var(--white, var(--white-100));
+  border-top: 1px solid var(--Gray-200, var(--gray-200));
 }
 #dataRequestContainer .wpl-datarequests .notice.notice-error {
   display: none;
@@ -197,17 +185,16 @@
   display: none;
 }
 .name, .email, .resolved, .datarequest, .date, .actions_resolve_delete{
-  color:#3F3F46;
-	font-size: 14px !important;
-	line-height: 20px;
-	font-weight: 400 !important;
+  color:var(--gray-700);
+	font-size: var(--text-sm-font-size) !important;
+	line-height: var(--text-sm-line-height);
+	font-weight: var(--text-regular-font-weight) !important;
 	font-family: 'Roboto', sans-serif;
-	border:1px solid #E4E4E7;
+	border:1px solid var(--gray-200);
 	border-collapse: collapse;
 }
 #name, #email, #resolved, #datarequest, #date, #actions_resolve_delete{
-  background-color: #F4F4F5;
-	border:1px solid #E4E4E7;
+	border:1px solid var(--gray-200);
 	border-collapse: collapse;
 }
 #wpl-dnsmpd-filter-datarequest .row-actions{
@@ -215,7 +202,7 @@
 }
 .widefat tbody th.check-column{
 	padding: 16px 0 0 3px;
-  border:1px solid #E4E4E7;
+  border:1px solid var(--gray-200);
 }
 .widefat .check-column{
 	width: 4.2em;
@@ -224,7 +211,7 @@
 	margin: 0 0 0 16px;
 }
 input[type=checkbox]{
-	border: 1px solid #E4E4E7;
+	border: 1px solid var(--gray-200);
 	height:20px;
 	width:20px;
 	box-shadow: none;
