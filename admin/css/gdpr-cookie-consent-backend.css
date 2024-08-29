@@ -702,16 +702,12 @@ a .export-btn:hover {
 	background: #EEF6FF;
 }
 .gdpr-green-progress {
-	background-color: #daf2cb;
-	border-left: 2px solid #68cb26;
-	color: #68cb26;
+	background-color: #F0FDF4;
+	color: #166534;
+	height: 50px;
+	border-radius: 4px;
 }
 
-.gdpr-gray-progress {
-	background-color: #ececec;
-	border-left: 2px solid #7f7f7f;
-	color: #7f7f7f;
-}
 .gdpr-quick-link-item {
 	border: 1px solid #D4D4D8;
 }
@@ -908,4 +904,14 @@ a .export-btn:hover {
 }
 #name, #email, #resolved, #datarequest, #date, #actions_resolve_delete{
 	background-color: #F4F4F5;
+}
+.gdpr-progress-list-link {
+	color: #115CA7;
+}
+.gdpr-progress-list-link:active {
+	color: #115CA7 !important;
+}
+
+.gdpr-progress-list-link:hover {
+	color: #115CA7;
 }

@@ -200,8 +200,52 @@ if ( 200 === $response_status ) {
 						</div>
 					</div>
 					</c-col>
-					<c-col class="col-sm-7 gdpr-progress-list-column">
-						<c-row :class="['gdpr-progress-list-item', !other_plugins_active ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+					<c-col class="col-sm-1">
+						<ul id="vertical-progressbar">
+							<li id="step1" class="active">
+								<div class="progress-step"> 
+									<div class="container">
+										<div class="vertical-line vertical-line-step-init"></div>
+										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/greentick.svg'; ?>" class="step-images vertical-selected-step-img">
+										<div class="vertical-line vertical-line-step-1"></div>
+							</li> 
+							<li id="step2" class="active">
+								<div class="progress-step"> 
+									<div class="container">							
+										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
+										<div class="vertical-line vertical-line-step-2"></div> 
+									</div>
+								</div>
+							</li> 
+							<li id="step3">
+								<div class="progress-step">
+									<div class="container">
+										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
+										<div class="vertical-line vertical-line-step-3"></div> 
+									</div>
+								</div>
+							</li> 
+							<li id="step4">
+								<div class="progress-step">
+									<div class="container">
+										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
+										<div class="vertical-line vertical-line-step-4"></div> 
+									</div>
+								</div>
+							</li>
+							<li id="step5">
+								<div class="progress-step">
+									<div class="container">
+										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
+										<div class="vertical-line vertical-line-step-5"></div> 
+									</div>
+								</div>
+							</li>
+						</ul>
+					</c-col>
+					<c-col class="col-sm-6 gdpr-progress-list-column">
+					<div class="tasks-heading"></div>
+						<c-row :class="['gdpr-progress-list-item','vstep1', !other_plugins_active ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span v-show="!other_plugins_active">
 								<?php esc_html_e( 'No other cookies plugin detected.', 'gdpr-cookie-consent' ); ?>
 							</span>
@@ -210,7 +254,16 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="plugin_page_url"><?php esc_html_e( ' Turn them off to avoid conflict.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
-						<c-row :class="['gdpr-progress-list-item', (pro_installed && pro_activated && api_key_activated && cookie_scanned)||(!pro_installed && is_user_connected && cookie_scanned) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+						<c-row :class="['gdpr-progress-list-item','vstep2', showing_cookie_notice ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+							<span v-show="showing_cookie_notice">
+								<?php esc_html_e( 'Showing Cookie Notice on Website.', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<span class="gdpr_notice_configure_link" v-show="!showing_cookie_notice">
+								<?php esc_html_e( 'Cookie Notice disabled.', 'gdpr-cookie-consent' ); ?>
+								<a class="gdpr-progress-list-link" :href="show_cookie_url"><?php esc_html_e( 'Click here to configure.', 'gdpr-cookie-consent' ); ?></a>
+							</span>
+						</c-row>
+						<c-row :class="['gdpr-progress-list-item','vstep3', (pro_installed && pro_activated && api_key_activated && cookie_scanned)||(!pro_installed && is_user_connected && cookie_scanned) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span class="gdpr_scan_again_link" v-show="api_key_activated && cookie_scanned">
 								<?php esc_html_e( 'Cookies were last scanned on ', 'gdpr-cookie-consent' ); ?>
 								{{last_scanned + '.'}}
@@ -245,16 +298,8 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e( 'Scan now.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
-						<c-row :class="['gdpr-progress-list-item', showing_cookie_notice ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
-							<span v-show="showing_cookie_notice">
-								<?php esc_html_e( 'Showing Cookie Notice on Website.', 'gdpr-cookie-consent' ); ?>
-							</span>
-							<span class="gdpr_notice_configure_link" v-show="!showing_cookie_notice">
-								<?php esc_html_e( 'Cookie Notice disabled.', 'gdpr-cookie-consent' ); ?>
-								<a class="gdpr-progress-list-link" :href="show_cookie_url"><?php esc_html_e( 'Click here to configure.', 'gdpr-cookie-consent' ); ?></a>
-							</span>
-						</c-row>
-						<c-row :class="['gdpr-progress-list-item', (pro_installed && pro_activated && api_key_activated)||(!pro_installed && is_user_connected) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+						
+						<c-row :class="['gdpr-progress-list-item','vstep4', (pro_installed && pro_activated && api_key_activated)||(!pro_installed && is_user_connected) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span v-show="pro_installed && pro_activated && api_key_activated">
 								<?php esc_html_e( 'GDPR Pro activated.', 'gdpr-cookie-consent' ); ?>
 							</span>
@@ -276,7 +321,7 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
-						<c-row :class="['gdpr-progress-list-item', (pro_installed && pro_activated && api_key_activated  && maxmind_integrated)||(!pro_installed && is_user_connected && maxmind_integrated ) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+						<c-row :class="['gdpr-progress-list-item','vstep5', (pro_installed && pro_activated && api_key_activated  && maxmind_integrated)||(!pro_installed && is_user_connected && maxmind_integrated ) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span v-show="pro_installed && pro_activated && api_key_activated && maxmind_integrated">
 								<?php esc_html_e( 'Integrated with Maxmind.', 'gdpr-cookie-consent' ); ?>
 							</span>
@@ -308,6 +353,7 @@ if ( 200 === $response_status ) {
 							</span>
 						</c-row>
 					</c-col>
+					
 				</c-row>
 			</c-card-body>
 		</c-card>
@@ -587,3 +633,44 @@ if ( 200 === $response_status ) {
 		</c-card>
 	</c-container>
 </div>
+<!-- jQuery for steps progressbar -->
+<script>
+
+jQuery(document).ready(function () {
+	var plugin_url = "<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL; ?>";
+	if(jQuery(".vstep1").hasClass("gdpr-green-progress")){
+		jQuery("#vertical-progressbar #step1 img").attr("src",plugin_url+"admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-1").css("background","var(--green-700)");
+	}
+	if(jQuery(".vstep2").hasClass("gdpr-green-progress")){
+		jQuery("#vertical-progressbar #step2 img").attr("src",plugin_url+"admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-2").css("background","var(--green-700)");
+
+	}
+	if(jQuery(".vstep3").hasClass("gdpr-green-progress")){
+		jQuery("#vertical-progressbar #step3 img").attr("src",plugin_url+"admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-3").css("background","var(--green-700)");
+
+	}
+	if(jQuery(".vstep4").hasClass("gdpr-green-progress")){
+		jQuery("#vertical-progressbar #step4 img").attr("src",plugin_url+"admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-4").css("background","var(--green-700)");
+
+	}
+	if(jQuery(".vstep5").hasClass("gdpr-green-progress")){
+		jQuery("#vertical-progressbar #step5 img").attr("src",plugin_url+"admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-5").css("background","var(--green-700)");
+
+	}
+	// Count the number of divs with the class gdpr-gray-progress
+    var progcount = jQuery('#gdpr-cookie-consent-dashboard-page .gdpr-gray-progress').length;
+    
+    // Update the sentence with the count
+	if(progcount > 0){
+    	jQuery('.tasks-heading').text('You still have ' + progcount + ' tasks open.');
+	}
+	else{
+    	jQuery('.tasks-heading').text('You have 0 tasks open.');
+	}
+});
+</script>
