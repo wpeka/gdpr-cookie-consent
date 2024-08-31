@@ -88,7 +88,6 @@ var gen = new Vue({
 			view_all_logs:  require('../admin/images/dashboard-icons/summary/view-all-logs.png'),
 			policy_icon:   require('../admin/images/dashboard-icons/summary/vector.svg'),
 			admin_icon: require('../admin/images/dashboard-icons/summary/admin.svg'),
-			green_tick_img: require('../admin/images/greentick.svg'),
 			highlight_variant: 'outline',
 			decline_log: dashboard_options.hasOwnProperty('decline_log') ? dashboard_options['decline_log'] : 0,
 			accept_log: dashboard_options.hasOwnProperty('accept_log') ? dashboard_options['accept_log'] : 0,
@@ -229,7 +228,3 @@ var gen = new Vue({
 		this.setValues();
 	}
 })
-jQuery(document).ready(function(){
-	var al = dashboard_options['plugin_page_url'];
-	alert('al='+al);
-});
