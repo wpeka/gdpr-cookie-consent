@@ -358,6 +358,36 @@ if ( 200 === $response_status ) {
 			</c-card-body>
 		</c-card>
 		<!-- cookie insights and cookie summary card  -->
+		<!-- Card for dashboard cookie banner -->
+		<c-card class="gdpr-dashboard-quick-banner-section">
+				<div class="gdpr-banner-preview-save-btn">
+					<div class="gdpr-banner-preview-logo-text">
+						<div class="gdpr-banner-preview-logo">
+							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cookie-img.svg'; ?>" alt="Cookie Setting preview logo">
+						</div>
+						<div class="gdpr-banner-preview-text">
+							<span id="gdpr-banner-preview-cookie-banner-title">
+								<?php esc_html_e( 'Your Site\'s Cookie Banner', 'gdpr-cookie-consent' ); ?>
+							</span><br>
+							<span id="gdpr-banner-preview-cookie-banner-description">
+								<?php esc_html_e( 'The banner currently displayed on your website.', 'gdpr-cookie-consent' ); ?>
+							</span>
+						</div>
+					</div>
+				<div class="gdpr-preview-publish-btn">
+				<a href="javascript:void(0)" class="gdpr-configure-banner-btn"><?php esc_html_e( 'Configure Banner', 'gdpr-cookie-consent' ); ?><span class="dashicons dashicons-admin-customizer"></span></a>
+
+						<div class="gdpr-preview-toggle-btn">
+							<label class="gdpr-btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
+								<c-switch class="gdpr-btn-switch" v-model="banner_preview_is_on" id="gdpr-banner-preview-dash" variant="3d"  color="success" ></c-switch>
+								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
+								
+							</div>
+
+					</div>
+			</div>
+		</c-card>
+		<!-- Card for dashboard cookie banner -->
 
 		<!-- There is no user generated data so there is no escape needed for the below variable -->
 		<?php echo $api_gdpr_dashboard; //phpcs:ignore ?>  
@@ -672,5 +702,38 @@ jQuery(document).ready(function () {
 	else{
     	jQuery('.tasks-heading').text('You have 0 tasks open.');
 	}
+
+	// Added for banner quick preview 
+
+   var clonepreviewbanner = jQuery('.gdpr-cookie-consent-admin-cookie-settings-content #banner-preview-main-container').clone();
+
+	// Listen for changes on the checkbox
+	jQuery('#gdpr-banner-preview-dash').change(function() {
+		// Check if the checkbox is checked
+		if (jQuery(this).is(':checked')) {
+			if (!jQuery('.gdpr-cookie-consent-admin-dashboard-content').find(clonepreviewbanner).length) {
+				jQuery('.gdpr-cookie-consent-admin-dashboard-content').append(clonepreviewbanner);
+			}
+
+			clonepreviewbanner.css({
+				'display': 'block',
+				'visibility': 'visible'
+			});
+		} else {
+			// Hide the content if the checkbox is unchecked
+			clonepreviewbanner.css({
+				'display': 'none',
+				'visibility': 'hidden'
+			});
+		}
+	});
+
+	//Added to redirect to the cookie settings tab on click on Configure Banner button in dashboard
+	jQuery('.gdpr-configure-banner-btn').click(function(){
+		jQuery('.gdpr-cookie-consent-admin-cookie-settings-tab').addClass('active-tab');
+		jQuery('#cookie_settings').css('display','block');
+		jQuery('#gdpr_dashboard').css('display','none');
+		jQuery('.gdpr-cookie-consent-admin-dashboard-tab').removeClass('active-tab');
+	});
 });
 </script>

@@ -693,9 +693,10 @@ a .export-btn:hover {
 #gdpr-cookie-consent-dashboard-page {
 	background-color: #F0F0F1;
 }
-.gdpr-progress-circle-column {
+.gdpr-progress-circle-column,
+.gdpr-dashboard-quick-banner-section {
 	border: 1px solid #FAFAFA;
-    box-shadow: 0px 7px 29px 0px #0C3E8A0A;
+    box-shadow: 0px 0.32px 1.31px 0px #0C3E8A04,0px 0.88px 3.63px 0px #0C3E8A05,0px 2.11px 8.74px 0px #0C3E8A07,0px 7px 29px 0px #0C3E8A0A;
 }
 .progress-bar-caption-button{
 	border: 1px solid #0059B31F;

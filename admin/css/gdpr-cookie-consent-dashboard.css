@@ -671,6 +671,7 @@
 	margin-top: 0;
 	padding-left: 0;
 	padding-right: 0;
+	background-color: var(--white-100);
 }
 
 #gdpr-cookie-consent-dashboard-page .gdpr-cookie-consent-dashboard-container .card.gdpr-progress-bar-card{
@@ -868,7 +869,7 @@
     padding: 0;
     width: 100%; 
     position: relative;
-	margin: 65px 0;
+	margin-top: 65px;
 }
 
 /* Styles for each step */
@@ -973,4 +974,52 @@
 	position: relative;
     right: 21em;
 	margin-bottom: 20px;
+}
+.card.gdpr-progress-bar-card{
+	box-shadow: none;
+}
+/* Dashboard quick banner section css */
+.left-banner-heading{
+	font-size: var(--text-base-font-size);
+	font-weight: var(--text-medium-font-weight);
+}
+.left-banner-text{
+	font-size: var(--text-sm-font-size);
+	font-weight: var(--text-regular-font-weight);
+}
+.left-banner-section {
+    display: flex;
+    align-items: center; 
+}
+.left-banner-section img {
+    margin-right: 20px; 
+}
+.left-banner-heading,
+.left-banner-text {
+    margin: 0; 
+}
+#gdpr-cookie-consent-dashboard-page .gdpr-dashboard-quick-banner-section{
+	width: 95%;
+	max-width: inherit !important;
+	margin: 0 28px;
+}
+.gdpr-configure-banner-btn{
+	background-color: var(--green-800);
+    width: 200px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    color: var(--white-100);
+	text-align: center;
+    margin-right: 38px;
+	font-weight: var(--text-semi-bold-font-weight);
+	border: 1px solid transparent;
+	border-radius: .25rem;
+	text-decoration: none;
+}
+.gdpr-configure-banner-btn:hover{
+	color: var(--white-100);
+	text-decoration: none;
+}
+.gdpr-dashboard-quick-banner-section .gdpr-banner-preview-logo{
+	margin-left: 17px;
 }

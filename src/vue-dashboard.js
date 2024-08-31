@@ -10,7 +10,6 @@ Vue.component('vue-ellipse-progress', VueEllipseProgress);
 Vue.component('apexchart', VueApexCharts)
 
 const j = jQuery.noConflict();
-
 var gen = new Vue({
     el: '#gdpr-cookie-consent-dashboard-page',
     data() {
@@ -89,6 +88,7 @@ var gen = new Vue({
 			view_all_logs:  require('../admin/images/dashboard-icons/summary/view-all-logs.png'),
 			policy_icon:   require('../admin/images/dashboard-icons/summary/vector.svg'),
 			admin_icon: require('../admin/images/dashboard-icons/summary/admin.svg'),
+			green_tick_img: require('../admin/images/greentick.svg'),
 			highlight_variant: 'outline',
 			decline_log: dashboard_options.hasOwnProperty('decline_log') ? dashboard_options['decline_log'] : 0,
 			accept_log: dashboard_options.hasOwnProperty('accept_log') ? dashboard_options['accept_log'] : 0,
@@ -161,6 +161,12 @@ var gen = new Vue({
 				},
 
 			  },
+			  banner_preview: true,
+			  banner_preview_is_on:
+					  "true" == dashboard_options.the_options["banner_preview_enable"] ||
+					  1 === dashboard_options.the_options["banner_preview_enable"]
+						? true
+						: false,
 		}
     },
     methods: {
@@ -212,10 +218,18 @@ var gen = new Vue({
 				count_progress++;
 			}
 			this.progress = (count_progress/ 5 ) * 100;
-		}
+		},
+		onSwitchBannerPreviewEnable() {
+			//changing the value of banner_preview_swicth_value enable/disable
+			this.banner_preview_is_on = !this.banner_preview_is_on;
+		  },
     },
     mounted() {
         j('#gdpr-dashboard-loader').css('display','none');
 		this.setValues();
 	}
 })
+jQuery(document).ready(function(){
+	var al = dashboard_options['plugin_page_url'];
+	alert('al='+al);
+});
