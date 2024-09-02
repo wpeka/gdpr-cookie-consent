@@ -1307,17 +1307,47 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 1.0
 	 */
 	public function admin_menu() {
-		add_menu_page( 'WP Cookie Consent', __( 'WP Cookie Consent', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-cookie-consent', array( $this, 'gdpr_cookie_consent_new_admin_screen' ), GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/wp_cookies_icon_menu.png', 67 );
-		// adding a blank submenu so that main menu does not create a copy of own.
-		add_submenu_page(
-			'gdpr-cookie-consent',
-			'',
-			'',
-			'manage_options',
-			'gdpr-cookie-consent',
-			array( $this, 'gdpr_cookie_consent_new_admin_screen' )
-		);
-		add_submenu_page( '', __( 'Import Policies', 'gdpr-cookie-consent' ), __( 'Import Policies', 'gdpr-cookie-consent' ), 'manage_options', 'gdpr-policies-import', array( $this, 'gdpr_policies_import_page' ) );
+
+		 // Check if the main menu "WP Legal Pages" is already registered
+		 if (!is_admin() || !current_user_can('manage_options')) return;
+		$installed_plugins = get_plugins();
+		$plugin_name                   = 'wplegalpages/wplegalpages.php';
+		$legal_pages_installed     = isset( $installed_plugins['wplegalpages/wplegalpages.php'] ) ? true : false;
+		$gdpr_installed     = isset( $installed_plugins['gdpr-cookie-consent/gdpr-cookie-consent.php'] ) ? true : false;
+		$is_legalpages_active = is_plugin_active( $plugin_name );
+		$callback_function = $is_legalpages_active ?  array( $this, 'gdpr_cookie_consent_new_admin_screen' ) : array( $this, 'wp_legal_pages_install_activate_screen' );
+		 if (empty($GLOBALS['admin_page_hooks']['wp-legal-pages'])) {
+			add_menu_page(
+				__( 'WP Legal Pages', 'wp-legal-pages' ), // Page title
+				__( 'WP Legal Pages', 'wp-legal-pages' ), // Menu title
+				'manage_options',                        // Capability
+				'wp-legal-pages',                        // Menu slug
+				$callback_function,            // Icon URL (choose an icon from the WordPress Dashicons library)
+				GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/wp_legalpages_dashicon_1.png',
+				67                                       // Position
+			);
+		}
+
+		If(!$legal_pages_installed  || ($legal_pages_installed && !$is_legalpages_active)){
+			// Add the "Cookie Consent" sub-menu under "WP Legal Pages"
+			add_submenu_page(
+				'wp-legal-pages', // Parent slug (same as main menu slug)
+				__( 'WP Cookie Consent', 'gdpr-cookie-consent' ),  // Page title
+				__( 'Legal Pages', 'gdpr-cookie-consent' ),     // Menu title
+				'manage_options',   // Capability
+				'legal-pages', // Menu slug
+				array( $this, 'wp_legal_pages_install_activate_screen' )
+			);
+
+		}	
+		 add_submenu_page(
+			 'wp-legal-pages', // Parent slug (same as main menu slug)
+			 __( 'WP Cookie Consent', 'gdpr-cookie-consent' ),  // Page title
+			 __( 'Cookie Consent', 'gdpr-cookie-consent' ),     // Menu title
+			 'manage_options',   // Capability
+			 'gdpr-cookie-consent', // Menu slug
+			 array( $this, 'gdpr_cookie_consent_new_admin_screen' ) // Callback function
+		 );
 
 		// Check if $_GET['scan_url'] is set
 		$scan_url_value = isset( $_GET['scan_url'] ) ? $_GET['scan_url'] : '';
@@ -1329,6 +1359,10 @@ class Gdpr_Cookie_Consent_Admin {
 		} else {
 			// Add a new option
 			add_option( 'gdpr_single_page_scan_url', $scan_url_value );
+		}
+		
+		if($legal_pages_installed || $gdpr_installed){
+			remove_submenu_page('wp-legal-pages', 'wp-legal-pages');
 		}
 	}
 
@@ -5429,7 +5463,7 @@ class Gdpr_Cookie_Consent_Admin {
 											$class = 'btn btn-sm';
 										endif;
 										?>
-										<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a></p>
+										<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{button_readmore_text}}</a></p>
 									<?php endif; ?>
 								<?php else : ?>
 									<p><?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
@@ -5444,7 +5478,7 @@ class Gdpr_Cookie_Consent_Admin {
 												$class = 'btn btn-sm';
 											endif;
 											?>
-											<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a>
+											<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{button_readmore_text}}</a>
 										<?php endif; ?>
 									</p>
 								<?php endif; ?>
@@ -5458,7 +5492,7 @@ class Gdpr_Cookie_Consent_Admin {
 												$class = 'btn btn-sm';
 											endif;
 											?>
-										<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+										<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ decline_text }}</a>
 										<?php endif; ?>
 										<?php
 										if ( isset( $template['settings'] ) ) :
@@ -5467,7 +5501,7 @@ class Gdpr_Cookie_Consent_Admin {
 												$class = 'btn btn-sm';
 											endif;
 											?>
-										<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+										<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ settings_text }}</a>
 										<?php endif; ?>
 										<?php
 										if ( isset( $template['accept'] ) ) :
@@ -5476,7 +5510,7 @@ class Gdpr_Cookie_Consent_Admin {
 												$class = 'btn btn-sm';
 											endif;
 											?>
-										<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
+										<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ accept_text }}</a>
 										<?php endif; ?>
 								<?php else : ?>
 									<?php
@@ -5486,7 +5520,7 @@ class Gdpr_Cookie_Consent_Admin {
 											$class = 'btn btn-sm';
 										endif;
 										?>
-										<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
+										<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ accept_text }}</a>
 									<?php endif; ?>
 									<?php
 									if ( isset( $template['decline'] ) ) :
@@ -5495,7 +5529,7 @@ class Gdpr_Cookie_Consent_Admin {
 											$class = 'btn btn-sm';
 										endif;
 										?>
-										<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+										<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ decline_text }}</a>
 									<?php endif; ?>
 									<?php
 									if ( isset( $template['settings'] ) ) :
@@ -5504,7 +5538,7 @@ class Gdpr_Cookie_Consent_Admin {
 											$class = 'btn btn-sm';
 										endif;
 										?>
-										<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+										<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ settings_text }}</a>
 									<?php endif; ?>
 								<?php endif; ?>
 							</div>
@@ -7476,6 +7510,40 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 		}
 	}
+
+	/**
+	 * Callback function for Dashboard page.
+	 *
+	 * @since 2.1.0
+	 */
+	public function wp_legal_pages_install_activate_screen() { 
+		$legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wplegalpages' ), 'install-plugin_wplegalpages' );
+		$plugin_name                   = 'wplegalpages/wplegalpages.php';
+		$legalpages_activation_url = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_name . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin_name );
+		$installed_plugins = get_plugins();
+		$is_legalpages_installed     = isset( $installed_plugins['wplegalpages/wplegalpages.php'] ) ? true : false;
+		?>
+		<div class="gdpr-install-activate-screen">
+			<img id="gdpr-install-activate-img"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/legal-pages-install-banner.jpg'; ?>" alt="WP Cookie Consent Logo">
+			<div class="gdpr-popup-container">
+				<p class="gdpr-plugin-install-activation-text">WP Legal Pages is currently inactive. Please install 
+				and activate the plugin to start generating your legal 
+				documents.</p>
+								<?php 
+				if(!$is_legalpages_installed) { ?>
+				<a style="width:26%;" href="<?php echo esc_url($legalpages_install_url); ?>">
+					<button id="gdpr-install-activate-btn">Install Now</button>
+				</a> 
+				<?php }
+				else { ?>
+					<a style="width:26%;" href="<?php echo esc_url($legalpages_activation_url); ?>">
+					<button id="gdpr-install-activate-btn">Activate Now</button>
+					</a> 
+				<?php } ?>
+       		 </div>
+		</div>
+	<?php } 
+
 	/**
 	 * Callback function for Dashboard page.
 	 *
