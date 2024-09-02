@@ -909,3 +909,10 @@ a .export-btn:hover {
 #name, #email, #resolved, #datarequest, #date, #actions_resolve_delete{
 	background-color: #F4F4F5;
 }
+.gdpr-plugin-install-activation-text{
+	font-size: 26px;
+	color: #4C4C4C;
+}
+.gdpr-popup-container button{
+	font-size: 26px;
+}

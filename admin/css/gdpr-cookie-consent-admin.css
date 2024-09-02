@@ -7305,19 +7305,18 @@ button.btn.gdpr-renew-now-btn.pro,
     display: flex;
     flex-direction: column;
     align-items: center;
-    background:#fff;
+    background:var( --white-100);
     border-radius: 8px; 
     padding: 32px 33px 33px 34px;
 }
 .gdpr-popup-container button {
   background-color: #346DB1;
-  color: white;
+  color: var( --white-100);
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 26px;
-  font-weight: 500;
+  font-weight:var(--text-medium-font-weight);
   margin-top: 10px;
 }
 
@@ -7327,9 +7326,7 @@ button.btn.gdpr-renew-now-btn.pro,
 
 .gdpr-plugin-install-activation-text {
   font-weight: var(--text-medium-font-weight);
-  font-size: 26px;
   line-height: var(--text-2xl-line-height);
-  color: #4C4C4C;
   text-align: center;
 }
 
