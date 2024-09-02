@@ -13,7 +13,7 @@
 	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
 		<div class="gdprmodal-content">
 			<div class="gdprmodal-body"><p><?php echo esc_html__( $the_options['optout_text'], 'gdpr-cookie-consent' ); //phpcs:ignore?>
-					<button type="button" class="gdpr_action_button close dashicons dashicons-dismiss" data-dismiss="gdprmodal" data-gdpr_action="ccpa_close"><span class="close dashicons dashicons-dismiss">Close</span></button></p>
+					<button type="button" class="gdpr_action_button close dashicons dashicons-no" data-dismiss="gdprmodal" data-gdpr_action="ccpa_close"><span class="close dashicons dashicons-no">&#10005</span></button></p>
 			</div>
 			<div class="gdprmodal-footer">
 				<?php

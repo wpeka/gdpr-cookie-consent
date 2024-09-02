@@ -112,6 +112,14 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_on"])
           ? true
           : false,
+      iabtcf_is_on:
+        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
+        (true === settings_obj.the_options["is_iabtcf_on"] ||
+          1 === settings_obj.the_options["is_iabtcf_on"])
+          ? true
+          : false,
+      iabtcf_msg:
+        "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.",
       banner_preview_is_on:
         "true" == settings_obj.the_options["banner_preview_enable"] ||
         1 === settings_obj.the_options["banner_preview_enable"]
@@ -146,19 +154,27 @@ var gen = new Vue({
       )
         ? this.stripSlashes(settings_obj.the_options["bar_heading_lgpd_text"])
         : "",
-      gdpr_message: settings_obj.the_options.hasOwnProperty("notify_message")
-        ? this.stripSlashes(settings_obj.the_options["notify_message"])
-        : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+      gdpr_message:
+        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
+        (true === settings_obj.the_options["is_iabtcf_on"] ||
+          1 === settings_obj.the_options["is_iabtcf_on"])
+          ? "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience."
+          : settings_obj.the_options.hasOwnProperty("notify_message")
+          ? this.stripSlashes(settings_obj.the_options["notify_message"])
+          : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
       lgpd_message: settings_obj.the_options.hasOwnProperty(
         "notify_message_lgpd"
       )
         ? this.stripSlashes(settings_obj.the_options["notify_message_lgpd"])
         : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
-      gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty(
-        "about_message"
-      )
-        ? this.stripSlashes(settings_obj.the_options["about_message"])
-        : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
+      gdpr_about_cookie_message:
+        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
+        (true === settings_obj.the_options["is_iabtcf_on"] ||
+          1 === settings_obj.the_options["is_iabtcf_on"])
+          ? "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require explicit consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest."
+          : settings_obj.the_options.hasOwnProperty("about_message")
+          ? this.stripSlashes(settings_obj.the_options["about_message"])
+          : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
       lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty(
         "about_message_lgpd"
       )
@@ -2335,6 +2351,20 @@ var gen = new Vue({
       this.data_reqs_on = !this.data_reqs_on;
       this.data_reqs_switch_clicked = true;
     },
+    onSwitchIabtcfEnable() {
+      this.iabtcf_is_on = !this.iabtcf_is_on;
+      if (this.iabtcf_is_on) {
+        this.gdpr_message =
+          "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.";
+        this.gdpr_about_cookie_message =
+          "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require explicit consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest.";
+      } else {
+        this.gdpr_message =
+          "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+        this.gdpr_about_cookie_message =
+          "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
+      }
+    },
     onSwitchCookieAcceptEnable() {
       this.cookie_accept_on = !this.cookie_accept_on;
     },
@@ -2541,7 +2571,6 @@ var gen = new Vue({
         function ($) {
           if (position === "top") {
             this.cookie_position = "top";
-            console.log("this is called from top");
             $("#banner-position-top-id").addClass("banner-position-top");
             $("#banner-position-bottom-id").removeClass(
               "banner-position-bottom"
@@ -2555,7 +2584,6 @@ var gen = new Vue({
             );
           } else if (position === "bottom") {
             this.cookie_position = "bottom";
-            console.log("this is called from bottom");
             $("#banner-position-bottom-id").addClass("banner-position-bottom");
             $("#banner-position-top-id").removeClass("banner-position-top");
             //icons
@@ -2570,11 +2598,9 @@ var gen = new Vue({
       ); // Bind 'this' to ensure it refers to the Vue instance
     },
     cookiewidgetPositionChange(value) {
-      console.log("This is called");
       jQuery(document).ready(
         function ($) {
           if (value === "left") {
-            console.log("position is ->", value);
             this.cookie_widget_position = "left";
             $("#widget-position-left-id").addClass("widget-position-top");
             $("#widget-position-right-id").removeClass("widget-position-top");
@@ -2598,7 +2624,6 @@ var gen = new Vue({
               "dashicons dashicons-saved"
             );
           } else if (value === "right") {
-            console.log("position is ->", value);
             this.cookie_widget_position = "right";
             $("#widget-position-right-id").addClass("widget-position-top");
             $("#widget-position-left-id").removeClass("widget-position-top");
@@ -2622,7 +2647,6 @@ var gen = new Vue({
               "dashicons dashicons-saved"
             );
           } else if (value === "top_left") {
-            console.log("position is ->", value);
             this.cookie_widget_position = "top_left";
             $("#widget-position-top_left-id").addClass("widget-position-top");
             $("#widget-position-right-id").removeClass("widget-position-top");
@@ -2644,7 +2668,6 @@ var gen = new Vue({
               "dashicons dashicons-saved"
             );
           } else if (value === "top_right") {
-            console.log("position is ->", value);
             this.cookie_widget_position = "top_right";
             $("#widget-position-top_right-id").addClass("widget-position-top");
             $("#widget-position-right-id").removeClass("widget-position-top");
@@ -4055,6 +4078,7 @@ var gen = new Vue({
       this.accept_text_color = "#ffffff";
       this.accept_background_color = "#18a300";
       this.open_url = false;
+      this.iabtcf_is_on = false;
       this.accept_as_button = true;
       this.accept_size = "medium";
       this.cookie_accept_on = true;
@@ -4145,6 +4169,8 @@ var gen = new Vue({
       this.cookie_bar_color1 = "#ffffff";
       this.cookie_bar_opacity1 = "0.80";
       this.cookie_bar_border_width1 = "0";
+      this.cookie_font1 = "inherit";
+      this.cookie_text_color1 = "#000000";
       this.border_style1 = "none";
       this.cookie_border_color1 = "#ffffff";
       this.cookie_bar_border_radius1 = "0";
@@ -4226,6 +4252,8 @@ var gen = new Vue({
       this.cancel_border_color1 = "#333333";
       this.cancel_border_radius1 = "0";
       this.cookie_bar_color2 = "#ffffff";
+      this.cookie_font2 = "inherit";
+      this.cookie_text_color2 = "#000000";
       this.cookie_bar_opacity2 = "0.80";
       this.cookie_bar_border_width2 = "0";
       this.border_style2 = "none";
@@ -4435,20 +4463,6 @@ var gen = new Vue({
         //setting the value
         this.gdpr_css_text = code;
         editor.setValue(this.gdpr_css_text);
-
-        var editor1 = ace.edit("aceEditor1");
-        //getting the value of editor
-        var code1 = editor1.getValue();
-        //setting the value
-        this.gdpr_css_text1 = code1;
-        editor1.setValue(this.gdpr_css_text1);
-
-        var editor2 = ace.edit("aceEditor2");
-        //getting the value of editor
-        var code2 = editor2.getValue();
-        //setting the value
-        this.gdpr_css_text2 = code2;
-        editor2.setValue(this.gdpr_css_text2);
       }
 
       var that = this;
@@ -4511,15 +4525,12 @@ var gen = new Vue({
           type: "image",
         },
       });
-      console.log("trying");
       jQuery("#image-upload-button")
         .unbind()
         .click(
           image_frame.on("close", function () {
             var selection = image_frame.state().get("selection");
-            console.log("setting");
             selection.each(function (attachment) {
-              console.log(attachment.attributes.url);
               jQuery("#gdpr-cookie-bar-logo-holder").attr(
                 "src",
                 attachment.attributes.url
@@ -5948,6 +5959,14 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_on"])
           ? true
           : false,
+      iabtcf_is_on:
+        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
+        (true === settings_obj.the_options["is_iabtcf_on"] ||
+          1 === settings_obj.the_options["is_iabtcf_on"])
+          ? true
+          : false,
+      iabtcf_msg:
+        "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.",
       banner_preview_is_on:
         "true" == settings_obj.the_options["banner_preview_enable"] ||
         1 === settings_obj.the_options["banner_preview_enable"]
@@ -5982,19 +6001,27 @@ var gen = new Vue({
       )
         ? this.stripSlashes(settings_obj.the_options["bar_heading_lgpd_text"])
         : "",
-      gdpr_message: settings_obj.the_options.hasOwnProperty("notify_message")
-        ? this.stripSlashes(settings_obj.the_options["notify_message"])
-        : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+      gdpr_message:
+        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
+        (true === settings_obj.the_options["is_iabtcf_on"] ||
+          1 === settings_obj.the_options["is_iabtcf_on"])
+          ? "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience."
+          : settings_obj.the_options.hasOwnProperty("notify_message")
+          ? this.stripSlashes(settings_obj.the_options["notify_message"])
+          : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
       lgpd_message: settings_obj.the_options.hasOwnProperty(
         "notify_message_lgpd"
       )
         ? this.stripSlashes(settings_obj.the_options["notify_message_lgpd"])
         : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
-      gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty(
-        "about_message"
-      )
-        ? this.stripSlashes(settings_obj.the_options["about_message"])
-        : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
+      gdpr_about_cookie_message:
+        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
+        (true === settings_obj.the_options["is_iabtcf_on"] ||
+          1 === settings_obj.the_options["is_iabtcf_on"])
+          ? "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require explicit consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest."
+          : settings_obj.the_options.hasOwnProperty("about_message")
+          ? this.stripSlashes(settings_obj.the_options["about_message"])
+          : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
       lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty(
         "about_message_lgpd"
       )
@@ -8101,6 +8128,20 @@ var gen = new Vue({
         this.selectedRadioCcpa = value === "yes" ? "yes" : "no";
       }
     },
+    onSwitchIabtcfEnable() {
+      this.iabtcf_is_on = !this.iabtcf_is_on;
+      if (this.iabtcf_is_on) {
+        this.gdpr_message =
+          "We and our 836 partners use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.";
+        this.gdpr_about_cookie_message =
+          "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require explicit consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest.";
+      } else {
+        this.gdpr_message =
+          "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+        this.gdpr_about_cookie_message =
+          "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
+      }
+    },
     onEnablesafeSwitch() {
       if (this.enable_safe === "true") {
         this.is_eu_on = "no";
@@ -9607,6 +9648,7 @@ var gen = new Vue({
       this.button_readmore_button_border_style = "none";
       this.button_readmore_button_border_color = "#333333";
       this.button_readmore_button_border_radius = "0";
+      this.iabtcf_is_on = false;
       this.decline_text = "Decline";
       this.decline_url = "#";
       this.decline_action = "#cookie_action_settings";
