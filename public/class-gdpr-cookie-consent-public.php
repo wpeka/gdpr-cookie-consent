@@ -45,7 +45,7 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr','hu','po','pt' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu' );
 
 	/**
 	 * Public module list, Module folder and main file must be same as that of module name.
@@ -64,7 +64,7 @@ class Gdpr_Cookie_Consent_Public {
 	 * @var array $existing_modules Existing modules array.
 	 */
 	public static $existing_modules = array();
-	
+
 	public $chosenBanner = 1;
 
 	public $user_iab_consent;
@@ -110,6 +110,9 @@ class Gdpr_Cookie_Consent_Public {
 		 */
 		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 		wp_register_style( $this->plugin_name . '-custom', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public-custom' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name . '-public-variables', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-public-variables' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name . '-frontend', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-frontend' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
+
 	}
 
 	/**
@@ -204,30 +207,102 @@ class Gdpr_Cookie_Consent_Public {
 		$return_array = array(
 			'eu_status'   => 'on',
 			'ccpa_status' => 'on',
+			'both_status' => 'on',
 		);
 		$the_options  = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 		$geo_options  = get_option( 'wpl_geo_options' );
-		$ab_option = get_option('wpl_ab_options');
-		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] ) {
-			if ( boolval( true ) === boolval( $the_options['is_eu_on'] ) ) {
-				// check if eu country.
-				$geoip      = new Gdpr_Cookie_Consent_Geo_Ip();
-				$eu_country = $geoip->wpl_is_eu_country();
-				if ( isset( $eu_country ) && true !== $eu_country ) {
-					$return_array['eu_status'] = 'off';
-					$ab_option["noWarning".$this->chosenBanner]++;				// a/b testing no warning data collection
-					update_option('wpl_ab_options',$ab_option);
+		$ab_option    = get_option( 'wpl_ab_options' );
+		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] && $the_options['is_worldwide_on'] === false) {
+			$show_banner_for_selected_countries = array();
+			if ( true === boolval( $the_options['is_eu_on'] ) ) {
+				// Add the list of EU countries to the array
+				$eu_countries = array(
+					'AT', // Austria.
+					'BE', // Belgium.
+					'BG', // Bulgaria.
+					'HR', // Croatia.
+					'CY', // Cyprus.
+					'CZ', // Czech Republic.
+					'DK', // Denmark.
+					'EE', // Estonia.
+					'FI', // Finland.
+					'FR', // France.
+					'DE', // Germany.
+					'GR', // Greece.
+					'HU', // Hungary.
+					'IE', // Ireland.
+					'IT', // Italy.
+					'LV', // Latvia.
+					'LT', // Lithuania.
+					'LU', // Luxembourg.
+					'MT', // Malta.
+					'NL', // Netherlands.
+					'PL', // Poland.
+					'PT', // Portugal.
+					'RO', // Romania.
+					'SK', // Slovakia.
+					'SI', // Slovenia.
+					'ES', // Spain.
+					'SE', // Sweden.
+					'GB', // United Kingdom.
+				);
+
+				// Merge the EU countries with the existing selected countries
+				$show_banner_for_selected_countries = array_merge( $show_banner_for_selected_countries, $eu_countries );
+			}
+			if ( true === boolval( $the_options['is_ccpa_on'] ) ) {
+				// Add the list of EU countries to the array
+				$ccpa_countries = array(
+					'US',
+				);
+
+				// Merge the EU countries with the existing selected countries
+				$show_banner_for_selected_countries = array_merge( $show_banner_for_selected_countries, $ccpa_countries );
+			}
+			if ( true === boolval( $the_options['is_selectedCountry_on'] ) ) {
+				// Ensure that $the_options['select_countries'] is an array before merging
+				if ( isset( $the_options['select_countries'] ) && is_array( $the_options['select_countries'] ) ) {
+					// Merge the selected countries with the existing selected countries array
+					$show_banner_for_selected_countries = array_merge( $show_banner_for_selected_countries, $the_options['select_countries'] );
 				}
 			}
-			if ( boolval( true ) === boolval( $the_options['is_ccpa_on'] ) ) {
-				// check if ccpa country.
-				$geoip        = new Gdpr_Cookie_Consent_Geo_Ip();
-				$ccpa_country = $geoip->wpl_is_ccpa_country();
-				if ( isset( $ccpa_country ) && true !== $ccpa_country ) {
+			$geoip             = new Gdpr_Cookie_Consent_Geo_Ip();
+			$user_country_code = $geoip->wpl_is_selected_country();
+			if ( ! in_array( $user_country_code, $show_banner_for_selected_countries ) ) {
+				if ( $ab_option['ab_testing_enabled'] === true || $ab_option['ab_testing_enabled'] === 'true' ) {
+					++$ab_option[ 'noWarning' . $this->chosenBanner ];     // a/b testing no warning data collection
+					update_option( 'wpl_ab_options', $ab_option );
+				}
+				if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
+					$return_array['eu_status'] = 'off';
+				}
+				if ( 'ccpa' === $the_options['cookie_usage_for'] ) {
 					$return_array['ccpa_status'] = 'off';
-					$ab_option["noWarning".$this->chosenBanner]++;				// a/b testing no warning data collection
-					update_option('wpl_ab_options',$ab_option);
+				}
+				if ( 'eprivacy' === $the_options['cookie_usage_for'] ) {
+					$return_array['eu_status'] = 'off';
+				}
+				if ( 'both' === $the_options['cookie_usage_for'] ) {
+					$return_array['both_status'] = 'off';
+				}
+			}
+			// update the status of the banner if the law is gdpr & ccpa.
+			if ( $return_array['both_status'] === 'on' && 'both' === $the_options['cookie_usage_for'] ) {
+				$is_in_eu   = in_array( $user_country_code, Gdpr_Cookie_Consent::get_eu_countries(), true );
+				$is_in_ccpa = in_array( $user_country_code, Gdpr_Cookie_Consent::get_ccpa_countries(), true );
+				if ( $is_in_eu ) {
+					if ( $ab_option['ab_testing_enabled'] === true || $ab_option['ab_testing_enabled'] === 'true' ) {
+						++$ab_option[ 'noWarning' . $this->chosenBanner ];     // a/b testing no warning data collection
+						update_option( 'wpl_ab_options', $ab_option );
+					}
+					$return_array['ccpa_status'] = 'off';
+				} elseif ( $is_in_ccpa ) {
+					if ( $ab_option['ab_testing_enabled'] === true || $ab_option['ab_testing_enabled'] === 'true' ) {
+						++$ab_option[ 'noWarning' . $this->chosenBanner ];     // a/b testing no warning data collection
+						update_option( 'wpl_ab_options', $ab_option );
+					}
+					$return_array['eu_status'] = 'off';
 				}
 			}
 			if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
@@ -395,6 +470,8 @@ class Gdpr_Cookie_Consent_Public {
 			
 			wp_enqueue_style( $this->plugin_name );
 			wp_enqueue_style( $this->plugin_name . '-custom' );
+			wp_enqueue_style( $this->plugin_name . '-public-variables' );
+			wp_enqueue_style( $this->plugin_name . '-frontend' );
 			wp_enqueue_script( $this->plugin_name . '-bootstrap-js' );
 			wp_enqueue_script( $this->plugin_name );
 			wp_localize_script(
@@ -668,7 +745,7 @@ class Gdpr_Cookie_Consent_Public {
 			if ( '' !== $preference_cookies ) {
 				$preference_cookies = $this->gdpr_cookie_consent_sanitize_decoded_json( $preference_cookies );
 			}
-			
+
 			$viewed_cookie                = isset( $_COOKIE['wpl_viewed_cookie'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wpl_viewed_cookie'] ) ) : '';
 			$the_options['viewed_cookie'] = $viewed_cookie;
 			foreach ( $categories as $category ) {
@@ -761,7 +838,6 @@ class Gdpr_Cookie_Consent_Public {
 
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
 
-			
 			$chosenBanner = $this->chosenBanner;
 			include plugin_dir_path( __FILE__ ) . 'templates/default.php';
 			?>

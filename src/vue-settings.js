@@ -204,14 +204,14 @@ var gen = new Vue({
         settings_obj.the_options.hasOwnProperty("is_eu_on") &&
         (true === settings_obj.the_options["is_eu_on"] ||
           1 === settings_obj.the_options["is_eu_on"])
-          ? "yes"
-          : "no",
+          ? true
+          : false,
       selectedRadioCcpa:
         settings_obj.the_options.hasOwnProperty("is_ccpa_on") &&
         (true === settings_obj.the_options["is_ccpa_on"] ||
           1 === settings_obj.the_options["is_ccpa_on"])
-          ? "yes"
-          : "no",
+          ? true
+          : false,
       is_iab_on:
         settings_obj.the_options.hasOwnProperty("is_ccpa_iab_on") &&
         (true === settings_obj.the_options["is_ccpa_iab_on"] ||
@@ -2099,6 +2099,38 @@ var gen = new Vue({
         )
           ? settings_obj.the_options["button_revoke_consent_background_color"]
           : "",
+      is_selectedCountry_on:
+        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
+        (true === settings_obj.the_options["is_selectedCountry_on"] ||
+          1 === settings_obj.the_options["is_selectedCountry_on"])
+          ? true
+          : false,
+      is_worldwide_on:
+        settings_obj.the_options.hasOwnProperty("is_worldwide_on") &&
+        (true === settings_obj.the_options["is_worldwide_on"] ||
+          1 === settings_obj.the_options["is_worldwide_on"])
+          ? true
+          : false,
+      selectedRadioWorldWide:
+        settings_obj.the_options.hasOwnProperty("is_worldwide_on") &&
+        (true === settings_obj.the_options["is_worldwide_on"] ||
+          1 === settings_obj.the_options["is_worldwide_on"])
+          ? true
+          : false,
+      list_of_countries: settings_obj.list_of_countries,
+      select_countries: settings_obj.the_options.hasOwnProperty(
+        "select_countries"
+      )
+        ? settings_obj.the_options["select_countries"]
+        : [],
+      select_countries_array: [],
+      show_Select_Country: false,
+      selectedRadioCountry:
+        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
+        (true === settings_obj.the_options["is_selectedCountry_on"] ||
+          1 === settings_obj.the_options["is_selectedCountry_on"])
+          ? true
+          : false,
     };
   },
 
@@ -2270,6 +2302,13 @@ var gen = new Vue({
 
       this.disableSwitch = false;
 
+      // multiple entries of geo targeting countries.
+      for (let i = 0; i < this.list_of_countries.length; i++) {
+        if (this.select_countries.includes(this.list_of_countries[i].code)) {
+          this.select_countries_array.push(this.list_of_countries[i]);
+        }
+      }
+
       // multiple entries for hide banner.
       for (let i = 0; i < this.list_of_pages.length; i++) {
         if (this.select_pages.includes(this.list_of_pages[i].code.toString())) {
@@ -2396,14 +2435,66 @@ var gen = new Vue({
     onSwitchEUEnable(value) {
       this.is_eu_on = !this.is_eu_on;
       if (value) {
-        this.selectedRadioGdpr = value === "yes" ? "yes" : "no";
+        this.selectedRadioGdpr = value === true ? true : false;
       }
     },
     onSwitchCCPAEnable(value) {
       this.is_ccpa_on = !this.is_ccpa_on;
       if (value) {
-        this.selectedRadioCcpa = value === "yes" ? "yes" : "no";
+        this.selectedRadioCcpa = value === true ? true : false;
       }
+    },
+    onSwitchWorldWideEnable() {
+      this.selectedRadioWorldWide = "yes";
+      this.selectedRadioGdpr = false;
+      this.selectedRadioCountry = false;
+      this.selectedRadioCcpa = false;
+      this.is_worldwide_on = true;
+      this.is_eu_on = false;
+      this.is_selectedCountry_on = false;
+      this.is_ccpa_on = false;
+    },
+    onSwitchEUEnable(isChecked) {
+      if (isChecked) {
+        this.selectedRadioGdpr = true;
+        this.selectedRadioWorldWide = false;
+        this.is_eu_on = true;
+        this.is_worldwide_on = false;
+      } else {
+        this.selectedRadioGdpr = false;
+        this.is_eu_on = false;
+      }
+    },
+    onSwitchSelectedCountryEnable(isChecked) {
+      if (isChecked) {
+        this.is_selectedCountry_on = true;
+        this.selectedRadioCountry = true;
+        this.selectedRadioWorldWide = false;
+        this.is_worldwide_on = false;
+      } else {
+        this.is_selectedCountry_on = false;
+        this.selectedRadioCountry = false;
+      }
+    },
+    onSwitchCCPAEnable(isChecked) {
+      if (isChecked) {
+        this.selectedRadioCcpa = true;
+        this.selectedRadioWorldWide = false;
+        this.is_ccpa_on = true;
+        this.is_worldwide_on = false;
+      } else {
+        this.selectedRadioCcpa = false;
+        this.is_ccpa_on = false;
+      }
+    },
+    onCountrySelect(value) {
+      this.select_countries = this.select_countries_array.join(",");
+    },
+    closeModal() {
+      this.showModal = false;
+    },
+    showSelectCountryForm() {
+      this.show_Select_Country = !this.show_Select_Country;
     },
     onEnablesafeSwitch() {
       if (this.enable_safe === "true") {
@@ -4405,6 +4496,18 @@ var gen = new Vue({
       // consent forward.
       this.consent_forward = false;
       this.select_sites = [];
+      this.selectedRadioCountry = false;
+      this.is_selectedCountry_on = false;
+      this.selectedRadioWorldWide = false;
+      this.is_worldwide_on = false;
+      this.list_of_countries = [];
+      this.select_countries = [];
+      this.select_countries_array = [];
+      this.show_Select_Country = false;
+      this.cookie_font1 = "inherit";
+      this.cookie_text_color1 = "#000000";
+      this.cookie_font2 = "inherit";
+      this.cookie_text_color2 = "#000000";
       var data = {
         action: "gcc_restore_default_settings",
         security: settings_obj.restore_settings_nonce,

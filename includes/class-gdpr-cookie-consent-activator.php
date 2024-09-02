@@ -41,13 +41,30 @@ class Gdpr_Cookie_Consent_Activator {
 			}
 		}
 
-		//fetching options for review 
+		// A-B Testing features varaibles.
+		$ab_options                        = array();
+		$ab_options ['ab_testing_enabled'] = false;
+		$ab_options ['ab_testing_period']  = '30';
+		$ab_options ['necessary1']         = 0;
+		$ab_options ['marketing1']         = 0;
+		$ab_options ['analytics1']         = 0;
+		$ab_options ['DNT1']               = 0;
+		$ab_options ['noChoice1']          = 0;
+		$ab_options ['noWarning1']         = 0;
+		$ab_options ['necessary2']         = 0;
+		$ab_options ['marketing2']         = 0;
+		$ab_options ['analytics2']         = 0;
+		$ab_options ['DNT2']               = 0;
+		$ab_options ['noChoice2']          = 0;
+		$ab_options ['noWarning2']         = 0;
+		add_option( 'wpl_ab_options', $ab_options );
+		// fetching options for review
 		$gdpr_review_option_exists = get_option( 'gdpr_review_pending' );
 		if ( ! $gdpr_review_option_exists ) {
 			add_option( 'gdpr_review_pending', '0', '', true );
-			
+
 		}
-		
+
 		// previous version settings.
 		$gdpr_option = get_option( 'GDPRCookieConsent-1.0' );
 		$wpl_option  = get_option( 'WPLCookieConsent-1.0' );
@@ -96,18 +113,18 @@ class Gdpr_Cookie_Consent_Activator {
 		// Update settings from Version 1.7.9.
 		$prev_gdpr_option = get_option( 'GDPRCookieConsent-3.0' );
 		if ( isset( $prev_gdpr_option['is_on'] ) ) {
-			$prev_gdpr_option['bar_heading_text']     = '';
-			$prev_gdpr_option['show_again']           = true;
-			$prev_gdpr_option['is_script_blocker_on'] = false;
-			$prev_gdpr_option['auto_hide']            = false;
-			$prev_gdpr_option['auto_banner_initialize'] = false;
-			$prev_gdpr_option['auto_scroll']          = false;
-			$prev_gdpr_option['show_again_position']  = 'right';
-			$prev_gdpr_option['show_again_text']      = 'Cookie Settings';
-			$prev_gdpr_option['auto_hide_delay']      = '10000';
+			$prev_gdpr_option['bar_heading_text']             = '';
+			$prev_gdpr_option['show_again']                   = true;
+			$prev_gdpr_option['is_script_blocker_on']         = false;
+			$prev_gdpr_option['auto_hide']                    = false;
+			$prev_gdpr_option['auto_banner_initialize']       = false;
+			$prev_gdpr_option['auto_scroll']                  = false;
+			$prev_gdpr_option['show_again_position']          = 'right';
+			$prev_gdpr_option['show_again_text']              = 'Cookie Settings';
+			$prev_gdpr_option['auto_hide_delay']              = '10000';
 			$prev_gdpr_option['auto_banner_initialize_delay'] = '10000';
-			$prev_gdpr_option['show_again_margin']    = '5%';
-			$prev_gdpr_option['show_again_div_id']    = '#gdpr-cookie-consent-show-again';
+			$prev_gdpr_option['show_again_margin']            = '5%';
+			$prev_gdpr_option['show_again_div_id']            = '#gdpr-cookie-consent-show-again';
 
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );
 			delete_option( 'GDPRCookieConsent-3.0' );

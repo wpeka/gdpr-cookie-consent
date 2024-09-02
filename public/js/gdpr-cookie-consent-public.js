@@ -605,6 +605,9 @@ GDPR_CCPA_COOKIE_EXPIRE =
       });
     },
     checkEuAndCCPAStatus: function (response) {
+      if (response.both_status == "off") {
+        $("#gdpr-cookie-consent-bar").addClass("hide_show_again_dnt");
+      }
       if (response.eu_status == "on" && response.ccpa_status == "off") {
         GDPR.displayHeader(false, true);
         if (GDPR.settings.auto_hide) {
