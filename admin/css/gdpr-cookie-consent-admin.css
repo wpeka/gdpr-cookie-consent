@@ -6708,6 +6708,8 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   justify-content: space-between;
   position: relative;
   z-index: 99;
+  left: -20px;
+  width: 102%;
 }
 
 .gdpr-remaining-scans-content .gdpr-remaining-scans-container {

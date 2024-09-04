@@ -219,7 +219,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'gdpr_quick_toolbar_menu', 999 );
 		}
 		if ( self::is_request( 'admin' ) ) {
-			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 );
+			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu');
 			// Adding admin menu.
 			// $this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
 			$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
