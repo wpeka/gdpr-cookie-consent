@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'my', 'ca', 'co', 'eo', 'et', 'ee', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lt', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu' );
 
 	/**
 	 * The version of this plugin.
@@ -3991,10 +3991,6 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => 'bg',
 			),
 			array(
-				'label' => 'Burmese',
-				'code'  => 'my',
-			),
-			array(
 				'label' => 'Catalan',
 				'code'  => 'ca',
 			),
@@ -4025,14 +4021,6 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'label' => 'Esperanto',
 				'code'  => 'eo',
-			),
-			array(
-				'label' => 'Estonian',
-				'code'  => 'et',
-			),
-			array(
-				'label' => 'Ewe',
-				'code'  => 'ee',
 			),
 			array(
 				'label' => 'Finnish',
@@ -4133,10 +4121,6 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'label' => 'Latvian',
 				'code'  => 'lv',
-			),
-			array(
-				'label' => 'Lithuanian',
-				'code'  => 'lt',
 			),
 			array(
 				'label' => 'Luxembourgish',
@@ -6879,10 +6863,6 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => 'bg',
 			),
 			array(
-				'label' => 'Burmese',
-				'code'  => 'my',
-			),
-			array(
 				'label' => 'Catalan',
 				'code'  => 'ca',
 			),
@@ -6913,14 +6893,6 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'label' => 'Esperanto',
 				'code'  => 'eo',
-			),
-			array(
-				'label' => 'Estonian',
-				'code'  => 'et',
-			),
-			array(
-				'label' => 'Ewe',
-				'code'  => 'ee',
 			),
 			array(
 				'label' => 'Finnish',
@@ -7021,10 +6993,6 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'label' => 'Latvian',
 				'code'  => 'lv',
-			),
-			array(
-				'label' => 'Lithuanian',
-				'code'  => 'lt',
 			),
 			array(
 				'label' => 'Luxembourgish',
