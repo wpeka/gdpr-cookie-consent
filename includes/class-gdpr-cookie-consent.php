@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.4.1';
+			$this->version = '3.4.3';
 		}
 		add_action(
 			'current_screen',
@@ -725,7 +725,23 @@ class Gdpr_Cookie_Consent {
 			'button_cancel_button_border_style'      => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
 			'button_cancel_button_border_color'      => '#333333',
 			'button_cancel_button_border_radius'     => '0', // in pixel.
+			'cookie_bar_color1'                      => '#ffffff',
+			'cookie_bar_opacity1'                    => '0.80',
+			'cookie_bar_border_width1'               => '0',
+			'cookie_font1'                           => 'inherit',
+			'cookie_text_color1'                     => '#000000',
+			'border_style1'                          => 'none',
+			'cookie_border_color1'                   => '#ffffff',
+			'cookie_bar_border_radius1'              => '0',
 
+			'cookie_bar_color2'                      => '#ffffff',
+			'cookie_bar_opacity2'                    => '0.80',
+			'cookie_bar_border_width2'               => '0',
+			'cookie_font2'                           => 'inherit',
+			'cookie_text_color2'                     => '#000000',
+			'border_style2'                          => 'none',
+			'cookie_border_color2'                   => '#ffffff',
+			'cookie_bar_border_radius2'              => '0',
 			'button_accept_text1'                    => 'Accept',
 			'button_accept_url1'                     => '#',
 			'button_accept_action1'                  => '#cookie_action_close_header',

@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt','ab','aa','af','sq','am','ar','hy','az','eu','be','bn','bs','my','ca','co','eo','et','ee','fi','fy','gl','ka','gu','ha','he','hi','ig','id','ga','it','ja','kn','kk','ky','ko','ku','lo','lv','lt','lb','mk','mg','ms','ml','mt','mi','mr','mn','ne','no','or','ps','fa','pa','ro','ru','sm','gd','st','sn','sd','si','sk','so','su','sw','sv','tl','tg','ta','te','th','tr','ug','uk','ur','uz','vi','cy','xh','yi','yo','zu' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu' );
 
 	/**
 	 * The version of this plugin.
@@ -3938,395 +3938,379 @@ class Gdpr_Cookie_Consent_Admin {
 
 		$show_language_as_options = array();
 		$show_language_as_options = array(
-				array(
-					'label' => 'Abkhazian',
-					'code'  => 'ab',
-				),
-				array(
-					'label' => 'Afar',
-					'code'  => 'aa',
-				),
-				array(
-					'label' => 'Afrikaans',
-					'code'  => 'af',
-				),
-				array(
-					'label' => 'Albanian',
-					'code'  => 'sq',
-				),
-				array(
-					'label' => 'Amharic',
-					'code'  => 'am',
-				),
-				array(
-					'label' => 'Arabic',
-					'code'  => 'ar',
-				),
-				array(
-					'label' => 'Armenian',
-					'code'  => 'hy',
-				),
-				array(
-					'label' => 'Azerbaijani',
-					'code'  => 'az',
-				),
-				array(
-					'label' => 'Basque',
-					'code'  => 'eu',
-				),
-				array(
-					'label' => 'Belarusian',
-					'code'  => 'be',
-				),
-				array(
-					'label' => 'Bengali',
-					'code'  => 'bn',
-				),
-				array(
-					'label' => 'Bosnian',
-					'code'  => 'bs',
-				),
-				array(
-					'label' => 'Bulgarian',
-					'code'  => 'bg',
-				),
-				array(
-					'label' => 'Burmese',
-					'code'  => 'my',
-				),
-				array(
-					'label' => 'Catalan',
-					'code'  => 'ca',
-				),
-				array(
-					'label' => 'Corsican',
-					'code'  => 'co',
-				),
-				array(
-					'label' => 'Croatian',
-					'code'  => 'hr',
-				),
-				array(
-					'label' => 'Czech',
-					'code'  => 'cs',
-				),
-				array(
-					'label' => 'Danish',
-					'code'  => 'da',
-				),
-				array(
-					'label' => 'Dutch',
-					'code'  => 'nl',
-				),
-				array(
-					'label' => 'English',
-					'code'  => 'en',
-				),
-				array(
-					'label' => 'Esperanto',
-					'code'  => 'eo',
-				),
-				array(
-					'label' => 'Estonian',
-					'code'  => 'et',
-				),
-				array(
-					'label' => 'Ewe',
-					'code'  => 'ee',
-				),
-				array(
-					'label' => 'Finnish',
-					'code'  => 'fi',
-				),
-				array(
-					'label' => 'French',
-					'code'  => 'fr',
-				),
-				array(
-					'label' => 'Frisian',
-					'code'  => 'fy',
-				),
-				array(
-					'label' => 'Galician',
-					'code'  => 'gl',
-				),
-				array(
-					'label' => 'Georgian',
-					'code'  => 'ka',
-				),
-				array(
-					'label' => 'German',
-					'code'  => 'de',
-				),
-				array(
-					'label' => 'Greek',
-					'code'  => 'gr',
-				),
-				array(
-					'label' => 'Gujarati',
-					'code'  => 'gu',
-				),
-				array(
-					'label' => 'Hausa',
-					'code'  => 'ha',
-				),
-				array(
-					'label' => 'Hebrew',
-					'code'  => 'he',
-				),
-				array(
-					'label' => 'Hindi',
-					'code'  => 'hi',
-				),
-				array(
-					'label' => 'Hungarian',
-					'code'  => 'hu',
-				),
-				array(
-					'label' => 'Icelandic',
-					'code'  => 'is',
-				),
-				array(
-					'label' => 'Igbo',
-					'code'  => 'ig',
-				),
-				array(
-					'label' => 'Indonesian',
-					'code'  => 'id',
-				),
-				array(
-					'label' => 'Irish',
-					'code'  => 'ga',
-				),
-				array(
-					'label' => 'Italian',
-					'code'  => 'it',
-				),
-				array(
-					'label' => 'Japanese',
-					'code'  => 'ja',
-				),
-				array(
-					'label' => 'Kannada',
-					'code'  => 'kn',
-				),
-				array(
-					'label' => 'Kazakh',
-					'code'  => 'kk',
-				),
-				array(
-					'label' => 'Kirghiz',
-					'code'  => 'ky',
-				),
-				array(
-					'label' => 'Korean',
-					'code'  => 'ko',
-				),
-				array(
-					'label' => 'Kurdish',
-					'code'  => 'ku',
-				),
-				array(
-					'label' => 'Laothian',
-					'code'  => 'lo',
-				),
-				array(
-					'label' => 'Latvian',
-					'code'  => 'lv',
-				),
-				array(
-					'label' => 'Lithuanian',
-					'code'  => 'lt',
-				),
-				array(
-					'label' => 'Luxembourgish',
-					'code'  => 'lb',
-				),
-				array(
-					'label' => 'Macedonian',
-					'code'  => 'mk',
-				),
-				array(
-					'label' => 'Malagasy',
-					'code'  => 'mg',
-				),
-				array(
-					'label' => 'Malay',
-					'code'  => 'ms',
-				),
-				array(
-					'label' => 'Malayalam',
-					'code'  => 'ml',
-				),
-				array(
-					'label' => 'Maltese',
-					'code'  => 'mt',
-				),
-				array(
-					'label' => 'Maori',
-					'code'  => 'mi',
-				),
-				array(
-					'label' => 'Marathi',
-					'code'  => 'mr',
-				),
-				array(
-					'label' => 'Mongolian',
-					'code'  => 'mn',
-				),
-				array(
-					'label' => 'Nepali',
-					'code'  => 'ne',
-				),
-				array(
-					'label' => 'Norwegian',
-					'code'  => 'no',
-				),
-				array(
-					'label' => 'Oriya',
-					'code'  => 'or',
-				),
-				array(
-					'label' => 'Pashto',
-					'code'  => 'ps',
-				),
-				array(
-					'label' => 'Persian',
-					'code'  => 'fa',
-				),
-				array(
-					'label' => 'Polish',
-					'code'  => 'po',
-				),
-				array(
-					'label' => 'Portuguese',
-					'code'  => 'pt',
-				),
-				array(
-					'label' => 'Punjabi',
-					'code'  => 'pa',
-				),
-				array(
-					'label' => 'Romanian',
-					'code'  => 'ro',
-				),
-				array(
-					'label' => 'Russian',
-					'code'  => 'ru',
-				),
-				array(
-					'label' => 'Samoan',
-					'code'  => 'sm',
-				),
-				array(
-					'label' => 'Scots Gaelic',
-					'code'  => 'gd',
-				),
-				array(
-					'label' => 'Sesotho',
-					'code'  => 'st',
-				),
-				array(
-					'label' => 'Shona',
-					'code'  => 'sn',
-				),
-				array(
-					'label' => 'Sindhi',
-					'code'  => 'sd',
-				),
-				array(
-					'label' => 'Singhalese',
-					'code'  => 'si',
-				),
-				array(
-					'label' => 'Slovak',
-					'code'  => 'sk',
-				),
-				array(
-					'label' => 'Slovenian',
-					'code'  => 'sl',
-				),
-				array(
-					'label' => 'Somali',
-					'code'  => 'so',
-				),
-				array(
-					'label' => 'Spanish',
-					'code'  => 'es',
-				),
-				array(
-					'label' => 'Sudanese',
-					'code'  => 'su',
-				),
-				array(
-					'label' => 'Swahili',
-					'code'  => 'sw',
-				),
-				array(
-					'label' => 'Swedish',
-					'code'  => 'sv',
-				),
-				array(
-					'label' => 'Tagalog',
-					'code'  => 'tl',
-				),
-				array(
-					'label' => 'Tajik',
-					'code'  => 'tg',
-				),
-				array(
-					'label' => 'Tamil',
-					'code'  => 'ta',
-				),
-				array(
-					'label' => 'Telugu',
-					'code'  => 'te',
-				),
-				array(
-					'label' => 'Thai',
-					'code'  => 'th',
-				),
-				array(
-					'label' => 'Turkish',
-					'code'  => 'tr',
-				),
-				array(
-					'label' => 'Ukrainian',
-					'code'  => 'uk',
-				),
-				array(
-					'label' => 'Urdu',
-					'code'  => 'ur',
-				),
-				array(
-					'label' => 'Uzbek',
-					'code'  => 'uz',
-				),
-				array(
-					'label' => 'Vietnamese',
-					'code'  => 'vi',
-				),
-				array(
-					'label' => 'Welsh',
-					'code'  => 'cy',
-				),
-				array(
-					'label' => 'Xhosa',
-					'code'  => 'xh',
-				),
-				array(
-					'label' => 'Yiddish',
-					'code'  => 'yi',
-				),
-				array(
-					'label' => 'Yoruba',
-					'code'  => 'yo',
-				),
-				array(
-					'label' => 'Zulu',
-					'code'  => 'zu',
-				),
-						
+			array(
+				'label' => 'Abkhazian',
+				'code'  => 'ab',
+			),
+			array(
+				'label' => 'Afar',
+				'code'  => 'aa',
+			),
+			array(
+				'label' => 'Afrikaans',
+				'code'  => 'af',
+			),
+			array(
+				'label' => 'Albanian',
+				'code'  => 'sq',
+			),
+			array(
+				'label' => 'Amharic',
+				'code'  => 'am',
+			),
+			array(
+				'label' => 'Arabic',
+				'code'  => 'ar',
+			),
+			array(
+				'label' => 'Armenian',
+				'code'  => 'hy',
+			),
+			array(
+				'label' => 'Azerbaijani',
+				'code'  => 'az',
+			),
+			array(
+				'label' => 'Basque',
+				'code'  => 'eu',
+			),
+			array(
+				'label' => 'Belarusian',
+				'code'  => 'be',
+			),
+			array(
+				'label' => 'Bengali',
+				'code'  => 'bn',
+			),
+			array(
+				'label' => 'Bosnian',
+				'code'  => 'bs',
+			),
+			array(
+				'label' => 'Bulgarian',
+				'code'  => 'bg',
+			),
+			array(
+				'label' => 'Catalan',
+				'code'  => 'ca',
+			),
+			array(
+				'label' => 'Corsican',
+				'code'  => 'co',
+			),
+			array(
+				'label' => 'Croatian',
+				'code'  => 'hr',
+			),
+			array(
+				'label' => 'Czech',
+				'code'  => 'cs',
+			),
+			array(
+				'label' => 'Danish',
+				'code'  => 'da',
+			),
+			array(
+				'label' => 'Dutch',
+				'code'  => 'nl',
+			),
+			array(
+				'label' => 'English',
+				'code'  => 'en',
+			),
+			array(
+				'label' => 'Esperanto',
+				'code'  => 'eo',
+			),
+			array(
+				'label' => 'Finnish',
+				'code'  => 'fi',
+			),
+			array(
+				'label' => 'French',
+				'code'  => 'fr',
+			),
+			array(
+				'label' => 'Frisian',
+				'code'  => 'fy',
+			),
+			array(
+				'label' => 'Galician',
+				'code'  => 'gl',
+			),
+			array(
+				'label' => 'Georgian',
+				'code'  => 'ka',
+			),
+			array(
+				'label' => 'German',
+				'code'  => 'de',
+			),
+			array(
+				'label' => 'Greek',
+				'code'  => 'gr',
+			),
+			array(
+				'label' => 'Gujarati',
+				'code'  => 'gu',
+			),
+			array(
+				'label' => 'Hausa',
+				'code'  => 'ha',
+			),
+			array(
+				'label' => 'Hebrew',
+				'code'  => 'he',
+			),
+			array(
+				'label' => 'Hindi',
+				'code'  => 'hi',
+			),
+			array(
+				'label' => 'Hungarian',
+				'code'  => 'hu',
+			),
+			array(
+				'label' => 'Icelandic',
+				'code'  => 'is',
+			),
+			array(
+				'label' => 'Igbo',
+				'code'  => 'ig',
+			),
+			array(
+				'label' => 'Indonesian',
+				'code'  => 'id',
+			),
+			array(
+				'label' => 'Irish',
+				'code'  => 'ga',
+			),
+			array(
+				'label' => 'Italian',
+				'code'  => 'it',
+			),
+			array(
+				'label' => 'Japanese',
+				'code'  => 'ja',
+			),
+			array(
+				'label' => 'Kannada',
+				'code'  => 'kn',
+			),
+			array(
+				'label' => 'Kazakh',
+				'code'  => 'kk',
+			),
+			array(
+				'label' => 'Kirghiz',
+				'code'  => 'ky',
+			),
+			array(
+				'label' => 'Korean',
+				'code'  => 'ko',
+			),
+			array(
+				'label' => 'Kurdish',
+				'code'  => 'ku',
+			),
+			array(
+				'label' => 'Laothian',
+				'code'  => 'lo',
+			),
+			array(
+				'label' => 'Latvian',
+				'code'  => 'lv',
+			),
+			array(
+				'label' => 'Luxembourgish',
+				'code'  => 'lb',
+			),
+			array(
+				'label' => 'Macedonian',
+				'code'  => 'mk',
+			),
+			array(
+				'label' => 'Malagasy',
+				'code'  => 'mg',
+			),
+			array(
+				'label' => 'Malay',
+				'code'  => 'ms',
+			),
+			array(
+				'label' => 'Malayalam',
+				'code'  => 'ml',
+			),
+			array(
+				'label' => 'Maltese',
+				'code'  => 'mt',
+			),
+			array(
+				'label' => 'Maori',
+				'code'  => 'mi',
+			),
+			array(
+				'label' => 'Marathi',
+				'code'  => 'mr',
+			),
+			array(
+				'label' => 'Mongolian',
+				'code'  => 'mn',
+			),
+			array(
+				'label' => 'Nepali',
+				'code'  => 'ne',
+			),
+			array(
+				'label' => 'Norwegian',
+				'code'  => 'no',
+			),
+			array(
+				'label' => 'Oriya',
+				'code'  => 'or',
+			),
+			array(
+				'label' => 'Pashto',
+				'code'  => 'ps',
+			),
+			array(
+				'label' => 'Persian',
+				'code'  => 'fa',
+			),
+			array(
+				'label' => 'Polish',
+				'code'  => 'po',
+			),
+			array(
+				'label' => 'Portuguese',
+				'code'  => 'pt',
+			),
+			array(
+				'label' => 'Punjabi',
+				'code'  => 'pa',
+			),
+			array(
+				'label' => 'Romanian',
+				'code'  => 'ro',
+			),
+			array(
+				'label' => 'Russian',
+				'code'  => 'ru',
+			),
+			array(
+				'label' => 'Samoan',
+				'code'  => 'sm',
+			),
+			array(
+				'label' => 'Scots Gaelic',
+				'code'  => 'gd',
+			),
+			array(
+				'label' => 'Sesotho',
+				'code'  => 'st',
+			),
+			array(
+				'label' => 'Shona',
+				'code'  => 'sn',
+			),
+			array(
+				'label' => 'Sindhi',
+				'code'  => 'sd',
+			),
+			array(
+				'label' => 'Singhalese',
+				'code'  => 'si',
+			),
+			array(
+				'label' => 'Slovak',
+				'code'  => 'sk',
+			),
+			array(
+				'label' => 'Slovenian',
+				'code'  => 'sl',
+			),
+			array(
+				'label' => 'Somali',
+				'code'  => 'so',
+			),
+			array(
+				'label' => 'Spanish',
+				'code'  => 'es',
+			),
+			array(
+				'label' => 'Sudanese',
+				'code'  => 'su',
+			),
+			array(
+				'label' => 'Swahili',
+				'code'  => 'sw',
+			),
+			array(
+				'label' => 'Swedish',
+				'code'  => 'sv',
+			),
+			array(
+				'label' => 'Tagalog',
+				'code'  => 'tl',
+			),
+			array(
+				'label' => 'Tajik',
+				'code'  => 'tg',
+			),
+			array(
+				'label' => 'Tamil',
+				'code'  => 'ta',
+			),
+			array(
+				'label' => 'Telugu',
+				'code'  => 'te',
+			),
+			array(
+				'label' => 'Thai',
+				'code'  => 'th',
+			),
+			array(
+				'label' => 'Turkish',
+				'code'  => 'tr',
+			),
+			array(
+				'label' => 'Ukrainian',
+				'code'  => 'uk',
+			),
+			array(
+				'label' => 'Urdu',
+				'code'  => 'ur',
+			),
+			array(
+				'label' => 'Uzbek',
+				'code'  => 'uz',
+			),
+			array(
+				'label' => 'Vietnamese',
+				'code'  => 'vi',
+			),
+			array(
+				'label' => 'Welsh',
+				'code'  => 'cy',
+			),
+			array(
+				'label' => 'Xhosa',
+				'code'  => 'xh',
+			),
+			array(
+				'label' => 'Yiddish',
+				'code'  => 'yi',
+			),
+			array(
+				'label' => 'Yoruba',
+				'code'  => 'yo',
+			),
+			array(
+				'label' => 'Zulu',
+				'code'  => 'zu',
+			),
+
 		);
 
 		// dropdown option for schedule scan.
@@ -6095,10 +6079,7 @@ class Gdpr_Cookie_Consent_Admin {
 			// revoke consent text color.
 			$the_options['button_revoke_consent_text_color']       = isset( $_POST['gcc-revoke-consent-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color'] ) ) : '';
 			$the_options['button_revoke_consent_background_color'] = isset( $_POST['gcc-revoke-consent-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color'] ) ) : '';
-			$selected_countries                                    = array();
-			$selected_countries                                    = isset( $_POST['gcc-selected-countries'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries'] ) ) ) : '';
-			// storing id of pages in database.
-			$the_options['select_countries'] = $selected_countries;
+
 			// pro features to free.
 			if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
 				// hide banner.
@@ -6119,6 +6100,10 @@ class Gdpr_Cookie_Consent_Admin {
 				$selected_sites                 = isset( $_POST['gcc-selected-sites'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-sites'] ) ) ) : '';
 				$the_options['consent_forward'] = isset( $_POST['gcc-consent-forward'] ) && ( true === $_POST['gcc-consent-forward'] || 'true' === $_POST['gcc-consent-forward'] ) ? 'true' : 'false';
 				$the_options['select_sites']    = $selected_sites;
+				$selected_countries             = array();
+				$selected_countries             = isset( $_POST['gcc-selected-countries'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries'] ) ) ) : '';
+				// storing id of pages in database.
+				$the_options['select_countries'] = $selected_countries;
 				// For EU.
 				if ( isset( $_POST['gcc-eu-enable'] ) ) {
 					if ( 'no' === $_POST['gcc-eu-enable'] ) {
@@ -6141,7 +6126,6 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 				// for World wide.
 				if ( isset( $_POST['gcc-worldwide-enable'] ) ) {
-
 					if ( 'no' === $_POST['gcc-worldwide-enable'] ) {
 						$the_options['is_worldwide_on'] = 'false';
 					} elseif ( 'false' == $_POST['gcc-worldwide-enable'] ) {
@@ -6826,395 +6810,379 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		$show_language_as_options  = array();
 		$show_language_as_options  = array(
-				array(
-					'label' => 'Abkhazian',
-					'code'  => 'ab',
-				),
-				array(
-					'label' => 'Afar',
-					'code'  => 'aa',
-				),
-				array(
-					'label' => 'Afrikaans',
-					'code'  => 'af',
-				),
-				array(
-					'label' => 'Albanian',
-					'code'  => 'sq',
-				),
-				array(
-					'label' => 'Amharic',
-					'code'  => 'am',
-				),
-				array(
-					'label' => 'Arabic',
-					'code'  => 'ar',
-				),
-				array(
-					'label' => 'Armenian',
-					'code'  => 'hy',
-				),
-				array(
-					'label' => 'Azerbaijani',
-					'code'  => 'az',
-				),
-				array(
-					'label' => 'Basque',
-					'code'  => 'eu',
-				),
-				array(
-					'label' => 'Belarusian',
-					'code'  => 'be',
-				),
-				array(
-					'label' => 'Bengali',
-					'code'  => 'bn',
-				),
-				array(
-					'label' => 'Bosnian',
-					'code'  => 'bs',
-				),
-				array(
-					'label' => 'Bulgarian',
-					'code'  => 'bg',
-				),
-				array(
-					'label' => 'Burmese',
-					'code'  => 'my',
-				),
-				array(
-					'label' => 'Catalan',
-					'code'  => 'ca',
-				),
-				array(
-					'label' => 'Corsican',
-					'code'  => 'co',
-				),
-				array(
-					'label' => 'Croatian',
-					'code'  => 'hr',
-				),
-				array(
-					'label' => 'Czech',
-					'code'  => 'cs',
-				),
-				array(
-					'label' => 'Danish',
-					'code'  => 'da',
-				),
-				array(
-					'label' => 'Dutch',
-					'code'  => 'nl',
-				),
-				array(
-					'label' => 'English',
-					'code'  => 'en',
-				),
-				array(
-					'label' => 'Esperanto',
-					'code'  => 'eo',
-				),
-				array(
-					'label' => 'Estonian',
-					'code'  => 'et',
-				),
-				array(
-					'label' => 'Ewe',
-					'code'  => 'ee',
-				),
-				array(
-					'label' => 'Finnish',
-					'code'  => 'fi',
-				),
-				array(
-					'label' => 'French',
-					'code'  => 'fr',
-				),
-				array(
-					'label' => 'Frisian',
-					'code'  => 'fy',
-				),
-				array(
-					'label' => 'Galician',
-					'code'  => 'gl',
-				),
-				array(
-					'label' => 'Georgian',
-					'code'  => 'ka',
-				),
-				array(
-					'label' => 'German',
-					'code'  => 'de',
-				),
-				array(
-					'label' => 'Greek',
-					'code'  => 'gr',
-				),
-				array(
-					'label' => 'Gujarati',
-					'code'  => 'gu',
-				),
-				array(
-					'label' => 'Hausa',
-					'code'  => 'ha',
-				),
-				array(
-					'label' => 'Hebrew',
-					'code'  => 'he',
-				),
-				array(
-					'label' => 'Hindi',
-					'code'  => 'hi',
-				),
-				array(
-					'label' => 'Hungarian',
-					'code'  => 'hu',
-				),
-				array(
-					'label' => 'Icelandic',
-					'code'  => 'is',
-				),
-				array(
-					'label' => 'Igbo',
-					'code'  => 'ig',
-				),
-				array(
-					'label' => 'Indonesian',
-					'code'  => 'id',
-				),
-				array(
-					'label' => 'Irish',
-					'code'  => 'ga',
-				),
-				array(
-					'label' => 'Italian',
-					'code'  => 'it',
-				),
-				array(
-					'label' => 'Japanese',
-					'code'  => 'ja',
-				),
-				array(
-					'label' => 'Kannada',
-					'code'  => 'kn',
-				),
-				array(
-					'label' => 'Kazakh',
-					'code'  => 'kk',
-				),
-				array(
-					'label' => 'Kirghiz',
-					'code'  => 'ky',
-				),
-				array(
-					'label' => 'Korean',
-					'code'  => 'ko',
-				),
-				array(
-					'label' => 'Kurdish',
-					'code'  => 'ku',
-				),
-				array(
-					'label' => 'Laothian',
-					'code'  => 'lo',
-				),
-				array(
-					'label' => 'Latvian',
-					'code'  => 'lv',
-				),
-				array(
-					'label' => 'Lithuanian',
-					'code'  => 'lt',
-				),
-				array(
-					'label' => 'Luxembourgish',
-					'code'  => 'lb',
-				),
-				array(
-					'label' => 'Macedonian',
-					'code'  => 'mk',
-				),
-				array(
-					'label' => 'Malagasy',
-					'code'  => 'mg',
-				),
-				array(
-					'label' => 'Malay',
-					'code'  => 'ms',
-				),
-				array(
-					'label' => 'Malayalam',
-					'code'  => 'ml',
-				),
-				array(
-					'label' => 'Maltese',
-					'code'  => 'mt',
-				),
-				array(
-					'label' => 'Maori',
-					'code'  => 'mi',
-				),
-				array(
-					'label' => 'Marathi',
-					'code'  => 'mr',
-				),
-				array(
-					'label' => 'Mongolian',
-					'code'  => 'mn',
-				),
-				array(
-					'label' => 'Nepali',
-					'code'  => 'ne',
-				),
-				array(
-					'label' => 'Norwegian',
-					'code'  => 'no',
-				),
-				array(
-					'label' => 'Oriya',
-					'code'  => 'or',
-				),
-				array(
-					'label' => 'Pashto',
-					'code'  => 'ps',
-				),
-				array(
-					'label' => 'Persian',
-					'code'  => 'fa',
-				),
-				array(
-					'label' => 'Polish',
-					'code'  => 'po',
-				),
-				array(
-					'label' => 'Portuguese',
-					'code'  => 'pt',
-				),
-				array(
-					'label' => 'Punjabi',
-					'code'  => 'pa',
-				),
-				array(
-					'label' => 'Romanian',
-					'code'  => 'ro',
-				),
-				array(
-					'label' => 'Russian',
-					'code'  => 'ru',
-				),
-				array(
-					'label' => 'Samoan',
-					'code'  => 'sm',
-				),
-				array(
-					'label' => 'Scots Gaelic',
-					'code'  => 'gd',
-				),
-				array(
-					'label' => 'Sesotho',
-					'code'  => 'st',
-				),
-				array(
-					'label' => 'Shona',
-					'code'  => 'sn',
-				),
-				array(
-					'label' => 'Sindhi',
-					'code'  => 'sd',
-				),
-				array(
-					'label' => 'Singhalese',
-					'code'  => 'si',
-				),
-				array(
-					'label' => 'Slovak',
-					'code'  => 'sk',
-				),
-				array(
-					'label' => 'Slovenian',
-					'code'  => 'sl',
-				),
-				array(
-					'label' => 'Somali',
-					'code'  => 'so',
-				),
-				array(
-					'label' => 'Spanish',
-					'code'  => 'es',
-				),
-				array(
-					'label' => 'Sudanese',
-					'code'  => 'su',
-				),
-				array(
-					'label' => 'Swahili',
-					'code'  => 'sw',
-				),
-				array(
-					'label' => 'Swedish',
-					'code'  => 'sv',
-				),
-				array(
-					'label' => 'Tagalog',
-					'code'  => 'tl',
-				),
-				array(
-					'label' => 'Tajik',
-					'code'  => 'tg',
-				),
-				array(
-					'label' => 'Tamil',
-					'code'  => 'ta',
-				),
-				array(
-					'label' => 'Telugu',
-					'code'  => 'te',
-				),
-				array(
-					'label' => 'Thai',
-					'code'  => 'th',
-				),
-				array(
-					'label' => 'Turkish',
-					'code'  => 'tr',
-				),
-				array(
-					'label' => 'Ukrainian',
-					'code'  => 'uk',
-				),
-				array(
-					'label' => 'Urdu',
-					'code'  => 'ur',
-				),
-				array(
-					'label' => 'Uzbek',
-					'code'  => 'uz',
-				),
-				array(
-					'label' => 'Vietnamese',
-					'code'  => 'vi',
-				),
-				array(
-					'label' => 'Welsh',
-					'code'  => 'cy',
-				),
-				array(
-					'label' => 'Xhosa',
-					'code'  => 'xh',
-				),
-				array(
-					'label' => 'Yiddish',
-					'code'  => 'yi',
-				),
-				array(
-					'label' => 'Yoruba',
-					'code'  => 'yo',
-				),
-				array(
-					'label' => 'Zulu',
-					'code'  => 'zu',
-				),
-			
+			array(
+				'label' => 'Abkhazian',
+				'code'  => 'ab',
+			),
+			array(
+				'label' => 'Afar',
+				'code'  => 'aa',
+			),
+			array(
+				'label' => 'Afrikaans',
+				'code'  => 'af',
+			),
+			array(
+				'label' => 'Albanian',
+				'code'  => 'sq',
+			),
+			array(
+				'label' => 'Amharic',
+				'code'  => 'am',
+			),
+			array(
+				'label' => 'Arabic',
+				'code'  => 'ar',
+			),
+			array(
+				'label' => 'Armenian',
+				'code'  => 'hy',
+			),
+			array(
+				'label' => 'Azerbaijani',
+				'code'  => 'az',
+			),
+			array(
+				'label' => 'Basque',
+				'code'  => 'eu',
+			),
+			array(
+				'label' => 'Belarusian',
+				'code'  => 'be',
+			),
+			array(
+				'label' => 'Bengali',
+				'code'  => 'bn',
+			),
+			array(
+				'label' => 'Bosnian',
+				'code'  => 'bs',
+			),
+			array(
+				'label' => 'Bulgarian',
+				'code'  => 'bg',
+			),
+			array(
+				'label' => 'Catalan',
+				'code'  => 'ca',
+			),
+			array(
+				'label' => 'Corsican',
+				'code'  => 'co',
+			),
+			array(
+				'label' => 'Croatian',
+				'code'  => 'hr',
+			),
+			array(
+				'label' => 'Czech',
+				'code'  => 'cs',
+			),
+			array(
+				'label' => 'Danish',
+				'code'  => 'da',
+			),
+			array(
+				'label' => 'Dutch',
+				'code'  => 'nl',
+			),
+			array(
+				'label' => 'English',
+				'code'  => 'en',
+			),
+			array(
+				'label' => 'Esperanto',
+				'code'  => 'eo',
+			),
+			array(
+				'label' => 'Finnish',
+				'code'  => 'fi',
+			),
+			array(
+				'label' => 'French',
+				'code'  => 'fr',
+			),
+			array(
+				'label' => 'Frisian',
+				'code'  => 'fy',
+			),
+			array(
+				'label' => 'Galician',
+				'code'  => 'gl',
+			),
+			array(
+				'label' => 'Georgian',
+				'code'  => 'ka',
+			),
+			array(
+				'label' => 'German',
+				'code'  => 'de',
+			),
+			array(
+				'label' => 'Greek',
+				'code'  => 'gr',
+			),
+			array(
+				'label' => 'Gujarati',
+				'code'  => 'gu',
+			),
+			array(
+				'label' => 'Hausa',
+				'code'  => 'ha',
+			),
+			array(
+				'label' => 'Hebrew',
+				'code'  => 'he',
+			),
+			array(
+				'label' => 'Hindi',
+				'code'  => 'hi',
+			),
+			array(
+				'label' => 'Hungarian',
+				'code'  => 'hu',
+			),
+			array(
+				'label' => 'Icelandic',
+				'code'  => 'is',
+			),
+			array(
+				'label' => 'Igbo',
+				'code'  => 'ig',
+			),
+			array(
+				'label' => 'Indonesian',
+				'code'  => 'id',
+			),
+			array(
+				'label' => 'Irish',
+				'code'  => 'ga',
+			),
+			array(
+				'label' => 'Italian',
+				'code'  => 'it',
+			),
+			array(
+				'label' => 'Japanese',
+				'code'  => 'ja',
+			),
+			array(
+				'label' => 'Kannada',
+				'code'  => 'kn',
+			),
+			array(
+				'label' => 'Kazakh',
+				'code'  => 'kk',
+			),
+			array(
+				'label' => 'Kirghiz',
+				'code'  => 'ky',
+			),
+			array(
+				'label' => 'Korean',
+				'code'  => 'ko',
+			),
+			array(
+				'label' => 'Kurdish',
+				'code'  => 'ku',
+			),
+			array(
+				'label' => 'Laothian',
+				'code'  => 'lo',
+			),
+			array(
+				'label' => 'Latvian',
+				'code'  => 'lv',
+			),
+			array(
+				'label' => 'Luxembourgish',
+				'code'  => 'lb',
+			),
+			array(
+				'label' => 'Macedonian',
+				'code'  => 'mk',
+			),
+			array(
+				'label' => 'Malagasy',
+				'code'  => 'mg',
+			),
+			array(
+				'label' => 'Malay',
+				'code'  => 'ms',
+			),
+			array(
+				'label' => 'Malayalam',
+				'code'  => 'ml',
+			),
+			array(
+				'label' => 'Maltese',
+				'code'  => 'mt',
+			),
+			array(
+				'label' => 'Maori',
+				'code'  => 'mi',
+			),
+			array(
+				'label' => 'Marathi',
+				'code'  => 'mr',
+			),
+			array(
+				'label' => 'Mongolian',
+				'code'  => 'mn',
+			),
+			array(
+				'label' => 'Nepali',
+				'code'  => 'ne',
+			),
+			array(
+				'label' => 'Norwegian',
+				'code'  => 'no',
+			),
+			array(
+				'label' => 'Oriya',
+				'code'  => 'or',
+			),
+			array(
+				'label' => 'Pashto',
+				'code'  => 'ps',
+			),
+			array(
+				'label' => 'Persian',
+				'code'  => 'fa',
+			),
+			array(
+				'label' => 'Polish',
+				'code'  => 'po',
+			),
+			array(
+				'label' => 'Portuguese',
+				'code'  => 'pt',
+			),
+			array(
+				'label' => 'Punjabi',
+				'code'  => 'pa',
+			),
+			array(
+				'label' => 'Romanian',
+				'code'  => 'ro',
+			),
+			array(
+				'label' => 'Russian',
+				'code'  => 'ru',
+			),
+			array(
+				'label' => 'Samoan',
+				'code'  => 'sm',
+			),
+			array(
+				'label' => 'Scots Gaelic',
+				'code'  => 'gd',
+			),
+			array(
+				'label' => 'Sesotho',
+				'code'  => 'st',
+			),
+			array(
+				'label' => 'Shona',
+				'code'  => 'sn',
+			),
+			array(
+				'label' => 'Sindhi',
+				'code'  => 'sd',
+			),
+			array(
+				'label' => 'Singhalese',
+				'code'  => 'si',
+			),
+			array(
+				'label' => 'Slovak',
+				'code'  => 'sk',
+			),
+			array(
+				'label' => 'Slovenian',
+				'code'  => 'sl',
+			),
+			array(
+				'label' => 'Somali',
+				'code'  => 'so',
+			),
+			array(
+				'label' => 'Spanish',
+				'code'  => 'es',
+			),
+			array(
+				'label' => 'Sudanese',
+				'code'  => 'su',
+			),
+			array(
+				'label' => 'Swahili',
+				'code'  => 'sw',
+			),
+			array(
+				'label' => 'Swedish',
+				'code'  => 'sv',
+			),
+			array(
+				'label' => 'Tagalog',
+				'code'  => 'tl',
+			),
+			array(
+				'label' => 'Tajik',
+				'code'  => 'tg',
+			),
+			array(
+				'label' => 'Tamil',
+				'code'  => 'ta',
+			),
+			array(
+				'label' => 'Telugu',
+				'code'  => 'te',
+			),
+			array(
+				'label' => 'Thai',
+				'code'  => 'th',
+			),
+			array(
+				'label' => 'Turkish',
+				'code'  => 'tr',
+			),
+			array(
+				'label' => 'Ukrainian',
+				'code'  => 'uk',
+			),
+			array(
+				'label' => 'Urdu',
+				'code'  => 'ur',
+			),
+			array(
+				'label' => 'Uzbek',
+				'code'  => 'uz',
+			),
+			array(
+				'label' => 'Vietnamese',
+				'code'  => 'vi',
+			),
+			array(
+				'label' => 'Welsh',
+				'code'  => 'cy',
+			),
+			array(
+				'label' => 'Xhosa',
+				'code'  => 'xh',
+			),
+			array(
+				'label' => 'Yiddish',
+				'code'  => 'yi',
+			),
+			array(
+				'label' => 'Yoruba',
+				'code'  => 'yo',
+			),
+			array(
+				'label' => 'Zulu',
+				'code'  => 'zu',
+			),
+
 		);
 
 		// dropdown option for schedule scan.

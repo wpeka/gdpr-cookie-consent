@@ -909,3 +909,6 @@ a .export-btn:hover {
 #name, #email, #resolved, #datarequest, #date, #actions_resolve_delete{
 	background-color: #F4F4F5;
 }
+.gdpr-api-info-content .gdpr-api-detailed-info h2{
+	font-size: 26px;
+}
