@@ -48,7 +48,7 @@
 	padding-bottom: 15px;
 }
 .gdpr-progress-heading {
-	font-size: var(--text-2xl-font-size-rem);
+	font-size: var(--text-xl-font-size);
 }
 
 .gdpr-progress-bar-buttons {
@@ -267,7 +267,7 @@
 .gdpr-dashboard-promotional-cards-insights{
 
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: auto;
 	min-width: 100%;
 	max-width: 100%;
 	grid-column-gap: 4%;
@@ -287,10 +287,11 @@
 	align-items: center;
 	padding-left: 3.25rem;
 	padding-right: 3.25rem;
+	border:none;
 }
 
 .gdpr-dashboard-promotional-heading {
-	font-size: var(--text-2xl-font-size-rem);
+	font-size: var(--text-xl-font-size);
 }
 
 .gdpr-dashboard-faq-row {

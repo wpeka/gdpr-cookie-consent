@@ -390,6 +390,8 @@ if ( 200 === $response_status ) {
 		<!-- Card for dashboard cookie banner -->
 
 		<!-- There is no user generated data so there is no escape needed for the below variable -->
+		<!-- Date Range Picker -->
+		<date-range-picker v-model="dateRange" range @cancel="updateCancelButtonText" placeholder="Select Date Range"></date-range-picker>
 		<?php echo $api_gdpr_dashboard; //phpcs:ignore ?>  
 
 		<c-card class="gdpr-dashboard-quick-links-card">
@@ -735,5 +737,7 @@ jQuery(document).ready(function () {
 		jQuery('#gdpr_dashboard').css('display','none');
 		jQuery('.gdpr-cookie-consent-admin-dashboard-tab').removeClass('active-tab');
 	});
+	var dashboardOptions = <?php echo json_encode($api_gdpr_dashboard); ?>;
+
 });
 </script>
