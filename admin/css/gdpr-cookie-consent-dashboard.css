@@ -48,7 +48,7 @@
 	padding-bottom: 15px;
 }
 .gdpr-progress-heading {
-	font-size: var(--text-2xl-font-size-rem);
+	font-size: var(--text-xl-font-size);
 }
 
 .gdpr-progress-bar-buttons {
@@ -121,10 +121,14 @@
 	font-size: var(--text-base-font-size);
     margin-left: 5px;
 	font-weight: var(--text-medium-font-weight);
+	text-transform: uppercase;
 }
 
 .gdpr-progress-list-column {
 	padding: 1.5rem;
+	padding-left: 0;
+    position: relative;
+    right: 24px;
 }
 
 .gdpr-progress-list-column {
@@ -137,14 +141,16 @@
 	padding: 0.5rem;
 	width: 100%;
 	justify-content: end;
-	margin-bottom: 0.7rem;
+	margin-bottom: 1.2rem;
 	display: flex;
 	justify-content: start;
+	line-height: 31px;
+    padding-left: 21px;
+	box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);
 }
 
 .gdpr-progress-list-link {
-	color: var(--blue-904);
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 .gdpr-progress-list-link:focus {
@@ -152,13 +158,8 @@
 	box-shadow: none;
 }
 
-.gdpr-progress-list-link:active {
-	color: var(--blue-904) !important;
-}
-
 .gdpr-progress-list-link:hover {
-	color: var(--blue-904);
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 .gdpr-dashboard-quick-links-card {
@@ -266,7 +267,7 @@
 .gdpr-dashboard-promotional-cards-insights{
 
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: auto;
 	min-width: 100%;
 	max-width: 100%;
 	grid-column-gap: 4%;
@@ -286,10 +287,11 @@
 	align-items: center;
 	padding-left: 3.25rem;
 	padding-right: 3.25rem;
+	border:none;
 }
 
 .gdpr-dashboard-promotional-heading {
-	font-size: var(--text-2xl-font-size-rem);
+	font-size: var(--text-xl-font-size);
 }
 
 .gdpr-dashboard-faq-row {
@@ -670,6 +672,7 @@
 	margin-top: 0;
 	padding-left: 0;
 	padding-right: 0;
+	background-color: var(--white-100);
 }
 
 #gdpr-cookie-consent-dashboard-page .gdpr-cookie-consent-dashboard-container .card.gdpr-progress-bar-card{
@@ -857,4 +860,167 @@
 	box-shadow: none;
 	outline: none;
 	text-decoration: none;
+}
+
+/* Added for vertical step progressbar on Dashboard */
+/* General styles for the progress bar */
+#vertical-progressbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%; 
+    position: relative;
+	margin-top: 65px;
+}
+
+/* Styles for each step */
+#vertical-progressbar li {
+    width: 100%;
+    position: relative;
+    margin-bottom: 0; /* Space between steps */
+    text-align: center;
+}
+#vertical-progressbar .container {
+    margin-top: 0;
+}
+
+/* Connect the steps with a vertical line */
+#vertical-progressbar li::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 50%; /* Adjust based on the height of your step images */
+    bottom: -25px;
+    width: 2px;
+    background-color: var(--gray-904);
+    z-index: -1;
+	height: 100%;
+}
+
+/* Hide the line for the last step */
+#vertical-progressbar li:last-child::before {
+    display: none;
+}
+
+/* Styling for the progress line on active steps */
+#vertical-progressbar li.active::before {
+    background-color: var(--green-700);
+}
+
+/* Vertical line within the container */
+.vertical-line {
+	width: 4px; 
+    background-color: var(--gray-100);  
+	margin: 0 auto;
+}
+
+/* Active vertical line color */
+#vertical-progressbar li.active .vertical-line {
+    background-color: var(--green-700);
+}
+.vertical-line-step-2,.vertical-side-line{
+	background: linear-gradient(to bottom, var(--green-700) 50%, var(--gray-100) 50%);
+}
+.vertical-line-step-1{
+	background: var(--green-700);
+	width: 4px;
+}
+
+/* Styling for the step images */
+.vertical-step-images {
+    margin-top: 0;
+	height:32px;
+	width:32px;
+}
+
+/* Optional: Add a different style for selected, not selected, and finished steps */
+.vertical-selected-step-img {
+    border-radius: 50%;
+}
+
+.vertical-not-selected-step-img{
+    opacity: 1;
+}
+
+.vertical-finish-step-img {
+    border-radius: 50%;
+}
+
+.gdpr-gray-progress {
+	background-color: var(--white-100);
+	color: var(--gray-700);
+	height: 50px;
+	border-radius: 4px;
+}
+.vertical-line-step-init{
+	height: 9px;
+	border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+.vertical-line-step-5 {
+	height: 9px;
+	border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.vertical-line-step-1,
+.vertical-line-step-2,
+.vertical-line-step-3,
+.vertical-line-step-4{
+	height: 37px;
+}
+.tasks-heading{
+	font-size: var(--text-lg-font-size);
+	font-weight: var(--text-medium-font-weight);
+	position: relative;
+    right: 21em;
+	margin-bottom: 20px;
+}
+.card.gdpr-progress-bar-card{
+	box-shadow: none;
+}
+/* Dashboard quick banner section css */
+.left-banner-heading{
+	font-size: var(--text-base-font-size);
+	font-weight: var(--text-medium-font-weight);
+}
+.left-banner-text{
+	font-size: var(--text-sm-font-size);
+	font-weight: var(--text-regular-font-weight);
+}
+.left-banner-section {
+    display: flex;
+    align-items: center; 
+}
+.left-banner-section img {
+    margin-right: 20px; 
+}
+.left-banner-heading,
+.left-banner-text {
+    margin: 0; 
+}
+#gdpr-cookie-consent-dashboard-page .gdpr-dashboard-quick-banner-section{
+	width: 95%;
+	max-width: inherit !important;
+	margin: 0 28px;
+}
+.gdpr-configure-banner-btn{
+	background-color: var(--green-800);
+    width: 200px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    color: var(--white-100);
+	text-align: center;
+    margin-right: 38px;
+	font-weight: var(--text-semi-bold-font-weight);
+	border: 1px solid transparent;
+	border-radius: .25rem;
+	text-decoration: none;
+}
+.gdpr-configure-banner-btn:hover{
+	color: var(--white-100);
+	text-decoration: none;
+}
+.gdpr-dashboard-quick-banner-section .gdpr-banner-preview-logo{
+	margin-left: 17px;
 }

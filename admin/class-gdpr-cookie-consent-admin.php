@@ -7642,12 +7642,15 @@ class Gdpr_Cookie_Consent_Admin {
 		$decline_log         = get_option( 'wpl_cl_decline' );
 		$accept_log          = get_option( 'wpl_cl_accept' );
 		$partially_acc_log   = get_option( 'wpl_cl_partially_accept' );
+		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
 		wp_enqueue_style( $this->plugin_name . '-dashboard' );
 		wp_enqueue_script( $this->plugin_name . '-dashboard' );
 		wp_localize_script(
 			$this->plugin_name . '-dashboard',
 			'dashboard_options',
 			array(
+				'the_options'           => $the_options,
+               'ajaxurl'               => admin_url( 'admin-ajax.php' ),
 				'active_plugins'        => $active_plugins,
 				'showing_cookie_notice' => $is_cookie_on,
 				'pro_installed'         => $pro_installed,
