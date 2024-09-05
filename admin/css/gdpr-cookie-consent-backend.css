@@ -912,3 +912,10 @@ a .export-btn:hover {
 .gdpr-api-info-content .gdpr-api-detailed-info h2{
 	font-size: 26px;
 }
+.gdpr-plugin-install-activation-text{
+	font-size: 26px;
+	color: #4C4C4C;
+}
+.gdpr-popup-container button{
+	font-size: 26px;
+}
