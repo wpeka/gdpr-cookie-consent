@@ -2407,48 +2407,9 @@ function get_templates( $template_type ) {
 										<?php
 										$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 										$geo_options = get_option( 'wpl_geo_options' );
-										if ( $the_options['enable_safe'] === 'true' ) :
-											?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
-													Yes
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-														'gdpr-cookie-consent'
-													);
-													?>
-												</div>
-											</label>
-											<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
-												<label class="display_block">
-													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
-													No
-												</label>
-											<?php endif; ?>
-										<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
-													Yes
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
-													?>
-												</div>
-											</label>
-											<?php if ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-												<label class="display_block">
-													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
-													No
-												</label>
-											<?php endif; ?>
-										<?php else : ?>
+					
+										?>
+											
 											<label>
 												<input type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('yes')">
 												Yes
@@ -2458,7 +2419,7 @@ function get_templates( $template_type ) {
 												No
 											</label>
 											<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
-										<?php endif; ?>
+										
 									</c-col>
 								</c-row>
 							<!-- IAB geo selection for pro -->
@@ -2486,46 +2447,8 @@ function get_templates( $template_type ) {
 										<?php
 										$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 										$geo_options = get_option( 'wpl_geo_options' );
-										if ( $the_options['enable_safe'] === 'true' ) :
 											?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
-													Yes
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-														'gdpr-cookie-consent'
-													);
-													?>
-												</div>
-											</label>
-											<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
-												<label class="display_block">
-													<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
-													No
-												</label>
-											<?php endif; ?>
-										<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
-													Yes
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
-													?>
-												</div>
-											</label>
-											<label class="display_block">
-												<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
-												No
-											</label>
-										<?php else : ?>
+											
 											<label>
 												<input type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('yes')">
 												Yes
@@ -2535,7 +2458,7 @@ function get_templates( $template_type ) {
 												No
 											</label>
 											<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
-										<?php endif; ?>
+										
 								</c-col>
 							</c-row>
 
@@ -2555,48 +2478,7 @@ function get_templates( $template_type ) {
 									$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 									$geo_options = get_option( 'wpl_geo_options' );
-									if ( $the_options['enable_safe'] === 'true' ) :
 										?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
-													Yes
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-														'gdpr-cookie-consent'
-													);
-													?>
-												</div>
-											</label>
-											<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
-												<label class="display_block">
-													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
-													No
-												</label>
-											<?php endif; ?>
-										<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
-													Yes
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
-													?>
-												</div>
-											</label>
-											<?php if ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-												<label class="display_block">
-													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
-													No
-												</label>
-											<?php endif; ?>
-										<?php else : ?>
 											<label>
 												<input type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('yes')">
 												Yes
@@ -2606,7 +2488,7 @@ function get_templates( $template_type ) {
 												No
 											</label>
 											<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
-										<?php endif; ?>
+										
 								</c-col>
 							</c-row>
 						<!-- IAB geo selection for pro -->
@@ -2634,46 +2516,8 @@ function get_templates( $template_type ) {
 									<?php
 									$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 									$geo_options = get_option( 'wpl_geo_options' );
-									if ( $the_options['enable_safe'] === 'true' ) :
 										?>
-										<label class="display_block">
-											<div class="opacity_yes">
-												<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
-												Yes
-											</div>
-											<div class="wizard_eu_safe_message">
-												<?php
-												esc_attr_e(
-													'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-													'gdpr-cookie-consent'
-												);
-												?>
-											</div>
-										</label>
-										<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
-											<label class="display_block">
-												<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
-												No
-											</label>
-										<?php endif; ?>
-									<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-										<label class="display_block">
-											<div class="opacity_yes">
-												<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
-												Yes
-											</div>
-											<div class="wizard_eu_safe_message">
-												<?php
-												esc_attr_e(
-													'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
-												?>
-											</div>
-										</label>
-										<label class="display_block">
-											<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
-											No
-										</label>
-									<?php else : ?>
+										
 										<label>
 											<input type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('yes')">
 											Yes
@@ -2683,7 +2527,7 @@ function get_templates( $template_type ) {
 											No
 										</label>
 										<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
-									<?php endif; ?>
+									
 							</c-col>
 						</c-row>
 						</div>				

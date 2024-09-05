@@ -58,6 +58,9 @@ if ( ! defined( 'GDPR_APP_URL' ) ) {
 if ( ! defined( 'GDPR_API_URL' ) ) {
 	define( 'GDPR_API_URL', 'http://app.wplegalpages.com/wp-json/gdpr/v2/' );
 }
+if ( ! defined( 'Geolocation_API_URL' ) ) {
+define( 'Geolocation_API_URL', 'https://9d9f91c7a4.nxcli.io/wp-json/geolocal/v1/get_geolocation_data' );
+}
 
 /**
  * Clean variables using sanitize_text_field. Arrays are cleaned recursively.

@@ -134,16 +134,7 @@ class Gdpr_Cookie_Consent_Public {
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
 	}
 
-	/**
-	 * Returns JSON object containing the settings for the main script.
-	 *
-	 * @param Array $slim_settings Slim settings.
-	 * @return mixed
-	 */
-	public function wplcookieconsent_json_settings( $slim_settings ) {
-		$slim_settings['maxmind_integrated'] = get_option( 'wpl_pro_maxmind_integrated', '1' );
-		return $slim_settings;
-	}
+	
 	/**
 	 * Returns updated array with the consent renew values
 	 *
@@ -204,7 +195,9 @@ class Gdpr_Cookie_Consent_Public {
 		$the_options  = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$geo_options  = get_option( 'wpl_geo_options' );
 		$ab_option    = get_option( 'wpl_ab_options' );
-		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] && $the_options['is_worldwide_on'] === false) {
+		error_log( $the_options['is_worldwide_on']);
+		if ( $the_options['is_worldwide_on'] === false) {
+			error_log("Worldwide off");
 			$show_banner_for_selected_countries = array();
 			if ( true === boolval( $the_options['is_eu_on'] ) ) {
 				// Add the list of EU countries to the array
@@ -258,6 +251,7 @@ class Gdpr_Cookie_Consent_Public {
 					$show_banner_for_selected_countries = array_merge( $show_banner_for_selected_countries, $the_options['select_countries'] );
 				}
 			}
+			
 			$geoip             = new Gdpr_Cookie_Consent_Geo_Ip();
 			$user_country_code = $geoip->wpl_is_selected_country();
 			if ( ! in_array( $user_country_code, $show_banner_for_selected_countries ) ) {

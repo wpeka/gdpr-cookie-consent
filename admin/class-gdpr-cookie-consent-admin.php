@@ -167,16 +167,7 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'js/vue/wpl-cookie-consent-admin-integrations.js', array( 'jquery' ), $this->version, false );
 	}
 
-	/**
-	 * Filter callback to return if maxmind is integrated
-	 *
-	 * @param String $maxmind_integrated Filter variable.
-	 *
-	 * @since 3.0.2
-	 */
-	public function wpl_get_maxmind_integrated( $maxmind_integrated ) {
-		return get_option( 'wpl_pro_maxmind_integrated' );
-	}
+	
 
 
 	/**
@@ -186,29 +177,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$abtest = new Gdpr_Cookie_Consent_AB_Testing( $this->plugin_name );
 	}
 
-	/**
-	 * Ajax callback function for Integrations Page.
-	 */
-	public function wpl_cookie_consent_integrations_settings() {
-		if ( isset( $_POST['_wpnonce'] ) ) {
-			$geoip       = new Gdpr_Cookie_Consent_Geo_Ip();
-			$license_key = isset( $_POST['wpl-maxmind-license-key'] ) ? sanitize_text_field( wp_unslash( $_POST['wpl-maxmind-license-key'] ) ) : '';
-			$license_key = is_null( $license_key ) ? '' : $license_key;
-			$license_key = trim( stripslashes( $license_key ) );
-			if ( ! empty( $license_key ) ) {
-				$license_key = $geoip->validate_maxmind_license_key( $license_key );
-			}
-			$enable_geotargeting                = isset( $_POST['wpl-enable-geo-targeting'] ) ?
-			( true === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) || 'true' === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) ) ? 'true' : 'false' : 'false';
-			$geo_options                        = get_option( 'wpl_geo_options' );
-			$geo_options['maxmind_license_key'] = $license_key;
-			$geo_options['enable_geotargeting'] = $enable_geotargeting;
-			update_option( 'wpl_geo_options', $geo_options );
-			if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) ) {
-				wp_send_json_success();
-			}
-		}
-	}
+	
 	public function get_country_codes() {
 		$options = json_decode(
 			wp_remote_retrieve_body(
@@ -243,7 +212,6 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( $reason === 'gdpr-plugin-deactivate-with-data' ) {
 				delete_option( 'gdpr_admin_modules' );
 				delete_option( 'gdpr_public_modules' );
-				delete_option( 'wpl_pro_maxmind_integrated' );
 				delete_option( 'gdpr_version_number' );
 				delete_option( '	analytics_activation_redirect_gdpr-cookie-consent' );
 				delete_option( 'wpl_logs_admin' );
@@ -521,77 +489,7 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 
-	/**
-	 * Print admin notices for Maxmind integration.
-	 */
-	public function wpl_admin_notices() {
-		if ( class_exists( 'Gdpr_Cookie_Consent' ) ) {
-			$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-			$style       = '';
-			if ( ! $the_options['is_eu_on'] && ! $the_options['is_ccpa_on'] ) {
-				$style = 'display:none';
-			}
-			$geo_options = get_option( 'wpl_geo_options' );
-			if ( '2' !== get_option( 'wpl_pro_maxmind_integrated' ) && ( ! isset( $geo_options['enable_geotargeting'] ) || 'true' !== $geo_options['enable_geotargeting'] ) ) {
-				?>
-				<div class="gdpr-maxmind-notice notice notice-error dismissible" style="<?php echo esc_attr( $style ); ?>">
-					<p>
-						<strong><?php esc_html_e( 'WP Cookie Consent Pro: Geotargeting not enabled and MaxMind integration has not been configured.', 'gdpr-cookie-consent' ); ?></strong>
-					</p>
-					<p>
-						<?php
-						echo wp_kses_post(
-							sprintf(
-								/* translators: %1%s: integration page */
-								__( 'You must enable geotargeting and enter a valid license key on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
-							)
-						);
-						?>
-					</p>
-				</div>
-				<?php
-			} elseif ( '2' !== get_option( 'wpl_pro_maxmind_integrated' ) ) {
-				?>
-				<div class="gdpr-maxmind-notice notice notice-error dismissible" style="<?php echo esc_attr( $style ); ?>">
-					<p>
-						<strong><?php esc_html_e( 'WP Cookie Consent Pro: MaxMind integration has not been configured.', 'gdpr-cookie-consent' ); ?></strong>
-					</p>
-					<p>
-						<?php
-						echo wp_kses_post(
-							sprintf(
-								/* translators: %1%s: integration page */
-								__( 'You must enter a valid license key on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
-							)
-						);
-						?>
-					</p>
-				</div>
-				<?php
-			} elseif ( ! isset( $geo_options['enable_geotargeting'] ) || 'true' !== $geo_options['enable_geotargeting'] ) {
-				?>
-				<div class="gdpr-maxmind-notice notice notice-error dismissible" style="<?php echo esc_attr( $style ); ?>">
-					<p>
-						<strong><?php esc_html_e( 'WP Cookie Consent Pro: Geotargeting is not enabled.', 'gdpr-cookie-consent' ); ?></strong>
-					</p>
-					<p>
-						<?php
-						echo wp_kses_post(
-							sprintf(
-								/* translators: %1%s: integration page */
-								__( 'You must enable geotargeting on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
-							)
-						);
-						?>
-					</p>
-				</div>
-				<?php
-			}
-		}
-	}
+	
 	/**
 	 * Consent Log overview
 	 *
@@ -1568,9 +1466,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function admin_init() {
 		global $wpdb;
-		if ( ! get_option( 'wpl_pro_maxmind_integrated' ) ) {
-			add_option( 'wpl_pro_maxmind_integrated', '1' );
-		}
 		if ( ! get_option( 'gdpr_version_number' ) ) {
 			update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
 		} elseif ( get_option( 'gdpr_version_number' ) !== GDPR_COOKIE_CONSENT_VERSION ) {
@@ -4579,7 +4474,6 @@ class Gdpr_Cookie_Consent_Admin {
 			$geo_options = array();
 		}
 		if ( ! isset( $geo_options['database_prefix'] ) ) {
-			$geo_options['maxmind_license_key'] = '';
 			$geo_options['database_prefix']     = wp_generate_password( 32, false, false );
 			update_option( 'wpl_geo_options', $geo_options );
 		}
@@ -7593,13 +7487,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
 
 		// if pro is active then fetch $max_mind_integrated from pro otherwise from free.
-		if ( $is_pro_active ) {
-
-			$max_mind_integrated = '0';
-			$max_mind_integrated = apply_filters( 'gdpr_get_maxmind_integrated', $max_mind_integrated );
-		} else {
-			$max_mind_integrated = get_option( 'wpl_pro_maxmind_integrated' );
-		}
+		
 
 		// if pro is active then fetch last scanned details from pro otherwise from free.
 		if ( $is_pro_active ) {
@@ -7622,7 +7510,6 @@ class Gdpr_Cookie_Consent_Admin {
 		$admin_url_length    = strlen( $admin_url );
 		$show_cookie_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#compliances';
 		$language_url        = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#language';
-		$maxmind_url         = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations';
 		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list';
 		$plugin_page_url     = $admin_url . 'plugins.php';
 		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
@@ -7652,11 +7539,9 @@ class Gdpr_Cookie_Consent_Admin {
 				'showing_cookie_notice' => $is_cookie_on,
 				'pro_installed'         => $pro_installed,
 				'pro_activated'         => $is_pro_active,
-				'maxmind_integrated'    => $max_mind_integrated,
 				'last_scanned'          => $last_scanned_details,
 				'show_cookie_url'       => $show_cookie_url,
 				'language_url'          => $language_url,
-				'maxmind_url'           => $maxmind_url,
 				'cookie_scan_url'       => $cookie_scan_url,
 				'plugin_page_url'       => $plugin_page_url,
 				'gdpr_pro_url'          => $gdpr_pro_url,

@@ -2035,7 +2035,6 @@ var gen = new Vue({
         typeof GDPR_COOKIE_CONSENT_VERSION !== "undefined"
           ? GDPR_COOKIE_CONSENT_VERSION
           : "",
-      //maxmind integration.
 
       ab_testing_enabled:
         settings_obj.ab_options.hasOwnProperty("ab_testing_enabled") &&
@@ -2060,13 +2059,7 @@ var gen = new Vue({
       )
         ? settings_obj.geo_options["database_file_path"]
         : "",
-      maxmind_license_key: settings_obj.geo_options.hasOwnProperty(
-        "maxmind_license_key"
-      )
-        ? settings_obj.geo_options["maxmind_license_key"]
-        : "",
       alert_message: "Maxmind Key Integrated",
-      maxmind_register_link: "https://www.maxmind.com/en/geolite2/signup",
       document_link: "https://club.wpeka.com/docs/wp-cookie-consent/",
       video_link: "https://www.youtube.com/embed/hrfSoFjEpzQ",
       support_link:
