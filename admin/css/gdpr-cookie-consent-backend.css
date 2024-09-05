@@ -916,3 +916,6 @@ a .export-btn:hover {
 .gdpr-progress-list-link:hover {
 	color: #115CA7;
 }
+.gdpr-api-info-content .gdpr-api-detailed-info h2{
+	font-size: 26px;
+}
