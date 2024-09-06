@@ -213,7 +213,7 @@ if (GDPR_Cookie.exists("wpl_tc_string")) {
       872, 883, 892, 898, 911, 927, 925, 950, 953, 969, 1005, 1013, 1014, 1019,
       1041, 1044, 1075, 1129, 1160, 1169, 1170, 1172, 1187, 1203, 1204, 1208,
       1217, 1219, 1225, 1228, 1234, 1247, 1253, 1259, 1275, 1277, 1278, 1280,
-      1285, 1284, 1300, 1302, 1306, 1307, 1308, 1310, 1311,
+      1285, 1284, 1300, 1302, 1306, 1307, 1308, 1310, 1311, 1333,
     ];
     // Loop through each element in allVendors
     for (let i = 0; i < iabtcf.data.allvendors.length; i++) {
@@ -223,7 +223,6 @@ if (GDPR_Cookie.exists("wpl_tc_string")) {
         !user_iab_consent.consent.includes(vendor) &&
         !invlaid_vendor_consents.includes(vendor)
       ) {
-        // If any vendor does not exist in consentArray, return false and break the loop
         flag = false;
         break;
       }
@@ -233,7 +232,6 @@ if (GDPR_Cookie.exists("wpl_tc_string")) {
 
       // Check if the vendor exists in the consentArray
       if (!user_iab_consent.legint.includes(vendor)) {
-        // If any vendor does not exist in ligitimate Interest Array, return false and break the loop
         flag = false;
         break;
       }

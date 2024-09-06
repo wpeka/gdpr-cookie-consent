@@ -108,10 +108,22 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 		}
-		if(isset($_POST['json'])) {
-			$tcf_json_data = json_decode(wp_unslash(print_r($_POST['json'],true)));
-			Gdpr_Cookie_Consent::gdpr_save_vendors($tcf_json_data);
+		
+		$json_input = file_get_contents('php://input');
+		if (!empty($json_input)) {
+
+			// Decode the JSON input
+			$tcf_json_data = json_decode($json_input);
+
+			// Check if JSON decoding was successful
+			if (json_last_error() === JSON_ERROR_NONE) {
+
+				Gdpr_Cookie_Consent::gdpr_save_vendors($tcf_json_data);
+			} else {
+			}
+		} else {
 		}
+		
 	}
 
 	/**
@@ -5075,7 +5087,7 @@ class Gdpr_Cookie_Consent_Admin {
 								<?php endif; ?>
 							<?php if ( $column ) : ?>
 								<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-									<p>{{gdpr_message}}</p>
+									<p v-html ="gdpr_message"></p>
 									<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
 									<p>{{lgpd_message}}</p>
 									<?php endif; ?>
@@ -5090,7 +5102,7 @@ class Gdpr_Cookie_Consent_Admin {
 									<?php endif; ?>
 								<?php else : ?>
 									<p><?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-									<p>{{gdpr_message}}</p>
+									<p v-html ="gdpr_message"></p>
 									<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
 									<p>{{lgpd_message}}</p>
 									<?php endif; ?>
@@ -5405,6 +5417,8 @@ class Gdpr_Cookie_Consent_Admin {
 						'class'  => array(),
 						'id'     => array(),
 						'style'  => array(),
+						'data-toggle' => array(),
+						'data-target' => array(), 
 					),
 					'br'     => array(),
 					'em'     => array(),

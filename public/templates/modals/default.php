@@ -567,6 +567,17 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 																							<?php } ?>
 																						</ul>
 																					</div>
+																					<?php if( $vendor->legIntPurposes ) { ?>
+																						<div class="gdpr-vendor-purposes-legint-section">
+																							<p class="gdpr-vendor-purposes-legint-title"><?php echo esc_html("Purposes (Legitimate Interest) ", "gdpr-cookie-consent");?></p>
+																							<ul class="gdpr-vendor-purposes-legint-list">
+																								<?php foreach ( $vendor->legIntPurposes as $key => $value ) {?>
+																								<li><?php echo esc_html__( $data->purposes[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
+																								<?php } ?>
+																							</ul>
+																						</div>
+
+																					<?php } ?>
 																					<div class="gdpr-vendor-special-purposes-section">
 																					<p class="gdpr-vendor-special-purposes-title"><?php echo esc_html("Special Purposes ", "gdpr-cookie-consent");?></p>
 																						<ul class="gdpr-vendor-special-purposes-list">
@@ -581,6 +592,22 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 																							<?php foreach ( $vendor->features as $key => $value ) {?>
 																							<li><?php echo esc_html__( $data->features[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
 																							<?php } ?>
+																						</ul>
+																					</div>
+																					<div class="gdpr-vendor-category-section">
+																					<p class="gdpr-vendor-category-title"><?php echo esc_html("Data Categories ", "gdpr-cookie-consent");?></p>
+																						<ul class="gdpr-vendor-category-list">
+																							<?php foreach ( $vendor->dataDeclaration as $key => $value ) {?>
+																							<li><?php echo esc_html__( $data->dataCategories[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
+																							<?php } ?>
+																						</ul>
+																					</div>
+																					<div class="gdpr-vendor-storage-section">
+																					<p class="gdpr-vendor-storage-title"><?php echo esc_html("Device Storage Overview ", "gdpr-cookie-consent");?></p>
+																						<ul class="gdpr-vendor-storage-list">
+																							<li><?php echo esc_html__( "Tracking method: ".($vendor->usesCookies && $vendor->usesNonCookieAccess ? "Cookie and others" : ($vendor->usesCookies ? "Cookie" : ($vendor->usesNonCookieAccess ? "Others" : ""))), 'gdpr-cookie-consent' );  ?></li>	
+																							<li><?php echo esc_html__( "Maximum duration of Cookies: ".$vendor->cookieMaxAgeSeconds/(60 * 60 * 24). " days", 'gdpr-cookie-consent' );  ?></li>	
+																							<li><?php echo esc_html__( $vendor->cookieRefresh ? "Cookie lifetime is being refreshed" : "Cookie lifetime is not refreshed", 'gdpr-cookie-consent' );  ?></li>	
 																						</ul>
 																					</div>
 																					<div class="gdpr-vendor-storage-overview-section"></div>

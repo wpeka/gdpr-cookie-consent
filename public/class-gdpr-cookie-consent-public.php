@@ -206,7 +206,6 @@ class Gdpr_Cookie_Consent_Public {
 			'ccpa_status' => 'on',
 		);
 		$the_options  = Gdpr_Cookie_Consent::gdpr_get_settings();
-		$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 		$geo_options  = get_option( 'wpl_geo_options' );
 		$ab_option = get_option('wpl_ab_options');
 		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] ) {

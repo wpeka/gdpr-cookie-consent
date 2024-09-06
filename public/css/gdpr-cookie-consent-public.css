@@ -1006,7 +1006,7 @@ Bootstrap CSS for frontend UI
 
 #gdpr-cookie-consent-bar .btn:hover,
 .gdpr_messagebar_detail .btn:hover {
-  color: #212529;
+  /* color: #212529; */
   text-decoration: none;
 }
 
@@ -1492,9 +1492,11 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .gdpr-vendor-legitimate-link-title,
 .gdpr-vendor-data-retention-value,
 .gdpr-vendor-purposes-title,
+.gdpr-vendor-purposes-legint-title,
 .gdpr-vendor-special-purposes-title,
 .gdpr-vendor-features-title,
-.gdpr-vendor-data-categories-title {
+.gdpr-vendor-storage-title,
+.gdpr-vendor-category-title {
   font-weight: 700;
 }
 
@@ -1502,16 +1504,26 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .gdpr-vendor-legitimate-link,
 .gdpr-vendor-data-retention-section,
 .gdpr-vendor-purposes-section,
+.gdpr-vendor-purposes-legint-section,
 .gdpr-vendor-special-purposes-section,
-.gdpr-vendor-features-section {
+.gdpr-vendor-features-section,
+.gdpr-vendor-category-section,
+.gdpr-vendor-storage-section {
   margin: 0 0 13px 0;
 }
 
 .gdpr-vendor-purposes-title,
+.gdpr-vendor-purposes-legint-title,
 .gdpr-vendor-special-purposes-title,
 .gdpr-vendor-features-title,
-.gdpr-vendor-data-categories-title {
+.gdpr-vendor-storage-title,
+.gdpr-vendor-category-title {
   margin: 0;
+}
+
+#vendor-link {
+  text-decoration: underline !important;
+  font-size: inherit;
 }
 
 .gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active {

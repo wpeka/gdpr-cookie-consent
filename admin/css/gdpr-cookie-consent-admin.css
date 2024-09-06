@@ -7084,6 +7084,12 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   display: inline-block;
   vertical-align: middle;
 }
+
+#vendor-link {
+  text-decoration: underline !important;
+  font-size: inherit !important;
+}
+
 .gdpr_messagebar_detail
   .category-group
   .category-item

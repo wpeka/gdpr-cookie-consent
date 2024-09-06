@@ -64,6 +64,11 @@ gvl.readyPromise.then(() => {
   data.featureVendorCount = feature_vendor_count_array;
   data.dataCategories = nayan;
 
+  Object.keys(dataCategoriesMap).forEach((key) => {
+    data_categories_array.push(dataCategoriesMap[key]);
+  });
+  data.dataCategories = data_categories_array;
+
   var legintCount = 0;
   const purposeLegint = new Map();
   Object.keys(purposeMap).forEach((key) => {
@@ -117,11 +122,10 @@ gvl.readyPromise.then(() => {
   xhr.open("POST", "test.php");
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      console.log(xhr.responseText);
     }
   };
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send("json=" + encodeURIComponent(JSON.stringify(data)));
+  xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify(data));
 });
 
 // create a new TC string

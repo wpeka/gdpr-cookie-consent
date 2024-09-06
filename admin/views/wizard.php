@@ -66,7 +66,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 						<div class="gdpr-group-description" style="margin-top:20px">
 							<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 							<?php if ( $column ) : ?>
-								<p>{{gdpr_message}}</p>
+								<p v-html="gdpr_message"></p>
 								<?php
 								if ( isset( $template['readmore'] ) ) :
 									$class = '';
@@ -77,7 +77,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 									<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a></p>
 								<?php endif; ?>
 							<?php else : ?>
-								<p>{{gdpr_message}}
+								<p v-html="gdpr_message">
 									<?php
 									if ( isset( $template['readmore'] ) ) :
 										$class = '';
@@ -87,7 +87,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 										?>
 										<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a>
 									<?php endif; ?>
-								</p>
+									</p>
 							<?php endif; ?>
 						</div>
 						<div class="gdpr-group-buttons">

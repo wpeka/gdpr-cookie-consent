@@ -521,6 +521,8 @@ class Gdpr_Cookie_Consent {
 				'rel'    => array(),
 				'style'  => array(),
 				'data'   => array(),
+				'data-toggle' => array(),
+				'data-target' => array(), 
 			),
 			'b'      => array(),
 			'br'     => array(
@@ -1199,7 +1201,6 @@ class Gdpr_Cookie_Consent {
 			}
 		}
 		else{
-			error_log("I am not adding default text");
 		}
 	}
 
