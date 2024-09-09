@@ -45,6 +45,7 @@ class Gdpr_Cookie_Consent_Deactivator {
 			delete_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 			delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 			delete_option( 'wpl_ab_options');
+			delete_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR);
 			
 		}
 		delete_option( 'gdpr_review_pending');
