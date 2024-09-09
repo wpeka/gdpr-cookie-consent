@@ -74,7 +74,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 										$class = 'btn btn-sm';
 									endif;
 									?>
-									<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a></p>
+									<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{button_readmore_text}}</a></p>
 								<?php endif; ?>
 							<?php else : ?>
 								<p v-html="gdpr_message">
@@ -85,7 +85,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 											$class = 'btn btn-sm';
 										endif;
 										?>
-										<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a>
+										<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{button_readmore_text}}</a>
 									<?php endif; ?>
 									</p>
 							<?php endif; ?>
@@ -99,7 +99,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 										$class = 'btn btn-sm';
 									endif;
 									?>
-									<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+									<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ decline_text }}</a>
 								<?php endif; ?>
 								<?php
 								if ( isset( $template['settings'] ) ) :
@@ -108,7 +108,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 										$class = 'btn btn-sm';
 									endif;
 									?>
-									<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+									<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ settings_text }}</a>
 								<?php endif; ?>
 								<?php
 								if ( isset( $template['accept'] ) ) :
@@ -117,7 +117,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 										$class = 'btn btn-sm';
 									endif;
 									?>
-									<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
+									<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ accept_text }}</a>
 								<?php endif; ?>
 							<?php else : ?>
 								<?php
@@ -127,7 +127,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 										$class = 'btn btn-sm';
 									endif;
 									?>
-									<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['accept']['text'] ); ?></a>
+									<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ accept_text }}</a>
 								<?php endif; ?>
 								<?php
 								if ( isset( $template['decline'] ) ) :
@@ -136,7 +136,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 										$class = 'btn btn-sm';
 									endif;
 									?>
-									<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['decline']['text'] ); ?></a>
+									<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ decline_text }}</a>
 								<?php endif; ?>
 								<?php
 								if ( isset( $template['settings'] ) ) :
@@ -145,7 +145,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 										$class = 'btn btn-sm';
 									endif;
 									?>
-									<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
+									<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ settings_text }}</a>
 								<?php endif; ?>
 							<?php endif; ?>
 						</div>

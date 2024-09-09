@@ -4,7 +4,7 @@ Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
 Requires at least: 3.3.1
 Tested up to: 6.6.1
-Stable tag: 3.4.1
+Stable tag: 3.4.4
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -200,6 +200,17 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+
+= 3.4.4 = 
+* Feature: Unified Dashboard: The "WP Legal Pages" menu item now serves as a central hub for managing both WP Legal Pages and WP Cookie Consent, streamlining the user experience.
+
+= 3.4.3 =
+* Update: Refactored CSS architecture for better modularity and maintainability.
+
+= 3.4.2 =
+* New Features: Multi-Country Geo-Targeting: Added support for selecting multiple countries in the cookie banner geo-targeting settings. This allows for more precise targeting of visitors based on their location.
+* New Feature: Added translation support for 78 languages.
+
 = 3.4.1 =
 * New Feature: A/B Testing: Introduced A/B testing capabilities for cookie banners, allowing users to experiment with different banner designs and content to optimize user engagement and consent rates.
 * Bug Fixes: Implemented several under-the-hood improvements to enhance plugin stability and performance.
@@ -537,6 +548,18 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.4.4 = 
+* Feature: Unified Dashboard: The "WP Legal Pages" menu item now serves as a central hub for managing both WP Legal Pages and WP Cookie Consent, streamlining the user experience.
+
+= 3.4.3 =
+* Update: Refactored CSS architecture for better modularity and maintainability.
+
+= 3.4.2 =
+* New Features: Multi-Country Geo-Targeting: Added support for selecting multiple countries in the cookie banner geo-targeting settings. This allows for more precise targeting of visitors based on their location.
+* New Feature: Added translation support for 78 languages.
+
+
 = 3.4.1 =
 * New Feature: A/B Testing: Introduced A/B testing capabilities for cookie banners, allowing users to experiment with different banner designs and content to optimize user engagement and consent rates.
 * Bug Fixes: Implemented several under-the-hood improvements to enhance plugin stability and performance.

@@ -330,7 +330,48 @@ jQuery(document).ready(function () {
       location.reload();
     });
   });
+  jQuery(document).ready(function () {
+    var gdprTimer, ccpaTimer, bothTimer;
 
+    // GDPR hover function
+    jQuery("#gdpr-visitors-condition-radio-btn-disabled-gdpr").hover(
+      function () {
+        gdprTimer = setTimeout(function () {
+          jQuery(".gdpr-eu_visitors_message-gdpr").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(gdprTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-eu_visitors_message-gdpr").css("display", "none");
+      }
+    );
+
+    // CCPA hover function
+    jQuery("#gdpr-visitors-condition-radio-btn-disabled-ccpa").hover(
+      function () {
+        ccpaTimer = setTimeout(function () {
+          jQuery(".gdpr-eu_visitors_message-ccpa").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(ccpaTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-eu_visitors_message-ccpa").css("display", "none");
+      }
+    );
+
+    // Both hover function
+    jQuery("#gdpr-visitors-condition-radio-btn-disabled-both").hover(
+      function () {
+        bothTimer = setTimeout(function () {
+          jQuery(".gdpr-eu_visitors_message-both").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(bothTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-eu_visitors_message-both").css("display", "none");
+      }
+    );
+  });
   /**
    * Clicked on connect to exiting account.
    */

@@ -866,101 +866,102 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<!-- Visitors Condition -->
 								<c-row v-show="!is_eprivacy && !is_lgpd">
-									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Enable Visitor Conditions', 'gdpr-cookie-consent' ); ?></div></c-col>
+									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Banner Geo-Targeting', 'gdpr-cookie-consent' ); ?></div></c-col>
 								</c-row>
-								<c-row v-show="is_ccpa">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable compatibility for the customization of advertising tracking preferences in case of CCPA.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-switch v-bind="labelIcon" v-model="is_iab_on" id="gdpr-cookie-consent-iab-on" variant="3d"  color="success" :checked="is_iab_on" v-on:update:checked="onSwitchIABEnable"></c-switch>
-										<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
-									</c-col>
-								</c-row>
-								<c-row v-show="gdpr_policy === 'gdpr'">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8">
-										<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
-										<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
-										<div v-show="enable_safe" class="overlay_eu_visitors">
-											<div class="overlay_eu_visitors_message">
+								<div class="gdpr-visitors-condition">
+										<div v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa'">
+											<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable"v-model="selectedRadioWorldWide" @click="onSwitchWorldWideEnable"><label><?php esc_attr_e( 'Worldwide', 'gdpr-cookie-consent' ); ?></label></div>
+											<div>
+												<input type="hidden" name="gcc-worldwide-enable" v-model="is_worldwide_on">
+											</div>
+										</div>
+										<div v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both'">
 												<?php
-												esc_attr_e(
-													'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-													'gdpr-cookie-consent'
-												);
+												$geo_options = get_option( 'wpl_geo_options' );
+												if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
+													?>
+													<div><input id="gdpr-visitors-condition-radio-btn-disabled-gdpr"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled><label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
+													<p class=" gdpr-eu_visitors_message-gdpr">
+														<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
+													</p>
+													<div v-show="enable_safe" class="overlay_eu_visitors">
+															<div class="overlay_eu_visitors_message">
+																<?php
+																esc_attr_e(
+																	'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
+																	'gdpr-cookie-consent'
+																);
+																?>
+															</div>
+														</div>
+												<?php else : ?>
+													<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" v-model="selectedRadioGdpr" @click="onSwitchEUEnable($event.target.checked)"><label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
+														<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
+														<div v-show="enable_safe" class="overlay_eu_visitors">
+															<div class="overlay_eu_visitors_message">
+																<?php
+																esc_attr_e(
+																	'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
+																	'gdpr-cookie-consent'
+																);
+																?>
+															</div>
+														</div>
+												<?php endif; ?>
+										</div>
+										<div v-show="gdpr_policy === 'ccpa' || gdpr_policy === 'both'">
+											<?php
+												$geo_options = get_option( 'wpl_geo_options' );
+											if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
 												?>
-											</div>
-										</div>
-										<?php
-										$geo_options = get_option( 'wpl_geo_options' );
-										if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
-											?>
-										<div class="overlay_eu_visitors">
-											<div class="overlay_eu_visitors_message">
+													<div><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+													<p class=" gdpr-eu_visitors_message-ccpa">
 													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
-											</div>
-										</div>
-										<?php endif; ?>
-									</c-col>
-								</c-row>
-								<c-row v-show="gdpr_policy === 'ccpa'">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8">
-										<c-switch v-bind="labelIcon" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa-on" variant="3d"  color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
-										<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
-										<div v-show="enable_safe "class="overlay_eu_visitors">
-											<div class="overlay_eu_visitors_message">
-												<?php
-												esc_attr_e(
-													'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-													'gdpr-cookie-consent'
-												);
-												?>
-											</div>
-										</div>
-										<?php
-										$geo_options = get_option( 'wpl_geo_options' );
-										if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
-											?>
-										<div class="overlay_eu_visitors">
-											<div class="overlay_eu_visitors_message">
-													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
-											</div>
-										</div>
-										<?php endif; ?>
-									</c-col>
-								</c-row>
-								<c-row v-show="gdpr_policy === 'both'">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8">
-											<c-switch v-bind="labelIcon" v-model="is_eu_on" id="gdpr-cookie-consent-eu-on" variant="3d"  color="success" :checked="is_eu_on" v-on:update:checked="onSwitchEUEnable"></c-switch>
-											<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
-											<div v-show="enable_safe"class="overlay_eu_visitors overlay_eu_visitors--both">
-												<div class="overlay_eu_visitors_message overlay_eu_visitors_message--both">
+													</p>
+													<div v-show="enable_safe "class="overlay_eu_visitors">
+													<div class="overlay_eu_visitors_message">
 													<?php
 													esc_attr_e(
 														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
 														'gdpr-cookie-consent'
 													);
 													?>
-												</div>
-											</div>
-											<?php
-											$geo_options = get_option( 'wpl_geo_options' );
-											if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
-												?>
-												<div class="overlay_eu_visitors overlay_eu_visitors--both">
-													<div class="overlay_eu_visitors_message overlay_eu_visitors_message--both">
-														<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
 													</div>
 												</div>
-											<?php endif; ?>
-										</c-col>
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8">
-										<c-switch v-bind="labelIcon" v-model="is_ccpa_on" id="gdpr-cookie-consent-ccpa" variant="3d"  color="success" :checked="is_ccpa_on" v-on:update:checked="onSwitchCCPAEnable"></c-switch>
-										<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
-										</c-col>
-								</c-row>
+												<?php else : ?>
+											<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable($event.target.checked)"><label><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+													<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
+												<div v-show="enable_safe "class="overlay_eu_visitors">
+													<div class="overlay_eu_visitors_message">
+														<?php
+														esc_attr_e(
+															'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
+															'gdpr-cookie-consent'
+														);
+														?>
+													</div>
+												</div>
+												<?php endif; ?>
+										</div>
+										<div v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa'">
+											<?php
+												$geo_options = get_option( 'wpl_geo_options' );
+											if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
+												?>
+													<div><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="checkbox" name="gcc-select-countries-enable"disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+													<p class=" gdpr-eu_visitors_message-both">
+													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
+													</p>
+												<?php else : ?>
+												<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+												<input type="hidden" name="gcc-select-countries-enable" v-model="is_selectedCountry_on">
+												<?php endif; ?>
+												</div>
+												</div>
+												<div class="select-countries-dropdown" v-show="(is_selectedCountry_on) && ( gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa' )">
+													<v-select id="gdpr-cookie-consent-geotargeting-countries" placeholder="Select Countries":reduce="label => label.code" class="form-group" :options="list_of_countries" multiple v-model="select_countries_array" @input="onCountrySelect"></v-select>
+													<input type="hidden" name="gcc-selected-countries" v-model="select_countries">
+												</div>
 								<!-- Privacy Policy Settings -->
 								<c-row v-show="show_revoke_card || is_lgpd">
 									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
@@ -2795,8 +2796,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<!-- Desgin Banner preview if A/B Testing is enabled-->
 					<c-card class=" desgin_card" v-show="ab_testing_enabled">
 						<div class="gdpr-cookie-consent-banner-tabs">
-							<c-button class="gdpr-cookie-consent-banner-tab"@click="changeActiveTestBannerTabTo1":class="{ 'gdpr-cookie-consent-banner-tab-active': active_test_banner_tab === 1 }"><?php esc_html_e( isset($the_options['cookie_bar1_name'])?$the_options['cookie_bar1_name']:'Test Banner A', 'gdpr-cookie-consent' ); ?><span v-show="default_cookie_bar === true">(default)</span></c-button>
-							<c-button class="gdpr-cookie-consent-banner-tab"@click="changeActiveTestBannerTabTo2":class="{ 'gdpr-cookie-consent-banner-tab-active': active_test_banner_tab === 2 }"><?php esc_html_e( isset($the_options['cookie_bar2_name'])?$the_options['cookie_bar2_name']:'Test Banner B', 'gdpr-cookie-consent' ); ?><span v-show="default_cookie_bar === false">(default)</span></c-button>
+							<c-button class="gdpr-cookie-consent-banner-tab"@click="changeActiveTestBannerTabTo1":class="{ 'gdpr-cookie-consent-banner-tab-active': active_test_banner_tab === 1 }"><?php esc_html_e( isset( $the_options['cookie_bar1_name'] ) ? $the_options['cookie_bar1_name'] : 'Test Banner A', 'gdpr-cookie-consent' ); ?><span v-show="default_cookie_bar === true">(default)</span></c-button>
+							<c-button class="gdpr-cookie-consent-banner-tab"@click="changeActiveTestBannerTabTo2":class="{ 'gdpr-cookie-consent-banner-tab-active': active_test_banner_tab === 2 }"><?php esc_html_e( isset( $the_options['cookie_bar2_name'] ) ? $the_options['cookie_bar2_name'] : 'Test Banner B', 'gdpr-cookie-consent' ); ?><span v-show="default_cookie_bar === false">(default)</span></c-button>
 						</div>
 						<c-card-body v-show="active_test_banner_tab === 1">
 								<c-card-body >
@@ -2893,10 +2894,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</c-row>
 										<?php } ?>
 									<?php
-							$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-							if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-								if ( ! $is_pro_active ) {
-									?>
+									$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
+									if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+										if ( ! $is_pro_active ) {
+											?>
 								<c-row>
 									<c-col class="col-sm-4">
 										<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
@@ -2915,10 +2916,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder1" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
 									</c-col>
 								</c-row>
-									<?php
-								}
-							} else {
-								?>
+											<?php
+										}
+									} else {
+										?>
 								<c-row>
 									<c-col class="col-sm-4">
 										<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
@@ -2940,7 +2941,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder1" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
 									</c-col>
 								</c-row>
-							<?php } ?>
+									<?php } ?>
 								</c-card-body>
 								
 										<c-card v-show="is_gdpr || is_eprivacy || is_lgpd">
