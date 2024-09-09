@@ -1080,6 +1080,12 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   color: var(--black-50);
   padding: 0;
 }
+.gdpr_messagebar_detail.default
+  .gdprmodal-dialog
+  .gdprmodal-content
+  .gdprmodal-body {
+  background-color: var(--white-100);
+}
 .gdpr_messagebar_detail.navy_blue_center
   .gdprmodal-dialog
   .gdprmodal-content
@@ -1108,6 +1114,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   .gdprmodal-dialog
   .gdprmodal-content
   .gdprmodal-body {
+  background-color: #f4f4f4;
   color: var(--black-50);
 }
 .gdpr_messagebar_detail.dark

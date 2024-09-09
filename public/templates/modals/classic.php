@@ -430,179 +430,205 @@
 							<?php
 						    $vendors = ["Third Party Vendors"];
 							foreach ( $vendors as $vendor ) {
-								?>
-								
-								<li class="category-item">
-										<div class="toggle-group">
-											<div class="toggle">
-												<div class="checkbox">
-													<!-- DYNAMICALLY GENERATE Input ID  -->
-													<input 
-													<?php
-													if ( $allVendorsFlag ) {
-														?>
-														checked="checked"
-														<?php
-													} 
-													?>
-													id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
-													class="vendor-all-switch-handler" 
-													type="checkbox" 
-													name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
-													value=<?php echo esc_html( $data->allvendors ); ?>>
-													<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
-														<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
-													</label>
-													<!-- DYNAMICALLY GENERATE Input ID  -->
-												</div>
-											</div>
-										</div>
+										?>
 										
-										<div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
-											<div class="gdpr-columns">
-												<span class="dashicons dashicons-arrow-down-alt2"></span>
-												<a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html__( $vendor, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
-											</div>
-										</div>
-										<div class="description-container hide">
-														<ul class="category-group vendor-group tabContainer">
-														
-														<?php
-														
-
-														$vendordata  = $data->vendors;
-
-														foreach ( $vendordata as $key=>$vendor ) {
-															
+										<li class="category-item">
+												<div class="toggle-group">
+													<div class="toggle">
+														<div class="checkbox">
+															<!-- DYNAMICALLY GENERATE Input ID  -->
+															<input 
+															<?php
+															if ( $allVendorsFlag ) {
+																?>
+																checked="checked"
+																<?php
+															} 
 															?>
-															<li class="category-item">
-															<hr>
-																	<div class="toggle-group">
-																		<div class="vendor-switch-wrapper">
-																		<?php
-																		if( $vendor->legIntPurposes ) {
-																		?>
-																			<div class="vendor-legitimate-switch-wrapper">
-																				<div class="vendor-switch-label">Legitimate Interest</div>
-																				<div class="toggle">
-																					<div class="checkbox">
-																						<!-- DYNAMICALLY GENERATE Input ID  -->
-																						<input 
-																						<?php
-																						if ( in_array($vendor->id, $legint_data) ) {
-																							?>
-																							checked="checked"
-																							<?php
-																						} 
-																						?>
-																						id="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_html($vendor->id);?>" 
-																						class="vendor-switch-handler <?php echo esc_html("legint-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor->id);?>"  
-																						type="checkbox" 
-																						name="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_html($vendor->id);?>" 
-																						value=<?php echo esc_html( $vendor->id ); ?>>
-																						<label for="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_html($vendor->id);?>">
-																							<span class="label-text"><?php echo esc_html($vendor->id);?></span>
-																						</label>
-																						<!-- DYNAMICALLY GENERATE Input ID  -->
+															id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+															class="vendor-all-switch-handler" 
+															type="checkbox" 
+															name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+															value=<?php echo esc_html( $data->allvendors ); ?>>
+															<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+																<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+															</label>
+															<!-- DYNAMICALLY GENERATE Input ID  -->
+														</div>
+													</div>
+												</div>
+												
+												<div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
+													<div class="gdpr-columns">
+														<span class="dashicons dashicons-arrow-down-alt2"></span>
+														<a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html__( $vendor, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+													</div>
+												</div>
+												<div class="description-container hide">
+																<ul class="category-group  vendor-group tabContainer">
+																
+																<?php
+																
+
+																$vendordata  = $data->vendors;
+																
+																foreach ( $vendordata as $key=>$vendor ) {
+																	?>
+																	<li class="category-item">
+																	<hr>
+																			<div class="toggle-group bottom-toggle">
+																				<div class="vendor-switch-wrapper">
+																				<?php
+																				if( $vendor->legIntPurposes ) {
+																				?>
+																					<div class="vendor-legitimate-switch-wrapper">
+																						<div class="vendor-switch-label">Legitimate Interest</div>
+																						<div class="toggle">
+																							<div class="checkbox">
+																								<!-- DYNAMICALLY GENERATE Input ID  -->
+																								<input 
+																								<?php
+																								if ( in_array($vendor->id, $legint_data) ) {
+																									?>
+																									checked="checked"
+																									<?php
+																								} 
+																								?>
+																								id="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_html($vendor->id);?>" 
+																								class="vendor-switch-handler <?php echo esc_html("legint-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor->id);?>"  
+																								type="checkbox" 
+																								name="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_html($vendor->id);?>" 
+																								value=<?php echo esc_html( $vendor->id ); ?>>
+																								<label for="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_html($vendor->id);?>">
+																									<span class="label-text"><?php echo esc_html($vendor->id);?></span>
+																								</label>
+																								<!-- DYNAMICALLY GENERATE Input ID  -->
+																							</div>
+																						</div>
 																					</div>
-																				</div>
-																			</div>
-																			<?php }?>
-																			<?php
+																					<?php }?>
+																					<?php
 																				if( $vendor->purposes ) {
 																				?>
-																			<div class="vendor-consent-switch-wrapper">
-																				<div class="vendor-switch-label">Consent</div>
-																				<div class="toggle">
-																					<div class="checkbox">
-																						<!-- DYNAMICALLY GENERATE Input ID  -->
-																						<input 
-																						<?php 
+																					<div class="vendor-consent-switch-wrapper">
+																						<div class="vendor-switch-label">Consent</div>
+																						<div class="toggle">
+																							<div class="checkbox">
+																								<!-- DYNAMICALLY GENERATE Input ID  -->
+																								<input 
+																								<?php 
 
-																						if ( in_array($vendor->id, $consent_data) ) {
-																							?>
-																							checked="checked"
-																							<?php
-																						}
-																						?>
-																						id="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>" 
-																						class="vendor-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor->id);?>" 
-																						type="checkbox" 
-																						name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>" 
-																						value=<?php echo esc_html( $vendor->id ); ?>>
-																						<label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>">
-																							<span class="label-text"><?php echo esc_html( $vendor->id ); ?></span>
-																						</label>
-																						<!-- DYNAMICALLY GENERATE Input ID  -->
+																								if ( in_array($vendor->id, $consent_data) ) {
+																									?>
+																									checked="checked"
+																									<?php
+																								}
+																								?>
+																								id="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>" 
+																								class="vendor-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor->id);?>" 
+																								type="checkbox" 
+																								name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>" 
+																								value=<?php echo esc_html( $vendor->id ); ?>>
+																								<label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>">
+																									<span class="label-text"><?php echo esc_html( $vendor->id ); ?></span>
+																								</label>
+																								<!-- DYNAMICALLY GENERATE Input ID  -->
+																							</div>
+																						</div>
 																					</div>
+																				<?php }?>
 																				</div>
-																			</div>
-																			<?php }?>
 																		</div>
-																</div>
-																	
-															<div class="inner-gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
-																<div class="inner-gdpr-columns">
-																	<span class="dashicons dashicons-arrow-down-alt2"></span>
-																	<a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html__( $vendor->name, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
-																</div>
-															</div>
-															<div class="inner-description-container hide">
-																<div class="group-description" tabindex="0">
-																	<div class="gdpr-ad-purpose-details">
-																		<div class="gdpr-vendor-wrapper">
-																			<p class="gdpr-vendor-privacy-link">
-																				<span class="gdpr-vendor-privacy-link-title"><?php echo esc_html("Privacy Policy: ", "gdpr-cookie-consent");?></span>
-																				<a href=<?php echo $vendor->urls[0]->privacy;?> target="_blank" rel="noopener noreferrer" aria-label="Privacy Policy"><?php echo $vendor->urls[0]->privacy;?></a>
-																			</p>
-																			<p class="gdpr-vendor-legitimate-link">
-																				<span class="gdpr-vendor-legitimate-link-title"><?php echo esc_html("Legitimate Interest Claim: ", "gdpr-cookie-consent");?></span>
-																				<a href=<?php isset($vendor->urls[0]->legIntClaim)? $vendor->urls[0]->legIntClaim : esc_html("#", "gdpr-cookie-consent");?> target="_blank" rel="noopener noreferrer" aria-label="Legitimate Interest Claim"><?php echo isset($vendor->urls[0]->legIntClaim)? $vendor->urls[0]->legIntClaim : esc_html("Not Available", "gdpr-cookie-consent");?></a>
-																			</p>
-																			<p class="gdpr-vendor-data-retention-section">
-																				<span class="gdpr-vendor-data-retention-value"><?php echo esc_html("Data Retention Period: ", "gdpr-cookie-consent"); echo isset($vendor->dataRetention->stdRetention) ? $vendor->dataRetention->stdRetention : esc_html("Not Available", "gdpr-cookie-consent");echo esc_html(" Days", "gdpr-cookie-consent");?></span>
-																			</p>
-																			<div class="gdpr-vendor-purposes-section">
-																				<p class="gdpr-vendor-purposes-title"><?php echo esc_html("Purposes (Consent) ", "gdpr-cookie-consent");?></p>
-																				<ul class="gdpr-vendor-purposes-list">
-																					<?php foreach ( $vendor->purposes as $key => $value ) {?>
-																					<li><?php echo esc_html__( $data->purposes[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
-																					<?php } ?>
-																				</ul>
-																			</div>
-																			<div class="gdpr-vendor-special-purposes-section">
-																			<p class="gdpr-vendor-special-purposes-title"><?php echo esc_html("Special Purposes ", "gdpr-cookie-consent");?></p>
-																				<ul class="gdpr-vendor-special-purposes-list">
-																					<?php foreach ( $vendor->specialPurposes as $key => $value ) {?>
-																					<li><?php echo esc_html__( $data->specialPurposes[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
-																					<?php } ?>
-																				</ul>
-																			</div>
-																			<div class="gdpr-vendor-features-section">
-																			<p class="gdpr-vendor-features-title"><?php echo esc_html("Features ", "gdpr-cookie-consent");?></p>
-																				<ul class="gdpr-vendor-features-list">
-																					<?php foreach ( $vendor->features as $key => $value ) {?>
-																					<li><?php echo esc_html__( $data->features[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
-																					<?php } ?>
-																				</ul>
-																			</div>
-																			<div class="gdpr-vendor-storage-overview-section"></div>
-																			<div class="gdpr-vendor-storage-disclosure-section"></div>
+																			
+																	<div class="inner-gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
+																		<div class="inner-gdpr-columns">
+																			<span class="dashicons dashicons-arrow-down-alt2"></span>
+																			<a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html__( $vendor->name, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
 																		</div>
 																	</div>
-																</div>
-															</div>
-															
-														</li>
-															<?php
-														}
-														?>
-													</ul>
-										</div>
-									<hr>
-								</li>
-								<?php
-							}
+																	<div class="inner-description-container hide">
+																		<div class="group-description" tabindex="0">
+																			<div class="gdpr-ad-purpose-details">
+																				<div class="gdpr-vendor-wrapper">
+																					<p class="gdpr-vendor-privacy-link">
+																						<span class="gdpr-vendor-privacy-link-title"><?php echo esc_html("Privacy Policy: ", "gdpr-cookie-consent");?></span>
+																						<a href=<?php echo $vendor->urls[0]->privacy;?> target="_blank" rel="noopener noreferrer" aria-label="Privacy Policy"><?php echo $vendor->urls[0]->privacy;?></a>
+																					</p>
+																					<p class="gdpr-vendor-legitimate-link">
+																						<span class="gdpr-vendor-legitimate-link-title"><?php echo esc_html("Legitimate Interest Claim: ", "gdpr-cookie-consent");?></span>
+																						<a href=<?php echo isset($vendor->urls[0]->legIntClaim)? $vendor->urls[0]->legIntClaim : esc_html("#", "gdpr-cookie-consent");?> target="_blank" rel="noopener noreferrer" aria-label="Legitimate Interest Claim"><?php echo isset($vendor->urls[0]->legIntClaim)? $vendor->urls[0]->legIntClaim : esc_html("Not Available", "gdpr-cookie-consent");?></a>
+																					</p>
+																					<p class="gdpr-vendor-data-retention-section">
+																						<span class="gdpr-vendor-data-retention-value"><?php echo esc_html("Data Retention Period: ", "gdpr-cookie-consent");echo isset($vendor->dataRetention->stdRetention) ? $vendor->dataRetention->stdRetention : esc_html("Not Available", "gdpr-cookie-consent");echo esc_html(" Days", "gdpr-cookie-consent");?></span>
+																					</p>
+																					<div class="gdpr-vendor-purposes-section">
+																						<p class="gdpr-vendor-purposes-title"><?php echo esc_html("Purposes (Consent) ", "gdpr-cookie-consent");?></p>
+																						<ul class="gdpr-vendor-purposes-list">
+																							<?php foreach ( $vendor->purposes as $key => $value ) {?>
+																							<li><?php echo esc_html__( $data->purposes[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
+																							<?php } ?>
+																						</ul>
+																					</div>
+																					<?php if( $vendor->legIntPurposes ) { ?>
+																						<div class="gdpr-vendor-purposes-legint-section">
+																							<p class="gdpr-vendor-purposes-legint-title"><?php echo esc_html("Purposes (Legitimate Interest) ", "gdpr-cookie-consent");?></p>
+																							<ul class="gdpr-vendor-purposes-legint-list">
+																								<?php foreach ( $vendor->legIntPurposes as $key => $value ) {?>
+																								<li><?php echo esc_html__( $data->purposes[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
+																								<?php } ?>
+																							</ul>
+																						</div>
+
+																					<?php } ?>
+																					<div class="gdpr-vendor-special-purposes-section">
+																					<p class="gdpr-vendor-special-purposes-title"><?php echo esc_html("Special Purposes ", "gdpr-cookie-consent");?></p>
+																						<ul class="gdpr-vendor-special-purposes-list">
+																							<?php foreach ( $vendor->specialPurposes as $key => $value ) {?>
+																							<li><?php echo esc_html__( $data->specialPurposes[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
+																							<?php } ?>
+																						</ul>
+																					</div>
+																					<div class="gdpr-vendor-features-section">
+																					<p class="gdpr-vendor-features-title"><?php echo esc_html("Features ", "gdpr-cookie-consent");?></p>
+																						<ul class="gdpr-vendor-features-list">
+																							<?php foreach ( $vendor->features as $key => $value ) {?>
+																							<li><?php echo esc_html__( $data->features[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
+																							<?php } ?>
+																						</ul>
+																					</div>
+																					<div class="gdpr-vendor-category-section">
+																					<p class="gdpr-vendor-category-title"><?php echo esc_html("Data Categories ", "gdpr-cookie-consent");?></p>
+																						<ul class="gdpr-vendor-category-list">
+																							<?php foreach ( $vendor->dataDeclaration as $key => $value ) {?>
+																							<li><?php echo esc_html__( $data->dataCategories[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
+																							<?php } ?>
+																						</ul>
+																					</div>
+																					<div class="gdpr-vendor-storage-section">
+																					<p class="gdpr-vendor-storage-title"><?php echo esc_html("Device Storage Overview ", "gdpr-cookie-consent");?></p>
+																						<ul class="gdpr-vendor-storage-list">
+																							<li><?php echo esc_html__( "Tracking method: ".($vendor->usesCookies && $vendor->usesNonCookieAccess ? "Cookie and others" : ($vendor->usesCookies ? "Cookie" : ($vendor->usesNonCookieAccess ? "Others" : ""))), 'gdpr-cookie-consent' );  ?></li>	
+																							<li><?php echo esc_html__( "Maximum duration of Cookies: ".$vendor->cookieMaxAgeSeconds/(60 * 60 * 24). " days", 'gdpr-cookie-consent' );  ?></li>	
+																							<li><?php echo esc_html__( $vendor->cookieRefresh ? "Cookie lifetime is being refreshed" : "Cookie lifetime is not refreshed", 'gdpr-cookie-consent' );  ?></li>	
+																						</ul>
+																					</div>
+																					<div class="gdpr-vendor-storage-overview-section"></div>
+																					<div class="gdpr-vendor-storage-disclosure-section"></div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	
+																</li>
+																	<?php
+																}
+																?>
+															</ul>
+												</div>
+										<hr>
+									</li>
+										<?php
+									}
 							?>
 						</ul>
 						

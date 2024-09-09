@@ -116,10 +116,13 @@ class Gdpr_Cookie_Consent_Admin {
 			// Decode the JSON input
 			$tcf_json_data = json_decode($json_input);
 
-			// Check if JSON decoding was successful
-			if (json_last_error() === JSON_ERROR_NONE) {
-
-				Gdpr_Cookie_Consent::gdpr_save_vendors($tcf_json_data);
+			// Check if JSON decoding was successful	
+			if (json_last_error() === JSON_ERROR_NONE ) {
+				if(!empty($tcf_json_data) && $tcf_json_data->secret_key === "sending_vendor_data"){
+					error_log("Sending this data:".print_r($tcf_json_data,true));
+					Gdpr_Cookie_Consent::gdpr_save_vendors($tcf_json_data);
+				}
+				
 			} else {
 			}
 		} else {

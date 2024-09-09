@@ -117,7 +117,7 @@ gvl.readyPromise.then(() => {
     purpose_vendor_array.push(purposeVendorMap[key].legInt.size)
   );
   data.purposeVendorMap = purpose_vendor_array;
-
+  data.secret_key = "sending_vendor_data";
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "test.php");
   xhr.onreadystatechange = function () {
