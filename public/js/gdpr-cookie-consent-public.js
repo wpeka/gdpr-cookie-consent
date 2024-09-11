@@ -3328,11 +3328,13 @@ GDPR_CCPA_COOKIE_EXPIRE =
     },
     removeCookieByCategory: function () {
       if (GDPR_Blocker.blockingStatus == true) {
-        for (var key in GDPR_Blocker.cookies) {
-          var cookie = GDPR_Blocker.cookies[key];
+        var cookiesList = JSON.parse(GDPR_Blocker.cookies);
+        for (var i = 0; i < cookiesList.length; i++) {
+          var cookie = cookiesList[i];
           var current_category = cookie["gdpr_cookie_category_slug"];
           if (GDPR.allowed_categories.indexOf(current_category) === -1) {
             var cookies = cookie["data"];
+
             if (cookies && cookies.length != 0) {
               for (var c_key in cookies) {
                 var c_cookie = cookies[c_key];
