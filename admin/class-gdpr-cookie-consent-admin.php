@@ -7697,12 +7697,14 @@ class Gdpr_Cookie_Consent_Admin {
 		$cookie_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? '1' : '0';
 		$is_cookie_on      = isset( $cookie_options['is_on'] ) ? $cookie_options['is_on'] : '1';
+		$cookie_usage_for  = $cookie_options['cookie_usage_for'];
 		if ( $is_cookie_on == 'true' ) {
 			$is_cookie_on = true;
 		}
 		$is_pro_active     = get_option( 'wpl_pro_active' );
 		$api_key_activated = '';
 		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
+
 
 		// if pro is active then fetch $max_mind_integrated from pro otherwise from free.
 		if ( $is_pro_active ) {
@@ -7790,6 +7792,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'accept_log'            => $accept_log,
 				'partially_acc_log'     => $partially_acc_log,
 				'is_user_connected'     => $is_user_connected,
+				'cookie_policy'			=> $cookie_usage_for
 			)
 		);
 		require_once plugin_dir_path( __FILE__ ) . 'views/gdpr-dashboard-page.php';
