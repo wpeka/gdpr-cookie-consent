@@ -7684,7 +7684,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		} else {
 			global $wpdb;
-			$scan_table           = $wpdb->prefix . 'wpl_cookie_scan';
+			$scan_table           = $wpdb->prefix . 'wpl_cookie_scan_cookies';
 			$sql                  = "SELECT * FROM `$scan_table` ORDER BY id_wpl_cookie_scan DESC LIMIT 1";
 			$last_scanned_details = $wpdb->get_row( $sql, ARRAY_A ); //phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			if ( $last_scanned_details ) {
