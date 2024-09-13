@@ -11,6 +11,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+use GeoIp2\Database\Reader;
 /**
  * The frontend-specific functionality for geo ip.
  *
@@ -124,26 +125,22 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	 * @phpcs:enable
 	 */
 	public function wpl_is_eu_country() {
+		$uploads_dir   = wp_upload_dir();
+		$geo_options   = get_option( 'wpl_geo_options' );
+		$database_path = '';
+		if ( isset( $geo_options['database_prefix'] ) && ! empty( $geo_options['database_prefix'] ) ) {
+			$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
+		}
 		$user_ip      = $this->wplgip_get_user_ip();
 		$country_code = '';
-		if ( $user_ip && 'UNKNOWN' !== $user_ip) {
+		if ( $user_ip && 'UNKNOWN' !== $user_ip && ! empty( $database_path ) ) {
 			try {
-				$response_geolocation = wp_remote_post(
-						Geolocation_API_URL,
-						array(
-							'body' => array(
-								'user_ip' => $user_ip
-							),
-						)
-					);
-				if ( is_wp_error( $response_geolocation ) ) {
-                    $country_code = '';
-                }
-
-			 	$response_status = wp_remote_retrieve_response_code( $response_geolocation );
-
-				if ( 200 === $response_status ) {
-					$country_code = json_decode( wp_remote_retrieve_body( $response_geolocation ) );
+				$reader = new Reader( $database_path );
+				try {
+					$record       = $reader->city( $user_ip );
+					$country_code = $record->country->isoCode;
+				} catch ( \GeoIp2\Exception\AddressNotFoundException $e ) {
+					return false;
 				}
 			} catch ( \MaxMind\Db\Reader\InvalidDatabaseException $e ) {
 				return false;
@@ -154,7 +151,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 				return false;
 			}
 		}
-        return false;
+		return false;
 	}
 
 	/**
@@ -167,37 +164,32 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	 */
 	public function wpl_is_selected_country() {
 		
+		$uploads_dir   = wp_upload_dir();
+		
+		$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
+		
 		$user_ip      = $this->wplgip_get_user_ip();
-        error_log("userip".print_r($user_ip,true));
 		$country_code = '';
-		if ( $user_ip && 'UNKNOWN' !== $user_ip ) {
+		$state_code   = '';
+		if ( $user_ip && 'UNKNOWN' !== $user_ip && ! empty( $database_path ) ) {
 			try {
-					$response_geolocation = wp_remote_post(
-						Geolocation_API_URL,
-						array(
-							'body' => array(
-								'user_ip' => $user_ip
-							),
-						)
-					);
-                    error_log("Response:". print_r($response_geolocation, true));
-				if ( is_wp_error( $response_geolocation ) ) {
-                    $country_code = '';
-                }
-
-			 	$response_status = wp_remote_retrieve_response_code( $response_geolocation );
-
-				if ( 200 === $response_status ) {
-					$country_code = json_decode( wp_remote_retrieve_body( $response_geolocation ) );
+				$reader = new Reader( $database_path );
+				try {
+					$record        = $reader->city( $user_ip );
+					$country_code  = $record->country->isoCode;
+					$sub_divisions = $record->subdivisions;
+					if ( $sub_divisions && isset( $sub_divisions[0] ) ) {
+						$state_code = $sub_divisions[0]->isoCode;
+					}
+				} catch ( \GeoIp2\Exception\AddressNotFoundException $e ) {
+					return false;
 				}
-				
 			} catch ( \MaxMind\Db\Reader\InvalidDatabaseException $e ) {
 				return false;
 			}
-            error_log("COUNTRY:".print_r($country_code,true));
 			return $country_code;
 		}
-        return false;
+		return false;
 	}
 
 	/**

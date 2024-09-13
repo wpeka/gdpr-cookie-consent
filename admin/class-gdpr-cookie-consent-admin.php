@@ -104,6 +104,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 		}
+		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
 	}
 
 	/**
@@ -6005,6 +6006,11 @@ class Gdpr_Cookie_Consent_Admin {
 					} elseif ( 'false' == $_POST['gcc-eu-enable'] ) {
 						$the_options['is_eu_on'] = 'false';
 					} else {
+						
+						if(!$the_options['is_eu_on']){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
 						$the_options['is_eu_on'] = 'true';
 					}
 				}
@@ -6015,6 +6021,10 @@ class Gdpr_Cookie_Consent_Admin {
 					} elseif ( 'false' == $_POST['gcc-ccpa-enable'] ) {
 						$the_options['is_ccpa_on'] = 'false';
 					} else {
+						if(!$the_options['is_ccpa_on'] ){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
 						$the_options['is_ccpa_on'] = 'true';
 					}
 				}
@@ -6025,6 +6035,9 @@ class Gdpr_Cookie_Consent_Admin {
 					} elseif ( 'false' == $_POST['gcc-worldwide-enable'] ) {
 						$the_options['is_worldwide_on'] = 'false';
 					} else {
+						if(!$the_options['is_worldwide_on']){
+							$this->disable_auto_update_maxminddb();
+						}
 						$the_options['is_worldwide_on'] = 'true';
 					}
 				}
@@ -6035,6 +6048,10 @@ class Gdpr_Cookie_Consent_Admin {
 					} elseif ( 'false' == $_POST['gcc-select-countries-enable'] ) {
 						$the_options['is_selectedCountry_on'] = 'false';
 					} else {
+						if(!$the_options['is_selectedCountry_on']){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
 						$the_options['is_selectedCountry_on'] = 'true';
 					}
 				}
@@ -6566,6 +6583,91 @@ class Gdpr_Cookie_Consent_Admin {
 
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			wp_send_json_success( array( 'form_options_saved' => true ) );
+		}
+	}
+
+	/**
+	 * Function to set transient for auto-update
+	 */
+	public function auto_update_maxminddb(){
+		
+		if ( ! wp_next_scheduled( 'update_maxmind_db_event' ) ) {
+			error_log("seting auto update");
+			wp_schedule_event( time(), 'weekly', 'update_maxmind_db_event' );
+		}
+	}
+
+	/**
+	 * Disable auto update 
+	 */
+	function disable_auto_update_maxminddb() {
+		
+		$timestamp = wp_next_scheduled( 'update_maxmind_db_event' );
+		if ( $timestamp ) {
+			error_log("Removing auto update");
+			wp_unschedule_event( $timestamp, 'update_maxmind_db_event' );
+		}
+	}
+	/** 
+	 * Function to download the maxmind database
+	 */
+	public function download_maxminddb(){
+		$uploads_dir   = wp_upload_dir();
+		$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
+		if (file_exists($database_path)) {
+			try {
+				$response = wp_remote_post(
+					Geolocation_API_URL . 'get_maxmind_db_version',
+						array(
+							'body' => array(
+								'action' => 'get_maxmind_db_version'
+							),
+						)
+				);
+
+				if (is_wp_error($response)) {
+					error_log('Error in response: ' . $response->get_error_message());
+				} else {
+					$status_code = wp_remote_retrieve_response_code($response);
+					error_log("updating file");
+					if (200 === $status_code) {
+						error_log("Response of version: ".print_r(json_decode( wp_remote_retrieve_body( $response ) ),true));
+						//get current db version in $current version
+						//if($current_version !== json_decode( wp_remote_retrieve_body( $response ) )){
+						wp_delete_file($database_path);
+						$this->download_maxminddb();
+						//}
+					}
+				}
+			} catch (Exception $e) {
+				error_log('Error: ' . $e->getMessage());
+			}
+		} else {
+			try {
+				error_log("Downloading file");
+				$response = wp_remote_post(
+					Geolocation_API_URL . 'get_maxmind_db',
+						array(
+							'body' => array(
+								'action' => 'download_maxmind_db'
+							),
+						)
+				);
+
+				if (is_wp_error($response)) {
+					error_log('Error in response: ' . $response->get_error_message());
+				} else {
+					$status_code = wp_remote_retrieve_response_code($response);
+					error_log("Status code:".print_r($status_code,true));
+					if (200 === $status_code) {
+						$file_data = wp_remote_retrieve_body($response);
+						
+						file_put_contents($database_path, $file_data);
+					}
+				}
+			} catch (Exception $e) {
+				error_log('Error: ' . $e->getMessage());
+			}
 		}
 	}
 

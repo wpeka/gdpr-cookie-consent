@@ -59,7 +59,7 @@ if ( ! defined( 'GDPR_API_URL' ) ) {
 	define( 'GDPR_API_URL', 'http://app.wplegalpages.com/wp-json/gdpr/v2/' );
 }
 if ( ! defined( 'Geolocation_API_URL' ) ) {
-define( 'Geolocation_API_URL', 'https://9d9f91c7a4.nxcli.io/wp-json/geolocal/v1/get_geolocation_data' );
+define( 'Geolocation_API_URL', 'http://localhost:10023/wp-json/geolocal/v1/' );
 }
 
 /**
