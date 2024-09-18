@@ -35,6 +35,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			}
 			?>
 			<p class="gdpr"><?php echo wp_kses_post( $the_options['gdpr_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?></p>
+			
 			<?php
 			if ( ! empty( $the_options['button_readmore_is_on'] ) ) {
 				?>

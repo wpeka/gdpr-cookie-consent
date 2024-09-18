@@ -401,7 +401,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$this->args = $args;
 
 		$requests = $this->get_requests( $args );
-
+		
 		if ( $requests ) {
 			foreach ( $requests as $request ) {
 				$data[] = array(
@@ -486,7 +486,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$offset = isset( $args['offset'] ) ? intval( $args['offset'] ) : 0;
 		$search = isset( $args['search'] ) ? sanitize_text_field( $args['search'] ) : '';
 		$month  = isset( $args['month'] ) ? intval( $args['month'] ) : 0;
-
+		$tcString = '';
+		
+		
 		$post_args = array(
 			'post_type'      => 'wplconsentlogs',
 			'posts_per_page' => $number,
@@ -607,7 +609,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$wpl_user_preference = isset( $cookies['wpl_user_preference'] ) ? json_decode( $cookies['wpl_user_preference'] ) : '';
 
 					$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
-
+					$tcString      = isset($cookies['wpl_tc_string']) ?  $cookies['wpl_tc_string'] : '';
 					$consent_status            = 'Unknown';
 					$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 					$wpl_user_preference_array = array();
@@ -617,6 +619,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 						$wpl_user_preference_array = json_decode( $decodedText, true );
 					}
+					
 
 					$allYes = true; // Initialize a flag variable.
 
@@ -646,6 +649,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip'][0] ) : 'Unknown' ); ?>',
 					'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 					'<?php echo esc_attr( $consent_status ); ?>',
+					'<?php echo esc_attr( $tcString ); ?>',
 					'<?php echo esc_attr( $siteaddress ); ?>',
 					<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 					)">Download</a>
@@ -811,6 +815,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip'][0] ) : 'Unknown' ); ?>',
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 							'<?php echo esc_attr( $consent_status ); ?>',
+							'<?php echo esc_attr( $tcString ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
 								<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 							)">Download</a>
@@ -961,6 +966,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 						'<?php echo esc_attr( $consent_status ); ?>',
+						'<?php echo esc_attr( $tcString ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
 							<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 						)">Download</a>
@@ -1111,6 +1117,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 							'<?php echo esc_attr( $consent_status ); ?>',
+							'<?php echo esc_attr( $tcString ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
 							<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 							)">Download</a>
@@ -1261,6 +1268,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 						'<?php echo esc_attr( $consent_status ); ?>',
+						'<?php echo esc_attr( $tcString ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
 						<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
 						)">Download</a>
