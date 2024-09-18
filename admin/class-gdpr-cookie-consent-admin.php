@@ -111,8 +111,8 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 		
 		$json_input = file_get_contents('php://input');
+		
 		if (!empty($json_input)) {
-
 			// Decode the JSON input
 			$tcf_json_data = json_decode($json_input);
 
@@ -5638,13 +5638,11 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Ajax callback for setting page.
 	 */
 	public function gdpr_cookie_consent_ajax_save_settings() {
-		$tcf_json_data = json_decode(wp_unslash(print_r($_POST['json'],true)));
 
 		if ( isset( $_POST['gcc_settings_form_nonce'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce'] ) ), 'gcc-settings-form-nonce' ) ) {
 				return;
 			}
-
 			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
 			$ab_options     = get_option( 'wpl_ab_options' );
@@ -5699,7 +5697,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['logging_on'] = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 
 			$the_options['is_on']                              = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'false';
-			$the_options['is_iabtcf_on']                       = isset( $_POST['gcc-iabtcf-enable'] ) && ( true === $_POST['gcc-iabtcf-enable'] || 'true' === $_POST['gcc-iabtcf-enable'] ) ? 'true' : 'false';
+			
+			
 			$the_options['cookie_usage_for']                   = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
 			$the_options['cookie_bar_as']                      = isset( $_POST['show-cookie-as'] ) ? sanitize_text_field( wp_unslash( $_POST['show-cookie-as'] ) ) : 'banner';
 			$the_options['notify_position_vertical']           = isset( $_POST['gcc-gdpr-cookie-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-position'] ) ) : 'bottom';
@@ -5804,35 +5803,36 @@ class Gdpr_Cookie_Consent_Admin {
 
 			$encode_css                   = $this->encode_css( $the_options['gdpr_css_text'] );
 			$the_options['gdpr_css_text'] = $encode_css;
-
-			$the_options['notify_message']      = 
-			isset( $_POST['notify_message_field'] ) ? wp_kses(
-				wp_unslash( $_POST['notify_message_field'] ),
-				array(
-					'a'      => array(
-						'href'   => array(),
-						'title'  => array(),
-						'target' => array(),
-						'rel'    => array(),
-						'class'  => array(),
-						'id'     => array(),
-						'style'  => array(),
-						'data-toggle' => array(),
-						'data-target' => array(), 
-					),
-					'br'     => array(),
-					'em'     => array(),
-					'strong' => array(),
-					'span'   => array(),
-					'p'      => array(),
-					'i'      => array(),
-					'img'    => array(),
-					'b'      => array(),
-					'div'    => array(),
-					'label'  => array(),
-				)
-			) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
-			if($the_options['is_iabtcf_on']) 
+			if(($the_options['is_iabtcf_on'] == false && $_POST['gcc-iabtcf-enable'] == "true") || ($_POST['gcc-iabtcf-enable'] == "false")){
+				$the_options['notify_message']      = 
+				isset( $_POST['notify_message_field'] ) ? wp_kses(
+					wp_unslash( $_POST['notify_message_field'] ),
+					array(
+						'a'      => array(
+							'href'   => array(),
+							'title'  => array(),
+							'target' => array(),
+							'rel'    => array(),
+							'class'  => array(),
+							'id'     => array(),
+							'style'  => array(),
+							'data-toggle' => array(),
+							'data-target' => array(), 
+						),
+						'br'     => array(),
+						'em'     => array(),
+						'strong' => array(),
+						'span'   => array(),
+						'p'      => array(),
+						'i'      => array(),
+						'img'    => array(),
+						'b'      => array(),
+						'div'    => array(),
+						'label'  => array(),
+					)
+				) : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+				$the_options['about_message']                        = isset( $_POST['about_message_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
+			}
 			$the_options['notify_message_lgpd'] = isset( $_POST['notify_message_lgpd_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_lgpd_field'] ),
 				array(
@@ -5857,7 +5857,7 @@ class Gdpr_Cookie_Consent_Admin {
 					'label'  => array(),
 				)
 			) : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.";
-			$the_options['about_message']                        = isset( $_POST['about_message_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
+			
 			$the_options['about_message_lgpd']                   = isset( $_POST['about_message_lgpd_field'] ) ? sanitize_text_field( wp_unslash( $_POST['about_message_lgpd_field'] ) ) : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
 			$the_options['notify_message_ccpa']                  = isset( $_POST['notify_message_ccpa_field'] ) ? wp_kses(
 				wp_unslash( $_POST['notify_message_ccpa_field'] ),
@@ -5883,6 +5883,10 @@ class Gdpr_Cookie_Consent_Admin {
 					'label'  => array(),
 				)
 			) : 'In case of sale of your personal information, you may opt out by using the link';
+			if(($the_options['is_iabtcf_on'] == false && $_POST['gcc-iabtcf-enable'] == "true") || ($the_options['is_iabtcf_on'] == true && $_POST['gcc-iabtcf-enable'] == "false")){
+				$the_options = $this->changeLanguage($the_options);
+			}
+			$the_options['is_iabtcf_on']                       = isset( $_POST['gcc-iabtcf-enable'] ) && ( true === $_POST['gcc-iabtcf-enable'] || 'true' === $_POST['gcc-iabtcf-enable'] ) ? 'true' : 'false';
 			$the_options['optout_text']                          = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
 			$the_options['is_ccpa_iab_on']                       = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
 			$the_options['show_again']                           = isset( $_POST['gcc-revoke-consent-enable'] ) && ( true === $_POST['gcc-revoke-consent-enable'] || 'true' === $_POST['gcc-revoke-consent-enable'] ) ? 'true' : 'false';
@@ -6542,12 +6546,95 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			// language translation based on the selected language.
 			if ( $_POST['lang_changed'] == 'true' && isset( $_POST['select-banner-lan'] ) && in_array( $_POST['select-banner-lan'], $this->supported_languages ) ) {  //phpcs:ignore
+				$the_options = $this->changeLanguage($the_options);				
+			}
 
-				// Load and decode translations from JSON file.
-				$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
+			// Set consent renew to all the users when consent renew is enabled.
+
+			if ( $the_options['consent_renew_enable'] ) {
+				global $wpdb;
+				$meta_key_cl_ip            = '_wplconsentlogs_ip';
+				$meta_key_cl_renew_consent = '_wpl_renew_consent';
+
+				// Find posts with _wplconsentlogs_ip meta key.
+				$results = $wpdb->get_results(
+					$wpdb->prepare(
+						"SELECT pm1.post_id, pm1.meta_value AS ip_value, pm2.meta_value AS consent_value
+						FROM {$wpdb->prefix}postmeta AS pm1
+						LEFT JOIN {$wpdb->prefix}postmeta AS pm2 ON pm1.post_id = pm2.post_id
+						WHERE pm1.meta_key = %s",
+						$meta_key_cl_ip
+					)
+				);
+
+				if ( $results ) {
+					foreach ( $results as $result ) {
+						$post_id       = $result->post_id;
+						$consent_value = $the_options['consent_renew_enable'];
+
+						// Check if _wpl_renew_consent meta key exists, and add if it doesn't.
+						if ( ! get_post_meta( $post_id, $meta_key_cl_renew_consent, true ) ) {
+							add_post_meta( $post_id, $meta_key_cl_renew_consent, $consent_value, true );
+						} else {
+							// Update _wpl_renew_consent meta value if it exists.
+							update_post_meta( $post_id, $meta_key_cl_renew_consent, $consent_value );
+						}
+					}
+				}
+
+				$option_name     = 'wpl_consent_timestamp';
+				$timestamp_value = time();
+
+				// Check if the option already exists.
+				if ( false === get_option( $option_name ) ) {
+					// If it doesn't exist, add the option.
+					add_option( $option_name, $timestamp_value );
+				} else {
+					// If it exists, update the option.
+					update_option( $option_name, $timestamp_value );
+				}
+
+				// make renew consent false once done.
+
+				$the_options['consent_renew_enable'] = 'false';
+			}
+			if ( (isset($_POST['gcc-ab-testing-enable']) && $_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false ) && isset( $ab_options['ab_testing_enabled'] ) && ( $ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true ) ) {
+				$ab_options['ab_testing_period'] = '30';
+				delete_transient( 'gdpr_ab_testing_transient' );
+				$the_options = $this->wpl_set_default_ab_testing_banner( $the_options, $the_options['default_cookie_bar'] === true || $the_options['default_cookie_bar'] === 'true' ? '1' : '2' );
+			}
+			$ab_options['ab_testing_enabled'] = isset( $_POST['gcc-ab-testing-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-ab-testing-enable'] ) ) : 'false';
+			update_option( 'wpl_ab_options', $ab_options );
+			if ( isset( $_POST['logo_removed'] ) && 'true' == $_POST['logo_removed'] ) {
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' );
+			} elseif ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
+				// Update the option if a new logo is provided.
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) );
+			}
+
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+			wp_send_json_success( array( 'form_options_saved' => true ) );
+		}
+		
+	}
+
+	/**
+	 * Function to change the language
+	 */
+	public function changeLanguage($the_options){
+		$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
 				$translations      = wp_remote_get( $translations_file );
-				$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
 
+				// Log the entire response
+				if ( is_wp_error( $translations ) ) {
+				} else {
+					$body = wp_remote_retrieve_body( $translations );
+
+					$translations = json_decode( $body, true );
+
+					if ( $translations === null ) {
+					}
+				}
 				// Define an array of text keys to translate.
 				$text_keys_to_translate = array(
 					'dash_notify_message_eprivacy',
@@ -6557,8 +6644,10 @@ class Gdpr_Cookie_Consent_Admin {
 					'dash_button_accept_all_text',
 					'dash_button_decline_text',
 					'dash_about_message',
+					'dash_about_message_iabtcf',
 					'dash_about_message_lgpd',
 					'dash_notify_message',
+					'dash_notify_message_iabtcf',
 					'dash_button_settings_text',
 					'dash_notify_message_ccpa',
 					'dash_button_donotsell_text',
@@ -6585,9 +6674,24 @@ class Gdpr_Cookie_Consent_Admin {
 				$translated_category_names        = array();
 				// Loop through the text keys and translate them.
 				foreach ( $text_keys_to_translate as $text_key ) {
+					
 					$translated_text                 = $this->translated_text( $text_key, $translations, $target_language );
 					$stripped_string                 = str_replace( 'dash_', '', $text_key );
-					$the_options[ $stripped_string ] = $translated_text;
+					if(($text_key === 'dash_about_message_iabtcf' || $text_key === 'dash_notify_message_iabtcf') && ($_POST['gcc-iabtcf-enable'] === true || $_POST['gcc-iabtcf-enable'] === "true" || $_POST['gcc-iabtcf-enable'] === 1)){
+						$stripped_string                 = str_replace( '_iabtcf', '', $stripped_string );
+						$the_options[ $stripped_string ] = $translated_text;
+			
+						
+					}
+					else if(($text_key === 'dash_about_message' || $text_key === 'dash_notify_message') && (!$_POST['gcc-iabtcf-enable'] || $_POST['gcc-iabtcf-enable'] === false || $_POST['gcc-iabtcf-enable'] === "false" || $_POST['gcc-iabtcf-enable'] === 0)){
+
+						$the_options[ $stripped_string ] = $translated_text;
+						
+					}
+					else if($text_key !== 'dash_about_message_iabtcf' && $text_key !== 'dash_notify_message_iabtcf' && $text_key !== 'dash_about_message' && $text_key !== 'dash_notify_message'){
+					
+						$the_options[ $stripped_string ] = $translated_text;
+					}
 
 					// Check if the current text key is for category description or category name.
 					if ( 'gdpr_cookie_category_description_necessary' === $text_key ) {
@@ -6676,74 +6780,7 @@ class Gdpr_Cookie_Consent_Admin {
 						}
 					}
 				}
-			}
-
-			// Set consent renew to all the users when consent renew is enabled.
-
-			if ( $the_options['consent_renew_enable'] ) {
-				global $wpdb;
-				$meta_key_cl_ip            = '_wplconsentlogs_ip';
-				$meta_key_cl_renew_consent = '_wpl_renew_consent';
-
-				// Find posts with _wplconsentlogs_ip meta key.
-				$results = $wpdb->get_results(
-					$wpdb->prepare(
-						"SELECT pm1.post_id, pm1.meta_value AS ip_value, pm2.meta_value AS consent_value
-						FROM {$wpdb->prefix}postmeta AS pm1
-						LEFT JOIN {$wpdb->prefix}postmeta AS pm2 ON pm1.post_id = pm2.post_id
-						WHERE pm1.meta_key = %s",
-						$meta_key_cl_ip
-					)
-				);
-
-				if ( $results ) {
-					foreach ( $results as $result ) {
-						$post_id       = $result->post_id;
-						$consent_value = $the_options['consent_renew_enable'];
-
-						// Check if _wpl_renew_consent meta key exists, and add if it doesn't.
-						if ( ! get_post_meta( $post_id, $meta_key_cl_renew_consent, true ) ) {
-							add_post_meta( $post_id, $meta_key_cl_renew_consent, $consent_value, true );
-						} else {
-							// Update _wpl_renew_consent meta value if it exists.
-							update_post_meta( $post_id, $meta_key_cl_renew_consent, $consent_value );
-						}
-					}
-				}
-
-				$option_name     = 'wpl_consent_timestamp';
-				$timestamp_value = time();
-
-				// Check if the option already exists.
-				if ( false === get_option( $option_name ) ) {
-					// If it doesn't exist, add the option.
-					add_option( $option_name, $timestamp_value );
-				} else {
-					// If it exists, update the option.
-					update_option( $option_name, $timestamp_value );
-				}
-
-				// make renew consent false once done.
-
-				$the_options['consent_renew_enable'] = 'false';
-			}
-			if ( ( $_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false ) && isset( $ab_options['ab_testing_enabled'] ) && ( $ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true ) ) {
-				$ab_options['ab_testing_period'] = '30';
-				delete_transient( 'gdpr_ab_testing_transient' );
-				$the_options = $this->wpl_set_default_ab_testing_banner( $the_options, $the_options['default_cookie_bar'] === true || $the_options['default_cookie_bar'] === 'true' ? '1' : '2' );
-			}
-			$ab_options['ab_testing_enabled'] = isset( $_POST['gcc-ab-testing-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-ab-testing-enable'] ) ) : 'false';
-			update_option( 'wpl_ab_options', $ab_options );
-			if ( isset( $_POST['logo_removed'] ) && 'true' == $_POST['logo_removed'] ) {
-				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' );
-			} elseif ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
-				// Update the option if a new logo is provided.
-				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) );
-			}
-
-			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
-			wp_send_json_success( array( 'form_options_saved' => true ) );
-		}
+		return $the_options;
 	}
 
 	/**

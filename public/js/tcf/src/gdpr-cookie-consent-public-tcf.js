@@ -11,7 +11,7 @@ import { TCModel, TCString, GVL } from "@iabtechlabtcf/core";
 import * as cmpstub from "@iabtechlabtcf/stub";
 
 //test cmp id and version
-const cmpId = 1000;
+const cmpId = 449;
 const cmpVersion = 1;
 cmpstub();
 
@@ -62,7 +62,7 @@ var GDPR_Cookie = {
 };
 
 //url of the location where vendor-list.json is hosted
-GVL.baseUrl = "https://923b74fe37.nxcli.io/rgh/";
+GVL.baseUrl = "https://app.wplegalpages.com/rgh/";
 
 const gvl = new GVL();
 //tcf api definition provided by iab to handle and read the tcstring by vendors and validator

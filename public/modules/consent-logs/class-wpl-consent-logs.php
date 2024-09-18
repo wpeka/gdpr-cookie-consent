@@ -486,9 +486,8 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$offset = isset( $args['offset'] ) ? intval( $args['offset'] ) : 0;
 		$search = isset( $args['search'] ) ? sanitize_text_field( $args['search'] ) : '';
 		$month  = isset( $args['month'] ) ? intval( $args['month'] ) : 0;
-		$tcString = 'harcoded';
-		$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
-		$tcString = $iabtcf_consent_data["tcString"];
+		$tcString = '';
+		
 		
 		$post_args = array(
 			'post_type'      => 'wplconsentlogs',
@@ -610,7 +609,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$wpl_user_preference = isset( $cookies['wpl_user_preference'] ) ? json_decode( $cookies['wpl_user_preference'] ) : '';
 
 					$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
-
+					$tcString      = isset($cookies['wpl_tc_string']) ?  $cookies['wpl_tc_string'] : '';
 					$consent_status            = 'Unknown';
 					$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 					$wpl_user_preference_array = array();
@@ -620,6 +619,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
 						$wpl_user_preference_array = json_decode( $decodedText, true );
 					}
+					
 
 					$allYes = true; // Initialize a flag variable.
 

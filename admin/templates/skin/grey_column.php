@@ -7,32 +7,7 @@
     * @package    Gdpr_Cookie_Consent
     * @subpackage Gdpr_Cookie_Consent/public
     */
-   $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
-   	$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
-   	$consent_data = isset( $iabtcf_consent_data["consent"] ) ? $iabtcf_consent_data["consent"] : [];
-   	$legint_data = isset( $iabtcf_consent_data["legint"] ) ? $iabtcf_consent_data["legint"] : [];
-   	$purpose_consent_data = isset( $iabtcf_consent_data["purpose_consent"] ) ? $iabtcf_consent_data["purpose_consent"] : [];
-   	$purpose_legint_data = isset( $iabtcf_consent_data["purpose_legint"] ) ? $iabtcf_consent_data["purpose_legint"] : [];
-   	$feature_consent_data = isset( $iabtcf_consent_data["feature_consent"] ) ? $iabtcf_consent_data["feature_consent"] : [];
-   	$allVendors = isset( $iabtcf_consent_data["allvendorIds"] ) ? $iabtcf_consent_data["allvendorIds"] : [];
-   	$allSpecialFeatures = isset( $iabtcf_consent_data["allSpecialFeatureIds"] ) ? $iabtcf_consent_data["allSpecialFeatureIds"] : [];   
-   	$allVendorsFlag = false;	//flag for all vendors toggle button
-   	foreach ( $data->vendors as $vendor ) {
-   		if ( in_array($vendor->id, $consent_data) ) {
-   			if( $vendor->legIntPurposes ) {
-   				if ( ! in_array($vendor->id, $legint_data) ) {
-   					$allVendorsFlag = false;
-   					break;
-   				}
-   			}
-   			$allVendorsFlag = true;
-   		}
-   		else {
-   			$allVendorsFlag = false;
-   			break;
-   		}
-   	}
-   	$allFeaturesFlag = false;	
+   	
    ?>
 <div class="gdpr_messagebar_detail layout-classic grey_column theme-twentytwentyfour hide-popup">
    <div class="gdprmodal gdprfade gdprshow" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="false" aria-gdprmodal="true" style="padding-right: 15px; display: block;">
@@ -265,9 +240,9 @@
                                        <?php
                                           } 
                                           ?>
-                                       id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="<?php echo esc_html($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value=<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>>
-                                    <label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
-                                    <span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+                                       id="gdpr_messagebar_body_button" class="<?php echo esc_html($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button">
+                                    <label for="gdpr_messagebar_body_button">
+                                    <span class="label-text"></span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
                                  </div>
@@ -415,13 +390,13 @@
                                        <?php
                                           } 
                                           ?>
-                                       id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+                                       id="gdpr_messagebar_body_button" 
                                        class="vendor-all-switch-handler" 
                                        type="checkbox" 
-                                       name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+                                       name="gdpr_messagebar_body_button" 
                                        value=<?php echo esc_html( $data->allvendors ); ?>>
-                                    <label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
-                                    <span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+                                    <label for="gdpr_messagebar_body_button">
+                                    <span class="label-text"></span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
                                  </div>

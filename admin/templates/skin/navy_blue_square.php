@@ -240,9 +240,9 @@
                                        <?php
                                           } 
                                           ?>
-                                       id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="<?php echo esc_html($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value=<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>>
-                                    <label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
-                                    <span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+                                       id="gdpr_messagebar_body_button" class="<?php echo esc_html($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button" >
+                                    <label for="gdpr_messagebar_body_button">
+                                    <span class="label-text"></span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
                                  </div>
@@ -390,13 +390,13 @@
                                        <?php
                                           } 
                                           ?>
-                                       id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+                                       id="gdpr_messagebar_body_button" 
                                        class="vendor-all-switch-handler" 
                                        type="checkbox" 
-                                       name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+                                       name="gdpr_messagebar_body_button" 
                                        value=<?php echo esc_html( $data->allvendors ); ?>>
-                                    <label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
-                                    <span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+                                    <label for="gdpr_messagebar_body_button">
+                                    <span class="label-text"></span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
                                  </div>

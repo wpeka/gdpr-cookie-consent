@@ -3135,46 +3135,49 @@ GDPR_CCPA_COOKIE_EXPIRE =
       return false;
     },
     logConsent: function (btn_action) {
-      if (!consent_forwarding && this.settings.logging_on) {
-        jQuery.ajax({
-          url: log_obj.ajax_url,
-          type: "POST",
-          data: {
-            action: "gdpr_log_consent_action",
-            security: log_obj.consent_logging_nonce,
-            gdpr_user_action: btn_action,
-            cookie_list: GDPR_Cookie.getallcookies(),
-            currentSite: window.location.href,
-            consent_forward: false,
-          },
-          success: function (response) {},
-        });
-      }
-      // consent forwarding.
-      else if (consent_forwarding && this.settings.logging_on) {
-        var subSites = gdpr_select_sites;
-        // Loop through sub-sites and trigger consent log
-        subSites.forEach(function (subSiteId) {
-          if (subSiteId != null || subSiteId !== " ") {
-            jQuery.ajax({
-              type: "POST",
-              url: log_obj.ajax_url,
-              data: {
-                action: "gdpr_log_consent_action",
-                security: log_obj.consent_logging_nonce,
-                gdpr_user_action: btn_action,
-                cookie_list: GDPR_Cookie.getallcookies(),
-                subSiteId: subSiteId,
-                currentSite: window.location.href,
-                consent_forward: true,
-              },
-              success: function (response) {},
-            });
-          }
-        });
+      var self = this;
+      setTimeout(function () {
+        if (!consent_forwarding && self.settings.logging_on) {
+          jQuery.ajax({
+            url: log_obj.ajax_url,
+            type: "POST",
+            data: {
+              action: "gdpr_log_consent_action",
+              security: log_obj.consent_logging_nonce,
+              gdpr_user_action: btn_action,
+              cookie_list: GDPR_Cookie.getallcookies(),
+              currentSite: window.location.href,
+              consent_forward: false,
+            },
+            success: function (response) {},
+          });
+        }
+        // consent forwarding.
+        else if (consent_forwarding && self.settings.logging_on) {
+          var subSites = gdpr_select_sites;
+          // Loop through sub-sites and trigger consent log
+          subSites.forEach(function (subSiteId) {
+            if (subSiteId != null || subSiteId !== " ") {
+              jQuery.ajax({
+                type: "POST",
+                url: log_obj.ajax_url,
+                data: {
+                  action: "gdpr_log_consent_action",
+                  security: log_obj.consent_logging_nonce,
+                  gdpr_user_action: btn_action,
+                  cookie_list: GDPR_Cookie.getallcookies(),
+                  subSiteId: subSiteId,
+                  currentSite: window.location.href,
+                  consent_forward: true,
+                },
+                success: function (response) {},
+              });
+            }
+          });
 
-        // Continue with your existing logic
-      }
+          // Continue with your existing logic
+        }
+      }, 2000);
     },
 
     disableAllCookies: function () {

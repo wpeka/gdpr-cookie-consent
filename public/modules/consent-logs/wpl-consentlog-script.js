@@ -13,7 +13,7 @@ function generatePDF(
   tcString,
   siteaddress,
   preferences,
-  cookieData,
+  cookieData
 ) {
   event.preventDefault();
 
@@ -46,18 +46,23 @@ function generatePDF(
   // Usage example:
   const analyticsCookies = filterCookiesByCategory(cookieData, "Analytics");
   const marketingCookies = filterCookiesByCategory(cookieData, "Marketing");
-  const unclassifiedCookies = filterCookiesByCategory(cookieData,"Unclassified");
+  const unclassifiedCookies = filterCookiesByCategory(
+    cookieData,
+    "Unclassified"
+  );
   const preferencesCookies = filterCookiesByCategory(cookieData, "Preferences");
 
   const websiteUrl = window.location.hostname;
-  const {jsPDF} = window.jspdf;
+  const { jsPDF } = window.jspdf;
   const doc = new jsPDF("p", "mm", "a4"); // Create A4 size PDF
+  var wrappedText = doc.splitTextToSize(tcString, 200);
   const pageWidth = doc.internal.pageSize.getWidth();
   const fontSizeHeading = 24;
   const text = "Proof of Consent";
 
   // Calculate the width of the text
-  const textWidth = doc.getStringUnitWidth(text) * fontSizeHeading / doc.internal.scaleFactor;
+  const textWidth =
+    (doc.getStringUnitWidth(text) * fontSizeHeading) / doc.internal.scaleFactor;
 
   // Calculate the X coordinate to center-align the text
   const centerX = (doc.internal.pageSize.getWidth() - textWidth) / 2;
@@ -92,356 +97,366 @@ function generatePDF(
   doc.setFont(undefined, "bold"); // Set font type to bold
   doc.text("Consent Status:", 10, 95);
   doc.setFont(undefined, "normal"); // Reset font type to normal
-  doc.text(consentStatus, 44,95);
- 
-  doc.setFont(undefined, "bold"); // Set font type to bold
-  doc.text("TC String:", 10, 110);
-  doc.setFont(undefined, "normal"); // Reset font type to normal
-  doc.text(tcString, 32,110);
+  doc.text(consentStatus, 44, 95);
 
-  if(siteaddress){
+  if (siteaddress) {
     doc.setFont(undefined, "bold"); // Set font type to bold
     doc.text("Forwarded From:", 10, 125);
     doc.setFont(undefined, "normal"); // Reset font type to normal
-    doc.text(siteaddress, 48,125);
+    doc.text(siteaddress, 48, 125);
 
     const fontSizeSubheading = 16;
-  doc.setFontSize(fontSizeSubheading);
-  doc.setFont(undefined, "bold");
-  doc.text("Cookie Consent Details:", 10, 140);
-  doc.setFont(undefined, "normal"); // Reset font type to normal
-  doc.setFontSize(fontSizeText);
-  if (preferences) {
-    let startY = 170; // Initial startY for content
+    doc.setFontSize(fontSizeSubheading);
+    doc.setFont(undefined, "bold");
+    doc.text("Cookie Consent Details:", 10, 140);
+    doc.setFont(undefined, "normal"); // Reset font type to normal
+    doc.setFontSize(fontSizeText);
+    if (preferences) {
+      let startY = 170; // Initial startY for content
 
-    // Check and display status for Necessary
-    if (preferences.necessary === "yes") {
-      doc.setFont(undefined, "bold");
-      doc.text("Necessary:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text(" Always Active", 32, startY);
-    } else {
-      doc.setFont(undefined, "bold");
-      doc.text("Necessary:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Not Active", 32, startY);
-    }
-    doc.autoTable({
-      head: [["Cookie", "Duration", "Description"]],
-      body: [
-        ["wpl_user_preference", "1 year", "WP Cookie Consent Preferences."],
-      ],
-      startY: startY + 5,
-      theme: "grid", // Add grid lines to the table
-      styles: {fontSize: fontSizeText},
-      margin:{left:10,top:0},
-      columnStyles: {
-        0: { cellWidth: 45 }, // Set column width for the first column to 30%
-        1: { cellWidth: 45 }, // Set column width for the second column to 30%
-        2: { cellWidth: 70 }, // Set column width for the third column to 40%
-      },
-      headStyles : {fillColor:[51,153,255]},
-      tableWidth:'wrap'
-    });
-    startY = doc.previousAutoTable.finalY +10;
-
-    // Check and display status for Analytics
-    if (preferences.analytics === "yes") {
-      doc.setFont(undefined, "bold");
-      doc.text("Analytics:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Active", 31, startY);
-    } else {
-      doc.setFont(undefined, "bold");
-      doc.text("Analytics:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Not Active", 31, startY);
-    }
-    if (analyticsCookies.length > 0) {
-      doc.autoTable({
-        head: [["Cookie", "Duration", "Description"]],
-        body: analyticsCookies,
-        startY: startY + 5,
-        theme: "grid", // Add grid lines to the table
-        styles: {fontSize: fontSizeText},
-        columnStyles: {
-            0: { cellWidth: 45 }, // Set column width for the first column to 30%
-            1: { cellWidth: 45 }, // Set column width for the second column to 30%
-            2: { cellWidth: 70 }, // Set column width for the third column to 40%
-          },
-        headStyles : {fillColor:[51,153,255]},
-        margin:{left:10,top:0},
-        tableWidth:'wrap'
-      });
-      startY = doc.previousAutoTable.finalY + 10 ;
-    }else{
-      startY += 10;
-    }
-
-    // Check and display status for Marketing
-    if (preferences.marketing === "yes") {
-      doc.setFont(undefined, "bold");
-      doc.text("Marketing:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text(" Active", 32, startY);
-    } else {
-      doc.setFont(undefined, "bold");
-      doc.text("Marketing:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Not Active", 32, startY);
-    }
-    if (marketingCookies.length > 0) {
-      doc.autoTable({
-        head: [["Cookie", "Duration", "Description"]],
-        body: marketingCookies,
-        startY: startY + 5,
-        theme: "grid", // Add grid lines to the table
-        styles: {fontSize: fontSizeText},
-        margin:{left:10,top:0},
-        columnStyles: {
-            0: { cellWidth: 45 }, // Set column width for the first column to 30%
-            1: { cellWidth: 45 }, // Set column width for the second column to 30%
-            2: { cellWidth: 70 }, // Set column width for the third column to 40%
-          },
-          headStyles : {fillColor:[51,153,255]},
-          tableWidth:'wrap'
-      });
-      startY = doc.previousAutoTable.finalY + 10;
-    }else{
-      startY += 10;
-    }
-
-    // Check and display status for Preferences
-    if (preferences.preferences === "yes") {
-      doc.setFont(undefined, "bold");
-      doc.text("Preferences:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Active", 36, startY);
-    } else {
-      doc.setFont(undefined, "bold");
-      doc.text("Preferences:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Not Active", 36, startY);
-    }
-    if (preferencesCookies.length > 0) {
-      doc.autoTable({
-        head: [["Cookie", "Duration", "Description"]],
-        body: preferencesCookies,
-        startY: startY + 5,
-        theme: "grid", // Add grid lines to the table
-        styles: {fontSize: fontSizeText},
-        margin:{left:10,top:0},
-        columnStyles: {
-            0: { cellWidth: 45 }, // Set column width for the first column to 30%
-            1: { cellWidth: 45 }, // Set column width for the second column to 30%
-            2: { cellWidth: 70 }, // Set column width for the third column to 40%
-          },
-          headStyles : {fillColor:[51,153,255]},
-          tableWidth:'wrap'
-      });
-      startY = doc.previousAutoTable.finalY + 10;
-    }else{
-      startY += 10;
-    }
-
-    // Check and display status for Unclassified
+      // Check and display status for Necessary
+      if (preferences.necessary === "yes") {
         doc.setFont(undefined, "bold");
-        doc.text("Unclassified:", 10, startY);
+        doc.text("Necessary:", 10, startY);
         doc.setFont(undefined, "normal");
-        doc.text(preferences.unclassified === "yes" ? "Active" : "Not Active", 37, startY);
-
-    if (unclassifiedCookies.length > 0) {
+        doc.text(" Always Active", 32, startY);
+      } else {
+        doc.setFont(undefined, "bold");
+        doc.text("Necessary:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Not Active", 32, startY);
+      }
       doc.autoTable({
         head: [["Cookie", "Duration", "Description"]],
-        body: unclassifiedCookies,
+        body: [
+          ["wpl_user_preference", "1 year", "WP Cookie Consent Preferences."],
+        ],
         startY: startY + 5,
         theme: "grid", // Add grid lines to the table
-        styles: {fontSize: fontSizeText},
-        margin:{left:10,top:0},
+        styles: { fontSize: fontSizeText },
+        margin: { left: 10, top: 0 },
         columnStyles: {
+          0: { cellWidth: 45 }, // Set column width for the first column to 30%
+          1: { cellWidth: 45 }, // Set column width for the second column to 30%
+          2: { cellWidth: 70 }, // Set column width for the third column to 40%
+        },
+        headStyles: { fillColor: [51, 153, 255] },
+        tableWidth: "wrap",
+      });
+      startY = doc.previousAutoTable.finalY + 10;
+
+      // Check and display status for Analytics
+      if (preferences.analytics === "yes") {
+        doc.setFont(undefined, "bold");
+        doc.text("Analytics:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Active", 31, startY);
+      } else {
+        doc.setFont(undefined, "bold");
+        doc.text("Analytics:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Not Active", 31, startY);
+      }
+      if (analyticsCookies.length > 0) {
+        doc.autoTable({
+          head: [["Cookie", "Duration", "Description"]],
+          body: analyticsCookies,
+          startY: startY + 5,
+          theme: "grid", // Add grid lines to the table
+          styles: { fontSize: fontSizeText },
+          columnStyles: {
             0: { cellWidth: 45 }, // Set column width for the first column to 30%
             1: { cellWidth: 45 }, // Set column width for the second column to 30%
             2: { cellWidth: 70 }, // Set column width for the third column to 40%
           },
-          headStyles : {fillColor:[51,153,255]},
-          tableWidth:'wrap'
-      });
-      startY = doc.previousAutoTable.finalY + 10;
+          headStyles: { fillColor: [51, 153, 255] },
+          margin: { left: 10, top: 0 },
+          tableWidth: "wrap",
+        });
+        startY = doc.previousAutoTable.finalY + 10;
+      } else {
+        startY += 10;
+      }
 
-    }else{
-      startY += 10;
+      // Check and display status for Marketing
+      if (preferences.marketing === "yes") {
+        doc.setFont(undefined, "bold");
+        doc.text("Marketing:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text(" Active", 32, startY);
+      } else {
+        doc.setFont(undefined, "bold");
+        doc.text("Marketing:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Not Active", 32, startY);
+      }
+      if (marketingCookies.length > 0) {
+        doc.autoTable({
+          head: [["Cookie", "Duration", "Description"]],
+          body: marketingCookies,
+          startY: startY + 5,
+          theme: "grid", // Add grid lines to the table
+          styles: { fontSize: fontSizeText },
+          margin: { left: 10, top: 0 },
+          columnStyles: {
+            0: { cellWidth: 45 }, // Set column width for the first column to 30%
+            1: { cellWidth: 45 }, // Set column width for the second column to 30%
+            2: { cellWidth: 70 }, // Set column width for the third column to 40%
+          },
+          headStyles: { fillColor: [51, 153, 255] },
+          tableWidth: "wrap",
+        });
+        startY = doc.previousAutoTable.finalY + 10;
+      } else {
+        startY += 10;
+      }
+
+      // Check and display status for Preferences
+      if (preferences.preferences === "yes") {
+        doc.setFont(undefined, "bold");
+        doc.text("Preferences:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Active", 36, startY);
+      } else {
+        doc.setFont(undefined, "bold");
+        doc.text("Preferences:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Not Active", 36, startY);
+      }
+      if (preferencesCookies.length > 0) {
+        doc.autoTable({
+          head: [["Cookie", "Duration", "Description"]],
+          body: preferencesCookies,
+          startY: startY + 5,
+          theme: "grid", // Add grid lines to the table
+          styles: { fontSize: fontSizeText },
+          margin: { left: 10, top: 0 },
+          columnStyles: {
+            0: { cellWidth: 45 }, // Set column width for the first column to 30%
+            1: { cellWidth: 45 }, // Set column width for the second column to 30%
+            2: { cellWidth: 70 }, // Set column width for the third column to 40%
+          },
+          headStyles: { fillColor: [51, 153, 255] },
+          tableWidth: "wrap",
+        });
+        startY = doc.previousAutoTable.finalY + 10;
+      } else {
+        startY += 10;
+      }
+
+      // Check and display status for Unclassified
+      doc.setFont(undefined, "bold");
+      doc.text("Unclassified:", 10, startY);
+      doc.setFont(undefined, "normal");
+      doc.text(
+        preferences.unclassified === "yes" ? "Active" : "Not Active",
+        37,
+        startY
+      );
+
+      if (unclassifiedCookies.length > 0) {
+        doc.autoTable({
+          head: [["Cookie", "Duration", "Description"]],
+          body: unclassifiedCookies,
+          startY: startY + 5,
+          theme: "grid", // Add grid lines to the table
+          styles: { fontSize: fontSizeText },
+          margin: { left: 10, top: 0 },
+          columnStyles: {
+            0: { cellWidth: 45 }, // Set column width for the first column to 30%
+            1: { cellWidth: 45 }, // Set column width for the second column to 30%
+            2: { cellWidth: 70 }, // Set column width for the third column to 40%
+          },
+          headStyles: { fillColor: [51, 153, 255] },
+          tableWidth: "wrap",
+        });
+        startY = doc.previousAutoTable.finalY + 10;
+      } else {
+        startY += 10;
+      }
     }
-  }
-  }
-  else{
+    doc.setFont(undefined, "bold"); // Set font type to bold
+    doc.text("TC String:", 10, 215);
+    doc.setFont(undefined, "normal"); // Reset font type to normal
+
+    doc.text(wrappedText, 32, 215);
+  } else {
     // Subheading for Cookie Details
-  const fontSizeSubheading = 16;
-  doc.setFontSize(fontSizeSubheading);
-  doc.setFont(undefined, "bold");
-  doc.text("Cookie Consent Details:", 10, 125);
-  doc.setFont(undefined, "normal"); // Reset font type to normal
-  doc.setFontSize(fontSizeText);
-  if (preferences) {
-    let startY = 135; // Initial startY for content
+    const fontSizeSubheading = 16;
+    doc.setFontSize(fontSizeSubheading);
+    doc.setFont(undefined, "bold");
+    doc.text("Cookie Consent Details:", 10, 125);
+    doc.setFont(undefined, "normal"); // Reset font type to normal
+    doc.setFontSize(fontSizeText);
+    if (preferences) {
+      let startY = 135; // Initial startY for content
 
-    // Check and display status for Necessary
-    if (preferences.necessary === "yes") {
-      doc.setFont(undefined, "bold");
-      doc.text("Necessary:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text(" Always Active", 32, startY);
-    } else {
-      doc.setFont(undefined, "bold");
-      doc.text("Necessary:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Not Active", 32, startY);
-    }
-    doc.autoTable({
-      head: [["Cookie", "Duration", "Description"]],
-      body: [
-        ["wpl_user_preference", "1 year", "WP Cookie Consent Preferences."],
-      ],
-      startY: startY + 5,
-      theme: "grid", // Add grid lines to the table
-      styles: {fontSize: fontSizeText},
-      margin:{left:10,top:0},
-      columnStyles: {
-        0: { cellWidth: 45 }, // Set column width for the first column to 30%
-        1: { cellWidth: 45 }, // Set column width for the second column to 30%
-        2: { cellWidth: 70 }, // Set column width for the third column to 40%
-      },
-      headStyles : {fillColor:[51,153,255]},
-      tableWidth:'wrap'
-    });
-    startY = doc.previousAutoTable.finalY +10;
-
-    // Check and display status for Analytics
-    if (preferences.analytics === "yes") {
-      doc.setFont(undefined, "bold");
-      doc.text("Analytics:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Active", 31, startY);
-    } else {
-      doc.setFont(undefined, "bold");
-      doc.text("Analytics:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Not Active", 31, startY);
-    }
-    if (analyticsCookies.length > 0) {
-      doc.autoTable({
-        head: [["Cookie", "Duration", "Description"]],
-        body: analyticsCookies,
-        startY: startY + 5,
-        theme: "grid", // Add grid lines to the table
-        styles: {fontSize: fontSizeText},
-        columnStyles: {
-            0: { cellWidth: 45 }, // Set column width for the first column to 30%
-            1: { cellWidth: 45 }, // Set column width for the second column to 30%
-            2: { cellWidth: 70 }, // Set column width for the third column to 40%
-          },
-        headStyles : {fillColor:[51,153,255]},
-        margin:{left:10,top:0},
-        tableWidth:'wrap'
-      });
-      startY = doc.previousAutoTable.finalY + 10 ;
-    }else{
-      startY += 10;
-    }
-
-    // Check and display status for Marketing
-    if (preferences.marketing === "yes") {
-      doc.setFont(undefined, "bold");
-      doc.text("Marketing:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text(" Active", 32, startY);
-    } else {
-      doc.setFont(undefined, "bold");
-      doc.text("Marketing:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Not Active", 32, startY);
-    }
-    if (marketingCookies.length > 0) {
-      doc.autoTable({
-        head: [["Cookie", "Duration", "Description"]],
-        body: marketingCookies,
-        startY: startY + 5,
-        theme: "grid", // Add grid lines to the table
-        styles: {fontSize: fontSizeText},
-        margin:{left:10,top:0},
-        columnStyles: {
-            0: { cellWidth: 45 }, // Set column width for the first column to 30%
-            1: { cellWidth: 45 }, // Set column width for the second column to 30%
-            2: { cellWidth: 70 }, // Set column width for the third column to 40%
-          },
-          headStyles : {fillColor:[51,153,255]},
-          tableWidth:'wrap'
-      });
-      startY = doc.previousAutoTable.finalY + 10;
-    }else{
-      startY += 10;
-    }
-
-    // Check and display status for Preferences
-    if (preferences.preferences === "yes") {
-      doc.setFont(undefined, "bold");
-      doc.text("Preferences:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Active", 36, startY);
-    } else {
-      doc.setFont(undefined, "bold");
-      doc.text("Preferences:", 10, startY);
-      doc.setFont(undefined, "normal");
-      doc.text("Not Active", 36, startY);
-    }
-    if (preferencesCookies.length > 0) {
-      doc.autoTable({
-        head: [["Cookie", "Duration", "Description"]],
-        body: preferencesCookies,
-        startY: startY + 5,
-        theme: "grid", // Add grid lines to the table
-        styles: {fontSize: fontSizeText},
-        margin:{left:10,top:0},
-        columnStyles: {
-            0: { cellWidth: 45 }, // Set column width for the first column to 30%
-            1: { cellWidth: 45 }, // Set column width for the second column to 30%
-            2: { cellWidth: 70 }, // Set column width for the third column to 40%
-          },
-          headStyles : {fillColor:[51,153,255]},
-          tableWidth:'wrap'
-      });
-      startY = doc.previousAutoTable.finalY + 10;
-    }else{
-      startY += 10;
-    }
-
-    // Check and display status for Unclassified
+      // Check and display status for Necessary
+      if (preferences.necessary === "yes") {
         doc.setFont(undefined, "bold");
-        doc.text("Unclassified:", 10, startY);
+        doc.text("Necessary:", 10, startY);
         doc.setFont(undefined, "normal");
-        doc.text(preferences.unclassified === "yes" ? "Active" : "Not Active", 37, startY);
-
-    if (unclassifiedCookies.length > 0) {
+        doc.text(" Always Active", 32, startY);
+      } else {
+        doc.setFont(undefined, "bold");
+        doc.text("Necessary:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Not Active", 32, startY);
+      }
       doc.autoTable({
         head: [["Cookie", "Duration", "Description"]],
-        body: unclassifiedCookies,
+        body: [
+          ["wpl_user_preference", "1 year", "WP Cookie Consent Preferences."],
+        ],
         startY: startY + 5,
         theme: "grid", // Add grid lines to the table
-        styles: {fontSize: fontSizeText},
-        margin:{left:10,top:0},
+        styles: { fontSize: fontSizeText },
+        margin: { left: 10, top: 0 },
         columnStyles: {
+          0: { cellWidth: 45 }, // Set column width for the first column to 30%
+          1: { cellWidth: 45 }, // Set column width for the second column to 30%
+          2: { cellWidth: 70 }, // Set column width for the third column to 40%
+        },
+        headStyles: { fillColor: [51, 153, 255] },
+        tableWidth: "wrap",
+      });
+      startY = doc.previousAutoTable.finalY + 10;
+
+      // Check and display status for Analytics
+      if (preferences.analytics === "yes") {
+        doc.setFont(undefined, "bold");
+        doc.text("Analytics:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Active", 31, startY);
+      } else {
+        doc.setFont(undefined, "bold");
+        doc.text("Analytics:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Not Active", 31, startY);
+      }
+      if (analyticsCookies.length > 0) {
+        doc.autoTable({
+          head: [["Cookie", "Duration", "Description"]],
+          body: analyticsCookies,
+          startY: startY + 5,
+          theme: "grid", // Add grid lines to the table
+          styles: { fontSize: fontSizeText },
+          columnStyles: {
             0: { cellWidth: 45 }, // Set column width for the first column to 30%
             1: { cellWidth: 45 }, // Set column width for the second column to 30%
             2: { cellWidth: 70 }, // Set column width for the third column to 40%
           },
-          headStyles : {fillColor:[51,153,255]},
-          tableWidth:'wrap'
-      });
-      startY = doc.previousAutoTable.finalY + 10;
+          headStyles: { fillColor: [51, 153, 255] },
+          margin: { left: 10, top: 0 },
+          tableWidth: "wrap",
+        });
+        startY = doc.previousAutoTable.finalY + 10;
+      } else {
+        startY += 10;
+      }
 
-    }else{
-      startY += 10;
+      // Check and display status for Marketing
+      if (preferences.marketing === "yes") {
+        doc.setFont(undefined, "bold");
+        doc.text("Marketing:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text(" Active", 32, startY);
+      } else {
+        doc.setFont(undefined, "bold");
+        doc.text("Marketing:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Not Active", 32, startY);
+      }
+      if (marketingCookies.length > 0) {
+        doc.autoTable({
+          head: [["Cookie", "Duration", "Description"]],
+          body: marketingCookies,
+          startY: startY + 5,
+          theme: "grid", // Add grid lines to the table
+          styles: { fontSize: fontSizeText },
+          margin: { left: 10, top: 0 },
+          columnStyles: {
+            0: { cellWidth: 45 }, // Set column width for the first column to 30%
+            1: { cellWidth: 45 }, // Set column width for the second column to 30%
+            2: { cellWidth: 70 }, // Set column width for the third column to 40%
+          },
+          headStyles: { fillColor: [51, 153, 255] },
+          tableWidth: "wrap",
+        });
+        startY = doc.previousAutoTable.finalY + 10;
+      } else {
+        startY += 10;
+      }
+
+      // Check and display status for Preferences
+      if (preferences.preferences === "yes") {
+        doc.setFont(undefined, "bold");
+        doc.text("Preferences:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Active", 36, startY);
+      } else {
+        doc.setFont(undefined, "bold");
+        doc.text("Preferences:", 10, startY);
+        doc.setFont(undefined, "normal");
+        doc.text("Not Active", 36, startY);
+      }
+      if (preferencesCookies.length > 0) {
+        doc.autoTable({
+          head: [["Cookie", "Duration", "Description"]],
+          body: preferencesCookies,
+          startY: startY + 5,
+          theme: "grid", // Add grid lines to the table
+          styles: { fontSize: fontSizeText },
+          margin: { left: 10, top: 0 },
+          columnStyles: {
+            0: { cellWidth: 45 }, // Set column width for the first column to 30%
+            1: { cellWidth: 45 }, // Set column width for the second column to 30%
+            2: { cellWidth: 70 }, // Set column width for the third column to 40%
+          },
+          headStyles: { fillColor: [51, 153, 255] },
+          tableWidth: "wrap",
+        });
+        startY = doc.previousAutoTable.finalY + 10;
+      } else {
+        startY += 10;
+      }
+
+      // Check and display status for Unclassified
+      doc.setFont(undefined, "bold");
+      doc.text("Unclassified:", 10, startY);
+      doc.setFont(undefined, "normal");
+      doc.text(
+        preferences.unclassified === "yes" ? "Active" : "Not Active",
+        37,
+        startY
+      );
+
+      if (unclassifiedCookies.length > 0) {
+        doc.autoTable({
+          head: [["Cookie", "Duration", "Description"]],
+          body: unclassifiedCookies,
+          startY: startY + 5,
+          theme: "grid", // Add grid lines to the table
+          styles: { fontSize: fontSizeText },
+          margin: { left: 10, top: 0 },
+          columnStyles: {
+            0: { cellWidth: 45 }, // Set column width for the first column to 30%
+            1: { cellWidth: 45 }, // Set column width for the second column to 30%
+            2: { cellWidth: 70 }, // Set column width for the third column to 40%
+          },
+          headStyles: { fillColor: [51, 153, 255] },
+          tableWidth: "wrap",
+        });
+        startY = doc.previousAutoTable.finalY + 10;
+      } else {
+        startY += 10;
+      }
     }
-  }
+    doc.setFont(undefined, "bold"); // Set font type to bold
+    doc.text("TC String:", 10, 215);
+    doc.setFont(undefined, "normal"); // Reset font type to normal
+
+    doc.text(wrappedText, 32, 215);
   }
   doc.save("generated-pdf.pdf");
 }

@@ -1221,6 +1221,22 @@ class Gdpr_Cookie_Consent {
 		// $settings             = self::gdpr_get_default_settings();
 		$vendors = new stdClass();
 		$vendors = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
+		if( gettype($vendors) === "boolean"){
+			$vendors = new stdClass();
+			$vendors->vendors = new stdClass();
+			$vendors->purposes =  new stdClass();
+			$vendors->purposeVendorMap = new stdClass();
+			$vendors->purposeVendorCount = 0;
+			$vendors->legintPurposeVendorCount = 0;
+			$vendors->specialPurposes = new stdClass();
+			$vendors->specialPurposeVendorCount = 0;
+			$vendors->features = new stdClass();
+			$vendors->featureVendorCount = 0;
+			$vendors->specialFeatures = new stdClass();
+			$vendors->specialFeatureVendorCount = 0;
+			$vendors->allvendors = "";
+
+		} 
 		return $vendors;
 	}
 

@@ -58,6 +58,7 @@ var gen = new Vue({
       disableSwitch: false,
       is_template_changed: false,
       is_lang_changed: false,
+      is_iabtcf_changed: false,
       is_logo_removed: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
@@ -2401,6 +2402,7 @@ var gen = new Vue({
         this.gdpr_about_cookie_message =
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
+      this.is_iabtcf_changed = true;
     },
     onSwitchCookieAcceptEnable() {
       this.cookie_accept_on = !this.cookie_accept_on;
@@ -4607,6 +4609,10 @@ var gen = new Vue({
             that.is_template_changed = false;
             location.reload();
           }
+          if (that.is_iabtcf_changed) {
+            that.is_iabtcf_changed = false;
+            location.reload();
+          }
           if (that.is_lang_changed) {
             that.is_lang_changed = false;
             location.reload();
@@ -4645,29 +4651,14 @@ var gen = new Vue({
           image_frame.on("close", function () {
             var selection = image_frame.state().get("selection");
             selection.each(function (attachment) {
-              jQuery("#gdpr-cookie-bar-logo-holder").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-holder1").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-holder2").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder").attr(
-                "value",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder1").attr(
-                "value",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder2").attr(
-                "value",
-                attachment.attributes.url
+              jQuery("[id='gdpr-cookie-bar-logo-holder']").each(function () {
+                jQuery(this).attr("src", attachment.attributes.url);
+              });
+
+              jQuery("[id='gdpr-cookie-bar-logo-url-holder']").each(
+                function () {
+                  jQuery(this).attr("value", attachment.attributes.url);
+                }
               );
             });
           }),
@@ -4676,8 +4667,12 @@ var gen = new Vue({
     },
     deleteSelectedimage() {
       jQuery("#image-delete-button").click(
-        jQuery("#gdpr-cookie-bar-logo-holder").removeAttr("src"),
-        jQuery("#gdpr-cookie-bar-logo-url-holder").attr("value", "")
+        jQuery("[id='gdpr-cookie-bar-logo-holder']").each(function () {
+          jQuery(this).removeAttr("src");
+        }),
+        jQuery("[id='gdpr-cookie-bar-logo-url-holder']").each(function () {
+          jQuery(this).attr("value", "");
+        })
       );
       this.is_logo_removed = true;
     },

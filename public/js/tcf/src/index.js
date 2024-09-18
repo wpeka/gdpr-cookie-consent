@@ -11,7 +11,7 @@ import { TCModel, TCString, GVL } from "@iabtechlabtcf/core";
  *  the IAB requires CMPs to host their own vendor-list.json files.  This must
  *  be set before creating any instance of the GVL class.
  */
-GVL.baseUrl = "https://923b74fe37.nxcli.io/rgh/";
+GVL.baseUrl = "https://app.wplegalpages.com/rgh/";
 
 const gvl = new GVL();
 
@@ -130,7 +130,7 @@ gvl.readyPromise.then(() => {
 
 // create a new TC string
 const tcModel = new TCModel(gvl);
-tcModel.cmpId = 1000; // test id
+tcModel.cmpId = 449; // test id
 tcModel.cmpVersion = 1; // test version
 
 tcModel.vendorConsents.set([4, 1, 8]);

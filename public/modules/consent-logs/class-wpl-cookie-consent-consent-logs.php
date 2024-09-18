@@ -473,6 +473,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 					foreach ( wp_unslash( $_POST['cookie_list'] ) as $key => $val ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						$js_cookie_list[ $key ] = sanitize_text_field( wp_unslash( $val ) );
 					}
+
 				}
 				switch ( $gdpr_user_action ) {
 					case 'accept':
@@ -482,6 +483,9 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							foreach ( $js_cookie_list as $key => $val ) {
 								if ( strpos( $key, 'wpl_user_preference' ) !== false ) {
 									$wpl_cookie_details[ $key ] = $val;
+								}
+								if ( strpos( $key, 'wpl_tc_string' ) !== false) {
+									$wpl_cookie_details['wpl_tc_string'] = $val;
 								}
 							}
 							$wpl_cookie_details['wpl_viewed_cookie'] = $js_cookie_list['wpl_viewed_cookie'];

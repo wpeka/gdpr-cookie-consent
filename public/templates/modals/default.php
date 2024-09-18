@@ -18,6 +18,7 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 	$feature_consent_data = isset( $iabtcf_consent_data["feature_consent"] ) ? $iabtcf_consent_data["feature_consent"] : [];
 	$allVendors = isset( $iabtcf_consent_data["allvendorIds"] ) ? $iabtcf_consent_data["allvendorIds"] : [];
 	$allSpecialFeatures = isset( $iabtcf_consent_data["allSpecialFeatureIds"] ) ? $iabtcf_consent_data["allSpecialFeatureIds"] : [];
+	$allVendorsFlag = false;
 	foreach ( $data->vendors as $vendor ) {
 		if ( in_array($vendor->id, $consent_data) ) {
 			if( $vendor->legIntPurposes ) {
