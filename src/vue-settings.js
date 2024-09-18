@@ -154,27 +154,19 @@ var gen = new Vue({
       )
         ? this.stripSlashes(settings_obj.the_options["bar_heading_lgpd_text"])
         : "",
-      gdpr_message:
-        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
-        (true === settings_obj.the_options["is_iabtcf_on"] ||
-          1 === settings_obj.the_options["is_iabtcf_on"])
-          ? `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`
-          : settings_obj.the_options.hasOwnProperty("notify_message")
-          ? this.stripSlashes(settings_obj.the_options["notify_message"])
-          : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+      gdpr_message: settings_obj.the_options.hasOwnProperty("notify_message")
+        ? this.stripSlashes(settings_obj.the_options["notify_message"])
+        : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
       lgpd_message: settings_obj.the_options.hasOwnProperty(
         "notify_message_lgpd"
       )
         ? this.stripSlashes(settings_obj.the_options["notify_message_lgpd"])
         : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
-      gdpr_about_cookie_message:
-        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
-        (true === settings_obj.the_options["is_iabtcf_on"] ||
-          1 === settings_obj.the_options["is_iabtcf_on"])
-          ? "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest. The choices you make regarding the purposes and entities listed in this notice are saved in a cookie named wpl_tc_string for a maximum duration of 12 months."
-          : settings_obj.the_options.hasOwnProperty("about_message")
-          ? this.stripSlashes(settings_obj.the_options["about_message"])
-          : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
+      gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty(
+        "about_message"
+      )
+        ? this.stripSlashes(settings_obj.the_options["about_message"])
+        : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
       lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty(
         "about_message_lgpd"
       )
@@ -6109,27 +6101,19 @@ var gen = new Vue({
       )
         ? this.stripSlashes(settings_obj.the_options["bar_heading_lgpd_text"])
         : "",
-      gdpr_message:
-        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
-        (true === settings_obj.the_options["is_iabtcf_on"] ||
-          1 === settings_obj.the_options["is_iabtcf_on"])
-          ? `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`
-          : settings_obj.the_options.hasOwnProperty("notify_message")
-          ? this.stripSlashes(settings_obj.the_options["notify_message"])
-          : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+      gdpr_message: settings_obj.the_options.hasOwnProperty("notify_message")
+        ? this.stripSlashes(settings_obj.the_options["notify_message"])
+        : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
       lgpd_message: settings_obj.the_options.hasOwnProperty(
         "notify_message_lgpd"
       )
         ? this.stripSlashes(settings_obj.the_options["notify_message_lgpd"])
         : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
-      gdpr_about_cookie_message:
-        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
-        (true === settings_obj.the_options["is_iabtcf_on"] ||
-          1 === settings_obj.the_options["is_iabtcf_on"])
-          ? "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest. The choices you make regarding the purposes and entities listed in this notice are saved in a cookie named wpl_tc_string for a maximum duration of 12 months."
-          : settings_obj.the_options.hasOwnProperty("about_message")
-          ? this.stripSlashes(settings_obj.the_options["about_message"])
-          : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
+      gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty(
+        "about_message"
+      )
+        ? this.stripSlashes(settings_obj.the_options["about_message"])
+        : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
       lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty(
         "about_message_lgpd"
       )
