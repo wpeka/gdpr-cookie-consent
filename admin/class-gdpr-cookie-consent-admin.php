@@ -118,7 +118,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 			// Check if JSON decoding was successful	
 			if (json_last_error() === JSON_ERROR_NONE ) {
-				if(!empty($tcf_json_data) && $tcf_json_data->secret_key === "sending_vendor_data"){
+				if(!empty($tcf_json_data) && isset($tcf_json_data->secret_key) && $tcf_json_data->secret_key === "sending_vendor_data"){
 					Gdpr_Cookie_Consent::gdpr_save_vendors($tcf_json_data);
 				}
 				
@@ -1261,6 +1261,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'td'     => array(
 					'class'        => array(),
 					'data-colname' => array(),
+					'colspan'	   => array(),
 				),
 				'tfoot'  => array(),
 				'button' => array(
