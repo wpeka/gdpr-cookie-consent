@@ -19,7 +19,8 @@
     $allVendors = isset( $iabtcf_consent_data["allvendorIds"] ) ? $iabtcf_consent_data["allvendorIds"] : [];
     $allSpecialFeatures = isset( $iabtcf_consent_data["allSpecialFeatureIds"] ) ? $iabtcf_consent_data["allSpecialFeatureIds"] : [];
     $allVendorsFlag = false;	//flag for all vendors toggle button
-    if(gettype($data->vendors) == "Array"){
+    
+    if(gettype($data->vendors) == "array"){
       $data->vendors = array_slice($data->vendors, 0, 10);
     }
     
