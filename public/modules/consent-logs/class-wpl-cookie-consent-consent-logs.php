@@ -473,6 +473,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 					foreach ( wp_unslash( $_POST['cookie_list'] ) as $key => $val ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						$js_cookie_list[ $key ] = sanitize_text_field( wp_unslash( $val ) );
 					}
+
 				}
 				switch ( $gdpr_user_action ) {
 					case 'accept':
@@ -482,6 +483,9 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							foreach ( $js_cookie_list as $key => $val ) {
 								if ( strpos( $key, 'wpl_user_preference' ) !== false ) {
 									$wpl_cookie_details[ $key ] = $val;
+								}
+								if ( strpos( $key, 'wpl_tc_string' ) !== false) {
+									$wpl_cookie_details['wpl_tc_string'] = $val;
 								}
 							}
 							$wpl_cookie_details['wpl_viewed_cookie'] = $js_cookie_list['wpl_viewed_cookie'];
@@ -1463,6 +1467,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						'<?php echo esc_js(isset($custom['_wplconsentlogs_ip'][0]) ? esc_attr($custom['_wplconsentlogs_ip'][0]) : 'Unknown'); ?>',
 						'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
 						'<?php echo esc_attr($consent_status); ?>',
+						'<?php echo esc_attr( $tcString ); ?>',
 					<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
 						)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<g clip-path="url(#clip0_103_5501)">
@@ -1656,6 +1661,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								'<?php echo esc_js(isset($custom['_wplconsentlogs_ip'][0]) ? esc_attr($custom['_wplconsentlogs_ip'][0]) : 'Unknown'); ?>',
 								'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
 								'<?php echo esc_attr($consent_status); ?>',
+								'<?php echo esc_attr( $tcString ); ?>',
 								'<?php echo esc_attr($siteaddress); ?>',
 						<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
 								)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1844,6 +1850,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									'<?php echo esc_js(isset($custom['_wplconsentlogs_ip_cf'][0]) ? esc_attr($custom['_wplconsentlogs_ip_cf'][0]) : 'Unknown'); ?>',
 									'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
 									'<?php echo esc_attr($consent_status); ?>',
+									'<?php echo esc_attr( $tcString ); ?>',
 									'<?php echo esc_attr($siteaddress); ?>',
 						<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
 									)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2032,6 +2039,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 										'<?php echo esc_js(isset($custom['_wplconsentlogs_ip_cf'][0]) ? esc_attr($custom['_wplconsentlogs_ip_cf'][0]) : 'Unknown'); ?>',
 										'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
 										'<?php echo esc_attr($consent_status); ?>',
+										'<?php echo esc_attr( $tcString ); ?>',
 										'<?php echo esc_attr($siteaddress); ?>',
 						<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
 										)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2222,6 +2230,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									'<?php echo esc_js(isset($custom['_wplconsentlogs_ip_cf'][0]) ? esc_attr($custom['_wplconsentlogs_ip_cf'][0]) : 'Unknown'); ?>',
 									'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
 									'<?php echo esc_attr($consent_status); ?>',
+									'<?php echo esc_attr( $tcString ); ?>',
 									'<?php echo esc_attr($siteaddress); ?>',
 					<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
 									)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

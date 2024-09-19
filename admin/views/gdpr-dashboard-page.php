@@ -38,6 +38,7 @@ $class_for_blur_content = $is_user_connected ? '' : 'gdpr-blur-background'; // A
 
 $class_for_card_body_blur_content = $is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes.
 
+
 /**
  * Total No of scanned cookies.
  */
@@ -210,6 +211,7 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="plugin_page_url"><?php esc_html_e( ' Turn them off to avoid conflict.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
+						<?php if($gdpr_policy === "GDPR" || $gdpr_policy === "LGPD" || $gdpr_policy === "GDPR & CCPA") { ?>
 						<c-row :class="['gdpr-progress-list-item', (pro_installed && pro_activated && api_key_activated && cookie_scanned)||(!pro_installed && is_user_connected && cookie_scanned) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span class="gdpr_scan_again_link" v-show="api_key_activated && cookie_scanned">
 								<?php esc_html_e( 'Cookies were last scanned on ', 'gdpr-cookie-consent' ); ?>
@@ -245,6 +247,7 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e( 'Scan now.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
+						<?php } ?>
 						<c-row :class="['gdpr-progress-list-item', showing_cookie_notice ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span v-show="showing_cookie_notice">
 								<?php esc_html_e( 'Showing Cookie Notice on Website.', 'gdpr-cookie-consent' ); ?>
