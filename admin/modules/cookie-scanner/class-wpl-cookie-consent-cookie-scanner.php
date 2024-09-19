@@ -32,7 +32,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * @access public
 	 * @var string $main_table Main cookie table.
 	 */
-	public $main_table = 'wpl_cookie_scan_cookies';
+	public $main_table = 'wpl_cookie_scan';
 	/**
 	 * Scan url table.
 	 *
@@ -837,7 +837,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			);
 			$cookies_table = $wpdb->prefix . $this->cookies_table;
 			$cat_table     = $wpdb->prefix . $this->category_table;
-			$scan_table    = $wpdb->prefix . 'wpl_cookie_scan_cookies'; // Replace with your actual scan table name
+			$scan_table    = $wpdb->prefix . 'wpl_cookie_scan'; // Replace with your actual scan table name
 		
 			// Get the latest scan ID with current_action = 'scan_pages'
 			$latest_scan_id = $wpdb->get_var("SELECT id_wpl_cookie_scan FROM $scan_table WHERE current_action = 'scan_pages' ORDER BY created_at DESC LIMIT 1");
