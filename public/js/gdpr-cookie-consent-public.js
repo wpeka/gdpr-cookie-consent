@@ -60,12 +60,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
 
   var GDPR_Cookie = {
     set: function (name, value, days) {
+      var expires = "";
       if (days) {
         var date = new Date();
         date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        var expires = "; expires=" + date.toGMTString();
-      } else {
-        var expires = "";
+        var expires = "; expires=" + date.toUTCString();
       }
       document.cookie =
         name + "=" + encodeURIComponent(value) + expires + "; path=/";
@@ -94,12 +93,14 @@ GDPR_CCPA_COOKIE_EXPIRE =
       var pairs_length = pairs.length;
       for (var i = 0; i < pairs_length; i++) {
         var pair = pairs[i].split("=");
-        cookieslist[(pair[0] + "").trim()] = unescape(pair[1]);
+        cookieslist[(pair[0] + "").trim()] = decodeURIComponent(pair[1]);
       }
       return cookieslist;
     },
     erase: function (name) {
-      this.set(name, "", -10);
+      document.cookie =
+        name +
+        "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.nxcli.io;";
     },
   };
 
@@ -3033,7 +3034,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           }
         }
       }
-
       return false;
     },
 
@@ -3178,7 +3178,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
 
           // Continue with your existing logic
         }
-      }, 2000);
+      }, 1000);
     },
 
     disableAllCookies: function () {
@@ -3403,10 +3403,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
           var current_category = cookie["gdpr_cookie_category_slug"];
           if (GDPR.allowed_categories.indexOf(current_category) === -1) {
             var cookies = cookie["data"];
-
             if (cookies && cookies.length != 0) {
               for (var c_key in cookies) {
                 var c_cookie = cookies[c_key];
+
                 GDPR_Cookie.erase(c_cookie["name"]);
               }
             }
