@@ -36,6 +36,9 @@ var gen = new Vue({
       active_plugins: dashboard_options.hasOwnProperty("active_plugins")
         ? dashboard_options["active_plugins"]
         : [],
+      cookie_policy: dashboard_options.hasOwnProperty("cookie_policy")
+        ? dashboard_options["cookie_policy"]
+        : "",
       other_plugins_active: false,
       api_key_activated:
         dashboard_options.hasOwnProperty("api_key_activated") &&
@@ -299,8 +302,15 @@ var gen = new Vue({
       if (this.is_user_connected && !this.pro_installed) {
         count_progress++;
       }
-
-      this.progress = (count_progress / 4) * 100;
+      if (
+        this.cookie_policy === "gdpr" ||
+        this.cookie_policy === "lgpd" ||
+        this.cookie_policy === "both"
+      ) {
+        this.progress = (count_progress / 4) * 100;
+      } else {
+        this.progress = (count_progress / 3) * 100;
+      }
     },
   },
   mounted() {

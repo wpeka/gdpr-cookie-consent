@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.4.3';
+			$this->version = '3.5.0';
 		}
 		add_action(
 			'current_screen',
@@ -219,7 +219,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'gdpr_quick_toolbar_menu', 999 );
 		}
 		if ( self::is_request( 'admin' ) ) {
-			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu', 5 );
+			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu');
 			// Adding admin menu.
 			// $this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
 			$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
@@ -521,6 +521,8 @@ class Gdpr_Cookie_Consent {
 				'rel'    => array(),
 				'style'  => array(),
 				'data'   => array(),
+				'data-toggle' => array(),
+				'data-target' => array(), 
 			),
 			'b'      => array(),
 			'br'     => array(
@@ -725,37 +727,39 @@ class Gdpr_Cookie_Consent {
 			'button_cancel_button_border_style'      => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
 			'button_cancel_button_border_color'      => '#333333',
 			'button_cancel_button_border_radius'     => '0', // in pixel.
-			'cookie_bar_color1'                      => '#ffffff',
-			'cookie_bar_opacity1'                    => '0.80',
-			'cookie_bar_border_width1'               => '0',
-			'cookie_font1'                           => 'inherit',
-			'cookie_text_color1'                     => '#000000',
-			'border_style1'                          => 'none',
-			'cookie_border_color1'                   => '#ffffff',
-			'cookie_bar_border_radius1'              => '0',
 
-			'cookie_bar_color2'                      => '#ffffff',
-			'cookie_bar_opacity2'                    => '0.80',
-			'cookie_bar_border_width2'               => '0',
-			'cookie_font2'                           => 'inherit',
-			'cookie_text_color2'                     => '#000000',
-			'border_style2'                          => 'none',
-			'cookie_border_color2'                   => '#ffffff',
-			'cookie_bar_border_radius2'              => '0',
-			'button_accept_text1'                    => 'Accept',
-			'button_accept_url1'                     => '#',
-			'button_accept_action1'                  => '#cookie_action_close_header',
-			'button_accept_link_color1'              => '#ffffff',
-			'button_accept_button_color1'            => '#18a300',
-			'button_accept_new_win1'                 => false,
-			'button_accept_as_button1'               => true,
-			'button_accept_button_size1'             => 'medium',
-			'button_accept_is_on1'                   => true,
-			'button_accept_button_opacity1'          => '1', // 0 to 1.
-			'button_accept_button_border_width1'     => '0', // in pixel.
-			'button_accept_button_border_style1'     => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_accept_button_border_color1'     => '#18a300',
-			'button_accept_button_border_radius1'    => '0', // in pixel.
+			'cookie_bar_color1' 					 => "#ffffff",
+      		'cookie_bar_opacity1' 					 => "0.80",
+      		'cookie_bar_border_width1'				 => "0",
+      		'cookie_font1'							 => "inherit",
+      		'cookie_text_color1'					 => "#000000",
+      		'border_style1'							 => "none",
+      		'cookie_border_color1'					 => "#ffffff",
+      		'cookie_bar_border_radius1'				 => "0",
+
+			'cookie_bar_color2' 					 => "#ffffff",
+      		'cookie_bar_opacity2' 					 => "0.80",
+      		'cookie_bar_border_width2'				 => "0",
+      		'cookie_font2'							 => "inherit",
+      		'cookie_text_color2'					 => "#000000",
+      		'border_style2'							 => "none",
+      		'cookie_border_color2'					 => "#ffffff",
+      		'cookie_bar_border_radius2'				 => "0",
+
+			'button_accept_text1'                     => 'Accept',
+			'button_accept_url1'                      => '#',
+			'button_accept_action1'                   => '#cookie_action_close_header',
+			'button_accept_link_color1'               => '#ffffff',
+			'button_accept_button_color1'             => '#18a300',
+			'button_accept_new_win1'                  => false,
+			'button_accept_as_button1'                => true,
+			'button_accept_button_size1'              => 'medium',
+			'button_accept_is_on1'                    => true,
+			'button_accept_button_opacity1'           => '1', // 0 to 1.
+			'button_accept_button_border_width1'      => '0', // in pixel.
+			'button_accept_button_border_style1'      => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
+			'button_accept_button_border_color1'      => '#18a300',
+			'button_accept_button_border_radius1'     => '0', // in pixel.
 
 			'button_accept_all_is_on1'               => false,
 			'button_accept_all_text1'                => 'Accept All',
@@ -928,25 +932,26 @@ class Gdpr_Cookie_Consent {
 
 			'font_family'                            => 'inherit', // Pick the family, not the easy name (see helper function below).
 
-			'is_on'                                  => true,
-			'is_eu_on'                               => false,
-			'is_ccpa_on'                             => false,
-			'is_ccpa_iab_on'                         => false,
+			'is_on'                                => true,
+			'is_iabtcf_on'                                => false,
+			'is_eu_on'                             => false,
+			'is_ccpa_on'                           => false,
+			'is_ccpa_iab_on'                       => false,
 			'is_worldwide_on'                        => true,
 			'is_selectedCountry_on'                  => false,
-			'logging_on'                             => true,
-			'show_credits'                           => false,
-			'is_ticked'                              => false,
-			'show_again'                             => true,
-			'is_script_blocker_on'                   => false,
-			'auto_hide'                              => false,
-			'auto_banner_initialize'                 => false,
-			'auto_scroll'                            => false,
-			'auto_click'                             => false,
-			'auto_scroll_reload'                     => false,
-			'accept_reload'                          => false,
-			'decline_reload'                         => false,
-			'delete_on_deactivation'                 => false,
+			'logging_on'                           => true,
+			'show_credits'                         => false,
+			'is_ticked'                            => false,
+			'show_again'                           => true,
+			'is_script_blocker_on'                 => false,
+			'auto_hide'                            => false,
+			'auto_banner_initialize'               => false,
+			'auto_scroll'                          => false,
+			'auto_click'                           => false,
+			'auto_scroll_reload'                   => false,
+			'accept_reload'                        => false,
+			'decline_reload'                       => false,
+			'delete_on_deactivation'               => false,
 
 			'show_again_position'                    => 'right', // 'left' = left | 'right' = right.
 			'show_again_text'                        => 'Cookie Settings',
@@ -1010,6 +1015,7 @@ class Gdpr_Cookie_Consent {
 		switch ( $key ) {
 			// Convert all boolean values from text to bool.
 			case 'is_on':
+			case 'is_iabtcf_on':
 			case 'is_eu_on':
 			case 'is_ccpa_on':
 			case 'is_ccpa_iab_on':
@@ -1171,6 +1177,82 @@ class Gdpr_Cookie_Consent {
 		}
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
 		return $settings;
+	}
+
+	/**
+	 * Save Vendor Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_save_vendors($data) {
+		self::$stored_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
+
+		$iabtcf_consent_data = [];
+		$iabtcf_consent_data["consent"]=[];
+		$iabtcf_consent_data["legint"]=[];
+		$iabtcf_consent_data["purpose_consent"]=[];
+		$iabtcf_consent_data["purpose_legint"]=[];
+		$iabtcf_consent_data["feature_consent"]=[];
+		$iabtcf_consent_data["allVendorsSelected"]=false;
+		$iabtcf_consent_data["allVendorsRejected"]=false;
+		$iabtcf_consent_data["tcString"]="none";
+		
+		if($data) {
+			$iabtcf_consent_data["allvendorIds"]= $data->allvendors;
+			$iabtcf_consent_data["allVendorsWithLegint"]= $data->allLegintVendors;
+			$iabtcf_consent_data["allPurposesWithLegint"]= $data->allLegintPurposes;
+			$iabtcf_consent_data["allPurposeIds"]= $data->allPurposes;
+			$iabtcf_consent_data["allSpecialFeatureIds"]= $data->allSpecialFeatures;
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $data );
+			if(! get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT )) {
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT, $iabtcf_consent_data );
+			}
+		}
+		else{
+		}
+	}
+
+	/**
+	 * Get Vendor Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_get_vendors() {
+		// $settings             = self::gdpr_get_default_settings();
+		$vendors = new stdClass();
+		$vendors = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
+		if( gettype($vendors) === "boolean"){
+			$vendors = new stdClass();
+			$vendors->vendors = new stdClass();
+			$vendors->purposes =  new stdClass();
+			$vendors->purposeVendorMap = new stdClass();
+			$vendors->purposeVendorCount = 0;
+			$vendors->legintPurposeVendorCount = 0;
+			$vendors->specialPurposes = new stdClass();
+			$vendors->specialPurposeVendorCount = 0;
+			$vendors->features = new stdClass();
+			$vendors->featureVendorCount = 0;
+			$vendors->specialFeatures = new stdClass();
+			$vendors->specialFeatureVendorCount = 0;
+			$vendors->allvendors = "";
+
+		} 
+		return $vendors;
+	}
+
+	/**
+	 * Get Vendor Consennt  Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_get_iabtcf_vendor_consent_data() {
+		$iabtcf_consent_data = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT );
+		$iabtcf_consent_data["consent"] = [];
+		$iabtcf_consent_data["legint"] = [];
+		$iabtcf_consent_data["purpose_consent"] = [];
+		$iabtcf_consent_data["purpose_legint"] = [];
+		 $iabtcf_consent_data["feature_consent"] = [];
+		return $iabtcf_consent_data;
 	}
 
 	/**
