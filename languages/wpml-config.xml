@@ -75,6 +75,7 @@
       <key name="button_cancel_is_on"/>
       <key name="font_family"/>
       <key name="is_on"/>
+      <key name="is_iabtcf_on"/>
       <key name="is_eu_on"/>
       <key name="is_worldwide_on"/>
       <key name="is_ccpa_on"/>
