@@ -5801,21 +5801,6 @@ var gen = new Vue({
     },
     onSubmitIntegrations() {
       let that = this;
-      if (this.maxmind_license_key === "" && this.enable_geotargeting) {
-        this.alert_message = "Please enter a valid license key";
-        j("#wpl-cookie-consent-integrations-alert").css(
-          "background-color",
-          "#e55353"
-        );
-        j("#wpl-cookie-consent-integrations-alert").fadeIn(400);
-        j("#wpl-cookie-consent-integrations-alert").fadeOut(2500);
-        return;
-      }
-      var spinner = j(".wpl_integrations_spinner");
-      spinner.show();
-      spinner.css({ visibility: "visible" });
-      j("#wpl-cookie-consent-overlay").css("display", "block");
-      var dataV = j("#wpl-cookie-consent-integrations-form").serialize();
 
       jQuery
         .ajax({

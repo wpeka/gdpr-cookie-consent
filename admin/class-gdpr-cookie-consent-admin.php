@@ -4554,9 +4554,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$geo_options['enable_geotargeting'] = false;
 			update_option( 'wpl_geo_options', $geo_options );
 		}
-		$uploads_dir                       = wp_upload_dir();
-		$geo_options['database_file_path'] = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/' . $geo_options['database_prefix'] . '-GeoLite2-City.mmdb';
-		update_option( 'wpl_geo_options', $geo_options );
+		
 		wp_enqueue_style( 'gdpr-cookie-consent-integrations' );
 
 		// Require the class file for gdpr cookie consent api framework settings.
@@ -6698,6 +6696,7 @@ class Gdpr_Cookie_Consent_Admin {
 		
 		if ( ! wp_next_scheduled( 'update_maxmind_db_event' ) ) {
 			error_log("seting auto update");
+			//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 			wp_schedule_event( time(), 'weekly', 'update_maxmind_db_event' );
 		}
 	}
@@ -6718,6 +6717,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function download_maxminddb(){
 		$uploads_dir   = wp_upload_dir();
+		//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 		$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
 		try {
 				error_log("Downloading file");
@@ -6727,6 +6727,7 @@ class Gdpr_Cookie_Consent_Admin {
 							'body' => array(
 								'action' => 'download_maxmind_db'
 							),
+							'timeout' => 20
 						)
 				);
 

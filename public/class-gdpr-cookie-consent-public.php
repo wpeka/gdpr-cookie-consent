@@ -202,6 +202,7 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @since 2.0
 	 */
+	//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 	public function show_cookie_consent_bar() {
 		update_option( 'gdpr_settings_enabled', 0 );
 		$return_array = array(

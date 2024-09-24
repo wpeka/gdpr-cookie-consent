@@ -128,9 +128,9 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 		$uploads_dir   = wp_upload_dir();
 		$geo_options   = get_option( 'wpl_geo_options' );
 		$database_path = '';
-		if ( isset( $geo_options['database_prefix'] ) && ! empty( $geo_options['database_prefix'] ) ) {
-			$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
-		}
+		//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+		$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
+		
 		$user_ip      = $this->wplgip_get_user_ip();
 		$country_code = '';
 		if ( $user_ip && 'UNKNOWN' !== $user_ip && ! empty( $database_path ) ) {
@@ -165,7 +165,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	public function wpl_is_selected_country() {
 		
 		$uploads_dir   = wp_upload_dir();
-		
+		//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 		$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
 		
 		$user_ip      = $this->wplgip_get_user_ip();

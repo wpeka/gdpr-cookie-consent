@@ -162,11 +162,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
 
       this.configBar();
 
-      // if (this.settings.maxmind_integrated == "2") {
-      //   this.check_ccpa_eu();
-      // } else {
-      //   this.toggleBar();
-      // }
       this.check_ccpa_eu();
 
       this.attachEvents();
@@ -3027,11 +3022,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
         window.location.reload(true);
       } else {
         if (this.settings.cookie_usage_for == "both") {
-          // if (this.settings.maxmind_integrated == "2") {
-          //   this.check_ccpa_eu();
-          // } else {
-          //   this.toggleBar();
-          // }
           this.check_ccpa_eu();
         }
       }
@@ -3058,11 +3048,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
         window.location.reload(true);
       } else {
         if (this.settings.cookie_usage_for == "both") {
-          // if (this.settings.maxmind_integrated == "2") {
-          //   this.check_ccpa_eu();
-          // } else {
-          //   this.toggleBar();
-          // }
           this.check_ccpa_eu();
         }
       }
@@ -3097,11 +3082,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
         window.location.reload(true);
       } else {
         if (this.settings.cookie_usage_for == "both") {
-          // if (this.settings.maxmind_integrated == "2") {
-          //   this.check_ccpa_eu(true, true);
-          // } else {
-          //   this.toggleBar(true, true);
-          // }
           this.check_ccpa_eu();
         }
       }
@@ -3130,11 +3110,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
         window.location.reload(true);
       } else {
         if (this.settings.cookie_usage_for == "both") {
-          // if (this.settings.maxmind_integrated == "2") {
-          //   this.check_ccpa_eu(true, true);
-          // } else {
-          //   this.toggleBar(true, true);
-          // }
           this.check_ccpa_eu(true, true);
         }
       }
