@@ -98,9 +98,18 @@ GDPR_CCPA_COOKIE_EXPIRE =
       return cookieslist;
     },
     erase: function (name) {
+      var domain = window.location.hostname;
+      var topDomain = domain.split(".").slice(-2).join(".");
       document.cookie =
         name +
-        "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.nxcli.io;";
+        "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" +
+        domain +
+        ";";
+      document.cookie =
+        name +
+        "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." +
+        topDomain +
+        ";";
     },
   };
 
