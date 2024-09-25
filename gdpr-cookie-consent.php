@@ -60,9 +60,6 @@ if ( ! defined( 'GDPR_APP_URL' ) ) {
 if ( ! defined( 'GDPR_API_URL' ) ) {
 	define( 'GDPR_API_URL', 'https://app.wplegalpages.com/wp-json/gdpr/v2/' );
 }
-if ( ! defined( 'Geolocation_API_URL' ) ) {
-define( 'Geolocation_API_URL', 'https://app.wplegalpages.com/wp-json/geolocal/v1/' );
-}
 
 /**
  * Clean variables using sanitize_text_field. Arrays are cleaned recursively.

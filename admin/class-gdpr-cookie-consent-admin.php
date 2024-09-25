@@ -6722,7 +6722,7 @@ class Gdpr_Cookie_Consent_Admin {
 		try {
 				error_log("Downloading file");
 				$response = wp_remote_post(
-					Geolocation_API_URL . 'get_maxmind_db',
+					GDPR_API_URL . 'get_maxmind_db',
 						array(
 							'body' => array(
 								'action' => 'download_maxmind_db'
