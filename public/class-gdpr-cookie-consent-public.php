@@ -202,6 +202,7 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @since 2.0
 	 */
+	//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 	public function show_cookie_consent_bar() {
 		update_option( 'gdpr_settings_enabled', 0 );
 		$return_array = array(
@@ -212,7 +213,7 @@ class Gdpr_Cookie_Consent_Public {
 		$the_options  = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$geo_options  = get_option( 'wpl_geo_options' );
 		$ab_option    = get_option( 'wpl_ab_options' );
-		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] && $the_options['is_worldwide_on'] === false) {
+		if ( $the_options['is_worldwide_on'] === false) {
 			$show_banner_for_selected_countries = array();
 			if ( true === boolval( $the_options['is_eu_on'] ) ) {
 				// Add the list of EU countries to the array
@@ -266,6 +267,7 @@ class Gdpr_Cookie_Consent_Public {
 					$show_banner_for_selected_countries = array_merge( $show_banner_for_selected_countries, $the_options['select_countries'] );
 				}
 			}
+			
 			$geoip             = new Gdpr_Cookie_Consent_Geo_Ip();
 			$user_country_code = $geoip->wpl_is_selected_country();
 			if ( ! in_array( $user_country_code, $show_banner_for_selected_countries ) ) {

@@ -172,11 +172,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
 
       this.configBar();
 
-      if (this.settings.maxmind_integrated == "2") {
-        this.check_ccpa_eu();
-      } else {
-        this.toggleBar();
-      }
+      this.check_ccpa_eu();
 
       this.attachEvents();
       this.configButtons();
@@ -3036,11 +3032,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
         window.location.reload(true);
       } else {
         if (this.settings.cookie_usage_for == "both") {
-          if (this.settings.maxmind_integrated == "2") {
-            this.check_ccpa_eu();
-          } else {
-            this.toggleBar();
-          }
+          this.check_ccpa_eu();
         }
       }
       return false;
@@ -3065,11 +3057,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
         window.location.reload(true);
       } else {
         if (this.settings.cookie_usage_for == "both") {
-          if (this.settings.maxmind_integrated == "2") {
-            this.check_ccpa_eu();
-          } else {
-            this.toggleBar();
-          }
+          this.check_ccpa_eu();
         }
       }
       return false;
@@ -3103,11 +3091,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
         window.location.reload(true);
       } else {
         if (this.settings.cookie_usage_for == "both") {
-          if (this.settings.maxmind_integrated == "2") {
-            this.check_ccpa_eu(true, true);
-          } else {
-            this.toggleBar(true, true);
-          }
+          this.check_ccpa_eu();
         }
       }
       return false;
@@ -3135,11 +3119,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
         window.location.reload(true);
       } else {
         if (this.settings.cookie_usage_for == "both") {
-          if (this.settings.maxmind_integrated == "2") {
-            this.check_ccpa_eu(true, true);
-          } else {
-            this.toggleBar(true, true);
-          }
+          this.check_ccpa_eu(true, true);
         }
       }
       return false;
@@ -3639,51 +3619,36 @@ GDPR_CCPA_COOKIE_EXPIRE =
       $("#gdpr-cookie-consent-bar").css("display", "none");
       $("#gdpr-cookie-consent-bar").slideDown(500);
     }
-    if ("2" == settings["maxmind_integrated"]) {
-      var data = {
-        action: "show_cookie_consent_bar",
-      };
+    var data = {
+      action: "show_cookie_consent_bar",
+    };
 
-      $.ajax({
-        type: "post",
-        url: log_obj.ajax_url,
-        data: data,
-        dataType: "json",
-        success: function (response) {
-          if (response.error) {
-            // handle error here.
-          } else {
-            if (response.eu_status == "on" || response.ccpa_status == "on") {
-              if (typeof gdpr_cookiebar_settings != "undefined") {
-                GDPR.set({
-                  settings: gdpr_cookiebar_settings,
-                });
-              }
+    $.ajax({
+      type: "post",
+      url: log_obj.ajax_url,
+      data: data,
+      dataType: "json",
+      success: function (response) {
+        if (response.error) {
+          // handle error here.
+        } else {
+          if (response.eu_status == "on" || response.ccpa_status == "on") {
+            if (typeof gdpr_cookiebar_settings != "undefined") {
+              GDPR.set({
+                settings: gdpr_cookiebar_settings,
+              });
+            }
 
-              if (typeof gdpr_cookies_list != "undefined") {
-                GDPR_Blocker.set({
-                  cookies: gdpr_cookies_list,
-                });
-                GDPR_Blocker.runScripts();
-              }
+            if (typeof gdpr_cookies_list != "undefined") {
+              GDPR_Blocker.set({
+                cookies: gdpr_cookies_list,
+              });
+              GDPR_Blocker.runScripts();
             }
           }
-        },
-      });
-    } else {
-      if (typeof gdpr_cookiebar_settings != "undefined") {
-        GDPR.set({
-          settings: gdpr_cookiebar_settings,
-        });
-      }
-
-      if (typeof gdpr_cookies_list != "undefined") {
-        GDPR_Blocker.set({
-          cookies: gdpr_cookies_list,
-        });
-        GDPR_Blocker.runScripts();
-      }
-    }
+        }
+      },
+    });
   });
 
   $(document).ready(function () {
