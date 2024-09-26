@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu','ceb', 'zh-cn', 'zh-tw', 'et', 'el', 'ht', 'haw', 'iw', 'hmn', 'jw', 'km', 'la', 'lt', 'my', 'pl', 'sr', 'ug' );
 
 	/**
 	 * The version of this plugin.
@@ -4278,6 +4278,74 @@ class Gdpr_Cookie_Consent_Admin {
 				'label' => 'Zulu',
 				'code'  => 'zu',
 			),
+			array(
+				'label' => 'Cebuano',
+				'code'  => 'ceb',
+			),
+			array(
+				'label' => 'Chinese (Simplified)',
+				'code'  => 'zh-cn',
+			),
+			array(
+				'label' => 'Chinese (Traditional)',
+				'code'  => 'zh-tw',
+			),
+			array(
+				'label' => 'Estonian',
+				'code'  => 'et',
+			),
+			array(
+				'label' => 'Greek',
+				'code'  => 'el',
+			),
+			array(
+				'label' => 'Haitian Creole',
+				'code'  => 'ht',
+			),
+			array(
+				'label' => 'Hawaiian',
+				'code'  => 'haw',
+			),
+			array(
+				'label' => 'Hebrew',
+				'code'  => 'iw',
+			),
+			array(
+				'label' => 'Hmong',
+				'code'  => 'hmn',
+			),
+			array(
+				'label' => 'Javanese',
+				'code'  => 'jw',
+			),
+			array(
+				'label' => 'Khmer',
+				'code'  => 'km',
+			),
+			array(
+				'label' => 'Latin',
+				'code'  => 'la',
+			),
+			array(
+				'label' => 'Lithuanian',
+				'code'  => 'lt',
+			),
+			array(
+				'label' => 'Myanmar (Burmese)',
+				'code'  => 'my',
+			),
+			array(
+				'label' => 'Polish',
+				'code'  => 'pl',
+			),
+			array(
+				'label' => 'Serbian',
+				'code'  => 'sr',
+			),
+			array(
+				'label' => 'Uyghur',
+				'code'  => 'ug',
+			),
 
 		);
 
@@ -5541,7 +5609,11 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			$ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['ab_testing_period_text_field'] ) ) : '';
 
-			if ( ( $_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable'] === 'true' ) && ( ! isset( $ab_options['ab_testing_enabled'] ) || $ab_options['ab_testing_enabled'] === 'false' || $ab_options['ab_testing_enabled'] === false ) ) {
+			if (isset($_POST['gcc-ab-testing-enable']) 
+			&& ($_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable'] === 'true') 
+			&& (!isset($ab_options['ab_testing_enabled']) 
+				|| $ab_options['ab_testing_enabled'] === 'false' 
+				|| $ab_options['ab_testing_enabled'] === false)) {
 				$ab_options ['necessary1']  = 0;
 				$ab_options ['marketing1']  = 0;
 				$ab_options ['analytics1']  = 0;
@@ -6504,7 +6576,10 @@ class Gdpr_Cookie_Consent_Admin {
 
 				$the_options['consent_renew_enable'] = 'false';
 			}
-			if ( (isset($_POST['gcc-ab-testing-enable']) && $_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false ) && isset( $ab_options['ab_testing_enabled'] ) && ( $ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true ) ) {
+			if (isset($_POST['gcc-ab-testing-enable']) 
+				&& ($_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false) 
+				&& isset($ab_options['ab_testing_enabled']) 
+				&& ($ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true)) {
 				$ab_options['ab_testing_period'] = '30';
 				delete_transient( 'gdpr_ab_testing_transient' );
 				$the_options = $this->wpl_set_default_ab_testing_banner( $the_options, $the_options['default_cookie_bar'] === true || $the_options['default_cookie_bar'] === 'true' ? '1' : '2' );
@@ -7253,6 +7328,74 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'label' => 'Zulu',
 				'code'  => 'zu',
+			),
+			array(
+				'label' => 'Cebuano',
+				'code'  => 'ceb',
+			),
+			array(
+				'label' => 'Chinese (Simplified)',
+				'code'  => 'zh-cn',
+			),
+			array(
+				'label' => 'Chinese (Traditional)',
+				'code'  => 'zh-tw',
+			),
+			array(
+				'label' => 'Estonian',
+				'code'  => 'et',
+			),
+			array(
+				'label' => 'Greek',
+				'code'  => 'el',
+			),
+			array(
+				'label' => 'Haitian Creole',
+				'code'  => 'ht',
+			),
+			array(
+				'label' => 'Hawaiian',
+				'code'  => 'haw',
+			),
+			array(
+				'label' => 'Hebrew',
+				'code'  => 'iw',
+			),
+			array(
+				'label' => 'Hmong',
+				'code'  => 'hmn',
+			),
+			array(
+				'label' => 'Javanese',
+				'code'  => 'jw',
+			),
+			array(
+				'label' => 'Khmer',
+				'code'  => 'km',
+			),
+			array(
+				'label' => 'Latin',
+				'code'  => 'la',
+			),
+			array(
+				'label' => 'Lithuanian',
+				'code'  => 'lt',
+			),
+			array(
+				'label' => 'Myanmar (Burmese)',
+				'code'  => 'my',
+			),
+			array(
+				'label' => 'Polish',
+				'code'  => 'pl',
+			),
+			array(
+				'label' => 'Serbian',
+				'code'  => 'sr',
+			),
+			array(
+				'label' => 'Uyghur',
+				'code'  => 'ug',
 			),
 
 		);
