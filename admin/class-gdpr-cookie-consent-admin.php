@@ -6770,7 +6770,6 @@ class Gdpr_Cookie_Consent_Admin {
 	public function auto_update_maxminddb(){
 		
 		if ( ! wp_next_scheduled( 'update_maxmind_db_event' ) ) {
-			error_log("seting auto update");
 			//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 			wp_schedule_event( time(), 'weekly', 'update_maxmind_db_event' );
 		}
@@ -6783,7 +6782,6 @@ class Gdpr_Cookie_Consent_Admin {
 		
 		$timestamp = wp_next_scheduled( 'update_maxmind_db_event' );
 		if ( $timestamp ) {
-			error_log("Removing auto update");
 			wp_unschedule_event( $timestamp, 'update_maxmind_db_event' );
 		}
 	}
@@ -6794,32 +6792,69 @@ class Gdpr_Cookie_Consent_Admin {
 		$uploads_dir   = wp_upload_dir();
 		//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 		$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
-		try {
-				error_log("Downloading file");
-				$response = wp_remote_post(
-					GDPR_API_URL . 'get_maxmind_db',
-						array(
-							'body' => array(
-								'action' => 'download_maxmind_db'
-							),
-							'timeout' => 20
-						)
-				);
+		if (file_exists($database_path)) {
+			// Get the file's last modified time
+			$last_modified_time = filemtime($database_path);
 
-				if (is_wp_error($response)) {
-					error_log('Error in response: ' . $response->get_error_message());
-				} else {
-					$status_code = wp_remote_retrieve_response_code($response);
-					error_log("Status code:".print_r($status_code,true));
-					if (200 === $status_code) {
-						$file_data = wp_remote_retrieve_body($response);
-						if(file_exists($database_path)) wp_delete_file($database_path);
-						file_put_contents($database_path, $file_data);
+			// Calculate the time 7 days ago
+			$seven_days_ago = strtotime('-7 days');
+
+			// Check if the file was modified within the last 7 days
+			if ($last_modified_time <= $seven_days_ago) {
+				try {
+					$response = wp_remote_post(
+						GDPR_API_URL . 'get_maxmind_db',
+							array(
+								'body' => array(
+									'action' => 'download_maxmind_db'
+								),
+								'timeout' => 20
+							)
+					);
+
+					if (is_wp_error($response)) {
+						error_log('Error in response: ' . $response->get_error_message());
+					} else {
+						$status_code = wp_remote_retrieve_response_code($response);
+						if (200 === $status_code) {
+							$file_data = wp_remote_retrieve_body($response);
+							if(file_exists($database_path)) wp_delete_file($database_path);
+							file_put_contents($database_path, $file_data);
+						}
 					}
+				} catch (Exception $e) {
+					error_log('Error: ' . $e->getMessage());
 				}
-			} catch (Exception $e) {
-				error_log('Error: ' . $e->getMessage());
+			} else {
+				
 			}
+		} else {
+			try {
+					$response = wp_remote_post(
+						GDPR_API_URL . 'get_maxmind_db',
+							array(
+								'body' => array(
+									'action' => 'download_maxmind_db'
+								),
+								'timeout' => 20
+							)
+					);
+
+					if (is_wp_error($response)) {
+						error_log('Error in response: ' . $response->get_error_message());
+					} else {
+						$status_code = wp_remote_retrieve_response_code($response);
+						if (200 === $status_code) {
+							$file_data = wp_remote_retrieve_body($response);
+							if(file_exists($database_path)) wp_delete_file($database_path);
+							file_put_contents($database_path, $file_data);
+						}
+					}
+				} catch (Exception $e) {
+					error_log('Error: ' . $e->getMessage());
+				}
+		}
+		
 	}
 
 	/**
