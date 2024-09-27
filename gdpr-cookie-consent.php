@@ -166,3 +166,48 @@ function run_gdpr_cookie_consent() {
 	$plugin->run();
 }
 run_gdpr_cookie_consent();
+
+/* Added for displaying message on activation/deactivation of other third party cookie plugin */
+// Hook into plugin activation and deactivation events
+add_action('deactivate_plugin', 'gdpr_display_message_other_plugin_on_change', 10, 2);
+add_action('activate_plugin', 'gdpr_display_message_other_plugin_on_change', 10, 2);
+
+function gdpr_display_message_other_plugin_on_change($plugin, $network_deactivating) {
+    // Get all installed plugins with their details
+    $all_plugins = get_plugins();
+
+    foreach ($all_plugins as $plugin_path => $plugin_data) {
+        // Check if the plugin name or description contains cookie-related keywords
+        if (
+            stripos($plugin_data['Name'], 'cookie') !== false ||
+            stripos($plugin_data['Description'], 'cookie') !== false ||
+            stripos($plugin_data['Name'], 'consent') !== false ||
+            stripos($plugin_data['Description'], 'consent') !== false ||
+            stripos($plugin_data['Name'], 'GDPR') !== false ||
+            stripos($plugin_data['Description'], 'GDPR') !== false
+        ) {
+            // If the activated/deactivated plugin matches any cookie consent plugin
+            if ($plugin === $plugin_path) {
+                // Store a transient to show a message
+                set_transient('gdpr_display_message_other_plugin_on_change', true, 60);
+                break;
+            }
+        }
+    }
+}
+
+// Display the admin notice if a cookie consent plugin was activated or deactivated
+add_action('admin_notices', 'gdpr_show_admin_notice_activation_deactivation_third_party_plugins');
+
+function gdpr_show_admin_notice_activation_deactivation_third_party_plugins() {
+    // Check if the transient is set
+    if (get_transient('gdpr_display_message_other_plugin_on_change')) {
+        // Output the admin notice with a link to rescan the website
+        echo '<div class="notice notice-warning is-dismissible">';
+        echo '<p>You have enabled or disabled a cookie consent plugin, which may require your cookie banner to be adjusted. Please scan your website again as soon as you have finished the changes. <a href="'.esc_url( admin_url() ).'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list">Scan website again</a></p>';
+        echo '</div>';
+        
+        // Delete the transient after displaying the message
+        delete_transient('gdpr_display_message_other_plugin_on_change');
+    }
+}
