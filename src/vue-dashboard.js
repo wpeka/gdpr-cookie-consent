@@ -309,7 +309,7 @@ var gen = new Vue({
       ) {
         this.progress = (count_progress / 4) * 100;
       } else {
-        this.progress = (count_progress / 3) * 100;
+        this.progress = ((count_progress / 3) * 100).toFixed(1);
       }
     },
   },

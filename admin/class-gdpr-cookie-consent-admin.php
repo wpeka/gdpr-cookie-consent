@@ -1096,6 +1096,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'div'    => array(
 					'class' => array(),
 					'id'    => array(),
+					'style' => array(),
 				),
 				'h1'     => array(
 					'class' => array(),
@@ -1127,9 +1128,10 @@ class Gdpr_Cookie_Consent_Admin {
 					'placeholder' => array(),
 				),
 				'a'      => array(
-					'href'   => array(),
-					'target' => array(),
-					'class'  => array(),
+					'href'    => array(),
+					'target'  => array(),
+					'class'   => array(),
+					'onclick' => array(),
 				),
 				'select' => array(
 					'name'  => array(),
@@ -1158,7 +1160,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'td'     => array(
 					'class'        => array(),
 					'data-colname' => array(),
-					'colspan'	   => array(),
+					'colspan'      => array(),
 				),
 				'tfoot'  => array(),
 				'button' => array(
@@ -1168,6 +1170,24 @@ class Gdpr_Cookie_Consent_Admin {
 				'table'  => array(
 					'class' => array(),
 				),
+				'svg'    => array(
+					'width'   => array(),
+					'height'  => array(),
+					'viewBox' => array(),
+					'fill'    => array(),
+					'xmlns'   => array(),
+				),
+				'g'      => array(
+					'clip-path' => array(),
+				),
+				'path'   => array(
+					'd'    => array(),
+					'fill' => array(),
+				),
+				'defs'   => array(
+					'clipPath' => array(),
+				),
+				'rect'   => array(),
 			);
 			echo wp_kses( $this->wpl_get_template_data_request( 'gdpr-data-request-tab-template.php', $args ), $allowed_data_req_html );
 	}
@@ -4297,20 +4317,12 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => 'et',
 			),
 			array(
-				'label' => 'Greek',
-				'code'  => 'el',
-			),
-			array(
 				'label' => 'Haitian Creole',
 				'code'  => 'ht',
 			),
 			array(
 				'label' => 'Hawaiian',
 				'code'  => 'haw',
-			),
-			array(
-				'label' => 'Hebrew',
-				'code'  => 'iw',
 			),
 			array(
 				'label' => 'Hmong',
@@ -4335,10 +4347,6 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'label' => 'Myanmar (Burmese)',
 				'code'  => 'my',
-			),
-			array(
-				'label' => 'Polish',
-				'code'  => 'pl',
 			),
 			array(
 				'label' => 'Serbian',
@@ -7383,20 +7391,12 @@ class Gdpr_Cookie_Consent_Admin {
 				'code'  => 'et',
 			),
 			array(
-				'label' => 'Greek',
-				'code'  => 'el',
-			),
-			array(
 				'label' => 'Haitian Creole',
 				'code'  => 'ht',
 			),
 			array(
 				'label' => 'Hawaiian',
 				'code'  => 'haw',
-			),
-			array(
-				'label' => 'Hebrew',
-				'code'  => 'iw',
 			),
 			array(
 				'label' => 'Hmong',
@@ -7421,10 +7421,6 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'label' => 'Myanmar (Burmese)',
 				'code'  => 'my',
-			),
-			array(
-				'label' => 'Polish',
-				'code'  => 'pl',
 			),
 			array(
 				'label' => 'Serbian',

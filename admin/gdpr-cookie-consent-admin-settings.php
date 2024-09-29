@@ -748,7 +748,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-switch class="gdpr-btn-switch" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 						</div>
-						<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?></c-button>
+						<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
 					</div>
 			</div><hr id="preview-btn-setting-nav-seperator">
 			<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
