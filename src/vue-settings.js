@@ -4636,14 +4636,29 @@ var gen = new Vue({
           image_frame.on("close", function () {
             var selection = image_frame.state().get("selection");
             selection.each(function (attachment) {
-              jQuery("[id='gdpr-cookie-bar-logo-holder']").each(function () {
-                jQuery(this).attr("src", attachment.attributes.url);
-              });
-
-              jQuery("[id='gdpr-cookie-bar-logo-url-holder']").each(
-                function () {
-                  jQuery(this).attr("value", attachment.attributes.url);
-                }
+              jQuery("#gdpr-cookie-bar-logo-holder").attr(
+                "src",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-holder1").attr(
+                "src",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-holder2").attr(
+                "src",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-url-holder").attr(
+                "value",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-url-holder1").attr(
+                "value",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-url-holder2").attr(
+                "value",
+                attachment.attributes.url
               );
             });
           }),
@@ -4651,14 +4666,13 @@ var gen = new Vue({
         );
     },
     deleteSelectedimage() {
-      jQuery("#image-delete-button").click(
-        jQuery("[id='gdpr-cookie-bar-logo-holder']").each(function () {
-          jQuery(this).removeAttr("src");
-        }),
-        jQuery("[id='gdpr-cookie-bar-logo-url-holder']").each(function () {
-          jQuery(this).attr("value", "");
-        })
-      );
+      jQuery("#gdpr-cookie-bar-logo-holder").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-holder1").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-holder2").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-url-holder").attr("value", "");
+      jQuery("#gdpr-cookie-bar-logo-url-holder1").attr("value", "");
+      jQuery("#gdpr-cookie-bar-logo-url-holder2").attr("value", "");
+
       this.is_logo_removed = true;
     },
 
@@ -9974,7 +9988,23 @@ var gen = new Vue({
                 "src",
                 attachment.attributes.url
               );
+              jQuery("#gdpr-cookie-bar-logo-holder1").attr(
+                "src",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-holder2").attr(
+                "src",
+                attachment.attributes.url
+              );
               jQuery("#gdpr-cookie-bar-logo-url-holder").attr(
+                "value",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-url-holder1").attr(
+                "value",
+                attachment.attributes.url
+              );
+              jQuery("#gdpr-cookie-bar-logo-url-holder2").attr(
                 "value",
                 attachment.attributes.url
               );
@@ -9984,10 +10014,13 @@ var gen = new Vue({
         );
     },
     deleteSelectedimage() {
-      jQuery("#image-delete-button").click(
-        jQuery("#gdpr-cookie-bar-logo-holder").removeAttr("src"),
-        jQuery("#gdpr-cookie-bar-logo-url-holder").attr("value", "")
-      );
+      jQuery("#gdpr-cookie-bar-logo-holder").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-holder1").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-holder2").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-url-holder").attr("value", "");
+      jQuery("#gdpr-cookie-bar-logo-url-holder1").attr("value", "");
+      jQuery("#gdpr-cookie-bar-logo-url-holder2").attr("value", "");
+
       this.is_logo_removed = true;
     },
     onSwitchScriptBlocker(script_id) {
