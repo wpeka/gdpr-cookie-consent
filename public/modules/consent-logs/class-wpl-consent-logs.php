@@ -544,7 +544,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 				$tz_string     = wp_timezone_string();
 				$timezone      = new DateTimeZone( $tz_string );
 				$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
-
+				$wplconsentlogstatus = '';
+				$consent_status = '';
+				$preferencesDecoded = '';
 				if ( $content_post ) {
 					$wplconsentlogs_dates = $local_time;
 				}

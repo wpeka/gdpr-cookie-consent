@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.5.1';
+			$this->version = '3.6.0';
 		}
 		add_action(
 			'current_screen',
@@ -250,7 +250,7 @@ class Gdpr_Cookie_Consent {
 				// create table in db.
 				$this->loader->add_action( 'activated_plugin', $plugin_admin, 'update_db_check' );
 				$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'update_db_check' );
-				$this->loader->add_action( 'admin_notices', $plugin_admin, 'wpl_admin_notices' );
+				// $this->loader->add_action( 'admin_notices', $plugin_admin, 'wpl_admin_notices' );
 				// action to add admin notice for api connections
 				$this->loader->add_action( 'admin_notices', $plugin_admin, 'gdpr_admin_notices' );
 			}
