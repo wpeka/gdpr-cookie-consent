@@ -279,37 +279,7 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
-						<c-row :class="['gdpr-progress-list-item', (pro_installed && pro_activated && api_key_activated  && maxmind_integrated)||(!pro_installed && is_user_connected && maxmind_integrated ) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
-							<span v-show="pro_installed && pro_activated && api_key_activated && maxmind_integrated">
-								<?php esc_html_e( 'Integrated with Maxmind.', 'gdpr-cookie-consent' ); ?>
-							</span>
-							<!-- when pro is not installed and user is conneted to the api and maxmind is connected-->
-							<span v-show="!pro_installed && is_user_connected && maxmind_integrated">
-								<?php esc_html_e( 'Integrated with Maxmind.', 'gdpr-cookie-consent' ); ?>
-							</span>
-							<!-- when pro is not installed and user is not conneted to the api -->
-							<span v-show="!pro_installed && !is_user_connected">
-								<?php esc_html_e( 'Enable Geotargeting With MaxMind Integration.', 'gdpr-cookie-consent' ); ?>
-								<span class="gdpr-progress-list-link gdpr-dashboard-start-auth"><?php esc_html_e( 'Connect Your Free Account.', 'gdpr-cookie-consent' ); ?></span>
-							</span>
-							<!-- when pro is not installed and user is conneted to the api and maxmind is not connected -->
-							<span class="gdpr-dashboard-maxmind-integrate" v-show="!pro_installed && is_user_connected && !maxmind_integrated">
-								<?php esc_html_e( 'Integrate with Maxmind for free.', 'gdpr-cookie-consent' ); ?>
-								<a class="gdpr-progress-list-link" :href="maxmind_url"><?php esc_html_e( 'Click here to configure.', 'gdpr-cookie-consent' ); ?></a>
-							</span>
-							<span v-show="pro_installed && !pro_activated">
-								<?php esc_html_e( 'Activate Pro plugin to enable Geotargeting.', 'gdpr-cookie-consent' ); ?>
-								<a class="gdpr-progress-list-link" :href="plugin_page_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
-							</span>
-							<span class="gdpr-dashboard-activation-tab" v-show="pro_installed && pro_activated && !api_key_activated">
-								<?php esc_html_e( 'Activate API license key to enable Geotargeting.', 'gdpr-cookie-consent' ); ?>
-								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
-							</span>
-							<span class="gdpr-dashboard-maxmind-integrate" v-show="pro_installed && pro_activated && api_key_activated && !maxmind_integrated">
-								<?php esc_html_e( 'Integrate with Maxmind for free.', 'gdpr-cookie-consent' ); ?>
-								<a class="gdpr-progress-list-link" :href="maxmind_url"><?php esc_html_e( 'Click here to configure.', 'gdpr-cookie-consent' ); ?></a>
-							</span>
-						</c-row>
+						
 					</c-col>
 				</c-row>
 			</c-card-body>
@@ -380,7 +350,7 @@ if ( 200 === $response_status ) {
 						</span>
 					</div>
 					<div class="gdpr-quick-link-item geo_targeting">
-						<a class="gdpr-quick-link" :href="maxmind_url">
+						<a class="gdpr-quick-link" :href="show_cookie_url">
 							<img class="gdpr-quick-link-image" :src="geolocation_image.default">
 						</a>
 						<span class="gdpr-quick-link-caption">

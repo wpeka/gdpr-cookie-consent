@@ -180,12 +180,6 @@ jQuery(document).ready(function () {
     location.reload();
   });
 
-  jQuery(".gdpr-dashboard-maxmind-integrate a").on("click", function (e) {
-    var linkUrl = jQuery(".gdpr-dashboard-maxmind-integrate a").attr("href");
-    window.location.assign(linkUrl);
-    location.reload();
-  });
-
   jQuery(".gdpr-dashboard-scan-now a").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-dashboard-scan-now a").attr("href");
     window.location.assign(linkUrl);
