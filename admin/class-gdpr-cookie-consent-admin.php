@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu','ceb', 'zh-cn', 'zh-tw', 'et', 'el', 'ht', 'haw', 'iw', 'hmn', 'jw', 'km', 'la', 'lt', 'my', 'pl', 'sr', 'ug' );
 
 	/**
 	 * The version of this plugin.
@@ -1096,6 +1096,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'div'    => array(
 					'class' => array(),
 					'id'    => array(),
+					'style' => array(),
 				),
 				'h1'     => array(
 					'class' => array(),
@@ -1127,9 +1128,10 @@ class Gdpr_Cookie_Consent_Admin {
 					'placeholder' => array(),
 				),
 				'a'      => array(
-					'href'   => array(),
-					'target' => array(),
-					'class'  => array(),
+					'href'    => array(),
+					'target'  => array(),
+					'class'   => array(),
+					'onclick' => array(),
 				),
 				'select' => array(
 					'name'  => array(),
@@ -1158,7 +1160,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'td'     => array(
 					'class'        => array(),
 					'data-colname' => array(),
-					'colspan'	   => array(),
+					'colspan'      => array(),
 				),
 				'tfoot'  => array(),
 				'button' => array(
@@ -1168,6 +1170,24 @@ class Gdpr_Cookie_Consent_Admin {
 				'table'  => array(
 					'class' => array(),
 				),
+				'svg'    => array(
+					'width'   => array(),
+					'height'  => array(),
+					'viewBox' => array(),
+					'fill'    => array(),
+					'xmlns'   => array(),
+				),
+				'g'      => array(
+					'clip-path' => array(),
+				),
+				'path'   => array(
+					'd'    => array(),
+					'fill' => array(),
+				),
+				'defs'   => array(
+					'clipPath' => array(),
+				),
+				'rect'   => array(),
 			);
 			echo wp_kses( $this->wpl_get_template_data_request( 'gdpr-data-request-tab-template.php', $args ), $allowed_data_req_html );
 	}
@@ -4280,6 +4300,62 @@ class Gdpr_Cookie_Consent_Admin {
 				'label' => 'Zulu',
 				'code'  => 'zu',
 			),
+			array(
+				'label' => 'Cebuano',
+				'code'  => 'ceb',
+			),
+			array(
+				'label' => 'Chinese (Simplified)',
+				'code'  => 'zh-cn',
+			),
+			array(
+				'label' => 'Chinese (Traditional)',
+				'code'  => 'zh-tw',
+			),
+			array(
+				'label' => 'Estonian',
+				'code'  => 'et',
+			),
+			array(
+				'label' => 'Haitian Creole',
+				'code'  => 'ht',
+			),
+			array(
+				'label' => 'Hawaiian',
+				'code'  => 'haw',
+			),
+			array(
+				'label' => 'Hmong',
+				'code'  => 'hmn',
+			),
+			array(
+				'label' => 'Javanese',
+				'code'  => 'jw',
+			),
+			array(
+				'label' => 'Khmer',
+				'code'  => 'km',
+			),
+			array(
+				'label' => 'Latin',
+				'code'  => 'la',
+			),
+			array(
+				'label' => 'Lithuanian',
+				'code'  => 'lt',
+			),
+			array(
+				'label' => 'Myanmar (Burmese)',
+				'code'  => 'my',
+			),
+			array(
+				'label' => 'Serbian',
+				'code'  => 'sr',
+			),
+			array(
+				'label' => 'Uyghur',
+				'code'  => 'ug',
+			),
 
 		);
 
@@ -5543,7 +5619,11 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			$ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['ab_testing_period_text_field'] ) ) : '';
 
-			if ( ( $_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable'] === 'true' ) && ( ! isset( $ab_options['ab_testing_enabled'] ) || $ab_options['ab_testing_enabled'] === 'false' || $ab_options['ab_testing_enabled'] === false ) ) {
+			if (isset($_POST['gcc-ab-testing-enable']) 
+			&& ($_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable'] === 'true') 
+			&& (!isset($ab_options['ab_testing_enabled']) 
+				|| $ab_options['ab_testing_enabled'] === 'false' 
+				|| $ab_options['ab_testing_enabled'] === false)) {
 				$ab_options ['necessary1']  = 0;
 				$ab_options ['marketing1']  = 0;
 				$ab_options ['analytics1']  = 0;
@@ -6506,7 +6586,10 @@ class Gdpr_Cookie_Consent_Admin {
 
 				$the_options['consent_renew_enable'] = 'false';
 			}
-			if ( (isset($_POST['gcc-ab-testing-enable']) && $_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false ) && isset( $ab_options['ab_testing_enabled'] ) && ( $ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true ) ) {
+			if (isset($_POST['gcc-ab-testing-enable']) 
+				&& ($_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false) 
+				&& isset($ab_options['ab_testing_enabled']) 
+				&& ($ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true)) {
 				$ab_options['ab_testing_period'] = '30';
 				delete_transient( 'gdpr_ab_testing_transient' );
 				$the_options = $this->wpl_set_default_ab_testing_banner( $the_options, $the_options['default_cookie_bar'] === true || $the_options['default_cookie_bar'] === 'true' ? '1' : '2' );
@@ -6697,7 +6780,6 @@ class Gdpr_Cookie_Consent_Admin {
 	public function auto_update_maxminddb(){
 		
 		if ( ! wp_next_scheduled( 'update_maxmind_db_event' ) ) {
-			error_log("seting auto update");
 			//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 			wp_schedule_event( time(), 'weekly', 'update_maxmind_db_event' );
 		}
@@ -6710,7 +6792,6 @@ class Gdpr_Cookie_Consent_Admin {
 		
 		$timestamp = wp_next_scheduled( 'update_maxmind_db_event' );
 		if ( $timestamp ) {
-			error_log("Removing auto update");
 			wp_unschedule_event( $timestamp, 'update_maxmind_db_event' );
 		}
 	}
@@ -6721,32 +6802,69 @@ class Gdpr_Cookie_Consent_Admin {
 		$uploads_dir   = wp_upload_dir();
 		//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 		$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
-		try {
-				error_log("Downloading file");
-				$response = wp_remote_post(
-					GDPR_API_URL . 'get_maxmind_db',
-						array(
-							'body' => array(
-								'action' => 'download_maxmind_db'
-							),
-							'timeout' => 20
-						)
-				);
+		if (file_exists($database_path)) {
+			// Get the file's last modified time
+			$last_modified_time = filemtime($database_path);
 
-				if (is_wp_error($response)) {
-					error_log('Error in response: ' . $response->get_error_message());
-				} else {
-					$status_code = wp_remote_retrieve_response_code($response);
-					error_log("Status code:".print_r($status_code,true));
-					if (200 === $status_code) {
-						$file_data = wp_remote_retrieve_body($response);
-						if(file_exists($database_path)) wp_delete_file($database_path);
-						file_put_contents($database_path, $file_data);
+			// Calculate the time 7 days ago
+			$seven_days_ago = strtotime('-7 days');
+
+			// Check if the file was modified within the last 7 days
+			if ($last_modified_time <= $seven_days_ago) {
+				try {
+					$response = wp_remote_post(
+						GDPR_API_URL . 'get_maxmind_db',
+							array(
+								'body' => array(
+									'action' => 'download_maxmind_db'
+								),
+								'timeout' => 20
+							)
+					);
+
+					if (is_wp_error($response)) {
+						error_log('Error in response: ' . $response->get_error_message());
+					} else {
+						$status_code = wp_remote_retrieve_response_code($response);
+						if (200 === $status_code) {
+							$file_data = wp_remote_retrieve_body($response);
+							if(file_exists($database_path)) wp_delete_file($database_path);
+							file_put_contents($database_path, $file_data);
+						}
 					}
+				} catch (Exception $e) {
+					error_log('Error: ' . $e->getMessage());
 				}
-			} catch (Exception $e) {
-				error_log('Error: ' . $e->getMessage());
+			} else {
+				
 			}
+		} else {
+			try {
+					$response = wp_remote_post(
+						GDPR_API_URL . 'get_maxmind_db',
+							array(
+								'body' => array(
+									'action' => 'download_maxmind_db'
+								),
+								'timeout' => 20
+							)
+					);
+
+					if (is_wp_error($response)) {
+						error_log('Error in response: ' . $response->get_error_message());
+					} else {
+						$status_code = wp_remote_retrieve_response_code($response);
+						if (200 === $status_code) {
+							$file_data = wp_remote_retrieve_body($response);
+							if(file_exists($database_path)) wp_delete_file($database_path);
+							file_put_contents($database_path, $file_data);
+						}
+					}
+				} catch (Exception $e) {
+					error_log('Error: ' . $e->getMessage());
+				}
+		}
+		
 	}
 
 	/**
@@ -7255,6 +7373,62 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'label' => 'Zulu',
 				'code'  => 'zu',
+			),
+			array(
+				'label' => 'Cebuano',
+				'code'  => 'ceb',
+			),
+			array(
+				'label' => 'Chinese (Simplified)',
+				'code'  => 'zh-cn',
+			),
+			array(
+				'label' => 'Chinese (Traditional)',
+				'code'  => 'zh-tw',
+			),
+			array(
+				'label' => 'Estonian',
+				'code'  => 'et',
+			),
+			array(
+				'label' => 'Haitian Creole',
+				'code'  => 'ht',
+			),
+			array(
+				'label' => 'Hawaiian',
+				'code'  => 'haw',
+			),
+			array(
+				'label' => 'Hmong',
+				'code'  => 'hmn',
+			),
+			array(
+				'label' => 'Javanese',
+				'code'  => 'jw',
+			),
+			array(
+				'label' => 'Khmer',
+				'code'  => 'km',
+			),
+			array(
+				'label' => 'Latin',
+				'code'  => 'la',
+			),
+			array(
+				'label' => 'Lithuanian',
+				'code'  => 'lt',
+			),
+			array(
+				'label' => 'Myanmar (Burmese)',
+				'code'  => 'my',
+			),
+			array(
+				'label' => 'Serbian',
+				'code'  => 'sr',
+			),
+			array(
+				'label' => 'Uyghur',
+				'code'  => 'ug',
 			),
 
 		);

@@ -60,6 +60,7 @@ var gen = new Vue({
       is_lang_changed: false,
       is_iabtcf_changed: false,
       is_logo_removed: false,
+      save_loading: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
       closeOnBackdrop: true,
@@ -4555,6 +4556,7 @@ var gen = new Vue({
     },
 
     saveCookieSettings() {
+      this.save_loading = true;
       // When Pro is activated set the values in the aceeditor
       if (this.isGdprProActive) {
         //intializing the acecode editor
@@ -4619,6 +4621,10 @@ var gen = new Vue({
             that.reload_onSafeMode = false;
             location.reload();
           }
+          that.save_loading = false;
+        })
+        .fail(function () {
+          that.save_loading = false;
         });
     },
 
@@ -9888,6 +9894,7 @@ var gen = new Vue({
       });
     },
     saveCookieSettings() {
+      this.save_loading = true;
       // When Pro is activated set the values in the aceeditor
       if (this.isGdprProActive) {
         //intializing the acecode editor
@@ -9948,6 +9955,10 @@ var gen = new Vue({
             that.reload_onSafeMode = false;
             location.reload();
           }
+          that.save_loading = false;
+        })
+        .fail(function () {
+          that.save_loading = false;
         });
     },
     //method to save wizard form settings

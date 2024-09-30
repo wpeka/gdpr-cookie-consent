@@ -567,7 +567,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 				$body = wp_remote_retrieve_body( $response );
 				$data = json_decode( $body );
 			}
-			if ( property_exists( $data, 'country' ) ) {
+			if ( isset($data) && property_exists( $data, 'country' ) ) {
 				$user_country = $data->country;
 			} else {
 				$user_country = 'unknown';
