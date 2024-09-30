@@ -4557,7 +4557,6 @@ var gen = new Vue({
 
     saveCookieSettings() {
       this.save_loading = true;
-      console.log(this.save_loading);
       // When Pro is activated set the values in the aceeditor
       if (this.isGdprProActive) {
         //intializing the acecode editor
@@ -4623,7 +4622,6 @@ var gen = new Vue({
             location.reload();
           }
           that.save_loading = false;
-          console.log(this.save_loading);
         })
         .fail(function () {
           that.save_loading = false;
@@ -9897,7 +9895,6 @@ var gen = new Vue({
     },
     saveCookieSettings() {
       this.save_loading = true;
-      console.log(this.save_loading);
       // When Pro is activated set the values in the aceeditor
       if (this.isGdprProActive) {
         //intializing the acecode editor
@@ -9959,7 +9956,6 @@ var gen = new Vue({
             location.reload();
           }
           that.save_loading = false;
-          console.log(this.save_loading);
         })
         .fail(function () {
           that.save_loading = false;
