@@ -1998,7 +1998,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row v-show="accept_as_button">
 								<c-col class="col-sm-4  gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_opacity"></c-input>
-									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-opacity" v-model="accept_opacity"></c-input>
+									<c-input class="gdpr-slider-input opacity-slider"type="number" min="0" max="1" step="0.1" name="gdpr-cookie-accept-opacity" v-model="accept_opacity"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width"></c-input>
@@ -3079,7 +3079,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row v-show="accept_as_button1">
 								<c-col class="col-sm-4  gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_opacity1"></c-input>
-									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-opacity1" v-model="accept_opacity1"></c-input>
+									<c-input class="gdpr-slider-input opacity-slider"type="number" min="0" max="1" step="0.1" name="gdpr-cookie-accept-opacity1" v-model="accept_opacity1"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width1"></c-input>
@@ -4181,7 +4181,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row v-show="accept_as_button2">
 								<c-col class="col-sm-4  gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="accept_opacity2"></c-input>
-									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-opacity2" v-model="accept_opacity2"></c-input>
+									<c-input class="gdpr-slider-input opacity-slider"type="number" min="0" max="1" step="0.1" name="gdpr-cookie-accept-opacity2" v-model="accept_opacity2"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
 									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width2"></c-input>
