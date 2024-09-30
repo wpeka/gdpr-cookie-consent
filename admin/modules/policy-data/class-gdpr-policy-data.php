@@ -330,8 +330,8 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		array_unshift( $options, __( 'ALL Dates', 'gdpr-cookie-consent' ) );
 
 		$selected = 0;
-		if ( isset( $_GET['wpl_resolved_select'] ) ) {
-			$selected = intval( $_GET['wpl_resolved_select'] );
+		if ( isset( $_GET['wpl_resolved_select1'] ) ) {
+			$selected = intval( $_GET['wpl_resolved_select1'] );
 		}
 
 		?>
@@ -349,7 +349,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 
 		<?php
 
-		echo '<select name="wpl_resolved_select" id="wpl_resolved_select" class="wpl_resolved_select">';
+		echo '<select name="wpl_resolved_select1" id="wpl_resolved_select" class="wpl_resolved_select">';
 		foreach ( $options as $value => $label ) {
 			echo '<option value="' . esc_attr( $value ) . '" ' . ( $selected == $value ? 'selected' : '' ) . '>' . esc_html( $label ) . '</option>';
 		}
@@ -389,8 +389,8 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 			$args['name'] = $search;
 		}
 
-		if ( isset( $_GET['wpl_resolved_select'] ) ) {
-			$args['month'] = intval( $_GET['wpl_resolved_select'] );
+		if ( isset( $_GET['wpl_resolved_select1'] ) ) {
+			$args['month'] = intval( $_GET['wpl_resolved_select1'] );
 		}
 
 		$this->args = $args;
@@ -476,7 +476,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		$offset = isset( $args['offset'] ) ? intval( $args['offset'] ) : 0;
 		$search = isset( $args['search'] ) ? sanitize_text_field( $args['search'] ) : '';
 		$month  = isset( $args['month'] ) ? intval( $args['month'] ) : 0;
-
+		
 		$post_args = array(
 			'post_type'      => 'gdprpolicies',
 			'posts_per_page' => $number,

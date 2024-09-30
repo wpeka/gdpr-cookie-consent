@@ -252,7 +252,11 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	public function process_bulk_action() {
 
 		$ids = isset( $_GET['user_id'] ) ? $_GET['user_id'] : false;
-
+		$action = $this->current_action();
+		if ( ! $action ) {
+			// If no action was found, check for action2 (bottom dropdown)
+			$action = isset($_GET['action2']) && $_GET['action2'] != '-1' ? $_GET['action2'] : false;
+		}
 		if ( ! $ids ) {
 			return;
 		}
@@ -262,11 +266,11 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		}
 
 		foreach ( $ids as $id ) {
-			if ( 'delete' === $this->current_action() ) {
+			if ( 'delete' === $action ) {
 				global $wpdb;
 				$wpdb->delete( $wpdb->prefix . 'wpl_data_req', array( 'ID' => intval( $id ) ) );
 				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-			} elseif ( 'reslove' === $this->current_action() ) {
+			} elseif ( 'reslove' === $action ) {
 				global $wpdb;
 				$wpdb->update(
 					$wpdb->prefix . 'wpl_data_req',
@@ -312,8 +316,8 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		);
 		$selected = 0;
 
-		if ( isset( $_GET['wpl_resolved_select'] ) ) {
-			$selected = intval( $_GET['wpl_resolved_select'] );
+		if ( isset( $_GET['wpl_resolved_select2'] ) ) {
+			$selected = intval( $_GET['wpl_resolved_select2'] );
 		}
 		// Generate a unique identifier for the select element
 		$unique_id = uniqid( 'wpl_resolved_select_' );
@@ -334,7 +338,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	
 		<?php
 		// Use the unique identifier in the select element's id attribute
-		echo '<select name="wpl_resolved_select" id="' . esc_js( $unique_id ) . '" class="wpl_resolved_select_filter">';
+		echo '<select name="wpl_resolved_select2" id="' . esc_js( $unique_id ) . '" class="wpl_resolved_select_filter">';
 		foreach ( $options as $value => $label ) {
 			echo '<option value="' . esc_attr( $value ) . '" ' . ( $selected == $value ? 'selected' : '' ) . '>' . esc_html( $label ) . '</option>';
 		}
@@ -374,8 +378,8 @@ class WPL_Data_Req_Table extends WP_List_Table {
 			$args['name'] = $search;
 		}
 
-		if ( isset( $_GET['wpl_resolved_select'] ) ) {
-			$args['resolved'] = intval( $_GET['wpl_resolved_select'] );
+		if ( isset( $_GET['wpl_resolved_select2'] ) ) {
+			$args['resolved'] = intval( $_GET['wpl_resolved_select2'] );
 		}
 
 		$this->args = $args;
