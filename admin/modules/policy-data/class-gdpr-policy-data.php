@@ -38,6 +38,14 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * @since 2.16.0
 	 */
 	public $total = 0;
+	
+	/**
+	 * options for month  filter
+	 *
+	 * @var int
+	 * @since 2.16.0
+	 */
+	public $options = [];
 
 	/**
 	 * The arguments for the data set
@@ -301,33 +309,29 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 
 	public function resolved_select() {
 
-		$options = array();
-
-		// Query to get all posts
-		$all_posts = get_posts(
-			array(
-				'post_type'      => 'gdprpolicies',
-				'posts_per_page' => -1,
-				'post_status'    => 'publish',
-				'orderby'        => 'ID',
-				'order'          => 'DESC',
-			)
-		);
-
+		$options = $this->options;
+		$months = [
+			1 => 'January',
+			2 => 'February',
+			3 => 'March',
+			4 => 'April',
+			5 => 'May',
+			6 => 'June',
+			7 => 'July',
+			8 => 'August',
+			9 => 'September',
+			10 => 'October',
+			11 => 'November',
+			12 => 'December'
+		];
 		// Loop through each post to extract creation dates and populate the options array
-		foreach ( $all_posts as $post ) {
-			$post_date  = strtotime( $post->post_date ); // Get the UNIX timestamp of the post creation date
-			$month_year = gmdate( 'F Y', $post_date ); // Format the timestamp to month and year
-
-			// Check if the month_year is not already added to the options array
-			if ( ! in_array( $month_year, $options ) ) {
-				// Add the month_year as an option
-				$options[] = $month_year;
+		foreach ( $options as $index => $option ) {
+			if($option != "ALL Dates"){
+				list($month, $year) = explode(' ', $option);
+				$month = $months[(int)$month];
+				$options[$index] = $month." ".$year;
 			}
 		}
-
-		// Add an 'ALL Dates' option at the beginning of the array
-		array_unshift( $options, __( 'ALL Dates', 'gdpr-cookie-consent' ) );
 
 		$selected = 0;
 		if ( isset( $_GET['wpl_resolved_select1'] ) ) {
@@ -388,11 +392,37 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		} else {
 			$args['name'] = $search;
 		}
+		$options = array();
 
-		if ( isset( $_GET['wpl_resolved_select1'] ) ) {
-			$args['month'] = intval( $_GET['wpl_resolved_select1'] );
+		// Query to get all posts
+		$all_posts = get_posts(
+			array(
+				'post_type'      => 'gdprpolicies',
+				'posts_per_page' => -1,
+				'post_status'    => 'publish',
+				'orderby'        => 'ID',
+				'order'          => 'DESC',
+			)
+		);
+
+		// Loop through each post to extract creation dates and populate the options array
+		foreach ( $all_posts as $post ) {
+			$post_date  = strtotime( $post->post_date ); // Get the UNIX timestamp of the post creation date
+			$month_year = gmdate( 'm Y', $post_date ); // Format the timestamp to month & year
+			// Check if the month_year is not already added to the options array
+			if ( ! in_array( $month_year, $options ) ) {
+				// Add the month_year as an option
+				$options[] = $month_year;
+			}
 		}
 
+		// Add an 'ALL Dates' option at the beginning of the array
+		array_unshift( $options, __( 'ALL Dates', 'gdpr-cookie-consent' ) );
+
+		if ( isset( $_GET['wpl_resolved_select1'] ) ) {
+			$args['month'] = $options[$_GET['wpl_resolved_select1']];
+		}
+		$this->options = $options;
 		$this->args = $args;
 
 		$requests = $this->get_requests( $args );
@@ -474,8 +504,12 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		global $post;
 		$number = isset( $args['number'] ) ? intval( $args['number'] ) : 10;
 		$offset = isset( $args['offset'] ) ? intval( $args['offset'] ) : 0;
-		$search = isset( $args['search'] ) ? sanitize_text_field( $args['search'] ) : '';
-		$month  = isset( $args['month'] ) ? intval( $args['month'] ) : 0;
+		$search = isset( $args['name'] ) ? sanitize_text_field( $args['name'] ) : '';
+		$month_year  = isset( $args['month'] ) ? $args['month'] : '0 0000';
+		list($month, $year) = explode(' ', $month_year);
+
+		$month = (int)$month;
+		$year = (int)$year;
 		
 		$post_args = array(
 			'post_type'      => 'gdprpolicies',
@@ -497,6 +531,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 			$post_args['date_query'] = array(
 				array(
 					'month' => $month,
+					'year'  => $year
 				),
 			);
 		}
