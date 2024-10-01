@@ -45,7 +45,7 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu','ceb', 'zh-cn', 'zh-tw', 'et', 'el', 'ht', 'haw', 'iw', 'hmn', 'jw', 'km', 'la', 'lt', 'my', 'pl', 'sr', 'ug' );
 
 	/**
 	 * Public module list, Module folder and main file must be same as that of module name.
@@ -202,6 +202,7 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @since 2.0
 	 */
+	//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 	public function show_cookie_consent_bar() {
 		update_option( 'gdpr_settings_enabled', 0 );
 		$return_array = array(
@@ -212,7 +213,7 @@ class Gdpr_Cookie_Consent_Public {
 		$the_options  = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$geo_options  = get_option( 'wpl_geo_options' );
 		$ab_option    = get_option( 'wpl_ab_options' );
-		if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) && isset( $geo_options['enable_geotargeting'] ) && 'true' === $geo_options['enable_geotargeting'] && $the_options['is_worldwide_on'] === false) {
+		if ( $the_options['is_worldwide_on'] === false) {
 			$show_banner_for_selected_countries = array();
 			if ( true === boolval( $the_options['is_eu_on'] ) ) {
 				// Add the list of EU countries to the array
@@ -266,6 +267,7 @@ class Gdpr_Cookie_Consent_Public {
 					$show_banner_for_selected_countries = array_merge( $show_banner_for_selected_countries, $the_options['select_countries'] );
 				}
 			}
+			
 			$geoip             = new Gdpr_Cookie_Consent_Geo_Ip();
 			$user_country_code = $geoip->wpl_is_selected_country();
 			if ( ! in_array( $user_country_code, $show_banner_for_selected_countries ) ) {
