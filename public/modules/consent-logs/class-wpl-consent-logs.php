@@ -578,8 +578,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 						$new_consent_status = $allYes ? true : false;
 					}
-
-					if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
+					if($wpl_viewed_cookie == 'unset'){
+						$wplconsentlogstatus =  '<div style="color: #B8B491;font-weight:500;">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '</div>';
+					}
+					else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
 						$wplconsentlogstatus = '<div style="color: #B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
 					} elseif ( $new_consent_status ) {
 						$wplconsentlogstatus = '<div style="color: #15803D;font-weight:500;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '</div>';
@@ -634,7 +636,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 					}
 					$new_consent_status = $allYes ? true : false;
 
-					if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
+					if($viewed_cookie == 'unset'){
+						$consent_status = 'Bypassed';
+					}
+					else if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
 						$consent_status = 'Rejected';
 					} else {
 						$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
@@ -736,7 +741,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 							$new_consent_status = $allYes ? true : false;
 						}
 
-						if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
+						if($wpl_viewed_cookie == 'unset'){
+							$wplconsentlogstatus =  '<div style="color: #B8B491;font-weight:500;">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '</div>';
+						}
+						else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
 							$wplconsentlogstatus = '<div style="color: #B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
 						} elseif ( $new_consent_status ) {
 
@@ -800,7 +808,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 						$new_consent_status = $allYes ? true : false;
 
-						if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
+						if($viewed_cookie == 'unset'){
+							$consent_status = 'Bypassed';
+						}
+						else if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
 							$consent_status = 'Rejected';
 						} else {
 							$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
@@ -887,7 +898,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 							$new_consent_status = $allYes ? true : false;
 						}
 
-						if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
+						if($wpl_viewed_cookie == 'unset'){
+							$wplconsentlogstatus =  '<div style="color: #B8B491;font-weight:500;">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>'.'</div>';
+						}
+						else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
 							$wplconsentlogstatus = '<div style="color: #B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
 						} elseif ( $new_consent_status ) {
 
@@ -951,7 +965,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 						$new_consent_status = $allYes ? true : false;
 
-						if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
+						if($viewed_cookie == 'unset'){
+							$consent_status = 'Bypassed ( Forwarded )';
+						}
+						else if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
 							$consent_status = 'Rejected ( Forwarded ) ';
 						} else {
 							$consent_status = $allYes ? 'Approved ( Forwarded ) ' : 'Partially Accepted ( Forwarded ) ';
@@ -1038,7 +1055,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 							$new_consent_status = $allYes ? true : false;
 						}
 
-						if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
+						if($wpl_viewed_cookie == 'unset'){
+							$wplconsentlogstatus =  '<div style="color: #B8B491;font-weight:500;">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '</div>';
+						}
+						else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
 							$wplconsentlogstatus = '<div style="color:#B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
 						} elseif ( $new_consent_status ) {
 
@@ -1102,7 +1122,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 						$new_consent_status = $allYes ? true : false;
 
-						if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
+						if($viewed_cookie == 'unset'){
+							$consent_status = 'Bypassed';
+						}
+						else if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
 							$consent_status = 'Rejected';
 						} else {
 							$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
@@ -1189,7 +1212,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 							$new_consent_status = $allYes ? true : false;
 						}
 
-						if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
+						if($wpl_viewed_cookie == 'unset'){
+							$wplconsentlogstatus =  '<div style="color: #B8B491;font-weight:500;">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>'.'</div>';
+						}
+						else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
 							$wplconsentlogstatus = '<div style="color: #B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '<div style="color: orange;">' . esc_html( '( Forwarded )', 'gdpr-cookie-consent' ) . '</div>' . '</div>';
 						} elseif ( $new_consent_status ) {
 
@@ -1253,7 +1279,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 						$new_consent_status = $allYes ? true : false;
 
-						if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
+						if($viewed_cookie == 'unset'){
+							$consent_status = 'Bypassed ( Forwarded ) ';
+						}
+						else if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
 							$consent_status = 'Rejected ( Forwarded ) ';
 						} else {
 							$consent_status = $allYes ? 'Approved ( Forwarded ) ' : 'Partially Accepted ( Forwarded ) ';

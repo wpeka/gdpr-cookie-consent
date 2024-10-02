@@ -455,6 +455,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
 		$settings      = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$selectedsites = $settings['select_sites'];
+
 		if ( ! empty( $_POST ) && $settings['logging_on'] ) {
 			$js_cookie_list     = array();
 			$wpl_cookie_details = array();
@@ -469,6 +470,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 			if ( isset( $_POST['gdpr_user_action'] ) ) {
 				$gdpr_user_action = sanitize_text_field( wp_unslash( $_POST['gdpr_user_action'] ) );
+				error_log("Value of gdpr_user_action is -> ".print_r($gdpr_user_action,true));
 				if ( isset( $_POST['cookie_list'] ) && is_array( $_POST['cookie_list'] ) ) {
 					foreach ( wp_unslash( $_POST['cookie_list'] ) as $key => $val ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						$js_cookie_list[ $key ] = sanitize_text_field( wp_unslash( $val ) );
@@ -479,6 +481,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 					case 'accept':
 					case 'accept_all':
 					case 'reject':
+					case 'bypassed':
 						if ( isset( $js_cookie_list ) ) {
 							foreach ( $js_cookie_list as $key => $val ) {
 								if ( strpos( $key, 'wpl_user_preference' ) !== false ) {
@@ -556,6 +559,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 		if ( $post_id ) {
 			$details = $args['consent_details'];
+			error_log("consent details are -> ".print_r($details,true));
 			$user_id = get_current_user_id();
 			$user_ip = $this->wpl_get_user_ip();
 			// Fetch country information using ip-api.com.
@@ -832,10 +836,14 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		$decline       = 0;
 		$approved      = 0;
 		$partially_acc = 0;
+		$bypass        = 0;
 
 		foreach ( $processedData as $item ) {
 			if ( $item['wpl_viewed_cookie'] == 'no' ) {
 				++$decline;
+			}
+			if ( $item['wpl_viewed_cookie'] == 'unset' ) {
+				++$bypass;
 			}
 			if ( $item['wpl_viewed_cookie'] == 'yes' ) {
 				if ( is_array( $item['wpl_user_preference'] ) ) {
@@ -863,20 +871,24 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		$wpl_cl_decline_option_name          = 'wpl_cl_decline';
 		$wpl_cl_accept_option_name           = 'wpl_cl_accept';
 		$wpl_cl_partially_accept_option_name = 'wpl_cl_partially_accept';
+		$wpl_cl_bypass_option_name           = 'wpl_cl_bypass';
 
 		// Check if the option already exists.
 		$current_value_decline          = get_option( $wpl_cl_decline_option_name );
 		$current_value_accept           = get_option( $wpl_cl_accept_option_name );
 		$current_value_partially_accept = get_option( $wpl_cl_partially_accept_option_name );
+		$current_value_bypass           = get_option( $wpl_cl_bypass_option_name );
 
 		if ( $current_value_decline !== false && $current_value_accept !== false && $current_value_partially_accept !== false ) {
 			update_option( $wpl_cl_decline_option_name, $decline );
 			update_option( $wpl_cl_accept_option_name, $approved );
 			update_option( $wpl_cl_partially_accept_option_name, $partially_acc );
+			update_option( $wpl_cl_bypass_option_name, $bypass );
 		} else {
 			add_option( $wpl_cl_decline_option_name, $decline );
 			add_option( $wpl_cl_accept_option_name, $approved );
 			add_option( $wpl_cl_partially_accept_option_name, $partially_acc );
+			add_option( $wpl_cl_bypass_option_name, $bypass );
 		}
 	}
 
@@ -899,12 +911,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		$is_consent_status   = isset( $custom['_wplconsentlogs_consent_forward_cf'][0] ) ? $custom['_wplconsentlogs_consent_forward_cf'][0] : null;
 		$forwarded_site_url1 = isset( $custom['_wplconsentlogs_siteurl'][0] ) ? $custom['_wplconsentlogs_siteurl'][0] : null;
 		$is_consent_status1  = isset( $custom['_wplconsentlogs_consent_forward'][0] ) ? $custom['_wplconsentlogs_consent_forward'][0] : null;
-		echo '<table class="wp-list-table widefat fixed striped gdpr-consent-log-dashboard">';
+		echo '<table class="wp-list-table widefat fixed striped gdpr-consent-log-dashboard" style="margin-left: 6px;width: 99%;">';
 		echo '<thead><tr>';
-		echo '<th>' . esc_html__( 'IP Address', 'gdpr-cookie-consent' ) . '</th>';
-		echo '<th>' . esc_html__( 'Country', 'gdpr-cookie-consent' ) . '</th>';
-		echo '<th>' . esc_html__( 'Consent Status', 'gdpr-cookie-consent' ) . '</th>';
-		echo '<th>' . esc_html__( 'Visited Date', 'gdpr-cookie-consent' ) . '</th>';
+		echo '<th style=" padding-left: 20px;border-right: 1px solid rgba(228, 228, 231, 1);font-size:14px;color:rgba(63, 63, 70, 1);">' . esc_html__( 'IP Address', 'gdpr-cookie-consent' ) . '</th>';
+		echo '<th style=" padding-left: 20px;border-right: 1px solid rgba(228, 228, 231, 1);font-size:14px;color:rgba(63, 63, 70, 1);">' . esc_html__( 'Country', 'gdpr-cookie-consent' ) . '</th>';
+		echo '<th style=" padding-left: 20px;border-right: 1px solid rgba(228, 228, 231, 1);font-size:14px;color:rgba(63, 63, 70, 1);">' . esc_html__( 'Consent Status', 'gdpr-cookie-consent' ) . '</th>';
+		echo '<th style=" padding-left: 20px;border-right: 1px solid rgba(228, 228, 231, 1);font-size:14px;color:rgba(63, 63, 70, 1);">' . esc_html__( 'Visited Date', 'gdpr-cookie-consent' ) . '</th>';
 		// Add more table headers for other custom fields if needed.
 		echo '</tr></thead>';
 		echo '<tbody>';
@@ -962,13 +974,16 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						}
 						$new_consent_status = $allYes ? true : false;
 
-						if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
-							echo '<td style="color: red;text-align:center">' . ( esc_html( 'Rejected', 'gdpr-cookie-consent' ) ) . '</td>';
+						if($wpl_viewed_cookie == 'unset'){
+							echo '<td style="color: #B8B491;">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '</td>';
+						}
+						else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
+							echo '<td style="color: red;">' . ( esc_html( 'Rejected', 'gdpr-cookie-consent' ) ) . '</td>';
 						} elseif ( $new_consent_status ) {
 
-							echo '<td style="color: green;text-align:center">' . ( esc_html( 'Approved', 'gdpr-cookie-consent' ) ) . '</td>';
+							echo '<td style="color: green;">' . ( esc_html( 'Approved', 'gdpr-cookie-consent' ) ) . '</td>';
 						} else {
-							echo '<td style="color: blue;text-align:center">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
+							echo '<td style="color: blue;">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
 						}
 					}
 					// consent date.
@@ -1056,13 +1071,16 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							}
 							$new_consent_status = $allYes ? true : false;
 
-							if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
-								echo '<td style="color: red;text-align:center">' . ( esc_html( 'Rejected', 'gdpr-cookie-consent' ) ) . '</td>';
+							if($wpl_viewed_cookie == 'unset'){
+								echo '<td style="color: #B8B491;">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '</td>';
+							}
+							else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
+								echo '<td style="color: red;">' . ( esc_html( 'Rejected', 'gdpr-cookie-consent' ) ) . '</td>';
 							} elseif ( $new_consent_status ) {
 
-								echo '<td style="color: green;text-align:center">' . ( esc_html( 'Approved', 'gdpr-cookie-consent' ) ) . '</td>';
+								echo '<td style="color: green;">' . ( esc_html( 'Approved', 'gdpr-cookie-consent' ) ) . '</td>';
 							} else {
-								echo '<td style="color: blue;text-align:center">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
+								echo '<td style="color: blue;">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
 							}
 						}
 						// consent date.
@@ -1123,13 +1141,16 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							}
 							$new_consent_status = $allYes ? true : false;
 
-							if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
-								echo '<td style="color: red; text-align: center">' . esc_html( 'Rejected ', 'gdpr-cookie-consent' ) . '<span style="color: orange;"> ( Forwarded )</span></td>';
+							if($wpl_viewed_cookie == 'unset'){
+								echo '<td style="color: #B8B491;">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '<span style="color: orange;"> ( Forwarded )</span></td>';
+							}
+							else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
+								echo '<td style="color: red;">' . esc_html( 'Rejected ', 'gdpr-cookie-consent' ) . '<span style="color: orange;"> ( Forwarded )</span></td>';
 							} elseif ( $new_consent_status ) {
 
-								echo '<td style="color: green;text-align:center">' . ( esc_html( 'Approved ', 'gdpr-cookie-consent' ) ) . '<span style="color: orange;"> ( Forwarded )</span></td>';
+								echo '<td style="color: green;">' . ( esc_html( 'Approved ', 'gdpr-cookie-consent' ) ) . '<span style="color: orange;"> ( Forwarded )</span></td>';
 							} else {
-								echo '<td style="color: blue;text-align:center">' . ( esc_html( 'Partially Accepted ', 'gdpr-cookie-consent' ) ) . '<span style="color: orange; text-align:center;">( Forwarded )</span></td>';
+								echo '<td style="color: blue;">' . ( esc_html( 'Partially Accepted ', 'gdpr-cookie-consent' ) ) . '<span style="color: orange;">( Forwarded )</span></td>';
 							}
 						}
 						// consent date.
@@ -1190,13 +1211,16 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							}
 							$new_consent_status = $allYes ? true : false;
 
-							if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
-								echo '<td style="color: red;text-align:center">' . ( esc_html( 'Rejected', 'gdpr-cookie-consent' ) ) . '</td>';
+							if($wpl_viewed_cookie == 'unset'){
+								echo '<td style="color: #B8B491;">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '</td>';
+							}
+							else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
+								echo '<td style="color: red;">' . ( esc_html( 'Rejected', 'gdpr-cookie-consent' ) ) . '</td>';
 							} elseif ( $new_consent_status ) {
 
-								echo '<td style="color: green;text-align:center">' . ( esc_html( 'Approved', 'gdpr-cookie-consent' ) ) . '</td>';
+								echo '<td style="color: green;">' . ( esc_html( 'Approved', 'gdpr-cookie-consent' ) ) . '</td>';
 							} else {
-								echo '<td style="color: blue;text-align:center">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
+								echo '<td style="color: blue;">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
 							}
 						}
 						// consent date.
@@ -1257,13 +1281,16 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							}
 							$new_consent_status = $allYes ? true : false;
 
-							if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
-								echo '<td style="color: red;text-align:center">' . ( esc_html( 'Rejected', 'gdpr-cookie-consent' ) ) . '</td>';
+							if($wpl_viewed_cookie == 'unset'){
+								echo '<td style="color: #B8B491;>' . esc_html('Bypassed', 'gdpr-cookie-consent') . '</td>';
+							}
+							else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
+								echo '<td style="color: red;">' . ( esc_html( 'Rejected', 'gdpr-cookie-consent' ) ) . '</td>';
 							} elseif ( $new_consent_status ) {
 
-								echo '<td style="color: green;text-align:center">' . ( esc_html( 'Approved', 'gdpr-cookie-consent' ) ) . '</td>';
+								echo '<td style="color: green;">' . ( esc_html( 'Approved', 'gdpr-cookie-consent' ) ) . '</td>';
 							} else {
-								echo '<td style="color: blue;text-align:center">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
+								echo '<td style="color: blue;">' . ( esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) ) . '</td>';
 							}
 						}
 						// consent date.
@@ -1390,8 +1417,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							}
 							$new_consent_status = $allYes ? true : false;
 						}
-
-						if ($wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no') {
+						if($wpl_viewed_cookie == 'unset'){
+							echo '<div style="color: #B8B491;text-align:center">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '</div>';
+						}
+						else if ($wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no') {
 							echo '<div style="color: red;text-align:center">' . esc_html('Rejected', 'gdpr-cookie-consent') . '</div>';
 						} else {
 
@@ -1444,7 +1473,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						}
 						$new_consent_status = $allYes ? true : false;
 
-						if ($optout_cookie == 'yes' || $viewed_cookie == 'no') {
+						if($viewed_cookie == 'unset'){
+							$consent_status = 'Bypassed';
+						}
+						else if ($optout_cookie == 'yes' || $viewed_cookie == 'no') {
 							$consent_status = 'Rejected';
 						} else {
 							$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
@@ -1572,7 +1604,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								$new_consent_status = $allYes ? true : false;
 							}
 
-							if ($wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no') {
+							if($wpl_viewed_cookie == 'unset'){
+								echo '<div style="color: #B8B491;text-align:center">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '</div>';
+							}
+							else if ($wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no') {
 								echo '<div style="color: red;text-align:center">' . esc_html('Rejected', 'gdpr-cookie-consent') . '</div>';
 							} else {
 
@@ -1633,7 +1668,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							}
 							$new_consent_status = $allYes ? true : false;
 
-							if ($optout_cookie == 'yes' || $viewed_cookie == 'no') {
+							if($viewed_cookie == 'unset'){
+								$consent_status = 'Bypassed';
+							}
+							else if ($optout_cookie == 'yes' || $viewed_cookie == 'no') {
 								$consent_status = 'Rejected';
 							} else {
 								$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
@@ -1760,7 +1798,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								$new_consent_status = $allYes ? true : false;
 							}
 
-							if ($wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no') {
+							if($wpl_viewed_cookie == 'unset'){
+								echo '<div style="color: #B8B491;text-align:center">' . esc_html('Bypassed', 'gdpr-cookie-consent'). '<div style="color: orange;text-align:center">' . esc_html('( Forwarded )', 'gdpr-cookie-consent') . '</div>'  . '</div>';
+							}
+							else if ($wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no') {
 								echo '<div style="color: red;text-align:center">' . esc_html('Rejected', 'gdpr-cookie-consent') . '<div style="color: orange;text-align:center">' . esc_html('( Forwarded )', 'gdpr-cookie-consent') . '</div>' . '</div>';
 							} else {
 
@@ -1822,7 +1863,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							}
 							$new_consent_status = $allYes ? true : false;
 
-							if ($optout_cookie == 'yes' || $viewed_cookie == 'no') {
+							if($viewed_cookie == 'unset'){
+								$consent_status = 'Bypassed ( Forwarded )';
+							}
+							else if ($optout_cookie == 'yes' || $viewed_cookie == 'no') {
 								$consent_status = 'Rejected ( Forwarded )';
 							} else {
 								$consent_status = $allYes ? 'Approved ( Forwarded )' : 'Partially Accepted ( Forwarded )';
@@ -1949,7 +1993,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								$new_consent_status = $allYes ? true : false;
 							}
 
-							if ($wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no') {
+							if($wpl_viewed_cookie == 'unset'){
+								echo '<div style="color: #B8B491;text-align:center">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '</div>';
+							}
+							else if ($wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no') {
 								echo '<div style="color: red;text-align:center">' . esc_html('Rejected', 'gdpr-cookie-consent') . '</div>';
 							} else {
 
@@ -2011,7 +2058,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							}
 							$new_consent_status = $allYes ? true : false;
 
-							if ($optout_cookie == 'yes' || $viewed_cookie == 'no') {
+							if($viewed_cookie == 'unset'){
+								$consent_status = 'Bypassed';
+							}
+							else if ($optout_cookie == 'yes' || $viewed_cookie == 'no') {
 								$consent_status = 'Rejected';
 							} else {
 								$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
@@ -2139,7 +2189,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								$new_consent_status = $allYes ? true : false;
 							}
 
-							if ($wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no') {
+							if($wpl_viewed_cookie == 'unset'){
+								echo '<div style="color: #B8B491;text-align:center">' . esc_html('Bypassed', 'gdpr-cookie-consent') . '<div style="color: orange;text-align:center">' . esc_html('( Forwarded )', 'gdpr-cookie-consent') . '</div>' . '</div>';
+							}
+							else if ($wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no') {
 								echo '<div style="color: red;text-align:center">' . esc_html('Rejected', 'gdpr-cookie-consent') . esc_html('( Forwarded )', 'gdpr-cookie-consent') . '<div style="color: orange;text-align:center">' . esc_html('( Forwarded )', 'gdpr-cookie-consent') . '</div>' . '</div>';
 							} else {
 
@@ -2201,7 +2254,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 							}
 							$new_consent_status = $allYes ? true : false;
 
-							if ($optout_cookie == 'yes' || $viewed_cookie == 'no') {
+							if($viewed_cookie == 'unset'){
+								$consent_status = 'Bypassed ( Forwarded )';
+							}
+							else if ($optout_cookie == 'yes' || $viewed_cookie == 'no') {
 								$consent_status = 'Rejected ( Forwarded )';
 							} else {
 								$consent_status = $allYes ? 'Approved ( Forwarded )' : 'Partially Accepted (

@@ -1,20 +1,43 @@
 import Vue from "vue";
+import { defineComponent, ref } from "vue";
 import CoreuiVue from "@coreui/vue";
 import "@coreui/coreui/dist/css/coreui.min.css";
 import { VueEllipseProgress } from "vue-ellipse-progress";
 import VueApexCharts from "vue-apexcharts";
+import DateRangePicker from "vue2-daterange-picker";
+//you need to import the CSS manually
+import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
 
 Vue.use(CoreuiVue);
 Vue.use(VueApexCharts);
 Vue.component("vue-ellipse-progress", VueEllipseProgress);
 Vue.component("apexchart", VueApexCharts);
+Vue.component("date-range-picker", DateRangePicker); // Register the DateRangePicker component
 
 const j = jQuery.noConflict();
-
 var gen = new Vue({
   el: "#gdpr-cookie-consent-dashboard-page",
+  // components: { DateRangePicker },
+
   data() {
     return {
+      data: [
+        {
+          date: "2024-09-01",
+          accept_log: 10,
+          decline_log: 5,
+          partially_acc_log: 3,
+          bypass_log: 2,
+        },
+        {
+          date: "2024-09-02",
+          accept_log: 7,
+          decline_log: 6,
+          partially_acc_log: 4,
+          bypass_log: 1,
+        },
+        // More data points...
+      ],
       showing_cookie_notice:
         dashboard_options.hasOwnProperty("showing_cookie_notice") &&
         dashboard_options["showing_cookie_notice"] === "1"
@@ -149,18 +172,16 @@ var gen = new Vue({
       legalpages_icon: require("../admin/images/dashboard-icons/legalpages-icon.png"),
       survey_funnel_icon: require("../admin/images/dashboard-icons/survey-funnel-icon.png"),
       arrow_icon: require("../admin/images/dashboard-icons/arrow-icon.png"),
-      cookie_summary: require("../admin/images/dashboard-icons/summary/total-cookies.svg"),
-      cookie_cat: require("../admin/images/dashboard-icons/summary/categories.svg"),
+      cookie_summary: require("../admin/images/dashboard-icons/summary/cookie_summary.svg"),
+      cookie_cat: require("../admin/images/dashboard-icons/summary/cookie_cat.svg"),
       search_icon: require("../admin/images/dashboard-icons/summary/search-icon.svg"),
       page_icon: require("../admin/images/dashboard-icons/summary/pages.svg"),
       next_scan_icon: require("../admin/images/dashboard-icons/summary/next-scan.svg"),
       view_all_logs: require("../admin/images/dashboard-icons/summary/view-all-logs.png"),
       policy_icon: require("../admin/images/dashboard-icons/summary/vector.svg"),
       admin_icon: require("../admin/images/dashboard-icons/summary/admin.svg"),
+      dashboard_arrow_grey: require("../admin/images/dashboard_arrow_grey.svg"),
       highlight_variant: "outline",
-      cookie_policy: dashboard_options.hasOwnProperty("cookie_policy")
-        ? dashboard_options["cookie_policy"]
-        : "adda",
       decline_log: dashboard_options.hasOwnProperty("decline_log")
         ? dashboard_options["decline_log"]
         : 0,
@@ -170,25 +191,39 @@ var gen = new Vue({
       partially_acc_log: dashboard_options.hasOwnProperty("partially_acc_log")
         ? dashboard_options["partially_acc_log"]
         : 0,
+      bypass_log: dashboard_options.hasOwnProperty("bypass_log")
+        ? dashboard_options["bypass_log"]
+        : 0,
       series: [
         Number(dashboard_options["accept_log"]),
         Number(dashboard_options["decline_log"]),
         Number(dashboard_options["partially_acc_log"]),
+        Number(dashboard_options["bypass_log"]),
       ],
       is_user_connected:
         dashboard_options.hasOwnProperty("is_user_connected") &&
         dashboard_options["is_user_connected"] === "true"
           ? true
           : false,
+      dateRange: {
+        startDate: new Date(),
+        endDate: new Date(),
+      },
+
       chartOptions: {
         chart: {
-          width: 580,
+          width: 500,
           type: "pie",
         },
-        labels: ["Accepted", "Rejected", "Partially Accepted"],
-        colors: ["#DAF2CB", "#F1C7C7", "#BDF"],
+        labels: [
+          "Accepted",
+          "Rejected",
+          "Partially Accepted",
+          "Bypassed Consent",
+        ],
+        colors: ["#DAF2CB", "#F1C7C7", "#BDF", "#B8B491"],
         fill: {
-          colors: ["#DAF2CB", "#F1C7C7", "#BDF"],
+          colors: ["#DAF2CB", "#F1C7C7", "#BDF", "#B8B491"],
         },
         responsive: [
           {
@@ -247,6 +282,12 @@ var gen = new Vue({
           },
         },
       },
+      banner_preview: true,
+      banner_preview_is_on:
+        "true" == dashboard_options.the_options["banner_preview_enable"] ||
+        1 === dashboard_options.the_options["banner_preview_enable"]
+          ? true
+          : false,
     };
   },
   methods: {
@@ -321,19 +362,56 @@ var gen = new Vue({
       ) {
         count_progress++;
       }
-      if (
-        this.cookie_policy === "gdpr" ||
-        this.cookie_policy === "lgpd" ||
-        this.cookie_policy === "both"
-      ) {
-        this.progress = (count_progress / 5) * 100;
-      } else {
-        this.progress = (count_progress / 4) * 100;
-      }
+      this.progress = (count_progress / 5) * 100;
     },
+    updateCancelButtonText() {
+      this.$nextTick(() => {
+        const cancelButton = document.querySelector(
+          ".daterangepicker .cancelBtn"
+        );
+        if (cancelButton) {
+          cancelButton.textContent = "Clear";
+        }
+      });
+    },
+    onSwitchBannerPreviewEnable() {
+      //changing the value of banner_preview_swicth_value enable/disable
+      this.banner_preview_is_on = !this.banner_preview_is_on;
+    },
+  },
+  computed: {
+    filteredData() {
+      // Implement your filtering logic based on this.dateRange
+      return this.data.filter((item) => {
+        const itemDate = new Date(item.date);
+        return (
+          itemDate >= this.dateRange.startDate &&
+          itemDate <= this.dateRange.endDate
+        );
+      });
+    },
+    filteredSeries() {
+      // Aggregate the filtered data to calculate the series values
+      const filtered = this.filteredData;
+      return [
+        filtered.reduce((sum, item) => sum + item.accept_log, 0),
+        filtered.reduce((sum, item) => sum + item.decline_log, 0),
+        filtered.reduce((sum, item) => sum + item.partially_acc_log, 0),
+        filtered.reduce((sum, item) => sum + item.bypassed_consent_log, 0),
+      ];
+    },
+  },
+  watch: {
+    filteredSeries(newSeries) {
+      this.chartOptions.series = newSeries;
+    },
+  },
+  created() {
+    // No need to fetch data, assume someData is already available
   },
   mounted() {
     j("#gdpr-dashboard-loader").css("display", "none");
     this.setValues();
+    this.updateCancelButtonText();
   },
 });

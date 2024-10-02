@@ -288,6 +288,7 @@ class Gdpr_Cookie_Consent_Admin {
 				delete_option( 'wpl_cl_decline' );
 				delete_option( 'wpl_cl_accept' );
 				delete_option( 'wpl_cl_partially_accept' );
+				delete_option( 'wpl_cl_bypass' );
 				delete_option( 'wpl_geo_options' );
 				delete_option( 'wpl_bypass_script_blocker' );
 				delete_option( 'wpl_consent_timestamp' );
@@ -1441,7 +1442,7 @@ class Gdpr_Cookie_Consent_Admin {
 			'id'     => 'gdpr-quick-menu-item-1',
 			'title'  => 'Scan this Page',
 			'parent' => 'gdpr-quick-menu',
-			'href'   => admin_url( 'admin.php?page=gdpr-cookie-consent&scan_url=' ) . get_permalink() . '#cookie_settings#cookie_list',
+			'href'   => admin_url( 'admin.php?page=gdpr-cookie-consent&scan_url=' ) . get_permalink() . '#cookie_settings#cookie_list#discovered_cookies',
 		);
 
 		$wp_admin_bar->add_node( $args );
@@ -5025,6 +5026,8 @@ class Gdpr_Cookie_Consent_Admin {
 			// revoke consent text color.
 			$the_options['button_revoke_consent_text_color']       = isset( $_POST['gcc-revoke-consent-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color'] ) ) : '';
 			$the_options['button_revoke_consent_background_color'] = isset( $_POST['gcc-revoke-consent-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color'] ) ) : '';
+			$the_options['notify_position_vertical']           = isset( $_POST['gcc-gdpr-cookie-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-position'] ) ) : 'bottom';
+			$the_options['notify_position_horizontal']         = isset( $_POST['gcc-gdpr-cookie-widget-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-widget-position'] ) ) : 'left';
 			// adding the extra elseif condn to set the correct value for the geolocation selections for the wizard.
 			// for IAB.
 			if ( isset( $_POST['gcc-iab-enable'] ) ) {
@@ -5436,7 +5439,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 		$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
-			<div class="gdpr-templates-field-container">
+		<div class="gdpr-templates-field-container">
 			<?php
 			foreach ( $templates as $key => $template ) :
 				if ( false !== strpos( $template['name'], 'column' ) ) {
@@ -5573,6 +5576,7 @@ class Gdpr_Cookie_Consent_Admin {
 						</div>
 					</div>
 				</div>
+				<p class="gdpr-configuration-line-divider"></p>
 				<?php endforeach; ?>
 			</div>
 			<?php
@@ -7775,7 +7779,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$show_cookie_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#compliances';
 		$language_url        = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#language';
 		$maxmind_url         = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations';
-		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list';
+		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies';
 		$plugin_page_url     = $admin_url . 'plugins.php';
 		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
 		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
@@ -7794,12 +7798,16 @@ class Gdpr_Cookie_Consent_Admin {
 		$decline_log         = get_option( 'wpl_cl_decline' );
 		$accept_log          = get_option( 'wpl_cl_accept' );
 		$partially_acc_log   = get_option( 'wpl_cl_partially_accept' );
+		$bypass_log   = get_option( 'wpl_cl_bypass' );
+		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
 		wp_enqueue_style( $this->plugin_name . '-dashboard' );
 		wp_enqueue_script( $this->plugin_name . '-dashboard' );
 		wp_localize_script(
 			$this->plugin_name . '-dashboard',
 			'dashboard_options',
 			array(
+				'the_options'           => $the_options,
+               'ajaxurl'               => admin_url( 'admin-ajax.php' ),
 				'active_plugins'        => $active_plugins,
 				'showing_cookie_notice' => $is_cookie_on,
 				'pro_installed'         => $pro_installed,
@@ -7829,6 +7837,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'decline_log'           => $decline_log,
 				'accept_log'            => $accept_log,
 				'partially_acc_log'     => $partially_acc_log,
+				'bypass_log'            => $bypass_log,
 				'is_user_connected'     => $is_user_connected,
 				'cookie_policy'			=> $cookie_usage_for
 			)

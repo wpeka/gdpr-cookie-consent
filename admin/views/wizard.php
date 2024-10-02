@@ -152,6 +152,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 					</div>
 				</div>
 			</div>
+			<p class="gdpr-configuration-line-divider"></p>
 				<?php
 			} else {
 				?>
@@ -250,7 +251,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 								endif;
 								?>
 								<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['settings']['text'] ); ?></a>
-							<?php endif; ?>
+							<?php endif;?>
 						<?php endif; ?>
 					</div>
 					<!-- go pro label image for pro templates-->
@@ -2308,170 +2309,140 @@ function get_templates( $template_type ) {
 		<!-- form  -->
 		<form id="gcc-save-settings-form-wizard" class="gcc-save-wizard-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce_wizard" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-wizard' ) ); ?>"/>
-
-			<ul id="progressbar">
-			<li class="active" id="step1">
-				<div class="progress-step">
-					<strong class="progress-bar-label getting-started-progress">Getting Started</strong>
-					<div class="container">
-					<div class="horizontal-line line-step-1"></div>
-					</div>
-
+			
+			<div class="gdpr-wizard-header-section">
+				<div class="gdpr-general-wizard-logo-container"><img class="gdpr-general-wizard-logo" src="<?php echo esc_url( $image_path ) . 'wp-Legal-pages-logo.png'; ?>">
+					<span class="gdpr-general-wizard-main-heading">Welcome to WP Cookie Consent</span>
+					<p class="gdpr-general-wizard-sub-heading">Follow the guided wizard to get started</p>
 				</div>
-			</li>
-			<li class="active"id="step2">
-				<div class="progress-step">
-					<strong class="progress-bar-label">General</strong>
-					<div class="container">
-					<div class="horizontal-line line-step-2"></div>
-					<img class="step-images selected-step-img" src="<?php echo esc_url( $image_path ) . 'selected-step.png'; ?>">
-
+				<div class="gdpr-wizard-progress-bar">
+					<div class="gdpr-wizard-progress-bar-step1">
+						<p class="gdpr-wizard-progress-bar-content1">1</p>
+					</div>
+					<div id="horizontal-line-id"class="horizontal-line"></div>
+					<div id="gdpr-wizard-progress-bar-before"class="gdpr-wizard-progress-bar-step2-before">
+						<p class="gdpr-wizard-progress-bar-content2-before">2</p>
 					</div>
 				</div>
-			</li>
-			<li id="step3">
-				<div class="progress-step">
-					<strong class="progress-bar-label">Configuration</strong>
-					<div class="container">
-					<div class="horizontal-line line-step-3"></div>
-					<img class="step-images not-selected-step-img" src="<?php echo esc_url( $image_path ) . 'not-selected-step.png'; ?>">
-
-					</div>
-				</div>
-			</li>
-			<li id="step4">
-				<div class="progress-step">
-					<strong class="progress-bar-label">Finish</strong>
-					<div class="container">
-					<div class="horizontal-line line-step-4"></div>
-					<img class="step-images finish-step-img" src="<?php echo esc_url( $image_path ) . 'finish.png'; ?>">
-
-					</div>
-				</div>
-			</li>
-			</ul>
-			<div class="progress">
-			<div class="progress-bar"></div>
+				<br>
 			</div>
-			<br>
+			<div class="gdpr-wizard-thankyou-page">
+				<div class="gdpr-general-wizard-thankyou-container"><img class="gdpr-general-wizard-thankyou-checked" src="<?php echo esc_url( $image_path ) . 'wizard-thakyou-checkd.svg'; ?>">
+					<span class="gdpr-wizard-thankyou-heading">Congratulations! Your Banner Is Live Now</span>	
+					<div class="gdpr-wizard-thankyou-container">
+						<input type="button" name="live-preview" class="gdpr-wizard-thankyou-live-preview" value="Live Preview" />
+						<input type="button" name="edit-banner" class="gdpr-wizard-thankyou-edit-banner" value="Edit Banner" />
+					</div>
+				</div>
+			</div>
 			<div class="step-content">
 
 				<!-- First Tab Conetent Start  -->
+				<fieldset class="general-tab-content">
+				<!-- radio button law  -->
 
-			<fieldset class="general-tab-content">
-			<!-- radio button law  -->
-
-				<div class="select-rule">
-					<div class="select-law-rule-label"><label for="gdpr-cookie-consent-policy-type"><?php esc_attr_e( 'Which privacy law or guideline do you want to use as the default for your worldwide visitors?', 'gdpr-cookie-consent' ); ?></label></div>
-					<div class="select-law-rule-options">
-						<div class="form-group" id="gdpr-cookie-consent-policy-type">
-						<label>
-							<input type="radio" name="gcc-gdpr-policy" value="gdpr" v-model="gdpr_policy" @change="cookiePolicyChange">
-							General Data Protection Regulation
-						</label><br>
-						<label>
-							<input type="radio" name="gcc-gdpr-policy" value="lgpd" v-model="gdpr_policy" @change="cookiePolicyChange">
-							General Data Protection Law ( LGPD )
-						</label><br>
-						<label>
-							<input type="radio" name="gcc-gdpr-policy" value="ccpa" v-model="gdpr_policy" @change="cookiePolicyChange">
-							The California Consumer Privacy Act
-						</label><br>
-						<label>
-							<input type="radio" name="gcc-gdpr-policy" value="both" v-model="gdpr_policy" @change="cookiePolicyChange">
-							GDPR & CCPA
-						</label><br>
-						<label>
-							<input type="radio" name="gcc-gdpr-policy" value="eprivacy" v-model="gdpr_policy" @change="cookiePolicyChange">
-							ePrivacy Regulation
-						</label><br>
+					<div class="select-rule">
+						<div class="general-tab-content-heading">General</div>
+						<div class="select-law-rule-label"><label for="gdpr-cookie-consent-policy-type" class="gdpr-cookie-consent-policy-text"><?php esc_attr_e( 'Which privacy law or guideline do you want to use as the default for your worldwide visitors?', 'gdpr-cookie-consent' ); ?></label></div>
+						<div class="select-law-rule-options">
+							<div class="form-group" id="gdpr-cookie-consent-policy-type">
+							<label class="wp-selec-law-container">
+								<input type="radio" name="gcc-gdpr-policy" value="gdpr" v-model="gdpr_policy" @change="cookiePolicyChange">
+								<span class="wp-select-law-test">General Data Protection Regulation</span>
+							</label><br>
+							<label class="wp-selec-law-container">
+								<input type="radio" name="gcc-gdpr-policy" value="lgpd" v-model="gdpr_policy" @change="cookiePolicyChange">
+								<span class="wp-select-law-test">General Data Protection Law ( LGPD )</span>
+							</label><br>
+							<label class="wp-selec-law-container">
+								<input type="radio" name="gcc-gdpr-policy" value="ccpa" v-model="gdpr_policy" @change="cookiePolicyChange">
+								<span class="wp-select-law-test">The California Consumer Privacy Act</span>
+							</label><br>
+							<label class="wp-selec-law-container">
+								<input type="radio" name="gcc-gdpr-policy" value="both" v-model="gdpr_policy" @change="cookiePolicyChange">
+								<span class="wp-select-law-test">GDPR & CCPA</span>
+							</label><br>
+							<label class="wp-selec-law-container">
+								<input type="radio" name="gcc-gdpr-policy" value="eprivacy" v-model="gdpr_policy" @change="cookiePolicyChange">
+								<span class="wp-select-law-test">ePrivacy Regulation</span>
+							</label><br>
+							</div>
+							<input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
 						</div>
-						<input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
-					</div>
-
-					<?php
-					// if gdpr-pro is enable only then show these options.
-					if ( $is_pro ) {
-
-						?>
-					<!-- Location Enable/Disbale for different rule  -->
-					<div v-show="show_visitor_conditions">
-
 						<div>
-
-							<!-- gdpr geo selection for pro -->
 							<c-row class="gdpr-selection gdpr-pro-geo-ques" v-show="is_gdpr" >
-									<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
+									<c-col class="gdpr-selection-label"><label class="select-law-rule-sublabel"><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
 									<c-col class="gdpr-options">
 										<label class="wizard_eu_safe">
 										<?php
 										$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
 										$geo_options = get_option( 'wpl_geo_options' );
 										if ( $the_options['enable_safe'] === 'true' ) :
 											?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
-													Yes
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-														'gdpr-cookie-consent'
-													);
-													?>
-												</div>
-											</label>
-											<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
 												<label class="display_block">
-													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
-													No
+													<div class="opacity_yes">
+														<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
+														<span class="wp-select-law-test">Yes</span>
+													</div>
+													<div class="wizard_eu_safe_message">
+														<?php
+														esc_attr_e(
+															'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
+															'gdpr-cookie-consent'
+														);
+														?>
+													</div>
 												</label>
-											<?php endif; ?>
-										<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
-													Yes
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
-													?>
-												</div>
-											</label>
-											<?php if ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
+												<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
+													<label class="display_block">
+														<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
+														<span class="wp-select-law-test">No</span>
+													</label>
+												<?php endif; ?>
+											<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
 												<label class="display_block">
-													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
-													No
+													<div class="opacity_yes">
+														<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
+														<span class="wp-select-law-test">Yes</span>
+													</div>
+													<div class="wizard_eu_safe_message">
+														<?php
+														esc_attr_e(
+															'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
+														?>
+													</div>
 												</label>
+												<?php if ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
+													<label class="display_block">
+														<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
+														<span class="wp-select-law-test">No</span>
+													</label>
+												<?php endif; ?>
+											<?php else : ?>
+												<label>
+													<input type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('yes')">
+													<span class="wp-select-law-test">Yes</span>
+												</label>
+												<label>
+													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')">
+													<span class="wp-select-law-test">No</span>
+												</label>
+												<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
 											<?php endif; ?>
-										<?php else : ?>
-											<label>
-												<input type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('yes')">
-												Yes
-											</label>
-											<label>
-												<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')">
-												No
-											</label>
-											<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
-										<?php endif; ?>
 									</c-col>
 								</c-row>
 							<!-- IAB geo selection for pro -->
 								<c-row class="ccpa-iab-selection iab-pro-geo-ques" v-show="is_ccpa" >
-									<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> </label></c-col>
+									<c-col class="gdpr-selection-label"><label class="select-law-rule-sublabel"><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> </label></c-col>
 									<c-col class="iab-options">
 										<label>
 										<input type="radio" name="gcc-iab-enable" value="yes" v-model="selectedRadioIab" @click="onSwitchIABEnable('yes')">
-										Yes
+										<span class="wp-select-law-test">Yes</span>
 										</label>
 										<label>
 										<input type="radio" name="gcc-iab-enable" value="no" v-model="selectedRadioIab" @click="onSwitchIABEnable('no')">
-										No
+										<span class="wp-select-law-test">No</span>
 										</label>
 										<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
 									</c-col>
@@ -2480,7 +2451,7 @@ function get_templates( $template_type ) {
 							<!-- ccpa geo selection for pro  -->
 
 							<c-row class="ccpa-selection ccpa-pro-geo-ques"  v-show="is_ccpa" >
-								<c-col class="ccpa-selection-label"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
+								<c-col class="ccpa-selection-label"><label class="select-law-rule-sublabel"><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
 								<c-col class="ccpa-options">
 								<label class="wizard_eu_safe">
 										<?php
@@ -2491,7 +2462,7 @@ function get_templates( $template_type ) {
 											<label class="display_block">
 												<div class="opacity_yes">
 													<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
-													Yes
+													<span class="wp-select-law-test">Yes</span>
 												</div>
 												<div class="wizard_eu_safe_message">
 													<?php
@@ -2505,14 +2476,14 @@ function get_templates( $template_type ) {
 											<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
 												<label class="display_block">
 													<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
-													No
+													<span class="wp-select-law-test">No</span>
 												</label>
 											<?php endif; ?>
 										<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
 											<label class="display_block">
 												<div class="opacity_yes">
 													<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
-													Yes
+													<span class="wp-select-law-test">Yes</span>
 												</div>
 												<div class="wizard_eu_safe_message">
 													<?php
@@ -2523,445 +2494,379 @@ function get_templates( $template_type ) {
 											</label>
 											<label class="display_block">
 												<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
-												No
+												<span class="wp-select-law-test">No</span>
 											</label>
 										<?php else : ?>
 											<label>
 												<input type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('yes')">
-												Yes
+												<span class="wp-select-law-test">Yes</span>
 											</label>
 											<label>
 												<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')">
-												No
+												<span class="wp-select-law-test">No</span>
 											</label>
 											<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
 										<?php endif; ?>
 								</c-col>
 							</c-row>
-
-						</div>
+							</div>
+												
 					</div>
 
-						<?php
-					} else {
+					<input type="button" name="next-step" class="next-step first-next-step" value="Save & Continue" />
 
-						?>
-						<div>
-						<c-row class="gdpr-selection gdpr-pro-geo-ques" v-show="is_gdpr" >
-								<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
-								<c-col class="gdpr-options">
-									<label class="wizard_eu_safe">
-									<?php
-									$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+				</fieldset>
+				<!-- First Tab Conetent End  -->
 
-									$geo_options = get_option( 'wpl_geo_options' );
-									if ( $the_options['enable_safe'] === 'true' ) :
-										?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
-													Yes
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-														'gdpr-cookie-consent'
-													);
-													?>
-												</div>
-											</label>
-											<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
-												<label class="display_block">
-													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
-													No
-												</label>
-											<?php endif; ?>
-										<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
-													Yes
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
-													?>
-												</div>
-											</label>
-											<?php if ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-												<label class="display_block">
-													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
-													No
-												</label>
-											<?php endif; ?>
-										<?php else : ?>
-											<label>
-												<input type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('yes')">
-												Yes
-											</label>
-											<label>
-												<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')">
-												No
-											</label>
-											<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
-										<?php endif; ?>
-								</c-col>
-							</c-row>
-						<!-- IAB geo selection for pro -->
-							<c-row class="ccpa-iab-selection iab-pro-geo-ques" v-show="is_ccpa" >
-								<c-col class="gdpr-selection-label"><label><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> </label></c-col>
-								<c-col class="iab-options">
-									<label>
-									<input type="radio" name="gcc-iab-enable" value="yes" v-model="selectedRadioIab" @click="onSwitchIABEnable('yes')">
-									Yes
-									</label>
-									<label>
-									<input type="radio" name="gcc-iab-enable" value="no" v-model="selectedRadioIab" @click="onSwitchIABEnable('no')">
-									No
-									</label>
-									<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
-								</c-col>
-							</c-row>
+				<!-- Second Tab Content Field set Start  -->
+				<fieldset class="configure-tab-content">
 
-						<!-- ccpa geo selection for pro  -->
+					<div class="configure-tab-main-container">
+					<div class="general-tab-content-heading">Configuration</div>
+					<p class="gdpr-configuration-line-divider"></p>
+							<!-- enable consent log  -->
+							<div class="enable-consent-log">
 
-						<c-row class="ccpa-selection ccpa-pro-geo-ques"  v-show="is_ccpa" >
-							<c-col class="ccpa-selection-label"><label><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
-							<c-col class="ccpa-options">
-							<label class="wizard_eu_safe">
-									<?php
-									$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-									$geo_options = get_option( 'wpl_geo_options' );
-									if ( $the_options['enable_safe'] === 'true' ) :
-										?>
-										<label class="display_block">
-											<div class="opacity_yes">
-												<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
-												Yes
-											</div>
-											<div class="wizard_eu_safe_message">
-												<?php
-												esc_attr_e(
-													'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-													'gdpr-cookie-consent'
-												);
-												?>
-											</div>
-										</label>
-										<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
-											<label class="display_block">
-												<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
-												No
-											</label>
-										<?php endif; ?>
-									<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-										<label class="display_block">
-											<div class="opacity_yes">
-												<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
-												Yes
-											</div>
-											<div class="wizard_eu_safe_message">
-												<?php
-												esc_attr_e(
-													'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
-												?>
-											</div>
-										</label>
-										<label class="display_block">
-											<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
-											No
-										</label>
-									<?php else : ?>
-										<label>
-											<input type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('yes')">
-											Yes
-										</label>
-										<label>
-											<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')">
-											No
-										</label>
-										<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
-									<?php endif; ?>
-							</c-col>
-						</c-row>
-						</div>				
-						<?php } ?>
-											
-				</div>
-
-				<input type="button" name="next-step" class="next-step first-next-step" value="Save & Continue" />
-
-			</fieldset>
-			<!-- First Tab Conetent End  -->
-
-			<!-- Second Tab Content Field set Start  -->
-			<fieldset class="configure-tab-content">
-
-				<div class="configure-tab-main-container">
-
-						<!-- enable consent log  -->
-						<div class="enable-consent-log">
-
-							<div class="enable-consent-log-content">
-								<c-col class="enable-consent-log-content-label"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="enable-consent-log-switch">
-									<c-switch v-bind="	 labelIcon " v-model="logging_on" id="gdpr-cookie-consent-logging" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
-									<input type="hidden" name="gcc-logging-on" v-model="logging_on">
-								</c-col>
-							</div>
-						</div>
-
-						<!-- enable/disbale script blocker  -->
-						<div class="enable-script-blocker" v-show="gdpr_policy !== 'ccpa'">
-							<div class="enable-script-blocker-content">
-								<c-col class="enable-script-blocker-label"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="enable-consent-log-switch">
-									<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker" variant="3d"  color="success" :checked="is_script_blocker_on"  v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
-									<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on">
-								</c-col>
-							</div>
-						</div>
-
-						<!-- Respect do not track  -->
-						<div class="enable-respect-do-not-track">
-							<div class="enable-respect-do-not-track-content">
-								<c-col class="enable-respect-do-not-track-label"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
-								</c-col>
-								<c-col class="enable-respect-do-not-track-switch">
-									<c-switch v-bind= labelIcon v-model="do_not_track_on" id="gdpr-cookie-do-not-track" variant="3d" color="success" :checked="do_not_track_on" v-on:update:checked="onSwitchDntEnable"></c-switch>
-									<input type="hidden" name="gcc-do-not-track" v-model="do_not_track_on">
-								</c-col>
-							</div>
-						</div>
-
-						<!-- Data Request -->
-						<div class="enable-data-request">
-							<div class="enable-data-request-content">
-								<c-col class="enable-respect-data-request-label"><label><?php esc_attr_e( 'Enable Data Request Form', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr_data_req_tooltip" text="<?php esc_html_e( 'Enable to add data request form to your Privacy Statement.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-								</c-col>
-								<c-col class="enable-data-request-switch">
-									<c-switch v-bind="labelIcon " v-model="data_reqs_on" id="gdpr-cookie-data-reqs" variant="3d" color="success" :checked="data_reqs_on" v-on:update:checked="onSwitchDataReqsEnable"></c-switch>
-									<input type="hidden" name="gcc-data_reqs" v-model="data_reqs_on">
-								</c-col>
-							</div>
-						</div>
-
-						<div class="enable-data-request">
-							<div class="enable-data-request-content">
-								<c-col v-show="data_reqs_on">
-									<c-col class="enable-respect-data-request-shortcode-label"><label><?php esc_attr_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-									</c-col>
-									<c-col class="enable-data-request-switch">
-										<c-button class="btn btn-info" variant="outline" @click="copyTextToClipboard">{{ shortcode_copied ? 'Shortcode Copied!' : 'Click to Copy' }}</c-button>
-									</c-col>
-								</c-col>
-							</div>
-						</div>
-						<!-- email box  -->
-						<c-row v-show="data_reqs_on" id="gdpr-data-req-admin-container" >
-										<div class="gdpr-data-req-main-container">
-
-											<div class="gdpr-data-req-email-container">
-												<!-- notification sender email  -->
-												<div class="gdpr-data-req-sender-email">
-													<c-col class="col-sm-12">
-														<span>Notification Sender Email Address</span>
-													</c-col>
-													<!-- notification sender email text box  -->
-													<c-col class="col-sm-12 gdpr-data-req-sender-email-input">
-														<div id="validation-icon">
-															<!-- Default state with the right tick -->
-															<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15" >
-																<path fill="#00CF21"d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
-															</svg>
-														</div>
-														<c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input"></c-input>
-
-													</c-col>
-													<!-- email validation script -->
-													<script>
-														document.addEventListener('DOMContentLoaded', function () {
-															// Get the input element and the validation icon element
-															var emailInput = document.getElementById('email-input');
-															var validationIcon = document.getElementById('validation-icon');
-
-															// Add an event listener on input change
-															emailInput.addEventListener('input', function () {
-																// Validate the email format using a regular expression
-																var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-																var isValidEmail = emailPattern.test(emailInput.value);
-
-																// Update the validation icon based on validity
-																validationIcon.innerHTML = isValidEmail
-																	? '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15"><path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path></svg>'
-																	: '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" height="15" width="15"><path fill="red" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg>';
-
-																// Adjust the padding-right property based on the presence of the icon
-																emailInput.style.paddingRight = isValidEmail ? '30px' : '0';
-															});
-														});
-													</script>
-												</div>
-
-												<div class="gdpr-data-req-email-subject">
-													<!-- notification email subject  -->
-													<c-col class="col-sm-12">
-														<span>Notification Email Subject</span>
-													</c-col>
-													<!-- notification email subject text box  -->
-													<c-col class="col-sm-12 gdpr-data-req-subject-input">
-														<div id="validation-icon-subject">
-															<!-- Default state with the right tick -->
-															<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15" >
-																<path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
-															</svg>
-														</div>
-														<c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input"></c-input>
-													</c-col>
-												</div>
-
-												<div class="gdpr-data-req-email-content">
-													<!-- notification email content  -->
-													<c-col class="col-sm-12">
-														<span>Notification Email Content</span>
-													</c-col>
-												</div>
-
-												<div class="gdpr-data-req-email-editor">
-													<c-col class="col-sm-12">
-														<div class="gdpr-add-media-link-icon">
-															<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-															<path d="M14 10L10 14" stroke="#3399FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-															<path d="M16 13L18 11C19.3807 9.61929 19.3807 7.38071 18 6V6C16.6193 4.61929 14.3807 4.61929 13 6L11 8M8 11L6 13C4.61929 14.3807 4.61929 16.6193 6 18V18C7.38071 19.3807 9.61929 19.3807 11 18L13 16" stroke="#3399FF" stroke-width="1.5" stroke-linecap="round"/>
-															</svg>
-														</div>
-														<c-button id="add-media-button" class="gdpr-renew-now-btn pro" variant="outline" @click="onClickAddMedia"><span><?php esc_html_e( 'Add Media', 'gdpr-cookie-consent' ); ?></span></c-button>
-
-													</c-col>
-													<!-- notification text box  -->
-													<c-col class="col-sm-12">
-														<vue-editor name="data_req_mail_content_text_field" v-model="data_req_editor_message"></vue-editor>
-														<input type="hidden" name="data_req_mail_content_text_field" v-model="data_req_editor_message">
-													</c-col>
-												</div>
-											</div>
-
-										</div>
-
-
-									</c-row>
-
-						<!-- show cookie notice  -->
-						<div class="show-cookie-notice">
-								<div class="show-cookie-notice-content">
-									<c-col class="show-cookie-content-label"><label><?php esc_attr_e( 'Show Cookie Notice as', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="show-cookie-content-dropdown">
-										<input type="hidden" name="show-cookie-as" v-model="show_cookie_as">
-										<v-select class="form-group" id="gdpr-show-cookie-as" :reduce="label => label.code" :options="show_cookie_as_options" v-model="show_cookie_as"  @input="cookieTypeChange"></v-select>
+								<div class="enable-consent-log-content">
+									<c-col class="enable-consent-log-content-label"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="enable-consent-log-switch">
+										<c-switch v-bind="	 labelIcon " v-model="logging_on" id="gdpr-cookie-consent-logging" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
+										<input type="hidden" name="gcc-logging-on" v-model="logging_on">
 									</c-col>
 								</div>
-						</div>
+							</div>
 
-						<!-- show templates  -->
+							<!-- enable/disbale script blocker  -->
+							<div class="enable-script-blocker" v-show="gdpr_policy !== 'ccpa'">
+								<div class="enable-script-blocker-content">
+									<c-col class="enable-script-blocker-label"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="enable-consent-log-switch">
+										<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker" variant="3d"  color="success" :checked="is_script_blocker_on"  v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
+										<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on">
+									</c-col>
+								</div>
+							</div>
 
-						<div class="show-cookie-template">
+							<!-- Respect do not track  -->
+							<div class="enable-respect-do-not-track">
+								<div class="enable-respect-do-not-track-content">
+									<c-col class="enable-respect-do-not-track-label"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
+									</c-col>
+									<c-col class="enable-respect-do-not-track-switch">
+										<c-switch v-bind= labelIcon v-model="do_not_track_on" id="gdpr-cookie-do-not-track" variant="3d" color="success" :checked="do_not_track_on" v-on:update:checked="onSwitchDntEnable"></c-switch>
+										<input type="hidden" name="gcc-do-not-track" v-model="do_not_track_on">
+									</c-col>
+								</div>
+							</div>
 
-							<?php $the_options = Gdpr_Cookie_Consent::gdpr_get_settings(); ?>
+							<!-- Data Request -->
+							<div class="enable-data-request">
+								<div class="enable-data-request-content">
+									<c-col class="enable-respect-data-request-label"><label><?php esc_attr_e( 'Enable Data Request Form', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr_data_req_tooltip" text="<?php esc_html_e( 'Enable to add data request form to your Privacy Statement.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+									</c-col>
+									<c-col class="enable-data-request-switch">
+										<c-switch v-bind="labelIcon " v-model="data_reqs_on" id="gdpr-cookie-data-reqs" variant="3d" color="success" :checked="data_reqs_on" v-on:update:checked="onSwitchDataReqsEnable"></c-switch>
+										<input type="hidden" name="gcc-data_reqs" v-model="data_reqs_on">
+									</c-col>
+								</div>
+							</div>
 
-							<div v-show="is_gdpr || is_lgpd" class="show-cookie-template-card">
-								<c-card-header class="show-cookie-template-label"><?php esc_html_e( 'Choose template for your cookie bar', 'gdpr-cookie-consent' ); ?></c-card-header>
-								<c-card-body>
-									<!-- banner templates  -->
-									<c-row v-show="show_banner_template" class="show-banner-template">
-										<c-col class="col-sm-3 left-side-banner-template" >
-											<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
-											<input type="hidden" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color">
-											<input type="hidden" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color">
+							<div class="enable-data-request">
+								<div class="enable-data-request-content">
+									<c-col v-show="data_reqs_on">
+										<c-col class="enable-respect-data-request-shortcode-label"><label><?php esc_attr_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 										</c-col>
-										<div class="">
-										<?php print_template_boxes( 'banner', get_templates( 'banner' ), $the_options['banner_template'] ); ?>
-										</div>
-									</c-row>
-									<!-- popup templates  -->
-									<c-row v-show="show_popup_template">
-										<c-col class="col-sm-4 left-side-popup-template">
-											<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
-											<input type="hidden" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color">
-											<input type="hidden" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color">
+										<c-col class="enable-data-request-switch">
+											<c-button class="wizard-data-request-btn" variant="outline" @click="copyTextToClipboard">{{ shortcode_copied ? 'Shortcode Copied!' : 'Click to Copy' }}</c-button>
 										</c-col>
-										<div class="">
-										<?php print_template_boxes( 'popup', get_templates( 'popup' ), $the_options['popup_template'] ); ?>
-										</div>
-									</c-row>
-									<!-- widget templates  -->
-									<c-row v-show="show_widget_template">
-										<c-col class="col-sm-4 left-side-widget-template">
-											<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
-											<input type="hidden" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color">
-											<input type="hidden" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color">
+									</c-col>
+								</div>
+							</div>
+							<!-- email box  -->
+							<c-row v-show="data_reqs_on" id="gdpr-wizard-data-req-admin-container" >
+											<div class="gdpr-data-req-main-container">
+
+												<div class="gdpr-data-req-email-container">
+													<!-- notification sender email  -->
+													<div class="gdpr-data-req-sender-email">
+														<c-col class="col-sm-12">
+															<span>Notification Sender Email Address</span>
+														</c-col>
+														<!-- notification sender email text box  -->
+														<c-col class="col-sm-12 gdpr-data-req-sender-email-input">
+															<div id="validation-icon">
+																<!-- Default state with the right tick -->
+																<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15" >
+																	<path fill="#00CF21"d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
+																</svg>
+															</div>
+															<c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input"></c-input>
+
+														</c-col>
+														<!-- email validation script -->
+														<script>
+															document.addEventListener('DOMContentLoaded', function () {
+																// Get the input element and the validation icon element
+																var emailInput = document.getElementById('email-input');
+																var validationIcon = document.getElementById('validation-icon');
+
+																// Add an event listener on input change
+																emailInput.addEventListener('input', function () {
+																	// Validate the email format using a regular expression
+																	var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+																	var isValidEmail = emailPattern.test(emailInput.value);
+
+																	// Update the validation icon based on validity
+																	validationIcon.innerHTML = isValidEmail
+																		? '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15"><path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path></svg>'
+																		: '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" height="15" width="15"><path fill="red" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg>';
+
+																	// Adjust the padding-right property based on the presence of the icon
+																	emailInput.style.paddingRight = isValidEmail ? '30px' : '0';
+																});
+															});
+														</script>
+													</div>
+
+													<div class="gdpr-data-req-email-subject">
+														<!-- notification email subject  -->
+														<c-col class="col-sm-12">
+															<span>Notification Email Subject</span>
+														</c-col>
+														<!-- notification email subject text box  -->
+														<c-col class="col-sm-12 gdpr-data-req-subject-input">
+															<div id="validation-icon-subject">
+																<!-- Default state with the right tick -->
+																<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15" >
+																	<path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
+																</svg>
+															</div>
+															<c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input"></c-input>
+														</c-col>
+													</div>
+
+													<div class="gdpr-data-req-email-content">
+														<!-- notification email content  -->
+														<c-col class="col-sm-12">
+															<span>Notification Email Content</span>
+														</c-col>
+													</div>
+
+													<div class="gdpr-data-req-email-editor">
+														<c-col class="col-sm-12">
+															<div class="gdpr-add-media-link-icon">
+																<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+																<path d="M14 10L10 14" stroke="#3399FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+																<path d="M16 13L18 11C19.3807 9.61929 19.3807 7.38071 18 6V6C16.6193 4.61929 14.3807 4.61929 13 6L11 8M8 11L6 13C4.61929 14.3807 4.61929 16.6193 6 18V18C7.38071 19.3807 9.61929 19.3807 11 18L13 16" stroke="#3399FF" stroke-width="1.5" stroke-linecap="round"/>
+																</svg>
+															</div>
+															<c-button id="add-media-button" class="gdpr-renew-now-btn pro" variant="outline" @click="onClickAddMedia"><span><?php esc_html_e( 'Add Media', 'gdpr-cookie-consent' ); ?></span></c-button>
+
+														</c-col>
+														<!-- notification text box  -->
+														<c-col class="col-sm-12">
+															<vue-editor name="data_req_mail_content_text_field" v-model="data_req_editor_message"></vue-editor>
+															<input type="hidden" name="data_req_mail_content_text_field" v-model="data_req_editor_message">
+														</c-col>
+													</div>
+												</div>
+
+											</div>
+
+
+										</c-row>
+
+							<!-- show cookie notice  -->
+							<div class="show-cookie-notice">
+									<div class="show-cookie-notice-content">
+										<c-col class="show-cookie-content-label"><label><?php esc_attr_e( 'Show Cookie Notice as', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="show-cookie-content-dropdown">
+											<input type="hidden" name="show-cookie-as" v-model="show_cookie_as">
+											<v-select class="form-group" id="gdpr-show-cookie-as" :reduce="label => label.code" :options="show_cookie_as_options" v-model="show_cookie_as"  @input="cookieTypeChange"></v-select>
 										</c-col>
-										<div class="">
-										<?php print_template_boxes( 'widget', get_templates( 'widget' ), $the_options['widget_template'] ); ?>
-										</div>
-									</c-row>
-
-									<input type="hidden" name="gdpr-template" v-model="template">
-								</c-card-body>
+									</div>
 							</div>
 
-						</div>
+							<!-- Banner’s Layout & Positions -->
+							<div class="show-banner-layoout-position">
+									<div class="show-cookie-notice-content">
+										<c-col class="show-banner-layout-label"><label><?php esc_attr_e( 'Banner’s Layout & Positions', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col v-show="show_cookie_as === 'banner'">
+											<div
+											@click="cookiebannerPositionChange('bottom')"
+											style="display: inline-block; cursor: pointer;position:relative;left:-14px;">
+											<div>
+												<span id="banner-position-bottom-icon"
+												class="<?php echo $the_options['notify_position_vertical'] == 'bottom' ? 'dashicons dashicons-saved' : ''; ?>"></span>
+											</div>
+											<img 
+												id="banner-position-bottom-id"
+												class="<?php echo $the_options['notify_position_vertical'] == 'bottom' ? 'banner-position-bottom' : ''; ?>" 
+												src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_bottom.svg'; ?>" 
+												alt="Bottom"
+											>
+											</div>
+											<div
+												@click="cookiebannerPositionChange('top')"
+												style="display: inline-block; cursor: pointer;position:relative; padding-left:14px;">
+												<div>
+													<span id="banner-position-top-icon"
+													class="<?php echo $the_options['notify_position_vertical'] == 'top' ? 'dashicons dashicons-saved' : ''; ?>" ></span>
+												</div>
+												<img 
+													id="banner-position-top-id"
+													class="<?php echo $the_options['notify_position_vertical'] == 'top' ? 'banner-position-top' : ''; ?>" 
+													src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_top.svg'; ?>" 
+													alt="Top"
+												>
+											</div>
+											<input type="hidden" name="gcc-gdpr-cookie-position" v-model="cookie_position">
+										</c-col>
+										<c-col v-show="show_cookie_as === 'popup'">
+												<img 
+													id="popup-position-id"
+													src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/pop_layout.svg'; ?>" 
+													alt="Top"
+												>
+										</c-col>
+										<c-col  class="gdpr-wizard-widget" v-show="show_cookie_as === 'widget'" style="padding-left:0px;">
+													<div @click="cookiewidgetPositionChange('left')" style="display: inline-block; cursor: pointer;position:relative;"class="gdpr-wizard-widget-item">
+												<div>
+													<span id="widget-position-left-icon"
+													class="<?php echo $the_options['notify_position_horizontal'] == 'left' ? 'dashicons dashicons-saved' : ''; ?>" ></span>
+												</div>
+												<img 
+												id="widget-position-left-id"
+													class="<?php echo $the_options['notify_position_horizontal'] == 'left' ? 'widget-position-top' : ''; ?>" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/widget_bottom_left.svg'; ?>" alt="Bottom_left">
+											</div>
+											<div @click="cookiewidgetPositionChange('right')" style="display: inline-block; cursor: pointer;"class="gdpr-wizard-widget-item">
+												<div>
+													<span id="widget-position-right-icon"
+													class="<?php echo $the_options['notify_position_horizontal'] == 'right' ? 'dashicons dashicons-saved' : ''; ?>" ></span>
+												</div>
+												<img id="widget-position-right-id"
+													class="<?php echo $the_options['notify_position_horizontal'] == 'right' ? 'widget-position-top' : ''; ?>" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/widget_bottom_right.svg'; ?>" alt="Bottom_right">
+											</div>
+											<div @click="cookiewidgetPositionChange('top_left')" style="display: inline-block; cursor: pointer;"class="gdpr-wizard-widget-item">
+												<div>
+													<span id="widget-position-top_left-icon"
+													class="<?php echo $the_options['notify_position_horizontal'] == 'top_left' ? 'dashicons dashicons-saved' : ''; ?>" ></span>
+												</div>
+												<img id="widget-position-top_left-id"
+													class="<?php echo $the_options['notify_position_horizontal'] == 'top_left' ? 'widget-position-top' : ''; ?>" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/widget_top_left.svg'; ?>" alt="Top_left">
+											</div>
+											<div @click="cookiewidgetPositionChange('top_right')" style="display: inline-block; cursor: pointer;"class="gdpr-wizard-widget-item">
+												<div>
+													<span id="widget-position-top_right-icon"
+													class="<?php echo $the_options['notify_position_horizontal'] == 'top_right' ? 'dashicons dashicons-saved' : ''; ?>" ></span>
+												</div>
+												<img id="widget-position-top_right-id"
+													class="<?php echo $the_options['notify_position_horizontal'] == 'top_right' ? 'widget-position-top' : ''; ?>" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/widget_top_right.svg'; ?>" alt="Top_right">
+											</div>
+											<input type="hidden" name="gcc-gdpr-cookie-widget-position" v-model="cookie_widget_position">
+										</c-col>
+									</div>
+							</div>
 
-				</div>
-				<input type="button" name="next-step" class="next-step second-next-step" value="Save & Continue" />
-				<input type="button" name="previous-step" class="previous-step first-previous-step" value="< Go Back" />
+							<!-- show templates  -->
 
-			</fieldset>
-			<!-- Second Tab Content Field set End  -->
+							<div class="show-cookie-template">
 
-			<!-- third Tab Content Field set start -->
-			<fieldset class="finish-tab-content">
+								<?php $the_options = Gdpr_Cookie_Consent::gdpr_get_settings(); ?>
 
-			<div class="finish-tab-main-container">
+								<div v-show="is_gdpr || is_lgpd" class="show-cookie-template-card">
+									<c-card-header class="show-cookie-template-label"><?php esc_html_e( 'Choose template for your cookie bar', 'gdpr-cookie-consent' ); ?></c-card-header>
+									<c-card-body>
+										<!-- banner templates  -->
+										<c-row v-show="show_banner_template" class="show-banner-template">
+											<c-col class="col-sm-3 left-side-banner-template" >
+												<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
+												<input type="hidden" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color">
+												<input type="hidden" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color">
+											</c-col>
+											<div class="">
+											<?php print_template_boxes( 'banner', get_templates( 'banner' ), $the_options['banner_template'] ); ?>
+											</div>
+										</c-row>
+										<!-- popup templates  -->
+										<c-row v-show="show_popup_template">
+											<c-col class="col-sm-4 left-side-popup-template">
+												<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
+												<input type="hidden" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color">
+												<input type="hidden" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color">
+											</c-col>
+											<div class="">
+											<?php print_template_boxes( 'popup', get_templates( 'popup' ), $the_options['popup_template'] ); ?>
+											</div>
+										</c-row>
+										<!-- widget templates  -->
+										<c-row v-show="show_widget_template">
+											<c-col class="col-sm-4 left-side-widget-template">
+												<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
+												<input type="hidden" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color">
+												<input type="hidden" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color">
+											</c-col>
+											<div class="">
+											<?php print_template_boxes( 'widget', get_templates( 'widget' ), $the_options['widget_template'] ); ?>
+											</div>
+										</c-row>
 
-				<div class="thank-you-text">
-					<span>Thank you for choosing WP Cookie Consent plugin - the most powerful cookie consent WordPress plugin.</span>
-				</div>
+										<input type="hidden" name="gdpr-template" v-model="template">
+									</c-card-body>
+								</div>
 
-				<div class="tab-row">
-						<div class="column">
-							<div class="tab-card">
-								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'help-center.png'; ?>" >
-								<div class="card-heading">Help Center</div>
-								<div class="card-info">Read the documentation to find answers to your questions</div>
-								<div class="learn-more-link help-center-link"> <a href="https://club.wpeka.com/docs/wp-cookie-consent/">Learn More >></a></div>
+							</div>
+
+					</div>
+					<input type="button" name="next-step" @click="saveWizardCookieSettings" class="next-step second-next-step" value="Finish Setup" />
+					<input type="button" name="previous-step" class="previous-step first-previous-step" value="Go Back" />
+
+				</fieldset>
+				<!-- Second Tab Content Field set End  -->
+
+				<!-- third Tab Content Field set start -->
+				<fieldset class="finish-tab-content" class="gdpr-wizard-thankyou-main-container">
+
+					<div class="gdpr-wizard-help-center">
+						<div class="gdpr-help-item">
+								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'help-center.svg'; ?>">
+							<div class="gdpr-help-content">
+							<span class="gdpr-help-caption">
+								<?php esc_html_e( 'Help Center', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<span class="gdpr-help-description">
+								<?php esc_html_e( 'Read the documentation to find answers to your questions.', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<a href="https://club.wpeka.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 							</div>
 						</div>
-						<div class="column">
-							<div class="tab-card">
-								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'video.png'; ?>" >
-								<div class="card-heading">Video Guides</div>
-								<div class="card-info">Browse through these video tutorials to learn more about how WP Cookie Consent works.</div>
-								<div class="learn-more-link video-guide-link"> <a href="https://club.wpeka.com/docs/wp-cookie-consent/video-guides/video-resources/">Learn More >></a></div>
+						<div class="gdpr-help-item">
+								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'video.svg'; ?>">
+							<div class="gdpr-help-content">
+							<span class="gdpr-help-caption">
+								<?php esc_html_e( 'Video Guides', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<span class="gdpr-help-description">
+								<?php esc_html_e( 'Explore video tutorials for insights on WP Cookie Consent functionality.', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<a href="https://club.wpeka.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 							</div>
 						</div>
-						<div class="column">
-							<div class="tab-card">
-								<img class="finish-card-img" src="<?php echo esc_url( $image_path ) . 'faqs.png'; ?>" >
-								<div class="card-heading">FAQs</div>
-								<div class="card-info">Find answers to some of the most commonly asked questions.</div>
-								<div class="learn-more-link faqs-link"> <a href="https://club.wpeka.com/docs/wp-cookie-consent/faqs/faq-2/">Learn More >></a></div>
+						<div class="gdpr-help-item">
+								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'faqs.svg'; ?>">
+							<div class="gdpr-help-content">
+							<span class="gdpr-help-caption">
+								<?php esc_html_e( 'FAQ with Answers', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<span class="gdpr-help-description">
+								<?php esc_html_e( 'Find answers to some of the most commonly asked questions.', 'gdpr-cookie-consent' ); ?>
+							</span>
+							<a href="https://club.wpeka.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 							</div>
 						</div>
+					</div>
+				</fieldset>
 
-				</div>
-
-			</div>
-
-				<input type="button" name="next-step" @click="saveWizardCookieSettings"  class="submit-button final-next-step" value="Save & Close" />
-				<input type="button" name="previous-step" class="previous-step second-previous-step" value="< Go Back" />
-			</fieldset>
 			</div>
 		</form>
 
@@ -2969,7 +2874,8 @@ function get_templates( $template_type ) {
 
 </div>
 
-
+<?php 
+ $frontend_url = get_site_url(); ?>
 
 <script>
 
@@ -2981,15 +2887,27 @@ jQuery(document).ready(function () {
 	var imagePath = "<?php echo esc_url( $image_path ); ?>";
 	var isProActive = "<?php echo esc_url( $is_pro ); ?>";
 
-	setProgressBar(current);
+	// initial condition.
+	jQuery(".gdpr-wizard-header-section").show();
+    jQuery(".gdpr-wizard-thankyou-page").hide();
 
 	jQuery(".next-step").click(function () {
 
 		currentGfgStep = jQuery(this).parent();
 		nextGfgStep = jQuery(this).parent().next();
 
-		jQuery("#progressbar li").eq(jQuery("fieldset")
-			.index(nextGfgStep)).addClass("active");
+		if (currentGfgStep.index() === 1) {
+            jQuery(".gdpr-wizard-header-section").hide();
+            jQuery(".gdpr-wizard-thankyou-page").show();
+        } else {
+            jQuery(".gdpr-wizard-header-section").show();
+            jQuery(".gdpr-wizard-thankyou-page").hide();
+        }
+
+		jQuery("#gdpr-wizard-progress-bar-before").removeClass("gdpr-wizard-progress-bar-step2-before");
+		jQuery("#gdpr-wizard-progress-bar-before").addClass("gdpr-wizard-progress-bar-step2");
+		jQuery("#horizontal-line-id").removeClass("horizontal-line");
+		jQuery("#horizontal-line-id").addClass("horizontal-line-after");
 
 		nextGfgStep.show();
 		currentGfgStep.animate({ opacity: 0 }, {
@@ -3000,11 +2918,16 @@ jQuery(document).ready(function () {
 					'display': 'none',
 					'position': 'relative'
 				});
-				nextGfgStep.css({ 'opacity': opacity });
+				if (currentGfgStep.index() === 1) {
+					nextGfgStep.css({ 'display':'flex','justify-content':'center','opacity': opacity });
+				}
+				else{
+					nextGfgStep.css({ 'opacity': opacity });
+				}
+				
 			},
 			duration: 500
 		});
-		setProgressBar(++current);
 	});
 
 	jQuery(".previous-step").click(function () {
@@ -3012,8 +2935,15 @@ jQuery(document).ready(function () {
 		currentGfgStep = jQuery(this).parent();
 		previousGfgStep = jQuery(this).parent().prev();
 
-		jQuery("#progressbar li").eq(jQuery("fieldset")
-			.index(currentGfgStep)).removeClass("active");
+		if (currentGfgStep.index() === 2) {
+            jQuery(".gdpr-wizard-header-section").show();
+            jQuery(".gdpr-wizard-thankyou-page").hide();
+        }
+
+		jQuery("#gdpr-wizard-progress-bar-before").removeClass("gdpr-wizard-progress-bar-step2");
+		jQuery("#gdpr-wizard-progress-bar-before").addClass("gdpr-wizard-progress-bar-step2-before");
+		jQuery("#horizontal-line-id").removeClass("horizontal-line-after");
+		jQuery("#horizontal-line-id").addClass("horizontal-line");
 
 		previousGfgStep.show();
 
@@ -3029,61 +2959,7 @@ jQuery(document).ready(function () {
 			},
 			duration: 500
 		});
-		setProgressBar(--current);
 	});
-
-	//first next button
-	jQuery(".first-next-step").click(function () {
-		jQuery('.line-step-2').addClass('right-side-line');
-		jQuery('.line-step-3').addClass('left-side-line');
-
-		//change the src of the image when clicked on the first next button
-		jQuery('.selected-step-img').attr('src', imagePath + 'tick.png');
-			jQuery('.not-selected-step-img').attr('src', imagePath + 'selected-step.png');
-
-	});
-
-	//first previous button
-	jQuery(".first-previous-step").click(function () {
-		jQuery('.line-step-2').removeClass('right-side-line');
-		jQuery('.line-step-3').removeClass('left-side-line');
-
-		//change the src of the image back to selected when prvious on the first next button
-		jQuery('.selected-step-img').attr('src', imagePath + 'selected-step.png');
-			jQuery('.not-selected-step-img').attr('src', imagePath + 'not-selected-step.png');
-
-	});
-
-	//second next button
-
-	jQuery(".second-next-step").click(function () {
-		jQuery('.line-step-4').addClass('last-step-right-side');
-		jQuery('.line-step-3').addClass('left-side-line');
-		jQuery('.line-step-3').addClass('right-side-line');
-
-		jQuery('.not-selected-step-img').attr('src', imagePath + 'tick.png');
-			jQuery('.finish-step-img').attr('src', imagePath + 'selected-step.png');
-
-
-	});
-
-	//second previous button
-
-	jQuery(".second-previous-step").click(function () {
-		jQuery('.line-step-4').removeClass('last-step-right-side');
-		jQuery('.line-step-3').removeClass('right-side-line');
-
-		jQuery('.finish-step-img').attr('src', imagePath + 'finish.png');
-		jQuery('.not-selected-step-img').attr('src', imagePath + 'selected-step.png');
-
-	});
-
-	function setProgressBar(currentStep) {
-		var percent = parseFloat(100 / steps) * current;
-		percent = percent.toFixed();
-		jQuery(".progress-bar")
-			.css("width", percent + "%")
-	}
 
 	jQuery(".submit").click(function () {
 		return false;
@@ -3097,35 +2973,21 @@ jQuery(document).ready(function () {
 
 	}
 
-	//close wizard button
+	// edit banner redirection
 
-	jQuery("#closeButton").click(function() {
+	jQuery(".gdpr-wizard-thankyou-edit-banner").click(function() {
 		// Get the admin URL
 		var adminUrl = "<?php echo esc_url( admin_url() ); ?>";
 
 		// Redirect to the dashboard submenu
-		window.location.href = adminUrl + "/admin.php?page=gdpr-cookie-consent";
+		window.location.href = adminUrl + "/admin.php?page=gdpr-cookie-consent/#cookie_settings";
 	});
 
-	//save and close submission
+	//live preview redirection.
 
-	jQuery(".submit-button").click(function() {
-		// Get the current hash
-		var hash = window.location.hash;
-
-
-		// Reload the current page with the hash
-		window.location.href = window.location.href;
-
-		// Delay redirecting to the new URL after reloading the page
-		setTimeout(function() {
-			// Get the admin URL
-			var adminUrl = "<?php echo esc_url( admin_url() ); ?>";
-
-			// Redirect to the dashboard submenu after a delay
-			window.location.href = adminUrl + "/admin.php?page=gdpr-cookie-consent";
-		}, 1000); // Change the delay time as needed
-});
+	jQuery('.gdpr-wizard-thankyou-live-preview').on('click', function() {
+		window.open('<?php echo esc_url($frontend_url); ?>', '_blank');
+	});
 
 
 
