@@ -2981,3 +2981,13 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .hide_show_again_dnt {
   display: none !important;
 }
+#cookie-banner-cancle-img {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+@media (max-width: 700px) {
+  #cookie-banner-cancle-img {
+    top: 0;
+  }
+}
