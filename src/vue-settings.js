@@ -60,6 +60,7 @@ var gen = new Vue({
       is_lang_changed: false,
       is_iabtcf_changed: false,
       is_logo_removed: false,
+      save_loading: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
       closeOnBackdrop: true,
@@ -2043,7 +2044,6 @@ var gen = new Vue({
         typeof GDPR_COOKIE_CONSENT_VERSION !== "undefined"
           ? GDPR_COOKIE_CONSENT_VERSION
           : "",
-      //maxmind integration.
 
       ab_testing_enabled:
         settings_obj.ab_options.hasOwnProperty("ab_testing_enabled") &&
@@ -2068,13 +2068,7 @@ var gen = new Vue({
       )
         ? settings_obj.geo_options["database_file_path"]
         : "",
-      maxmind_license_key: settings_obj.geo_options.hasOwnProperty(
-        "maxmind_license_key"
-      )
-        ? settings_obj.geo_options["maxmind_license_key"]
-        : "",
       alert_message: "Maxmind Key Integrated",
-      maxmind_register_link: "https://www.maxmind.com/en/geolite2/signup",
       document_link: "https://club.wpeka.com/docs/wp-cookie-consent/",
       video_link: "https://www.youtube.com/embed/hrfSoFjEpzQ",
       support_link:
@@ -4562,6 +4556,7 @@ var gen = new Vue({
     },
 
     saveCookieSettings() {
+      this.save_loading = true;
       // When Pro is activated set the values in the aceeditor
       if (this.isGdprProActive) {
         //intializing the acecode editor
@@ -4626,6 +4621,10 @@ var gen = new Vue({
             that.reload_onSafeMode = false;
             location.reload();
           }
+          that.save_loading = false;
+        })
+        .fail(function () {
+          that.save_loading = false;
         });
     },
 
@@ -5822,21 +5821,6 @@ var gen = new Vue({
     },
     onSubmitIntegrations() {
       let that = this;
-      if (this.maxmind_license_key === "" && this.enable_geotargeting) {
-        this.alert_message = "Please enter a valid license key";
-        j("#wpl-cookie-consent-integrations-alert").css(
-          "background-color",
-          "#e55353"
-        );
-        j("#wpl-cookie-consent-integrations-alert").fadeIn(400);
-        j("#wpl-cookie-consent-integrations-alert").fadeOut(2500);
-        return;
-      }
-      var spinner = j(".wpl_integrations_spinner");
-      spinner.show();
-      spinner.css({ visibility: "visible" });
-      j("#wpl-cookie-consent-overlay").css("display", "block");
-      var dataV = j("#wpl-cookie-consent-integrations-form").serialize();
 
       jQuery
         .ajax({
@@ -9910,6 +9894,7 @@ var gen = new Vue({
       });
     },
     saveCookieSettings() {
+      this.save_loading = true;
       // When Pro is activated set the values in the aceeditor
       if (this.isGdprProActive) {
         //intializing the acecode editor
@@ -9970,6 +9955,10 @@ var gen = new Vue({
             that.reload_onSafeMode = false;
             location.reload();
           }
+          that.save_loading = false;
+        })
+        .fail(function () {
+          that.save_loading = false;
         });
     },
     //method to save wizard form settings

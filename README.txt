@@ -1,10 +1,10 @@
 === Cookie Consent for WP - Cookie Consent, Consent Log, Cookie Scanner, Script Blocker (for GDPR, CCPA & ePrivacy) ===
 Contributors: wpeka-club
 Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
-Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
+Tags: CCPA, GDPR, Privacy Policy, Terms and conditions, Cookie Policy
 Requires at least: 3.3.1
 Tested up to: 6.6.1
-Stable tag: 3.5.1
+Stable tag: 3.6.0
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -119,6 +119,8 @@ The WP Cookie Notice Plugin is lightweight, fast and complies with the latest Wo
 
 - SEO friendly
 
+- Geo-coding to detect visitor's location & optionally show/hide the cookie notice bar. This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com.
+
 - W3C Web Accessibility Standards (WCAG) Compliant
 
 - Mobile responsive design
@@ -134,8 +136,6 @@ The WP Cookie Notice Plugin is lightweight, fast and complies with the latest Wo
 > - Continuously updated known cookie information database.
 >
 > - Log cookie consent and export consent log report as a csv file.
->
-> - Geo-coding to detect visitor's location & optionally show/hide the cookie notice bar.
 >
 > - Fully customisable to match your website's design.
 >
@@ -200,6 +200,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+
+= 3.6.0 =
+* Feature: Changes in maxmind integration so that now users do not need to put their maxmind API key. This product now includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com.
+* New Feature: Added translation support for 15 more languages.
 
 = 3.5.1 = 
 * Fix: Minor bug fixes and improvements.
@@ -554,6 +558,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.6.0 =
+* Feature: Changes in maxmind integration so that now users do not need to put their maxmind API key. This product now includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com.
+* New Feature: Added translation support for 15 more languages.
 
 = 3.5.1 = 
 * Fix: Minor bug fixes and improvements.
