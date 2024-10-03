@@ -3319,7 +3319,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
             this.bar_elm.slideDown(this.settings.animate_speed_hide);
           }
         } else {
-          if (this.settings.auto_banner_initialize) {
+          if (this.settings.auto_banner_initialize && gdpr_select_pages.length <= 0) {
             var banner = this.bar_elm;
             var banner_delay = this.settings.auto_banner_initialize_delay;
             setTimeout(function () {
@@ -3327,6 +3327,43 @@ GDPR_CCPA_COOKIE_EXPIRE =
             }, banner_delay);
           } else {
             this.bar_elm.show();
+          }
+          if(this.settings.auto_banner_initialize && gdpr_select_pages.length > 0){
+            for (var id = 0; id < gdpr_select_pages.length; id++) {
+              var pageToHideBanner = gdpr_select_pages[id];
+              if (document.body.classList.contains("page-id-" + pageToHideBanner)) {
+                if (
+                  GDPR.settings.cookie_usage_for == "gdpr" ||
+                  GDPR.settings.cookie_usage_for == "eprivacy" ||
+                  GDPR.settings.cookie_usage_for == "both" ||
+                  GDPR.settings.cookie_usage_for == "lgpd"
+                ) {
+                  var banner = document.getElementById(
+                    "gdpr-cookie-consent-show-again"
+                  );
+                  var insidebanner = document.getElementById(
+                    "gdpr-cookie-consent-bar"
+                  );
+                  if (GDPR.settings.cookie_bar_as == "popup") {
+                    $("#gdpr-popup").gdprmodal("hide");
+                  }
+                  if (banner || insidebanner) {
+                    banner.style.display = "none";
+                    insidebanner.style.display = "none";
+                  }
+                } else if (GDPR.settings.cookie_usage_for == "ccpa") {
+                  if (GDPR.settings.cookie_bar_as == "popup") {
+                    $("#gdpr-popup").gdprmodal("hide");
+                  }
+                  var insidebanner = document.getElementById(
+                    "gdpr-cookie-consent-bar"
+                  );
+                  if (insidebanner) {
+                    insidebanner.style.display = "none";
+                  }
+                }
+              }
+            }
           }
         }
       }

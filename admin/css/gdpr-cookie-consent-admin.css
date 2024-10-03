@@ -8178,6 +8178,9 @@ button.btn.gdpr-renew-now-btn.pro,
 #wpwrap #wp-content {
   padding-left: 0 !important;
 }
+.opacity-slider input[type="number"] {
+  width: 70px;
+}
 /* cookie list css */
 #gdpr-cookie-consent-cookies-list .gdpr-cookie-consent-cookie-list-tab {
   height: 60px;
