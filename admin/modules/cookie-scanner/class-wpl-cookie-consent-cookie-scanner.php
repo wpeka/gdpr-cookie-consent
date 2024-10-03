@@ -255,13 +255,16 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		$error_message = '';
 		$cookie_scan_settings = array();
 		$cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
-		
-		if ( ! empty( $cookie_scan_settings ) ) {
-			$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
-		} else {
-			$total_no_of_found_cookies = 0;
-		}
+		global $wpdb;
 
+		// Check if the table wp_wpl_cookie_scan is empty
+		$table_name = $wpdb->prefix . 'wpl_cookie_scan'; // Prefix-safe table name
+		$row_count = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name" );
+
+		if ( $row_count == 0 ) {
+			$is_first_scan_done = 0;
+		}
+		
 		$localhost_arr = array(
 			'127.0.0.1',
 			'::1',
@@ -276,7 +279,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 				$error_message .= ' ' . __( 'Scanning will not work on local server.', 'gdpr-cookie-consent' );
 			}
 		}
-
+		$results = $wpdb->get_results( "SELECT created_at, status, total_url, total_cookies FROM {$wpdb->prefix}wpl_cookie_scan LIMIT 25" );
+		
+		error_log("Result is ->".print_r($results,true));
 
 		/**
 		 * Send a POST request to the GDPR API endpoint 'get_data'
@@ -291,11 +296,13 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 					'pro_installed' 			 		=> $pro_installed,
 					'pro_is_activated'                  => $pro_is_activated,
 					'api_key_activated'                 => $api_key_activated,
-					'total_no_of_found_cookies'         => $total_no_of_found_cookies,
+					'is_first_scan_done'                => $is_first_scan_done,
 					'is_user_connected'         		=> $this->is_user_connected,
 					'class_for_blur_content'    		=> $this->class_for_blur_content ,
 					'class_for_card_body_blur_content'  => $this->class_for_card_body_blur_content ,
 					'last_scan'         				=> $last_scan ,
+					'results'         				    => $results ,
+					'total_no_of_found_cookies'         => $total_no_of_found_cookies,
 				),
 			)
 		);
@@ -365,34 +372,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 					$div_class = 'cookie-scan-history-table-body-data-scan_status-stopped'; 
 					break;
 			}
-
-			
-			// // // Categories could be retrieved based on the implementation, assuming 1 static category here
-			// $cookie_scan_settings = array();
-			// $cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
-
-			// if ( ! empty( $cookie_scan_settings ) ) {
-			// 	$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
-			// 	error_log("Scan cookies list is ->".print_r($scan_cookie_list,true));
-			// 	// Create an array to store unique category names.
-			// 	$unique_categories = array();
-			
-			// 	// Loop through the 'data' sub-array.
-			// 	foreach ( $scan_cookie_list['data'] as $cookie ) {
-			// 		$category = $cookie['category'];
-			
-			// 		// Check if the category is not already in the $uniqueCategories array.
-			// 		if ( ! in_array( $category, $unique_categories ) ) {
-			// 			// If it's not in the array, add it.
-			// 			$unique_categories[] = $category;
-			// 		}
-			// 	}
-			
-			// 	// Count the number of unique categories.
-			// 	$categories = count( $unique_categories );
-			// } else {
-			// 	$categories = 0;
-			// }
 	
 			// Create table rows with the retrieved data
 			$html .= '<tr>';

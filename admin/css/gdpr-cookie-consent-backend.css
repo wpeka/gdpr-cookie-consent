@@ -340,7 +340,8 @@ a .export-btn:hover {
   border-left-color: #333;
 }
 .gdpr-overlay {
-  background-color: #141722d9;
+  background-color: rgba(20, 23, 34, 0.85);
+  border-radius: 10px;
 }
 #gdpr-disconnect-wpcc-notice .api-connect-to-account-btn {
   color: blue;

@@ -42,7 +42,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @var array
 	 */
-	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu' );
+	private $supported_languages = array( 'fr', 'en', 'nl', 'bg', 'cs', 'da', 'de', 'es', 'hr', 'is', 'sl', 'gr', 'hu', 'po', 'pt', 'ab', 'aa', 'af', 'sq', 'am', 'ar', 'hy', 'az', 'eu', 'be', 'bn', 'bs', 'ca', 'co', 'eo', 'fi', 'fy', 'gl', 'ka', 'gu', 'ha', 'he', 'hi', 'ig', 'id', 'ga', 'it', 'ja', 'kn', 'kk', 'ky', 'ko', 'ku', 'lo', 'lv', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'mi', 'mr', 'mn', 'ne', 'no', 'or', 'ps', 'fa', 'pa', 'ro', 'ru', 'sm', 'gd', 'st', 'sn', 'sd', 'si', 'sk', 'so', 'su', 'sw', 'sv', 'tl', 'tg', 'ta', 'te', 'th', 'tr', 'ug', 'uk', 'ur', 'uz', 'vi', 'cy', 'xh', 'yi', 'yo', 'zu','ceb', 'zh-cn', 'zh-tw', 'et', 'el', 'ht', 'haw', 'iw', 'hmn', 'jw', 'km', 'la', 'lt', 'my', 'pl', 'sr', 'ug' );
 
 	/**
 	 * The version of this plugin.
@@ -108,6 +108,8 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
+			add_action('admin_init',array($this, 'gdpr_send_data_to_dashboard_appwplp_server'));
+
 		}
 		
 		$json_input = file_get_contents('php://input');
@@ -127,6 +129,7 @@ class Gdpr_Cookie_Consent_Admin {
 		} else {
 		}
 		
+		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
 	}
 
 	/**
@@ -188,9 +191,7 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name . '-main', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-main.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-dashboard', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-dashboard.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'js/vue/wpl-cookie-consent-admin-integrations.js', array( 'jquery' ), $this->version, false );
-		//tcf
-		
-			wp_register_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-tcf.js');
+		wp_register_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-tcf.js');
 			$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 			wp_localize_script(
 				$this->plugin_name . '-tcf',
@@ -200,20 +201,9 @@ class Gdpr_Cookie_Consent_Admin {
 				)
 			);
 			wp_enqueue_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-tcf.js', array( 'jquery' ), $this->version, false );
-			
-		// }
 	}
 
-	/**
-	 * Filter callback to return if maxmind is integrated
-	 *
-	 * @param String $maxmind_integrated Filter variable.
-	 *
-	 * @since 3.0.2
-	 */
-	public function wpl_get_maxmind_integrated( $maxmind_integrated ) {
-		return get_option( 'wpl_pro_maxmind_integrated' );
-	}
+	
 
 
 	/**
@@ -223,29 +213,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$abtest = new Gdpr_Cookie_Consent_AB_Testing( $this->plugin_name );
 	}
 
-	/**
-	 * Ajax callback function for Integrations Page.
-	 */
-	public function wpl_cookie_consent_integrations_settings() {
-		if ( isset( $_POST['_wpnonce'] ) ) {
-			$geoip       = new Gdpr_Cookie_Consent_Geo_Ip();
-			$license_key = isset( $_POST['wpl-maxmind-license-key'] ) ? sanitize_text_field( wp_unslash( $_POST['wpl-maxmind-license-key'] ) ) : '';
-			$license_key = is_null( $license_key ) ? '' : $license_key;
-			$license_key = trim( stripslashes( $license_key ) );
-			if ( ! empty( $license_key ) ) {
-				$license_key = $geoip->validate_maxmind_license_key( $license_key );
-			}
-			$enable_geotargeting                = isset( $_POST['wpl-enable-geo-targeting'] ) ?
-			( true === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) || 'true' === sanitize_text_field( wp_unslash( $_POST['wpl-enable-geo-targeting'] ) ) ) ? 'true' : 'false' : 'false';
-			$geo_options                        = get_option( 'wpl_geo_options' );
-			$geo_options['maxmind_license_key'] = $license_key;
-			$geo_options['enable_geotargeting'] = $enable_geotargeting;
-			update_option( 'wpl_geo_options', $geo_options );
-			if ( '2' === get_option( 'wpl_pro_maxmind_integrated' ) ) {
-				wp_send_json_success();
-			}
-		}
-	}
+	
 	public function get_country_codes() {
 		$options = json_decode(
 			wp_remote_retrieve_body(
@@ -280,7 +248,6 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( $reason === 'gdpr-plugin-deactivate-with-data' ) {
 				delete_option( 'gdpr_admin_modules' );
 				delete_option( 'gdpr_public_modules' );
-				delete_option( 'wpl_pro_maxmind_integrated' );
 				delete_option( 'gdpr_version_number' );
 				delete_option( '	analytics_activation_redirect_gdpr-cookie-consent' );
 				delete_option( 'wpl_logs_admin' );
@@ -559,77 +526,7 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 
-	/**
-	 * Print admin notices for Maxmind integration.
-	 */
-	public function wpl_admin_notices() {
-		if ( class_exists( 'Gdpr_Cookie_Consent' ) ) {
-			$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-			$style       = '';
-			if ( ! $the_options['is_eu_on'] && ! $the_options['is_ccpa_on'] ) {
-				$style = 'display:none';
-			}
-			$geo_options = get_option( 'wpl_geo_options' );
-			if ( '2' !== get_option( 'wpl_pro_maxmind_integrated' ) && ( ! isset( $geo_options['enable_geotargeting'] ) || 'true' !== $geo_options['enable_geotargeting'] ) ) {
-				?>
-				<div class="gdpr-maxmind-notice notice notice-error dismissible" style="<?php echo esc_attr( $style ); ?>">
-					<p>
-						<strong><?php esc_html_e( 'WP Cookie Consent Pro: Geotargeting not enabled and MaxMind integration has not been configured.', 'gdpr-cookie-consent' ); ?></strong>
-					</p>
-					<p>
-						<?php
-						echo wp_kses_post(
-							sprintf(
-								/* translators: %1%s: integration page */
-								__( 'You must enable geotargeting and enter a valid license key on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
-							)
-						);
-						?>
-					</p>
-				</div>
-				<?php
-			} elseif ( '2' !== get_option( 'wpl_pro_maxmind_integrated' ) ) {
-				?>
-				<div class="gdpr-maxmind-notice notice notice-error dismissible" style="<?php echo esc_attr( $style ); ?>">
-					<p>
-						<strong><?php esc_html_e( 'WP Cookie Consent Pro: MaxMind integration has not been configured.', 'gdpr-cookie-consent' ); ?></strong>
-					</p>
-					<p>
-						<?php
-						echo wp_kses_post(
-							sprintf(
-								/* translators: %1%s: integration page */
-								__( 'You must enter a valid license key on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
-							)
-						);
-						?>
-					</p>
-				</div>
-				<?php
-			} elseif ( ! isset( $geo_options['enable_geotargeting'] ) || 'true' !== $geo_options['enable_geotargeting'] ) {
-				?>
-				<div class="gdpr-maxmind-notice notice notice-error dismissible" style="<?php echo esc_attr( $style ); ?>">
-					<p>
-						<strong><?php esc_html_e( 'WP Cookie Consent Pro: Geotargeting is not enabled.', 'gdpr-cookie-consent' ); ?></strong>
-					</p>
-					<p>
-						<?php
-						echo wp_kses_post(
-							sprintf(
-								/* translators: %1%s: integration page */
-								__( 'You must enable geotargeting on the <a href="%1$s">MaxMind integration page</a> in order to use the geolocation services.', 'gdpr-cookie-consent' ),
-								admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations' )
-							)
-						);
-						?>
-					</p>
-				</div>
-				<?php
-			}
-		}
-	}
+	
 	/**
 	 * Consent Log overview
 	 *
@@ -1200,6 +1097,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'div'    => array(
 					'class' => array(),
 					'id'    => array(),
+					'style' => array(),
 				),
 				'h1'     => array(
 					'class' => array(),
@@ -1231,9 +1129,10 @@ class Gdpr_Cookie_Consent_Admin {
 					'placeholder' => array(),
 				),
 				'a'      => array(
-					'href'   => array(),
-					'target' => array(),
-					'class'  => array(),
+					'href'    => array(),
+					'target'  => array(),
+					'class'   => array(),
+					'onclick' => array(),
 				),
 				'select' => array(
 					'name'  => array(),
@@ -1262,7 +1161,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'td'     => array(
 					'class'        => array(),
 					'data-colname' => array(),
-					'colspan'	   => array(),
+					'colspan'      => array(),
 				),
 				'tfoot'  => array(),
 				'button' => array(
@@ -1272,6 +1171,24 @@ class Gdpr_Cookie_Consent_Admin {
 				'table'  => array(
 					'class' => array(),
 				),
+				'svg'    => array(
+					'width'   => array(),
+					'height'  => array(),
+					'viewBox' => array(),
+					'fill'    => array(),
+					'xmlns'   => array(),
+				),
+				'g'      => array(
+					'clip-path' => array(),
+				),
+				'path'   => array(
+					'd'    => array(),
+					'fill' => array(),
+				),
+				'defs'   => array(
+					'clipPath' => array(),
+				),
+				'rect'   => array(),
 			);
 			echo wp_kses( $this->wpl_get_template_data_request( 'gdpr-data-request-tab-template.php', $args ), $allowed_data_req_html );
 	}
@@ -1645,9 +1562,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function admin_init() {
 		global $wpdb;
-		if ( ! get_option( 'wpl_pro_maxmind_integrated' ) ) {
-			add_option( 'wpl_pro_maxmind_integrated', '1' );
-		}
 		if ( ! get_option( 'gdpr_version_number' ) ) {
 			update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
 		} elseif ( get_option( 'gdpr_version_number' ) !== GDPR_COOKIE_CONSENT_VERSION ) {
@@ -4387,6 +4301,62 @@ class Gdpr_Cookie_Consent_Admin {
 				'label' => 'Zulu',
 				'code'  => 'zu',
 			),
+			array(
+				'label' => 'Cebuano',
+				'code'  => 'ceb',
+			),
+			array(
+				'label' => 'Chinese (Simplified)',
+				'code'  => 'zh-cn',
+			),
+			array(
+				'label' => 'Chinese (Traditional)',
+				'code'  => 'zh-tw',
+			),
+			array(
+				'label' => 'Estonian',
+				'code'  => 'et',
+			),
+			array(
+				'label' => 'Haitian Creole',
+				'code'  => 'ht',
+			),
+			array(
+				'label' => 'Hawaiian',
+				'code'  => 'haw',
+			),
+			array(
+				'label' => 'Hmong',
+				'code'  => 'hmn',
+			),
+			array(
+				'label' => 'Javanese',
+				'code'  => 'jw',
+			),
+			array(
+				'label' => 'Khmer',
+				'code'  => 'km',
+			),
+			array(
+				'label' => 'Latin',
+				'code'  => 'la',
+			),
+			array(
+				'label' => 'Lithuanian',
+				'code'  => 'lt',
+			),
+			array(
+				'label' => 'Myanmar (Burmese)',
+				'code'  => 'my',
+			),
+			array(
+				'label' => 'Serbian',
+				'code'  => 'sr',
+			),
+			array(
+				'label' => 'Uyghur',
+				'code'  => 'ug',
+			),
 
 		);
 
@@ -4656,7 +4626,6 @@ class Gdpr_Cookie_Consent_Admin {
 			$geo_options = array();
 		}
 		if ( ! isset( $geo_options['database_prefix'] ) ) {
-			$geo_options['maxmind_license_key'] = '';
 			$geo_options['database_prefix']     = wp_generate_password( 32, false, false );
 			update_option( 'wpl_geo_options', $geo_options );
 		}
@@ -4664,9 +4633,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$geo_options['enable_geotargeting'] = false;
 			update_option( 'wpl_geo_options', $geo_options );
 		}
-		$uploads_dir                       = wp_upload_dir();
-		$geo_options['database_file_path'] = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/' . $geo_options['database_prefix'] . '-GeoLite2-City.mmdb';
-		update_option( 'wpl_geo_options', $geo_options );
+		
 		wp_enqueue_style( 'gdpr-cookie-consent-integrations' );
 
 		// Require the class file for gdpr cookie consent api framework settings.
@@ -5656,7 +5623,11 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			$ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['ab_testing_period_text_field'] ) ) : '';
 
-			if ( ( $_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable'] === 'true' ) && ( ! isset( $ab_options['ab_testing_enabled'] ) || $ab_options['ab_testing_enabled'] === 'false' || $ab_options['ab_testing_enabled'] === false ) ) {
+			if (isset($_POST['gcc-ab-testing-enable']) 
+			&& ($_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable'] === 'true') 
+			&& (!isset($ab_options['ab_testing_enabled']) 
+				|| $ab_options['ab_testing_enabled'] === 'false' 
+				|| $ab_options['ab_testing_enabled'] === false)) {
 				$ab_options ['necessary1']  = 0;
 				$ab_options ['marketing1']  = 0;
 				$ab_options ['analytics1']  = 0;
@@ -6191,6 +6162,11 @@ class Gdpr_Cookie_Consent_Admin {
 					} elseif ( 'false' == $_POST['gcc-eu-enable'] ) {
 						$the_options['is_eu_on'] = 'false';
 					} else {
+						
+						if(!$the_options['is_eu_on']){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
 						$the_options['is_eu_on'] = 'true';
 					}
 				}
@@ -6201,6 +6177,10 @@ class Gdpr_Cookie_Consent_Admin {
 					} elseif ( 'false' == $_POST['gcc-ccpa-enable'] ) {
 						$the_options['is_ccpa_on'] = 'false';
 					} else {
+						if(!$the_options['is_ccpa_on'] ){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
 						$the_options['is_ccpa_on'] = 'true';
 					}
 				}
@@ -6211,6 +6191,9 @@ class Gdpr_Cookie_Consent_Admin {
 					} elseif ( 'false' == $_POST['gcc-worldwide-enable'] ) {
 						$the_options['is_worldwide_on'] = 'false';
 					} else {
+						if(!$the_options['is_worldwide_on']){
+							$this->disable_auto_update_maxminddb();
+						}
 						$the_options['is_worldwide_on'] = 'true';
 					}
 				}
@@ -6221,6 +6204,10 @@ class Gdpr_Cookie_Consent_Admin {
 					} elseif ( 'false' == $_POST['gcc-select-countries-enable'] ) {
 						$the_options['is_selectedCountry_on'] = 'false';
 					} else {
+						if(!$the_options['is_selectedCountry_on']){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
 						$the_options['is_selectedCountry_on'] = 'true';
 					}
 				}
@@ -6603,7 +6590,10 @@ class Gdpr_Cookie_Consent_Admin {
 
 				$the_options['consent_renew_enable'] = 'false';
 			}
-			if ( (isset($_POST['gcc-ab-testing-enable']) && $_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false ) && isset( $ab_options['ab_testing_enabled'] ) && ( $ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true ) ) {
+			if (isset($_POST['gcc-ab-testing-enable']) 
+				&& ($_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false) 
+				&& isset($ab_options['ab_testing_enabled']) 
+				&& ($ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true)) {
 				$ab_options['ab_testing_period'] = '30';
 				delete_transient( 'gdpr_ab_testing_transient' );
 				$the_options = $this->wpl_set_default_ab_testing_banner( $the_options, $the_options['default_cookie_bar'] === true || $the_options['default_cookie_bar'] === 'true' ? '1' : '2' );
@@ -6786,6 +6776,99 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 				}
 		return $the_options;
+	}
+
+	/**
+	 * Function to set transient for auto-update
+	 */
+	public function auto_update_maxminddb(){
+		
+		if ( ! wp_next_scheduled( 'update_maxmind_db_event' ) ) {
+			//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+			wp_schedule_event( time(), 'weekly', 'update_maxmind_db_event' );
+		}
+	}
+
+	/**
+	 * Disable auto update 
+	 */
+	function disable_auto_update_maxminddb() {
+		
+		$timestamp = wp_next_scheduled( 'update_maxmind_db_event' );
+		if ( $timestamp ) {
+			wp_unschedule_event( $timestamp, 'update_maxmind_db_event' );
+		}
+	}
+	/** 
+	 * Function to download the maxmind database
+	 */
+	public function download_maxminddb(){
+		$uploads_dir   = wp_upload_dir();
+		//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+		$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
+		if (file_exists($database_path)) {
+			// Get the file's last modified time
+			$last_modified_time = filemtime($database_path);
+
+			// Calculate the time 7 days ago
+			$seven_days_ago = strtotime('-7 days');
+
+			// Check if the file was modified within the last 7 days
+			if ($last_modified_time <= $seven_days_ago) {
+				try {
+					$response = wp_remote_post(
+						GDPR_API_URL . 'get_maxmind_db',
+							array(
+								'body' => array(
+									'action' => 'download_maxmind_db'
+								),
+								'timeout' => 20
+							)
+					);
+
+					if (is_wp_error($response)) {
+						error_log('Error in response: ' . $response->get_error_message());
+					} else {
+						$status_code = wp_remote_retrieve_response_code($response);
+						if (200 === $status_code) {
+							$file_data = wp_remote_retrieve_body($response);
+							if(file_exists($database_path)) wp_delete_file($database_path);
+							file_put_contents($database_path, $file_data);
+						}
+					}
+				} catch (Exception $e) {
+					error_log('Error: ' . $e->getMessage());
+				}
+			} else {
+				
+			}
+		} else {
+			try {
+					$response = wp_remote_post(
+						GDPR_API_URL . 'get_maxmind_db',
+							array(
+								'body' => array(
+									'action' => 'download_maxmind_db'
+								),
+								'timeout' => 20
+							)
+					);
+
+					if (is_wp_error($response)) {
+						error_log('Error in response: ' . $response->get_error_message());
+					} else {
+						$status_code = wp_remote_retrieve_response_code($response);
+						if (200 === $status_code) {
+							$file_data = wp_remote_retrieve_body($response);
+							if(file_exists($database_path)) wp_delete_file($database_path);
+							file_put_contents($database_path, $file_data);
+						}
+					}
+				} catch (Exception $e) {
+					error_log('Error: ' . $e->getMessage());
+				}
+		}
+		
 	}
 
 	/**
@@ -7295,6 +7378,62 @@ class Gdpr_Cookie_Consent_Admin {
 				'label' => 'Zulu',
 				'code'  => 'zu',
 			),
+			array(
+				'label' => 'Cebuano',
+				'code'  => 'ceb',
+			),
+			array(
+				'label' => 'Chinese (Simplified)',
+				'code'  => 'zh-cn',
+			),
+			array(
+				'label' => 'Chinese (Traditional)',
+				'code'  => 'zh-tw',
+			),
+			array(
+				'label' => 'Estonian',
+				'code'  => 'et',
+			),
+			array(
+				'label' => 'Haitian Creole',
+				'code'  => 'ht',
+			),
+			array(
+				'label' => 'Hawaiian',
+				'code'  => 'haw',
+			),
+			array(
+				'label' => 'Hmong',
+				'code'  => 'hmn',
+			),
+			array(
+				'label' => 'Javanese',
+				'code'  => 'jw',
+			),
+			array(
+				'label' => 'Khmer',
+				'code'  => 'km',
+			),
+			array(
+				'label' => 'Latin',
+				'code'  => 'la',
+			),
+			array(
+				'label' => 'Lithuanian',
+				'code'  => 'lt',
+			),
+			array(
+				'label' => 'Myanmar (Burmese)',
+				'code'  => 'my',
+			),
+			array(
+				'label' => 'Serbian',
+				'code'  => 'sr',
+			),
+			array(
+				'label' => 'Uyghur',
+				'code'  => 'ug',
+			),
 
 		);
 
@@ -7749,13 +7888,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 
 		// if pro is active then fetch $max_mind_integrated from pro otherwise from free.
-		if ( $is_pro_active ) {
-
-			$max_mind_integrated = '0';
-			$max_mind_integrated = apply_filters( 'gdpr_get_maxmind_integrated', $max_mind_integrated );
-		} else {
-			$max_mind_integrated = get_option( 'wpl_pro_maxmind_integrated' );
-		}
+		
 
 		// if pro is active then fetch last scanned details from pro otherwise from free.
 		if ( $is_pro_active ) {
@@ -7812,11 +7945,9 @@ class Gdpr_Cookie_Consent_Admin {
 				'showing_cookie_notice' => $is_cookie_on,
 				'pro_installed'         => $pro_installed,
 				'pro_activated'         => $is_pro_active,
-				'maxmind_integrated'    => $max_mind_integrated,
 				'last_scanned'          => $last_scanned_details,
 				'show_cookie_url'       => $show_cookie_url,
 				'language_url'          => $language_url,
-				'maxmind_url'           => $maxmind_url,
 				'cookie_scan_url'       => $cookie_scan_url,
 				'plugin_page_url'       => $plugin_page_url,
 				'gdpr_pro_url'          => $gdpr_pro_url,
@@ -8024,5 +8155,130 @@ class Gdpr_Cookie_Consent_Admin {
 			delete_transient( 'gdpr_ab_testing_transient' );
 			wp_send_json_success( array( 'restore_default_saved' => true ) );
 		}
+	}
+	
+	/* Added endpoint to send pie chart and cookie summary data from plugin to the saas appwplp server */
+	public function gdpr_send_data_to_dashboard_appwplp_server(){
+
+		$current_user = wp_get_current_user();
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$cookie_scan_settings = array();
+		$cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
+
+		// check if pro is activated or installed.
+
+		$pro_is_activated  = get_option( 'wpl_pro_active', false );
+		$installed_plugins = get_plugins();
+		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+		$pro_is_activated = get_option( 'wpl_pro_active', false );
+		$api_key_activated = '';
+		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
+		// Require the class file for gdpr cookie consent api framework settings.
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+		// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+		$user_email_id         = $this->settings->get_email();
+
+
+		// Call the is_connected() method from the instantiated object to check if the user is connected.
+		$is_user_connected = $this->settings->is_connected();
+
+		$class_for_blur_content = $is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes.
+
+		$class_for_card_body_blur_content = $is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes.
+
+		/**
+		 * Total No of scanned cookies.
+		 */
+		if ( ! empty( $cookie_scan_settings ) ) {
+			$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
+		} else {
+			$total_no_of_found_cookies = 0;
+		}
+
+		/**
+		 * Total No of cookie categories.
+		 */
+		if ( ! empty( $cookie_scan_settings ) ) {
+			$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
+
+			// Create an array to store unique category names.
+			$unique_categories = array();
+
+			// Loop through the 'data' sub-array.
+			foreach ( $scan_cookie_list['data'] as $cookie ) {
+				$category = $cookie['category'];
+
+				// Check if the category is not already in the $uniqueCategories array.
+				if ( ! in_array( $category, $unique_categories ) ) {
+					// If it's not in the array, add it.
+					$unique_categories[] = $category;
+				}
+			}
+
+			// Count the number of unique categories.
+			$number_of_categories = count( $unique_categories );
+		} else {
+			$number_of_categories = 0;
+		}
+
+		/**
+		 * Total no of scanned pages.
+		 */
+		global $wpdb;
+
+
+		$total_scanned_pages = get_option('gdpr_last_scan') . " Pages";
+
+
+		ob_start(); // Start output buffering
+
+		// Trigger the gdpr_consent_log_table_dashboard action
+		do_action( 'gdpr_consent_log_table_dashboard' );
+
+		// Get the buffered content and clean the buffer
+		$consent_log_table = ob_get_clean();
+
+		// Get the current selected policy name
+		$cookie_usage_for = $the_options['cookie_usage_for'];
+		$gdpr_policy = '';
+
+		if($cookie_usage_for == 'eprivacy'){
+			$gdpr_policy = 'ePrivacy';
+		}elseif($cookie_usage_for == 'both'){
+			$gdpr_policy = 'GDPR & CCPA';
+		}else{
+			$gdpr_policy = strtoupper($cookie_usage_for);
+		}
+		/**
+		* Send a POST request to the GDPR API endpoint 'get_data'
+		*/
+
+		$response = wp_remote_post(
+			GDPR_API_URL . 'get_user_dashboard_data',
+			array(
+				'body' => array(
+					'cookie_scan_settings'             => $cookie_scan_settings,
+					'schedule_scan_when'               => isset( $the_options['schedule_scan_when'] ) ? $the_options['schedule_scan_when'] : null,
+					'pro_installed'                    => $pro_installed,
+					'pro_is_activated'                 => $pro_is_activated,
+					'api_key_activated'                => $api_key_activated,
+					'is_user_connected'                => $is_user_connected,
+					'class_for_blur_content'           => $class_for_blur_content,
+					'class_for_card_body_blur_content' => $class_for_card_body_blur_content,
+					'total_no_of_found_cookies'        => $total_no_of_found_cookies,
+					'total_scanned_pages'              => $total_scanned_pages,
+					'number_of_categories'             => $number_of_categories,
+					'wpl_cl_decline'                   => get_option( 'wpl_cl_decline' ),
+					'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
+					'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
+					'client_site_is_on'				   => $the_options['is_on'],
+					'client_site_url'                  => get_site_url(),
+					'cookie_usage_for'                 => $gdpr_policy,
+					'user_email_id'					   => $user_email_id,
+				),
+			)
+		);
 	}
 }

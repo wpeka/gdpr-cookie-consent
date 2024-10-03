@@ -169,9 +169,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<h3 v-show="is_lgpd" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{lgpd_message_heading}}</h3>
 										<h3 v-show="is_gdpr && is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{gdpr_message_heading}}</h3>
 										<p v-show="is_gdpr" v-html="gdpr_message" class="gdpr_preview" :style="{ fontFamily: cookie_font }">
-										<br v-show="popup_template == 'popup-almond_column' && show_cookie_as == 'popup'">
-										<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+										
 										</p>
+										<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
 										<p v-show="is_lgpd" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{lgpd_message}}
 										<br v-show="popup_template == 'popup-almond_column' && show_cookie_as == 'popup'">
 										<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
@@ -262,9 +262,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<h3 v-show="is_lgpd" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit' }">{{lgpd_message_heading}}</h3>
 						<h3 v-show="is_gdpr && is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
 
-						<p v-show="is_gdpr" v-html="gdpr_message" class="gdpr_preview" :style="{ fontFamily: cookie_font }"><br v-show="widget_template == 'widget-almond_column' && show_cookie_as == 'widget' ">
-						<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+						<p v-show="is_gdpr" v-html="gdpr_message" class="gdpr_preview" :style="{ fontFamily: cookie_font }">
 						</p>
+						<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
 						<p v-show="is_lgpd" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{lgpd_message}}<br v-show="widget_template == 'widget-almond_column' && show_cookie_as == 'widget' ">
 						<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
 						</p>
@@ -748,7 +748,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-switch class="gdpr-btn-switch" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 						</div>
-						<c-button class="gdpr-publish-btn"@click="saveCookieSettings"><?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?></c-button>
+						<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
 					</div>
 			</div><hr id="preview-btn-setting-nav-seperator">
 			<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
@@ -878,90 +878,54 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<div v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both'">
 												<?php
 												$geo_options = get_option( 'wpl_geo_options' );
-												if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
+												if ( !$is_user_connected) :
 													?>
 													<div><input id="gdpr-visitors-condition-radio-btn-disabled-gdpr"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled><label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
 													<p class=" gdpr-eu_visitors_message-gdpr">
-														<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
+														<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
 													</p>
-													<div v-show="enable_safe" class="overlay_eu_visitors">
-															<div class="overlay_eu_visitors_message">
-																<?php
-																esc_attr_e(
-																	'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-																	'gdpr-cookie-consent'
-																);
-																?>
-															</div>
-														</div>
 												<?php else : ?>
 													<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" v-model="selectedRadioGdpr" @click="onSwitchEUEnable($event.target.checked)"><label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
 														<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
-														<div v-show="enable_safe" class="overlay_eu_visitors">
-															<div class="overlay_eu_visitors_message">
-																<?php
-																esc_attr_e(
-																	'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-																	'gdpr-cookie-consent'
-																);
-																?>
-															</div>
-														</div>
 												<?php endif; ?>
 										</div>
 										<div v-show="gdpr_policy === 'ccpa' || gdpr_policy === 'both'">
 											<?php
 												$geo_options = get_option( 'wpl_geo_options' );
-											if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
+											if ( !$is_user_connected ) :
 												?>
-													<div><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+													<div><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 													<p class=" gdpr-eu_visitors_message-ccpa">
-													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
+													<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
 													</p>
-													<div v-show="enable_safe "class="overlay_eu_visitors">
-													<div class="overlay_eu_visitors_message">
-													<?php
-													esc_attr_e(
-														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-														'gdpr-cookie-consent'
-													);
-													?>
-													</div>
-												</div>
+					
+													
 												<?php else : ?>
 											<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable($event.target.checked)"><label><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 													<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
-												<div v-show="enable_safe "class="overlay_eu_visitors">
-													<div class="overlay_eu_visitors_message">
-														<?php
-														esc_attr_e(
-															'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-															'gdpr-cookie-consent'
-														);
-														?>
-													</div>
-												</div>
+												
 												<?php endif; ?>
 										</div>
 										<div v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa'">
 											<?php
 												$geo_options = get_option( 'wpl_geo_options' );
-											if ( $geo_options['enable_geotargeting'] == false || $geo_options['enable_geotargeting'] == 'false' ) :
+											if ( !$is_user_connected ) :
 												?>
 													<div><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="checkbox" name="gcc-select-countries-enable"disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 													<p class=" gdpr-eu_visitors_message-both">
-													<?php esc_attr_e( 'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' ); ?>
+													<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
 													</p>
 												<?php else : ?>
 												<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 												<input type="hidden" name="gcc-select-countries-enable" v-model="is_selectedCountry_on">
 												<?php endif; ?>
-												</div>
-												</div>
+										</div>
+									</div>
 												<div class="select-countries-dropdown" v-show="(is_selectedCountry_on) && ( gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa' )">
 													<v-select id="gdpr-cookie-consent-geotargeting-countries" placeholder="Select Countries":reduce="label => label.code" class="form-group" :options="list_of_countries" multiple v-model="select_countries_array" @input="onCountrySelect"></v-select>
 													<input type="hidden" name="gcc-selected-countries" v-model="select_countries">
 												</div>
+												<p v-show="( gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa' )" class="maxmind-notice">This product includes GeoLite2 data created by MaxMind, available from <a href="https://www.maxmind.com">https://www.maxmind.com</a>.</p>
 								<!-- Privacy Policy Settings -->
 								<c-row v-show="show_revoke_card || is_lgpd">
 									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
@@ -1840,7 +1804,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<p class="image-upload-notice" style="margin-left: 10px;">
 											<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 										</p>
-										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
+										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder"  class="regular-text"> </c-input>
 									</c-col>
 								</c-row>
 									<?php
@@ -1865,7 +1829,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<p class="image-upload-notice" style="margin-left: 10px; font-size:14px; font-weight:14px;color:#d4d4d8;">
 											<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 										</p>
-										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
+										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder"  class="regular-text"> </c-input>
 									</c-col>
 								</c-row>
 							<?php } ?>
@@ -2921,7 +2885,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<p class="image-upload-notice" style="margin-left: 10px;">
 											<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 										</p>
-										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
+										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder1"  class="regular-text"> </c-input>
 									</c-col>
 								</c-row>
 											<?php
@@ -2942,11 +2906,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<?php
 										$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 										?>
-										<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
+										<img id="gdpr-cookie-bar-logo-holder1" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
 										<p class="image-upload-notice" style="margin-left: 10px; font-size:14px; font-weight:14px;color:#d4d4d8;">
 											<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 										</p>
-										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
+										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder1"  class="regular-text"> </c-input>
 									</c-col>
 								</c-row>
 									<?php } ?>
@@ -4023,7 +3987,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<p class="image-upload-notice" style="margin-left: 10px;">
 													<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 												</p>
-												<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
+												<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder2"  class="regular-text"> </c-input>
 											</c-col>
 										</c-row>
 											<?php
@@ -4044,11 +4008,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<?php
 												$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 												?>
-												<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
+												<img id="gdpr-cookie-bar-logo-holder2" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
 												<p class="image-upload-notice" style="margin-left: 10px;">
 													<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 												</p>
-												<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder" value="<?php echo esc_url_raw( $get_banner_img ); ?>" class="regular-text"> </c-input>
+												<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder2"  class="regular-text"> </c-input>
 											</c-col>
 										</c-row>
 									<?php } ?>
@@ -5083,7 +5047,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				<!--A/B Testing-->
 				<?php do_action( 'gdpr_settings_ab_testing_tab' ); ?>
 				<!-- Integration -->
-				<?php do_action( 'gdpr_setting_integration_tab' ); ?>
 				<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#language" id="gdpr-cookie-consent-language">
 					<c-card class="language-card">
 							<c-card-body>

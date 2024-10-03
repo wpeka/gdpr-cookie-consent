@@ -2407,10 +2407,7 @@ function get_templates( $template_type ) {
 														<span class="wp-select-law-test">Yes</span>
 													</div>
 													<div class="wizard_eu_safe_message">
-														<?php
-														esc_attr_e(
-															'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
-														?>
+													<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
 													</div>
 												</label>
 												<?php if ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
@@ -2486,10 +2483,7 @@ function get_templates( $template_type ) {
 													<span class="wp-select-law-test">Yes</span>
 												</div>
 												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'To enable this feature, enable the geotargeting and integrate with MaxMind key', 'gdpr-cookie-consent' );
-													?>
+												<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
 												</div>
 											</label>
 											<label class="display_block">

@@ -53,17 +53,15 @@ var gen = new Vue({
         dashboard_options["pro_installed"] === "1"
           ? true
           : false,
-      maxmind_integrated:
-        dashboard_options.hasOwnProperty("maxmind_integrated") &&
-        dashboard_options["maxmind_integrated"] === "2"
-          ? true
-          : false,
       last_scanned: dashboard_options.hasOwnProperty("last_scanned")
         ? dashboard_options["last_scanned"]
         : "Website not scanned for Cookies.",
       active_plugins: dashboard_options.hasOwnProperty("active_plugins")
         ? dashboard_options["active_plugins"]
         : [],
+      cookie_policy: dashboard_options.hasOwnProperty("cookie_policy")
+        ? dashboard_options["cookie_policy"]
+        : "",
       other_plugins_active: false,
       api_key_activated:
         dashboard_options.hasOwnProperty("api_key_activated") &&
@@ -77,9 +75,6 @@ var gen = new Vue({
         : "",
       language_url: dashboard_options.hasOwnProperty("language_url")
         ? dashboard_options["language_url"]
-        : "",
-      maxmind_url: dashboard_options.hasOwnProperty("maxmind_url")
-        ? dashboard_options["maxmind_url"]
         : "",
       cookie_scan_url: dashboard_options.hasOwnProperty("cookie_scan_url")
         ? dashboard_options["cookie_scan_url"]
@@ -181,6 +176,7 @@ var gen = new Vue({
       policy_icon: require("../admin/images/dashboard-icons/summary/vector.svg"),
       admin_icon: require("../admin/images/dashboard-icons/summary/admin.svg"),
       dashboard_arrow_grey: require("../admin/images/dashboard_arrow_grey.svg"),
+      account_connection: require("../admin/images/account_connection.svg"),
       highlight_variant: "outline",
       decline_log: dashboard_options.hasOwnProperty("decline_log")
         ? dashboard_options["decline_log"]
@@ -351,59 +347,15 @@ var gen = new Vue({
       if (this.is_user_connected && !this.pro_installed) {
         count_progress++;
       }
-      if (this.api_key_activated && this.maxmind_integrated) {
-        count_progress++;
-      }
-      // increase progress when user is connected to the api and maxmind is integrated.
       if (
-        this.is_user_connected &&
-        !this.pro_installed &&
-        this.maxmind_integrated
+        this.cookie_policy === "gdpr" ||
+        this.cookie_policy === "lgpd" ||
+        this.cookie_policy === "both"
       ) {
-        count_progress++;
+        this.progress = (count_progress / 4) * 100;
+      } else {
+        this.progress = ((count_progress / 3) * 100).toFixed(1);
       }
-      this.progress = (count_progress / 5) * 100;
-    },
-    updateCancelButtonText() {
-      this.$nextTick(() => {
-        const cancelButton = document.querySelector(
-          ".daterangepicker .cancelBtn"
-        );
-        if (cancelButton) {
-          cancelButton.textContent = "Clear";
-        }
-      });
-    },
-    onSwitchBannerPreviewEnable() {
-      //changing the value of banner_preview_swicth_value enable/disable
-      this.banner_preview_is_on = !this.banner_preview_is_on;
-    },
-  },
-  computed: {
-    filteredData() {
-      // Implement your filtering logic based on this.dateRange
-      return this.data.filter((item) => {
-        const itemDate = new Date(item.date);
-        return (
-          itemDate >= this.dateRange.startDate &&
-          itemDate <= this.dateRange.endDate
-        );
-      });
-    },
-    filteredSeries() {
-      // Aggregate the filtered data to calculate the series values
-      const filtered = this.filteredData;
-      return [
-        filtered.reduce((sum, item) => sum + item.accept_log, 0),
-        filtered.reduce((sum, item) => sum + item.decline_log, 0),
-        filtered.reduce((sum, item) => sum + item.partially_acc_log, 0),
-        filtered.reduce((sum, item) => sum + item.bypassed_consent_log, 0),
-      ];
-    },
-  },
-  watch: {
-    filteredSeries(newSeries) {
-      this.chartOptions.series = newSeries;
     },
   },
   created() {

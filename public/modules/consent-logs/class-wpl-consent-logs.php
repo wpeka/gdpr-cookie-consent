@@ -42,6 +42,14 @@ class WPL_Consent_Logs extends WP_List_Table {
 	public $count = 0;
 
 	/**
+	 * options for month  filter
+	 *
+	 * @var int
+	 * @since 2.16.0
+	 */
+	public $options = [];
+
+	/**
 	 * Total results.
 	 *
 	 * @var int
@@ -307,32 +315,29 @@ class WPL_Consent_Logs extends WP_List_Table {
 	 */
 	public function resolved_select() {
 
-		$options = array();
-
-		// Query to get all posts.
-		$all_posts = get_posts(
-			array(
-				'post_type'      => 'wplconsentlogs',
-				'posts_per_page' => -1,
-				'post_status'    => 'publish',
-				'orderby'        => 'ID',
-				'order'          => 'DESC',
-			)
-		);
-
-		// Loop through each post to extract creation dates and populate the options array.
-		foreach ( $all_posts as $post ) {
-			$post_date  = strtotime( $post->post_date ); // Get the UNIX timestamp of the post creation date.
-			$month_year = gmdate( 'F Y', $post_date ); // Format the timestamp to month and year.
-			// Check if the month_year is not already added to the options array.
-			if ( ! in_array( $month_year, $options ) ) {
-				// Add the month_year as an option.
-				$options[] = $month_year;
+		$options = $this->options;
+		$months = [
+			1 => 'January',
+			2 => 'February',
+			3 => 'March',
+			4 => 'April',
+			5 => 'May',
+			6 => 'June',
+			7 => 'July',
+			8 => 'August',
+			9 => 'September',
+			10 => 'October',
+			11 => 'November',
+			12 => 'December'
+		];
+		// Loop through each post to extract creation dates and populate the options array
+		foreach ( $options as $index => $option ) {
+			if($option != "ALL Dates"){
+				list($month, $year) = explode(' ', $option);
+				$month = $months[(int)$month];
+				$options[$index] = $month." ".$year;
 			}
 		}
-
-		// Add an 'ALL Dates' option at the beginning of the array.
-		array_unshift( $options, __( 'ALL Dates', 'gdpr-cookie-consent' ) );
 
 		$selected = 0;
 		if ( isset( $_GET['wpl_resolved_select'] ) ) {
@@ -394,9 +399,37 @@ class WPL_Consent_Logs extends WP_List_Table {
 			$args['name'] = $search;
 		}
 
-		if ( isset( $_GET['wpl_resolved_select'] ) ) {
-			$args['month'] = intval( $_GET['wpl_resolved_select'] );
+		$options = array();
+
+		// Query to get all posts
+		$all_posts = get_posts(
+			array(
+				'post_type'      => 'wplconsentlogs',
+				'posts_per_page' => -1,
+				'post_status'    => 'publish',
+				'orderby'        => 'ID',
+				'order'          => 'DESC',
+			)
+		);
+
+		// Loop through each post to extract creation dates and populate the options array
+		foreach ( $all_posts as $post ) {
+			$post_date  = strtotime( $post->post_date ); // Get the UNIX timestamp of the post creation date
+			$month_year = gmdate( 'm Y', $post_date ); // Format the timestamp to month & year
+			// Check if the month_year is not already added to the options array
+			if ( ! in_array( $month_year, $options ) ) {
+				// Add the month_year as an option
+				$options[] = $month_year;
+			}
 		}
+
+		// Add an 'ALL Dates' option at the beginning of the array
+		array_unshift( $options, __( 'ALL Dates', 'gdpr-cookie-consent' ) );
+
+		if ( isset( $_GET['wpl_resolved_select'] ) ) {
+			$args['month'] = $options[$_GET['wpl_resolved_select']];
+		}
+		$this->options = $options;
 
 		$this->args = $args;
 
@@ -485,7 +518,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$number = isset( $args['number'] ) ? intval( $args['number'] ) : 10;
 		$offset = isset( $args['offset'] ) ? intval( $args['offset'] ) : 0;
 		$search = isset( $args['search'] ) ? sanitize_text_field( $args['search'] ) : '';
-		$month  = isset( $args['month'] ) ? intval( $args['month'] ) : 0;
+		$month_year  = isset( $args['month'] ) ? $args['month'] : '0 0000';
+		list($month, $year) = explode(' ', $month_year);
+		$month = (int)$month;
+		$year = (int)$year;
 		$tcString = '';
 		
 		
@@ -511,6 +547,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 			$post_args['date_query'] = array(
 				array(
 					'month' => $month,
+					'year'  => $year
 				),
 			);
 		}
@@ -544,7 +581,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 				$tz_string     = wp_timezone_string();
 				$timezone      = new DateTimeZone( $tz_string );
 				$local_time    = gmdate( 'd', $utc_timestamp ) . '/' . gmdate( 'm', $utc_timestamp ) . '/' . gmdate( 'Y', $utc_timestamp );
-
+				$wplconsentlogstatus = '';
+				$consent_status = '';
+				$preferencesDecoded = '';
 				if ( $content_post ) {
 					$wplconsentlogs_dates = $local_time;
 				}
