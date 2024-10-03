@@ -3713,13 +3713,8 @@ var gen = new Vue({
       this.show_custom_cookie_popup = !this.show_custom_cookie_popup;
     },
     editCookie(cookie) {
-      console.log(cookie);
       this.edit_discovered_cookie_on = true;
       this.edit_discovered_cookie = { ...cookie };
-      console.log(
-        "Virat is -> " + JSON.stringify(this.edit_discovered_cookie, null, 2)
-      );
-      // this.showCreateCookiePopup();
     },
     hideCreateCookiePopup() {
       this.edit_discovered_cookie_on = false;
