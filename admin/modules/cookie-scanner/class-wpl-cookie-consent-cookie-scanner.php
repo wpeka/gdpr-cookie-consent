@@ -398,21 +398,21 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
 		$last_scan = $this->get_last_scan();
 		$error_message = '';
-		$cookie_scan_settings = array();
-		$cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
+		// $cookie_scan_settings = array();
+		// $cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
 
-		if ( ! empty( $cookie_scan_settings ) ) {
-			$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
-		} else {
-			$total_no_of_found_cookies = 0;
-		}
-		ob_start(); // Start output buffering
+		// if ( ! empty( $cookie_scan_settings ) ) {
+		// 	$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
+		// } else {
+		// 	$total_no_of_found_cookies = 0;
+		// }
+		// ob_start(); // Start output buffering
 
-		// Trigger the gdpr_consent_log_table_dashboard action
-		do_action( 'gdpr_scan_history_table' );
+		// // Trigger the gdpr_consent_log_table_dashboard action
+		// do_action( 'gdpr_scan_history_table' );
 
-		// Get the buffered content and clean the buffer
-		$scan_history_table = ob_get_clean();
+		// // Get the buffered content and clean the buffer
+		// $scan_history_table = ob_get_clean();
 		global $wpdb;
 
 		// Query the data from wp_wpl_cookie_scan table
@@ -432,13 +432,10 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 					'pro_installed' 			 		=> $pro_installed,
 					'pro_is_activated'                  => $pro_is_activated,
 					'api_key_activated'                 => $api_key_activated,
-					'total_no_of_found_cookies'         => $total_no_of_found_cookies,
 					'is_user_connected'         		=> $this->is_user_connected,
 					'class_for_blur_content'    		=> $this->class_for_blur_content ,
 					'class_for_card_body_blur_content'  => $this->class_for_card_body_blur_content ,
 					'last_scan'         				=> $last_scan ,
-					'scan_history_table'                => $scan_history_table,
-					'results'         				    => $results,
 				),
 			)
 		);
@@ -459,10 +456,16 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 
 		?>
 
-		<!-- Cookie Scanning -->
-		<?php echo $api_gdpr_cookie_scan_history; ?>
+		<?php if(empty($results)){?>
+			<!-- Cookie Scanning -->
+			<?php echo $api_gdpr_cookie_scan_history; 
 
-		<?php
+		}
+		else{
+			do_action( 'gdpr_scan_history_table' );
+		}
+
+
 	}
 	/**
 	 * Add tab menu for Scanning cookies.
