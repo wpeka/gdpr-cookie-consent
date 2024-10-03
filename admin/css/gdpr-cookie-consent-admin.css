@@ -8149,3 +8149,6 @@ button.btn.gdpr-renew-now-btn.pro,
 #wpwrap #wp-content {
   padding-left: 0 !important;
 }
+.opacity-slider input[type="number"]{
+  width: 70px;
+}
