@@ -3353,7 +3353,7 @@ textarea[readonly] {
 .gdpr_scanbar .gdpr_infobox .gdpr_next_scan_content {
   float: right;
   margin-right: 15px;
-  padding-left: 4px;
+  padding-left: 18px;
 }
 .gdpr_scanbar .gdpr_infobox .gdpr_next_scan_content .gdpr_next_scan_text {
   color: rgba(39, 39, 42, 1);

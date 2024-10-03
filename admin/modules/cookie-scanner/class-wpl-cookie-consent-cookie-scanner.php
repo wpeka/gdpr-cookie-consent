@@ -279,9 +279,23 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 				$error_message .= ' ' . __( 'Scanning will not work on local server.', 'gdpr-cookie-consent' );
 			}
 		}
-		$results = $wpdb->get_results( "SELECT created_at, status, total_url, total_cookies FROM {$wpdb->prefix}wpl_cookie_scan LIMIT 25" );
-		
-		error_log("Result is ->".print_r($results,true));
+		// Query to count the number of rows in the wp_wpl_cookie_scan table
+		$cookie_scan_count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wpl_cookie_scan" );
+
+		// Check if the table is empty or not
+		if ( $cookie_scan_count == 0 ) {
+			// Table is empty, return 0
+			$cookie_scan_count =  0;
+		} else {
+			// Table has rows, return 1
+			$cookie_scan_count =  1;
+		}
+
+		if ( ! empty( $cookie_scan_settings ) ) {
+			$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
+		} else {
+			$total_no_of_found_cookies = 0;
+		}
 
 		/**
 		 * Send a POST request to the GDPR API endpoint 'get_data'
@@ -301,7 +315,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 					'class_for_blur_content'    		=> $this->class_for_blur_content ,
 					'class_for_card_body_blur_content'  => $this->class_for_card_body_blur_content ,
 					'last_scan'         				=> $last_scan ,
-					'results'         				    => $results ,
+					'cookie_scan_count'         	    => $cookie_scan_count ,
 					'total_no_of_found_cookies'         => $total_no_of_found_cookies,
 				),
 			)
@@ -330,7 +344,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	}
 
 	public function wpl_scan_history_table(){
-		// error_log("Call is ibside tis");
 		global $wpdb;
 
 		// Query the data from wp_wpl_cookie_scan table
@@ -398,26 +411,10 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
 		$last_scan = $this->get_last_scan();
 		$error_message = '';
-		// $cookie_scan_settings = array();
-		// $cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
-
-		// if ( ! empty( $cookie_scan_settings ) ) {
-		// 	$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
-		// } else {
-		// 	$total_no_of_found_cookies = 0;
-		// }
-		// ob_start(); // Start output buffering
-
-		// // Trigger the gdpr_consent_log_table_dashboard action
-		// do_action( 'gdpr_scan_history_table' );
-
-		// // Get the buffered content and clean the buffer
-		// $scan_history_table = ob_get_clean();
 		global $wpdb;
 
 		// Query the data from wp_wpl_cookie_scan table
 		$results = $wpdb->get_results( "SELECT created_at, status, total_url, total_cookies FROM {$wpdb->prefix}wpl_cookie_scan LIMIT 25" );
-		// error_log("The results are ->".print_r($results,true));
 
 		/**
 		 * Send a POST request to the GDPR API endpoint 'get_data'
@@ -956,7 +953,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * @return array
 	 */
 	public function get_scan_cookies( $scan_id, $offset = 0, $limit = 100 ) {
-		error_log("Call is in get_scan_cookies");
 		global $wpdb;
 		$out           = array(
 			'total' => 0,
@@ -967,7 +963,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		$cat_table     = $wpdb->prefix . $this->category_table;
 		$count_sql     = "SELECT COUNT(id_wpl_cookie_scan_cookies) AS ttnum FROM $cookies_table WHERE id_wpl_cookie_scan='$scan_id'";
 		$count_arr     = $wpdb->get_row( $count_sql, ARRAY_A );
-		error_log("The value of count_arr is ->".print_r($count_arr,true));
 		if ( $count_arr ) {
 			$out['total'] = $count_arr['ttnum'];
 		}
@@ -983,7 +978,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 
 		if ( ! empty( $cookie_scan_settings ) ) {
 			$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
-			error_log("Scan cookies list is ->".print_r($scan_cookie_list,true));
 			// Create an array to store unique category names.
 			$unique_categories = array();
 		
@@ -1014,7 +1008,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		if ( $data_arr ) {
 			$out['data'] = $data_arr;
 		}
-		error_log("The value of out in get_scan_cookies table is ->".print_r($out,true));
 		return $out;
 	}
 	/**
