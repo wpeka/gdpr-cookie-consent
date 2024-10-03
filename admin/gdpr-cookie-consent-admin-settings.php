@@ -1491,32 +1491,26 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row style="margin-top:-28px;"v-show="show_cookie_as === 'banner'">
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
-								<div
-									@click="cookiebannerPositionChange('bottom')"
-									style="display: inline-block; cursor: pointer;position:relative;">
+								<div @click="cookiebannerPositionChange('bottom')" style="display: inline-block; cursor: pointer;position:relative;">
 									<div>
-										<span id="banner-position-bottom-icon"
-										class="<?php echo $the_options['notify_position_vertical'] == 'bottom' ? 'dashicons dashicons-saved' : ''; ?>"></span>
+									<span id="banner-position-bottom-icon" :class="{ 'dashicons dashicons-saved': cookie_position === 'bottom' }"></span>
 									</div>
 									<img 
-										id="banner-position-bottom-id"
-										class="<?php echo $the_options['notify_position_vertical'] == 'bottom' ? 'banner-position-bottom' : ''; ?>" 
-										src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_bottom.svg'; ?>" 
-										alt="Bottom"
+									id="banner-position-bottom-id"
+									:class="{ 'banner-position-bottom': cookie_position === 'bottom' }"
+									src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_bottom.svg'; ?>"
+									alt="Bottom"
 									>
 								</div>
-								<div
-									@click="cookiebannerPositionChange('top')"
-									style="display: inline-block; cursor: pointer;position:relative; padding-left:24px;">
+								<div @click="cookiebannerPositionChange('top')" style="display: inline-block; cursor: pointer;position:relative; padding-left:24px;">
 									<div>
-										<span id="banner-position-top-icon"
-										class="<?php echo $the_options['notify_position_vertical'] == 'top' ? 'dashicons dashicons-saved' : ''; ?>" ></span>
+									<span id="banner-position-top-icon" :class="{ 'dashicons dashicons-saved': cookie_position === 'top' }"></span>
 									</div>
 									<img 
-										id="banner-position-top-id"
-										class="<?php echo $the_options['notify_position_vertical'] == 'top' ? 'banner-position-top' : ''; ?>" 
-										src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_top.svg'; ?>" 
-										alt="Top"
+									id="banner-position-top-id"
+									:class="{ 'banner-position-top': cookie_position === 'top' }"
+									src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_top.svg'; ?>"
+									alt="Top"
 									>
 								</div>
 								<input type="hidden" name="gcc-gdpr-cookie-position" v-model="cookie_position">
@@ -1527,38 +1521,52 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
 								<div @click="cookiewidgetPositionChange('left')" style="display: inline-block; cursor: pointer;">
-									<div>
-										<span id="widget-position-left-icon"
-										class="<?php echo $the_options['notify_position_horizontal'] == 'left' ? 'dashicons dashicons-saved' : ''; ?>" ></span>
+										<div>
+										<span id="widget-position-left-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'left' }"></span>
+										</div>
+										<img
+										id="widget-position-left-id"
+										:class="{ 'widget-position-top': cookie_widget_position === 'left' }"
+										src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) .'admin/images/widget_bottom_left.svg';?>"
+										alt="Bottom_left"
+										>
 									</div>
-									<img 
-									id="widget-position-left-id"
-										class="<?php echo $the_options['notify_position_horizontal'] == 'left' ? 'widget-position-top' : ''; ?>" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/widget_bottom_left.svg'; ?>" alt="Bottom_left">
-								</div>
-								<div @click="cookiewidgetPositionChange('right')" style="display: inline-block; cursor: pointer;padding-left: 18px;">
-									<div>
-										<span id="widget-position-right-icon"
-										class="<?php echo $the_options['notify_position_horizontal'] == 'right' ? 'dashicons dashicons-saved' : ''; ?>" ></span>
+
+									<div @click="cookiewidgetPositionChange('right')" style="display: inline-block; cursor: pointer; padding-left: 18px;">
+										<div>
+										<span id="widget-position-right-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'right' }"></span>
+										</div>
+										<img
+										id="widget-position-right-id"
+										:class="{ 'widget-position-top': cookie_widget_position === 'right' }"
+										src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) .'admin/images/widget_bottom_right.svg';?>"
+										alt="Bottom_right"
+										>
 									</div>
-									<img id="widget-position-right-id"
-										class="<?php echo $the_options['notify_position_horizontal'] == 'right' ? 'widget-position-top' : ''; ?>" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/widget_bottom_right.svg'; ?>" alt="Bottom_right">
-								</div>
-								<div @click="cookiewidgetPositionChange('top_left')" style="display: inline-block; cursor: pointer;padding-left: 18px;">
-									<div>
-										<span id="widget-position-top_left-icon"
-										class="<?php echo $the_options['notify_position_horizontal'] == 'top_left' ? 'dashicons dashicons-saved' : ''; ?>" ></span>
+
+									<div @click="cookiewidgetPositionChange('top_left')" style="display: inline-block; cursor: pointer; padding-left: 18px;">
+										<div>
+										<span id="widget-position-top_left-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'top_left' }"></span>
+										</div>
+										<img
+										id="widget-position-top_left-id"
+										:class="{ 'widget-position-top': cookie_widget_position === 'top_left' }"
+										src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) .'admin/images/widget_top_left.svg';?>"
+										alt="Top_left"
+										>
 									</div>
-									<img id="widget-position-top_left-id"
-										class="<?php echo $the_options['notify_position_horizontal'] == 'top_left' ? 'widget-position-top' : ''; ?>" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/widget_top_left.svg'; ?>" alt="Top_left">
-								</div>
-								<div @click="cookiewidgetPositionChange('top_right')" style="display: inline-block; cursor: pointer;padding-left: 18px;">
-									<div>
-										<span id="widget-position-top_right-icon"
-										class="<?php echo $the_options['notify_position_horizontal'] == 'top_right' ? 'dashicons dashicons-saved' : ''; ?>" ></span>
+
+									<div @click="cookiewidgetPositionChange('top_right')" style="display: inline-block; cursor: pointer; padding-left: 18px;">
+										<div>
+										<span id="widget-position-top_right-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'top_right' }"></span>
+										</div>
+										<img
+										id="widget-position-top_right-id"
+										:class="{ 'widget-position-top': cookie_widget_position === 'top_right' }"
+										src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) .'admin/images/widget_top_right.svg';?>"
+										alt="Top_right"
+										>
 									</div>
-									<img id="widget-position-top_right-id"
-										class="<?php echo $the_options['notify_position_horizontal'] == 'top_right' ? 'widget-position-top' : ''; ?>" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/widget_top_right.svg'; ?>" alt="Top_right">
-								</div>
 								<input type="hidden" name="gcc-gdpr-cookie-widget-position" v-model="cookie_widget_position">
 								</c-col>
 							</c-row>
@@ -4969,53 +4977,71 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-card-body>	
 							
 					</c-card>
-						
-					
-					
-
-
 				</c-tab>
-				<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" id="gdpr-cookie-consent-cookies-list">
-					<c-card class="cookie_list">
-						<c-card-header class="gdpr-cookieList-save-btn"><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?>
-						</c-card-header>
-						<c-card-body>
-							<div v-show="show_add_custom_button" class="gdpr_cookie_custom_postbar" style="display:none;margin-bottom: 10px;">
-								<a class="gdpr-custom-cookie-link" @click="showCustomCookieAddForm"><?php esc_attr_e( 'Add New Cookie', 'gdpr-cookie-consent' ); ?></a>
+				<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" 	id="gdpr-cookie-consent-cookies-list">
+					<div class="gdpr-cookie-list-tabs">
+						<c-button class="gdpr-cookie-consent-cookie-list-tab" @click="onChangeCookieListTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': cookie_list_tab == true }"><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?></c-button>
+						<c-button class="gdpr-cookie-consent-cookie-list-tab"  @click="onChangeDiscoveredListTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': discovered_cookies_list_tab == true }"><?php esc_html_e( 'Discovered Cookies', 'gdpr-cookie-consent' ); ?></c-button>
+						<c-button class="gdpr-cookie-consent-cookie-list-tab"  @click="onChangeScanHistoryTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': scan_history_list_tab == true }"><?php esc_html_e( 'Scan History', 'gdpr-cookie-consent' ); ?></c-button>
+					</div>
+					<div class="gdpr-cookie-list-tabs-container" v-show="cookie_list_tab == true">
+						<img class="gdpr-cookie-list-tabs-logo"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cookie_setting_preview.svg'; ?>" alt="Cookie Setting preview logo">
+						<p class="gdpr-cookie-list-tabs-heading"><?php esc_html_e( 'Create a Custom Cookie', 'gdpr-cookie-consent' ); ?></p>
+						<p class="gdpr-cookie-list-tabs-sub-heading"><?php esc_html_e( 'Design and personalize a unique cookie to suit your preferences.', 'gdpr-cookie-consent' ); ?>.</p>
+						<input type="button" class="gdpr-cookie-list-tabs-popup-btn" value="Create Cookie" @click="showCreateCookiePopup">
+					</div>
+					<c-card v-show="cookie_list_tab == true"class="cookie_list">
+						<div id="popup-container" class="gdpr-cookie-consent-cookies-list-popup" :class="{'show-cookie-list-popup':show_custom_cookie_popup,'popup-overlay':show_custom_cookie_popup}">
+							<div class="gdpr-cooki-list-tabs-popup-content">
+								<div class="cookie-list-tittle-bar">
+									<div></div>
+									<div class="cookie-list-tittle" slot="header"><?php esc_attr_e('Create Custom Cookie', 'gdpr-cookie-consent'); ?></div>
+									<div><img  @click="showCreateCookiePopup" class="cookie-list-close-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/Close_round.svg'; ?>" alt="Add new entry logo"></div>
+								</div>
+								<div class="gdpr-add-custom-cookie-form">
+									<input type="hidden" name="gdpr_addcookie" value="1">
+									<div class="gdpr-custom-cookie-box">
+										<!-- <c-col class="col-sm-2 gdpr-custom-cookie-letter-box"><span class="gdpr-custom-cookie-letter">C</span></c-col> -->
+										<div class="gdpr-custom-cookie-box-inputs-fields">
+											<div class="gdpr-custom-cookie-box-inputs table-rows">
+												<div class="col-sm-4 table-cols-left"><label>Cookie Name</label><c-input placeholder="Cookie Name" name="gdpr-cookie-consent-custom-cookie-name" v-model="custom_cookie_name"></c-input></div>	
+												<div class="col-sm-4 table-cols"><label>Cookie Domain</label><c-input placeholder="Cookie Domain" name="gdpr-cookie-consent-custom-cookie-domain" v-model="custom_cookie_domain"></c-input></div>
+												<div class="col-sm-4 table-cols"><label>Duration (Days/Session)</label><c-input :placeholder="custom_cookie_duration_placeholder" name="gdpr-cookie-consent-custom-cookie-days" v-model="custom_cookie_duration" :disabled="is_custom_cookie_duration_disabled"></c-input></div>
+											</div>
+											<div class="gdpr-custom-cookie-box-inputs table-rows">
+												<div class="col-sm-6 table-cols-left"><v-select class="gdpr-custom-cookie-select form-group" :reduce="label => label.code" :options="custom_cookie_categories" v-model="custom_cookie_category"></v-select></div>
+												<input type="hidden" name="gdpr-custom-cookie-category" v-model="custom_cookie_category">
+												<div class="col-sm-6 table-cols"><v-select class="gdpr-custom-cookie-select form-group" :reduce="label => label.code" :options="custom_cookie_types" v-model="custom_cookie_type" @input="onSelectCustomCookieType"></v-select></div>
+												<input type="hidden" name="gdpr-custom-cookie-type" v-model="custom_cookie_type">
+											</div>
+											<div class="gdpr-custom-cookie-box-inputs table-rows">
+												<div class="col-sm-12 table-cols-left"><label>Cookie Purpose</label><div><textarea placeholder="Cookie Purpose" name="gdpr-cookie-consent-custom-cookie-purpose" v-model="custom_cookie_description" style="height:173px;width:807px;"></textarea></div></div>
+											</div>
+											<div  class="gdpr-custom-cookie-box-inputs table-rows" class="col-sm-9 gdpr-custom-cookie-links">
+											<div class="gdpr-custom-cookie-box-btn">
+												<input type="button" @click="onSaveCustomCookie" class="gdpr-custom-cookie-box-save-btn gdpr-custom-cookie-link gdpr-custom-save-cookie" value="Save Cookie">
+												<input type="button" @click="showCreateCookiePopup" class="gdpr-custom-cookie-box-cancle-btn" value="Cancel">
+											</div>
+												<!-- <a class="table-cols-left gdpr-custom-cookie-link gdpr-custom-save-cookie" @click="onSaveCustomCookie"><?php esc_attr_e( 'Save', 'gdpr-cookie-consent' ); ?></a>
+												<a class="gdpr-custom-cookie-link" @click="hideCookieForm"><?php esc_attr_e( 'Cancel', 'gdpr-cookie-consent' ); ?></a> -->
+											</div>
+										</div>
+										<!-- <c-col class="col-sm-3"></c-col> -->
+									</div>
+								</div>
 							</div>
-							<div v-show="show_custom_form" class="gdpr-add-custom-cookie-form">
-								<input type="hidden" name="gdpr_addcookie" value="1">
-								<c-row class="gdpr-custom-cookie-box">
-									<c-col class="col-sm-2 gdpr-custom-cookie-letter-box"><span class="gdpr-custom-cookie-letter">C</span></c-col>
-									<c-col class="col-sm-10">
-										<c-row class="table-rows">
-											<c-col class="col-sm-4 table-cols-left"><c-input placeholder="Cookie Name" name="gdpr-cookie-consent-custom-cookie-name" v-model="custom_cookie_name"></c-input></c-col>
-											<c-col class="col-sm-4 table-cols"><c-input placeholder="Cookie Domain" name="gdpr-cookie-consent-custom-cookie-domain" v-model="custom_cookie_domain"></c-input></c-col>
-											<c-col class="col-sm-4 table-cols"><c-input :placeholder="custom_cookie_duration_placeholder" name="gdpr-cookie-consent-custom-cookie-days" v-model="custom_cookie_duration" :disabled="is_custom_cookie_duration_disabled"></c-input></c-col>
-										</c-row>
-										<c-row class="table-rows">
-											<c-col class="col-sm-6 table-cols-left"><v-select class="gdpr-custom-cookie-select form-group" :reduce="label => label.code" :options="custom_cookie_categories" v-model="custom_cookie_category"></v-select></c-col>
-											<input type="hidden" name="gdpr-custom-cookie-category" v-model="custom_cookie_category">
-											<c-col class="col-sm-6 table-cols"><v-select class="gdpr-custom-cookie-select form-group" :reduce="label => label.code" :options="custom_cookie_types" v-model="custom_cookie_type" @input="onSelectCustomCookieType"></v-select></c-col>
-											<input type="hidden" name="gdpr-custom-cookie-type" v-model="custom_cookie_type">
-										</c-row>
-										<c-row class="table-rows">
-											<c-col class="col-sm-12 table-cols-left"><c-textarea placeholder="Cookie Purpose" name="gdpr-cookie-consent-custom-cookie-purpose" v-model="custom_cookie_description"></c-textarea></c-col>
-										</c-row>
-									</c-col>
-									<c-col class="col-sm-3"></c-col>
-									<c-col class="col-sm-9 gdpr-custom-cookie-links">
-										<a class="gdpr-custom-cookie-link gdpr-custom-save-cookie" @click="onSaveCustomCookie"><?php esc_attr_e( 'Save', 'gdpr-cookie-consent' ); ?></a>
-										<a class="gdpr-custom-cookie-link" @click="hideCookieForm"><?php esc_attr_e( 'Cancel', 'gdpr-cookie-consent' ); ?></a>
-									</c-col>
-								</c-row>
-							</div>
-							<div id="gdpr-custom-cookie-saved" v-if="post_cookie_list_length > 0">
-							<?php require plugin_dir_path( __FILE__ ) . 'gdpr-custom-saved-cookie.php'; ?>
-							</div>
-						</c-card-body>
+						</div>
+						<div id="gdpr-custom-cookie-saved" v-if="post_cookie_list_length > 0">
+						<?php require plugin_dir_path( __FILE__ ) . 'gdpr-custom-saved-cookie.php'; ?>
+						</div>
 					</c-card>
-					<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
+					<c-card v-show="discovered_cookies_list_tab == true">
+						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
+					</c-card>
+					<c-card v-show="scan_history_list_tab == true">
+						<?php echo "Trying here"?>
+						<?php do_action( 'gdpr_cookie_scanned_history' ); ?>
+					</c-card>
 				</c-tab>
 				<!-- Script Blocker -->
 				<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
