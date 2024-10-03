@@ -4,7 +4,7 @@ Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, Privacy Policy, Terms and conditions, Cookie Policy
 Requires at least: 3.3.1
 Tested up to: 6.6.1
-Stable tag: 3.6.0
+Stable tag: 3.6.1
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -200,6 +200,9 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+
+= 3.6.1 =
+* Fix: Optimized code for better performance
 
 = 3.6.0 =
 * Feature: Changes in maxmind integration so that now users do not need to put their maxmind API key. This product now includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com.
@@ -558,6 +561,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+
+= 3.6.1 =
+* Fix: Optimized code for better performance
 
 = 3.6.0 =
 * Feature: Changes in maxmind integration so that now users do not need to put their maxmind API key. This product now includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com.
