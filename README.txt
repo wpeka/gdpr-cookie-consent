@@ -1,7 +1,7 @@
 === Cookie Consent for WP - Cookie Consent, Consent Log, Cookie Scanner, Script Blocker (for GDPR, CCPA & ePrivacy) ===
 Contributors: wpeka-club
 Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
-Tags: CCPA, GDPR, cookie notice, cookies, cookie banner, cookie, cookie law, eu cookie law, cookie consent, eu privacy, eprivacy, privacy, compliance, consent, law, notice, notification, notify, DPA
+Tags: CCPA, GDPR, Privacy Policy, Terms and conditions, Cookie Policy
 Requires at least: 3.3.1
 Tested up to: 6.6.1
 Stable tag: 3.6.0
