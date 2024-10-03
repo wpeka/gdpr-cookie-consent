@@ -204,8 +204,8 @@ function gdpr_show_admin_notice_activation_deactivation_third_party_plugins() {
     if (get_transient('gdpr_display_message_other_plugin_on_change')) {
         // Output the admin notice with a link to rescan the website
         echo '<div class="notice notice-warning is-dismissible">';
-        echo '<p>You have enabled or disabled a cookie consent plugin, which may require your cookie banner to be adjusted. Please scan your website again as soon as you have finished the changes. <a href="'.esc_url( admin_url() ).'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list">Scan website again</a></p>';
-        echo '</div>';
+		echo '<p>' . esc_html__('You have enabled or disabled a cookie consent plugin, which may require your cookie banner to be adjusted. Please scan your website again as soon as you have finished the changes.', 'gdpr-cookie-consent') . ' <a href="' . esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list' ) ) . '">' . esc_html__('Scan website again', 'gdpr-cookie-consent') . '</a></p>';
+		echo '</div>';
         
         // Delete the transient after displaying the message
         delete_transient('gdpr_display_message_other_plugin_on_change');
