@@ -3316,8 +3316,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
       if (this.settings.auto_banner_initialize && !hideBanner) {
           var banner = this.bar_elm;
           var banner_delay = this.settings.auto_banner_initialize_delay;
-          
-          setTimeout(() => {
+          setTimeout(function () {
               this.bar_elm.show();
           }, banner_delay);
       }
