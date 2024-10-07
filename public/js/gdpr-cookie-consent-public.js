@@ -2944,7 +2944,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (this.settings.auto_hide) {
             var banner_delay = this.settings.auto_banner_initialize
               ? parseInt(this.settings.auto_hide_delay) +
-                parseInt(his.settings.auto_banner_initialize_delay)
+                parseInt(this.settings.auto_banner_initialize_delay)
               : this.settings.auto_hide_delay;
             setTimeout(function () {
               GDPR.accept_close();
@@ -3270,52 +3270,65 @@ GDPR_CCPA_COOKIE_EXPIRE =
             this.bar_elm.slideDown(this.settings.animate_speed_hide);
           }
         } else {
+          var banner = this.bar_elm;
+          var banner_delay = this.settings.auto_banner_initialize_delay;
+          
           if (this.settings.auto_banner_initialize && gdpr_select_pages.length <= 0) {
-            var banner = this.bar_elm;
-            var banner_delay = this.settings.auto_banner_initialize_delay;
+            // If no pages are selected, show the banner after a delay
             setTimeout(function () {
               banner.show();
             }, banner_delay);
-          } else {
-            this.bar_elm.show();
-          }
-          if(this.settings.auto_banner_initialize && gdpr_select_pages.length > 0){
+        } else if (this.settings.auto_banner_initialize && gdpr_select_pages.length > 0) {
+            // Check if the current page is selected to hide the banner
+            var hideBanner = false;
+            
             for (var id = 0; id < gdpr_select_pages.length; id++) {
-              var pageToHideBanner = gdpr_select_pages[id];
-              if (document.body.classList.contains("page-id-" + pageToHideBanner)) {
-                if (
-                  GDPR.settings.cookie_usage_for == "gdpr" ||
-                  GDPR.settings.cookie_usage_for == "eprivacy" ||
-                  GDPR.settings.cookie_usage_for == "both" ||
-                  GDPR.settings.cookie_usage_for == "lgpd"
-                ) {
-                  var banner = document.getElementById(
-                    "gdpr-cookie-consent-show-again"
-                  );
-                  var insidebanner = document.getElementById(
-                    "gdpr-cookie-consent-bar"
-                  );
-                  if (GDPR.settings.cookie_bar_as == "popup") {
-                    $("#gdpr-popup").gdprmodal("hide");
-                  }
-                  if (banner || insidebanner) {
-                    banner.style.display = "none";
-                    insidebanner.style.display = "none";
-                  }
-                } else if (GDPR.settings.cookie_usage_for == "ccpa") {
-                  if (GDPR.settings.cookie_bar_as == "popup") {
-                    $("#gdpr-popup").gdprmodal("hide");
-                  }
-                  var insidebanner = document.getElementById(
-                    "gdpr-cookie-consent-bar"
-                  );
-                  if (insidebanner) {
-                    insidebanner.style.display = "none";
-                  }
+                var pageToHideBanner = gdpr_select_pages[id];
+                if (document.body.classList.contains("page-id-" + pageToHideBanner)) {
+                    hideBanner = true;  // Mark that the banner should be hidden on this page
+                    
+                    if (
+                      GDPR.settings.cookie_usage_for == "gdpr" ||
+                      GDPR.settings.cookie_usage_for == "eprivacy" ||
+                      GDPR.settings.cookie_usage_for == "both" ||
+                      GDPR.settings.cookie_usage_for == "lgpd"
+                    ) {
+                        var banner = document.getElementById("gdpr-cookie-consent-show-again");
+                        var insidebanner = document.getElementById("gdpr-cookie-consent-bar");
+                        
+                        if (GDPR.settings.cookie_bar_as == "popup") {
+                            $("#gdpr-popup").gdprmodal("hide");
+                        }
+                        if (banner || insidebanner) {
+                            banner.style.display = "none";
+                            insidebanner.style.display = "none";
+                        }
+                    } else if (GDPR.settings.cookie_usage_for == "ccpa") {
+                        if (GDPR.settings.cookie_bar_as == "popup") {
+                            $("#gdpr-popup").gdprmodal("hide");
+                        }
+                        var insidebanner = document.getElementById("gdpr-cookie-consent-bar");
+                        if (insidebanner) {
+                            insidebanner.style.display = "none";
+                        }
+                    }
+                    break; // Exit the loop once we find a page that hides the banner
                 }
-              }
             }
-          }
+        
+            // If no matching page was found to hide the banner, show it
+            if (!hideBanner) {
+                
+                setTimeout(function () {
+                  banner.show();
+              }, banner_delay);
+            }
+        } else {
+            // Show the banner if auto-initialize is enabled but no pages are selected
+            this.bar_elm.show();
+        }
+        
+         
         }
       }
 
