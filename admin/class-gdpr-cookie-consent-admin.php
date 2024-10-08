@@ -1008,7 +1008,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$headers     = array();
 		$from_name   = get_bloginfo( 'name' );
-		$from_email  = $the_options['data_req_email_address'];
+		$from_email  = isset($the_options['data_req_email_address'])?$the_options['data_req_email_address']:'';
 		add_filter(
 			'wp_mail_content_type',
 			function ( $content_type ) {
