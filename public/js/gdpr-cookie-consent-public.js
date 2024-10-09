@@ -2955,7 +2955,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (this.settings.auto_hide) {
             var banner_delay = this.settings.auto_banner_initialize
               ? parseInt(this.settings.auto_hide_delay) +
-                parseInt(his.settings.auto_banner_initialize_delay)
+                parseInt(this.settings.auto_banner_initialize_delay)
               : this.settings.auto_hide_delay;
             setTimeout(function () {
               GDPR.accept_close();
@@ -3177,12 +3177,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (insidebanner) {
             insidebanner.style.display = "none";
           }
-          // this.displayHeader(
-          //   false,
-          //   true,
-          //   force_display_bar,
-          //   force_display_show_again
-          // );
           this.check_ccpa_eu(true, true);
         }
       }
@@ -3316,38 +3310,30 @@ GDPR_CCPA_COOKIE_EXPIRE =
     ) {
       if (!gdpr_flag || !ccpa_flag || !lgpd_flag) {
         var animate_on_load = GDPR.settings.notify_animate_show;
+        var self = this;
         if (force_display_bar || animate_on_load) {
           if (this.settings.auto_banner_initialize) {
+            var banner = this.bar_elm;
             var banner_delay = this.settings.auto_banner_initialize_delay;
             var animate_speed_hide = this.settings.animate_speed_hide;
             setTimeout(function () {
-              this.bar_elm.slideDown(this.settings.animate_speed_hide);
+              self.bar_elm.slideDown(self.settings.animate_speed_hide);
             }, banner_delay);
           } else {
-            this.bar_elm.slideDown(this.settings.animate_speed_hide);
+            self.bar_elm.slideDown(self.settings.animate_speed_hide);
           }
         } else {
-          if (
-            this.settings.auto_banner_initialize &&
-            gdpr_select_pages.length <= 0
-          ) {
-            var banner = this.bar_elm;
-            var banner_delay = this.settings.auto_banner_initialize_delay;
-            setTimeout(function () {
-              banner.show();
-            }, banner_delay);
-          } else {
-            this.bar_elm.show();
-          }
-          if (
-            this.settings.auto_banner_initialize &&
-            gdpr_select_pages.length > 0
-          ) {
+          // Check if pages are selected to hide the banner
+          var hideBanner = false;
+
+          if (gdpr_select_pages.length > 0) {
             for (var id = 0; id < gdpr_select_pages.length; id++) {
               var pageToHideBanner = gdpr_select_pages[id];
               if (
                 document.body.classList.contains("page-id-" + pageToHideBanner)
               ) {
+                hideBanner = true; // Mark that the banner should be hidden on this page
+
                 if (
                   GDPR.settings.cookie_usage_for == "gdpr" ||
                   GDPR.settings.cookie_usage_for == "eprivacy" ||
@@ -3360,6 +3346,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
                   var insidebanner = document.getElementById(
                     "gdpr-cookie-consent-bar"
                   );
+
                   if (GDPR.settings.cookie_bar_as == "popup") {
                     $("#gdpr-popup").gdprmodal("hide");
                   }
@@ -3378,8 +3365,20 @@ GDPR_CCPA_COOKIE_EXPIRE =
                     insidebanner.style.display = "none";
                   }
                 }
+                break; // Exit the loop once we find a page that hides the banner
               }
             }
+          }
+
+          // Show the banner if it is enabled and no pages are set to hide it
+          if (this.settings.auto_banner_initialize && !hideBanner) {
+            setTimeout(function () {
+              self.bar_elm.show();
+            }, banner_delay);
+          }
+
+          if (!this.settings.auto_banner_initialize && !hideBanner) {
+            self.bar_elm.show();
           }
         }
       }
@@ -3835,7 +3834,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
       if (!$(this).children(".gdpr-columns").hasClass("active-group")) {
         $(".gdpr-columns").removeClass("active-group");
         $(".gdpr-columns").css("background-color", background_obj.background);
-        // alert(background_obj.background)
         $(".gdpr-columns .dashicons").removeClass("dashicons-arrow-up-alt2");
         $(".gdpr-columns .dashicons").addClass("dashicons-arrow-down-alt2");
         $(this).children(".gdpr-columns").addClass("active-group");
