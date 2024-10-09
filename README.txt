@@ -4,7 +4,7 @@ Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, Privacy Policy, Terms and conditions, Cookie Policy
 Requires at least: 3.3.1
 Tested up to: 6.6.1
-Stable tag: 3.6.1
+Stable tag: 3.6.2
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -200,6 +200,14 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+
+= 3.6.2 =
+* Fix: Banner initialization delay now doesnot prevent hide cookie banner setting on certain pages.
+* Fix: Bulk Action in Consent Logs and Data Policy fixed.
+* Fix: Consent log also works now with auto-click & auto scroll accept.
+* Fix: Date(month) filter in policy data & consent logs tab fixed.
+* Fix: Minor bugs fixed within plugin.
+* Improvement: User is now prompted to scan the website for cookies again when third party plugins are enabled/disabled.
 
 = 3.6.1 =
 * Fix: Optimized code for better performance
@@ -562,6 +570,13 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 
 == Upgrade Notice ==
 
+= 3.6.2 =
+* Fix: Banner initialization delay now doesnot prevent hide cookie banner setting on certain pages.
+* Fix: Bulk Action in Consent Logs and Data Policy fixed.
+* Fix: Consent log also works now with auto-click & auto scroll accept.
+* Fix: Date(month) filter in policy data & consent logs tab fixed.
+* Fix: Minor bugs fixed within plugin.
+* Improvement: User is now prompted to scan the website for cookies again when third party plugins are enabled/disabled.
 
 = 3.6.1 =
 * Fix: Optimized code for better performance
