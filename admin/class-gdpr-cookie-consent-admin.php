@@ -109,6 +109,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
 			add_action('admin_init',array($this, 'gdpr_send_data_to_dashboard_appwplp_server'));
+			add_action('refresh_gacm_vendor_list_event', array($this,'get_gacm_data'));
 
 		}
 		
@@ -131,6 +132,8 @@ class Gdpr_Cookie_Consent_Admin {
 		
 		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
 	}
+
+	
 
 	/**
 	 * Register the stylesheets for the admin area.
@@ -5858,6 +5861,17 @@ class Gdpr_Cookie_Consent_Admin {
 			if(($the_options['is_iabtcf_on'] == false && $_POST['gcc-iabtcf-enable'] == "true") || ($the_options['is_iabtcf_on'] == true && $_POST['gcc-iabtcf-enable'] == "false")){
 				$the_options = $this->changeLanguage($the_options);
 			}
+
+			if($the_options['is_gacm_on'] == false && $_POST['gcc-gacm-enable'] == "true"){
+				if(!get_option(GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR)){
+					$this->get_gacm_data();
+				}
+				$this->activate_gacm_updater();	
+			}
+			$the_options['is_gacm_on']                       = isset( $_POST['gcc-gacm-enable'] ) && ( true === $_POST['gcc-gacm-enable'] || 'true' === $_POST['gcc-gacm-enable'] ) ? 'true' : 'false';
+			if($the_options == "false" || $the_options == false){
+				$this->deactivate_gacm_updater();
+			}
 			$the_options['is_iabtcf_on']                       = isset( $_POST['gcc-iabtcf-enable'] ) && ( true === $_POST['gcc-iabtcf-enable'] || 'true' === $_POST['gcc-iabtcf-enable'] ) ? 'true' : 'false';
 			$the_options['optout_text']                          = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
 			$the_options['is_ccpa_iab_on']                       = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
@@ -6607,6 +6621,53 @@ class Gdpr_Cookie_Consent_Admin {
 			wp_send_json_success( array( 'form_options_saved' => true ) );
 		}
 		
+	}
+
+	/**
+	 * activate auto updater for gacm vendor data
+	 *
+	 * @since    3.7.0
+	 */
+	public function activate_gacm_updater() {
+		if (!wp_next_scheduled('refresh_gacm_vendor_list_event')) {
+			wp_schedule_event(time(), 'weekly', 'refresh_gacm_vendor_list_event');
+		}
+	}
+
+	/**
+	 * deactivate auto updater for gacm vendor data
+	 *
+	 * @since    3.7.0
+	 */
+	public function deactivate_gacm_updater() {
+		$timestamp = wp_next_scheduled('refresh_gacm_vendor_list_event');
+		if ($timestamp) {
+			wp_unschedule_event($timestamp, 'refresh_gacm_vendor_list_event');
+		}
+	}
+
+	/**
+	 * Get the google additional connsent mode vendors and update in db
+	 *
+	 * @since    3.7.0
+	 */
+	public function get_gacm_data() {
+
+		$url = 'https://storage.googleapis.com/tcfac/additional-consent-providers.csv';
+
+		// Use file_get_contents to fetch the CSV data
+		$data = file_get_contents($url);
+
+		// Check if the data was fetched successfully
+		if ($data === false) {
+			die('Error fetching data from the URL.');
+		}
+
+		// Parse the CSV data
+		$rows = array_map('str_getcsv', explode("\n", $data));
+		array_shift($rows);
+		update_option(GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR,$rows);
+		error_log(print_r($rows, true));
 	}
 
 	/**

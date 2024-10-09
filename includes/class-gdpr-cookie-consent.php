@@ -1239,6 +1239,20 @@ class Gdpr_Cookie_Consent {
 		} 
 		return $vendors;
 	}
+	/**
+	 * Get Vendor Data.
+	 *
+	 * @return array|mixed
+	 */
+	public static function gdpr_get_gacm_vendors() {
+		// $settings             = self::gdpr_get_default_settings();
+		$vendors = [];
+		$vendors = get_option( GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR );
+		if( gettype($vendors) === "boolean"){
+			$vendors = [];
+		} 
+		return $vendors;
+	}
 
 	/**
 	 * Get Vendor Consennt  Data.

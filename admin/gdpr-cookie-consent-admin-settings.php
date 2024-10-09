@@ -775,6 +775,19 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<input type="hidden" name="gcc-iabtcf-enable" v-model="iabtcf_is_on">
 									</c-col>
 								</c-row>
+								<c-row v-show="is_gdpr && iabtcf_is_on">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable"></c-switch>
+										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
+									</c-col>
+								</c-row>
+								<c-row v-show="is_gdpr && iabtcf_is_on && gacm_is_on">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Your Google Analytics Key*', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'Login to Google Analytics, add your site and get your key from there.', 'gdpr-cookie-consent' ); ?>"></tooltip> </label></c-col>
+									<c-col class="col-sm-8">
+										<c-input name="gacm_key_text_field" v-model="gacm_key"></c-input>
+									</c-col>
+								</c-row>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select the Type of Law', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
