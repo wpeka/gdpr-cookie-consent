@@ -3259,19 +3259,19 @@ GDPR_CCPA_COOKIE_EXPIRE =
     ) {
       if (!gdpr_flag || !ccpa_flag || !lgpd_flag) {
         var animate_on_load = GDPR.settings.notify_animate_show;
+        var self = this;
         if (force_display_bar || animate_on_load) {
           if (this.settings.auto_banner_initialize) {
+            var banner = this.bar_elm;
             var banner_delay = this.settings.auto_banner_initialize_delay;
             var animate_speed_hide = this.settings.animate_speed_hide;
             setTimeout(function () {
-              this.bar_elm.slideDown(this.settings.animate_speed_hide);
+              self.bar_elm.slideDown(self.settings.animate_speed_hide);
             }, banner_delay);
           } else {
-            this.bar_elm.slideDown(this.settings.animate_speed_hide);
+            self.bar_elm.slideDown(self.settings.animate_speed_hide);
           }
         } else {
-          var banner = this.bar_elm;
-          var banner_delay = this.settings.auto_banner_initialize_delay;
           
           // Check if pages are selected to hide the banner
           var hideBanner = false;
@@ -3314,15 +3314,13 @@ GDPR_CCPA_COOKIE_EXPIRE =
 
       // Show the banner if it is enabled and no pages are set to hide it
       if (this.settings.auto_banner_initialize && !hideBanner) {
-          var banner = this.bar_elm;
-          var banner_delay = this.settings.auto_banner_initialize_delay;
           setTimeout(function () {
-            banner.show();
+            self.bar_elm.show();
           }, banner_delay);
       }
       
       if (!this.settings.auto_banner_initialize  && !hideBanner ){
-          this.bar_elm.show();
+        self.bar_elm.show();
         
       }
       
