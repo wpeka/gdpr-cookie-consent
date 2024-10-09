@@ -256,14 +256,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		$cookie_scan_settings = array();
 		$cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
 		global $wpdb;
-
-		// Check if the table wp_wpl_cookie_scan is empty
-		$table_name = $wpdb->prefix . 'wpl_cookie_scan'; // Prefix-safe table name
-		$row_count = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name" );
-
-		if ( $row_count == 0 ) {
-			$is_first_scan_done = 0;
-		}
 		
 		$localhost_arr = array(
 			'127.0.0.1',
@@ -300,7 +292,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		/**
 		 * Send a POST request to the GDPR API endpoint 'get_data'
 		*/
-
 		$response = wp_remote_post(
 			GDPR_API_URL . 'get_cookie_scan_data',
 			array(
@@ -310,7 +301,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 					'pro_installed' 			 		=> $pro_installed,
 					'pro_is_activated'                  => $pro_is_activated,
 					'api_key_activated'                 => $api_key_activated,
-					'is_first_scan_done'                => $is_first_scan_done,
 					'is_user_connected'         		=> $this->is_user_connected,
 					'class_for_blur_content'    		=> $this->class_for_blur_content ,
 					'class_for_card_body_blur_content'  => $this->class_for_card_body_blur_content ,

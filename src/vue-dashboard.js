@@ -356,6 +356,10 @@ var gen = new Vue({
       }
     },
   },
+  onSwitchBannerPreviewEnable() {
+    //changing the value of banner_preview_swicth_value enable/disable
+    this.banner_preview_is_on = !this.banner_preview_is_on;
+  },
   created() {
     // No need to fetch data, assume someData is already available
   },

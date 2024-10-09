@@ -7785,7 +7785,7 @@ class Gdpr_Cookie_Consent_Admin {
 		// find out if data reqs is on.
 		$data_reqs_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
 		$consent_log_on = isset( $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
-
+		$template_parts_background = '';
 		if ( true === $the_options['is_on'] ) {
 			$template = $the_options['template'];
 			if ( 'none' !== $template ) {

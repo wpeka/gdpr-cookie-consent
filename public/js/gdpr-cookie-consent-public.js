@@ -191,7 +191,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
 
       // bypassed consent.
       window.addEventListener("load", function () {
-        console.log("this is called");
         const cancelImg = document.getElementById("cookie-banner-cancle-img");
         if (cancelImg) {
           cancelImg.onclick = function () {
@@ -3171,11 +3170,20 @@ GDPR_CCPA_COOKIE_EXPIRE =
         window.location.reload(true);
       } else {
         if (this.settings.cookie_usage_for == "both") {
-          if (this.settings.maxmind_integrated == "2") {
-            this.check_ccpa_eu(true, true);
-          } else {
-            this.toggleBar(true, true);
+          if (GDPR.settings.cookie_bar_as == "popup") {
+            $("#gdpr-popup").gdprmodal("hide");
           }
+          var insidebanner = document.getElementById("gdpr-cookie-consent-bar");
+          if (insidebanner) {
+            insidebanner.style.display = "none";
+          }
+          // this.displayHeader(
+          //   false,
+          //   true,
+          //   force_display_bar,
+          //   force_display_show_again
+          // );
+          this.check_ccpa_eu(true, true);
         }
       }
       return false;
@@ -3319,7 +3327,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
             this.bar_elm.slideDown(this.settings.animate_speed_hide);
           }
         } else {
-          if (this.settings.auto_banner_initialize && gdpr_select_pages.length <= 0) {
+          if (
+            this.settings.auto_banner_initialize &&
+            gdpr_select_pages.length <= 0
+          ) {
             var banner = this.bar_elm;
             var banner_delay = this.settings.auto_banner_initialize_delay;
             setTimeout(function () {
@@ -3328,10 +3339,15 @@ GDPR_CCPA_COOKIE_EXPIRE =
           } else {
             this.bar_elm.show();
           }
-          if(this.settings.auto_banner_initialize && gdpr_select_pages.length > 0){
+          if (
+            this.settings.auto_banner_initialize &&
+            gdpr_select_pages.length > 0
+          ) {
             for (var id = 0; id < gdpr_select_pages.length; id++) {
               var pageToHideBanner = gdpr_select_pages[id];
-              if (document.body.classList.contains("page-id-" + pageToHideBanner)) {
+              if (
+                document.body.classList.contains("page-id-" + pageToHideBanner)
+              ) {
                 if (
                   GDPR.settings.cookie_usage_for == "gdpr" ||
                   GDPR.settings.cookie_usage_for == "eprivacy" ||

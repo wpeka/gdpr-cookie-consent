@@ -55,10 +55,10 @@ if ( ! defined( 'FS_CHMOD_FILE' ) ) {
  * Check if the constant GDPR_APP_URL is not already defined.
 */
 if ( ! defined( 'GDPR_APP_URL' ) ) {
-	define( 'GDPR_APP_URL', 'https://ceebae0d66.nxcli.io' );
+	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com' );
 }
 if ( ! defined( 'GDPR_API_URL' ) ) {
-	define( 'GDPR_API_URL', 'https://ceebae0d66.nxcli.io/wp-json/gdpr/v2/' );
+	define( 'GDPR_API_URL', 'https://9d9f91c7a4.nxcli.io/wp-json/gdpr/v2/' );
 }
 
 /**

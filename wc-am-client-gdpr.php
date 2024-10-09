@@ -472,7 +472,7 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 				add_settings_error( 'wc_am_client_error_text', 'wc_am_client_error', "{$response['data']['error']}", 'error' );
 			}
 
-			if ( false !== $response && true === $response['success'] ) {
+			if (  is_array( $response ) && isset( $response['success'] ) && false !== $response && true === $response['success'] ) {
 				// New plugin version from the API.
 				$new_ver = (string) $response['data']['package']['new_version'];
 				// Current installed plugin version.
