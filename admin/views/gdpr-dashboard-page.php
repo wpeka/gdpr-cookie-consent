@@ -204,14 +204,16 @@ if ( 200 === $response_status ) {
 					</c-col>
 					<c-col class="col-sm-1">
 						<ul id="vertical-progressbar">
-							<li id="step1" class="active">
+							<li id="step1">
 								<div class="progress-step"> 
 									<div class="container">
 										<div class="vertical-line vertical-line-step-init"></div>
-										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/greentick.svg'; ?>" class="step-images vertical-selected-step-img">
+										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
 										<div class="vertical-line vertical-line-step-1"></div>
+									</div>
+								</div>
 							</li> 
-							<li id="step2" class="active">
+							<li id="step2">
 								<div class="progress-step"> 
 									<div class="container">							
 										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
@@ -632,25 +634,45 @@ if ( 200 === $response_status ) {
 
 jQuery(document).ready(function () {
 	var plugin_url = "<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL; ?>";
-	if(jQuery(".vstep1").hasClass("gdpr-green-progress")){
-		jQuery("#vertical-progressbar #step1 img").attr("src",plugin_url+"admin/images/greentick.svg");
-		jQuery("#vertical-progressbar .vertical-line-step-1").css("background","var(--green-700)");
-	}
-	if(jQuery(".vstep2").hasClass("gdpr-green-progress")){
-		jQuery("#vertical-progressbar #step2 img").attr("src",plugin_url+"admin/images/greentick.svg");
-		jQuery("#vertical-progressbar .vertical-line-step-2").css("background","var(--green-700)");
 
+	// Step 1
+	if (jQuery(".vstep1").hasClass("gdpr-green-progress")) {
+		jQuery("#vertical-progressbar #step1 img").attr("src", plugin_url + "admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-1").css("background", "var(--green-700)");
+		jQuery("#vertical-progressbar .vertical-line-step-init").css("background", "var(--green-700)");
+	} else {
+		jQuery("#vertical-progressbar #step1 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
+		jQuery("#vertical-progressbar .vertical-line-step-1").css("background", "");
+		jQuery("#vertical-progressbar .vertical-line-step-init").css("background", "");
 	}
-	if(jQuery(".vstep3").hasClass("gdpr-green-progress")){
-		jQuery("#vertical-progressbar #step3 img").attr("src",plugin_url+"admin/images/greentick.svg");
-		jQuery("#vertical-progressbar .vertical-line-step-3").css("background","var(--green-700)");
 
+	// Step 2
+	if (jQuery(".vstep2").hasClass("gdpr-green-progress")) {
+		jQuery("#vertical-progressbar #step2 img").attr("src", plugin_url + "admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-2").css("background", "var(--green-700)");
+	} else {
+		jQuery("#vertical-progressbar #step2 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
+		jQuery("#vertical-progressbar .vertical-line-step-2").css("background", "");
 	}
-	if(jQuery(".vstep4").hasClass("gdpr-green-progress")){
-		jQuery("#vertical-progressbar #step4 img").attr("src",plugin_url+"admin/images/greentick.svg");
-		jQuery("#vertical-progressbar .vertical-line-step-4").css("background","var(--green-700)");
 
+	// Step 3
+	if (jQuery(".vstep3").hasClass("gdpr-green-progress")) {
+		jQuery("#vertical-progressbar #step3 img").attr("src", plugin_url + "admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-3").css("background", "var(--green-700)");
+	} else {
+		jQuery("#vertical-progressbar #step3 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
+		jQuery("#vertical-progressbar .vertical-line-step-3").css("background", "");
 	}
+
+	// Step 4
+	if (jQuery(".vstep4").hasClass("gdpr-green-progress")) {
+		jQuery("#vertical-progressbar #step4 img").attr("src", plugin_url + "admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-4").css("background", "var(--green-700)");
+	} else {
+		jQuery("#vertical-progressbar #step4 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
+		jQuery("#vertical-progressbar .vertical-line-step-4").css("background", "");
+	}
+
 	// Count the number of divs with the class gdpr-gray-progress
     var progcount = jQuery('#gdpr-cookie-consent-dashboard-page .gdpr-gray-progress').length;
     

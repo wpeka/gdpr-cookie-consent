@@ -470,7 +470,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 			if ( isset( $_POST['gdpr_user_action'] ) ) {
 				$gdpr_user_action = sanitize_text_field( wp_unslash( $_POST['gdpr_user_action'] ) );
-				error_log("Value of gdpr_user_action is -> ".print_r($gdpr_user_action,true));
 				if ( isset( $_POST['cookie_list'] ) && is_array( $_POST['cookie_list'] ) ) {
 					foreach ( wp_unslash( $_POST['cookie_list'] ) as $key => $val ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						$js_cookie_list[ $key ] = sanitize_text_field( wp_unslash( $val ) );
@@ -559,7 +558,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 		if ( $post_id ) {
 			$details = $args['consent_details'];
-			error_log("consent details are -> ".print_r($details,true));
 			$user_id = get_current_user_id();
 			$user_ip = $this->wpl_get_user_ip();
 			// Fetch country information using ip-api.com.

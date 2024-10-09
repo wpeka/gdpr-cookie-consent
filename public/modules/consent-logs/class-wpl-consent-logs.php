@@ -248,8 +248,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$actions = array(
 			'delete' => __( 'Delete', 'gdpr-cookie-consent' ),
 		);
-		echo wp_kses_post( $this->resolved_select() );
-		return $actions;
+		// no user generated data is getting from the function.
+		echo  $this->resolved_select();  // phpcs:ignore 
+		return $actions; 
 	}
 
 	/**

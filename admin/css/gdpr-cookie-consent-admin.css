@@ -3353,7 +3353,7 @@ textarea[readonly] {
 .gdpr_scanbar .gdpr_infobox .gdpr_next_scan_content {
   float: right;
   margin-right: 15px;
-  padding-left: 4px;
+  padding-left: 18px;
 }
 .gdpr_scanbar .gdpr_infobox .gdpr_next_scan_content .gdpr_next_scan_text {
   color: rgba(39, 39, 42, 1);
@@ -4701,6 +4701,8 @@ gdpr-cookie-consent-admin-tab-content {
 
 .gdpr-blur-background {
   position: relative;
+  margin-left: 28px;
+  margin-right: 28px;
 }
 
 .gdpr-blur-background::before {
@@ -8290,7 +8292,7 @@ button.btn.gdpr-renew-now-btn.pro,
   padding-right: 20px;
 }
 .gdpr-custom-cookie-box-inputs-fields {
-  padding: 24px 36px 24px 36px;
+  padding: 24px 36px 0px 36px;
 }
 .gdpr-custom-cookie-box-inputs.table-rows {
   display: flex;
@@ -8579,4 +8581,25 @@ input.vs__search {
   height: 36px;
   width: 136px;
   border: 1px solid rgba(42, 74, 126, 1) !important;
+}
+.c-switch[class*="-3d"] .c-switch-slider::before {
+  top: 2px !important;
+  left: 3px !important;
+  width: 23px !important;
+  height: 23px !important;
+}
+.c-switch[class*="-3d"] .c-switch-slider {
+  background-color: rgba(212, 212, 216, 1) !important;
+}
+.c-switch-input:checked ~ .c-switch-slider::before {
+  -webkit-transform: translateX(29px) !important;
+  transform: translateX(27px) !important;
+}
+.c-switch {
+  height: 29px !important;
+  width: 57px !important;
+}
+#gdpr-wizard-finish-btn {
+  background-color: rgba(0, 89, 179, 1) !important;
+  color: #fff !important;
 }

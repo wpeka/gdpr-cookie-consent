@@ -4,15 +4,13 @@ import CoreuiVue from "@coreui/vue";
 import "@coreui/coreui/dist/css/coreui.min.css";
 import { VueEllipseProgress } from "vue-ellipse-progress";
 import VueApexCharts from "vue-apexcharts";
-import DateRangePicker from "vue2-daterange-picker";
 //you need to import the CSS manually
 import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
 
 Vue.use(CoreuiVue);
 Vue.use(VueApexCharts);
 Vue.component("vue-ellipse-progress", VueEllipseProgress);
-Vue.component("apexchart", VueApexCharts);
-Vue.component("date-range-picker", DateRangePicker); // Register the DateRangePicker component
+Vue.component("apexchart", VueApexCharts); // Register the DateRangePicker component
 
 const j = jQuery.noConflict();
 var gen = new Vue({
@@ -358,12 +356,15 @@ var gen = new Vue({
       }
     },
   },
+  onSwitchBannerPreviewEnable() {
+    //changing the value of banner_preview_swicth_value enable/disable
+    this.banner_preview_is_on = !this.banner_preview_is_on;
+  },
   created() {
     // No need to fetch data, assume someData is already available
   },
   mounted() {
     j("#gdpr-dashboard-loader").css("display", "none");
     this.setValues();
-    this.updateCancelButtonText();
   },
 });

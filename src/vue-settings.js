@@ -3713,13 +3713,8 @@ var gen = new Vue({
       this.show_custom_cookie_popup = !this.show_custom_cookie_popup;
     },
     editCookie(cookie) {
-      console.log(cookie);
       this.edit_discovered_cookie_on = true;
       this.edit_discovered_cookie = { ...cookie };
-      console.log(
-        "Virat is -> " + JSON.stringify(this.edit_discovered_cookie, null, 2)
-      );
-      // this.showCreateCookiePopup();
     },
     hideCreateCookiePopup() {
       this.edit_discovered_cookie_on = false;
@@ -5856,6 +5851,27 @@ var gen = new Vue({
         editor.setReadOnly(true);
       }
     }
+
+    //preventing pricing page popup on entering in input field in whitelist scripts section
+    jQuery(document).on(
+      "keydown",
+      ".wpl_name.wpl-whitelist-name-field",
+      function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+        }
+      }
+    );
+    jQuery(document).on(
+      "keydown",
+      ".wpl-whitelist-plus-script-field",
+      function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+        }
+      }
+    );
+
     // Add a new input field for whitelist
     jQuery(document).on("click", ".wpl_add_url", function () {
       let container_div = jQuery(this).closest("div");

@@ -177,7 +177,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 				$cid       = isset( $cookie['cid'] ) ? sanitize_text_field( wp_unslash( $cookie['cid'] ) ) : '';
 				$ccategory = isset( $cookie['ccategory'] ) ? sanitize_text_field( wp_unslash( $cookie['ccategory'] ) ) : '';
 				$cdesc     = isset( $cookie['cdesc'] ) ? sanitize_text_field( wp_unslash( $cookie['cdesc'] ) ) : '';
-				error_log("Value in cdesc is ->".print_r($cdesc,true));
 				global $wpdb;
 				$cat_data_arr = $wpdb->get_row( $wpdb->prepare( 'SELECT gdpr_cookie_category_name FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories WHERE id_gdpr_cookie_category=%d', array( $ccategory ) ), ARRAY_A ); // db call ok; no-cache ok.
 				if ( $cat_data_arr ) {
@@ -194,9 +193,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 				if ( ! empty( $cdesc ) ) {
 					$data_arr['description'] = $cdesc;
 				}
-				error_log("Value in data_arr'description'] is ->".print_r($data_arr['description'],true));
 				$update_status = $wpdb->update( $cookies_table, $data_arr, array( 'id_wpl_cookie_scan_cookies' => $cid ) ); // db call ok; no-cache ok.
-				error_log("The update status is->".print_r($update_status,true));
 				if ( $update_status >= 1 ) {
 					$flag            = 1;
 					$out['response'] = true;
@@ -316,7 +313,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		$total      = (int) isset( $_POST['total'] ) ? sanitize_text_field( wp_unslash( $_POST['total'] ) ) : 0;
 		$hash       = isset( $_POST['hash'] ) ? sanitize_text_field( wp_unslash( $_POST['hash'] ) ) : '';
 		$new_offset = $offset + $mxdata;
-		error_log("The scan id is ->".print_r($scan_id,true));
 		$out        = array(
 			'log'           => array(),
 			'offset'        => $new_offset,
@@ -343,7 +339,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		// just give list of cookies.
 		$cookies_list         = $this->get_scan_cookies( $scan_id, 0, 1 );
 		$out['total_cookies'] = $cookies_list['total'];	
-		error_log("The total cookies in scan pages final is ->".print_r($out['total_cookies'],true));
 		return $out;
 	}
 
