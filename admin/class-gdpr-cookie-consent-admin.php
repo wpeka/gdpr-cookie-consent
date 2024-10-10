@@ -108,7 +108,6 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
-			add_action('admin_init',array($this, 'gdpr_send_data_to_dashboard_appwplp_server'));
 
 		}
 		
@@ -1007,7 +1006,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$headers     = array();
 		$from_name   = get_bloginfo( 'name' );
-		$from_email  = $the_options['data_req_email_address'];
+		$from_email  = isset($the_options['data_req_email_address'])?$the_options['data_req_email_address']:'';
 		add_filter(
 			'wp_mail_content_type',
 			function ( $content_type ) {
@@ -8147,128 +8146,5 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 	}
 	
-	/* Added endpoint to send pie chart and cookie summary data from plugin to the saas appwplp server */
-	public function gdpr_send_data_to_dashboard_appwplp_server(){
-
-		$current_user = wp_get_current_user();
-		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-		$cookie_scan_settings = array();
-		$cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
-
-		// check if pro is activated or installed.
-
-		$pro_is_activated  = get_option( 'wpl_pro_active', false );
-		$installed_plugins = get_plugins();
-		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
-		$pro_is_activated = get_option( 'wpl_pro_active', false );
-		$api_key_activated = '';
-		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
-		// Require the class file for gdpr cookie consent api framework settings.
-		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
-
-		// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
-		$this->settings = new GDPR_Cookie_Consent_Settings();
-		$user_email_id         = $this->settings->get_email();
-
-
-		// Call the is_connected() method from the instantiated object to check if the user is connected.
-		$is_user_connected = $this->settings->is_connected();
-
-		$class_for_blur_content = $is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes.
-
-		$class_for_card_body_blur_content = $is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes.
-
-		/**
-		 * Total No of scanned cookies.
-		 */
-		if ( ! empty( $cookie_scan_settings ) ) {
-			$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
-		} else {
-			$total_no_of_found_cookies = 0;
-		}
-
-		/**
-		 * Total No of cookie categories.
-		 */
-		if ( ! empty( $cookie_scan_settings ) ) {
-			$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
-
-			// Create an array to store unique category names.
-			$unique_categories = array();
-
-			// Loop through the 'data' sub-array.
-			foreach ( $scan_cookie_list['data'] as $cookie ) {
-				$category = $cookie['category'];
-
-				// Check if the category is not already in the $uniqueCategories array.
-				if ( ! in_array( $category, $unique_categories ) ) {
-					// If it's not in the array, add it.
-					$unique_categories[] = $category;
-				}
-			}
-
-			// Count the number of unique categories.
-			$number_of_categories = count( $unique_categories );
-		} else {
-			$number_of_categories = 0;
-		}
-
-		/**
-		 * Total no of scanned pages.
-		 */
-		global $wpdb;
-
-
-		$total_scanned_pages = get_option('gdpr_last_scan') . " Pages";
-
-
-		ob_start(); // Start output buffering
-
-		// Trigger the gdpr_consent_log_table_dashboard action
-		do_action( 'gdpr_consent_log_table_dashboard' );
-
-		// Get the buffered content and clean the buffer
-		$consent_log_table = ob_get_clean();
-
-		// Get the current selected policy name
-		$cookie_usage_for = $the_options['cookie_usage_for'];
-		$gdpr_policy = '';
-
-		if($cookie_usage_for == 'eprivacy'){
-			$gdpr_policy = 'ePrivacy';
-		}elseif($cookie_usage_for == 'both'){
-			$gdpr_policy = 'GDPR & CCPA';
-		}else{
-			$gdpr_policy = strtoupper($cookie_usage_for);
-		}
-		/**
-		* Send a POST request to the GDPR API endpoint 'get_data'
-		*/
-
-		$response = wp_remote_post(
-			GDPR_API_URL . 'get_user_dashboard_data',
-			array(
-				'body' => array(
-					'cookie_scan_settings'             => $cookie_scan_settings,
-					'schedule_scan_when'               => isset( $the_options['schedule_scan_when'] ) ? $the_options['schedule_scan_when'] : null,
-					'pro_installed'                    => $pro_installed,
-					'pro_is_activated'                 => $pro_is_activated,
-					'api_key_activated'                => $api_key_activated,
-					'is_user_connected'                => $is_user_connected,
-					'class_for_blur_content'           => $class_for_blur_content,
-					'class_for_card_body_blur_content' => $class_for_card_body_blur_content,
-					'total_no_of_found_cookies'        => $total_no_of_found_cookies,
-					'total_scanned_pages'              => $total_scanned_pages,
-					'number_of_categories'             => $number_of_categories,
-					'wpl_cl_decline'                   => get_option( 'wpl_cl_decline' ),
-					'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
-					'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
-					'client_site_is_on'				   => $the_options['is_on'],
-					'client_site_url'                  => get_site_url(),
-					'cookie_usage_for'                 => $gdpr_policy,
-					'user_email_id'					   => $user_email_id,
-				),
-			)
-		);
-	}
+	
 }
