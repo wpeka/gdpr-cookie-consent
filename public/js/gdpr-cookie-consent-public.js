@@ -3146,6 +3146,17 @@ GDPR_CCPA_COOKIE_EXPIRE =
 
     bypassed_close: function () {
       GDPR.disableAllCookies();
+      if (
+        GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
+        !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
+      ) {
+        GDPR_Cookie.set(
+          GDPR_CCPA_COOKIE_NAME,
+          "unset",
+          GDPR_ACCEPT_COOKIE_EXPIRE
+        );
+        // this.check_ccpa_eu(true, true);
+      }
       GDPR_Cookie.set(
         GDPR_ACCEPT_COOKIE_NAME,
         "unset",
@@ -3177,7 +3188,12 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (insidebanner) {
             insidebanner.style.display = "none";
           }
-          this.check_ccpa_eu(true, true);
+          if (
+            GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
+            !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
+          ) {
+            this.check_ccpa_eu(true, true);
+          }
         }
       }
       return false;
