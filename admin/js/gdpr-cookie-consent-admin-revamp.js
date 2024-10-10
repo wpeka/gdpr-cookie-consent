@@ -450,6 +450,7 @@ jQuery(document).ready(function () {
    */
   jQuery(".gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
   jQuery(".cookie-consent-upgrade-to-pro-banner").on("click", gdprPaidAuth);
+  jQuery(document).on("click", ".gdpr-mascot-quick-links-item-upgrade", gdprPaidAuth);
   /**
    * Store the Authentication Data
    * @param {*} data
