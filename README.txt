@@ -202,7 +202,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 == Change Log ==
 
 = 3.6.3 = 
-* Further enhanced the admin interface
+* Fix: Further enhanced the admin interface.
 
 = 3.6.2 =
 * Fix: Banner initialization delay now doesnot prevent hide cookie banner setting on certain pages.
@@ -574,7 +574,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 == Upgrade Notice ==
 
 = 3.6.3 = 
-* Further enhanced the admin interface
+* Fix: Further enhanced the admin interface.
 
 = 3.6.2 =
 * Fix: Banner initialization delay now doesnot prevent hide cookie banner setting on certain pages.
