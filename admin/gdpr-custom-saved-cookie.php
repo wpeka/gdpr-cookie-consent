@@ -36,8 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</c-col>
 		<c-col class="col-sm-3"></c-col>
 		<c-col class="col-sm-9 gdpr-custom-cookie-links">
-			<a class="gdpr-custom-cookie-link gdpr-custom-save-cookie" @click="onDeleteCustomCookie(cookie['id_gdpr_cookie_post_cookies'])"><?php esc_attr_e( 'Delete Cookie', 'gdpr-cookie-consent' ); ?></a>
+			<a id="gdpr-custom-delete-cookies-btn" class="gdpr-custom-cookie-link gdpr-custom-save-cookie" @click="onDeleteCustomCookie(cookie['id_gdpr_cookie_post_cookies'])"><?php esc_attr_e( 'Delete Cookie', 'gdpr-cookie-consent' ); ?></a>
 		</c-col>
 	</c-row>
-</div>
-<c-button color="info" @click="saveCookieUpdateSettings"><span>Save All Cookies</span></c-button>
+</div><c-button class="gdpr-custom-cookie-save-btn"@click="saveCookieUpdateSettings"><span>Save All Cookies</span></c-button>

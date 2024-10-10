@@ -19,6 +19,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 ?>
 <!-- WP Cookie Consent ( for GDPR, CCPA & ePrivacy ) v{{ version }} by WPEka Club - https://wordpress.org/plugins/gdpr-cookie-consent/ -->
 <div id="<?php echo esc_html( $the_options['container_id'] ); ?>" class="<?php echo esc_html( $the_options['container_class'] ); ?> <?php echo esc_html( $the_options['theme_class'] ); ?>">
+	<img id="cookie-banner-cancle-img" class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Add new entry logo">		
 	<?php require plugin_dir_path( __FILE__ ) . $the_options['skin_template']; ?>
 </div>
 <?php
