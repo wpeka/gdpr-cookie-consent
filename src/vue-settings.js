@@ -93,6 +93,7 @@ var gen = new Vue({
       confirm_button_popup2: false,
       cancel_button_popup2: false,
       opt_out_link_popup2: false,
+      show_more_cookie_design_popup:false,
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
       scan_in_progress: false,
