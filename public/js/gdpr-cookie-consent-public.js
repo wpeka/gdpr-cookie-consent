@@ -337,11 +337,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
                 if (GDPR.settings.button_accept_all_is_on) {
                   GDPR.acceptAllCookies();
                 }
-                GDPR.accept_close();
-                GDPR.logConsent("accept");
                 if (GDPR.settings.auto_scroll_reload == true) {
                   window.location.reload();
                 }
+                GDPR.accept_close();
+                GDPR.logConsent("accept");
               }
             });
           }
@@ -3107,7 +3107,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
       }
       this.show_again_elm.slideDown(this.settings.animate_speed_hide);
       if (this.settings.accept_reload == true) {
-        window.location.reload(true);
+        // GDPR.logConsent("accept");
+        setTimeout(function () {
+          window.location.reload();
+        }, 1100);
       } else {
         if (this.settings.cookie_usage_for == "both") {
           this.check_ccpa_eu(true, true);
@@ -3203,6 +3206,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
       var self = this;
       setTimeout(function () {
         if (!consent_forwarding && self.settings.logging_on) {
+          console.log("This is called in log consent");
           jQuery.ajax({
             url: log_obj.ajax_url,
             type: "POST",
@@ -3239,8 +3243,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
               });
             }
           });
-
-          // Continue with your existing logic
         }
       }, 1000);
     },
@@ -3487,12 +3489,17 @@ GDPR_CCPA_COOKIE_EXPIRE =
         if (GDPR.settings.button_accept_all_is_on) {
           GDPR.acceptAllCookies();
         }
-        GDPR.accept_close();
-        GDPR.logConsent("accept");
-        window.removeEventListener("scroll", GDPR.acceptOnScroll, false);
         if (GDPR.settings.auto_scroll_reload == true) {
-          window.location.reload();
+          GDPR.accept_close();
+          GDPR.logConsent("accept");
+          setTimeout(function () {
+            window.location.reload();
+          }, 1100);
+        } else {
+          GDPR.accept_close();
+          GDPR.logConsent("accept");
         }
+        window.removeEventListener("scroll", GDPR.acceptOnScroll, false);
       }
     },
   };

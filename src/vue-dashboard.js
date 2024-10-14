@@ -324,14 +324,23 @@ var gen = new Vue({
       if (!this.other_plugins_active) {
         count_progress++;
       }
-      if (this.api_key_activated && this.cookie_scanned) {
+      if (
+        this.api_key_activated &&
+        this.cookie_scanned &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
       // increase progress when user is connected and scan performed.
       if (
         this.is_user_connected &&
         !this.pro_installed &&
-        this.cookie_scanned
+        this.cookie_scanned &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
       ) {
         count_progress++;
       }
