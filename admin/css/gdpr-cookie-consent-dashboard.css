@@ -709,7 +709,7 @@ circle.ep-circle--empty {
 .apexcharts-legend.apexcharts-align-center.apx-legend-position-right {
   pointer-events: none;
 }
-.apexcharts-tooltip.apexcharts-theme-dark {
+#consent-insights-body-section .apexcharts-tooltip.apexcharts-theme-dark {
   color: black !important;
 }
 #gdpr-cookie-consent-dashboard-page
