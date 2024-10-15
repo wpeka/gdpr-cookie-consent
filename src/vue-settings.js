@@ -121,7 +121,8 @@ var gen = new Vue({
       gacm_is_on:
         settings_obj.the_options.hasOwnProperty("is_gacm_on") &&
         (true === settings_obj.the_options["is_gacm_on"] ||
-          1 === settings_obj.the_options["is_gacm_on"])
+          1 === settings_obj.the_options["is_gacm_on"] ||
+          "true" === settings_obj.the_options["is_gacm_on"])
           ? true
           : false,
       gacm_key: settings_obj.ab_options.hasOwnProperty("gacm_key")

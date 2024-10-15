@@ -66,63 +66,10 @@ GVL.baseUrl = "https://eadn-wc01-12578700.nxedge.io/cdn/rgh/";
 
 const gvl = new GVL();
 //tcf api definition provided by iab to handle and read the tcstring by vendors and validator
-window.__tcfapi = function (command, version, callback, parameter = "") {
-  switch (command) {
-    case "getTCData":
-      if (version === 2) {
-        getTCData(callback, parameter);
-      } else {
-        console.warn(`Unsupported version: ${version} for getTCData`);
-        callback({}, false);
-      }
-      break;
 
-    case "ping":
-      if (version === 2) {
-        callback(
-          {
-            gdprApplies: tcModel.gdprApplies,
-            cmpLoaded: true,
-            cmpStatus: "loaded",
-            displayStatus: "visible",
-          },
-          true
-        );
-      } else {
-        console.warn(`Unsupported version: ${version} for ping`);
-        callback({}, false);
-      }
-      break;
-
-    case "addEventListener":
-      if (version === 2) {
-        addEventListener(callback, parameter);
-      } else {
-        console.warn(`Unsupported version: ${version} for addEventListener`);
-        callback({}, false);
-      }
-      break;
-
-    case "removeEventListener":
-      if (version === 2) {
-        removeEventListener(callback, parameter);
-      } else {
-        console.warn(`Unsupported version: ${version} for removeEventListener`);
-        callback({}, false);
-      }
-      break;
-
-    default:
-      console.warn(`Unsupported command: ${command}`);
-      callback({}, false);
-  }
-};
-
-// Ensure the queue exists
-window.__tcfapi.queue = [];
-window.__tcfapi.loaded = true;
 //object to store consent provided by user
 let user_iab_consent = {};
+let user_gacm_consent = [];
 user_iab_consent.purpose_consent = [];
 user_iab_consent.purpose_legint = [];
 user_iab_consent.legint = [];
@@ -132,6 +79,7 @@ user_iab_consent.feature_consent = [];
 //tcModel that is encoded to form the tcString
 const tcModel = new TCModel();
 var encodedString = "default tc string...";
+var acString = "";
 //initializaation of cmp api instance that is used to read tcString by vendors and validator
 let cmpApi;
 
@@ -152,7 +100,15 @@ if (GDPR_Cookie.exists("wpl_tc_string")) {
     decoded_consent.specialFeatureOptins.set_
   );
 }
+if (GDPR_Cookie.exists("IABTCF_AddtlConsent")) {
+  const [specVersion, consentedPart, disclosedPart] = GDPR_Cookie.read(
+    "IABTCF_AddtlConsent"
+  ).split("~");
 
+  const consentedIds = consentedPart.split(".").map(Number);
+
+  user_gacm_consent = consentedIds;
+}
 //function to set switches of selected consents to on
 (function ($) {
   // Select all input elements using the class
@@ -273,7 +229,241 @@ if (GDPR_Cookie.exists("wpl_tc_string")) {
     if (flag) $(this).prop("checked", true);
     else $(this).prop("checked", false);
   });
+
+  $(".gacm-vendor-switch-handler.consent-switch").each(function () {
+    // Get the value of the current element
+    const value = $(this).val();
+
+    // Check if the value is in the user_iab_consent.consent array
+    if (user_gacm_consent.includes(Number(value))) {
+      $(this).prop("checked", true); // Mark as checked
+    } else {
+      $(this).prop("checked", false); // Ensure it is unchecked
+    }
+  });
+
+  $(".gacm-vendor-all-switch-handler").each(function () {
+    let flag = true;
+    for (let i = 0; i < iabtcf.gacm_data.length - 1; i++) {
+      const feature = iabtcf.gacm_data[i];
+      if (!user_gacm_consent.includes(feature)) {
+        flag = false;
+        break;
+      }
+    }
+    if (flag) $(this).prop("checked", true);
+    else $(this).prop("checked", false);
+  });
 })(jQuery);
+
+function checkPing() {
+  return new Promise((resolve) => {
+    if (typeof __tcfapi === "function") {
+      __tcfapi("ping", 2, (response) => {
+        if (response && response.gdprApplies !== undefined) {
+          console.log("Ping response:", response);
+          resolve(true);
+        } else {
+          console.error("Ping response is invalid:", response);
+          resolve(false);
+        }
+      });
+    } else {
+      console.error("__tcfapi is not defined");
+      resolve(false);
+    }
+  });
+}
+function checkAddEventListener() {
+  return new Promise((resolve) => {
+    if (typeof __tcfapi === "function") {
+      __tcfapi("addEventListener", 2, (response, success) => {
+        if (success) {
+          console.log("addEventListener is working:", response);
+          resolve(true);
+        } else {
+          console.error("Failed to add event listener to __tcfapi");
+          resolve(false);
+        }
+      });
+    } else {
+      console.error("__tcfapi is not defined");
+      resolve(false);
+    }
+  });
+}
+let eventListener;
+
+function checkRemoveEventListener() {
+  return new Promise((resolve) => {
+    if (typeof __tcfapi === "function") {
+      // Define the event listener once outside the API calls
+      eventListener = (response) => {
+        console.log(
+          "Event listener triggered (should not happen after removal):",
+          response
+        );
+      };
+
+      // Add the event listener
+      __tcfapi("addEventListener", 2, (response, success) => {
+        if (success) {
+          console.log("Event listener added successfully.");
+
+          // Remove the event listener after it was added
+          __tcfapi(
+            "removeEventListener",
+            2,
+            (removeSuccess) => {
+              if (removeSuccess) {
+                console.log("removeEventListener is working.");
+
+                // Simulate event trigger after removal
+                setTimeout(() => {
+                  __tcfapi(
+                    "addEventListener",
+                    2,
+                    (triggerResponse, triggerSuccess) => {
+                      if (!triggerSuccess) {
+                        console.log(
+                          "Event listener successfully removed and no longer triggers."
+                        );
+                        resolve(true);
+                      } else {
+                        console.error(
+                          "Event listener was not removed properly."
+                        );
+                        resolve(false);
+                      }
+                    },
+                    eventListener
+                  );
+                }, 1000);
+              } else {
+                console.error(
+                  "Failed to remove the event listener from __tcfapi."
+                );
+                resolve(false);
+              }
+            },
+            eventListener
+          ); // Pass the same listener reference
+        } else {
+          console.error("Failed to add event listener to __tcfapi.");
+          resolve(false);
+        }
+      });
+    } else {
+      console.error("__tcfapi is not defined.");
+      resolve(false);
+    }
+  });
+}
+
+// setTimeout(async () => {
+//   const pingSuccess = await checkPing();
+//   const addListenerSuccess = await checkAddEventListener();
+//   const removeListenerSuccess = await checkRemoveEventListener();
+
+//   if (pingSuccess && addListenerSuccess && removeListenerSuccess) {
+//     console.log("All CMP API commands returned a correct response.");
+//   } else {
+//     console.error(
+//       "One or more CMP API commands did not return a correct response."
+//     );
+//   }
+// }, 5000);
+const customCommands = {
+  getTCData: function (callback) {
+    // Your custom logic for getting TC data
+    // console.log("Command", command, "version", version, "callback", callback);
+    getTCData(callback, ""); // Call your original getTCData function here
+  },
+};
+//function to setup gvl once it has returned the promise and resolved it
+gvl.readyPromise.then(() => {
+  try {
+    tcModel.gvl = gvl;
+    tcModel.tcfPolicyVersion = gvl.tcfPolicyVersion;
+    tcModel.publisherCountryCode = "IN";
+    tcModel.version = 2;
+    tcModel.cmpId = cmpId;
+    tcModel.cmpVersion = cmpVersion;
+    tcModel.gdprApplies = true;
+    tcModel.isServiceSpecific = false;
+    //initializing the cmp api
+    cmpApi = new CmpApi(cmpId, cmpVersion, false, customCommands);
+    if (GDPR_Cookie.exists("wpl_tc_string")) {
+      updateTCModel();
+    }
+  } catch (error) {
+    console.error("Error during CMP initialization:", error);
+  }
+});
+
+window.__tcfapi = function (command, version, callback, parameter = "") {
+  switch (command) {
+    case "getTCData":
+      if (version === 2) {
+        getTCData(callback, parameter);
+      } else {
+        console.warn(`Unsupported version: ${version} for getTCData`);
+        callback({}, false);
+      }
+      break;
+
+    case "ping":
+      if (version === 2) {
+        callback(
+          {
+            gdprApplies: tcModel.gdprApplies,
+            cmpLoaded: true,
+            cmpStatus: "loaded",
+            displayStatus: "visible",
+          },
+          true
+        );
+      } else {
+        console.warn(`Unsupported version: ${version} for ping`);
+        callback({}, false);
+      }
+      break;
+
+    case "addEventListener":
+      if (version === 2) {
+        addEventListener(callback, parameter);
+      } else {
+        console.warn(`Unsupported version: ${version} for addEventListener`);
+        callback({}, false);
+      }
+      break;
+
+    case "removeEventListener":
+      if (version === 2) {
+        removeEventListener(callback, parameter);
+      } else {
+        console.warn(`Unsupported version: ${version} for removeEventListener`);
+        callback({}, false);
+      }
+      break;
+
+    default:
+      console.warn(`Unsupported command: ${command}`);
+      callback({}, false);
+  }
+};
+
+// Ensure the queue exists
+window.__tcfapi.queue = [];
+window.__tcfapi.loaded = true;
+
+const convertToObject = (set, maxId) => {
+  const result = {};
+  for (let i = 1; i <= maxId; i++) {
+    result[i] = set.has(i);
+  }
+  return result;
+};
 
 function getTCData(callback, parameter) {
   try {
@@ -285,9 +475,39 @@ function getTCData(callback, parameter) {
 
     // Encode the TCModel into a TC string
     const tcString = TCString.encode(tcModel);
-
+    const transformedPurpose = {
+      consents: convertToObject(
+        tcModel.purposeConsents.set_,
+        tcModel.purposeConsents.maxId_
+      ),
+      legitimateInterests: convertToObject(
+        tcModel.purposeLegitimateInterests.set_,
+        tcModel.purposeLegitimateInterests.maxId_
+      ),
+    };
+    const transformedVendor = {
+      consents: convertToObject(
+        tcModel.vendorConsents.set_,
+        tcModel.vendorConsents.maxId_
+      ),
+      legitimateInterests: convertToObject(
+        tcModel.vendorLegitimateInterests.set_,
+        tcModel.vendorLegitimateInterests.maxId_
+      ),
+    };
+    const transformedPublisher = {
+      consents: convertToObject(
+        tcModel.publisherConsents.set_,
+        tcModel.publisherConsents.maxId_
+      ),
+      legitimateInterests: convertToObject(
+        tcModel.publisherLegitimateInterests.set_,
+        tcModel.publisherLegitimateInterests.maxId_
+      ),
+    };
     // Prepare the TCData object
     const tcData = {
+      addtlConsent: acString,
       tcString: tcString,
       tcfPolicyVersion: tcModel.tcfPolicyVersion,
       cmpId: tcModel.cmpId,
@@ -299,19 +519,13 @@ function getTCData(callback, parameter) {
       useNonStandardTexts: tcModel.useNonStandardTexts,
       purposeOneTreatment: tcModel.purposeOneTreatment,
       publisherCC: tcModel.publisherCountryCode,
-      purpose: {
-        consents: tcModel.purposeConsents,
-        legitimateInterests: tcModel.purposeLegitimateInterests,
-      },
-      vendor: {
-        consents: tcModel.vendorConsents,
-        legitimateInterests: tcModel.vendorLegitimateInterests,
-      },
-      specialFeatureOptins: tcModel.specialFeatureOptins,
-      publisher: {
-        consents: tcModel.publisherConsents,
-        legitimateInterests: tcModel.publisherLegitimateInterests,
-      },
+      purpose: transformedPurpose,
+      vendor: transformedVendor,
+      specialFeatureOptins: convertToObject(
+        tcModel.specialFeatureOptins.set_,
+        tcModel.specialFeatureOptins.maxId_
+      ),
+      publisher: transformedPublisher,
     };
 
     // Return the TCData object
@@ -321,26 +535,6 @@ function getTCData(callback, parameter) {
     callback({}, false);
   }
 }
-
-//function to setup gvl once it has returned the promise and resolved it
-gvl.readyPromise.then(() => {
-  try {
-    tcModel.gvl = gvl;
-    tcModel.publisherCountryCode = "IN";
-    tcModel.version = 2;
-    tcModel.cmpId = cmpId;
-    tcModel.cmpVersion = cmpVersion;
-    tcModel.gdprApplies = true;
-    tcModel.isServiceSpecific = true;
-    //initializing the cmp api
-    cmpApi = new CmpApi(cmpId, cmpVersion, false);
-    if (GDPR_Cookie.exists("wpl_tc_string")) {
-      updateTCModel();
-    }
-  } catch (error) {
-    console.error("Error during CMP initialization:", error);
-  }
-});
 
 //function to update tcModel, generate tcString once user clicks on accept button in consent banner
 function updateTCModel() {
@@ -381,14 +575,33 @@ function updateTCModel() {
         user_iab_consent.feature_consent.map(Number)
       );
     }
+    //creating ac string for google additional consent mode
+
+    // Part 1: Specification version number
+    var specVersion = "2";
+
+    // Part 3: List of user-consented vendors (ATP IDs from user_gacm_consent array)
+    var consentedIds = user_gacm_consent.join(".");
+
+    // Part 5: List of disclosed vendors (from gacm_data that are NOT in user_gacm_consent)
+    var disclosedVendors = iabtcf.gacm_data
+      .map((vendor) => vendor[0]) // Extract only the 0th element (vendor ID)
+      .filter((vendorId) => !user_gacm_consent.includes(vendorId));
+    var disclosedIds = disclosedVendors.join(".");
+
+    // Create the AC string
+    acString = `${specVersion}~${consentedIds}~dv.${disclosedIds}`;
+    tcModel.addtlConsent = acString;
 
     // Encode the updated tcModel
     encodedString = TCString.encode(tcModel);
     //setting the cookie
     GDPR_Cookie.set("wpl_tc_string", encodedString, 365);
+    GDPR_Cookie.set("IABTCF_AddtlConsent", acString, 365);
 
     user_iab_consent.tcString = encodedString;
     tcModel.tcString = encodedString;
+    tcModel.addtlConsent = acString;
 
     // Update the CMP state with the new TC string so that validator, vendors know about update and can read it
     cmpApi.update(encodedString, true);
@@ -420,14 +633,33 @@ function rejectTCModel() {
       tcModel.specialFeatureOptins.unset(featureId);
     });
 
+    //creating ac string for google additional consent mode
+
+    var specVersion = "2";
+
+    user_gacm_consent = [];
+
+    // Part 5: List of disclosed vendors (from gacm_data that are NOT in user_gacm_consent)
+    var disclosedVendors = iabtcf.gacm_data.map((vendor) => vendor[0]);
+    var disclosedIds = disclosedVendors.join(".");
+
+    // Create the AC string
+    acString = `${specVersion}~~dv.${disclosedIds}`;
+    tcModel.addtlConsent = acString;
+
     // Encode the updated tcModel
     encodedString = TCString.encode(tcModel);
     user_iab_consent.tcString = encodedString;
     tcModel.tcString = encodedString;
     GDPR_Cookie.set("wpl_tc_string", encodedString, 365);
+    GDPR_Cookie.set("IABTCF_AddtlConsent", acString, 365);
 
     // Update the CMP state with the new TC string so that validator, vendors know about update and can read it
     cmpApi.update(encodedString, true);
+    jQuery(".vendor-switch-handler").prop("checked", false);
+    jQuery(".gacm-vendor-switch-handler").prop("checked", false);
+    jQuery(".gacm-vendor-all-switch-handler").prop("checked", false);
+    jQuery(".vendor-all-switch-handler").prop("checked", false);
   } catch (error) {
     console.error("Error updating TCModel:", error);
   }
@@ -582,6 +814,31 @@ function rejectTCModel() {
         user_iab_consent.feature_consent.indexOf(Number(val)),
         1
       );
+    }
+  });
+  $(".gacm-vendor-all-switch-handler").click(function () {
+    $(".gacm-vendor-all-switch-handler", this);
+    if ($(this).is(":checked")) {
+      $(".gacm-vendor-switch-handler").prop("checked", true);
+      user_gacm_consent = [];
+
+      for (var i = 0; i < iabtcf.gacm_data.length - 1; i++) {
+        user_gacm_consent.push(iabtcf.gacm_data[i]);
+      }
+    } else {
+      $(".gacm-vendor-switch-handler").prop("checked", false);
+      user_gacm_consent = [];
+    }
+  });
+  $(".gacm-vendor-switch-handler.consent-switch").click(function () {
+    var val = $(this).val();
+    if ($(this).is(":checked")) {
+      user_gacm_consent.push(Number(val));
+      $(this).prop("checked", true);
+    } else {
+      $(this).prop("checked", false);
+      $(".gacm-vendor-all-switch-handler").prop("checked", false);
+      user_gacm_consent.splice(user_gacm_consent.indexOf(Number(val)), 1);
     }
   });
 })(jQuery);

@@ -934,6 +934,7 @@ class Gdpr_Cookie_Consent {
 
 			'is_on'                                => true,
 			'is_iabtcf_on'                                => false,
+			'is_gacm_on'						   => false,
 			'is_eu_on'                             => false,
 			'is_ccpa_on'                           => false,
 			'is_ccpa_iab_on'                       => false,
@@ -1266,6 +1267,7 @@ class Gdpr_Cookie_Consent {
 		$iabtcf_consent_data["purpose_consent"] = [];
 		$iabtcf_consent_data["purpose_legint"] = [];
 		 $iabtcf_consent_data["feature_consent"] = [];
+		 $iabtcf_consent_data["gacm_consent"] = [];
 		return $iabtcf_consent_data;
 	}
 
