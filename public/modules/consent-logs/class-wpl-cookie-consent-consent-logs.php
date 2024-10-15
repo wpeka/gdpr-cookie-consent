@@ -452,7 +452,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 * @since 3.0.0
 	 */
 	public function wplcl_log_consent_action() {
-		error_log("This is called from ajax");
 		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
 		$settings      = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$selectedsites = $settings['select_sites'];
@@ -1447,7 +1446,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						$ip_address = $custom['_wplconsentlogs_ip'][0];
 						$viewed_cookie   = isset($cookies['wpl_viewed_cookie']) ? $cookies['wpl_viewed_cookie'] : '';
 						$wpl_user_preference = isset($cookies['wpl_user_preference']) ? json_decode($cookies['wpl_user_preference']) : '';
-						error_log("The wpl_user_preference is ->".print_r($wpl_user_preference,true));
 						$optout_cookie   = isset($cookies['wpl_optout_cookie']) ? $cookies['wpl_optout_cookie'] : '';
 						$consent_status = 'Unknown';
 						$preferencesDecoded = ''; // Initialize with an empty string or an appropriate default value.

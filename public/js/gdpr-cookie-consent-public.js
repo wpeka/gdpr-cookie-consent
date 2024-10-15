@@ -3206,7 +3206,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
       var self = this;
       setTimeout(function () {
         if (!consent_forwarding && self.settings.logging_on) {
-          console.log("This is called in log consent");
           jQuery.ajax({
             url: log_obj.ajax_url,
             type: "POST",
