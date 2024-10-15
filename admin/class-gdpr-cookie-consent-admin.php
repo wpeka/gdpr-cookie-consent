@@ -108,7 +108,8 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
-
+			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
+			
 		}
 		
 		$json_input = file_get_contents('php://input');
@@ -254,6 +255,7 @@ class Gdpr_Cookie_Consent_Admin {
 				delete_option( 'wpl_cl_decline' );
 				delete_option( 'wpl_cl_accept' );
 				delete_option( 'wpl_cl_partially_accept' );
+				delete_option( 'wpl_cl_bypass' );
 				delete_option( 'wpl_geo_options' );
 				delete_option( 'wpl_bypass_script_blocker' );
 				delete_option( 'wpl_consent_timestamp' );
@@ -1357,7 +1359,7 @@ class Gdpr_Cookie_Consent_Admin {
 			'id'     => 'gdpr-quick-menu-item-1',
 			'title'  => 'Scan this Page',
 			'parent' => 'gdpr-quick-menu',
-			'href'   => admin_url( 'admin.php?page=gdpr-cookie-consent&scan_url=' ) . get_permalink() . '#cookie_settings#cookie_list',
+			'href'   => admin_url( 'admin.php?page=gdpr-cookie-consent&scan_url=' ) . get_permalink() . '#cookie_settings#cookie_list#discovered_cookies',
 		);
 
 		$wp_admin_bar->add_node( $args );
@@ -3790,7 +3792,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function admin_settings_page() {
 		$installed_plugins = get_plugins();
-		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+		// Call the is_connected() method from the instantiated object to check if the user is connected.
+		$is_user_connected = $this->settings->is_connected();
+		$api_user_plan = $this->settings->get_plan();
+
 		$is_pro            = get_option( 'wpl_pro_active', false );
 		if ( $is_pro ) {
 			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=support';
@@ -3808,12 +3813,12 @@ class Gdpr_Cookie_Consent_Admin {
 			$this->plugin_name . '-mascot',
 			'mascot_obj',
 			array(
-				'is_pro'            => $is_pro,
-				'documentation_url' => 'https://club.wpeka.com/docs/wp-cookie-consent/',
-				'faq_url'           => 'https://club.wpeka.com/docs/wp-cookie-consent/faqs/faq-2/',
-				'support_url'       => $support_url,
-				'upgrade_url'       => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
-				'pro_installed'     => $pro_installed,
+				'api_user_plan' => $api_user_plan,
+				'documentation_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/',
+				'faq_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/',
+				'support_url' => $support_url,
+				'upgrade_url' => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
+				'is_user_connected' => $is_user_connected,
 			)
 		);
 		// Lock out non-admins.
@@ -4991,6 +4996,8 @@ class Gdpr_Cookie_Consent_Admin {
 			// revoke consent text color.
 			$the_options['button_revoke_consent_text_color']       = isset( $_POST['gcc-revoke-consent-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color'] ) ) : '';
 			$the_options['button_revoke_consent_background_color'] = isset( $_POST['gcc-revoke-consent-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color'] ) ) : '';
+			$the_options['notify_position_vertical']           = isset( $_POST['gcc-gdpr-cookie-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-position'] ) ) : 'bottom';
+			$the_options['notify_position_horizontal']         = isset( $_POST['gcc-gdpr-cookie-widget-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-widget-position'] ) ) : 'left';
 			// adding the extra elseif condn to set the correct value for the geolocation selections for the wizard.
 			// for IAB.
 			if ( isset( $_POST['gcc-iab-enable'] ) ) {
@@ -5402,7 +5409,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 		$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
-			<div class="gdpr-templates-field-container">
+		<div class="gdpr-templates-field-container">
 			<?php
 			foreach ( $templates as $key => $template ) :
 				if ( false !== strpos( $template['name'], 'column' ) ) {
@@ -5539,6 +5546,7 @@ class Gdpr_Cookie_Consent_Admin {
 						</div>
 					</div>
 				</div>
+				<p class="gdpr-configuration-line-divider"></p>
 				<?php endforeach; ?>
 			</div>
 			<?php
@@ -6884,8 +6892,8 @@ class Gdpr_Cookie_Consent_Admin {
 			'mascot_obj',
 			array(
 				'is_pro'            => $is_pro,
-				'documentation_url' => 'https://club.wpeka.com/docs/wp-cookie-consent/',
-				'faq_url'           => 'https://club.wpeka.com/docs/wp-cookie-consent/',
+				'documentation_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/',
+				'faq_url'           => 'https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/',
 				// 'support_url'       => $support_url,
 				'upgrade_url'       => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
 			)
@@ -7780,7 +7788,7 @@ class Gdpr_Cookie_Consent_Admin {
 		// find out if data reqs is on.
 		$data_reqs_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
 		$consent_log_on = isset( $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
-
+		$template_parts_background = '';
 		if ( true === $the_options['is_on'] ) {
 			$template = $the_options['template'];
 			if ( 'none' !== $template ) {
@@ -7906,7 +7914,8 @@ class Gdpr_Cookie_Consent_Admin {
 		$admin_url_length    = strlen( $admin_url );
 		$show_cookie_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#compliances';
 		$language_url        = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#language';
-		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list';
+		$maxmind_url         = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations';
+		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies';
 		$plugin_page_url     = $admin_url . 'plugins.php';
 		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
 		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
@@ -7914,7 +7923,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#configuration';
 		$script_blocker_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#script_blocker';
 		$third_party_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#policy_data';
-		$documentation_url   = 'https://club.wpeka.com/docs/wp-cookie-consent/';
+		$documentation_url   = 'https://wplegalpages.com/docs/wp-cookie-consent/';
 		$gdpr_pro_url        = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=quick-links&utm_content=upgrade-to-pro';
 		$free_support_url    = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
 		$pro_support_url     = 'https://club.wpeka.com/my-account/?utm_source=plugin&utm_medium=gdpr&utm_campaign=dashboard&utm_content=support';
@@ -7925,12 +7934,16 @@ class Gdpr_Cookie_Consent_Admin {
 		$decline_log         = get_option( 'wpl_cl_decline' );
 		$accept_log          = get_option( 'wpl_cl_accept' );
 		$partially_acc_log   = get_option( 'wpl_cl_partially_accept' );
+		$bypass_log   = get_option( 'wpl_cl_bypass' );
+		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
 		wp_enqueue_style( $this->plugin_name . '-dashboard' );
 		wp_enqueue_script( $this->plugin_name . '-dashboard' );
 		wp_localize_script(
 			$this->plugin_name . '-dashboard',
 			'dashboard_options',
 			array(
+				'the_options'           => $the_options,
+               'ajaxurl'               => admin_url( 'admin-ajax.php' ),
 				'active_plugins'        => $active_plugins,
 				'showing_cookie_notice' => $is_cookie_on,
 				'pro_installed'         => $pro_installed,
@@ -7958,6 +7971,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'decline_log'           => $decline_log,
 				'accept_log'            => $accept_log,
 				'partially_acc_log'     => $partially_acc_log,
+				'bypass_log'            => $bypass_log,
 				'is_user_connected'     => $is_user_connected,
 				'cookie_policy'			=> $cookie_usage_for
 			)
@@ -8146,5 +8160,127 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 	}
 	
-	
+	/* Added endpoint to send pie chart and cookie summary data from plugin to the saas appwplp server */
+	public function gdpr_send_data_to_dashboard_appwplp_server(WP_REST_Request $request  ){		
+		$current_user = wp_get_current_user();
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		//$cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
+		$cookie_scan_class = new Gdpr_Cookie_Consent_Cookie_Scanner(); 
+		$cookie_scan_settings = $cookie_scan_class->wpl_settings_cookie_scan_values();
+		$default_settings = '';
+
+		// check if pro is activated or installed.
+		$installed_plugins = get_plugins();
+		
+		// Require the class file for gdpr cookie consent api framework settings.
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+		// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+		$user_email_id         = $this->settings->get_email();
+
+
+		// Call the is_connected() method from the instantiated object to check if the user is connected.
+		$is_user_connected = $this->settings->is_connected();
+
+		/**
+		 * Total No of scanned cookies.
+		 */
+		if ( ! empty( $cookie_scan_settings ) ) {
+			$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
+		} else {
+			$total_no_of_found_cookies = 0;
+		}
+
+		/**
+		 * Total No of cookie categories.
+		 */
+		if ( ! empty( $cookie_scan_settings ) ) {
+			$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
+
+			// Create an array to store unique category names.
+			$unique_categories = array();
+
+			// Loop through the 'data' sub-array.
+			foreach ( $scan_cookie_list['data'] as $cookie ) {
+				$category = $cookie['category'];
+
+				// Check if the category is not already in the $uniqueCategories array.
+				if ( ! in_array( $category, $unique_categories ) ) {
+					// If it's not in the array, add it.
+					$unique_categories[] = $category;
+				}
+			}
+
+			// Count the number of unique categories.
+			$number_of_categories = count( $unique_categories );
+		} else {
+			$number_of_categories = 0;
+		}
+
+		global $wpdb;
+
+
+		$total_scanned_pages = get_option('gdpr_last_scan') . " Pages";
+
+
+		// Get the current selected policy name
+		$cookie_usage_for = $the_options['cookie_usage_for'];
+		$gdpr_policy = '';
+
+		if($cookie_usage_for == 'eprivacy'){
+			$gdpr_policy = 'ePrivacy';
+		}elseif($cookie_usage_for == 'both'){
+			$gdpr_policy = 'GDPR & CCPA';
+		}else{
+			$gdpr_policy = strtoupper($cookie_usage_for);
+		}
+		$last_scan_time = $cookie_scan_settings['last_scan']['created_at'];
+
+		return rest_ensure_response(
+			array(
+				'success' => true,
+				'last_scan_time'             	   => $last_scan_time,
+				'schedule_scan_when'               => isset( $the_options['schedule_scan_when'] ) ? $the_options['schedule_scan_when'] : null,
+				'is_user_connected'                => $is_user_connected,
+				'total_no_of_found_cookies'        => $total_no_of_found_cookies,
+				'total_scanned_pages'              => $total_scanned_pages,
+				'number_of_categories'             => $number_of_categories,
+				'wpl_cl_decline'                   => get_option( 'wpl_cl_decline' ),
+				'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
+				'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
+				'client_site_is_on'				   => $the_options['is_on'],
+				'client_site_url'                  => get_site_url(),
+				'cookie_usage_for'                 => $gdpr_policy,
+				'user_email_id'					   => $user_email_id,
+			)
+		);
+	}
+	// Register the REST API route for pie chart and cookie summary data from plugin to the saas appwplp server 
+
+	public function register_gdpr_dashboard_route() {
+		global $is_user_connected, $api_user_plan; // Make global variables accessible
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+		
+		$is_user_connected = $this->settings->is_connected();
+		$api_user_plan = $this->settings->get_plan();
+		
+
+		register_rest_route(
+			'gdpr/v2', // Namespace
+			'/get_user_dashboard_data', 
+			array(
+				'methods'  => 'POST',
+				'callback' => array($this, 'gdpr_send_data_to_dashboard_appwplp_server'), // Function to handle the request
+				'permission_callback' => function() use ($is_user_connected, $api_user_plan) {
+					// Check if user is connected and the API plan is valid
+					if ($is_user_connected && $api_user_plan == '10sites') {
+						return true; // Allow access
+					}
+					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
+				},
+			)
+		);
+		
+	}
 }

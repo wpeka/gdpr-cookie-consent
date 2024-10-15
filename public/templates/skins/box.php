@@ -427,6 +427,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	}
 }
 else if ( ! empty( $the_options['lgpd_notify'] ) ) {
+	$ab_options = get_option('wpl_ab_options');
 	?>
 	<div class="gdpr_messagebar_content">
 		<div class="gdpr_logo_container">
@@ -876,6 +877,7 @@ elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 	</div>
 	<?php
 } elseif ( ! empty( $the_options['eprivacy_notify'] ) ) {
+	$ab_options = get_option('wpl_ab_options');
 	?>
 	<div class="gdpr_messagebar_content">
 		

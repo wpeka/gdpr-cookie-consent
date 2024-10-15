@@ -420,55 +420,55 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						</c-col>
 					</c-row>
 					<v-modal :append-to="appendField" :based-on="show_script_blocker" @click="showScriptBlockerForm">
-					<div class="advanced-settings-wrapper">
-						<div class="advances-settings-tittle-bar">
-							<div class="advances-setting-tittle" slot="header"><?php esc_attr_e('Advanced Settings', 'gdpr-cookie-consent'); ?></div>
-							<img  @click="showScriptBlockerForm" class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Add new entry logo">
+						<div class="advanced-settings-wrapper">
+							<div class="advances-settings-tittle-bar">
+								<div class="advances-setting-tittle" slot="header"><?php esc_attr_e('Advanced Settings', 'gdpr-cookie-consent'); ?></div>
+								<img  @click="showScriptBlockerForm" class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Add new entry logo">
+							</div>
+							<c-card>
+							<c-card-body class="gdpr-script-blocker-table" v-if="scripts_list_total > 0">
+								<table class="advanced-settings-table-container">
+								<thead>
+									<tr scope="col" class="gdpr-script-blocker-header">
+									<th class="gdpr-cookie-consent-script-left"style="text-align: center;"><?php esc_attr_e('Enabled', 'gdpr-cookie-consent'); ?></th>
+									<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Name', 'gdpr-cookie-consent'); ?></th>
+									<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Description', 'gdpr-cookie-consent'); ?></th>
+									<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Category', 'gdpr-cookie-consent'); ?></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="script in scripts_list_data" :key="script['id']" :class="{'gdpr-script-blocker-data': true, 'gdpr-script-blocker-data-even': script['id'] % 2 === 0, 'gdpr-cookie-consent-script-blocker-row': true}">
+									<td class="col-sm-2" style="text-align: center;">
+										<c-switch
+										v-bind="labelIcon"
+										v-model="script['script_status']"
+										id="gdpr-cookie-consent-script-status"
+										variant="3d"
+										color="success"
+										:checked="script['script_status']"
+										@update:checked="onSwitchScriptBlocker(script['id'])"
+										></c-switch>
+										<input type="hidden" name="script_status" v-model="script['script_status']">
+									</td>
+									<td class="col-sm-3 gdpr-cookie-consent-script-left">{{ script['script_title'] }}</td>
+									<td class="col-sm-4 gdpr-cookie-consent-script-left">{{ script['script_description'] }}</td>
+									<td class="col-sm-3">
+										<v-select
+										class="form-group"
+										id="gdpr-cookie-consent-script-category"
+										:reduce="label => label.code + ',' + script['id']"
+										:options="category_list_options"
+										v-model="script['script_category_label']"
+										@input="onScriptCategorySelect"
+										></v-select>
+										<input type="hidden" name="script_category" v-model="script['script_category']">
+									</td>
+									</tr>
+								</tbody>
+								</table>
+							</c-card-body>
+							</c-card>
 						</div>
-						<c-card>
-						<c-card-body class="gdpr-script-blocker-table" v-if="scripts_list_total > 0">
-							<table class="advanced-settings-table-container">
-							<thead>
-								<tr scope="col" class="gdpr-script-blocker-header">
-								<th class="gdpr-cookie-consent-script-left"style="text-align: center;"><?php esc_attr_e('Enabled', 'gdpr-cookie-consent'); ?></th>
-								<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Name', 'gdpr-cookie-consent'); ?></th>
-								<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Description', 'gdpr-cookie-consent'); ?></th>
-								<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Category', 'gdpr-cookie-consent'); ?></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="script in scripts_list_data" :key="script['id']" :class="{'gdpr-script-blocker-data': true, 'gdpr-script-blocker-data-even': script['id'] % 2 === 0, 'gdpr-cookie-consent-script-blocker-row': true}">
-								<td class="col-sm-2" style="text-align: center;">
-									<c-switch
-									v-bind="labelIcon"
-									v-model="script['script_status']"
-									id="gdpr-cookie-consent-script-status"
-									variant="3d"
-									color="success"
-									:checked="script['script_status']"
-									@update:checked="onSwitchScriptBlocker(script['id'])"
-									></c-switch>
-									<input type="hidden" name="script_status" v-model="script['script_status']">
-								</td>
-								<td class="col-sm-3 gdpr-cookie-consent-script-left">{{ script['script_title'] }}</td>
-								<td class="col-sm-4 gdpr-cookie-consent-script-left">{{ script['script_description'] }}</td>
-								<td class="col-sm-3">
-									<v-select
-									class="form-group"
-									id="gdpr-cookie-consent-script-category"
-									:reduce="label => label.code + ',' + script['id']"
-									:options="category_list_options"
-									v-model="script['script_category_label']"
-									@input="onScriptCategorySelect"
-									></v-select>
-									<input type="hidden" name="script_category" v-model="script['script_category']">
-								</td>
-								</tr>
-							</tbody>
-							</table>
-						</c-card-body>
-						</c-card>
-					</div>
 					</v-modal>
 
 					<!-- Whitelist Scripts Card -->

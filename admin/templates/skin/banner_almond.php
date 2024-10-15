@@ -397,7 +397,7 @@
                                        class="vendor-all-switch-handler" 
                                        type="checkbox" 
                                        name="gdpr_messagebar_body_button" 
-                                       value=<?php echo esc_html( $data->allvendors ); ?>>
+                                       value="<?php echo esc_html( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
                                     <label for="gdpr_messagebar_body_button   ">
                                     <span class="label-text"></span>
                                     </label>

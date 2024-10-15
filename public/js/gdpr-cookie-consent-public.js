@@ -189,6 +189,17 @@ GDPR_CCPA_COOKIE_EXPIRE =
           button_revoke_consent_background_color;
       }
 
+      // bypassed consent.
+      window.addEventListener("load", function () {
+        const cancelImg = document.getElementById("cookie-banner-cancle-img");
+        if (cancelImg) {
+          cancelImg.onclick = function () {
+            GDPR.bypassed_close();
+            GDPR.logConsent("bypassed");
+          };
+        }
+      });
+
       // hide banner.
       window.addEventListener("load", function () {
         for (var id = 0; id < gdpr_select_pages.length; id++) {
@@ -3132,6 +3143,62 @@ GDPR_CCPA_COOKIE_EXPIRE =
       }
       return false;
     },
+
+    bypassed_close: function () {
+      GDPR.disableAllCookies();
+      if (
+        GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
+        !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
+      ) {
+        GDPR_Cookie.set(
+          GDPR_CCPA_COOKIE_NAME,
+          "unset",
+          GDPR_ACCEPT_COOKIE_EXPIRE
+        );
+        // this.check_ccpa_eu(true, true);
+      }
+      GDPR_Cookie.set(
+        GDPR_ACCEPT_COOKIE_NAME,
+        "unset",
+        GDPR_ACCEPT_COOKIE_EXPIRE
+      );
+      if (this.settings.notify_animate_hide) {
+        this.bar_elm.slideUp(
+          this.settings.animate_speed_hide,
+          GDPR_Blocker.runScripts
+        );
+      } else {
+        this.bar_elm.hide(GDPR_Blocker.runScripts);
+      }
+      if (this.settings.cookie_bar_as == "popup") {
+        $("#gdpr-popup").gdprmodal("hide");
+      }
+      this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+      if (
+        (this.settings.decline_reload == true && !browser_dnt_value) ||
+        (this.settings.decline_reload == true && gdpr_do_not_track == "false")
+      ) {
+        window.location.reload(true);
+      } else {
+        if (this.settings.cookie_usage_for == "both") {
+          if (GDPR.settings.cookie_bar_as == "popup") {
+            $("#gdpr-popup").gdprmodal("hide");
+          }
+          var insidebanner = document.getElementById("gdpr-cookie-consent-bar");
+          if (insidebanner) {
+            insidebanner.style.display = "none";
+          }
+          if (
+            GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
+            !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
+          ) {
+            this.check_ccpa_eu(true, true);
+          }
+        }
+      }
+      return false;
+    },
+
     logConsent: function (btn_action) {
       var self = this;
       setTimeout(function () {
@@ -3272,59 +3339,63 @@ GDPR_CCPA_COOKIE_EXPIRE =
             self.bar_elm.slideDown(self.settings.animate_speed_hide);
           }
         } else {
-          
           // Check if pages are selected to hide the banner
           var hideBanner = false;
 
-    if (gdpr_select_pages.length > 0) {
-      for (var id = 0; id < gdpr_select_pages.length; id++) {
-        var pageToHideBanner = gdpr_select_pages[id];
-        if (document.body.classList.contains("page-id-" + pageToHideBanner)) {
-            hideBanner = true; // Mark that the banner should be hidden on this page
-            
-            if (
-              GDPR.settings.cookie_usage_for == "gdpr" ||
-              GDPR.settings.cookie_usage_for == "eprivacy" ||
-              GDPR.settings.cookie_usage_for == "both" ||
-              GDPR.settings.cookie_usage_for == "lgpd"
-            ) {
-                var banner = document.getElementById("gdpr-cookie-consent-show-again");
-                var insidebanner = document.getElementById("gdpr-cookie-consent-bar");
-                
-                if (GDPR.settings.cookie_bar_as == "popup") {
+          if (gdpr_select_pages.length > 0) {
+            for (var id = 0; id < gdpr_select_pages.length; id++) {
+              var pageToHideBanner = gdpr_select_pages[id];
+              if (
+                document.body.classList.contains("page-id-" + pageToHideBanner)
+              ) {
+                hideBanner = true; // Mark that the banner should be hidden on this page
+
+                if (
+                  GDPR.settings.cookie_usage_for == "gdpr" ||
+                  GDPR.settings.cookie_usage_for == "eprivacy" ||
+                  GDPR.settings.cookie_usage_for == "both" ||
+                  GDPR.settings.cookie_usage_for == "lgpd"
+                ) {
+                  var banner = document.getElementById(
+                    "gdpr-cookie-consent-show-again"
+                  );
+                  var insidebanner = document.getElementById(
+                    "gdpr-cookie-consent-bar"
+                  );
+
+                  if (GDPR.settings.cookie_bar_as == "popup") {
                     $("#gdpr-popup").gdprmodal("hide");
-                }
-                if (banner || insidebanner) {
+                  }
+                  if (banner || insidebanner) {
                     banner.style.display = "none";
                     insidebanner.style.display = "none";
-                }
-            } else if (GDPR.settings.cookie_usage_for == "ccpa") {
-                if (GDPR.settings.cookie_bar_as == "popup") {
+                  }
+                } else if (GDPR.settings.cookie_usage_for == "ccpa") {
+                  if (GDPR.settings.cookie_bar_as == "popup") {
                     $("#gdpr-popup").gdprmodal("hide");
-                }
-                var insidebanner = document.getElementById("gdpr-cookie-consent-bar");
-                if (insidebanner) {
+                  }
+                  var insidebanner = document.getElementById(
+                    "gdpr-cookie-consent-bar"
+                  );
+                  if (insidebanner) {
                     insidebanner.style.display = "none";
+                  }
                 }
+                break; // Exit the loop once we find a page that hides the banner
+              }
             }
-            break; // Exit the loop once we find a page that hides the banner
-        }
-      }
-    }
+          }
 
-      // Show the banner if it is enabled and no pages are set to hide it
-      if (this.settings.auto_banner_initialize && !hideBanner) {
-          setTimeout(function () {
+          // Show the banner if it is enabled and no pages are set to hide it
+          if (this.settings.auto_banner_initialize && !hideBanner) {
+            setTimeout(function () {
+              self.bar_elm.show();
+            }, banner_delay);
+          }
+
+          if (!this.settings.auto_banner_initialize && !hideBanner) {
             self.bar_elm.show();
-          }, banner_delay);
-      }
-      
-      if (!this.settings.auto_banner_initialize  && !hideBanner ){
-        self.bar_elm.show();
-        
-      }
-      
-
+          }
         }
       }
 
