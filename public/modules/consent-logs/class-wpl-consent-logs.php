@@ -649,7 +649,6 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$viewed_cookie = isset( $cookies['wpl_viewed_cookie'] ) ? $cookies['wpl_viewed_cookie'] : '';
 
 					$wpl_user_preference = isset( $cookies['wpl_user_preference'] ) ? json_decode( $cookies['wpl_user_preference'] ) : '';
-
 					$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 					$tcString      = isset($cookies['wpl_tc_string']) ?  $cookies['wpl_tc_string'] : '';
 					$consent_status            = 'Unknown';
@@ -696,7 +695,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'<?php echo esc_attr( $consent_status ); ?>',
 					'<?php echo esc_attr( $tcString ); ?>',
 					'<?php echo esc_attr( $siteaddress ); ?>',
-					<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+					'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
 					)">Download</a>
 				</div>
 				<?php
@@ -868,7 +867,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_attr( $consent_status ); ?>',
 							'<?php echo esc_attr( $tcString ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
-								<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+							'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
 							)">Download</a>
 					</div>
 					<?php
@@ -1025,7 +1024,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_attr( $consent_status ); ?>',
 						'<?php echo esc_attr( $tcString ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
-							<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+						'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
 						)">Download</a>
 					</div>
 					<?php
@@ -1182,7 +1181,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_attr( $consent_status ); ?>',
 							'<?php echo esc_attr( $tcString ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
-							<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+							'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
 							)">Download</a>
 					</div>
 					<?php
@@ -1339,7 +1338,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_attr( $consent_status ); ?>',
 						'<?php echo esc_attr( $tcString ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
-						<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>,
+						'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
 						)">Download</a>
 					</div>
 					<?php
