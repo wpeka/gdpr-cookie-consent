@@ -111,7 +111,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
 					<?php echo esc_html( $text ); ?>:
 				</label>
-				<input placeholder="Search Consent Logs" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
+				<input placeholder="Search Consent Logs using IP address" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
 				<img id="search-logo-consent-log" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 				<?php
 				submit_button(
