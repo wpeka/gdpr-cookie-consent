@@ -109,6 +109,9 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
+			//For Import CSV option on Policy data page
+			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
+
 			
 		}
 		
@@ -1415,7 +1418,7 @@ class Gdpr_Cookie_Consent_Admin {
 						<div class="policy-data-heading-export">
 							<h1 class="wp-heading"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?></h1>
 							<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export As CSV', 'gdpr-cookie-consent' ); ?></a>
-							<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Import From CSV', 'gdpr-cookie-consent' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'edit.php?page=gdpr-policies-import' )); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Import From CSV', 'gdpr-cookie-consent' ); ?></a>
 							<a href="<?php echo esc_url_raw( admin_url( 'post-new.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Add New', 'gdpr-cookie-consent' ); ?></a>
 						</div>
 						<div class="policy-data-search-log"> 
@@ -8282,5 +8285,17 @@ class Gdpr_Cookie_Consent_Admin {
 			)
 		);
 		
+	}
+	//Function to register the Import CSV page - Policy data
+	function register_gdpr_policies_import_page() {
+		// This adds a page, even if it's not visible in the admin menu
+		add_submenu_page(
+			null,  // This makes the page hidden in the menu
+			__( 'GDPR Policies Import', 'gdpr-cookie-consent' ),
+			__( 'GDPR Policies Import', 'gdpr-cookie-consent' ),
+			'manage_options',  // Capability required
+			'gdpr-policies-import',
+			array( $this, 'gdpr_policies_import_page')
+		);
 	}
 }
