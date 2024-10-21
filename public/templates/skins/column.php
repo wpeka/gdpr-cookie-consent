@@ -58,20 +58,30 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 			}
 			if ( ! empty( $the_options['ccpa_notify'] ) ) {
 				?>
-				<p class="ccpa">
-				<?php echo wp_kses_post( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
-				<?php
-				if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
-					?>
-					<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>'" data-gdpr_action="donotsell" id="cookie_donotsell_link">
-					<?php
-					echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' );  // phpcs:ignore
-					?>
-				</a>
-					<?php
-				}
+				<?php 
+		if($the_options['cookie_usage_for'] == 'both') { ?>
+			<p class="ccpa"><?php echo wp_kses_post( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+			<?php
+			if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
 				?>
-				</p>
+				<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+				><?php echo esc_html__( $the_options['button_donotsell_text1'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
+				<?php
+			}
+			?>
+		</p>
+		<?php } else { ?>
+			<p class="ccpa"><?php echo wp_kses_post( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>	
+			<?php
+			if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
+				?>
+				<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+				><?php echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
+				<?php
+			}
+			?>
+		</p>
+			<?php } ?>
 				<?php
 			}
 			?>
@@ -494,17 +504,30 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 				?>
 				<p class="ccpa">
 				<?php echo wp_kses_post( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
-				<?php
-				if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
-					?>
-					<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>'" data-gdpr_action="donotsell" id="cookie_donotsell_link">
-					<?php
-					echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' );  // phpcs:ignore
-					?>
-				</a>
-					<?php
-				}
+				<?php 
+		if($the_options['cookie_usage_for'] == 'both') { ?>
+			<p class="ccpa"><?php echo wp_kses_post( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+			<?php
+			if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
 				?>
+				<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+				><?php echo esc_html__( $the_options['button_donotsell_text1'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
+				<?php
+			}
+			?>
+		</p>
+		<?php } else { ?>
+			<p class="ccpa"><?php echo wp_kses_post( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+			<?php
+			if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
+				?>
+				<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+				><?php echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
+				<?php
+			}
+			?>
+		</p>
+			<?php } ?>
 				</p>
 				<?php
 			}
@@ -895,21 +918,29 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 		?>
 		</div>
 
-			<p class="ccpa"><?php echo wp_kses_post( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
-
-		<?php
-		if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
+		<?php 
+		if($the_options['cookie_usage_for'] == 'both') { ?>
+			<?php
+			if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
+				?>
+				<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+				><?php echo esc_html__( $the_options['button_donotsell_text1'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
+				<?php
+			}
 			?>
-			<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
-					>
-					<?php
-					echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' ); //phpcs:ignore
-					?>
-	</a>
-								<?php
-		}
-		?>
-			</p>
+		</p>
+		<?php } else { ?>
+			<p class="ccpa"><?php echo wp_kses_post( $the_options['ccpa_str'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
+			<?php
+			if ( ! empty( $the_options['button_donotsell_is_on'] ) ) {
+				?>
+				<a data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+				><?php echo esc_html__( $the_options['button_donotsell_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
+				<?php
+			}
+			?>
+		</p>
+			<?php } ?>
 		</div>
 	</div>
 	<?php
