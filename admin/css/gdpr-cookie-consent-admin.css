@@ -1002,7 +1002,7 @@ ul.gdpr_sub_tab li:first-child {
   .gdpr-group-description
   p {
   margin: 0;
-  font-size: inherit;
+  /* font-size: inherit; */
   color: inherit;
 }
 .gdpr-templates-field-container .btn {
