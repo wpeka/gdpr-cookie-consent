@@ -2419,7 +2419,7 @@ var gen = new Vue({
       this.preview_preference = true;
       this.preview_unclassified = false;
     },
-    onSwitchPreviewUclassified() {
+    onSwitchPreviewUnclassified() {
       this.preview_necessary = false;
       this.preview_marketing = false;
       this.preview_analysis = false;
