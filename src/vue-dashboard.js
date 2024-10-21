@@ -321,28 +321,58 @@ var gen = new Vue({
         this.cookie_scanned = true;
       }
       let count_progress = 0;
-      if (!this.other_plugins_active) {
+      if (
+        !this.other_plugins_active &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
-      if (this.api_key_activated && this.cookie_scanned) {
+      if (
+        this.api_key_activated &&
+        this.cookie_scanned &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
       // increase progress when user is connected and scan performed.
       if (
         this.is_user_connected &&
         !this.pro_installed &&
-        this.cookie_scanned
+        this.cookie_scanned &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
       ) {
         count_progress++;
       }
-      if (this.showing_cookie_notice) {
+      if (
+        this.showing_cookie_notice &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
-      if (this.api_key_activated) {
+      if (
+        this.api_key_activated &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
       // increase progress when user is connected to the api.
-      if (this.is_user_connected && !this.pro_installed) {
+      if (
+        this.is_user_connected &&
+        !this.pro_installed &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
       if (
