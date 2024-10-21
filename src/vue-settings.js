@@ -2128,6 +2128,13 @@ var gen = new Vue({
       cookie_list_tab: true,
       discovered_cookies_list_tab: false,
       scan_history_list_tab: false,
+      preview_cookie_declaration: true,
+      preview_about_cookie: false,
+      preview_necessary: true,
+      preview_marketing: false,
+      preview_analysis: false,
+      preview_preference: false,
+      preview_unclassified: false,
     };
   },
 
@@ -2366,7 +2373,59 @@ var gen = new Vue({
         }
       }
     },
-
+    onClickPreviewCookieDeclaration() {
+      this.preview_cookie_declaration = true;
+      this.preview_about_cookie = false;
+      this.preview_necessary = true;
+      this.preview_marketing = false;
+      this.preview_analysis = false;
+      this.preview_preference = false;
+      this.preview_unclassified = false;
+    },
+    onClickPreviewAboutCookie() {
+      this.preview_about_cookie = true;
+      this.preview_cookie_declaration = false;
+      this.preview_necessary = false;
+      this.preview_marketing = false;
+      this.preview_analysis = false;
+      this.preview_preference = false;
+      this.preview_unclassified = false;
+    },
+    onSwitchPreviewNecessary() {
+      this.preview_necessary = true;
+      this.preview_marketing = false;
+      this.preview_analysis = false;
+      this.preview_preference = false;
+      this.preview_unclassified = false;
+    },
+    onSwitchPreviewMarketing() {
+      this.preview_necessary = false;
+      this.preview_marketing = true;
+      this.preview_analysis = false;
+      this.preview_preference = false;
+      this.preview_unclassified = false;
+    },
+    onSwitchPreviewAnalysis() {
+      this.preview_necessary = false;
+      this.preview_marketing = false;
+      this.preview_analysis = true;
+      this.preview_preference = false;
+      this.preview_unclassified = false;
+    },
+    onSwitchPreviewPreference() {
+      this.preview_necessary = false;
+      this.preview_marketing = false;
+      this.preview_analysis = false;
+      this.preview_preference = true;
+      this.preview_unclassified = false;
+    },
+    onSwitchPreviewUclassified() {
+      this.preview_necessary = false;
+      this.preview_marketing = false;
+      this.preview_analysis = false;
+      this.preview_preference = false;
+      this.preview_unclassified = true;
+    },
     onSwitchCookieEnable() {
       this.cookie_is_on = !this.cookie_is_on;
     },
