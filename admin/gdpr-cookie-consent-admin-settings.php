@@ -836,7 +836,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 						<h3 v-show="is_gdpr && !is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: multiple_legislation_cookie_font1 , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
 						<h3 v-show="is_lgpd" class="gdpr_heading_preview" :style="{ fontFamily: multiple_legislation_cookie_font1 , 'color': 'inherit' }">{{lgpd_message_heading}}</h3>
-						<h3 v-show="is_gdpr && is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: multiple_legislation_cookie_font1 , 'color': 'inherit'}">Heelo World {{gdpr_message_heading}}</h3>
+						<h3 v-show="is_gdpr && is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: multiple_legislation_cookie_font1 , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
 
 						<p v-show="is_gdpr" class="gdpr_preview" v-html="gdpr_message" :style="{ fontFamily: multiple_legislation_cookie_font1 }"><br v-show="widget_template == 'widget-almond_column' && show_cookie_as == 'widget' ">
 						<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: multiple_legislation_cookie_font1,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
@@ -6586,14 +6586,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							
 					</c-card>
 
-					<!-- Desgin Banner preview if A/B Testing is enabled and GDPR&CCPA both are selected-->
-					<c-card class=" desgin_card" v-show="ab_testing_enabled && gdpr_policy == 'both'">
-						<div>
-							<p>A/B testing is currently not supported when both GDPR and CCPA are selected. 
-							We recommend enabling either GDPR or CCPA to enable A/B testing if desired.
-						</p>
-						</div>
-					</c-card>
+					
 
 					
 				</c-tab>

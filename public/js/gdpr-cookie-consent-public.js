@@ -1497,8 +1497,8 @@ GDPR_CCPA_COOKIE_EXPIRE =
             this.settings.button_accept_link_color1
           );
           if (
-            this.settings.button_accept_as_button1 === true ||
-            this.settings.button_accept_as_button1 === "true"
+            this.settings.button_accept_as_button1 == true ||
+            this.settings.button_accept_as_button1 == "true"
           ) {
             var main_background = this.convertToHex(
               this.settings.button_accept_button_color1,
@@ -1539,8 +1539,8 @@ GDPR_CCPA_COOKIE_EXPIRE =
             this.settings.button_accept_all_link_color1
           );
           if (
-            this.settings.button_accept_all_as_button1 === true ||
-            this.settings.button_accept_all_as_button1 === "true"
+            this.settings.button_accept_all_as_button1 == true ||
+            this.settings.button_accept_all_as_button1 == "true"
           ) {
             var accept_all_background = this.convertToHex(
               this.settings.button_accept_all_button_color1,
@@ -1666,8 +1666,8 @@ GDPR_CCPA_COOKIE_EXPIRE =
             this.settings.button_decline_link_color1
           );
           if (
-            this.settings.button_decline_as_button1 === true ||
-            this.settings.button_decline_as_button1 === "true"
+            this.settings.button_decline_as_button1 == true ||
+            this.settings.button_decline_as_button1 == "true"
           ) {
             var decline_background = this.convertToHex(
               this.settings.button_decline_button_color1,

@@ -8723,3 +8723,16 @@ input.vs__search {
   justify-content: center;
   align-items: center;
 }
+
+#gdpr-cookie-consent-settings-app
+  .gdpr-cookie-consent-settings-container
+  .gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .tab-content
+  .card
+  .card-body
+  .row
+  .col.col-sm-5
+  .do-not-show-ab-testing-text {
+  color: #ce8e8e;
+}
