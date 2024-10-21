@@ -6766,6 +6766,20 @@ class Gdpr_Cookie_Consent_Admin {
 						}
 
 						if ( -1 != $category_i_d ) {
+							// First, ensure the table has the correct character set and collation (utf8mb4).
+							
+							$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
+							
+							// Check if the table exists and get the current collation.
+							$charset_check = $wpdb->get_row( "SHOW TABLE STATUS LIKE '$table_name'" );
+							
+							// If the table exists and the collation is not utf8mb4_unicode_ci, alter the table.
+							if ( isset( $charset_check->Collation ) && $charset_check->Collation !== 'utf8mb4_unicode_ci' ) {
+								$alter_table_sql = "ALTER TABLE `$table_name`
+													CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
+								$wpdb->query( $alter_table_sql );
+							}
+
 							// Update the table with the translated values.
 							$wpdb->query(
 								$wpdb->prepare(
