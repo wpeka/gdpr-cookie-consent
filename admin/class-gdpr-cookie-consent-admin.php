@@ -7852,7 +7852,9 @@ class Gdpr_Cookie_Consent_Admin {
 				'is_user_connected'          => $is_user_connected,
 				'background'                 => $template_parts_background,
 				'button_accept_button_color' => $the_options['button_accept_button_color'],
-				'is_iabtcf_on' => $the_options['is_iabtcf_on']
+				'is_iabtcf_on'               => $the_options['is_iabtcf_on'],
+				'cookie_bar_as'			     => $the_options['cookie_bar_as'],
+				'button_settings_as_popup'	 =>$the_options['button_settings_as_popup'],
 			)
 		);
 		?>
