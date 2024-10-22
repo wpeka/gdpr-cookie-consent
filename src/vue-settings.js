@@ -93,6 +93,7 @@ var gen = new Vue({
       confirm_button_popup2: false,
       cancel_button_popup2: false,
       opt_out_link_popup2: false,
+      show_more_cookie_design_popup:false,
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
       scan_in_progress: false,
@@ -886,7 +887,6 @@ var gen = new Vue({
           1 == settings_obj.the_options["default_cookie_bar"])
           ? true
           : false,
-
       active_test_banner_tab:
         settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
         (true == settings_obj.the_options["default_cookie_bar"] ||
@@ -894,6 +894,95 @@ var gen = new Vue({
           1 == settings_obj.the_options["default_cookie_bar"])
           ? 1
           : 2,
+      // Multiple Legislation Data
+      active_default_multiple_legislation: 'gdpr',
+      multiple_legislation_cookie_bar_color1: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_bar_color1"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_bar_color1"]
+        : "#ffffff",
+      multiple_legislation_cookie_bar_color2: settings_obj.the_options.hasOwnProperty(
+          "multiple_legislation_cookie_bar_color2"
+        )
+          ? settings_obj.the_options["multiple_legislation_cookie_bar_color2"]
+          : "#ffffff",
+      multiple_legislation_cookie_bar_opacity1: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_bar_opacity1"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_bar_opacity1"]
+        : "0.80",
+      multiple_legislation_cookie_bar_opacity2: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_bar_opacity2"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_bar_opacity2"]
+        : "0.80",
+      multiple_legislation_cookie_text_color1: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_text_color1"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_text_color1"]
+        : "#000000",
+      multiple_legislation_cookie_text_color2: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_text_color2"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_text_color2"]
+        : "#000000",
+        multiple_legislation_border_style1: settings_obj.the_options.hasOwnProperty(
+          "multiple_legislation_border_style1"
+        )
+          ? settings_obj.the_options["multiple_legislation_border_style1"]
+          : "none",
+      multiple_legislation_border_style2: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_border_style2"
+      )
+        ? settings_obj.the_options["multiple_legislation_border_style2"]
+        : "none",
+      multiple_legislation_cookie_bar_border_width1: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_bar_border_width1"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_bar_border_width1"]
+        : "0",
+      multiple_legislation_cookie_bar_border_width2: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_bar_border_width2"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_bar_border_width2"]
+        : "0",
+      multiple_legislation_cookie_border_color1: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_border_color1"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_border_color1"]
+        : "#ffffff",
+      multiple_legislation_cookie_border_color2: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_border_color2"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_border_color2"]
+        : "#ffffff",
+      multiple_legislation_cookie_bar_border_radius1: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_bar_border_radius1"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_bar_border_radius1"]
+        : "0",
+      multiple_legislation_cookie_bar_border_radius2: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_bar_border_radius2"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_bar_border_radius2"]
+        : "0",
+      multiple_legislation_cookie_font1: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_font1"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_font1"]
+        : "inherit",
+      multiple_legislation_cookie_font2: settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_cookie_font2"
+      )
+        ? settings_obj.the_options["multiple_legislation_cookie_font2"]
+        : "inherit",
+      multiple_legislation_accept_all_border_radius1 : settings_obj.the_options.hasOwnProperty(
+        "multiple_legislation_accept_all_border_radius1"
+      ) 
+      ? settings_obj.the_options["multiple_legislation_accept_all_border_radius1"]
+      : "0",
+        
+
       cookie_bar_color1: settings_obj.the_options.hasOwnProperty(
         "cookie_bar_color1"
       )
@@ -2725,6 +2814,8 @@ var gen = new Vue({
         if (this.banner_template == "banner-dark_row") {
           this.cookie_bar_color = "#323742";
           this.cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color2 = "#323742";
           this.cookie_bar_color2 = "#323742";
           this.accept_background_color = "#3EAF9A";
           this.accept_all_background_color = "#3EAF9A";
@@ -2739,6 +2830,8 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.accept_background_color1 = "#3EAF9A";
           this.accept_all_background_color1 = "#3EAF9A";
@@ -2772,10 +2865,14 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#306189";
           this.button_revoke_consent_background_color = "#E8DDBB";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_text_color1 = "#ffffff";
           this.cookie_text_color2 = "#111111";
           this.accept_text_color2 = "#ffffff";
           this.cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -2797,10 +2894,14 @@ var gen = new Vue({
           this.settings_background_color = "#252525";
           jQuery(".gdpr_preview").css("color", "rgb(30, 61, 89)");
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_text_color1 = "#ffffff";
           this.cookie_text_color2 = "#111111";
           this.accept_text_color2 = "#ffffff";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -2830,7 +2931,10 @@ var gen = new Vue({
           this.settings_style = "none";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.cookie_text_color1 = "#1E3D59";
+          this.multiple_legislation_cookie_text_color1 = '#1E3D59';
           this.accept_background_color1 = "#E14469";
           this.accept_all_background_color1 = "#E14469";
           this.accept_text_color1 = "#ffffff";
@@ -2859,8 +2963,11 @@ var gen = new Vue({
           this.settings_border_color = "#FFFFFF";
           this.settings_style = "solid";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#252525";
@@ -2890,7 +2997,11 @@ var gen = new Vue({
           this.settings_background_color = "#007CBA";
           this.settings_style = "none";
           this.cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_background_color1 = "#66CC66";
           this.accept_all_background_color1 = "#66CC66";
           this.decline_background_color1 = "#EF5454";
@@ -2898,6 +3009,8 @@ var gen = new Vue({
           this.settings_style1 = "none";
           this.cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_background_color2 = "#66CC66";
           this.accept_all_background_color2 = "#66CC66";
           this.decline_background_color2 = "#EF5454";
@@ -2917,7 +3030,10 @@ var gen = new Vue({
           this.settings_border_color = "#808080";
           this.settings_style = "solid";
           this.cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color2 = "#262626";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#6A8EE7";
           this.accept_all_background_color1 = "#6A8EE7";
           this.decline_background_color1 = "#808080";
@@ -2962,7 +3078,10 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
           this.cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color2 = "#323742";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#3EAF9A";
           this.accept_all_background_color1 = "#3EAF9A";
           this.decline_background_color1 = "#333333";
@@ -2973,6 +3092,8 @@ var gen = new Vue({
           this.decline_style1 = "none";
           this.settings_text_color1 = "#3EAF9A";
           this.cookie_bar_border_radius1 = "0";
+          this.multiple_legislation_cookie_bar_border_radius1 = "0";
+          this.multiple_legislation_cookie_bar_border_radius2 = "0";
           this.cookie_bar_color2 = "#323742";
           this.cookie_text_color2 = "#ffffff";
           this.accept_background_color2 = "#3EAF9A";
@@ -2997,7 +3118,10 @@ var gen = new Vue({
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
           this.cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -3033,10 +3157,14 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_text_color1 = "#ffffff";
           this.cookie_text_color2 = "#111111";
           this.accept_text_color2 = "#ffffff";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -3067,7 +3195,10 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.cookie_text_color1 = "#1E3D59";
+          this.multiple_legislation_cookie_text_color1 = '#1E3D59';
           this.accept_background_color1 = "#E14469";
           this.accept_all_background_color1 = "#E14469";
           this.accept_text_color1 = "#ffffff";
@@ -3105,8 +3236,11 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#252525";
@@ -3141,7 +3275,11 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
           this.cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_background_color1 = "#66CC66";
           this.accept_all_background_color1 = "#66CC66";
           this.decline_background_color1 = "#EF5454";
@@ -3171,7 +3309,10 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
           this.cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color2 = "#262626";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#6A8EE7";
           this.accept_all_background_color1 = "#6A8EE7";
           this.decline_background_color1 = "#808080";
@@ -3213,8 +3354,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#252525";
@@ -3251,8 +3395,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#2A3E71";
@@ -3293,7 +3440,10 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
           this.cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color2 = "#323742";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#3EAF9A";
           this.accept_all_background_color1 = "#3EAF9A";
           this.decline_background_color1 = "#333333";
@@ -3330,7 +3480,10 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#306189";
           this.button_revoke_consent_background_color = "#E8DDBB";
           this.cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -3364,10 +3517,14 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_text_color1 = "#ffffff";
           this.cookie_text_color2 = "#111111";
           this.accept_text_color2 = "#ffffff";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -3400,7 +3557,10 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.cookie_text_color1 = "#1E3D59";
+          this.multiple_legislation_cookie_text_color1 = '#1E3D59';
           this.accept_background_color1 = "#E14469";
           this.accept_all_background_color1 = "#E14469";
           this.accept_text_color1 = "#ffffff";
@@ -3436,8 +3596,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#252525";
@@ -3472,7 +3635,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_background_color1 = "#66CC66";
           this.accept_all_background_color1 = "#66CC66";
           this.decline_background_color1 = "#EF5454";
@@ -3502,7 +3669,10 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
           this.cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color2 = "#262626";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#6A8EE7";
           this.accept_all_background_color1 = "#6A8EE7";
           this.decline_background_color1 = "#808080";
@@ -3544,8 +3714,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#252525";
@@ -3582,8 +3755,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#2A3E71";
@@ -3724,6 +3900,13 @@ var gen = new Vue({
     },
     onSwitchDefaultCookieBar() {
       this.default_cookie_bar = !this.default_cookie_bar;
+    },
+    onSwitchDefaultMultipleLegislation() {
+      if(this.active_default_multiple_legislation === 'gdpr') {
+        this.active_default_multiple_legislation = 'ccpa';
+      } else {
+        this.active_default_multiple_legislation = 'gdpr';
+      }
     },
     onSwitchAddOverlay() {
       this.cookie_add_overlay = !this.cookie_add_overlay;
@@ -4237,12 +4420,23 @@ var gen = new Vue({
       this.cancel_border_color = "#333333";
       this.cancel_border_radius = "0";
       this.cookie_bar_color1 = "#ffffff";
+      this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
+      this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
       this.cookie_bar_opacity1 = "0.80";
       this.cookie_bar_border_width1 = "0";
+      this.multiple_legislation_cookie_bar_border_width1 = "0";
+      this.multiple_legislation_cookie_bar_border_width2 = "0";
       this.cookie_font1 = "inherit";
+      this.multiple_legislation_cookie_font1 = "inherit";
+      this.multiple_legislation_cookie_font2 = "inherit";
       this.cookie_text_color1 = "#000000";
+      this.multiple_legislation_cookie_text_color1 = '#000000';
       this.border_style1 = "none";
+      this.multiple_legislation_border_style1 = "none";
+      this.multiple_legislation_border_style2 = "none";
       this.cookie_border_color1 = "#ffffff";
+      this.multiple_legislation_cookie_border_color1 = '#ffffff';
+      this.multiple_legislation_cookie_border_color2 = '#ffffff';
       this.cookie_bar_border_radius1 = "0";
       this.accept_text1 = "Accept";
       this.accept_url1 = "#";
@@ -4325,6 +4519,8 @@ var gen = new Vue({
       this.cookie_font2 = "inherit";
       this.cookie_text_color2 = "#000000";
       this.cookie_bar_opacity2 = "0.80";
+      this.multiple_legislation_cookie_bar_opacity1 = "0.80";
+      this.multiple_legislation_cookie_bar_opacity2 = "0.80";
       this.cookie_bar_border_width2 = "0";
       this.border_style2 = "none";
       this.cookie_border_color2 = "#ffffff";
@@ -4485,6 +4681,7 @@ var gen = new Vue({
       this.show_Select_Country = false;
       this.cookie_font1 = "inherit";
       this.cookie_text_color1 = "#000000";
+      this.multiple_legislation_cookie_text_color1 = '#000000';
       this.cookie_font2 = "inherit";
       this.cookie_text_color2 = "#000000";
       this.cookie_list_tab = true;
@@ -4537,6 +4734,15 @@ var gen = new Vue({
     changeActiveTestBannerTabTo2() {
       if (this.active_test_banner_tab === 1) this.active_test_banner_tab = 2;
     },
+
+    // Multiple Legislation Default Settings
+    changeActiveMultipleLegislationToGDPR() {
+      if (this.active_default_multiple_legislation === 'ccpa') this.active_default_multiple_legislation = 'gdpr';
+    },
+    changeActiveMultipleLegislationToCCPA() {
+      if (this.active_default_multiple_legislation === 'gdpr') this.active_default_multiple_legislation = 'ccpa';
+    },
+    
     onChangeCookieListTab() {
       this.cookie_list_tab = true;
       this.discovered_cookies_list_tab = false;
@@ -5870,7 +6076,6 @@ var gen = new Vue({
   },
   mounted() {
     j("#gdpr-before-mount").css("display", "none");
-
     if (settings_obj.is_user_connected) {
       if (performance.navigation.type !== 1) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -7752,6 +7957,7 @@ var gen = new Vue({
         ? settings_obj.the_options["button_donotsell_link_color2"]
         : "#359bf5",
 
+      
       is_script_blocker_on:
         settings_obj.the_options.hasOwnProperty("is_script_blocker_on") &&
         (true === settings_obj.the_options["is_script_blocker_on"] ||
@@ -8546,6 +8752,8 @@ var gen = new Vue({
         if (this.banner_template == "banner-dark_row") {
           this.cookie_bar_color = "#323742";
           this.cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color1 = '#323742';
+          this.multiple_legislation_cookie_bar_color2 = '#323742';
           this.cookie_bar_color2 = "#323742";
           this.accept_background_color = "#3EAF9A";
           this.accept_all_background_color = "#3EAF9A";
@@ -8560,6 +8768,7 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.accept_background_color1 = "#3EAF9A";
           this.accept_all_background_color1 = "#3EAF9A";
@@ -8593,10 +8802,14 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#306189";
           this.button_revoke_consent_background_color = "#E8DDBB";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_text_color1 = "#ffffff";
           this.cookie_text_color2 = "#111111";
           this.accept_text_color2 = "#ffffff";
           this.cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color1 = '#E8DDBB';
+          this.multiple_legislation_cookie_bar_color2 = '#E8DDBB';
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -8618,10 +8831,14 @@ var gen = new Vue({
           this.settings_background_color = "#252525";
           jQuery(".gdpr_preview").css("color", "rgb(30, 61, 89)");
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_text_color1 = "#ffffff";
           this.cookie_text_color2 = "#111111";
           this.accept_text_color2 = "#ffffff";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = '#F4F4F4';
+          this.multiple_legislation_cookie_bar_color2 = '#F4F4F4';
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -8651,7 +8868,10 @@ var gen = new Vue({
           this.settings_style = "none";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = '#F4F4F4';
+          this.multiple_legislation_cookie_bar_color2 = '#F4F4F4';
           this.cookie_text_color1 = "#1E3D59";
+          this.multiple_legislation_cookie_text_color1 = '#1E3D59';
           this.accept_background_color1 = "#E14469";
           this.accept_all_background_color1 = "#E14469";
           this.accept_text_color1 = "#ffffff";
@@ -8680,8 +8900,11 @@ var gen = new Vue({
           this.settings_border_color = "#FFFFFF";
           this.settings_style = "solid";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = '#2A3E71';
+          this.multiple_legislation_cookie_bar_color2 = '#2A3E71';
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#252525";
@@ -8711,7 +8934,11 @@ var gen = new Vue({
           this.settings_background_color = "#007CBA";
           this.settings_style = "none";
           this.cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_background_color1 = "#66CC66";
           this.accept_all_background_color1 = "#66CC66";
           this.decline_background_color1 = "#EF5454";
@@ -8719,6 +8946,8 @@ var gen = new Vue({
           this.settings_style1 = "none";
           this.cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_background_color2 = "#66CC66";
           this.accept_all_background_color2 = "#66CC66";
           this.decline_background_color2 = "#EF5454";
@@ -8738,7 +8967,10 @@ var gen = new Vue({
           this.settings_border_color = "#808080";
           this.settings_style = "solid";
           this.cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color2 = "#262626";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#6A8EE7";
           this.accept_all_background_color1 = "#6A8EE7";
           this.decline_background_color1 = "#808080";
@@ -8783,7 +9015,10 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
           this.cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color2 = "#323742";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#3EAF9A";
           this.accept_all_background_color1 = "#3EAF9A";
           this.decline_background_color1 = "#333333";
@@ -8818,7 +9053,10 @@ var gen = new Vue({
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
           this.cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -8854,10 +9092,14 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_text_color1 = "#ffffff";
           this.cookie_text_color2 = "#111111";
           this.accept_text_color2 = "#ffffff";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -8888,7 +9130,10 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.cookie_text_color1 = "#1E3D59";
+          this.multiple_legislation_cookie_text_color1 = '#1E3D59';
           this.accept_background_color1 = "#E14469";
           this.accept_all_background_color1 = "#E14469";
           this.accept_text_color1 = "#ffffff";
@@ -8926,8 +9171,11 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#252525";
@@ -8962,7 +9210,11 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
           this.cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_background_color1 = "#66CC66";
           this.accept_all_background_color1 = "#66CC66";
           this.decline_background_color1 = "#EF5454";
@@ -8992,7 +9244,10 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
           this.cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color2 = "#262626";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#6A8EE7";
           this.accept_all_background_color1 = "#6A8EE7";
           this.decline_background_color1 = "#808080";
@@ -9034,8 +9289,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#252525";
@@ -9072,8 +9330,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#2A3E71";
@@ -9114,7 +9375,10 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
           this.cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color1 = "#323742";
+          this.multiple_legislation_cookie_bar_color2 = "#323742";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#3EAF9A";
           this.accept_all_background_color1 = "#3EAF9A";
           this.decline_background_color1 = "#333333";
@@ -9151,7 +9415,10 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#306189";
           this.button_revoke_consent_background_color = "#E8DDBB";
           this.cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
+          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -9185,10 +9452,14 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_text_color1 = "#ffffff";
           this.cookie_text_color2 = "#111111";
           this.accept_text_color2 = "#ffffff";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.accept_background_color1 = "#DE7834";
           this.accept_all_background_color1 = "#DE7834";
           this.decline_background_color1 = "#252525";
@@ -9221,7 +9492,10 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
+          this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.cookie_text_color1 = "#1E3D59";
+          this.multiple_legislation_cookie_text_color1 = '#1E3D59';
           this.accept_background_color1 = "#E14469";
           this.accept_all_background_color1 = "#E14469";
           this.accept_text_color1 = "#ffffff";
@@ -9257,8 +9531,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#252525";
@@ -9293,7 +9570,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
+          this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
+          this.multiple_legislation_cookie_text_color1 = '#111111';
+          this.multiple_legislation_cookie_text_color2 = '#111111';
           this.accept_background_color1 = "#66CC66";
           this.accept_all_background_color1 = "#66CC66";
           this.decline_background_color1 = "#EF5454";
@@ -9323,7 +9604,10 @@ var gen = new Vue({
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
           this.cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color2 = "#262626";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_background_color1 = "#6A8EE7";
           this.accept_all_background_color1 = "#6A8EE7";
           this.decline_background_color1 = "#808080";
@@ -9365,8 +9649,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#252525";
@@ -9403,8 +9690,11 @@ var gen = new Vue({
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = '#ffffff';
           this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
+          this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#2A3E71";
