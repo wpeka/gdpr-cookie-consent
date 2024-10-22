@@ -8738,7 +8738,7 @@ input.vs__search {
   .col.col-sm-5
   .do-not-show-ab-testing-text {
   color: #ce8e8e;
-=======
+}
 .gdpr_messagebar_body_heading_extended {
   border-top: 1px solid rgb(102, 102, 102);
   margin-top: 37px;
@@ -9018,5 +9018,4 @@ input.vs__search {
 .banner-dark_preview
   .gdpr_messagebar_detail_body_content_overview_cookie_container_type_details_extended_active {
   background-color: rgb(34, 34, 34) !important;
-
 }
