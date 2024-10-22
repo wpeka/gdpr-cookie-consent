@@ -805,6 +805,7 @@ ul.gdpr_sub_tab li:first-child {
 }
 .gdpr-templates-field-container .gdpr-template-field {
   margin: 10px 0;
+  margin-left: 49px;
 }
 .gdpr-templates-field-container .gdpr-template-field .gdpr-left-field,
 .gdpr-templates-field-container .gdpr-template-field .gdpr-right-field {
@@ -8047,6 +8048,7 @@ button.btn.gdpr-renew-now-btn.pro,
 .gdpr-cookie-consent-banner-tabs {
   display: flex;
   padding: 1rem;
+  padding-top: 28px;
 }
 .gdpr-cookie-consent-banner-tabs .gdpr-cookie-consent-banner-tab {
   display: flex;

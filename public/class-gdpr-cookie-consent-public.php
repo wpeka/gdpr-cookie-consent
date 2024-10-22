@@ -929,7 +929,8 @@ class Gdpr_Cookie_Consent_Public {
 				'consent_forwarding'      					=> $the_options['consent_forward'],
 				'button_revoke_consent_text_color' 			=> $the_options['button_revoke_consent_text_color'],
 				'button_revoke_consent_background_color'	=> $the_options['button_revoke_consent_background_color'],
-				'chosenBanner'								=> $chosenBanner
+				'chosenBanner'								=> $chosenBanner,
+				'is_iabtcf_on'                              => $the_options['is_iabtcf_on']
 			);
 
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );

@@ -127,6 +127,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
   var button_revoke_consent_background_color =
     gdpr_cookies_obj.button_revoke_consent_background_color;
   var chosenBanner = gdpr_cookies_obj.chosenBanner;
+  var is_iab_on = gdpr_cookies_obj.is_iabtcf_on;
 
   var browser_dnt_value = "";
   // Set the browser DNT value
@@ -3787,10 +3788,12 @@ GDPR_CCPA_COOKIE_EXPIRE =
       "background-color",
       background_obj.background
     );
-    $(".gdpr_messagebar_detail.layout-default  .category-group.outer").css(
-      "border-left",
-      "1px solid " + GDPR.settings.button_accept_button_color
-    );
+    if (is_iab_on) {
+      $(".gdpr_messagebar_detail.layout-default  .category-group.outer").css(
+        "border-left",
+        "1px solid " + GDPR.settings.button_accept_button_color
+      );
+    }
     $(
       ".gdpr_messagebar_detail.layout-default.dark_row  .category-group.outer"
     ).css("border-left", "1px solid #73DBC0");
