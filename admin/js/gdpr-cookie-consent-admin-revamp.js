@@ -6,6 +6,8 @@ jQuery(document).ready(function () {
   const adminUrl = gdpr_localize_data.admin_url;
   const ajaxurl = gdpr_localize_data.ajaxurl;
   const is_user_connected = gdpr_localize_data.is_user_connected;
+  const cookie_bar_as = gdpr_localize_data.cookie_bar_as;
+  const button_settings_as_popup = gdpr_localize_data.button_settings_as_popup;
   if (!isProActivated) {
     jQuery(".gdpr-cookie-consent-admin-tabs-section").addClass(
       "pro-is-activated"
@@ -450,7 +452,11 @@ jQuery(document).ready(function () {
    */
   jQuery(".gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
   jQuery(".cookie-consent-upgrade-to-pro-banner").on("click", gdprPaidAuth);
-  jQuery(document).on("click", ".gdpr-mascot-quick-links-item-upgrade", gdprPaidAuth);
+  jQuery(document).on(
+    "click",
+    ".gdpr-mascot-quick-links-item-upgrade",
+    gdprPaidAuth
+  );
   /**
    * Store the Authentication Data
    * @param {*} data
@@ -621,42 +627,58 @@ jQuery(document).ready(function () {
   /**
    * cookie settings perferences functionality
    */
-  jQuery(document).ready(function ($) {
-    $(".gpdr_cookie_settings_btn").on("click", function (e) {
-      e.preventDefault();
-      // Fade out the div to the bottom
-      $("#banner-preview-main-container").animate(
-        {
-          opacity: 0,
-          height: "toggle",
-        },
-        "fast",
-        function () {
-          // Animation complete
-          // You can add any additional actions here if needed
+  if (button_settings_as_popup == 1 && cookie_bar_as == "banner") {
+    jQuery(document).ready(function ($) {
+      jQuery(document).ready(function ($) {
+        $(".gpdr_cookie_settings_btn").on("click", function (e) {
+          e.preventDefault();
+          // Fade out the div to the bottom
+          $("#banner-preview-main-container").animate(
+            {
+              opacity: 0,
+              height: "toggle",
+            },
+            "fast",
+            function () {
+              // Animation complete
+              // You can add any additional actions here if needed
+            }
+          );
+          $(".gdpr_messagebar_detail").removeClass("hide-popup");
+          $(".gdpr_messagebar_detail").fadeIn("slow");
+        });
+
+        // Handle close button click
+        $(".gdpr_action_button.close").on("click", function (e) {
+          e.preventDefault();
+          // Fade out the .gdpr_messagebar_detail
+          $(".gdpr_messagebar_detail").fadeOut("fast", function () {});
+          $("#banner-preview-main-container").animate(
+            {
+              opacity: 1,
+              height: "toggle",
+            },
+            "slow"
+          );
+        });
+      });
+    });
+  } else {
+    // else block for extended banner functionality.
+    jQuery(document).ready(function ($) {
+      var is_cookie_setting_clicked = false;
+      jQuery(".gpdr_cookie_settings_btn").on("click", function (e) {
+        e.preventDefault();
+        if (!is_cookie_setting_clicked) {
+          jQuery(".gdpr_messagebar_detail").removeClass("hide-extended-banner");
+          is_cookie_setting_clicked = true;
+        } else {
+          jQuery(".gdpr_messagebar_detail").addClass("hide-extended-banner");
+          is_cookie_setting_clicked = false;
         }
-      );
-
-      $(".gdpr_messagebar_detail").removeClass("hide-popup");
-
-      // Fade in the .gdpr_messagebar_detail element
-      $(".gdpr_messagebar_detail").fadeIn("slow");
+      });
     });
-
-    // Handle close button click
-    $(".gdpr_action_button.close").on("click", function (e) {
-      e.preventDefault();
-      // Fade out the .gdpr_messagebar_detail
-      $(".gdpr_messagebar_detail").fadeOut("fast", function () {});
-      $("#banner-preview-main-container").animate(
-        {
-          opacity: 1,
-          height: "toggle",
-        },
-        "slow"
-      );
-    });
-  });
+  }
 
   jQuery(document).ready(function ($) {
     $("#cookie_action_settings_preview").click(function () {
