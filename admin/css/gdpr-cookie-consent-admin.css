@@ -8609,13 +8609,16 @@ input.vs__search {
 
 /* Show More Cookie Template Design Modal CSS */
 .card-body.show-more-modal-card-container {
+  width: 100%;
   padding: 0px;
 }
 
 .show-more-modal-card-container-column {
+  width: 100%;
   display: flex;
-  justify-content: center;
-  margin-left: 6rem;
+  justify-content: flex-end;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .more-design-modal-container .modal-content {
@@ -8642,6 +8645,8 @@ input.vs__search {
 }
 
 .more-design-modal-container .modal-content .modal-body .row {
+  width: 100%;
+  padding: 25px 0px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 34px;
@@ -8698,6 +8703,15 @@ input.vs__search {
   flex: 1;
 }
 
+.show-more-design-text {
+  color: #024f86;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .modal-right-field-content-column {
   display: flex;
   gap: 10px;
@@ -8707,6 +8721,13 @@ input.vs__search {
 .modal-right-field-content-square {
   display: flex;
   flex-direction: column;
+}
+
+.modal-template-field.gdpr-banner-default .modal-right-field,
+.modal-template-field.gdpr-popup-default .modal-right-field,
+.modal-template-field.gdpr-widget-default .modal-right-field {
+  box-shadow: 0px 0.25px 3.88px 0px #042a4b0e;
+  box-shadow: 0px 2px 20px 0px #042a4b1c;
 }
 
 .modal-template-field.gdpr-popup-navy_blue_box
