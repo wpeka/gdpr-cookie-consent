@@ -374,7 +374,7 @@
                      </ul>
                      <ul class="category-group vendor-group tabContainer">
                         <?php
-                           $vendors = ["Third Party Vendors"];
+                           $vendors = ["IAB Certied Third Party Vendors"];
                            foreach ( $vendors as $vendor ) {
                            ?>
                         <li class="category-item">
@@ -394,7 +394,7 @@
                                        class="vendor-all-switch-handler" 
                                        type="checkbox" 
                                        name="gdpr_messagebar_body_button" 
-                                       value=<?php echo esc_html( $data->allvendors ); ?>>
+                                       value="<?php echo esc_html( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
                                     <label for="gdpr_messagebar_body_button">
                                     <span class="label-text"></span>
                                     </label>
@@ -543,7 +543,7 @@
 						if($the_options['is_gacm_on']==="true" || $the_options['is_gacm_on'] === true) {?>
 							<ul class="category-group vendor-group tabContainer">
 							<?php
-						    $vendors = ["GACM certified Third Party Vendors"];
+						    $vendors = ["Google Ad Technology Providers"];
 							foreach ( $vendors as $vendor ) {
 										?>
 										

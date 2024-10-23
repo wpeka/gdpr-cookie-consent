@@ -415,7 +415,7 @@
 						</ul>
 						<ul class="category-group vendor-group tabContainer">
 							<?php
-						    $vendors = ["IAB certified Third Party Vendors"];
+						    $vendors = ["IAB Certified Third Party Vendors"];
 							foreach ( $vendors as $vendor ) {
 										?>
 										
@@ -436,7 +436,7 @@
 															class="vendor-all-switch-handler" 
 															type="checkbox" 
 															name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
-															value=<?php echo esc_html( $data->allvendors ); ?>>
+															value="<?php echo esc_html( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
 															<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 																<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
 															</label>
@@ -622,7 +622,7 @@
 						if($the_options['is_gacm_on']==="true" || $the_options['is_gacm_on'] === true) {?>
 							<ul class="category-group vendor-group tabContainer">
 							<?php
-						    $vendors = ["GACM certified Third Party Vendors"];
+						    $vendors = ["Google's Ad Tech Providers"];
 							foreach ( $vendors as $vendor ) {
 										?>
 										

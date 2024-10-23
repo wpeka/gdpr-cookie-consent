@@ -27,11 +27,11 @@ table.gdpr_script_items tr:nth-child(odd) td {
   color: red;
 }
 .gdpr_progress_bar {
-  background: #f1f1f1;
+  background: rgba(230, 242, 254, 1);
 }
-.gdpr_progress_bar_inner {
+/* .gdpr_progress_bar_inner {
   background: #0085ba;
-}
+} */
 .post-cookie-list div.right input:disabled,
 .scan-cookie-list div.right input:disabled,
 .add-cookie div.right input:disabled,
@@ -109,9 +109,9 @@ table.gdpr_script_items tr:nth-child(odd) td {
   .col {
   color: #1d2327;
 }
-.gdpr-custom-cookie-link {
+/* .gdpr-custom-cookie-link {
   color: #3399ff !important;
-}
+} */
 .gdpr-configure-button {
   color: #717b8e;
 }
@@ -199,6 +199,10 @@ table.gdpr_script_items tr:nth-child(odd) td {
 .calender-content div input[type="text"] {
   border: 1px solid #e3e6e9;
   color: #2c3338;
+  border-left: none;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(82, 82, 91, 1);
 }
 .time-picker-content .calender-icon {
   border: 1px solid #e3e6e9;
@@ -206,15 +210,16 @@ table.gdpr_script_items tr:nth-child(odd) td {
 }
 .time-picker-content .time-picker input[type="text"] {
   border: 1px solid #e3e6e9;
+  border-left: none;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(82, 82, 91, 1);
 }
 .scan-frequency-type .vs__dropdown-toggle {
   border-color: #e3e6e9;
 }
 .scan-frequency-day .vs__dropdown-toggle {
   border-color: #e3e6e9;
-}
-.scan-cancel-save .scan-cancel-btn {
-  background: #ebedef;
 }
 a .export-btn {
   border: 1px solid #7195d0;
@@ -335,7 +340,8 @@ a .export-btn:hover {
   border-left-color: #333;
 }
 .gdpr-overlay {
-  background-color: #141722d9;
+  background-color: rgba(20, 23, 34, 0.85);
+  border-radius: 10px;
 }
 #gdpr-disconnect-wpcc-notice .api-connect-to-account-btn {
   color: blue;
@@ -648,6 +654,7 @@ a .export-btn:hover {
   border: 1px solid #0059b333 !important;
 }
 .gdpr-eu_visitors_message-gdpr,
+.gdpr-gacm_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both {
   border: 1px solid #ccc;
@@ -656,42 +663,33 @@ a .export-btn:hover {
 #gdpr-cookie-consent-dashboard-page {
   background-color: #f0f0f1;
 }
-.gdpr-progress-circle-column {
+.gdpr-progress-circle-column,
+.gdpr-dashboard-quick-banner-section {
   border: 1px solid #fafafa;
-  box-shadow: 0px 7px 29px 0px #0c3e8a0a;
+  box-shadow: 0px 0.32px 1.31px 0px #0c3e8a04, 0px 0.88px 3.63px 0px #0c3e8a05,
+    0px 2.11px 8.74px 0px #0c3e8a07, 0px 7px 29px 0px #0c3e8a0a;
 }
 .progress-bar-caption-button {
   border: 1px solid #0059b31f;
   background: #eef6ff;
 }
 .gdpr-green-progress {
-  background-color: #daf2cb;
-  border-left: 2px solid #68cb26;
-  color: #68cb26;
+  background-color: #f0fdf4;
+  color: #166534;
+  height: 50px;
+  border-radius: 4px;
 }
 
-.gdpr-gray-progress {
-  background-color: #ececec;
-  border-left: 2px solid #7f7f7f;
-  color: #7f7f7f;
-}
 .gdpr-quick-link-item {
   border: 1px solid #d4d4d8;
 }
 .gdpr-dashboard-promotional-card-header {
   border-bottom: 1px solid #f2f2f2;
 }
-.gdpr-cookie-summary {
-  border-right: solid 1px #e4e4e7;
-}
+
 .gdpr-cookie-summary-last-scan {
-  border: solid 1px #3399ff;
-}
-.gdpr-cookie-summary-manage-cookies {
-  border-top: solid 1px #e4e4e7;
-}
-.gdpr-cookie-summary-manage-cookies > div {
-  background-color: #3399ff;
+  border: solid 1px rgba(212, 212, 216, 1);
+  height: 88px;
 }
 .gdpr-cookie-summary-schedule:hover {
   color: rgb(67, 135, 203);
@@ -699,20 +697,16 @@ a .export-btn:hover {
 .gdpr-consent-log-dashboard thead {
   background: #f5f5f5;
 }
-.gdpr-consent-log-dashboard {
+/* .gdpr-consent-log-dashboard {
   border-bottom: 1px solid #7e2e2e !important;
   border: 1px solid #2a2020 !important;
-}
+} */
 .gdpr-consent-log-dashboard tbody tr {
   border-bottom: 1px solid #d9d7d7;
 }
 .gdpr-dashboard-cl-view-all-logs-text:hover {
   color: rgb(67, 135, 203);
 }
-.gdpr-consent-log-dashboard tbody tr .wplconsentlogsip {
-  border-right: 1px solid #d9d7d7;
-}
-
 .gdpr-dashboard-no-insights-circle {
   background-color: #ececec;
 }
@@ -738,12 +732,10 @@ a .export-btn:hover {
   color: #004080;
 }
 /* Change text color on hover */
-#gcc-save-settings-form-wizard .previous-step:hover {
-  color: rgb(5, 75, 146);
-}
 #gcc-save-settings-form-wizard .next-step:hover,
-#gcc-save-settings-form-wizard .next-step:focus {
-  background: rgb(5, 75, 146);
+#gcc-save-settings-form-wizard .previous-step:hover {
+  background: rgba(113, 149, 208, 1);
+  color: #fff;
 }
 
 #gcc-save-settings-form-wizard .submit-button:hover,
@@ -896,4 +888,17 @@ a .export-btn:hover {
 }
 .gdpr-popup-container button {
   font-size: 26px;
+}
+.gdpr-configuration-line-divider {
+  border: 1px solid rgba(244, 244, 245, 1);
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+.scan-frequency-date {
+  position: relative;
+  left: -7px;
+}
+.scan-frequency-day {
+  position: relative;
+  left: 7px;
 }
