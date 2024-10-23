@@ -456,12 +456,14 @@ class Gdpr_Cookie_Consent_Public {
 			wp_enqueue_script( $this->plugin_name. '-tcf' );
 			$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 			$iabtcf_data = Gdpr_Cookie_Consent::gdpr_get_vendors();
+			$gacm_data = Gdpr_Cookie_Consent::gdpr_get_gacm_vendors();
 			wp_localize_script(
 				$this->plugin_name.'-tcf',
 				'iabtcf',
 				array(
 					'consentdata'              => $iabtcf_consent_data,
-					'data'					=> $iabtcf_data,
+					'data'					=> $iabtcf_data,		
+					'gacm_data'				=> $gacm_data,
 					'ajax_url'				=> WP_PLUGIN_URL.'/gdpr-cookie-consent/admin',
 					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
 					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),

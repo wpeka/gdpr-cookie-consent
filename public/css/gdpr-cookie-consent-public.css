@@ -1544,9 +1544,6 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   overflow: hidden;
   height: fit-content;
 }
-.gdpr_messagebar_detail.layout-default .category-group {
-  min-height: 300px;
-}
 .gdpr_messagebar_detail.layout-default .category-group.outer {
   border-left: 1px solid #b1500f;
 }
