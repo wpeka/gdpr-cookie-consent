@@ -8609,13 +8609,16 @@ input.vs__search {
 
 /* Show More Cookie Template Design Modal CSS */
 .card-body.show-more-modal-card-container {
+  width: 100%;
   padding: 0px;
 }
 
 .show-more-modal-card-container-column {
+  width: 100%;
   display: flex;
-  justify-content: center;
-  margin-left: 6rem;
+  justify-content: flex-end;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .more-design-modal-container .modal-content {
@@ -8642,6 +8645,8 @@ input.vs__search {
 }
 
 .more-design-modal-container .modal-content .modal-body .row {
+  width: 100%;
+  padding: 32px 0px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 34px;
@@ -8696,6 +8701,15 @@ input.vs__search {
   font-size: 10px;
   margin-bottom: 0px;
   flex: 1;
+}
+
+.show-more-design-text {
+  color: #024f86;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .modal-right-field-content-column {
