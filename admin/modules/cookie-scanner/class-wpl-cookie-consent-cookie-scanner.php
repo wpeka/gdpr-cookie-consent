@@ -289,6 +289,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			$total_no_of_found_cookies = 0;
 		}
 
+		$the_options = GDPR_COOKIE_CONSENT::gdpr_get_settings();
+
 		/**
 		 * Send a POST request to the GDPR API endpoint 'get_data'
 		*/
@@ -307,6 +309,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 					'last_scan'         				=> $last_scan ,
 					'cookie_scan_count'         	    => $cookie_scan_count ,
 					'total_no_of_found_cookies'         => $total_no_of_found_cookies,
+					'do_not_track_on'					=> $the_options['do_not_track_on'],
 				),
 			)
 		);
