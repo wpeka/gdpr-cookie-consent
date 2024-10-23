@@ -3786,7 +3786,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'modal_banner' => array(
 					'default'          => array(
 						'name'             => 'banner-default',
-						'css'              => 'font-size:10.21px;max-width:500px;color:#000000;background-color:#ffffff;text-align:justify;',
+						'css'              => 'font-size:10.21px;max-width:500px;color:#000000;background-color:#ffffff;text-align:justify;box-shadow: 0px 2px 20px 0px #042a4b1c;',
 						'color'            => '#000000',
 						'background_color' => '#ffffff',
 						'opacity'          => '1',
@@ -4346,7 +4346,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'modal_popup'  => array(
 					'default'          => array(
 						'name'             => 'popup-default',
-						'css'              => 'font-size:10.21px;color:#000000;background-color:#ffffff;text-align:justify;',
+						'css'              => 'font-size:10.21px;color:#000000;background-color:#ffffff;text-align:justify;box-shadow: 0px 2px 20px 0px #042a4b1c;',
 						'color'            => '#000000',
 						'background_color' => '#ffffff',
 						'opacity'          => '1',
@@ -5065,7 +5065,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'modal_widget' => array(
 					'default'          => array(
 						'name'             => 'widget-default',
-						'css'              => 'font-size:10.21px;color:#000000;background-color:#ffffff;text-align:justify;',
+						'css'              => 'font-size:10.21px;color:#000000;background-color:#ffffff;text-align:justify;box-shadow: 0px 2px 20px 0px #042a4b1c;',
 						'color'            => '#000000',
 						'background_color' => '#ffffff',
 						'opacity'          => '1',
@@ -7558,7 +7558,7 @@ class Gdpr_Cookie_Consent_Admin {
 			<!-- Modal for the show more templates -->
 			<c-card-body class="show-more-modal-card-container">
 				<c-row>
-				<c-col class="col-sm-9 show-more-modal-card-container-column">
+				<c-col class="col-sm-12 show-more-modal-card-container-column">
 					<c-button class="show-more-cookie-design" @click="show_more_cookie_design_popup=true">
 						<span class="show-more-design-text">
 							<?php esc_attr_e( 'More Templates' ); ?>
