@@ -1379,7 +1379,7 @@ class Gdpr_Cookie_Consent {
 			'button_accept_button_hover1'            => ( self::gdpr_su_hex_shift( $settings['button_accept_button_color1'], 'down', 20 ) ),
 			'button_accept_as_button1'               => $settings['button_accept_as_button1'],
 			'button_accept_new_win1'                 => $settings['button_accept_new_win1'],
-			'button_accept_is_on1'                   => $settings['button_accept_is_on1'],
+			'button_accept_is_on1'                   => isset($settings['button_accept_is_on1']) ? $settings['button_accept_is_on1'] : '',
 			'button_accept_all_is_on1'               => $settings['button_accept_all_is_on1'],
 			'button_accept_all_link_color1'          => $settings['button_accept_all_link_color1'],
 			'button_accept_all_as_button1'           => $settings['button_accept_all_as_button1'],
@@ -1651,28 +1651,9 @@ class Gdpr_Cookie_Consent {
 			'button_settings_button_border_radius'   => $settings['button_settings_button_border_radius'],
 			'button_confirm_button_border_radius'    => $settings['button_confirm_button_border_radius'],
 			'button_cancel_button_border_radius'     => $settings['button_cancel_button_border_radius'],
-			'button_confirm_text' => $settings['button_confirm_text'],
-			'button_confirm_button_size1' => $settings['button_confirm_button_size1'],
 			// consent forward .
 			'consent_forward'                        => $settings['consent_forward'],
 			'data_reqs_on'                           => $settings['data_reqs_on'],
-			// Multiple Legislation JSON Data
-			'multiple_legislation_cookie_bar_color1' => $settings['multiple_legislation_cookie_bar_color1'],
-			'multiple_legislation_cookie_bar_color2' => $settings['multiple_legislation_cookie_bar_color2'],
-			'multiple_legislation_cookie_bar_opacity1' => $settings['multiple_legislation_cookie_bar_opacity1'],
-			'multiple_legislation_cookie_bar_opacity2' => $settings['multiple_legislation_cookie_bar_opacity2'],
-			'multiple_legislation_cookie_text_color1' => $settings['multiple_legislation_cookie_text_color1'],
-			'multiple_legislation_cookie_text_color2' => $settings['multiple_legislation_cookie_text_color2'],
-			'multiple_legislation_border_style1' => $settings['multiple_legislation_border_style1'],
-			'multiple_legislation_border_style2' => $settings['multiple_legislation_border_style2'],
-			'multiple_legislation_cookie_bar_border_width1' => $settings['multiple_legislation_cookie_bar_border_width1'],
-			'multiple_legislation_cookie_bar_border_width2' => $settings['multiple_legislation_cookie_bar_border_width2'],
-			'multiple_legislation_cookie_border_color1' => $settings['multiple_legislation_cookie_border_color1'],
-			'multiple_legislation_cookie_border_color2' =>$settings['multiple_legislation_cookie_border_color2'],
-			'multiple_legislation_cookie_bar_border_radius1' => $settings['multiple_legislation_cookie_bar_border_radius1'],
-			'multiple_legislation_cookie_bar_border_radius2' => $settings['multiple_legislation_cookie_bar_border_radius2'],
-			'multiple_legislation_cookie_font1' => $settings['multiple_legislation_cookie_font1'],
-			'multiple_legislation_cookie_font2' => $settings['multiple_legislation_cookie_font2'],
 			
 		);
 		$wpl_pro_active = get_option( 'wpl_pro_active' );

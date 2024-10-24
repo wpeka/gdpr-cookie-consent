@@ -2982,7 +2982,6 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   position: absolute;
   top: 8px;
   right: 10px;
-  cursor: pointer;
 }
 @media (max-width: 700px) {
   #cookie-banner-cancle-img {
