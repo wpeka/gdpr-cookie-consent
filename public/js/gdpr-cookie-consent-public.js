@@ -543,6 +543,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
                     : GDPR.settings.auto_hide_delay;
                   setTimeout(function () {
                     GDPR.accept_close();
+                    GDPR.logConsent("accept");
                   }, banner_delay);
                 }
               } else {
@@ -571,6 +572,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
                     : GDPR.settings.auto_hide_delay;
                   setTimeout(function () {
                     GDPR.accept_close();
+                    GDPR.logConsent("accept");
                   }, banner_delay);
                 }
               } else {
@@ -621,6 +623,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
                     : GDPR.settings.auto_hide_delay;
                   setTimeout(function () {
                     GDPR.accept_close();
+                    GDPR.logConsent("accept");
                   }, banner_delay);
                 }
               } else {
@@ -3138,7 +3141,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
         (this.settings.decline_reload == true && !browser_dnt_value) ||
         (this.settings.decline_reload == true && gdpr_do_not_track == "false")
       ) {
-        window.location.reload(true);
+        setTimeout(function () {
+          window.location.reload();
+        }, 1100);
+
       } else {
         if (this.settings.cookie_usage_for == "both") {
           this.check_ccpa_eu(true, true);
@@ -3181,7 +3187,9 @@ GDPR_CCPA_COOKIE_EXPIRE =
         (this.settings.decline_reload == true && !browser_dnt_value) ||
         (this.settings.decline_reload == true && gdpr_do_not_track == "false")
       ) {
-        window.location.reload(true);
+        setTimeout(function () {
+          window.location.reload();
+        }, 1100);
       } else {
         if (this.settings.cookie_usage_for == "both") {
           if (GDPR.settings.cookie_bar_as == "popup") {
