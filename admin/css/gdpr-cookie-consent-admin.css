@@ -8741,18 +8741,6 @@ input.vs__search {
   align-items: center;
 }
 
-#gdpr-cookie-consent-settings-app
-  .gdpr-cookie-consent-settings-container
-  .gdpr-cookie-consent-settings-content
-  .gdpr-cookie-consent-settings-nav
-  .tab-content
-  .card
-  .card-body
-  .row
-  .col.col-sm-5
-  .do-not-show-ab-testing-text {
-  color: #ce8e8e;
-}
 .gdpr_messagebar_body_heading_extended {
   border-top: 1px solid rgb(102, 102, 102);
   margin-top: 37px;
