@@ -805,6 +805,7 @@ ul.gdpr_sub_tab li:first-child {
 }
 .gdpr-templates-field-container .gdpr-template-field {
   margin: 10px 0;
+  margin-left: 49px;
 }
 .gdpr-templates-field-container .gdpr-template-field .gdpr-left-field,
 .gdpr-templates-field-container .gdpr-template-field .gdpr-right-field {
@@ -8046,7 +8047,8 @@ button.btn.gdpr-renew-now-btn.pro,
 }
 .gdpr-cookie-consent-banner-tabs {
   display: flex;
-  padding: 1rem;
+  /* padding: 1rem;
+  padding-top: 28px; */
 }
 .gdpr-cookie-consent-banner-tabs .gdpr-cookie-consent-banner-tab {
   display: flex;
@@ -9021,3 +9023,20 @@ input.vs__search {
   .gdpr_messagebar_detail_body_content_overview_cookie_container_type_details_extended_active {
   background-color: rgb(34, 34, 34) !important;
 }
+.gdpr-group-buttons .gdpr-banner-almond_column{
+  min-width: 124px;
+  width: fit-content;
+ }
+ .gdpr-group-buttons .gdpr-banner-grey_column{
+  min-width: 124px;
+  width: fit-content;
+ }
+ 
+.gdpr-group-buttons .gdpr-popup-almond_column{
+  min-width: 124px;
+  width: fit-content;
+ }
+.gdpr-group-buttons .gdpr-widget-almond_column{
+  min-width: 124px;
+  width: fit-content;
+ }
