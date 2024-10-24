@@ -25,14 +25,8 @@
 					}
 				}
 				?>
-				<?php if ($the_options['cookie_usage_for'] == 'both') {
-				?>
-					<button id="cookie_action_cancel" type="button" class="<?php echo esc_html( $the_options['button_cancel_classes'] ); ?>" data-gdpr_action="cancel" data-dismiss="gdprmodal"><?php echo esc_html__( $the_options['button_cancel_text1'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
-					<button id="cookie_action_confirm" type="button" class="<?php echo esc_html( $the_options['button_confirm_classes'] ); ?>" data-gdpr_action="confirm" data-dismiss="gdprmodal"><?php echo esc_html__( $the_options['button_confirm_text1'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
-				<?php } else {?>
-					<button id="cookie_action_cancel" type="button" class="<?php echo esc_html( $the_options['button_cancel_classes'] ); ?>" data-gdpr_action="cancel" data-dismiss="gdprmodal"><?php echo esc_html__( $the_options['button_cancel_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
+				<button id="cookie_action_cancel" type="button" class="<?php echo esc_html( $the_options['button_cancel_classes'] ); ?>" data-gdpr_action="cancel" data-dismiss="gdprmodal"><?php echo esc_html__( $the_options['button_cancel_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
 				<button id="cookie_action_confirm" type="button" class="<?php echo esc_html( $the_options['button_confirm_classes'] ); ?>" data-gdpr_action="confirm" data-dismiss="gdprmodal"><?php echo esc_html__( $the_options['button_confirm_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
-				<?php } ?>
 			</div>
 		</div>
 	</div>
