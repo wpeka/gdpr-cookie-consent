@@ -300,17 +300,13 @@ GDPR_CCPA_COOKIE_EXPIRE =
             },
           });
           window.dispatchEvent(event);
-          $(document).ready(function () {
             $("#gdpr-cookie-consent-bar").addClass("hide_show_again_dnt");
-          });
         }
         // log the consent of user
         GDPR.logConsent(button_action);
 
         // hide the show again button
-        $(document).ready(function () {
           $("#gdpr-cookie-consent-show-again").addClass("hide_show_again_dnt");
-        });
       }
 
       if (
@@ -3533,7 +3529,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
             if (cookies && cookies.length != 0) {
               for (var c_key in cookies) {
                 var c_cookie = cookies[c_key];
-
                 GDPR_Cookie.erase(c_cookie["name"]);
               }
             }
@@ -3751,24 +3746,22 @@ GDPR_CCPA_COOKIE_EXPIRE =
       genericFuncs.renderByElement(GDPR_Blocker.removeCookieByCategory);
     },
   };
-  $(document).ready(function () {
+  $(document).ready(function () {  
     var settings = JSON.parse(gdpr_cookiebar_settings);
     if (settings["notify_animate_show"]) {
       $("#gdpr-cookie-consent-bar").css("display", "none");
       $("#gdpr-cookie-consent-bar").slideDown(500);
     }
-
-    if (typeof gdpr_cookiebar_settings != "undefined") {
-      GDPR.set({
-        settings: gdpr_cookiebar_settings,
-      });
-    }
-
     if (typeof gdpr_cookies_list != "undefined") {
       GDPR_Blocker.set({
         cookies: gdpr_cookies_list,
       });
       GDPR_Blocker.runScripts();
+    }
+    if (typeof gdpr_cookiebar_settings != "undefined") {
+      GDPR.set({
+        settings: gdpr_cookiebar_settings,
+      });
     }
   });
 
