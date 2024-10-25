@@ -2374,7 +2374,59 @@ var gen = new Vue({
         }
       }
     },
-
+    onClickPreviewCookieDeclaration() {
+      this.preview_cookie_declaration = true;
+      this.preview_about_cookie = false;
+      this.preview_necessary = true;
+      this.preview_marketing = false;
+      this.preview_analysis = false;
+      this.preview_preference = false;
+      this.preview_unclassified = false;
+    },
+    onClickPreviewAboutCookie() {
+      this.preview_about_cookie = true;
+      this.preview_cookie_declaration = false;
+      this.preview_necessary = false;
+      this.preview_marketing = false;
+      this.preview_analysis = false;
+      this.preview_preference = false;
+      this.preview_unclassified = false;
+    },
+    onSwitchPreviewNecessary() {
+      this.preview_necessary = true;
+      this.preview_marketing = false;
+      this.preview_analysis = false;
+      this.preview_preference = false;
+      this.preview_unclassified = false;
+    },
+    onSwitchPreviewMarketing() {
+      this.preview_necessary = false;
+      this.preview_marketing = true;
+      this.preview_analysis = false;
+      this.preview_preference = false;
+      this.preview_unclassified = false;
+    },
+    onSwitchPreviewAnalysis() {
+      this.preview_necessary = false;
+      this.preview_marketing = false;
+      this.preview_analysis = true;
+      this.preview_preference = false;
+      this.preview_unclassified = false;
+    },
+    onSwitchPreviewPreference() {
+      this.preview_necessary = false;
+      this.preview_marketing = false;
+      this.preview_analysis = false;
+      this.preview_preference = true;
+      this.preview_unclassified = false;
+    },
+    onSwitchPreviewUnclassified() {
+      this.preview_necessary = false;
+      this.preview_marketing = false;
+      this.preview_analysis = false;
+      this.preview_preference = false;
+      this.preview_unclassified = true;
+    },
     onSwitchCookieEnable() {
       this.cookie_is_on = !this.cookie_is_on;
     },
@@ -2468,6 +2520,9 @@ var gen = new Vue({
       } else {
         this.selectedRadioGdpr = false;
         this.is_eu_on = false;
+        if( this.is_selectedCountry_on != true && this.selectedRadioCcpa != true){
+          this.selectedRadioWorldWide = "yes";
+        }
       }
     },
     onSwitchSelectedCountryEnable(isChecked) {
@@ -2479,6 +2534,9 @@ var gen = new Vue({
       } else {
         this.is_selectedCountry_on = false;
         this.selectedRadioCountry = false;
+        if( (this.selectedRadioGdpr != true && this.selectedRadioCcpa != true) ){
+          this.selectedRadioWorldWide = "yes";
+        }
       }
     },
     onSwitchCCPAEnable(isChecked) {
@@ -2490,8 +2548,12 @@ var gen = new Vue({
       } else {
         this.selectedRadioCcpa = false;
         this.is_ccpa_on = false;
+        if( this.is_selectedCountry_on != true && this.selectedRadioGdpr != true){
+          this.selectedRadioWorldWide = "yes";
+        }
       }
     },
+ 
     onCountrySelect(value) {
       this.select_countries = this.select_countries_array.join(",");
     },
@@ -3628,6 +3690,13 @@ var gen = new Vue({
         this.is_lgpd = false;
         this.show_visitor_conditions = true;
         this.show_revoke_card = true;
+        //visitors condition.
+        this.selectedRadioWorldWide = "yes";
+        this.is_worldwide_on = true;
+        this.selectedRadioGdpr = false;
+        this.selectedRadioCcpa = false;
+        this.selectedRadioCountry = false;
+        this.is_selectedCountry_on = false;
       } else if (value === "ccpa") {
         this.is_ccpa = true;
         this.is_eprivacy = false;
@@ -3636,6 +3705,13 @@ var gen = new Vue({
         this.show_visitor_conditions = true;
         this.show_revoke_card = false;
         this.iabtcf_is_on = false;
+        //visitors condition.
+        this.selectedRadioWorldWide = "yes";
+        this.is_worldwide_on = true;
+        this.selectedRadioGdpr = false;
+        this.selectedRadioCcpa = false;
+        this.selectedRadioCountry = false;
+        this.is_selectedCountry_on = false;
       } else if (value === "gdpr") {
         this.is_gdpr = true;
         this.is_ccpa = false;
@@ -3643,6 +3719,12 @@ var gen = new Vue({
         this.is_lgpd = false;
         this.show_revoke_card = true;
         this.show_visitor_conditions = true;
+        this.selectedRadioWorldWide = "yes";
+        this.is_worldwide_on = true;
+        this.selectedRadioGdpr = false;
+        this.selectedRadioCcpa = false;
+        this.selectedRadioCountry = false;
+        this.is_selectedCountry_on = false;
       } else if (value === "lgpd") {
         this.is_ccpa = false;
         this.is_eprivacy = false;
@@ -3661,7 +3743,7 @@ var gen = new Vue({
         this.iabtcf_is_on = false;
       }
       if (this.iabtcf_is_on) {
-        this.gdpr_message = `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`;
+        this.gdpr_message = `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`;
         this.gdpr_about_cookie_message =
           "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest. The choices you make regarding the purposes and entities listed in this notice are saved in a cookie named wpl_tc_string for a maximum duration of 12 months.";
       } else {
@@ -3671,6 +3753,7 @@ var gen = new Vue({
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
     },
+ 
     onSwitchDefaultCookieBar() {
       this.default_cookie_bar = !this.default_cookie_bar;
     },
