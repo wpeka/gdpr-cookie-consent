@@ -470,7 +470,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 			if ( isset( $_POST['gdpr_user_action'] ) ) {
 				$gdpr_user_action = sanitize_text_field( wp_unslash( $_POST['gdpr_user_action'] ) );
-				error_log("Value of gdpr_user_action is -> ".print_r($gdpr_user_action,true));
 				if ( isset( $_POST['cookie_list'] ) && is_array( $_POST['cookie_list'] ) ) {
 					foreach ( wp_unslash( $_POST['cookie_list'] ) as $key => $val ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						$js_cookie_list[ $key ] = sanitize_text_field( wp_unslash( $val ) );
@@ -559,7 +558,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 		if ( $post_id ) {
 			$details = $args['consent_details'];
-			error_log("consent details are -> ".print_r($details,true));
 			$user_id = get_current_user_id();
 			$user_ip = $this->wpl_get_user_ip();
 			// Fetch country information using ip-api.com.
@@ -1701,7 +1699,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								'<?php echo esc_attr($consent_status); ?>',
 								'<?php echo esc_attr( $tcString ); ?>',
 								'<?php echo esc_attr($siteaddress); ?>',
-						<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
+						'<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
 								)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -1896,7 +1894,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									'<?php echo esc_attr($consent_status); ?>',
 									'<?php echo esc_attr( $tcString ); ?>',
 									'<?php echo esc_attr($siteaddress); ?>',
-						<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
+						'<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
 									)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -2091,7 +2089,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 										'<?php echo esc_attr($consent_status); ?>',
 										'<?php echo esc_attr( $tcString ); ?>',
 										'<?php echo esc_attr($siteaddress); ?>',
-						<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
+						'<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
 										)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -2288,7 +2286,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									'<?php echo esc_attr($consent_status); ?>',
 									'<?php echo esc_attr( $tcString ); ?>',
 									'<?php echo esc_attr($siteaddress); ?>',
-					<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
+					                '<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
 									)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />

@@ -4,15 +4,13 @@ import CoreuiVue from "@coreui/vue";
 import "@coreui/coreui/dist/css/coreui.min.css";
 import { VueEllipseProgress } from "vue-ellipse-progress";
 import VueApexCharts from "vue-apexcharts";
-import DateRangePicker from "vue2-daterange-picker";
 //you need to import the CSS manually
 import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
 
 Vue.use(CoreuiVue);
 Vue.use(VueApexCharts);
 Vue.component("vue-ellipse-progress", VueEllipseProgress);
-Vue.component("apexchart", VueApexCharts);
-Vue.component("date-range-picker", DateRangePicker); // Register the DateRangePicker component
+Vue.component("apexchart", VueApexCharts); // Register the DateRangePicker component
 
 const j = jQuery.noConflict();
 var gen = new Vue({
@@ -323,28 +321,58 @@ var gen = new Vue({
         this.cookie_scanned = true;
       }
       let count_progress = 0;
-      if (!this.other_plugins_active) {
+      if (
+        !this.other_plugins_active &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
-      if (this.api_key_activated && this.cookie_scanned) {
+      if (
+        this.api_key_activated &&
+        this.cookie_scanned &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
       // increase progress when user is connected and scan performed.
       if (
         this.is_user_connected &&
         !this.pro_installed &&
-        this.cookie_scanned
+        this.cookie_scanned &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
       ) {
         count_progress++;
       }
-      if (this.showing_cookie_notice) {
+      if (
+        this.showing_cookie_notice &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
-      if (this.api_key_activated) {
+      if (
+        this.api_key_activated &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
       // increase progress when user is connected to the api.
-      if (this.is_user_connected && !this.pro_installed) {
+      if (
+        this.is_user_connected &&
+        !this.pro_installed &&
+        (this.cookie_policy === "gdpr" ||
+          this.cookie_policy === "lgpd" ||
+          this.cookie_policy === "both")
+      ) {
         count_progress++;
       }
       if (
@@ -358,12 +386,15 @@ var gen = new Vue({
       }
     },
   },
+  onSwitchBannerPreviewEnable() {
+    //changing the value of banner_preview_swicth_value enable/disable
+    this.banner_preview_is_on = !this.banner_preview_is_on;
+  },
   created() {
     // No need to fetch data, assume someData is already available
   },
   mounted() {
     j("#gdpr-dashboard-loader").css("display", "none");
     this.setValues();
-    this.updateCancelButtonText();
   },
 });

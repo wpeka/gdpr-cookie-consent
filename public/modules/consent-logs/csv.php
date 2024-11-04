@@ -133,8 +133,12 @@ function get_requests( $args ) {
 
 			$wplconsentlogs_details = get_post_meta( $post_id, '_wplconsentlogs_details', true );
 
-			$wplconsentlogs_details = 'wpl_viewed_cookie : ' . $wplconsentlogs_details['wpl_viewed_cookie'] . $wplconsentlogs_details['wpl_user_preference'];
+			$wpl_viewed_cookie = isset($wplconsentlogs_details['wpl_viewed_cookie']) ? $wplconsentlogs_details['wpl_viewed_cookie'] : '';
+			$wpl_user_preference = isset($wplconsentlogs_details['wpl_user_preference']) ? $wplconsentlogs_details['wpl_user_preference'] : '';
 
+			// Safely concatenate values
+			$wplconsentlogs_details = 'wpl_viewed_cookie: ' . $wpl_viewed_cookie . ' ' . $wpl_user_preference;
+			
 			// all data for table.
 			$all_consent_data[] = array(
 				'ID'                    => $post_id,
@@ -176,7 +180,11 @@ function get_requests( $args ) {
 
 			$wplconsentlogs_details = get_post_meta( $post_id, '_wplconsentlogs_details_cf', true );
 
-			$wplconsentlogs_details = 'wpl_viewed_cookie : ' . $wplconsentlogs_details['wpl_viewed_cookie'] . $wplconsentlogs_details['wpl_user_preference'];
+			$wpl_viewed_cookie = isset($wplconsentlogs_details['wpl_viewed_cookie']) ? $wplconsentlogs_details['wpl_viewed_cookie'] : '';
+			$wpl_user_preference = isset($wplconsentlogs_details['wpl_user_preference']) ? $wplconsentlogs_details['wpl_user_preference'] : '';
+
+			// Safely concatenate values
+			$wplconsentlogs_details = 'wpl_viewed_cookie: ' . $wpl_viewed_cookie . ' ' . $wpl_user_preference;
 
 			// all data for table.
 			$all_consent_data[] = array(

@@ -4,8 +4,8 @@
         data: function() {
             return {
                 showMenu: !1,
-                isPro:mascot_obj.is_pro,
-				isProInstalled:mascot_obj.pro_installed,
+                apiUserPlan:mascot_obj.api_user_plan,
+                isUserConnected:mascot_obj.is_user_connected,
             }
         },
         computed: (
@@ -37,12 +37,12 @@
                             key: 'documentation'
                         }
                     ];
-                    if(!this.isPro && this.isProInstalled ) {
+                    if(this.isUserConnected && this.apiUserPlan === "free") {
                         mItems.push({
                             icon: 'dashicons-star-filled',
                             tooltip: 'Upgrade to Pro »',
-                            link: mascot_obj.upgrade_url,
-                            key: 'upgrade'
+                            link: '',
+                            key: 'upgrade',
                         });
                     }
                     return mItems;
@@ -57,22 +57,36 @@
                 var html = [];
                 if(this.showMenu) {
                     this.menuItems.forEach((value, index) => {
-                        html.push(createElement('a', {
-                            key: value.key,
-                            class: this.linkClass(value.key),
-                            attrs: {
-                                href: value.link,
-                                'data-index': index,
-                                target: '_blank'
-                            }
-                        }, [createElement('span', {
-                            class: 'dashicons '+ value.icon
-                        }), createElement('span', {
-                            staticClass: 'gdpr-mascot-quick-link-title',
-                            domProps: {
-                                innerHTML: value.tooltip
-                            }
-                        })]));
+                        if(value.key === "upgrade") {
+                            html.push(createElement('a', {
+                                    key: value.key,
+                                    class: this.linkClass(value.key),
+                                }, [createElement('span', {
+                                    class: 'dashicons '+ value.icon
+                                }), createElement('span', {
+                                    staticClass: 'gdpr-mascot-quick-link-title',
+                                    domProps: {
+                                        innerHTML: value.tooltip
+                                    }
+                            })]));
+                        } else {
+                            html.push(createElement('a', {
+                                    key: value.key,
+                                    class: this.linkClass(value.key),
+                                    attrs: {
+                                        href: value.link,
+                                        'data-index': index,
+                                        target: '_blank'
+                                    }
+                                }, [createElement('span', {
+                                    class: 'dashicons '+ value.icon
+                                }), createElement('span', {
+                                    staticClass: 'gdpr-mascot-quick-link-title',
+                                    domProps: {
+                                        innerHTML: value.tooltip
+                                    }
+                            })]));
+                        }
                     })
                 }
                 return html;

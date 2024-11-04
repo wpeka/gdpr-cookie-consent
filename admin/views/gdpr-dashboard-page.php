@@ -204,14 +204,16 @@ if ( 200 === $response_status ) {
 					</c-col>
 					<c-col class="col-sm-1">
 						<ul id="vertical-progressbar">
-							<li id="step1" class="active">
+							<li id="step1">
 								<div class="progress-step"> 
 									<div class="container">
 										<div class="vertical-line vertical-line-step-init"></div>
-										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/greentick.svg'; ?>" class="step-images vertical-selected-step-img">
+										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
 										<div class="vertical-line vertical-line-step-1"></div>
+									</div>
+								</div>
 							</li> 
-							<li id="step2" class="active">
+							<li id="step2">
 								<div class="progress-step"> 
 									<div class="container">							
 										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
@@ -219,6 +221,7 @@ if ( 200 === $response_status ) {
 									</div>
 								</div>
 							</li> 
+							<?php if($gdpr_policy === "GDPR" || $gdpr_policy === "LGPD" || $gdpr_policy === "GDPR & CCPA")  { ?>
 							<li id="step3">
 								<div class="progress-step">
 									<div class="container">
@@ -227,6 +230,7 @@ if ( 200 === $response_status ) {
 									</div>
 								</div>
 							</li> 
+							<?php }?>
 							<li id="step4">
 								<div class="progress-step">
 									<div class="container">
@@ -257,6 +261,7 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="show_cookie_url"><?php esc_html_e( 'Click here to configure.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
+						<?php if($gdpr_policy === "GDPR" || $gdpr_policy === "LGPD" || $gdpr_policy === "GDPR & CCPA")  { ?>
 						<c-row :class="['gdpr-progress-list-item','vstep3', (pro_installed && pro_activated && api_key_activated && cookie_scanned)||(!pro_installed && is_user_connected && cookie_scanned) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span class="gdpr_scan_again_link" v-show="api_key_activated && cookie_scanned">
 								<?php esc_html_e( 'Cookies were last scanned on ', 'gdpr-cookie-consent' ); ?>
@@ -292,7 +297,7 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e( 'Scan now.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
-						
+						<?php }?>
 						<c-row :class="['gdpr-progress-list-item','vstep4', (pro_installed && pro_activated && api_key_activated)||(!pro_installed && is_user_connected) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span v-show="pro_installed && pro_activated && api_key_activated">
 								<?php esc_html_e( 'GDPR Pro activated.', 'gdpr-cookie-consent' ); ?>
@@ -467,7 +472,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'If you need help understanding, using, or extending WP Cookie Consent Plugin.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://club.wpeka.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
@@ -479,7 +484,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'Explore video tutorials for insights on WP Cookie Consent functionality.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://club.wpeka.com/docs/wp-cookie-consent/video-guides/video-resources/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/video-resources/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
@@ -491,7 +496,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'Find answers to some of the most commonly asked questions.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://club.wpeka.com/docs/wp-cookie-consent/faqs/faq-2/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
@@ -613,7 +618,7 @@ if ( 200 === $response_status ) {
 			 </div>
 			 <div class="gdpr-dashboard-tips-tricks-body-parts">
               <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'Frequently asked questions', 'gdpr-cookie-consent' ); ?></span>
-			  <a href="https://club.wpeka.com/docs/wp-cookie-consent/faqs/faq-2/" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
+			  <a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
 			 </div>
 			 <div class="gdpr-dashboard-tips-tricks-body-parts">
               <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'What are the CCPA regulations and how we can comply?', 'gdpr-cookie-consent' ); ?></span>
@@ -632,25 +637,45 @@ if ( 200 === $response_status ) {
 
 jQuery(document).ready(function () {
 	var plugin_url = "<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL; ?>";
-	if(jQuery(".vstep1").hasClass("gdpr-green-progress")){
-		jQuery("#vertical-progressbar #step1 img").attr("src",plugin_url+"admin/images/greentick.svg");
-		jQuery("#vertical-progressbar .vertical-line-step-1").css("background","var(--green-700)");
-	}
-	if(jQuery(".vstep2").hasClass("gdpr-green-progress")){
-		jQuery("#vertical-progressbar #step2 img").attr("src",plugin_url+"admin/images/greentick.svg");
-		jQuery("#vertical-progressbar .vertical-line-step-2").css("background","var(--green-700)");
 
+	// Step 1
+	if (jQuery(".vstep1").hasClass("gdpr-green-progress")) {
+		jQuery("#vertical-progressbar #step1 img").attr("src", plugin_url + "admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-1").css("background", "var(--green-700)");
+		jQuery("#vertical-progressbar .vertical-line-step-init").css("background", "var(--green-700)");
+	} else {
+		jQuery("#vertical-progressbar #step1 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
+		jQuery("#vertical-progressbar .vertical-line-step-1").css("background", "");
+		jQuery("#vertical-progressbar .vertical-line-step-init").css("background", "");
 	}
-	if(jQuery(".vstep3").hasClass("gdpr-green-progress")){
-		jQuery("#vertical-progressbar #step3 img").attr("src",plugin_url+"admin/images/greentick.svg");
-		jQuery("#vertical-progressbar .vertical-line-step-3").css("background","var(--green-700)");
 
+	// Step 2
+	if (jQuery(".vstep2").hasClass("gdpr-green-progress")) {
+		jQuery("#vertical-progressbar #step2 img").attr("src", plugin_url + "admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-2").css("background", "var(--green-700)");
+	} else {
+		jQuery("#vertical-progressbar #step2 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
+		jQuery("#vertical-progressbar .vertical-line-step-2").css("background", "");
 	}
-	if(jQuery(".vstep4").hasClass("gdpr-green-progress")){
-		jQuery("#vertical-progressbar #step4 img").attr("src",plugin_url+"admin/images/greentick.svg");
-		jQuery("#vertical-progressbar .vertical-line-step-4").css("background","var(--green-700)");
 
+	// Step 3
+	if (jQuery(".vstep3").hasClass("gdpr-green-progress")) {
+		jQuery("#vertical-progressbar #step3 img").attr("src", plugin_url + "admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-3").css("background", "var(--green-700)");
+	} else {
+		jQuery("#vertical-progressbar #step3 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
+		jQuery("#vertical-progressbar .vertical-line-step-3").css("background", "");
 	}
+
+	// Step 4
+	if (jQuery(".vstep4").hasClass("gdpr-green-progress")) {
+		jQuery("#vertical-progressbar #step4 img").attr("src", plugin_url + "admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-4").css("background", "var(--green-700)");
+	} else {
+		jQuery("#vertical-progressbar #step4 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
+		jQuery("#vertical-progressbar .vertical-line-step-4").css("background", "");
+	}
+
 	// Count the number of divs with the class gdpr-gray-progress
     var progcount = jQuery('#gdpr-cookie-consent-dashboard-page .gdpr-gray-progress').length;
     

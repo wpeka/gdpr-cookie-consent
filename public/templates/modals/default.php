@@ -58,13 +58,13 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 							<?php endif; 
 								?>
 							<ul class="gdpr-iab-navbar">
-								<li class="gdpr-iab-navbar-item" id="gdprIABTabCategory"><button class="gdpr-iab-navbar-button active">Cookie Categories<span class="dashicons dashicons-arrow-right-alt2"></span></button></li>
 								<?php if ( $the_options['is_iabtcf_on']) { ?>
-									<li class="gdpr-iab-navbar-item" id="gdprIABTabFeatures"><button class="gdpr-iab-navbar-button">Purposes and Features<span class="dashicons dashicons-arrow-right-alt2"></span></button></li>
-									<li class="gdpr-iab-navbar-item" id="gdprIABTabVendors"><button class="gdpr-iab-navbar-button">Vendors<span class="dashicons dashicons-arrow-right-alt2"></span></button></li>
+									<li class="gdpr-iab-navbar-item" id="gdprIABTabCategory"><button class="gdpr-iab-navbar-button active"><?php echo esc_html__('Cookie Categories','gdpr-cookie-consent')?><span class="dashicons dashicons-arrow-right-alt2"></span></button></li>
+									<li class="gdpr-iab-navbar-item" id="gdprIABTabFeatures"><button class="gdpr-iab-navbar-button"><?php echo esc_html__('Purposes and Features','gdpr-cookie-consent')?><span class="dashicons dashicons-arrow-right-alt2"></span></button></li>
+									<li class="gdpr-iab-navbar-item" id="gdprIABTabVendors"><button class="gdpr-iab-navbar-button"><?php echo esc_html__('Vendors','gdpr-cookie-consent')?><span class="dashicons dashicons-arrow-right-alt2"></span></button></li>
 								<?php } ?>
 							</ul>
-							<div class="outer-container">
+							<div class="">
 								<ul class="cat category-group outer tabContainer">
 									<?php
 									foreach ( $cookie_data['categories'] as $category ) {
@@ -448,7 +448,7 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 															class="vendor-all-switch-handler" 
 															type="checkbox" 
 															name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
-															value=<?php echo esc_html( $data->allvendors ); ?>>
+															value="<?php echo esc_html( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
 															<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 																<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
 															</label>
