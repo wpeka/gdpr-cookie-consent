@@ -1395,7 +1395,7 @@ class Gdpr_Cookie_Consent {
 			'button_accept_button_hover1'            => ( self::gdpr_su_hex_shift( $settings['button_accept_button_color1'], 'down', 20 ) ),
 			'button_accept_as_button1'               => $settings['button_accept_as_button1'],
 			'button_accept_new_win1'                 => $settings['button_accept_new_win1'],
-			'button_accept_is_on1'                   => $settings['button_accept_is_on1'],
+			'button_accept_is_on1'                   => isset($settings['button_accept_is_on1']) ? $settings['button_accept_is_on1'] : '',
 			'button_accept_all_is_on1'               => $settings['button_accept_all_is_on1'],
 			'button_accept_all_link_color1'          => $settings['button_accept_all_link_color1'],
 			'button_accept_all_as_button1'           => $settings['button_accept_all_as_button1'],
@@ -1670,6 +1670,7 @@ class Gdpr_Cookie_Consent {
 			// consent forward .
 			'consent_forward'                        => $settings['consent_forward'],
 			'data_reqs_on'                           => $settings['data_reqs_on'],
+			
 		);
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
 		if ( $wpl_pro_active ) {
