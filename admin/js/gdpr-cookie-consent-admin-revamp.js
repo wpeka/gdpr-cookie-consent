@@ -627,7 +627,7 @@ jQuery(document).ready(function () {
   /**
    * cookie settings perferences functionality
    */
-  if (button_settings_as_popup == 1 && cookie_bar_as == "banner") {
+  if (button_settings_as_popup == 1) {
     jQuery(document).ready(function ($) {
       jQuery(document).ready(function ($) {
         $(".gpdr_cookie_settings_btn").on("click", function (e) {

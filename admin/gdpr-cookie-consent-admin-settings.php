@@ -2374,11 +2374,15 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<v-select class="form-group" id="gdpr-cookie-settings-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-as" v-model="settings_as_button">
 								</c-col>
-								<c-col v-show="is_banner" class="col-sm-6" >
+								<c-col v-show="is_banner && !iabtcf_is_on" class="col-sm-6" >
 									<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
 								</c-col>
 								<c-col v-show="!is_banner" class="col-sm-6" >
+									<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
+									<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
+								</c-col>
+								<c-col v-show="is_banner && iabtcf_is_on" class="col-sm-6" >
 									<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
 								</c-col>
@@ -2785,7 +2789,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 					
 						<!-- Desgin Banner preview if A/B Testing is enabled-->
-					<c-card class=" desgin_card" v-show="ab_testing_enabled"></c-card>
+					<c-card  v-show="ab_testing_enabled"class=" desgin_card">
 						<div class="gdpr-cookie-consent-banner-tabs">
 							<c-button class="gdpr-cookie-consent-banner-tab"@click="changeActiveTestBannerTabTo1":class="{ 'gdpr-cookie-consent-banner-tab-active': active_test_banner_tab === 1 }"><?php esc_html_e( isset( $the_options['cookie_bar1_name'] ) ? $the_options['cookie_bar1_name'] : 'Test Banner A', 'gdpr-cookie-consent' ); ?><span v-show="default_cookie_bar === true">(default)</span></c-button>
 							<c-button class="gdpr-cookie-consent-banner-tab"@click="changeActiveTestBannerTabTo2":class="{ 'gdpr-cookie-consent-banner-tab-active': active_test_banner_tab === 2 }"><?php esc_html_e( isset( $the_options['cookie_bar2_name'] ) ? $the_options['cookie_bar2_name'] : 'Test Banner B', 'gdpr-cookie-consent' ); ?><span v-show="default_cookie_bar === false">(default)</span></c-button>
@@ -3463,11 +3467,15 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<v-select class="form-group" id="gdpr-cookie-settings-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button1"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-as1" v-model="settings_as_button1">
 								</c-col>
-								<c-col v-show="is_banner" class="col-sm-6" >
+								<c-col v-show="is_banner && !is_iab_on" class="col-sm-6" >
 									<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
 								</c-col>
 								<c-col v-show="!is_banner" class="col-sm-6" >
+									<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
+									<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
+								</c-col>
+								<c-col v-show="!is_banner && is_iab_on" class="col-sm-6" >
 									<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
 								</c-col>
@@ -4565,11 +4573,15 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<v-select class="form-group" id="gdpr-cookie-settings-as-button2" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button2"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-as2" v-model="settings_as_button2">
 								</c-col>
-								<c-col v-show="is_banner" class="col-sm-6" >
+								<c-col v-show="is_banner && !is_iab_on" class="col-sm-6" >
 									<v-select class="form-group" id="gdpr-cookie-settings-layout2" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout2" @input="cookieLayoutChange2"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-layout2" v-model="settings_layout2">
 								</c-col>
 								<c-col v-show="!is_banner" class="col-sm-6" >
+									<v-select class="form-group" id="gdpr-cookie-settings-layout2" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout2" @input="cookieLayoutChange2"></v-select>
+									<input type="hidden" name="gdpr-cookie-settings-layout2" v-model="settings_layout2">
+								</c-col>
+								<c-col v-show="!is_banner && is_iab_on" class="col-sm-6" >
 									<v-select class="form-group" id="gdpr-cookie-settings-layout2" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout2" @input="cookieLayoutChange2"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-layout2" v-model="settings_layout2">
 								</c-col>
