@@ -78,6 +78,10 @@ jQuery(document).ready(function () {
     location.reload();
   });
 
+  jQuery(".done-button-settings").on("click", function (e) {
+   event.preventDefault();
+  });
+
   //cookie notice configure link redirection
 
   jQuery(".gdpr_notice_configure_link").on("click", function (e) {
@@ -447,6 +451,12 @@ jQuery(document).ready(function () {
       });
   }
 
+  // Stopping the behaviour of triggering the pricing page on hitting enter.
+  jQuery(document).on('keydown', function(event) {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+      event.preventDefault();
+    }
+  });
   /**
    * Clicked on connect to exiting account.
    */
