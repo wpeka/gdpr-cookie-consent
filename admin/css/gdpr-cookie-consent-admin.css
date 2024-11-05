@@ -8047,8 +8047,8 @@ button.btn.gdpr-renew-now-btn.pro,
 }
 .gdpr-cookie-consent-banner-tabs {
   display: flex;
-  /* padding: 1rem;
-  padding-top: 28px; */
+  /* padding: 1rem; */
+  padding-top: 28px;
 }
 .gdpr-cookie-consent-banner-tabs .gdpr-cookie-consent-banner-tab {
   display: flex;
