@@ -2429,22 +2429,6 @@ function get_templates( $template_type ) {
 											<?php endif; ?>
 									</c-col>
 								</c-row>
-							<!-- IAB geo selection for pro -->
-								<c-row class="ccpa-iab-selection iab-pro-geo-ques" v-show="is_ccpa" >
-									<c-col class="gdpr-selection-label"><label class="select-law-rule-sublabel"><?php esc_attr_e( 'Enable IAB Transparency and Consent Framework (TCF)', 'gdpr-cookie-consent' ); ?> </label></c-col>
-									<c-col class="iab-options">
-										<label>
-										<input type="radio" name="gcc-iab-enable" value="yes" v-model="selectedRadioIab" @click="onSwitchIABEnable('yes')">
-										<span class="wp-select-law-test">Yes</span>
-										</label>
-										<label>
-										<input type="radio" name="gcc-iab-enable" value="no" v-model="selectedRadioIab" @click="onSwitchIABEnable('no')">
-										<span class="wp-select-law-test">No</span>
-										</label>
-										<input type="hidden" name="gcc-iab-enable" v-model="is_iab_on">
-									</c-col>
-								</c-row>
-
 							<!-- ccpa geo selection for pro  -->
 
 							<c-row class="ccpa-selection ccpa-pro-geo-ques"  v-show="is_ccpa" >

@@ -1412,6 +1412,9 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
   height: 15px;
   width: 15px;
 }
+#gdpr-cookie-consent-script-blocker{
+  margin-top: 17px;
+}
 
 #gdpr-cookie-consent-script-blocker a.nav-link.active:before {
   content: url("../images/script_blocker_settings_blue.svg");
@@ -3978,16 +3981,18 @@ a .export-btn:hover {
   .tab-content
   .card
   .overlay-script-style {
-  z-index: 99;
+  z-index: 9;
   display: grid;
   grid-template-columns: 1444px auto;
   position: absolute;
-  top: 43px;
+  top: 0;
   left: 0;
   bottom: 0;
   margin: 0;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(20, 23, 34, 0.85);
   border: none;
+  width: 100%;
+  height: 100%;
 }
 #gdpr-cookie-consent-settings-app
   .gdpr-cookie-consent-settings-container
@@ -3999,27 +4004,29 @@ a .export-btn:hover {
   .overlay-script-message {
   position: absolute;
   width: calc(100% - 43px);
-  bottom: 241px;
+  bottom: 350px;
   text-align: center;
-  background-color: var(--white-100);
   padding: 15px;
   margin: 20px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 6px -1px,
-    rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
+  color: #fff;
+  font-size: 16px;
 }
 .overlay-whitelistscript-style {
-  z-index: 99;
+  z-index: 9;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 43px;
-  left: 0;
+  top: 0;
+  left: 15px;
   width: 100%;
+  height: 100%;
   bottom: 0;
   margin: 0;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(20, 23, 34, 0.85);
   border: none;
+  font-size: 16px;
+  color: #fff;
 }
 .overlay-whitelistscript-message {
   width: calc(100% - 43px);
@@ -7861,6 +7868,7 @@ button.btn.gdpr-renew-now-btn.pro,
 }
 .cookie-consent-upgrade-to-pro-banner {
   width: 100%;
+  cursor: pointer;
 }
 .cookie-consent-upgrade-to-pro-banner-container {
   margin: 24px;
@@ -8351,7 +8359,6 @@ button.btn.gdpr-renew-now-btn.pro,
   .language-card .card-body,
   .script-blocker-card .card-body,
   .wpl-cookie-consent-integrations-form-container {
-    width: 1051px;
     padding-top: 28px;
   }
 }
@@ -9039,4 +9046,7 @@ input.vs__search {
 .gdpr-group-buttons .gdpr-widget-almond_column{
   min-width: 124px;
   width: fit-content;
+ }
+ #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card{
+  margin-right: 10px;
  }

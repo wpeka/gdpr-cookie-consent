@@ -303,7 +303,7 @@ input.gdpr-wizard-thankyou-live-preview {
 .horizontal-line-after {
   width: 145px;
   height: 2px;
-  background-color: rgba(244, 244, 245, 1);
+  background-color: #16a34a99;
   position: absolute;
 }
 
