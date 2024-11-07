@@ -10423,6 +10423,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'wpl_cl_decline'                   => get_option( 'wpl_cl_decline' ),
 				'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
 				'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
+				'wpl_cl_bypass'                    => get_option( 'wpl_cl_bypass' ),
 				'client_site_is_on'				   => $the_options['is_on'],
 				'client_site_url'                  => get_site_url(),
 				'cookie_usage_for'                 => $gdpr_policy,
