@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.6.3';
+			$this->version = '3.6.4';
 		}
 		add_action(
 			'current_screen',
@@ -691,7 +691,7 @@ class Gdpr_Cookie_Consent {
 			'button_settings_button_size'            => 'medium',
 			'button_settings_is_on'                  => true,
 			'button_settings_display_cookies'        => true,
-			'button_settings_as_popup'               => false,
+			'button_settings_as_popup'               => true,
 			'button_settings_layout_skin'            => 'layout-default',
 			'button_settings_button_opacity'         => '1', // 0 to 1.
 			'button_settings_button_border_width'    => '0', // in pixel.
@@ -1379,7 +1379,7 @@ class Gdpr_Cookie_Consent {
 			'button_accept_button_hover1'            => ( self::gdpr_su_hex_shift( $settings['button_accept_button_color1'], 'down', 20 ) ),
 			'button_accept_as_button1'               => $settings['button_accept_as_button1'],
 			'button_accept_new_win1'                 => $settings['button_accept_new_win1'],
-			'button_accept_is_on1'                   => $settings['button_accept_is_on1'],
+			'button_accept_is_on1'                   => isset($settings['button_accept_is_on1']) ? $settings['button_accept_is_on1'] : '',
 			'button_accept_all_is_on1'               => $settings['button_accept_all_is_on1'],
 			'button_accept_all_link_color1'          => $settings['button_accept_all_link_color1'],
 			'button_accept_all_as_button1'           => $settings['button_accept_all_as_button1'],
@@ -1654,6 +1654,7 @@ class Gdpr_Cookie_Consent {
 			// consent forward .
 			'consent_forward'                        => $settings['consent_forward'],
 			'data_reqs_on'                           => $settings['data_reqs_on'],
+			
 		);
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
 		if ( $wpl_pro_active ) {

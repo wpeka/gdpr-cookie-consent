@@ -524,7 +524,6 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		// Search by post title
 		if ( ! empty( $search ) ) {
 			$post_args['s']     = $search;
-			$post_args['exact'] = true;
 		}
 
 		if ( $month >= 1 && $month <= 12 ) {
