@@ -224,6 +224,7 @@ class Gdpr_Cookie_Consent {
 			// $this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
 			$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init', 5 );
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_admin_init' );
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
@@ -933,12 +934,12 @@ class Gdpr_Cookie_Consent {
 			'font_family'                            => 'inherit', // Pick the family, not the easy name (see helper function below).
 
 			'is_on'                                => true,
-			'is_iabtcf_on'                                => false,
+			'is_iabtcf_on'                         => false,
 			'is_eu_on'                             => false,
 			'is_ccpa_on'                           => false,
 			'is_ccpa_iab_on'                       => false,
-			'is_worldwide_on'                        => true,
-			'is_selectedCountry_on'                  => false,
+			'is_worldwide_on'                      => true,
+			'is_selectedCountry_on'                => false,
 			'logging_on'                           => true,
 			'show_credits'                         => false,
 			'is_ticked'                            => false,
