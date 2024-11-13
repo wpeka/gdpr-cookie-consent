@@ -1410,7 +1410,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<?php esc_html_e( 'Renew Now', 'gdpr-cookie-consent' ); ?>
 										<img  id="renew-consent-img"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/renew-arrow.svg'; ?>" alt="Renew consentlogo">
 									</c-button>
-									<input type="hidden" name="gcc-consent-renew-enable" v-model="is_consent_renewed">
+									<input type="hidden" name="gcc-consent-renew-enable" v-model="consent_version">
 									<!-- last renewed  -->
 									<div class="gdpr-last-renew-container">
 										<div class="gdpr-last-renew-label">
