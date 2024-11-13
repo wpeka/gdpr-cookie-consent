@@ -1392,3 +1392,6 @@ input[type="radio"]:checked {
   height: 16px;
   width: 16px;
 }
+.geo-targeting-wizard-section{
+  margin-top: 16px;
+}

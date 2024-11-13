@@ -207,7 +207,127 @@ class Gdpr_Cookie_Consent_Admin {
 			wp_enqueue_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-tcf.js', array( 'jquery' ), $this->version, false );
 	}
 
-	
+
+	/**
+	 * Register the script for blocker of services.
+	 *
+	 * @since    1.0
+	 */
+	public function gdpr_admin_init() {
+		global $wpdb;
+		// Check if tawk script is added as third party cookie and add to database if not added.
+		if ( ! get_option( 'wpl_pro_tawk_script_added' ) ) {
+
+			$table_name = $wpdb->prefix . 'wpl_cookie_scripts';
+			$like       = '%' . $wpdb->esc_like( $table_name ) . '%';
+			$result     = $wpdb->get_results( $wpdb->prepare( 'SHOW TABLES LIKE %s', array( $like ) ), ARRAY_N ); // db call ok; no-cache ok.
+
+			if ( $result ) {
+				$tawk_table_data = array(
+					'script_key'         => 'tawk',
+					'script_title'       => 'Tawk Widget',
+					'script_category'    => 5,
+					'script_status'      => 1,
+					'script_description' => 'Chat widget',
+				);
+				$data_exists     = $wpdb->get_row( $wpdb->prepare( 'SELECT id FROM ' . $wpdb->prefix . 'wpl_cookie_scripts WHERE `script_key`=%s', array( $tawk_table_data['script_key'] ) ), ARRAY_A ); // db call ok; no-cache ok.
+				if ( ! $data_exists ) {
+					$wpdb->insert( $table_name, $tawk_table_data ); // db call ok; no-cache ok.
+				}
+				add_option( 'wpl_pro_tawk_script_added', '1' );
+			}
+		}
+
+		// Check if hubspot script is added as third party cookie and add to database if not added.
+		if ( ! get_option( 'wpl_pro_hubspot_script_added' ) ) {
+
+			$table_name = $wpdb->prefix . 'wpl_cookie_scripts';
+			$like       = '%' . $wpdb->esc_like( $table_name ) . '%';
+			$result     = $wpdb->get_results( $wpdb->prepare( 'SHOW TABLES LIKE %s', array( $like ) ), ARRAY_N ); // db call ok; no-cache ok.
+
+			if ( $result ) {
+				$hubspot_table_data = array(
+					'script_key'         => 'hubspot',
+					'script_title'       => 'Hubspot Analytics',
+					'script_category'    => 5,
+					'script_status'      => 1,
+					'script_description' => 'Hubspot Analytics',
+				);
+				$data_exists        = $wpdb->get_row( $wpdb->prepare( 'SELECT id FROM ' . $wpdb->prefix . 'wpl_cookie_scripts WHERE `script_key`=%s', array( $hubspot_table_data['script_key'] ) ), ARRAY_A ); // db call ok; no-cache ok.
+				if ( ! $data_exists ) {
+					$wpdb->insert( $table_name, $hubspot_table_data ); // db call ok; no-cache ok.
+				}
+				add_option( 'wpl_pro_hubspot_script_added', '1' );
+			}
+		}
+
+		// Check if recaptcha script is added as third party cookie and add to database if not added.
+		if ( ! get_option( 'wpl_pro_recaptcha_script_added' ) ) {
+			$table_name = $wpdb->prefix . 'wpl_cookie_scripts';
+			$like       = '%' . $wpdb->esc_like( $table_name ) . '%';
+			$result     = $wpdb->get_results( $wpdb->prepare( 'SHOW TABLES LIKE %s', array( $like ) ), ARRAY_N ); // db call ok; no-cache ok.
+
+			if ( $result ) {
+				$recaptcha_table_data = array(
+					'script_key'         => 'recaptcha',
+					'script_title'       => 'Google Recaptcha',
+					'script_category'    => 5,
+					'script_status'      => 1,
+					'script_description' => 'Google Recaptcha',
+				);
+				$data_exists          = $wpdb->get_row( $wpdb->prepare( 'SELECT id FROM ' . $wpdb->prefix . 'wpl_cookie_scripts WHERE `script_key`=%s', array( $recaptcha_table_data['script_key'] ) ), ARRAY_A ); // db call ok; no-cache ok.
+				if ( ! $data_exists ) {
+					$wpdb->insert( $table_name, $recaptcha_table_data ); // db call ok; no-cache ok.
+				}
+				add_option( 'wpl_pro_recaptcha_script_added', '1' );
+			}
+		}
+		// Check if adsense script is added as third party cookie and add to database if not added.
+		if ( ! get_option( 'wpl_pro_adsense_script_added' ) ) {
+
+			$table_name = $wpdb->prefix . 'wpl_cookie_scripts';
+			$like       = '%' . $wpdb->esc_like( $table_name ) . '%';
+			$result     = $wpdb->get_results( $wpdb->prepare( 'SHOW TABLES LIKE %s', array( $like ) ), ARRAY_N ); // db call ok; no-cache ok.
+
+			if ( $result ) {
+				$adsense_table_data = array(
+					'script_key'         => 'adsense',
+					'script_title'       => 'Google Adsense',
+					'script_category'    => 5,
+					'script_status'      => 1,
+					'script_description' => 'Google Adsense',
+				);
+				$data_exists        = $wpdb->get_row( $wpdb->prepare( 'SELECT id FROM ' . $wpdb->prefix . 'wpl_cookie_scripts WHERE `script_key`=%s', array( $adsense_table_data['script_key'] ) ), ARRAY_A ); // db call ok; no-cache ok.
+				if ( ! $data_exists ) {
+					$wpdb->insert( $table_name, $adsense_table_data ); // db call ok; no-cache ok.
+				}
+				add_option( 'wpl_pro_adsense_script_added', '1' );
+			}
+		}
+
+		// Check if matomo script is added as third party cookie and add to database if not added.
+		if ( ! get_option( 'wpl_pro_matomo_script_added' ) ) {
+			$table_name = $wpdb->prefix . 'wpl_cookie_scripts';
+			$like       = '%' . $wpdb->esc_like( $table_name ) . '%';
+			$result     = $wpdb->get_results( $wpdb->prepare( 'SHOW TABLES LIKE %s', array( $like ) ), ARRAY_N ); // db call ok; no-cache ok.
+
+			if ( $result ) {
+				$matomo_table_data = array(
+					'script_key'         => 'matomo',
+					'script_title'       => 'Matomo Analytics',
+					'script_category'    => 5,
+					'script_status'      => 1,
+					'script_description' => 'Matomo Analytics',
+				);
+				$data_exists       = $wpdb->get_row( $wpdb->prepare( 'SELECT id FROM ' . $wpdb->prefix . 'wpl_cookie_scripts WHERE `script_key`=%s', array( $matomo_table_data['script_key'] ) ), ARRAY_A ); // db call ok; no-cache ok.
+				if ( ! $data_exists ) {
+					$wpdb->insert( $table_name, $matomo_table_data ); // db call ok; no-cache ok.
+				}
+
+				add_option( 'wpl_pro_matomo_script_added', '1' );
+			}
+		}
+	}
 
 
 	/**
@@ -1543,8 +1663,10 @@ class Gdpr_Cookie_Consent_Admin {
 	public function admin_plugin_action_links( $links ) {
 		$current_url = get_site_url();
 		$current_url = $current_url . '/wp-admin/admin.php?page=gdpr-cookie-consent#create_cookie_banner';
-
-		if ( ! get_option( 'wpl_pro_active' ) ) {
+		// fetching the setting for paid plan.
+		$settings = new GDPR_Cookie_Consent_Settings();
+		$api_user_plan          = $this->settings->get_plan();
+		if ( $api_user_plan != '10sites' ) {
 			$links = array_merge(
 				array(
 					'<a href="' . esc_url( 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=plugins&utm_campaign=link&utm_content=upgrade-to-pro' ) . '" target="_blank" rel="noopener noreferrer"><strong style="color: #11967A; display: inline;">' . __( 'Upgrade to Pro', 'gdpr-cookie-consent' ) . '</strong></a>',
@@ -7024,6 +7146,11 @@ class Gdpr_Cookie_Consent_Admin {
 					} elseif ( 'false' == $_POST['gcc-eu-enable'] ) {
 						$the_options['is_eu_on'] = 'false';
 					} else {
+						
+						if(!$the_options['is_eu_on']){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
 						$the_options['is_eu_on'] = 'true';
 					}
 				}
@@ -7034,7 +7161,38 @@ class Gdpr_Cookie_Consent_Admin {
 					} elseif ( 'false' == $_POST['gcc-ccpa-enable'] ) {
 						$the_options['is_ccpa_on'] = 'false';
 					} else {
+						if(!$the_options['is_ccpa_on'] ){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
 						$the_options['is_ccpa_on'] = 'true';
+					}
+				}
+				// for World wide.
+				if ( isset( $_POST['gcc-worldwide-enable'] ) ) {
+					if ( 'no' === $_POST['gcc-worldwide-enable'] ) {
+						$the_options['is_worldwide_on'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-worldwide-enable'] ) {
+						$the_options['is_worldwide_on'] = 'false';
+					} else {
+						if(!$the_options['is_worldwide_on']){
+							$this->disable_auto_update_maxminddb();
+						}
+						$the_options['is_worldwide_on'] = 'true';
+					}
+				}
+				// For select country dropdown.
+				if ( isset( $_POST['gcc-select-countries-enable'] ) ) {
+					if ( 'no' === $_POST['gcc-select-countries-enable'] ) {
+						$the_options['is_selectedCountry_on'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-select-countries-enable'] ) {
+						$the_options['is_selectedCountry_on'] = 'false';
+					} else {
+						if(!$the_options['is_selectedCountry_on']){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
+						$the_options['is_selectedCountry_on'] = 'true';
 					}
 				}
 				if ( isset( $the_options['cookie_usage_for'] ) ) {

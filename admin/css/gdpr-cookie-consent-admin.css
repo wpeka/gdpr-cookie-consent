@@ -8137,15 +8137,20 @@ button.btn.gdpr-renew-now-btn.pro,
 .gdpr-eu_visitors_message-both {
   display: none;
 }
+.gdpr-disabled-geo-integration{
+  position: relative;
+}
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both {
-  width: 140px;
-  position: relative;
-  right: 49px;
+  position: absolute;
+  text-wrap: nowrap;
+  width: fit-content;
   background: var(--black-50);
   padding: 10px;
   color: var(--white-100);
+  text-align: center;
+  z-index: 99;
 }
 #gdpr-install-activate-img {
   max-width: 100%;

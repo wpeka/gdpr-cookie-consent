@@ -15,6 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $image_path = GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/';
 $is_pro     = get_option( 'wpl_pro_active', false );
+// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+$this->settings = new GDPR_Cookie_Consent_Settings();
+
+// Call the methods from the instantiated object to get user parameters.
+$is_user_connected      = $this->settings->is_connected();
 
 /**
  *  Cookie Template card for Pro version.
@@ -2369,126 +2374,81 @@ function get_templates( $template_type ) {
 							</div>
 							<input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
 						</div>
-						<div>
-							<c-row class="gdpr-selection gdpr-pro-geo-ques" v-show="is_gdpr" >
-									<c-col class="gdpr-selection-label"><label class="select-law-rule-sublabel"><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
-									<c-col class="gdpr-options">
-										<label class="wizard_eu_safe">
-										<?php
-										$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-
-										$geo_options = get_option( 'wpl_geo_options' );
-										if ( $the_options['enable_safe'] === 'true' ) :
-											?>
-												<label class="display_block">
-													<div class="opacity_yes">
-														<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
-														<span class="wp-select-law-test">Yes</span>
-													</div>
-													<div class="wizard_eu_safe_message">
-														<?php
-														esc_attr_e(
-															'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-															'gdpr-cookie-consent'
-														);
-														?>
-													</div>
-												</label>
-												<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
-													<label class="display_block">
-														<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
-														<span class="wp-select-law-test">No</span>
-													</label>
-												<?php endif; ?>
-											<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-												<label class="display_block">
-													<div class="opacity_yes">
-														<input class="display_block" type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" disabled>
-														<span class="wp-select-law-test">Yes</span>
-													</div>
-													<div class="wizard_eu_safe_message">
-													<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
-													</div>
-												</label>
-												<?php if ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-													<label class="display_block">
-														<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')" checked>
-														<span class="wp-select-law-test">No</span>
-													</label>
-												<?php endif; ?>
-											<?php else : ?>
-												<label>
-													<input type="radio" name="gcc-eu-enable" value="yes" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('yes')">
-													<span class="wp-select-law-test">Yes</span>
-												</label>
-												<label>
-													<input type="radio" name="gcc-eu-enable" value="no" v-model="selectedRadioGdpr" @click="onSwitchEUEnable('no')">
-													<span class="wp-select-law-test">No</span>
-												</label>
-												<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
-											<?php endif; ?>
-									</c-col>
-								</c-row>
-							<!-- ccpa geo selection for pro  -->
-
-							<c-row class="ccpa-selection ccpa-pro-geo-ques"  v-show="is_ccpa" >
-								<c-col class="ccpa-selection-label"><label class="select-law-rule-sublabel"><?php esc_attr_e( 'Show only for California visitors', 'gdpr-cookie-consent' ); ?> </label></c-col>
-								<c-col class="ccpa-options">
-								<label class="wizard_eu_safe">
-										<?php
-										$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-										$geo_options = get_option( 'wpl_geo_options' );
-										if ( $the_options['enable_safe'] === 'true' ) :
-											?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
-													<span class="wp-select-law-test">Yes</span>
-												</div>
-												<div class="wizard_eu_safe_message">
-													<?php
-													esc_attr_e(
-														'Safe Mode enabled. Disable it in Compliance settings to manage integrations.',
-														'gdpr-cookie-consent'
-													);
-													?>
-												</div>
-											</label>
-											<?php if ( $the_options['enable_safe'] === 'true' ) : ?>
-												<label class="display_block">
-													<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
-													<span class="wp-select-law-test">No</span>
-												</label>
-											<?php endif; ?>
-										<?php elseif ( isset( $geo_options['enable_geotargeting'] ) && ( $geo_options['enable_geotargeting'] === false || $geo_options['enable_geotargeting'] === 'false' ) ) : ?>
-											<label class="display_block">
-												<div class="opacity_yes">
-													<input class="display_block" type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" disabled>
-													<span class="wp-select-law-test">Yes</span>
-												</div>
-												<div class="wizard_eu_safe_message">
-												<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
-												</div>
-											</label>
-											<label class="display_block">
-												<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')" checked>
-												<span class="wp-select-law-test">No</span>
-											</label>
-										<?php else : ?>
-											<label>
-												<input type="radio" name="gcc-ccpa-enable" value="yes" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('yes')">
-												<span class="wp-select-law-test">Yes</span>
-											</label>
-											<label>
-												<input type="radio" name="gcc-ccpa-enable" value="no" v-model="selectedRadioCcpa" @click="onSwitchCCPAEnable('no')">
-												<span class="wp-select-law-test">No</span>
-											</label>
-											<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
-										<?php endif; ?>
-								</c-col>
-							</c-row>
+						<div v-show="!is_eprivacy && !is_lgpd">
+							<div><div class="select-law-rule-sublabel" id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Banner Geo-Targeting', 'gdpr-cookie-consent' ); ?></div></div>
+						</div>
+						<div class="geo-targeting-wizard-section">
+						<div v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa'">
+							<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable"v-model="selectedRadioWorldWide" @click="onSwitchWorldWideEnable"><label class="wp-select-law-test"><?php esc_attr_e( 'Worldwide', 'gdpr-cookie-consent' ); ?></label></div>
+							<div>
+								<input type="hidden" name="gcc-worldwide-enable" v-model="is_worldwide_on">
 							</div>
-												
+						</div>
+						<div v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both'">
+							<?php
+							$geo_options = get_option( 'wpl_geo_options' );
+							if ( !$is_user_connected) :
+								?>
+								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input id="gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled><label class="wp-select-law-test"><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
+								<p class=" gdpr-eu_visitors_message-gdpr">
+									<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+								</p>
+							<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
+								<div  style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;" class="gdpr-disabled-geo-integration">
+									<input id="gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled>
+									<label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
+								</div>
+								<p class="gdpr-eu_visitors_message-gdpr">
+									<?php esc_attr_e( 'Safe Mode enabled. Disable it in Compliance settings to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+								</p>
+							<?php else : ?>
+								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" v-model="is_eu_on" @click="onSwitchEUEnable($event.target.checked)"><label class="wp-select-law-test"><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
+								<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
+							<?php endif; ?>
+						</div>
+						<div v-show="gdpr_policy === 'ccpa' || gdpr_policy === 'both'">
+							<?php
+								$geo_options = get_option( 'wpl_geo_options' );
+							if ( !$is_user_connected ) :
+								?>
+								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;" class="wp-select-law-test"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+								<p class=" gdpr-eu_visitors_message-ccpa">
+								<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+								</p>
+							<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
+								<div  style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;" class="gdpr-disabled-geo-integration"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+								<p class="gdpr-eu_visitors_message-ccpa">
+									<?php esc_attr_e( 'Safe Mode enabled. Disable it in Compliance settings to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+								</p>
+							<?php else : ?>
+								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" v-model="is_ccpa_on" @click="onSwitchCCPAEnable($event.target.checked)"><label class="wp-select-law-test"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+								<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
+							<?php endif; ?>
+						</div>
+						<div v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa'">
+							<?php
+								$geo_options = get_option( 'wpl_geo_options' );
+							if ( !$is_user_connected ) :
+								?>
+									<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable"disabled><label class="wp-select-law-test"><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+									<p class=" gdpr-eu_visitors_message-both">
+									<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+									</p>
+							<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
+									<div  style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;" class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+									<p class="gdpr-eu_visitors_message-both">
+									<?php esc_attr_e( 'Safe Mode enabled. Disable it in Compliance settings to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+									</p>
+							<?php else : ?>
+								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label class="wp-select-law-test"><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+								<input type="hidden" name="gcc-select-countries-enable" v-model="is_selectedCountry_on">
+							<?php endif; ?>
+						</div>
+						<div style="padding-bottom:10px;" class="select-countries-dropdown" v-show="(is_selectedCountry_on) && ( gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa' )">
+							<v-select id="gdpr-cookie-consent-geotargeting-countries" placeholder="Select Countries":reduce="label => label.code" class="form-group" :options="list_of_countries" multiple v-model="select_countries_array" @input="onCountrySelect"></v-select>
+							<input type="hidden" name="gcc-selected-countries" v-model="select_countries">
+						</div>	
+						</div>					
 					</div>
 
 					<input type="button" name="next-step" class="next-step first-next-step" value="Save & Continue" />

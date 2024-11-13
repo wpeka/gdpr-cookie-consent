@@ -185,10 +185,10 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 				),
 				array(
 					'script_key'         => 'twitter_widget',
-					'script_title'       => 'Twitter Widget',
+					'script_title'       => 'X Widget',
 					'script_category'    => $category,
 					'script_status'      => 1,
-					'script_description' => 'Twitter social widget',
+					'script_description' => 'X social widget',
 				),
 				array(
 					'script_key'         => 'soundcloud_embed',
