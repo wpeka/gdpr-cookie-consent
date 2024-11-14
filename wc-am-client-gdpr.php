@@ -461,7 +461,7 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 				'plugin_name' => $this->plugin_name,
 				'version'     => $this->wc_am_software_version,
 				'product_id'  => $this->product_id,
-				'api_key'     => $this->data[ $this->wc_am_api_key_key ],
+				'api_key'     =>  (is_array($this->data) && isset($this->data[$this->wc_am_api_key_key])) ? $this->data[$this->wc_am_api_key_key] : '',
 				'instance'    => $this->wc_am_instance_id,
 			);
 

@@ -383,7 +383,8 @@ GDPR_CCPA_COOKIE_EXPIRE =
         ) {
           // Show the cookie banner
           this.bar_elm.show();
-
+          // to delete the cookie for the consent which is renewed.
+          GDPR_Cookie.erase(GDPR_ACCEPT_COOKIE_NAME);
           // Set 'consent_value' to 'false'
           gdpr_consent_renew[i].consent_value = "false";
         }
@@ -3394,7 +3395,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (this.settings.auto_banner_initialize && !hideBanner) {
             setTimeout(function () {
               self.bar_elm.show();
-            }, banner_delay);
+            }, this.settings.auto_banner_initialize_delay);
           }
 
           if (!this.settings.auto_banner_initialize && !hideBanner) {

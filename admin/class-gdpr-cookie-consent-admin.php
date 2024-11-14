@@ -111,7 +111,8 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
 			//For Import CSV option on Policy data page
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
-
+			add_action('admin_notices', array($this,'gdpr_remove_admin_notices'),1);
+			add_action('all_admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			
 		}
 		
@@ -10422,6 +10423,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'wpl_cl_decline'                   => get_option( 'wpl_cl_decline' ),
 				'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
 				'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
+				'wpl_cl_bypass'                    => get_option( 'wpl_cl_bypass' ),
 				'client_site_is_on'				   => $the_options['is_on'],
 				'client_site_url'                  => get_site_url(),
 				'cookie_usage_for'                 => $gdpr_policy,
@@ -10467,5 +10469,13 @@ class Gdpr_Cookie_Consent_Admin {
 			'gdpr-policies-import',
 			array( $this, 'gdpr_policies_import_page')
 		);
+	}
+
+	// Function to remove the admin notices in policy data.
+	public function gdpr_remove_admin_notices() {
+		if (isset($_GET['page']) && $_GET['page'] === 'gdpr-cookie-consent') {
+			remove_all_actions('admin_notices');
+			remove_all_actions('all_admin_notices');
+		}
 	}
 }
