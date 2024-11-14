@@ -130,6 +130,13 @@ var gen = new Vue({
           ? true
           : false,
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
+      dynamic_lang_is_on:
+        settings_obj.the_options.hasOwnProperty("is_dynamic_lang_on") &&
+        (true === settings_obj.the_options["is_dynamic_lang_on"] ||
+          1 === settings_obj.the_options["is_dynamic_lang_on"] ||
+          "true" === settings_obj.the_options["is_dynamic_lang_on"])
+          ? true
+          : false,
       banner_preview_is_on:
         "true" == settings_obj.the_options["banner_preview_enable"] ||
         1 === settings_obj.the_options["banner_preview_enable"]
@@ -2461,6 +2468,9 @@ var gen = new Vue({
       }
       this.is_iabtcf_changed = true;
     },
+    onSwitchDynamicLang() {
+      this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
+    },
     onSwitchCookieAcceptEnable() {
       this.cookie_accept_on = !this.cookie_accept_on;
     },
@@ -4188,6 +4198,7 @@ var gen = new Vue({
       this.accept_background_color = "#18a300";
       this.open_url = false;
       this.iabtcf_is_on = false;
+      this.dynamic_lang_is_on = false;
       this.accept_as_button = true;
       this.accept_size = "medium";
       this.cookie_accept_on = true;
