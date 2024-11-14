@@ -97,11 +97,11 @@ var gen = new Vue({
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
       scan_in_progress: false,
-      is_consent_renewed:
-        "true" == settings_obj.the_options["consent_renew_enable"] ||
-        1 === settings_obj.the_options["consent_renew_enable"]
-          ? true
-          : false,
+      consent_version: settings_obj.the_options.hasOwnProperty(
+        "consent_version"
+      )
+        ? this.stripSlashes(settings_obj.the_options["consent_version"])
+        : 1,
       scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty(
         "scripts_list"
       )
@@ -2645,8 +2645,8 @@ var gen = new Vue({
       this.consent_log_switch_clicked = true;
     },
     onClickRenewConsent() {
-      this.is_consent_renewed = true;
-      this.success_error_message = "User Consent Renewed";
+      this.consent_version = Number(this.consent_version) + 1;
+      this.success_error_message = "User Consent Renewed. Save Changes Please.";
       j("#gdpr-cookie-consent-save-settings-alert").css(
         "background-color",
         "#72b85c"
@@ -4184,6 +4184,7 @@ var gen = new Vue({
       this.cookie_bar_opacity = "0.80";
       this.cookie_bar_border_width = "0";
       this.border_style = "none";
+      this.consent_version = 1;
       this.cookie_border_color = "#ffffff";
       this.cookie_bar_border_radius = "0";
       this.template = "banner-default";

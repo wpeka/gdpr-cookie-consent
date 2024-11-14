@@ -7813,8 +7813,22 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 
 			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
-			// consent renewed.
-			$the_options['consent_renew_enable'] = isset( $_POST['gcc-consent-renew-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-consent-renew-enable'] ) ) : 'false';
+			//check if new consent version number is greater than the one in db, if yes, update the time stamp.
+			if(isset($the_options['consent_version']) && isset($_POST['gcc-consent-renew-enable']) && $_POST['gcc-consent-renew-enable'] > $the_options['consent_version']){
+				$option_name     = 'wpl_consent_timestamp';
+				$timestamp_value = time();
+
+				// Check if the option already exists.
+				if ( false === get_option( $option_name ) ) {
+					// If it doesn't exist, add the option.
+					add_option( $option_name, $timestamp_value );
+				} else {
+					// If it exists, update the option.
+					update_option( $option_name, $timestamp_value );
+				}
+			}
+			//consent version for renew consent
+			$the_options['consent_version'] = isset($the_options['consent_version']) ? (isset($_POST['gcc-consent-renew-enable']) ? sanitize_text_field( wp_unslash( $_POST['gcc-consent-renew-enable'] ) ) : $the_options['consent_version']) : 1;
 			// scan when.
 			$the_options['schedule_scan_when'] = isset( $_POST['gdpr-schedule-scan-when'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-when'] ) ) : 'Not Scheduled';
 			// scan type.
@@ -8705,56 +8719,7 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( $_POST['lang_changed'] == 'true' && isset( $_POST['select-banner-lan'] ) && in_array( $_POST['select-banner-lan'], $this->supported_languages ) ) {  //phpcs:ignore
 				$the_options = $this->changeLanguage($the_options);				
 			}
-
-			// Set consent renew to all the users when consent renew is enabled.
-
-			if ( $the_options['consent_renew_enable'] ) {
-				global $wpdb;
-				$meta_key_cl_ip            = '_wplconsentlogs_ip';
-				$meta_key_cl_renew_consent = '_wpl_renew_consent';
-
-				// Find posts with _wplconsentlogs_ip meta key.
-				$results = $wpdb->get_results(
-					$wpdb->prepare(
-						"SELECT pm1.post_id, pm1.meta_value AS ip_value, pm2.meta_value AS consent_value
-						FROM {$wpdb->prefix}postmeta AS pm1
-						LEFT JOIN {$wpdb->prefix}postmeta AS pm2 ON pm1.post_id = pm2.post_id
-						WHERE pm1.meta_key = %s",
-						$meta_key_cl_ip
-					)
-				);
-
-				if ( $results ) {
-					foreach ( $results as $result ) {
-						$post_id       = $result->post_id;
-						$consent_value = $the_options['consent_renew_enable'];
-
-						// Check if _wpl_renew_consent meta key exists, and add if it doesn't.
-						if ( ! get_post_meta( $post_id, $meta_key_cl_renew_consent, true ) ) {
-							add_post_meta( $post_id, $meta_key_cl_renew_consent, $consent_value, true );
-						} else {
-							// Update _wpl_renew_consent meta value if it exists.
-							update_post_meta( $post_id, $meta_key_cl_renew_consent, $consent_value );
-						}
-					}
-				}
-
-				$option_name     = 'wpl_consent_timestamp';
-				$timestamp_value = time();
-
-				// Check if the option already exists.
-				if ( false === get_option( $option_name ) ) {
-					// If it doesn't exist, add the option.
-					add_option( $option_name, $timestamp_value );
-				} else {
-					// If it exists, update the option.
-					update_option( $option_name, $timestamp_value );
-				}
-
-				// make renew consent false once done.
-
-				$the_options['consent_renew_enable'] = 'false';
-			}
+	
 			if (isset($_POST['gcc-ab-testing-enable']) 
 				&& ($_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false) 
 				&& isset($ab_options['ab_testing_enabled']) 
