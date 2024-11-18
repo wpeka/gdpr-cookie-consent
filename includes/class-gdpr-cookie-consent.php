@@ -289,9 +289,6 @@ class Gdpr_Cookie_Consent {
 			// added rest endpoint for fetching current options for banner.
 			$this->loader->add_action( 'rest_api_init', $plugin_public, 'gdpr_cookie_data_endpoint' );
 			if ( ! get_option( 'wpl_pro_active' ) ) {
-				// action hooks for renew consnet.
-				$this->loader->add_action( 'wp_ajax_nopriv_gdpr_renew_consent_bar', $plugin_public, 'gdpr_renew_consent_bar' );
-				$this->loader->add_action( 'wp_ajax_gdpr_renew_consent_bar', $plugin_public, 'gdpr_renew_consent_bar' );
 				// action hooks for geo integration.
 				$this->loader->add_action( 'wp_ajax_nopriv_show_cookie_consent_bar', $plugin_public, 'show_cookie_consent_bar' );
 				$this->loader->add_action( 'wp_ajax_show_cookie_consent_bar', $plugin_public, 'show_cookie_consent_bar' );
@@ -1658,6 +1655,9 @@ class Gdpr_Cookie_Consent {
 			// consent forward .
 			'consent_forward'                        => $settings['consent_forward'],
 			'data_reqs_on'                           => $settings['data_reqs_on'],
+			//consent version for renew consent
+			'consent_version'						 => isset($settings['consent_version']) ? $settings['consent_version'] : 1,
+			
 			// Multiple Legislation JSON Data
 			'multiple_legislation_cookie_bar_color1' => isset($settings['multiple_legislation_cookie_bar_color1']) ? $settings['multiple_legislation_cookie_bar_color1'] : '',
 			'multiple_legislation_cookie_bar_color2' => isset($settings['multiple_legislation_cookie_bar_color2']) ? $settings['multiple_legislation_cookie_bar_color2'] : '',

@@ -93,15 +93,15 @@ var gen = new Vue({
       confirm_button_popup2: false,
       cancel_button_popup2: false,
       opt_out_link_popup2: false,
-      show_more_cookie_design_popup:false,
+      show_more_cookie_design_popup: false,
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
       scan_in_progress: false,
-      is_consent_renewed:
-        "true" == settings_obj.the_options["consent_renew_enable"] ||
-        1 === settings_obj.the_options["consent_renew_enable"]
-          ? true
-          : false,
+      consent_version: settings_obj.the_options.hasOwnProperty(
+        "consent_version"
+      )
+        ? this.stripSlashes(settings_obj.the_options["consent_version"])
+        : 1,
       scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty(
         "scripts_list"
       )
@@ -130,6 +130,13 @@ var gen = new Vue({
           ? true
           : false,
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
+      dynamic_lang_is_on:
+        settings_obj.the_options.hasOwnProperty("is_dynamic_lang_on") &&
+        (true === settings_obj.the_options["is_dynamic_lang_on"] ||
+          1 === settings_obj.the_options["is_dynamic_lang_on"] ||
+          "true" === settings_obj.the_options["is_dynamic_lang_on"])
+          ? true
+          : false,
       banner_preview_is_on:
         "true" == settings_obj.the_options["banner_preview_enable"] ||
         1 === settings_obj.the_options["banner_preview_enable"]
@@ -2533,6 +2540,9 @@ var gen = new Vue({
       }
       this.is_iabtcf_changed = true;
     },
+    onSwitchDynamicLang() {
+      this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
+    },
     onSwitchCookieAcceptEnable() {
       this.cookie_accept_on = !this.cookie_accept_on;
     },
@@ -2691,8 +2701,8 @@ var gen = new Vue({
       this.consent_log_switch_clicked = true;
     },
     onClickRenewConsent() {
-      this.is_consent_renewed = true;
-      this.success_error_message = "User Consent Renewed";
+      this.consent_version = Number(this.consent_version) + 1;
+      this.success_error_message = "User Consent Renewed. Save Changes Please.";
       j("#gdpr-cookie-consent-save-settings-alert").css(
         "background-color",
         "#72b85c"
@@ -3898,7 +3908,7 @@ var gen = new Vue({
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
     },
- 
+
     onSwitchDefaultCookieBar() {
       this.default_cookie_bar = !this.default_cookie_bar;
     },
@@ -4320,6 +4330,7 @@ var gen = new Vue({
       this.cookie_bar_opacity = "0.80";
       this.cookie_bar_border_width = "0";
       this.border_style = "none";
+      this.consent_version = 1;
       this.cookie_border_color = "#ffffff";
       this.cookie_bar_border_radius = "0";
       this.template = "banner-default";
@@ -4333,6 +4344,7 @@ var gen = new Vue({
       this.accept_background_color = "#18a300";
       this.open_url = false;
       this.iabtcf_is_on = false;
+      this.dynamic_lang_is_on = false;
       this.accept_as_button = true;
       this.accept_size = "medium";
       this.cookie_accept_on = true;
@@ -4785,7 +4797,6 @@ var gen = new Vue({
 
       var that = this;
       var dataV = jQuery("#gcc-save-settings-form").serialize();
-      console.log(dataV);
       jQuery
         .ajax({
           type: "POST",
@@ -6037,7 +6048,6 @@ var gen = new Vue({
       if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
      
       var dataV = jQuery("#gcc-save-settings-form").serialize();
-console.log(dataV);
     // Make the AJAX request to save the new state
     jQuery
     .ajax({
@@ -6049,7 +6059,6 @@ console.log(dataV);
         },
     })
     .done(function (data) {
-        console.log("AJAX call completed:", data);
         window.location.reload();
         // Show success message
         that.success_error_message = "Settings Saved";

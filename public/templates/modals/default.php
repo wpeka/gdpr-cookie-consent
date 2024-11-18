@@ -50,11 +50,11 @@ $data = Gdpr_Cookie_Consent::gdpr_get_vendors();
 					<div class="gdpr-groups-container">
 						<?php
 							if ( $the_options['cookie_usage_for']==='gdpr' ) :?>
-								<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
+								<div class="gdpr-about-cookies"><?php echo $the_options['is_iabtcf_on'] ? esc_html__( $cookie_data['dash_about_message_iabtcf'], 'gdpr-cookie-consent' ) : esc_html__( $cookie_data['dash_about_message'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
 							<?php elseif (  $the_options['cookie_usage_for']==='lgpd') :?>
-								<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['lgpd'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
+								<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['dash_about_message_lgpd'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
 							<?php elseif ( $the_options['cookie_usage_for']==='both' ) :?>
-								<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['msg'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
+								<div class="gdpr-about-cookies"><?php echo $the_options['is_iabtcf_on'] ? esc_html__( $cookie_data['dash_about_message_iabtcf'], 'gdpr-cookie-consent' ) : esc_html__( $cookie_data['dash_about_message'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
 							<?php endif; 
 								?>
 							<ul class="gdpr-iab-navbar">

@@ -203,6 +203,8 @@ class Gdpr_Cookie_Consent_Activator {
 			$prev_gdpr_option['auto_scroll_offset'] = '10';
 			// cookie usage for.
 			$prev_gdpr_option['cookie_usage_for'] = 'gdpr';
+			// consent renew version
+			$prev_gdpr_option['consent_version'] = 1;
 			// ccpa message.
 			$prev_gdpr_option['notify_message_ccpa'] = addslashes( 'In case of sale of your personal information, you may opt out by using the link' );
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $prev_gdpr_option );

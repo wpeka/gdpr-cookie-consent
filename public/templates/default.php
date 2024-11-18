@@ -45,7 +45,7 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 	if ( ! empty( $the_options['show_again'] ) ) {
 		?>
 		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" class="<?php echo esc_html( $the_options['container_class'] ); ?>">
-		<span><?php echo esc_html__( $the_options['show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
+		<span><?php echo esc_html__( $cookie_data['dash_show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
 	</div>
 		<?php
 	}
@@ -64,7 +64,7 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 	if ( ! empty( $the_options['show_again'] ) ) {
 		?>
 		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" class="<?php echo esc_html( $the_options['container_class'] ); ?>">
-		<span><?php echo esc_html__( $the_options['show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
+		<span><?php echo esc_html__( $cookie_data['dash_show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
 	</div>
 		<?php
 	}
@@ -73,7 +73,7 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 	if ( ! empty( $the_options['show_again'] ) ) {
 		?>
 		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" class="<?php echo esc_html( $the_options['container_class'] ); ?>">
-			<span><?php echo esc_html__( $the_options['show_again_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></span>
+			<span><?php echo esc_html__( $cookie_data['dash_show_again_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></span>
 		</div>
 		<?php
 	}

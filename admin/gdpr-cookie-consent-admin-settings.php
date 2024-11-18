@@ -1678,7 +1678,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<?php esc_html_e( 'Renew Now', 'gdpr-cookie-consent' ); ?>
 										<img  id="renew-consent-img"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/renew-arrow.svg'; ?>" alt="Renew consentlogo">
 									</c-button>
-									<input type="hidden" name="gcc-consent-renew-enable" v-model="is_consent_renewed">
+									<input type="hidden" name="gcc-consent-renew-enable" v-model="consent_version">
 									<!-- last renewed  -->
 									<div class="gdpr-last-renew-container">
 										<div class="gdpr-last-renew-label">
@@ -1884,6 +1884,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<input type="hidden" name="gcc-gdpr-cookie-on-load" v-model="on_load">
 								</c-col>
 							</c-row>
+							<c-row>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto-Detect Banner Language ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( " Automatically sets the cookie banner language to match your visitor's preferred browser language, providing a more localized experience. ", 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-8">
+										<c-switch v-bind="labelIcon" v-model="dynamic_lang_is_on" id="gdpr-cookie-consent-dynamic-lang-on" variant="3d"  color="success" :checked="dynamic_lang_is_on" v-on:update:checked="onSwitchDynamicLang"></c-switch>
+										<input type="hidden" name="gcc-dynamic-lang-enable" v-model="dynamic_lang_is_on">
+									</c-col>
+								</c-row>
 							<c-row>
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Initialization', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
