@@ -381,7 +381,6 @@ jQuery(document).ready(function () {
     // GDPR hover function
     jQuery("#gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard").hover(
       function () {
-        console.log("This is called");
         gdprTimer = setTimeout(function () {
           jQuery(".gdpr-eu_visitors_message-gdpr").css("display", "block");
         }, 250); // 250ms delay
@@ -686,10 +685,10 @@ jQuery(document).ready(function () {
   if (button_settings_as_popup == 1) {
     jQuery(document).ready(function ($) {
       jQuery(document).ready(function ($) {
-        $(".gpdr_cookie_settings_btn").on("click", function (e) {
+        $(".gpdr_cookie_settings_btn , .gpdr_cookie_settings_btn1").on("click", function (e) {
           e.preventDefault();
           // Fade out the div to the bottom
-          $("#banner-preview-main-container").animate(
+          $("#banner-preview-main-container ,#banner-preview-main-container1").animate(
             {
               opacity: 0,
               height: "toggle",
@@ -709,7 +708,7 @@ jQuery(document).ready(function () {
           e.preventDefault();
           // Fade out the .gdpr_messagebar_detail
           $(".gdpr_messagebar_detail").fadeOut("fast", function () {});
-          $("#banner-preview-main-container").animate(
+          $("#banner-preview-main-container,#banner-preview-main-container1").animate(
             {
               opacity: 1,
               height: "toggle",
@@ -723,7 +722,7 @@ jQuery(document).ready(function () {
     // else block for extended banner functionality.
     jQuery(document).ready(function ($) {
       var is_cookie_setting_clicked = false;
-      jQuery(".gpdr_cookie_settings_btn").on("click", function (e) {
+      jQuery(".gpdr_cookie_settings_btn, .gpdr_cookie_settings_btn1").on("click", function (e) {
         e.preventDefault();
         if (!is_cookie_setting_clicked) {
           jQuery(".gdpr_messagebar_detail").removeClass("hide-extended-banner");

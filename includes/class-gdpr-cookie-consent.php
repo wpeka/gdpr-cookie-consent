@@ -229,6 +229,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_ab_testing_enable', $plugin_admin, 'gdpr_cookie_consent_ab_testing_enable', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
 			// added ajax callback for wizard.
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
@@ -1652,10 +1653,28 @@ class Gdpr_Cookie_Consent {
 			'button_settings_button_border_radius'   => $settings['button_settings_button_border_radius'],
 			'button_confirm_button_border_radius'    => $settings['button_confirm_button_border_radius'],
 			'button_cancel_button_border_radius'     => $settings['button_cancel_button_border_radius'],
+			'button_confirm_text' => $settings['button_confirm_text'],
+			'button_confirm_button_size1' => $settings['button_confirm_button_size1'],
 			// consent forward .
 			'consent_forward'                        => $settings['consent_forward'],
 			'data_reqs_on'                           => $settings['data_reqs_on'],
-			
+			// Multiple Legislation JSON Data
+			'multiple_legislation_cookie_bar_color1' => isset($settings['multiple_legislation_cookie_bar_color1']) ? $settings['multiple_legislation_cookie_bar_color1'] : '',
+			'multiple_legislation_cookie_bar_color2' => isset($settings['multiple_legislation_cookie_bar_color2']) ? $settings['multiple_legislation_cookie_bar_color2'] : '',
+			'multiple_legislation_cookie_bar_opacity1' => isset($settings['multiple_legislation_cookie_bar_opacity1']) ?  $settings['multiple_legislation_cookie_bar_opacity1'] : '',
+			'multiple_legislation_cookie_bar_opacity2' => isset($settings['multiple_legislation_cookie_bar_opacity2']) ? $settings['multiple_legislation_cookie_bar_opacity2'] : '',
+			'multiple_legislation_cookie_text_color1' => isset($settings['multiple_legislation_cookie_text_color1']) ? $settings['multiple_legislation_cookie_text_color1'] : '',
+			'multiple_legislation_cookie_text_color2' => isset($settings['multiple_legislation_cookie_text_color2']) ? $settings['multiple_legislation_cookie_text_color2'] : '',
+			'multiple_legislation_border_style1' => isset($settings['multiple_legislation_border_style1']) ? $settings['multiple_legislation_border_style1'] : '',
+			'multiple_legislation_border_style2' => isset($settings['multiple_legislation_border_style2']) ? $settings['multiple_legislation_border_style2'] : '',
+			'multiple_legislation_cookie_bar_border_width1' => isset($settings['multiple_legislation_cookie_bar_border_width1']) ? $settings['multiple_legislation_cookie_bar_border_width1'] : '',
+			'multiple_legislation_cookie_bar_border_width2' => isset($settings['multiple_legislation_cookie_bar_border_width2']) ? $settings['multiple_legislation_cookie_bar_border_width2'] : '',
+			'multiple_legislation_cookie_border_color1' => isset($settings['multiple_legislation_cookie_border_color1']) ? $settings['multiple_legislation_cookie_border_color1'] : '',
+			'multiple_legislation_cookie_border_color2' => isset($settings['multiple_legislation_cookie_border_color2']) ? $settings['multiple_legislation_cookie_border_color2'] : '',
+			'multiple_legislation_cookie_bar_border_radius1' => isset($settings['multiple_legislation_cookie_bar_border_radius1']) ? $settings['multiple_legislation_cookie_bar_border_radius1'] : '',
+			'multiple_legislation_cookie_bar_border_radius2' => isset($settings['multiple_legislation_cookie_bar_border_radius2']) ? $settings['multiple_legislation_cookie_bar_border_radius2'] : '',
+			'multiple_legislation_cookie_font1' => isset($settings['multiple_legislation_cookie_font1']) ? $settings['multiple_legislation_cookie_font1'] : '',
+			'multiple_legislation_cookie_font2' => isset($settings['multiple_legislation_cookie_font2']) ? $settings['multiple_legislation_cookie_font2'] : '',
 		);
 		$wpl_pro_active = get_option( 'wpl_pro_active' );
 		if ( $wpl_pro_active ) {

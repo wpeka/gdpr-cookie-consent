@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $image_path = GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/';
 $is_pro     = get_option( 'wpl_pro_active', false );
+$ab_options = get_option('wpl_ab_options');
 // Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
 $this->settings = new GDPR_Cookie_Consent_Settings();
 
@@ -2363,14 +2364,17 @@ function get_templates( $template_type ) {
 								<input type="radio" name="gcc-gdpr-policy" value="ccpa" v-model="gdpr_policy" @change="cookiePolicyChange">
 								<span class="wp-select-law-test">The California Consumer Privacy Act</span>
 							</label><br>
+							<?php if($ab_options['ab_testing_enabled'] === 'false' || $ab_options['ab_testing_enabled'] === false  ){ ?>
 							<label class="wp-selec-law-container">
 								<input type="radio" name="gcc-gdpr-policy" value="both" v-model="gdpr_policy" @change="cookiePolicyChange">
 								<span class="wp-select-law-test">GDPR & CCPA</span>
 							</label><br>
+							<?php }?>
 							<label class="wp-selec-law-container">
 								<input type="radio" name="gcc-gdpr-policy" value="eprivacy" v-model="gdpr_policy" @change="cookiePolicyChange">
 								<span class="wp-select-law-test">ePrivacy Regulation</span>
 							</label><br>
+							<p class="policy-description">GDPR & CCPA cannot be selected while the Cookie Banner A/B Test is active. Please disable A/B Test to enable this compliance option.</p>
 							</div>
 							<input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
 						</div>
