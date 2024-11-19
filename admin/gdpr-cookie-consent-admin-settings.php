@@ -1057,29 +1057,35 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<c-row class="gdpr-cookie-consent-laws-type" v-show="ab_testing_enabled">
 									<c-col class="col-sm-4"></c-col>
-									<c-col class="col-sm-8 ">
-									<p class="policy-description">GDPR & CCPA cannot be selected while the Cookie Banner A/B Test is active. Please disable A/B Test to enable this compliance option.</p>
+									<c-col class="col-sm-8">
+										<p class="policy-description">
+											<?php echo esc_html__('GDPR & CCPA cannot be selected while the Cookie Banner A/B Test is active. Please disable A/B Test to enable this compliance option.', 'gdpr-cookie-consent'); ?>
+										</p>
 									</c-col>
 								</c-row>
 								<c-row class="gdpr-cookie-consent-laws-type" v-show="is_gdpr && !is_ccpa">
 									<c-col class="col-sm-4"></c-col>
-									<c-col class="col-sm-8 ">
-									<p class="policy-description">The chosen law template supports various global privacy regulations including GDPR (EU & UK), PIPEDA (Canada), Law 25 (Quebec), POPIA (South Africa), nFADP (Switzerland), Privacy Act (Australia), PDPL (Saudi Arabia), PDPL (Argentina), PDPL (Andorra), and DPA (Faroe Islands).</p>
+									<c-col class="col-sm-8">
+										<p class="policy-description">
+											<?php echo esc_html__('The chosen law template supports various global privacy regulations including GDPR (EU & UK), PIPEDA (Canada), Law 25 (Quebec), POPIA (South Africa), nFADP (Switzerland), Privacy Act (Australia), PDPL (Saudi Arabia), PDPL (Argentina), PDPL (Andorra), and DPA (Faroe Islands).', 'gdpr-cookie-consent'); ?>
+										</p>
 										<div class="cookie-notice-readmore-container">
-												<a class="cookie-notice-readmore" href="https://wplegalpages.com/docs/wp-cookie-consent/settings/gdpr-settings/" target="_blank">
-													<?php esc_attr_e( 'Learn more about setting up an GDPR notice', 'gdpr-cookie-consent' ); ?>
-												</a>
+											<a class="cookie-notice-readmore" href="<?php echo esc_url('https://wplegalpages.com/docs/wp-cookie-consent/settings/gdpr-settings/'); ?>" target="_blank">
+												<?php echo esc_html__('Learn more about setting up a GDPR notice', 'gdpr-cookie-consent'); ?>
+											</a>
 										</div>
 									</c-col>
 								</c-row>
 								<c-row class="gdpr-cookie-consent-laws-type" v-show="is_ccpa && !is_gdpr">
 									<c-col class="col-sm-4"></c-col>
 									<c-col class="col-sm-8">
-									<p class="policy-description" >The chosen law template supports CCPA/CPRA (California), VCDPA (Virginia), CPA (Colorado), CTDPA (Connecticut), & UCPA (Utah).</p>
+										<p class="policy-description">
+											<?php echo esc_html__('The chosen law template supports CCPA/CPRA (California), VCDPA (Virginia), CPA (Colorado), CTDPA (Connecticut), & UCPA (Utah).', 'gdpr-cookie-consent'); ?>
+										</p>
 										<div class="cookie-notice-readmore-container">
-												<a class="cookie-notice-readmore" href="https://wplegalpages.com/docs/wp-cookie-consent/settings/ccpa-settings/" target="_blank">
-													<?php esc_attr_e( 'Learn more about setting up an CCPA notice', 'gdpr-cookie-consent' ); ?>
-												</a>
+											<a class="cookie-notice-readmore" href="<?php echo esc_url('https://wplegalpages.com/docs/wp-cookie-consent/settings/ccpa-settings/'); ?>" target="_blank">
+												<?php echo esc_html__('Learn more about setting up a CCPA notice', 'gdpr-cookie-consent'); ?>
+											</a>
 										</div>
 									</c-col>
 								</c-row>
