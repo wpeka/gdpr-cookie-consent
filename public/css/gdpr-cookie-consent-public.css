@@ -120,7 +120,7 @@
   margin: 0;
 }
 #gdpr-cookie-consent-bar .gdpr_messagebar_content .gdpr_link_button {
-  display: inline;
+  display: block;
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
@@ -2982,9 +2982,13 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   position: absolute;
   top: 8px;
   right: 10px;
+  cursor: pointer;
 }
 @media (max-width: 700px) {
   #cookie-banner-cancle-img {
     top: 0;
   }
+}
+#gdpr-cookie-consent-bar .gdpr_messagebar_content .ccpa .gdpr_link_button{
+  display: inline;
 }
