@@ -521,20 +521,28 @@ class Gdpr_Cookie_Consent_Public {
 
 			// Localizing the values of the bar color, opacity and text color to the public javascript file for adding dynamic css for the cookie setting section.
 			wp_localize_script($this->plugin_name, 'cookie_options', [
+				'active_law' => $the_options['cookie_usage_for'],
 				// for banner where ab testing is disabled.
 				'background' => $the_options['background'],
 				'background1' => $the_options['cookie_bar_color1'] ,
 				'background2' => $the_options['cookie_bar_color2'] ,
+				// for banner where ab testing is disabled and gdpr and ccpa law is selected.
+				'background_legislation' => $the_options['multiple_legislation_cookie_bar_color1'],
 				
 				// for banner where ab testing is enabled and banner A.
 				'opacity' => $the_options['opacity'],
 				'opacity1' => $the_options['cookie_bar_opacity1'],
 				'opacity2' => $the_options['cookie_bar_opacity2'],
+				// for banner where ab testing is disabled and gdpr and ccpa law is selected.
+				'opacity_legislation' => $the_options['multiple_legislation_cookie_bar_opacity1'],
+				
 				
 				// for banner where ab testing is enabled and banner B.
 				'text' => $the_options['text'],
 				'text1' => $the_options['cookie_text_color1'],
 				'text2' => $the_options['cookie_text_color2'],
+				// for banner where ab testing is disabled and gdpr and ccpa law is selected.
+				'text_legislation' => $the_options['multiple_legislation_cookie_text_color1'],
 			]);
 
 			if ( false !== strpos( $template, 'center' ) ) {

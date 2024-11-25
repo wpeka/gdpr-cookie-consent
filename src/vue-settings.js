@@ -3842,7 +3842,7 @@ var gen = new Vue({
       if (this.gdpr_policy) {
         value = this.gdpr_policy;
       }
-     else if (value === "both") {
+     if (value === "both") {
         this.is_ccpa = true;
         this.is_gdpr = true;
         this.is_eprivacy = false;
@@ -3852,6 +3852,8 @@ var gen = new Vue({
         //visitors condition.
         this.selectedRadioWorldWide = "yes";
         this.is_worldwide_on = true;
+        this.is_eu_on = false;
+        this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
         this.is_selectedCountry_on = false;
       } else if (value === "ccpa") {
@@ -3866,6 +3868,7 @@ var gen = new Vue({
         this.selectedRadioWorldWide = "yes";
         this.is_worldwide_on = true;
         this.is_eu_on = false;
+        this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
         this.is_selectedCountry_on = false;
       } else if (value === "gdpr") {
@@ -3877,6 +3880,7 @@ var gen = new Vue({
         this.show_visitor_conditions = true;
         this.selectedRadioWorldWide = "yes";
         this.is_worldwide_on = true;
+        this.is_eu_on = false;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
         this.is_selectedCountry_on = false;
@@ -4621,9 +4625,6 @@ var gen = new Vue({
       this.is_ccpa_on = false;
       this.is_iab_on = false;
       this.selectedRadioIab = "no";
-      this.selectedRadioGdpr = "no";
-      this.selectedRadioCcpa = "no";
-      this.selectedRadioLgpd = "no";
       this.logging_on = true;
       this.show_credits = false;
       this.autotick = false;
@@ -9882,6 +9883,8 @@ var gen = new Vue({
         //visitors condition.
         this.selectedRadioWorldWide = "yes";
         this.is_worldwide_on = true;
+        this.is_eu_on = false;
+        this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
         this.is_selectedCountry_on = false;
       } else if (value === "ccpa") {
@@ -9896,6 +9899,7 @@ var gen = new Vue({
         this.selectedRadioWorldWide = "yes";
         this.is_worldwide_on = true;
         this.is_eu_on = false;
+        this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
         this.is_selectedCountry_on = false;
       } else if (value === "gdpr") {
@@ -9907,6 +9911,7 @@ var gen = new Vue({
         this.show_visitor_conditions = true;
         this.selectedRadioWorldWide = "yes";
         this.is_worldwide_on = true;
+        this.is_eu_on = false;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
         this.is_selectedCountry_on = false;

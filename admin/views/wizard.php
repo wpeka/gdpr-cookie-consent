@@ -2374,7 +2374,9 @@ function get_templates( $template_type ) {
 								<input type="radio" name="gcc-gdpr-policy" value="eprivacy" v-model="gdpr_policy" @change="cookiePolicyChange">
 								<span class="wp-select-law-test">ePrivacy Regulation</span>
 							</label><br>
+							<?php if($ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true  ){ ?>
 							<p class="policy-description">GDPR & CCPA cannot be selected while the Cookie Banner A/B Test is active. Please disable A/B Test to enable this compliance option.</p>
+							<?php }?>
 							</div>
 							<input type="hidden" name="gcc-gdpr-policy" v-model="gdpr_policy">
 						</div>

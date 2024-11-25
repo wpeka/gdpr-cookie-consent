@@ -4,7 +4,7 @@ Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
 Tags: CCPA, GDPR, Privacy Policy, Terms and conditions, Cookie Policy
 Requires at least: 3.3.1
 Tested up to: 6.6.1
-Stable tag: 3.6.4
+Stable tag: 3.6.5
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -200,6 +200,13 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 7. Cookie Compliance Notice
 
 == Change Log ==
+
+= 3.6.5 = 
+* Feature  - Support multiple legislation on same website.
+* Feature  - Added feature to set the language based on user prefered browser language.
+* Fix      - Fixed issue with  Do Not Track.
+* Fix      - Improved performance of the plugin.
+* Fix      - Minor bug fixes within the plugin.
 
 = 3.6.4 = 
 * Fix: UI improvements and bugs fixes within the plugin.
@@ -575,6 +582,13 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.6.5 = 
+* Feature  - Support multiple legislation on same website.
+* Feature  - Added feature to set the language based on user prefered browser language.
+* Fix      - Fixed issue with  Do Not Track.
+* Fix      - Improved performance of the plugin.
+* Fix      - Minor bug fixes within the plugin.
 
 = 3.6.4 = 
 * Fix: UI improvements and bugs fixes within the plugin.
