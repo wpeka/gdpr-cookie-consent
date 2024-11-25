@@ -5209,11 +5209,20 @@ GDPR_CCPA_COOKIE_EXPIRE =
     gdpr_ab_options.ab_testing_enabled === false
   ){
     // CSS for the banner when ab testing is disabled.
-    $(".gdprmodal-header, .gdpr-about-cookies, .gdprmodal-footer, .category-item, .gdpr-columns").css({
-      "background-color": cookie_options.background,
-      "opacity": cookie_options.opacity,
-      "color" : cookie_options.text,
-    });
+    if(cookie_options.active_law != "both"){
+      $(".gdprmodal-header, .gdpr-about-cookies, .gdprmodal-footer, .category-item, .gdpr-columns").css({
+        "background-color": cookie_options.background,
+        "opacity": cookie_options.opacity,
+        "color" : cookie_options.text,
+      });
+    }
+    if(cookie_options.active_law == "both"){
+      $(".gdprmodal-header, .gdpr-about-cookies, .gdprmodal-footer, .category-item, .gdpr-columns").css({
+        "background-color": cookie_options.background_legislation,
+        "opacity": cookie_options.opacity_legislation,
+        "color" : cookie_options.text_legislation,
+      });
+    }
   }else{
     if(Number(chosenBanner) === 1){
       // CSS for the banner A when ab testing is enabled.
