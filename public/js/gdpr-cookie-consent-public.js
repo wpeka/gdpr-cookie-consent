@@ -175,12 +175,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
       this.cancel_button = jQuery("#cookie_action_cancel");
 
       this.configBar();
-
       this.check_ccpa_eu();
 
       this.attachEvents();
       this.configButtons();
-      this.consent_renew_method();
+      
       // changing the color and background of cookie setting button.
       var revoke_color = document.getElementById(
         "gdpr-cookie-consent-show-again"
@@ -624,6 +623,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
                 GDPR.hideHeader();
               }
             }
+            GDPR.consent_renew_method();
           }
         },
       });
@@ -4628,8 +4628,8 @@ GDPR_CCPA_COOKIE_EXPIRE =
                 this.settings.background + " 0 0 8px"
               );
             }
-            this.bar_elm.css(this.bar_config).hide();
-            this.show_again_elm.css(this.show_config).hide();
+            // this.bar_elm.css(this.bar_config).hide();
+            // this.show_again_elm.css(this.show_config).hide();
           }
           jQuery(GDPR.settings.notify_div_id).find("p.ccpa").show();
         }
