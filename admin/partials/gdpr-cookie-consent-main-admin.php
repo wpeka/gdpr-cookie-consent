@@ -63,7 +63,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 								<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.svg'; ?>" alt="WP Cookie Consent Help">
 							</a>
 						</div>
-						<div class="gdpr-cookie-consent-admin-help-text"><a href="https://club.wpeka.com/docs/wp-cookie-consent/" target="_blank">
+						<div class="gdpr-cookie-consent-admin-help-text"><a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank">
 							Help Guide</a>
 						</div>
 					</div>

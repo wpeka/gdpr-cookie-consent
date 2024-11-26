@@ -98,6 +98,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 								'check_for_ab_testing_transient'     => $check_for_ab_testing_transient,
 								'days'             		  => isset($days)?$days:0,
 								'hours'        		      => isset($hours)?$hours:0,
+								'cookie_usage_for'		  => $the_options['cookie_usage_for'],
 							),
 						)
 					);

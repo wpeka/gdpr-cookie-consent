@@ -427,6 +427,7 @@
   padding: 0px;
   margin-left: 28px;
   margin-right: 37px;
+  margin-bottom: 60px;
 }
 .gdpr-cookie-summary-icon {
   height: 88px;
@@ -442,6 +443,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 20px;
+  padding: 8px;
 }
 
 .gdpr-cookie-summary-last-scan-icon {

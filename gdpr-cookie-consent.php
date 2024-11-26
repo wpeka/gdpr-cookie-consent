@@ -10,7 +10,7 @@
  * Plugin Name:       WP Cookie Consent
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
- * Version:           3.6.4
+ * Version:           3.6.5
  * Author:            WPEkaClub
  * Author URI:        https://club.wpeka.com
  * License:           GPL-2.0+
@@ -31,7 +31,7 @@ define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Currently plugin version.
  */
-define( 'GDPR_COOKIE_CONSENT_VERSION', '3.6.4' );
+define( 'GDPR_COOKIE_CONSENT_VERSION', '3.6.5' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_DEVELOPMENT_MODE', false );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
@@ -204,7 +204,7 @@ function gdpr_show_admin_notice_activation_deactivation_third_party_plugins() {
     if (get_transient('gdpr_display_message_other_plugin_on_change')) {
         // Output the admin notice with a link to rescan the website
         echo '<div class="notice notice-warning is-dismissible">';
-		echo '<p>' . esc_html__('You have enabled or disabled a cookie consent plugin, which may require your cookie banner to be adjusted. Please scan your website again as soon as you have finished the changes.', 'gdpr-cookie-consent') . ' <a href="' . esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list' ) ) . '">' . esc_html__('Scan website again', 'gdpr-cookie-consent') . '</a></p>';
+		echo '<p>' . esc_html__('You have enabled or disabled a cookie consent plugin, which may require your cookie banner to be adjusted. Please scan your website again as soon as you have finished the changes.', 'gdpr-cookie-consent') . ' <a href="' . esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies' ) ) . '">' . esc_html__('Scan website again', 'gdpr-cookie-consent') . '</a></p>';
 		echo '</div>';
         
         // Delete the transient after displaying the message

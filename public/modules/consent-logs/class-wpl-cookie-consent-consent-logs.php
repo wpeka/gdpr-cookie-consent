@@ -584,8 +584,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 				update_post_meta( $post_id, '_wplconsentlogs_country_cf', $user_country );
 				update_post_meta( $post_id, '_wplconsentlogs_siteurl_cf', $SiteURL );
 				update_post_meta( $post_id, '_wplconsentlogs_consent_forward_cf', $consent_forward );
-				update_post_meta( $post_id, '_wpl_renew_consent_cf', $the_options['consent_renew_enable'] );
-
 				restore_current_blog();
 			} else {
 				update_post_meta( $post_id, '_wplconsentlogs_ip', $user_ip );
@@ -594,9 +592,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 				update_post_meta( $post_id, '_wplconsentlogs_country', $user_country );
 				update_post_meta( $post_id, '_wplconsentlogs_siteurl', $SiteURL );
 				update_post_meta( $post_id, '_wplconsentlogs_consent_forward', $consent_forward );
-				if ( isset( $the_options['consent_renew_enable'] ) ) {
-					update_post_meta( $post_id, '_wpl_renew_consent', $the_options['consent_renew_enable'] );
-				}
 			}
 
 			return $post_id;
