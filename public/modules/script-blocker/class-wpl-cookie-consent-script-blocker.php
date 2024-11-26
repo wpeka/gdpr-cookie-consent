@@ -720,6 +720,11 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	 * Save script center data.
 	 */
 	public function wpl_ajax_script_save() {
+		 // Capability check
+		 if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		$error = false;
 
 		if ( ! isset( $_POST['data'] ) ) {

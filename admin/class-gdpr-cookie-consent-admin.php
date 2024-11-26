@@ -6777,6 +6777,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$this->plugin_name . '-main',
 			'settings_obj',
 			array(
+				'nonce'   						   => wp_create_nonce( 'wpl_save_script_nonce' ), // Generate nonce
 				'the_options'                      => $settings,
 				'ajaxurl'                          => admin_url( 'admin-ajax.php' ),
 				'policies'                         => $policies,
