@@ -6241,6 +6241,7 @@ var gen = new Vue({
           button_action: action,
           id: id,
           data: JSON.stringify(data),
+          _wpnonce: settings_obj.nonce, // Pass the nonce
         },
         success: function (response) {
           if (response.success) {
