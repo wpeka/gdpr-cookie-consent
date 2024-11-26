@@ -915,6 +915,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
         }
       });
       jQuery("#vendor-link").click(function (e) {
+        
         e.preventDefault();
         GDPR.bar_elm.slideUp(GDPR.settings.animate_speed_hide);
         if (GDPR.settings.cookie_bar_as == "popup") {
@@ -4721,22 +4722,23 @@ GDPR_CCPA_COOKIE_EXPIRE =
       }
     },
   };
-
+  
   var GDPR_Blocker = {
     blockingStatus: true,
     scriptsLoaded: false,
-    set: function (args) {
-      if (typeof JSON.parse !== "function") {
-        console.log(
-          "GDPRCookieConsent requires JSON.parse but your browser doesn't support it"
-        );
-        return;
-      }
-      this.cookies = JSON.parse(JSON.stringify(args.cookies));
+      set: function (args) {
+        if (typeof JSON.parse !== "function") {
+            console.log(
+                "GDPRCookieConsent requires JSON.parse but your browser doesn't support it"
+            );
+            return;
+        }
+        this.cookies = args.cookies;
+
     },
     removeCookieByCategory: function () {
       if (GDPR_Blocker.blockingStatus == true) {
-        var cookiesList = JSON.parse(GDPR_Blocker.cookies);
+        var cookiesList = GDPR_Blocker.cookies;
         for (var i = 0; i < cookiesList.length; i++) {
           var cookie = cookiesList[i];
           var current_category = cookie["gdpr_cookie_category_slug"];
