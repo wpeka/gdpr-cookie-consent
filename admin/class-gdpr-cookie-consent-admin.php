@@ -9143,7 +9143,9 @@ class Gdpr_Cookie_Consent_Admin {
 													CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 								$wpdb->query( $alter_table_sql );
 							}
-
+							$sanitized_category_descriptions = addslashes( $translated_category_descriptions[ $category_i_d ] );
+							$sanitized_category_names = addslashes( $translated_category_names[ $category_i_d ] );
+							
 							// Update the table with the translated values.
 							$wpdb->query(
 								$wpdb->prepare(
@@ -9151,8 +9153,8 @@ class Gdpr_Cookie_Consent_Admin {
 									SET `gdpr_cookie_category_description` = %s,
 										`gdpr_cookie_category_name` = %s
 									WHERE `id_gdpr_cookie_category` = %d',
-									$translated_category_descriptions[ $category_i_d ],
-									$translated_category_names[ $category_i_d ],
+									$sanitized_category_descriptions,
+									$sanitized_category_names,
 									$category_i_d
 								)
 							);
@@ -10191,7 +10193,6 @@ class Gdpr_Cookie_Consent_Admin {
 				$template_parts_background = '#ffffff';
 			}
 		}
-
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script(
 			'gdpr-cookie-consent-admin-revamp',
@@ -10481,6 +10482,8 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 
 					if ( -1 != $category_i_d ) {
+						$sanitized_category_descriptions = addslashes( $translated_category_descriptions[ $category_i_d ] );
+						$sanitized_category_names = addslashes( $translated_category_names[ $category_i_d ] );
 						// Update the table with the translated values.
 						$wpdb->query(
 							$wpdb->prepare(
@@ -10488,8 +10491,8 @@ class Gdpr_Cookie_Consent_Admin {
 								SET `gdpr_cookie_category_description` = %s,
 									`gdpr_cookie_category_name` = %s
 								WHERE `id_gdpr_cookie_category` = %d',
-								$translated_category_descriptions[ $category_i_d ],
-								$translated_category_names[ $category_i_d ],
+								$sanitized_category_descriptions,
+								$sanitized_category_names,
 								$category_i_d
 							)
 						);
