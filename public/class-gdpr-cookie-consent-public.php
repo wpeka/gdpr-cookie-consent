@@ -523,26 +523,22 @@ class Gdpr_Cookie_Consent_Public {
 			wp_localize_script($this->plugin_name, 'cookie_options', [
 				'active_law' => $the_options['cookie_usage_for'],
 				// for banner where ab testing is disabled.
-				'background' => $the_options['background'],
-				'background1' => $the_options['cookie_bar_color1'] ,
-				'background2' => $the_options['cookie_bar_color2'] ,
-				// for banner where ab testing is disabled and gdpr and ccpa law is selected.
-				'background_legislation' => $the_options['multiple_legislation_cookie_bar_color1'],
-				
-				// for banner where ab testing is enabled and banner A.
-				'opacity' => $the_options['opacity'],
-				'opacity1' => $the_options['cookie_bar_opacity1'],
-				'opacity2' => $the_options['cookie_bar_opacity2'],
-				// for banner where ab testing is disabled and gdpr and ccpa law is selected.
-				'opacity_legislation' => $the_options['multiple_legislation_cookie_bar_opacity1'],
-				
-				
-				// for banner where ab testing is enabled and banner B.
-				'text' => $the_options['text'],
-				'text1' => $the_options['cookie_text_color1'],
-				'text2' => $the_options['cookie_text_color2'],
-				// for banner where ab testing is disabled and gdpr and ccpa law is selected.
-				'text_legislation' => $the_options['multiple_legislation_cookie_text_color1'],
+				'background' => $the_options['background'] ?? '#FFFFFF', // Default background color
+				'background1' => $the_options['cookie_bar_color1'] ?? '#FFFFFF',
+				'background2' => $the_options['cookie_bar_color2'] ?? '#FFFFFF',
+				'background_legislation' => $the_options['multiple_legislation_cookie_bar_color1'] ?? '#FFFFFF', // Default for legislation
+
+				// Opacity values
+				'opacity' => $the_options['opacity'] ?? '1.0', // Default full opacity
+				'opacity1' => $the_options['cookie_bar_opacity1'] ?? '1.0',
+				'opacity2' => $the_options['cookie_bar_opacity2'] ?? '1.0',
+				'opacity_legislation' => $the_options['multiple_legislation_cookie_bar_opacity1'] ?? '1.0',
+
+				// Text color values
+				'text' => $the_options['text'] ?? '#000000', // Default black text
+				'text1' => $the_options['cookie_text_color1'] ?? '#000000',
+				'text2' => $the_options['cookie_text_color2'] ?? '#000000',
+				'text_legislation' => $the_options['multiple_legislation_cookie_text_color1'] ?? '#000000', // Default for legislation
 			]);
 
 			if ( false !== strpos( $template, 'center' ) ) {
