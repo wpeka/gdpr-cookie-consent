@@ -2040,11 +2040,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
           /* [wpl_cookie_link] */
           this.main_link.css(
             "color",
-            this.settings.button_readmore_link_color2
+            this.settings.button_readmore_link_color
           );
           this.vendor_link.css(
             "color",
-            this.settings.button_readmore_link_color2
+            this.settings.button_readmore_link_color
           );
           if (this.settings.button_readmore_as_button) {
             var readmore_background = this.convertToHex(
@@ -2052,7 +2052,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
               this.settings.button_readmore_button_opacity
             );
             var readmore_border =
-              this.settings.button_readmore_button_border_width2 +
+              this.settings.button_readmore_button_border_width +
               "px " +
               this.settings.button_readmore_button_border_style +
               " " +
@@ -2836,11 +2836,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
           /* [wpl_cookie_link] */
           this.main_link.css(
             "color",
-            this.settings.button_readmore_link_color1
+            this.settings.button_readmore_link_color
           );
           this.vendor_link.css(
             "color",
-            this.settings.button_readmore_link_color1
+            this.settings.button_readmore_link_color
           );
           if (this.settings.button_readmore_as_button) {
             var readmore_background = this.convertToHex(
@@ -2848,7 +2848,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
               this.settings.button_readmore_button_opacity
             );
             var readmore_border =
-              this.settings.button_readmore_button_border_width1 +
+              this.settings.button_readmore_button_border_width +
               "px " +
               this.settings.button_readmore_button_border_style +
               " " +
@@ -3245,11 +3245,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
           /* [wpl_cookie_link] */
           this.main_link.css(
             "color",
-            this.settings.button_readmore_link_color2
+            this.settings.button_readmore_link_color
           );
           this.vendor_link.css(
             "color",
-            this.settings.button_readmore_link_color2
+            this.settings.button_readmore_link_color
           );
           if (this.settings.button_readmore_as_button) {
             var readmore_background = this.convertToHex(
@@ -3257,7 +3257,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
               this.settings.button_readmore_button_opacity
             );
             var readmore_border =
-              this.settings.button_readmore_button_border_width2 +
+              this.settings.button_readmore_button_border_width +
               "px " +
               this.settings.button_readmore_button_border_style +
               " " +
