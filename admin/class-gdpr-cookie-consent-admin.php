@@ -1665,8 +1665,8 @@ class Gdpr_Cookie_Consent_Admin {
 		$current_url = $current_url . '/wp-admin/admin.php?page=gdpr-cookie-consent#create_cookie_banner';
 		// fetching the setting for paid plan.
 		$settings = new GDPR_Cookie_Consent_Settings();
-		$api_user_plan          = $this->settings->get_plan();
-		if ( $api_user_plan != '10sites' ) {
+		$api_user_plan          = $settings->get_plan();
+		if ( $api_user_plan == 'free' ) {
 			$links = array_merge(
 				array(
 					'<a href="' . esc_url( 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=plugins&utm_campaign=link&utm_content=upgrade-to-pro' ) . '" target="_blank" rel="noopener noreferrer"><strong style="color: #11967A; display: inline;">' . __( 'Upgrade to Pro', 'gdpr-cookie-consent' ) . '</strong></a>',
@@ -10647,7 +10647,6 @@ class Gdpr_Cookie_Consent_Admin {
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 		
 		$is_user_connected = $this->settings->is_connected();
-		$api_user_plan = $this->settings->get_plan();
 		
 
 		register_rest_route(
@@ -10656,9 +10655,9 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'gdpr_send_data_to_dashboard_appwplp_server'), // Function to handle the request
-				'permission_callback' => function() use ($is_user_connected, $api_user_plan) {
+				'permission_callback' => function() use ($is_user_connected) {
 					// Check if user is connected and the API plan is valid
-					if ($is_user_connected && $api_user_plan == '10sites') {
+					if ($is_user_connected) {
 						return true; // Allow access
 					}
 					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
