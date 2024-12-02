@@ -53,7 +53,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 
 	public function ajax_cookies_deletion(){
 		global $wpdb;
-		error_log("Deleting");
 		$scan_table    = $wpdb->prefix . 'wpl_cookie_scan_cookies';
 		$result = $wpdb->query("TRUNCATE TABLE {$scan_table}");
     	return $result !== false;

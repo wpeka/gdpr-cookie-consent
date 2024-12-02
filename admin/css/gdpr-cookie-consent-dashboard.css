@@ -582,17 +582,106 @@ circle.ep-circle--empty {
 }
 
 /* pie chart styling  */
+.gdpr-dashboard-promotional-card {
+  margin-top: 0px;
+  padding-top: 0px;
+}
+.consent-insights-page-views-section {
+  display: flex;
+  padding-left: 27px;
+  padding-right: 27px;
+  gap: 27px;
+}
 
+.page-views-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.consent-insights-section {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.consent-insights-section .card-header,
+.page-views-section .card-header {
+  padding-left: 0 !important;
+}
+.page-view-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.info-tab1 {
+  border: 1px solid rgb(169 169 169);
+  border-radius: 6px;
+  padding: 5px;
+  width: 200px;
+}
+.info-tab1 h2 {
+  font-weight: 600;
+  font-size: small;
+  color: #52525b;
+  margin-bottom: 2px;
+}
+.info-tab1 p {
+  font-size: large;
+  font-weight: 600;
+  margin-bottom: -2px;
+}
+.info-tab2 {
+  color: #52525b;
+  position: relative;
+  height: fit-content;
+}
+.flatpickr-input[readonly] {
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid rgb(169, 169, 169);
+  border-radius: 0;
+  color: rgb(169, 169, 169);
+  position: relative;
+  padding-right: 17px;
+}
+.flatpickr-after-arrow {
+  font-size: 12px;
+  color: #999;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.page-view-chart {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  width: 100%;
+}
 .gdpr-dashboard-promotional-cards-insights #consent-insights-body-section {
-  width: 680px;
+  width: 100%;
   background-color: rgba(255, 255, 255, 1);
   height: 357px;
   border-radius: 10px;
   border: 1px solid #fafafa;
   box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
-  margin-left: 27px;
+
   margin-bottom: 60px;
   margin-top: 20px;
+}
+.gdpr-dashboard-promotional-cards-insights #page-views-body-section {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 1);
+  height: 357px;
+  border-radius: 10px;
+  border: 1px solid #fafafa;
+  box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
+  margin-bottom: 60px;
+  margin-top: 20px;
+  padding: 10px;
+  padding-bottom: 0;
 }
 .apexcharts-pie-label {
   font-size: 16px;
