@@ -306,7 +306,7 @@ var gen = new Vue({
       ],
       page_view_options: {
         chart: {
-          type: "line",
+          type: "area",
           width: 760,
           zoom: {
             enabled: false,
@@ -348,6 +348,14 @@ var gen = new Vue({
         colors: ["#1A73E8"],
         stroke: {
           width: 3,
+          curve: "straight",
+        },
+        fill: {
+          type: "solid",
+          opacity: 0.2,
+        },
+        dataLabels: {
+          enabled: false,
         },
         grid: {
           borderColor: "#e7e7e7",
