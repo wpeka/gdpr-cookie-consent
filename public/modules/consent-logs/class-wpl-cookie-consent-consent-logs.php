@@ -47,6 +47,8 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 		add_action( 'wp_ajax_nopriv_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
 		add_action( 'wp_ajax_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
+		add_action( 'wp_ajax_nopriv_gdpr_increase_page_view', array( $this, 'wplcl_increase_page_view' ) );
+		add_action( 'wp_ajax_gdpr_gdpr_increase_page_view', array( $this, 'wplcl_increase_page_view' ) );
 		add_action( 'wp_ajax_gdpr_collect_abtesting_data_action', array( $this, 'wplcl_collect_abtesting_data_action' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_collect_abtesting_data_action', array( $this, 'wplcl_collect_abtesting_data_action' ) );
 
@@ -445,6 +447,36 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 		}
 		update_option('wpl_ab_options',$ab_option);
+	}
+
+	/**
+	 * Increase pageview count
+	 * 
+	 * @since 6.3.5
+	 */
+	public function wplcl_increase_page_view(){
+		$key = date('M d, Y');
+		$wpl_page_views = get_option('wpl_page_views');
+		if($wpl_page_views === false){
+			add_option("wpl_page_views", []);
+			$wpl_page_views = [];
+		}	
+		$wpl_total_page_views = get_option('wpl_total_page_views');
+		if($wpl_total_page_views === false){
+			add_option("wpl_total_page_views", 0);
+			$wpl_page_views = 0;
+		}
+    	// Check if the key exists in the $wpl_page_views array
+		if (isset($wpl_page_views[$key])) {
+			// If the key exists, increment its value
+			$wpl_page_views[$key] += 1;
+		} else {
+			// If the key doesn't exist, create it and set its value to 1
+			$wpl_page_views[$key] = 1;
+		}
+		$wpl_total_page_views++;
+		update_option('wpl_page_views', $wpl_page_views);
+		update_option('wpl_total_page_views', $wpl_total_page_views);
 	}
 	/**
 	 * Save consent logs.
