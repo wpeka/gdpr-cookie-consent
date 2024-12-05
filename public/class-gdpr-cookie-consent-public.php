@@ -782,6 +782,8 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['dash_button_cancel_text'] = $the_options['button_cancel_text'];
 				$cookie_data['dash_show_again_text'] = $the_options['show_again_text'];
 				$cookie_data['dash_optout_text'] = $the_options['optout_text'];
+				$cookie_data['dash_notify_message_iabtcf'] = $the_options['notify_message'];
+				$cookie_data['dash_about_message_iabtcf']  = $the_options['about_message'];
 				$cookie_data['about']             = __( 'About Cookies', 'gdpr-cookie-consent' );
 				$cookie_data['declaration']       = __( 'Cookie Declaration', 'gdpr-cookie-consent' );
 				$cookie_data['always']            = __( 'Always Active', 'gdpr-cookie-consent' );
