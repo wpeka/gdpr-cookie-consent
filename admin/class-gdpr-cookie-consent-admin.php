@@ -7947,7 +7947,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function gdpr_cookie_consent_ajax_save_settings() {
 		if ( isset( $_POST['gcc_settings_form_nonce'] ) ) {
-			// error_log("The save setting are -> ".print_r($_POST,true));
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce'] ) ), 'gcc-settings-form-nonce' ) ) {
 				return;
 			}
