@@ -796,7 +796,7 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['cookie_data']       = $cookie_data;
 
 				// language translation based on the selected language for the public facing.
-				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {
+				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages )  && $the_options['gdpr_current_language'] !== $the_options['lang_selected']) {
 
 					// Load and decode translations from JSON file.
 					$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/public/translations/public-translations.json';
@@ -856,6 +856,8 @@ class Gdpr_Cookie_Consent_Public {
 					}
 
 					$the_options['cookie_data'] = $cookie_data;
+					$the_options['gdpr_current_language'] = $the_options['lang_selected'];
+					update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 				}
 			}
 
