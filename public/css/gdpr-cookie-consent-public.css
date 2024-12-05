@@ -2992,3 +2992,72 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 #gdpr-cookie-consent-bar .gdpr_messagebar_content .ccpa .gdpr_link_button{
   display: inline;
 }
+.popup-navy_blue_square .gdpr_messagebar_content > #default_buttons{
+  display: flex;
+  flex-direction: column-reverse;
+}
+.widget-navy_blue_square .gdpr_messagebar_content > #default_buttons{
+  display: flex;
+  flex-direction: column-reverse;
+}
+.popup-navy_blue_square .gdpr-square-banner{
+  display: flex;
+  gap: 30px;
+}
+.widget-navy_blue_square .gdpr-square-banner{
+  display: flex;
+  gap: 70px;
+}
+@media (max-width:400px) {
+  .popup-navy_blue_square .gdpr-square-banner{
+    display: flex;
+    gap: 5px;
+    flex-direction: column-reverse;
+  }
+  .widget-navy_blue_square .gdpr-square-banner{
+    display: flex;
+    gap: 5px;
+    flex-direction: column-reverse;
+  }
+}
+.popup-navy_blue_box .gdpr_messagebar_content #cookie_action_accept,
+.popup-navy_blue_box .gdpr_messagebar_content #cookie_action_settings{
+  min-width: 11rem;
+}
+.widget-navy_blue_box .gdpr_messagebar_content #cookie_action_accept,
+.widget-navy_blue_box .gdpr_messagebar_content #cookie_action_settings{
+  min-width: 16rem;
+}
+@media (max-width:530px) {
+  .popup-navy_blue_box .gdpr_messagebar_content .gdpr.group-description-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+}
+@media (max-width:670px) {
+  .widget-navy_blue_box .gdpr_messagebar_content .gdpr.group-description-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+}
+@media (max-width:420px){
+  .banner-almond_column .gdpr_messagebar_content .gdpr.group-description-buttons{
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+  } 
+  .banner-almond_column .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_accept,
+  .banner-almond_column .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_settings{
+   width: 95%;
+  } 
+}
+@media (max-width:500px){
+  .banner-navy_blue_center .gdpr_messagebar_content .gdpr.group-description-buttons{
+    display: flex;
+    justify-content: center;
+  }
+}
