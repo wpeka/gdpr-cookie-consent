@@ -243,10 +243,10 @@ var gen = new Vue({
         },
         responsive: [
           {
-            breakpoint: 480,
+            breakpoint: 1440,
             options: {
               chart: {
-                width: 200,
+                width: 400,
               },
               legend: {
                 position: "bottom",
