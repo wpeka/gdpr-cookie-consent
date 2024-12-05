@@ -4347,10 +4347,10 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
 .gdpr-cookie-consent-admin-tab.active-tab {
   border-radius: 4px 4px 0px 0px;
   border: 1px solid var(--gray-200, var(--gray-200));
-  background: var(--secondary-secondary-light-200, #f4f8ff);
+  background: var(--blue-500);
 }
 .gdpr-cookie-consent-admin-tab.active-tab .gdpr-cookie-consent-admin-tab-name {
-  color: var(--blue-500);
+  color: var(--white-100);
 }
 
 .gdpr-cookie-consent-admin-tabs-content {
@@ -9067,4 +9067,16 @@ input.vs__search {
   .col.col-sm-5
   .do-not-show-ab-testing-text {
   color: #ce8e8e;
+}
+/* New unified Dashboard CSS */
+.gdpr-cookie-consent-admin-tabs-section .gdpr-cookie-consent-admin-tabs.dashboard-tabs {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 80%;
 }

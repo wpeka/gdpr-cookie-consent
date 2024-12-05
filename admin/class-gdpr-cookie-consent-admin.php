@@ -111,6 +111,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
 			//For Import CSV option on Policy data page
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
+			add_action('admin_menu', array($this,'gdpr_reorder_admin_menu'), 999);
 			add_action('admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			add_action('all_admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			
@@ -1393,11 +1394,13 @@ class Gdpr_Cookie_Consent_Admin {
 		 if (!is_admin() || !current_user_can('manage_options')) return;
 		$installed_plugins = get_plugins();
 		$plugin_name                   = 'wplegalpages/wplegalpages.php';
-		$legal_pages_installed     = isset( $installed_plugins['wplegalpages/wplegalpages.php'] ) ? true : false;
-		$gdpr_installed     = isset( $installed_plugins['gdpr-cookie-consent/gdpr-cookie-consent.php'] ) ? true : false;
-		$is_legalpages_active = is_plugin_active( $plugin_name );
+		$this->legal_pages_installed     = isset( $installed_plugins['wplegalpages/wplegalpages.php'] ) ? true : false;
+		$this->gdpr_installed     = isset( $installed_plugins['gdpr-cookie-consent/gdpr-cookie-consent.php'] ) ? true : false;
+		$this->is_legalpages_active = is_plugin_active( $plugin_name );
 		$plugin_name_gdpr                   = 'gdpr-cookie-consent/gdpr-cookie-consent.php';
-		$is_gdpr_active = is_plugin_active( $plugin_name_gdpr );
+		$this->is_gdpr_active = is_plugin_active( $plugin_name_gdpr );
+		error_log('$legal_pages_installed=='.$legal_pages_installed);
+		error_log('$gdpr_installed=='.$gdpr_installed);
 		$callback_function = $is_legalpages_active ?  array( $this, 'wp_legalpages_new_admin_screen' ) : array( $this, 'wp_legal_pages_install_activate_screen' );
 		 if (empty($GLOBALS['admin_page_hooks']['wp-legal-pages'])) {
 			global $admin_page_hooks;
@@ -1411,8 +1414,19 @@ class Gdpr_Cookie_Consent_Admin {
 				67                                       // Position
 			);
 		}
-
+		if($gdpr_installed && $is_gdpr_active){
+			add_submenu_page(
+				'wp-legal-pages', // Parent slug (same as main menu slug)
+				__( 'Dashboard', 'gdpr-cookie-consent' ),  // Page title
+				__( 'Dashboard', 'gdpr-cookie-consent' ),     // Dashboard page title
+				'manage_options',   // Capability
+				'wplp-dashboard', // Menu slug
+				array( $this, 'gdpr_cookie_consent_unified_dashboard' ), // Callback function
+				90
+			);
+		}
 		 if(!$legal_pages_installed  || ($legal_pages_installed && !$is_legalpages_active)){
+			
 			// Add the "Cookie Consent" sub-menu under "WP Legal Pages"
 			add_submenu_page(
 				'wp-legal-pages', // Parent slug (same as main menu slug)
@@ -1421,9 +1435,11 @@ class Gdpr_Cookie_Consent_Admin {
 				'manage_options',   // Capability
 				'legal-pages', // Menu slug
 				array( $this, 'wp_legal_pages_install_activate_screen' ),
+				
 			);
 		}	
 		if(!$is_legalpages_active){
+			
 			add_submenu_page(
 				'wp-legal-pages', // Parent slug (same as main menu slug)
 				__( 'WP Cookie Consent', 'gdpr-cookie-consent' ),  // Page title
@@ -1432,6 +1448,17 @@ class Gdpr_Cookie_Consent_Admin {
 				'gdpr-cookie-consent', // Menu slug
 				array( $this, 'gdpr_cookie_consent_new_admin_screen' ), // Callback function
 				90
+			);
+		}
+		if($gdpr_installed && $is_gdpr_active){
+			add_submenu_page(
+				'wp-legal-pages', // Parent slug (same as main menu slug)
+				__( 'Help', 'gdpr-cookie-consent' ),  // Page title
+				__( 'Help', 'gdpr-cookie-consent' ),     // Dashboard page title
+				'manage_options',   // Capability
+				'wplp-help', // Menu slug
+				array( $this, 'gdpr_cookie_consent_unified_dashboard' ), // Callback function
+				999
 			);
 		}
 
@@ -1451,6 +1478,26 @@ class Gdpr_Cookie_Consent_Admin {
 			remove_submenu_page('wp-legal-pages', 'wp-legal-pages');
 		}
 	}
+	public function gdpr_reorder_admin_menu(){
+	global $submenu;
+
+	if (isset($submenu['wp-legal-pages'])) {
+		// Extract the "Help" menu
+		$help_menu = null;
+		foreach ($submenu['wp-legal-pages'] as $key => $item) {
+			if ($item[2] === 'wplp-help') {
+				$help_menu = $item;
+				unset($submenu['wp-legal-pages'][$key]);
+				break;
+			}
+		}
+
+		// Re-add "Help" menu at the end
+		if ($help_menu) {
+			$submenu['wp-legal-pages'][] = $help_menu;
+		}
+	}
+}
 
 	/**
 	 * Registers menu options, hooked into admin_menu.
@@ -10687,4 +10734,100 @@ class Gdpr_Cookie_Consent_Admin {
 			remove_all_actions('all_admin_notices');
 		}
 	}
+	/* Callback function for new unified Dashboard page */
+	public function gdpr_cookie_consent_unified_dashboard() {
+		$legal_pages_installed = $this->legal_pages_installed;
+		$gdpr_installed = $this->gdpr_installed;
+		$is_legalpages_active = $this->is_legalpages_active;
+		$is_gdpr_active = $this->is_gdpr_active;
+	
+		// Require the class file for gdpr cookie consent api framework settings.
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+		// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+
+		// Call the is_connected() method from the instantiated object to check if the user is connected.
+		$is_user_connected = $this->settings->is_connected();
+
+		$pro_is_activated = get_option( 'wpl_pro_active', false );
+
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+		// find out if data reqs is on.
+		$data_reqs_on   = isset( $the_options['data_reqs_on'] ) ? $the_options['data_reqs_on'] : null;
+		$consent_log_on = isset( $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
+		$template_parts_background = '';
+		if ( true === $the_options['is_on'] ) {
+			$template = $the_options['template'];
+			if ( 'none' !== $template ) {
+				$template_parts = explode( '-', $template );
+				$template       = array_pop( $template_parts );
+			}
+			$the_options['template_parts'] = $template;
+			if ( in_array( $template, array( 'navy_blue_center', 'navy_blue_box', 'navy_blue_square' ), true ) ) {
+				$template_parts_background = '#1c2e5a';
+			} elseif ( in_array( $template, array( 'almond_column' ), true ) ) {
+				$template_parts_background = '#FCF5DF';
+			} elseif ( in_array( $template, array( 'grey_column', 'grey_center' ), true ) ) {
+				$template_parts_background = '#f4f4f4';
+			} elseif ( in_array( $template, array( 'dark' ), true ) ) {
+				$template_parts_background = '#000000';
+			} elseif ( in_array( $template, array( 'dark_row' ), true ) ) {
+				$template_parts_background = '#36423f';
+			} else {
+				$template_parts_background = '#ffffff';
+			}
+		}
+		wp_enqueue_style( $this->plugin_name );
+		wp_enqueue_script(
+			'gdpr-cookie-consent-admin-revamp',
+			GDPR_URL . 'admin/js/gdpr-cookie-consent-admin-revamp.js',
+			array( 'jquery' ),
+			GDPR_COOKIE_CONSENT_VERSION,
+			true
+		);
+		wp_localize_script(
+			'gdpr-cookie-consent-admin-revamp',
+			'gdpr_localize_data',
+			array(
+				'ajaxurl'                    => admin_url( 'admin-ajax.php' ),
+				'gdprurl'                    => GDPR_URL,
+				'siteurl'                    => site_url(),
+				'admin_url'                  => admin_url(),
+				'is_pro_activated'           => $pro_is_activated,
+				'is_data_req_on'             => $data_reqs_on,
+				'is_consent_log_on'          => $consent_log_on,
+				'gdpr_app_url'               => GDPR_APP_URL,
+				'_ajax_nonce'                => wp_create_nonce( 'gdpr-cookie-consent' ),
+				'is_user_connected'          => $is_user_connected,
+				'background'                 => $template_parts_background,
+				'button_accept_button_color' => $the_options['button_accept_button_color'],
+				'is_iabtcf_on'               => $the_options['is_iabtcf_on'],
+				'cookie_bar_as'			     => $the_options['cookie_bar_as'],
+				'button_settings_as_popup'	 =>$the_options['button_settings_as_popup'],
+			)
+		);
+		?>
+		<style>
+			.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
+			.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input:checked+label,
+			.gdpr_messagebar_detail .category-group .toggle-group .checkbox input:checked+label {
+				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+			}
+			.gdprmodal-dialog .gdprmodal-footer button {
+				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> ;
+			}
+
+			.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
+			#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
+				background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> ;
+			}
+			
+		</style>
+		<?php
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-dashboard.php';
+	
+	}
+
 }
