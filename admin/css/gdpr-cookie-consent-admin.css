@@ -4709,8 +4709,6 @@ gdpr-cookie-consent-admin-tab-content {
 
 .gdpr-blur-background {
   position: relative;
-  margin-left: 28px;
-  margin-right: 37px;
 }
 
 .gdpr-blur-background::before {
@@ -9053,7 +9051,12 @@ input.vs__search {
   min-width: 124px;
   width: fit-content;
  }
- #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card{
+#gdpr-cookie-consent-settings-app
+  .gdpr-cookie-consent-settings-container
+  .gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .tab-content
+  .card {
   margin-right: 10px;
  }
  #gdpr-cookie-consent-settings-app
