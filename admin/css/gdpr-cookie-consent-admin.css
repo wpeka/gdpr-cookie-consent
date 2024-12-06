@@ -1412,7 +1412,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
   height: 15px;
   width: 15px;
 }
-#gdpr-cookie-consent-script-blocker{
+#gdpr-cookie-consent-script-blocker {
   margin-top: 17px;
 }
 
@@ -4726,6 +4726,10 @@ gdpr-cookie-consent-admin-tab-content {
   position: relative;
   margin-left: 28px;
   margin-right: 37px;
+}
+.consent-insights-page-views-section .gdpr-blur-background {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 .gdpr-blur-background::before {
@@ -8153,7 +8157,7 @@ button.btn.gdpr-renew-now-btn.pro,
 .gdpr-eu_visitors_message-both {
   display: none;
 }
-.gdpr-disabled-geo-integration{
+.gdpr-disabled-geo-integration {
   position: relative;
 }
 .gdpr-eu_visitors_message-gdpr,
@@ -9051,27 +9055,32 @@ input.vs__search {
   .gdpr_messagebar_detail_body_content_overview_cookie_container_type_details_extended_active {
   background-color: rgb(34, 34, 34) !important;
 }
-.gdpr-group-buttons .gdpr-banner-almond_column{
+.gdpr-group-buttons .gdpr-banner-almond_column {
   min-width: 124px;
   width: fit-content;
- }
- .gdpr-group-buttons .gdpr-banner-grey_column{
+}
+.gdpr-group-buttons .gdpr-banner-grey_column {
   min-width: 124px;
   width: fit-content;
- }
- 
-.gdpr-group-buttons .gdpr-popup-almond_column{
+}
+
+.gdpr-group-buttons .gdpr-popup-almond_column {
   min-width: 124px;
   width: fit-content;
- }
-.gdpr-group-buttons .gdpr-widget-almond_column{
+}
+.gdpr-group-buttons .gdpr-widget-almond_column {
   min-width: 124px;
   width: fit-content;
- }
- #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .gdpr-cookie-consent-settings-content .gdpr-cookie-consent-settings-nav .tab-content .card{
+}
+#gdpr-cookie-consent-settings-app
+  .gdpr-cookie-consent-settings-container
+  .gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .tab-content
+  .card {
   margin-right: 10px;
- }
- #gdpr-cookie-consent-settings-app
+}
+#gdpr-cookie-consent-settings-app
   .gdpr-cookie-consent-settings-container
   .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
