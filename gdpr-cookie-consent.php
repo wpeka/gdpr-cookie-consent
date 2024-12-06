@@ -11,8 +11,8 @@
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
  * Version:           3.6.6
- * Author:            WPEkaClub
- * Author URI:        https://club.wpeka.com
+ * Author:            WP Legal Pages
+ * Author URI:        https://wplegalpages.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       gdpr-cookie-consent
