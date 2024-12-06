@@ -307,7 +307,7 @@ var gen = new Vue({
       page_view_options: {
         chart: {
           type: "area",
-          width: 760,
+          width: this.chartWidth,
           zoom: {
             enabled: false,
           },
@@ -377,9 +377,8 @@ var gen = new Vue({
   mounted() {
     j("#gdpr-dashboard-loader").css("display", "none");
     this.setValues();
-    window.addEventListener("resize", this.updateChartWidth); // Add event listener for window resize
     this.updateChartWidth();
-    // this.initializeGraphData();
+    window.addEventListener("resize", this.updateChartWidth);
   },
   methods: {
     initializeGraphData() {
@@ -496,11 +495,20 @@ var gen = new Vue({
       }
     },
     updateChartWidth() {
-      this.chartWidth =
-        window.innerWidth > 1750 ? 760 : window.innerWidth > 1600 ? 693 : 500;
+      const viewportWidth = Math.min(
+        window.innerWidth,
+        document.documentElement.clientWidth
+      );
+      const newChartWidth =
+        viewportWidth > 1750 ? 760 : viewportWidth > 1600 ? 693 : 500;
 
-      // Update only the chart width dynamically
-      this.page_view_options.chart.width = this.chartWidth;
+      if (newChartWidth !== this.chartWidth) {
+        this.chartWidth = newChartWidth;
+
+        this.page_view_options.chart.width = newChartWidth;
+
+        this.chartKey++;
+      }
     },
     handleDateChange(selectedDates, dateStr, instance) {
       // Ensure both start and end dates are selected
