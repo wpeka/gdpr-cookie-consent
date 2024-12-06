@@ -3093,7 +3093,7 @@ input[type="search"]:focus {
 .popup-navy_blue_box_preview #cookie_action_accept_preview,
 .popup-navy_blue_box_preview #cookie_action_accept_all_preview,
 .popup-navy_blue_box_preview #cookie_action_reject_preview {
-  /* width: 100%; */
+  width: 100%;
 }
 /* Widget Navy Blue Sqaure */
 .widget-navy_blue_square_preview
@@ -9086,4 +9086,53 @@ input.vs__search {
 .popup-navy_blue_box_preview .popup-navy_blue_box_flex > #cookie_action_accept_preview,
 .popup-navy_blue_box_preview .popup-navy_blue_box_flex > #cookie_action_settings_preview{
   width: 100%;
+}
+.banner-dark_row_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.popup-almond_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+  display: flex !important;
+}
+.popup-grey_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+  display: flex !important;
+}
+.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_accept_preview,
+.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_accept_all_preview,
+.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_reject_preview,
+.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_settings_preview{
+  min-width: 25% !important;
+}
+.popup-navy_blue_box_preview #cookie_action_accept_all_preview{
+  width: 100% !important;
+}
+.widget-almond_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+  display: flex !important;
+
+}
+.widget-grey_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+  display: flex !important;
+
+}
+.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview{
+  display: flex !important;
+  flex-direction: row !important;
+}
+.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview{
+  display: flex !important;
+  flex-direction: row !important;
+}
+.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_preview,
+.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_all_preview,
+.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_reject_preview,
+.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_settings_preview{
+  min-width: 9rem !important;
+}
+.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_preview,
+.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_all_preview,
+.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_reject_preview,
+.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_settings_preview{
+  min-width: 9rem !important;
 }

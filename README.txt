@@ -1,6 +1,6 @@
 === Cookie Consent, Consent Log, Cookie Scanner, Script Blocker (for GDPR, CCPA & ePrivacy) : WP Cookie Consent ===
-Contributors: wpeka-club
-Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
+Contributors: wplegalpages
+Donate link: https://wplegalpages.com/
 Tags: CCPA, GDPR, Privacy Policy, Terms and conditions, Cookie Policy
 Requires at least: 3.3.1
 Tested up to: 6.6.1
