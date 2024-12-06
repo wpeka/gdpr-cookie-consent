@@ -10713,6 +10713,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'wpl_page_views'				   => get_option( 'wpl_page_views' ),
 				'total_page_views'				   => get_option('wpl_total_page_views'),
 				'client_site_is_on'				   => $the_options['is_on'],
+				'active_plugins'				   => $the_options['active_plugins'],
 				'client_site_url'                  => get_site_url(),
 				'cookie_usage_for'                 => $gdpr_policy,
 				'user_email_id'					   => $user_email_id,
