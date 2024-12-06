@@ -113,7 +113,9 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
 			add_action('admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			add_action('all_admin_notices', array($this,'gdpr_remove_admin_notices'),1);
-			
+			//option to store page views
+			if(get_option("wpl_page_views") === false) add_option("wpl_page_views", []);
+			if(get_option("wpl_total_page_views") === false) add_option("wpl_total_page_views", 0);
 		}
 		
 		$json_input = file_get_contents('php://input');
@@ -382,6 +384,8 @@ class Gdpr_Cookie_Consent_Admin {
 				delete_option( 'wpl_logs_admin' );
 				delete_option( 'wpl_datarequests_db_version' );
 				delete_option( 'wpl_cl_decline' );
+				delete_option( 'wpl_page_views' );
+				delete_option( 'wpl_total_page_views' );
 				delete_option( 'wpl_cl_accept' );
 				delete_option( 'wpl_cl_partially_accept' );
 				delete_option( 'wpl_cl_bypass' );
@@ -446,10 +450,11 @@ class Gdpr_Cookie_Consent_Admin {
 			$ab_options['ab_testing_enabled'] = 'false';
 			update_option( 'wpl_ab_options', $ab_options );
 			if ( $banner1_performance > $banner2_performance ) {
-				$this->wpl_set_default_ab_testing_banner( $the_options, '1' );
+				$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '1' );
 			} else {
-				$this->wpl_set_default_ab_testing_banner( $the_options, '2' );
+				$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '2' );
 			}
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 		}
 	}
 	/**
@@ -9045,6 +9050,7 @@ class Gdpr_Cookie_Consent_Admin {
 				$ab_options['ab_testing_period'] = '30';
 				delete_transient( 'gdpr_ab_testing_transient' );
 				$the_options = $this->wpl_set_default_ab_testing_banner( $the_options, $the_options['default_cookie_bar'] === true || $the_options['default_cookie_bar'] === 'true' ? '1' : '2' );
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			}
 			// $ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['ab_testing_period_text_field'] ) ) : '';
 			$ab_options['ab_testing_enabled'] = isset( $_POST['gcc-ab-testing-enable'] ) ? ($_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable']==='true' || $_POST['gcc-ab-testing-enable'] === 1 ? 'true' :'false')  : 'false';
@@ -10331,16 +10337,20 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$is_user_connected = $this->settings->is_connected();
+		
 
 		$installed_plugins = get_plugins();
 		$active_plugins    = $this->gdpr_cookie_consent_active_plugins();
 		$cookie_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? '1' : '0';
 		$is_cookie_on      = isset( $cookie_options['is_on'] ) ? $cookie_options['is_on'] : '1';
+		
 		$cookie_usage_for  = $cookie_options['cookie_usage_for'];
 		if ( $is_cookie_on == 'true' ) {
 			$is_cookie_on = true;
 		}
+		$page_view_options = get_option("wpl_page_views");
+		$total_page_views = get_option("wpl_total_page_views");
 		$is_pro_active     = get_option( 'wpl_pro_active' );
 		$api_key_activated = '';
 		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
@@ -10429,7 +10439,9 @@ class Gdpr_Cookie_Consent_Admin {
 				'partially_acc_log'     => $partially_acc_log,
 				'bypass_log'            => $bypass_log,
 				'is_user_connected'     => $is_user_connected,
-				'cookie_policy'			=> $cookie_usage_for
+				'cookie_policy'			=> $cookie_usage_for,
+				'page_view_options' 	=> $page_view_options,
+				'total_page_views'		=> $total_page_views
 			)
 		);
 		require_once plugin_dir_path( __FILE__ ) . 'views/gdpr-dashboard-page.php';

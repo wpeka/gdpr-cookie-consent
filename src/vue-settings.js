@@ -5639,7 +5639,6 @@ var gen = new Vue({
         });
     },
     onClickDeleteCookie() {
-      console.log("Clearing");
       var that = this;
       var data = {
         action: "wpl_cookies_deletion",
