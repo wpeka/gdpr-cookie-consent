@@ -4929,14 +4929,14 @@ gdpr-cookie-consent-admin-tab-content {
 }
 
 .gdpr-preview-publish-btn {
-  display: flex;
-  justify-content: end;
-  column-gap: 20px;
+  display: block;
+  width: 12em;
 }
 .gdpr-preview-toggle-btn {
   display: flex;
   justify-content: end;
   align-items: center;
+  margin-top: 16px;
 }
 .gdpr-btn-label {
   margin-bottom: 0;

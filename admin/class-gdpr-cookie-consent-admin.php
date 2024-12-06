@@ -1394,11 +1394,11 @@ class Gdpr_Cookie_Consent_Admin {
 		 if (!is_admin() || !current_user_can('manage_options')) return;
 		$installed_plugins = get_plugins();
 		$plugin_name                   = 'wplegalpages/wplegalpages.php';
-		$this->legal_pages_installed     = isset( $installed_plugins['wplegalpages/wplegalpages.php'] ) ? true : false;
-		$this->gdpr_installed     = isset( $installed_plugins['gdpr-cookie-consent/gdpr-cookie-consent.php'] ) ? true : false;
-		$this->is_legalpages_active = is_plugin_active( $plugin_name );
+		$legal_pages_installed     = isset( $installed_plugins['wplegalpages/wplegalpages.php'] ) ? true : false;
+		$gdpr_installed     = isset( $installed_plugins['gdpr-cookie-consent/gdpr-cookie-consent.php'] ) ? true : false;
+		$is_legalpages_active = is_plugin_active( $plugin_name );
 		$plugin_name_gdpr                   = 'gdpr-cookie-consent/gdpr-cookie-consent.php';
-		$this->is_gdpr_active = is_plugin_active( $plugin_name_gdpr );
+		$is_gdpr_active = is_plugin_active( $plugin_name_gdpr );
 		error_log('$legal_pages_installed=='.$legal_pages_installed);
 		error_log('$gdpr_installed=='.$gdpr_installed);
 		$callback_function = $is_legalpages_active ?  array( $this, 'wp_legalpages_new_admin_screen' ) : array( $this, 'wp_legal_pages_install_activate_screen' );
@@ -1421,7 +1421,7 @@ class Gdpr_Cookie_Consent_Admin {
 				__( 'Dashboard', 'gdpr-cookie-consent' ),     // Dashboard page title
 				'manage_options',   // Capability
 				'wplp-dashboard', // Menu slug
-				array( $this, 'gdpr_cookie_consent_unified_dashboard' ), // Callback function
+				array( $this, 'gdpr_cookie_consent_new_admin_screen' ), // Callback function
 				90
 			);
 		}
@@ -10735,12 +10735,7 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 	}
 	/* Callback function for new unified Dashboard page */
-	public function gdpr_cookie_consent_unified_dashboard() {
-		$legal_pages_installed = $this->legal_pages_installed;
-		$gdpr_installed = $this->gdpr_installed;
-		$is_legalpages_active = $this->is_legalpages_active;
-		$is_gdpr_active = $this->is_gdpr_active;
-	
+	public function gdpr_cookie_consent_unified_dashboard( $legal_pages_installed, $gdpr_installed, $is_legalpages_active, $is_gdpr_active) {
 		// Require the class file for gdpr cookie consent api framework settings.
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 

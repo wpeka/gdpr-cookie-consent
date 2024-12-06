@@ -10,6 +10,11 @@
  *
  * @package gdpr-cookie-consent
  */
+	
+	error_log('$legal_pages_installed-dash==='.$legal_pages_installed);
+		//$gdpr_installed = $this->gdpr_installed;
+		error_log('$gdpr_installeddash==='.$gdpr_installed);
+		
 // check if pro is activated or installed.
 $pro_is_activated  = get_option( 'wpl_pro_active', false );
 $the_options       = Gdpr_Cookie_Consent::gdpr_get_settings();

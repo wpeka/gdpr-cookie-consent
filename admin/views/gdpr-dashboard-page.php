@@ -25,6 +25,18 @@ $pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-co
 $pro_is_activated = get_option( 'wpl_pro_active', false );
 $api_key_activated = '';
 $api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
+
+$plugin_name                   = 'wplegalpages/wplegalpages.php';
+$legal_pages_installed     = isset( $installed_plugins['wplegalpages/wplegalpages.php'] ) ? true : false;
+$gdpr_installed     = isset( $installed_plugins['gdpr-cookie-consent/gdpr-cookie-consent.php'] ) ? true : false;
+$is_legalpages_active = is_plugin_active( $plugin_name );
+$plugin_name_gdpr                   = 'gdpr-cookie-consent/gdpr-cookie-consent.php';
+$is_gdpr_active = is_plugin_active( $plugin_name_gdpr );
+$image_path = GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/';
+$legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wplegalpages' ), 'install-plugin_wplegalpages' );
+$legalpages_activation_url = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_name . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin_name );
+
+
 // Require the class file for gdpr cookie consent api framework settings.
 require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 
@@ -79,38 +91,7 @@ if ( ! empty( $cookie_scan_settings ) ) {
  */
 global $wpdb;
 
-// // The table name you want to check for existence.
-// $table_name = $wpdb->prefix . 'wpl_cookie_scan';
-
-// // Check if the table exists in the database.
-// $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name;   //phpcs:ignore
-
-// if ( $table_exists ) {
-// 	// The table exists, so you can fetch the total_url.
-// 	$result = $wpdb->get_results("SELECT total_url FROM $table_name");  //phpcs:ignore
-// 	// echo '<pre>';
-//     // print_r(get_option('gdpr_no_of_page_scan'));
-//     // echo '</pre>';
-
-// 	if ( ! empty( $result ) ) {
-// 		// Access the value of total_url.
-
-// 		$total_scanned_pages = $result[0]->total_url;
-// 	} else {
-// 		$total_scanned_pages = '0 Pages';
-// 	}
-// } else {
-// 	// The table doesn't exist, so set $total_scanned_pages to "0 Pages".
-// 	$total_scanned_pages = '0 Pages';
-// }
 $total_scanned_pages = get_option('gdpr_last_scan') . " Pages";
-
-// $total_scanned_pages = count($url_arr);
-
-
-// // Print or use the $total_cookies value
-// echo "Total Cookies: " . $total_cookies;
-
 
 ob_start(); // Start output buffering
 
@@ -176,11 +157,21 @@ if ( 200 === $response_status ) {
 }
 
 
-
 ?>
 <div id="gdpr-dashboard-loader"></div>
 <div id="gdpr-cookie-consent-dashboard-page">
 	<c-container class="gdpr-cookie-consent-dashboard-container">
+		<div class="gdpr-welcome-section">
+			<div class="gdpr-section-title">
+				<img alt="WP Cookie Consent logo image" src="<?php echo esc_url( $image_path ) . 'wp-Legal-pages-logo.png'; ?>">
+				<p class="gdpr-title-heading"><?php esc_html_e( 'Welcome to WPLP Compliance Platform!' , 'gdpr-cookie-consent'); ?></p>
+				<p class="gdpr-title-subheading"><?php esc_html_e( 'Complete Legal & Cookie Protection','gdpr-cookie-consent'); ?></p>
+				<p class="gdpr-section-content"><?php esc_html_e( 'Your complete compliance package for your website, from legal documents to cookie consent.','gdpr-cookie-consent'); ?> </p>
+			</div>
+			<div class="gdpr-video-section">
+				<iframe width="550" height="260" src="https://www.youtube.com/embed/Yxc5_otnHLc" title="Stay Compliant with WP Compliance Platform | Free All-in-One Solution" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+			</div>
+		</div>
 		<c-card class="gdpr-progress-bar-card">
 			<c-card-body>
 			<c-row class="gdpr-progress-bar-heading">
@@ -328,6 +319,40 @@ if ( 200 === $response_status ) {
 		</c-card>
 		<!-- cookie insights and cookie summary card  -->
 		<!-- Card for dashboard cookie banner -->
+		<c-card class="gdpr-dashboard-quick-banner-section">
+				<div class="gdpr-banner-preview-save-btn">
+					<div class="gdpr-banner-preview-logo-text">
+						<div class="gdpr-banner-preview-logo">
+							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wplp-icon.png'; ?>" alt="Cookie Setting preview logo">
+						</div>
+						<div class="gdpr-banner-preview-text">
+							<span id="gdpr-banner-preview-cookie-banner-title">
+								<?php esc_html_e( 'Install WP Legal Pages', 'gdpr-cookie-consent' ); ?>
+							</span><br>
+							<span id="gdpr-banner-preview-cookie-banner-description">
+								<?php esc_html_e( 'Generate your personalized legal policy page for enhanced protection.', 'gdpr-cookie-consent' ); ?>
+							</span>
+						</div>
+					</div>
+				<div class="gdpr-preview-publish-btn">
+				<!-- <a href="javascript:void(0)" class="gdpr-wplp-install-btn"><?php esc_html_e( 'Install Now', 'gdpr-cookie-consent' ); ?><span class="dashicons dashicons-admin-customizer"></span></a> -->
+				<?php 
+				if(!$legal_pages_installed && !$is_legalpages_active) { ?>
+				<a style="width:26%;" data-redirect="http://gdprunified.local/wp-admin/admin.php?page=wplp-dashboard" href="<?php echo esc_url($legalpages_install_url); ?>">
+					<button class="gdpr-wplp-install-btn" id="gdpr-install-activate-btn"><?php esc_html_e('Install Now','gdpr-cookie-consent') ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/down-arrow.png'; ?>" alt="Cookie Setting preview logo">
+					</button>
+				</a> 
+				<?php }
+				if($legal_pages_installed && !$is_legalpages_active) { 
+				 ?>
+				<a style="width:26%;" data-redirect="admin.php?page=wplp-dashboard" href="<?php echo esc_url($legalpages_activation_url); ?>">
+				 <button class="gdpr-wplp-install-btn" id="gdpr-install-activate-btn"><?php esc_html_e('Activate Now','gdpr-cookie-consent') ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/down-arrow.png'; ?>" alt="Cookie Setting preview logo">
+				 </button>
+				</a>
+				 <?php } ?>
+					</div>
+			</div>
+		</c-card>
 		<c-card class="gdpr-dashboard-quick-banner-section">
 				<div class="gdpr-banner-preview-save-btn">
 					<div class="gdpr-banner-preview-logo-text">
