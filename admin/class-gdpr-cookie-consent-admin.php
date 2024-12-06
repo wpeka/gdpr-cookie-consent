@@ -136,6 +136,11 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 		
 		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
+		if (!isset($the_options['gdpr_current_language'])) {
+			$the_options['gdpr_current_language'] = 'en';
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+		}
+
 	}
 
 	/**
