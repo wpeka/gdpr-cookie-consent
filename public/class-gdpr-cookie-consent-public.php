@@ -523,26 +523,22 @@ class Gdpr_Cookie_Consent_Public {
 			wp_localize_script($this->plugin_name, 'cookie_options', [
 				'active_law' => $the_options['cookie_usage_for'],
 				// for banner where ab testing is disabled.
-				'background' => $the_options['background'],
-				'background1' => $the_options['cookie_bar_color1'] ,
-				'background2' => $the_options['cookie_bar_color2'] ,
-				// for banner where ab testing is disabled and gdpr and ccpa law is selected.
-				'background_legislation' => $the_options['multiple_legislation_cookie_bar_color1'],
-				
-				// for banner where ab testing is enabled and banner A.
-				'opacity' => $the_options['opacity'],
-				'opacity1' => $the_options['cookie_bar_opacity1'],
-				'opacity2' => $the_options['cookie_bar_opacity2'],
-				// for banner where ab testing is disabled and gdpr and ccpa law is selected.
-				'opacity_legislation' => $the_options['multiple_legislation_cookie_bar_opacity1'],
-				
-				
-				// for banner where ab testing is enabled and banner B.
-				'text' => $the_options['text'],
-				'text1' => $the_options['cookie_text_color1'],
-				'text2' => $the_options['cookie_text_color2'],
-				// for banner where ab testing is disabled and gdpr and ccpa law is selected.
-				'text_legislation' => $the_options['multiple_legislation_cookie_text_color1'],
+				'background' => $the_options['background'] ?? '#FFFFFF', // Default background color
+				'background1' => $the_options['cookie_bar_color1'] ?? '#FFFFFF',
+				'background2' => $the_options['cookie_bar_color2'] ?? '#FFFFFF',
+				'background_legislation' => $the_options['multiple_legislation_cookie_bar_color1'] ?? '#FFFFFF', // Default for legislation
+
+				// Opacity values
+				'opacity' => $the_options['opacity'] ?? '1.0', // Default full opacity
+				'opacity1' => $the_options['cookie_bar_opacity1'] ?? '1.0',
+				'opacity2' => $the_options['cookie_bar_opacity2'] ?? '1.0',
+				'opacity_legislation' => $the_options['multiple_legislation_cookie_bar_opacity1'] ?? '1.0',
+
+				// Text color values
+				'text' => $the_options['text'] ?? '#000000', // Default black text
+				'text1' => $the_options['cookie_text_color1'] ?? '#000000',
+				'text2' => $the_options['cookie_text_color2'] ?? '#000000',
+				'text_legislation' => $the_options['multiple_legislation_cookie_text_color1'] ?? '#000000', // Default for legislation
 			]);
 
 			if ( false !== strpos( $template, 'center' ) ) {
@@ -786,6 +782,8 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['dash_button_cancel_text'] = $the_options['button_cancel_text'];
 				$cookie_data['dash_show_again_text'] = $the_options['show_again_text'];
 				$cookie_data['dash_optout_text'] = $the_options['optout_text'];
+				$cookie_data['dash_notify_message_iabtcf'] = $the_options['notify_message'];
+				$cookie_data['dash_about_message_iabtcf']  = $the_options['about_message'];
 				$cookie_data['about']             = __( 'About Cookies', 'gdpr-cookie-consent' );
 				$cookie_data['declaration']       = __( 'Cookie Declaration', 'gdpr-cookie-consent' );
 				$cookie_data['always']            = __( 'Always Active', 'gdpr-cookie-consent' );
@@ -800,7 +798,7 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['cookie_data']       = $cookie_data;
 
 				// language translation based on the selected language for the public facing.
-				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {
+				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages )  && $the_options['gdpr_current_language'] !== $the_options['lang_selected']) {
 
 					// Load and decode translations from JSON file.
 					$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/public/translations/public-translations.json';
@@ -860,6 +858,8 @@ class Gdpr_Cookie_Consent_Public {
 					}
 
 					$the_options['cookie_data'] = $cookie_data;
+					$the_options['gdpr_current_language'] = $the_options['lang_selected'];
+					update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 				}
 			}
 

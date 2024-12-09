@@ -113,7 +113,9 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
 			add_action('admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			add_action('all_admin_notices', array($this,'gdpr_remove_admin_notices'),1);
-			
+			//option to store page views
+			if(get_option("wpl_page_views") === false) add_option("wpl_page_views", []);
+			if(get_option("wpl_total_page_views") === false) add_option("wpl_total_page_views", 0);
 		}
 		
 		$json_input = file_get_contents('php://input');
@@ -134,6 +136,11 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 		
 		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
+		if (!isset($the_options['gdpr_current_language'])) {
+			$the_options['gdpr_current_language'] = 'en';
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+		}
+
 	}
 
 	/**
@@ -377,6 +384,8 @@ class Gdpr_Cookie_Consent_Admin {
 				delete_option( 'wpl_logs_admin' );
 				delete_option( 'wpl_datarequests_db_version' );
 				delete_option( 'wpl_cl_decline' );
+				delete_option( 'wpl_page_views' );
+				delete_option( 'wpl_total_page_views' );
 				delete_option( 'wpl_cl_accept' );
 				delete_option( 'wpl_cl_partially_accept' );
 				delete_option( 'wpl_cl_bypass' );
@@ -441,10 +450,11 @@ class Gdpr_Cookie_Consent_Admin {
 			$ab_options['ab_testing_enabled'] = 'false';
 			update_option( 'wpl_ab_options', $ab_options );
 			if ( $banner1_performance > $banner2_performance ) {
-				$this->wpl_set_default_ab_testing_banner( $the_options, '1' );
+				$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '1' );
 			} else {
-				$this->wpl_set_default_ab_testing_banner( $the_options, '2' );
+				$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '2' );
 			}
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 		}
 	}
 	/**
@@ -1665,8 +1675,8 @@ class Gdpr_Cookie_Consent_Admin {
 		$current_url = $current_url . '/wp-admin/admin.php?page=gdpr-cookie-consent#create_cookie_banner';
 		// fetching the setting for paid plan.
 		$settings = new GDPR_Cookie_Consent_Settings();
-		$api_user_plan          = $this->settings->get_plan();
-		if ( $api_user_plan != '10sites' ) {
+		$api_user_plan          = $settings->get_plan();
+		if ( $api_user_plan == 'free' ) {
 			$links = array_merge(
 				array(
 					'<a href="' . esc_url( 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=plugins&utm_campaign=link&utm_content=upgrade-to-pro' ) . '" target="_blank" rel="noopener noreferrer"><strong style="color: #11967A; display: inline;">' . __( 'Upgrade to Pro', 'gdpr-cookie-consent' ) . '</strong></a>',
@@ -6777,6 +6787,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$this->plugin_name . '-main',
 			'settings_obj',
 			array(
+				'nonce'   						   => wp_create_nonce( 'wpl_save_script_nonce' ), // Generate nonce
 				'the_options'                      => $settings,
 				'ajaxurl'                          => admin_url( 'admin-ajax.php' ),
 				'policies'                         => $policies,
@@ -7950,7 +7961,70 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( ! $ab_options ) {
 				$ab_options = array();
 			}
-			$ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['ab_testing_period_text_field'] ) ) : '';
+			
+			// Get the current A/B testing period value
+			$current_ab_testing_value = isset($ab_options['ab_testing_period']) ? $ab_options['ab_testing_period'] : '';
+
+			// Set the new A/B testing period value from POST
+			$ab_options['ab_testing_period'] = isset($_POST['ab_testing_period_text_field']) ? sanitize_text_field(wp_unslash($_POST['ab_testing_period_text_field'])) : '';
+
+			// Get the updated A/B testing period value
+			$updated_ab_testing_value = isset($ab_options['ab_testing_period']) ? $ab_options['ab_testing_period'] : '';
+
+			// Check if the value of the A/B testing period has changed
+			if ($current_ab_testing_value !== $updated_ab_testing_value) {
+
+				// Get the transient expiration time if the transient already exists
+				$transient_name = '_transient_timeout_gdpr_ab_testing_transient';
+				$expiration_time = get_option($transient_name);
+				
+				// Check if the transient exists (the value is retrieved)
+				if ($expiration_time) {
+					// Convert the expiration time to a human-readable format
+					$expiration_time = date('Y-m-d H:i:s', $expiration_time);
+					
+					// Get the current date and time
+					$current_date_time = date('Y-m-d H:i:s');
+
+					// Calculate the difference in time between the current time and the expiration time
+					$current_time_unix = strtotime($current_date_time);
+					$expiration_time_unix = strtotime($expiration_time);
+					
+					// Calculate the remaining time in seconds
+					$remaining_time_seconds = $expiration_time_unix - $current_time_unix;
+
+					// Calculate the remaining days
+					$remaining_days = ceil($remaining_time_seconds / (60 * 60 * 24));
+
+					// If the user changes the days value, update the transient expiration time
+					$new_expiration_time_seconds = ($updated_ab_testing_value * 24 * 60 * 60); // New expiration time in seconds
+					
+					// If the new expiration time is longer or shorter, update the transient accordingly
+					if ($remaining_days != $updated_ab_testing_value) {
+						$new_expiration_timestamp = $current_time_unix + $new_expiration_time_seconds;
+						set_transient(
+							'gdpr_ab_testing_transient',
+							array(
+								'value'         => 'A/B Testing Period',
+								'creation_time' => time(),
+							),
+							$new_expiration_time_seconds
+						);
+					}
+				} else {
+					// If the transient doesn't exist, create it with the new expiration time
+					$new_expiration_time_seconds = ($updated_ab_testing_value * 24 * 60 * 60);
+					set_transient(
+						'gdpr_ab_testing_transient',
+						array(
+							'value'         => 'A/B Testing Period',
+							'creation_time' => time(),
+						),
+						$new_expiration_time_seconds
+					);
+				}
+			}
+
 
 			if (isset($_POST['gcc-ab-testing-enable']) 
 			&& ($_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable'] === 'true') 
@@ -8976,6 +9050,7 @@ class Gdpr_Cookie_Consent_Admin {
 				$ab_options['ab_testing_period'] = '30';
 				delete_transient( 'gdpr_ab_testing_transient' );
 				$the_options = $this->wpl_set_default_ab_testing_banner( $the_options, $the_options['default_cookie_bar'] === true || $the_options['default_cookie_bar'] === 'true' ? '1' : '2' );
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			}
 			// $ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['ab_testing_period_text_field'] ) ) : '';
 			$ab_options['ab_testing_enabled'] = isset( $_POST['gcc-ab-testing-enable'] ) ? ($_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable']==='true' || $_POST['gcc-ab-testing-enable'] === 1 ? 'true' :'false')  : 'false';
@@ -9038,10 +9113,14 @@ class Gdpr_Cookie_Consent_Admin {
 				$translated_category_names        = array();
 				// Loop through the text keys and translate them.
 				foreach ( $text_keys_to_translate as $text_key ) {
-					
 					$translated_text                 = $this->translated_text( $text_key, $translations, $target_language );
 					$stripped_string                 = str_replace( 'dash_', '', $text_key );
-					if(($text_key === 'dash_about_message_iabtcf' || $text_key === 'dash_notify_message_iabtcf') && ($_POST['gcc-iabtcf-enable'] === true || $_POST['gcc-iabtcf-enable'] === "true" || $_POST['gcc-iabtcf-enable'] === 1)){
+					if($text_key === 'dash_button_accept_text' || $text_key === 'dash_button_accept_all_text' || $text_key === 'dash_button_decline_text' || $text_key === 'dash_button_settings_text' || $text_key === 'dash_button_donotsell_text' || $text_key === 'dash_button_confirm_text' || $text_key === 'dash_button_cancel_text'){
+						$the_options[ $stripped_string ] = $translated_text;
+						$the_options[ $stripped_string . '1' ] = $translated_text;
+						$the_options[ $stripped_string . '2' ] = $translated_text;
+					}
+					else if(($text_key === 'dash_about_message_iabtcf' || $text_key === 'dash_notify_message_iabtcf') && ($_POST['gcc-iabtcf-enable'] === true || $_POST['gcc-iabtcf-enable'] === "true" || $_POST['gcc-iabtcf-enable'] === 1)){
 						$stripped_string                 = str_replace( '_iabtcf', '', $stripped_string );
 						$the_options[ $stripped_string ] = $translated_text;
 			
@@ -9142,7 +9221,9 @@ class Gdpr_Cookie_Consent_Admin {
 													CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
 								$wpdb->query( $alter_table_sql );
 							}
-
+							$sanitized_category_descriptions = addslashes( $translated_category_descriptions[ $category_i_d ] );
+							$sanitized_category_names = addslashes( $translated_category_names[ $category_i_d ] );
+							
 							// Update the table with the translated values.
 							$wpdb->query(
 								$wpdb->prepare(
@@ -9150,8 +9231,8 @@ class Gdpr_Cookie_Consent_Admin {
 									SET `gdpr_cookie_category_description` = %s,
 										`gdpr_cookie_category_name` = %s
 									WHERE `id_gdpr_cookie_category` = %d',
-									$translated_category_descriptions[ $category_i_d ],
-									$translated_category_names[ $category_i_d ],
+									$sanitized_category_descriptions,
+									$sanitized_category_names,
 									$category_i_d
 								)
 							);
@@ -10190,7 +10271,6 @@ class Gdpr_Cookie_Consent_Admin {
 				$template_parts_background = '#ffffff';
 			}
 		}
-
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script(
 			'gdpr-cookie-consent-admin-revamp',
@@ -10257,16 +10337,20 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$is_user_connected = $this->settings->is_connected();
+		
 
 		$installed_plugins = get_plugins();
 		$active_plugins    = $this->gdpr_cookie_consent_active_plugins();
 		$cookie_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? '1' : '0';
 		$is_cookie_on      = isset( $cookie_options['is_on'] ) ? $cookie_options['is_on'] : '1';
+		
 		$cookie_usage_for  = $cookie_options['cookie_usage_for'];
 		if ( $is_cookie_on == 'true' ) {
 			$is_cookie_on = true;
 		}
+		$page_view_options = get_option("wpl_page_views");
+		$total_page_views = get_option("wpl_total_page_views");
 		$is_pro_active     = get_option( 'wpl_pro_active' );
 		$api_key_activated = '';
 		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
@@ -10355,7 +10439,9 @@ class Gdpr_Cookie_Consent_Admin {
 				'partially_acc_log'     => $partially_acc_log,
 				'bypass_log'            => $bypass_log,
 				'is_user_connected'     => $is_user_connected,
-				'cookie_policy'			=> $cookie_usage_for
+				'cookie_policy'			=> $cookie_usage_for,
+				'page_view_options' 	=> $page_view_options,
+				'total_page_views'		=> $total_page_views
 			)
 		);
 		require_once plugin_dir_path( __FILE__ ) . 'views/gdpr-dashboard-page.php';
@@ -10480,6 +10566,8 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 
 					if ( -1 != $category_i_d ) {
+						$sanitized_category_descriptions = addslashes( $translated_category_descriptions[ $category_i_d ] );
+						$sanitized_category_names = addslashes( $translated_category_names[ $category_i_d ] );
 						// Update the table with the translated values.
 						$wpdb->query(
 							$wpdb->prepare(
@@ -10487,8 +10575,8 @@ class Gdpr_Cookie_Consent_Admin {
 								SET `gdpr_cookie_category_description` = %s,
 									`gdpr_cookie_category_name` = %s
 								WHERE `id_gdpr_cookie_category` = %d',
-								$translated_category_descriptions[ $category_i_d ],
-								$translated_category_names[ $category_i_d ],
+								$sanitized_category_descriptions,
+								$sanitized_category_names,
 								$category_i_d
 							)
 						);
@@ -10643,7 +10731,6 @@ class Gdpr_Cookie_Consent_Admin {
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 		
 		$is_user_connected = $this->settings->is_connected();
-		$api_user_plan = $this->settings->get_plan();
 		
 
 		register_rest_route(
@@ -10652,9 +10739,9 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'gdpr_send_data_to_dashboard_appwplp_server'), // Function to handle the request
-				'permission_callback' => function() use ($is_user_connected, $api_user_plan) {
+				'permission_callback' => function() use ($is_user_connected) {
 					// Check if user is connected and the API plan is valid
-					if ($is_user_connected && $api_user_plan == '10sites') {
+					if ($is_user_connected) {
 						return true; // Allow access
 					}
 					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
