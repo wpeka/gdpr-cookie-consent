@@ -9145,3 +9145,8 @@ input.vs__search {
 .widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_settings_preview{
   min-width: 9rem !important;
 }
+#toplevel_page_wp-legal-pages .wp-submenu > :nth-child(3) > a:has(img){
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 14px;
+}
