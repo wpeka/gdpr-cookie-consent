@@ -10623,7 +10623,7 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 	}
 	
-	/* Added endpoint to send pie chart and cookie summary data from plugin to the saas appwplp server */
+	/* Added endpoint to send dashboard data from plugin to the saas appwplp server */
 	public function gdpr_send_data_to_dashboard_appwplp_server(WP_REST_Request $request  ){		
 		$current_user = wp_get_current_user();
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -10697,6 +10697,7 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 		$last_scan_time = $cookie_scan_settings['last_scan']['created_at'];
 
+		$active_plugins = $this->gdpr_cookie_consent_active_plugins();
 		return rest_ensure_response(
 			array(
 				'success' => true,
@@ -10713,7 +10714,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'wpl_page_views'				   => get_option( 'wpl_page_views' ),
 				'total_page_views'				   => get_option('wpl_total_page_views'),
 				'client_site_is_on'				   => $the_options['is_on'],
-				'active_plugins'				   => $the_options['active_plugins'],
+				'active_plugins'				   => $active_plugins,
 				'client_site_url'                  => get_site_url(),
 				'cookie_usage_for'                 => $gdpr_policy,
 				'user_email_id'					   => $user_email_id,
