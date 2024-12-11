@@ -136,6 +136,11 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 		
 		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
+		if (!isset($the_options['gdpr_current_language'])) {
+			$the_options['gdpr_current_language'] = 'en';
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+		}
+
 	}
 
 	/**
@@ -445,10 +450,11 @@ class Gdpr_Cookie_Consent_Admin {
 			$ab_options['ab_testing_enabled'] = 'false';
 			update_option( 'wpl_ab_options', $ab_options );
 			if ( $banner1_performance > $banner2_performance ) {
-				$this->wpl_set_default_ab_testing_banner( $the_options, '1' );
+				$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '1' );
 			} else {
-				$this->wpl_set_default_ab_testing_banner( $the_options, '2' );
+				$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '2' );
 			}
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 		}
 	}
 	/**
@@ -9044,6 +9050,7 @@ class Gdpr_Cookie_Consent_Admin {
 				$ab_options['ab_testing_period'] = '30';
 				delete_transient( 'gdpr_ab_testing_transient' );
 				$the_options = $this->wpl_set_default_ab_testing_banner( $the_options, $the_options['default_cookie_bar'] === true || $the_options['default_cookie_bar'] === 'true' ? '1' : '2' );
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			}
 			// $ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['ab_testing_period_text_field'] ) ) : '';
 			$ab_options['ab_testing_enabled'] = isset( $_POST['gcc-ab-testing-enable'] ) ? ($_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable']==='true' || $_POST['gcc-ab-testing-enable'] === 1 ? 'true' :'false')  : 'false';
