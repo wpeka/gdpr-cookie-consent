@@ -504,7 +504,7 @@ if ( 200 === $response_status ) {
 
 				<c-card-body class="gdpr-dashboard-help-body">
 					<div class="gdpr-help-item">
-							<img class="gdpr-other-plugin-image" :src="documentation.default">
+							<img class="gdpr-other-plugin-image" :src="help_center.default">
 						<div class="gdpr-help-content">
 						<span class="gdpr-help-caption">
 							<?php esc_html_e( 'Help Center', 'gdpr-cookie-consent' ); ?>
@@ -564,7 +564,7 @@ if ( 200 === $response_status ) {
 						</div>
 					</div>
 					<div class="gdpr-help-item">
-							<img class="gdpr-other-plugin-image" :src="found_bug.default">
+							<img class="gdpr-other-plugin-image" :src="shortcode.default">
 						<div class="gdpr-help-content">
 						<span class="gdpr-help-caption">
 							<?php esc_html_e( 'Cookie Bar Shortcodes', 'gdpr-cookie-consent' ); ?>

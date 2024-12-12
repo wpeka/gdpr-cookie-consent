@@ -167,6 +167,8 @@ var gen = new Vue({
       video_guide: require("../admin/images/dashboard-icons/video_guide.svg"),
       faq_question: require("../admin/images/dashboard-icons/faq-question.svg"),
       documentation: require("../admin/images/dashboard-icons/documentation.svg"),
+      help_center: require("../admin/images/dashboard-icons/help_center.png"),
+      shortcode: require("../admin/images/dashboard-icons/shortcode.png"),
       feedback: require("../admin/images/dashboard-icons/feedback.svg"),
       found_bug: require("../admin/images/dashboard-icons/found-bug.svg"),
       survey_funnel_icon: require("../admin/images/dashboard-icons/survey-funnel-icon.png"),
