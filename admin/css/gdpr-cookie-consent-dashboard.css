@@ -784,6 +784,7 @@ circle.ep-circle--empty {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding-bottom: 50px;
 }
 .gdpr-dashboard-tips-tricks-title {
   font-size: var(--text-xl-font-size);
