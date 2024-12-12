@@ -114,6 +114,8 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('admin_menu', array($this,'gdpr_reorder_admin_menu'), 999);
 			add_action('admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			add_action('all_admin_notices', array($this,'gdpr_remove_admin_notices'),1);
+			add_action('wp_ajax_install_plugin', array($this, 'gdpr_wplp_install_plugin_ajax_handler'));
+
 			
 		}
 		
@@ -10311,6 +10313,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$active_plugins    = $this->gdpr_cookie_consent_active_plugins();
 		$cookie_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? '1' : '0';
+		$legal_pages_installed    = isset( $installed_plugins['wplegalpages/wplegalpages.php'] ) ? '1' : '0';
 		$is_cookie_on      = isset( $cookie_options['is_on'] ) ? $cookie_options['is_on'] : '1';
 		$cookie_usage_for  = $cookie_options['cookie_usage_for'];
 		if ( $is_cookie_on == 'true' ) {
@@ -10349,6 +10352,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies';
 		$plugin_page_url     = $admin_url . 'plugins.php';
 		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
+		$create_legalpages_url = $admin_url . 'admin.php?page=legal-pages';
 		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
 		$cookie_design_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
 		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#configuration';
@@ -10378,6 +10382,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'active_plugins'        => $active_plugins,
 				'showing_cookie_notice' => $is_cookie_on,
 				'pro_installed'         => $pro_installed,
+				'legal_pages_installed' => $legal_pages_installed,
 				'pro_activated'         => $is_pro_active,
 				'last_scanned'          => $last_scanned_details,
 				'show_cookie_url'       => $show_cookie_url,
@@ -10390,6 +10395,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'pro_support_url'       => $pro_support_url,
 				'videos_url'            => $videos_url,
 				'key_activate_url'      => $key_activate_url,
+				'create_legalpages_url' => $create_legalpages_url,
+				'legalpages_install_url'=> $legalpages_install_url,
 				'api_key_activated'     => $api_key_activated,
 				'consent_log_url'       => $consent_log_url,
 				'cookie_design_url'     => $cookie_design_url,
@@ -10824,5 +10831,56 @@ class Gdpr_Cookie_Consent_Admin {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/partials/gdpr-cookie-consent-main-dashboard.php';
 	
 	}
+
+	// Plugin Installation code
+
+	public function gdpr_wplp_install_plugin_ajax_handler() {
+    // Check nonce for security
+	check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
+
+
+    // Load necessary WordPress plugin installer classes
+    if ( ! class_exists( 'Plugin_Upgrader' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+    }
+    if ( ! function_exists( 'plugins_api' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+    }
+
+    $plugin_slug = sanitize_text_field( $_POST['plugin_slug'] ); // Plugin slug from AJAX request
+
+    // Get plugin information
+    $api = plugins_api(
+        'plugin_information',
+        array(
+            'slug'   => $plugin_slug,
+            'fields' => array(
+                'sections' => false,
+            ),
+        )
+    );
+
+    if ( is_wp_error( $api ) ) {
+        wp_send_json_error( array( 'message' => $api->get_error_message() ) );
+    }
+
+    // Install the plugin
+    $upgrader = new Plugin_Upgrader( new WP_Ajax_Upgrader_Skin() );
+    $result   = $upgrader->install( $api->download_link );
+
+    if ( is_wp_error( $result ) ) {
+        wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+    }
+
+    // Activate the plugin
+    $activate = activate_plugin( $plugin_slug . '/' . $plugin_slug . '.php' );
+    if ( is_wp_error( $activate ) ) {
+        wp_send_json_error( array( 'message' => $activate->get_error_message() ) );
+    }
+
+    // Success response
+    wp_send_json_success( array( 'message' => __( 'Plugin installed and activated successfully.', 'your-textdomain' ) ) );
+}
+
 
 }

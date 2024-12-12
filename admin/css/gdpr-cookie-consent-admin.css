@@ -4927,16 +4927,11 @@ gdpr-cookie-consent-admin-tab-content {
   color: var(--white-100);
   background-color: var(--blue-904);
 }
-
-.gdpr-preview-publish-btn {
-  display: block;
-  width: 12em;
-}
 .gdpr-preview-toggle-btn {
   display: flex;
   justify-content: end;
   align-items: center;
-  margin-top: 16px;
+  margin-top: 5px;
 }
 .gdpr-btn-label {
   margin-bottom: 0;

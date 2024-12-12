@@ -1050,12 +1050,14 @@ circle.ep-circle--empty {
 }
 .vertical-line-step-1,
 .vertical-line-step-2,
-.vertical-line-step-3 {
+.vertical-line-step-3,
+.vertical-line-step-4 {
   height: 37px;
 }
-.vertical-line-step-4 {
+.vertical-line-step-5 {
   height: 11px;
 }
+
 .tasks-heading {
   font-size: var(--text-lg-font-size);
   font-weight: var(--text-medium-font-weight);
@@ -1096,7 +1098,7 @@ circle.ep-circle--empty {
 }
 .gdpr-configure-banner-btn {
   background-color: var(--white-100);
-  width: 200px;
+  width: auto;
   padding: 11px 12px;
   color: #2A4A7E;
   text-align: center;
@@ -1104,6 +1106,7 @@ circle.ep-circle--empty {
   border: 1px solid #7195D0;
   border-radius: 0.25rem;
   text-decoration: none;
+  display:block;
 }
 .gdpr-wplp-install-btn{
   background-color: #14873E;
@@ -1116,6 +1119,7 @@ circle.ep-circle--empty {
   border-radius: 0.25rem;
   text-decoration: none;
   margin-left: 14px;
+  display: inline-block;
 }
 
 #gdpr-install-activate-btn img{
@@ -1169,4 +1173,7 @@ p.gdpr-title-subheading {
   font-size: 16px;
   color: #52525B;
   font-weight: 400;
+}
+.gdpr-dashboard-legalpages-create-pages-tab a:hover{
+  color: rgba(17, 92, 167, 1) !important;
 }

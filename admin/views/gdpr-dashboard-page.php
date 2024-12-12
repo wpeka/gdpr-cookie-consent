@@ -230,6 +230,14 @@ if ( 200 === $response_status ) {
 									</div>
 								</div>
 							</li>
+							<li id="step5">
+								<div class="progress-step">
+									<div class="container">
+										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
+										<div class="vertical-line vertical-line-step-5"></div> 
+									</div>
+								</div>
+							</li>
 						</ul>
 					</c-col>
 					<c-col class="col-sm-6 gdpr-progress-list-column">
@@ -288,7 +296,7 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e( 'Scan now.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
-						<?php }?>
+						<?php } ?>
 						<c-row :class="['gdpr-progress-list-item','vstep4', (pro_installed && pro_activated && api_key_activated)||(!pro_installed && is_user_connected) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span v-show="pro_installed && pro_activated && api_key_activated">
 								<?php esc_html_e( 'GDPR Pro activated.', 'gdpr-cookie-consent' ); ?>
@@ -310,8 +318,18 @@ if ( 200 === $response_status ) {
 								<?php esc_html_e( 'Activate your API license key.', 'gdpr-cookie-consent' ); ?>
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
+							
 						</c-row>
-						
+						<c-row :class="['gdpr-progress-list-item','vstep5', legal_pages_installed ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+							<span class="gdpr-dashboard-legalpages-install-tab" v-show="!legal_pages_installed">
+								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
+								<span class="gdpr-progress-list-link step-install-wplp-plugin" :href="legalpages_install_url"><?php esc_html_e( 'Install WP Legal Pages', 'gdpr-cookie-consent' ); ?></span>
+							</span>
+							<span class="gdpr-dashboard-legalpages-create-pages-tab" v-show="legal_pages_installed">
+								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
+							<a target="_blank" class="gdpr-progress-list-link" :href="create_legalpages_url"><?php esc_html_e( 'Create WP Legal Pages', 'gdpr-cookie-consent' ); ?></a>
+							</span>
+						</c-row>
 					</c-col>
 					
 				</c-row>
@@ -334,23 +352,22 @@ if ( 200 === $response_status ) {
 							</span>
 						</div>
 					</div>
-				<div class="gdpr-preview-publish-btn">
-				<!-- <a href="javascript:void(0)" class="gdpr-wplp-install-btn"><?php esc_html_e( 'Install Now', 'gdpr-cookie-consent' ); ?><span class="dashicons dashicons-admin-customizer"></span></a> -->
+				<div class="gdpr-wplp-install-create-page-btn">
 				<?php 
-				if(!$legal_pages_installed && !$is_legalpages_active) { ?>
-				<a style="width:26%;" data-redirect="http://gdprunified.local/wp-admin/admin.php?page=wplp-dashboard" href="<?php echo esc_url($legalpages_install_url); ?>">
-					<button class="gdpr-wplp-install-btn" id="gdpr-install-activate-btn"><?php esc_html_e('Install Now','gdpr-cookie-consent') ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/down-arrow.png'; ?>" alt="Cookie Setting preview logo">
-					</button>
-				</a> 
-				<?php }
-				if($legal_pages_installed && !$is_legalpages_active) { 
-				 ?>
-				<a style="width:26%;" data-redirect="admin.php?page=wplp-dashboard" href="<?php echo esc_url($legalpages_activation_url); ?>">
-				 <button class="gdpr-wplp-install-btn" id="gdpr-install-activate-btn"><?php esc_html_e('Activate Now','gdpr-cookie-consent') ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/down-arrow.png'; ?>" alt="Cookie Setting preview logo">
-				 </button>
-				</a>
-				 <?php } ?>
-					</div>
+				// echo GDPR_WPLP_Plugin_Install_Helper::instance()->gdpr_wplp_install_plugin_button( 'wplegalpages', 'wplp-dashboard', 'wplegalpages', 'Install & Activate' ); //phpcs:ignore  
+				if(!$legal_pages_installed && !$is_legalpages_active){
+				?>
+					<a href="#" class="install-wplp-plugin gdpr-wplp-install-btn" data-plugin-slug="wplegalpages"><?php esc_html_e( 'Install Now', 'gdpr-cookie-consent' ); ?>
+					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/down-arrow.png'?> "/>
+					</a>
+					<p class="install-plugin-status"></p>
+					<?php } else{ ?>
+					<a href=<?php echo admin_url( 'admin.php?page=legal-pages' ); ?> class="wplegal-create-legal-page-button gdpr-wplp-install-btn">
+						<span><?php esc_attr_e( 'Create Page', 'wplegalpages' ); ?></span>
+						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/right_arrow.svg'; ?>" alt="right arrow">
+					</a>
+					<?php } ?>
+				</div>
 			</div>
 		</c-card>
 		<c-card class="gdpr-dashboard-quick-banner-section">
@@ -370,14 +387,11 @@ if ( 200 === $response_status ) {
 					</div>
 				<div class="gdpr-preview-publish-btn">
 				<a href="javascript:void(0)" class="gdpr-configure-banner-btn"><?php esc_html_e( 'Configure Banner', 'gdpr-cookie-consent' ); ?><span class="dashicons dashicons-admin-customizer"></span></a>
-
 						<div class="gdpr-preview-toggle-btn">
 							<label class="gdpr-btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
 								<c-switch class="gdpr-btn-switch" v-model="banner_preview_is_on" id="gdpr-banner-preview-dash" variant="3d"  color="success" ></c-switch>
-								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
-								
+								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">							
 							</div>
-
 					</div>
 			</div>
 		</c-card>
@@ -630,6 +644,14 @@ jQuery(document).ready(function () {
 	} else {
 		jQuery("#vertical-progressbar #step4 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
 		jQuery("#vertical-progressbar .vertical-line-step-4").css("background", "");
+	}
+	// Step 5
+	if (jQuery(".vstep5").hasClass("gdpr-green-progress")) {
+		jQuery("#vertical-progressbar #step5 img").attr("src", plugin_url + "admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-5").css("background", "var(--green-700)");
+	} else {
+		jQuery("#vertical-progressbar #step5 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
+		jQuery("#vertical-progressbar .vertical-line-step-5").css("background", "");
 	}
 
 	// Count the number of divs with the class gdpr-gray-progress
