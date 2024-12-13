@@ -103,6 +103,10 @@ function activate_gdpr_cookie_consent() {
 	add_option( 'analytics_activation_redirect_gdpr-cookie-consent', true );
 	// Get redirect URL.
 	add_option( 'redirect_after_activation_option', true );
+	//To check if plugin is first time installed
+	if (!get_option('gdpr_first_time_installed')) {
+        update_option('gdpr_first_time_installed', true);
+    }
 }
 
 /**
@@ -211,3 +215,9 @@ function gdpr_show_admin_notice_activation_deactivation_third_party_plugins() {
         delete_transient('gdpr_display_message_other_plugin_on_change');
     }
 }
+// Added for plugin tour
+function gdpr_complete_tour() {
+    update_option('gdpr_first_time_installed', false);
+    wp_send_json_success();
+}
+add_action('wp_ajax_gdpr_complete_tour', 'gdpr_complete_tour');
