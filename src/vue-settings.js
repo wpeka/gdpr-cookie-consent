@@ -5405,6 +5405,7 @@ var gen = new Vue({
         popup.fadeIn();
         cancelButton.off("click").on("click", function (e) {
           popup.fadeOut();
+          localStorage.setItem('auto_scan_process_started', 'false');
           window.location.reload();
         });
       });
@@ -5435,6 +5436,8 @@ var gen = new Vue({
           }
           if (data.response == true) {
             this.scan_in_progress = false;
+            const currentUrl = new URL(window.location);
+            currentUrl.searchParams.delete('auto_scan');
             that.getScanCookies(scan_id, offset, total, hash);
           } else {
             scanbar.html("");
@@ -5630,6 +5633,7 @@ var gen = new Vue({
       this.showScanCookieList();
       this.scanAgain();
       setTimeout(() => {
+        localStorage.setItem('auto_scan_process_started', 'false');
         window.location.reload();
       }, 3000);
     },
@@ -6350,6 +6354,15 @@ var gen = new Vue({
     var spinner = j(".wpl_integrations_spinner");
     spinner.css({ visibility: "hidden" });
     spinner.hide();
+    // automatic start scanning.
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('auto_scan') === 'true' && !this.scan_in_progress && !localStorage.getItem('auto_scan_executed')) {  
+      // Mark that the 'auto_scan' process has been executed
+      localStorage.setItem('auto_scan_executed', 'true');
+      localStorage.setItem('auto_scan_process_started', 'true');
+      // Trigger the scan
+      this.onClickStartScan();
+    }
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });

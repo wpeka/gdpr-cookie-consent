@@ -696,35 +696,37 @@ GDPR_CCPA_COOKIE_EXPIRE =
         if (button_action == "accept") {
           var gdpr_user_preference_arr = {};
           var gdpr_user_preference_val = "";
-        
+
           // Retrieve current user preferences from the cookie
           if (GDPR_Cookie.read("wpl_user_preference")) {
-            gdpr_user_preference_arr = JSON.parse(
-              GDPR_Cookie.read("wpl_user_preference")
-            );
+              gdpr_user_preference_arr = JSON.parse(
+                  GDPR_Cookie.read("wpl_user_preference")
+              );
           }
-        
+
           // Loop through each input checkbox to update preferences
           jQuery(".gdpr_messagebar_detail input").each(function () {
-            var key = jQuery(this).val();
-        
-            if (
-              jQuery(this).is(":checked") &&
-              (key == "analytics" || key == "marketing" || key == "unclassified" || key == "preferences")
-            ) {
-              gdpr_user_preference_arr[key] = "yes";
-              if (!GDPR.allowed_categories.includes(key)) {
-                GDPR.allowed_categories.push(key);
+              var key = jQuery(this).val();
+
+              if (
+                  jQuery(this).is(":checked") &&
+                  (key == "analytics" || key == "marketing" || key == "unclassified" || key == "preferences")
+              ) {
+                  gdpr_user_preference_arr[key] = "yes";
+                  if (!GDPR.allowed_categories.includes(key)) {
+                      GDPR.allowed_categories.push(key);
+                  }
+              } else if (
+                  key == "analytics" ||
+                  key == "marketing" ||
+                  key == "unclassified" ||
+                  key == "preferences"
+              ) {
+                  gdpr_user_preference_arr[key] = "no";
+                  GDPR.allowed_categories = GDPR.allowed_categories.filter(function (category) {
+                      return category !== key;
+                  });
               }
-            } else if (
-              key == "analytics" ||
-              key == "marketing" ||
-              key == "unclassified" ||
-              key == "preferences"
-            ) {
-              gdpr_user_preference_arr[key] = "no";
-              GDPR.allowed_categories = GDPR.allowed_categories.filter((category) => category !== key);
-            }
           });
         
           // Update the user preference cookie

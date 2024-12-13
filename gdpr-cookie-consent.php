@@ -101,7 +101,17 @@ function activate_gdpr_cookie_consent() {
 	Gdpr_Cookie_Consent_Activator::activate();
 	register_uninstall_hook( __FILE__, 'uninstall_gdpr_cookie_consent' );
 	add_option( 'analytics_activation_redirect_gdpr-cookie-consent', true );
+	add_option('gdpr_reset_local_storage', true); // Flag to indicate activation
 	// Get redirect URL.
+
+	// Differentiate the redireciton based on the user connection.
+	$gdpr_connected_value = get_option('gdpr_connected');
+	if ($gdpr_connected_value === 'true' || $gdpr_connected_value === 1 || $gdpr_connected_value === '1'){
+		add_option( 'redirect_after_activation_option_to_cookie_scanning', true );
+	}else{
+		add_option( 'redirect_after_activation_option_to_wizard_section', true );
+	}
+
 	add_option( 'redirect_after_activation_option', true );
 	//To check if plugin is first time installed
 	if (!get_option('gdpr_first_time_installed')) {
@@ -109,6 +119,18 @@ function activate_gdpr_cookie_consent() {
     }
 }
 
+// hook for reseting the localstorage for automatic scan.
+add_action('admin_enqueue_scripts', function () {
+    // Check if the flag is set (indicating activation)
+    if (get_option('gdpr_reset_local_storage')) {
+        // Inject inline JavaScript to clear the localStorage key
+        wp_add_inline_script('jquery', '
+            localStorage.removeItem("auto_scan_executed");
+        ');
+        // Remove the option so this runs only once
+        delete_option('gdpr_reset_local_storage');
+    }
+});
 /**
  * Redirecting to the wizard page on plguin activation.
  *
@@ -122,8 +144,18 @@ add_action( 'admin_init', 'activation_redirect' );
  * @return void
  */
 function activation_redirect() {
-	if ( get_option( 'redirect_after_activation_option', false ) ) {
-		delete_option( 'redirect_after_activation_option' );
+	if (get_option( 'redirect_after_activation_option_to_cookie_scanning', false )) {
+		// deleting the option from db just to protect from repeatation.
+		delete_option( 'redirect_after_activation_option_to_cookie_scanning' );
+		// exit( esc_html( wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies' ) ) ) );
+		$redirect_url = admin_url('admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies');
+		$redirect_url = add_query_arg(['gdpr_redirected' => '1', 'auto_scan' => 'true'], $redirect_url);
+		wp_redirect($redirect_url);
+		exit();
+	}
+	else if ( get_option( 'redirect_after_activation_option_to_wizard_section', false ) ) {
+		// deleting the option from db just to protect from repeatation.
+		delete_option( 'redirect_after_activation_option_to_wizard_section' );
 		exit( esc_html( wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#create_cookie_banner' ) ) ) );
 	}
 }

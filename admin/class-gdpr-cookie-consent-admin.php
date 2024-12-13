@@ -136,6 +136,7 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 		
 		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
+		add_action('admin_footer', array($this,'add_svg_to_menu_item'));
 		if (!isset($the_options['gdpr_current_language'])) {
 			$the_options['gdpr_current_language'] = 'en';
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
@@ -1467,7 +1468,46 @@ class Gdpr_Cookie_Consent_Admin {
 			remove_submenu_page('wp-legal-pages', 'wp-legal-pages');
 		}
 	}
+	
+	/**
+	 *  Callback function for adding and removing the scanning loader from cookie consent sub menu.
+	 *
+	 * @since 3.6.6
+	 */
+	function add_svg_to_menu_item() {
+		?>
+		 <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            // Add or remove the GIF dynamically based on localStorage
+            function updateScanGif() {
+                var logoUrl = "<?php echo plugin_dir_url(__FILE__) . 'images/auto_scan_loader.gif'; ?>";
+                var menuItem = $('#toplevel_page_wp-legal-pages .wp-submenu li a[href="admin.php?page=gdpr-cookie-consent"]');
 
+                // Check the localStorage value
+                var scanInProgress = localStorage.getItem('auto_scan_process_started') === 'true';
+
+                if (scanInProgress) {
+                    // Add the GIF if it doesn't already exist
+                    if (!menuItem.find('img').length) {
+                        menuItem.prepend('<img src="' + logoUrl + '" style="height: 20px; margin-right: 10px;" />');
+                    }
+                } else {
+                    // Remove the GIF if it exists
+                    menuItem.find('img').remove();
+                }
+            }
+
+            // Initial check on page load
+            updateScanGif();
+
+            // Polling mechanism to check for changes in localStorage
+            setInterval(function() {
+                updateScanGif();
+            }, 1000); // Check every second
+        });
+    </script>
+		<?php
+	}
 	/**
 	 * Registers menu options, hooked into admin_menu.
 	 *
