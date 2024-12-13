@@ -14,6 +14,10 @@ import VueApexCharts from "vue-apexcharts";
 import VueTimepicker from "vue2-timepicker";
 // CSS
 import "vue2-timepicker/dist/VueTimepicker.css";
+import VueIntro from 'vue-introjs'
+Vue.use(VueIntro);
+
+import 'intro.js/introjs.css';
 
 // Import AceEditor
 import AceEditor from "vuejs-ace-editor";

@@ -56,6 +56,17 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 					</div>
 				</div>
 				<div class="gdpr-cookie-consent-admin-help-and-support">
+				<div class="gdpr-cookie-consent-admin-product-tour">
+						<div class="gdpr-cookie-consent-admin-product-tour-icon">
+							<!-- //image  -->
+							<a href="https://club.wpeka.com/docs/wp-cookie-consent/" target="_blank">
+								<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/product_tour.svg'; ?>" alt="WP Cookie Consent Help">
+							</a>
+						</div>
+						<div class="gdpr-cookie-consent-admin-product-tour-text"><a href="#" id="start-plugin-tour" target="_blank">
+						Start Plugin Tour</a>
+						</div>
+					</div>
 				<div class="gdpr-cookie-consent-admin-help">
 						<div class="gdpr-cookie-consent-admin-help-icon">
 							<!-- //image  -->
