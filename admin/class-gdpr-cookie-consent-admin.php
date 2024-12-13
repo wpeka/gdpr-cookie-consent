@@ -10694,7 +10694,6 @@ class Gdpr_Cookie_Consent_Admin {
 		// Get the current selected policy name
 		$cookie_usage_for = $the_options['cookie_usage_for'];
 		$gdpr_policy = '';
-
 		if($cookie_usage_for == 'eprivacy'){
 			$gdpr_policy = 'ePrivacy';
 		}elseif($cookie_usage_for == 'both'){
@@ -10702,6 +10701,22 @@ class Gdpr_Cookie_Consent_Admin {
 		}else{
 			$gdpr_policy = strtoupper($cookie_usage_for);
 		}
+
+		$locationStatus = "";
+		if ($the_options['is_worldwide_on']===true || $the_options['is_worldwide_on']==="true" || $the_options['is_worldwide_on']===1 ) {
+			$locationStatus = "worldwide" ;
+		}
+		if ($the_options['is_eu_on']===true || $the_options['is_eu_on']==="true" || $the_options['is_eu_on']===1 ){
+			$locationStatus = "EU Countries & UK";
+		}
+		if ($the_options['is_ccpa_on']===true || $the_options['is_ccpa_on']==="true" || $the_options['is_ccpa_on']===1 ){
+			$locationStatus = "United States";
+		}
+		if ($the_options['is_selectedCountry_on']===true || $the_options['is_selectedCountry_on']==="true" || $the_options['is_selectedCountry_on']===1 ){
+			$locationStatus = ($locationStatus == "") ? "United States" : $locationStatus . ", Other selected countries";
+		}
+
+		
 		$last_scan_time = $cookie_scan_settings['last_scan']['created_at'];
 
 		$active_plugins = $this->gdpr_cookie_consent_active_plugins();
@@ -10725,6 +10740,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'client_site_url'                  => get_site_url(),
 				'cookie_usage_for'                 => $gdpr_policy,
 				'user_email_id'					   => $user_email_id,
+				'location_status'				   => $locationStatus,
 			)
 		);
 	}
