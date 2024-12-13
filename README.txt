@@ -1,10 +1,10 @@
 === Cookie Consent, Consent Log, Cookie Scanner, Script Blocker (for GDPR, CCPA & ePrivacy) : WP Cookie Consent ===
-Contributors: wpeka-club
-Donate link: https://club.wpeka.com/product/wp-gdpr-cookie-consent/
+Contributors: wplegalpages
+Donate link: https://wplegalpages.com/
 Tags: CCPA, GDPR, Privacy Policy, Terms and conditions, Cookie Policy
 Requires at least: 3.3.1
-Tested up to: 6.6.1
-Stable tag: 3.6.5
+Tested up to: 6.7.1
+Stable tag: 3.6.6
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -143,6 +143,11 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 11.Consent Log table
 
 == Change Log ==
+
+= 3.6.6 = 
+* Feature  - Added Cookie Banner Pageviews feature to track cookie banner performance by monitoring pageviews.
+* Feature  - Added feature to clear cookies before a new scan to ensure more accurate scan results.
+* Fix      - Minor bug fixes to improve overall plugin performance and stability.
 
 = 3.6.5 = 
 * Feature  - Support multiple legislation on same website.
@@ -525,6 +530,11 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.6.6 = 
+* Feature  - Added Cookie Banner Pageviews feature to track cookie banner performance by monitoring pageviews.
+* Feature  - Added feature to clear cookies before a new scan to ensure more accurate scan results.
+* Fix      - Minor bug fixes to improve overall plugin performance and stability.
 
 = 3.6.5 = 
 * Feature  - Support multiple legislation on same website.
