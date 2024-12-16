@@ -103,6 +103,7 @@ function activate_gdpr_cookie_consent() {
 	add_option( 'analytics_activation_redirect_gdpr-cookie-consent', true );
 	add_option('gdpr_reset_local_storage', true); // Flag to indicate activation
 	// Get redirect URL.
+
 	// Differentiate the redireciton based on the user connection.
 	$gdpr_connected_value = get_option('gdpr_connected');
 	if ($gdpr_connected_value === 'true' || $gdpr_connected_value === 1 || $gdpr_connected_value === '1'){
@@ -110,6 +111,12 @@ function activate_gdpr_cookie_consent() {
 	}else{
 		add_option( 'redirect_after_activation_option_to_wizard_section', true );
 	}
+
+	add_option( 'redirect_after_activation_option', true );
+	//To check if plugin is first time installed
+	if (!get_option('gdpr_first_time_installed')) {
+        update_option('gdpr_first_time_installed', true);
+    }
 }
 
 // hook for reseting the localstorage for automatic scan.
@@ -240,3 +247,9 @@ function gdpr_show_admin_notice_activation_deactivation_third_party_plugins() {
         delete_transient('gdpr_display_message_other_plugin_on_change');
     }
 }
+// Added for plugin tour
+function gdpr_complete_tour() {
+    update_option('gdpr_first_time_installed', false);
+    wp_send_json_success();
+}
+add_action('wp_ajax_gdpr_complete_tour', 'gdpr_complete_tour');

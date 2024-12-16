@@ -176,6 +176,9 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_style( $this->plugin_name . '-backend', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-backend' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_style( $this->plugin_name . '-backend' );
+		wp_enqueue_style( $this->plugin_name .'-introjs-css',plugin_dir_url( __FILE__ ) .  'css/intro.min'. GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . '-introjs-css' );
+
 		
 	}
 
@@ -204,6 +207,9 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name . '-dashboard', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-dashboard.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'js/vue/wpl-cookie-consent-admin-integrations.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-tcf.js');
+		wp_enqueue_script($this->plugin_name . 'introjs-js', plugin_dir_url( __FILE__ ) . 'js/intro.min.js', array('jquery'), $this->version, false);
+
+		 
 			$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 			wp_localize_script(
 				$this->plugin_name . '-tcf',
@@ -10339,7 +10345,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'button_accept_button_color' => $the_options['button_accept_button_color'],
 				'is_iabtcf_on'               => $the_options['is_iabtcf_on'],
 				'cookie_bar_as'			     => $the_options['cookie_bar_as'],
-				'button_settings_as_popup'	 =>$the_options['button_settings_as_popup'],
+				'button_settings_as_popup'	 => $the_options['button_settings_as_popup'],
+				'first_time_installed' 		 => get_option('gdpr_first_time_installed', false),
 			)
 		);
 		?>
