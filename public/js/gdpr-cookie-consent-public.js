@@ -5334,4 +5334,14 @@ GDPR_CCPA_COOKIE_EXPIRE =
       });
     }
   }
+  document.addEventListener('DOMContentLoaded', function () {
+    const parent = document.querySelector('.widget-navy_blue_box .gdpr_messagebar_content .gdpr.group-description-buttons');
+    const children = parent.children;
+    
+    if (children.length === 2 && 
+        children[0].id === 'cookie_action_accept' && 
+        children[1].id === 'cookie_action_settings') {
+      parent.classList.add('exact-two-anchors');
+    }
+  });
 })(jQuery);
