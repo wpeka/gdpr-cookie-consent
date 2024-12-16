@@ -6861,6 +6861,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'cookie_list_settings'             => $cookie_list_settings,
 				'cookie_scan_settings'             => $cookie_scan_settings,
 				'restore_settings_nonce'           => wp_create_nonce( 'restore_default_settings' ),
+				'auto_generated_banner_nonce'      => wp_create_nonce( 'auto_generated_banner_nonce' ),
 				// added nonce for.
 				'import_settings_nonce'            => wp_create_nonce( 'import_settings' ),
 				// for pages.
@@ -8351,6 +8352,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['auto_hide']                            = isset( $_POST['gcc-auto-hide'] ) && ( true === $_POST['gcc-auto-hide'] || 'true' === $_POST['gcc-auto-hide'] ) ? 'true' : 'false';
 			$the_options['auto_hide_delay']                      = isset( $_POST['gcc-auto-hide-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-hide-delay'] ) ) : '10000';
 			$the_options['auto_banner_initialize']               = isset( $_POST['gcc-auto-banner-initialize'] ) && ( true === $_POST['gcc-auto-banner-initialize'] || 'true' === $_POST['gcc-auto-banner-initialize'] ) ? 'true' : 'false';
+			$the_options['auto_generated_banner']               = isset( $_POST['gcc-auto-generated-banner'] ) && ( true === $_POST['gcc-auto-generated-banner'] || 'true' === $_POST['gcc-auto-generated-banner'] ) ? 'true' : 'false';
 			$the_options['auto_banner_initialize_delay']         = isset( $_POST['gcc-auto-banner-initialize-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-banner-initialize-delay'] ) ) : '10000';
 			$the_options['auto_scroll']                          = isset( $_POST['gcc-auto-scroll'] ) && ( true === $_POST['gcc-auto-scroll'] || 'true' === $_POST['gcc-auto-scroll'] ) ? 'true' : 'false';
 			$the_options['auto_click']                           = isset( $_POST['gcc-auto-click'] ) && ( true === $_POST['gcc-auto-click'] || 'true' === $_POST['gcc-auto-click'] ) ? 'true' : 'false';
@@ -10667,6 +10669,28 @@ class Gdpr_Cookie_Consent_Admin {
 			update_option( 'wpl_ab_options', $ab_options );
 			delete_transient( 'gdpr_ab_testing_transient' );
 			wp_send_json_success( array( 'restore_default_saved' => true ) );
+		}
+	}
+
+	public function gdpr_cookie_consent_ajax_auto_generated_banner() {
+		// Log to check if the function is being called
+		error_log("AJAX function is called");
+	
+		// Retrieve the data from the AJAX POST request
+		if (isset($_POST['background_color'])) {
+			$background_color = sanitize_text_field($_POST['background_color']);
+			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$the_options['button_accept_button_color'] = $background_color;
+			$the_options['button_accept_button_border_color'] = $background_color;
+			$the_options['button_decline_link_color'] = $background_color;
+			$the_options['button_decline_button_border_color'] = $background_color;
+			$the_options['button_settings_link_color']  = $background_color;
+			$the_options['button_settings_button_border_color']  = $background_color;
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+			// Log the received background color for debugging
+			error_log("Received background color: " . $background_color);
+	
+			// Optionally, save the color to the database or perform other actions
 		}
 	}
 	
