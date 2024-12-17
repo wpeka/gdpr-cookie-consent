@@ -1030,15 +1030,24 @@ jQuery(document).ready(function () {
     jQuery("#cookie_settings").show();
     jQuery(this).addClass("active-tab");
 
-    // Update URL hash with the tab ID
-    history.pushState({}, "", "#cookie_settings");
-      // Initialize Intro.js
-      introJs()
-        .setOptions({
+        // Update URL hash with the tab ID
+        history.pushState({}, "", "#cookie_settings");
+        // Initialize Intro.js
+      
+       // Define the first intro tour (Welcome Step Only)
+        const introWelcome = introJs().setOptions({
           steps: [
-            { 
-              intro: "<h3 class='introjs-tooltip-title'>Welcome to Cookie Consent</h3><p>Welcome to the WP Cookie Consent plugin tour! This guided walkthrough will help you get started and make the most of our plugin.</p>" 
+            {
+              intro: "<h3 class='introjs-tooltip-title'>Welcome to Cookie Consent</h3><p>Welcome to the WP Cookie Consent plugin tour! This guided walkthrough will help you get started and make the most of our plugin.</p><button id='start-main-tour' class='introjs-start-btn'>Start Tour</button>",
             },
+          ],
+          showStepNumbers: false,  // Hide step numbers in the welcome step
+          showBullets: false,      // Hide bullets
+          showButtons: false,      // Hide default buttons
+        });
+
+        const introSteps = introJs().setOptions({
+          steps: [
             { 
               element: document.querySelector('.gdpr-cookie-consent-admin-dashboard-tab'), // Replace with your actual element selectors
               intro: "<h3 class='introjs-tooltip-title'>Dashboard</h3><p>The Dashboard is your central hub for managing cookie consent. You'll find cookie insights, a summary of your settings, and quick access to documentation.</p>"
@@ -1089,13 +1098,23 @@ jQuery(document).ready(function () {
             },
           ],
           prevLabel: 'Previous', // Change "Back" button text
+          doneLabel: 'End Tour', 
           showBullets: false, // Disable the dots
           showStepNumbers: true, // Ensures step numbers are displayed
+          showButtons: true,  // Initially show buttons
         })
 
-        .start();
-      }
-  });
+
+        // Start the first intro tour
+        introWelcome.start();
+        // Add an event listener for the custom "Start Full Tour" button
+        jQuery(document).on("click", "#start-main-tour", function () {
+          introWelcome.exit();  // Exit the first intro
+          introSteps.start(); // Start the steps
+        });
+        
+    }
+    });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
