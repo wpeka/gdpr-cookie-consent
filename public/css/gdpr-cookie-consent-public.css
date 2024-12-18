@@ -3195,3 +3195,9 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .widget-navy_blue_box .gdpr_messagebar_content .gdpr.group-description-buttons.exact-two-anchors > #cookie_action_settings {
   min-width: 16rem !important;
 }
+.banner-almond_column .gdpr_messagebar_content .gdpr_message_bar_column_desc_heading .gdpr_messagebar_head{
+  padding: 0 !important;
+}
+.banner-grey_column .gdpr_messagebar_content .gdpr_message_bar_column_desc_heading .gdpr_messagebar_head{
+  padding: 0 !important;
+}
