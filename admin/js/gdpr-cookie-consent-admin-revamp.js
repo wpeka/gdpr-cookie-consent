@@ -1113,7 +1113,7 @@ jQuery(document).ready(function () {
         // Add an event listener for the custom "Start Full Tour" button
         jQuery(document).on("click", "#start-main-tour", function () {
           introWelcome.exit();  // Exit the first intro
-          setTimeout(() => {
+          setTimeout(function(){
             introSteps.start(); // Start the second intro with a slight delay
           }, 10); // Delay ensures cleanup of event listeners
         });
