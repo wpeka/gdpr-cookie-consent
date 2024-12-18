@@ -7970,10 +7970,11 @@ class Gdpr_Cookie_Consent_Admin {
 						</c-col>
 						<c-col class="col-sm-8">
 						<input type="button" name="gcc-cookie-consent-auto_generated_banner" value="<?php  
-							if ( $the_options['is_banner_auto_generated'] === 'true' ||  
-								$the_options['is_banner_auto_generated'] === true ||  
-								$the_options['is_banner_auto_generated'] === '1') {
-								echo 'Generate Again';
+							if (isset($the_options['is_banner_auto_generated']) && 
+							($the_options['is_banner_auto_generated'] === 'true' ||  
+							 $the_options['is_banner_auto_generated'] === true ||  
+							 $the_options['is_banner_auto_generated'] === '1')) {
+							echo 'Generate Again';
 							} else {
 								echo 'Generate Now';
 							}
@@ -7982,14 +7983,16 @@ class Gdpr_Cookie_Consent_Admin {
 						<div>
 							<!-- Show dashicon if the database value is true -->
 							<?php $the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
-								if( $the_options['is_banner_auto_generated'] === 'true' ||  $the_options['is_banner_auto_generated'] === true ||  $the_options['is_banner_auto_generated'] === '1'){ 
-							?>
-							<span 
-								id="gdpr-auto-generated-banner-tick" 
-								class="dashicons dashicons-saved"
-							></span>
+								if (isset($the_options['is_banner_auto_generated']) && 
+								($the_options['is_banner_auto_generated'] === 'true' ||  
+								 $the_options['is_banner_auto_generated'] === true ||  
+								 $the_options['is_banner_auto_generated'] === '1')) { ?>
+								<span 
+									id="gdpr-auto-generated-banner-tick" 
+									class="dashicons dashicons-saved"
+								></span>
+							<?php } ?>
 						</div>
-						<?php } ?>
 					</c-row>
 					<c-row v-show="show_banner_template">
 						<c-col class="col-sm-3">
