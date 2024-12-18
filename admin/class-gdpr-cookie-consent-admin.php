@@ -7966,7 +7966,7 @@ class Gdpr_Cookie_Consent_Admin {
 						</c-col>
 					</c-row>
 					<c-row>
-						<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Auto Generated Banner', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use a pre-built template to style your Cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></label>
+						<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Auto Generate Banner', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use a pre-built template to style your Cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></label>
 						</c-col>
 						<c-col class="col-sm-8">
 						<input type="button" name="gcc-cookie-consent-auto_generated_banner" value="<?php  
