@@ -12,6 +12,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	$ab_options = get_option('wpl_ab_options');
 	?>
 	<div class="gdpr_messagebar_content">
+		<div class="gdpr_message_bar_column_desc_heading">
 		<div class="gdpr_logo_container">
 			<?php
 					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
@@ -46,7 +47,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				<?php
 			}
 			?>
-	><?php echo esc_html__( $cookie_data['dash_button_readmore_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
+	><?php echo esc_html__( $cookie_data['dash_button_readmore_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a></div>
 			<?php
 		}
 		?>
