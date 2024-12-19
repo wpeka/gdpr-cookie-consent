@@ -217,6 +217,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 					}
 					if ( ! empty( $the_options['button_decline_is_on'] ) ) {
 						?>
+						<div class="gdpr-square-banner">
 						<a id="cookie_action_reject" class="<?php echo esc_html( $the_options['button_decline_classes'] ); ?>" tabindex="0" aria-label="Reject"
 						<?php
 						if ( 'CONSTANT_OPEN_URL' === $the_options['button_decline_action'] ) {
@@ -260,6 +261,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 						<?php
 					}
 					?>
+					</div>
 				</div>
 				<?php } ?>
 		<?php } else { 

@@ -42,7 +42,8 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				<?php
 			}
 			?>
-	><?php echo esc_html__( $cookie_data['dash_button_readmore_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
+	><?php
+	echo esc_html__( $cookie_data['dash_button_readmore_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
 			<?php
 		}
 		?>

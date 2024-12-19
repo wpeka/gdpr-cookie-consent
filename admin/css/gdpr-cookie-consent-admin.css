@@ -2599,6 +2599,7 @@ input[type="search"]:focus {
   max-width: 800px !important;
   display: flex !important;
   flex-direction: row !important;
+  justify-content: center !important;
 }
 .widget-almond_column_preview #cookie_action_settings_preview {
   float: none !important;
@@ -2622,7 +2623,10 @@ input[type="search"]:focus {
 }
 .widget-almond_column_preview .group-description-buttons-preview {
   max-width: fit-content !important;
-  margin: 0 0 auto 1rem !important;
+  margin: auto 0 auto 1rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
 }
 .widget-almond_column_preview
   .group-description-buttons-preview.widget-button-container {
@@ -2637,6 +2641,7 @@ input[type="search"]:focus {
   max-width: 800px !important;
   display: flex !important;
   flex-direction: row !important;
+  justify-content: center !important;
 }
 .popup-almond_column_preview #cookie_action_settings_preview {
   float: none !important;
@@ -2660,7 +2665,10 @@ input[type="search"]:focus {
 }
 .popup-almond_column_preview .group-description-buttons-preview {
   max-width: fit-content !important;
-  margin: 0 0 auto 1rem !important;
+  margin: auto 0 auto 1rem !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .popup-almond_column_preview
   .group-description-buttons-preview.widget-button-container {
@@ -2789,6 +2797,7 @@ input[type="search"]:focus {
   max-width: 800px !important;
   display: flex !important;
   flex-direction: row !important;
+  justify-content: center !important;
 }
 .widget-grey_column_preview #cookie_action_settings_preview {
   float: none !important;
@@ -2812,7 +2821,10 @@ input[type="search"]:focus {
 }
 .widget-grey_column_preview .group-description-buttons-preview {
   max-width: fit-content !important;
-  margin: 0 0 auto 1rem !important;
+  margin: auto 0 auto 1rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
 }
 .widget-grey_column_preview
   .group-description-buttons-preview.widget-button-container {
@@ -2823,6 +2835,7 @@ input[type="search"]:focus {
   max-width: 800px !important;
   display: flex !important;
   flex-direction: row !important;
+  justify-content: center !important;
 }
 .popup-grey_column_preview #cookie_action_settings_preview {
   float: none !important;
@@ -2846,7 +2859,9 @@ input[type="search"]:focus {
 }
 .popup-grey_column_preview .group-description-buttons-preview {
   max-width: fit-content !important;
-  margin: 0 0 auto 1rem !important;
+  margin: auto 0 auto 1rem !important;
+  display: flex;
+  flex-direction: column;
 }
 .popup-grey_column_preview
   .group-description-buttons-preview.widget-button-container {
@@ -3078,7 +3093,7 @@ input[type="search"]:focus {
 .popup-navy_blue_box_preview #cookie_action_accept_preview,
 .popup-navy_blue_box_preview #cookie_action_accept_all_preview,
 .popup-navy_blue_box_preview #cookie_action_reject_preview {
-  /* width: 100%; */
+  width: 100%;
 }
 /* Widget Navy Blue Sqaure */
 .widget-navy_blue_square_preview
@@ -4119,7 +4134,8 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
 .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-logo,
 .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-label,
 .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-help,
-.gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-support {
+.gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-support,
+.gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-product-tour {
   margin: auto 0;
 }
 .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-label {
@@ -4131,7 +4147,8 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   font-size: var(--text-lg-font-size);
 }
 .gdpr-cookie-consent-admin-help,
-.gdpr-cookie-consent-admin-support {
+.gdpr-cookie-consent-admin-support,
+.gdpr-cookie-consent-admin-product-tour {
   display: flex;
 }
 .gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-support {
@@ -4140,7 +4157,9 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
 .gdpr-cookie-consent-admin-help-and-support
   .gdpr-cookie-consent-admin-help-text,
 .gdpr-cookie-consent-admin-help-and-support
-  .gdpr-cookie-consent-admin-support-text {
+  .gdpr-cookie-consent-admin-support-text,
+  .gdpr-cookie-consent-admin-help-and-support
+  .gdpr-cookie-consent-admin-product-tour-text {
   padding-left: 6px;
   color: var(--white, #fff);
   font-size: var(--text-sm-font-size);
@@ -4155,7 +4174,9 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   a,
 .gdpr-cookie-consent-admin-help-and-support
   .gdpr-cookie-consent-admin-support-text
-  a {
+  a,
+  .gdpr-cookie-consent-admin-help-and-support
+  .gdpr-cookie-consent-admin-product-tour-text a {
   text-decoration: none;
   color: var(--white, #fff);
   font-size: var(--text-sm-font-size);
@@ -9056,24 +9077,151 @@ input.vs__search {
 .gdpr-group-buttons .gdpr-widget-almond_column {
   min-width: 124px;
   width: fit-content;
+ }
+ .gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-product-tour-text{
+  margin-right: 30px;
 }
-#gdpr-cookie-consent-settings-app
-  .gdpr-cookie-consent-settings-container
-  .gdpr-cookie-consent-settings-content
-  .gdpr-cookie-consent-settings-nav
-  .tab-content
-  .card {
-  margin-right: 10px;
+.gdpr-cookie-consent-admin-product-tour-icon img{
+  width: 15px;
+  height: 15px;
 }
-#gdpr-cookie-consent-settings-app
-  .gdpr-cookie-consent-settings-container
-  .gdpr-cookie-consent-settings-content
-  .gdpr-cookie-consent-settings-nav
-  .tab-content
-  .card
-  .card-body
-  .row
-  .col.col-sm-5
-  .do-not-show-ab-testing-text {
-  color: #ce8e8e;
+/* Change the background color of the Intro.js tooltip */
+.introjs-tooltip {
+  background-color: var(--blue-500) !important; 
+  color: var(--white-100); 
+  min-width: 346px !important;
+}
+/* Change the background color and font style of the tooltip title */
+.introjs-tooltip .introjs-tooltip-title {
+  color: var(--white-100) !important; 
+  font-size: 18px; 
+  margin-bottom: 10px;
+  min-height: 0.5em !important;
+}
+
+/* Customize the background color of the "Next", "Back", and "Done" buttons */
+.introjs-button{
+  color: var(--white-100); 
+  text-shadow: none !important;
+  border: 1px solid #fff !important;
+  border-radius: 2px !important;
+}
+.introjs-skipbutton {
+  color: var(--white-100); 
+  text-shadow: none !important;
+}
+.introjs-tooltiptext {
+  padding: 0 20px !important;
+}
+.introjs-tooltiptext p{
+  font-size: 14px !important;
+  clear: both;
+}
+.introjs-tooltip-header{
+  padding: 0 !important;
+  min-height: 1em !important;
+}
+.introjs-nextbutton{
+  background-color: var(--white-100) !important;
+  color: var(--blue-500) !important; 
+  float: none !important;
+  font-weight: 600;
+}
+.introjs-start-btn{
+  background-color: var(--white-100) !important;
+  color: var(--blue-500) !important; 
+  margin-left: 7em;
+  margin-bottom: 25px;
+}
+.introjs-prevbutton {
+  background-color: var(--blue-500) !important; 
+  color:  var(--white-100) !important;
+  float: none !important;
+  margin-right: 15px !important;
+  font-weight: 600;
+}
+.introjs-tooltipbuttons{
+  padding: 20px !important;
+  border-top: none !important;
+}
+.introjs-helperNumberLayer{
+  position: relative;
+  top: 50px;
+  right: 9.5em;
+  color: var(--white-100) !important;
+  margin-top: -50px;
+}
+.popup-navy_blue_box_preview .popup-navy_blue_box_flex > #cookie_action_accept_preview,
+.popup-navy_blue_box_preview .popup-navy_blue_box_flex > #cookie_action_settings_preview{
+  width: 100%;
+}
+.banner-dark_row_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.popup-almond_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+  display: flex !important;
+}
+.popup-grey_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+  display: flex !important;
+}
+.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_accept_preview,
+.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_accept_all_preview,
+.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_reject_preview,
+.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_settings_preview{
+  min-width: 25% !important;
+}
+.popup-navy_blue_box_preview #cookie_action_accept_all_preview{
+  width: 100% !important;
+}
+.widget-almond_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+  display: flex !important;
+
+}
+.widget-grey_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+  display: flex !important;
+
+}
+.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview{
+  display: flex !important;
+  flex-direction: row !important;
+}
+.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview{
+  display: flex !important;
+  flex-direction: row !important;
+}
+.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_preview,
+.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_all_preview,
+.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_reject_preview,
+.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_settings_preview{
+  min-width: 9rem !important;
+}
+.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_preview,
+.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_all_preview,
+.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_reject_preview,
+.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_settings_preview{
+  min-width: 9rem !important;
+}
+#toplevel_page_wp-legal-pages .wp-submenu > :nth-child(3) > a:has(img){
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 14px;
+}
+.introjs-start-btn {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background-color: #007cba;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.introjs-start-btn:hover {
+  background-color: #005a9c;
+}
+.introjs-button:focus{
+  box-shadow: none !important;
 }
