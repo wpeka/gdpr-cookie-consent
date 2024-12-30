@@ -4565,7 +4565,15 @@ GDPR_CCPA_COOKIE_EXPIRE =
           }
           function userInteracted() {
             // Make the AJAX call
-            console.log("Krdia bhaiya");
+            jQuery.ajax({
+              url: log_obj.ajax_url,
+              type: "POST",
+              data: {
+                action: "gdpr_increase_ignore_rate",
+                security: log_obj.consent_logging_nonce,
+              },
+              success: function (response) {},
+            });
 
             // Remove the listeners after interaction
             document.removeEventListener("click", userInteracted);

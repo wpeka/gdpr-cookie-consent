@@ -49,6 +49,8 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		add_action( 'wp_ajax_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_increase_page_view', array( $this, 'wplcl_increase_page_view' ) );
 		add_action( 'wp_ajax_gdpr_gdpr_increase_page_view', array( $this, 'wplcl_increase_page_view' ) );
+		add_action( 'wp_ajax_nopriv_gdpr_increase_ignore_rate', array( $this, 'wplcl_increase_ignore_rate' ) );
+		add_action( 'wp_ajax_gdpr_gdpr_increase_ignore_rate', array( $this, 'wplcl_increase_ignore_rate' ) );
 		add_action( 'wp_ajax_gdpr_collect_abtesting_data_action', array( $this, 'wplcl_collect_abtesting_data_action' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_collect_abtesting_data_action', array( $this, 'wplcl_collect_abtesting_data_action' ) );
 
@@ -449,6 +451,22 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		update_option('wpl_ab_options',$ab_option);
 	}
 
+	/**
+	 * Increase ignore count
+	 * 
+	 * @since 6.3.5
+	 */
+	public function wplcl_increase_ignore_rate(){
+			
+		$wpl_total_ignore_count = get_option('wpl_total_ignore_count');
+		if($wpl_total_ignore_count === false){
+			add_option("wpl_total_ignore_count", 0);
+			$wpl_total_ignore_count = 0;
+		}
+		$wpl_total_ignore_count++;
+		error_log("Logs: ". print_r($wpl_total_ignore_count, true));
+		update_option('wpl_total_ignore_count', $wpl_total_ignore_count);
+	}
 	/**
 	 * Increase pageview count
 	 * 
@@ -903,7 +921,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		$current_value_accept           = get_option( $wpl_cl_accept_option_name );
 		$current_value_partially_accept = get_option( $wpl_cl_partially_accept_option_name );
 		$current_value_bypass           = get_option( $wpl_cl_bypass_option_name );
-
 		if ( $current_value_decline !== false && $current_value_accept !== false && $current_value_partially_accept !== false ) {
 			update_option( $wpl_cl_decline_option_name, $decline );
 			update_option( $wpl_cl_accept_option_name, $approved );
