@@ -464,7 +464,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			$wpl_total_ignore_count = 0;
 		}
 		$wpl_total_ignore_count++;
-		error_log("Logs: ". print_r($wpl_total_ignore_count, true));
 		update_option('wpl_total_ignore_count', $wpl_total_ignore_count);
 	}
 	/**
