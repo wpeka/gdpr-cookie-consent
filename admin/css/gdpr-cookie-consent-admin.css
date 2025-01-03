@@ -9225,3 +9225,19 @@ input.vs__search {
 .introjs-button:focus{
   box-shadow: none !important;
 }
+
+#gdpr-cookie-consent-auto_generated_banner{
+  height: 44px;
+  width: 160px;
+  border: 1px solid green;
+  color:green;
+  background-color: unset;
+}
+#gdpr-cookie-consent-auto_generated_banner:hover{
+  background-color: green;
+  color: white;
+}
+#gdpr-auto-generated-banner-tick{
+  left:508px;
+  top: -51px !important;
+}

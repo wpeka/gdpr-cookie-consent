@@ -247,6 +247,21 @@ function gdpr_show_admin_notice_activation_deactivation_third_party_plugins() {
         delete_transient('gdpr_display_message_other_plugin_on_change');
     }
 }
+
+// Display the admin notice if a wp cookie consent pro plugin was activated or installed.
+add_action('admin_notices', 'gdpr_display_user_mirgation_notice');
+
+function gdpr_display_user_mirgation_notice() {
+	$installed_plugins = get_plugins();
+	$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+	if($pro_installed){
+		echo '<div class="notice notice-error notice-alt">';
+		echo '<p>' . esc_html__('Action Required: Switch to the New WP Legal Pages Compliance Platform!** The new platform no longer requires Pro plugins.', 'gdpr-cookie-consent') . 
+		' <a href="https://wplegalpages.com/docs/migration-from-wpeka/migration/seamless-migration-to-the-new-wp-legal-pages-compliance-platform/" target="_blank" rel="noopener noreferrer" previewlistener="true">' . 
+		esc_html__('Follow this guide to migrate now.', 'gdpr-cookie-consent') . '</a></p>';
+		echo '</div>';
+	}
+}
 // Added for plugin tour
 function gdpr_complete_tour() {
     update_option('gdpr_first_time_installed', false);
