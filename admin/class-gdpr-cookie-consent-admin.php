@@ -348,7 +348,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 
 	public function set_default_banner_1(){
-		error_log("Setting banner 1");
 		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$ab_options['ab_testing_enabled'] = 'false';
 		$ab_options['ab_testing_auto'] = 'false';
@@ -363,7 +362,6 @@ class Gdpr_Cookie_Consent_Admin {
 		update_option( 'wpl_ab_options', $ab_options );
 		$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '2' );
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
-		error_log(print_r($ab_options,true));
 	}
 	/**
 	 * Function to register A/B Testing Page
