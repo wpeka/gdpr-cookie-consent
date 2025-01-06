@@ -4135,7 +4135,8 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
 .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-label,
 .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-help,
 .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-support,
-.gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-product-tour {
+.gdpr-cookie-consent-admin-fixed-banner
+  .gdpr-cookie-consent-admin-product-tour {
   margin: auto 0;
 }
 .gdpr-cookie-consent-admin-fixed-banner .gdpr-cookie-consent-admin-label {
@@ -4158,7 +4159,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   .gdpr-cookie-consent-admin-help-text,
 .gdpr-cookie-consent-admin-help-and-support
   .gdpr-cookie-consent-admin-support-text,
-  .gdpr-cookie-consent-admin-help-and-support
+.gdpr-cookie-consent-admin-help-and-support
   .gdpr-cookie-consent-admin-product-tour-text {
   padding-left: 6px;
   color: var(--white, #fff);
@@ -4175,8 +4176,9 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
 .gdpr-cookie-consent-admin-help-and-support
   .gdpr-cookie-consent-admin-support-text
   a,
-  .gdpr-cookie-consent-admin-help-and-support
-  .gdpr-cookie-consent-admin-product-tour-text a {
+.gdpr-cookie-consent-admin-help-and-support
+  .gdpr-cookie-consent-admin-product-tour-text
+  a {
   text-decoration: none;
   color: var(--white, #fff);
   font-size: var(--text-sm-font-size);
@@ -8026,10 +8028,43 @@ button.btn.gdpr-renew-now-btn.pro,
 .opt-out-link-container .modal-body {
   padding: 40px 28px 40px 28px;
 }
+.ab-testing-chart-container {
+  display: flex;
+  flex-wrap: nowrap !important;
+  gap: 20px;
+  position: relative;
+}
+.ab-testing-chart-legend {
+  background-color: white;
+  padding: 25px 20px;
+  font-size: 13px;
+  height: fit-content;
+  color: rgb(141, 141, 141);
+  box-shadow: 7px 8px 15px rgba(230, 230, 230, 0.664);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ab-positives {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background: rgb(111 226 88 / 34%);
+  color: #1b770f;
+}
+.ab-negatives {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background: rgb(223 88 88 / 36%);
+  color: #b81717;
+}
 .ab_testing-card .ab-testing-info {
   margin-left: 1rem;
   max-width: 20rem;
   font-size: var(--text-2xs-font-size);
+  color: #787878;
+  font-weight: 400;
 }
 .ab_testing-card .ab_testing_analytics {
   width: 700px;
@@ -8060,6 +8095,7 @@ button.btn.gdpr-renew-now-btn.pro,
   height: 15px;
   width: 15px;
 }
+
 .ab_testing-card .card-body {
   min-height: 500px;
 }
@@ -9077,134 +9113,187 @@ input.vs__search {
 .gdpr-group-buttons .gdpr-widget-almond_column {
   min-width: 124px;
   width: fit-content;
- }
- .gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-product-tour-text{
+}
+.gdpr-cookie-consent-admin-help-and-support
+  .gdpr-cookie-consent-admin-product-tour-text {
   margin-right: 30px;
 }
-.gdpr-cookie-consent-admin-product-tour-icon img{
+.gdpr-cookie-consent-admin-product-tour-icon img {
   width: 15px;
   height: 15px;
 }
 /* Change the background color of the Intro.js tooltip */
 .introjs-tooltip {
-  background-color: var(--blue-500) !important; 
-  color: var(--white-100); 
+  background-color: var(--blue-500) !important;
+  color: var(--white-100);
   min-width: 346px !important;
 }
 /* Change the background color and font style of the tooltip title */
 .introjs-tooltip .introjs-tooltip-title {
-  color: var(--white-100) !important; 
-  font-size: 18px; 
+  color: var(--white-100) !important;
+  font-size: 18px;
   margin-bottom: 10px;
   min-height: 0.5em !important;
 }
 
 /* Customize the background color of the "Next", "Back", and "Done" buttons */
-.introjs-button{
-  color: var(--white-100); 
+.introjs-button {
+  color: var(--white-100);
   text-shadow: none !important;
   border: 1px solid #fff !important;
   border-radius: 2px !important;
 }
 .introjs-skipbutton {
-  color: var(--white-100); 
+  color: var(--white-100);
   text-shadow: none !important;
 }
 .introjs-tooltiptext {
   padding: 0 20px !important;
 }
-.introjs-tooltiptext p{
+.introjs-tooltiptext p {
   font-size: 14px !important;
   clear: both;
 }
-.introjs-tooltip-header{
+.introjs-tooltip-header {
   padding: 0 !important;
   min-height: 1em !important;
 }
-.introjs-nextbutton{
+.introjs-nextbutton {
   background-color: var(--white-100) !important;
-  color: var(--blue-500) !important; 
+  color: var(--blue-500) !important;
   float: none !important;
   font-weight: 600;
 }
-.introjs-start-btn{
+.introjs-start-btn {
   background-color: var(--white-100) !important;
-  color: var(--blue-500) !important; 
+  color: var(--blue-500) !important;
   margin-left: 7em;
   margin-bottom: 25px;
 }
 .introjs-prevbutton {
-  background-color: var(--blue-500) !important; 
-  color:  var(--white-100) !important;
+  background-color: var(--blue-500) !important;
+  color: var(--white-100) !important;
   float: none !important;
   margin-right: 15px !important;
   font-weight: 600;
 }
-.introjs-tooltipbuttons{
+.introjs-tooltipbuttons {
   padding: 20px !important;
   border-top: none !important;
 }
-.introjs-helperNumberLayer{
+.introjs-helperNumberLayer {
   position: relative;
   top: 50px;
   right: 9.5em;
   color: var(--white-100) !important;
   margin-top: -50px;
 }
-.popup-navy_blue_box_preview .popup-navy_blue_box_flex > #cookie_action_accept_preview,
-.popup-navy_blue_box_preview .popup-navy_blue_box_flex > #cookie_action_settings_preview{
+.popup-navy_blue_box_preview
+  .popup-navy_blue_box_flex
+  > #cookie_action_accept_preview,
+.popup-navy_blue_box_preview
+  .popup-navy_blue_box_flex
+  > #cookie_action_settings_preview {
   width: 100%;
 }
-.banner-dark_row_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+.banner-dark_row_preview
+  .gdpr_messagebar_content_preview
+  > #default_buttons_preview {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-.popup-almond_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+.popup-almond_column_preview
+  .gdpr_messagebar_content_preview
+  > #default_buttons_preview {
   display: flex !important;
 }
-.popup-grey_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+.popup-grey_column_preview
+  .gdpr_messagebar_content_preview
+  > #default_buttons_preview {
   display: flex !important;
 }
-.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_accept_preview,
-.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_accept_all_preview,
-.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_reject_preview,
-.popup-dark_row_preview .gdpr_messagebar_content_preview .group-description-buttons-preview > #cookie_action_settings_preview{
+.popup-dark_row_preview
+  .gdpr_messagebar_content_preview
+  .group-description-buttons-preview
+  > #cookie_action_accept_preview,
+.popup-dark_row_preview
+  .gdpr_messagebar_content_preview
+  .group-description-buttons-preview
+  > #cookie_action_accept_all_preview,
+.popup-dark_row_preview
+  .gdpr_messagebar_content_preview
+  .group-description-buttons-preview
+  > #cookie_action_reject_preview,
+.popup-dark_row_preview
+  .gdpr_messagebar_content_preview
+  .group-description-buttons-preview
+  > #cookie_action_settings_preview {
   min-width: 25% !important;
 }
-.popup-navy_blue_box_preview #cookie_action_accept_all_preview{
+.popup-navy_blue_box_preview #cookie_action_accept_all_preview {
   width: 100% !important;
 }
-.widget-almond_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+.widget-almond_column_preview
+  .gdpr_messagebar_content_preview
+  > #default_buttons_preview {
   display: flex !important;
-
 }
-.widget-grey_column_preview .gdpr_messagebar_content_preview > #default_buttons_preview{
+.widget-grey_column_preview
+  .gdpr_messagebar_content_preview
+  > #default_buttons_preview {
   display: flex !important;
-
 }
-.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview{
+.widget-navy_blue_center_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview {
   display: flex !important;
   flex-direction: row !important;
 }
-.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview{
+.widget-grey_center_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview {
   display: flex !important;
   flex-direction: row !important;
 }
-.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_preview,
-.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_all_preview,
-.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_reject_preview,
-.widget-navy_blue_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_settings_preview{
+.widget-navy_blue_center_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview
+  > #cookie_action_accept_preview,
+.widget-navy_blue_center_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview
+  > #cookie_action_accept_all_preview,
+.widget-navy_blue_center_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview
+  > #cookie_action_reject_preview,
+.widget-navy_blue_center_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview
+  > #cookie_action_settings_preview {
   min-width: 9rem !important;
 }
-.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_preview,
-.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_accept_all_preview,
-.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_reject_preview,
-.widget-grey_center_preview .gdpr_messagebar_content_preview #default_buttons_preview > #cookie_action_settings_preview{
+.widget-grey_center_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview
+  > #cookie_action_accept_preview,
+.widget-grey_center_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview
+  > #cookie_action_accept_all_preview,
+.widget-grey_center_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview
+  > #cookie_action_reject_preview,
+.widget-grey_center_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview
+  > #cookie_action_settings_preview {
   min-width: 9rem !important;
 }
-#toplevel_page_wp-legal-pages .wp-submenu > :nth-child(3) > a:has(img){
+#toplevel_page_wp-legal-pages .wp-submenu > :nth-child(3) > a:has(img) {
   display: flex;
   flex-direction: row-reverse;
   gap: 14px;
@@ -9222,22 +9311,125 @@ input.vs__search {
 .introjs-start-btn:hover {
   background-color: #005a9c;
 }
-.introjs-button:focus{
+.introjs-button:focus {
   box-shadow: none !important;
 }
-
-#gdpr-cookie-consent-auto_generated_banner{
+.ab_testing-card .ab-testing-timer-done {
+  padding: 6px 20px;
+  width: 100%;
+  background-color: rgba(163, 137, 22, 0.04);
+  font-size: var(--text-2xs-font-size);
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+}
+.ab-testing-results {
+  display: flex;
+  position: relative;
+  flex-wrap: nowrap !important;
+  gap: 10px;
+  padding: 15px 10px;
+  box-shadow: 0px 5px 15px rgba(218, 218, 218, 0.5);
+  width: 100%;
+  min-height: 380px;
+  height: 380px;
+  margin-left: 0px !important;
+}
+.ab-testing-result-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  width: 50%;
+}
+.ab-banner-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 10px;
+  width: 100%;
+  border-top: 1px solid rgb(221, 221, 221);
+}
+#ab-tesing-results
+  .ab-testing-result-content
+  .ab-banner-container
+  #banner-preview-main-container1
+  .gdpr_messagebar_content_preview
+  .gdpr_messagebar_content_preview
+  .group-description-buttons-preview
+  .gdpr_action_button_preview,
+#ab-tesing-results
+  .ab-testing-result-content
+  .ab-banner-container
+  #banner-preview-main-container2
+  .gdpr_messagebar_content_preview
+  .gdpr_messagebar_content_preview
+  .group-description-buttons-preview
+  .gdpr_action_button_preview {
+  min-width: 23.5% !important;
+  margin-left: 0 !important;
+  font-size: 12px !important;
+}
+.ab-testing-results .vertical-line {
+  height: 400px;
+  border-left: 1px solid rgb(221, 221, 221);
+  width: 0;
+}
+.ab-testing-result-content p {
+  margin-bottom: 0 !important;
+}
+.ab-banner-container {
+  width: 100%;
+  height: 210px;
+  overflow-y: auto;
+}
+.ab-banner-name {
+  font-size: 20px;
+  font-weight: 500;
+}
+.ab-banner-data {
+  font-size: 14px;
+}
+.ab-banner-action {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+.ab-banner-set-default {
+  border: 1px solid #346db1;
+  color: #346db1;
+  background: white;
+  border-radius: 6px;
+  padding: 7px 15px;
+}
+.ab-banner {
+  padding: 1px;
+}
+.ab-banner1 {
+  left: 10px;
+}
+.ab-banner2 {
+  right: 10px;
+}
+.ab_testing-card .ab-testing-timer-done:before {
+  content: url("../images/Time_done.svg");
+  margin-right: 8px;
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+}
+#gdpr-cookie-consent-auto_generated_banner {
   height: 44px;
   width: 160px;
   border: 1px solid green;
-  color:green;
+  color: green;
   background-color: unset;
 }
-#gdpr-cookie-consent-auto_generated_banner:hover{
+#gdpr-cookie-consent-auto_generated_banner:hover {
   background-color: green;
   color: white;
 }
-#gdpr-auto-generated-banner-tick{
-  left:508px;
+#gdpr-auto-generated-banner-tick {
+  left: 508px;
   top: -51px !important;
 }

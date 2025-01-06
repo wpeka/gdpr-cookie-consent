@@ -14,10 +14,9 @@ import VueApexCharts from "vue-apexcharts";
 import VueTimepicker from "vue2-timepicker";
 // CSS
 import "vue2-timepicker/dist/VueTimepicker.css";
-import VueIntro from 'vue-introjs'
+import VueIntro from "vue-introjs";
 Vue.use(VueIntro);
-import 'intro.js/introjs.css';
-
+import "intro.js/introjs.css";
 
 // Import AceEditor
 import AceEditor from "vuejs-ace-editor";
@@ -2190,7 +2189,12 @@ var gen = new Vue({
       )
         ? settings_obj.ab_options["ab_testing_period"]
         : "30",
-
+      ab_testing_auto:
+        settings_obj.ab_options.hasOwnProperty("ab_testing_auto") &&
+        (true === settings_obj.ab_options["ab_testing_auto"] ||
+          "true" === settings_obj.ab_options["ab_testing_auto"])
+          ? true
+          : false,
       enable_geotargeting:
         settings_obj.geo_options.hasOwnProperty("enable_geotargeting") &&
         (true === settings_obj.geo_options["enable_geotargeting"] ||
@@ -4494,6 +4498,7 @@ var gen = new Vue({
     },
     restoreDefaultSettings() {
       this.ab_testing_enabled = false;
+      this.ab_testing_auto = false;
       this.ab_testing_period = "30";
       this.cookie_bar_color = "#ffffff";
       this.cookie_bar_opacity = "0.80";
@@ -5540,7 +5545,7 @@ var gen = new Vue({
         popup.fadeIn();
         cancelButton.off("click").on("click", function (e) {
           popup.fadeOut();
-          localStorage.setItem('auto_scan_process_started', 'false');
+          localStorage.setItem("auto_scan_process_started", "false");
           window.location.reload();
         });
       });
@@ -5572,7 +5577,7 @@ var gen = new Vue({
           if (data.response == true) {
             this.scan_in_progress = false;
             const currentUrl = new URL(window.location);
-            currentUrl.searchParams.delete('auto_scan');
+            currentUrl.searchParams.delete("auto_scan");
             that.getScanCookies(scan_id, offset, total, hash);
           } else {
             scanbar.html("");
@@ -5768,7 +5773,7 @@ var gen = new Vue({
       this.showScanCookieList();
       this.scanAgain();
       setTimeout(() => {
-        localStorage.setItem('auto_scan_process_started', 'false');
+        localStorage.setItem("auto_scan_process_started", "false");
         window.location.reload();
       }, 3000);
     },
@@ -6274,6 +6279,9 @@ var gen = new Vue({
           );
         });
     },
+    onSwitchABTestingAuto() {
+      this.ab_testing_auto = !this.ab_testing_auto;
+    },
     OnEnableGeotargeting() {
       this.enable_geotargeting = !this.enable_geotargeting;
     },
@@ -6491,10 +6499,14 @@ var gen = new Vue({
     spinner.hide();
     // automatic start scanning.
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('auto_scan') === 'true' && !this.scan_in_progress && !localStorage.getItem('auto_scan_executed')) {  
+    if (
+      urlParams.get("auto_scan") === "true" &&
+      !this.scan_in_progress &&
+      !localStorage.getItem("auto_scan_executed")
+    ) {
       // Mark that the 'auto_scan' process has been executed
-      localStorage.setItem('auto_scan_executed', 'true');
-      localStorage.setItem('auto_scan_process_started', 'true');
+      localStorage.setItem("auto_scan_executed", "true");
+      localStorage.setItem("auto_scan_process_started", "true");
       // Trigger the scan
       this.onClickStartScan();
     }

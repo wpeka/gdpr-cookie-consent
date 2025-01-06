@@ -105,6 +105,8 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_resolve' ) );
+			add_action( 'wp_ajax_set_default_test_banner_1', array( $this, 'set_default_banner_1' ) );
+			add_action( 'wp_ajax_set_default_test_banner_2', array( $this, 'set_default_banner_2' ) );
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
@@ -344,6 +346,23 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 
+
+	public function set_default_banner_1(){
+		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$ab_options['ab_testing_enabled'] = 'false';
+		$ab_options['ab_testing_auto'] = 'false';
+		update_option( 'wpl_ab_options', $ab_options );
+		$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '1' );
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+	}
+	public function set_default_banner_2(){
+		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$ab_options['ab_testing_enabled'] = 'false';
+		$ab_options['ab_testing_auto'] = 'false';
+		update_option( 'wpl_ab_options', $ab_options );
+		$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '2' );
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+	}
 	/**
 	 * Function to register A/B Testing Page
 	 */
@@ -437,30 +456,36 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_ab_testing_complete() {
 		$ab_options = get_option( 'wpl_ab_options' );
 		if ( $ab_options && isset( $ab_options['ab_testing_enabled'] ) && ($ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true') && false === get_transient( 'gdpr_ab_testing_transient' ) ) {
-			$banner1_necessary = array_key_exists( 'necessary1', $ab_options ) ? $ab_options['necessary1'] : 0;
-			$banner1_marketing = array_key_exists( 'marketing1', $ab_options ) ? $ab_options['marketing1'] : 0;
-			$banner1_analytics = array_key_exists( 'analytics1', $ab_options ) ? $ab_options['analytics1'] : 0;
-			$banner1_DNT       = array_key_exists( 'DNT1', $ab_options ) ? $ab_options['DNT1'] : 0;
+			
 			$banner1_noChoice  = array_key_exists( 'noChoice1', $ab_options ) ? $ab_options['noChoice1'] : 0;
-			$banner1_noWarning = array_key_exists( 'noWarning1', $ab_options ) ? $ab_options['noWarning1'] : 0;
-			$banner2_necessary = array_key_exists( 'necessary2', $ab_options ) ? $ab_options['necessary2'] : 0;
-			$banner2_marketing = array_key_exists( 'marketing2', $ab_options ) ? $ab_options['marketing2'] : 0;
-			$banner2_analytics = array_key_exists( 'analytics2', $ab_options ) ? $ab_options['analytics2'] : 0;
-			$banner2_DNT       = array_key_exists( 'DNT2', $ab_options ) ? $ab_options['DNT2'] : 0;
 			$banner2_noChoice  = array_key_exists( 'noChoice2', $ab_options ) ? $ab_options['noChoice2'] : 0;
-			$banner2_noWarning = array_key_exists( 'noWarning2', $ab_options ) ? $ab_options['noWarning2'] : 0;
-			// cuurently weights are set equally to 0.25 , noWarning & Do Not Track have a weight of 0.
-			$banner1_performance = ( ( $banner1_necessary * 0.25 ) + ( $banner1_marketing * 0.25 ) + ( $banner1_analytics * 0.25 ) - ( $banner1_noChoice * 0.25 ) - ( $banner1_noWarning * 0 ) - ( $banner1_DNT * 0 ) ) / 6;
-			$banner2_performance = ( ( $banner2_necessary * 0.25 ) + ( $banner2_marketing * 0.25 ) + ( $banner2_analytics * 0.25 ) - ( $banner2_noChoice * 0.25 ) - ( $banner2_noWarning * 0 ) - ( $banner2_DNT * 0 ) ) / 6;
+			$banner1_accept  = array_key_exists( 'accept1', $ab_options ) ? $ab_options['accept1'] : 0;
+			$banner2_accept  = array_key_exists( 'accept2', $ab_options ) ? $ab_options['accept2'] : 0;
+			$banner1_acceptAll  = array_key_exists( 'acceptAll1', $ab_options ) ? $ab_options['acceptAll1'] : 0;
+			$banner2_acceptAll  = array_key_exists( 'acceptAll2', $ab_options ) ? $ab_options['acceptAll2'] : 0;
+			$banner1_reject  = array_key_exists( 'reject1', $ab_options ) ? $ab_options['reject1'] : 0;
+			$banner2_reject  = array_key_exists( 'reject2', $ab_options ) ? $ab_options['reject2'] : 0;
+			$banner1_bypass  = array_key_exists( 'bypass1', $ab_options ) ? $ab_options['bypass1'] : 0;
+			$banner2_bypass  = array_key_exists( 'bypass2', $ab_options ) ? $ab_options['bypass2'] : 0;
+			$positive_percentage1 = ($banner1_accept + $banner1_acceptAll) / (($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) > 0 ? ($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) : 1);
+			$positive_percentage2 = ($banner2_accept + $banner2_acceptAll) / (($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) > 0 ? ($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) : 1);
+			$negative_percentage1 = ($banner1_reject + $banner1_bypass + $banner1_noChoice) / (($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) > 0 ? ($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) : 1);
+			$negative_percentage2 = ($banner2_reject + $banner2_bypass + $banner2_noChoice) / (($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) > 0 ? ($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) : 1);
+			$banner1_performance = $positive_percentage1 - $negative_percentage1;
+			$banner2_performance = $positive_percentage2 - $negative_percentage2; 
 			$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
-			$ab_options['ab_testing_enabled'] = 'false';
-			update_option( 'wpl_ab_options', $ab_options );
-			if ( $banner1_performance > $banner2_performance ) {
-				$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '1' );
-			} else {
-				$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '2' );
+			if(isset( $ab_options['ab_testing_auto'] ) && ($ab_options['ab_testing_auto'] === true || $ab_options['ab_testing_auto'] === 'true')){
+				$ab_options['ab_testing_enabled'] = 'false';
+				$ab_options['ab_testing_auto'] = 'false';
+				update_option( 'wpl_ab_options', $ab_options );
+				if ( $banner1_performance > $banner2_performance ) {
+					$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '1' );
+				} else {
+					$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '2' );
+				}
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			}
-			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+			
 		}
 	}
 	/**
@@ -559,18 +584,16 @@ class Gdpr_Cookie_Consent_Admin {
 		$ab_options                        = get_option( 'wpl_ab_options' );
 		$ab_options ['ab_testing_enabled'] = false;
 		$ab_options ['ab_testing_period']  = '30';
-		$ab_options ['necessary1']         = 0;
-		$ab_options ['marketing1']         = 0;
-		$ab_options ['analytics1']         = 0;
-		$ab_options ['DNT1']               = 0;
-		$ab_options ['noChoice1']          = 0;
-		$ab_options ['noWarning1']         = 0;
-		$ab_options ['necessary2']         = 0;
-		$ab_options ['marketing2']         = 0;
-		$ab_options ['analytics2']         = 0;
-		$ab_options ['DNT2']               = 0;
-		$ab_options ['noChoice2']          = 0;
-		$ab_options ['noWarning2']         = 0;
+		$ab_options ['noChoice1']   = 0;
+		$ab_options ['noChoice2']   = 0;
+		$ab_options ['accept1']   = 0;
+		$ab_options ['accept2']   = 0;
+		$ab_options ['acceptAll1']   = 0;
+		$ab_options ['acceptAll2']   = 0;
+		$ab_options ['reject1']   = 0;
+		$ab_options ['reject2']   = 0;
+		$ab_options ['bypass1']   = 0;
+		$ab_options ['bypass2']   = 0;
 		update_option( 'wpl_ab_options', $ab_options );
 		return $the_options;
 	}
@@ -8043,6 +8066,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 			// Set the new A/B testing period value from POST
 			$ab_options['ab_testing_period'] = isset($_POST['ab_testing_period_text_field']) ? sanitize_text_field(wp_unslash($_POST['ab_testing_period_text_field'])) : '';
+			$ab_options['ab_testing_auto'] = isset( $_POST['gcc-ab-testing-auto'] ) ? ($_POST['gcc-ab-testing-auto'] === true || $_POST['gcc-ab-testing-auto']==='true' || $_POST['gcc-ab-testing-auto'] === 1 ? 'true' :'false')  : 'false';
 
 			// Get the updated A/B testing period value
 			$updated_ab_testing_value = isset($ab_options['ab_testing_period']) ? $ab_options['ab_testing_period'] : '';
@@ -8107,18 +8131,16 @@ class Gdpr_Cookie_Consent_Admin {
 			&& (!isset($ab_options['ab_testing_enabled']) 
 				|| $ab_options['ab_testing_enabled'] === 'false' 
 				|| $ab_options['ab_testing_enabled'] === false)) {
-				$ab_options ['necessary1']  = 0;
-				$ab_options ['marketing1']  = 0;
-				$ab_options ['analytics1']  = 0;
-				$ab_options ['DNT1']        = 0;
 				$ab_options ['noChoice1']   = 0;
-				$ab_options ['noWarning1']  = 0;
-				$ab_options ['necessary2']  = 0;
-				$ab_options ['marketing2']  = 0;
-				$ab_options ['analytics2']  = 0;
-				$ab_options ['DNT2']        = 0;
 				$ab_options ['noChoice2']   = 0;
-				$ab_options ['noWarning2']  = 0;
+				$ab_options ['accept1']   = 0;
+				$ab_options ['accept2']   = 0;
+				$ab_options ['acceptAll1']   = 0;
+				$ab_options ['acceptAll2']   = 0;
+				$ab_options ['reject1']   = 0;
+				$ab_options ['reject2']   = 0;
+				$ab_options ['bypass1']   = 0;
+				$ab_options ['bypass2']   = 0;
 				$ab_transient_creation_time = time();
 				set_transient(
 					'gdpr_ab_testing_transient',
@@ -9098,18 +9120,17 @@ class Gdpr_Cookie_Consent_Admin {
 			&& (!isset($ab_options['ab_testing_enabled']) 
 				|| $ab_options['ab_testing_enabled'] === 'false' 
 				|| $ab_options['ab_testing_enabled'] === false)) {
-				$ab_options ['necessary1']  = 0;
-				$ab_options ['marketing1']  = 0;
-				$ab_options ['analytics1']  = 0;
-				$ab_options ['DNT1']        = 0;
 				$ab_options ['noChoice1']   = 0;
-				$ab_options ['noWarning1']  = 0;
-				$ab_options ['necessary2']  = 0;
-				$ab_options ['marketing2']  = 0;
-				$ab_options ['analytics2']  = 0;
-				$ab_options ['DNT2']        = 0;
 				$ab_options ['noChoice2']   = 0;
-				$ab_options ['noWarning2']  = 0;
+				$ab_options ['accept1']   = 0;
+				$ab_options ['accept2']   = 0;
+				$ab_options ['acceptAll1']   = 0;
+				$ab_options ['acceptAll2']   = 0;
+				$ab_options ['reject1']   = 0;
+				$ab_options ['reject2']   = 0;
+				$ab_options ['bypass1']   = 0;
+				$ab_options ['bypass2']   = 0;
+
 				$ab_options['ab_testing_period'] = 30;
 				$ab_transient_creation_time = time();
 				set_transient(
@@ -10694,18 +10715,16 @@ class Gdpr_Cookie_Consent_Admin {
 			$ab_option                         = get_option( 'wpl_ab_options' );
 			$ab_options ['ab_testing_enabled'] = false;
 			$ab_options ['ab_testing_period']  = '30';
-			$ab_options ['necessary1']         = 0;
-			$ab_options ['marketing1']         = 0;
-			$ab_options ['analytics1']         = 0;
-			$ab_options ['DNT1']               = 0;
-			$ab_options ['noChoice1']          = 0;
-			$ab_options ['noWarning1']         = 0;
-			$ab_options ['necessary2']         = 0;
-			$ab_options ['marketing2']         = 0;
-			$ab_options ['analytics2']         = 0;
-			$ab_options ['DNT2']               = 0;
-			$ab_options ['noChoice2']          = 0;
-			$ab_options ['noWarning2']         = 0;
+			$ab_options ['noChoice1']   = 0;
+			$ab_options ['noChoice2']   = 0;
+			$ab_options ['accept1']   = 0;
+			$ab_options ['accept2']   = 0;
+			$ab_options ['acceptAll1']   = 0;
+			$ab_options ['acceptAll2']   = 0;
+			$ab_options ['reject1']   = 0;
+			$ab_options ['reject2']   = 0;
+			$ab_options ['bypass1']   = 0;
+			$ab_options ['bypass2']   = 0;
 			update_option( 'wpl_ab_options', $ab_options );
 			delete_transient( 'gdpr_ab_testing_transient' );
 			wp_send_json_success( array( 'restore_default_saved' => true ) );
