@@ -426,12 +426,20 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 			else if($user_preference == "reject"){
 				$ab_option["noChoice1"]--;
+				$ab_option["reject1"]++;
+			}
+			else if($user_preference == "bypass"){
+				$ab_option["bypass1"]++;
+				$ab_option["noChoice1"]--;
 			}
 			else{
+				$count = 0;
 				foreach($user_preference as $category => $value){
-					if($value == "yes" && ($category == "necessary" || $category == "marketing" || $category == "analytics"|| $category == "DNT")) $ab_option[$category."1"]++;
+					if($value == "yes" && ($category == "necessary" || $category == "marketing" || $category == "analytics"|| $category == "unclassified" || $category == "preferences")) $count++;
 				}
-				if($category != "DNT") $ab_option["noChoice1"]--;
+				if($count == 5) $ab_option['acceptAll1']++;
+				else $ab_option['accept1']++;
+				$ab_option["noChoice1"]--;
 			}
 		}
 		else{
@@ -440,12 +448,20 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 			else if($user_preference == "reject"){
 				$ab_option["noChoice2"]--;
+				$ab_option["reject2"]++;
+			}
+			else if($user_preference == "bypass"){
+				$ab_option["bypass2"]++;
+				$ab_option["noChoice2"]--;
 			}
 			else{
+				$count = 0;
 				foreach($user_preference as $category => $value){
-					if($value == "yes" && ($category == "necessary" || $category == "marketing" || $category == "analytics"|| $category == "DNT")) $ab_option[$category."2"]++;
+					if($value == "yes" && ($category == "necessary" || $category == "marketing" || $category == "analytics"|| $category == "unclassified" || $category == "preferences")) $count++;
 				}
-				if($category != "DNT") $ab_option["noChoice2"]--;
+				if($count == 5) $ab_option['acceptAll2']++;
+				else $ab_option['accept2']++;
+				$ab_option["noChoice2"]--;
 			}
 		}
 		update_option('wpl_ab_options',$ab_option);
@@ -464,7 +480,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			$wpl_total_ignore_count = 0;
 		}
 		$wpl_total_ignore_count++;
-		error_log("Logs: ". print_r($wpl_total_ignore_count, true));
 		update_option('wpl_total_ignore_count', $wpl_total_ignore_count);
 	}
 	/**

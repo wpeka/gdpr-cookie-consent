@@ -670,6 +670,9 @@ a .export-btn:hover {
 .ab_testing-card .ab-testing-timer {
   color: rgb(22, 163, 74);
 }
+.ab_testing-card .ab-testing-timer-done {
+  color: rgb(163, 137, 22);
+}
 .gdpr-cookie-consent-banner-tabs .gdpr-cookie-consent-banner-tab-active,
 .gdpr-cookie-consent-banner-tabs .gdpr-cookie-consent-banner-tab-active:hover {
   color: #0056b3;
