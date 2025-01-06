@@ -392,7 +392,6 @@ class Gdpr_Cookie_Consent_Admin {
 				delete_option( 'wpl_datarequests_db_version' );
 				delete_option( 'wpl_cl_decline' );
 				delete_option( 'wpl_page_views' );
-				delete_option( 'wpl_total_page_views' );
 				delete_option( 'wpl_cl_accept' );
 				delete_option( 'wpl_cl_partially_accept' );
 				delete_option( 'wpl_cl_bypass' );
@@ -11092,6 +11091,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'wpl_cl_bypass'                    => get_option( 'wpl_cl_bypass' ),
 				'wpl_page_views'				   => get_option( 'wpl_page_views' ),
 				'total_page_views'				   => get_option('wpl_total_page_views'),
+				'ignore_count'					   => get_option('wpl_total_ignore_count') === false ? 0 : get_option('wpl_total_ignore_count'),
 				'client_site_is_on'				   => $the_options['is_on'],
 				'active_plugins'				   => $active_plugins,
 				'client_site_url'                  => get_site_url(),
