@@ -8100,7 +8100,7 @@ class Gdpr_Cookie_Consent_Admin {
 					$remaining_days = ceil($remaining_time_seconds / (60 * 60 * 24));
 
 					// If the user changes the days value, update the transient expiration time
-					$new_expiration_time_seconds = ($updated_ab_testing_value * 6); // New expiration time in seconds
+					$new_expiration_time_seconds = ($updated_ab_testing_value * 24 * 60 * 60); // New expiration time in seconds
 					
 					// If the new expiration time is longer or shorter, update the transient accordingly
 					if ($remaining_days != $updated_ab_testing_value) {
@@ -8116,7 +8116,7 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 				} else {
 					// If the transient doesn't exist, create it with the new expiration time
-					$new_expiration_time_seconds = ($updated_ab_testing_value * 6);
+					$new_expiration_time_seconds = ($updated_ab_testing_value * 24 * 60 * 60);
 					set_transient(
 						'gdpr_ab_testing_transient',
 						array(
@@ -8151,7 +8151,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'value'         => 'A/B Testing Period',
 						'creation_time' => $ab_transient_creation_time,
 					),
-					(int) $ab_options['ab_testing_period'] * 6
+					(int) $ab_options['ab_testing_period'] * 24 * 60 * 60
 				);
 			}
 
