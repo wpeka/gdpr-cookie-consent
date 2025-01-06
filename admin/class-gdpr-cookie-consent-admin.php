@@ -357,7 +357,6 @@ class Gdpr_Cookie_Consent_Admin {
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 	}
 	public function set_default_banner_2(){
-		error_log("Setting banner 2");
 		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$ab_options['ab_testing_enabled'] = 'false';
 		$ab_options['ab_testing_auto'] = 'false';
