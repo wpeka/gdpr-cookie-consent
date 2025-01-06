@@ -9142,7 +9142,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'value'         => 'A/B Testing Period',
 						'creation_time' => $ab_transient_creation_time,
 					),
-					(int) $ab_options['ab_testing_period'] * 6
+					(int) $ab_options['ab_testing_period'] * 24 * 60 * 60
 				);
 				$the_options['default_cookie_bar']                 = isset( $_POST['gdpr-default_cookie_bar'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-default_cookie_bar'] ) ) : true;
 				update_option('wpl_ab_options',$ab_options);
