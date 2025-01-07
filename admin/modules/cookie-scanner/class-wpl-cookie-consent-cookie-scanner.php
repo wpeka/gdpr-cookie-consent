@@ -105,7 +105,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * @var string $class_for_card_body_blur_content Blur class for styling.
 	 */
 	public $class_for_card_body_blur_content = '';
-
+	public $settings;
 	/**
 	 * Gdpr_Cookie_Consent_Cookie_Scanner constructor.
 	 */
