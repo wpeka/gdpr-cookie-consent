@@ -33,7 +33,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	public $settings;
 	public function __construct() {
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
-			add_action( 'gdpr_settings_ab_testing_tab', array( $this, 'wp_settings_ab_testing_tab' ) );
+			add_action( 'gdpr_settings_ab_testing_tab', array( $this, 'wp_settings_ab_testing_tab' ),10,1 );
 		}
 	}
 	/**
