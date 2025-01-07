@@ -659,7 +659,6 @@ jQuery(document).ready(function () {
   }
   function setTestBanner2(event) {
     event.preventDefault();
-    console.log("trhing");
     jQuery
       .ajax({
         url: gdpr_localize_data.ajaxurl,
