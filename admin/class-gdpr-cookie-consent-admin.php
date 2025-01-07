@@ -8028,6 +8028,14 @@ class Gdpr_Cookie_Consent_Admin {
 							<?php } ?>
 						</div>
 					</c-row>
+					<c-row>
+						<c-col class="col-sm-4"></c-col>
+						<c-col class="col-sm-8">
+								<div role="group" class="form-group">
+									<span class="gdpr-cookie-consent-description"><?php esc_attr_e( 'To preview the auto generated template, simply click on auto generate template button above and then click the "Save Changes" button.', 'gdpr-cookie-consent' ); ?></span>
+								</div>
+							</c-col>
+					</c-row>
 					<?php $ab_options                        = get_option( 'wpl_ab_options' );
 					if( !$ab_options ['ab_testing_enabled'] ){?> 
 					<c-row v-show="show_banner_template">
