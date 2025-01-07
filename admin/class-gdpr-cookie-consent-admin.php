@@ -78,6 +78,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public $the_options = array();
 
 	public $tcf_json_data;
+	public $settings;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -91,13 +92,13 @@ class Gdpr_Cookie_Consent_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 		if ( ! get_option( 'wpl_pro_active' ) ) {
-			// add_action( 'add_consent_log_content', array( $this, 'wpl_consent_log_overview' ) );
+			add_action( 'add_consent_log_content', array( $this, 'wpl_consent_log_overview' ) );
 		}
 		$pro_is_activated = get_option( 'wpl_pro_active', false );
 
 		if ( ! $pro_is_activated ) {
 			if ( ! shortcode_exists( 'wpl_data_request' ) ) {
-				// add_shortcode( 'wpl_data_request', array( $this, 'wpl_data_reqs_shortcode' ) );         // a shortcode [wpl_data_request].
+				add_shortcode( 'wpl_data_request', array( $this, 'wpl_data_reqs_shortcode' ) );         // a shortcode [wpl_data_request].
 			}
 
 			if ( class_exists( 'Gdpr_Cookie_Consent' ) ) {
@@ -8028,6 +8029,10 @@ class Gdpr_Cookie_Consent_Admin {
 							<?php } ?>
 						</div>
 					</c-row>
+<<<<<<< HEAD
+					<?php $ab_options                        = get_option( 'wpl_ab_options' );
+					if( !$ab_options ['ab_testing_enabled'] ){?> 
+=======
 					<c-row>
 						<c-col class="col-sm-4"></c-col>
 						<c-col class="col-sm-8">
@@ -8036,8 +8041,7 @@ class Gdpr_Cookie_Consent_Admin {
 								</div>
 							</c-col>
 					</c-row>
-					<?php $ab_options                        = get_option( 'wpl_ab_options' );
-					if( !$ab_options ['ab_testing_enabled'] ){?> 
+>>>>>>> e952ef6d0510db25c7cc95685d257f54d81d62de
 					<c-row v-show="show_banner_template">
 						<c-col class="col-sm-3">
 							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">

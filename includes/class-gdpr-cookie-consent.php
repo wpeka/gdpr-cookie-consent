@@ -74,6 +74,9 @@ class Gdpr_Cookie_Consent {
 	 *
 	 * @since    1.0
 	 */
+	public $settings;
+	public $library_auth;
+	public $respadons_api;
 	public function __construct() {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
