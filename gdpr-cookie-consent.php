@@ -10,9 +10,9 @@
  * Plugin Name:       WP Cookie Consent
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
- * Version:           3.6.3
- * Author:            WPEkaClub
- * Author URI:        https://club.wpeka.com
+ * Version:           3.6.7
+ * Author:            WP Legal Pages
+ * Author URI:        https://wplegalpages.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       gdpr-cookie-consent
@@ -31,7 +31,7 @@ define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Currently plugin version.
  */
-define( 'GDPR_COOKIE_CONSENT_VERSION', '3.6.3' );
+define( 'GDPR_COOKIE_CONSENT_VERSION', '3.6.7' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_DEVELOPMENT_MODE', false );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
@@ -56,10 +56,10 @@ if ( ! defined( 'FS_CHMOD_FILE' ) ) {
  * Check if the constant GDPR_APP_URL is not already defined.
 */
 if ( ! defined( 'GDPR_APP_URL' ) ) {
-	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com' );
+	define( 'GDPR_APP_URL', 'https://77a44d5f59.nxcli.io' );
 }
 if ( ! defined( 'GDPR_API_URL' ) ) {
-	define( 'GDPR_API_URL', 'https://app.wplegalpages.com/wp-json/gdpr/v2/' );
+	define( 'GDPR_API_URL', 'https://77a44d5f59.nxcli.io/wp-json/gdpr/v2/' );
 }
 
 /**
@@ -205,10 +205,31 @@ function gdpr_show_admin_notice_activation_deactivation_third_party_plugins() {
     if (get_transient('gdpr_display_message_other_plugin_on_change')) {
         // Output the admin notice with a link to rescan the website
         echo '<div class="notice notice-warning is-dismissible">';
-		echo '<p>' . esc_html__('You have enabled or disabled a cookie consent plugin, which may require your cookie banner to be adjusted. Please scan your website again as soon as you have finished the changes.', 'gdpr-cookie-consent') . ' <a href="' . esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list' ) ) . '">' . esc_html__('Scan website again', 'gdpr-cookie-consent') . '</a></p>';
+		echo '<p>' . esc_html__('You have enabled or disabled a cookie consent plugin, which may require your cookie banner to be adjusted. Please scan your website again as soon as you have finished the changes.', 'gdpr-cookie-consent') . ' <a href="' . esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies' ) ) . '">' . esc_html__('Scan website again', 'gdpr-cookie-consent') . '</a></p>';
 		echo '</div>';
         
         // Delete the transient after displaying the message
         delete_transient('gdpr_display_message_other_plugin_on_change');
     }
 }
+
+// Display the admin notice if a wp cookie consent pro plugin was activated or installed.
+add_action('admin_notices', 'gdpr_display_user_mirgation_notice');
+
+function gdpr_display_user_mirgation_notice() {
+	$installed_plugins = get_plugins();
+	$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+	if($pro_installed){
+		echo '<div class="notice notice-error notice-alt">';
+		echo '<p>' . esc_html__('Action Required: Switch to the New WP Legal Pages Compliance Platform!** The new platform no longer requires Pro plugins.', 'gdpr-cookie-consent') . 
+		' <a href="https://wplegalpages.com/docs/migration-from-wpeka/migration/seamless-migration-to-the-new-wp-legal-pages-compliance-platform/" target="_blank" rel="noopener noreferrer" previewlistener="true">' . 
+		esc_html__('Follow this guide to migrate now.', 'gdpr-cookie-consent') . '</a></p>';
+		echo '</div>';
+	}
+}
+// Added for plugin tour
+function gdpr_complete_tour() {
+    update_option('gdpr_first_time_installed', false);
+    wp_send_json_success();
+}
+add_action('wp_ajax_gdpr_complete_tour', 'gdpr_complete_tour');

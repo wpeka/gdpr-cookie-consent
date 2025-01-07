@@ -8,6 +8,7 @@ jQuery(document).ready(function () {
   const is_user_connected = gdpr_localize_data.is_user_connected;
   const cookie_bar_as = gdpr_localize_data.cookie_bar_as;
   const button_settings_as_popup = gdpr_localize_data.button_settings_as_popup;
+  const first_time_installed = gdpr_localize_data.first_time_installed;
   if (!isProActivated) {
     jQuery(".gdpr-cookie-consent-admin-tabs-section").addClass(
       "pro-is-activated"
@@ -76,6 +77,10 @@ jQuery(document).ready(function () {
 
     window.location.assign(linkUrl);
     location.reload();
+  });
+
+  jQuery(".done-button-settings").on("click", function (e) {
+   event.preventDefault();
   });
 
   //cookie notice configure link redirection
@@ -326,6 +331,7 @@ jQuery(document).ready(function () {
       location.reload();
     });
   });
+  // connection overlay in compliance settings.
   jQuery(document).ready(function () {
     var gdprTimer, ccpaTimer, bothTimer;
 
@@ -370,6 +376,50 @@ jQuery(document).ready(function () {
 
     // Both hover function
     jQuery("#gdpr-visitors-condition-radio-btn-disabled-both").hover(
+      function () {
+        bothTimer = setTimeout(function () {
+          jQuery(".gdpr-eu_visitors_message-both").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(bothTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-eu_visitors_message-both").css("display", "none");
+      }
+    );
+  });
+
+  // connection overlay for the create cookie banner.
+  jQuery(document).ready(function () {
+    var gdprTimer, ccpaTimer, bothTimer;
+
+    // GDPR hover function
+    jQuery("#gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard").hover(
+      function () {
+        gdprTimer = setTimeout(function () {
+          jQuery(".gdpr-eu_visitors_message-gdpr").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(gdprTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-eu_visitors_message-gdpr").css("display", "none");
+      }
+    );
+
+    // CCPA hover function
+    jQuery("#gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard").hover(
+      function () {
+        ccpaTimer = setTimeout(function () {
+          jQuery(".gdpr-eu_visitors_message-ccpa").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(ccpaTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-eu_visitors_message-ccpa").css("display", "none");
+      }
+    );
+
+    // Both hover function
+    jQuery("#gdpr-visitors-condition-radio-btn-disabled-both-wizard").hover(
       function () {
         bothTimer = setTimeout(function () {
           jQuery(".gdpr-eu_visitors_message-both").css("display", "block");
@@ -460,6 +510,12 @@ jQuery(document).ready(function () {
       });
   }
 
+  // Stopping the behaviour of triggering the pricing page on hitting enter.
+  jQuery(document).on('keydown', function(event) {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+      event.preventDefault();
+    }
+  });
   /**
    * Clicked on connect to exiting account.
    */
@@ -640,13 +696,13 @@ jQuery(document).ready(function () {
   /**
    * cookie settings perferences functionality
    */
-  if (button_settings_as_popup == 1 && cookie_bar_as == "banner") {
+  if (button_settings_as_popup == 1) {
     jQuery(document).ready(function ($) {
       jQuery(document).ready(function ($) {
-        $(".gpdr_cookie_settings_btn").on("click", function (e) {
+        $(".gpdr_cookie_settings_btn , .gpdr_cookie_settings_btn1").on("click", function (e) {
           e.preventDefault();
           // Fade out the div to the bottom
-          $("#banner-preview-main-container").animate(
+          $("#banner-preview-main-container ,#banner-preview-main-container1").animate(
             {
               opacity: 0,
               height: "toggle",
@@ -666,7 +722,7 @@ jQuery(document).ready(function () {
           e.preventDefault();
           // Fade out the .gdpr_messagebar_detail
           $(".gdpr_messagebar_detail").fadeOut("fast", function () {});
-          $("#banner-preview-main-container").animate(
+          $("#banner-preview-main-container,#banner-preview-main-container1").animate(
             {
               opacity: 1,
               height: "toggle",
@@ -680,7 +736,7 @@ jQuery(document).ready(function () {
     // else block for extended banner functionality.
     jQuery(document).ready(function ($) {
       var is_cookie_setting_clicked = false;
-      jQuery(".gpdr_cookie_settings_btn").on("click", function (e) {
+      jQuery(".gpdr_cookie_settings_btn, .gpdr_cookie_settings_btn1").on("click", function (e) {
         e.preventDefault();
         if (!is_cookie_setting_clicked) {
           jQuery(".gdpr_messagebar_detail").removeClass("hide-extended-banner");
@@ -961,7 +1017,129 @@ jQuery(document).ready(function () {
         $(this).siblings(".inner-description-container").removeClass("hide");
       }
     });
-  });
+    //Product Tour
+    // Check if it's the first time
+      if (first_time_installed) {
+          startPluginTour();
+           // Clear the first-time flag
+        $.post(ajaxurl, { action: 'gdpr_complete_tour' });
+      }
+
+      // Event handler for manual tour start
+      $('#start-plugin-tour').on('click', function (event) {
+          event.preventDefault();
+          startPluginTour();
+      });
+
+     // Function to start the plugin tour
+     function startPluginTour() {
+      // Remove active class from all tabs
+      jQuery(".gdpr-cookie-consent-admin-tab").removeClass("active-tab");
+
+    // Hide all tab contents
+    jQuery(".gdpr-cookie-consent-admin-tab-content").hide();
+
+    // Show the selected tab content
+    jQuery("#cookie_settings").show();
+    jQuery(this).addClass("active-tab");
+
+        // Update URL hash with the tab ID
+        history.pushState({}, "", "#cookie_settings");
+        // Initialize Intro.js
+      
+       // Define the first intro tour (Welcome Step Only)
+        const introWelcome = introJs().setOptions({
+          steps: [
+            {
+              intro: "<h3 class='introjs-tooltip-title'>Welcome to Cookie Consent</h3><p>Welcome to the WP Cookie Consent plugin tour! This guided walkthrough will help you get started and make the most of our plugin.</p><button id='start-main-tour' class='introjs-start-btn'>Start Tour</button>",
+            },
+          ],
+          showStepNumbers: false,  // Hide step numbers in the welcome step
+          showBullets: false,      // Hide bullets
+          showButtons: false,      // Hide default buttons
+          exitOnOverlayClick: true, 
+          exitOnEsc: true,     
+        });
+
+        const introSteps = introJs().setOptions({
+          steps: [
+            { 
+              element: document.querySelector('.gdpr-cookie-consent-admin-dashboard-tab'), // Replace with your actual element selectors
+              intro: "<h3 class='introjs-tooltip-title'>Dashboard</h3><p>The Dashboard is your central hub for managing cookie consent. You'll find cookie insights, a summary of your settings, and quick access to documentation.</p>",
+            },
+            { 
+              element: document.querySelector('.gdpr-cookie-consent-admin-cookie-banner-tab'),
+              intro: "<h3 class='introjs-tooltip-title'>Wizard</h3><p>This guided wizard will walk you through the process of setting up your cookie banner and managing your cookie categories.</p>",
+            },
+            { 
+              element: document.querySelector('#cookie_settings #gdpr-cookie-consent-complianz'),
+              intro: "<h3 class='introjs-tooltip-title'>Compliance</h3><p>These settings will help ensure your website complies with privacy regulations. Here, you can adjust the banner's appearance, message, and button labels.</p>",
+            },
+            { 
+              element: document.querySelector('#cookie_settings #gdpr-cookie-consent-configuration'),
+              intro: "<h3 class='introjs-tooltip-title'>Configuration</h3><p>Here, you can adjust your cookie banner’s position, choose whether to display it as a banner or a popup, and even import or export your settings for easy configuration.</p>",
+            },
+            { 
+              element: document.querySelector('#cookie_settings #gdpr-cookie-consent-design'),
+              intro: "<h3 class='introjs-tooltip-title'>Design</h3><p>You can personalize your cookie banner. Select colors, fonts, and add your logo to create a banner that seamlessly blends with your website's design.</p>",
+            },
+            { 
+              element: document.querySelector('#cookie_settings #gdpr-cookie-consent-cookies-list'),
+              intro: "<h3 class='introjs-tooltip-title'>Cookie List</h3><p>The Cookie Scanner is a valuable feature for maintaining control over your website's cookies. Here, you can add custom cookies, set up automated scans, and track your scan history.</p>",
+            },
+            { 
+              element: document.querySelector('#cookie_settings #gdpr-cookie-consent-script-blocker'),
+              intro: "<h3 class='introjs-tooltip-title'>Script Blocker</h3><p>Take control of your website's scripts with the Script Blocker. Block unwanted scripts and create whitelists for essential ones to ensure your site complies with privacy regulations.</p>",
+            },
+            { 
+              element: document.querySelector('#cookie_settings #gdpr-cookie-consent-ab-testing'),
+              intro: "<h3 class='introjs-tooltip-title'>A/B Testing</h3><p>A/B testing is a powerful tool for improving cookie consent. Experiment with different banner designs, messages, and calls to action to find the most effective approach.</p>",
+            },
+            { 
+              element: document.querySelector('#cookie_settings #gdpr-cookie-consent-language'),
+              intro: "<h3 class='introjs-tooltip-title'>Language</h3><p>To provide a better user experience, here you can customize the language of your cookie banner.</p>",
+            },
+            { 
+              element: document.querySelector('.gdpr-cookie-consent-admin-consent-logs-tab'),
+              intro: "<h3 class='introjs-tooltip-title'>Consent Logs</h3><p>This consent log table shows you a complete history of user interactions with your cookie banner, including their consent choices and timestamps.</p>",
+            },
+            { 
+              element: document.querySelector('.gdpr-cookie-consent-admin-data-request-tab'),
+              intro: "<h3 class='introjs-tooltip-title'>Data requests</h3><p>The Data Request Table is where you'll handle data subject access requests. You can review and respond to requests from your website users.</p>",
+            },
+            { 
+              element: document.querySelector('.gdpr-cookie-consent-admin-policy-data-tab'),
+              intro: "<h3 class='introjs-tooltip-title'>Policy Data</h3><p>Policy Data shows the third party companies, their purpose, and applicable privacy policy or cookie policy link in the form of a table.</p>",
+            },
+          ],
+          prevLabel: 'Previous', // Change "Back" button text
+          doneLabel: 'End Tour', 
+          showBullets: false, // Disable the dots
+          showStepNumbers: true, // Ensures step numbers are displayed
+          showButtons: true,  // Initially show buttons
+          exitOnOverlayClick: true, 
+                
+        })
+
+        // Start the first intro tour
+        introWelcome.start();
+        // Add an event listener for the custom "Start Full Tour" button
+        jQuery(document).on("click", "#start-main-tour", function () {
+          introWelcome.exit();  // Exit the first intro
+          setTimeout(function(){
+            introSteps.start(); // Start the second intro with a slight delay
+          }, 10); // Delay ensures cleanup of event listeners
+        });
+        
+        // Handle close button and overlay click properly for intro2
+        jQuery(document).on("click", '.introjs-overlay, .introjs-skipbutton', function () {
+          if (introSteps._currentStep !== undefined) {
+            introSteps.exit(); // Ensure clean exit for intro2
+          }
+        });
+   
+    }
+    });
 });
 
 document.addEventListener("DOMContentLoaded", function () {

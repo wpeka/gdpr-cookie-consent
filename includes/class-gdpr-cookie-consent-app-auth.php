@@ -403,6 +403,15 @@ class GDPR_Cookie_Consent_App_Auth {
 			update_option( 'wplegal_api_framework_app_settings', $options );
 		}
 
+		//changing banner display status to worldwide
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		
+		$the_options['is_worldwide_on'] = 'true';
+		$the_options['is_selectedCountry_on'] = 'false';
+		$the_options['is_eu_on'] = 'false';
+		$the_options['is_ccpa_on'] = 'false';
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
 		update_option( 'gdpr_no_of_page_scan', 0 );
 
 		$deactivate_results = json_decode( $wcam_lib_gdpr->deactivate( $args, $product_id ), true );

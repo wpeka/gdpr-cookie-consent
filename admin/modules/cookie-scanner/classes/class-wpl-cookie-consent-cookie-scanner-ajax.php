@@ -25,6 +25,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_wpl_cookie_scanner', array( $this, 'ajax_cookie_scanner' ) );
+		add_action( 'wp_ajax_wpl_cookies_deletion', array( $this, 'ajax_cookies_deletion' ) );
 	}
 
 	/**
@@ -50,6 +51,12 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		exit();
 	}
 
+	public function ajax_cookies_deletion(){
+		global $wpdb;
+		$scan_table    = $wpdb->prefix . 'wpl_cookie_scan_cookies';
+		$result = $wpdb->query("TRUNCATE TABLE {$scan_table}");
+    	return $result !== false;
+	}
 	/**
 	 * Returns scanned cookies list.
 	 *

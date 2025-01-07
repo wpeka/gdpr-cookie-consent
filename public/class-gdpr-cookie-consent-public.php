@@ -153,51 +153,6 @@ class Gdpr_Cookie_Consent_Public {
 		$this->user_iab_consent = json_decode(stripslashes($_POST['user_iab_consent']),true);
 	}
 	/**
-	 * Returns updated array with the consent renew values
-	 *
-	 * @since 2.11.1
-	 */
-	public function gdpr_renew_consent_bar() {
-		check_ajax_referer( 'wpl_consent_renew_nonce', 'security' );
-
-		global $wpdb;
-
-		if ( ! empty( $_POST['arrayValue'] ) ) {
-
-			$returned_array_from_public_js = $_POST['arrayValue'];
-
-			foreach ( $returned_array_from_public_js as $data ) {
-				$post_id       = $data['post_id'];
-				$consent_value = $data['consent_value'];
-
-				// Check if the post ID exists in the database.
-				$post_exists = $wpdb->get_var(
-					$wpdb->prepare(
-						"SELECT ID FROM {$wpdb->prefix}posts WHERE ID = %d",
-						$post_id
-					)
-				);
-
-				if ( $post_exists ) {
-					// Update '_wplconsentlogs_ip' and '_wpl_renew_consent' meta values.
-					update_post_meta( $post_id, '_wplconsentlogs_ip', $data['ip_value'] );
-
-					// Check if '_wpl_renew_consent' meta key exists, and add if it doesn't.
-					$existing_renew_consent = get_post_meta( $post_id, '_wpl_renew_consent', true );
-					if ( $existing_renew_consent == '' ) {
-						add_post_meta( $post_id, '_wpl_renew_consent', $consent_value, true );
-					} else {
-						// Update '_wpl_renew_consent' meta value if it exists.
-						update_post_meta( $post_id, '_wpl_renew_consent', $consent_value );
-					}
-				}
-			}
-
-			wp_send_json_success( $returned_array_from_public_js );
-
-		}
-	}
-	/**
 	 * Returns cookie consent bar status.
 	 *
 	 * @since 2.0
@@ -565,6 +520,29 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			wp_localize_script( $this->plugin_name, 'background_obj', array( 'background' => $template_parts_background ) );
 
+
+			// Localizing the values of the bar color, opacity and text color to the public javascript file for adding dynamic css for the cookie setting section.
+			wp_localize_script($this->plugin_name, 'cookie_options', [
+				'active_law' => $the_options['cookie_usage_for'],
+				// for banner where ab testing is disabled.
+				'background' => $the_options['background'] ?? '#FFFFFF', // Default background color
+				'background1' => $the_options['cookie_bar_color1'] ?? '#FFFFFF',
+				'background2' => $the_options['cookie_bar_color2'] ?? '#FFFFFF',
+				'background_legislation' => $the_options['multiple_legislation_cookie_bar_color1'] ?? '#FFFFFF', // Default for legislation
+
+				// Opacity values
+				'opacity' => $the_options['opacity'] ?? '1.0', // Default full opacity
+				'opacity1' => $the_options['cookie_bar_opacity1'] ?? '1.0',
+				'opacity2' => $the_options['cookie_bar_opacity2'] ?? '1.0',
+				'opacity_legislation' => $the_options['multiple_legislation_cookie_bar_opacity1'] ?? '1.0',
+
+				// Text color values
+				'text' => $the_options['text'] ?? '#000000', // Default black text
+				'text1' => $the_options['cookie_text_color1'] ?? '#000000',
+				'text2' => $the_options['cookie_text_color2'] ?? '#000000',
+				'text_legislation' => $the_options['multiple_legislation_cookie_text_color1'] ?? '#000000', // Default for legislation
+			]);
+
 			if ( false !== strpos( $template, 'center' ) ) {
 				$template = 'center';
 			} elseif ( false !== strpos( $template, 'box' ) ) {
@@ -781,8 +759,126 @@ class Gdpr_Cookie_Consent_Public {
 				$iabtcfConsentData = $_POST['iabtcfConsentData']; 
 				update_option( 'iabtcfConsent', $iabtcfConsentData );
 			} 
+			//check for translations if dynamic translation is off, becuase when it is on code for automatic translation will translate it.
+			if ( (!isset($the_options["is_dynamic_lang_on"]) || $the_options["is_dynamic_lang_on"] === false || $the_options["is_dynamic_lang_on"] === "false") && true === $the_options['button_settings_is_on'] || true === $the_options['button_accept_all_is_on'] || true === $the_options['button_accept_is_on'] ) {
+				$cookie_data                      = array();
+				$cookie_data['categories']        = $categories_data;
+				$cookie_data['dash_notify_message']               = $about_message;
+				$cookie_data['dash_notify_message_lgpd']              = $about_message_lgpd;
+				$cookie_data['show_credits']      = $the_options['show_credits'];
+				$cookie_data['credits']           = $the_options['show_credits'] ? $credit_link : '';
+				$cookie_data['backdrop']          = $the_options['backdrop'];
+				$cookie_data['dash_notify_message_eprivacy'] = $the_options['notify_message_eprivacy'];
+				$cookie_data['dash_notify_message_lgpd'] = $the_options['notify_message_lgpd'];
+				$cookie_data['dash_button_readmore_text'] = $the_options['button_readmore_text'];
+				$cookie_data['dash_button_accept_text'] = $the_options['button_accept_text'];
+				$cookie_data['dash_button_accept_all_text'] = $the_options['button_accept_all_text'];
+				$cookie_data['dash_button_decline_text'] = $the_options['button_decline_text'];
+				$cookie_data['dash_about_message'] = $the_options['about_message'];
+				$cookie_data['dash_about_message_lgpd'] = $the_options['about_message_lgpd'];
+				$cookie_data['dash_notify_message'] = $the_options['notify_message'];
+				$cookie_data['dash_button_settings_text'] = $the_options['button_settings_text'];
+				$cookie_data['dash_notify_message_ccpa'] = $the_options['notify_message_ccpa'];
+				$cookie_data['dash_button_donotsell_text'] = $the_options['button_donotsell_text'];
+				$cookie_data['dash_button_confirm_text'] = $the_options['button_confirm_text'];
+				$cookie_data['dash_button_cancel_text'] = $the_options['button_cancel_text'];
+				$cookie_data['dash_show_again_text'] = $the_options['show_again_text'];
+				$cookie_data['dash_optout_text'] = $the_options['optout_text'];
+				$cookie_data['dash_notify_message_iabtcf'] = $the_options['notify_message'];
+				$cookie_data['dash_about_message_iabtcf']  = $the_options['about_message'];
+				$cookie_data['about']             = __( 'About Cookies', 'gdpr-cookie-consent' );
+				$cookie_data['declaration']       = __( 'Cookie Declaration', 'gdpr-cookie-consent' );
+				$cookie_data['always']            = __( 'Always Active', 'gdpr-cookie-consent' );
+				$cookie_data['save_button']       = __( 'Save And Accept', 'gdpr-cookie-consent' );
+				$cookie_data['name']              = __( 'Name', 'gdpr-cookie-consent' );
+				$cookie_data['domain']            = __( 'Domain', 'gdpr-cookie-consent' );
+				$cookie_data['purpose']           = __( 'Purpose', 'gdpr-cookie-consent' );
+				$cookie_data['expiry']            = __( 'Expiry', 'gdpr-cookie-consent' );
+				$cookie_data['type']              = __( 'Type', 'gdpr-cookie-consent' );
+				$cookie_data['cookies_not_found'] = __( 'We do not use cookies of this type.', 'gdpr-cookie-consent' );
+				$cookie_data['consent_notice']    = __( 'I consent to the use of following cookies:', 'gdpr-cookie-consent' );
+				$the_options['cookie_data']       = $cookie_data;
 
-			if ( true === $the_options['button_settings_is_on'] || true === $the_options['button_accept_all_is_on'] || true === $the_options['button_accept_is_on'] ) {
+				// language translation based on the selected language for the public facing.
+				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages )  && $the_options['gdpr_current_language'] !== $the_options['lang_selected']) {
+
+					// Load and decode translations from JSON file.
+					$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/public/translations/public-translations.json';
+					$translations      = wp_remote_get( $translations_file );
+					$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
+					// Define an array of text keys to translate.
+					$text_keys_to_translate = array(
+							'about',
+							'declaration',
+							'always',
+							'save_button',
+							'name',
+							'domain',
+							'purpose',
+							'expiry',
+							'type',
+							'cookies_not_found',
+							'consent_notice',
+							'dash_notify_message_eprivacy',
+					'dash_notify_message_lgpd',
+					'dash_button_readmore_text',
+					'dash_button_accept_text',
+					'dash_button_accept_all_text',
+					'dash_button_decline_text',
+					'dash_about_message',
+					'dash_about_message_iabtcf',
+					'dash_about_message_lgpd',
+					'dash_notify_message',
+					'dash_notify_message_iabtcf',
+					'dash_button_settings_text',
+					'dash_notify_message_ccpa',
+					'dash_button_donotsell_text',
+					'dash_button_confirm_text',
+					'dash_button_cancel_text',
+					'dash_show_again_text',
+					'dash_optout_text',
+					'gdpr_cookie_category_description_necessary',
+					'gdpr_cookie_category_name_necessary',
+					'gdpr_cookie_category_description_analytics',
+					'gdpr_cookie_category_name_analytics',
+					'gdpr_cookie_category_description_marketing',
+					'gdpr_cookie_category_description_preference',
+					'gdpr_cookie_category_description_unclassified',
+					'gdpr_cookie_category_name_marketing',
+					'gdpr_cookie_category_name_preference',
+					'gdpr_cookie_category_name_unclassified',
+						);
+
+					// Determine the target language based on the POST value.
+					$target_language = $the_options['lang_selected'];
+
+					// Loop through the text keys and translate them.
+					foreach ( $text_keys_to_translate as $text_key ) {
+						$translated_text = $this->translate_text( $text_key, $translations, $target_language );
+
+						$cookie_data[ $text_key ] = $translated_text;
+					}
+
+					$the_options['cookie_data'] = $cookie_data;
+					$the_options['gdpr_current_language'] = $the_options['lang_selected'];
+					update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+				}
+			}
+
+			//detect user's preffered language from browser.
+			function parseLanguageList($languageList) {
+				$languages = array();
+				$languageRanges = explode(',', trim($languageList));
+				foreach ($languageRanges as $languageRange) {
+					if (preg_match('/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/', trim($languageRange), $match)) {
+						array_push($languages,strtolower($match[1]));
+					}
+				}
+				return $languages;
+			}
+			//code to change the language according to user's preferences
+			if(isset($the_options["is_dynamic_lang_on"]) && ($the_options["is_dynamic_lang_on"] === true || $the_options["is_dynamic_lang_on"] === "true")){
+				$languages = parseLanguageList($_SERVER['HTTP_ACCEPT_LANGUAGE']);	//user's preffered language
 				$cookie_data                      = array();
 				$cookie_data['categories']        = $categories_data;
 				$cookie_data['msg']               = $about_message;
@@ -803,42 +899,97 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['consent_notice']    = __( 'I consent to the use of following cookies:', 'gdpr-cookie-consent' );
 				$the_options['cookie_data']       = $cookie_data;
 
-				// language translation based on the selected language for the public facing.
-				if ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {
+				// language translation based on one of the preferred languages for the public facing.
+				// These languages are sorted in way from most preferrd to less preferred, so once we find a language that we provide translation for, we translate and break out of the loop.
+				foreach($languages as $value) {
+					foreach ($this->supported_languages as $supported_language) {
+						$flag = false;
+						if (strpos($supported_language, $value) !== false) {
+							$flag = true;
+							$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/public/translations/public-translations.json';
+							$translations      = wp_remote_get( $translations_file );
+							$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
+							// Define an array of text keys to translate.
+							$text_keys_to_translate = array(
+								'about',
+								'declaration',
+								'always',
+								'save_button',
+								'name',
+								'domain',
+								'purpose',
+								'expiry',
+								'type',
+								'cookies_not_found',
+								'consent_notice',
+								'dash_notify_message_eprivacy',
+								'dash_notify_message_lgpd',
+								'dash_button_readmore_text',
+								'dash_button_accept_text',
+								'dash_button_accept_all_text',
+								'dash_button_decline_text',
+								'dash_about_message',
+								'dash_about_message_iabtcf',
+								'dash_about_message_lgpd',
+								'dash_notify_message',
+								'dash_notify_message_iabtcf',
+								'dash_button_settings_text',
+								'dash_notify_message_ccpa',
+								'dash_button_donotsell_text',
+								'dash_button_confirm_text',
+								'dash_button_cancel_text',
+								'dash_show_again_text',
+								'dash_optout_text',
+								'gdpr_cookie_category_description_necessary',
+								'gdpr_cookie_category_name_necessary',
+								'gdpr_cookie_category_description_analytics',
+								'gdpr_cookie_category_name_analytics',
+								'gdpr_cookie_category_description_marketing',
+								'gdpr_cookie_category_description_preference',
+								'gdpr_cookie_category_description_unclassified',
+								'gdpr_cookie_category_name_marketing',
+								'gdpr_cookie_category_name_preference',
+								'gdpr_cookie_category_name_unclassified',
+							);
 
-					// Load and decode translations from JSON file.
-					$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/public/translations/public-translations.json';
-					$translations      = wp_remote_get( $translations_file );
-					$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
-					// Define an array of text keys to translate.
-					$text_keys_to_translate = array(
-						'about',
-						'declaration',
-						'always',
-						'save_button',
-						'name',
-						'domain',
-						'purpose',
-						'expiry',
-						'type',
-						'cookies_not_found',
-						'consent_notice',
-					);
+							// Determine the target language based on the POST value.
+							$target_language = $value;
 
-					// Determine the target language based on the POST value.
-					$target_language = $the_options['lang_selected'];
+							// Loop through the text keys and translate them.
+							foreach ( $text_keys_to_translate as $text_key ) {
+								$translated_text = $this->translate_text( $text_key, $translations, $target_language );
+								if ( 'gdpr_cookie_category_description_necessary' === $text_key ) {
+									$cookie_data['categories'][0]['gdpr_cookie_category_description'] = $translated_text;
+								} elseif ( 'gdpr_cookie_category_description_analytics' === $text_key ) {
+									$cookie_data['categories'][2]['gdpr_cookie_category_description'] = $translated_text;
+								} elseif ( 'gdpr_cookie_category_description_marketing' === $text_key ) {
+									$cookie_data['categories'][1]['gdpr_cookie_category_description'] = $translated_text;
+								} elseif ( 'gdpr_cookie_category_description_preference' === $text_key ) {
+									$cookie_data['categories'][3]['gdpr_cookie_category_description'] = $translated_text;
+								} elseif ( 'gdpr_cookie_category_description_unclassified' === $text_key ) {
+									$cookie_data['categories'][4]['gdpr_cookie_category_description'] = $translated_text;
+								} elseif ( 'gdpr_cookie_category_name_analytics' === $text_key ) {
+									$cookie_data['categories'][2]['gdpr_cookie_category_name'] = $translated_text;
+								} elseif ( 'gdpr_cookie_category_name_marketing' === $text_key ) {
+									$cookie_data['categories'][1]['gdpr_cookie_category_name'] = $translated_text;
+								} elseif ( 'gdpr_cookie_category_name_necessary' === $text_key ) {
+									$cookie_data['categories'][0]['gdpr_cookie_category_name'] = $translated_text;
+								} elseif ( 'gdpr_cookie_category_name_preference' === $text_key ) {
+									$cookie_data['categories'][3]['gdpr_cookie_category_name'] = $translated_text;
+								} elseif ( 'gdpr_cookie_category_name_unclassified' === $text_key ) {
+									$cookie_data['categories'][4]['gdpr_cookie_category_name'] = $translated_text;
+								}else $cookie_data[ $text_key ] = $translated_text;
+							}
 
-					// Loop through the text keys and translate them.
-					foreach ( $text_keys_to_translate as $text_key ) {
-						$translated_text = $this->translate_text( $text_key, $translations, $target_language );
-
-						$cookie_data[ $text_key ] = $translated_text;
+							$the_options['cookie_data'] = $cookie_data;
+							break; 
+						}
+							
 					}
-
-					$the_options['cookie_data'] = $cookie_data;
+					if($flag) break;
+						
 				}
 			}
-
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
 
 			$chosenBanner = $this->chosenBanner;

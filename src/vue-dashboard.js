@@ -4,13 +4,15 @@ import CoreuiVue from "@coreui/vue";
 import "@coreui/coreui/dist/css/coreui.min.css";
 import { VueEllipseProgress } from "vue-ellipse-progress";
 import VueApexCharts from "vue-apexcharts";
-//you need to import the CSS manually
+import Flatpickr from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
 import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
 
 Vue.use(CoreuiVue);
 Vue.use(VueApexCharts);
 Vue.component("vue-ellipse-progress", VueEllipseProgress);
 Vue.component("apexchart", VueApexCharts); // Register the DateRangePicker component
+Vue.component("flatpickr", Flatpickr);
 
 const j = jQuery.noConflict();
 var gen = new Vue({
@@ -36,6 +38,26 @@ var gen = new Vue({
         },
         // More data points...
       ],
+      chartWidth:
+        window.innerWidth > 1750 ? 760 : window.innerWidth > 1600 ? 693 : 500,
+      dateRange: [],
+      flatpickrConfig: {
+        mode: "range",
+        dateFormat: "M d, Y",
+        minDate: new Date(
+          Object.keys(dashboard_options["page_view_options"])[0]
+        ),
+        maxDate: "today",
+        defaultDate: [
+          new Date(Object.keys(dashboard_options["page_view_options"])[0]),
+          new Date(
+            Object.keys(dashboard_options["page_view_options"])[
+              Object.keys(dashboard_options["page_view_options"]).length - 1 //last date is second last element as last element is total
+            ]
+          ),
+        ],
+        onChange: this.handleDateChange,
+      },
       showing_cookie_notice:
         dashboard_options.hasOwnProperty("showing_cookie_notice") &&
         dashboard_options["showing_cookie_notice"] === "1"
@@ -221,10 +243,10 @@ var gen = new Vue({
         },
         responsive: [
           {
-            breakpoint: 480,
+            breakpoint: 1440,
             options: {
               chart: {
-                width: 200,
+                width: 400,
               },
               legend: {
                 position: "bottom",
@@ -276,6 +298,74 @@ var gen = new Vue({
           },
         },
       },
+      page_view_series: [
+        {
+          name: "Page Views", // Series name
+          data: Object.values(dashboard_options["page_view_options"]), // Initialize as an empty array
+        },
+      ],
+      page_view_options: {
+        chart: {
+          type: "area",
+          width: this.chartWidth,
+          zoom: {
+            enabled: false,
+          },
+          redrawOnWindowResize: true,
+          redrawOnParentResize: true,
+          toolbar: {
+            show: false,
+          },
+          animations: {
+            enabled: true, // Enable animations
+            easing: "easeout", // Smooth easing effect (draws naturally)
+            speed: 1000, // Duration of the animation (1 second)
+            animateGradually: {
+              enabled: true, // Enable gradual animation
+              delay: 150, // Delay between point animations
+            },
+            dynamicAnimation: {
+              enabled: true, // Enable dynamic data update animations
+              speed: 500, // Speed for dynamic updates
+            },
+          },
+        },
+        xaxis: {
+          categories: Object.keys(dashboard_options["page_view_options"]),
+          title: {
+            text: "",
+          },
+        },
+        yaxis: {
+          title: {
+            text: "",
+          },
+        },
+        tooltip: {
+          enabled: true,
+          theme: "dark",
+        },
+        colors: ["#1A73E8"],
+        stroke: {
+          width: 3,
+          curve: "straight",
+        },
+        fill: {
+          type: "solid",
+          opacity: 0.2,
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        grid: {
+          borderColor: "#e7e7e7",
+        },
+        legend: {
+          position: "bottom",
+        },
+      },
+      chartKey: 0,
+
       banner_preview: true,
       banner_preview_is_on:
         "true" == dashboard_options.the_options["banner_preview_enable"] ||
@@ -284,7 +374,26 @@ var gen = new Vue({
           : false,
     };
   },
+  mounted() {
+    j("#gdpr-dashboard-loader").css("display", "none");
+    this.setValues();
+    this.updateChartWidth();
+    window.addEventListener("resize", this.updateChartWidth);
+  },
   methods: {
+    initializeGraphData() {
+      // Extract keys and values from dashboard_options["page_view_options"]
+      this.page_view_dates = Object.keys(
+        dashboard_options["page_view_options"]
+      );
+      this.page_view_values = Object.values(
+        dashboard_options["page_view_options"]
+      );
+
+      // Update series data and x-axis categories
+      this.page_view_series[0].data = this.page_view_values;
+      this.page_view_options.xaxis.categories = this.page_view_dates;
+    },
     setValues() {
       this.active_plugins = Object.values(this.active_plugins);
       let plugins_length = this.active_plugins.length;
@@ -385,6 +494,61 @@ var gen = new Vue({
         this.progress = ((count_progress / 3) * 100).toFixed(1);
       }
     },
+    updateChartWidth() {
+      const viewportWidth = Math.min(
+        window.innerWidth,
+        document.documentElement.clientWidth
+      );
+      const newChartWidth =
+        viewportWidth > 1750 ? 760 : viewportWidth > 1600 ? 693 : 500;
+
+      if (newChartWidth !== this.chartWidth) {
+        this.chartWidth = newChartWidth;
+
+        this.page_view_options.chart.width = newChartWidth;
+
+        this.chartKey++;
+      }
+    },
+    handleDateChange(selectedDates, dateStr, instance) {
+      // Ensure both start and end dates are selected
+      if (selectedDates.length === 2) {
+        const startDate = selectedDates[0]; // Start date
+        const endDate = selectedDates[1]; // End date
+
+        // Call the function to filter graph data
+        this.filterGraphData(startDate, endDate);
+      }
+    },
+    filterGraphData(startDate, endDate) {
+      const keys = Object.keys(dashboard_options["page_view_options"]);
+      const values = Object.values(dashboard_options["page_view_options"]);
+
+      const filteredData = keys.reduce(
+        (acc, key, index) => {
+          const keyDate = new Date(key);
+          if (keyDate >= startDate && keyDate <= endDate) {
+            acc.keys.push(key);
+            acc.values.push(values[index]);
+          }
+          return acc;
+        },
+        { keys: [], values: [] }
+      );
+
+      // Ensure the filtered data is valid
+      if (filteredData.keys.length && filteredData.values.length) {
+        // Update series and x-axis categories
+        this.page_view_series[0].data = filteredData.values;
+        this.page_view_options.xaxis.categories = filteredData.keys;
+
+        this.chartKey += 1;
+      } else {
+        console.warn("Filtered data is empty. Check your date range.");
+        this.page_view_series[0].data = [];
+        this.page_view_options.xaxis.categories = [];
+      }
+    },
   },
   onSwitchBannerPreviewEnable() {
     //changing the value of banner_preview_swicth_value enable/disable
@@ -393,8 +557,8 @@ var gen = new Vue({
   created() {
     // No need to fetch data, assume someData is already available
   },
-  mounted() {
-    j("#gdpr-dashboard-loader").css("display", "none");
-    this.setValues();
+
+  beforeDestroy() {
+    window.removeEventListener("resize", this.updateChartWidth); // Remove event listener on component destroy
   },
 });

@@ -402,26 +402,20 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 		$options = array();
 
-		// Query to get all posts
-		$all_posts = get_posts(
-			array(
-				'post_type'      => 'wplconsentlogs',
-				'posts_per_page' => -1,
-				'post_status'    => 'publish',
-				'orderby'        => 'ID',
-				'order'          => 'DESC',
-			)
-		);
+		global $wpdb;
+		$post_type = 'wplconsentlogs';
 
-		// Loop through each post to extract creation dates and populate the options array
-		foreach ( $all_posts as $post ) {
-			$post_date  = strtotime( $post->post_date ); // Get the UNIX timestamp of the post creation date
-			$month_year = gmdate( 'm Y', $post_date ); // Format the timestamp to month & year
-			// Check if the month_year is not already added to the options array
-			if ( ! in_array( $month_year, $options ) ) {
-				// Add the month_year as an option
-				$options[] = $month_year;
-			}
+		$months = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
+					FROM $wpdb->posts
+					WHERE post_type = %s
+					ORDER BY post_date DESC",
+					$post_type
+				)
+			);
+		foreach ( $months as $month ) {
+			$options[] = "{$month->month} {$month->year}";
 		}
 
 		// Add an 'ALL Dates' option at the beginning of the array
@@ -483,20 +477,19 @@ class WPL_Consent_Logs extends WP_List_Table {
 	 */
 	public function count_requests() {
 
-		global $post;
-		$custom_posts = get_posts(
-			array(
-				'post_type'      => 'wplconsentlogs',
-				'posts_per_page' => -1,
-				'post_status'    => 'publish', // Retrieve all posts.
+		global $wpdb;
+		$post_type = 'wplconsentlogs';
+
+		// Efficient query to count the total entries directly in the database
+		$count = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(*) 
+				FROM $wpdb->posts 
+				WHERE post_type = %s 
+				AND post_status = 'publish'",
+				$post_type
 			)
 		);
-
-		$data  = array(); // Initialize the $data array.
-		$count = 0;
-		foreach ( $custom_posts as $post ) {
-			++$count;
-		}
 
 		return $count;
 	}

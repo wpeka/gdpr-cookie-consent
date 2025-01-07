@@ -151,6 +151,8 @@ $response = wp_remote_post(
 			'total_scanned_pages'              => $total_scanned_pages,
 			'number_of_categories'             => $number_of_categories,
 			'wpl_cl_decline'                   => get_option( 'wpl_cl_decline' ),
+			'wpl_page_views'				   => get_option( 'wpl_page_views' ),
+			'total_page_views'				   => get_option('wpl_total_page_views'),
 			'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
 			'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
 			'wpl_cl_bypass'                    => get_option( 'wpl_cl_bypass' ),
@@ -525,76 +527,7 @@ if ( 200 === $response_status ) {
 					</div>
 				</c-card-body>
 		</c-card>
-
-		<c-card class="gdpr-dashboard-other-plugin-card">
-				<h1 class="gdpr-dashboard-other-plugin-heading">
-					<?php esc_html_e( 'Other Plugins by WPeka Club', 'gdpr-cookie-consent' ); ?>
-				</h1>
-
-				<c-card-body class="gdpr-dashboard-other-plugin-body">
-					<div class="gdpr-other-plugin-item">
-								<img class="gdpr-other-plugin-image" :src="legalpages_icon.default">
-						<div class="gdpr-other-plugin-content">
-						<span class="gdpr-other-plugin-caption">
-							<?php esc_html_e( 'WP Legal Pages', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<span class="gdpr-other-plugin-description">
-							<?php esc_html_e( 'Privacy Policy Generator, Terms & Conditions Generator WordPress Plugin.', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<a href="https://wordpress.org/plugins/wplegalpages/" target="_blank" class="gdpr-other-plugin-button"><?php esc_html_e( 'Get Plugin', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
-						</div>
-					</div>
-					<div class="gdpr-other-plugin-item">
-							<img class="gdpr-other-plugin-image" :src="adcenter_icon.default">
-						<div class="gdpr-other-plugin-content">
-						<span class="gdpr-other-plugin-caption">
-							<?php esc_html_e( 'WP Adcenter', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<span class="gdpr-other-plugin-description">
-							<?php esc_html_e( 'Ad Manager & Adsense Ads.', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<a href="https://wordpress.org/plugins/wpadcenter/" target="_blank" class="gdpr-other-plugin-button"><?php esc_html_e( 'Get Plugin', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
-						</div>
-					</div>
-					<div class="gdpr-other-plugin-item">
-							<img class="gdpr-other-plugin-image" :src="survey_funnel_icon.default">
-						<div class="gdpr-other-plugin-content">
-						<span class="gdpr-other-plugin-caption">
-							<?php esc_html_e( 'Survey Funnel', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<span class="gdpr-other-plugin-description">
-							<?php esc_html_e( 'Survey Plugin for WordPress.', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<a href="https://wordpress.org/plugins/surveyfunnel-lite/" target="_blank" class="gdpr-other-plugin-button"><?php esc_html_e( 'Get Plugin', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
-						</div>
-					</div>
-					<div class="gdpr-other-plugin-item">
-							<img class="gdpr-other-plugin-image" :src="localplus_icon.default">
-						<div class="gdpr-other-plugin-content">
-						<span class="gdpr-other-plugin-caption">
-							<?php esc_html_e( 'WP Local Plus', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<span class="gdpr-other-plugin-description">
-							<?php esc_html_e( 'WordPress Directory Plugin For Business Listings.', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<a href="https://wordpress.org/plugins/wplocalplus-lite/" target="_blank" class="gdpr-other-plugin-button"><?php esc_html_e( 'Get Plugin', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
-						</div>
-					</div>
-					<div class="gdpr-other-plugin-item">
-							<img class="gdpr-other-plugin-image" :src="auction_icon.default">
-						<div class="gdpr-other-plugin-content">
-						<span class="gdpr-other-plugin-caption">
-							<?php esc_html_e( 'WP Auction Software', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<span class="gdpr-other-plugin-description">
-							<?php esc_html_e( 'Live auctions on your website.', 'gdpr-cookie-consent' ); ?>
-						</span>
-						<a href="https://wordpress.org/plugins/auction-software/" target="__blank" class="gdpr-other-plugin-button"><?php esc_html_e( 'Get Plugin', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
-						</div>
-					</div>
-				</c-card-body>
-		</c-card>
-
+		
 		<c-card class="gdpr-dashboard-tips-tricks-card">
 			<header class="gdpr-dashboard-tips-tricks-heading">
 				<h1 class="gdpr-dashboard-tips-tricks-title">
