@@ -348,7 +348,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 
 	public function set_default_banner_1(){
-		error_log("Setting banner 1");
 		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$ab_options['ab_testing_enabled'] = 'false';
 		$ab_options['ab_testing_auto'] = 'false';
@@ -357,14 +356,12 @@ class Gdpr_Cookie_Consent_Admin {
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 	}
 	public function set_default_banner_2(){
-		error_log("Setting banner 2");
 		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$ab_options['ab_testing_enabled'] = 'false';
 		$ab_options['ab_testing_auto'] = 'false';
 		update_option( 'wpl_ab_options', $ab_options );
 		$the_options =  $this->wpl_set_default_ab_testing_banner( $the_options, '2' );
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
-		error_log(print_r($ab_options,true));
 	}
 	/**
 	 * Function to register A/B Testing Page
@@ -9396,7 +9393,6 @@ class Gdpr_Cookie_Consent_Admin {
 					);
 
 					if (is_wp_error($response)) {
-						error_log('Error in response: ' . $response->get_error_message());
 					} else {
 						$status_code = wp_remote_retrieve_response_code($response);
 						if (200 === $status_code) {
@@ -9406,7 +9402,6 @@ class Gdpr_Cookie_Consent_Admin {
 						}
 					}
 				} catch (Exception $e) {
-					error_log('Error: ' . $e->getMessage());
 				}
 			} else {
 				
