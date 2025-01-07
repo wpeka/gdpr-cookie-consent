@@ -7992,15 +7992,15 @@ class Gdpr_Cookie_Consent_Admin {
 						</c-col>
 					</c-row>
 					<c-row v-show="show_banner_template">
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Templates', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use a pre-built template to style your Cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_html( 'Cookie Templates', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use a pre-built template to style your Cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
 							<div role="group" class="form-group">
-								<span class="gdpr-cookie-consent-description"><?php esc_attr_e( 'To preview the pre-built templates below, simply choose a template and then click the "Save Changes" button. Please note that this action will replace your current banner settings.', 'gdpr-cookie-consent' ); ?></span>
+								<span class="gdpr-cookie-consent-description"><?php esc_html( 'To preview the pre-built templates below, simply choose a template and then click the "Save Changes" button. Please note that this action will replace your current banner settings.', 'gdpr-cookie-consent' ); ?></span>
 							</div>
 						</c-col>
 					</c-row>
 					<c-row>
-						<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Auto Generate Banner', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this setting to automatically generate a cookie banner that matches your website\'s color theme, ensuring seamless integration with your design.
+						<c-col class="col-sm-4 relative"><label><?php esc_html( 'Auto Generate Banner', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this setting to automatically generate a cookie banner that matches your website\'s color theme, ensuring seamless integration with your design.
 						', 'gdpr-cookie-consent' ); ?>"></tooltip></label></label>
 						</c-col>
 						<c-col class="col-sm-8">
@@ -8029,19 +8029,16 @@ class Gdpr_Cookie_Consent_Admin {
 							<?php } ?>
 						</div>
 					</c-row>
-<<<<<<< HEAD
 					<?php $ab_options                        = get_option( 'wpl_ab_options' );
 					if( !$ab_options ['ab_testing_enabled'] ){?> 
-=======
 					<c-row>
 						<c-col class="col-sm-4"></c-col>
 						<c-col class="col-sm-8">
 								<div role="group" class="form-group">
-									<span class="gdpr-cookie-consent-description"><?php esc_attr_e( 'To preview the auto generated template, simply click on auto generate template button above and then click the "Save Changes" button.', 'gdpr-cookie-consent' ); ?></span>
+									<span class="gdpr-cookie-consent-description"><?php esc_html( 'To preview the auto generated template, simply click on auto generate template button above and then click the "Save Changes" button.', 'gdpr-cookie-consent' ); ?></span>
 								</div>
 							</c-col>
 					</c-row>
->>>>>>> e952ef6d0510db25c7cc95685d257f54d81d62de
 					<c-row v-show="show_banner_template">
 						<c-col class="col-sm-3">
 							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
