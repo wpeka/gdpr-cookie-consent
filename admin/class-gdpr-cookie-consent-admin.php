@@ -9393,7 +9393,6 @@ class Gdpr_Cookie_Consent_Admin {
 					);
 
 					if (is_wp_error($response)) {
-						error_log('Error in response: ' . $response->get_error_message());
 					} else {
 						$status_code = wp_remote_retrieve_response_code($response);
 						if (200 === $status_code) {
@@ -9403,7 +9402,6 @@ class Gdpr_Cookie_Consent_Admin {
 						}
 					}
 				} catch (Exception $e) {
-					error_log('Error: ' . $e->getMessage());
 				}
 			} else {
 				
