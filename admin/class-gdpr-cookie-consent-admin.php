@@ -91,13 +91,13 @@ class Gdpr_Cookie_Consent_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 		if ( ! get_option( 'wpl_pro_active' ) ) {
-			add_action( 'add_consent_log_content', array( $this, 'wpl_consent_log_overview' ) );
+			// add_action( 'add_consent_log_content', array( $this, 'wpl_consent_log_overview' ) );
 		}
 		$pro_is_activated = get_option( 'wpl_pro_active', false );
 
 		if ( ! $pro_is_activated ) {
 			if ( ! shortcode_exists( 'wpl_data_request' ) ) {
-				add_shortcode( 'wpl_data_request', array( $this, 'wpl_data_reqs_shortcode' ) );         // a shortcode [wpl_data_request].
+				// add_shortcode( 'wpl_data_request', array( $this, 'wpl_data_reqs_shortcode' ) );         // a shortcode [wpl_data_request].
 			}
 
 			if ( class_exists( 'Gdpr_Cookie_Consent' ) ) {
@@ -109,7 +109,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
-			//For Import CSV option on Policy data page
+			// For Import CSV option on Policy data page
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
 			add_action('admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			add_action('all_admin_notices', array($this,'gdpr_remove_admin_notices'),1);
@@ -821,7 +821,6 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
-
 		if ( strpos( $file, '.php' ) !== false ) {
 			ob_start();
 			require $file;
@@ -1635,7 +1634,6 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
-
 		if ( strpos( $file, '.php' ) !== false ) {
 			ob_start();
 			require $file;
@@ -1667,7 +1665,6 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! file_exists( $file ) ) {
 			return false;
 		}
-
 		if ( strpos( $file, '.php' ) !== false ) {
 			ob_start();
 			require $file;
@@ -11131,7 +11128,7 @@ class Gdpr_Cookie_Consent_Admin {
 	function register_gdpr_policies_import_page() {
 		// This adds a page, even if it's not visible in the admin menu
 		add_submenu_page(
-			null,  // This makes the page hidden in the menu
+			'gdpr-cookie-consent',  // This makes the page hidden in the menu
 			__( 'GDPR Policies Import', 'gdpr-cookie-consent' ),
 			__( 'GDPR Policies Import', 'gdpr-cookie-consent' ),
 			'manage_options',  // Capability required
