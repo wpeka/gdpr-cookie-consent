@@ -25,6 +25,19 @@ $pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-co
 $pro_is_activated = get_option( 'wpl_pro_active', false );
 $api_key_activated = '';
 $api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
+
+$plugin_name                   = 'wplegalpages/wplegalpages.php';
+$legal_pages_installed     = isset( $installed_plugins['wplegalpages/wplegalpages.php'] ) ? true : false;
+$gdpr_installed     = isset( $installed_plugins['gdpr-cookie-consent/gdpr-cookie-consent.php'] ) ? true : false;
+$is_legalpages_active = is_plugin_active( $plugin_name );
+$plugin_name_gdpr                   = 'gdpr-cookie-consent/gdpr-cookie-consent.php';
+$is_gdpr_active = is_plugin_active( $plugin_name_gdpr );
+$image_path = GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/';
+$legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wplegalpages' ), 'install-plugin_wplegalpages' );
+$legalpages_activation_url = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_name . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin_name );
+$help_page_tab_url = admin_url() . 'admin.php?page=help-page';
+
+
 // Require the class file for gdpr cookie consent api framework settings.
 require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 
@@ -183,6 +196,17 @@ if ( 200 === $response_status ) {
 <div id="gdpr-dashboard-loader"></div>
 <div id="gdpr-cookie-consent-dashboard-page">
 	<c-container class="gdpr-cookie-consent-dashboard-container">
+		<div class="gdpr-welcome-section">
+			<div class="gdpr-section-title">
+				<img alt="WP Cookie Consent logo image" src="<?php echo esc_url( $image_path ) . 'wp-Legal-pages-logo.png'; ?>">
+				<p class="gdpr-title-heading"><?php esc_html_e( 'Welcome to WPLP Compliance Platform!' , 'gdpr-cookie-consent'); ?></p>
+				<p class="gdpr-title-subheading"><?php esc_html_e( 'Complete Legal & Cookie Protection','gdpr-cookie-consent'); ?></p>
+				<p class="gdpr-section-content"><?php esc_html_e( 'Your complete compliance package for your website, from legal documents to cookie consent.','gdpr-cookie-consent'); ?> </p>
+			</div>
+			<div class="gdpr-video-section">
+				<iframe width="550" height="260" src="https://www.youtube.com/embed/Yxc5_otnHLc" title="Stay Compliant with WP Compliance Platform | Free All-in-One Solution" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+			</div>
+		</div>
 		<c-card class="gdpr-progress-bar-card">
 			<c-card-body>
 			<c-row class="gdpr-progress-bar-heading">
@@ -238,6 +262,14 @@ if ( 200 === $response_status ) {
 									<div class="container">
 										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
 										<div class="vertical-line vertical-line-step-4"></div> 
+									</div>
+								</div>
+							</li>
+							<li id="step5">
+								<div class="progress-step">
+									<div class="container">
+										<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/not-selected-step-progress.png'; ?>" class="vertical-step-images vertical-not-selected-step-img">
+										<div class="vertical-line vertical-line-step-5"></div> 
 									</div>
 								</div>
 							</li>
@@ -322,7 +354,16 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
-						
+						<c-row :class="['gdpr-progress-list-item','vstep5', legal_pages_installed ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+							<span class="gdpr-dashboard-legalpages-install-tab" v-show="!legal_pages_installed">
+								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
+								<span class="gdpr-progress-list-link step-install-wplp-plugin" :href="legalpages_install_url"><?php esc_html_e( 'Install WP Legal Pages', 'gdpr-cookie-consent' ); ?></span>
+							</span>
+							<span class="gdpr-dashboard-legalpages-create-pages-tab" v-show="legal_pages_installed">
+								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
+							<a target="_blank" class="gdpr-progress-list-link" :href="create_legalpages_url"><?php esc_html_e( 'Create WP Legal Pages', 'gdpr-cookie-consent' ); ?></a>
+							</span>
+						</c-row>
 					</c-col>
 					
 				</c-row>
@@ -330,6 +371,39 @@ if ( 200 === $response_status ) {
 		</c-card>
 		<!-- cookie insights and cookie summary card  -->
 		<!-- Card for dashboard cookie banner -->
+		<c-card class="gdpr-dashboard-quick-banner-section">
+				<div class="gdpr-banner-preview-save-btn">
+					<div class="gdpr-banner-preview-logo-text">
+						<div class="gdpr-banner-preview-logo">
+							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wplp-icon.png'; ?>" alt="Cookie Setting preview logo">
+						</div>
+						<div class="gdpr-banner-preview-text">
+							<span id="gdpr-banner-preview-cookie-banner-title">
+								<?php esc_html_e( 'Install WP Legal Pages', 'gdpr-cookie-consent' ); ?>
+							</span><br>
+							<span id="gdpr-banner-preview-cookie-banner-description">
+								<?php esc_html_e( 'Generate your personalized legal policy page for enhanced protection.', 'gdpr-cookie-consent' ); ?>
+							</span>
+						</div>
+					</div>
+				<div class="gdpr-wplp-install-create-page-btn">
+				<?php 
+				// echo GDPR_WPLP_Plugin_Install_Helper::instance()->gdpr_wplp_install_plugin_button( 'wplegalpages', 'wplp-dashboard', 'wplegalpages', 'Install & Activate' ); //phpcs:ignore  
+				if(!$legal_pages_installed && !$is_legalpages_active){
+				?>
+					<a href="#" class="install-wplp-plugin gdpr-wplp-install-btn" data-plugin-slug="wplegalpages"><?php esc_html_e( 'Install Now', 'gdpr-cookie-consent' ); ?>
+					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/down-arrow.png'?> "/>
+					</a>
+					<p class="install-plugin-status"></p>
+					<?php } else{ ?>
+					<a href=<?php echo admin_url( 'admin.php?page=legal-pages' ); ?> class="wplegal-create-legal-page-button gdpr-wplp-install-btn">
+						<span><?php esc_attr_e( 'Create Page', 'wplegalpages' ); ?></span>
+						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/right_arrow.svg'; ?>" alt="right arrow">
+					</a>
+					<?php } ?>
+				</div>
+			</div>
+		</c-card>
 		<c-card class="gdpr-dashboard-quick-banner-section">
 				<div class="gdpr-banner-preview-save-btn">
 					<div class="gdpr-banner-preview-logo-text">
@@ -466,6 +540,18 @@ if ( 200 === $response_status ) {
 
 				<c-card-body class="gdpr-dashboard-help-body">
 					<div class="gdpr-help-item">
+							<img class="gdpr-other-plugin-image" :src="help_center.default">
+						<div class="gdpr-help-content">
+						<span class="gdpr-help-caption">
+							<?php esc_html_e( 'Help Center', 'gdpr-cookie-consent' ); ?>
+						</span>
+						<span class="gdpr-help-description">
+							<?php esc_html_e( 'Read the documentation to find answers to your questions.', 'gdpr-cookie-consent' ); ?>
+						</span>
+						<a href="<?php esc_html_e($help_page_tab_url); ?>" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						</div>
+					</div>
+					<div class="gdpr-help-item">
 							<img class="gdpr-other-plugin-image" :src="documentation.default">
 						<div class="gdpr-help-content">
 						<span class="gdpr-help-caption">
@@ -514,6 +600,18 @@ if ( 200 === $response_status ) {
 						</div>
 					</div>
 					<div class="gdpr-help-item">
+							<img class="gdpr-other-plugin-image" :src="shortcode.default">
+						<div class="gdpr-help-content">
+						<span class="gdpr-help-caption">
+							<?php esc_html_e( 'Cookie Bar Shortcodes', 'gdpr-cookie-consent' ); ?>
+						</span>
+						<span class="gdpr-help-description">
+							<?php esc_html_e( 'Use this shortcode for third-party cookie info on privacy or cookie pages.', 'gdpr-cookie-consent' ); ?>
+						</span>
+						<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/" target="__blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						</div>
+					</div>
+					<div class="gdpr-help-item">
 							<img class="gdpr-other-plugin-image" :src="found_bug.default">
 						<div class="gdpr-help-content">
 						<span class="gdpr-help-caption">
@@ -540,28 +638,7 @@ if ( 200 === $response_status ) {
 				</a>
 			</header>
 
-			<c-card-body class="gdpr-dashboard-tips-tricks-body">
-             <div class="gdpr-dashboard-tips-tricks-body-parts">
-              <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'How to activate your License Key?', 'gdpr-cookie-consent' ); ?></span>
-			  <a href="https://www.youtube.com/watch?v=ZESzSKnUkOg" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
-			 </div>
-			 <div class="gdpr-dashboard-tips-tricks-body-parts">
-              <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'What you need to know about the EU Cookie law?', 'gdpr-cookie-consent' ); ?></span>
-			  <a href="https://wplegalpages.com/blog/what-you-need-to-know-about-the-eu-cookie-law/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=eu-cookie-law" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
-			 </div>
-			 <div class="gdpr-dashboard-tips-tricks-body-parts">
-              <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'Frequently asked questions', 'gdpr-cookie-consent' ); ?></span>
-			  <a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
-			 </div>
-			 <div class="gdpr-dashboard-tips-tricks-body-parts">
-              <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'What are the CCPA regulations and how we can comply?', 'gdpr-cookie-consent' ); ?></span>
-			  <a href="https://wplegalpages.com/blog/california-consumer-privacy-act-become-ccpa-compliant-today/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=ccpa-regulations" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
-			 </div>
-			 <div class="gdpr-dashboard-tips-tricks-body-parts">
-              <span class="gdpr-dashboard-tips-tricks-text"><?php esc_html_e( 'All you need to know about IAB', 'gdpr-cookie-consent' ); ?></span>
-			  <a href="https://wplegalpages.com/blog/interactive-advertising-bureau-all-you-need-to-know/?utm_source=plugin&utm_medium=gdpr&utm_campaign=tips-tricks&utm_content=iab" target="_blank"><img class="gdpr-tips-tricks-arrow" :src="angle_arrow.default"></a>
-			 </div>
-			</c-card-body>
+			
 		</c-card>
 	</c-container>
 </div>
@@ -607,6 +684,14 @@ jQuery(document).ready(function () {
 	} else {
 		jQuery("#vertical-progressbar #step4 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
 		jQuery("#vertical-progressbar .vertical-line-step-4").css("background", "");
+	}
+	// Step 5
+	if (jQuery(".vstep5").hasClass("gdpr-green-progress")) {
+		jQuery("#vertical-progressbar #step5 img").attr("src", plugin_url + "admin/images/greentick.svg");
+		jQuery("#vertical-progressbar .vertical-line-step-5").css("background", "var(--green-700)");
+	} else {
+		jQuery("#vertical-progressbar #step5 img").attr("src", plugin_url + "admin/images/not-selected-step-progress.png");
+		jQuery("#vertical-progressbar .vertical-line-step-5").css("background", "");
 	}
 
 	// Count the number of divs with the class gdpr-gray-progress

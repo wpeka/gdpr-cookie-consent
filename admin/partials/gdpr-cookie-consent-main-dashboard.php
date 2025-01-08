@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Provide a admin area view for the WP Cookie Consent plugin
+ * Provide an admin dashboard area view for the WP Cookie Consent plugin
  *
  * This file is used to markup the admin-facing aspects of the WP Cookie Consent plugin.
  *
@@ -10,6 +10,11 @@
  *
  * @package gdpr-cookie-consent
  */
+	
+	error_log('$legal_pages_installed-dash==='.$legal_pages_installed);
+		//$gdpr_installed = $this->gdpr_installed;
+		error_log('$gdpr_installeddash==='.$gdpr_installed);
+		
 // check if pro is activated or installed.
 $pro_is_activated  = get_option( 'wpl_pro_active', false );
 $the_options       = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -184,13 +189,11 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 
 		<!-- tabs -->
 		<div class="gdpr-cookie-consent-admin-tabs-section">
-		<div class="gdpr-cookie-consent-admin-tabs dashboard-tabs">
+			<div class="gdpr-cookie-consent-admin-tabs dashboard-tabs">
 				<!-- Dashboard tab  -->
-				 <a href="?page=wplp-dashboard" class="gdpr-admin-tab-link wplp-main-tab gdpr-cookie-consent-admin-dashboard-tab">
-					<div class="wp-legalpages-admin-gdpr-main-tab">
-						<?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?>
-					</div>
-				</a>
+				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-dashboard-tab" data-tab="gdpr_dashboard">
+					<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?></p>
+				</div>
 				<!-- Legal Pages Plugin tab  -->
 				<a href="?page=legal-pages" class="gdpr-admin-tab-link wplp-main-tab">
 					<div class="wp-legalpages-admin-gdpr-main-tab">
@@ -202,89 +205,13 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 						<?php echo esc_html('Cookie Consent','gdpr-cookie-consent'); ?>
 				</a>
 				<!-- Help tab  -->
-				<a href="?page=wplp-dashboard#help-page" class="gdpr-admin-tab-link wplp-main-tab">
-					<?php echo esc_html('Help','gdpr-cookie-consent'); ?>
-				</a>				
-			</div>
-			<div class="gdpr-cookie-consent-admin-tabs gdpr-sub-tabs">
-				<!-- Dashboard tab  -->
-				<!-- <div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-dashboard-tab" data-tab="gdpr_dashboard">
-					Dashboard
-				</div> -->
-				<!-- Create Banner tab  -->
-				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-banner-tab" data-tab="create_cookie_banner">
-					Create&nbsp;Cookie&nbsp;Banner
-				</div>
-				<!-- Cookie Settings tab  -->
-				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-settings-tab" data-tab="cookie_settings">
-					Cookie&nbsp;Settings
-				</div>
-				<?php
-				if ( $is_consent_log_on && ! $pro_is_activated ) {
-					?>
-						<!-- consent log tab  -->
-							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-								Consent&nbsp;Logs
-							</div>
-					<?php
-				}
-				if ( $pro_is_activated ) {
-					if ( $is_consent_log_on ) {
-						?>
-									<!-- consent log tab  -->
-									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-										Consent&nbsp;Logs
-									</div>
-								<?php
-					}
-				}
-				if ( $is_data_req_on && ! $pro_is_activated ) {
+				<!-- <a href="?page=wplp-help-page" class="gdpr-admin-tab-link wplp-main-tab"> -->
+				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-help-tab" data-tab="help-page">
 
-					?>
-								<!-- data req tab  -->
-								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-								Data&nbsp;Request
-								</div>
-
-								<?php
-
-				}
-
-				if ( $pro_is_activated ) {
-
-					?>
-
-							<?php
-
-							if ( $is_data_req_on ) {
-
-								?>
-							<!-- data req tab  -->
-							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-								Data&nbsp;Request
-								</div>
-								<?php
-
-							}
-				}
-
-				?>
-
-				<!-- Policy data tab  -->
-				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-policy-data-tab" data-tab="policy_data">
-				Policy&nbsp;Data
-				</div>
-				<?php
-				if ( $pro_is_activated ) {
-					?>
-					<!-- Pro activation key -->
-						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-pro-activation-tab" data-tab="activation_key">
-							<p class="gdpr-cookie-consent-admin-tab-name">Pro Activation</p>
-						</div>
-					<?php
-				}
-
-				?>
+				<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Help','gdpr-cookie-consent'); ?></p>
+					</div>
+				<!-- </a>	 -->
+				
 			</div>
 		</div>
 
@@ -292,7 +219,12 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 
 		<div class="gdpr-cookie-consent-admin-tabs-content">
 			<div class="gdpr-cookie-consent-admin-tabs-inner-content">
-				
+				<!-- dashboard content  -->
+				<div class="gdpr-cookie-consent-admin-dashboard-content gdpr-cookie-consent-admin-tab-content" id="gdpr_dashboard">
+
+					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-dashboard-tab-template.php'; ?>
+
+				</div>
 				<!-- create cookie content  -->
 				<div class="gdpr-cookie-consent-admin-create-cookie-content gdpr-cookie-consent-admin-tab-content" id="create_cookie_banner">
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-create-cookie-banner-tab-template.php'; ?>

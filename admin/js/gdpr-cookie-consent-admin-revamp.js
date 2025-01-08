@@ -18,8 +18,28 @@ jQuery(document).ready(function () {
 
   // Hide all tab contents initially except the first one
   jQuery(".gdpr-cookie-consent-admin-tab-content").not(":first").hide();
-  jQuery(".gdpr-cookie-consent-admin-dashboard-tab").addClass("active-tab");
+  jQuery(".gdpr-cookie-consent-admin-cookie-banner-tab").addClass("active-tab");
+
+  jQuery('.gdpr-cookie-consent-admin-dashboard-tab').addClass('active-tab');
+  
   jQuery("#gdpr_dashboard").show();
+  
+  if (jQuery('.gdpr-cookie-consent-admin-help-tab').hasClass('active-tab')) {
+    jQuery('.gdpr-cookie-consent-tab').removeClass('active-tab');
+  }
+  // Check if the "gdpr-cookie-consent-admin-cookie-banner-tab" is active
+  if (jQuery('.gdpr-cookie-consent-admin-cookie-banner-tab').hasClass('active-tab')) {
+    // Add 'active' class to the other tab
+    jQuery('.gdpr-cookie-consent-tab').addClass('active-tab');
+  } else {
+      // Remove 'active' class from the other tab if not needed
+      jQuery('.gdpr-cookie-consent-tab').removeClass('active-tab');
+  }
+
+  if (jQuery('.gdpr-cookie-consent-tab').hasClass('active-tab')){
+    jQuery('.gdpr-cookie-consent-admin-dashboard-tab').removeClass('active-tab');
+  }
+
   // On tab click, show the corresponding content and update URL hash
   jQuery(".gdpr-cookie-consent-admin-tabs").on(
     "click",
@@ -1004,6 +1024,55 @@ jQuery(document).ready(function () {
         $(this).siblings(".inner-description-container").removeClass("hide");
       }
     });
+    //For Installing plugin - Unified Dashboard 
+    jQuery(document).ready(function ($) {
+      $('.install-wplp-plugin, .step-install-wplp-plugin').on('click', function (e) {
+          e.preventDefault();
+  
+          var pluginSlug = 'wplegalpages'; //$(this).data('plugin-slug'); // Get the plugin slug from the anchor tag
+          var baseURL = window.location.origin;
+      // Construct the URL for plugins.php
+      var dashboardpageurl =
+        baseURL + "/wp-admin/admin.php?page=wplp-dashboard";
+      
+           var $clickedButton = $(this); // Reference to the clicked button
+  
+          $.ajax({
+              url: gdpr_localize_data.ajaxurl,
+              method: 'POST',
+              data: {
+                  action: 'install_plugin',
+                  plugin_slug: pluginSlug,
+                  _ajax_nonce: gdpr_localize_data._ajax_nonce,
+              },
+              beforeSend: function () {
+                  $clickedButton.text('Installing...');
+              },
+              success: function (response) {
+                  if (response.success) {
+                    window.location.href = dashboardpageurl;
+
+                  } else {
+                     // $('.install-plugin-status').text('Error: ' + response.data.message);
+                  }
+              },
+              error: function () {
+                  //$('.install-plugin-status').text('An unexpected error occurred.');
+              },
+          });
+      });
+      // Check if the URL contains the specific help page hash
+      if (window.location.hash === '#help-page') {
+        // Loop through all submenu items and find the one with the help page hash
+        $('#toplevel_page_wp-legal-pages li.menu-top a').each(function() {
+            // Check if the href contains 'wplp-dashboard#help-page'
+            if ($(this).attr('href').indexOf('wplp-dashboard#help-page') !== -1) {
+                // Add the 'current' class to the parent li to highlight the menu item
+                $(this).parent().addClass('current');
+            }
+        });
+      }
+  });
     //Product Tour
     // Check if it's the first time
       if (first_time_installed) {

@@ -73,6 +73,11 @@ var gen = new Vue({
         dashboard_options["pro_installed"] === "1"
           ? true
           : false,
+      legal_pages_installed:
+      dashboard_options.hasOwnProperty("legal_pages_installed") &&
+        dashboard_options["legal_pages_installed"] === "1"
+          ? true
+          : false,
       last_scanned: dashboard_options.hasOwnProperty("last_scanned")
         ? dashboard_options["last_scanned"]
         : "Website not scanned for Cookies.",
@@ -146,6 +151,12 @@ var gen = new Vue({
       key_activate_url: dashboard_options.hasOwnProperty("key_activate_url")
         ? dashboard_options["key_activate_url"]
         : "",
+      create_legalpages_url: dashboard_options.hasOwnProperty("create_legalpages_url")
+      ? dashboard_options["create_legalpages_url"]
+      : "",
+      legalpages_install_url: dashboard_options.hasOwnProperty("legalpages_install_url")
+      ? dashboard_options["legalpages_install_url"]
+      : "",
       all_plugins_url:
         "https://profiles.wordpress.org/wpeka-club/#content-plugins",
       faq1_url: "https://youtu.be/ZESzSKnUkOg",
@@ -178,6 +189,8 @@ var gen = new Vue({
       video_guide: require("../admin/images/dashboard-icons/video_guide.svg"),
       faq_question: require("../admin/images/dashboard-icons/faq-question.svg"),
       documentation: require("../admin/images/dashboard-icons/documentation.svg"),
+      help_center: require("../admin/images/dashboard-icons/help_center.png"),
+      shortcode: require("../admin/images/dashboard-icons/shortcode.png"),
       feedback: require("../admin/images/dashboard-icons/feedback.svg"),
       found_bug: require("../admin/images/dashboard-icons/found-bug.svg"),
       survey_funnel_icon: require("../admin/images/dashboard-icons/survey-funnel-icon.png"),
