@@ -5025,6 +5025,7 @@ gdpr-cookie-consent-admin-tab-content {
   display: flex;
   justify-content: end;
   align-items: center;
+  margin-top: 5px;
 }
 .gdpr-btn-label {
   margin-bottom: 0;

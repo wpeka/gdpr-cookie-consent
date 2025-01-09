@@ -1465,7 +1465,7 @@ class Gdpr_Cookie_Consent_Admin {
 				90
 			);
 		}
-		if(($gdpr_installed && $is_gdpr_active) || ($legal_pages_installed && !$is_legalpages_active)){
+		if(($gdpr_installed && $is_gdpr_active) && ($legal_pages_installed && !$is_legalpages_active)){
 			add_submenu_page(
 				'wp-legal-pages', // Parent slug (same as main menu slug)
 				__( 'Help', 'gdpr-cookie-consent' ),  // Page title
