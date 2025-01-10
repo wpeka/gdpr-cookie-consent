@@ -208,11 +208,11 @@
 		<?php endif; 
 			?>
 		</div>
-	</div>
+	</div><?php 
+	if ( ! empty( $cookie_data['show_credits'] ) ) {
+			?>
+			<div class="powered-by-credits"><?php echo wp_kses_post( $cookie_data['credits'] ); ?></div>
+			<?php
+		} ?>
 </div>
-<?php
-if ( ! empty( $cookie_data['show_credits'] ) ) {
-	?>
-	<div class="powered-by-credits"><?php echo wp_kses_post( $cookie_data['credits'] ); ?></div>
-	<?php
-}
+

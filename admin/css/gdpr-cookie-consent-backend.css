@@ -641,7 +641,7 @@ a .export-btn:hover {
   color: #f0fdf4;
   border: 1px solid #16a34a;
 }
-#image-upload-button {
+#image-upload-button,#image-upload-button1,#image-upload-button2  {
   border: 1px solid #7195d0;
 }
 #image-delete-button {
@@ -651,7 +651,7 @@ a .export-btn:hover {
 #image-delete-button:hover {
   background-color: #e55353;
 }
-#image-upload-button:hover {
+#image-upload-button:hover,#image-upload-button1:hover,#image-upload-button2:hover {
   background-color: #7195d0;
 }
 #script-blocker-advanced-settings-btn,

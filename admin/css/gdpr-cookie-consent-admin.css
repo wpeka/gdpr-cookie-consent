@@ -7946,7 +7946,7 @@ button.btn.gdpr-renew-now-btn.pro,
 .gdpr-color-input input {
   border-right: none;
 }
-#image-upload-button {
+#image-upload-button,#image-upload-button1,#image-upload-button2 {
   height: 44px;
   width: 160px;
   color: var(--blue-901);
@@ -7962,7 +7962,7 @@ button.btn.gdpr-renew-now-btn.pro,
 #image-delete-button:hover {
   color: var(--white-100);
 }
-#image-upload-button:hover {
+#image-upload-button:hover,#image-upload-button1:hover,#image-upload-button2:hover {
   color: var(--white-100);
 }
 #script-blocker-advanced-settings-btn,
