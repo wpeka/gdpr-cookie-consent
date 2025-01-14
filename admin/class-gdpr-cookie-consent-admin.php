@@ -118,6 +118,9 @@ class Gdpr_Cookie_Consent_Admin {
 			if(get_option("wpl_page_views") === false) add_option("wpl_page_views", []);
 			if(get_option("wpl_total_page_views") === false) add_option("wpl_total_page_views", 0);
 			add_action('wp_ajax_install_plugin', array($this, 'gdpr_wplp_install_plugin_ajax_handler'));
+			add_action('wp_ajax_gdpr_support_request', array($this, 'gdpr_support_request_handler'));
+			add_action('wp_ajax_nopriv_gdpr_support_request', array($this, 'gdpr_support_request_handler'));
+			
 
 		}
 		
@@ -1439,7 +1442,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'manage_options',   // Capability
 				'wplp-dashboard', // Menu slug
 				array( $this, 'gdpr_cookie_consent_new_admin_dashboard_screen' ), // Callback function
-				90
+				1
 			);
 		}
 		 if(!$legal_pages_installed  || ($legal_pages_installed && !$is_legalpages_active)){
@@ -1452,6 +1455,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'manage_options',   // Capability
 				'legal-pages', // Menu slug
 				array( $this, 'wp_legal_pages_install_activate_screen' ),
+				2
 			);
 		}	
 		if(!$is_legalpages_active){
@@ -1462,10 +1466,11 @@ class Gdpr_Cookie_Consent_Admin {
 				'manage_options',   // Capability
 				'gdpr-cookie-consent', // Menu slug
 				array( $this, 'gdpr_cookie_consent_new_admin_screen' ), // Callback function
-				90
+				3
+				
 			);
 		}
-		if(($gdpr_installed && $is_gdpr_active) && ($legal_pages_installed && !$is_legalpages_active)){
+		if(($gdpr_installed && $is_gdpr_active) || ($legal_pages_installed && !$is_legalpages_active)){
 			add_submenu_page(
 				'wp-legal-pages', // Parent slug (same as main menu slug)
 				__( 'Help', 'gdpr-cookie-consent' ),  // Page title
@@ -1501,7 +1506,7 @@ class Gdpr_Cookie_Consent_Admin {
 			// Extract the "Help" menu
 			$help_menu = null;
 			foreach ($submenu['wp-legal-pages'] as $key => $item) {
-				if ($item[2] === 'wplp-help') {
+				if ($item[2] === 'wplp-dashboard#help-page') {
 					$help_menu = $item;
 					unset($submenu['wp-legal-pages'][$key]);
 					break;
@@ -10571,6 +10576,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies';
 		$plugin_page_url     = $admin_url . 'plugins.php';
 		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
+		$legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wplegalpages' ), 'install-plugin_wplegalpages' );
 		$create_legalpages_url = $admin_url . 'admin.php?page=legal-pages';
 		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
 		$cookie_design_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
@@ -11120,6 +11126,30 @@ class Gdpr_Cookie_Consent_Admin {
 
     // Success response
     wp_send_json_success( array( 'message' => __( 'Plugin installed and activated successfully.', 'gdpr-cookie-consent' ) ) );
+}
+public function gdpr_support_request_handler() {
+    // Verify nonce for security
+    if (!isset($_POST['gdpr_nonce']) || !wp_verify_nonce($_POST['gdpr_nonce'], 'gdpr_support_request_nonce')) {
+        wp_send_json_error(['message' => 'Security check failed.']);
+    }
+
+    // Sanitize and validate input
+    $name = sanitize_text_field($_POST['name']);
+    $email = sanitize_email($_POST['email']);
+    $message = sanitize_textarea_field($_POST['message']);
+
+    // Support email details
+    $to = "hello@wpeka.com"; // Replace with your support email
+    $subject = "Support Request from $name";
+    $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
+    $headers = ['Reply-To: ' . $email];
+
+    // Send the email and respond with JSON
+    if (wp_mail($to, $subject, $body, $headers)) {
+        wp_send_json_success(['message' => 'Your message has been sent successfully.']);
+    } else {
+        wp_send_json_error(['message' => 'There was an error sending your message. Please try again later.']);
+    }
 }
 
 

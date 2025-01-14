@@ -488,8 +488,8 @@ jQuery(document).ready(function () {
         var viewportHeight = window.innerHeight;
 
         // Set the dimensions of the popup.
-        var popupWidth = 367;
-        var popupHeight = 650;
+        var popupWidth = 1360;
+        var popupHeight = 740;
 
         // Calculate the position to center the popup.
         var leftPosition = (viewportWidth - popupWidth) / 2;
@@ -1026,6 +1026,40 @@ jQuery(document).ready(function () {
     });
     //For Installing plugin - Unified Dashboard 
     jQuery(document).ready(function ($) {
+
+      $('#support_form').on('submit', function (e) {
+        e.preventDefault();
+    
+        // Collect form data
+        var formData = {
+          action: 'wplegalpages_support_request',
+          name: $('input[name="sup-name"]').val(),
+          email: $('input[name="sup-email"]').val(),
+          message: $('textarea[name="sup-message"]').val(),
+          wplegalpages_nonce: $('input[name="wplegalpages_nonce"]').val(),
+        };
+    
+        // Clear previous messages
+        $('.notice').remove();
+    
+        // Send AJAX request
+        $.ajax({
+          url: ajaxurl, // Provided by WordPress
+          type: 'POST',
+          data: formData,
+          success: function (response) {
+            if (response.success) {
+              $('<div class="notice notice-success is-dismissible"><p>' + response.data.message + '</p></div>').insertBefore('#support_form');
+            } else {
+              $('<div class="notice notice-error is-dismissible"><p>' + response.data.message + '</p></div>').insertBefore('#support_form');
+            }
+          },
+          error: function () {
+            $('<div class="notice notice-error is-dismissible"><p>An unexpected error occurred. Please try again.</p></div>').insertBefore('#support_form');
+          },
+        });
+      });
+
       $('.install-wplp-plugin, .step-install-wplp-plugin').on('click', function (e) {
           e.preventDefault();
   

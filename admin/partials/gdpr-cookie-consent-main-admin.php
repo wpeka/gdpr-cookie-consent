@@ -207,24 +207,21 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 				</a>				
 			</div>
 			<div class="gdpr-cookie-consent-admin-tabs gdpr-sub-tabs">
-				<!-- Dashboard tab  -->
-				<!-- <div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-dashboard-tab" data-tab="gdpr_dashboard">
-					Dashboard
-				</div> -->
+				
 				<!-- Create Banner tab  -->
 				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-banner-tab" data-tab="create_cookie_banner">
-					Create&nbsp;Cookie&nbsp;Banner
+				<?php echo esc_html('Create&nbsp;Cookie&nbsp;Banner','gdpr-cookie-consent'); ?>
 				</div>
 				<!-- Cookie Settings tab  -->
 				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-settings-tab" data-tab="cookie_settings">
-					Cookie&nbsp;Settings
+					<?php echo esc_html('Cookie&nbsp;Settings','gdpr-cookie-consent'); ?>
 				</div>
 				<?php
 				if ( $is_consent_log_on && ! $pro_is_activated ) {
 					?>
 						<!-- consent log tab  -->
 							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-								Consent&nbsp;Logs
+								<?php echo esc_html('Consent&nbsp;Logs','gdpr-cookie-consent'); ?>
 							</div>
 					<?php
 				}
@@ -233,7 +230,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 						?>
 									<!-- consent log tab  -->
 									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-										Consent&nbsp;Logs
+										<?php echo esc_html('Consent&nbsp;Logs','gdpr-cookie-consent'); ?>
 									</div>
 								<?php
 					}
@@ -243,7 +240,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 					?>
 								<!-- data req tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-								Data&nbsp;Request
+								<?php echo esc_html('Data&nbsp;Request','gdpr-cookie-consent'); ?>
 								</div>
 
 								<?php
@@ -261,7 +258,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 								?>
 							<!-- data req tab  -->
 							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-								Data&nbsp;Request
+								<?php echo esc_html('Data&nbsp;Request','gdpr-cookie-consent'); ?>
 								</div>
 								<?php
 
@@ -272,14 +269,14 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 
 				<!-- Policy data tab  -->
 				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-policy-data-tab" data-tab="policy_data">
-				Policy&nbsp;Data
+				<?php echo esc_html('Policy&nbsp;Data','gdpr-cookie-consent'); ?>
 				</div>
 				<?php
 				if ( $pro_is_activated ) {
 					?>
 					<!-- Pro activation key -->
 						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-pro-activation-tab" data-tab="activation_key">
-							<p class="gdpr-cookie-consent-admin-tab-name">Pro Activation</p>
+							<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Pro Activation','gdpr-cookie-consent'); ?></p>
 						</div>
 					<?php
 				}

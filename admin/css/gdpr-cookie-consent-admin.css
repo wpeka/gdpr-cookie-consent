@@ -4950,7 +4950,8 @@ gdpr-cookie-consent-admin-tab-content {
   justify-content: space-between;
   align-items: center;
 }
-.gdpr-preview-publish-btn .gdpr-publish-btn {
+.gdpr-preview-publish-btn .gdpr-publish-btn,
+.gdpr-preview-config-btn  .gdpr-publish-btn{
   background-color: var(--blue-500);
   width: 200px;
   padding-top: 16px;
@@ -4963,7 +4964,8 @@ gdpr-cookie-consent-admin-tab-content {
   text-align: center;
   margin-right: 38px;
 }
-.gdpr-preview-publish-btn .gdpr-publish-btn:hover {
+.gdpr-preview-publish-btn .gdpr-publish-btn:hover,
+.gdpr-preview-config-btn  .gdpr-publish-btn:hover{
   color: var(--white-100);
   background-color: var(--blue-904);
 }
@@ -9401,4 +9403,7 @@ input.vs__search {
   display: flex;
     justify-content: center;
     padding-right: 30px;
+}
+.gdpr-admin-tab-link.active-tab:hover{
+  color: #ffffff !important;
 }

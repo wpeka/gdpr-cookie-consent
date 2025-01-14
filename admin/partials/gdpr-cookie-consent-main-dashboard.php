@@ -10,10 +10,6 @@
  *
  * @package gdpr-cookie-consent
  */
-	
-	error_log('$legal_pages_installed-dash==='.$legal_pages_installed);
-		//$gdpr_installed = $this->gdpr_installed;
-		error_log('$gdpr_installeddash==='.$gdpr_installed);
 		
 // check if pro is activated or installed.
 $pro_is_activated  = get_option( 'wpl_pro_active', false );
@@ -173,10 +169,10 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Right Corner Image" class="popup-image">
 					</div>
 						<div class="excausted-popup-body">
-							<h2>Attention! Usage Limit Reached</h2>
-							<p>You've reached your license limit. Please upgrade to continue using the plugin on this site.</p>
-							<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button">Upgrade Plan</button>
-							<p>Need to activate on a new site? Manage your licenses in <a href="https://app.wplegalpages.com/signup/api-keys/" target="_blank">My Account.</a></p>
+							<h2><?php echo esc_html( 'Attention! Usage Limit Reached', 'gdpr-cookie-consent' ); ?></h2>
+							<p><?php echo esc_html( 'You\'ve reached your license limit. Please upgrade to continue using the plugin on this site.', 'gdpr-cookie-consent' ); ?></p>
+							<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button"><?php echo esc_html( 'Upgrade Plan', 'gdpr-cookie-consent' ); ?></button>
+							<p><?php echo esc_html( 'Need to activate on a new site? Manage your licenses in', 'gdpr-cookie-consent' ); ?> <a href="https://app.wplegalpages.com/signup/api-keys/" target="_blank"><?php echo esc_html( 'My Account.', 'gdpr-cookie-consent' ); ?></a></p>
 						</div>
 				</div>
 			</div>
@@ -205,12 +201,10 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 						<?php echo esc_html('Cookie Consent','gdpr-cookie-consent'); ?>
 				</a>
 				<!-- Help tab  -->
-				<!-- <a href="?page=wplp-help-page" class="gdpr-admin-tab-link wplp-main-tab"> -->
 				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-help-tab" data-tab="help-page">
 
 				<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Help','gdpr-cookie-consent'); ?></p>
 					</div>
-				<!-- </a>	 -->
 				
 			</div>
 		</div>

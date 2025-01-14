@@ -757,9 +757,15 @@ a .export-btn:hover {
 .gdpr-other-plugin-item {
   border: 1px solid #d4d4d8;
 }
-.gdpr-help-item {
+.gdpr-wizard-help-center .gdpr-help-item {
+  flex-direction: column;
+  display: flex;
+  text-align: left;
+  border-radius: 4px;
+  padding: 20px;
   border: 1px solid #d4d4d8;
-}
+  padding-right: 10px;
+} 
 .gdpr-other-plugin-button {
   color: #004080;
 }

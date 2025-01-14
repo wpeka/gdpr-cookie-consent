@@ -379,7 +379,13 @@ if ( 200 === $response_status ) {
 						</div>
 						<div class="gdpr-banner-preview-text">
 							<span id="gdpr-banner-preview-cookie-banner-title">
-								<?php esc_html_e( 'Install WP Legal Pages', 'gdpr-cookie-consent' ); ?>
+								
+								<?php if(!$is_legalpages_active){ 
+									esc_html_e( 'Install WP Legal Pages', 'gdpr-cookie-consent' ); 
+								}
+								else{
+									esc_html_e( 'Create Your Legal Page', 'gdpr-cookie-consent' ); 
+								}?>
 							</span><br>
 							<span id="gdpr-banner-preview-cookie-banner-description">
 								<?php esc_html_e( 'Generate your personalized legal policy page for enhanced protection.', 'gdpr-cookie-consent' ); ?>
@@ -389,7 +395,7 @@ if ( 200 === $response_status ) {
 				<div class="gdpr-wplp-install-create-page-btn">
 				<?php 
 				// echo GDPR_WPLP_Plugin_Install_Helper::instance()->gdpr_wplp_install_plugin_button( 'wplegalpages', 'wplp-dashboard', 'wplegalpages', 'Install & Activate' ); //phpcs:ignore  
-				if(!$legal_pages_installed && !$is_legalpages_active){
+				if( !$is_legalpages_active){
 				?>
 					<a href="#" class="install-wplp-plugin gdpr-wplp-install-btn" data-plugin-slug="wplegalpages"><?php esc_html_e( 'Install Now', 'gdpr-cookie-consent' ); ?>
 					<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/down-arrow.png'?> "/>
@@ -419,8 +425,8 @@ if ( 200 === $response_status ) {
 							</span>
 						</div>
 					</div>
-				<div class="gdpr-preview-publish-btn">
-				<a href="javascript:void(0)" class="gdpr-configure-banner-btn"><?php esc_html_e( 'Configure Banner', 'gdpr-cookie-consent' ); ?><span class="dashicons dashicons-admin-customizer"></span></a>
+				<div class="gdpr-preview-config-btn">
+				<a href="?page=gdpr-cookie-consent#cookie_settings" class="gdpr-configure-banner-btn"><?php esc_html_e( 'Configure Banner', 'gdpr-cookie-consent' ); ?><span class="dashicons dashicons-admin-customizer"></span></a>
 
 						<div class="gdpr-preview-toggle-btn">
 							<label class="gdpr-btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
@@ -730,13 +736,6 @@ jQuery(document).ready(function () {
 		}
 	});
 
-	//Added to redirect to the cookie settings tab on click on Configure Banner button in dashboard
-	jQuery('.gdpr-configure-banner-btn').click(function(){
-		jQuery('.gdpr-cookie-consent-admin-cookie-settings-tab').addClass('active-tab');
-		jQuery('#cookie_settings').css('display','block');
-		jQuery('#gdpr_dashboard').css('display','none');
-		jQuery('.gdpr-cookie-consent-admin-dashboard-tab').removeClass('active-tab');
-	});
 	var dashboardOptions = <?php echo json_encode($api_gdpr_dashboard); ?>;
 
 });

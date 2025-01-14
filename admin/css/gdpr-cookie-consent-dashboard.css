@@ -1186,10 +1186,10 @@ circle.ep-circle--empty {
   display: inline-flex;
 }
 .gdpr-configure-banner-btn {
-  background-color: var(--white-100);
+  background-color: #14873E;
   width: auto;
   padding: 11px 12px;
-  color: #2A4A7E;
+  color: #ffffff;
   text-align: center;
   font-weight: var(--text-semi-bold-font-weight);
   border: 1px solid #7195D0;
@@ -1220,11 +1220,11 @@ circle.ep-circle--empty {
   text-decoration: none;
 }
 .gdpr-configure-banner-btn:hover {
-  color: #2A4A7E;
+  color: #ffffff;
   text-decoration: none;
 }
 .gdpr-dashboard-quick-banner-section .gdpr-banner-preview-logo {
-  margin-left: 17px;
+  margin-left: 8px;
 }
 /* New Unified dashboard  CSS*/
 .gdpr-welcome-section {
