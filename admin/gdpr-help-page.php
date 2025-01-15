@@ -24,11 +24,6 @@ if ( ! defined( 'ABSPATH' ) ) {
       <div class="gdpr-cookie-consent-settings-content">
          <div class="gdpr-cookie-consent-settings-nav">
             <div class="">
-               <ul class="nav nav-pills">
-                  <li data-v-0f37f1a8="" class="nav-item" id="wplegalpages-help-general"><a data-v-0f37f1a8="" href="#help-page" target="_self" class="nav-link active"><?php echo esc_html('Open a Ticket','wplegalpages'); ?></a></li>
-				   </ul>
-            </div>
-            <div class="">
                <div class="tab-content">
                   <div data-v-0f37f1a8="" class="tab-pane active" id="wplegalpages-help-general">
 						<h4><?php echo esc_html('Support','wplegalpages'); ?></h4>

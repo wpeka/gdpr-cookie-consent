@@ -108,6 +108,8 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
+			add_action('gdpr_cookie_consent_new_admin_dashboard_screen', array($this, 'gdpr_cookie_consent_new_admin_dashboard_screen'));
+			add_action('gdpr_help_page_content', array($this, 'gdpr_help_page_content'));
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
 			//For Import CSV option on Policy data page
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
@@ -1433,7 +1435,7 @@ class Gdpr_Cookie_Consent_Admin {
 				67                                       // Position
 			);
 		}
-		if(($gdpr_installed && $is_gdpr_active) || ($legal_pages_installed && !$is_legalpages_active)){
+		if(!$is_legalpages_active){
 			add_submenu_page(
 				'wp-legal-pages', // Parent slug (same as main menu slug)
 				__( 'Dashboard', 'gdpr-cookie-consent' ),  // Page title
@@ -1469,7 +1471,7 @@ class Gdpr_Cookie_Consent_Admin {
 				
 			);
 		}
-		if(($gdpr_installed && $is_gdpr_active) || ($legal_pages_installed && !$is_legalpages_active)){
+		if(!$is_legalpages_active){
 			add_submenu_page(
 				'wp-legal-pages', // Parent slug (same as main menu slug)
 				__( 'Help', 'gdpr-cookie-consent' ),  // Page title
