@@ -147,6 +147,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 = 3.7.0 = 
 * Feature  - Introduced a Unified Dashboard for managing WP Cookie Consent and WP Legal Pages, providing a seamless interface, improved navigation and enhanced user experience.
 
+= 3.6.8 = 
+* New Feature: Added an option to auto-generate cookie banner colors based on your website's color scheme, ensuring a seamless look and feel.
+* Enhancements: Minor bug fixes and performance improvements for a smoother user experience.
+
 = 3.6.7 = 
 * Feature  - Introduced a step-by-step plugin tour for improved onboarding and ease of use.
 * Feature  - Added feature to automatically start scanning for cookies upon plugin activation. The scan progress is now visible in both the Menu and Scanner tabs.
