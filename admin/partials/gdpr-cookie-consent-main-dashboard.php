@@ -18,6 +18,10 @@ $is_data_req_on    = isset( $the_options['data_reqs_on'] ) ? $the_options['data_
 $is_consent_log_on = isset( $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
 $installed_plugins = get_plugins();
 $pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+
+$plugin_name                   = 'wplegalpages/wplegalpages.php';
+$is_legalpages_active = is_plugin_active( $plugin_name );
+$is_gdpr_active = is_plugin_active( $plugin_name_gdpr );
 // Require the class file for gdpr cookie consent api framework settings.
 require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 
@@ -187,9 +191,27 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 		<div class="gdpr-cookie-consent-admin-tabs-section">
 			<div class="gdpr-cookie-consent-admin-tabs dashboard-tabs">
 				<!-- Dashboard tab  -->
+				 <?php  if ($is_legalpages_active) {
+						$plugin_slug = 'wplegalpages/wplegalpages.php';
+						// Fetch the plugin data
+						$plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin_slug);
+			
+						// Get the version
+						$legalpages_version = $plugin_data['Version'];
+						if($legalpages_version >= '3.3.0') { ?>
 				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-dashboard-tab" data-tab="gdpr_dashboard">
 					<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?></p>
 				</div>
+				<?php } }
+				else{
+					?>
+				<a href="?page=wplp-dashboard" class="gdpr-admin-tab-link wplp-main-tab gdpr-cookie-consent-admin-dashboard-tab">
+						<div class="wp-legalpages-admin-gdpr-main-tab">
+							<?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?>
+						</div>
+					</a>
+				<?php
+				} ?>
 				<!-- Legal Pages Plugin tab  -->
 				<a href="?page=legal-pages" class="gdpr-admin-tab-link wplp-main-tab">
 					<div class="wp-legalpages-admin-gdpr-main-tab">
@@ -201,10 +223,27 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 						<?php echo esc_html('Cookie Consent','gdpr-cookie-consent'); ?>
 				</a>
 				<!-- Help tab  -->
+				<?php  if ($is_legalpages_active) {
+						$plugin_slug = 'wplegalpages/wplegalpages.php';
+						// Fetch the plugin data
+						$plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin_slug);
+			
+						// Get the version
+						$legalpages_version = $plugin_data['Version'];
+						if($legalpages_version >= '3.3.0') { ?>
 				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-help-tab" data-tab="help-page">
 
 				<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Help','gdpr-cookie-consent'); ?></p>
 					</div>
+				<?php } }
+				else{
+					?>
+					<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-help-tab" data-tab="help-page">
+
+					<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Help','gdpr-cookie-consent'); ?></p>
+						</div>
+					<?php
+				} ?>
 				
 			</div>
 		</div>

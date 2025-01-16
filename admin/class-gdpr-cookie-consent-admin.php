@@ -114,6 +114,7 @@ class Gdpr_Cookie_Consent_Admin {
 			//For Import CSV option on Policy data page
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
 			add_action('admin_menu', array($this,'gdpr_reorder_admin_menu'), 999);
+			add_action('admin_menu', array($this,'gdpr_remove_dashboard_submenu'),99);
 			add_action('admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			add_action('all_admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			//option to store page views
@@ -1411,6 +1412,20 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @since 1.0
 	 */
+	public function gdpr_remove_dashboard_submenu() {
+		// Define the current version constant
+		$current_version = GDPR_COOKIE_CONSENT_VERSION;
+
+		// Target version to hide the submenu
+		$target_version = '3.7.0';
+
+		// Check if the current version is below the target version
+		if (version_compare($current_version, $target_version, '<')) {
+			// Remove the 'Dashboard' submenu
+			remove_submenu_page('gdpr-cookie-consent', 'wplp-dashboard');
+			remove_submenu_page('gdpr-cookie-consent', 'wplp-dashboard#help-page');
+		}
+	}
 	public function admin_menu() {
 
 		 // Check if the main menu "WP Legal Pages" is already registered
@@ -1446,6 +1461,7 @@ class Gdpr_Cookie_Consent_Admin {
 				1
 			);
 		}
+		
 		 if(!$legal_pages_installed  || ($legal_pages_installed && !$is_legalpages_active)){
 			
 			// Add the "Cookie Consent" sub-menu under "WP Legal Pages"
