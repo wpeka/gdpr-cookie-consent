@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Provide a admin area view for the WP Cookie Consent plugin
+ * Provide an admin dashboard area view for the WP Cookie Consent plugin
  *
  * This file is used to markup the admin-facing aspects of the WP Cookie Consent plugin.
  *
@@ -10,6 +10,7 @@
  *
  * @package gdpr-cookie-consent
  */
+		
 // check if pro is activated or installed.
 $pro_is_activated  = get_option( 'wpl_pro_active', false );
 $the_options       = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -17,6 +18,7 @@ $is_data_req_on    = isset( $the_options['data_reqs_on'] ) ? $the_options['data_
 $is_consent_log_on = isset( $the_options['logging_on'] ) ? $the_options['logging_on'] : null;
 $installed_plugins = get_plugins();
 $pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+
 $plugin_name                   = 'wplegalpages/wplegalpages.php';
 $is_legalpages_active = is_plugin_active( $plugin_name );
 $is_gdpr_active = is_plugin_active( $plugin_name_gdpr );
@@ -171,10 +173,10 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Right Corner Image" class="popup-image">
 					</div>
 						<div class="excausted-popup-body">
-							<h2>Attention! Usage Limit Reached</h2>
-							<p>You've reached your license limit. Please upgrade to continue using the plugin on this site.</p>
-							<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button">Upgrade Plan</button>
-							<p>Need to activate on a new site? Manage your licenses in <a href="https://app.wplegalpages.com/signup/api-keys/" target="_blank">My Account.</a></p>
+							<h2><?php echo esc_html( 'Attention! Usage Limit Reached', 'gdpr-cookie-consent' ); ?></h2>
+							<p><?php echo esc_html( 'You\'ve reached your license limit. Please upgrade to continue using the plugin on this site.', 'gdpr-cookie-consent' ); ?></p>
+							<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button"><?php echo esc_html( 'Upgrade Plan', 'gdpr-cookie-consent' ); ?></button>
+							<p><?php echo esc_html( 'Need to activate on a new site? Manage your licenses in', 'gdpr-cookie-consent' ); ?> <a href="https://app.wplegalpages.com/signup/api-keys/" target="_blank"><?php echo esc_html( 'My Account.', 'gdpr-cookie-consent' ); ?></a></p>
 						</div>
 				</div>
 			</div>
@@ -187,36 +189,29 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 
 		<!-- tabs -->
 		<div class="gdpr-cookie-consent-admin-tabs-section">
-		<div class="gdpr-cookie-consent-admin-tabs dashboard-tabs">
+			<div class="gdpr-cookie-consent-admin-tabs dashboard-tabs">
 				<!-- Dashboard tab  -->
-				<?php  
-					 if ($is_legalpages_active) {
+				 <?php  if ($is_legalpages_active) {
 						$plugin_slug = 'wplegalpages/wplegalpages.php';
 						// Fetch the plugin data
 						$plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin_slug);
 			
 						// Get the version
 						$legalpages_version = $plugin_data['Version'];
-						if($legalpages_version >= '3.3.0') {
+						if($legalpages_version >= '3.3.0') { ?>
+				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-dashboard-tab" data-tab="gdpr_dashboard">
+					<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?></p>
+				</div>
+				<?php } }
+				else{
 					?>
-				 <a href="?page=wplp-dashboard" class="gdpr-admin-tab-link wplp-main-tab gdpr-cookie-consent-admin-dashboard-tab">
-					<div class="wp-legalpages-admin-gdpr-main-tab">
-						<?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?>
-					</div>
-				</a>
-				<?php } 
-				
-					}
-					else{
-						?>
-					<a href="?page=wplp-dashboard" class="gdpr-admin-tab-link wplp-main-tab gdpr-cookie-consent-admin-dashboard-tab">
-							<div class="wp-legalpages-admin-gdpr-main-tab">
-								<?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?>
-							</div>
-						</a>
-					<?php
-					} 
-				?>
+				<a href="?page=wplp-dashboard" class="gdpr-admin-tab-link wplp-main-tab gdpr-cookie-consent-admin-dashboard-tab">
+						<div class="wp-legalpages-admin-gdpr-main-tab">
+							<?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?>
+						</div>
+					</a>
+				<?php
+				} ?>
 				<!-- Legal Pages Plugin tab  -->
 				<a href="?page=legal-pages" class="gdpr-admin-tab-link wplp-main-tab">
 					<div class="wp-legalpages-admin-gdpr-main-tab">
@@ -236,94 +231,20 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 						// Get the version
 						$legalpages_version = $plugin_data['Version'];
 						if($legalpages_version >= '3.3.0') { ?>
-				<a href="?page=wplp-dashboard#help-page" class="gdpr-admin-tab-link wplp-main-tab">
-					<?php echo esc_html('Help','gdpr-cookie-consent'); ?>
-				</a>	
-				<?php } }
-				else{
-					?> 
 				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-help-tab" data-tab="help-page">
 
 				<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Help','gdpr-cookie-consent'); ?></p>
 					</div>
-					<?php } ?>			
-			</div>
-			<div class="gdpr-cookie-consent-admin-tabs gdpr-sub-tabs">
-				
-				<!-- Create Banner tab  -->
-				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-banner-tab" data-tab="create_cookie_banner">
-				<?php echo esc_html('Create&nbsp;Cookie&nbsp;Banner','gdpr-cookie-consent'); ?>
-				</div>
-				<!-- Cookie Settings tab  -->
-				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-settings-tab" data-tab="cookie_settings">
-					<?php echo esc_html('Cookie&nbsp;Settings','gdpr-cookie-consent'); ?>
-				</div>
-				<?php
-				if ( $is_consent_log_on && ! $pro_is_activated ) {
+				<?php } }
+				else{
 					?>
-						<!-- consent log tab  -->
-							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-								<?php echo esc_html('Consent&nbsp;Logs','gdpr-cookie-consent'); ?>
-							</div>
-					<?php
-				}
-				if ( $pro_is_activated ) {
-					if ( $is_consent_log_on ) {
-						?>
-									<!-- consent log tab  -->
-									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-										<?php echo esc_html('Consent&nbsp;Logs','gdpr-cookie-consent'); ?>
-									</div>
-								<?php
-					}
-				}
-				if ( $is_data_req_on && ! $pro_is_activated ) {
+					<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-help-tab" data-tab="help-page">
 
-					?>
-								<!-- data req tab  -->
-								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-								<?php echo esc_html('Data&nbsp;Request','gdpr-cookie-consent'); ?>
-								</div>
-
-								<?php
-
-				}
-
-				if ( $pro_is_activated ) {
-
-					?>
-
-							<?php
-
-							if ( $is_data_req_on ) {
-
-								?>
-							<!-- data req tab  -->
-							<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-								<?php echo esc_html('Data&nbsp;Request','gdpr-cookie-consent'); ?>
-								</div>
-								<?php
-
-							}
-				}
-
-				?>
-
-				<!-- Policy data tab  -->
-				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-policy-data-tab" data-tab="policy_data">
-				<?php echo esc_html('Policy&nbsp;Data','gdpr-cookie-consent'); ?>
-				</div>
-				<?php
-				if ( $pro_is_activated ) {
-					?>
-					<!-- Pro activation key -->
-						<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-pro-activation-tab" data-tab="activation_key">
-							<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Pro Activation','gdpr-cookie-consent'); ?></p>
+					<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Help','gdpr-cookie-consent'); ?></p>
 						</div>
 					<?php
-				}
-
-				?>
+				} ?>
+				
 			</div>
 		</div>
 
@@ -331,7 +252,12 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 
 		<div class="gdpr-cookie-consent-admin-tabs-content">
 			<div class="gdpr-cookie-consent-admin-tabs-inner-content">
-				
+				<!-- dashboard content  -->
+				<div class="gdpr-cookie-consent-admin-dashboard-content gdpr-cookie-consent-admin-tab-content" id="gdpr_dashboard">
+
+					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-dashboard-tab-template.php'; ?>
+
+				</div>
 				<!-- create cookie content  -->
 				<div class="gdpr-cookie-consent-admin-create-cookie-content gdpr-cookie-consent-admin-tab-content" id="create_cookie_banner">
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-create-cookie-banner-tab-template.php'; ?>

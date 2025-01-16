@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: CCPA, GDPR, Privacy Policy, Terms and conditions, Cookie Policy
 Requires at least: 3.3.1
 Tested up to: 6.7.1
-Stable tag: 3.6.7
+Stable tag: 3.7.0
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -143,6 +143,13 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 11.Consent Log table
 
 == Change Log ==
+
+= 3.7.0 = 
+* Feature  - Introduced a Unified Dashboard for managing WP Cookie Consent and WP Legal Pages, providing a seamless interface, improved navigation and enhanced user experience.
+
+= 3.6.8 = 
+* New Feature: Added an option to auto-generate cookie banner colors based on your website's color scheme, ensuring a seamless look and feel.
+* Enhancements: Minor bug fixes and performance improvements for a smoother user experience.
 
 = 3.6.7 = 
 * Feature  - Introduced a step-by-step plugin tour for improved onboarding and ease of use.

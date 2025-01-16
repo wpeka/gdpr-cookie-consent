@@ -10,7 +10,7 @@
  * Plugin Name:       WP Cookie Consent
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
- * Version:           3.6.7
+ * Version:           3.7.0
  * Author:            WP Legal Pages
  * Author URI:        https://wplegalpages.com
  * License:           GPL-2.0+
@@ -31,7 +31,7 @@ define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Currently plugin version.
  */
-define( 'GDPR_COOKIE_CONSENT_VERSION', '3.6.7' );
+define( 'GDPR_COOKIE_CONSENT_VERSION', '3.7.0' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_DEVELOPMENT_MODE', false );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
@@ -56,10 +56,10 @@ if ( ! defined( 'FS_CHMOD_FILE' ) ) {
  * Check if the constant GDPR_APP_URL is not already defined.
 */
 if ( ! defined( 'GDPR_APP_URL' ) ) {
-	define( 'GDPR_APP_URL', 'https://77a44d5f59.nxcli.io' );
+	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com' );
 }
 if ( ! defined( 'GDPR_API_URL' ) ) {
-	define( 'GDPR_API_URL', 'https://77a44d5f59.nxcli.io/wp-json/gdpr/v2/' );
+	define( 'GDPR_API_URL', 'https://app.wplegalpages.com/wp-json/gdpr/v2/' );
 }
 
 /**
@@ -221,7 +221,7 @@ function gdpr_display_user_mirgation_notice() {
 	$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 	if($pro_installed){
 		echo '<div class="notice notice-error notice-alt">';
-		echo '<p>' . esc_html__('Action Required: Switch to the New WP Legal Pages Compliance Platform!** The new platform no longer requires Pro plugins.', 'gdpr-cookie-consent') . 
+		echo '<p>' . esc_html__('Action Required: Switch to the New WP Legal Pages Compliance Platform! The new platform no longer requires Pro plugins.', 'gdpr-cookie-consent') . 
 		' <a href="https://wplegalpages.com/docs/migration-from-wpeka/migration/seamless-migration-to-the-new-wp-legal-pages-compliance-platform/" target="_blank" rel="noopener noreferrer" previewlistener="true">' . 
 		esc_html__('Follow this guide to migrate now.', 'gdpr-cookie-consent') . '</a></p>';
 		echo '</div>';
