@@ -873,6 +873,7 @@ circle.ep-circle--empty {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding-bottom: 50px;
 }
 .gdpr-dashboard-tips-tricks-title {
   font-size: var(--text-xl-font-size);
@@ -1139,10 +1140,11 @@ circle.ep-circle--empty {
 }
 .vertical-line-step-1,
 .vertical-line-step-2,
-.vertical-line-step-3 {
+.vertical-line-step-3,
+.vertical-line-step-4 {
   height: 37px;
 }
-.vertical-line-step-4 {
+.vertical-line-step-5 {
   height: 11px;
 }
 .tasks-heading {
@@ -1176,29 +1178,91 @@ circle.ep-circle--empty {
   margin: 0;
 }
 #gdpr-cookie-consent-dashboard-page .gdpr-dashboard-quick-banner-section {
-  width: 96%;
+  width: 47%;
   max-width: inherit !important;
   /* margin: 0 43px; */
   margin-left: 28px;
   margin-bottom: 60px;
+  display: inline-flex;
 }
 .gdpr-configure-banner-btn {
-  background-color: var(--green-800);
-  width: 200px;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  background-color: #14873E;
+  width: auto;
+  padding: 11px 12px;
+  color: #ffffff;
+  text-align: center;
+  font-weight: var(--text-semi-bold-font-weight);
+  border: 1px solid #7195D0;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  display:block;
+}
+.gdpr-wplp-install-btn{
+  background-color: #14873E;
+  width: 160px;
+  padding: 11px 17px;
   color: var(--white-100);
   text-align: center;
-  margin-right: 38px;
   font-weight: var(--text-semi-bold-font-weight);
-  border: 1px solid transparent;
+  border: 1px solid #7195D0;
   border-radius: 0.25rem;
+  text-decoration: none;
+  margin-left: 14px;
+  display: inline-block;
+}
+
+#gdpr-install-activate-btn img{
+  margin-left: 5px;
+}
+
+.gdpr-wplp-install-btn:hover{
+  color:  var(--white-100);
   text-decoration: none;
 }
 .gdpr-configure-banner-btn:hover {
-  color: var(--white-100);
+  color: #ffffff;
   text-decoration: none;
 }
 .gdpr-dashboard-quick-banner-section .gdpr-banner-preview-logo {
-  margin-left: 17px;
+  margin-left: 8px;
+}
+/* New Unified dashboard  CSS*/
+.gdpr-welcome-section {
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(180deg, #EDF6FB 47.73%, rgba(248, 252, 255, 0) 116.89%);
+  gap: 106px;
+  padding: 6em;
+}
+.gdpr-welcome-section p{
+  margin-bottom: 0 !important;
+}
+div.gdpr-section-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
+  gap: 10px;
+  text-align: left;
+}
+.gdpr-video-section iframe{
+  border-radius: 20px;
+}
+p.gdpr-title-heading{
+  font-size: 26px;
+  font-weight: 600;
+  color: #021D37;
+}
+p.gdpr-section-content {
+  font-size: 16px;
+  color: #71717A;
+  font-weight: 300;
+}
+p.gdpr-title-subheading {
+  font-size: 16px;
+  color: #52525B;
+  font-weight: 400;
+}
+.gdpr-dashboard-legalpages-create-pages-tab a:hover{
+  color: rgba(17, 92, 167, 1) !important;
 }
