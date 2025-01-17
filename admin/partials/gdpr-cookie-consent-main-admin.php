@@ -19,7 +19,6 @@ $installed_plugins = get_plugins();
 $pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 $plugin_name                   = 'wplegalpages/wplegalpages.php';
 $is_legalpages_active = is_plugin_active( $plugin_name );
-$is_gdpr_active = is_plugin_active( $plugin_name_gdpr );
 // Require the class file for gdpr cookie consent api framework settings.
 require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 
@@ -236,16 +235,15 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 						// Get the version
 						$legalpages_version = $plugin_data['Version'];
 						if($legalpages_version >= '3.3.0') { ?>
-				<a href="?page=wplp-dashboard#help-page" class="gdpr-admin-tab-link wplp-main-tab">
+				<a href="?page=wplp-dashboard#help-page" class="gdpr-admin-tab-link gdpr-cookie-consent-admin-help-tab">
 					<?php echo esc_html('Help','gdpr-cookie-consent'); ?>
 				</a>	
 				<?php } }
 				else{
 					?> 
-				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-help-tab" data-tab="help-page">
-
-				<p class="gdpr-cookie-consent-admin-tab-name"><?php echo esc_html('Help','gdpr-cookie-consent'); ?></p>
-					</div>
+				<a href="?page=wplp-dashboard#help-page" class="gdpr-admin-tab-link gdpr-cookie-consent-admin-help-tab">
+					<?php echo esc_html('Help','gdpr-cookie-consent'); ?>
+				</a>	
 					<?php } ?>			
 			</div>
 			<div class="gdpr-cookie-consent-admin-tabs gdpr-sub-tabs">
