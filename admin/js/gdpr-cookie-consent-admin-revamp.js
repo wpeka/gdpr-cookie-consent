@@ -23,7 +23,13 @@ jQuery(document).ready(function () {
   jQuery('.gdpr-cookie-consent-admin-dashboard-tab').addClass('active-tab');
   
   jQuery("#gdpr_dashboard").show();
-  
+   // Check if the URL contains #dashboard-page
+   jQuery('[data-tab="dashboard-page"]').on('click', function (e) {
+        // Prevent default behavior if necessary (e.g., links or buttons)
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = "?page=wplp-dashboard";
+    });
   if (jQuery('.gdpr-cookie-consent-admin-help-tab').hasClass('active-tab')) {
     jQuery('.gdpr-cookie-consent-tab').removeClass('active-tab');
   }
@@ -52,8 +58,47 @@ jQuery(document).ready(function () {
         jQuery('.gdpr-cookie-consent-admin-help-tab').addClass('active-tab');
       
       }
+      jQuery('#dashboard-tab').hide();
+      jQuery('.gdpr-cookie-consent-admin-data-request-activation-key').hide();
+      jQuery('.gdpr-cookie-consent-admin-data-request-data-content').hide();
+      jQuery('.gdpr-cookie-consent-admin-consent-logs-data-content').hide();
+      jQuery('.gdpr-cookie-consent-admin-policy-data-content').hide();
+      jQuery('.gdpr-cookie-consent-admin-cookie-settings-content').hide();
+      jQuery('.gdpr-cookie-consent-admin-create-cookie-content').hide();
+      jQuery('.gdpr-cookie-consent-admin-dashboard-content').hide();
+      jQuery('.gdpr-sub-tabs').hide();
+      jQuery('.gdpr-cookie-consent-admin-help-tab').addClass('active-tab');
+      jQuery('.gdpr-cookie-consent-tab').removeClass('active-tab');
       jQuery('#help-page').show();
    });
+
+   jQuery('a[href="?page=wplp-dashboard#help-page"]').on('click', function (e) {
+    //e.preventDefault(); // Prevent default anchor behavior
+    // Remove 'current' class from all <li> elements
+    jQuery('li').removeClass('current');
+
+    // Add 'current' class to the immediate <li> parent of the clicked <a> tag
+    jQuery(this).closest('li').addClass('current');
+
+    // Show the #help-page div and hide all other sibling divs
+    
+      jQuery('.gdpr-cookie-consent-admin-dashboard-tab').removeClass('active-tab');
+
+      jQuery('.gdpr-cookie-consent-admin-help-tab').addClass('active-tab');
+      var $helpPageLink = jQuery('#toplevel_page_wp-legal-pages a[href="admin.php?page=wplp-dashboard#help-page"]');
+      var $dashboardLink = jQuery('#toplevel_page_wp-legal-pages a[href="admin.php?page=wplp-dashboard"]');
+      
+      // Add the 'current' class to the parent <li> of the "Help Page" link
+      $helpPageLink.closest('li').addClass('current');
+
+      // Remove the 'current' class from the parent <li> of the "Dashboard" link
+      $dashboardLink.closest('li').removeClass('current');
+    
+    
+    //}
+    jQuery('#dashboard-tab').hide();
+    jQuery('#help-page').show();
+ });
     
     if (window.location.href.includes('#help-page')) {
       // Select the "Help Page" link and its immediate parent <li>
@@ -65,6 +110,12 @@ jQuery(document).ready(function () {
 
       // Remove the 'current' class from the parent <li> of the "Dashboard" link
       $dashboardLink.closest('li').removeClass('current');
+       jQuery('.gdpr-cookie-consent-admin-dashboard-tab').removeClass('active-tab');
+       jQuery('#dashboard-tab').hide();
+
+         jQuery('a[href="?page=wplp-dashboard#help-page"]').addClass('active-tab');
+
+
     }
 
   if (jQuery('.gdpr-cookie-consent-tab').hasClass('active-tab')){

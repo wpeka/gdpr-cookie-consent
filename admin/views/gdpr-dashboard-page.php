@@ -402,7 +402,7 @@ if ( 200 === $response_status ) {
 					</a>
 					<p class="install-plugin-status"></p>
 					<?php } else{ ?>
-					<a href=<?php echo admin_url( 'admin.php?page=legal-pages' ); ?> class="wplegal-create-legal-page-button gdpr-wplp-install-btn">
+					<a href=<?php echo admin_url( 'index.php?page=wplegal-wizard#/' ); ?> class="wplegal-create-legal-page-button gdpr-wplp-install-btn">
 						<span><?php esc_attr_e( 'Create Page', 'wplegalpages' ); ?></span>
 						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/right_arrow.svg'; ?>" alt="right arrow">
 					</a>
