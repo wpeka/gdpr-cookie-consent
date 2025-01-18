@@ -1724,8 +1724,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (template.includes("square")) {
             this.reject_button.css("width", "40%");
           } else if (
-            template.includes("dark") &&
-            this.settings.cookie_bar_as == "banner"
+            template.includes("dark")
           ) {
             this.reject_button.css("float", "right");
           }
@@ -2148,8 +2147,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (template.includes("square")) {
             this.reject_button.css("width", "40%");
           } else if (
-            template.includes("dark") &&
-            this.settings.cookie_bar_as == "banner"
+            template.includes("dark")
           ) {
             this.reject_button.css("float", "right");
           }
@@ -2551,8 +2549,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (template.includes("square")) {
             this.reject_button.css("width", "40%");
           } else if (
-            template.includes("dark") &&
-            this.settings.cookie_bar_as == "banner"
+            template.includes("dark")
           ) {
             this.reject_button.css("float", "right");
           }
@@ -2956,8 +2953,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (template.includes("square")) {
             this.reject_button.css("width", "40%");
           } else if (
-            template.includes("dark") &&
-            this.settings.cookie_bar_as == "banner"
+            template.includes("dark")
           ) {
             this.reject_button.css("float", "right");
           }
@@ -3362,8 +3358,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (template.includes("square")) {
             this.reject_button.css("width", "40%");
           } else if (
-            template.includes("dark") &&
-            this.settings.cookie_bar_as == "banner"
+            template.includes("dark")
           ) {
             this.reject_button.css("float", "right");
           }
