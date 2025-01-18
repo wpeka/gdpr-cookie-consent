@@ -3103,6 +3103,12 @@ input[type="search"]:focus {
 .banner-dark_preview {
   box-shadow: rgb(38, 38, 38) 0px 0px 8px !important;
 }
+.widget-dark_preview #cookie_action_reject_preview {
+  float: right !important;
+}
+.popup-dark_preview #cookie_action_reject_preview {
+  float: right !important;
+}
 .banner-dark_preview #cookie_action_settings_preview {
   border-radius: 0px;
 }
@@ -8816,6 +8822,7 @@ input.vs__search {
   .btn {
   font-size: 10px;
   margin-bottom: 0px;
+  border-radius: 0;
   flex: 1;
 }
 
