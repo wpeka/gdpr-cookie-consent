@@ -853,7 +853,7 @@ ul.gdpr_sub_tab li:first-child {
   flex-direction: row;
 }
 .gdpr-templates-field-container .gdpr-template-field .gdpr-right-field {
-  padding: 1rem;
+  padding: 2rem;
   box-shadow: rgba(142, 142, 142, 0.6) 1px 0px 5px 1px;
   width: 93%;
 }
