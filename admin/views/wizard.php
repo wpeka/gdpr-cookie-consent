@@ -285,7 +285,7 @@ function print_template_boxes( $name, $templates, $checked ) {
  * @param String $template_type Template type.
  * @return array
  */
-public function get_templates( $template_type ) {
+function get_templates( $template_type ) {
 		$templates = apply_filters(
 			'gdprcookieconsent_templates',
 			array(
