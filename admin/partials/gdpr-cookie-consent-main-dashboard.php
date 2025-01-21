@@ -51,7 +51,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 				<div class="gdpr-cookie-consent-admin-logo-and-label">
 					<div class="gdpr-cookie-consent-admin-logo">
 						<!-- //image  -->
-						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp-cookie-consent-logo.png'; ?>" alt="WP Cookie Consent Logo">
+						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_consent_logo_new.png'; ?>" alt="WP Cookie Consent Logo">
 					</div>
 					<div class="gdpr-cookie-consent-admin-label">
 						<!-- //label  -->
