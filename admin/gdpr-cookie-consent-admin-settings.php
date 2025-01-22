@@ -998,7 +998,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			<div class="gdpr-banner-preview-save-btn">
 					<div class="gdpr-banner-preview-logo-text">
 						<div class="gdpr-banner-preview-logo">
-							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cookie_setting_preview.svg'; ?>" alt="Cookie Setting preview logo">
+							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/CookieConsent.png'; ?>" alt="Cookie Setting preview logo">
 						</div>
 						<div class="gdpr-banner-preview-text">
 							<span id="gdpr-banner-preview-cookie-banner-title">

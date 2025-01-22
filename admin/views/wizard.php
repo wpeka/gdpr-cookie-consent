@@ -4315,7 +4315,7 @@ function get_templates( $template_type ) {
 			<input type="hidden" name="gcc_settings_form_nonce_wizard" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-wizard' ) ); ?>"/>
 			
 			<div class="gdpr-wizard-header-section">
-				<div class="gdpr-general-wizard-logo-container"><img class="gdpr-general-wizard-logo" src="<?php echo esc_url( $image_path ) . 'wp-Legal-pages-logo.png'; ?>">
+				<div class="gdpr-general-wizard-logo-container"><img class="gdpr-general-wizard-logo" src="<?php echo esc_url( $image_path ) . 'CookieConsent.png'; ?>">
 					<span class="gdpr-general-wizard-main-heading">Welcome to WP Cookie Consent</span>
 					<p class="gdpr-general-wizard-sub-heading">Follow the guided wizard to get started</p>
 				</div>

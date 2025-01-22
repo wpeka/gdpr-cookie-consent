@@ -4250,8 +4250,8 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   margin: 20px;
 }
 .gdpr-cookie-consent-admin-logo img {
-  width: 74px;
-  height: 74px;
+  height: 46px;
+  margin-top: 14px;
 }
 .gdpr-cookie-consent-admin-promotional-banner img {
   width: 100%;
@@ -7851,6 +7851,9 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   height: 39px;
   width: 39px;
   margin-left: 40px;
+}
+.gdpr-banner-preview-logo img{
+  height: 100%;
 }
 .gdpr-banner-preview-save-btn
   .gdpr-banner-preview-text
