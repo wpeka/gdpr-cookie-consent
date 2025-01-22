@@ -8347,6 +8347,9 @@ button.btn.gdpr-renew-now-btn.pro,
   align-items: center;
   margin-top: 40px;
 }
+.gdpr-cookie-list-tabs-container img{
+  height: 40px;
+}
 .gdpr-cookie-list-tabs-container .gdpr-cookie-list-tabs-heading,
 .gdpr-cookie-discovered-tab-container .gdpr-cookie-list-tabs-heading,
 .gdpr-cookie-scan-history-tab-container .gdpr-cookie-list-tabs-heading {
