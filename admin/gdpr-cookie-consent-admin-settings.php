@@ -998,7 +998,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			<div class="gdpr-banner-preview-save-btn">
 					<div class="gdpr-banner-preview-logo-text">
 						<div class="gdpr-banner-preview-logo">
-							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cookie_setting_preview.svg'; ?>" alt="Cookie Setting preview logo">
+							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/CookieConsent.png'; ?>" alt="Cookie Setting preview logo">
 						</div>
 						<div class="gdpr-banner-preview-text">
 							<span id="gdpr-banner-preview-cookie-banner-title">
@@ -6642,7 +6642,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<c-button class="gdpr-cookie-consent-cookie-list-tab"  @click="onChangeScanHistoryTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': scan_history_list_tab == true }"><?php esc_html_e( 'Scan History', 'gdpr-cookie-consent' ); ?></c-button>
 					</div>
 					<div class="gdpr-cookie-list-tabs-container" v-show="cookie_list_tab == true">
-						<img class="gdpr-cookie-list-tabs-logo"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cookie_setting_preview.svg'; ?>" alt="Cookie Setting preview logo">
+						<img class="gdpr-cookie-list-tabs-logo"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/CookieConsent.png'; ?>" alt="Cookie Setting preview logo">
 						<p class="gdpr-cookie-list-tabs-heading"><?php esc_html_e( 'Create a Custom Cookie', 'gdpr-cookie-consent' ); ?></p>
 						<p class="gdpr-cookie-list-tabs-sub-heading"><?php esc_html_e( 'Design and personalize a unique cookie to suit your preferences.', 'gdpr-cookie-consent' ); ?>.</p>
 						<input type="button" class="gdpr-cookie-list-tabs-popup-btn" value="Create Cookie" @click="showCreateCookiePopup">
