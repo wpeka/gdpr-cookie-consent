@@ -216,19 +216,9 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name . '-main', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-main.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-dashboard', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-dashboard.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'js/vue/wpl-cookie-consent-admin-integrations.js', array( 'jquery' ), $this->version, false );
-		wp_register_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-tcf.js');
 		wp_enqueue_script($this->plugin_name . 'introjs-js', plugin_dir_url( __FILE__ ) . 'js/intro.min.js', array('jquery'), $this->version, false);
 
 		 
-			$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
-			wp_localize_script(
-				$this->plugin_name . '-tcf',
-				'iabtcf',
-				array(
-					'ajax_url'              => plugin_dir_url( __FILE__ )
-				)
-			);
-			wp_enqueue_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-tcf.js', array( 'jquery' ), $this->version, false );
 	}
 
 

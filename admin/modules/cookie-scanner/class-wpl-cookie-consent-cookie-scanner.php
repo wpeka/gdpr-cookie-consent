@@ -331,7 +331,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			$response_status = wp_remote_retrieve_response_code( $response );
 
 			if (200 === $response_status) {
-				$api_gdpr_cookie_scan = wp_remote_retrieve_body($response);
+				$api_gdpr_cookie_scan = json_decode(wp_remote_retrieve_body($response));
 				error_log(print_r($api_gdpr_cookie_scan,true));
 				wp_send_json_success(['html' => $api_gdpr_cookie_scan]);
 			} else {
