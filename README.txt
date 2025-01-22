@@ -145,7 +145,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 == Change Log ==
 
 = 3.7.1 = 
-* Improvement - Redesigned and improved existing templates for a modern and user-friendly look.
+* Improvement - Redesigned and improved few existing templates for a modern and user-friendly look.
 * Improvement - Optimized codebase for faster loading times and smoother operation.
 
 = 3.7.0 = 
@@ -548,7 +548,7 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 == Upgrade Notice ==
 
 = 3.7.1 = 
-* Improvement - Redesigned and improved existing templates for a modern and user-friendly look.
+* Improvement - Redesigned and improved few existing templates for a modern and user-friendly look.
 * Improvement - Optimized codebase for faster loading times and smoother operation.
 
 = 3.7.0 = 
