@@ -128,6 +128,13 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		}
 		add_filter( 'gdprcookieconsent_cookies', array( $this, 'wpl_get_scan_cookies' ), 10, 1 );
 
+
+		//getting scan data 
+		wp_enqueue_script('cookie_scanner_ajax', plugin_dir_url(__FILE__) . 'assets/js/cookie-scanner-data.js', array('jquery'), '1.0', true);
+
+		wp_localize_script('cookie_scanner_ajax', 'cookie_scanner_ajax', array(
+			'ajax_url'         => admin_url( 'admin-ajax.php' )
+		));
 		// Require the class file for gdpr cookie consent api framework settings.
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 
