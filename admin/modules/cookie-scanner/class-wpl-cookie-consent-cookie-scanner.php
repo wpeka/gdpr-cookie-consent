@@ -121,6 +121,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_filter( 'gdprcookieconsent_cookie_sub_tabs', array( $this, 'wpl_cookie_sub_tabs' ), 10, 1 );
 			add_action( 'gdpr_module_settings_cookielist', array( $this, 'wpl_cookie_scanned_cookies' ), 10 );
+			add_action('admin_enqueue_scripts', array($this, 'register_cookie_scanner_script'));
 			add_action( 'wp_ajax_wpl_cookie_scanner_card', array($this, 'wpl_cookie_scanner_card'));
 			add_action( 'gdpr_cookie_scanned_history', array( $this, 'wpl_cookie_scanned_history_card' ), 10 );
 			add_filter( 'gdpr_settings_cookie_scan_values', array( $this, 'wpl_settings_cookie_scan_values' ), 10, 1 );
@@ -129,12 +130,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		add_filter( 'gdprcookieconsent_cookies', array( $this, 'wpl_get_scan_cookies' ), 10, 1 );
 
 
-		//getting scan data 
-		wp_enqueue_script('cookie_scanner_ajax', plugin_dir_url(__FILE__) . 'assets/js/cookie-scanner-data.js', array('jquery'), '1.0', true);
-
-		wp_localize_script('cookie_scanner_ajax', 'cookie_scanner_ajax', array(
-			'ajax_url'         => admin_url( 'admin-ajax.php' )
-		));
 		// Require the class file for gdpr cookie consent api framework settings.
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 
@@ -145,6 +140,14 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		$this->class_for_blur_content = $this->is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes
 		$this->class_for_card_body_blur_content = $this->is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes
 
+	}
+	public function register_cookie_scanner_script(){
+		//getting scan data 
+		wp_enqueue_script('cookie_scanner_ajax', plugin_dir_url(__FILE__) . 'assets/js/cookie-scanner-data.js', array('jquery'), '1.0', true);
+
+		wp_localize_script('cookie_scanner_ajax', 'cookie_scanner_ajax', array(
+			'ajax_url'         => admin_url( 'admin-ajax.php' )
+		));
 	}
 
 	/**
@@ -329,6 +332,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 
 			if (200 === $response_status) {
 				$api_gdpr_cookie_scan = wp_remote_retrieve_body($response);
+				error_log(print_r($api_gdpr_cookie_scan,true));
 				wp_send_json_success(['html' => $api_gdpr_cookie_scan]);
 			} else {
 				wp_send_json_error(['message' => __('Failed to retrieve data from server.', 'gdpr-cookie-consent')]);
