@@ -6693,7 +6693,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</div>
 					</c-card>
 					<c-card v-show="discovered_cookies_list_tab == true">
-						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
+						<div id="cookie-scanner-container">
+							<!-- The cookie scanner data will be loaded here -->
+						</div>
 					</c-card>
 					<c-card v-show="scan_history_list_tab == true">
 						<?php do_action( 'gdpr_cookie_scanned_history' ); ?>

@@ -127,22 +127,22 @@ class Gdpr_Cookie_Consent_Admin {
 
 		}
 		
-		$json_input = file_get_contents('php://input');
+		// $json_input = file_get_contents('php://input');
 		
-		if (!empty($json_input)) {
-			// Decode the JSON input
-			$tcf_json_data = json_decode($json_input);
+		// if (!empty($json_input)) {
+		// 	// Decode the JSON input
+		// 	$tcf_json_data = json_decode($json_input);
 
-			// Check if JSON decoding was successful	
-			if (json_last_error() === JSON_ERROR_NONE ) {
-				if(!empty($tcf_json_data) && isset($tcf_json_data->secret_key) && $tcf_json_data->secret_key === "sending_vendor_data"){
-					Gdpr_Cookie_Consent::gdpr_save_vendors($tcf_json_data);
-				}
+		// 	// Check if JSON decoding was successful	
+		// 	if (json_last_error() === JSON_ERROR_NONE ) {
+		// 		if(!empty($tcf_json_data) && isset($tcf_json_data->secret_key) && $tcf_json_data->secret_key === "sending_vendor_data"){
+		// 			Gdpr_Cookie_Consent::gdpr_save_vendors($tcf_json_data);
+		// 		}
 				
-			} else {
-			}
-		} else {
-		}
+		// 	} else {
+		// 	}
+		// } else {
+		// }
 		
 		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
 		add_action('admin_footer', array($this,'add_svg_to_menu_item'));
