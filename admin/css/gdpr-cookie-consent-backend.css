@@ -88,7 +88,15 @@ table.gdpr_script_items tr:nth-child(odd) td {
   > div:nth-child(1)
   ul
   li.nav-item
-  a.nav-link.active {
+  a.nav-link.active,
+#gdpr-cookie-consent-help-app
+  .gdpr-cookie-consent-settings-container
+  .gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  > div:nth-child(1)
+  ul
+  li.nav-item
+  a.nav-link.active  {
   background-color: #f4f8ff;
 }
 .c-switch-3d-success .c-switch-input:checked + .c-switch-slider {
@@ -168,17 +176,17 @@ table.gdpr_script_items tr:nth-child(odd) td {
 .banner-dark_preview #cookie_action_settings_preview {
   color: rgb(128, 128, 128);
   border: 1px solid rgb(128, 128, 128);
-  background-color: rgb(30, 30, 30) !important;
+  background-color: rgb(38, 38, 38) !important;
 }
 .widget-dark_preview #cookie_action_settings_preview {
   color: rgb(128, 128, 128);
   border: 1px solid rgb(128, 128, 128);
-  background-color: rgb(30, 30, 30) !important;
+  background-color: rgb(38, 38, 38) !important;
 }
 .popup-dark_preview #cookie_action_settings_preview {
   color: rgb(128, 128, 128);
   border: 1px solid rgb(128, 128, 128);
-  background-color: rgb(30, 30, 30) !important;
+  background-color: rgb(38, 38, 38) !important;
 }
 .schedule-scan-start-btn span {
   color: #3399ff;
@@ -300,7 +308,7 @@ a .export-btn:hover {
 }
 .gdpr-cookie-consent-main-admin-structure
   .gdpr-cookie-consent-admin-fixed-banner {
-  background: #346db1;
+  background: #084EA8;
 }
 .wpgdpr-api-connection-popup .wpgdpr-api-connect-text {
   color: grey;
@@ -749,9 +757,15 @@ a .export-btn:hover {
 .gdpr-other-plugin-item {
   border: 1px solid #d4d4d8;
 }
-.gdpr-help-item {
+.gdpr-wizard-help-center .gdpr-help-item {
+  flex-direction: column;
+  display: flex;
+  text-align: left;
+  border-radius: 4px;
+  padding: 20px;
   border: 1px solid #d4d4d8;
-}
+  padding-right: 10px;
+} 
 .gdpr-other-plugin-button {
   color: #004080;
 }

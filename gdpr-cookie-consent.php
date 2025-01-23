@@ -10,7 +10,7 @@
  * Plugin Name:       WP Cookie Consent
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
- * Version:           3.6.7
+ * Version:           3.7.1
  * Author:            WP Legal Pages
  * Author URI:        https://wplegalpages.com
  * License:           GPL-2.0+
@@ -31,7 +31,7 @@ define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Currently plugin version.
  */
-define( 'GDPR_COOKIE_CONSENT_VERSION', '3.6.7' );
+define( 'GDPR_COOKIE_CONSENT_VERSION', '3.7.1' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_DEVELOPMENT_MODE', false );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
@@ -101,36 +101,10 @@ function activate_gdpr_cookie_consent() {
 	Gdpr_Cookie_Consent_Activator::activate();
 	register_uninstall_hook( __FILE__, 'uninstall_gdpr_cookie_consent' );
 	add_option( 'analytics_activation_redirect_gdpr-cookie-consent', true );
-	add_option('gdpr_reset_local_storage', true); // Flag to indicate activation
 	// Get redirect URL.
-
-	// Differentiate the redireciton based on the user connection.
-	$gdpr_connected_value = get_option('gdpr_connected');
-	if ($gdpr_connected_value === 'true' || $gdpr_connected_value === 1 || $gdpr_connected_value === '1'){
-		add_option( 'redirect_after_activation_option_to_cookie_scanning', true );
-	}else{
-		add_option( 'redirect_after_activation_option_to_wizard_section', true );
-	}
-
 	add_option( 'redirect_after_activation_option', true );
-	//To check if plugin is first time installed
-	if (!get_option('gdpr_first_time_installed')) {
-        update_option('gdpr_first_time_installed', true);
-    }
 }
 
-// hook for reseting the localstorage for automatic scan.
-add_action('admin_enqueue_scripts', function () {
-    // Check if the flag is set (indicating activation)
-    if (get_option('gdpr_reset_local_storage')) {
-        // Inject inline JavaScript to clear the localStorage key
-        wp_add_inline_script('jquery', '
-            localStorage.removeItem("auto_scan_executed");
-        ');
-        // Remove the option so this runs only once
-        delete_option('gdpr_reset_local_storage');
-    }
-});
 /**
  * Redirecting to the wizard page on plguin activation.
  *
@@ -144,18 +118,8 @@ add_action( 'admin_init', 'activation_redirect' );
  * @return void
  */
 function activation_redirect() {
-	if (get_option( 'redirect_after_activation_option_to_cookie_scanning', false )) {
-		// deleting the option from db just to protect from repeatation.
-		delete_option( 'redirect_after_activation_option_to_cookie_scanning' );
-		// exit( esc_html( wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies' ) ) ) );
-		$redirect_url = admin_url('admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies');
-		$redirect_url = add_query_arg(['gdpr_redirected' => '1', 'auto_scan' => 'true'], $redirect_url);
-		wp_redirect($redirect_url);
-		exit();
-	}
-	else if ( get_option( 'redirect_after_activation_option_to_wizard_section', false ) ) {
-		// deleting the option from db just to protect from repeatation.
-		delete_option( 'redirect_after_activation_option_to_wizard_section' );
+	if ( get_option( 'redirect_after_activation_option', false ) ) {
+		delete_option( 'redirect_after_activation_option' );
 		exit( esc_html( wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#create_cookie_banner' ) ) ) );
 	}
 }
@@ -246,6 +210,21 @@ function gdpr_show_admin_notice_activation_deactivation_third_party_plugins() {
         // Delete the transient after displaying the message
         delete_transient('gdpr_display_message_other_plugin_on_change');
     }
+}
+
+// Display the admin notice if a wp cookie consent pro plugin was activated or installed.
+add_action('admin_notices', 'gdpr_display_user_mirgation_notice');
+
+function gdpr_display_user_mirgation_notice() {
+	$installed_plugins = get_plugins();
+	$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+	if($pro_installed){
+		echo '<div class="notice notice-error notice-alt">';
+		echo '<p>' . esc_html__('Action Required: Switch to the New WP Legal Pages Compliance Platform! The new platform no longer requires Pro plugins.', 'gdpr-cookie-consent') . 
+		' <a href="https://wplegalpages.com/docs/migration-from-wpeka/migration/seamless-migration-to-the-new-wp-legal-pages-compliance-platform/" target="_blank" rel="noopener noreferrer" previewlistener="true">' . 
+		esc_html__('Follow this guide to migrate now.', 'gdpr-cookie-consent') . '</a></p>';
+		echo '</div>';
+	}
 }
 // Added for plugin tour
 function gdpr_complete_tour() {

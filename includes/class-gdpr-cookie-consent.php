@@ -78,7 +78,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.6.7';
+			$this->version = '3.7.1';
 		}
 		add_action(
 			'current_screen',
@@ -231,6 +231,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_ab_testing_enable', $plugin_admin, 'gdpr_cookie_consent_ab_testing_enable', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gcc_auto_generated_banner', $plugin_admin, 'gdpr_cookie_consent_ajax_auto_generated_banner', 10, 1 );
 			// added ajax callback for wizard.
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
 			// added ajax for import settings.
@@ -945,6 +946,7 @@ class Gdpr_Cookie_Consent {
 			'is_script_blocker_on'                 => false,
 			'auto_hide'                            => false,
 			'auto_banner_initialize'               => false,
+			'auto_generated_banner'               => false,
 			'auto_scroll'                          => false,
 			'auto_click'                           => false,
 			'auto_scroll_reload'                   => false,
@@ -1024,6 +1026,7 @@ class Gdpr_Cookie_Consent {
 			case 'is_worldwide_on':
 			case 'is_selectedCountry_on':
 			case 'auto_banner_initialize':
+			case 'auto_generated_banner':
 			case 'auto_scroll':
 			case 'auto_click':
 			case 'auto_scroll_reload':
@@ -1607,6 +1610,7 @@ class Gdpr_Cookie_Consent {
 			'auto_hide'                              => $settings['auto_hide'],
 			'auto_hide_delay'                        => $settings['auto_hide_delay'],
 			'auto_banner_initialize'                 => $settings['auto_banner_initialize'],
+			'auto_generated_banner'                	 => $settings['auto_generated_banner'],
 			'auto_banner_initialize_delay'           => $settings['auto_banner_initialize_delay'],
 			'auto_scroll_offset'                     => $settings['auto_scroll_offset'],
 			'cookie_expiry'                          => $settings['cookie_expiry'],
