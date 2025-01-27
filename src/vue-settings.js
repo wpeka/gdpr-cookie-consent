@@ -14,10 +14,9 @@ import VueApexCharts from "vue-apexcharts";
 import VueTimepicker from "vue2-timepicker";
 // CSS
 import "vue2-timepicker/dist/VueTimepicker.css";
-import VueIntro from 'vue-introjs'
+import VueIntro from "vue-introjs";
 Vue.use(VueIntro);
-import 'intro.js/introjs.css';
-
+import "intro.js/introjs.css";
 
 // Import AceEditor
 import AceEditor from "vuejs-ace-editor";
@@ -61,8 +60,8 @@ var gen = new Vue({
       isGdprProActive: "1" === settings_obj.is_pro_active,
       disableSwitch: false,
       is_template_changed: false,
-      is_auto_template_generated:false,
-      processof_auto_template_generated:false,
+      is_auto_template_generated: false,
+      processof_auto_template_generated: false,
       is_lang_changed: false,
       is_iabtcf_changed: false,
       is_logo_removed: false,
@@ -2190,7 +2189,12 @@ var gen = new Vue({
       )
         ? settings_obj.ab_options["ab_testing_period"]
         : "30",
-
+      ab_testing_auto:
+        settings_obj.ab_options.hasOwnProperty("ab_testing_auto") &&
+        (true === settings_obj.ab_options["ab_testing_auto"] ||
+          "true" === settings_obj.ab_options["ab_testing_auto"])
+          ? true
+          : false,
       enable_geotargeting:
         settings_obj.geo_options.hasOwnProperty("enable_geotargeting") &&
         (true === settings_obj.geo_options["enable_geotargeting"] ||
@@ -2708,122 +2712,128 @@ var gen = new Vue({
       this.is_auto_template_generated = true;
       // var data = !this.auto_generated_banner;
       // this.auto_generated_banner = !this.auto_generated_banner;
-  
+
       // // Check if the auto_generated_banner is being switched on
       // if (data) {
-          // Open a new tab
-          let newTab = window.open(window.location.origin, '_blank');
-  
-          // Wait for the new tab to load and fetch the required data
-          newTab.onload = function () {
-              // Array to store elements with a background color
-              const elementsWithButton = [];
-  
-              // Get all elements in the new tab
-              const allElements = newTab.document.querySelectorAll('*');
-  
-              // Loop through each element
-              allElements.forEach(element => {
-                  // Check if the element is a button, an anchor tag, or has a class containing "button"
-                  if (
-                      element.tagName.toLowerCase() === 'button' ||
-                      element.tagName.toLowerCase() === 'a' ||
-                      Array.from(element.classList).some(className => className.toLowerCase().includes('button'))
-                  ) {
-                      // Ignore elements where any class name starts with "gdpr_"
-                      const hasGdprClass = Array.from(element.classList).some(className => className.startsWith('gdpr_'));
-                      if (hasGdprClass) return; // Skip this element if it has a "gdpr_" class
-  
-                      // Get computed styles for the element
-                      const computedStyles = getComputedStyle(element);
-  
-                      // Check if a background color is applied
-                      const backgroundColor = computedStyles.backgroundColor;
-  
-                      if (backgroundColor && backgroundColor !== 'rgba(0, 0, 0, 0)' && backgroundColor !== 'transparent') {
-                          elementsWithButton.push({
-                              tag: element.tagName.toLowerCase(), // The tag name (button, a, etc.)
-                              classes: Array.from(element.classList), // The classes applied to the element
-                              backgroundColor: backgroundColor, // The computed background color
-                          });
-                      }
-                  }
+      // Open a new tab
+      let newTab = window.open(window.location.origin, "_blank");
+
+      // Wait for the new tab to load and fetch the required data
+      newTab.onload = function () {
+        // Array to store elements with a background color
+        const elementsWithButton = [];
+
+        // Get all elements in the new tab
+        const allElements = newTab.document.querySelectorAll("*");
+
+        // Loop through each element
+        allElements.forEach((element) => {
+          // Check if the element is a button, an anchor tag, or has a class containing "button"
+          if (
+            element.tagName.toLowerCase() === "button" ||
+            element.tagName.toLowerCase() === "a" ||
+            Array.from(element.classList).some((className) =>
+              className.toLowerCase().includes("button")
+            )
+          ) {
+            // Ignore elements where any class name starts with "gdpr_"
+            const hasGdprClass = Array.from(element.classList).some(
+              (className) => className.startsWith("gdpr_")
+            );
+            if (hasGdprClass) return; // Skip this element if it has a "gdpr_" class
+
+            // Get computed styles for the element
+            const computedStyles = getComputedStyle(element);
+
+            // Check if a background color is applied
+            const backgroundColor = computedStyles.backgroundColor;
+
+            if (
+              backgroundColor &&
+              backgroundColor !== "rgba(0, 0, 0, 0)" &&
+              backgroundColor !== "transparent"
+            ) {
+              elementsWithButton.push({
+                tag: element.tagName.toLowerCase(), // The tag name (button, a, etc.)
+                classes: Array.from(element.classList), // The classes applied to the element
+                backgroundColor: backgroundColor, // The computed background color
               });
-  
-              // Function to convert RGB(A) to Hex
-              const rgbToHex = (rgb) => {
-                  const rgba = rgb.match(/\d+/g); // Extract the numeric values
-                  const r = parseInt(rgba[0], 10).toString(16).padStart(2, '0');
-                  const g = parseInt(rgba[1], 10).toString(16).padStart(2, '0');
-                  const b = parseInt(rgba[2], 10).toString(16).padStart(2, '0');
-                  return `#${r}${g}${b}`.toUpperCase(); // Return as hex code in uppercase
-              };
-  
-              // Function to find the most used background color
-              const getMostUsedBackgroundColor = (elements) => {
-                  const colorCounts = {};
-  
-                  // Count occurrences of each background color
-                  elements.forEach(item => {
-                      const color = item.backgroundColor;
-                      if (color) {
-                          colorCounts[color] = (colorCounts[color] || 0) + 1;
-                      }
-                  });
-  
-                  // Find the color with the highest count
-                  let mostUsedColor = null;
-                  let maxCount = 0;
-                  let isTie = false;
-  
-                  for (const [color, count] of Object.entries(colorCounts)) {
-                      if (count > maxCount) {
-                          mostUsedColor = color;
-                          maxCount = count;
-                          isTie = false; // Reset tie flag when a higher count is found
-                      } else if (count === maxCount) {
-                          isTie = true; // A tie exists if another color has the same count
-                      }
-                  }
-  
-                  // Handle ties: If all counts are the same or a tie exists, pick any one color
-                  if (isTie) {
-                      mostUsedColor = Object.keys(colorCounts)[0]; // Pick the first color
-                  }
-  
-                  return mostUsedColor;
-              };
-  
-              // Find the most used background color
-              let mostUsedColor = getMostUsedBackgroundColor(elementsWithButton);
-  
-              // Convert the most used color to hex
-              const hexColor = rgbToHex(mostUsedColor);
-  
-              // Close the new tab after getting the data
-              newTab.close();
-              // Send the hex color via AJAX
-              jQuery.ajax({
-                  url: settings_obj.ajaxurl,
-                  type: "POST",
-                  dataType: "json",
-                  data: {
-                      action: "gcc_auto_generated_banner",
-                      background_color: hexColor,
-                      is_auto_generated_banner_done: true, // Send the hex color
-                  },
-                  success: function (response) {
-                  },
-                  error: function (error) {
-                      console.error("Error:", error);
-                  }
-              });
-          };
-          this.banner_preview_is_on = true;
+            }
+          }
+        });
+
+        // Function to convert RGB(A) to Hex
+        const rgbToHex = (rgb) => {
+          const rgba = rgb.match(/\d+/g); // Extract the numeric values
+          const r = parseInt(rgba[0], 10).toString(16).padStart(2, "0");
+          const g = parseInt(rgba[1], 10).toString(16).padStart(2, "0");
+          const b = parseInt(rgba[2], 10).toString(16).padStart(2, "0");
+          return `#${r}${g}${b}`.toUpperCase(); // Return as hex code in uppercase
+        };
+
+        // Function to find the most used background color
+        const getMostUsedBackgroundColor = (elements) => {
+          const colorCounts = {};
+
+          // Count occurrences of each background color
+          elements.forEach((item) => {
+            const color = item.backgroundColor;
+            if (color) {
+              colorCounts[color] = (colorCounts[color] || 0) + 1;
+            }
+          });
+
+          // Find the color with the highest count
+          let mostUsedColor = null;
+          let maxCount = 0;
+          let isTie = false;
+
+          for (const [color, count] of Object.entries(colorCounts)) {
+            if (count > maxCount) {
+              mostUsedColor = color;
+              maxCount = count;
+              isTie = false; // Reset tie flag when a higher count is found
+            } else if (count === maxCount) {
+              isTie = true; // A tie exists if another color has the same count
+            }
+          }
+
+          // Handle ties: If all counts are the same or a tie exists, pick any one color
+          if (isTie) {
+            mostUsedColor = Object.keys(colorCounts)[0]; // Pick the first color
+          }
+
+          return mostUsedColor;
+        };
+
+        // Find the most used background color
+        let mostUsedColor = getMostUsedBackgroundColor(elementsWithButton);
+
+        // Convert the most used color to hex
+        const hexColor = rgbToHex(mostUsedColor);
+
+        // Close the new tab after getting the data
+        newTab.close();
+        // Send the hex color via AJAX
+        jQuery.ajax({
+          url: settings_obj.ajaxurl,
+          type: "POST",
+          dataType: "json",
+          data: {
+            action: "gcc_auto_generated_banner",
+            background_color: hexColor,
+            is_auto_generated_banner_done: true, // Send the hex color
+          },
+          success: function (response) {},
+          error: function (error) {
+            console.error("Error:", error);
+          },
+        });
+      };
+      this.banner_preview_is_on = true;
       // }
-  },
-  
-   
+    },
+
     onSwitchAutoScroll() {
       this.auto_scroll = !this.auto_scroll;
     },
@@ -4627,9 +4637,12 @@ var gen = new Vue({
       const id = value.split(",")[1];
       const cat = value.split(",")[0];
       for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] === id) {
-          for (let j = 0; i < this.custom_cookie_categories.length; j++) {
-            if (this.custom_cookie_categories[j]["code"] === parseInt(cat)) {
+        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] == id) {
+          for (let j = 0; j < this.custom_cookie_categories.length; j++) {
+            if (
+              parseInt(this.custom_cookie_categories[j]["code"]) ==
+              parseInt(cat)
+            ) {
               this.scan_cookie_list[i]["category_id"] =
                 this.custom_cookie_categories[j].code;
               this.scan_cookie_list[i]["category"] =
@@ -4963,6 +4976,7 @@ var gen = new Vue({
     },
     restoreDefaultSettings() {
       this.ab_testing_enabled = false;
+      this.ab_testing_auto = false;
       this.ab_testing_period = "30";
       this.cookie_bar_color = "#ffffff";
       this.cookie_bar_opacity = "0.80";
@@ -6009,7 +6023,7 @@ var gen = new Vue({
         popup.fadeIn();
         cancelButton.off("click").on("click", function (e) {
           popup.fadeOut();
-          localStorage.setItem('auto_scan_process_started', 'false');
+          localStorage.setItem("auto_scan_process_started", "false");
           window.location.reload();
         });
       });
@@ -6041,7 +6055,7 @@ var gen = new Vue({
           if (data.response == true) {
             this.scan_in_progress = false;
             const currentUrl = new URL(window.location);
-            currentUrl.searchParams.delete('auto_scan');
+            currentUrl.searchParams.delete("auto_scan");
             that.getScanCookies(scan_id, offset, total, hash);
           } else {
             scanbar.html("");
@@ -6237,7 +6251,7 @@ var gen = new Vue({
       this.showScanCookieList();
       this.scanAgain();
       setTimeout(() => {
-        localStorage.setItem('auto_scan_process_started', 'false');
+        localStorage.setItem("auto_scan_process_started", "false");
         window.location.reload();
       }, 3000);
     },
@@ -6743,6 +6757,9 @@ var gen = new Vue({
           );
         });
     },
+    onSwitchABTestingAuto() {
+      this.ab_testing_auto = !this.ab_testing_auto;
+    },
     OnEnableGeotargeting() {
       this.enable_geotargeting = !this.enable_geotargeting;
     },
@@ -6960,10 +6977,14 @@ var gen = new Vue({
     spinner.hide();
     // automatic start scanning.
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('auto_scan') === 'true' && !this.scan_in_progress && !localStorage.getItem('auto_scan_executed')) {  
+    if (
+      urlParams.get("auto_scan") === "true" &&
+      !this.scan_in_progress &&
+      !localStorage.getItem("auto_scan_executed")
+    ) {
       // Mark that the 'auto_scan' process has been executed
-      localStorage.setItem('auto_scan_executed', 'true');
-      localStorage.setItem('auto_scan_process_started', 'true');
+      localStorage.setItem("auto_scan_executed", "true");
+      localStorage.setItem("auto_scan_process_started", "true");
       // Trigger the scan
       this.onClickStartScan();
     }
