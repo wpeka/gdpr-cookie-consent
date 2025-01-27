@@ -59,6 +59,10 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 		public $wc_am_product_id                  = '';
 		public $wc_am_software_version            = '';
         public $legalpages_activated              = false;
+		public $wc_am_menu_tab_activation_title;
+		public $wc_am_menu_tab_deactivation_title;
+		public $wc_am_settings_menu_title;
+		public $wc_am_settings_title;
 
 		public function __construct( $file, $product_id, $software_version, $plugin_or_theme, $api_url, $software_title = '', $text_domain = '' ) {
 			$this->no_product_id   = empty( $product_id ) ? true : false;

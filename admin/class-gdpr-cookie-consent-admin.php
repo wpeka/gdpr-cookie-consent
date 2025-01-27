@@ -7733,6 +7733,8 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function print_template_boxes( $name, $templates, $checked ) {
 		$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+		$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+		$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
 		$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
 		<div class="gdpr-templates-field-container">
@@ -7766,11 +7768,28 @@ class Gdpr_Cookie_Consent_Admin {
 						<div class="gdpr-right-field-content">
 							<div class="gdpr-group-description">
 					<?php
-					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-					if ( '' !== $get_banner_img ) {
-						?>
-							<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-							<?php
+					if($active_banner == 1) {
+
+						$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+							if ( '' !== $get_banner_img1 ) {
+								?>
+									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
+									<?php
+							}
+						 }elseif($active_banner == 2){
+							$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+							if ( '' !== $get_banner_img2 ) {
+								?>
+									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
+									<?php
+							}
+						 }else{
+							$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+							if ( '' !== $get_banner_img ) {
+								?>
+									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+									<?php
+							}
 					}
 					?>
 							<?php
@@ -7940,14 +7959,30 @@ class Gdpr_Cookie_Consent_Admin {
 				<div class="modal-right-field" style="<?php echo esc_attr( $template['css'] ); ?>">
 					<div class="modal-right-field-content <?php $this->is_column_or_square($column) ?>">
 						<div class="modal-group-description">
+						<?php
+					if($active_banner == 1) {
+
+					$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+					if ( '' !== $get_banner_img1 ) {
+						?>
+							<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 							<?php
-							$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-							if ( ! empty( $get_banner_img ) ) {
-								?>
-								<img class="modal_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-								<?php
 							}
-							?>
+							}elseif($active_banner == 2){
+								$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+							if ( '' !== $get_banner_img2 ) {
+								?>
+									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
+									<?php
+							}
+							}else{
+								$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+								if ( '' !== $get_banner_img ) {
+									?>
+										<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+										<?php
+								}
+							 }?>
 							<?php if ( in_array( $the_options['cookie_usage_for'], ['gdpr', 'both'], true ) ) : ?>
 								<h3 v-if="gdpr_message_heading.length>0">{{ gdpr_message_heading }}</h3>
 							<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
@@ -9053,11 +9088,47 @@ class Gdpr_Cookie_Consent_Admin {
 			
 			$ab_options['ab_testing_enabled'] = isset( $_POST['gcc-ab-testing-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-ab-testing-enable'] ) ) : 'false';
 			update_option( 'wpl_ab_options', $ab_options );
-			if ( isset( $_POST['logo_removed'] ) && 'true' == $_POST['logo_removed'] ) {
+			if ( isset( $_POST['logo_removed'] ) && 'true' === $_POST['logo_removed'] ) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' );
-			} elseif ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
-				// Update the option if a new logo is provided.
-				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) );
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1, '' );
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2, '' );
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1, '' );
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML2, '' );
+			}
+
+			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
+				$url = esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder'] ) );
+				if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
+					update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, $url );
+				}
+			}
+
+			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder1'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder1'] ) ) {
+				$url = esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder1'] ) );
+				if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
+					update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1, $url );
+				}
+			}
+
+			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder2'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder2'] ) ) {
+				$url = esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holder2'] ) );
+				if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
+					update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2, $url );
+				}
+			}
+
+			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holderML1'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holderML1'] ) ) {
+				$url = esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holderML1'] ) );
+				if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
+					update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1, $url );
+				}
+			}
+
+			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holderML2'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holderML2'] ) ) {
+				$url = esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holderML2'] ) );
+				if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
+					update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML2, $url );
+				}
 			}
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 			wp_send_json_success( array( 'form_options_saved' => true ) );
@@ -10986,7 +11057,7 @@ class Gdpr_Cookie_Consent_Admin {
 	function register_gdpr_policies_import_page() {
 		// This adds a page, even if it's not visible in the admin menu
 		add_submenu_page(
-			null,  // This makes the page hidden in the menu
+			'gdpr-cookie-consent',  // This makes the page hidden in the menu
 			__( 'GDPR Policies Import', 'gdpr-cookie-consent' ),
 			__( 'GDPR Policies Import', 'gdpr-cookie-consent' ),
 			'manage_options',  // Capability required
