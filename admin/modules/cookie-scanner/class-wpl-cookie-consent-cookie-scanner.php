@@ -332,7 +332,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 
 			if (200 === $response_status) {
 				$api_gdpr_cookie_scan = json_decode(wp_remote_retrieve_body($response));
-				error_log(print_r($api_gdpr_cookie_scan,true));
 				wp_send_json_success(['html' => $api_gdpr_cookie_scan]);
 			} else {
 				wp_send_json_error(['message' => __('Failed to retrieve data from server.', 'gdpr-cookie-consent')]);

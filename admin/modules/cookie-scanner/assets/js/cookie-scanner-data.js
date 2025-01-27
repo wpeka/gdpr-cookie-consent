@@ -1,11 +1,5 @@
 jQuery(document).ready(function ($) {
-    // Target the container where the cookie scanner data will be loaded
     const $scannerContainer = $('#cookie-scanner-container');
-	console.log("tryiing bhai");
-    // Show loading indicator
-    $scannerContainer.html('<p>Loading cookie scanner data...</p>');
-
-    // Perform AJAX request to fetch data
     $.ajax({
         url: cookie_scanner_ajax.ajax_url,
         method: 'POST',
@@ -13,10 +7,11 @@ jQuery(document).ready(function ($) {
             action: 'wpl_cookie_scanner_card',
         },
         success: function (response) {
-            if (response.success) {
-                $scannerContainer.html(response.data.html);
+            $('.data_wait_loader_container').css("display","none");
+            if (window.gen && typeof window.gen.refreshCookieScannerData === 'function') {
+                window.gen.refreshCookieScannerData(response.data.html);
             } else {
-                $scannerContainer.html('<p>' + response.data.message + '</p>');
+                console.error('Vue instance not found or refreshCookieScannerData method missing.');
             }
         },
         error: function () {

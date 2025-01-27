@@ -6694,7 +6694,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					</c-card>
 					<c-card v-show="discovered_cookies_list_tab == true">
 						<div id="cookie-scanner-container">
-							<!-- The cookie scanner data will be loaded here -->
+							<div class="data_wait_loader_container">
+								<div class="data_wait_loader"></div>
+							</div>
+							 <div v-html="cookie_scanner_data"></div>
 						</div>
 					</c-card>
 					<c-card v-show="scan_history_list_tab == true">
@@ -6704,7 +6707,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				<!-- Script Blocker -->
 				<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 				<!--A/B Testing-->
-				<?php do_action( 'gdpr_settings_ab_testing_tab' ); ?>
+				<c-tab title="<?php esc_attr_e( 'A/B Testing', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#ab_testing" id="gdpr-cookie-consent-ab-testing">
+					<div id="ab-testing-container">
+						<div class="ab_test_data_wait_loader_container">
+							<div class="data_wait_loader"></div>
+						</div>
+						<div v-html="ab_testing_data"></div>
+					</div>
+				</c-tab>
 				<!-- Integration -->
 				<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#language" id="gdpr-cookie-consent-language">
 					<c-card class="language-card">
