@@ -176,17 +176,17 @@ table.gdpr_script_items tr:nth-child(odd) td {
 .banner-dark_preview #cookie_action_settings_preview {
   color: rgb(128, 128, 128);
   border: 1px solid rgb(128, 128, 128);
-  background-color: rgb(30, 30, 30) !important;
+  background-color: rgb(38, 38, 38) !important;
 }
 .widget-dark_preview #cookie_action_settings_preview {
   color: rgb(128, 128, 128);
   border: 1px solid rgb(128, 128, 128);
-  background-color: rgb(30, 30, 30) !important;
+  background-color: rgb(38, 38, 38) !important;
 }
 .popup-dark_preview #cookie_action_settings_preview {
   color: rgb(128, 128, 128);
   border: 1px solid rgb(128, 128, 128);
-  background-color: rgb(30, 30, 30) !important;
+  background-color: rgb(38, 38, 38) !important;
 }
 .schedule-scan-start-btn span {
   color: #3399ff;
@@ -308,7 +308,7 @@ a .export-btn:hover {
 }
 .gdpr-cookie-consent-main-admin-structure
   .gdpr-cookie-consent-admin-fixed-banner {
-  background: #346db1;
+  background: #084EA8;
 }
 .wpgdpr-api-connection-popup .wpgdpr-api-connect-text {
   color: grey;

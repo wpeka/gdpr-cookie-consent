@@ -2,10 +2,6 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
-
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@300;400;500;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
-
 body.post-type-wplconsentlogs .wrap .subsubsub {
   display: none;
 }
@@ -857,7 +853,7 @@ ul.gdpr_sub_tab li:first-child {
   flex-direction: row;
 }
 .gdpr-templates-field-container .gdpr-template-field .gdpr-right-field {
-  padding: 1rem;
+  padding: 2rem;
   box-shadow: rgba(142, 142, 142, 0.6) 1px 0px 5px 1px;
   width: 93%;
 }
@@ -3103,6 +3099,12 @@ input[type="search"]:focus {
 .banner-dark_preview {
   box-shadow: rgb(38, 38, 38) 0px 0px 8px !important;
 }
+.widget-dark_preview #cookie_action_reject_preview {
+  float: right !important;
+}
+.popup-dark_preview #cookie_action_reject_preview {
+  float: right !important;
+}
 .banner-dark_preview #cookie_action_settings_preview {
   border-radius: 0px;
 }
@@ -4146,7 +4148,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   .gdpr-cookie-consent-admin-fixed-banner {
   display: flex;
   justify-content: space-between;
-  background: #346db1;
+  background: #084EA8;
   height: 100px;
   position: relative;
   z-index: 99;
@@ -4250,8 +4252,8 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   margin: 20px;
 }
 .gdpr-cookie-consent-admin-logo img {
-  width: 74px;
-  height: 74px;
+  height: 46px;
+  margin-top: 14px;
 }
 .gdpr-cookie-consent-admin-promotional-banner img {
   width: 100%;
@@ -7852,6 +7854,9 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   width: 39px;
   margin-left: 40px;
 }
+.gdpr-banner-preview-logo img{
+  height: 100%;
+}
 .gdpr-banner-preview-save-btn
   .gdpr-banner-preview-text
   #gdpr-banner-preview-cookie-banner-title {
@@ -8378,6 +8383,9 @@ button.btn.gdpr-renew-now-btn.pro,
   align-items: center;
   margin-top: 40px;
 }
+.gdpr-cookie-list-tabs-container img{
+  height: 40px;
+}
 .gdpr-cookie-list-tabs-container .gdpr-cookie-list-tabs-heading,
 .gdpr-cookie-discovered-tab-container .gdpr-cookie-list-tabs-heading,
 .gdpr-cookie-scan-history-tab-container .gdpr-cookie-list-tabs-heading {
@@ -8852,6 +8860,7 @@ input.vs__search {
   .btn {
   font-size: 10px;
   margin-bottom: 0px;
+  border-radius: 0;
   flex: 1;
 }
 
