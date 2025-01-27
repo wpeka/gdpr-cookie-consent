@@ -78,6 +78,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public $the_options = array();
 
 	public $tcf_json_data;
+	public $settings;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -7731,7 +7732,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function print_template_boxes( $name, $templates, $checked ) {
+	public function print_template_boxes( $name, $templates, $checked,$active_banner ) {
 		$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 		$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
 		$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
@@ -7920,7 +7921,7 @@ class Gdpr_Cookie_Consent_Admin {
 					class="more-design-modal-container"
 				>
 					<c-row>
-					<?php $this->get_more_templates_modal_data($name); ?>
+					<?php $this->get_more_templates_modal_data($name,$active_banner); ?>
 					</c-row>
 				</c-modal>
 			</c-card-body>
@@ -7929,7 +7930,7 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	// Show the modal based on the type of the template
-	public function get_more_templates_modal_data($name) {
+	public function get_more_templates_modal_data($name,$active_banner) {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$templates = [];
 		if($name === 'banner') {
@@ -8077,7 +8078,7 @@ class Gdpr_Cookie_Consent_Admin {
 		?>
 			<c-card v-show="is_gdpr || is_lgpd">
 					<c-row>
-						<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Bar Template', 'gdpr-cookie-consent' ); ?></div></c-col>
+						<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_attr_e( 'Cookie Bar Template', 'gdpr-cookie-consent' ); ?></div></c-col>
 					</c-row>
 					<c-row v-show="!show_banner_template">
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Templates', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use a pre-built template to style your Cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
@@ -8088,7 +8089,7 @@ class Gdpr_Cookie_Consent_Admin {
 						</c-col>
 					</c-row>
 					<c-row v-show="show_banner_template">
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Templates', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use a pre-built template to style your Cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Templates', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Use a pre-built template to style your Cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
 							<div role="group" class="form-group">
 								<span class="gdpr-cookie-consent-description"><?php esc_attr_e( 'To preview the pre-built templates below, simply choose a template and then click the "Save Changes" button. Please note that this action will replace your current banner settings.', 'gdpr-cookie-consent' ); ?></span>
@@ -8096,9 +8097,17 @@ class Gdpr_Cookie_Consent_Admin {
 						</c-col>
 					</c-row>
 					<c-row>
-						<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Auto Generate Banner', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this setting to automatically generate a cookie banner that matches your website\'s color theme, ensuring seamless integration with your design.
+						<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Auto Generate Banner', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enable this setting to automatically generate a cookie banner that matches your website\'s color theme, ensuring seamless integration with your design.
 						', 'gdpr-cookie-consent' ); ?>"></tooltip></label></label>
 						</c-col>
+						<c-row>
+						<c-col class="col-sm-4"></c-col>
+						<c-col class="col-sm-8">
+								<div role="group" class="form-group">
+									<span class="gdpr-cookie-consent-description"><?php esc_html( 'To preview the auto generated template, simply click on auto generate template button above and then click the "Save Changes" button.', 'gdpr-cookie-consent' ); ?></span>
+								</div>
+							</c-col>
+						</c-row>
 						<c-col class="col-sm-8">
 						<input type="button" name="gcc-cookie-consent-auto_generated_banner" value="<?php  
 							if (isset($the_options['is_banner_auto_generated']) && 
@@ -8125,20 +8134,14 @@ class Gdpr_Cookie_Consent_Admin {
 							<?php } ?>
 						</div>
 					</c-row>
-					<c-row>
-						<c-col class="col-sm-4"></c-col>
-						<c-col class="col-sm-8">
-								<div role="group" class="form-group">
-									<span class="gdpr-cookie-consent-description"><?php esc_attr_e( 'To preview the auto generated template, simply click on auto generate template button above and then click the "Save Changes" button.', 'gdpr-cookie-consent' ); ?></span>
-								</div>
-							</c-col>
-					</c-row>
+					<?php $ab_options                        = get_option( 'wpl_ab_options' );
+					if( !$ab_options ['ab_testing_enabled'] ){?> 
 					<c-row v-show="show_banner_template">
 						<c-col class="col-sm-3">
 							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
 						</c-col>
 						<c-col class="col-sm-9">
-							<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'] ); ?>
+							<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'],0 ); ?>
 						</c-col>
 					</c-row>
 						<c-row v-show="show_popup_template">
@@ -8146,7 +8149,7 @@ class Gdpr_Cookie_Consent_Admin {
 								<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
 							</c-col>
 							<c-col class="col-sm-9">
-					<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'] ); ?>
+					<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'],0 ); ?>
 							</c-col>
 						</c-row>
 						<c-row v-show="show_widget_template">
@@ -8154,13 +8157,73 @@ class Gdpr_Cookie_Consent_Admin {
 								<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
 							</c-col>
 							<c-col class="col-sm-9">
-					<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'] ); ?>
+					<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'],0 ); ?>
 							</c-col>
 					</c-row>
 					<input type="hidden" name="gdpr-template" v-model="template">
+
+					<?php } else{?>
+						<div v-show="active_test_banner_tab === 1">
+						<c-row v-show="show_banner_template">
+						<c-col class="col-sm-3">
+							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
+						</c-col>
+						<c-col class="col-sm-9">
+							<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'],1 ); ?>
+						</c-col>
+					</c-row>
+						<c-row v-show="show_popup_template">
+							<c-col class="col-sm-3">
+								<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
+							</c-col>
+							<c-col class="col-sm-9">
+					<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'],1 ); ?>
+							</c-col>
+						</c-row>
+						<c-row v-show="show_widget_template">
+							<c-col class="col-sm-3">
+								<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
+							</c-col>
+							<c-col class="col-sm-9">
+					<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'],1 ); ?>
+							</c-col>
+					</c-row>
+					<input type="hidden" name="gdpr-template" v-model="template">
+
+						</div>
+						<div v-show="active_test_banner_tab === 2">
+						<c-row v-show="show_banner_template">
+						<c-col class="col-sm-3">
+							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
+						</c-col>
+						<c-col class="col-sm-9">
+							<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'],2 ); ?>
+						</c-col>
+					</c-row>
+						<c-row v-show="show_popup_template">
+							<c-col class="col-sm-3">
+								<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
+							</c-col>
+							<c-col class="col-sm-9">
+					<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'],2 ); ?>
+							</c-col>
+						</c-row>
+						<c-row v-show="show_widget_template">
+							<c-col class="col-sm-3">
+								<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
+							</c-col>
+							<c-col class="col-sm-9">
+					<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'],2 ); ?>
+							</c-col>
+					</c-row>
+					<input type="hidden" name="gdpr-template" v-model="template">
+
+						</div>
+					<?php }?>
 			</c-card>
 				<?php
 	}
+
 
 	/**
 	 * Ajax callback for setting page.
