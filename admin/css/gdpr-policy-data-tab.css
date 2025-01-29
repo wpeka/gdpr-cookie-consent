@@ -567,6 +567,7 @@ input[type=checkbox]:checked::before {
 }
 .consent-log-heading-export , .data-request-heading-export , .policy-data-heading-export{
 	display: flex;
+	align-items: flex-start;
 }
 input#gdpr-cookie-consent-search-input{
 	padding-bottom:10px;	
