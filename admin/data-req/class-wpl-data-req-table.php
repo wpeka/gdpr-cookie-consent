@@ -93,7 +93,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
 					<?php echo esc_html( $text ); ?>:
 				</label>
-				<input placeholder="Search Requests" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
+				<input placeholder="Search Requests" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo isset($_GET['search-key']) && $_GET['search-key'] == 'search_data_requests' ? esc_attr($_GET['s']) : ''; ?>"/>
 				<img id="search-logo-data-request" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 				<?php
 				submit_button(
@@ -101,7 +101,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 					'button',
 					false,
 					false,
-					array( 'ID' => 'search-submit-data-request' )
+					array( 'ID' => 'search-submit-data-request', 'name' => 'search-key' )
 				);
 				?>
 			</div>

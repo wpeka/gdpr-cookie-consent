@@ -702,7 +702,7 @@ class Gdpr_Cookie_Consent_Admin {
 						<a href="<?php echo esc_url_raw( plugins_url( 'public/modules/consent-logs/csv.php', __DIR__ ) . '?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
 					</div>
 					<div class="consent-log-search-log"> 
-						<?php $consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+						<?php $consent_logs->search_box( __( 'search_logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
 					</div>
 				</div>
 			<?php
@@ -1229,7 +1229,7 @@ class Gdpr_Cookie_Consent_Admin {
 						<a href="<?php echo esc_url_raw( plugins_url( 'admin/data-req/csv.php', __DIR__ ) . '?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
 					</div>
 					<div class="data-request-search-log"> 
-						<?php $datarequests->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+						<?php $datarequests->search_box( __( 'search_data_requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
 					</div>
 				</div>
 				<?php
@@ -1673,7 +1673,7 @@ class Gdpr_Cookie_Consent_Admin {
 							<a href="<?php echo esc_url_raw( admin_url( 'post-new.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Add New', 'gdpr-cookie-consent' ); ?></a>
 						</div>
 						<div class="policy-data-search-log"> 
-							<?php $policy_data->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+							<?php $policy_data->search_box( __( 'search_policy_data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
 						</div>
 					</div>
 					<?php
@@ -1797,7 +1797,7 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( $api_user_plan == 'free' ) {
 			$links = array_merge(
 				array(
-					'<a href="' . esc_url( 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=plugins&utm_campaign=link&utm_content=upgrade-to-pro' ) . '" target="_blank" rel="noopener noreferrer"><strong style="color: #11967A; display: inline;">' . __( 'Upgrade to Pro', 'gdpr-cookie-consent' ) . '</strong></a>',
+					'<a href="' . esc_url( 'https://app.wplegalpages.com/pricing/?utm_source=plugin&utm_medium=wpcookieconsent&utm_campaign=upgrade' ) . '" target="_blank" rel="noopener noreferrer"><strong style="color: #11967A; display: inline;">' . __( 'Upgrade to Pro', 'gdpr-cookie-consent' ) . '</strong></a>',
 				),
 				$links
 			);
@@ -7254,6 +7254,8 @@ class Gdpr_Cookie_Consent_Admin {
 
 			$the_options                          = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$the_options['is_on']                 = isset( $_POST['gcc-cookie-enable'] ) && ( true === $_POST['gcc-cookie-enable'] || 'true' === $_POST['gcc-cookie-enable'] ) ? 'true' : 'true';
+			// DO NOT TRACK.
+            $the_options['do_not_track_on'] = isset( $_POST['gcc-do-not-track'] ) && ( true === $_POST['gcc-do-not-track'] || 'true' === $_POST['gcc-do-not-track'] ) ? 'true' : 'false';
 			$the_options['cookie_usage_for']      = isset( $_POST['gcc-gdpr-policy'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-policy'] ) ) : 'gdpr';
 			$the_options['cookie_bar_as']         = isset( $_POST['show-cookie-as'] ) ? sanitize_text_field( wp_unslash( $_POST['show-cookie-as'] ) ) : 'banner';
 			$the_options['button_accept_is_on']   = isset( $_POST['gcc-cookie-accept-enable'] ) && ( true === $_POST['gcc-cookie-accept-enable'] || 'true' === $_POST['gcc-cookie-accept-enable'] ) ? 'true' : 'true';

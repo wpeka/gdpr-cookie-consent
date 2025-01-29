@@ -550,7 +550,8 @@ input[type=checkbox]:checked::before {
 #bulk-action-selector-top,#bulk-action-selector-bottom{
 	order:2;
 }
-#search-submit-consent-log , #search-submit-data-request , #search-submit-policy-data{
+#search-submit-consent-log , #search-submit-data-request , #search-submit-policy-data,
+#search-key{
 	display: none;
 }
 .search-box{
@@ -567,6 +568,7 @@ input[type=checkbox]:checked::before {
 }
 .consent-log-heading-export , .data-request-heading-export , .policy-data-heading-export{
 	display: flex;
+	align-items: flex-start;
 }
 input#gdpr-cookie-consent-search-input{
 	padding-bottom:10px;	

@@ -102,7 +102,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
 					<?php echo esc_html( $text ); ?>:
 				</label>
-				<input placeholder="Search Policy Data"type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
+				<input placeholder="Search Policy Data"type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo isset($_GET['search-key']) && $_GET['search-key'] == 'search_policy_data' ? esc_attr($_GET['s']) : ''; ?>"/>
 				<img id="search-logo-policy-data" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 				<?php
 				submit_button(
@@ -110,7 +110,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 					'button',
 					false,
 					false,
-					array( 'ID' => 'search-submit-policy-data' )
+					array( 'ID' => 'search-submit-policy-data', 'name' => 'search-key' )
 				);
 				?>
 			</div>
