@@ -25,6 +25,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	 * @var array $errors Display errors.
 	 */
 	private static $errors = array();
+	public $settings;
 	/**
 	 * Gdpr_Cookie_Consent_Geo_Ip constructor.
 	 *
