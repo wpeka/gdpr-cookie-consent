@@ -550,7 +550,8 @@ input[type=checkbox]:checked::before {
 #bulk-action-selector-top,#bulk-action-selector-bottom{
 	order:2;
 }
-#search-submit-consent-log , #search-submit-data-request , #search-submit-policy-data{
+#search-submit-consent-log , #search-submit-data-request , #search-submit-policy-data,
+#search-key{
 	display: none;
 }
 .search-box{

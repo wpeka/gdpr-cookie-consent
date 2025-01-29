@@ -974,7 +974,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 	
 	<c-container class="gdpr-cookie-consent-settings-container">
 
-		<c-form id="gcc-save-settings-form" method="post" spellcheck="false" class="gdpr-cookie-consent-settings-form">
+		<c-form id="gcc-save-settings-form" method="get" spellcheck="false" class="gdpr-cookie-consent-settings-form">
 			<input type="hidden" name="gcc_settings_form_nonce" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce' ) ); ?>"/>
 			<div class="gdpr-cookie-consent-settings-content">
 

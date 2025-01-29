@@ -702,7 +702,7 @@ class Gdpr_Cookie_Consent_Admin {
 						<a href="<?php echo esc_url_raw( plugins_url( 'public/modules/consent-logs/csv.php', __DIR__ ) . '?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
 					</div>
 					<div class="consent-log-search-log"> 
-						<?php $consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+						<?php $consent_logs->search_box( __( 'search_logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
 					</div>
 				</div>
 			<?php
@@ -1229,7 +1229,7 @@ class Gdpr_Cookie_Consent_Admin {
 						<a href="<?php echo esc_url_raw( plugins_url( 'admin/data-req/csv.php', __DIR__ ) . '?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
 					</div>
 					<div class="data-request-search-log"> 
-						<?php $datarequests->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+						<?php $datarequests->search_box( __( 'search_data_requests', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
 					</div>
 				</div>
 				<?php
@@ -1673,7 +1673,7 @@ class Gdpr_Cookie_Consent_Admin {
 							<a href="<?php echo esc_url_raw( admin_url( 'post-new.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Add New', 'gdpr-cookie-consent' ); ?></a>
 						</div>
 						<div class="policy-data-search-log"> 
-							<?php $policy_data->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
+							<?php $policy_data->search_box( __( 'search_policy_data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
 						</div>
 					</div>
 					<?php

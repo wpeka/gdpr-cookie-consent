@@ -7915,6 +7915,9 @@ img.gdpr-tooltip-image {
   border: 1px solid var(--gray-100);
   margin-left: 22px;
   margin-right: 37px;
+  position: sticky;
+  top: 210px;
+  z-index: 999;
 }
 button.btn.gdpr-renew-now-btn.pro,
 #data-request-btn,

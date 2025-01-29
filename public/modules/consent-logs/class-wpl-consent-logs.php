@@ -111,7 +111,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
 					<?php echo esc_html( $text ); ?>:
 				</label>
-				<input placeholder="Search Consent Logs using IP address" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
+				<input placeholder="Search Consent Logs using IP address" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo isset($_GET['search-key']) && $_GET['search-key'] == 'search_logs' ? esc_attr($_GET['s']) : ''; ?>"/>
 				<img id="search-logo-consent-log" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 				<?php
 				submit_button(
@@ -119,7 +119,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'button',
 					false,
 					false,
-					array( 'ID' => 'search-submit-consent-log' )
+					array( 'ID' => 'search-submit-consent-log', 'name' => 'search-key' )
 				);
 				?>
 			</div>
