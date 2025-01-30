@@ -50,5 +50,13 @@ class Gdpr_Cookie_Consent_Deactivator {
 		delete_option( 'wpl_ab_options');
 		delete_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR);
 		delete_option( 'gdpr_review_pending');
+		
+		$the_options['is_worldwide_on'] = 'true';
+		$the_options['is_selectedCountry_on'] = 'false';
+		$the_options['is_eu_on'] = 'false';
+		$the_options['is_ccpa_on'] = 'false';
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
+		update_option( 'gdpr_no_of_page_scan', 0 );
 	}
 }

@@ -234,6 +234,9 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 						delete_option( $option );
 						}
 				}
+				$settings   = new GDPR_Cookie_Consent_Settings();
+				$options    = $settings->get_defaults();
+				update_option( 'wpeka_api_framework_app_settings', $options );
 			}
 		}
 
