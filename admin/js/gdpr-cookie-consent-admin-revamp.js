@@ -751,9 +751,6 @@ jQuery(document).ready(function () {
         },
       })
       .done(function (response) {
-        gdpr_notify_msg.success(
-          "Your choice banner has been set. A/B Testing is now turned off."
-        );
         setTimeout(function () {
           location.reload();
         }, 1000);
@@ -771,9 +768,6 @@ jQuery(document).ready(function () {
         },
       })
       .done(function (response) {
-        gdpr_notify_msg.success(
-          "Your choice banner has been set. A/B Testing is now turned off."
-        );
         setTimeout(function () {
           location.reload();
         }, 1000);

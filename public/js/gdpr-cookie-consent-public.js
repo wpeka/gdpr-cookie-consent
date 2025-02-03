@@ -783,7 +783,9 @@ GDPR_CCPA_COOKIE_EXPIRE =
             });
           }
 
-          window.dispatchEvent(event);
+          if(event){
+            window.dispatchEvent(event);
+          }
 
           // Log consent action
           GDPR.logConsent(button_action);
@@ -5350,14 +5352,16 @@ GDPR_CCPA_COOKIE_EXPIRE =
     const parent = document.querySelector(
       ".widget-navy_blue_box .gdpr_messagebar_content .gdpr.group-description-buttons"
     );
-    const children = parent.children;
+    if (parent) { 
+      const children = parent.children;
 
-    if (
-      children.length === 2 &&
-      children[0].id === "cookie_action_accept" &&
-      children[1].id === "cookie_action_settings"
-    ) {
-      parent.classList.add("exact-two-anchors");
-    }
+      if (
+        children.length === 2 &&
+        children[0].id === "cookie_action_accept" &&
+        children[1].id === "cookie_action_settings"
+      ) {
+          parent.classList.add("exact-two-anchors");
+      }
+  }
   });
 })(jQuery);

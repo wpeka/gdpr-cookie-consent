@@ -95,7 +95,6 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'add_consent_log_content', array( $this, 'wpl_consent_log_overview' ) );
 		}
 		$pro_is_activated = get_option( 'wpl_pro_active', false );
-
 		if ( ! $pro_is_activated ) {
 			if ( ! shortcode_exists( 'wpl_data_request' ) ) {
 				add_shortcode( 'wpl_data_request', array( $this, 'wpl_data_reqs_shortcode' ) );         // a shortcode [wpl_data_request].
@@ -605,6 +604,15 @@ class Gdpr_Cookie_Consent_Admin {
 		$ab_options ['reject2']   = 0;
 		$ab_options ['bypass1']   = 0;
 		$ab_options ['bypass2']   = 0;
+
+		// Upload logo. 
+		if($banner_choice == '1'){
+			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, $get_banner_img );
+		}else{
+			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, $get_banner_img );
+		}
 		update_option( 'wpl_ab_options', $ab_options );
 		return $the_options;
 	}
@@ -7772,21 +7780,21 @@ class Gdpr_Cookie_Consent_Admin {
 					if($active_banner == 1) {
 
 						$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
-							if ( '' !== $get_banner_img1 ) {
+							if (!empty($get_banner_img1)) {
 								?>
 									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 									<?php
 							}
 						 }elseif($active_banner == 2){
 							$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
-							if ( '' !== $get_banner_img2 ) {
+							if (!empty($get_banner_img2)) {
 								?>
 									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
 									<?php
 							}
 						 }else{
 							$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-							if ( '' !== $get_banner_img ) {
+							if (!empty($get_banner_img1)) {
 								?>
 									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 									<?php
@@ -7964,14 +7972,14 @@ class Gdpr_Cookie_Consent_Admin {
 					if($active_banner == 1) {
 
 					$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
-					if ( '' !== $get_banner_img1 ) {
+					if (!empty($get_banner_img1)) {
 						?>
 							<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 							<?php
 							}
 							}elseif($active_banner == 2){
 								$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
-							if ( '' !== $get_banner_img2 ) {
+							if (!empty($get_banner_img2)) {
 								?>
 									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
 									<?php
@@ -8401,7 +8409,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_url']                  = isset( $_POST['gdpr-cookie-accept-url'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-url'] ) ) : '#';
 			$the_options['button_accept_as_button']            = isset( $_POST['gdpr-cookie-accept-as'] ) && ( true === $_POST['gdpr-cookie-accept-as'] || 'true' === $_POST['gdpr-cookie-accept-as'] ) ? 'true' : 'false';
 			$the_options['button_accept_new_win']              = isset( $_POST['gdpr-cookie-url-new-window'] ) && ( true === $_POST['gdpr-cookie-url-new-window'] || 'true' === $_POST['gdpr-cookie-url-new-window'] ) ? 'true' : 'false';
-			if($the_options['auto_generated_background_color'] == ""){
+			if (!isset($the_options['auto_generated_background_color']) || $the_options['auto_generated_background_color'] == ""){
 				$the_options['button_accept_button_color']         = isset( $_POST['gdpr-cookie-accept-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-background-color'] ) ) : '#18a300';
 				$the_options['button_accept_button_border_color']  = isset( $_POST['gdpr-cookie-accept-border-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-border-color'] ) ) : '#18a300';
 				$the_options['button_decline_link_color']             = isset( $_POST['gdpr-cookie-decline-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-text-color'] ) ) : '#ffffff';
@@ -9151,12 +9159,17 @@ class Gdpr_Cookie_Consent_Admin {
 			
 			$ab_options['ab_testing_enabled'] = isset( $_POST['gcc-ab-testing-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-ab-testing-enable'] ) ) : 'false';
 			update_option( 'wpl_ab_options', $ab_options );
-			if ( isset( $_POST['logo_removed'] ) && 'true' === $_POST['logo_removed'] ) {
+			if ( isset( $_POST['logo_removed'] ) && 'true' == $_POST['logo_removed'] ) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' );
+			}
+			if ( isset( $_POST['logo_removed1'] ) && 'true' == $_POST['logo_removed1'] ) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1, '' );
+			}
+			if ( isset( $_POST['logo_removed2'] ) && 'true' == $_POST['logo_removed2'] ) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2, '' );
+			}
+			if ( isset( $_POST['logo_removedML1'] ) && 'true' == $_POST['logo_removedML1'] ) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1, '' );
-				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML2, '' );
 			}
 
 			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holder'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holder'] ) ) {
@@ -9184,13 +9197,6 @@ class Gdpr_Cookie_Consent_Admin {
 				$url = esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holderML1'] ) );
 				if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
 					update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1, $url );
-				}
-			}
-
-			if ( isset( $_POST['gdpr-cookie-bar-logo-url-holderML2'] ) && ! empty( $_POST['gdpr-cookie-bar-logo-url-holderML2'] ) ) {
-				$url = esc_url_raw( wp_unslash( $_POST['gdpr-cookie-bar-logo-url-holderML2'] ) );
-				if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
-					update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML2, $url );
 				}
 			}
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );

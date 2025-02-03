@@ -2482,7 +2482,7 @@ input[type="search"]:focus {
 .gdpr_messagebar_content_preview {
   margin: 0 auto;
 }
-.gdpr_messagebar_content_preview.banner-msg-content-preview {
+.gdpr_messagebar_content_preview.banner-msg-content-preview, .gdpr_messagebar_content_preview.popup-msg-content-preview {
   padding: 1.5rem;
 }
 .gdpr_messagebar_content_preview .gdpr_preview {
@@ -9549,6 +9549,7 @@ input.vs__search {
   flex-direction: column;
   gap: 5px;
   padding: 0 10px;
+  padding-top: 20px;
   width: 100%;
   border-top: 1px solid rgb(221, 221, 221);
 }
@@ -9573,9 +9574,13 @@ input.vs__search {
   font-size: 12px !important;
 }
 .ab-testing-results .vertical-line {
-  height: 400px;
+  height: 350px;
   border-left: 1px solid rgb(221, 221, 221);
   width: 0;
+}
+.ab-banner-set-default:hover{
+  border: 1px solid #6686ad;
+  color: #6686ad;
 }
 .ab-testing-result-content p {
   margin-bottom: 0 !important;

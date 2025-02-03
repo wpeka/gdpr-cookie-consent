@@ -65,6 +65,9 @@ var gen = new Vue({
       is_lang_changed: false,
       is_iabtcf_changed: false,
       is_logo_removed: false,
+      is_logo_removed1: false,
+      is_logo_removed2: false,
+      is_logo_removedML1: false,
       is_logo_added: false,
       save_loading: false,
       edit_discovered_cookie: {},
@@ -5459,7 +5462,7 @@ var gen = new Vue({
             "&lang_changed=" +
             that.is_lang_changed +
             "&logo_removed=" +
-            that.is_logo_removed +
+            that.is_logo_removed +"&logo_removed1=" + that.is_logo_removed1 +"&logo_removed2="+ that.is_logo_removed2 +"&logo_removedML1=" + that.is_logo_removedML1 +
             "&gdpr_css_text_field=" +
             that.gdpr_css_text,
         })
@@ -5503,6 +5506,18 @@ var gen = new Vue({
             that.is_logo_removed = false;
             location.reload();
           }
+          if (that.is_logo_removed1 == true) {
+            that.is_logo_removed1 = false;
+            location.reload();
+          }
+          if (that.is_logo_removed2 == true) {
+            that.is_logo_removed2 = false;
+            location.reload();
+          }
+          if (that.is_logo_removedML1 == true) {
+            that.is_logo_removedML1 = false;
+            location.reload();
+          }
           if (that.is_logo_added == true) {
             that.is_logo_added = false;
             location.reload();
@@ -5533,8 +5548,8 @@ var gen = new Vue({
         jQuery("#gdpr-cookie-bar-logo-holder").attr("src", selection1.url);
         jQuery("#gdpr-cookie-bar-logo-url-holder").val(selection1.url);
         alert("Please click on save changes to update the image on the banner");
-        this.is_logo_added = true;
       });
+      this.is_logo_added = true;
     },
     deleteSelectedimage() {
       jQuery("#gdpr-cookie-bar-logo-holder").removeAttr("src");
@@ -5561,13 +5576,13 @@ var gen = new Vue({
         jQuery("#gdpr-cookie-bar-logo-holder1").attr("src", selection1.url);
         jQuery("#gdpr-cookie-bar-logo-url-holder1").val(selection1.url);
         alert("Please click on save changes to update the image on the banner");
-        this.is_logo_added = true;
       });
+      this.is_logo_added = true;
     }, 
     deleteSelectedimage1() {
       jQuery("#gdpr-cookie-bar-logo-holder1").removeAttr("src");
       jQuery("#gdpr-cookie-bar-logo-url-holder1").attr("value", "");
-      this.is_logo_removed = true;
+      this.is_logo_removed1 = true;
     },
     openMediaModal2() {
       var image_frame = wp.media({
@@ -5589,13 +5604,13 @@ var gen = new Vue({
         jQuery("#gdpr-cookie-bar-logo-holder2").attr("src", selection2.url);
         jQuery("#gdpr-cookie-bar-logo-url-holder2").val(selection2.url);
         alert("Please click on save changes to update the image on the banner");
-        this.is_logo_added = true;
       });
+      this.is_logo_added = true;
     },    
     deleteSelectedimage2() {
       jQuery("#gdpr-cookie-bar-logo-holder2").removeAttr("src");
       jQuery("#gdpr-cookie-bar-logo-url-holder2").attr("value", "");
-      this.is_logo_removed = true;
+      this.is_logo_removed2 = true;
     },
     openMediaModalML1() {
       var image_frame = wp.media({
@@ -5617,41 +5632,13 @@ var gen = new Vue({
         jQuery("#gdpr-cookie-bar-logo-holderML1").attr("src", selection1.url);
         jQuery("#gdpr-cookie-bar-logo-url-holderML1").val(selection1.url);
         alert("Please click on save changes to update the image on the banner");
-        this.is_logo_added = true;
       });
+      this.is_logo_added = true;
     },    
     deleteSelectedimageML1() {
       jQuery("#gdpr-cookie-bar-logo-holderML1").removeAttr("src");
       jQuery("#gdpr-cookie-bar-logo-url-holderML1").attr("value", "");
-      this.is_logo_removed = true;
-    },
-    openMediaModalML2() {
-      var image_frame = wp.media({
-        title: "Select Media for Image 2",
-        multiple: false,
-        library: {
-          type: "image",
-        },
-      });
-    
-      // Open the media modal
-      image_frame.open();
-    
-      // Handle the selection
-      image_frame.on("select", function () {
-        var selection2 = image_frame.state().get("selection").first().toJSON();
-    
-        // Update Image 2 holder and hidden input
-        jQuery("#gdpr-cookie-bar-logo-holderML2").attr("src", selection2.url);
-        jQuery("#gdpr-cookie-bar-logo-url-holderML2").val(selection2.url);
-        alert("Please click on save changes to update the image on the banner");
-        this.is_logo_added = true;
-      });
-    },    
-    deleteSelectedimageML2() {
-      jQuery("#gdpr-cookie-bar-logo-holderML2").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-url-holderML2").attr("value", "");
-      this.is_logo_removed = true;
+      this.is_logo_removedML1 = true;
     },
     onSwitchScriptBlocker(script_id) {
       j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
