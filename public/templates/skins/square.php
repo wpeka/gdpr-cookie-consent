@@ -883,6 +883,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 	}
 } 
 elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
+	$ab_options = get_option('wpl_ab_options');
 	?>
 	<div class="gdpr_messagebar_content">
 		<div class="group-description" tabindex="0">
