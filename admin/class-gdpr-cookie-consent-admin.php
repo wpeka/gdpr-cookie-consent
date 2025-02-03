@@ -3733,7 +3733,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'border_style'     => 'none',
 						'border_width'     => '0',
 						'border_color'     => '#2a3e71',
-						'border_radius'    => '0',
+						'border_radius'    => '15',
 						'layout'           => 'default',
 						'readmore'         => array(
 							'text'       => 'Read More',
@@ -5731,7 +5731,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'border_style'     => 'none',
 						'border_width'     => '0',
 						'border_color'     => '#2a3e71',
-						'border_radius'    => '0',
+						'border_radius'    => '15',
 						'layout'           => 'default',
 						'readmore'         => array(
 							'text'       => 'Read More',
