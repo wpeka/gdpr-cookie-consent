@@ -792,6 +792,7 @@ class Gdpr_Cookie_Consent {
 			'button_decline_button_border_style1'    => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
 			'button_decline_button_border_color1'    => '#333333',
 			'button_decline_button_border_radius1'   => '0', // in pixel.
+			'multiple_legislation_accept_all_border_radius1'   => '0', // in pixel.
 
 			'button_settings_text1'                  => 'Cookie Settings',
 			'button_settings_url1'                   => '#',
@@ -1440,6 +1441,7 @@ class Gdpr_Cookie_Consent {
 			'button_accept_button_border_radius1'    => $settings['button_accept_button_border_radius1'],
 			'button_accept_all_btn_border_radius1'   => $settings['button_accept_all_btn_border_radius1'],
 			'button_decline_button_border_radius1'   => $settings['button_decline_button_border_radius1'],
+			'multiple_legislation_accept_all_border_radius1'   => $settings['multiple_legislation_accept_all_border_radius1'],
 			'button_settings_button_border_radius1'  => $settings['button_settings_button_border_radius1'],
 			'button_confirm_button_border_radius1'   => $settings['button_confirm_button_border_radius1'],
 			'button_cancel_button_border_radius1'    => $settings['button_cancel_button_border_radius1'],
