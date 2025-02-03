@@ -14,13 +14,42 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 	<div class="gdpr_messagebar_content">
 		<div class="gdpr_logo_container">
 		<?php
-			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		if ( ! empty( $get_banner_img ) ) {
-			?>
-			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-				<?php
+		if($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false){
+			if($the_options['cookie_usage_for'] == 'both'){
+				$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+				if (!empty($get_banner_img)) {
+					?>
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+				}
+			}else{
+				$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+				if (!empty($get_banner_img)) {
+					?>
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+				}
+			}
 		}
-		?>
+		else{
+			if($ab_options['ab_testing_enabled'] === "true" || $ab_options['ab_testing_enabled'] === true){
+				if($chosenBanner == 1) {
+					$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+					if (!empty($get_banner_img1)) {
+						?>
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
+							<?php
+					}
+					}elseif($chosenBanner == 2){
+						$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+						if (!empty($get_banner_img2)) {
+						?>
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
+							<?php
+					}
+					}
+			}
+		} ?>
 		</div>
 		<?php
 		if ( '' !== $the_options['head'] ) {
@@ -280,7 +309,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				<div class="gdpr group-description-buttons" id="default_buttons">
 					
 						<?php
-						if ( !empty( $the_options['button_accept_is_on1'] ) && $the_options['button_accept_is_on1'] === "true" ) {
+						if ( !empty( $the_options['button_accept_is_on1'] ) && ($the_options['button_accept_is_on1'] === "true" ||  $the_options['button_accept_is_on1'] === "1" ||  $the_options['button_accept_is_on1'] === true) ) {
 							?>
 							<a id="cookie_action_accept" class="<?php echo esc_html( $the_options['button_accept_classes'] ); ?>" tabindex="0" aria-label="Accept"
 							<?php
@@ -302,7 +331,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 						data-gdpr_action="accept" ><?php echo esc_html__( $the_options['button_accept_text1'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
 							<?php
 						}
-						if ( !empty( $the_options['button_accept_all_is_on1'] ) && $the_options['button_accept_all_is_on1'] === "true" ) {
+						if ( !empty( $the_options['button_accept_all_is_on1'] ) && ($the_options['button_accept_all_is_on1'] === "true" || $the_options['button_accept_all_is_on1'] === "1" || $the_options['button_accept_all_is_on1'] === true) ) {
 							?>
 							<a id="cookie_action_accept_all" class="<?php echo esc_html( $the_options['button_accept_all_classes'] ); ?>" tabindex="0" aria-label="Accept All"
 							<?php
@@ -324,7 +353,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 					data-gdpr_action="accept_all" ><?php echo esc_html__( $the_options['button_accept_all_text1'], 'gdpr-cookie-consent' );//phpcs:ignore  ?></a>
 							<?php
 						}
-						if ( !empty( $the_options['button_decline_is_on1'] ) && $the_options['button_decline_is_on1'] === "true" ) {
+						if ( !empty( $the_options['button_decline_is_on1'] ) && ($the_options['button_decline_is_on1'] === "true" || $the_options['button_decline_is_on1'] === "1" || $the_options['button_decline_is_on1'] === true) ) {
 							?>
 							<a id="cookie_action_reject" class="<?php echo esc_html( $the_options['button_decline_classes'] ); ?>" tabindex="0" aria-label="Reject"
 							<?php
@@ -346,7 +375,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 							data-gdpr_action="reject" ><?php echo esc_html__( $the_options['button_decline_text1'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
 							<?php
 						}
-						if ( !empty( $the_options['button_settings_is_on1'] ) && $the_options['button_settings_is_on1'] === "true" ) {
+						if ( !empty( $the_options['button_settings_is_on1'] ) && ($the_options['button_settings_is_on1'] === "1" || $the_options['button_settings_is_on1'] === true || $the_options['button_settings_is_on1'] === "true" ) ) {
 							?>
 							<a id="cookie_action_settings" class="<?php echo esc_html( $the_options['button_settings_classes'] ); ?>" tabindex="0" aria-label="Cookie Settings" href="#"
 							<?php
@@ -355,7 +384,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 								href="#"
 								<?php
 							}
-							if ( 'banner' === $the_options['cookie_bar_as'] && ! $the_options['button_settings_as_popup'] ) {
+							if ( 'banner' === $the_options['cookie_bar_as1'] && ! $the_options['button_settings_as_popup1'] ) {
 								?>
 								data-gdpr_action="show_settings"
 								<?php
@@ -374,7 +403,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 				<div class="gdpr group-description-buttons" id="default_buttons">
 					
 						<?php
-						if ( ! empty( $the_options['button_accept_is_on2'] ) && $the_options['button_accept_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_accept_is_on2'] ) && ($the_options['button_accept_is_on2'] === "true" || $the_options['button_accept_is_on2'] === "1" || $the_options['button_accept_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_accept" class="<?php echo esc_html( $the_options['button_accept_classes'] ); ?>" tabindex="0" aria-label="Accept"
 							<?php
@@ -396,7 +425,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 						data-gdpr_action="accept" ><?php echo esc_html__( $the_options['button_accept_text2'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_accept_all_is_on2'] ) && $the_options['button_accept_all_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_accept_all_is_on2'] ) && ($the_options['button_accept_all_is_on2'] === "true" || $the_options['button_accept_all_is_on2'] === "1" || $the_options['button_accept_all_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_accept_all" class="<?php echo esc_html( $the_options['button_accept_all_classes'] ); ?>" tabindex="0" aria-label="Accept All"
 							<?php
@@ -418,7 +447,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 					data-gdpr_action="accept_all" ><?php echo esc_html__( $the_options['button_accept_all_text2'], 'gdpr-cookie-consent' );//phpcs:ignore  ?></a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_decline_is_on2'] ) && $the_options['button_decline_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_decline_is_on2'] ) && ($the_options['button_decline_is_on2'] === "true" || $the_options['button_decline_is_on2'] === "1" || $the_options['button_decline_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_reject" class="<?php echo esc_html( $the_options['button_decline_classes'] ); ?>" tabindex="0" aria-label="Reject"
 							<?php
@@ -440,7 +469,7 @@ if ( ! empty( $the_options['gdpr_notify'] ) ) {
 							data-gdpr_action="reject" ><?php echo esc_html__( $the_options['button_decline_text2'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_settings_is_on2'] ) && $the_options['button_settings_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_settings_is_on2'] ) && ($the_options['button_settings_is_on2'] === "true" || $the_options['button_settings_is_on2'] === "1" || $the_options['button_settings_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_settings" class="<?php echo esc_html( $the_options['button_settings_classes'] ); ?>" tabindex="0" aria-label="Cookie Settings" href="#"
 							<?php
@@ -484,13 +513,42 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 	<div class="gdpr_messagebar_content">
 		<div class="gdpr_logo_container">
 		<?php
-			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		if ( ! empty( $get_banner_img ) ) {
-			?>
-			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-				<?php
+		if($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false){
+			if($the_options['cookie_usage_for'] == 'both'){
+				$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+				if (!empty($get_banner_img)) {
+					?>
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+				}
+			}else{
+				$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+				if (!empty($get_banner_img)) {
+					?>
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+				}
+			}
 		}
-		?>
+		else{
+			if($ab_options['ab_testing_enabled'] === "true" || $ab_options['ab_testing_enabled'] === true){
+				if($chosenBanner == 1) {
+					$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+					if (!empty($get_banner_img1)) {
+						?>
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
+							<?php
+					}
+					}elseif($chosenBanner == 2){
+						$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+						if (!empty($get_banner_img2)) {
+						?>
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
+							<?php
+					}
+					}
+			}
+		} ?>
 		</div>
 		<?php
 		if ( '' !== $the_options['head_lgpd'] ) {
@@ -671,7 +729,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 				<div class="gdpr group-description-buttons">
 					<div class="gdpr group-box-description-buttons">
 						<?php
-						if ( ! empty( $the_options['button_accept_is_on1'] ) && $the_options['button_accept_is_on1'] === "true" ) {
+						if ( ! empty( $the_options['button_accept_is_on1'] ) && ($the_options['button_accept_is_on1'] === "true" || $the_options['button_accept_is_on1'] === "1" || $the_options['button_accept_is_on1'] === true) ) {
 							?>
 							<a id="cookie_action_accept" class="<?php echo esc_html( $the_options['button_accept_classes'] ); ?>" tabindex="0" aria-label="Accept"
 							<?php
@@ -697,7 +755,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 			</a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_accept_all_is_on1'] ) && $the_options['button_accept_all_is_on1'] === "true" ) {
+						if ( ! empty( $the_options['button_accept_all_is_on1'] ) && ($the_options['button_accept_all_is_on1'] === "true" || $the_options['button_accept_all_is_on1'] === "1" || $the_options['button_accept_all_is_on1'] === true) ) {
 							?>
 							<a id="cookie_action_accept_all" class="<?php echo esc_html( $the_options['button_accept_all_classes'] ); ?>" tabindex="0" aria-label="Accept All"
 							<?php
@@ -723,7 +781,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 			</a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_decline_is_on1'] ) && $the_options['button_decline_is_on1'] === "true" ) {
+						if ( ! empty( $the_options['button_decline_is_on1'] ) && ($the_options['button_decline_is_on1'] === "true" || $the_options['button_decline_is_on1'] === "1" ||$the_options['button_decline_is_on1'] === true) ) {
 							?>
 							<a id="cookie_action_reject" class="<?php echo esc_html( $the_options['button_decline_classes'] ); ?>" tabindex="0" aria-label="Reject"
 							<?php
@@ -749,7 +807,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 			</a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_settings_is_on1'] ) && $the_options['button_settings_is_on1'] === "true" ) {
+						if ( ! empty( $the_options['button_settings_is_on1'] ) && ($the_options['button_settings_is_on1'] === "true" || $the_options['button_settings_is_on1'] === "1" || $the_options['button_settings_is_on1'] === true) ) {
 							?>
 							<a id="cookie_action_settings" class="<?php echo esc_html( $the_options['button_settings_classes'] ); ?>" tabindex="0" aria-label="Cookie Settings" href="#"
 							<?php
@@ -782,7 +840,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 				<div class="gdpr group-description-buttons">
 					<div class="gdpr group-box-description-buttons">
 						<?php
-						if ( ! empty( $the_options['button_accept_is_on2'] ) && $the_options['button_accept_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_accept_is_on2'] ) && ($the_options['button_accept_is_on2'] === "true" || $the_options['button_accept_is_on2'] === "1" || $the_options['button_accept_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_accept" class="<?php echo esc_html( $the_options['button_accept_classes'] ); ?>" tabindex="0" aria-label="Accept"
 							<?php
@@ -808,7 +866,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 			</a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_accept_all_is_on2'] ) && $the_options['button_accept_all_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_accept_all_is_on2'] ) && ($the_options['button_accept_all_is_on2'] === "true" || $the_options['button_accept_all_is_on2'] === "1" || $the_options['button_accept_all_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_accept_all" class="<?php echo esc_html( $the_options['button_accept_all_classes'] ); ?>" tabindex="0" aria-label="Accept All"
 							<?php
@@ -834,7 +892,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 			</a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_decline_is_on2'] ) && $the_options['button_decline_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_decline_is_on2'] ) && ($the_options['button_decline_is_on2'] === "true" || $the_options['button_decline_is_on2'] === "1" || $the_options['button_decline_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_reject" class="<?php echo esc_html( $the_options['button_decline_classes'] ); ?>" tabindex="0" aria-label="Reject"
 							<?php
@@ -860,7 +918,7 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 			</a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_settings_is_on2'] ) && $the_options['button_settings_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_settings_is_on2'] ) && ($the_options['button_settings_is_on2'] === "true" || $the_options['button_settings_is_on2'] === "1" || $the_options['button_settings_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_settings" class="<?php echo esc_html( $the_options['button_settings_classes'] ); ?>" tabindex="0" aria-label="Cookie Settings" href="#"
 							<?php
@@ -906,18 +964,47 @@ else if ( ! empty( $the_options['lgpd_notify'] ) ) {
 elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 	?>
 	<div class="gdpr_messagebar_content">
-		<div class="group-description" tabindex="0">
 		<!-- Logo Added for CCPA rule 	 -->
 		<div class="gdpr_logo_container">
 		<?php
-			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		if ( ! empty( $get_banner_img ) ) {
-			?>
-			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-				<?php
+		if($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false){
+			if($the_options['cookie_usage_for'] == 'both'){
+				$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+				if (!empty($get_banner_img)) {
+					?>
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+				}
+			}else{
+				$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+				if (!empty($get_banner_img)) {
+					?>
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+				}
+			}
 		}
-		?>
+		else{
+			if($ab_options['ab_testing_enabled'] === "true" || $ab_options['ab_testing_enabled'] === true){
+				if($chosenBanner == 1) {
+					$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+					if (!empty($get_banner_img1)) {
+						?>
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
+							<?php
+					}
+					}elseif($chosenBanner == 2){
+						$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+						if (!empty($get_banner_img2)) {
+						?>
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
+							<?php
+					}
+					}
+			}
+		} ?>
 		</div>
+		<div class="group-description" tabindex="0">
 		<?php 
 		if($the_options['cookie_usage_for'] == 'both') { ?>
 			<p class="ccpa"><?php echo wp_kses_post($cookie_data['dash_notify_message_ccpa'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
@@ -954,13 +1041,42 @@ elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 		<!-- Logo Added for Eprivacy rule 	 -->
 		<div class="gdpr_logo_container">
 		<?php
-			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		if ( ! empty( $get_banner_img ) ) {
-			?>
-			<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-				<?php
+		if($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false){
+			if($the_options['cookie_usage_for'] == 'both'){
+				$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+				if (!empty($get_banner_img)) {
+					?>
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+				}
+			}else{
+				$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+				if (!empty($get_banner_img)) {
+					?>
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+				}
+			}
 		}
-		?>
+		else{
+			if($ab_options['ab_testing_enabled'] === "true" || $ab_options['ab_testing_enabled'] === true){
+				if($chosenBanner == 1) {
+					$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+					if (!empty($get_banner_img1)) {
+						?>
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
+							<?php
+					}
+					}elseif($chosenBanner == 2){
+						$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+						if (!empty($get_banner_img2)) {
+						?>
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
+							<?php
+					}
+					}
+			}
+		} ?>
 		</div>
 		<p class="gdpr"><?php echo wp_kses_post( $cookie_data['dash_notify_message_eprivacy'], '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?>
 				<?php
@@ -1076,7 +1192,7 @@ elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 				<div class="gdpr group-description-buttons">
 					<div class="gdpr group-box-description-buttons">
 						<?php
-						if ( ! empty( $the_options['button_accept_is_on1'] ) && $the_options['button_accept_is_on1'] === "true" ) {
+						if ( ! empty( $the_options['button_accept_is_on1'] ) && ($the_options['button_accept_is_on1'] === "true" || $the_options['button_accept_is_on1'] === "1" || $the_options['button_accept_is_on1'] === true ) ) {
 							?>
 							<a id="cookie_action_accept" class="<?php echo esc_html( $the_options['button_accept_classes'] ); ?>" tabindex="0" aria-label="Accept"
 							<?php
@@ -1102,7 +1218,7 @@ elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 			</a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_accept_all_is_on1'] ) && $the_options['button_accept_all_is_on1'] === "true" ) {
+						if ( ! empty( $the_options['button_accept_all_is_on1'] ) && ($the_options['button_accept_all_is_on1'] === "true" || $the_options['button_accept_all_is_on1'] === "1" || $the_options['button_accept_all_is_on1'] === true) ) {
 							?>
 							<a id="cookie_action_accept_all" class="<?php echo esc_html( $the_options['button_accept_all_classes'] ); ?>" tabindex="0" aria-label="Accept All"
 							<?php
@@ -1128,7 +1244,7 @@ elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 			</a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_decline_is_on1'] ) && $the_options['button_decline_is_on1'] === "true" ) {
+						if ( ! empty( $the_options['button_decline_is_on1'] ) && ($the_options['button_decline_is_on1'] === "true" || $the_options['button_decline_is_on1'] === "1" || $the_options['button_decline_is_on1'] === true)  ) {
 							?>
 							<a id="cookie_action_reject" class="<?php echo esc_html( $the_options['button_decline_classes'] ); ?>" tabindex="0" aria-label="Reject"
 							<?php
@@ -1162,7 +1278,7 @@ elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 				<div class="gdpr group-description-buttons">
 					<div class="gdpr group-box-description-buttons">
 						<?php
-						if ( ! empty( $the_options['button_accept_is_on2'] ) && $the_options['button_accept_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_accept_is_on2'] ) && ($the_options['button_accept_is_on2'] === "true" || $the_options['button_accept_is_on2'] === "1" || $the_options['button_accept_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_accept" class="<?php echo esc_html( $the_options['button_accept_classes'] ); ?>" tabindex="0" aria-label="Accept"
 							<?php
@@ -1188,7 +1304,7 @@ elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 			</a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_accept_all_is_on2'] ) && $the_options['button_accept_all_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_accept_all_is_on2'] ) && ($the_options['button_accept_all_is_on2'] === "true" || $the_options['button_accept_all_is_on2'] === "1" || $the_options['button_accept_all_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_accept_all" class="<?php echo esc_html( $the_options['button_accept_all_classes'] ); ?>" tabindex="0" aria-label="Accept All"
 							<?php
@@ -1214,7 +1330,7 @@ elseif ( ! empty( $the_options['ccpa_notify'] ) ) {
 			</a>
 							<?php
 						}
-						if ( ! empty( $the_options['button_decline_is_on2'] ) && $the_options['button_decline_is_on2'] === "true" ) {
+						if ( ! empty( $the_options['button_decline_is_on2'] ) && ($the_options['button_decline_is_on2'] === "true" || $the_options['button_decline_is_on2'] === "1" || $the_options['button_decline_is_on2'] === true) ) {
 							?>
 							<a id="cookie_action_reject" class="<?php echo esc_html( $the_options['button_decline_classes'] ); ?>" tabindex="0" aria-label="Reject"
 							<?php

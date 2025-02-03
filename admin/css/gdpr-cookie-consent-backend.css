@@ -176,17 +176,17 @@ table.gdpr_script_items tr:nth-child(odd) td {
 .banner-dark_preview #cookie_action_settings_preview {
   color: rgb(128, 128, 128);
   border: 1px solid rgb(128, 128, 128);
-  background-color: rgb(30, 30, 30) !important;
+  background-color: rgb(38, 38, 38) !important;
 }
 .widget-dark_preview #cookie_action_settings_preview {
   color: rgb(128, 128, 128);
   border: 1px solid rgb(128, 128, 128);
-  background-color: rgb(30, 30, 30) !important;
+  background-color: rgb(38, 38, 38) !important;
 }
 .popup-dark_preview #cookie_action_settings_preview {
   color: rgb(128, 128, 128);
   border: 1px solid rgb(128, 128, 128);
-  background-color: rgb(30, 30, 30) !important;
+  background-color: rgb(38, 38, 38) !important;
 }
 .schedule-scan-start-btn span {
   color: #3399ff;
@@ -308,7 +308,7 @@ a .export-btn:hover {
 }
 .gdpr-cookie-consent-main-admin-structure
   .gdpr-cookie-consent-admin-fixed-banner {
-  background: #346db1;
+  background: #084EA8;
 }
 .wpgdpr-api-connection-popup .wpgdpr-api-connect-text {
   color: grey;
@@ -621,7 +621,7 @@ a .export-btn:hover {
   color: #f0fdf4;
   border: 1px solid #16a34a;
 }
-#image-upload-button {
+#image-upload-button,#image-upload-button1,#image-upload-button2{
   border: 1px solid #7195d0;
 }
 #image-delete-button {
@@ -631,7 +631,7 @@ a .export-btn:hover {
 #image-delete-button:hover {
   background-color: #e55353;
 }
-#image-upload-button:hover {
+#image-upload-button:hover,#image-upload-button1:hover,#image-upload-button2:hover{
   background-color: #7195d0;
 }
 #script-blocker-advanced-settings-btn,
@@ -649,6 +649,9 @@ a .export-btn:hover {
 }
 .ab_testing-card .ab-testing-timer {
   color: rgb(22, 163, 74);
+}
+.ab_testing-card .ab-testing-timer-done {
+  color: rgb(163, 137, 22);
 }
 .gdpr-cookie-consent-banner-tabs .gdpr-cookie-consent-banner-tab-active,
 .gdpr-cookie-consent-banner-tabs .gdpr-cookie-consent-banner-tab-active:hover {

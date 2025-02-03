@@ -63,6 +63,10 @@ var gen = new Vue({
       is_lang_changed: false,
       is_iabtcf_changed: false,
       is_logo_removed: false,
+      is_logo_removed1: false,
+      is_logo_removed2: false,
+      is_logo_removedML1: false,
+      is_logo_added: false,
       save_loading: false,
       edit_discovered_cookie: {},
       edit_discovered_cookie_on: false,
@@ -2198,7 +2202,12 @@ var gen = new Vue({
       )
         ? settings_obj.ab_options["ab_testing_period"]
         : "30",
-
+      ab_testing_auto:
+        settings_obj.ab_options.hasOwnProperty("ab_testing_auto") &&
+        (true === settings_obj.ab_options["ab_testing_auto"] ||
+          "true" === settings_obj.ab_options["ab_testing_auto"])
+          ? true
+          : false,
       enable_geotargeting:
         settings_obj.geo_options.hasOwnProperty("enable_geotargeting") &&
         (true === settings_obj.geo_options["enable_geotargeting"] ||
@@ -3030,38 +3039,89 @@ var gen = new Vue({
           this.button_readmore_link_color2 = "#3EAF9A";
           this.settings_text_color2 = "#3EAF9A";
         } else if (this.banner_template == "banner-almond_column") {
-          this.cookie_bar_color = "#E8DDBB";
-          this.accept_background_color = "#DE7834";
-          this.accept_all_background_color = "#DE7834";
-          this.decline_background_color = "#252525";
-          this.settings_background_color = "#252525";
-          jQuery(".gdpr_preview").css("color", "rgb(30, 61, 89)");
-          this.settings_style = "none";
-          this.settings_text_color = "#FFFFFF";
-          this.button_revoke_consent_text_color = "#306189";
-          this.button_revoke_consent_background_color = "#E8DDBB";
-          this.cookie_text_color1 = "#111111";
-          this.multiple_legislation_cookie_text_color1 = "#111111";
-          this.multiple_legislation_cookie_text_color2 = "#111111";
+          this.cookie_bar_color = "#ffffff";
+          this.cookie_text_color = "#252525";
+          this.settings_background_color = "#ffffff";
+          this.settings_border_width = "1";
+          this.settings_border_color = "#C1540C";
+          this.settings_style = "solid";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#C1540C";
+          this.decline_background_color = "#ffffff";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#C1540C";
+          this.decline_text_color = "#C1540C";
+          this.accept_background_color = "#C1540C";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#C1540C";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#ffffff";
+          this.accept_all_style = "solid";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_color = "#C1540C";
+          this.accept_all_text_color = "#C1540C";
+          jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
+          this.button_revoke_consent_text_color = "#ffffff";
+          this.button_revoke_consent_background_color = "#C1540C";
+          this.cookie_bar_color1 = "#ffffff";
+          this.cookie_text_color1 = "#252525";
+          this.multiple_legislation_cookie_text_color1 = "#252525";
+          this.multiple_legislation_cookie_bar_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#ffffff";
+          this.cookie_text_color2 = "#252525";
+          this.settings_background_color1 = "#ffffff";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#C1540C";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#C1540C";
+          this.decline_background_color1 = "#ffffff";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#C1540C";
+          this.decline_text_color1 = "#C1540C";
+          this.accept_background_color1 = "#C1540C";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#C1540C";
           this.accept_text_color1 = "#ffffff";
-          this.cookie_text_color2 = "#111111";
+          this.accept_all_background_color1 = "#ffffff";
+          this.accept_all_style1 = "solid";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_color1 = "#C1540C";
+          this.accept_all_text_color1 = "#C1540C";
+          this.settings_background_color2 = "#ffffff";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#C1540C";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#C1540C";
+          this.decline_background_color2 = "#ffffff";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#C1540C";
+          this.decline_text_color2 = "#C1540C";
+          this.accept_background_color2 = "#C1540C";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#C1540C";
           this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
-          this.accept_background_color1 = "#DE7834";
-          this.accept_all_background_color1 = "#DE7834";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#252525";
-          this.settings_style1 = "none";
-          this.settings_text_color1 = "#FFFFFF";
-          this.cookie_bar_color2 = "#E8DDBB";
-          this.accept_background_color2 = "#DE7834";
-          this.accept_all_background_color2 = "#DE7834";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#252525";
-          this.settings_style2 = "none";
-          this.settings_text_color2 = "#FFFFFF";
+          this.accept_all_background_color2 = "#ffffff";
+          this.accept_all_style2 = "solid";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "1";
+          this.accept_all_border_color2 = "#C1540C";
+          this.accept_all_text_color2 = "#C1540C";
         } else if (this.banner_template == "banner-grey_center") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#DE7834";
@@ -3167,72 +3227,165 @@ var gen = new Vue({
           this.button_revoke_consent_background_color = "#2A3E71";
         } else if (this.banner_template == "banner-default") {
           this.cookie_bar_color = "#FFFFFF";
-          this.accept_background_color = "#66CC66";
-          this.accept_all_background_color = "#66CC66";
-          this.decline_background_color = "#EF5454";
-          this.settings_background_color = "#007CBA";
-          this.settings_style = "none";
+          this.cookie_text_color = "#111111";
+          this.accept_background_color = "#176CAE";
+          this.accept_all_background_color = "#FFFFFF";
+          this.decline_background_color = "#FFFFFF";
+          this.settings_background_color = "#FFFFFF";
+          this.accept_text_color = "#FFFFFF";
+          this.accept_text_color1 = "#FFFFFF";
+          this.accept_text_color2 = "#FFFFFF";
+          this.decline_text_color = "#176CAE";
+          this.decline_text_color1 = "#176CAE";
+          this.decline_text_color2 = "#176CAE";
+          this.accept_all_text_color = "#176CAE";
+          this.accept_all_text_color1 = "#176CAE";
+          this.accept_all_text_color2 = "#176CAE";
+          this.settings_text_color = "#176CAE";
+          this.settings_text_color1 = "#176CAE";
+          this.settings_text_color2 = "#176CAE";
+          this.accept_border_color = "#176CAE";
+          this.accept_all_border_color = "#176CAE";
+          this.decline_border_color = "#176CAE";
+          this.settings_border_color = "#176CAE"
+          this.accept_border_color1 = "#176CAE";
+          this.accept_all_border_color1 = "#176CAE";
+          this.decline_border_color1 = "#176CAE";
+          this.settings_border_color1 = "#176CAE"
+          this.accept_border_color2 = "#176CAE";
+          this.accept_all_border_color2 = "#176CAE";
+          this.decline_border_color2 = "#176CAE";
+          this.settings_border_color2 = "#176CAE";
+          this.accept_all_style = "solid";
+          this.accept_all_style1 = "solid";
+          this.accept_all_style2 = "solid";
+          this.decline_style = "solid";
+          this.decline_style1 = "solid";
+          this.decline_style2 = "solid";
+          this.settings_style = "solid";
+          this.settings_style1 = "solid";
+          this.settings_style2 = "solid";
+          this.decline_border_width = "1";
+          this.decline_border_width1 = "1";
+          this.decline_border_width2 = "1";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_width2 = "1";
+          this.settings_border_width = "1";
+          this.settings_border_width1 = "1";
+          this.settings_border_width2 = "1";
           this.cookie_bar_color1 = "#FFFFFF";
           this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
           this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
-          this.accept_background_color1 = "#66CC66";
-          this.accept_all_background_color1 = "#66CC66";
-          this.decline_background_color1 = "#EF5454";
-          this.settings_background_color1 = "#007CBA";
+          this.accept_background_color1 = "#176CAE";
+          this.accept_all_background_color1 = "#FFFFFF";
+          this.decline_background_color1 = "#FFFFFF";
+          this.settings_background_color1 = "#FFFFFF";
           this.settings_style1 = "none";
           this.cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
-          this.accept_background_color2 = "#66CC66";
-          this.accept_all_background_color2 = "#66CC66";
-          this.decline_background_color2 = "#EF5454";
-          this.settings_background_color2 = "#007CBA";
+          this.accept_background_color2 = "#176CAE";
+          this.accept_all_background_color2 = "#FFFFFF";
+          this.decline_background_color2 = "#FFFFFF";
+          this.settings_background_color2 = "#FFFFFF";
           this.settings_style2 = "none";
           jQuery(".gdpr_preview").css("color", "#3c4b64");
-          this.button_readmore_link_color = "#007CBA";
+          this.button_readmore_link_color = "#176CAE";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
         } else if (this.banner_template == "banner-dark") {
           this.cookie_bar_color = "#262626";
-          this.accept_background_color = "#6A8EE7";
-          this.accept_all_background_color = "#6A8EE7";
-          this.decline_background_color = "#808080";
+          this.cookie_text_color = "#ffffff";
           this.settings_background_color = "#262626";
           this.settings_border_width = "1";
-          this.settings_border_color = "#808080";
+          this.settings_border_color = "#D5D2D2";
           this.settings_style = "solid";
-          this.cookie_bar_color1 = "#262626";
-          this.multiple_legislation_cookie_bar_color1 = "#262626";
-          this.multiple_legislation_cookie_bar_color2 = "#262626";
-          this.cookie_text_color1 = "#ffffff";
-          this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#6A8EE7";
-          this.accept_all_background_color1 = "#6A8EE7";
-          this.decline_background_color1 = "#808080";
-          this.settings_background_color1 = "#262626";
-          this.settings_border_width1 = "1";
-          this.settings_border_color1 = "#808080";
-          this.settings_style1 = "solid";
-          this.settings_text_color1 = "#808080";
-          this.cookie_bar_color2 = "#262626";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#6A8EE7";
-          this.accept_all_background_color2 = "#6A8EE7";
-          this.decline_background_color2 = "#808080";
-          this.settings_background_color2 = "#262626";
-          this.settings_border_width2 = "1";
-          this.settings_border_color2 = "#808080";
-          this.settings_style2 = "solid";
-          this.settings_text_color2 = "#808080";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#D5D2D2";
+          this.decline_background_color = "#262626";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#D5D2D2";
+          this.decline_text_color = "#D5D2D2";
+          this.accept_background_color = "#4570DC";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#4570DC";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#4570DC";
+          this.accept_all_style = "none";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "0";
+          this.accept_all_border_color = "#4570DC";
+          this.accept_all_text_color = "#ffffff";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#6A8EE7";
-          this.settings_text_color = "#808080";
+          this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
+          this.cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color1 = "#262626";
+          this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = "#ffffff";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#D5D2D2";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#D5D2D2";
+          this.decline_background_color1 = "#808080";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#D5D2D2";
+          this.decline_text_color1 = "#D5D2D2";
+          this.accept_background_color1 = "#4570DC";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#4570DC";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_background_color1 = "#4570DC";
+          this.accept_all_style1 = "none";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "0";
+          this.accept_all_border_color1 = "#4570DC";
+          this.accept_all_text_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#D5D2D2";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#D5D2D2";
+          this.decline_background_color2 = "#808080";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#D5D2D2";
+          this.decline_text_color2 = "#D5D2D2";
+          this.accept_background_color2 = "#4570DC";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#4570DC";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_background_color2 = "#4570DC";
+          this.accept_all_style2 = "none";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "0";
+          this.accept_all_border_color2 = "#4570DC";
+          this.accept_all_text_color2 = "#ffffff";
         }
       } else if (this.show_cookie_as === "popup") {
         this.popup_template = value;
@@ -3283,41 +3436,89 @@ var gen = new Vue({
           this.settings_text_color2 = "#3EAF9A";
           this.cookie_bar_border_radius2 = "0";
         } else if (this.popup_template == "popup-almond_column") {
-          this.cookie_bar_color = "#E8DDBB";
-          this.accept_background_color = "#DE7834";
-          this.accept_all_background_color = "#DE7834";
-          this.decline_background_color = "#252525";
-          this.settings_background_color = "#252525";
-          jQuery(".gdpr_preview").css("color", "rgb(30, 61, 89)");
-          this.settings_style = "none";
-          this.decline_style = "none";
-          this.settings_text_color = "#FFFFFF";
-          this.cookie_bar_border_radius = "0";
-          this.cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
-          this.cookie_text_color1 = "#ffffff";
-          this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#DE7834";
-          this.accept_all_background_color1 = "#DE7834";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#252525";
-          this.settings_style1 = "none";
-          this.decline_style1 = "none";
-          this.settings_text_color1 = "#FFFFFF";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_color2 = "#E8DDBB";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#DE7834";
-          this.accept_all_background_color2 = "#DE7834";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#252525";
-          this.settings_style2 = "none";
-          this.decline_style2 = "none";
-          this.settings_text_color2 = "#FFFFFF";
-          this.cookie_bar_border_radius2 = "0";
-          this.button_revoke_consent_text_color = "#306189";
-          this.button_revoke_consent_background_color = "#E8DDBB";
+          this.cookie_bar_color = "#ffffff";
+          this.cookie_text_color = "#252525";
+          this.settings_background_color = "#ffffff";
+          this.settings_border_width = "1";
+          this.settings_border_color = "#C1540C";
+          this.settings_style = "solid";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#C1540C";
+          this.decline_background_color = "#ffffff";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#C1540C";
+          this.decline_text_color = "#C1540C";
+          this.accept_background_color = "#C1540C";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#C1540C";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#ffffff";
+          this.accept_all_style = "solid";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_color = "#C1540C";
+          this.accept_all_text_color = "#C1540C";
+          jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
+          this.button_revoke_consent_text_color = "#ffffff";
+          this.button_revoke_consent_background_color = "#C1540C";
+          this.cookie_bar_color1 = "#ffffff";
+          this.cookie_text_color1 = "#252525";
+          this.multiple_legislation_cookie_text_color1 = "#252525";
+          this.multiple_legislation_cookie_bar_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#ffffff";
+          this.cookie_text_color2 = "#252525";
+          this.settings_background_color1 = "#ffffff";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#C1540C";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#C1540C";
+          this.decline_background_color1 = "#ffffff";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#C1540C";
+          this.decline_text_color1 = "#C1540C";
+          this.accept_background_color1 = "#C1540C";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#C1540C";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_background_color1 = "#ffffff";
+          this.accept_all_style1 = "solid";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_color1 = "#C1540C";
+          this.accept_all_text_color1 = "#C1540C";
+          this.settings_background_color2 = "#ffffff";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#C1540C";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#C1540C";
+          this.decline_background_color2 = "#ffffff";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#C1540C";
+          this.decline_text_color2 = "#C1540C";
+          this.accept_background_color2 = "#C1540C";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#C1540C";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_background_color2 = "#ffffff";
+          this.accept_all_style2 = "solid";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "1";
+          this.accept_all_border_color2 = "#C1540C";
+          this.accept_all_text_color2 = "#C1540C";
         } else if (this.popup_template == "popup-grey_center") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#DE7834";
@@ -3436,15 +3637,57 @@ var gen = new Vue({
           this.settings_style2 = "solid";
         } else if (this.popup_template == "popup-default") {
           this.cookie_bar_color = "#FFFFFF";
-          this.accept_background_color = "#66CC66";
-          this.accept_all_background_color = "#66CC66";
-          this.decline_background_color = "#EF5454";
-          this.settings_background_color = "#007CBA";
+          this.cookie_text_color = "#111111";
+          this.accept_background_color = "#176CAE";
+          this.accept_all_background_color = "#FFFFFF";
+          this.decline_background_color = "#FFFFFF";
+          this.settings_background_color = "#FFFFFF";
           this.settings_style = "none";
           this.decline_style = "none";
           jQuery(".gdpr_preview").css("color", "#3c4b64");
-          this.button_readmore_link_color = "#007CBA";
-          this.settings_text_color = "#FFFFFF";
+          this.button_readmore_link_color = "#176CAE";
+          this.accept_text_color = "#FFFFFF";
+          this.accept_text_color1 = "#FFFFFF";
+          this.accept_text_color2 = "#FFFFFF";
+          this.decline_text_color = "#176CAE";
+          this.decline_text_color1 = "#176CAE";
+          this.decline_text_color2 = "#176CAE";
+          this.accept_all_text_color = "#176CAE";
+          this.accept_all_text_color1 = "#176CAE";
+          this.accept_all_text_color2 = "#176CAE";
+          this.settings_text_color = "#176CAE";
+          this.settings_text_color1 = "#176CAE";
+          this.settings_text_color2 = "#176CAE";
+          this.accept_border_color = "#176CAE";
+          this.accept_all_border_color = "#176CAE";
+          this.decline_border_color = "#176CAE";
+          this.settings_border_color = "#176CAE"
+          this.accept_border_color1 = "#176CAE";
+          this.accept_all_border_color1 = "#176CAE";
+          this.decline_border_color1 = "#176CAE";
+          this.settings_border_color1 = "#176CAE"
+          this.accept_border_color2 = "#176CAE";
+          this.accept_all_border_color2 = "#176CAE";
+          this.decline_border_color2 = "#176CAE";
+          this.settings_border_color2 = "#176CAE";
+          this.accept_all_style = "solid";
+          this.accept_all_style1 = "solid";
+          this.accept_all_style2 = "solid";
+          this.decline_style = "solid";
+          this.decline_style1 = "solid";
+          this.decline_style2 = "solid";
+          this.settings_style = "solid";
+          this.settings_style1 = "solid";
+          this.settings_style2 = "solid";
+          this.decline_border_width = "1";
+          this.decline_border_width1 = "1";
+          this.decline_border_width2 = "1";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_width2 = "1";
+          this.settings_border_width = "1";
+          this.settings_border_width1 = "1";
+          this.settings_border_width2 = "1";
           this.cookie_bar_border_radius = "0";
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
@@ -3456,59 +3699,106 @@ var gen = new Vue({
           this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
-          this.accept_background_color1 = "#66CC66";
-          this.accept_all_background_color1 = "#66CC66";
-          this.decline_background_color1 = "#EF5454";
-          this.settings_background_color1 = "#007CBA";
+          this.accept_background_color1 = "#176CAE";
+          this.accept_all_background_color1 = "#FFFFFF";
+          this.decline_background_color1 = "#FFFFFF";
+          this.settings_background_color1 = "#FFFFFF";
           this.settings_style1 = "none";
           this.cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color2 = "#111111";
-          this.accept_background_color2 = "#66CC66";
-          this.accept_all_background_color2 = "#66CC66";
-          this.decline_background_color2 = "#EF5454";
-          this.settings_background_color2 = "#007CBA";
+          this.accept_background_color2 = "#176CAE";
+          this.accept_all_background_color2 = "#FFFFFF";
+          this.decline_background_color2 = "#FFFFFF";
+          this.settings_background_color2 = "#FFFFFF";
           this.settings_style2 = "none";
         } else if (this.popup_template == "popup-dark") {
           this.cookie_bar_color = "#262626";
-          this.accept_background_color = "#6A8EE7";
-          this.accept_all_background_color = "#6A8EE7";
-          this.decline_background_color = "#808080";
+          this.cookie_text_color = "#ffffff";
           this.settings_background_color = "#262626";
           this.settings_border_width = "1";
-          this.settings_border_color = "#808080";
+          this.settings_border_color = "#D5D2D2";
           this.settings_style = "solid";
-          this.decline_style = "none";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#D5D2D2";
+          this.decline_background_color = "#262626";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#D5D2D2";
+          this.decline_text_color = "#D5D2D2";
+          this.accept_background_color = "#4570DC";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#4570DC";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#4570DC";
+          this.accept_all_style = "none";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "0";
+          this.accept_all_border_color = "#4570DC";
+          this.accept_all_text_color = "#ffffff";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#6A8EE7";
-          this.settings_text_color = "#808080";
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
           this.cookie_bar_color1 = "#262626";
           this.multiple_legislation_cookie_bar_color1 = "#262626";
-          this.multiple_legislation_cookie_bar_color2 = "#262626";
           this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#6A8EE7";
-          this.accept_all_background_color1 = "#6A8EE7";
-          this.decline_background_color1 = "#808080";
-          this.settings_background_color1 = "#262626";
-          this.settings_border_width1 = "1";
-          this.settings_border_color1 = "#808080";
-          this.settings_style1 = "solid";
-          this.settings_text_color1 = "#808080";
-          this.cookie_bar_color2 = "#262626";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#6A8EE7";
-          this.accept_all_background_color2 = "#6A8EE7";
-          this.decline_background_color2 = "#808080";
-          this.settings_background_color2 = "#262626";
-          this.settings_border_width2 = "1";
-          this.settings_border_color2 = "#808080";
-          this.settings_style2 = "solid";
-          this.settings_text_color2 = "#808080";
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#D5D2D2";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#D5D2D2";
+          this.decline_background_color1 = "#808080";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#D5D2D2";
+          this.decline_text_color1 = "#D5D2D2";
+          this.accept_background_color1 = "#4570DC";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#4570DC";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_background_color1 = "#4570DC";
+          this.accept_all_style1 = "none";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "0";
+          this.accept_all_border_color1 = "#4570DC";
+          this.accept_all_text_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#D5D2D2";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#D5D2D2";
+          this.decline_background_color2 = "#808080";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#D5D2D2";
+          this.decline_text_color2 = "#D5D2D2";
+          this.accept_background_color2 = "#4570DC";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#4570DC";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_background_color2 = "#4570DC";
+          this.accept_all_style2 = "none";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "0";
+          this.accept_all_border_color2 = "#4570DC";
+          this.accept_all_text_color2 = "#ffffff";
         } else if (this.popup_template == "popup-navy_blue_square") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -3554,47 +3844,69 @@ var gen = new Vue({
           this.settings_style2 = "solid";
         } else if (this.popup_template == "popup-navy_blue_box") {
           this.cookie_bar_color = "#2A3E71";
+          this.cookie_text_color = "#ffffff";
           this.accept_background_color = "#369EE3";
           this.accept_all_background_color = "#369EE3";
-          this.decline_background_color = "#252525";
+          this.decline_background_color = "#2A3E71";
           this.settings_background_color = "#2A3E71";
           this.settings_border_width = "1";
           this.settings_border_color = "#FFFFFF";
           this.settings_style = "solid";
-          this.decline_style = "none";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_text_color = "#ffffff";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#FFFFFF";
+          this.decline_style = "solid";
           this.cookie_bar_border_radius = "15";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#369EE3";
           this.settings_text_color = "#FFFFFF";
+          this.decline_text_color = "#FFFFFF";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_border_radius2 = "0";
+          this.cookie_bar_border_radius1 = "15";
+          this.cookie_bar_border_radius2 = "15";
           this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
+          this.cookie_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#2A3E71";
-          this.decline_border_width1 = "1";
-          this.decline_border_color1 = "#FFFFFF";
           this.settings_background_color1 = "#2A3E71";
           this.settings_border_width1 = "1";
           this.settings_border_color1 = "#FFFFFF";
           this.settings_style1 = "solid";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_text_color1 = "#ffffff";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#FFFFFF";
+          this.decline_style1 = "solid";
+          this.button_readmore_link_color1 = "#369EE3";
+          this.settings_text_color1 = "#FFFFFF";
+          this.decline_text_color1 = "#FFFFFF";
+          this.button_revoke_consent_text_color1 = "#FFFFFF";
+          this.button_revoke_consent_background_color1 = "#2A3E71";
           this.accept_background_color2 = "#369EE3";
           this.accept_all_background_color2 = "#369EE3";
-          this.decline_background_color2 = "#252525";
+          this.decline_background_color2 = "#2A3E71";
           this.settings_background_color2 = "#2A3E71";
           this.settings_border_width2 = "1";
           this.settings_border_color2 = "#FFFFFF";
           this.settings_style2 = "solid";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_text_color2 = "#ffffff";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#FFFFFF";
+          this.decline_style2 = "solid";
+          this.button_readmore_link_color2 = "#369EE3";
+          this.settings_text_color2 = "#FFFFFF";
+          this.decline_text_color2 = "#FFFFFF";
+          this.button_revoke_consent_text_color2 = "#FFFFFF";
+          this.button_revoke_consent_background_color2 = "#2A3E71";
         }
       } else if (this.show_cookie_as === "widget") {
         this.widget_template = value;
@@ -3643,41 +3955,92 @@ var gen = new Vue({
           this.settings_text_color2 = "#3EAF9A";
           this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-almond_column") {
-          this.cookie_bar_color = "#E8DDBB";
-          this.accept_background_color = "#DE7834";
-          this.accept_all_background_color = "#DE7834";
-          this.decline_background_color = "#252525";
-          this.settings_background_color = "#252525";
-          jQuery(".gdpr_preview").css("color", "rgb(30, 61, 89)");
-          this.settings_style = "none";
-          this.decline_style = "none";
-          this.settings_text_color = "#FFFFFF";
+          this.cookie_bar_color = "#ffffff";
+          this.cookie_text_color = "#252525";
           this.cookie_bar_border_radius = "0";
-          this.button_revoke_consent_text_color = "#306189";
-          this.button_revoke_consent_background_color = "#E8DDBB";
-          this.cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
-          this.cookie_text_color1 = "#ffffff";
-          this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#DE7834";
-          this.accept_all_background_color1 = "#DE7834";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#252525";
-          this.settings_style1 = "none";
-          this.decline_style1 = "none";
-          this.settings_text_color1 = "#FFFFFF";
+          this.settings_background_color = "#ffffff";
+          this.settings_border_width = "1";
+          this.settings_border_color = "#C1540C";
+          this.settings_style = "solid";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#C1540C";
+          this.decline_background_color = "#ffffff";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#C1540C";
+          this.decline_text_color = "#C1540C";
+          this.accept_background_color = "#C1540C";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#C1540C";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#ffffff";
+          this.accept_all_style = "solid";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_color = "#C1540C";
+          this.accept_all_text_color = "#C1540C";
+          jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
+          this.button_revoke_consent_text_color = "#ffffff";
+          this.button_revoke_consent_background_color = "#C1540C";
+          this.cookie_bar_color1 = "#ffffff";
+          this.cookie_text_color1 = "#252525";
           this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_color2 = "#E8DDBB";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#DE7834";
-          this.accept_all_background_color2 = "#DE7834";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#252525";
-          this.settings_style2 = "none";
-          this.decline_style2 = "none";
-          this.settings_text_color2 = "#FFFFFF";
+          this.multiple_legislation_cookie_text_color1 = "#252525";
+          this.multiple_legislation_cookie_bar_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#ffffff";
+          this.cookie_text_color2 = "#252525";
           this.cookie_bar_border_radius2 = "0";
+          this.settings_background_color1 = "#ffffff";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#C1540C";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#C1540C";
+          this.decline_background_color1 = "#ffffff";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#C1540C";
+          this.decline_text_color1 = "#C1540C";
+          this.accept_background_color1 = "#C1540C";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#C1540C";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_background_color1 = "#ffffff";
+          this.accept_all_style1 = "solid";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_color1 = "#C1540C";
+          this.accept_all_text_color1 = "#C1540C";
+          this.settings_background_color2 = "#ffffff";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#C1540C";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#C1540C";
+          this.decline_background_color2 = "#ffffff";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#C1540C";
+          this.decline_text_color2 = "#C1540C";
+          this.accept_background_color2 = "#C1540C";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#C1540C";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_background_color2 = "#ffffff";
+          this.accept_all_style2 = "solid";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "1";
+          this.accept_all_border_color2 = "#C1540C";
+          this.accept_all_text_color2 = "#C1540C";
         } else if (this.widget_template == "widget-grey_center") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#DE7834";
@@ -3796,15 +4159,57 @@ var gen = new Vue({
           this.settings_style2 = "solid";
         } else if (this.widget_template == "widget-default") {
           this.cookie_bar_color = "#FFFFFF";
-          this.accept_background_color = "#66CC66";
-          this.accept_all_background_color = "#66CC66";
-          this.decline_background_color = "#EF5454";
-          this.settings_background_color = "#007CBA";
+          this.cookie_text_color = "#111111";
           this.settings_style = "none";
           this.decline_style = "none";
           jQuery(".gdpr_preview").css("color", "#3c4b64");
           this.button_readmore_link_color = "#007CBA";
-          this.settings_text_color = "#FFFFFF";
+          this.accept_background_color = "#176CAE";
+          this.accept_all_background_color = "#FFFFFF";
+          this.decline_background_color = "#FFFFFF";
+          this.settings_background_color = "#FFFFFF";
+          this.accept_text_color = "#FFFFFF";
+          this.accept_text_color1 = "#FFFFFF";
+          this.accept_text_color2 = "#FFFFFF";
+          this.decline_text_color = "#176CAE";
+          this.decline_text_color1 = "#176CAE";
+          this.decline_text_color2 = "#176CAE";
+          this.accept_all_text_color = "#176CAE";
+          this.accept_all_text_color1 = "#176CAE";
+          this.accept_all_text_color2 = "#176CAE";
+          this.settings_text_color = "#176CAE";
+          this.settings_text_color1 = "#176CAE";
+          this.settings_text_color2 = "#176CAE";
+          this.accept_border_color = "#176CAE";
+          this.accept_all_border_color = "#176CAE";
+          this.decline_border_color = "#176CAE";
+          this.settings_border_color = "#176CAE"
+          this.accept_border_color1 = "#176CAE";
+          this.accept_all_border_color1 = "#176CAE";
+          this.decline_border_color1 = "#176CAE";
+          this.settings_border_color1 = "#176CAE"
+          this.accept_border_color2 = "#176CAE";
+          this.accept_all_border_color2 = "#176CAE";
+          this.decline_border_color2 = "#176CAE";
+          this.settings_border_color2 = "#176CAE"
+          this.accept_all_style = "solid";
+          this.accept_all_style1 = "solid";
+          this.accept_all_style2 = "solid";
+          this.decline_style = "solid";
+          this.decline_style1 = "solid";
+          this.decline_style2 = "solid";
+          this.settings_style = "solid";
+          this.settings_style1 = "solid";
+          this.settings_style2 = "solid";
+          this.decline_border_width = "1";
+          this.decline_border_width1 = "1";
+          this.decline_border_width2 = "1";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_width2 = "1";
+          this.settings_border_width = "1";
+          this.settings_border_width1 = "1";
+          this.settings_border_width2 = "1";
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
@@ -3816,59 +4221,110 @@ var gen = new Vue({
           this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
-          this.accept_background_color1 = "#66CC66";
-          this.accept_all_background_color1 = "#66CC66";
-          this.decline_background_color1 = "#EF5454";
-          this.settings_background_color1 = "#007CBA";
+          this.accept_background_color1 = "#176CAE";
+          this.accept_all_background_color1 = "#FFFFFF";
+          this.decline_background_color1 = "#FFFFFF";
+          this.settings_background_color1 = "#FFFFFF";
           this.settings_style1 = "none";
           this.cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color2 = "#111111";
-          this.accept_background_color2 = "#66CC66";
-          this.accept_all_background_color2 = "#66CC66";
-          this.decline_background_color2 = "#EF5454";
-          this.settings_background_color2 = "#007CBA";
+          this.accept_background_color2 = "#176CAE";
+          this.accept_all_background_color2 = "#176CAE";
+          this.decline_background_color2 = "#176CAE";
+          this.settings_background_color2 = "#176CAE";
           this.settings_style2 = "none";
         } else if (this.widget_template == "widget-dark") {
+          this.button_accept_is_on = true;
+          this.button_decline_is_on = true;
+          this.button_settings_is_on = true;
+          this.button_accept_all_is_on = false;
           this.cookie_bar_color = "#262626";
-          this.accept_background_color = "#6A8EE7";
-          this.accept_all_background_color = "#6A8EE7";
-          this.decline_background_color = "#808080";
+          this.cookie_text_color = "#ffffff";
           this.settings_background_color = "#262626";
           this.settings_border_width = "1";
-          this.settings_border_color = "#808080";
+          this.settings_border_color = "#D5D2D2";
           this.settings_style = "solid";
-          this.decline_style = "none";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#D5D2D2";
+          this.decline_background_color = "#262626";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#D5D2D2";
+          this.decline_text_color = "#D5D2D2";
+          this.accept_background_color = "#4570DC";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#4570DC";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#4570DC";
+          this.accept_all_style = "none";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "0";
+          this.accept_all_border_color = "#4570DC";
+          this.accept_all_text_color = "#ffffff";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#6A8EE7";
-          this.settings_text_color = "#808080";
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
           this.cookie_bar_color1 = "#262626";
-          this.multiple_legislation_cookie_bar_color1 = "#262626";
-          this.multiple_legislation_cookie_bar_color2 = "#262626";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_bar_color1 = "#262626";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#6A8EE7";
-          this.accept_all_background_color1 = "#6A8EE7";
-          this.decline_background_color1 = "#808080";
-          this.settings_background_color1 = "#262626";
-          this.settings_border_width1 = "1";
-          this.settings_border_color1 = "#808080";
-          this.settings_style1 = "solid";
-          this.settings_text_color1 = "#808080";
-          this.cookie_bar_color2 = "#262626";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#6A8EE7";
-          this.accept_all_background_color2 = "#6A8EE7";
-          this.decline_background_color2 = "#808080";
-          this.settings_background_color2 = "#262626";
-          this.settings_border_width2 = "1";
-          this.settings_border_color2 = "#808080";
-          this.settings_style2 = "solid";
-          this.settings_text_color2 = "#808080";
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#D5D2D2";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#D5D2D2";
+          this.decline_background_color1 = "#808080";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#D5D2D2";
+          this.decline_text_color1 = "#D5D2D2";
+          this.accept_background_color1 = "#4570DC";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#4570DC";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_background_color1 = "#4570DC";
+          this.accept_all_style1 = "none";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "0";
+          this.accept_all_border_color1 = "#4570DC";
+          this.accept_all_text_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#D5D2D2";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#D5D2D2";
+          this.decline_background_color2 = "#808080";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#D5D2D2";
+          this.decline_text_color2 = "#D5D2D2";
+          this.accept_background_color2 = "#4570DC";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#4570DC";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_background_color2 = "#4570DC";
+          this.accept_all_style2 = "none";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "0";
+          this.accept_all_border_color2 = "#4570DC";
+          this.accept_all_text_color2 = "#ffffff";
         } else if (this.widget_template == "widget-navy_blue_square") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -3914,47 +4370,69 @@ var gen = new Vue({
           this.settings_style2 = "solid";
         } else if (this.widget_template == "widget-navy_blue_box") {
           this.cookie_bar_color = "#2A3E71";
+          this.cookie_text_color = "#ffffff";
           this.accept_background_color = "#369EE3";
           this.accept_all_background_color = "#369EE3";
-          this.decline_background_color = "#252525";
+          this.decline_background_color = "#2A3E71";
           this.settings_background_color = "#2A3E71";
           this.settings_border_width = "1";
           this.settings_border_color = "#FFFFFF";
           this.settings_style = "solid";
-          this.decline_style = "none";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_text_color = "#ffffff";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#FFFFFF";
+          this.decline_style = "solid";
           this.cookie_bar_border_radius = "15";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#369EE3";
           this.settings_text_color = "#FFFFFF";
+          this.decline_text_color = "#FFFFFF";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_border_radius2 = "0";
+          this.cookie_bar_border_radius1 = "15";
+          this.cookie_bar_border_radius2 = "15";
           this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
+          this.cookie_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#2A3E71";
-          this.decline_border_width1 = "1";
-          this.decline_border_color1 = "#FFFFFF";
           this.settings_background_color1 = "#2A3E71";
           this.settings_border_width1 = "1";
           this.settings_border_color1 = "#FFFFFF";
           this.settings_style1 = "solid";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_text_color1 = "#ffffff";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#FFFFFF";
+          this.decline_style1 = "solid";
+          this.button_readmore_link_color1 = "#369EE3";
+          this.settings_text_color1 = "#FFFFFF";
+          this.decline_text_color1 = "#FFFFFF";
+          this.button_revoke_consent_text_color1 = "#FFFFFF";
+          this.button_revoke_consent_background_color1 = "#2A3E71";
           this.accept_background_color2 = "#369EE3";
           this.accept_all_background_color2 = "#369EE3";
-          this.decline_background_color2 = "#252525";
+          this.decline_background_color2 = "#2A3E71";
           this.settings_background_color2 = "#2A3E71";
           this.settings_border_width2 = "1";
           this.settings_border_color2 = "#FFFFFF";
           this.settings_style2 = "solid";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_text_color2 = "#ffffff";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#FFFFFF";
+          this.decline_style2 = "solid";
+          this.button_readmore_link_color2 = "#369EE3";
+          this.settings_text_color2 = "#FFFFFF";
+          this.decline_text_color2 = "#FFFFFF";
+          this.button_revoke_consent_text_color2 = "#FFFFFF";
+          this.button_revoke_consent_background_color2 = "#2A3E71";
         }
       }
       this.is_template_changed = true;
@@ -4178,9 +4656,12 @@ var gen = new Vue({
       const id = value.split(",")[1];
       const cat = value.split(",")[0];
       for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] === id) {
-          for (let j = 0; i < this.custom_cookie_categories.length; j++) {
-            if (this.custom_cookie_categories[j]["code"] === parseInt(cat)) {
+        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] == id) {
+          for (let j = 0; j < this.custom_cookie_categories.length; j++) {
+            if (
+              parseInt(this.custom_cookie_categories[j]["code"]) ==
+              parseInt(cat)
+            ) {
               this.scan_cookie_list[i]["category_id"] =
                 this.custom_cookie_categories[j].code;
               this.scan_cookie_list[i]["category"] =
@@ -4514,6 +4995,7 @@ var gen = new Vue({
     },
     restoreDefaultSettings() {
       this.ab_testing_enabled = false;
+      this.ab_testing_auto = false;
       this.ab_testing_period = "30";
       this.gacm_key = "";
       this.cookie_bar_color = "#ffffff";
@@ -4997,7 +5479,7 @@ var gen = new Vue({
             "&lang_changed=" +
             that.is_lang_changed +
             "&logo_removed=" +
-            that.is_logo_removed +
+            that.is_logo_removed +"&logo_removed1=" + that.is_logo_removed1 +"&logo_removed2="+ that.is_logo_removed2 +"&logo_removedML1=" + that.is_logo_removedML1 +
             "&gdpr_css_text_field=" +
             that.gdpr_css_text,
         })
@@ -5021,7 +5503,6 @@ var gen = new Vue({
             that.is_lang_changed = false;
             location.reload();
           }
-          that.is_logo_removed = false;
           if (that.data_reqs_switch_clicked == true) {
             that.data_reqs_switch_clicked = false;
             location.reload();
@@ -5038,8 +5519,24 @@ var gen = new Vue({
             that.reload_onSafeMode = false;
             location.reload();
           }
-          if (that.is_auto_template_generated == true) {
-            that.is_auto_template_generated = false;
+          if (that.is_logo_removed == true) {
+            that.is_logo_removed = false;
+            location.reload();
+          }
+          if (that.is_logo_removed1 == true) {
+            that.is_logo_removed1 = false;
+            location.reload();
+          }
+          if (that.is_logo_removed2 == true) {
+            that.is_logo_removed2 = false;
+            location.reload();
+          }
+          if (that.is_logo_removedML1 == true) {
+            that.is_logo_removedML1 = false;
+            location.reload();
+          }
+          if (that.is_logo_added == true) {
+            that.is_logo_added = false;
             location.reload();
           }
           that.save_loading = false;
@@ -5051,58 +5548,115 @@ var gen = new Vue({
 
     openMediaModal() {
       var image_frame = wp.media({
-        title: "Select Media from here",
+        title: "Select Media for Image 1",
         multiple: false,
         library: {
           type: "image",
         },
       });
-      jQuery("#image-upload-button")
-        .unbind()
-        .click(
-          image_frame.on("close", function () {
-            var selection = image_frame.state().get("selection");
-            selection.each(function (attachment) {
-              jQuery("#gdpr-cookie-bar-logo-holder").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-holder1").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-holder2").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder").attr(
-                "value",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder1").attr(
-                "value",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder2").attr(
-                "value",
-                attachment.attributes.url
-              );
-            });
-          }),
-          image_frame.open()
-        );
+      // Open the media modal
+      image_frame.open();
+
+      // Handle the selection
+      image_frame.on("select", function () {
+        var selection1 = image_frame.state().get("selection").first().toJSON();
+
+        // Update Image 1 holder and hidden input
+        jQuery("#gdpr-cookie-bar-logo-holder").attr("src", selection1.url);
+        jQuery("#gdpr-cookie-bar-logo-url-holder").val(selection1.url);
+        alert("Please click on save changes to update the image on the banner");
+      });
+      this.is_logo_added = true;
     },
     deleteSelectedimage() {
       jQuery("#gdpr-cookie-bar-logo-holder").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-holder1").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-holder2").removeAttr("src");
       jQuery("#gdpr-cookie-bar-logo-url-holder").attr("value", "");
-      jQuery("#gdpr-cookie-bar-logo-url-holder1").attr("value", "");
-      jQuery("#gdpr-cookie-bar-logo-url-holder2").attr("value", "");
-
       this.is_logo_removed = true;
     },
-
+    openMediaModal1() {
+      var image_frame = wp.media({
+        title: "Select Media for Image 1",
+        multiple: false,
+        library: {
+          type: "image",
+        },
+      });
+    
+      // Open the media modal
+      image_frame.open();
+    
+      // Handle the selection
+      image_frame.on("select", function () {
+        var selection1 = image_frame.state().get("selection").first().toJSON();
+    
+        // Update Image 1 holder and hidden input
+        jQuery("#gdpr-cookie-bar-logo-holder1").attr("src", selection1.url);
+        jQuery("#gdpr-cookie-bar-logo-url-holder1").val(selection1.url);
+        alert("Please click on save changes to update the image on the banner");
+      });
+      this.is_logo_added = true;
+    }, 
+    deleteSelectedimage1() {
+      jQuery("#gdpr-cookie-bar-logo-holder1").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-url-holder1").attr("value", "");
+      this.is_logo_removed1 = true;
+    },
+    openMediaModal2() {
+      var image_frame = wp.media({
+        title: "Select Media for Image 2",
+        multiple: false,
+        library: {
+          type: "image",
+        },
+      });
+    
+      // Open the media modal
+      image_frame.open();
+    
+      // Handle the selection
+      image_frame.on("select", function () {
+        var selection2 = image_frame.state().get("selection").first().toJSON();
+    
+        // Update Image 2 holder and hidden input
+        jQuery("#gdpr-cookie-bar-logo-holder2").attr("src", selection2.url);
+        jQuery("#gdpr-cookie-bar-logo-url-holder2").val(selection2.url);
+        alert("Please click on save changes to update the image on the banner");
+      });
+      this.is_logo_added = true;
+    },    
+    deleteSelectedimage2() {
+      jQuery("#gdpr-cookie-bar-logo-holder2").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-url-holder2").attr("value", "");
+      this.is_logo_removed2 = true;
+    },
+    openMediaModalML1() {
+      var image_frame = wp.media({
+        title: "Select Media for Image 1",
+        multiple: false,
+        library: {
+          type: "image",
+        },
+      });
+    
+      // Open the media modal
+      image_frame.open();
+    
+      // Handle the selection
+      image_frame.on("select", function () {
+        var selection1 = image_frame.state().get("selection").first().toJSON();
+    
+        // Update Image 1 holder and hidden input
+        jQuery("#gdpr-cookie-bar-logo-holderML1").attr("src", selection1.url);
+        jQuery("#gdpr-cookie-bar-logo-url-holderML1").val(selection1.url);
+        alert("Please click on save changes to update the image on the banner");
+      });
+      this.is_logo_added = true;
+    },    
+    deleteSelectedimageML1() {
+      jQuery("#gdpr-cookie-bar-logo-holderML1").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-url-holderML1").attr("value", "");
+      this.is_logo_removedML1 = true;
+    },
     onSwitchScriptBlocker(script_id) {
       j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
       j("#gdpr-cookie-consent-updating-settings-alert").fadeOut(2000);
@@ -6295,6 +6849,9 @@ var gen = new Vue({
             "An error occurred while saving the settings. Please try again."
           );
         });
+    },
+    onSwitchABTestingAuto() {
+      this.ab_testing_auto = !this.ab_testing_auto;
     },
     OnEnableGeotargeting() {
       this.enable_geotargeting = !this.enable_geotargeting;
@@ -9123,6 +9680,7 @@ var gen = new Vue({
           this.button_revoke_consent_background_color = "#323742";
           this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = "#ffffff";
           this.accept_text_color1 = "#ffffff";
           this.accept_background_color1 = "#3EAF9A";
           this.accept_all_background_color1 = "#3EAF9A";
@@ -9145,38 +9703,89 @@ var gen = new Vue({
           this.button_readmore_link_color2 = "#3EAF9A";
           this.settings_text_color2 = "#3EAF9A";
         } else if (this.banner_template == "banner-almond_column") {
-          this.cookie_bar_color = "#E8DDBB";
-          this.accept_background_color = "#DE7834";
-          this.accept_all_background_color = "#DE7834";
-          this.decline_background_color = "#252525";
-          this.settings_background_color = "#252525";
-          jQuery(".gdpr_preview").css("color", "rgb(30, 61, 89)");
-          this.settings_style = "none";
-          this.settings_text_color = "#FFFFFF";
-          this.button_revoke_consent_text_color = "#306189";
-          this.button_revoke_consent_background_color = "#E8DDBB";
-          this.cookie_text_color1 = "#111111";
-          this.multiple_legislation_cookie_text_color1 = "#111111";
-          this.multiple_legislation_cookie_text_color2 = "#111111";
+          this.cookie_bar_color = "#ffffff";
+          this.cookie_text_color = "#252525";
+          this.settings_background_color = "#ffffff";
+          this.settings_border_width = "1";
+          this.settings_border_color = "#C1540C";
+          this.settings_style = "solid";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#C1540C";
+          this.decline_background_color = "#ffffff";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#C1540C";
+          this.decline_text_color = "#C1540C";
+          this.accept_background_color = "#C1540C";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#C1540C";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#ffffff";
+          this.accept_all_style = "solid";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_color = "#C1540C";
+          this.accept_all_text_color = "#C1540C";
+          jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
+          this.button_revoke_consent_text_color = "#ffffff";
+          this.button_revoke_consent_background_color = "#C1540C";
+          this.cookie_bar_color1 = "#ffffff";
+          this.cookie_text_color1 = "#252525";
+          this.multiple_legislation_cookie_text_color1 = "#252525";
+          this.multiple_legislation_cookie_bar_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#ffffff";
+          this.cookie_text_color2 = "#252525";
+          this.settings_background_color1 = "#ffffff";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#C1540C";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#C1540C";
+          this.decline_background_color1 = "#ffffff";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#C1540C";
+          this.decline_text_color1 = "#C1540C";
+          this.accept_background_color1 = "#C1540C";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#C1540C";
           this.accept_text_color1 = "#ffffff";
-          this.cookie_text_color2 = "#111111";
+          this.accept_all_background_color1 = "#ffffff";
+          this.accept_all_style1 = "solid";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_color1 = "#C1540C";
+          this.accept_all_text_color1 = "#C1540C";
+          this.settings_background_color2 = "#ffffff";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#C1540C";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#C1540C";
+          this.decline_background_color2 = "#ffffff";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#C1540C";
+          this.decline_text_color2 = "#C1540C";
+          this.accept_background_color2 = "#C1540C";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#C1540C";
           this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
-          this.accept_background_color1 = "#DE7834";
-          this.accept_all_background_color1 = "#DE7834";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#252525";
-          this.settings_style1 = "none";
-          this.settings_text_color1 = "#FFFFFF";
-          this.cookie_bar_color2 = "#E8DDBB";
-          this.accept_background_color2 = "#DE7834";
-          this.accept_all_background_color2 = "#DE7834";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#252525";
-          this.settings_style2 = "none";
-          this.settings_text_color2 = "#FFFFFF";
+          this.accept_all_background_color2 = "#ffffff";
+          this.accept_all_style2 = "solid";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "1";
+          this.accept_all_border_color2 = "#C1540C";
+          this.accept_all_text_color2 = "#C1540C";
         } else if (this.banner_template == "banner-grey_center") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#DE7834";
@@ -9282,72 +9891,165 @@ var gen = new Vue({
           this.button_revoke_consent_background_color = "#2A3E71";
         } else if (this.banner_template == "banner-default") {
           this.cookie_bar_color = "#FFFFFF";
-          this.accept_background_color = "#66CC66";
-          this.accept_all_background_color = "#66CC66";
-          this.decline_background_color = "#EF5454";
-          this.settings_background_color = "#007CBA";
-          this.settings_style = "none";
+          this.cookie_text_color = "#111111";
+          this.accept_background_color = "#176CAE";
+          this.accept_all_background_color = "#FFFFFF";
+          this.decline_background_color = "#FFFFFF";
+          this.settings_background_color = "#FFFFFF";
+          this.accept_text_color = "#FFFFFF";
+          this.accept_text_color1 = "#FFFFFF";
+          this.accept_text_color2 = "#FFFFFF";
+          this.decline_text_color = "#176CAE";
+          this.decline_text_color1 = "#176CAE";
+          this.decline_text_color2 = "#176CAE";
+          this.accept_all_text_color = "#176CAE";
+          this.accept_all_text_color1 = "#176CAE";
+          this.accept_all_text_color2 = "#176CAE";
+          this.settings_text_color = "#176CAE";
+          this.settings_text_color1 = "#176CAE";
+          this.settings_text_color2 = "#176CAE";
+          this.accept_border_color = "#176CAE";
+          this.accept_all_border_color = "#176CAE";
+          this.decline_border_color = "#176CAE";
+          this.settings_border_color = "#176CAE"
+          this.accept_border_color1 = "#176CAE";
+          this.accept_all_border_color1 = "#176CAE";
+          this.decline_border_color1 = "#176CAE";
+          this.settings_border_color1 = "#176CAE"
+          this.accept_border_color2 = "#176CAE";
+          this.accept_all_border_color2 = "#176CAE";
+          this.decline_border_color2 = "#176CAE";
+          this.settings_border_color2 = "#176CAE";
+          this.accept_all_style = "solid";
+          this.accept_all_style1 = "solid";
+          this.accept_all_style2 = "solid";
+          this.decline_style = "solid";
+          this.decline_style1 = "solid";
+          this.decline_style2 = "solid";
+          this.settings_style = "solid";
+          this.settings_style1 = "solid";
+          this.settings_style2 = "solid";
+          this.decline_border_width = "1";
+          this.decline_border_width1 = "1";
+          this.decline_border_width2 = "1";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_width2 = "1";
+          this.settings_border_width = "1";
+          this.settings_border_width1 = "1";
+          this.settings_border_width2 = "1";
           this.cookie_bar_color1 = "#FFFFFF";
           this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
           this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
-          this.accept_background_color1 = "#66CC66";
-          this.accept_all_background_color1 = "#66CC66";
-          this.decline_background_color1 = "#EF5454";
-          this.settings_background_color1 = "#007CBA";
+          this.accept_background_color1 = "#176CAE";
+          this.accept_all_background_color1 = "#FFFFFF";
+          this.decline_background_color1 = "#FFFFFF";
+          this.settings_background_color1 = "#FFFFFF";
           this.settings_style1 = "none";
           this.cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
-          this.accept_background_color2 = "#66CC66";
-          this.accept_all_background_color2 = "#66CC66";
-          this.decline_background_color2 = "#EF5454";
-          this.settings_background_color2 = "#007CBA";
+          this.accept_background_color2 = "#176CAE";
+          this.accept_all_background_color2 = "#FFFFFF";
+          this.decline_background_color2 = "#FFFFFF";
+          this.settings_background_color2 = "#FFFFFF";
           this.settings_style2 = "none";
           jQuery(".gdpr_preview").css("color", "#3c4b64");
-          this.button_readmore_link_color = "#007CBA";
+          this.button_readmore_link_color = "#176CAE";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
         } else if (this.banner_template == "banner-dark") {
           this.cookie_bar_color = "#262626";
-          this.accept_background_color = "#6A8EE7";
-          this.accept_all_background_color = "#6A8EE7";
-          this.decline_background_color = "#808080";
+          this.cookie_text_color = "#ffffff";
           this.settings_background_color = "#262626";
           this.settings_border_width = "1";
-          this.settings_border_color = "#808080";
+          this.settings_border_color = "#D5D2D2";
           this.settings_style = "solid";
-          this.cookie_bar_color1 = "#262626";
-          this.multiple_legislation_cookie_bar_color1 = "#262626";
-          this.multiple_legislation_cookie_bar_color2 = "#262626";
-          this.cookie_text_color1 = "#ffffff";
-          this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#6A8EE7";
-          this.accept_all_background_color1 = "#6A8EE7";
-          this.decline_background_color1 = "#808080";
-          this.settings_background_color1 = "#262626";
-          this.settings_border_width1 = "1";
-          this.settings_border_color1 = "#808080";
-          this.settings_style1 = "solid";
-          this.settings_text_color1 = "#808080";
-          this.cookie_bar_color2 = "#262626";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#6A8EE7";
-          this.accept_all_background_color2 = "#6A8EE7";
-          this.decline_background_color2 = "#808080";
-          this.settings_background_color2 = "#262626";
-          this.settings_border_width2 = "1";
-          this.settings_border_color2 = "#808080";
-          this.settings_style2 = "solid";
-          this.settings_text_color2 = "#808080";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#D5D2D2";
+          this.decline_background_color = "#262626";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#D5D2D2";
+          this.decline_text_color = "#D5D2D2";
+          this.accept_background_color = "#4570DC";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#4570DC";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#4570DC";
+          this.accept_all_style = "none";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "0";
+          this.accept_all_border_color = "#4570DC";
+          this.accept_all_text_color = "#ffffff";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#6A8EE7";
-          this.settings_text_color = "#808080";
+          this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
+          this.cookie_bar_color1 = "#262626";
+          this.multiple_legislation_cookie_bar_color1 = "#262626";
+          this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_text_color1 = "#ffffff";
+          this.cookie_bar_border_radius1 = "0";
+          this.cookie_bar_border_radius2 = "0";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#D5D2D2";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#D5D2D2";
+          this.decline_background_color1 = "#808080";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#D5D2D2";
+          this.decline_text_color1 = "#D5D2D2";
+          this.accept_background_color1 = "#4570DC";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#4570DC";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_background_color1 = "#4570DC";
+          this.accept_all_style1 = "none";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "0";
+          this.accept_all_border_color1 = "#4570DC";
+          this.accept_all_text_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#D5D2D2";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#D5D2D2";
+          this.decline_background_color2 = "#808080";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#D5D2D2";
+          this.decline_text_color2 = "#D5D2D2";
+          this.accept_background_color2 = "#4570DC";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#4570DC";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_background_color2 = "#4570DC";
+          this.accept_all_style2 = "none";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "0";
+          this.accept_all_border_color2 = "#4570DC";
+          this.accept_all_text_color2 = "#ffffff";
         }
       } else if (this.show_cookie_as === "popup") {
         this.popup_template = value;
@@ -9383,6 +10085,8 @@ var gen = new Vue({
           this.decline_style1 = "none";
           this.settings_text_color1 = "#3EAF9A";
           this.cookie_bar_border_radius1 = "0";
+          this.multiple_legislation_cookie_bar_border_radius1 = "0";
+          this.multiple_legislation_cookie_bar_border_radius2 = "0";
           this.cookie_bar_color2 = "#323742";
           this.cookie_text_color2 = "#ffffff";
           this.accept_background_color2 = "#3EAF9A";
@@ -9396,41 +10100,89 @@ var gen = new Vue({
           this.settings_text_color2 = "#3EAF9A";
           this.cookie_bar_border_radius2 = "0";
         } else if (this.popup_template == "popup-almond_column") {
-          this.cookie_bar_color = "#E8DDBB";
-          this.accept_background_color = "#DE7834";
-          this.accept_all_background_color = "#DE7834";
-          this.decline_background_color = "#252525";
-          this.settings_background_color = "#252525";
-          jQuery(".gdpr_preview").css("color", "rgb(30, 61, 89)");
-          this.settings_style = "none";
-          this.decline_style = "none";
-          this.settings_text_color = "#FFFFFF";
-          this.cookie_bar_border_radius = "0";
-          this.cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
-          this.cookie_text_color1 = "#ffffff";
-          this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#DE7834";
-          this.accept_all_background_color1 = "#DE7834";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#252525";
-          this.settings_style1 = "none";
-          this.decline_style1 = "none";
-          this.settings_text_color1 = "#FFFFFF";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_color2 = "#E8DDBB";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#DE7834";
-          this.accept_all_background_color2 = "#DE7834";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#252525";
-          this.settings_style2 = "none";
-          this.decline_style2 = "none";
-          this.settings_text_color2 = "#FFFFFF";
-          this.cookie_bar_border_radius2 = "0";
-          this.button_revoke_consent_text_color = "#306189";
-          this.button_revoke_consent_background_color = "#E8DDBB";
+          this.cookie_bar_color = "#ffffff";
+          this.cookie_text_color = "#252525";
+          this.settings_background_color = "#ffffff";
+          this.settings_border_width = "1";
+          this.settings_border_color = "#C1540C";
+          this.settings_style = "solid";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#C1540C";
+          this.decline_background_color = "#ffffff";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#C1540C";
+          this.decline_text_color = "#C1540C";
+          this.accept_background_color = "#C1540C";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#C1540C";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#ffffff";
+          this.accept_all_style = "solid";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_color = "#C1540C";
+          this.accept_all_text_color = "#C1540C";
+          jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
+          this.button_revoke_consent_text_color = "#ffffff";
+          this.button_revoke_consent_background_color = "#C1540C";
+          this.cookie_bar_color1 = "#ffffff";
+          this.cookie_text_color1 = "#252525";
+          this.multiple_legislation_cookie_text_color1 = "#252525";
+          this.multiple_legislation_cookie_bar_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#ffffff";
+          this.cookie_text_color2 = "#252525";
+          this.settings_background_color1 = "#ffffff";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#C1540C";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#C1540C";
+          this.decline_background_color1 = "#ffffff";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#C1540C";
+          this.decline_text_color1 = "#C1540C";
+          this.accept_background_color1 = "#C1540C";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#C1540C";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_background_color1 = "#ffffff";
+          this.accept_all_style1 = "solid";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_color1 = "#C1540C";
+          this.accept_all_text_color1 = "#C1540C";
+          this.settings_background_color2 = "#ffffff";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#C1540C";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#C1540C";
+          this.decline_background_color2 = "#ffffff";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#C1540C";
+          this.decline_text_color2 = "#C1540C";
+          this.accept_background_color2 = "#C1540C";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#C1540C";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_background_color2 = "#ffffff";
+          this.accept_all_style2 = "solid";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "1";
+          this.accept_all_border_color2 = "#C1540C";
+          this.accept_all_text_color2 = "#C1540C";
         } else if (this.popup_template == "popup-grey_center") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#DE7834";
@@ -9549,15 +10301,57 @@ var gen = new Vue({
           this.settings_style2 = "solid";
         } else if (this.popup_template == "popup-default") {
           this.cookie_bar_color = "#FFFFFF";
-          this.accept_background_color = "#66CC66";
-          this.accept_all_background_color = "#66CC66";
-          this.decline_background_color = "#EF5454";
-          this.settings_background_color = "#007CBA";
+          this.cookie_text_color = "#111111";
+          this.accept_background_color = "#176CAE";
+          this.accept_all_background_color = "#FFFFFF";
+          this.decline_background_color = "#FFFFFF";
+          this.settings_background_color = "#FFFFFF";
           this.settings_style = "none";
           this.decline_style = "none";
           jQuery(".gdpr_preview").css("color", "#3c4b64");
-          this.button_readmore_link_color = "#007CBA";
-          this.settings_text_color = "#FFFFFF";
+          this.button_readmore_link_color = "#176CAE";
+          this.accept_text_color = "#FFFFFF";
+          this.accept_text_color1 = "#FFFFFF";
+          this.accept_text_color2 = "#FFFFFF";
+          this.decline_text_color = "#176CAE";
+          this.decline_text_color1 = "#176CAE";
+          this.decline_text_color2 = "#176CAE";
+          this.accept_all_text_color = "#176CAE";
+          this.accept_all_text_color1 = "#176CAE";
+          this.accept_all_text_color2 = "#176CAE";
+          this.settings_text_color = "#176CAE";
+          this.settings_text_color1 = "#176CAE";
+          this.settings_text_color2 = "#176CAE";
+          this.accept_border_color = "#176CAE";
+          this.accept_all_border_color = "#176CAE";
+          this.decline_border_color = "#176CAE";
+          this.settings_border_color = "#176CAE"
+          this.accept_border_color1 = "#176CAE";
+          this.accept_all_border_color1 = "#176CAE";
+          this.decline_border_color1 = "#176CAE";
+          this.settings_border_color1 = "#176CAE"
+          this.accept_border_color2 = "#176CAE";
+          this.accept_all_border_color2 = "#176CAE";
+          this.decline_border_color2 = "#176CAE";
+          this.settings_border_color2 = "#176CAE";
+          this.accept_all_style = "solid";
+          this.accept_all_style1 = "solid";
+          this.accept_all_style2 = "solid";
+          this.decline_style = "solid";
+          this.decline_style1 = "solid";
+          this.decline_style2 = "solid";
+          this.settings_style = "solid";
+          this.settings_style1 = "solid";
+          this.settings_style2 = "solid";
+          this.decline_border_width = "1";
+          this.decline_border_width1 = "1";
+          this.decline_border_width2 = "1";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_width2 = "1";
+          this.settings_border_width = "1";
+          this.settings_border_width1 = "1";
+          this.settings_border_width2 = "1";
           this.cookie_bar_border_radius = "0";
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
@@ -9569,59 +10363,106 @@ var gen = new Vue({
           this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
-          this.accept_background_color1 = "#66CC66";
-          this.accept_all_background_color1 = "#66CC66";
-          this.decline_background_color1 = "#EF5454";
-          this.settings_background_color1 = "#007CBA";
+          this.accept_background_color1 = "#176CAE";
+          this.accept_all_background_color1 = "#FFFFFF";
+          this.decline_background_color1 = "#FFFFFF";
+          this.settings_background_color1 = "#FFFFFF";
           this.settings_style1 = "none";
           this.cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color2 = "#111111";
-          this.accept_background_color2 = "#66CC66";
-          this.accept_all_background_color2 = "#66CC66";
-          this.decline_background_color2 = "#EF5454";
-          this.settings_background_color2 = "#007CBA";
+          this.accept_background_color2 = "#176CAE";
+          this.accept_all_background_color2 = "#FFFFFF";
+          this.decline_background_color2 = "#FFFFFF";
+          this.settings_background_color2 = "#FFFFFF";
           this.settings_style2 = "none";
         } else if (this.popup_template == "popup-dark") {
           this.cookie_bar_color = "#262626";
-          this.accept_background_color = "#6A8EE7";
-          this.accept_all_background_color = "#6A8EE7";
-          this.decline_background_color = "#808080";
+          this.cookie_text_color = "#ffffff";
           this.settings_background_color = "#262626";
           this.settings_border_width = "1";
-          this.settings_border_color = "#808080";
+          this.settings_border_color = "#D5D2D2";
           this.settings_style = "solid";
-          this.decline_style = "none";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#D5D2D2";
+          this.decline_background_color = "#262626";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#D5D2D2";
+          this.decline_text_color = "#D5D2D2";
+          this.accept_background_color = "#4570DC";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#4570DC";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#4570DC";
+          this.accept_all_style = "none";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "0";
+          this.accept_all_border_color = "#4570DC";
+          this.accept_all_text_color = "#ffffff";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#6A8EE7";
-          this.settings_text_color = "#808080";
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
           this.cookie_bar_color1 = "#262626";
           this.multiple_legislation_cookie_bar_color1 = "#262626";
-          this.multiple_legislation_cookie_bar_color2 = "#262626";
           this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#6A8EE7";
-          this.accept_all_background_color1 = "#6A8EE7";
-          this.decline_background_color1 = "#808080";
-          this.settings_background_color1 = "#262626";
-          this.settings_border_width1 = "1";
-          this.settings_border_color1 = "#808080";
-          this.settings_style1 = "solid";
-          this.settings_text_color1 = "#808080";
-          this.cookie_bar_color2 = "#262626";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#6A8EE7";
-          this.accept_all_background_color2 = "#6A8EE7";
-          this.decline_background_color2 = "#808080";
-          this.settings_background_color2 = "#262626";
-          this.settings_border_width2 = "1";
-          this.settings_border_color2 = "#808080";
-          this.settings_style2 = "solid";
-          this.settings_text_color2 = "#808080";
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#D5D2D2";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#D5D2D2";
+          this.decline_background_color1 = "#808080";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#D5D2D2";
+          this.decline_text_color1 = "#D5D2D2";
+          this.accept_background_color1 = "#4570DC";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#4570DC";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_background_color1 = "#4570DC";
+          this.accept_all_style1 = "none";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "0";
+          this.accept_all_border_color1 = "#4570DC";
+          this.accept_all_text_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#D5D2D2";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#D5D2D2";
+          this.decline_background_color2 = "#808080";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#D5D2D2";
+          this.decline_text_color2 = "#D5D2D2";
+          this.accept_background_color2 = "#4570DC";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#4570DC";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_background_color2 = "#4570DC";
+          this.accept_all_style2 = "none";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "0";
+          this.accept_all_border_color2 = "#4570DC";
+          this.accept_all_text_color2 = "#ffffff";
         } else if (this.popup_template == "popup-navy_blue_square") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -9667,47 +10508,69 @@ var gen = new Vue({
           this.settings_style2 = "solid";
         } else if (this.popup_template == "popup-navy_blue_box") {
           this.cookie_bar_color = "#2A3E71";
+          this.cookie_text_color = "#ffffff";
           this.accept_background_color = "#369EE3";
           this.accept_all_background_color = "#369EE3";
-          this.decline_background_color = "#252525";
+          this.decline_background_color = "#2A3E71";
           this.settings_background_color = "#2A3E71";
           this.settings_border_width = "1";
           this.settings_border_color = "#FFFFFF";
           this.settings_style = "solid";
-          this.decline_style = "none";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_text_color = "#ffffff";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#FFFFFF";
+          this.decline_style = "solid";
           this.cookie_bar_border_radius = "15";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#369EE3";
           this.settings_text_color = "#FFFFFF";
+          this.decline_text_color = "#FFFFFF";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_border_radius2 = "0";
+          this.cookie_bar_border_radius1 = "15";
+          this.cookie_bar_border_radius2 = "15";
           this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
+          this.cookie_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#2A3E71";
-          this.decline_border_width1 = "1";
-          this.decline_border_color1 = "#FFFFFF";
           this.settings_background_color1 = "#2A3E71";
           this.settings_border_width1 = "1";
           this.settings_border_color1 = "#FFFFFF";
           this.settings_style1 = "solid";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_text_color1 = "#ffffff";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#FFFFFF";
+          this.decline_style1 = "solid";
+          this.button_readmore_link_color1 = "#369EE3";
+          this.settings_text_color1 = "#FFFFFF";
+          this.decline_text_color1 = "#FFFFFF";
+          this.button_revoke_consent_text_color1 = "#FFFFFF";
+          this.button_revoke_consent_background_color1 = "#2A3E71";
           this.accept_background_color2 = "#369EE3";
           this.accept_all_background_color2 = "#369EE3";
-          this.decline_background_color2 = "#252525";
+          this.decline_background_color2 = "#2A3E71";
           this.settings_background_color2 = "#2A3E71";
           this.settings_border_width2 = "1";
           this.settings_border_color2 = "#FFFFFF";
           this.settings_style2 = "solid";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_text_color2 = "#ffffff";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#FFFFFF";
+          this.decline_style2 = "solid";
+          this.button_readmore_link_color2 = "#369EE3";
+          this.settings_text_color2 = "#FFFFFF";
+          this.decline_text_color2 = "#FFFFFF";
+          this.button_revoke_consent_text_color2 = "#FFFFFF";
+          this.button_revoke_consent_background_color2 = "#2A3E71";
         }
       } else if (this.show_cookie_as === "widget") {
         this.widget_template = value;
@@ -9756,41 +10619,92 @@ var gen = new Vue({
           this.settings_text_color2 = "#3EAF9A";
           this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-almond_column") {
-          this.cookie_bar_color = "#E8DDBB";
-          this.accept_background_color = "#DE7834";
-          this.accept_all_background_color = "#DE7834";
-          this.decline_background_color = "#252525";
-          this.settings_background_color = "#252525";
-          jQuery(".gdpr_preview").css("color", "rgb(30, 61, 89)");
-          this.settings_style = "none";
-          this.decline_style = "none";
-          this.settings_text_color = "#FFFFFF";
+          this.cookie_bar_color = "#ffffff";
+          this.cookie_text_color = "#252525";
           this.cookie_bar_border_radius = "0";
-          this.button_revoke_consent_text_color = "#306189";
-          this.button_revoke_consent_background_color = "#E8DDBB";
-          this.cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color1 = "#E8DDBB";
-          this.multiple_legislation_cookie_bar_color2 = "#E8DDBB";
-          this.cookie_text_color1 = "#ffffff";
-          this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#DE7834";
-          this.accept_all_background_color1 = "#DE7834";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#252525";
-          this.settings_style1 = "none";
-          this.decline_style1 = "none";
-          this.settings_text_color1 = "#FFFFFF";
+          this.settings_background_color = "#ffffff";
+          this.settings_border_width = "1";
+          this.settings_border_color = "#C1540C";
+          this.settings_style = "solid";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#C1540C";
+          this.decline_background_color = "#ffffff";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#C1540C";
+          this.decline_text_color = "#C1540C";
+          this.accept_background_color = "#C1540C";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#C1540C";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#ffffff";
+          this.accept_all_style = "solid";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_color = "#C1540C";
+          this.accept_all_text_color = "#C1540C";
+          jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
+          this.button_revoke_consent_text_color = "#ffffff";
+          this.button_revoke_consent_background_color = "#C1540C";
+          this.cookie_bar_color1 = "#ffffff";
+          this.cookie_text_color1 = "#252525";
           this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_color2 = "#E8DDBB";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#DE7834";
-          this.accept_all_background_color2 = "#DE7834";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#252525";
-          this.settings_style2 = "none";
-          this.decline_style2 = "none";
-          this.settings_text_color2 = "#FFFFFF";
+          this.multiple_legislation_cookie_text_color1 = "#252525";
+          this.multiple_legislation_cookie_bar_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#ffffff";
+          this.cookie_text_color2 = "#252525";
           this.cookie_bar_border_radius2 = "0";
+          this.settings_background_color1 = "#ffffff";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#C1540C";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#C1540C";
+          this.decline_background_color1 = "#ffffff";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#C1540C";
+          this.decline_text_color1 = "#C1540C";
+          this.accept_background_color1 = "#C1540C";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#C1540C";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_background_color1 = "#ffffff";
+          this.accept_all_style1 = "solid";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_color1 = "#C1540C";
+          this.accept_all_text_color1 = "#C1540C";
+          this.settings_background_color2 = "#ffffff";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#C1540C";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#C1540C";
+          this.decline_background_color2 = "#ffffff";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#C1540C";
+          this.decline_text_color2 = "#C1540C";
+          this.accept_background_color2 = "#C1540C";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#C1540C";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_background_color2 = "#ffffff";
+          this.accept_all_style2 = "solid";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "1";
+          this.accept_all_border_color2 = "#C1540C";
+          this.accept_all_text_color2 = "#C1540C";
         } else if (this.widget_template == "widget-grey_center") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#DE7834";
@@ -9909,15 +10823,57 @@ var gen = new Vue({
           this.settings_style2 = "solid";
         } else if (this.widget_template == "widget-default") {
           this.cookie_bar_color = "#FFFFFF";
-          this.accept_background_color = "#66CC66";
-          this.accept_all_background_color = "#66CC66";
-          this.decline_background_color = "#EF5454";
-          this.settings_background_color = "#007CBA";
+          this.cookie_text_color = "#111111";
           this.settings_style = "none";
           this.decline_style = "none";
           jQuery(".gdpr_preview").css("color", "#3c4b64");
           this.button_readmore_link_color = "#007CBA";
-          this.settings_text_color = "#FFFFFF";
+          this.accept_background_color = "#176CAE";
+          this.accept_all_background_color = "#FFFFFF";
+          this.decline_background_color = "#FFFFFF";
+          this.settings_background_color = "#FFFFFF";
+          this.accept_text_color = "#FFFFFF";
+          this.accept_text_color1 = "#FFFFFF";
+          this.accept_text_color2 = "#FFFFFF";
+          this.decline_text_color = "#176CAE";
+          this.decline_text_color1 = "#176CAE";
+          this.decline_text_color2 = "#176CAE";
+          this.accept_all_text_color = "#176CAE";
+          this.accept_all_text_color1 = "#176CAE";
+          this.accept_all_text_color2 = "#176CAE";
+          this.settings_text_color = "#176CAE";
+          this.settings_text_color1 = "#176CAE";
+          this.settings_text_color2 = "#176CAE";
+          this.accept_border_color = "#176CAE";
+          this.accept_all_border_color = "#176CAE";
+          this.decline_border_color = "#176CAE";
+          this.settings_border_color = "#176CAE"
+          this.accept_border_color1 = "#176CAE";
+          this.accept_all_border_color1 = "#176CAE";
+          this.decline_border_color1 = "#176CAE";
+          this.settings_border_color1 = "#176CAE"
+          this.accept_border_color2 = "#176CAE";
+          this.accept_all_border_color2 = "#176CAE";
+          this.decline_border_color2 = "#176CAE";
+          this.settings_border_color2 = "#176CAE"
+          this.accept_all_style = "solid";
+          this.accept_all_style1 = "solid";
+          this.accept_all_style2 = "solid";
+          this.decline_style = "solid";
+          this.decline_style1 = "solid";
+          this.decline_style2 = "solid";
+          this.settings_style = "solid";
+          this.settings_style1 = "solid";
+          this.settings_style2 = "solid";
+          this.decline_border_width = "1";
+          this.decline_border_width1 = "1";
+          this.decline_border_width2 = "1";
+          this.accept_all_border_width = "1";
+          this.accept_all_border_width1 = "1";
+          this.accept_all_border_width2 = "1";
+          this.settings_border_width = "1";
+          this.settings_border_width1 = "1";
+          this.settings_border_width2 = "1";
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
@@ -9929,59 +10885,110 @@ var gen = new Vue({
           this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
-          this.accept_background_color1 = "#66CC66";
-          this.accept_all_background_color1 = "#66CC66";
-          this.decline_background_color1 = "#EF5454";
-          this.settings_background_color1 = "#007CBA";
+          this.accept_background_color1 = "#176CAE";
+          this.accept_all_background_color1 = "#FFFFFF";
+          this.decline_background_color1 = "#FFFFFF";
+          this.settings_background_color1 = "#FFFFFF";
           this.settings_style1 = "none";
           this.cookie_bar_color2 = "#FFFFFF";
           this.cookie_text_color2 = "#111111";
-          this.accept_background_color2 = "#66CC66";
-          this.accept_all_background_color2 = "#66CC66";
-          this.decline_background_color2 = "#EF5454";
-          this.settings_background_color2 = "#007CBA";
+          this.accept_background_color2 = "#176CAE";
+          this.accept_all_background_color2 = "#176CAE";
+          this.decline_background_color2 = "#176CAE";
+          this.settings_background_color2 = "#176CAE";
           this.settings_style2 = "none";
         } else if (this.widget_template == "widget-dark") {
+          this.button_accept_is_on = true;
+          this.button_decline_is_on = true;
+          this.button_settings_is_on = true;
+          this.button_accept_all_is_on = false;
           this.cookie_bar_color = "#262626";
-          this.accept_background_color = "#6A8EE7";
-          this.accept_all_background_color = "#6A8EE7";
-          this.decline_background_color = "#808080";
+          this.cookie_text_color = "#ffffff";
           this.settings_background_color = "#262626";
           this.settings_border_width = "1";
-          this.settings_border_color = "#808080";
+          this.settings_border_color = "#D5D2D2";
           this.settings_style = "solid";
-          this.decline_style = "none";
+          this.settings_border_radius = "0";
+          this.settings_text_color = "#D5D2D2";
+          this.decline_background_color = "#262626";
+          this.decline_style = "solid";
+          this.decline_border_radius = "0";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#D5D2D2";
+          this.decline_text_color = "#D5D2D2";
+          this.accept_background_color = "#4570DC";
+          this.accept_style = "none";
+          this.accept_border_radius = "0";
+          this.accept_border_width = "0";
+          this.accept_border_color = "#4570DC";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_background_color = "#4570DC";
+          this.accept_all_style = "none";
+          this.accept_all_border_radius = "0";
+          this.accept_all_border_width = "0";
+          this.accept_all_border_color = "#4570DC";
+          this.accept_all_text_color = "#ffffff";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#6A8EE7";
-          this.settings_text_color = "#808080";
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
           this.cookie_bar_color1 = "#262626";
-          this.multiple_legislation_cookie_bar_color1 = "#262626";
-          this.multiple_legislation_cookie_bar_color2 = "#262626";
           this.cookie_text_color1 = "#ffffff";
+          this.multiple_legislation_cookie_bar_color1 = "#262626";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#6A8EE7";
-          this.accept_all_background_color1 = "#6A8EE7";
-          this.decline_background_color1 = "#808080";
-          this.settings_background_color1 = "#262626";
-          this.settings_border_width1 = "1";
-          this.settings_border_color1 = "#808080";
-          this.settings_style1 = "solid";
-          this.settings_text_color1 = "#808080";
-          this.cookie_bar_color2 = "#262626";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#6A8EE7";
-          this.accept_all_background_color2 = "#6A8EE7";
-          this.decline_background_color2 = "#808080";
-          this.settings_background_color2 = "#262626";
-          this.settings_border_width2 = "1";
-          this.settings_border_color2 = "#808080";
-          this.settings_style2 = "solid";
-          this.settings_text_color2 = "#808080";
           this.cookie_bar_border_radius1 = "0";
           this.cookie_bar_border_radius2 = "0";
+          this.settings_background_color1 = "#262626";
+          this.settings_border_width1 = "1";
+          this.settings_border_color1 = "#D5D2D2";
+          this.settings_style1 = "solid";
+          this.settings_border_radius1 = "0";
+          this.settings_text_color1 = "#D5D2D2";
+          this.decline_background_color1 = "#808080";
+          this.decline_style1 = "solid";
+          this.decline_border_radius1 = "0";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#D5D2D2";
+          this.decline_text_color1 = "#D5D2D2";
+          this.accept_background_color1 = "#4570DC";
+          this.accept_style1 = "none";
+          this.accept_border_radius1 = "0";
+          this.accept_border_width1 = "0";
+          this.accept_border_color1 = "#4570DC";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_background_color1 = "#4570DC";
+          this.accept_all_style1 = "none";
+          this.accept_all_border_radius1 = "0";
+          this.accept_all_border_width1 = "0";
+          this.accept_all_border_color1 = "#4570DC";
+          this.accept_all_text_color1 = "#ffffff";
+          this.cookie_bar_color2 = "#262626";
+          this.cookie_text_color2 = "#ffffff";
+          this.settings_background_color2 = "#262626";
+          this.settings_border_width2 = "1";
+          this.settings_border_color2 = "#D5D2D2";
+          this.settings_style2 = "solid";
+          this.settings_border_radius2 = "0";
+          this.settings_text_color2 = "#D5D2D2";
+          this.decline_background_color2 = "#808080";
+          this.decline_style2 = "solid";
+          this.decline_border_radius2 = "0";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#D5D2D2";
+          this.decline_text_color2 = "#D5D2D2";
+          this.accept_background_color2 = "#4570DC";
+          this.accept_style2 = "none";
+          this.accept_border_radius2 = "0";
+          this.accept_border_width2 = "0";
+          this.accept_border_color2 = "#4570DC";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_background_color2 = "#4570DC";
+          this.accept_all_style2 = "none";
+          this.accept_all_border_radius2 = "0";
+          this.accept_all_border_width2 = "0";
+          this.accept_all_border_color2 = "#4570DC";
+          this.accept_all_text_color2 = "#ffffff";
         } else if (this.widget_template == "widget-navy_blue_square") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -10027,47 +11034,69 @@ var gen = new Vue({
           this.settings_style2 = "solid";
         } else if (this.widget_template == "widget-navy_blue_box") {
           this.cookie_bar_color = "#2A3E71";
+          this.cookie_text_color = "#ffffff";
           this.accept_background_color = "#369EE3";
           this.accept_all_background_color = "#369EE3";
-          this.decline_background_color = "#252525";
+          this.decline_background_color = "#2A3E71";
           this.settings_background_color = "#2A3E71";
           this.settings_border_width = "1";
           this.settings_border_color = "#FFFFFF";
           this.settings_style = "solid";
-          this.decline_style = "none";
+          this.accept_text_color = "#ffffff";
+          this.accept_all_text_color = "#ffffff";
+          this.decline_border_width = "1";
+          this.decline_border_color = "#FFFFFF";
+          this.decline_style = "solid";
           this.cookie_bar_border_radius = "15";
           jQuery(".gdpr_preview").css("color", "rgb(255, 255, 255)");
           this.button_readmore_link_color = "#369EE3";
           this.settings_text_color = "#FFFFFF";
+          this.decline_text_color = "#FFFFFF";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_border_radius2 = "0";
+          this.cookie_bar_border_radius1 = "15";
+          this.cookie_bar_border_radius2 = "15";
           this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_text_color1 = "#ffffff";
           this.cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
+          this.cookie_text_color2 = "#ffffff";
+          this.cookie_bar_color2 = "#2A3E71";
           this.accept_background_color1 = "#369EE3";
           this.accept_all_background_color1 = "#369EE3";
           this.decline_background_color1 = "#2A3E71";
-          this.decline_border_width1 = "1";
-          this.decline_border_color1 = "#FFFFFF";
           this.settings_background_color1 = "#2A3E71";
           this.settings_border_width1 = "1";
           this.settings_border_color1 = "#FFFFFF";
           this.settings_style1 = "solid";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color2 = "#2A3E71";
+          this.accept_text_color1 = "#ffffff";
+          this.accept_all_text_color1 = "#ffffff";
+          this.decline_border_width1 = "1";
+          this.decline_border_color1 = "#FFFFFF";
+          this.decline_style1 = "solid";
+          this.button_readmore_link_color1 = "#369EE3";
+          this.settings_text_color1 = "#FFFFFF";
+          this.decline_text_color1 = "#FFFFFF";
+          this.button_revoke_consent_text_color1 = "#FFFFFF";
+          this.button_revoke_consent_background_color1 = "#2A3E71";
           this.accept_background_color2 = "#369EE3";
           this.accept_all_background_color2 = "#369EE3";
-          this.decline_background_color2 = "#252525";
+          this.decline_background_color2 = "#2A3E71";
           this.settings_background_color2 = "#2A3E71";
           this.settings_border_width2 = "1";
           this.settings_border_color2 = "#FFFFFF";
           this.settings_style2 = "solid";
+          this.accept_text_color2 = "#ffffff";
+          this.accept_all_text_color2 = "#ffffff";
+          this.decline_border_width2 = "1";
+          this.decline_border_color2 = "#FFFFFF";
+          this.decline_style2 = "solid";
+          this.button_readmore_link_color2 = "#369EE3";
+          this.settings_text_color2 = "#FFFFFF";
+          this.decline_text_color2 = "#FFFFFF";
+          this.button_revoke_consent_text_color2 = "#FFFFFF";
+          this.button_revoke_consent_background_color2 = "#2A3E71";
         }
       }
       this.is_template_changed = true;
@@ -10809,59 +11838,6 @@ var gen = new Vue({
           j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
           j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
         });
-    },
-    openMediaModal() {
-      var image_frame = wp.media({
-        title: "Select Media from here",
-        multiple: false,
-        library: {
-          type: "image",
-        },
-      });
-      jQuery("#image-upload-button")
-        .unbind()
-        .click(
-          image_frame.on("close", function () {
-            var selection = image_frame.state().get("selection");
-            selection.each(function (attachment) {
-              jQuery("#gdpr-cookie-bar-logo-holder").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-holder1").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-holder2").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder").attr(
-                "value",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder1").attr(
-                "value",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder2").attr(
-                "value",
-                attachment.attributes.url
-              );
-            });
-          }),
-          image_frame.open()
-        );
-    },
-    deleteSelectedimage() {
-      jQuery("#gdpr-cookie-bar-logo-holder").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-holder1").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-holder2").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-url-holder").attr("value", "");
-      jQuery("#gdpr-cookie-bar-logo-url-holder1").attr("value", "");
-      jQuery("#gdpr-cookie-bar-logo-url-holder2").attr("value", "");
-
-      this.is_logo_removed = true;
     },
     onSwitchScriptBlocker(script_id) {
       j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
