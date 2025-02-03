@@ -59,6 +59,10 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 		public $wc_am_product_id                  = '';
 		public $wc_am_software_version            = '';
         public $legalpages_activated              = false;
+		public $wc_am_menu_tab_activation_title;
+		public $wc_am_menu_tab_deactivation_title;
+		public $wc_am_settings_menu_title;
+		public $wc_am_settings_title;
 
 		public function __construct( $file, $product_id, $software_version, $plugin_or_theme, $api_url, $software_title = '', $text_domain = '' ) {
 			$this->no_product_id   = empty( $product_id ) ? true : false;
@@ -234,6 +238,9 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 						delete_option( $option );
 						}
 				}
+				$settings   = new GDPR_Cookie_Consent_Settings();
+				$options    = $settings->get_defaults();
+				update_option( 'wpeka_api_framework_app_settings', $options );
 			}
 		}
 
@@ -242,12 +249,9 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 		 */
 		public function license_key_deactivation() {
 			$activation_status = get_option( $this->wc_am_activated_key );
-			$api_key           = $this->data[ $this->wc_am_api_key_key ];
-			if(!$api_key){
-				$settings = get_option( 'wpeka_api_framework_app_settings', $this->data );
-				$settings = isset( $settings[ 'api' ] ) ? $settings[ 'api' ] : array();
-				$api_key = isset( $settings[ 'token' ] ) ? $settings[ 'token' ] : '';
-			}
+			$settings = get_option( 'wpeka_api_framework_app_settings');
+			$settings = isset( $settings[ 'api' ] ) ? $settings[ 'api' ] : array();
+			$api_key = isset( $settings[ 'token' ] ) ? $settings[ 'token' ] : '';
 			$args = array(
 				'api_key' => $api_key,
 			);
@@ -323,33 +327,60 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 		 * @return bool|string
 		 */
 		public function deactivate( $args , $product_id = '') {
-		if($product_id !== ''){
-			$defaults = array(
-				'wc_am_action'    => 'deactivate',
-				'product_id' => $product_id,
-				'instance'   => $this->wc_am_instance_id,
-				'object'     => $this->wc_am_domain
-			);
-		} 
-		else{
-			$defaults = array(
-				'wc_am_action'    => 'deactivate',
-				'product_id' => '32904',
-				'instance'   => $this->wc_am_instance_id,
-				'object'     => $this->wc_am_domain
-			);
-		}
-			$args       = wp_parse_args( $defaults, $args );
-			$target_url = esc_url_raw( $this->create_software_api_url( $args ) );
-			$request    = wp_safe_remote_post( $target_url, array( 'timeout' => 15 ) );
-			
-			if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
-				// Request failed
-				return false;
+			if($product_id !== ''){
+				$defaults = array(
+					'wc_am_action'    => 'deactivate',
+					'product_id' => $product_id,
+					'instance'   => $this->wc_am_instance_id,
+					'object'     => $this->wc_am_domain
+				);
+				$args       = wp_parse_args( $defaults, $args );
+				$target_url = esc_url_raw( $this->create_software_api_url( $args ) );
+				$request    = wp_safe_remote_post( $target_url, array( 'timeout' => 15 ) );
+				
+				if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
+					// Request failed
+					return false;
+				}
+				
+				$response = wp_remote_retrieve_body( $request );
+				return $response;
+			} 
+			else{
+				$defaults = array(
+					'wc_am_action'    => 'deactivate',
+					'product_id' => '32904',
+					'instance'   => $this->wc_am_instance_id,
+					'object'     => $this->wc_am_domain
+				);
+				$args       = wp_parse_args( $defaults, $args );
+				$target_url = esc_url_raw( $this->create_software_api_url( $args ) );
+				$request    = wp_safe_remote_post( $target_url, array( 'timeout' => 15 ) );
+				
+				if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
+					// Request failed
+					//try with old product id once
+					$defaults = array(
+						'wc_am_action'    => 'deactivate',
+						'product_id' => '129',
+						'instance'   => $this->wc_am_instance_id,
+						'object'     => $this->wc_am_domain
+					);
+					$args       = wp_parse_args( $defaults, $args );
+					$target_url = esc_url_raw( $this->create_software_api_url( $args ) );
+					$request    = wp_safe_remote_post( $target_url, array( 'timeout' => 15 ) );
+					if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
+						//request failed again
+						return false;
+					}
+					$response = wp_remote_retrieve_body( $request );
+					return $response;
+				}
+				
+				$response = wp_remote_retrieve_body( $request );
+				return $response;
 			}
-
-			$response = wp_remote_retrieve_body( $request );
-			return $response;
+			
 		}
 
 		/**
