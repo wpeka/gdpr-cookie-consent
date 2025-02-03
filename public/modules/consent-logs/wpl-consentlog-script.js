@@ -60,7 +60,7 @@ function generatePDF(
   var wrappedText = "";
   var actext = "";
   if (tcString != "") {
-    wrappedText = doc.splitTextToSize(tcString, 200);
+    wrappedText = doc.splitTextToSize(tcString, 230);
   }
   if (acString != "") {
     const [specVersion, consentedPart, disclosedPart] = acString.split("~");
@@ -500,37 +500,33 @@ function generatePDF(
         startY = doc.previousAutoTable.finalY + 10;
       }
     }
-    doc.setFont(undefined, "bold"); // Set font type to bold
-    doc.text("TC String:", 15, 260);
-    doc.setFont(undefined, "normal"); // Reset font type to normal
-
-    // Define the box position and size
-    const boxX = 15;
-    const boxY = 265; // Adjust the Y position as needed
-    const boxWidth = 185; // Width of the box
-    const boxHeight = 15; // Height of the box
-
-    // Draw the rectangle
-    doc.rect(boxX, boxY, boxWidth, boxHeight);
-
-    // Add the wrapped text inside the box
-    doc.text(tcString, boxX + 5, boxY + 5); // Adjust position to fit text inside box
+     // Adjust position to fit text inside box
     if (tcString.length != 0) {
       doc.addPage(); // Add a new page
 
-      // Adding TC String
       doc.setFont(undefined, "bold"); // Set font type to bold
-      doc.text("TC String:", 10, 20);
+      doc.text("TC String:", 15, 20);
       doc.setFont(undefined, "normal"); // Reset font type to normal
-      doc.text(wrappedText, 32, 20); // Adjust Y position for wrappedText
+
+      // Define the box position and size
+      const boxX = 15;
+      const boxY = 26; // Adjust the Y position as needed
+      const boxWidth = 175; // Width of the box
+      const boxHeight = 56; // Height of the box
+
+      // Draw the rectangle
+      doc.rect(boxX, boxY, boxWidth, boxHeight);
+
+      // Add the wrapped text inside the box
+      doc.text(wrappedText, boxX + 5, boxY + 5);
 
       // Adding Additional Consent Ids
       if (acString.length != 0) {
         doc.setFont(undefined, "bold"); // Set font type to bold
-        doc.text("oogle Ad Technology Providers Ids:", 10, 90);
+        doc.text("Google Ad Technology Providers Ids:", 15, 90);
         doc.setFontSize(11);
         doc.setFont(undefined, "normal"); // Reset font type to normal
-        doc.text(actext, 10, 100);
+        doc.text(actext, 15, 100);
       }
     }
   }

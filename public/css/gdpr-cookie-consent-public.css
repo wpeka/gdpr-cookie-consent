@@ -1547,9 +1547,9 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .gdpr_messagebar_detail.layout-default .category-group.outer {
   border-left: 1px solid #b1500f;
 }
-.gdpr_messagebar_detail.layout-default .category-group {
+/* .gdpr_messagebar_detail.layout-default .category-group {
   min-height: 300px;
-}
+} */
 .gdpr_messagebar_detail.layout-classic .category-group {
   padding: 0 10px;
 }

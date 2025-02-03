@@ -153,7 +153,7 @@ class Gdpr_Cookie_Consent_Admin {
 	
 
 
-	}
+
 
 	
 
@@ -9317,56 +9317,7 @@ class Gdpr_Cookie_Consent_Admin {
 		error_log(print_r($rows, true));
 	}
 
-	/**
-	 * activate auto updater for gacm vendor data
-	 *
-	 * @since    3.7.0
-	 */
-	public function activate_gacm_updater() {
-		if (!wp_next_scheduled('refresh_gacm_vendor_list_event')) {
-			error_log("Activating updater");
-			$one_week_later = time() + (7 * 24 * 60 * 60);
-			wp_schedule_event($one_week_later, 'weekly', 'refresh_gacm_vendor_list_event');
-		}
-	}
-
-	/**
-	 * deactivate auto updater for gacm vendor data
-	 *
-	 * @since    3.7.0
-	 */
-	public function deactivate_gacm_updater() {
-		$timestamp = wp_next_scheduled('refresh_gacm_vendor_list_event');
-		if ($timestamp) {
-			error_log("DEactivating");
-			wp_unschedule_event($timestamp, 'refresh_gacm_vendor_list_event');
-		}
-	}
-
-	/**
-	 * Get the google additional connsent mode vendors and update in db
-	 *
-	 * @since    3.7.0
-	 */
-	public function get_gacm_data() {
-
-		$url = 'https://storage.googleapis.com/tcfac/additional-consent-providers.csv';
-
-		// Use file_get_contents to fetch the CSV data
-		$data = file_get_contents($url);
-
-		// Check if the data was fetched successfully
-		if ($data === false) {
-			die('Error fetching data from the URL.');
-		}
-
-		// Parse the CSV data
-		$rows = array_map('str_getcsv', explode("\n", $data));
-		array_shift($rows);
-		update_option(GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR,$rows);
-		error_log(print_r($rows, true));
-	}
-
+	
 	/**
 	 * Ajax callback for A-B Testing value.
 	 */
