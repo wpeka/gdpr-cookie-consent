@@ -4039,7 +4039,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'modal_banner' => array(
 					'default'          => array(
 						'name'             => 'banner-default',
-						'css'              => 'font-size:10.21px;max-width:500px;color:#000000;background-color:#ffffff;text-align:justify;box-shadow: 0px 2px 20px 0px #042a4b1c;',
+						'css'              => 'font-size:10.21px;max-width:500px;color:#000000;background-color:#ffffff;text-align:justify;box-shadow: 0px 1.69px 16.93px 0px rgba(4, 42, 75, 0.11);',
 						'color'            => '#000000',
 						'background_color' => '#ffffff',
 						'opacity'          => '1',
