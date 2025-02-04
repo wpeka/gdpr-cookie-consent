@@ -45,7 +45,7 @@
   flex-direction: row;
 }
 #gdpr-cookie-consent-bar.gdpr-banner .gdpr_messagebar_content {
-  padding: 1.5rem;
+  padding: 1.5rem 4rem;
 }
 #gdpr-cookie-consent-bar.gdpr-widget .gdpr_messagebar_content {
   margin: 2.5rem;
@@ -2998,14 +2998,14 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 .popup-navy_blue_square .gdpr-square-banner{
   display: flex;
-  gap: 30px;
-  width: 100%;
+  gap: 12px;
+  width: 70%;
   justify-content: space-between;
 }
 .widget-navy_blue_square .gdpr-square-banner{
   display: flex;
-  gap: 70px;
-  width: 100%;
+  gap: 9px;
+  width: 80%;
   justify-content: space-between;
 }
 @media (max-width:400px) {
@@ -3055,17 +3055,24 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   }
 }
 @media (max-width:420px){
+  .banner-almond_column .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_settings
+  {
+    width: 78%;
+  }
   .banner-almond_column .gdpr_messagebar_content .gdpr.group-description-buttons{
     display: flex;
     flex-direction: column;
     align-items: center !important;
   } 
-  .banner-almond_column .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_accept,
-  .banner-almond_column .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_settings{
-   width: 95%;
+  .banner-almond_column .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_accept
+  {
+  width: auto;
   } 
 }
 @media (max-width:500px){
+  #gdpr-cookie-consent-bar.gdpr-banner .gdpr_messagebar_content {
+    padding: 1.5rem;
+  }
   .banner-navy_blue_center .gdpr_messagebar_content .gdpr.group-description-buttons{
     display: flex;
     justify-content: center !important;
@@ -3076,15 +3083,29 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   } 
 }
 @media (max-width:500px){
+  #gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons{
+    margin: 0 0 auto 1rem;
+  }
+  .banner-grey_column .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_settings{
+    width: 78%;
+  }
+  #gdpr-cookie-consent-bar.gdpr-banner.gdpr-column
+  .gdpr_messagebar_content
+  div.group-description,
+#gdpr-cookie-consent-bar.gdpr-banner.inner-gdpr-column
+  .gdpr_messagebar_content
+  div.group-description{
+    width: 100%;
+  }
   .banner-grey_column .gdpr_messagebar_content .gdpr.group-description-buttons{
     display: flex;
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
   }
-  .banner-grey_column .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_accept,
-  .banner-grey_column .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_settings{
-   width: 95%;
+  .banner-grey_column .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_accept
+  {
+    width: auto;
   } 
 }
 @media (max-width:500px){
@@ -3097,6 +3118,12 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   .banner-grey_center .gdpr_messagebar_content .gdpr.group-description-buttons > #cookie_action_settings{
    width: 95%;
   } 
+  .banner-dark_row .gdpr_messagebar_content .gdpr.group-description-buttons{
+    display: flex;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
 }
 .banner-dark_row .gdpr_messagebar_content .gdpr.group-description-buttons{
   display: flex;
@@ -3200,4 +3227,32 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 .banner-grey_column .gdpr_messagebar_content .gdpr_message_bar_column_desc_heading .gdpr_messagebar_head{
   padding: 0 !important;
+}
+.widget-navy_blue_square #cookie_action_reject{
+  width: 56% !important;
+}
+.widget-navy_blue_square #cookie_action_settings{
+  width: 49% !important;
+}
+.widget-navy_blue_square #cookie_action_accept_all,
+.widget-navy_blue_square #cookie_action_accept{
+  width: 74% !important;
+}
+.popup-navy_blue_square #cookie_action_reject,
+.popup-navy_blue_square #cookie_action_settings{
+  width: 59% !important;
+}
+.popup-navy_blue_square #cookie_action_accept,
+.popup-navy_blue_square #cookie_action_accept_all{
+  width: 66% !important;
+}
+.popup-navy_blue_square .group-description,
+.widget-navy_blue_square .group-description{
+  width: 91% !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+}
+#gdpr-cookie-consent-bar{
+  box-shadow: 0px 1.69px 16.93px 0px rgba(4, 42, 75, 0.11) !important;
+
 }
