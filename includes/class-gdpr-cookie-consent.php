@@ -74,11 +74,15 @@ class Gdpr_Cookie_Consent {
 	 *
 	 * @since    1.0
 	 */
+	public $settings;
+	public $library_auth;
+	public $respadons_api;
+
 	public function __construct() {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.7.0';
+			$this->version = '3.7.2';
 		}
 		add_action(
 			'current_screen',
@@ -143,10 +147,8 @@ class Gdpr_Cookie_Consent {
 		 */
 		$wpl_pro_active = get_option( 'wpl_pro_active', false );
 
-		if ( ! $wpl_pro_active ) {
-			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
-			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
-		}
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/admin/modules/ab-testing/class-wpl-cookie-consent-ab-testing.php';

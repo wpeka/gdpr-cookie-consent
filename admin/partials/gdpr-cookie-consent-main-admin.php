@@ -49,12 +49,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 				<div class="gdpr-cookie-consent-admin-logo-and-label">
 					<div class="gdpr-cookie-consent-admin-logo">
 						<!-- //image  -->
-						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp-cookie-consent-logo.png'; ?>" alt="WP Cookie Consent Logo">
-					</div>
-					<div class="gdpr-cookie-consent-admin-label">
-						<!-- //label  -->
-						<div class="gdpr-cookie-consent-admin-label_wp_label"><span>WP COOKIE CONSENT </span></div>
-						<div class="gdpr-cookie-consent-admin-label_gdpr_label"><span>GDPR/CCPA</span></div>
+						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/WPLPCompliancePlatformWhite.png'; ?>" alt="WP Cookie Consent Logo">
 					</div>
 				</div>
 				<div class="gdpr-cookie-consent-admin-help-and-support">

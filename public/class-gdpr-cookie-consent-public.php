@@ -226,10 +226,6 @@ class Gdpr_Cookie_Consent_Public {
 			$geoip             = new Gdpr_Cookie_Consent_Geo_Ip();
 			$user_country_code = $geoip->wpl_is_selected_country();
 			if ( ! in_array( $user_country_code, $show_banner_for_selected_countries ) ) {
-				if ( $ab_option['ab_testing_enabled'] === true || $ab_option['ab_testing_enabled'] === 'true' ) {
-					++$ab_option[ 'noWarning' . $this->chosenBanner ];     // a/b testing no warning data collection
-					update_option( 'wpl_ab_options', $ab_option );
-				}
 				if ( 'gdpr' === $the_options['cookie_usage_for'] ) {
 					$return_array['eu_status'] = 'off';
 				}
@@ -248,16 +244,8 @@ class Gdpr_Cookie_Consent_Public {
 				$is_in_eu   = in_array( $user_country_code, Gdpr_Cookie_Consent::get_eu_countries(), true );
 				$is_in_ccpa = in_array( $user_country_code, Gdpr_Cookie_Consent::get_ccpa_countries(), true );
 				if ( $is_in_eu ) {
-					if ( $ab_option['ab_testing_enabled'] === true || $ab_option['ab_testing_enabled'] === 'true' ) {
-						++$ab_option[ 'noWarning' . $this->chosenBanner ];     // a/b testing no warning data collection
-						update_option( 'wpl_ab_options', $ab_option );
-					}
 					$return_array['ccpa_status'] = 'off';
 				} elseif ( $is_in_ccpa ) {
-					if ( $ab_option['ab_testing_enabled'] === true || $ab_option['ab_testing_enabled'] === 'true' ) {
-						++$ab_option[ 'noWarning' . $this->chosenBanner ];     // a/b testing no warning data collection
-						update_option( 'wpl_ab_options', $ab_option );
-					}
 					$return_array['eu_status'] = 'off';
 				}
 			}

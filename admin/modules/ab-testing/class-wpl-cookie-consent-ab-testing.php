@@ -25,6 +25,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	 * @var array $errors Display errors.
 	 */
 	private static $errors = array();
+	public $settings;
 	/**
 	 * Gdpr_Cookie_Consent_Geo_Ip constructor.
 	 *
@@ -87,7 +88,22 @@ class Gdpr_Cookie_Consent_AB_Testing {
 						$days = floor($remaining_time / 86400);
 						$hours = floor(($remaining_time % 86400) / 3600);
 					} 
-				}
+				}$banner1_noChoice  = array_key_exists( 'noChoice1', $ab_options ) ? $ab_options['noChoice1'] : 0;
+				$banner2_noChoice  = array_key_exists( 'noChoice2', $ab_options ) ? $ab_options['noChoice2'] : 0;
+				$banner1_accept  = array_key_exists( 'accept1', $ab_options ) ? $ab_options['accept1'] : 0;
+				$banner2_accept  = array_key_exists( 'accept2', $ab_options ) ? $ab_options['accept2'] : 0;
+				$banner1_acceptAll  = array_key_exists( 'acceptAll1', $ab_options ) ? $ab_options['acceptAll1'] : 0;
+				$banner2_acceptAll  = array_key_exists( 'acceptAll2', $ab_options ) ? $ab_options['acceptAll2'] : 0;
+				$banner1_reject  = array_key_exists( 'reject1', $ab_options ) ? $ab_options['reject1'] : 0;
+				$banner2_reject  = array_key_exists( 'reject2', $ab_options ) ? $ab_options['reject2'] : 0;
+				$banner1_bypass  = array_key_exists( 'bypass1', $ab_options ) ? $ab_options['bypass1'] : 0;
+				$banner2_bypass  = array_key_exists( 'bypass2', $ab_options ) ? $ab_options['bypass2'] : 0;
+				$positive_percentage1 = ($banner1_accept + $banner1_acceptAll) / (($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) > 0 ? ($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) : 1);
+				$positive_percentage2 = ($banner2_accept + $banner2_acceptAll) / (($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) > 0 ? ($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) : 1);
+				$negative_percentage1 = ($banner1_reject + $banner1_bypass + $banner1_noChoice) / (($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) > 0 ? ($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) : 1);
+				$negative_percentage2 = ($banner2_reject + $banner2_bypass + $banner2_noChoice) / (($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) > 0 ? ($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) : 1);
+				$banner1_performance = $positive_percentage1 - $negative_percentage1;
+				$banner2_performance = $positive_percentage2 - $negative_percentage2; 
 				if ( ! defined( 'ABSPATH' ) ) {
 					exit;
 				}
@@ -107,6 +123,13 @@ class Gdpr_Cookie_Consent_AB_Testing {
 								'days'             		  => isset($days)?$days:0,
 								'hours'        		      => isset($hours)?$hours:0,
 								'cookie_usage_for'		  => $the_options['cookie_usage_for'],
+								'cookie_bar1_name'		  => isset($the_options['cookie_bar1_name']) ? $the_options['cookie_bar1_name'] : '',
+								'cookie_bar2_name'		  => isset($the_options['cookie_bar2_name']) ? $the_options['cookie_bar2_name'] : '',
+								'positive_percentage1'    => $positive_percentage1,
+								'positive_percentage2'    => $positive_percentage2,
+								'negative_percentage1'	  => $negative_percentage1,
+								'negative_percentage2'	  => $negative_percentage2,
+
 							),
 						)
 					);

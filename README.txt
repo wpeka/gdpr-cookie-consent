@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: CCPA, GDPR, Privacy Policy, Terms and conditions, Cookie Policy
 Requires at least: 3.3.1
 Tested up to: 6.7.1
-Stable tag: 3.7.0
+Stable tag: 3.7.2
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -143,6 +143,17 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 11.Consent Log table
 
 == Change Log ==
+
+= 3.7.2 = 
+* Enhanced - A/B Testing Algorithm – Improved the accuracy and performance of cookie banner A/B testing to deliver more reliable insights.
+* Fix      - Minor bug fixes within the plugin.
+
+= 3.7.1.1 = 
+* Improvement - Minor bug fixes and improvements.
+
+= 3.7.1 = 
+* Improvement - Redesigned and improved few existing templates for a modern and user-friendly look.
+* Improvement - Optimized codebase for faster loading times and smoother operation.
 
 = 3.7.0 = 
 * Feature  - Introduced a Unified Dashboard for managing WP Cookie Consent and WP Legal Pages, providing a seamless interface, improved navigation and enhanced user experience.
@@ -542,6 +553,29 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.7.2 = 
+* Enhanced - A/B Testing Algorithm – Improved the accuracy and performance of cookie banner A/B testing to deliver more reliable insights.
+* Fix      - Minor bug fixes within the plugin.
+
+= 3.7.1.1 = 
+* Improvement - Minor bug fixes and improvements.
+
+= 3.7.1 = 
+* Improvement - Redesigned and improved few existing templates for a modern and user-friendly look.
+* Improvement - Optimized codebase for faster loading times and smoother operation.
+
+= 3.7.0 = 
+* Feature  - Introduced a Unified Dashboard for managing WP Cookie Consent and WP Legal Pages, providing a seamless interface, improved navigation and enhanced user experience.
+
+= 3.6.8 = 
+* New Feature: Added an option to auto-generate cookie banner colors based on your website's color scheme, ensuring a seamless look and feel.
+* Enhancements: Minor bug fixes and performance improvements for a smoother user experience.
+
+= 3.6.7 = 
+* Feature  - Introduced a step-by-step plugin tour for improved onboarding and ease of use.
+* Feature  - Added feature to automatically start scanning for cookies upon plugin activation. The scan progress is now visible in both the Menu and Scanner tabs.
+* Fix      - Minor bug fixes to improve overall plugin performance and stability.
 
 = 3.6.6 = 
 * Feature  - Added Cookie Banner Pageviews feature to track cookie banner performance by monitoring pageviews.

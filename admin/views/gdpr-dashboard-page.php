@@ -198,7 +198,7 @@ if ( 200 === $response_status ) {
 	<c-container class="gdpr-cookie-consent-dashboard-container">
 		<div class="gdpr-welcome-section">
 			<div class="gdpr-section-title">
-				<img alt="WP Cookie Consent logo image" src="<?php echo esc_url( $image_path ) . 'wp-Legal-pages-logo.png'; ?>">
+				<img alt="WP Cookie Consent logo image" src="<?php echo esc_url( $image_path ) . 'WPLPCompliancePlatform.png'; ?>" style="width: 250px;">
 				<p class="gdpr-title-heading"><?php esc_html_e( 'Welcome to WPLP Compliance Platform!' , 'gdpr-cookie-consent'); ?></p>
 				<p class="gdpr-title-subheading"><?php esc_html_e( 'Complete Legal & Cookie Protection','gdpr-cookie-consent'); ?></p>
 				<p class="gdpr-section-content"><?php esc_html_e( 'Your complete compliance package for your website, from legal documents to cookie consent.','gdpr-cookie-consent'); ?> </p>
@@ -414,7 +414,7 @@ if ( 200 === $response_status ) {
 				<div class="gdpr-banner-preview-save-btn">
 					<div class="gdpr-banner-preview-logo-text">
 						<div class="gdpr-banner-preview-logo">
-							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cookie-img.svg'; ?>" alt="Cookie Setting preview logo">
+							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/CookieConsent.png'; ?>" alt="Cookie Setting preview logo">
 						</div>
 						<div class="gdpr-banner-preview-text">
 							<span id="gdpr-banner-preview-cookie-banner-title">
