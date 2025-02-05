@@ -13,7 +13,6 @@
      entry: {
          main: './src/vue-settings.js',
          dashboard: './src/vue-dashboard.js',
-         tcf: './public/js/tcf/src/index.js',
          tcstring: './public/js/tcf/src/gdpr-cookie-consent-public-tcf.js'
      },
      output: {

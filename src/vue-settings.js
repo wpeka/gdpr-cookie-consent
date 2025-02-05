@@ -39,12 +39,6 @@ Vue.component("aceeditor", AceEditor);
 Vue.component("ab-testing-chart", AB_Testing_Chart);
 
 const j = jQuery.noConflict();
-// new Vue({
-//   el: "#ab-testing-chart", // Ensure this matches the ID in your HTML
-//   //   components: {
-//   //     ComparisonChart,
-//   //   },
-// });
 var gen = new Vue({
   el: "#gdpr-cookie-consent-settings-app",
   data() {
@@ -70,6 +64,8 @@ var gen = new Vue({
       save_loading: false,
       edit_discovered_cookie: {},
       edit_discovered_cookie_on: false,
+      cookie_scanner_data: '',
+      ab_testing_data: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
       progress_bar: require("../admin/images/progress_bar.svg"),
@@ -2281,7 +2277,33 @@ var gen = new Vue({
     };
   },
 
-  methods: {
+  methods: {  
+    refreshCookieScannerData(html) {
+      this.cookie_scanner_data = html;
+      const container = document.querySelector('#cookie-scanner-container');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
+                });
+            });
+    },
+    refreshABTestingData(html) {
+      this.ab_testing_data = html;
+      const container = document.querySelector('#ab-testing-container');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
+                });
+            });
+    },
     isPluginVersionLessOrEqual(version) {
       return this.pluginVersion && this.pluginVersion <= version;
     },
@@ -7084,7 +7106,8 @@ var gen = new Vue({
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });
-var gen = new Vue({
+window.gen = gen;
+var app = new Vue({
   el: "#gdpr-cookie-consent-settings-app-wizard",
   data() {
     return {
