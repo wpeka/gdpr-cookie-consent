@@ -517,7 +517,8 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$month = (int)$month;
 		$year = (int)$year;
 		$tcString = '';
-		
+		$acString = '';
+		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
 		
 		$post_args = array(
 			'post_type'      => 'wplconsentlogs',
@@ -644,6 +645,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$wpl_user_preference = isset( $cookies['wpl_user_preference'] ) ? json_decode( $cookies['wpl_user_preference'] ) : '';
 					$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 					$tcString      = isset($cookies['wpl_tc_string']) ?  $cookies['wpl_tc_string'] : '';
+					$acString	   = isset($cookies['Additional_Consent_String']) ?  $cookies['Additional_Consent_String'] : '';
 					$consent_status            = 'Unknown';
 					$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
 					$wpl_user_preference_array = array();
@@ -687,6 +689,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 					'<?php echo esc_attr( $consent_status ); ?>',
 					'<?php echo esc_attr( $tcString ); ?>',
+					'<?php echo esc_attr( $acString ); ?>',
 					'<?php echo esc_attr( $siteaddress ); ?>',
 					'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
 					)">Download</a>
@@ -707,7 +710,6 @@ class WPL_Consent_Logs extends WP_List_Table {
 			}
 		} else {
 			foreach ( $custom_posts as $post ) {
-				$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
 				$curentid            = get_current_blog_id();
 				$custom              = get_post_custom();
 				$siteurl             = site_url();
@@ -859,6 +861,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 							'<?php echo esc_attr( $consent_status ); ?>',
 							'<?php echo esc_attr( $tcString ); ?>',
+							'<?php echo esc_attr( $acString ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
 							'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
 							)">Download</a>
@@ -1016,6 +1019,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 						'<?php echo esc_attr( $consent_status ); ?>',
 						'<?php echo esc_attr( $tcString ); ?>',
+						'<?php echo esc_attr( $acString ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
 						'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
 						)">Download</a>
@@ -1173,6 +1177,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 							'<?php echo esc_attr( $consent_status ); ?>',
 							'<?php echo esc_attr( $tcString ); ?>',
+							'<?php echo esc_attr( $acString ); ?>',
 							'<?php echo esc_attr( $siteaddress ); ?>',
 							'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
 							)">Download</a>
@@ -1330,6 +1335,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
 						'<?php echo esc_attr( $consent_status ); ?>',
 						'<?php echo esc_attr( $tcString ); ?>',
+						'<?php echo esc_attr( $acString ); ?>',
 						'<?php echo esc_attr( $siteaddress ); ?>',
 						'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
 						)">Download</a>

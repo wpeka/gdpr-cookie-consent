@@ -5848,6 +5848,13 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   color: var(--black-50);
   padding: 0;
 }
+.gdpr_messagebar_detail.default
+  .gdprmodal-dialog
+  .gdprmodal-content
+  .gdprmodal-body {
+  background-color: var(--white-100);
+}
+
 .gdpr_messagebar_detail.navy_blue_center
   .gdprmodal-dialog
   .gdprmodal-content
@@ -8276,6 +8283,7 @@ button.btn.gdpr-renew-now-btn.pro,
   border-bottom: 1px solid var(--gray-200) !important;
 }
 .gdpr-eu_visitors_message-gdpr,
+.gdpr-gacm_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both {
   display: none;
@@ -8294,6 +8302,15 @@ button.btn.gdpr-renew-now-btn.pro,
   color: var(--white-100);
   text-align: center;
   z-index: 99;
+}
+.gdpr-gacm_message-gdpr {
+  width: 140px;
+  position: absolute;
+  left: 90px;
+  top: -20px;
+  background: var(--black-50);
+  padding: 10px;
+  color: var(--white-100);
 }
 #gdpr-install-activate-img {
   max-width: 100%;

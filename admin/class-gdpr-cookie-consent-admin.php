@@ -112,6 +112,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
 			add_action('gdpr_cookie_consent_new_admin_dashboard_screen', array($this, 'gdpr_cookie_consent_new_admin_dashboard_screen'));
 			add_action('gdpr_help_page_content', array($this, 'gdpr_help_page_content'));
+			add_action('refresh_gacm_vendor_list_event', array($this,'get_gacm_data'));
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
 			//For Import CSV option on Policy data page
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
@@ -147,13 +148,14 @@ class Gdpr_Cookie_Consent_Admin {
 		// }
 		
 		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
-		add_action('admin_footer', array($this,'add_svg_to_menu_item'));
-		if (!isset($the_options['gdpr_current_language'])) {
-			$the_options['gdpr_current_language'] = 'en';
-			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
-		}
-
 	}
+
+	
+
+
+
+
+	
 
 	/**
 	 * Register the stylesheets for the admin area.
@@ -6784,6 +6786,17 @@ class Gdpr_Cookie_Consent_Admin {
 			if(($the_options['is_iabtcf_on'] == false && $_POST['gcc-iabtcf-enable'] == "true") || ($the_options['is_iabtcf_on'] == true && $_POST['gcc-iabtcf-enable'] == "false")){
 				$the_options = $this->changeLanguage($the_options);
 			}
+
+			if(($the_options['is_gacm_on'] == "false" || $the_options['is_gacm_on'] == false) && $_POST['gcc-gacm-enable'] == "true"){
+				if(!get_option(GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR)){
+					$this->get_gacm_data();
+				}
+				$this->activate_gacm_updater();	
+			}
+			$the_options['is_gacm_on']                       = isset( $_POST['gcc-gacm-enable'] ) && ( true === $_POST['gcc-gacm-enable'] || 'true' === $_POST['gcc-gacm-enable'] ) ? 'true' : 'false';
+			if($the_options['is_gacm_on']  == "false" || $the_options['is_gacm_on']  == false){
+				$this->deactivate_gacm_updater();
+			}
 			$the_options['is_iabtcf_on']                       = isset( $_POST['gcc-iabtcf-enable'] ) && ( true === $_POST['gcc-iabtcf-enable'] || 'true' === $_POST['gcc-iabtcf-enable'] ) ? 'true' : 'false';
 			$the_options['is_dynamic_lang_on']                   = isset( $_POST['gcc-dynamic-lang-enable'] ) && ( true === $_POST['gcc-dynamic-lang-enable'] || 'true' === $_POST['gcc-dynamic-lang-enable'] ) ? 'true' : 'false';
 			$the_options['optout_text']                          = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
@@ -7311,7 +7324,55 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( $_POST['lang_changed'] == 'true' && isset( $_POST['select-banner-lan'] ) && in_array( $_POST['select-banner-lan'], $this->supported_languages ) ) {  //phpcs:ignore
 				$the_options = $this->changeLanguage($the_options);				
 			}
-	
+			// Set consent renew to all the users when consent renew is enabled.
+
+			if ( $the_options['consent_renew_enable'] ) {
+				global $wpdb;
+				$meta_key_cl_ip            = '_wplconsentlogs_ip';
+				$meta_key_cl_renew_consent = '_wpl_renew_consent';
+
+				// Find posts with _wplconsentlogs_ip meta key.
+				$results = $wpdb->get_results(
+					$wpdb->prepare(
+						"SELECT pm1.post_id, pm1.meta_value AS ip_value, pm2.meta_value AS consent_value
+						FROM {$wpdb->prefix}postmeta AS pm1
+						LEFT JOIN {$wpdb->prefix}postmeta AS pm2 ON pm1.post_id = pm2.post_id
+						WHERE pm1.meta_key = %s",
+						$meta_key_cl_ip
+					)
+				);
+
+				if ( $results ) {
+					foreach ( $results as $result ) {
+						$post_id       = $result->post_id;
+						$consent_value = $the_options['consent_renew_enable'];
+
+						// Check if _wpl_renew_consent meta key exists, and add if it doesn't.
+						if ( ! get_post_meta( $post_id, $meta_key_cl_renew_consent, true ) ) {
+							add_post_meta( $post_id, $meta_key_cl_renew_consent, $consent_value, true );
+						} else {
+							// Update _wpl_renew_consent meta value if it exists.
+							update_post_meta( $post_id, $meta_key_cl_renew_consent, $consent_value );
+						}
+					}
+				}
+
+				$option_name     = 'wpl_consent_timestamp';
+				$timestamp_value = time();
+
+				// Check if the option already exists.
+				if ( false === get_option( $option_name ) ) {
+					// If it doesn't exist, add the option.
+					add_option( $option_name, $timestamp_value );
+				} else {
+					// If it exists, update the option.
+					update_option( $option_name, $timestamp_value );
+				}
+
+				// make renew consent false once done.
+
+				$the_options['consent_renew_enable'] = 'false';
+			}
 			if (isset($_POST['gcc-ab-testing-enable']) 
 				&& ($_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false) 
 				&& isset($ab_options['ab_testing_enabled']) 
@@ -7369,6 +7430,54 @@ class Gdpr_Cookie_Consent_Admin {
 		
 	}
 
+	/**
+	 * activate auto updater for gacm vendor data
+	 *
+	 * @since    3.7.0
+	 */
+	public function activate_gacm_updater() {
+		if (!wp_next_scheduled('refresh_gacm_vendor_list_event')) {
+			$one_week_later = time() + (7 * 24 * 60 * 60);
+			wp_schedule_event($one_week_later, 'weekly', 'refresh_gacm_vendor_list_event');
+		}
+	}
+
+	/**
+	 * deactivate auto updater for gacm vendor data
+	 *
+	 * @since    3.7.0
+	 */
+	public function deactivate_gacm_updater() {
+		$timestamp = wp_next_scheduled('refresh_gacm_vendor_list_event');
+		if ($timestamp) {
+			wp_unschedule_event($timestamp, 'refresh_gacm_vendor_list_event');
+		}
+	}
+
+	/**
+	 * Get the google additional connsent mode vendors and update in db
+	 *
+	 * @since    3.7.0
+	 */
+	public function get_gacm_data() {
+
+		$url = 'https://storage.googleapis.com/tcfac/additional-consent-providers.csv';
+
+		// Use file_get_contents to fetch the CSV data
+		$data = file_get_contents($url);
+
+		// Check if the data was fetched successfully
+		if ($data === false) {
+			die('Error fetching data from the URL.');
+		}
+
+		// Parse the CSV data
+		$rows = array_map('str_getcsv', explode("\n", $data));
+		array_shift($rows);
+		update_option(GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR,$rows);
+	}
+
+	
 	/**
 	 * Ajax callback for A-B Testing value.
 	 */
