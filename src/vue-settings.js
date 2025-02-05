@@ -484,11 +484,27 @@ var gen = new Vue({
       show_cookie_as: settings_obj.the_options.hasOwnProperty("cookie_bar_as")
         ? settings_obj.the_options["cookie_bar_as"]
         : "banner",
+      show_cookie_as1: settings_obj.the_options.hasOwnProperty("cookie_bar_as1")
+        ? settings_obj.the_options["cookie_bar_as1"]
+        : "banner",
+      show_cookie_as2: settings_obj.the_options.hasOwnProperty("cookie_bar_as2")
+        ? settings_obj.the_options["cookie_bar_as2"]
+        : "banner",
       cookie_position_options: settings_obj.position_options,
       cookie_position: settings_obj.the_options.hasOwnProperty(
         "notify_position_vertical"
       )
         ? settings_obj.the_options["notify_position_vertical"]
+        : "bottom",
+      cookie_position1: settings_obj.the_options.hasOwnProperty(
+        "notify_position_vertical1"
+      )
+        ? settings_obj.the_options["notify_position_vertical1"]
+        : "bottom",
+      cookie_position2: settings_obj.the_options.hasOwnProperty(
+        "notify_position_vertical2"
+      )
+        ? settings_obj.the_options["notify_position_vertical2"]
         : "bottom",
       cookie_widget_position_options: settings_obj.widget_position_options,
       cookie_widget_position: settings_obj.the_options.hasOwnProperty(
@@ -496,10 +512,32 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["notify_position_horizontal"]
         : "left",
+      cookie_widget_position1: settings_obj.the_options.hasOwnProperty(
+        "notify_position_horizontal1"
+      )
+        ? settings_obj.the_options["notify_position_horizontal1"]
+        : "left",
+      cookie_widget_position2: settings_obj.the_options.hasOwnProperty(
+        "notify_position_horizontal2"
+      )
+        ? settings_obj.the_options["notify_position_horizontal2"]
+        : "left",
       cookie_add_overlay:
         settings_obj.the_options.hasOwnProperty("popup_overlay") &&
         (true === settings_obj.the_options["popup_overlay"] ||
           1 === settings_obj.the_options["popup_overlay"])
+          ? true
+          : false,
+      cookie_add_overlay1:
+        settings_obj.the_options.hasOwnProperty("popup_overlay1") &&
+        (true === settings_obj.the_options["popup_overlay1"] ||
+          1 === settings_obj.the_options["popup_overlay1"])
+          ? true
+          : false,
+      cookie_add_overlay2:
+        settings_obj.the_options.hasOwnProperty("popup_overlay2") &&
+        (true === settings_obj.the_options["popup_overlay2"] ||
+          1 === settings_obj.the_options["popup_overlay2"])
           ? true
           : false,
       on_hide_options: settings_obj.on_hide_options,
@@ -513,10 +551,34 @@ var gen = new Vue({
           1 === settings_obj.the_options["notify_animate_hide"])
           ? true
           : false,
+      on_hide1:
+        settings_obj.the_options.hasOwnProperty("notify_animate_hide1") &&
+        (true === settings_obj.the_options["notify_animate_hide1"] ||
+          1 === settings_obj.the_options["notify_animate_hide1"])
+          ? true
+          : false,
+      on_hide2:
+        settings_obj.the_options.hasOwnProperty("notify_animate_hide2") &&
+        (true === settings_obj.the_options["notify_animate_hide2"] ||
+          1 === settings_obj.the_options["notify_animate_hide2"])
+          ? true
+          : false,
       on_load:
         settings_obj.the_options.hasOwnProperty("notify_animate_show") &&
         (true === settings_obj.the_options["notify_animate_show"] ||
           1 === settings_obj.the_options["notify_animate_show"])
+          ? true
+          : false,
+      on_load1:
+        settings_obj.the_options.hasOwnProperty("notify_animate_show1") &&
+        (true === settings_obj.the_options["notify_animate_show1"] ||
+          1 === settings_obj.the_options["notify_animate_show1"])
+          ? true
+          : false,
+      on_load2:
+        settings_obj.the_options.hasOwnProperty("notify_animate_show2") &&
+        (true === settings_obj.the_options["notify_animate_show2"] ||
+          1 === settings_obj.the_options["notify_animate_show2"])
           ? true
           : false,
       cookie_text_color: settings_obj.the_options.hasOwnProperty("text")
@@ -717,6 +779,8 @@ var gen = new Vue({
           ? true
           : false,
       is_banner: this.show_cookie_as === "banner" ? true : false,
+      is_banner1: this.show_cookie_as1 === "banner" ? true : false,
+      is_banner2: this.show_cookie_as2 === "banner" ? true : false,
       layout_skin_options: settings_obj.layout_skin_options,
       layout_skin: settings_obj.the_options.hasOwnProperty(
         "button_settings_layout_skin"
@@ -1999,6 +2063,12 @@ var gen = new Vue({
       template: settings_obj.the_options.hasOwnProperty("template")
         ? settings_obj.the_options["template"]
         : "banner-default",
+      template1: settings_obj.the_options.hasOwnProperty("template1")
+        ? settings_obj.the_options["template1"]
+        : "banner-default",
+      template2: settings_obj.the_options.hasOwnProperty("template2")
+        ? settings_obj.the_options["template2"]
+        : "banner-default",
       banner_template: settings_obj.the_options.hasOwnProperty(
         "banner_template"
       )
@@ -2011,6 +2081,32 @@ var gen = new Vue({
         "widget_template"
       )
         ? settings_obj.the_options["widget_template"]
+        : "widget-default",
+      banner_template1: settings_obj.the_options.hasOwnProperty(
+        "banner_template1"
+      )
+        ? settings_obj.the_options["banner_template1"]
+        : "banner-default",
+      popup_template1: settings_obj.the_options.hasOwnProperty("popup_template1")
+        ? settings_obj.the_options["popup_template1"]
+        : "popup-default",
+      widget_template1: settings_obj.the_options.hasOwnProperty(
+        "widget_template1"
+      )
+        ? settings_obj.the_options["widget_template1"]
+        : "widget-default",
+      banner_template2: settings_obj.the_options.hasOwnProperty(
+        "banner_template2"
+      )
+        ? settings_obj.the_options["banner_template2"]
+        : "banner-default",
+      popup_template2: settings_obj.the_options.hasOwnProperty("popup_template2")
+        ? settings_obj.the_options["popup_template2"]
+        : "popup-default",
+      widget_template2: settings_obj.the_options.hasOwnProperty(
+        "widget_template2"
+      )
+        ? settings_obj.the_options["widget_template2"]
         : "widget-default",
       show_banner_template:
         settings_obj.the_options.hasOwnProperty("show_cookie_as") &&
@@ -2025,6 +2121,36 @@ var gen = new Vue({
       show_widget_template:
         settings_obj.the_options.hasOwnProperty("show_cookie_as") &&
         settings_obj.the_options["show_cookie_as"] === "widget"
+          ? true
+          : false,
+      show_banner_template1:
+        settings_obj.the_options.hasOwnProperty("show_cookie_as1") &&
+        settings_obj.the_options["show_cookie_as1"] === "banner"
+          ? true
+          : false,
+      show_popup_template1:
+        settings_obj.the_options.hasOwnProperty("show_cookie_as1") &&
+        settings_obj.the_options["show_cookie_as1"] === "popup"
+          ? true
+          : false,
+      show_widget_template1:
+        settings_obj.the_options.hasOwnProperty("show_cookie_as1") &&
+        settings_obj.the_options["show_cookie_as1"] === "widget"
+          ? true
+          : false,
+      show_banner_template2:
+        settings_obj.the_options.hasOwnProperty("show_cookie_as2") &&
+        settings_obj.the_options["show_cookie_as2"] === "banner"
+          ? true
+          : false,
+      show_popup_template2:
+        settings_obj.the_options.hasOwnProperty("show_cookie_as2") &&
+        settings_obj.the_options["show_cookie_as2"] === "popup"
+          ? true
+          : false,
+      show_widget_template2:
+        settings_obj.the_options.hasOwnProperty("show_cookie_as2") &&
+        settings_obj.the_options["show_cookie_as2"] === "widget"
           ? true
           : false,
       cookie_accept_all_on:
@@ -2355,6 +2481,32 @@ var gen = new Vue({
         this.show_popup_template = false;
         this.show_widget_template = true;
       }
+      if (this.show_cookie_as1 === "banner") {
+        this.show_banner_template1 = true;
+        this.show_popup_template1 = false;
+        this.show_widget_template1 = false;
+      } else if (this.show_cookie_as1 === "popup") {
+        this.show_banner_template1 = false;
+        this.show_popup_template1 = true;
+        this.show_widget_template1 = false;
+      } else if (this.show_cookie_as1 === "widget") {
+        this.show_banner_template1 = false;
+        this.show_popup_template1 = false;
+        this.show_widget_template1 = true;
+      }
+      if (this.show_cookie_as2 === "banner") {
+        this.show_banner_template2 = true;
+        this.show_popup_template2 = false;
+        this.show_widget_template2 = false;
+      } else if (this.show_cookie_as2 === "popup") {
+        this.show_banner_template2 = false;
+        this.show_popup_template2 = true;
+        this.show_widget_template2 = false;
+      } else if (this.show_cookie_as2 === "widget") {
+        this.show_banner_template2 = false;
+        this.show_popup_template2 = false;
+        this.show_widget_template2 = true;
+      }
       if (this.gdpr_policy === "both") {
         this.is_ccpa = true;
         this.is_gdpr = true;
@@ -2445,6 +2597,16 @@ var gen = new Vue({
         this.is_banner = true;
       } else {
         this.is_banner = false;
+      }
+      if (this.show_cookie_as1 === "banner") {
+        this.is_banner1 = true;
+      } else {
+        this.is_banner1 = false;
+      }
+      if (this.show_cookie_as2 === "banner") {
+        this.is_banner2 = true;
+      } else {
+        this.is_banner2 = false;
       }
       if (this.custom_cookie_type === "HTTP") {
         this.is_custom_cookie_duration_disabled = false;
@@ -2995,11 +3157,69 @@ var gen = new Vue({
         }
       }
     },
+    cookieTypeChange1(value) {
+      this.processof_auto_template_generated = false;
+      if (value === "banner") {
+        this.is_banner1 = true;
+        this.show_banner_template1 = true;
+        this.show_popup_template1 = false;
+        this.show_widget_template1 = false;
+        this.template1 = this.banner_template1;
+      } else {
+        this.is_banner1 = false;
+        if (value === "popup") {1
+          this.show_banner_template1 = false;
+          this.show_popup_template1 = true;
+          this.show_widget_template1 = false;
+          this.template1 = this.popup_template1;
+        } else if (value === "widget") {
+          this.show_banner_template1 = false;
+          this.show_popup_template1 = false;
+          this.show_widget_template1 = true;
+          this.template1 = this.widget_template1;
+        }
+      }
+    },
+    cookieTypeChange2(value) {
+      this.processof_auto_template_generated = false;
+      if (value === "banner") {
+        this.is_banner2 = true;
+        this.show_banner_template2 = true;
+        this.show_popup_template2 = false;
+        this.show_widget_template2 = false;
+        this.template2 = this.banner_template2;
+      } else {
+        this.is_banner2 = false;
+        if (value === "popup") {1
+          this.show_banner_template2 = false;
+          this.show_popup_template2 = true;
+          this.show_widget_template2 = false;
+          this.template2 = this.popup_template2;
+        } else if (value === "widget") {
+          this.show_banner_template2 = false;
+          this.show_popup_template2 = false;
+          this.show_widget_template2 = true;
+          this.template2 = this.widget_template2;
+        }
+      }
+    },
     cookiebannerPositionChange(position) {
       this.cookie_position = position;
     },
+    cookiebannerPositionChange1(position) {
+      this.cookie_position1 = position;
+    },
+    cookiebannerPositionChange2(position) {
+      this.cookie_position2 = position;
+    },
     cookiewidgetPositionChange(value) {
       this.cookie_widget_position = value;
+    },
+    cookiewidgetPositionChange1(value) {
+      this.cookie_widget_position1 = value;
+    },
+    cookiewidgetPositionChange2(value) {
+      this.cookie_widget_position2 = value;
     },
     onTemplateChange(value) {
       this.processof_auto_template_generated = false;
@@ -3008,7 +3228,6 @@ var gen = new Vue({
         this.template = value;
         if (this.banner_template == "banner-dark_row") {
           this.cookie_bar_color = "#323742";
-          this.cookie_bar_color1 = "#323742";
           this.multiple_legislation_cookie_bar_color1 = "#323742";
           this.multiple_legislation_cookie_bar_color2 = "#323742";
           this.cookie_bar_color2 = "#323742";
@@ -3184,7 +3403,6 @@ var gen = new Vue({
           this.button_readmore_link_color = "#E14469";
           this.settings_style = "none";
           this.settings_text_color = "#FFFFFF";
-          this.cookie_bar_color1 = "#F4F4F4";
           this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
           this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
           this.cookie_text_color = "#1E3D59";
@@ -3460,35 +3678,10 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
-          this.cookie_bar_color1 = "#323742";
           this.multiple_legislation_cookie_bar_color1 = "#323742";
           this.multiple_legislation_cookie_bar_color2 = "#323742";
-          this.cookie_text_color1 = "#ffffff";
-          this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#3EAF9A";
-          this.accept_all_background_color1 = "#3EAF9A";
-          this.decline_background_color1 = "#333333";
-          this.settings_background_color1 = "#323742";
-          this.settings_border_width1 = "1";
-          this.settings_border_color1 = "#3EAF9A";
-          this.settings_style1 = "solid";
-          this.decline_style1 = "none";
-          this.settings_text_color1 = "#3EAF9A";
-          this.cookie_bar_border_radius1 = "0";
           this.multiple_legislation_cookie_bar_border_radius1 = "0";
           this.multiple_legislation_cookie_bar_border_radius2 = "0";
-          this.cookie_bar_color2 = "#323742";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#3EAF9A";
-          this.accept_all_background_color2 = "#3EAF9A";
-          this.decline_background_color2 = "#333333";
-          this.settings_background_color2 = "#323742";
-          this.settings_border_width2 = "1";
-          this.settings_border_color2 = "#3EAF9A";
-          this.settings_style2 = "solid";
-          this.decline_style2 = "none";
-          this.settings_text_color2 = "#3EAF9A";
-          this.cookie_bar_border_radius2 = "0";
         } else if (this.popup_template == "popup-almond_column") {
           this.cookie_bar_color = "#ffffff";
           this.cookie_text_color = "#252525";
@@ -3587,30 +3780,10 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
-          this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
-          this.accept_text_color1 = "#ffffff";
-          this.cookie_text_color2 = "#111111";
-          this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color1 = "#F4F4F4";
           this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
           this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
-          this.accept_background_color1 = "#DE7834";
-          this.accept_all_background_color1 = "#DE7834";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#252525";
-          this.settings_style1 = "none";
-          this.settings_text_color1 = "#FFFFFF";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_color2 = "#F4F4F4";
-          this.accept_background_color2 = "#DE7834";
-          this.accept_all_background_color2 = "#DE7834";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#252525";
-          this.settings_style2 = "none";
-          this.settings_text_color2 = "#FFFFFF";
-          this.cookie_bar_border_radius2 = "0";
         } else if (this.popup_template == "popup-grey_column") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#E14469";
@@ -3623,29 +3796,8 @@ var gen = new Vue({
           this.decline_style = "none";
           this.settings_text_color = "#FFFFFF";
           this.cookie_bar_border_radius = "0";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_border_radius2 = "0";
-          this.cookie_bar_color1 = "#F4F4F4";
           this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
           this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
-          this.cookie_text_color1 = "#1E3D59";
-          this.multiple_legislation_cookie_text_color1 = "#1E3D59";
-          this.accept_background_color1 = "#E14469";
-          this.accept_all_background_color1 = "#E14469";
-          this.accept_text_color1 = "#ffffff";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#252525";
-          this.settings_style1 = "none";
-          this.settings_text_color1 = "#FFFFFF";
-          this.cookie_text_color2 = "#1E3D59";
-          this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color2 = "#F4F4F4";
-          this.accept_background_color2 = "#E14469";
-          this.accept_all_background_color2 = "#E14469";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#252525";
-          this.settings_style2 = "none";
-          this.settings_text_color2 = "#FFFFFF";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
         } else if (this.popup_template == "popup-navy_blue_center") {
@@ -3681,23 +3833,6 @@ var gen = new Vue({
           this.cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
-          this.accept_background_color1 = "#369EE3";
-          this.accept_all_background_color1 = "#369EE3";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#2A3E71";
-          this.settings_border_width1 = "1";
-          this.settings_border_color1 = "#FFFFFF";
-          this.settings_style1 = "solid";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color2 = "#2A3E71";
-          this.accept_background_color2 = "#369EE3";
-          this.accept_all_background_color2 = "#369EE3";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#2A3E71";
-          this.settings_border_width2 = "1";
-          this.settings_border_color2 = "#FFFFFF";
-          this.settings_style2 = "solid";
         } else if (this.popup_template == "popup-default") {
           this.cookie_bar_color = "#FFFFFF";
           this.cookie_text_color = "#111111";
@@ -3752,14 +3887,10 @@ var gen = new Vue({
           this.settings_border_width1 = "1";
           this.settings_border_width2 = "1";
           this.cookie_bar_border_radius = "0";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_border_radius2 = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
-          this.cookie_bar_color1 = "#FFFFFF";
           this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
           this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
-          this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
           this.accept_background_color1 = "#176CAE";
@@ -3806,7 +3937,6 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#262626";
-          this.cookie_bar_color1 = "#262626";
           this.multiple_legislation_cookie_bar_color1 = "#262626";
           this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
@@ -4010,33 +4140,9 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#323742";
-          this.cookie_bar_color1 = "#323742";
           this.multiple_legislation_cookie_bar_color1 = "#323742";
           this.multiple_legislation_cookie_bar_color2 = "#323742";
-          this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_background_color1 = "#3EAF9A";
-          this.accept_all_background_color1 = "#3EAF9A";
-          this.decline_background_color1 = "#333333";
-          this.settings_background_color1 = "#323742";
-          this.settings_border_width1 = "1";
-          this.settings_border_color1 = "#3EAF9A";
-          this.settings_style1 = "solid";
-          this.decline_style1 = "none";
-          this.settings_text_color1 = "#3EAF9A";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_color2 = "#323742";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_background_color2 = "#3EAF9A";
-          this.accept_all_background_color2 = "#3EAF9A";
-          this.decline_background_color2 = "#333333";
-          this.settings_background_color2 = "#323742";
-          this.settings_border_width2 = "1";
-          this.settings_border_color2 = "#3EAF9A";
-          this.settings_style2 = "solid";
-          this.decline_style2 = "none";
-          this.settings_text_color2 = "#3EAF9A";
-          this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-almond_column") {
           this.cookie_bar_color = "#ffffff";
           this.cookie_text_color = "#252525";
@@ -4138,30 +4244,10 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
-          this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
-          this.accept_text_color1 = "#ffffff";
-          this.cookie_text_color2 = "#111111";
-          this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color1 = "#F4F4F4";
           this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
           this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
-          this.accept_background_color1 = "#DE7834";
-          this.accept_all_background_color1 = "#DE7834";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#252525";
-          this.settings_style1 = "none";
-          this.settings_text_color1 = "#FFFFFF";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_color2 = "#F4F4F4";
-          this.accept_background_color2 = "#DE7834";
-          this.accept_all_background_color2 = "#DE7834";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#252525";
-          this.settings_style2 = "none";
-          this.settings_text_color2 = "#FFFFFF";
-          this.cookie_bar_border_radius2 = "0";
         } else if (this.widget_template == "widget-grey_column") {
           this.cookie_bar_color = "#F4F4F4";
           this.accept_background_color = "#E14469";
@@ -4176,29 +4262,9 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#F4F4F4";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_border_radius2 = "0";
-          this.cookie_bar_color1 = "#F4F4F4";
           this.multiple_legislation_cookie_bar_color1 = "#F4F4F4";
           this.multiple_legislation_cookie_bar_color2 = "#F4F4F4";
-          this.cookie_text_color1 = "#1E3D59";
           this.multiple_legislation_cookie_text_color1 = "#1E3D59";
-          this.accept_background_color1 = "#E14469";
-          this.accept_all_background_color1 = "#E14469";
-          this.accept_text_color1 = "#ffffff";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#252525";
-          this.settings_style1 = "none";
-          this.settings_text_color1 = "#FFFFFF";
-          this.cookie_text_color2 = "#1E3D59";
-          this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color2 = "#F4F4F4";
-          this.accept_background_color2 = "#E14469";
-          this.accept_all_background_color2 = "#E14469";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#252525";
-          this.settings_style2 = "none";
-          this.settings_text_color2 = "#FFFFFF";
         } else if (this.widget_template == "widget-navy_blue_center") {
           this.cookie_bar_color = "#2A3E71";
           this.accept_background_color = "#369EE3";
@@ -4239,31 +4305,9 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_border_radius2 = "0";
-          this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_text_color1 = "#ffffff";
-          this.cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
-          this.accept_background_color1 = "#369EE3";
-          this.accept_all_background_color1 = "#369EE3";
-          this.decline_background_color1 = "#252525";
-          this.settings_background_color1 = "#2A3E71";
-          this.settings_border_width1 = "1";
-          this.settings_border_color1 = "#FFFFFF";
-          this.settings_style1 = "solid";
-          this.cookie_text_color2 = "#ffffff";
-          this.accept_text_color2 = "#ffffff";
-          this.cookie_bar_color2 = "#2A3E71";
-          this.accept_background_color2 = "#369EE3";
-          this.accept_all_background_color2 = "#369EE3";
-          this.decline_background_color2 = "#252525";
-          this.settings_background_color2 = "#2A3E71";
-          this.settings_border_width2 = "1";
-          this.settings_border_color2 = "#FFFFFF";
-          this.settings_style2 = "solid";
         } else if (this.widget_template == "widget-default") {
           this.cookie_bar_color = "#FFFFFF";
           this.cookie_text_color = "#111111";
@@ -4320,12 +4364,8 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#000000";
           this.button_revoke_consent_background_color = "#FFFFFF";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_border_radius2 = "0";
-          this.cookie_bar_color1 = "#FFFFFF";
           this.multiple_legislation_cookie_bar_color1 = "#FFFFFF";
           this.multiple_legislation_cookie_bar_color2 = "#FFFFFF";
-          this.cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color1 = "#111111";
           this.multiple_legislation_cookie_text_color2 = "#111111";
           this.accept_background_color1 = "#176CAE";
@@ -4450,12 +4490,7 @@ var gen = new Vue({
           this.cookie_bar_border_radius = "0";
           this.button_revoke_consent_text_color = "#FFFFFF";
           this.button_revoke_consent_background_color = "#2A3E71";
-          this.cookie_bar_border_radius1 = "0";
-          this.cookie_bar_border_radius2 = "0";
-          this.cookie_text_color1 = "#ffffff";
           this.multiple_legislation_cookie_text_color1 = "#ffffff";
-          this.accept_text_color1 = "#ffffff";
-          this.cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color1 = "#2A3E71";
           this.multiple_legislation_cookie_bar_color2 = "#2A3E71";
           this.multiple_legislation_accept_background_color = "#B3DDFC";
@@ -4698,6 +4733,12 @@ var gen = new Vue({
     },
     onSwitchAddOverlay() {
       this.cookie_add_overlay = !this.cookie_add_overlay;
+    },
+    onSwitchAddOverlay1() {
+      this.cookie_add_overlay1 = !this.cookie_add_overlay1;
+    },
+    onSwitchAddOverlay2() {
+      this.cookie_add_overlay2 = !this.cookie_add_overlay2;
     },
     onSwitchCookieDeclineEnable() {
       this.cookie_decline_on = !this.cookie_decline_on;
@@ -5423,7 +5464,11 @@ var gen = new Vue({
       this.auto_scroll_offset = "10";
       this.cookie_expiry = "365";
       this.on_hide = true;
+      this.on_hide1 = true;
+      this.on_hide2 = true;
       this.on_load = false;
+      this.on_load1 = false;
+      this.on_load2 = false;
       this.gdpr_message =
         "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
       this.lgpd_message =
@@ -5434,11 +5479,17 @@ var gen = new Vue({
         "In case of sale of your personal information, you may opt out by using the link";
       this.ccpa_optout_message = "Do you really wish to opt-out?";
       this.cookie_position = "bottom";
+      this.cookie_position1 = "bottom";
+      this.cookie_position2 = "bottom";
       this.cookie_widget_position = "left";
+      this.cookie_widget_position1 = "left";
+      this.cookie_widget_position2 = "left";
       this.cookie_text_color = "#000000";
       this.gdpr_message_heading = "";
       this.lgpd_message_heading = "";
       this.show_cookie_as = "banner";
+      this.show_cookie_as1 = "banner";
+      this.show_cookie_as2 = "banner";
       this.gdpr_policy = "gdpr";
       this.cookie_add_overlay = true;
       this.gdpr_about_cookie_message =
@@ -9661,6 +9712,260 @@ var app = new Vue({
         }.bind(this)
       ); // Bind 'this' to ensure it refers to the Vue instance
     },
+    cookiebannerPositionChange1(position) {
+      // Ensure jQuery is available and use no-conflict mode if necessary
+      jQuery(document).ready(
+        function ($) {
+          if (position === "top") {
+            this.cookie_position1 = "top";
+            $("#banner-position-top-id").addClass("banner-position-top");
+            $("#banner-position-bottom-id").removeClass(
+              "banner-position-bottom"
+            );
+            //icons
+            $("#banner-position-top-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#banner-position-bottom-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          } else if (position === "bottom") {
+            this.cookie_position1 = "bottom";
+            $("#banner-position-bottom-id").addClass("banner-position-bottom");
+            $("#banner-position-top-id").removeClass("banner-position-top");
+            //icons
+            $("#banner-position-bottom-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#banner-position-top-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          }
+        }.bind(this)
+      ); // Bind 'this' to ensure it refers to the Vue instance
+    },
+    cookiebannerPositionChange2(position) {
+      // Ensure jQuery is available and use no-conflict mode if necessary
+      jQuery(document).ready(
+        function ($) {
+          if (position === "top") {
+            this.cookie_position2 = "top";
+            $("#banner-position-top-id").addClass("banner-position-top");
+            $("#banner-position-bottom-id").removeClass(
+              "banner-position-bottom"
+            );
+            //icons
+            $("#banner-position-top-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#banner-position-bottom-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          } else if (position === "bottom") {
+            this.cookie_position2 = "bottom";
+            $("#banner-position-bottom-id").addClass("banner-position-bottom");
+            $("#banner-position-top-id").removeClass("banner-position-top");
+            //icons
+            $("#banner-position-bottom-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#banner-position-top-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          }
+        }.bind(this)
+      ); // Bind 'this' to ensure it refers to the Vue instance
+    },
+    cookiewidgetPositionChange1(value) {
+      jQuery(document).ready(
+        function ($) {
+          if (value === "left") {
+            this.cookie_widget_position1 = "left";
+            $("#widget-position-left-id").addClass("widget-position-top");
+            $("#widget-position-right-id").removeClass("widget-position-top");
+            $("#widget-position-top_left-id").removeClass(
+              "widget-position-top"
+            );
+            $("#widget-position-top_right-id").removeClass(
+              "widget-position-top"
+            );
+            // icon
+            $("#widget-position-left-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          } else if (value === "right") {
+            this.cookie_widget_position1 = "right";
+            $("#widget-position-right-id").addClass("widget-position-top");
+            $("#widget-position-left-id").removeClass("widget-position-top");
+            $("#widget-position-top_left-id").removeClass(
+              "widget-position-top"
+            );
+            $("#widget-position-top_right-id").removeClass(
+              "widget-position-top"
+            );
+            //icons
+            $("#widget-position-right-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          } else if (value === "top_left") {
+            this.cookie_widget_position1 = "top_left";
+            $("#widget-position-top_left-id").addClass("widget-position-top");
+            $("#widget-position-right-id").removeClass("widget-position-top");
+            $("#widget-position-left-id").removeClass("widget-position-top");
+            $("#widget-position-top_right-id").removeClass(
+              "widget-position-top"
+            );
+            //icons
+            $("#widget-position-top_left-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          } else if (value === "top_right") {
+            this.cookie_widget_position1 = "top_right";
+            $("#widget-position-top_right-id").addClass("widget-position-top");
+            $("#widget-position-right-id").removeClass("widget-position-top");
+            $("#widget-position-left-id").removeClass("widget-position-top");
+            $("#widget-position-top_left-id").removeClass(
+              "widget-position-top"
+            );
+            //icons
+            $("#widget-position-top_right-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          }
+        }.bind(this)
+      );
+    },
+    cookiewidgetPositionChange1(value) {
+      jQuery(document).ready(
+        function ($) {
+          if (value === "left") {
+            this.cookie_widget_position2 = "left";
+            $("#widget-position-left-id").addClass("widget-position-top");
+            $("#widget-position-right-id").removeClass("widget-position-top");
+            $("#widget-position-top_left-id").removeClass(
+              "widget-position-top"
+            );
+            $("#widget-position-top_right-id").removeClass(
+              "widget-position-top"
+            );
+            // icon
+            $("#widget-position-left-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          } else if (value === "right") {
+            this.cookie_widget_position2 = "right";
+            $("#widget-position-right-id").addClass("widget-position-top");
+            $("#widget-position-left-id").removeClass("widget-position-top");
+            $("#widget-position-top_left-id").removeClass(
+              "widget-position-top"
+            );
+            $("#widget-position-top_right-id").removeClass(
+              "widget-position-top"
+            );
+            //icons
+            $("#widget-position-right-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          } else if (value === "top_left") {
+            this.cookie_widget_position2 = "top_left";
+            $("#widget-position-top_left-id").addClass("widget-position-top");
+            $("#widget-position-right-id").removeClass("widget-position-top");
+            $("#widget-position-left-id").removeClass("widget-position-top");
+            $("#widget-position-top_right-id").removeClass(
+              "widget-position-top"
+            );
+            //icons
+            $("#widget-position-top_left-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          } else if (value === "top_right") {
+            this.cookie_widget_position2 = "top_right";
+            $("#widget-position-top_right-id").addClass("widget-position-top");
+            $("#widget-position-right-id").removeClass("widget-position-top");
+            $("#widget-position-left-id").removeClass("widget-position-top");
+            $("#widget-position-top_left-id").removeClass(
+              "widget-position-top"
+            );
+            //icons
+            $("#widget-position-top_right-icon").addClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-right-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-top_left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+            $("#widget-position-left-icon").removeClass(
+              "dashicons dashicons-saved"
+            );
+          }
+        }.bind(this)
+      );
+    },
     cookiewidgetPositionChange(value) {
       jQuery(document).ready(
         function ($) {
@@ -11886,6 +12191,8 @@ var app = new Vue({
       this.ccpa_optout_message = "Do you really wish to opt-out?";
       this.cookie_position = "bottom";
       this.cookie_widget_position = "left";
+      this.cookie_widget_position1 = "left";
+      this.cookie_widget_position2 = "left";
       this.cookie_text_color = "#000000";
       this.gdpr_message_heading = "";
       this.lgpd_message_heading = "";

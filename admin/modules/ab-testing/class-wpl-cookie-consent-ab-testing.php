@@ -31,6 +31,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	 *
 	 * @since 3.0.0
 	 */
+	public $settings;
 	public function __construct() {
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_action( 'wp_ajax_wpl_ab_testing_tab', array( $this, 'wp_settings_ab_testing_tab' ) );
