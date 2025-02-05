@@ -552,7 +552,22 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									$wpl_cookie_details[ $key ] = $val;
 								}
 								if ( strpos( $key, 'wpl_tc_string' ) !== false) {
-									$wpl_cookie_details['wpl_tc_string'] = $val;
+									if($settings['is_iabtcf_on'] === "true" || $settings['is_iabtcf_on'] === true || $settings['is_iabtcf_on'] === 1){
+										$wpl_cookie_details['wpl_tc_string'] = $val;
+									}
+									else{
+										$wpl_cookie_details['wpl_tc_string'] = "";
+									}
+									
+								}
+								if ( strpos( $key, 'IABTCF_AddtlConsent' ) !== false) {
+									if($settings['is_gacm_on'] === "true" || $settings['is_gacm_on'] === true || $settings['is_gacm_on'] === 1){
+										$wpl_cookie_details['Additional_Consent_String'] = $val;
+									}
+									else{
+										$wpl_cookie_details['Additional_Consent_String'] = "";
+									}
+									
 								}
 							}
 							$wpl_cookie_details['wpl_viewed_cookie'] = $js_cookie_list['wpl_viewed_cookie'];
