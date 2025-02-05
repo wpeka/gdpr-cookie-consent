@@ -8625,7 +8625,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 			if(($the_options['is_gacm_on'] == "false" || $the_options['is_gacm_on'] == false) && $_POST['gcc-gacm-enable'] == "true"){
 				if(!get_option(GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR)){
-					error_log("got value: ". print_r(get_option(GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR),true));
 					$this->get_gacm_data();
 				}
 				$this->activate_gacm_updater();	
@@ -9274,7 +9273,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function activate_gacm_updater() {
 		if (!wp_next_scheduled('refresh_gacm_vendor_list_event')) {
-			error_log("Activating updater");
 			$one_week_later = time() + (7 * 24 * 60 * 60);
 			wp_schedule_event($one_week_later, 'weekly', 'refresh_gacm_vendor_list_event');
 		}
@@ -9288,7 +9286,6 @@ class Gdpr_Cookie_Consent_Admin {
 	public function deactivate_gacm_updater() {
 		$timestamp = wp_next_scheduled('refresh_gacm_vendor_list_event');
 		if ($timestamp) {
-			error_log("DEactivating");
 			wp_unschedule_event($timestamp, 'refresh_gacm_vendor_list_event');
 		}
 	}
@@ -9314,7 +9311,6 @@ class Gdpr_Cookie_Consent_Admin {
 		$rows = array_map('str_getcsv', explode("\n", $data));
 		array_shift($rows);
 		update_option(GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR,$rows);
-		error_log(print_r($rows, true));
 	}
 
 	

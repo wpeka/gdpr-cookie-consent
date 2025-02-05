@@ -617,7 +617,7 @@
 									}
 									?>
 								</ul>
-								 <?php //error_log(print_r($the_options['is_gacm_on'],true));
+								 <?php
 								 if($the_options['is_gacm_on'] === "true" || $the_options['is_gacm_on'] === true) {?>
 									<ul class="category-group outer vendor-group tabContainer">
 										<?php
