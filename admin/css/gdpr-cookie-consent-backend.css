@@ -488,20 +488,6 @@ a .export-btn:hover {
   background-color: #354e8e;
 }
 
-.gdpr_messagebar_detail.dark
-  .category-group
-  .category-item
-  .gdpr-column
-  .gdpr-columns {
-  background-color: #3a3a3a;
-}
-.gdpr_messagebar_detail.dark_row
-  .category-group
-  .category-item
-  .gdpr-column
-  .gdpr-columns {
-  background-color: #434a58;
-}
 .gdpr_messagebar_detail
   .category-group
   .category-item
@@ -509,12 +495,7 @@ a .export-btn:hover {
   .gdpr-columns.active-group {
   background-color: #7b7b7b;
 }
-.gdpr_messagebar_detail.layout-classic
-  .category-group
-  .category-item
-  .description-container {
-  background-color: #f5f5f5;
-}
+
 .gdpr_messagebar_detail.layout-classic.navy_blue_center
   .category-group
   .category-item
@@ -535,16 +516,7 @@ a .export-btn:hover {
   .description-container {
   background-color: #ede4ca;
 }
-.gdpr_messagebar_detail.layout-classic.grey_center
-  .category-group
-  .category-item
-  .description-container,
-.gdpr_messagebar_detail.layout-classic.grey_column
-  .category-group
-  .category-item
-  .description-container {
-  background-color: #eaeaea;
-}
+
 .gdpr_messagebar_detail.layout-classic.dark
   .category-group
   .category-item
@@ -693,6 +665,7 @@ a .export-btn:hover {
   border: 1px solid #0059b333 !important;
 }
 .gdpr-eu_visitors_message-gdpr,
+.gdpr-gacm_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both {
   border: 1px solid #ccc;

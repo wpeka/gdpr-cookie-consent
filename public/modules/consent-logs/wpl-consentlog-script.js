@@ -11,6 +11,7 @@ function generatePDF(
   country,
   consentStatus,
   tcString,
+  acString,
   siteaddress,
   preferences,
   cookieData
@@ -56,6 +57,17 @@ function generatePDF(
   const websiteUrl = window.location.hostname;
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF("p", "mm", "a4"); // Create A4 size PDF
+  var wrappedText = "";
+  var actext = "";
+  if (tcString != "") {
+    wrappedText = doc.splitTextToSize(tcString, 230);
+  }
+  if (acString != "") {
+    const [specVersion, consentedPart, disclosedPart] = acString.split("~");
+    const consentedIds = consentedPart.split(".").join(", ");
+    actext = doc.splitTextToSize(consentedIds, 250);
+  }
+
   const pageWidth = doc.internal.pageSize.getWidth();
   const fontSizeHeading = 24;
   const text = "Proof of Consent";
@@ -76,7 +88,7 @@ function generatePDF(
   doc.setFontSize(fontSizeText);
   const tableData = [
     ["Consent Date", date],
-    ["Website URL",websiteUrl],
+    ["Website URL", websiteUrl],
     ["IP Address", ipAddress],
     ["Country", country],
     ["Consent Status", consentStatus],
@@ -103,24 +115,24 @@ function generatePDF(
     },
   });
 
-  if(!siteaddress) {
+  if (!siteaddress) {
     // Subheading for Cookie Details
     const fontSizeSubheading = 16;
     doc.setFontSize(fontSizeSubheading);
     doc.setFont(undefined, "bold");
-    
+
     // Center align "Cookie Consent Details"
     const pageWidth = doc.internal.pageSize.width;
     const cookieHeading = "Cookie Consent Details:";
     // const textWidth = doc.getTextWidth(cookieHeading);
     doc.text(cookieHeading, 15, 85);
     // doc.text(cookieHeading, (pageWidth - textWidth) / 2, 85); // Center the text on the page
-    
+
     doc.setFont(undefined, "normal"); // Reset font type to normal
     doc.setFontSize(fontSizeText);
     if (preferences) {
       let startY = 100; // Initial startY for content
-    
+
       // Check and display status for Necessary
       if (preferences.necessary === "yes") {
         doc.setFont(undefined, "bold");
@@ -164,7 +176,7 @@ function generatePDF(
         tableWidth: "wrap",
       });
       startY = doc.previousAutoTable.finalY + 10;
-      if (necessaryCookies.length > 0){
+      if (necessaryCookies.length > 0) {
         doc.autoTable({
           head: [["Duration", "Cookie", "Description"]],
           body: analyticsCookies, // Using dynamic body data
@@ -240,9 +252,7 @@ function generatePDF(
       } else {
         doc.autoTable({
           head: [["Duration", "Cookie", "Description"]],
-          body: [
-            ["-", "-", "-"],
-          ],
+          body: [["-", "-", "-"]],
           startY: startY + 5, // Position below the Necessary text
           theme: "grid",
           styles: {
@@ -315,9 +325,7 @@ function generatePDF(
       } else {
         doc.autoTable({
           head: [["Duration", "Cookie", "Description"]],
-          body: [
-            ["-", "-", "-"],
-          ],
+          body: [["-", "-", "-"]],
           startY: startY + 5, // Position below the Necessary text
           theme: "grid",
           styles: {
@@ -390,9 +398,7 @@ function generatePDF(
       } else {
         doc.autoTable({
           head: [["Duration", "Cookie", "Description"]],
-          body: [
-            ["-", "-", "-"],
-          ],
+          body: [["-", "-", "-"]],
           startY: startY + 5, // Position below the Necessary text
           theme: "grid",
           styles: {
@@ -421,7 +427,7 @@ function generatePDF(
       }
 
       // Check and display status for Unclassified
-     if (preferences.unclassified === "yes") {
+      if (preferences.unclassified === "yes") {
         doc.setFont(undefined, "bold");
         doc.text("Unclassified:", 15, startY);
         doc.setFont(undefined, "normal");
@@ -466,9 +472,7 @@ function generatePDF(
       } else {
         doc.autoTable({
           head: [["Duration", "Cookie", "Description"]],
-          body: [
-            ["-", "-", "-"],
-          ],
+          body: [["-", "-", "-"]],
           startY: startY + 5, // Position below the Necessary text
           theme: "grid",
           styles: {
@@ -496,21 +500,35 @@ function generatePDF(
         startY = doc.previousAutoTable.finalY + 10;
       }
     }
-    doc.setFont(undefined, "bold"); // Set font type to bold
-    doc.text("TC String:", 15, 260);
-    doc.setFont(undefined, "normal"); // Reset font type to normal
-    
-    // Define the box position and size
-    const boxX = 15;
-    const boxY = 265; // Adjust the Y position as needed
-    const boxWidth = 185; // Width of the box
-    const boxHeight = 15; // Height of the box
-    
-    // Draw the rectangle
-    doc.rect(boxX, boxY, boxWidth, boxHeight);
-    
-    // Add the wrapped text inside the box
-    doc.text(tcString, boxX + 5, boxY + 5); // Adjust position to fit text inside box
+     // Adjust position to fit text inside box
+    if (tcString.length != 0) {
+      doc.addPage(); // Add a new page
+
+      doc.setFont(undefined, "bold"); // Set font type to bold
+      doc.text("TC String:", 15, 20);
+      doc.setFont(undefined, "normal"); // Reset font type to normal
+
+      // Define the box position and size
+      const boxX = 15;
+      const boxY = 26; // Adjust the Y position as needed
+      const boxWidth = 175; // Width of the box
+      const boxHeight = 56; // Height of the box
+
+      // Draw the rectangle
+      doc.rect(boxX, boxY, boxWidth, boxHeight);
+
+      // Add the wrapped text inside the box
+      doc.text(wrappedText, boxX + 5, boxY + 5);
+
+      // Adding Additional Consent Ids
+      if (acString.length != 0) {
+        doc.setFont(undefined, "bold"); // Set font type to bold
+        doc.text("Google Ad Technology Providers Ids:", 15, 90);
+        doc.setFontSize(11);
+        doc.setFont(undefined, "normal"); // Reset font type to normal
+        doc.text(actext, 15, 100);
+      }
+    }
   }
   doc.save("generated-pdf.pdf");
 }
