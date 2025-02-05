@@ -363,6 +363,9 @@ class GDPR_Cookie_Consent_App_Auth {
 				}
 			}
 		}
+		else{
+			update_option($wcam_lib_gdpr->wc_am_activated_key, 'Activated');
+		}
 
 		$this->auth_data = $data;
 

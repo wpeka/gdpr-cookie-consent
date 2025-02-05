@@ -10,7 +10,7 @@
  * Plugin Name:       WP Cookie Consent
  * Plugin URI:        https://club.wpeka.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
- * Version:           3.6.8
+ * Version:           3.7.2
  * Author:            WP Legal Pages
  * Author URI:        https://wplegalpages.com
  * License:           GPL-2.0+
@@ -31,7 +31,7 @@ define( 'GDPR_COOKIE_CONSENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Currently plugin version.
  */
-define( 'GDPR_COOKIE_CONSENT_VERSION', '8' );
+define( 'GDPR_COOKIE_CONSENT_VERSION', '3.7.2' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_DEVELOPMENT_MODE', false );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
@@ -39,7 +39,11 @@ define( 'GDPR_COOKIE_CONSENT_DB_KEY_PREFIX', 'GDPRCookieConsent-' );
 define( 'GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER', '9.0' );
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_FIELD', GDPR_COOKIE_CONSENT_DB_KEY_PREFIX . GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER );
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD', GDPR_COOKIE_CONSENT_DB_KEY_PREFIX . 'LogoImage' . GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER );
+define( 'GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1', GDPR_COOKIE_CONSENT_DB_KEY_PREFIX . 'LogoImage1' . GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER );
+define( 'GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2', GDPR_COOKIE_CONSENT_DB_KEY_PREFIX . 'LogoImage2' . GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER );
+define( 'GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1', GDPR_COOKIE_CONSENT_DB_KEY_PREFIX . 'LogoImageML1' . GDPR_COOKIE_CONSENT_LATEST_VERSION_NUMBER );
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_VENDOR', 'vendordata' );
+define( 'GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR', 'gacmvendordata' );
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT', 'iabtcfConsent' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_FILENAME', __FILE__ );
 define( 'GDPR_POLICY_DATA_POST_TYPE', 'gdprpolicies' );
@@ -55,10 +59,10 @@ if ( ! defined( 'FS_CHMOD_FILE' ) ) {
  * Check if the constant GDPR_APP_URL is not already defined.
 */
 if ( ! defined( 'GDPR_APP_URL' ) ) {
-	define( 'GDPR_APP_URL', 'https://77a44d5f59.nxcli.io' );
+	define( 'GDPR_APP_URL', 'https://app.wplegalpages.com' );
 }
 if ( ! defined( 'GDPR_API_URL' ) ) {
-	define( 'GDPR_API_URL', 'https://77a44d5f59.nxcli.io/wp-json/gdpr/v2/' );
+	define( 'GDPR_API_URL', 'https://app.wplegalpages.com/wp-json/gdpr/v2/' );
 }
 
 /**
@@ -144,6 +148,9 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-gdpr-cookies-read-csv.php'
 function uninstall_gdpr_cookie_consent() {
 	delete_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 	delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+	delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+	delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+	delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
 }
 /**
  * The core plugin class that is used to define internationalization,

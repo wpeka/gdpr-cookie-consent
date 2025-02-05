@@ -4,62 +4,61 @@ import VueApexCharts from "vue-apexcharts";
 Vue.use(VueApexCharts);
 Vue.component("apexchart", VueApexCharts);
 
-var gdpr_ab_testing_banner1_DNT = settings_obj.ab_options.hasOwnProperty("DNT1")
-  ? settings_obj.ab_options["DNT1"]
-  : 0;
 var gdpr_ab_testing_banner1_noChoice = settings_obj.ab_options.hasOwnProperty(
   "noChoice1"
 )
   ? settings_obj.ab_options["noChoice1"]
-  : 0;
-var gdpr_ab_testing_banner1_noWarning = settings_obj.ab_options.hasOwnProperty(
-  "noWarning1"
-)
-  ? settings_obj.ab_options["noWarning1"]
-  : 0;
-var gdpr_ab_testing_banner1_necessary = settings_obj.ab_options.hasOwnProperty(
-  "necessary1"
-)
-  ? settings_obj.ab_options["necessary1"]
-  : 0;
-var gdpr_ab_testing_banner1_analytics = settings_obj.ab_options.hasOwnProperty(
-  "analytics1"
-)
-  ? settings_obj.ab_options["analytics1"]
-  : 0;
-var gdpr_ab_testing_banner1_marketing = settings_obj.ab_options.hasOwnProperty(
-  "marketing1"
-)
-  ? settings_obj.ab_options["marketing1"]
-  : 0;
-var gdpr_ab_testing_banner2_DNT = settings_obj.ab_options.hasOwnProperty("DNT2")
-  ? settings_obj.ab_options["DNT2"]
   : 0;
 var gdpr_ab_testing_banner2_noChoice = settings_obj.ab_options.hasOwnProperty(
   "noChoice2"
 )
   ? settings_obj.ab_options["noChoice2"]
   : 0;
-var gdpr_ab_testing_banner2_noWarning = settings_obj.ab_options.hasOwnProperty(
-  "noWarning2"
+
+var gdpr_ab_testing_banner1_accept = settings_obj.ab_options.hasOwnProperty(
+  "accept1"
 )
-  ? settings_obj.ab_options["noWarning2"]
+  ? settings_obj.ab_options["accept1"]
   : 0;
-var gdpr_ab_testing_banner2_necessary = settings_obj.ab_options.hasOwnProperty(
-  "necessary2"
+var gdpr_ab_testing_banner2_accept = settings_obj.ab_options.hasOwnProperty(
+  "accept2"
 )
-  ? settings_obj.ab_options["necessary2"]
+  ? settings_obj.ab_options["accept2"]
   : 0;
-var gdpr_ab_testing_banner2_analytics = settings_obj.ab_options.hasOwnProperty(
-  "analytics2"
+
+var gdpr_ab_testing_banner1_acceptAll = settings_obj.ab_options.hasOwnProperty(
+  "acceptAll1"
 )
-  ? settings_obj.ab_options["analytics2"]
+  ? settings_obj.ab_options["acceptAll1"]
   : 0;
-var gdpr_ab_testing_banner2_marketing = settings_obj.ab_options.hasOwnProperty(
-  "marketing2"
+var gdpr_ab_testing_banner2_acceptAll = settings_obj.ab_options.hasOwnProperty(
+  "acceptAll2"
 )
-  ? settings_obj.ab_options["marketing2"]
+  ? settings_obj.ab_options["acceptAll2"]
   : 0;
+
+var gdpr_ab_testing_banner1_reject = settings_obj.ab_options.hasOwnProperty(
+  "reject1"
+)
+  ? settings_obj.ab_options["reject1"]
+  : 0;
+var gdpr_ab_testing_banner2_reject = settings_obj.ab_options.hasOwnProperty(
+  "reject2"
+)
+  ? settings_obj.ab_options["reject2"]
+  : 0;
+
+var gdpr_ab_testing_banner1_bypass = settings_obj.ab_options.hasOwnProperty(
+  "bypass1"
+)
+  ? settings_obj.ab_options["bypass1"]
+  : 0;
+var gdpr_ab_testing_banner2_bypass = settings_obj.ab_options.hasOwnProperty(
+  "bypass2"
+)
+  ? settings_obj.ab_options["bypass2"]
+  : 0;
+
 var gdpr_ab_testing_banner1_name = settings_obj.the_options["cookie_bar1_name"];
 var gdpr_ab_testing_banner2_name = settings_obj.the_options["cookie_bar2_name"];
 
@@ -75,23 +74,19 @@ export default Vue.component("ab-testing-chart", {
       {
         name: gdpr_ab_testing_banner1_name,
         data: [
-          gdpr_ab_testing_banner1_DNT,
-          gdpr_ab_testing_banner1_noChoice,
-          gdpr_ab_testing_banner1_noWarning,
-          gdpr_ab_testing_banner1_necessary,
-          gdpr_ab_testing_banner1_marketing,
-          gdpr_ab_testing_banner1_analytics,
+          gdpr_ab_testing_banner1_accept + gdpr_ab_testing_banner1_acceptAll,
+          gdpr_ab_testing_banner1_noChoice +
+            gdpr_ab_testing_banner1_reject +
+            gdpr_ab_testing_banner1_bypass,
         ],
       },
       {
         name: gdpr_ab_testing_banner2_name,
         data: [
-          gdpr_ab_testing_banner2_DNT,
-          gdpr_ab_testing_banner2_noChoice,
-          gdpr_ab_testing_banner2_noWarning,
-          gdpr_ab_testing_banner2_necessary,
-          gdpr_ab_testing_banner2_marketing,
-          gdpr_ab_testing_banner2_analytics,
+          gdpr_ab_testing_banner2_accept + gdpr_ab_testing_banner2_acceptAll,
+          gdpr_ab_testing_banner2_noChoice +
+            gdpr_ab_testing_banner2_bypass +
+            gdpr_ab_testing_banner2_reject,
         ],
       },
     ];
@@ -123,14 +118,13 @@ export default Vue.component("ab-testing-chart", {
           colors: ["transparent"],
         },
         xaxis: {
-          categories: [
-            "Do Not Track",
-            "No Choice",
-            "No Warning",
-            "Necessary",
-            "Marketing",
-            "Analytics",
-          ],
+          categories: ["Positives", "Negatives"],
+          labels: {
+            style: {
+              colors: ["#1b770f", "#b81717"],
+              fontSize: "12px",
+            },
+          },
         },
         yaxis: {
           title: {

@@ -105,6 +105,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * @var string $class_for_card_body_blur_content Blur class for styling.
 	 */
 	public $class_for_card_body_blur_content = '';
+	public $settings;
 
 	/**
 	 * Gdpr_Cookie_Consent_Cookie_Scanner constructor.
@@ -288,7 +289,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		} else {
 			$total_no_of_found_cookies = 0;
 		}
-
+		$api_gdpr_cookie_scan = '';
 		/**
 		 * Send a POST request to the GDPR API endpoint 'get_data'
 		*/

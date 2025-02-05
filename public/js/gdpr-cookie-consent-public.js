@@ -247,19 +247,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
         this.bar_elm.hide();
         // Decline the cookies
         GDPR.reject_close();
-        var cookie_data = { DNT: "yes" };
-        //ab-testing-data-collection
-        jQuery.ajax({
-          url: log_obj.ajax_url,
-          type: "POST",
-          data: {
-            action: "gdpr_collect_abtesting_data_action",
-            security: log_obj.consent_logging_nonce,
-            chosenBanner: Number(chosenBanner),
-            user_preference: cookie_data,
-          },
-          success: function (response) {},
-        });
 
         var button_action = "reject";
         var new_window = false;
@@ -796,7 +783,9 @@ GDPR_CCPA_COOKIE_EXPIRE =
             });
           }
 
-          window.dispatchEvent(event);
+          if(event){
+            window.dispatchEvent(event);
+          }
 
           // Log consent action
           GDPR.logConsent(button_action);
@@ -805,6 +794,8 @@ GDPR_CCPA_COOKIE_EXPIRE =
             necessary: "yes",
             marketing: "yes",
             analytics: "yes",
+            preferences: "yes",
+            unclassified: "yes",
           };
           if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
             //ab-testing-data-collection
@@ -919,6 +910,8 @@ GDPR_CCPA_COOKIE_EXPIRE =
             necessary: "yes",
             marketing: "yes",
             analytics: "yes",
+            preferences: "yes",
+            unclassified: "yes",
           };
           if (!GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)) {
             //ab-testing-data-collection
@@ -1724,8 +1717,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (template.includes("square")) {
             this.reject_button.css("width", "40%");
           } else if (
-            template.includes("dark") &&
-            this.settings.cookie_bar_as == "banner"
+            template.includes("dark")
           ) {
             this.reject_button.css("float", "right");
           }
@@ -2148,8 +2140,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (template.includes("square")) {
             this.reject_button.css("width", "40%");
           } else if (
-            template.includes("dark") &&
-            this.settings.cookie_bar_as == "banner"
+            template.includes("dark")
           ) {
             this.reject_button.css("float", "right");
           }
@@ -2551,8 +2542,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (template.includes("square")) {
             this.reject_button.css("width", "40%");
           } else if (
-            template.includes("dark") &&
-            this.settings.cookie_bar_as == "banner"
+            template.includes("dark")
           ) {
             this.reject_button.css("float", "right");
           }
@@ -2956,8 +2946,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (template.includes("square")) {
             this.reject_button.css("width", "40%");
           } else if (
-            template.includes("dark") &&
-            this.settings.cookie_bar_as == "banner"
+            template.includes("dark")
           ) {
             this.reject_button.css("float", "right");
           }
@@ -3362,8 +3351,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (template.includes("square")) {
             this.reject_button.css("width", "40%");
           } else if (
-            template.includes("dark") &&
-            this.settings.cookie_bar_as == "banner"
+            template.includes("dark")
           ) {
             this.reject_button.css("float", "right");
           }
@@ -4341,6 +4329,17 @@ GDPR_CCPA_COOKIE_EXPIRE =
         this.settings.consent_version,
         GDPR_ACCEPT_COOKIE_EXPIRE
       );
+      jQuery.ajax({
+        url: log_obj.ajax_url,
+        type: "POST",
+        data: {
+          action: "gdpr_collect_abtesting_data_action",
+          security: log_obj.consent_logging_nonce,
+          chosenBanner: Number(chosenBanner),
+          user_preference: "bypass",
+        },
+        success: function (response) {},
+      });
       if (this.settings.notify_animate_hide) {
         this.bar_elm.slideUp(
           this.settings.animate_speed_hide,
@@ -5353,14 +5352,16 @@ GDPR_CCPA_COOKIE_EXPIRE =
     const parent = document.querySelector(
       ".widget-navy_blue_box .gdpr_messagebar_content .gdpr.group-description-buttons"
     );
-    const children = parent.children;
+    if (parent) { 
+      const children = parent.children;
 
-    if (
-      children.length === 2 &&
-      children[0].id === "cookie_action_accept" &&
-      children[1].id === "cookie_action_settings"
-    ) {
-      parent.classList.add("exact-two-anchors");
-    }
+      if (
+        children.length === 2 &&
+        children[0].id === "cookie_action_accept" &&
+        children[1].id === "cookie_action_settings"
+      ) {
+          parent.classList.add("exact-two-anchors");
+      }
+  }
   });
 })(jQuery);
