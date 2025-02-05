@@ -3001,6 +3001,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   gap: 12px;
   width: 70%;
   justify-content: space-between;
+  margin: 1rem auto 0px;
 }
 .widget-navy_blue_square .gdpr-square-banner{
   display: flex;
