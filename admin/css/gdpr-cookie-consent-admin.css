@@ -4571,11 +4571,16 @@ gdpr-cookie-consent-admin-tab-content {
 .gdpr-api-info-content {
   display: flex;
   padding: 60px;
+  justify-content: space-between;
   border: 1px solid #ddd;
 }
-
+.gdpr-api-detailed-info-wrapper{
+  flex: 45%;
+}
 .gdpr-api-detailed-info {
   flex: 75%;
+  padding: 0px 20px;
+  margin: 0px 20px;
 }
 .gdpr-api-detailed-info p span img {
   height: 25px;
@@ -4587,7 +4592,7 @@ gdpr-cookie-consent-admin-tab-content {
   display: flex;
   flex-direction: column;
   margin: auto;
-  padding-left: 90px;
+  padding-left: 45px;
 }
 
 .gdpr-api-info-content .gdpr-api-detailed-info h2 {
