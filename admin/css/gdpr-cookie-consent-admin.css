@@ -9687,3 +9687,52 @@ input.vs__search {
   left: 508px;
   top: -51px !important;
 }
+
+/* Banner Redesign */
+.gdpr-api-detailed-info-wrapper .gdpr-api-connection-btns button[class="gdpr-start-auth"]{
+  width: 215px;
+  height: 52px;
+  border-radius: 4px;
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  letter-spacing: 0em;
+  text-align: center;
+  color: var(--blue-901);
+  background: transparent;
+  border: 1px solid var(--blue-901);
+}
+.gdpr-api-detailed-info-wrapper .gdpr-api-connection-btns a[class="gdpr-start-auth"]{
+  width: 215px;
+  height: 52px;
+  border: none;
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  color: var(--blue-1000);
+  padding: 0 2px;
+  background: transparent;
+}
+.gdpr-api-connection-btns p{
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  line-height: var(--text-sm-line-height);
+}
+.gdpr-api-detailed-info-wrapper .gdpr-api-connection-btns .gdpr-cookie-consent-admin-upgrade-button {
+  width: 215px;
+  height: 52px;
+  padding: 16px 23px;
+  border-radius: 4px;
+  background: var(--blue-500);
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  letter-spacing: 0em;
+  text-align: center;
+  color: var(--white-100);
+  border: none;
+  margin-top: 0px;
+}

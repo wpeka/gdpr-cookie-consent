@@ -122,7 +122,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 			?>
 		<div class="gdpr-cookie-consent-connect-api-container">
 			<div class="gdpr-api-info-content">
-				<div class="gdpr-api-detailed-info-wrapper left">
+				<div class="gdpr-api-detailed-info-wrapper">
 					<div class="gdpr-api-detailed-info">
 						<h2>
 							<?php echo esc_html( 'Sign Up for Free to Access Core Features', 'gdpr-cookie-consent' ); ?>
@@ -153,7 +153,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 				</div>
 			</div>
 			
-			<div class="gdpr-api-detailed-info-wrapper right">
+			<div class="gdpr-api-detailed-info-wrapper">
 					<div class="gdpr-api-detailed-info">
 						<h2>
 							<?php echo esc_html( 'Upgrade to Pro for Advanced Features', 'gdpr-cookie-consent' ); ?>
