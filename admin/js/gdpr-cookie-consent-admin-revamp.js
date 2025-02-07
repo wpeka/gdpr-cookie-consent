@@ -437,6 +437,19 @@ jQuery(document).ready(function () {
   jQuery(document).ready(function () {
     var gdprTimer, ccpaTimer, bothTimer;
 
+    //GACM hover function
+    jQuery(".gacm-slider").hover(
+      function () {
+        gdprTimer = setTimeout(function () {
+          jQuery(".gdpr-gacm_message-gdpr").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(gdprTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-gacm_message-gdpr").css("display", "none");
+      }
+    );
+
     // GDPR hover function
     jQuery("#gdpr-visitors-condition-radio-btn-disabled-gdpr").hover(
       function () {

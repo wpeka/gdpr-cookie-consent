@@ -8,7 +8,6 @@ import VueModal from "@kouts/vue-modal";
 import "@kouts/vue-modal/dist/vue-modal.css";
 import AB_Testing_Chart from "./vue-components/AB_Testing_Chart";
 import Tooltip from "./vue-components/tooltip";
-import Datepicker from "vuejs-datepicker";
 import VueApexCharts from "vue-apexcharts";
 // Main JS (in UMD format)
 import VueTimepicker from "vue2-timepicker";
@@ -35,7 +34,6 @@ Vue.component("v-select", vSelect);
 Vue.component("vue-editor", VueEditor);
 Vue.component("v-modal", VueModal);
 Vue.component("tooltip", Tooltip);
-Vue.component("datepicker", Datepicker);
 Vue.component("vue-timepicker", VueTimepicker);
 Vue.component("aceeditor", AceEditor);
 Vue.component("ab-testing-chart", AB_Testing_Chart);
@@ -66,8 +64,6 @@ var gen = new Vue({
       save_loading: false,
       edit_discovered_cookie: {},
       edit_discovered_cookie_on: false,
-      cookie_scanner_data: '',
-      ab_testing_data: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
       progress_bar: require("../admin/images/progress_bar.svg"),
@@ -98,6 +94,7 @@ var gen = new Vue({
       confirm_button_popup2: false,
       cancel_button_popup2: false,
       opt_out_link_popup2: false,
+      show_more_cookie_design_popup: false,
       show_more_cookie_design_popup: false,
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
@@ -134,6 +131,16 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_iabtcf_on"])
           ? true
           : false,
+      gacm_is_on:
+        settings_obj.the_options.hasOwnProperty("is_gacm_on") &&
+        (true === settings_obj.the_options["is_gacm_on"] ||
+          1 === settings_obj.the_options["is_gacm_on"] ||
+          "true" === settings_obj.the_options["is_gacm_on"])
+          ? true
+          : false,
+      gacm_key: settings_obj.ab_options.hasOwnProperty("gacm_key")
+        ? settings_obj.ab_options["gacm_key"]
+        : "",
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
       dynamic_lang_is_on:
         settings_obj.the_options.hasOwnProperty("is_dynamic_lang_on") &&
@@ -2395,32 +2402,6 @@ var gen = new Vue({
   },
 
   methods: {  
-    refreshCookieScannerData(html) {
-      this.cookie_scanner_data = html;
-      const container = document.querySelector('#cookie-scanner-container');
-      this.$nextTick(() => {
-                new Vue({
-                    el: container,
-                    data: this.$data, // Reuse the existing Vue instance data
-                    methods: this.$options.methods, // Reuse the existing methods
-                    mounted: this.$options.mounted, // Reuse the original mounted logic
-                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
-                });
-            });
-    },
-    refreshABTestingData(html) {
-      this.ab_testing_data = html;
-      const container = document.querySelector('#ab-testing-container');
-      this.$nextTick(() => {
-                new Vue({
-                    el: container,
-                    data: this.$data, // Reuse the existing Vue instance data
-                    methods: this.$options.methods, // Reuse the existing methods
-                    mounted: this.$options.mounted, // Reuse the original mounted logic
-                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
-                });
-            });
-    },
     isPluginVersionLessOrEqual(version) {
       return this.pluginVersion && this.pluginVersion <= version;
     },
@@ -2777,6 +2758,9 @@ var gen = new Vue({
     },
     onSwitchDynamicLang() {
       this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
+    },
+    onSwitchGacmEnable() {
+      this.gacm_is_on = !this.gacm_is_on;
     },
     onSwitchCookieAcceptEnable() {
       this.cookie_accept_on = !this.cookie_accept_on;
@@ -5434,6 +5418,7 @@ var gen = new Vue({
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
         this.is_selectedCountry_on = false;
+        this.gacm_is_on = false;
       } else if (value === "gdpr") {
         this.is_gdpr = true;
         this.is_ccpa = false;
@@ -5455,6 +5440,7 @@ var gen = new Vue({
         this.show_revoke_card = true;
         this.show_visitor_conditions = true;
         this.iabtcf_is_on = false;
+        this.gacm_is_on = false;
       } else {
         this.is_eprivacy = true;
         this.is_gdpr = false;
@@ -5463,6 +5449,7 @@ var gen = new Vue({
         this.show_visitor_conditions = false;
         this.show_revoke_card = true;
         this.iabtcf_is_on = false;
+        this.gacm_is_on = false;
       }
       if (this.iabtcf_is_on) {
         this.gdpr_message = `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`;
@@ -5903,6 +5890,7 @@ var gen = new Vue({
       this.ab_testing_enabled = false;
       this.ab_testing_auto = false;
       this.ab_testing_period = "30";
+      this.gacm_key = "";
       this.cookie_bar_color = "#ffffff";
       this.cookie_bar_opacity = "1";
       this.cookie_bar_border_width = "0";
@@ -5922,6 +5910,7 @@ var gen = new Vue({
       this.open_url = false;
       this.iabtcf_is_on = false;
       this.dynamic_lang_is_on = false;
+      this.gacm_is_on = false;
       this.accept_as_button = true;
       this.accept_size = "medium";
       this.cookie_accept_on = true;
@@ -7998,8 +7987,7 @@ var gen = new Vue({
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });
-window.gen = gen;
-var app = new Vue({
+var gen = new Vue({
   el: "#gdpr-cookie-consent-settings-app-wizard",
   data() {
     return {
@@ -8050,6 +8038,12 @@ var app = new Vue({
         settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
         (true === settings_obj.the_options["is_iabtcf_on"] ||
           1 === settings_obj.the_options["is_iabtcf_on"])
+          ? true
+          : false,
+      gacm_is_on:
+        settings_obj.the_options.hasOwnProperty("is_gacm_on") &&
+        (true === settings_obj.the_options["is_gacm_on"] ||
+          1 === settings_obj.the_options["is_gacm_on"])
           ? true
           : false,
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
@@ -10281,6 +10275,9 @@ var app = new Vue({
         this.gdpr_about_cookie_message =
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
+    },
+    onSwitchGacmEnable() {
+      this.gacm_is_on = !this.gacm_is_on;
     },
     onEnablesafeSwitch() {
       if (this.enable_safe === "true") {
@@ -12858,6 +12855,7 @@ var app = new Vue({
       this.button_readmore_button_border_color = "#333333";
       this.button_readmore_button_border_radius = "0";
       this.iabtcf_is_on = false;
+      this.gacm_is_on = false;
       this.decline_text = "Decline";
       this.decline_url = "#";
       this.decline_action = "#cookie_action_settings";

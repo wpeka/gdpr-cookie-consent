@@ -1042,6 +1042,33 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<input type="hidden" name="gcc-iabtcf-enable" v-model="iabtcf_is_on">
 									</c-col>
 								</c-row>
+								<c-row v-show="is_gdpr && iabtcf_is_on">
+									<?php if($api_user_plan == "10sites" || $api_user_plan == "3sites" || $api_user_plan == "10Sites" || $api_user_plan == "3Sites") { ?>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable"></c-switch>
+										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
+									</c-col>
+									<?php } else if($is_user_connected) { ?>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8 gacm-slider">
+										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable" disabled></c-switch>
+										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
+										<p class=" gdpr-gacm_message-gdpr">
+											<?php esc_attr_e( 'To enable this feature, upgrade to a pro plan', 'gdpr-cookie-consent' ); ?>
+										</p>
+									</c-col>
+									<?php } else { ?>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8 gacm-slider">
+										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable" disabled></c-switch>
+										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
+										<p class=" gdpr-gacm_message-gdpr">
+											<?php esc_attr_e( 'To enable this feature, connect to an account and purchase a paid plan.', 'gdpr-cookie-consent' ); ?>
+										</p>
+									</c-col>
+									<?php }?>
+								</c-row>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select the Type of Law', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
@@ -6766,12 +6793,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</div>
 					</c-card>
 					<c-card v-show="discovered_cookies_list_tab == true">
-						<div id="cookie-scanner-container">
-							<div class="data_wait_loader_container">
-								<div class="data_wait_loader"></div>
-							</div>
-							 <div v-html="cookie_scanner_data"></div>
-						</div>
+						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
 					</c-card>
 					<c-card v-show="scan_history_list_tab == true">
 						<?php do_action( 'gdpr_cookie_scanned_history' ); ?>
@@ -6780,14 +6802,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				<!-- Script Blocker -->
 				<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 				<!--A/B Testing-->
-				<c-tab title="<?php esc_attr_e( 'A/B Testing', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#ab_testing" id="gdpr-cookie-consent-ab-testing">
-					<div id="ab-testing-container">
-						<div class="ab_test_data_wait_loader_container">
-							<div class="data_wait_loader"></div>
-						</div>
-						<div v-html="ab_testing_data"></div>
-					</div>
-				</c-tab>
+				<?php do_action( 'gdpr_settings_ab_testing_tab' ); ?>
 				<!-- Integration -->
 				<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#language" id="gdpr-cookie-consent-language">
 					<c-card class="language-card">
