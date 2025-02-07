@@ -657,7 +657,7 @@
 				</div>
 			</div>
 			<div class="gdprmodal-footer">
-								<button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="gdprmodal" style="color: rgb(255, 255, 255); background-color: rgb(54, 158, 227); border: 0px none rgb(54, 158, 227); border-radius: 0px;">Save And Accept</button>
+								<button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="gdprmodal" style="background-color: rgb(54, 158, 227); border: 0px none rgb(54, 158, 227); border-radius: 0px;">Save And Accept</button>
 			</div>
 		</div>
 	</div>
