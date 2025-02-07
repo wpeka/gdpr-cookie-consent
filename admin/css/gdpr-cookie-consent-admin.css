@@ -4855,7 +4855,7 @@ gdpr-cookie-consent-admin-tab-content {
   margin-bottom: 4px;
   margin-top: 11px;
   color: var(--white-100);
-  width: 351px;
+  width: 60%;
 }
 
 .gdpr-blur-background .gdpr-overlay .already-have-acc {
@@ -9735,4 +9735,64 @@ input.vs__search {
   color: var(--white-100);
   border: none;
   margin-top: 0px;
+}
+.gdpr-overlay .gdpr-overlay-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 20px;
+  width: 70%;
+  height: 40%;
+}
+.gdpr-overlay .gdpr-overlay-btns .gdpr-start-auth {
+  width: 215px;
+  height: 52px;
+  border-radius: 4px;
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  letter-spacing: 0em;
+  text-align: center;
+  color: var(--white-100);
+  background: transparent;
+  border: 1px solid var(--white-100); 
+  margin-top: 10px;
+}
+.gdpr-overlay .gdpr-overlay-btns .gdpr-cookie-consent-admin-upgrade-button {
+  width: 215px;
+  height: 52px;
+  padding: 16px 23px;
+  border-radius: 4px;
+  background-color: var(--blue-500);
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  letter-spacing: 0em;
+  text-align: center;
+  color: var(--white-100);
+  border: none;
+  margin-top: 0px;
+}
+.gdpr-overlay span[class="gdpr-cookie-consent-admin-upgrade-button upgrade-button"] {
+  width: 215px;
+  height: 52px;
+  border: none;
+  font-family: Roboto;
+  font-size: var(--text-lg-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  color: var(--white-100);
+  padding: 0 2px;
+  background: transparent;
+  text-decoration: underline;
+}
+.gdpr-overlay span[class="api-connect-to-account-btn"] {
+  font-size: var(--text-lg-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  color: var(--white-100);
+  text-decoration: underline;
 }
