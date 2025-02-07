@@ -33,17 +33,8 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	 */
 	public function __construct() {
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
-			add_action( 'wp_ajax_wpl_ab_testing_tab', array( $this, 'wp_settings_ab_testing_tab' ) );
-			add_action('admin_enqueue_scripts', array($this, 'register_ab_testing_script'));
+			add_action( 'gdpr_settings_ab_testing_tab', array( $this, 'wp_settings_ab_testing_tab' ) );
 		}
-	}
-	public function register_ab_testing_script(){
-		//getting scan data 
-		wp_enqueue_script('ab_testing_ajax', plugin_dir_url(__FILE__) . 'assets/js/ab-testing-data.js', array('jquery'), '1.0', true);
-
-		wp_localize_script('ab_testing_ajax', 'ab_testing_ajax', array(
-			'ajax_url'         => admin_url( 'admin-ajax.php' )
-		));
 	}
 	/**
 	 * A/B Testing page
@@ -52,7 +43,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	 */
 	public function wp_settings_ab_testing_tab() {
 		?>
-		
+		<c-tab title="<?php esc_attr_e( 'A/B Testing', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#ab_testing" id="gdpr-cookie-consent-ab-testing">
 		<?php
 				$pro_is_activated  = get_option( 'wpl_pro_active', false );
 				$installed_plugins = get_plugins();
@@ -139,12 +130,13 @@ class Gdpr_Cookie_Consent_AB_Testing {
 
 			 	$response_status = wp_remote_retrieve_response_code( $response_ab_testing );
 
-				if (200 === $response_status) {
-				$ab_testing_text = json_decode(wp_remote_retrieve_body($response_ab_testing));
-				wp_send_json_success(['html' => $ab_testing_text]);
-			} else {
-				wp_send_json_error(['message' => __('Failed to retrieve data from server.', 'gdpr-cookie-consent')]);
-			} ?>
+				if ( 200 === $response_status ) {
+					$ab_testing_text = json_decode( wp_remote_retrieve_body( $response_ab_testing ) );
+				}
+				?>
+			 	<?php
+					// The data is coming from the SaaS server, so it is not user-generated.
+					echo $ab_testing_text; // phpcs:ignore?> 
 		</c-tab>
 		<?php
 	}
