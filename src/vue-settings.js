@@ -2429,6 +2429,7 @@ var gen = new Vue({
       let navLinks = j(".nav-link").map(function () {
         return this.getAttribute("href");
       });
+      if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
       for (let i = 0; i < navLinks.length; i++) {
         let re = new RegExp(navLinks[i]);
         if (window.location.href.match(re)) {
