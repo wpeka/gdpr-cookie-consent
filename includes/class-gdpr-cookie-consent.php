@@ -231,6 +231,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gcc_enable_iab', $plugin_admin, 'gdpr_cookie_consent_ajax_enable_iab', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_ab_testing_enable', $plugin_admin, 'gdpr_cookie_consent_ab_testing_enable', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_auto_generated_banner', $plugin_admin, 'gdpr_cookie_consent_ajax_auto_generated_banner', 10, 1 );
@@ -1559,6 +1560,29 @@ class Gdpr_Cookie_Consent {
 						"purposeVendorMap": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]	
 					}';
 		return json_decode($newvendors);
+		
+	}
+
+	public static function gdpr_get_all_vendors(){
+		$vendors = new stdClass();
+		$vendors = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
+		if( gettype($vendors) === "boolean"){
+			$vendors = new stdClass();
+			$vendors->vendors = new stdClass();
+			$vendors->purposes =  new stdClass();
+			$vendors->purposeVendorMap = new stdClass();
+			$vendors->purposeVendorCount = 0;
+			$vendors->legintPurposeVendorCount = 0;
+			$vendors->specialPurposes = new stdClass();
+			$vendors->specialPurposeVendorCount = 0;
+			$vendors->features = new stdClass();
+			$vendors->featureVendorCount = 0;
+			$vendors->specialFeatures = new stdClass();
+			$vendors->specialFeatureVendorCount = 0;
+			$vendors->allvendors = "";
+
+		} 
+		return $vendors;
 	}
 	/**
 	 * Get Vendor Data.

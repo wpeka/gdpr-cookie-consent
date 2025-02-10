@@ -337,7 +337,6 @@ function updateTCModel() {
 
     // Part 1: Specification version number
     var specVersion = "2";
-    console.log(user_gacm_consent, consentedIds);
     // Part 3: List of user-consented vendors (ATP IDs from user_gacm_consent array)
     var consentedIds = user_gacm_consent.join(".");
     // Part 5: List of disclosed vendors (from gacm_data that are NOT in user_gacm_consent)

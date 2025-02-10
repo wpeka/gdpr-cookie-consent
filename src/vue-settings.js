@@ -11,6 +11,7 @@ import Tooltip from "./vue-components/tooltip";
 import VueApexCharts from "vue-apexcharts";
 // Main JS (in UMD format)
 import VueTimepicker from "vue2-timepicker";
+import { TCModel, TCString, GVL } from "@iabtechlabtcf/core";
 // CSS
 import "vue2-timepicker/dist/VueTimepicker.css";
 import VueIntro from "vue-introjs";
@@ -2428,6 +2429,7 @@ var gen = new Vue({
       let navLinks = j(".nav-link").map(function () {
         return this.getAttribute("href");
       });
+      if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
       for (let i = 0; i < navLinks.length; i++) {
         let re = new RegExp(navLinks[i]);
         if (window.location.href.match(re)) {
@@ -5488,7 +5490,9 @@ var gen = new Vue({
         this.gdpr_css_text = code;
         editor.setValue(this.gdpr_css_text);
       }
-
+      if(this.is_iabtcf_changed && this.iabtcf_is_on){
+        this.fetchIABData();
+      }
       var that = this;
       var dataV = jQuery("#gcc-save-settings-form").serialize();
       jQuery
@@ -5567,7 +5571,131 @@ var gen = new Vue({
           that.save_loading = false;
         });
     },
+    fetchIABData(){
+      GVL.baseUrl = "https://eadn-wc01-12578700.nxedge.io/cdn/rgh/";
+      const gvl = new GVL();
+      gvl.readyPromise.then(() => {
+      let data = {};
+      let vendorMap = gvl.vendors;
+      let purposeMap = gvl.purposes;
+      let featureMap = gvl.features;
+      let dataCategoriesMap = gvl.dataCategories;
+      let specialPurposeMap = gvl.specialPurposes;
+      let specialFeatureMap = gvl.specialFeatures;
+      let purposeVendorMap = gvl.byPurposeVendorMap;
 
+      var vendor_array = [],
+        vendor_id_array = [],
+        vendor_legint_id_array = [],
+        data_categories_array = [],
+        nayan = [];
+      var feature_array = [],
+        special_feature_id_array = [],
+        special_feature_array = [],
+        special_purpose_array = [];
+      var purpose_id_array = [],
+        purpose_legint_id_array = [],
+        purpose_array = [],
+        purpose_vendor_array = [];
+      var purpose_vendor_count_array = [],
+        feature_vendor_count_array = [],
+        special_purpose_vendor_count_array = [],
+        special_feature_vendor_count_array = [],
+        legint_purpose_vendor_count_array = [],
+        legint_feature_vendor_count_array = [];
+      Object.keys(vendorMap).forEach((key) => {
+        vendor_array.push(vendorMap[key]);
+        vendor_id_array.push(vendorMap[key].id);
+        if (vendorMap[key].legIntPurposes.length)
+          vendor_legint_id_array.push(vendorMap[key].id);
+      });
+      data.vendors = vendor_array;
+      data.allvendors = vendor_id_array;
+      data.allLegintVendors = vendor_legint_id_array;
+
+      Object.keys(featureMap).forEach((key) => {
+        feature_array.push(featureMap[key]);
+        feature_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithFeature(featureMap[key].id)).length
+        );
+      });
+      data.features = feature_array;
+      data.featureVendorCount = feature_vendor_count_array;
+      data.dataCategories = nayan;
+
+      Object.keys(dataCategoriesMap).forEach((key) => {
+        data_categories_array.push(dataCategoriesMap[key]);
+      });
+      data.dataCategories = data_categories_array;
+
+      var legintCount = 0;
+      const purposeLegint = new Map();
+      Object.keys(purposeMap).forEach((key) => {
+        purpose_array.push(purposeMap[key]);
+        purpose_id_array.push(purposeMap[key].id);
+        purpose_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithConsentPurpose(purposeMap[key].id)).length
+        );
+        legintCount = Object.keys(
+          gvl.getVendorsWithLegIntPurpose(purposeMap[key].id)
+        ).length;
+        legint_purpose_vendor_count_array.push(legintCount);
+        if (legintCount) {
+          purposeLegint.set(purposeMap[key].id, legintCount);
+          purpose_legint_id_array.push(purposeMap[key].id);
+        }
+      });
+      data.purposes = purpose_array;
+      data.allPurposes = purpose_id_array;
+      data.purposeVendorCount = purpose_vendor_count_array;
+      data.allLegintPurposes = purpose_legint_id_array;
+      data.legintPurposeVendorCount = legint_purpose_vendor_count_array;
+
+      Object.keys(specialFeatureMap).forEach((key) => {
+        special_feature_array.push(specialFeatureMap[key]);
+        special_feature_id_array.push(specialFeatureMap[key].id);
+        special_feature_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithSpecialFeature(specialFeatureMap[key].id))
+            .length
+        );
+      });
+      data.specialFeatures = special_feature_array;
+      data.allSpecialFeatures = special_feature_id_array;
+      data.specialFeatureVendorCount = special_feature_vendor_count_array;
+
+      Object.keys(specialPurposeMap).forEach((key) => {
+        special_purpose_array.push(specialPurposeMap[key]);
+        special_purpose_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithSpecialPurpose(purposeMap[key].id)).length
+        );
+      });
+      data.specialPurposes = special_purpose_array;
+      data.specialPurposeVendorCount = special_purpose_vendor_count_array;
+
+      Object.keys(purposeVendorMap).forEach((key) =>
+        purpose_vendor_array.push(purposeVendorMap[key].legInt.size)
+      );
+      data.purposeVendorMap = purpose_vendor_array;
+      data.secret_key = "sending_vendor_data";
+      var that = this;
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: {
+            data: JSON.stringify(data), 
+            action: "gcc_enable_iab" 
+          },
+          dataType: "json",
+        })
+        .done(function (data) {
+        })
+        .fail(function () {
+          that.save_loading = false;
+      });
+    });
+
+    },
     openMediaModal() {
       var image_frame = wp.media({
         title: "Select Media for Image 1",
