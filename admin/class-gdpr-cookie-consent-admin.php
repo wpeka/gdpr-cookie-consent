@@ -7431,6 +7431,14 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
+	 * Function to enable IAB and download vendor list
+	 */
+	public function gdpr_cookie_consent_ajax_enable_iab(){
+		$received_data = json_decode(stripslashes($_POST['data']));
+		update_option(GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $received_data);
+	}
+
+	/**
 	 * activate auto updater for gacm vendor data
 	 *
 	 * @since    3.7.0

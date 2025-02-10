@@ -398,7 +398,7 @@ class Gdpr_Cookie_Consent_Public {
 			// //tcf
 			wp_enqueue_script( $this->plugin_name. '-tcf' );
 			$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
-			$iabtcf_data = Gdpr_Cookie_Consent::gdpr_get_vendors();
+			$iabtcf_data = Gdpr_Cookie_Consent::gdpr_get_all_vendors();
 			$gacm_data = Gdpr_Cookie_Consent::gdpr_get_gacm_vendors();
 			wp_localize_script(
 				$this->plugin_name.'-tcf',
