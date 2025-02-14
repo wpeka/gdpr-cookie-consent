@@ -6970,8 +6970,7 @@ var gen = new Vue({
         .fadeOut(2000);
       this.ab_testing_enabled = !this.ab_testing_enabled;
       if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
-
-      var dataV = jQuery("#gcc-save-settings-form").serialize();
+      var that = this;
       // Make the AJAX request to save the new state
       jQuery
         .ajax({
@@ -6983,6 +6982,7 @@ var gen = new Vue({
           },
         })
         .done(function (data) {
+          that.saveCookieSettings();
           window.location.reload();
           // Show success message
           that.success_error_message = "Settings Saved";
@@ -11974,6 +11974,72 @@ var app = new Vue({
     saveWizardCookieSettings() {
       var that = this;
       var dataV = jQuery(".gcc-save-wizard-settings-form").serialize();
+      dataV += "&gdpr-cookie-bar-color=" + encodeURIComponent(that.cookie_bar_color);
+      dataV += "&gdpr-cookie-text-color=" + encodeURIComponent(that.cookie_text_color);
+      dataV += "&gdpr-cookie-bar-opacity=" + encodeURIComponent(that.cookie_bar_opacity);
+      dataV += "&gdpr-cookie-bar-border-width=" + encodeURIComponent(that.cookie_bar_border_width);
+      dataV += "&gdpr-cookie-border-style=" + encodeURIComponent(that.border_style);
+      dataV += "&gdpr-cookie-border-color=" + encodeURIComponent(that.cookie_border_color);
+      dataV += "&gdpr-cookie-bar-border-radius=" + encodeURIComponent(that.cookie_bar_border_radius);
+      dataV += "&gdpr-cookie-font=" + encodeURIComponent(that.cookie_font);
+      dataV += "&gdpr-cookie-accept-background-color=" + encodeURIComponent(that.accept_background_color);
+      dataV += "&gdpr-cookie-accept-border-color=" + encodeURIComponent(that.accept_border_color);
+      dataV += "&gdpr-cookie-decline-text-color=" + encodeURIComponent(that.decline_text_color);
+      dataV += "&gdpr-cookie-decline-border-color=" + encodeURIComponent(that.decline_border_color);
+      dataV += "&gdpr-cookie-settings-text-color=" + encodeURIComponent(that.settings_text_color);
+      dataV += "&gdpr-cookie-settings-border-color=" + encodeURIComponent(that.settings_border_color);
+      dataV += "&gdpr-cookie-settings-background-color=" + encodeURIComponent(that.settings_background_color);
+      dataV += "&gdpr-cookie-decline-background-color=" + encodeURIComponent(that.decline_background_color);
+      dataV += "&gdpr-cookie-decline-border-style=" + encodeURIComponent(that.decline_style);
+      dataV += "&gdpr-cookie-decline-border-width=" + encodeURIComponent(that.decline_border_width);
+      dataV += "&gdpr-cookie-settings-border-style=" + encodeURIComponent(that.settings_style);
+      dataV += "&gdpr-cookie-settings-border-width=" + encodeURIComponent(that.settings_border_width);
+      dataV += "&gdpr-cookie-accept-opacity=" + encodeURIComponent(that.accept_opacity);
+      dataV += "&gdpr-cookie-accept-border-style=" + encodeURIComponent(that.accept_style);
+      dataV += "&gdpr-cookie-accept-border-width=" + encodeURIComponent(that.accept_border_width);
+      dataV += "&gdpr-cookie-accept-border-radius=" + encodeURIComponent(that.accept_border_radius);
+      dataV += "&gdpr-cookie-accept-text-color=" + encodeURIComponent(that.accept_text_color);
+      dataV += "&gcc-readmore-link-color=" + encodeURIComponent(that.button_readmore_link_color);
+      dataV += "&gcc-readmore-button-color=" + encodeURIComponent(that.button_readmore_button_color);
+      dataV += "&gcc-readmore-button-opacity=" + encodeURIComponent(that.button_readmore_button_opacity);
+      dataV += "&gcc-readmore-button-border-style=" + encodeURIComponent(that.button_readmore_button_border_style);
+      dataV += "&gcc-readmore-button-border-width=" + encodeURIComponent(that.button_readmore_button_border_width);
+      dataV += "&gcc-readmore-button-border-color=" + encodeURIComponent(that.button_readmore_button_border_color);
+      dataV += "&gcc-readmore-button-border-radius=" + encodeURIComponent(that.button_readmore_button_border_radius);
+      dataV += "&gcc-readmore-button-size=" + encodeURIComponent(that.button_readmore_button_size);
+      dataV += "&gdpr-cookie-decline-opacity=" + encodeURIComponent(that.decline_opacity);
+      dataV += "&gdpr-cookie-decline-border-radius=" + encodeURIComponent(that.decline_border_radius);
+      dataV += "&gdpr-cookie-decline-size=" + encodeURIComponent(that.decline_size);
+      dataV += "&gdpr-cookie-settings-opacity=" + encodeURIComponent(that.settings_opacity);
+      dataV += "&gdpr-cookie-settings-border-radius=" + encodeURIComponent(that.settings_border_radius);
+      dataV += "&gdpr-cookie-settings-size=" + encodeURIComponent(that.settings_size);
+      dataV += "&gdpr-cookie-confirm-text-color=" + encodeURIComponent(that.confirm_text_color);
+      dataV += "&gdpr-cookie-confirm-background-color=" + encodeURIComponent(that.confirm_background_color);
+      dataV += "&gdpr-cookie-confirm-opacity=" + encodeURIComponent(that.confirm_opacity);
+      dataV += "&gdpr-cookie-confirm-border-style=" + encodeURIComponent(that.confirm_style);
+      dataV += "&gdpr-cookie-confirm-border-color=" + encodeURIComponent(that.confirm_border_color);
+      dataV += "&gdpr-cookie-confirm-border-width=" + encodeURIComponent(that.confirm_border_width);
+      dataV += "&gdpr-cookie-confirm-border-radius=" + encodeURIComponent(that.confirm_border_radius);
+      dataV += "&gdpr-cookie-confirm-size=" + encodeURIComponent(that.confirm_size);
+      dataV += "&gdpr-cookie-cancel-text-color=" + encodeURIComponent(that.cancel_text_color);
+      dataV += "&gdpr-cookie-cancel-background-color=" + encodeURIComponent(that.cancel_background_color);
+      dataV += "&gdpr-cookie-cancel-opacity=" + encodeURIComponent(that.cancel_opacity);
+      dataV += "&gdpr-cookie-cancel-border-style=" + encodeURIComponent(that.cancel_style);
+      dataV += "&gdpr-cookie-cancel-border-color=" + encodeURIComponent(that.cancel_border_color);
+      dataV += "&gdpr-cookie-cancel-border-width=" + encodeURIComponent(that.cancel_border_width);
+      dataV += "&gdpr-cookie-cancel-border-radius=" + encodeURIComponent(that.cancel_border_radius);
+      dataV += "&gdpr-cookie-cancel-size=" + encodeURIComponent(that.cancel_size);
+      dataV += "&gdpr-cookie-opt-out-text-color=" + encodeURIComponent(that.opt_out_text_color);
+      dataV += "&gdpr-cookie-accept-all-text-color=" + encodeURIComponent(that.accept_all_text_color);
+      dataV += "&gdpr-cookie-accept-all-background-color=" + encodeURIComponent(that.accept_all_background_color);
+      dataV += "&gdpr-cookie-accept-all-size=" + encodeURIComponent(that.accept_all_size);
+      dataV += "&gdpr-cookie-accept-all-border-style=" + encodeURIComponent(that.accept_all_style);
+      dataV += "&gdpr-cookie-accept-all-border-color=" + encodeURIComponent(that.accept_all_border_color);
+      dataV += "&gdpr-cookie-accept-all-opacity=" + encodeURIComponent(that.accept_all_opacity);
+      dataV += "&gdpr-cookie-accept-all-border-width=" + encodeURIComponent(that.accept_all_border_width);
+      dataV += "&gdpr-cookie-accept-all-border-radius=" + encodeURIComponent(that.accept_all_border_radius);
+      dataV += "&gcc-revoke-consent-text-color=" + encodeURIComponent(that.button_revoke_consent_text_color);
+      dataV += "&gcc-revoke-consent-background-color=" + encodeURIComponent(that.button_revoke_consent_background_color);
       jQuery
         .ajax({
           type: "POST",

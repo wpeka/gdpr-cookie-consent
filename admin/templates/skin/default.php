@@ -598,13 +598,13 @@
 																<?php
 															} 
 															?>
-															id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+															id="gdpr_messagebar_body_button" 
 															class="gacm-vendor-all-switch-handler" 
 															type="checkbox" 
-															name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+															name="gdpr_messagebar_body_button" 
 															value=<?php echo esc_html( $data->allvendors ); ?>>
-															<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
-																<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+															<label for="gdpr_messagebar_body_button">
+																<span class="label-text"></span>
 															</label>
 															<!-- DYNAMICALLY GENERATE Input ID  -->
 														</div>
