@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: CCPA, GDPR, Privacy Policy, Terms and conditions, Cookie Policy
 Requires at least: 3.3.1
 Tested up to: 6.7.1
-Stable tag: 3.7.2
+Stable tag: 3.7.3
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -143,6 +143,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 11.Consent Log table
 
 == Change Log ==
+
+= 3.7.3 = 
+* Enhanced Performance – Optimized the plugin for better speed and efficiency, ensuring a smoother user experience.
+* Google Additional Consent Mode Support – Added support for Google's Additional Consent Mode, helping users manage consent for ad partners not covered by TCF.
 
 = 3.7.2 = 
 * Enhanced - A/B Testing Algorithm – Improved the accuracy and performance of cookie banner A/B testing to deliver more reliable insights.
@@ -553,6 +557,10 @@ Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unles
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.7.3 = 
+* Enhanced Performance – Optimized the plugin for better speed and efficiency, ensuring a smoother user experience.
+* Google Additional Consent Mode Support – Added support for Google's Additional Consent Mode, helping users manage consent for ad partners not covered by TCF.
 
 = 3.7.2 = 
 * Enhanced - A/B Testing Algorithm – Improved the accuracy and performance of cookie banner A/B testing to deliver more reliable insights.
