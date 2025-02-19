@@ -9035,7 +9035,50 @@ class Gdpr_Cookie_Consent_Admin {
 			)
 		);
 	}
-	// Register the REST API route for pie chart and cookie summary data from plugin to the saas appwplp server 
+
+
+
+	/**
+	 * Fucntion to disconnect account when site deleted from saas dashboard
+	 */
+	public function disconnect_account_request(){
+
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+		$settings   = new GDPR_Cookie_Consent_Settings();
+		$options    = $settings->get_defaults();
+		$product_id = $settings->get( 'account', 'product_id' );
+
+		global $wcam_lib_gdpr;
+		$activation_status = get_option( $wcam_lib_gdpr->wc_am_activated_key );
+
+		$args = array(
+			'api_key' => $settings->get( 'api', 'token' ),
+		);
+		update_option( 'wpeka_api_framework_app_settings', $options );
+
+		if ( false !== get_option( 'wplegal_api_framework_app_settings' ) ) {
+			update_option( 'wplegal_api_framework_app_settings', $options );
+		}
+
+		//changing banner display status to worldwide
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		
+		$the_options['is_worldwide_on'] = 'true';
+		$the_options['is_selectedCountry_on'] = 'false';
+		$the_options['is_eu_on'] = 'false';
+		$the_options['is_ccpa_on'] = 'false';
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
+		update_option( 'gdpr_no_of_page_scan', 0 );
+
+		update_option( $wcam_lib_gdpr->wc_am_activated_key, 'Deactivated' );
+
+		if ( isset( $wcam_lib_gdpr->data[ $wcam_lib_gdpr->wc_am_activated_key ] ) ) {
+			update_option( $wcam_lib_gdpr->data[ $wcam_lib_gdpr->wc_am_activated_key ], 'Deactivated' );
+		}
+	}
+
+	// Register the REST API route for data from plugin to the saas appwplp server 
 
 	public function register_gdpr_dashboard_route() {
 		global $is_user_connected, $api_user_plan; // Make global variables accessible
@@ -9050,6 +9093,21 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'gdpr_send_data_to_dashboard_appwplp_server'), // Function to handle the request
+				'permission_callback' => function() use ($is_user_connected) {
+					// Check if user is connected and the API plan is valid
+					if ($is_user_connected) {
+						return true; // Allow access
+					}
+					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
+				},
+			)
+		);
+		register_rest_route(
+			'gdpr/v2', // Namespace
+			'/delete_activation', 
+			array(
+				'methods'  => 'POST',
+				'callback' => array($this, 'disconnect_account_request'), // Function to handle the request
 				'permission_callback' => function() use ($is_user_connected) {
 					// Check if user is connected and the API plan is valid
 					if ($is_user_connected) {
