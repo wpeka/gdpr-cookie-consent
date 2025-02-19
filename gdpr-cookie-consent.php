@@ -50,7 +50,7 @@ define( 'GDPR_POLICY_DATA_POST_TYPE', 'gdprpolicies' );
 define( 'GDPR_CSV_DELIMITER', ',' );
 define( 'GDPR_URL', plugins_url( '/', __FILE__ ) );
 if ( ! defined( 'GDPR_CC_SUFFIX' ) ) {
-	define( 'GDPR_CC_SUFFIX', ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min' );
+	define( 'GDPR_CC_SUFFIX', ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '' );
 }
 if ( ! defined( 'FS_CHMOD_FILE' ) ) {
 	define( 'FS_CHMOD_FILE', ( fileperms( ABSPATH . 'index.php' ) & 0777 | 0644 ) );
