@@ -5600,6 +5600,10 @@ class Gdpr_Cookie_Consent_Admin {
 						$the_options['is_selectedCountry_on'] = 'true';
 					}
 				}
+				$selected_countries             = array();
+				$selected_countries             = isset( $_POST['gcc-selected-countries'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries'] ) ) ) : '';
+				// storing id of pages in database.
+				$the_options['select_countries'] = $selected_countries;
 				if ( isset( $the_options['cookie_usage_for'] ) ) {
 					switch ( $the_options['cookie_usage_for'] ) {
 						case 'both':

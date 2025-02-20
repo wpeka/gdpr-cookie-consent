@@ -2469,7 +2469,6 @@ var gen = new Vue({
         this.post_cookie_list_length > 0 ? true : false;
 
       this.disableSwitch = false;
-
       // multiple entries of geo targeting countries.
       for (let i = 0; i < this.list_of_countries.length; i++) {
         if (this.select_countries.includes(this.list_of_countries[i].code)) {
@@ -7043,6 +7042,8 @@ var gen = new Vue({
     },
   },
   mounted() {
+    if (window.vueMounted) return; // Prevent duplicate execution
+    window.vueMounted = true; // Mark as mounted
     j("#gdpr-before-mount").css("display", "none");
 
     if (settings_obj.is_user_connected) {
@@ -9321,6 +9322,11 @@ var app = new Vue({
         if (this.button_readmore_page == this.privacy_policy_options[i].code) {
           this.readmore_page = this.privacy_policy_options[i].label;
           break;
+        }
+      }
+      for (let i = 0; i < this.list_of_countries.length; i++) {
+        if (this.select_countries.includes(this.list_of_countries[i].code)) {
+          this.select_countries_array.push(this.list_of_countries[i]);
         }
       }
       for (let i = 0; i < this.scripts_list_total; i++) {
