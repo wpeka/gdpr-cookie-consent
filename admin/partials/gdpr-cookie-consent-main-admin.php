@@ -130,34 +130,66 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 			?>
 		<div class="gdpr-cookie-consent-connect-api-container">
 			<div class="gdpr-api-info-content">
-			<div class="gdpr-api-detailed-info">
-				<h2>
-					<?php echo esc_html( 'Connect your website to WP Legal Pages Compliance Platform', 'gdpr-cookie-consent' ); ?>
-				</h2>
-					<p><?php echo esc_html( 'Sign up for a free account to integrate seamlessly with the WP Legal Pages Compliance Platform server. Once connected, gain full control over your settings and unlock advanced features:', 'gdpr-cookie-consent' ); ?></p>
-				<p>
-					<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( '25+ Legal Templates:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Choose from a variety of pre-written templates for essential legal documents like Privacy Policies, Terms & Conditions, DMCA Notices, etc.
-					', 'gdpr-cookie-consent' ); ?>
-				</p>
-				<p>
-					<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Cookie Scanner:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Identify cookies on your website and automatically block them before user consent (essential for legal compliance).
-					', 'gdpr-cookie-consent' ); ?>
-				</p>
-				<p>
-					<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Advanced Dashboard:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Unlock useful insights on user\'s consent data, cookie summary, and consent logs.', 'gdpr-cookie-consent' ); ?>
-				</p>
-				<p>
-					<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Geo-targeting:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Display or hide the GDPR cookie consent notice depending on the visitor’s location.', 'gdpr-cookie-consent' ); ?>
-				</p>
-				<p>
-					<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.png'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Age Verification Popup:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Add an age gate to restrict users below a particular age from entering your website.
-					', 'gdpr-cookie-consent' ); ?>
-				</p>
+				<div class="gdpr-api-detailed-info-wrapper">
+					<div class="gdpr-api-detailed-info">
+						<h2>
+							<?php echo esc_html( 'Sign Up for Free to Access Core Features', 'gdpr-cookie-consent' ); ?>
+						</h2>
+						<p><?php echo esc_html( 'Get started with essential tools to manage cookies and legal policies:', 'gdpr-cookie-consent' ); ?></p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Cookie Insights:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Detailed reports on cookies detected on your site.', 'gdpr-cookie-consent' ); ?>
+						</p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Cookie Scanner:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Automatically scan your website for cookies.', 'gdpr-cookie-consent' ); ?>
+						</p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'A/B Testing:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Compare two cookie banners to find the best performer.', 'gdpr-cookie-consent' ); ?>
+						</p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Consent Log:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Track and store user consent records.', 'gdpr-cookie-consent' ); ?>
+						</p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Data Subject Access Request:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Simplify user data requests.', 'gdpr-cookie-consent' ); ?>
+						</p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Essential Legal Policies:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Generate key policies like Privacy Policy, Terms of Use, and more.', 'gdpr-cookie-consent' ); ?>
+						</p>
+					</div>
+				<div class="gdpr-api-connection-btns">
+					<button class="gdpr-start-auth"><?php echo esc_html( 'Sign Up for Free', 'gdpr-cookie-consent' ); ?></button>
+					<p><?php echo esc_html( 'Already have an account?', 'gdpr-cookie-consent' ); ?><a class="gdpr-start-auth" href=""><?php esc_html_e( 'Connect your existing account', 'gdpr-cookie-consent' ); ?></a></p>
+				</div>
 			</div>
-		<div class="gdpr-api-connection-btns">
-			<button class="gdpr-start-auth"><?php echo esc_html( 'New? Create a free account', 'gdpr-cookie-consent' ); ?></button>
-			<button class="api-connect-to-account-btn"><?php echo esc_html( 'Connect your existing account', 'gdpr-cookie-consent' ); ?></button>
-		</div>
+			
+			<div class="gdpr-api-detailed-info-wrapper">
+					<div class="gdpr-api-detailed-info">
+						<h2>
+							<?php echo esc_html( 'Upgrade to Pro for Advanced Features', 'gdpr-cookie-consent' ); ?>
+						</h2>
+						<p><?php echo esc_html( 'Take your website compliance to the next level with Pro:', 'gdpr-cookie-consent' ); ?></p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Advanced Dashboard:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Gain detailed insights into cookie consent performance.', 'gdpr-cookie-consent' ); ?>
+						</p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Geo-targeting:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Show banners tailored to visitor locations.', 'gdpr-cookie-consent' ); ?>
+						</p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'IAB TCF 2.2 Support:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Comply with the latest transparency framework.', 'gdpr-cookie-consent' ); ?>
+						</p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( 'Google Consent Mode:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Manage Google tags based on user consent.', 'gdpr-cookie-consent' ); ?>
+						</p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( '25+ Legal Templates:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Access a library of customizable templates.', 'gdpr-cookie-consent' ); ?>
+						</p>
+						<p>
+							<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/bullet_point.svg'; ?>" alt="<?php echo esc_attr( 'API Connection Success Mark', 'gdpr-cookie-consent' ); ?>"></span> <strong><?php echo esc_html( '20,000 Pages per Scan:', 'gdpr-cookie-consent' ); ?></strong> <?php echo esc_html( 'Ensure comprehensive website cookie scanning.', 'gdpr-cookie-consent' ); ?>
+						</p>
+					</div>
+					<div class="gdpr-api-connection-btns">
+						<button class="gdpr-cookie-consent-admin-upgrade-button upgrade-button">Upgrade to Pro</button>
+					</div>
+				</div>
 			</div>
 			<div id="popup-site-excausted" class="popup-overlay">
 				<div class="popup-content">
