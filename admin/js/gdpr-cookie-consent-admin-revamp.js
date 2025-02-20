@@ -433,10 +433,12 @@ jQuery(document).ready(function () {
       location.reload();
     });
     setTimeout(function(){
-      $(".gdpr-start-auth").on("click", gdprStartAuth);
+      $("#gdpr-start-auth").on("click", gdprStartAuth);
       $(".gdpr-dashboard-start-auth").on("click", gdprStartAuth);
-      $(".gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
-      $(".api-connect-to-account-btn").on("click", gdprStartAuth);
+      $("#gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
+      $("#api-connect-to-account-btn").on("click", gdprStartAuth);
+      $(".AB-testing-gdpr").on("click", gdprStartAuth);
+      $(".cookie-consent-gdpr-overlay").on("click", gdprPaidAuth);
     }, 3000);  
   });
   // connection overlay in compliance settings.
