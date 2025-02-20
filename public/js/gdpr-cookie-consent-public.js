@@ -1665,7 +1665,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
             this.accept_all_button.css("border", main_border);
             this.accept_all_button.css(
               "border-radius",
-              this.settings.button_accept_all_btn_border_radius1 + "px"
+              this.settings.multiple_legislation_accept_all_border_radius1 + "px"
             );
             this.accept_all_button.css(
               "background-color",
