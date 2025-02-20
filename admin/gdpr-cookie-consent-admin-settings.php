@@ -6632,8 +6632,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</c-card>
 				</c-tab>
 				<?php endif; ?>
-				</c-tabs>
-				</c-tabs>
+			</c-tabs>
 			</div>
 		</c-form>
 	</c-container>
