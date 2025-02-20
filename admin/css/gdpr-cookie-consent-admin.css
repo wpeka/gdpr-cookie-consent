@@ -9796,3 +9796,7 @@ input.vs__search {
   color: var(--white-100);
   text-decoration: underline;
 }
+div#gdpr-scan-history {
+  padding: 2px !important;
+  height: 113%;
+}
