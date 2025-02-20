@@ -9,7 +9,7 @@
  */
 
  
-	$data = Gdpr_Cookie_Consent::gdpr_get_vendors();
+	$data = Gdpr_Cookie_Consent::gdpr_get_all_vendors();
 	$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 	$gacm_data = Gdpr_Cookie_Consent::gdpr_get_gacm_vendors();
 	$gacm_consent_data = isset( $iabtcf_consent_data["gacm_consent"]) ? $iabtcf_consent_data["gacm_consent"] : [];

@@ -11,6 +11,7 @@ import Tooltip from "./vue-components/tooltip";
 import VueApexCharts from "vue-apexcharts";
 // Main JS (in UMD format)
 import VueTimepicker from "vue2-timepicker";
+import { TCModel, TCString, GVL } from "@iabtechlabtcf/core";
 // CSS
 import "vue2-timepicker/dist/VueTimepicker.css";
 import VueIntro from "vue-introjs";
@@ -2428,6 +2429,7 @@ var gen = new Vue({
       let navLinks = j(".nav-link").map(function () {
         return this.getAttribute("href");
       });
+      if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
       for (let i = 0; i < navLinks.length; i++) {
         let re = new RegExp(navLinks[i]);
         if (window.location.href.match(re)) {
@@ -2467,7 +2469,6 @@ var gen = new Vue({
         this.post_cookie_list_length > 0 ? true : false;
 
       this.disableSwitch = false;
-
       // multiple entries of geo targeting countries.
       for (let i = 0; i < this.list_of_countries.length; i++) {
         if (this.select_countries.includes(this.list_of_countries[i].code)) {
@@ -3105,6 +3106,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -3367,6 +3369,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -3502,6 +3505,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -3780,6 +3784,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -4024,6 +4029,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -4306,6 +4312,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -5189,6 +5196,7 @@ var gen = new Vue({
       this.decline_style1 = "none";
       this.decline_border_color1 = "#333333";
       this.decline_border_radius1 = "0";
+      this.multiple_legislation_accept_all_border_radius1 = "0";
       this.settings_text1 = "Cookie Settings";
       this.settings_text_color1 = "#ffffff";
       this.settings_background_color1 = "#333333";
@@ -5488,7 +5496,9 @@ var gen = new Vue({
         this.gdpr_css_text = code;
         editor.setValue(this.gdpr_css_text);
       }
-
+      if(this.is_iabtcf_changed && this.iabtcf_is_on){
+        this.fetchIABData();
+      }
       var that = this;
       var dataV = jQuery("#gcc-save-settings-form").serialize();
       jQuery
@@ -5567,7 +5577,131 @@ var gen = new Vue({
           that.save_loading = false;
         });
     },
+    fetchIABData(){
+      GVL.baseUrl = "https://eadn-wc01-12578700.nxedge.io/cdn/rgh/";
+      const gvl = new GVL();
+      gvl.readyPromise.then(() => {
+      let data = {};
+      let vendorMap = gvl.vendors;
+      let purposeMap = gvl.purposes;
+      let featureMap = gvl.features;
+      let dataCategoriesMap = gvl.dataCategories;
+      let specialPurposeMap = gvl.specialPurposes;
+      let specialFeatureMap = gvl.specialFeatures;
+      let purposeVendorMap = gvl.byPurposeVendorMap;
 
+      var vendor_array = [],
+        vendor_id_array = [],
+        vendor_legint_id_array = [],
+        data_categories_array = [],
+        nayan = [];
+      var feature_array = [],
+        special_feature_id_array = [],
+        special_feature_array = [],
+        special_purpose_array = [];
+      var purpose_id_array = [],
+        purpose_legint_id_array = [],
+        purpose_array = [],
+        purpose_vendor_array = [];
+      var purpose_vendor_count_array = [],
+        feature_vendor_count_array = [],
+        special_purpose_vendor_count_array = [],
+        special_feature_vendor_count_array = [],
+        legint_purpose_vendor_count_array = [],
+        legint_feature_vendor_count_array = [];
+      Object.keys(vendorMap).forEach((key) => {
+        vendor_array.push(vendorMap[key]);
+        vendor_id_array.push(vendorMap[key].id);
+        if (vendorMap[key].legIntPurposes.length)
+          vendor_legint_id_array.push(vendorMap[key].id);
+      });
+      data.vendors = vendor_array;
+      data.allvendors = vendor_id_array;
+      data.allLegintVendors = vendor_legint_id_array;
+
+      Object.keys(featureMap).forEach((key) => {
+        feature_array.push(featureMap[key]);
+        feature_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithFeature(featureMap[key].id)).length
+        );
+      });
+      data.features = feature_array;
+      data.featureVendorCount = feature_vendor_count_array;
+      data.dataCategories = nayan;
+
+      Object.keys(dataCategoriesMap).forEach((key) => {
+        data_categories_array.push(dataCategoriesMap[key]);
+      });
+      data.dataCategories = data_categories_array;
+
+      var legintCount = 0;
+      const purposeLegint = new Map();
+      Object.keys(purposeMap).forEach((key) => {
+        purpose_array.push(purposeMap[key]);
+        purpose_id_array.push(purposeMap[key].id);
+        purpose_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithConsentPurpose(purposeMap[key].id)).length
+        );
+        legintCount = Object.keys(
+          gvl.getVendorsWithLegIntPurpose(purposeMap[key].id)
+        ).length;
+        legint_purpose_vendor_count_array.push(legintCount);
+        if (legintCount) {
+          purposeLegint.set(purposeMap[key].id, legintCount);
+          purpose_legint_id_array.push(purposeMap[key].id);
+        }
+      });
+      data.purposes = purpose_array;
+      data.allPurposes = purpose_id_array;
+      data.purposeVendorCount = purpose_vendor_count_array;
+      data.allLegintPurposes = purpose_legint_id_array;
+      data.legintPurposeVendorCount = legint_purpose_vendor_count_array;
+
+      Object.keys(specialFeatureMap).forEach((key) => {
+        special_feature_array.push(specialFeatureMap[key]);
+        special_feature_id_array.push(specialFeatureMap[key].id);
+        special_feature_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithSpecialFeature(specialFeatureMap[key].id))
+            .length
+        );
+      });
+      data.specialFeatures = special_feature_array;
+      data.allSpecialFeatures = special_feature_id_array;
+      data.specialFeatureVendorCount = special_feature_vendor_count_array;
+
+      Object.keys(specialPurposeMap).forEach((key) => {
+        special_purpose_array.push(specialPurposeMap[key]);
+        special_purpose_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithSpecialPurpose(purposeMap[key].id)).length
+        );
+      });
+      data.specialPurposes = special_purpose_array;
+      data.specialPurposeVendorCount = special_purpose_vendor_count_array;
+
+      Object.keys(purposeVendorMap).forEach((key) =>
+        purpose_vendor_array.push(purposeVendorMap[key].legInt.size)
+      );
+      data.purposeVendorMap = purpose_vendor_array;
+      data.secret_key = "sending_vendor_data";
+      var that = this;
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: {
+            data: JSON.stringify(data), 
+            action: "gcc_enable_iab" 
+          },
+          dataType: "json",
+        })
+        .done(function (data) {
+        })
+        .fail(function () {
+          that.save_loading = false;
+      });
+    });
+
+    },
     openMediaModal() {
       var image_frame = wp.media({
         title: "Select Media for Image 1",
@@ -6842,8 +6976,7 @@ var gen = new Vue({
         .fadeOut(2000);
       this.ab_testing_enabled = !this.ab_testing_enabled;
       if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
-
-      var dataV = jQuery("#gcc-save-settings-form").serialize();
+      var that = this;
       // Make the AJAX request to save the new state
       jQuery
         .ajax({
@@ -6855,6 +6988,7 @@ var gen = new Vue({
           },
         })
         .done(function (data) {
+          that.saveCookieSettings();
           window.location.reload();
           // Show success message
           that.success_error_message = "Settings Saved";
@@ -6915,6 +7049,8 @@ var gen = new Vue({
     },
   },
   mounted() {
+    if (window.vueMounted) return; // Prevent duplicate execution
+    window.vueMounted = true; // Mark as mounted
     j("#gdpr-before-mount").css("display", "none");
 
     if (settings_obj.is_user_connected) {
@@ -9195,6 +9331,11 @@ var app = new Vue({
           break;
         }
       }
+      for (let i = 0; i < this.list_of_countries.length; i++) {
+        if (this.select_countries.includes(this.list_of_countries[i].code)) {
+          this.select_countries_array.push(this.list_of_countries[i]);
+        }
+      }
       for (let i = 0; i < this.scripts_list_total; i++) {
         this.scripts_list_data[i]["script_status"] = Boolean(
           parseInt(this.scripts_list_data[i]["script_status"])
@@ -9770,6 +9911,7 @@ var app = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -10032,6 +10174,7 @@ var app = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -10167,6 +10310,7 @@ var app = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -10445,6 +10589,7 @@ var app = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -10689,6 +10834,7 @@ var app = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -10971,6 +11117,7 @@ var app = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -11846,6 +11993,72 @@ var app = new Vue({
     saveWizardCookieSettings() {
       var that = this;
       var dataV = jQuery(".gcc-save-wizard-settings-form").serialize();
+      dataV += "&gdpr-cookie-bar-color=" + encodeURIComponent(that.cookie_bar_color);
+      dataV += "&gdpr-cookie-text-color=" + encodeURIComponent(that.cookie_text_color);
+      dataV += "&gdpr-cookie-bar-opacity=" + encodeURIComponent(that.cookie_bar_opacity);
+      dataV += "&gdpr-cookie-bar-border-width=" + encodeURIComponent(that.cookie_bar_border_width);
+      dataV += "&gdpr-cookie-border-style=" + encodeURIComponent(that.border_style);
+      dataV += "&gdpr-cookie-border-color=" + encodeURIComponent(that.cookie_border_color);
+      dataV += "&gdpr-cookie-bar-border-radius=" + encodeURIComponent(that.cookie_bar_border_radius);
+      dataV += "&gdpr-cookie-font=" + encodeURIComponent(that.cookie_font);
+      dataV += "&gdpr-cookie-accept-background-color=" + encodeURIComponent(that.accept_background_color);
+      dataV += "&gdpr-cookie-accept-border-color=" + encodeURIComponent(that.accept_border_color);
+      dataV += "&gdpr-cookie-decline-text-color=" + encodeURIComponent(that.decline_text_color);
+      dataV += "&gdpr-cookie-decline-border-color=" + encodeURIComponent(that.decline_border_color);
+      dataV += "&gdpr-cookie-settings-text-color=" + encodeURIComponent(that.settings_text_color);
+      dataV += "&gdpr-cookie-settings-border-color=" + encodeURIComponent(that.settings_border_color);
+      dataV += "&gdpr-cookie-settings-background-color=" + encodeURIComponent(that.settings_background_color);
+      dataV += "&gdpr-cookie-decline-background-color=" + encodeURIComponent(that.decline_background_color);
+      dataV += "&gdpr-cookie-decline-border-style=" + encodeURIComponent(that.decline_style);
+      dataV += "&gdpr-cookie-decline-border-width=" + encodeURIComponent(that.decline_border_width);
+      dataV += "&gdpr-cookie-settings-border-style=" + encodeURIComponent(that.settings_style);
+      dataV += "&gdpr-cookie-settings-border-width=" + encodeURIComponent(that.settings_border_width);
+      dataV += "&gdpr-cookie-accept-opacity=" + encodeURIComponent(that.accept_opacity);
+      dataV += "&gdpr-cookie-accept-border-style=" + encodeURIComponent(that.accept_style);
+      dataV += "&gdpr-cookie-accept-border-width=" + encodeURIComponent(that.accept_border_width);
+      dataV += "&gdpr-cookie-accept-border-radius=" + encodeURIComponent(that.accept_border_radius);
+      dataV += "&gdpr-cookie-accept-text-color=" + encodeURIComponent(that.accept_text_color);
+      dataV += "&gcc-readmore-link-color=" + encodeURIComponent(that.button_readmore_link_color);
+      dataV += "&gcc-readmore-button-color=" + encodeURIComponent(that.button_readmore_button_color);
+      dataV += "&gcc-readmore-button-opacity=" + encodeURIComponent(that.button_readmore_button_opacity);
+      dataV += "&gcc-readmore-button-border-style=" + encodeURIComponent(that.button_readmore_button_border_style);
+      dataV += "&gcc-readmore-button-border-width=" + encodeURIComponent(that.button_readmore_button_border_width);
+      dataV += "&gcc-readmore-button-border-color=" + encodeURIComponent(that.button_readmore_button_border_color);
+      dataV += "&gcc-readmore-button-border-radius=" + encodeURIComponent(that.button_readmore_button_border_radius);
+      dataV += "&gcc-readmore-button-size=" + encodeURIComponent(that.button_readmore_button_size);
+      dataV += "&gdpr-cookie-decline-opacity=" + encodeURIComponent(that.decline_opacity);
+      dataV += "&gdpr-cookie-decline-border-radius=" + encodeURIComponent(that.decline_border_radius);
+      dataV += "&gdpr-cookie-decline-size=" + encodeURIComponent(that.decline_size);
+      dataV += "&gdpr-cookie-settings-opacity=" + encodeURIComponent(that.settings_opacity);
+      dataV += "&gdpr-cookie-settings-border-radius=" + encodeURIComponent(that.settings_border_radius);
+      dataV += "&gdpr-cookie-settings-size=" + encodeURIComponent(that.settings_size);
+      dataV += "&gdpr-cookie-confirm-text-color=" + encodeURIComponent(that.confirm_text_color);
+      dataV += "&gdpr-cookie-confirm-background-color=" + encodeURIComponent(that.confirm_background_color);
+      dataV += "&gdpr-cookie-confirm-opacity=" + encodeURIComponent(that.confirm_opacity);
+      dataV += "&gdpr-cookie-confirm-border-style=" + encodeURIComponent(that.confirm_style);
+      dataV += "&gdpr-cookie-confirm-border-color=" + encodeURIComponent(that.confirm_border_color);
+      dataV += "&gdpr-cookie-confirm-border-width=" + encodeURIComponent(that.confirm_border_width);
+      dataV += "&gdpr-cookie-confirm-border-radius=" + encodeURIComponent(that.confirm_border_radius);
+      dataV += "&gdpr-cookie-confirm-size=" + encodeURIComponent(that.confirm_size);
+      dataV += "&gdpr-cookie-cancel-text-color=" + encodeURIComponent(that.cancel_text_color);
+      dataV += "&gdpr-cookie-cancel-background-color=" + encodeURIComponent(that.cancel_background_color);
+      dataV += "&gdpr-cookie-cancel-opacity=" + encodeURIComponent(that.cancel_opacity);
+      dataV += "&gdpr-cookie-cancel-border-style=" + encodeURIComponent(that.cancel_style);
+      dataV += "&gdpr-cookie-cancel-border-color=" + encodeURIComponent(that.cancel_border_color);
+      dataV += "&gdpr-cookie-cancel-border-width=" + encodeURIComponent(that.cancel_border_width);
+      dataV += "&gdpr-cookie-cancel-border-radius=" + encodeURIComponent(that.cancel_border_radius);
+      dataV += "&gdpr-cookie-cancel-size=" + encodeURIComponent(that.cancel_size);
+      dataV += "&gdpr-cookie-opt-out-text-color=" + encodeURIComponent(that.opt_out_text_color);
+      dataV += "&gdpr-cookie-accept-all-text-color=" + encodeURIComponent(that.accept_all_text_color);
+      dataV += "&gdpr-cookie-accept-all-background-color=" + encodeURIComponent(that.accept_all_background_color);
+      dataV += "&gdpr-cookie-accept-all-size=" + encodeURIComponent(that.accept_all_size);
+      dataV += "&gdpr-cookie-accept-all-border-style=" + encodeURIComponent(that.accept_all_style);
+      dataV += "&gdpr-cookie-accept-all-border-color=" + encodeURIComponent(that.accept_all_border_color);
+      dataV += "&gdpr-cookie-accept-all-opacity=" + encodeURIComponent(that.accept_all_opacity);
+      dataV += "&gdpr-cookie-accept-all-border-width=" + encodeURIComponent(that.accept_all_border_width);
+      dataV += "&gdpr-cookie-accept-all-border-radius=" + encodeURIComponent(that.accept_all_border_radius);
+      dataV += "&gcc-revoke-consent-text-color=" + encodeURIComponent(that.button_revoke_consent_text_color);
+      dataV += "&gcc-revoke-consent-background-color=" + encodeURIComponent(that.button_revoke_consent_background_color);
       jQuery
         .ajax({
           type: "POST",

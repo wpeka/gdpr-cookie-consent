@@ -373,8 +373,99 @@ GDPR_CCPA_COOKIE_EXPIRE =
         (browser_consent_version !== null &&
           Number(browser_consent_version) < Number(settings["consent_version"]))
       ) {
+        var self = this;
+        var hideBanner = false;
+
+          if (gdpr_select_pages.length > 0) {
+            for (var id = 0; id < gdpr_select_pages.length; id++) {
+              var pageToHideBanner = gdpr_select_pages[id];
+              if (
+                document.body.classList.contains("page-id-" + pageToHideBanner)
+              ) {
+                hideBanner = true; // Mark that the banner should be hidden on this page
+
+                if (
+                  GDPR.settings.cookie_usage_for == "gdpr" ||
+                  GDPR.settings.cookie_usage_for == "eprivacy" ||
+                  GDPR.settings.cookie_usage_for == "both" ||
+                  GDPR.settings.cookie_usage_for == "lgpd"
+                ) {
+                  var banner = document.getElementById(
+                    "gdpr-cookie-consent-show-again"
+                  );
+                  var insidebanner = document.getElementById(
+                    "gdpr-cookie-consent-bar"
+                  );
+                  if (GDPR.settings.cookie_bar_as == "popup") {
+                    $("#gdpr-popup").gdprmodal("hide");
+                  }
+                  if (banner || insidebanner) {
+                    banner.style.display = "none";
+                    insidebanner.style.display = "none";
+                  }
+                } else if (GDPR.settings.cookie_usage_for == "ccpa") {
+                  if (GDPR.settings.cookie_bar_as == "popup") {
+                    $("#gdpr-popup").gdprmodal("hide");
+                  }
+                  var insidebanner = document.getElementById(
+                    "gdpr-cookie-consent-bar"
+                  );
+                  if (insidebanner) {
+                    insidebanner.style.display = "none";
+                  }
+                }
+                break; // Exit the loop once we find a page that hides the banner
+              }
+            }
+          }
+          function userInteracted() {
+            // Make the AJAX call
+            jQuery.ajax({
+              url: log_obj.ajax_url,
+              type: "POST",
+              data: {
+                action: "gdpr_increase_ignore_rate",
+                security: log_obj.consent_logging_nonce,
+              },
+              success: function (response) {},
+            });
+
+            // Remove the listeners after interaction
+            document.removeEventListener("click", userInteracted);
+            document.removeEventListener("scroll", userInteracted);
+          }
         //display consent banner again
-        this.bar_elm.show();
+        if (this.settings.auto_banner_initialize && !hideBanner) {
+            setTimeout(function () {
+              self.bar_elm.show();
+              jQuery.ajax({
+                url: log_obj.ajax_url,
+                type: "POST",
+                data: {
+                  action: "gdpr_increase_page_view",
+                  security: log_obj.consent_logging_nonce,
+                },
+                success: function (response) {},
+              });
+              document.addEventListener("click", userInteracted);
+              document.addEventListener("scroll", userInteracted);
+            }, this.settings.auto_banner_initialize_delay);
+          }
+
+          if (!this.settings.auto_banner_initialize && !hideBanner) {
+            self.bar_elm.show();
+            jQuery.ajax({
+              url: log_obj.ajax_url,
+              type: "POST",
+              data: {
+                action: "gdpr_increase_page_view",
+                security: log_obj.consent_logging_nonce,
+              },
+              success: function (response) {},
+            });
+            document.addEventListener("click", userInteracted);
+            document.addEventListener("scroll", userInteracted);
+          }
         jQuery.ajax({
           url: log_obj.ajax_url,
           type: "POST",
@@ -1574,7 +1665,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
             this.accept_all_button.css("border", main_border);
             this.accept_all_button.css(
               "border-radius",
-              this.settings.button_accept_all_btn_border_radius1 + "px"
+              this.settings.multiple_legislation_accept_all_border_radius1 + "px"
             );
             this.accept_all_button.css(
               "background-color",

@@ -82,7 +82,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.7.2';
+			$this->version = '3.7.3';
 		}
 		add_action(
 			'current_screen',
@@ -231,6 +231,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gcc_enable_iab', $plugin_admin, 'gdpr_cookie_consent_ajax_enable_iab', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_ab_testing_enable', $plugin_admin, 'gdpr_cookie_consent_ab_testing_enable', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_auto_generated_banner', $plugin_admin, 'gdpr_cookie_consent_ajax_auto_generated_banner', 10, 1 );
@@ -792,6 +793,7 @@ class Gdpr_Cookie_Consent {
 			'button_decline_button_border_style1'    => 'none', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
 			'button_decline_button_border_color1'    => '#333333',
 			'button_decline_button_border_radius1'   => '0', // in pixel.
+			'multiple_legislation_accept_all_border_radius1'   => '0', // in pixel.
 
 			'button_settings_text1'                  => 'Cookie Settings',
 			'button_settings_url1'                   => '#',
@@ -1559,6 +1561,29 @@ class Gdpr_Cookie_Consent {
 						"purposeVendorMap": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]	
 					}';
 		return json_decode($newvendors);
+		
+	}
+
+	public static function gdpr_get_all_vendors(){
+		$vendors = new stdClass();
+		$vendors = get_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR );
+		if( gettype($vendors) === "boolean"){
+			$vendors = new stdClass();
+			$vendors->vendors = new stdClass();
+			$vendors->purposes =  new stdClass();
+			$vendors->purposeVendorMap = new stdClass();
+			$vendors->purposeVendorCount = 0;
+			$vendors->legintPurposeVendorCount = 0;
+			$vendors->specialPurposes = new stdClass();
+			$vendors->specialPurposeVendorCount = 0;
+			$vendors->features = new stdClass();
+			$vendors->featureVendorCount = 0;
+			$vendors->specialFeatures = new stdClass();
+			$vendors->specialFeatureVendorCount = 0;
+			$vendors->allvendors = "";
+
+		} 
+		return $vendors;
 	}
 	/**
 	 * Get Vendor Data.
@@ -1772,6 +1797,7 @@ class Gdpr_Cookie_Consent {
 			'button_accept_button_border_radius1'    => $settings['button_accept_button_border_radius1'],
 			'button_accept_all_btn_border_radius1'   => $settings['button_accept_all_btn_border_radius1'],
 			'button_decline_button_border_radius1'   => $settings['button_decline_button_border_radius1'],
+			'multiple_legislation_accept_all_border_radius1'   => $settings['multiple_legislation_accept_all_border_radius1'],
 			'button_settings_button_border_radius1'  => $settings['button_settings_button_border_radius1'],
 			'button_confirm_button_border_radius1'   => $settings['button_confirm_button_border_radius1'],
 			'button_cancel_button_border_radius1'    => $settings['button_cancel_button_border_radius1'],

@@ -432,6 +432,10 @@ jQuery(document).ready(function () {
       window.location.href = pluginsPageURL;
       location.reload();
     });
+    setTimeout(function(){
+      $(".gdpr-start-auth").on("click", gdprStartAuth);
+      $(".gdpr-dashboard-start-auth").on("click", gdprStartAuth);
+    }, 3000);  
   });
   // connection overlay in compliance settings.
   jQuery(document).ready(function () {

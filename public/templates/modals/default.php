@@ -8,7 +8,7 @@
  * @subpackage Gdpr_Cookie_Consent/public
  */
 
-	$data = Gdpr_Cookie_Consent::gdpr_get_vendors();
+	$data = Gdpr_Cookie_Consent::gdpr_get_all_vendors();
 	$gacm_data = Gdpr_Cookie_Consent::gdpr_get_gacm_vendors();
 	$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
 	$consent_data = isset( $iabtcf_consent_data["consent"] ) ? $iabtcf_consent_data["consent"] : [];
