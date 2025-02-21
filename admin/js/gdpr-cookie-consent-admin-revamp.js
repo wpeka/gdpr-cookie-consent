@@ -1451,3 +1451,26 @@ document.addEventListener("DOMContentLoaded", function () {
     '#wp-admin-bar-nexcess-mapps-delete-expired-transients input[id="nonce"]'
   ).attr("id", "nonce-delete-expired-transients");
 });
+document.addEventListener("DOMContentLoaded", alignSideBar);
+function alignSideBar(){
+  let element = document.querySelector(".gdpr-sub-tabs");
+
+  function updateTopBasedOnTab(tabValue) {
+        if (["create_cookie_banner","consent_logs", "data_request", "policy_data"].includes(tabValue)) {
+            element.style.top = "110px";
+        } else {
+            element.style.top = "200px"; // Default value
+        }
+    }
+    // Get the hash (part after #)
+    let urlParts = window.location.href.split("#");
+    let lastHash = urlParts.length > 1 ? urlParts[urlParts.length - 1] : "";
+    updateTopBasedOnTab(lastHash);
+
+    document.querySelectorAll(".gdpr-sub-tabs .gdpr-cookie-consent-admin-tab").forEach(tab => {
+        tab.addEventListener("click", function () {
+            let tabValue = this.getAttribute("data-tab");
+            updateTopBasedOnTab(tabValue);
+        });
+    });
+}
