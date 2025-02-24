@@ -25,6 +25,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	 * @var array $errors Display errors.
 	 */
 	private static $errors = array();
+	public $settings;
 	/**
 	 * Gdpr_Cookie_Consent_Geo_Ip constructor.
 	 *
@@ -32,8 +33,17 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	 */
 	public function __construct() {
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
-			add_action( 'gdpr_settings_ab_testing_tab', array( $this, 'wp_settings_ab_testing_tab' ) );
+			add_action( 'wp_ajax_wpl_ab_testing_tab', array( $this, 'wp_settings_ab_testing_tab' ) );
+			add_action('admin_enqueue_scripts', array($this, 'register_ab_testing_script'));
 		}
+	}
+	public function register_ab_testing_script(){
+		//getting scan data 
+		wp_enqueue_script('ab_testing_ajax', plugin_dir_url(__FILE__) . 'assets/js/ab-testing-data.js', array('jquery'), '1.0', true);
+
+		wp_localize_script('ab_testing_ajax', 'ab_testing_ajax', array(
+			'ajax_url'         => admin_url( 'admin-ajax.php' )
+		));
 	}
 	/**
 	 * A/B Testing page
@@ -42,7 +52,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	 */
 	public function wp_settings_ab_testing_tab() {
 		?>
-		<c-tab title="<?php esc_attr_e( 'A/B Testing', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#ab_testing" id="gdpr-cookie-consent-ab-testing">
+		
 		<?php
 				$pro_is_activated  = get_option( 'wpl_pro_active', false );
 				$installed_plugins = get_plugins();
@@ -52,7 +62,6 @@ class Gdpr_Cookie_Consent_AB_Testing {
 				// Require the class file for gdpr cookie consent api framework settings.
 				require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 				$check_for_ab_testing_transient = get_transient( 'gdpr_ab_testing_transient' );
-				
 				$ab_options = get_option('wpl_ab_options');
 
 				// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
@@ -79,7 +88,22 @@ class Gdpr_Cookie_Consent_AB_Testing {
 						$days = floor($remaining_time / 86400);
 						$hours = floor(($remaining_time % 86400) / 3600);
 					} 
-				}
+				}$banner1_noChoice  = array_key_exists( 'noChoice1', $ab_options ) ? $ab_options['noChoice1'] : 0;
+				$banner2_noChoice  = array_key_exists( 'noChoice2', $ab_options ) ? $ab_options['noChoice2'] : 0;
+				$banner1_accept  = array_key_exists( 'accept1', $ab_options ) ? $ab_options['accept1'] : 0;
+				$banner2_accept  = array_key_exists( 'accept2', $ab_options ) ? $ab_options['accept2'] : 0;
+				$banner1_acceptAll  = array_key_exists( 'acceptAll1', $ab_options ) ? $ab_options['acceptAll1'] : 0;
+				$banner2_acceptAll  = array_key_exists( 'acceptAll2', $ab_options ) ? $ab_options['acceptAll2'] : 0;
+				$banner1_reject  = array_key_exists( 'reject1', $ab_options ) ? $ab_options['reject1'] : 0;
+				$banner2_reject  = array_key_exists( 'reject2', $ab_options ) ? $ab_options['reject2'] : 0;
+				$banner1_bypass  = array_key_exists( 'bypass1', $ab_options ) ? $ab_options['bypass1'] : 0;
+				$banner2_bypass  = array_key_exists( 'bypass2', $ab_options ) ? $ab_options['bypass2'] : 0;
+				$positive_percentage1 = ($banner1_accept + $banner1_acceptAll) / (($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) > 0 ? ($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) : 1);
+				$positive_percentage2 = ($banner2_accept + $banner2_acceptAll) / (($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) > 0 ? ($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) : 1);
+				$negative_percentage1 = ($banner1_reject + $banner1_bypass + $banner1_noChoice) / (($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) > 0 ? ($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) : 1);
+				$negative_percentage2 = ($banner2_reject + $banner2_bypass + $banner2_noChoice) / (($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) > 0 ? ($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) : 1);
+				$banner1_performance = $positive_percentage1 - $negative_percentage1;
+				$banner2_performance = $positive_percentage2 - $negative_percentage2; 
 				if ( ! defined( 'ABSPATH' ) ) {
 					exit;
 				}
@@ -99,6 +123,13 @@ class Gdpr_Cookie_Consent_AB_Testing {
 								'days'             		  => isset($days)?$days:0,
 								'hours'        		      => isset($hours)?$hours:0,
 								'cookie_usage_for'		  => $the_options['cookie_usage_for'],
+								'cookie_bar1_name'		  => isset($the_options['cookie_bar1_name']) ? $the_options['cookie_bar1_name'] : '',
+								'cookie_bar2_name'		  => isset($the_options['cookie_bar2_name']) ? $the_options['cookie_bar2_name'] : '',
+								'positive_percentage1'    => $positive_percentage1,
+								'positive_percentage2'    => $positive_percentage2,
+								'negative_percentage1'	  => $negative_percentage1,
+								'negative_percentage2'	  => $negative_percentage2,
+
 							),
 						)
 					);
@@ -108,13 +139,12 @@ class Gdpr_Cookie_Consent_AB_Testing {
 
 			 	$response_status = wp_remote_retrieve_response_code( $response_ab_testing );
 
-				if ( 200 === $response_status ) {
-					$ab_testing_text = json_decode( wp_remote_retrieve_body( $response_ab_testing ) );
-				}
-				?>
-			 	<?php
-					// The data is coming from the SaaS server, so it is not user-generated.
-					echo $ab_testing_text; // phpcs:ignore?> 
+				if (200 === $response_status) {
+				$ab_testing_text = json_decode(wp_remote_retrieve_body($response_ab_testing));
+				wp_send_json_success(['html' => $ab_testing_text]);
+			} else {
+				wp_send_json_error(['message' => __('Failed to retrieve data from server.', 'gdpr-cookie-consent')]);
+			} ?>
 		</c-tab>
 		<?php
 	}

@@ -1,6 +1,6 @@
 {
   "name": "gdpr-cookie-consent",
-  "version": "3.7.1",
+  "version": "3.7.4",
   "main": "Gruntfile.js",
   "author": "WPeka",
   "devDependencies": {

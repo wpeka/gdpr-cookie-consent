@@ -426,12 +426,20 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 			else if($user_preference == "reject"){
 				$ab_option["noChoice1"]--;
+				$ab_option["reject1"]++;
+			}
+			else if($user_preference == "bypass"){
+				$ab_option["bypass1"]++;
+				$ab_option["noChoice1"]--;
 			}
 			else{
+				$count = 0;
 				foreach($user_preference as $category => $value){
-					if($value == "yes" && ($category == "necessary" || $category == "marketing" || $category == "analytics"|| $category == "DNT")) $ab_option[$category."1"]++;
+					if($value == "yes" && ($category == "necessary" || $category == "marketing" || $category == "analytics"|| $category == "unclassified" || $category == "preferences")) $count++;
 				}
-				if($category != "DNT") $ab_option["noChoice1"]--;
+				if($count == 5) $ab_option['acceptAll1']++;
+				else $ab_option['accept1']++;
+				$ab_option["noChoice1"]--;
 			}
 		}
 		else{
@@ -440,12 +448,20 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 			else if($user_preference == "reject"){
 				$ab_option["noChoice2"]--;
+				$ab_option["reject2"]++;
+			}
+			else if($user_preference == "bypass"){
+				$ab_option["bypass2"]++;
+				$ab_option["noChoice2"]--;
 			}
 			else{
+				$count = 0;
 				foreach($user_preference as $category => $value){
-					if($value == "yes" && ($category == "necessary" || $category == "marketing" || $category == "analytics"|| $category == "DNT")) $ab_option[$category."2"]++;
+					if($value == "yes" && ($category == "necessary" || $category == "marketing" || $category == "analytics"|| $category == "unclassified" || $category == "preferences")) $count++;
 				}
-				if($category != "DNT") $ab_option["noChoice2"]--;
+				if($count == 5) $ab_option['acceptAll2']++;
+				else $ab_option['accept2']++;
+				$ab_option["noChoice2"]--;
 			}
 		}
 		update_option('wpl_ab_options',$ab_option);
@@ -536,7 +552,22 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									$wpl_cookie_details[ $key ] = $val;
 								}
 								if ( strpos( $key, 'wpl_tc_string' ) !== false) {
-									$wpl_cookie_details['wpl_tc_string'] = $val;
+									if($settings['is_iabtcf_on'] === "true" || $settings['is_iabtcf_on'] === true || $settings['is_iabtcf_on'] === 1){
+										$wpl_cookie_details['wpl_tc_string'] = $val;
+									}
+									else{
+										$wpl_cookie_details['wpl_tc_string'] = "";
+									}
+									
+								}
+								if ( strpos( $key, 'IABTCF_AddtlConsent' ) !== false) {
+									if($settings['is_gacm_on'] === "true" || $settings['is_gacm_on'] === true || $settings['is_gacm_on'] === 1){
+										$wpl_cookie_details['Additional_Consent_String'] = $val;
+									}
+									else{
+										$wpl_cookie_details['Additional_Consent_String'] = "";
+									}
+									
 								}
 							}
 							$wpl_cookie_details['wpl_viewed_cookie'] = $js_cookie_list['wpl_viewed_cookie'];

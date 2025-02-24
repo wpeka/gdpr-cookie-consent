@@ -342,10 +342,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<!-- logo image for popup -->
 									<div v-show="!['popup-grey_column','popup-almond_column'].includes(popup_template)" class="gdpr_logo_container">
 									<?php
-										$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-									if ( ! empty( $get_banner_img ) ) {
+										$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+										if ( ! empty( $get_banner_img1 ) ) {
 										?>
-										<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+										<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 											<?php
 									}
 									?>
@@ -355,10 +355,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<!-- logo image for popup -->
 										<div v-show="['popup-grey_column','popup-almond_column'].includes(popup_template)" class="gdpr_logo_container">
 										<?php
-											$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-										if ( ! empty( $get_banner_img ) ) {
+											$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+											if ( ! empty( $get_banner_img1 ) ) {
 											?>
-											<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+											<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 												<?php
 										}
 										?>
@@ -440,10 +440,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				<!-- logo image for banner and widget  -->
 				<div v-show="!['banner-grey_column','banner-almond_column','widget-grey_column','widget-almond_column'].includes(banner_template)" class="gdpr_logo_container">
 					<?php
-						$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-					if ( ! empty( $get_banner_img ) ) {
+						$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+						if ( ! empty( $get_banner_img1 ) ) {
 						?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 							<?php
 					}
 					?>
@@ -452,10 +452,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				<div class="group-description-preview" tabindex="0" :class="{'ccpa-group-description': is_ccpa && gdpr_policy != 'both' }">
 					<div v-show="['banner-grey_column','banner-almond_column','widget-grey_column','widget-almond_column'].includes(banner_template)" class="gdpr_logo_container">
 					<?php
-						$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-					if ( ! empty( $get_banner_img ) ) {
+						$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1);
+						if ( ! empty( $get_banner_img1 ) ) {
 						?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 							<?php
 					}
 					?>
@@ -542,10 +542,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<!-- logo image for popup -->
 									<div v-show="!['popup-grey_column','popup-almond_column'].includes(popup_template)" class="gdpr_logo_container">
 									<?php
-										$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-									if ( ! empty( $get_banner_img ) ) {
+										$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+										if ( ! empty( $get_banner_img2 ) ) {
 										?>
-										<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+										<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
 											<?php
 									}
 									?>
@@ -555,10 +555,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<!-- logo image for popup -->
 										<div v-show="['popup-grey_column','popup-almond_column'].includes(popup_template)" class="gdpr_logo_container">
 										<?php
-											$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-										if ( ! empty( $get_banner_img ) ) {
+											$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+											if ( ! empty( $get_banner_img2 ) ) {
 											?>
-											<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+											<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
 												<?php
 										}
 										?>
@@ -640,10 +640,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<!-- logo image for banner and widget  -->
 					<div v-show="!['banner-grey_column','banner-almond_column','widget-grey_column','widget-almond_column'].includes(banner_template)" class="gdpr_logo_container">
 					<?php
-						$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-					if ( ! empty( $get_banner_img ) ) {
+						$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+						if ( ! empty( $get_banner_img2 ) ) {
 						?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
 							<?php
 					}
 					?>
@@ -652,10 +652,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<div class="group-description-preview" tabindex="0" :class="{'ccpa-group-description': is_ccpa && gdpr_policy != 'both' }">
 						<div v-show="['banner-grey_column','banner-almond_column','widget-grey_column','widget-almond_column'].includes(banner_template)" class="gdpr_logo_container">
 						<?php
-							$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-						if ( ! empty( $get_banner_img ) ) {
+							$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+							if ( ! empty( $get_banner_img2 ) ) {
 							?>
-							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
 								<?php
 						}
 						?>
@@ -739,10 +739,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<!-- logo image for popup -->
 									<div v-show="!['popup-grey_column','popup-almond_column'].includes(popup_template)" class="gdpr_logo_container">
 									<?php
-										$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-									if ( ! empty( $get_banner_img ) ) {
+										$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+										if ( ! empty( $get_banner_img1) ) {
 										?>
-										<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+										<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 											<?php
 									}
 									?>
@@ -751,10 +751,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<!-- logo image for popup -->
 										<div v-show="['popup-grey_column','popup-almond_column'].includes(popup_template)" class="gdpr_logo_container">
 										<?php
-											$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-										if ( ! empty( $get_banner_img ) ) {
+											$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+											if ( ! empty( $get_banner_img1) ) {
 											?>
-											<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+											<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 												<?php
 										}
 										?>
@@ -790,7 +790,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<a v-show="cookie_accept_on1 && popup_template != 'popup-navy_blue_square'" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button1,'button-as-link':!accept_as_button1,  'btn-lg': accept_as_button1 && accept_size1 === 'large','btn-sm': accept_as_button1 && accept_size1 === 'small','widget-accept-preview': show_cookie_as == 'widget','popup-accept-preview': show_cookie_as == 'popup' }" aria-label="Accept" href="#":style="{ color:accept_text_color1,'border-style': accept_style1, 'border-width': accept_as_button1 ? accept_border_width1 + 'px':'0', 'border-color': accept_border_color1, 'border-radius': accept_border_radius1+'px','background-color': accept_as_button1 ? `${accept_background_color1}${Math.floor(accept_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font1
 											}" >{{ accept_text1 }}</a>
 											<!-- accept all button preview configuration  -->
-											<a v-show="cookie_accept_all_on1 && popup_template != 'popup-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button1,'button-as-link':!accept_all_as_button1,  'btn-lg': accept_all_as_button1 && accept_all_size1 === 'large','btn-sm': accept_all_as_button1 && accept_all_size1 === 'small','widget-accept-all-preview': show_cookie_as == 'widget','popup-accept-all-preview': show_cookie_as == 'popup' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color1,'border-style': accept_all_style1, 'border-width': accept_all_as_button1 ? accept_all_border_width1 + 'px':'0', 'border-color': accept_all_border_color1, 'border-radius': accept_all_border_radius1+'px','background-color': accept_all_as_button1 ? `${accept_all_background_color1}${Math.floor(accept_all_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font1
+											<a v-show="cookie_accept_all_on1 && popup_template != 'popup-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button1,'button-as-link':!accept_all_as_button1,  'btn-lg': accept_all_as_button1 && accept_all_size1 === 'large','btn-sm': accept_all_as_button1 && accept_all_size1 === 'small','widget-accept-all-preview': show_cookie_as == 'widget','popup-accept-all-preview': show_cookie_as == 'popup' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color1,'border-style': accept_all_style1, 'border-width': accept_all_as_button1 ? accept_all_border_width1 + 'px':'0', 'border-color': accept_all_border_color1, 'border-radius': multiple_legislation_accept_all_border_radius1+'px','background-color': accept_all_as_button1 ? `${accept_all_background_color1}${Math.floor(accept_all_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font1
 											}"  >{{ accept_all_text1 }}</a>
 											<!-- Decline button preview configuration  -->
 											<a v-show="cookie_decline_on1 && popup_template != 'popup-navy_blue_square'" id="cookie_action_reject_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': decline_as_button1,'button-as-link':!decline_as_button1,  'btn-lg': decline_as_button1 && decline_size1 === 'large','btn-sm': decline_as_button1 && decline_size1 === 'small','widget-decline-preview': show_cookie_as == 'widget','popup-decline-preview': show_cookie_as == 'popup' }" aria-label="Reject"
@@ -811,7 +811,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<a v-show="cookie_accept_on1 && popup_template == 'popup-navy_blue_square'" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button1,'button-as-link':!accept_as_button1,  'btn-lg': accept_as_button1 && accept_size1 === 'large','btn-sm': accept_as_button1 && accept_size1 === 'small','widget-accept-preview': show_cookie_as == 'widget','popup-accept-preview': show_cookie_as == 'popup' }" aria-label="Accept" href="#":style="{ color:accept_text_color1,'border-style': accept_style1, 'border-width': accept_as_button1 ? accept_border_width1 + 'px':'0', 'border-color': accept_border_color1, 'border-radius': accept_border_radius1+'px','background-color': accept_as_button1 ? `${accept_background_color1}${Math.floor(accept_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font1
 											}" >{{ accept_text1 }}</a>
 											<!-- accept all  -->
-											<a v-show="cookie_accept_all_on1 && popup_template == 'popup-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button1,'button-as-link':!accept_all_as_button1, 'btn-lg': accept_all_as_button1 && accept_all_size1 === 'large','btn-sm': accept_all_as_button1 && accept_all_size1 === 'small','widget-accept-all-preview': show_cookie_as == 'widget','popup-accept-all-preview': show_cookie_as == 'popup' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color1,'border-style': accept_all_style1, 'border-width': accept_all_as_button1 ? accept_all_border_width1 + 'px':'0', 'border-color': accept_all_border_color1, 'border-radius': accept_all_border_radius1+'px','background-color': accept_all_as_button1 ? `${accept_all_background_color1}${Math.floor(accept_all_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font1
+											<a v-show="cookie_accept_all_on1 && popup_template == 'popup-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button1,'button-as-link':!accept_all_as_button1, 'btn-lg': accept_all_as_button1 && accept_all_size1 === 'large','btn-sm': accept_all_as_button1 && accept_all_size1 === 'small','widget-accept-all-preview': show_cookie_as == 'widget','popup-accept-all-preview': show_cookie_as == 'popup' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color1,'border-style': accept_all_style1, 'border-width': accept_all_as_button1 ? accept_all_border_width1 + 'px':'0', 'border-color': accept_all_border_color1, 'border-radius': multiple_legislation_accept_all_border_radius1+'px','background-color': accept_all_as_button1 ? `${accept_all_background_color1}${Math.floor(accept_all_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: cookie_font1
 											}"  >{{ accept_all_text1 }}</a>
 									</div>
 							</div>
@@ -829,10 +829,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<!-- logo image for banner and widget  -->
 					<div v-show="!['banner-grey_column','banner-almond_column','widget-grey_column','widget-almond_column'].includes(banner_template)" class="gdpr_logo_container">
 					<?php
-						$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-					if ( ! empty( $get_banner_img ) ) {
+						$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+						if ( ! empty( $get_banner_img1 ) ) {
 						?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 							<?php
 					}
 					?>
@@ -840,10 +840,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<div class="group-description-preview" tabindex="0" :class="{'ccpa-group-description': is_ccpa && gdpr_policy != 'both' }">
 						<div v-show="['banner-grey_column','banner-almond_column','widget-grey_column','widget-almond_column'].includes(banner_template)" class="gdpr_logo_container">
 						<?php
-							$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-						if ( ! empty( $get_banner_img ) ) {
+							$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+							if ( ! empty( $get_banner_img1 ) ) {
 							?>
-							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 								<?php
 						}
 						?>
@@ -866,7 +866,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<a v-show="cookie_accept_on1 && widget_template != 'widget-navy_blue_square'" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button1,'button-as-link':!accept_as_button1,  'btn-lg': accept_as_button1 && accept_size1 === 'large','btn-sm': accept_as_button1 && accept_size1 === 'small','widget-accept-preview': show_cookie_as == 'widget' }" aria-label="Accept" href="#":style="{ color:accept_text_color1,'border-style': accept_style1, 'border-width': accept_as_button1 ? accept_border_width1 + 'px':'0', 'border-color': accept_border_color1, 'border-radius': accept_border_radius1+'px','background-color': accept_as_button1 ? `${accept_background_color1}${Math.floor(accept_opacity1 * 255).toString(16).toUpperCase()}`:'transparent',fontFamily: multiple_legislation_cookie_font1
 							}" >{{ accept_text1 }}</a>
 							<!-- accept all button preview configuration  -->
-							<a v-show="cookie_accept_all_on1 && widget_template != 'widget-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button1,'button-as-link':!accept_all_as_button1,  'btn-lg': accept_all_as_button1 && accept_all_size1 === 'large','btn-sm': accept_all_as_button1 && accept_all_size1 === 'small','widget-accept-all-preview': show_cookie_as == 'widget' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color1,'border-style': accept_all_style1, 'border-width': accept_all_as_button1 ? accept_all_border_width1 + 'px':'0', 'border-color': accept_all_border_color1, 'border-radius': accept_all_border_radius1+'px','background-color': accept_all_as_button1 ? `${accept_all_background_color1}${Math.floor(accept_all_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: multiple_legislation_cookie_font1
+							<a v-show="cookie_accept_all_on1 && widget_template != 'widget-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button1,'button-as-link':!accept_all_as_button1,  'btn-lg': accept_all_as_button1 && accept_all_size1 === 'large','btn-sm': accept_all_as_button1 && accept_all_size1 === 'small','widget-accept-all-preview': show_cookie_as == 'widget' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color1,'border-style': accept_all_style1, 'border-width': accept_all_as_button1 ? accept_all_border_width1 + 'px':'0', 'border-color': accept_all_border_color1, 'border-radius': multiple_legislation_accept_all_border_radius1+'px','background-color': accept_all_as_button1 ? `${accept_all_background_color1}${Math.floor(accept_all_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: multiple_legislation_cookie_font1
 							}"  >{{ accept_all_text1 }}</a>
 							<!-- Decline button preview configuration  -->
 							<a v-show="cookie_decline_on1 && widget_template != 'widget-navy_blue_square'" id="cookie_action_reject_preview" class="gdpr_action_button_preview btn" :class="{ 'btn': decline_as_button1,'button-as-link':!decline_as_button1,  'btn-lg': decline_as_button1 && decline_size1 === 'large','btn-sm': decline_as_button1 && decline_size1 === 'small','widget-decline-preview': show_cookie_as == 'widget' }" aria-label="Reject"
@@ -887,7 +887,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<a v-show="cookie_accept_on1 && widget_template == 'widget-navy_blue_square'" id="cookie_action_accept_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_as_button1,'button-as-link':!accept_as_button1,  'btn-lg': accept_as_button1 && accept_size1 === 'large','btn-sm': accept_as_button1 && accept_size1 === 'small','widget-accept-preview': show_cookie_as == 'widget' }" aria-label="Accept" href="#":style="{ color:accept_text_color1,'border-style': accept_style1, 'border-width': accept_as_button1 ? accept_border_width1 + 'px':'0', 'border-color': accept_border_color1, 'border-radius': accept_border_radius1+'px','background-color': accept_as_button1 ? `${accept_background_color1}${Math.floor(accept_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: multiple_legislation_cookie_font1
 							}" >{{ accept_text1 }}</a>
 							<!-- accept all  -->
-							<a v-show="cookie_accept_all_on1 && widget_template == 'widget-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button1,'button-as-link':!accept_all_as_button1,  'btn-lg': accept_all_as_button1 && accept_all_size1 === 'large','btn-sm': accept_all_as_button1 && accept_all_size1 === 'small','widget-accept-all-preview': show_cookie_as == 'widget' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color1,'border-style': accept_all_style1, 'border-width': accept_all_as_button1 ? accept_all_border_width1 + 'px':'0', 'border-color': accept_all_border_color1, 'border-radius': accept_all_border_radius1+'px','background-color': accept_all_as_button1 ? `${accept_all_background_color1}${Math.floor(accept_all_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: multiple_legislation_cookie_font1
+							<a v-show="cookie_accept_all_on1 && widget_template == 'widget-navy_blue_square'" id="cookie_action_accept_all_preview" class="gdpr_action_button_preview" :class="{ 'btn': accept_all_as_button1,'button-as-link':!accept_all_as_button1,  'btn-lg': accept_all_as_button1 && accept_all_size1 === 'large','btn-sm': accept_all_as_button1 && accept_all_size1 === 'small','widget-accept-all-preview': show_cookie_as == 'widget' }" aria-label="Accept All" href="#" :style="{ color:accept_all_text_color1,'border-style': accept_all_style1, 'border-width': accept_all_as_button1 ? accept_all_border_width1 + 'px':'0', 'border-color': accept_all_border_color1, 'border-radius': multiple_legislation_accept_all_border_radius1+'px','background-color': accept_all_as_button1 ? `${accept_all_background_color1}${Math.floor(accept_all_opacity1 * 255).toString(16).toUpperCase()}`:'transparent'  ,fontFamily: multiple_legislation_cookie_font1
 							}"  >{{ accept_all_text1 }}</a>
 					</div>
 				</div>
@@ -909,10 +909,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<!-- logo image for popup -->
 									<div v-show="!['popup-grey_column','popup-almond_column'].includes(popup_template)" class="gdpr_logo_container">
 									<?php
-										$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-									if ( ! empty( $get_banner_img ) ) {
+										$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+										if ( ! empty( $get_banner_img1 ) ) {
 										?>
-										<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+										<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 											<?php
 									}
 									?>
@@ -921,10 +921,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<!-- logo image for popup -->
 										<div v-show="['popup-grey_column','popup-almond_column'].includes(popup_template)" class="gdpr_logo_container">
 										<?php
-											$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-										if ( ! empty( $get_banner_img ) ) {
+											$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+											if ( ! empty( $get_banner_img1 ) ) {
 											?>
-											<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+											<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 												<?php
 										}
 										?>
@@ -945,10 +945,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<!-- logo image for banner and widget  -->
 					<div v-show="!['banner-grey_column','banner-almond_column','widget-grey_column','widget-almond_column'].includes(banner_template)" class="gdpr_logo_container">
 					<?php
-						$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-					if ( ! empty( $get_banner_img ) ) {
+						$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+						if ( ! empty( $get_banner_img1 ) ) {
 						?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 							<?php
 					}
 					?>
@@ -956,10 +956,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<div class="group-description-preview" tabindex="0" :class="{'ccpa-group-description': is_ccpa && gdpr_policy != 'both' }">
 						<div v-show="['banner-grey_column','banner-almond_column','widget-grey_column','widget-almond_column'].includes(banner_template)" class="gdpr_logo_container">
 						<?php
-							$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-						if ( ! empty( $get_banner_img ) ) {
+							$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+							if ( ! empty( $get_banner_img1 ) ) {
 							?>
-							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
 								<?php
 						}
 						?>
@@ -1041,6 +1041,33 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-switch v-bind="labelIcon" v-model="iabtcf_is_on" id="gdpr-cookie-consent-iabtcf-on" variant="3d"  color="success" :checked="iabtcf_is_on" v-on:update:checked="onSwitchIabtcfEnable"></c-switch>
 										<input type="hidden" name="gcc-iabtcf-enable" v-model="iabtcf_is_on">
 									</c-col>
+								</c-row>
+								<c-row v-show="is_gdpr && iabtcf_is_on">
+									<?php if($api_user_plan == "10sites" || $api_user_plan == "3sites" || $api_user_plan == "10Sites" || $api_user_plan == "3Sites") { ?>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable"></c-switch>
+										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
+									</c-col>
+									<?php } else if($is_user_connected) { ?>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8 gacm-slider">
+										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable" disabled></c-switch>
+										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
+										<p class=" gdpr-gacm_message-gdpr">
+											<?php esc_attr_e( 'To enable this feature, upgrade to a pro plan', 'gdpr-cookie-consent' ); ?>
+										</p>
+									</c-col>
+									<?php } else { ?>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8 gacm-slider">
+										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable" disabled></c-switch>
+										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
+										<p class=" gdpr-gacm_message-gdpr">
+											<?php esc_attr_e( 'To enable this feature, connect to an account and purchase a paid plan.', 'gdpr-cookie-consent' ); ?>
+										</p>
+									</c-col>
+									<?php }?>
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select the Type of Law', 'gdpr-cookie-consent' ); ?></label></c-col>
@@ -2091,31 +2118,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<?php
 
 							// Add Logo Image 
-							$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-							if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-								if ( ! $is_pro_active ) {
-									?>
-								<c-row>
-									<c-col class="col-sm-4">
-										<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-										<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
-									</c-col>
-									<c-col class="col-sm-8 ">
-										<c-button disabled color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
-											<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
-										</c-button>
-										<c-button disabled color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
-											<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
-										</c-button>
-										<p class="image-upload-notice" style="margin-left: 10px;">
-											<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
-										</p>
-										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder"  class="regular-text"> </c-input>
-									</c-col>
-								</c-row>
-									<?php
-								}
-							} else {
 								?>
 								<c-row>
 									<c-col class="col-sm-4">
@@ -2138,7 +2140,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder"  class="regular-text"> </c-input>
 									</c-col>
 								</c-row>
-							<?php } ?>
 							<!-- Accept Button -->
 							<c-row v-show="is_gdpr || is_eprivacy || is_lgpd">
 								<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Accept Button', 'gdpr-cookie-consent' ); ?></div></c-col>
@@ -3175,55 +3176,28 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</c-row>
 										<?php } ?>
 									<?php
-									$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-									if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-										if ( ! $is_pro_active ) {
-											?>
-									
-									<c-row>
-										<c-col class="col-sm-4">
-											<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-											<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
-										</c-col>
-										<c-col class="col-sm-8 ">
-											<c-button disabled color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
-												<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
-											</c-button>
-											<c-button disabled color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
-												<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
-											</c-button>
-											<p class="image-upload-notice" style="margin-left: 10px;">
-												<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
-											</p>
-											<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder1"  class="regular-text"> </c-input>
-										<c-col>
-									</c-row>
-											<?php
-										}
-									} else {
 										?>
 									<c-row>
 									<c-col class="col-sm-4">
-										<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-									</c-col>
-									<c-col class="col-sm-8 ">
-										<c-button color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
-											<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
-										</c-button>
-										<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
-											<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
-										</c-button>
-										<?php
-										$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-										?>
-										<img id="gdpr-cookie-bar-logo-holder1" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
-										<p class="image-upload-notice" style="margin-left: 10px; font-size:14px; font-weight:14px;color:#d4d4d8;">
-											<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
-										</p>
-										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder1"  class="regular-text"> </c-input>
+											<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+											</c-col>
+											<c-col class="col-sm-8 ">
+												<c-button color="info" class="button" id="image-upload-button" name="image-upload-buttonML1" @click="openMediaModalML1" style="margin: 10px;">
+													<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
+												</c-button>
+												<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimageML1" style="margin: 10px; ">
+													<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
+												</c-button>
+												<?php
+												$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+												?>
+												<img id="gdpr-cookie-bar-logo-holderML1" name="gdpr-cookie-bar-logo-holderML1" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>">
+												<p class="image-upload-notice" style="margin-left: 10px;">
+													<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
+												</p>
+												<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holderML1" id="gdpr-cookie-bar-logo-url-holderML1"  class="regular-text"> </c-input>
 									</c-col>
 								</c-row>
-									<?php } ?>
 								</c-card-body>
 								
 								<c-card v-show="is_gdpr || is_eprivacy || is_lgpd">
@@ -4009,55 +3983,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												</c-col>
 											</c-row>
 										<?php } ?>
-									<?php
-									$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-									if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-										if ( ! $is_pro_active ) {
-											?>
-										<c-row>
-											<c-col class="col-sm-4">
-												<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-												<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
-											</c-col>
-											<c-col class="col-sm-8 ">
-												<c-button disabled color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
-													<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
-												</c-button>
-												<c-button disabled color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
-													<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
-												</c-button>
-												<p class="image-upload-notice" style="margin-left: 10px;">
-													<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
-												</p>
-												<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder2"  class="regular-text"> </c-input>
-											</c-col>
-										</c-row>
-											<?php
-										}
-									} else {
-										?>
 										<c-row>
 											<c-col class="col-sm-4">
 												<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 											</c-col>
 											<c-col class="col-sm-8 ">
-												<c-button color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
-													<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
-												</c-button>
-												<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
-													<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
-												</c-button>
-												<?php
-												$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-												?>
-												<img id="gdpr-cookie-bar-logo-holder2" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
-												<p class="image-upload-notice" style="margin-left: 10px;">
-													<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
-												</p>
-												<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder2"  class="regular-text"> </c-input>
+											<span><?php echo esc_attr_e("The same logo will be used for both laws.");  ?></span>
 											</c-col>
 										</c-row>
-									<?php } ?>
 									<c-card  v-show="is_ccpa">
 								<c-card-header class="gdpr-cookie-consent-design-subheading"><?php esc_html_e( 'Confirm Button', 'gdpr-cookie-consent' ); ?></c-card-header>
 								<c-card-body>
@@ -4514,55 +4447,27 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</c-col>
 										</c-row>
 									<?php } ?>
-								<?php
-								$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-								if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-									if ( ! $is_pro_active ) {
-										?>
-							<c-row>
-								<c-col class="col-sm-4">
-									<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-									<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
-								</c-col>
-								<c-col class="col-sm-8 ">
-									<c-button disabled color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
-										<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
-									</c-button>
-									<c-button disabled color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
-										<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
-									</c-button>
-									<p class="image-upload-notice" style="margin-left: 10px;">
-										<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
-									</p>
-									<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder1"  class="regular-text"> </c-input>
-								</c-col>
-							</c-row>
-										<?php
-									}
-								} else {
-									?>
 							<c-row>
 								<c-col class="col-sm-4">
 									<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 								</c-col>
 								<c-col class="col-sm-8 ">
-									<c-button color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
+								<c-button color="info" class="button" id="image-upload-button1" name="image-upload-button1" @click="openMediaModal1" style="margin: 10px;">
 										<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
 									</c-button>
-									<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
+									<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage1" style="margin: 10px; ">
 										<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
 									</c-button>
 									<?php
-									$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+								$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
 									?>
-									<img id="gdpr-cookie-bar-logo-holder1" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
+									<img id="gdpr-cookie-bar-logo-holder1" name="gdpr-cookie-bar-logo-holder1" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>">
 									<p class="image-upload-notice" style="margin-left: 10px; font-size:14px; font-weight:14px;color:#d4d4d8;">
 										<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 									</p>
-									<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder1"  class="regular-text"> </c-input>
+									<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder1" id="gdpr-cookie-bar-logo-url-holder1"  class="regular-text"> </c-input>
 								</c-col>
 							</c-row>
-								<?php } ?>
 							</c-card-body>
 							
 									<c-card v-show="is_gdpr || is_eprivacy || is_lgpd">
@@ -5619,56 +5524,28 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													<input type="hidden" name="gdpr-cookie-font2" v-model="cookie_font2	">
 												</c-col>
 											</c-row>
-										<?php } ?>
-									<?php
-									$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-									if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-										if ( ! $is_pro_active ) {
-											?>
-										<c-row>
-											<c-col class="col-sm-4">
-												<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-												<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
-											</c-col>
-											<c-col class="col-sm-8 ">
-												<c-button disabled color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
-													<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
-												</c-button>
-												<c-button disabled color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
-													<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
-												</c-button>
-												<p class="image-upload-notice" style="margin-left: 10px;">
-													<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
-												</p>
-												<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder2"  class="regular-text"> </c-input>
-											</c-col>
-										</c-row>
-											<?php
-										}
-									} else {
+										<?php }
 										?>
 										<c-row>
 											<c-col class="col-sm-4">
 												<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 											</c-col>
 											<c-col class="col-sm-8 ">
-												<c-button color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;">
+											<c-button color="info" class="button" id="image-upload-button" name="image-upload-button2" @click="openMediaModal2" style="margin: 10px;">
 													<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
 												</c-button>
-												<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
+												<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage2" style="margin: 10px; ">
 													<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
 												</c-button>
 												<?php
-												$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-												?>
-												<img id="gdpr-cookie-bar-logo-holder2" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>">
+												$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );												?>
+												<img id="gdpr-cookie-bar-logo-holder2" name="gdpr-cookie-bar-logo-holder2" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>">
 												<p class="image-upload-notice" style="margin-left: 10px;">
 													<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 												</p>
-												<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder2"  class="regular-text"> </c-input>
+												<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder2" id="gdpr-cookie-bar-logo-url-holder2"  class="regular-text"> </c-input>
 											</c-col>
 										</c-row>
-									<?php } ?>
 								</c-card-body>
 								
 										<c-card v-show="is_gdpr || is_eprivacy || is_lgpd">
@@ -6693,7 +6570,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</div>
 					</c-card>
 					<c-card v-show="discovered_cookies_list_tab == true">
-						<?php do_action( 'gdpr_cookie_scanner_card' ); ?>
+						<div id="cookie-scanner-container">
+							<div class="data_wait_loader_container">
+								<div class="data_wait_loader"></div>
+							</div>
+							 <div v-html="cookie_scanner_data"></div>
+						</div>
 					</c-card>
 					<c-card v-show="scan_history_list_tab == true">
 						<?php do_action( 'gdpr_cookie_scanned_history' ); ?>
@@ -6702,7 +6584,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				<!-- Script Blocker -->
 				<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 				<!--A/B Testing-->
-				<?php do_action( 'gdpr_settings_ab_testing_tab' ); ?>
+				<c-tab title="<?php esc_attr_e( 'A/B Testing', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#ab_testing" id="gdpr-cookie-consent-ab-testing">
+					<div id="ab-testing-container">
+						<div class="ab_test_data_wait_loader_container">
+							<div class="data_wait_loader"></div>
+						</div>
+						<div v-html="ab_testing_data"></div>
+					</div>
+				</c-tab>
 				<!-- Integration -->
 				<c-tab title="<?php esc_attr_e( 'Language', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#language" id="gdpr-cookie-consent-language">
 					<c-card class="language-card">

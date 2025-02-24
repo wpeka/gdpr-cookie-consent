@@ -8,16 +8,15 @@ import VueModal from "@kouts/vue-modal";
 import "@kouts/vue-modal/dist/vue-modal.css";
 import AB_Testing_Chart from "./vue-components/AB_Testing_Chart";
 import Tooltip from "./vue-components/tooltip";
-import Datepicker from "vuejs-datepicker";
 import VueApexCharts from "vue-apexcharts";
 // Main JS (in UMD format)
 import VueTimepicker from "vue2-timepicker";
+import { TCModel, TCString, GVL } from "@iabtechlabtcf/core";
 // CSS
 import "vue2-timepicker/dist/VueTimepicker.css";
-import VueIntro from 'vue-introjs'
+import VueIntro from "vue-introjs";
 Vue.use(VueIntro);
-import 'intro.js/introjs.css';
-
+import "intro.js/introjs.css";
 
 // Import AceEditor
 import AceEditor from "vuejs-ace-editor";
@@ -36,18 +35,11 @@ Vue.component("v-select", vSelect);
 Vue.component("vue-editor", VueEditor);
 Vue.component("v-modal", VueModal);
 Vue.component("tooltip", Tooltip);
-Vue.component("datepicker", Datepicker);
 Vue.component("vue-timepicker", VueTimepicker);
 Vue.component("aceeditor", AceEditor);
 Vue.component("ab-testing-chart", AB_Testing_Chart);
 
 const j = jQuery.noConflict();
-// new Vue({
-//   el: "#ab-testing-chart", // Ensure this matches the ID in your HTML
-//   //   components: {
-//   //     ComparisonChart,
-//   //   },
-// });
 var gen = new Vue({
   el: "#gdpr-cookie-consent-settings-app",
   data() {
@@ -61,14 +53,20 @@ var gen = new Vue({
       isGdprProActive: "1" === settings_obj.is_pro_active,
       disableSwitch: false,
       is_template_changed: false,
-      is_auto_template_generated:false,
-      processof_auto_template_generated:false,
+      is_auto_template_generated: false,
+      processof_auto_template_generated: false,
       is_lang_changed: false,
       is_iabtcf_changed: false,
       is_logo_removed: false,
+      is_logo_removed1: false,
+      is_logo_removed2: false,
+      is_logo_removedML1: false,
+      is_logo_added: false,
       save_loading: false,
       edit_discovered_cookie: {},
       edit_discovered_cookie_on: false,
+      cookie_scanner_data: '',
+      ab_testing_data: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
       progress_bar: require("../admin/images/progress_bar.svg"),
@@ -99,6 +97,7 @@ var gen = new Vue({
       confirm_button_popup2: false,
       cancel_button_popup2: false,
       opt_out_link_popup2: false,
+      show_more_cookie_design_popup: false,
       show_more_cookie_design_popup: false,
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
@@ -135,6 +134,16 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_iabtcf_on"])
           ? true
           : false,
+      gacm_is_on:
+        settings_obj.the_options.hasOwnProperty("is_gacm_on") &&
+        (true === settings_obj.the_options["is_gacm_on"] ||
+          1 === settings_obj.the_options["is_gacm_on"] ||
+          "true" === settings_obj.the_options["is_gacm_on"])
+          ? true
+          : false,
+      gacm_key: settings_obj.ab_options.hasOwnProperty("gacm_key")
+        ? settings_obj.ab_options["gacm_key"]
+        : "",
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
       dynamic_lang_is_on:
         settings_obj.the_options.hasOwnProperty("is_dynamic_lang_on") &&
@@ -2190,7 +2199,12 @@ var gen = new Vue({
       )
         ? settings_obj.ab_options["ab_testing_period"]
         : "30",
-
+      ab_testing_auto:
+        settings_obj.ab_options.hasOwnProperty("ab_testing_auto") &&
+        (true === settings_obj.ab_options["ab_testing_auto"] ||
+          "true" === settings_obj.ab_options["ab_testing_auto"])
+          ? true
+          : false,
       enable_geotargeting:
         settings_obj.geo_options.hasOwnProperty("enable_geotargeting") &&
         (true === settings_obj.geo_options["enable_geotargeting"] ||
@@ -2264,7 +2278,33 @@ var gen = new Vue({
     };
   },
 
-  methods: {
+  methods: {  
+    refreshCookieScannerData(html) {
+      this.cookie_scanner_data = html;
+      const container = document.querySelector('#cookie-scanner-container');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
+                });
+            });
+    },
+    refreshABTestingData(html) {
+      this.ab_testing_data = html;
+      const container = document.querySelector('#ab-testing-container');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
+                });
+            });
+    },
     isPluginVersionLessOrEqual(version) {
       return this.pluginVersion && this.pluginVersion <= version;
     },
@@ -2389,6 +2429,7 @@ var gen = new Vue({
       let navLinks = j(".nav-link").map(function () {
         return this.getAttribute("href");
       });
+      if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
       for (let i = 0; i < navLinks.length; i++) {
         let re = new RegExp(navLinks[i]);
         if (window.location.href.match(re)) {
@@ -2428,7 +2469,6 @@ var gen = new Vue({
         this.post_cookie_list_length > 0 ? true : false;
 
       this.disableSwitch = false;
-
       // multiple entries of geo targeting countries.
       for (let i = 0; i < this.list_of_countries.length; i++) {
         if (this.select_countries.includes(this.list_of_countries[i].code)) {
@@ -2586,6 +2626,9 @@ var gen = new Vue({
     onSwitchDynamicLang() {
       this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
     },
+    onSwitchGacmEnable() {
+      this.gacm_is_on = !this.gacm_is_on;
+    },
     onSwitchCookieAcceptEnable() {
       this.cookie_accept_on = !this.cookie_accept_on;
     },
@@ -2708,122 +2751,128 @@ var gen = new Vue({
       this.is_auto_template_generated = true;
       // var data = !this.auto_generated_banner;
       // this.auto_generated_banner = !this.auto_generated_banner;
-  
+
       // // Check if the auto_generated_banner is being switched on
       // if (data) {
-          // Open a new tab
-          let newTab = window.open(window.location.origin, '_blank');
-  
-          // Wait for the new tab to load and fetch the required data
-          newTab.onload = function () {
-              // Array to store elements with a background color
-              const elementsWithButton = [];
-  
-              // Get all elements in the new tab
-              const allElements = newTab.document.querySelectorAll('*');
-  
-              // Loop through each element
-              allElements.forEach(element => {
-                  // Check if the element is a button, an anchor tag, or has a class containing "button"
-                  if (
-                      element.tagName.toLowerCase() === 'button' ||
-                      element.tagName.toLowerCase() === 'a' ||
-                      Array.from(element.classList).some(className => className.toLowerCase().includes('button'))
-                  ) {
-                      // Ignore elements where any class name starts with "gdpr_"
-                      const hasGdprClass = Array.from(element.classList).some(className => className.startsWith('gdpr_'));
-                      if (hasGdprClass) return; // Skip this element if it has a "gdpr_" class
-  
-                      // Get computed styles for the element
-                      const computedStyles = getComputedStyle(element);
-  
-                      // Check if a background color is applied
-                      const backgroundColor = computedStyles.backgroundColor;
-  
-                      if (backgroundColor && backgroundColor !== 'rgba(0, 0, 0, 0)' && backgroundColor !== 'transparent') {
-                          elementsWithButton.push({
-                              tag: element.tagName.toLowerCase(), // The tag name (button, a, etc.)
-                              classes: Array.from(element.classList), // The classes applied to the element
-                              backgroundColor: backgroundColor, // The computed background color
-                          });
-                      }
-                  }
+      // Open a new tab
+      let newTab = window.open(window.location.origin, "_blank");
+
+      // Wait for the new tab to load and fetch the required data
+      newTab.onload = function () {
+        // Array to store elements with a background color
+        const elementsWithButton = [];
+
+        // Get all elements in the new tab
+        const allElements = newTab.document.querySelectorAll("*");
+
+        // Loop through each element
+        allElements.forEach((element) => {
+          // Check if the element is a button, an anchor tag, or has a class containing "button"
+          if (
+            element.tagName.toLowerCase() === "button" ||
+            element.tagName.toLowerCase() === "a" ||
+            Array.from(element.classList).some((className) =>
+              className.toLowerCase().includes("button")
+            )
+          ) {
+            // Ignore elements where any class name starts with "gdpr_"
+            const hasGdprClass = Array.from(element.classList).some(
+              (className) => className.startsWith("gdpr_")
+            );
+            if (hasGdprClass) return; // Skip this element if it has a "gdpr_" class
+
+            // Get computed styles for the element
+            const computedStyles = getComputedStyle(element);
+
+            // Check if a background color is applied
+            const backgroundColor = computedStyles.backgroundColor;
+
+            if (
+              backgroundColor &&
+              backgroundColor !== "rgba(0, 0, 0, 0)" &&
+              backgroundColor !== "transparent"
+            ) {
+              elementsWithButton.push({
+                tag: element.tagName.toLowerCase(), // The tag name (button, a, etc.)
+                classes: Array.from(element.classList), // The classes applied to the element
+                backgroundColor: backgroundColor, // The computed background color
               });
-  
-              // Function to convert RGB(A) to Hex
-              const rgbToHex = (rgb) => {
-                  const rgba = rgb.match(/\d+/g); // Extract the numeric values
-                  const r = parseInt(rgba[0], 10).toString(16).padStart(2, '0');
-                  const g = parseInt(rgba[1], 10).toString(16).padStart(2, '0');
-                  const b = parseInt(rgba[2], 10).toString(16).padStart(2, '0');
-                  return `#${r}${g}${b}`.toUpperCase(); // Return as hex code in uppercase
-              };
-  
-              // Function to find the most used background color
-              const getMostUsedBackgroundColor = (elements) => {
-                  const colorCounts = {};
-  
-                  // Count occurrences of each background color
-                  elements.forEach(item => {
-                      const color = item.backgroundColor;
-                      if (color) {
-                          colorCounts[color] = (colorCounts[color] || 0) + 1;
-                      }
-                  });
-  
-                  // Find the color with the highest count
-                  let mostUsedColor = null;
-                  let maxCount = 0;
-                  let isTie = false;
-  
-                  for (const [color, count] of Object.entries(colorCounts)) {
-                      if (count > maxCount) {
-                          mostUsedColor = color;
-                          maxCount = count;
-                          isTie = false; // Reset tie flag when a higher count is found
-                      } else if (count === maxCount) {
-                          isTie = true; // A tie exists if another color has the same count
-                      }
-                  }
-  
-                  // Handle ties: If all counts are the same or a tie exists, pick any one color
-                  if (isTie) {
-                      mostUsedColor = Object.keys(colorCounts)[0]; // Pick the first color
-                  }
-  
-                  return mostUsedColor;
-              };
-  
-              // Find the most used background color
-              let mostUsedColor = getMostUsedBackgroundColor(elementsWithButton);
-  
-              // Convert the most used color to hex
-              const hexColor = rgbToHex(mostUsedColor);
-  
-              // Close the new tab after getting the data
-              newTab.close();
-              // Send the hex color via AJAX
-              jQuery.ajax({
-                  url: settings_obj.ajaxurl,
-                  type: "POST",
-                  dataType: "json",
-                  data: {
-                      action: "gcc_auto_generated_banner",
-                      background_color: hexColor,
-                      is_auto_generated_banner_done: true, // Send the hex color
-                  },
-                  success: function (response) {
-                  },
-                  error: function (error) {
-                      console.error("Error:", error);
-                  }
-              });
-          };
-          this.banner_preview_is_on = true;
+            }
+          }
+        });
+
+        // Function to convert RGB(A) to Hex
+        const rgbToHex = (rgb) => {
+          const rgba = rgb.match(/\d+/g); // Extract the numeric values
+          const r = parseInt(rgba[0], 10).toString(16).padStart(2, "0");
+          const g = parseInt(rgba[1], 10).toString(16).padStart(2, "0");
+          const b = parseInt(rgba[2], 10).toString(16).padStart(2, "0");
+          return `#${r}${g}${b}`.toUpperCase(); // Return as hex code in uppercase
+        };
+
+        // Function to find the most used background color
+        const getMostUsedBackgroundColor = (elements) => {
+          const colorCounts = {};
+
+          // Count occurrences of each background color
+          elements.forEach((item) => {
+            const color = item.backgroundColor;
+            if (color) {
+              colorCounts[color] = (colorCounts[color] || 0) + 1;
+            }
+          });
+
+          // Find the color with the highest count
+          let mostUsedColor = null;
+          let maxCount = 0;
+          let isTie = false;
+
+          for (const [color, count] of Object.entries(colorCounts)) {
+            if (count > maxCount) {
+              mostUsedColor = color;
+              maxCount = count;
+              isTie = false; // Reset tie flag when a higher count is found
+            } else if (count === maxCount) {
+              isTie = true; // A tie exists if another color has the same count
+            }
+          }
+
+          // Handle ties: If all counts are the same or a tie exists, pick any one color
+          if (isTie) {
+            mostUsedColor = Object.keys(colorCounts)[0]; // Pick the first color
+          }
+
+          return mostUsedColor;
+        };
+
+        // Find the most used background color
+        let mostUsedColor = getMostUsedBackgroundColor(elementsWithButton);
+
+        // Convert the most used color to hex
+        const hexColor = rgbToHex(mostUsedColor);
+
+        // Close the new tab after getting the data
+        newTab.close();
+        // Send the hex color via AJAX
+        jQuery.ajax({
+          url: settings_obj.ajaxurl,
+          type: "POST",
+          dataType: "json",
+          data: {
+            action: "gcc_auto_generated_banner",
+            background_color: hexColor,
+            is_auto_generated_banner_done: true, // Send the hex color
+          },
+          success: function (response) {},
+          error: function (error) {
+            console.error("Error:", error);
+          },
+        });
+      };
+      this.banner_preview_is_on = true;
       // }
-  },
-  
-   
+    },
+
     onSwitchAutoScroll() {
       this.auto_scroll = !this.auto_scroll;
     },
@@ -3057,6 +3106,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -3319,6 +3369,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -3454,6 +3505,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -3732,6 +3784,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -3976,6 +4029,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -4258,6 +4312,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -4505,6 +4560,7 @@ var gen = new Vue({
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
         this.is_selectedCountry_on = false;
+        this.gacm_is_on = false;
       } else if (value === "gdpr") {
         this.is_gdpr = true;
         this.is_ccpa = false;
@@ -4526,6 +4582,7 @@ var gen = new Vue({
         this.show_revoke_card = true;
         this.show_visitor_conditions = true;
         this.iabtcf_is_on = false;
+        this.gacm_is_on = false;
       } else {
         this.is_eprivacy = true;
         this.is_gdpr = false;
@@ -4534,6 +4591,7 @@ var gen = new Vue({
         this.show_visitor_conditions = false;
         this.show_revoke_card = true;
         this.iabtcf_is_on = false;
+        this.gacm_is_on = false;
       }
       if (this.iabtcf_is_on) {
         this.gdpr_message = `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`;
@@ -4627,9 +4685,12 @@ var gen = new Vue({
       const id = value.split(",")[1];
       const cat = value.split(",")[0];
       for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] === id) {
-          for (let j = 0; i < this.custom_cookie_categories.length; j++) {
-            if (this.custom_cookie_categories[j]["code"] === parseInt(cat)) {
+        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] == id) {
+          for (let j = 0; j < this.custom_cookie_categories.length; j++) {
+            if (
+              parseInt(this.custom_cookie_categories[j]["code"]) ==
+              parseInt(cat)
+            ) {
               this.scan_cookie_list[i]["category_id"] =
                 this.custom_cookie_categories[j].code;
               this.scan_cookie_list[i]["category"] =
@@ -4963,7 +5024,9 @@ var gen = new Vue({
     },
     restoreDefaultSettings() {
       this.ab_testing_enabled = false;
+      this.ab_testing_auto = false;
       this.ab_testing_period = "30";
+      this.gacm_key = "";
       this.cookie_bar_color = "#ffffff";
       this.cookie_bar_opacity = "0.80";
       this.cookie_bar_border_width = "0";
@@ -4983,6 +5046,7 @@ var gen = new Vue({
       this.open_url = false;
       this.iabtcf_is_on = false;
       this.dynamic_lang_is_on = false;
+      this.gacm_is_on = false;
       this.accept_as_button = true;
       this.accept_size = "medium";
       this.cookie_accept_on = true;
@@ -5132,6 +5196,7 @@ var gen = new Vue({
       this.decline_style1 = "none";
       this.decline_border_color1 = "#333333";
       this.decline_border_radius1 = "0";
+      this.multiple_legislation_accept_all_border_radius1 = "0";
       this.settings_text1 = "Cookie Settings";
       this.settings_text_color1 = "#ffffff";
       this.settings_background_color1 = "#333333";
@@ -5431,7 +5496,9 @@ var gen = new Vue({
         this.gdpr_css_text = code;
         editor.setValue(this.gdpr_css_text);
       }
-
+      if(this.is_iabtcf_changed && this.iabtcf_is_on){
+        this.fetchIABData();
+      }
       var that = this;
       var dataV = jQuery("#gcc-save-settings-form").serialize();
       jQuery
@@ -5444,7 +5511,7 @@ var gen = new Vue({
             "&lang_changed=" +
             that.is_lang_changed +
             "&logo_removed=" +
-            that.is_logo_removed +
+            that.is_logo_removed +"&logo_removed1=" + that.is_logo_removed1 +"&logo_removed2="+ that.is_logo_removed2 +"&logo_removedML1=" + that.is_logo_removedML1 +
             "&gdpr_css_text_field=" +
             that.gdpr_css_text,
         })
@@ -5468,7 +5535,6 @@ var gen = new Vue({
             that.is_lang_changed = false;
             location.reload();
           }
-          that.is_logo_removed = false;
           if (that.data_reqs_switch_clicked == true) {
             that.data_reqs_switch_clicked = false;
             location.reload();
@@ -5485,8 +5551,24 @@ var gen = new Vue({
             that.reload_onSafeMode = false;
             location.reload();
           }
-          if (that.is_auto_template_generated == true) {
-            that.is_auto_template_generated = false;
+          if (that.is_logo_removed == true) {
+            that.is_logo_removed = false;
+            location.reload();
+          }
+          if (that.is_logo_removed1 == true) {
+            that.is_logo_removed1 = false;
+            location.reload();
+          }
+          if (that.is_logo_removed2 == true) {
+            that.is_logo_removed2 = false;
+            location.reload();
+          }
+          if (that.is_logo_removedML1 == true) {
+            that.is_logo_removedML1 = false;
+            location.reload();
+          }
+          if (that.is_logo_added == true) {
+            that.is_logo_added = false;
             location.reload();
           }
           that.save_loading = false;
@@ -5495,61 +5577,242 @@ var gen = new Vue({
           that.save_loading = false;
         });
     },
+    fetchIABData(){
+      GVL.baseUrl = "https://eadn-wc01-12578700.nxedge.io/cdn/rgh/";
+      const gvl = new GVL();
+      gvl.readyPromise.then(() => {
+      let data = {};
+      let vendorMap = gvl.vendors;
+      let purposeMap = gvl.purposes;
+      let featureMap = gvl.features;
+      let dataCategoriesMap = gvl.dataCategories;
+      let specialPurposeMap = gvl.specialPurposes;
+      let specialFeatureMap = gvl.specialFeatures;
+      let purposeVendorMap = gvl.byPurposeVendorMap;
 
+      var vendor_array = [],
+        vendor_id_array = [],
+        vendor_legint_id_array = [],
+        data_categories_array = [],
+        nayan = [];
+      var feature_array = [],
+        special_feature_id_array = [],
+        special_feature_array = [],
+        special_purpose_array = [];
+      var purpose_id_array = [],
+        purpose_legint_id_array = [],
+        purpose_array = [],
+        purpose_vendor_array = [];
+      var purpose_vendor_count_array = [],
+        feature_vendor_count_array = [],
+        special_purpose_vendor_count_array = [],
+        special_feature_vendor_count_array = [],
+        legint_purpose_vendor_count_array = [],
+        legint_feature_vendor_count_array = [];
+      Object.keys(vendorMap).forEach((key) => {
+        vendor_array.push(vendorMap[key]);
+        vendor_id_array.push(vendorMap[key].id);
+        if (vendorMap[key].legIntPurposes.length)
+          vendor_legint_id_array.push(vendorMap[key].id);
+      });
+      data.vendors = vendor_array;
+      data.allvendors = vendor_id_array;
+      data.allLegintVendors = vendor_legint_id_array;
+
+      Object.keys(featureMap).forEach((key) => {
+        feature_array.push(featureMap[key]);
+        feature_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithFeature(featureMap[key].id)).length
+        );
+      });
+      data.features = feature_array;
+      data.featureVendorCount = feature_vendor_count_array;
+      data.dataCategories = nayan;
+
+      Object.keys(dataCategoriesMap).forEach((key) => {
+        data_categories_array.push(dataCategoriesMap[key]);
+      });
+      data.dataCategories = data_categories_array;
+
+      var legintCount = 0;
+      const purposeLegint = new Map();
+      Object.keys(purposeMap).forEach((key) => {
+        purpose_array.push(purposeMap[key]);
+        purpose_id_array.push(purposeMap[key].id);
+        purpose_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithConsentPurpose(purposeMap[key].id)).length
+        );
+        legintCount = Object.keys(
+          gvl.getVendorsWithLegIntPurpose(purposeMap[key].id)
+        ).length;
+        legint_purpose_vendor_count_array.push(legintCount);
+        if (legintCount) {
+          purposeLegint.set(purposeMap[key].id, legintCount);
+          purpose_legint_id_array.push(purposeMap[key].id);
+        }
+      });
+      data.purposes = purpose_array;
+      data.allPurposes = purpose_id_array;
+      data.purposeVendorCount = purpose_vendor_count_array;
+      data.allLegintPurposes = purpose_legint_id_array;
+      data.legintPurposeVendorCount = legint_purpose_vendor_count_array;
+
+      Object.keys(specialFeatureMap).forEach((key) => {
+        special_feature_array.push(specialFeatureMap[key]);
+        special_feature_id_array.push(specialFeatureMap[key].id);
+        special_feature_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithSpecialFeature(specialFeatureMap[key].id))
+            .length
+        );
+      });
+      data.specialFeatures = special_feature_array;
+      data.allSpecialFeatures = special_feature_id_array;
+      data.specialFeatureVendorCount = special_feature_vendor_count_array;
+
+      Object.keys(specialPurposeMap).forEach((key) => {
+        special_purpose_array.push(specialPurposeMap[key]);
+        special_purpose_vendor_count_array.push(
+          Object.keys(gvl.getVendorsWithSpecialPurpose(purposeMap[key].id)).length
+        );
+      });
+      data.specialPurposes = special_purpose_array;
+      data.specialPurposeVendorCount = special_purpose_vendor_count_array;
+
+      Object.keys(purposeVendorMap).forEach((key) =>
+        purpose_vendor_array.push(purposeVendorMap[key].legInt.size)
+      );
+      data.purposeVendorMap = purpose_vendor_array;
+      data.secret_key = "sending_vendor_data";
+      var that = this;
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: {
+            data: JSON.stringify(data), 
+            action: "gcc_enable_iab" 
+          },
+          dataType: "json",
+        })
+        .done(function (data) {
+        })
+        .fail(function () {
+          that.save_loading = false;
+      });
+    });
+
+    },
     openMediaModal() {
       var image_frame = wp.media({
-        title: "Select Media from here",
+        title: "Select Media for Image 1",
         multiple: false,
         library: {
           type: "image",
         },
       });
-      jQuery("#image-upload-button")
-        .unbind()
-        .click(
-          image_frame.on("close", function () {
-            var selection = image_frame.state().get("selection");
-            selection.each(function (attachment) {
-              jQuery("#gdpr-cookie-bar-logo-holder").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-holder1").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-holder2").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder").attr(
-                "value",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder1").attr(
-                "value",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder2").attr(
-                "value",
-                attachment.attributes.url
-              );
-            });
-          }),
-          image_frame.open()
-        );
+      // Open the media modal
+      image_frame.open();
+
+      // Handle the selection
+      image_frame.on("select", function () {
+        var selection1 = image_frame.state().get("selection").first().toJSON();
+
+        // Update Image 1 holder and hidden input
+        jQuery("#gdpr-cookie-bar-logo-holder").attr("src", selection1.url);
+        jQuery("#gdpr-cookie-bar-logo-url-holder").val(selection1.url);
+        alert("Please click on save changes to update the image on the banner");
+      });
+      this.is_logo_added = true;
     },
     deleteSelectedimage() {
       jQuery("#gdpr-cookie-bar-logo-holder").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-holder1").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-holder2").removeAttr("src");
       jQuery("#gdpr-cookie-bar-logo-url-holder").attr("value", "");
-      jQuery("#gdpr-cookie-bar-logo-url-holder1").attr("value", "");
-      jQuery("#gdpr-cookie-bar-logo-url-holder2").attr("value", "");
-
       this.is_logo_removed = true;
     },
-
+    openMediaModal1() {
+      var image_frame = wp.media({
+        title: "Select Media for Image 1",
+        multiple: false,
+        library: {
+          type: "image",
+        },
+      });
+    
+      // Open the media modal
+      image_frame.open();
+    
+      // Handle the selection
+      image_frame.on("select", function () {
+        var selection1 = image_frame.state().get("selection").first().toJSON();
+    
+        // Update Image 1 holder and hidden input
+        jQuery("#gdpr-cookie-bar-logo-holder1").attr("src", selection1.url);
+        jQuery("#gdpr-cookie-bar-logo-url-holder1").val(selection1.url);
+        alert("Please click on save changes to update the image on the banner");
+      });
+      this.is_logo_added = true;
+    }, 
+    deleteSelectedimage1() {
+      jQuery("#gdpr-cookie-bar-logo-holder1").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-url-holder1").attr("value", "");
+      this.is_logo_removed1 = true;
+    },
+    openMediaModal2() {
+      var image_frame = wp.media({
+        title: "Select Media for Image 2",
+        multiple: false,
+        library: {
+          type: "image",
+        },
+      });
+    
+      // Open the media modal
+      image_frame.open();
+    
+      // Handle the selection
+      image_frame.on("select", function () {
+        var selection2 = image_frame.state().get("selection").first().toJSON();
+    
+        // Update Image 2 holder and hidden input
+        jQuery("#gdpr-cookie-bar-logo-holder2").attr("src", selection2.url);
+        jQuery("#gdpr-cookie-bar-logo-url-holder2").val(selection2.url);
+        alert("Please click on save changes to update the image on the banner");
+      });
+      this.is_logo_added = true;
+    },    
+    deleteSelectedimage2() {
+      jQuery("#gdpr-cookie-bar-logo-holder2").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-url-holder2").attr("value", "");
+      this.is_logo_removed2 = true;
+    },
+    openMediaModalML1() {
+      var image_frame = wp.media({
+        title: "Select Media for Image 1",
+        multiple: false,
+        library: {
+          type: "image",
+        },
+      });
+    
+      // Open the media modal
+      image_frame.open();
+    
+      // Handle the selection
+      image_frame.on("select", function () {
+        var selection1 = image_frame.state().get("selection").first().toJSON();
+    
+        // Update Image 1 holder and hidden input
+        jQuery("#gdpr-cookie-bar-logo-holderML1").attr("src", selection1.url);
+        jQuery("#gdpr-cookie-bar-logo-url-holderML1").val(selection1.url);
+        alert("Please click on save changes to update the image on the banner");
+      });
+      this.is_logo_added = true;
+    },    
+    deleteSelectedimageML1() {
+      jQuery("#gdpr-cookie-bar-logo-holderML1").removeAttr("src");
+      jQuery("#gdpr-cookie-bar-logo-url-holderML1").attr("value", "");
+      this.is_logo_removedML1 = true;
+    },
     onSwitchScriptBlocker(script_id) {
       j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
       j("#gdpr-cookie-consent-updating-settings-alert").fadeOut(2000);
@@ -6009,7 +6272,7 @@ var gen = new Vue({
         popup.fadeIn();
         cancelButton.off("click").on("click", function (e) {
           popup.fadeOut();
-          localStorage.setItem('auto_scan_process_started', 'false');
+          localStorage.setItem("auto_scan_process_started", "false");
           window.location.reload();
         });
       });
@@ -6041,7 +6304,7 @@ var gen = new Vue({
           if (data.response == true) {
             this.scan_in_progress = false;
             const currentUrl = new URL(window.location);
-            currentUrl.searchParams.delete('auto_scan');
+            currentUrl.searchParams.delete("auto_scan");
             that.getScanCookies(scan_id, offset, total, hash);
           } else {
             scanbar.html("");
@@ -6237,7 +6500,7 @@ var gen = new Vue({
       this.showScanCookieList();
       this.scanAgain();
       setTimeout(() => {
-        localStorage.setItem('auto_scan_process_started', 'false');
+        localStorage.setItem("auto_scan_process_started", "false");
         window.location.reload();
       }, 3000);
     },
@@ -6713,8 +6976,7 @@ var gen = new Vue({
         .fadeOut(2000);
       this.ab_testing_enabled = !this.ab_testing_enabled;
       if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
-
-      var dataV = jQuery("#gcc-save-settings-form").serialize();
+      var that = this;
       // Make the AJAX request to save the new state
       jQuery
         .ajax({
@@ -6726,6 +6988,7 @@ var gen = new Vue({
           },
         })
         .done(function (data) {
+          that.saveCookieSettings();
           window.location.reload();
           // Show success message
           that.success_error_message = "Settings Saved";
@@ -6742,6 +7005,9 @@ var gen = new Vue({
             "An error occurred while saving the settings. Please try again."
           );
         });
+    },
+    onSwitchABTestingAuto() {
+      this.ab_testing_auto = !this.ab_testing_auto;
     },
     OnEnableGeotargeting() {
       this.enable_geotargeting = !this.enable_geotargeting;
@@ -6783,6 +7049,8 @@ var gen = new Vue({
     },
   },
   mounted() {
+    if (window.vueMounted) return; // Prevent duplicate execution
+    window.vueMounted = true; // Mark as mounted
     j("#gdpr-before-mount").css("display", "none");
 
     if (settings_obj.is_user_connected) {
@@ -6960,17 +7228,22 @@ var gen = new Vue({
     spinner.hide();
     // automatic start scanning.
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('auto_scan') === 'true' && !this.scan_in_progress && !localStorage.getItem('auto_scan_executed')) {  
+    if (
+      urlParams.get("auto_scan") === "true" &&
+      !this.scan_in_progress &&
+      !localStorage.getItem("auto_scan_executed")
+    ) {
       // Mark that the 'auto_scan' process has been executed
-      localStorage.setItem('auto_scan_executed', 'true');
-      localStorage.setItem('auto_scan_process_started', 'true');
+      localStorage.setItem("auto_scan_executed", "true");
+      localStorage.setItem("auto_scan_process_started", "true");
       // Trigger the scan
       this.onClickStartScan();
     }
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });
-var gen = new Vue({
+window.gen = gen;
+var app = new Vue({
   el: "#gdpr-cookie-consent-settings-app-wizard",
   data() {
     return {
@@ -7021,6 +7294,12 @@ var gen = new Vue({
         settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
         (true === settings_obj.the_options["is_iabtcf_on"] ||
           1 === settings_obj.the_options["is_iabtcf_on"])
+          ? true
+          : false,
+      gacm_is_on:
+        settings_obj.the_options.hasOwnProperty("is_gacm_on") &&
+        (true === settings_obj.the_options["is_gacm_on"] ||
+          1 === settings_obj.the_options["is_gacm_on"])
           ? true
           : false,
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
@@ -9052,6 +9331,11 @@ var gen = new Vue({
           break;
         }
       }
+      for (let i = 0; i < this.list_of_countries.length; i++) {
+        if (this.select_countries.includes(this.list_of_countries[i].code)) {
+          this.select_countries_array.push(this.list_of_countries[i]);
+        }
+      }
       for (let i = 0; i < this.scripts_list_total; i++) {
         this.scripts_list_data[i]["script_status"] = Boolean(
           parseInt(this.scripts_list_data[i]["script_status"])
@@ -9252,6 +9536,9 @@ var gen = new Vue({
         this.gdpr_about_cookie_message =
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
+    },
+    onSwitchGacmEnable() {
+      this.gacm_is_on = !this.gacm_is_on;
     },
     onEnablesafeSwitch() {
       if (this.enable_safe === "true") {
@@ -9624,6 +9911,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -9886,6 +10174,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -10021,6 +10310,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -10299,6 +10589,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -10543,6 +10834,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#ffffff";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#C1540C";
           this.decline_text_color1 = "#C1540C";
@@ -10825,6 +11117,7 @@ var gen = new Vue({
           this.decline_background_color1 = "#808080";
           this.decline_style1 = "solid";
           this.decline_border_radius1 = "0";
+          this.multiple_legislation_accept_all_border_radius1 = "0";
           this.decline_border_width1 = "1";
           this.decline_border_color1 = "#D5D2D2";
           this.decline_text_color1 = "#D5D2D2";
@@ -11474,6 +11767,7 @@ var gen = new Vue({
       this.button_readmore_button_border_color = "#333333";
       this.button_readmore_button_border_radius = "0";
       this.iabtcf_is_on = false;
+      this.gacm_is_on = false;
       this.decline_text = "Decline";
       this.decline_url = "#";
       this.decline_action = "#cookie_action_settings";
@@ -11699,6 +11993,72 @@ var gen = new Vue({
     saveWizardCookieSettings() {
       var that = this;
       var dataV = jQuery(".gcc-save-wizard-settings-form").serialize();
+      dataV += "&gdpr-cookie-bar-color=" + encodeURIComponent(that.cookie_bar_color);
+      dataV += "&gdpr-cookie-text-color=" + encodeURIComponent(that.cookie_text_color);
+      dataV += "&gdpr-cookie-bar-opacity=" + encodeURIComponent(that.cookie_bar_opacity);
+      dataV += "&gdpr-cookie-bar-border-width=" + encodeURIComponent(that.cookie_bar_border_width);
+      dataV += "&gdpr-cookie-border-style=" + encodeURIComponent(that.border_style);
+      dataV += "&gdpr-cookie-border-color=" + encodeURIComponent(that.cookie_border_color);
+      dataV += "&gdpr-cookie-bar-border-radius=" + encodeURIComponent(that.cookie_bar_border_radius);
+      dataV += "&gdpr-cookie-font=" + encodeURIComponent(that.cookie_font);
+      dataV += "&gdpr-cookie-accept-background-color=" + encodeURIComponent(that.accept_background_color);
+      dataV += "&gdpr-cookie-accept-border-color=" + encodeURIComponent(that.accept_border_color);
+      dataV += "&gdpr-cookie-decline-text-color=" + encodeURIComponent(that.decline_text_color);
+      dataV += "&gdpr-cookie-decline-border-color=" + encodeURIComponent(that.decline_border_color);
+      dataV += "&gdpr-cookie-settings-text-color=" + encodeURIComponent(that.settings_text_color);
+      dataV += "&gdpr-cookie-settings-border-color=" + encodeURIComponent(that.settings_border_color);
+      dataV += "&gdpr-cookie-settings-background-color=" + encodeURIComponent(that.settings_background_color);
+      dataV += "&gdpr-cookie-decline-background-color=" + encodeURIComponent(that.decline_background_color);
+      dataV += "&gdpr-cookie-decline-border-style=" + encodeURIComponent(that.decline_style);
+      dataV += "&gdpr-cookie-decline-border-width=" + encodeURIComponent(that.decline_border_width);
+      dataV += "&gdpr-cookie-settings-border-style=" + encodeURIComponent(that.settings_style);
+      dataV += "&gdpr-cookie-settings-border-width=" + encodeURIComponent(that.settings_border_width);
+      dataV += "&gdpr-cookie-accept-opacity=" + encodeURIComponent(that.accept_opacity);
+      dataV += "&gdpr-cookie-accept-border-style=" + encodeURIComponent(that.accept_style);
+      dataV += "&gdpr-cookie-accept-border-width=" + encodeURIComponent(that.accept_border_width);
+      dataV += "&gdpr-cookie-accept-border-radius=" + encodeURIComponent(that.accept_border_radius);
+      dataV += "&gdpr-cookie-accept-text-color=" + encodeURIComponent(that.accept_text_color);
+      dataV += "&gcc-readmore-link-color=" + encodeURIComponent(that.button_readmore_link_color);
+      dataV += "&gcc-readmore-button-color=" + encodeURIComponent(that.button_readmore_button_color);
+      dataV += "&gcc-readmore-button-opacity=" + encodeURIComponent(that.button_readmore_button_opacity);
+      dataV += "&gcc-readmore-button-border-style=" + encodeURIComponent(that.button_readmore_button_border_style);
+      dataV += "&gcc-readmore-button-border-width=" + encodeURIComponent(that.button_readmore_button_border_width);
+      dataV += "&gcc-readmore-button-border-color=" + encodeURIComponent(that.button_readmore_button_border_color);
+      dataV += "&gcc-readmore-button-border-radius=" + encodeURIComponent(that.button_readmore_button_border_radius);
+      dataV += "&gcc-readmore-button-size=" + encodeURIComponent(that.button_readmore_button_size);
+      dataV += "&gdpr-cookie-decline-opacity=" + encodeURIComponent(that.decline_opacity);
+      dataV += "&gdpr-cookie-decline-border-radius=" + encodeURIComponent(that.decline_border_radius);
+      dataV += "&gdpr-cookie-decline-size=" + encodeURIComponent(that.decline_size);
+      dataV += "&gdpr-cookie-settings-opacity=" + encodeURIComponent(that.settings_opacity);
+      dataV += "&gdpr-cookie-settings-border-radius=" + encodeURIComponent(that.settings_border_radius);
+      dataV += "&gdpr-cookie-settings-size=" + encodeURIComponent(that.settings_size);
+      dataV += "&gdpr-cookie-confirm-text-color=" + encodeURIComponent(that.confirm_text_color);
+      dataV += "&gdpr-cookie-confirm-background-color=" + encodeURIComponent(that.confirm_background_color);
+      dataV += "&gdpr-cookie-confirm-opacity=" + encodeURIComponent(that.confirm_opacity);
+      dataV += "&gdpr-cookie-confirm-border-style=" + encodeURIComponent(that.confirm_style);
+      dataV += "&gdpr-cookie-confirm-border-color=" + encodeURIComponent(that.confirm_border_color);
+      dataV += "&gdpr-cookie-confirm-border-width=" + encodeURIComponent(that.confirm_border_width);
+      dataV += "&gdpr-cookie-confirm-border-radius=" + encodeURIComponent(that.confirm_border_radius);
+      dataV += "&gdpr-cookie-confirm-size=" + encodeURIComponent(that.confirm_size);
+      dataV += "&gdpr-cookie-cancel-text-color=" + encodeURIComponent(that.cancel_text_color);
+      dataV += "&gdpr-cookie-cancel-background-color=" + encodeURIComponent(that.cancel_background_color);
+      dataV += "&gdpr-cookie-cancel-opacity=" + encodeURIComponent(that.cancel_opacity);
+      dataV += "&gdpr-cookie-cancel-border-style=" + encodeURIComponent(that.cancel_style);
+      dataV += "&gdpr-cookie-cancel-border-color=" + encodeURIComponent(that.cancel_border_color);
+      dataV += "&gdpr-cookie-cancel-border-width=" + encodeURIComponent(that.cancel_border_width);
+      dataV += "&gdpr-cookie-cancel-border-radius=" + encodeURIComponent(that.cancel_border_radius);
+      dataV += "&gdpr-cookie-cancel-size=" + encodeURIComponent(that.cancel_size);
+      dataV += "&gdpr-cookie-opt-out-text-color=" + encodeURIComponent(that.opt_out_text_color);
+      dataV += "&gdpr-cookie-accept-all-text-color=" + encodeURIComponent(that.accept_all_text_color);
+      dataV += "&gdpr-cookie-accept-all-background-color=" + encodeURIComponent(that.accept_all_background_color);
+      dataV += "&gdpr-cookie-accept-all-size=" + encodeURIComponent(that.accept_all_size);
+      dataV += "&gdpr-cookie-accept-all-border-style=" + encodeURIComponent(that.accept_all_style);
+      dataV += "&gdpr-cookie-accept-all-border-color=" + encodeURIComponent(that.accept_all_border_color);
+      dataV += "&gdpr-cookie-accept-all-opacity=" + encodeURIComponent(that.accept_all_opacity);
+      dataV += "&gdpr-cookie-accept-all-border-width=" + encodeURIComponent(that.accept_all_border_width);
+      dataV += "&gdpr-cookie-accept-all-border-radius=" + encodeURIComponent(that.accept_all_border_radius);
+      dataV += "&gcc-revoke-consent-text-color=" + encodeURIComponent(that.button_revoke_consent_text_color);
+      dataV += "&gcc-revoke-consent-background-color=" + encodeURIComponent(that.button_revoke_consent_background_color);
       jQuery
         .ajax({
           type: "POST",
@@ -11714,59 +12074,6 @@ var gen = new Vue({
           j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
           j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
         });
-    },
-    openMediaModal() {
-      var image_frame = wp.media({
-        title: "Select Media from here",
-        multiple: false,
-        library: {
-          type: "image",
-        },
-      });
-      jQuery("#image-upload-button")
-        .unbind()
-        .click(
-          image_frame.on("close", function () {
-            var selection = image_frame.state().get("selection");
-            selection.each(function (attachment) {
-              jQuery("#gdpr-cookie-bar-logo-holder").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-holder1").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-holder2").attr(
-                "src",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder").attr(
-                "value",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder1").attr(
-                "value",
-                attachment.attributes.url
-              );
-              jQuery("#gdpr-cookie-bar-logo-url-holder2").attr(
-                "value",
-                attachment.attributes.url
-              );
-            });
-          }),
-          image_frame.open()
-        );
-    },
-    deleteSelectedimage() {
-      jQuery("#gdpr-cookie-bar-logo-holder").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-holder1").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-holder2").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-url-holder").attr("value", "");
-      jQuery("#gdpr-cookie-bar-logo-url-holder1").attr("value", "");
-      jQuery("#gdpr-cookie-bar-logo-url-holder2").attr("value", "");
-
-      this.is_logo_removed = true;
     },
     onSwitchScriptBlocker(script_id) {
       j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
