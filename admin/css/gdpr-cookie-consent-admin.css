@@ -4477,11 +4477,16 @@ gdpr-cookie-consent-admin-tab-content {
 .gdpr-api-info-content {
   display: flex;
   padding: 60px;
+  justify-content: space-between;
   border: 1px solid #ddd;
 }
-
+.gdpr-api-detailed-info-wrapper{
+  flex: 45%;
+}
 .gdpr-api-detailed-info {
   flex: 75%;
+  padding: 0px 20px;
+  margin: 0px 20px;
 }
 .gdpr-api-detailed-info p span img {
   height: 25px;
@@ -4493,7 +4498,7 @@ gdpr-cookie-consent-admin-tab-content {
   display: flex;
   flex-direction: column;
   margin: auto;
-  padding-left: 90px;
+  padding-left: 45px;
 }
 
 .gdpr-api-info-content .gdpr-api-detailed-info h2 {
@@ -4756,7 +4761,7 @@ gdpr-cookie-consent-admin-tab-content {
   margin-bottom: 4px;
   margin-top: 11px;
   color: var(--white-100);
-  width: 351px;
+  width: 60%;
 }
 
 .gdpr-blur-background .gdpr-overlay .already-have-acc {
@@ -9593,4 +9598,117 @@ input.vs__search {
 #gdpr-auto-generated-banner-tick {
   left: 508px;
   top: -51px !important;
+}
+
+/* Banner Redesign */
+.gdpr-api-detailed-info-wrapper .gdpr-api-connection-btns button[class="gdpr-start-auth"]{
+  width: 215px;
+  height: 52px;
+  border-radius: 4px;
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  letter-spacing: 0em;
+  text-align: center;
+  color: var(--blue-901);
+  background: transparent;
+  border: 1px solid var(--blue-901);
+}
+.gdpr-api-detailed-info-wrapper .gdpr-api-connection-btns a[class="gdpr-start-auth"]{
+  width: 215px;
+  height: 52px;
+  border: none;
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  color: var(--blue-1000);
+  padding: 0 2px;
+  background: transparent;
+}
+.gdpr-api-connection-btns p{
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  line-height: var(--text-sm-line-height);
+}
+.gdpr-api-detailed-info-wrapper .gdpr-api-connection-btns .gdpr-cookie-consent-admin-upgrade-button {
+  width: 215px;
+  height: 52px;
+  padding: 16px 23px;
+  border-radius: 4px;
+  background: var(--blue-500);
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  letter-spacing: 0em;
+  text-align: center;
+  color: var(--white-100);
+  border: none;
+  margin-top: 0px;
+}
+.gdpr-overlay .gdpr-overlay-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 20px;
+  width: 70%;
+  height: 40%;
+}
+.gdpr-overlay .gdpr-overlay-btns .gdpr-start-auth {
+  width: 215px;
+  height: 52px;
+  border-radius: 4px;
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  letter-spacing: 0em;
+  text-align: center;
+  color: var(--white-100);
+  background: transparent;
+  border: 1px solid var(--white-100); 
+  margin-top: 10px;
+}
+.gdpr-overlay .gdpr-overlay-btns .gdpr-cookie-consent-admin-upgrade-button {
+  width: 215px;
+  height: 52px;
+  padding: 16px 23px;
+  border-radius: 4px;
+  background-color: var(--blue-500);
+  font-family: Roboto;
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  letter-spacing: 0em;
+  text-align: center;
+  color: var(--white-100);
+  border: none;
+  margin-top: 0px;
+}
+.gdpr-overlay span[class="gdpr-cookie-consent-admin-upgrade-button upgrade-button"] {
+  width: 215px;
+  height: 52px;
+  border: none;
+  font-family: Roboto;
+  font-size: var(--text-lg-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  color: var(--white-100);
+  padding: 0 2px;
+  background: transparent;
+  text-decoration: underline;
+}
+.gdpr-overlay span[class="api-connect-to-account-btn"] {
+  font-size: var(--text-lg-font-size);
+  font-weight: var(--text-medium-font-weight);
+  line-height: var(--text-sm-line-height);
+  color: var(--white-100);
+  text-decoration: underline;
+}
+div#gdpr-scan-history {
+  padding: 2px !important;
+  height: 113%;
 }

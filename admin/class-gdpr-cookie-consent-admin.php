@@ -6685,6 +6685,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_decline_as_button1']             = isset( $_POST['gdpr-cookie-decline-as1'] ) && ( true === $_POST['gdpr-cookie-decline-as1'] || 'true' === $_POST['gdpr-cookie-decline-as1'] ) ? 'true' : 'false';
 			$the_options['button_decline_button_opacity1']        = isset( $_POST['gdpr-cookie-decline-opacity1'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-opacity1'] ) ) : '1';
 			$the_options['button_decline_button_border_radius1']  = isset( $_POST['gdpr-cookie-decline-border-radius1'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-border-radius1'] ) ) : '0';
+			$the_options['multiple_legislation_accept_all_border_radius1']  = isset( $_POST['gdpr-multiple-legislation-cookie-accept-all-border-radius1'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-multiple-legislation-cookie-accept-all-border-radius1'] ) ) : '0';
 			$the_options['button_decline_button_size1']           = isset( $_POST['gdpr-cookie-decline-size1'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-size1'] ) ) : 'medium';
 			$the_options['button_decline_action1']                = isset( $_POST['gdpr-cookie-decline-action1'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-action1'] ) ) : '#cookie_action_close_header_reject';
 			$the_options['button_decline_url1']                   = isset( $_POST['gdpr-cookie-decline-url1'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-url1'] ) ) : '#';
