@@ -97,7 +97,7 @@ table.gdpr_script_items tr:nth-child(odd) td {
   ul
   li.nav-item
   a.nav-link.active  {
-  background-color: #f4f8ff;
+  background-color: #ffffff;
 }
 .c-switch-3d-success .c-switch-input:checked + .c-switch-slider {
   background-color: #0059b3 !important;
@@ -656,7 +656,7 @@ a .export-btn:hover {
 .gdpr-cookie-consent-banner-tabs .gdpr-cookie-consent-banner-tab-active,
 .gdpr-cookie-consent-banner-tabs .gdpr-cookie-consent-banner-tab-active:hover {
   color: #0056b3;
-  border-bottom: 3px solid #0056b3;
+  border: 1px solid #b6d9ff;
   background: #f4f8ff;
 }
 .select-countries-dropdown .vs__selected {
