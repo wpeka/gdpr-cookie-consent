@@ -1457,24 +1457,23 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 document.addEventListener("DOMContentLoaded", alignSideBar);
 function alignSideBar(){
-  let element = document.querySelector(".gdpr-sub-tabs");
+  var side_bar = document.querySelector(".gdpr-sub-tabs");
 
-  function updateTopBasedOnTab(tabValue) {
-        if (["create_cookie_banner","consent_logs", "data_request", "policy_data"].includes(tabValue)) {
-            element.style.top = "110px";
+  function updateTopBasedOnTab(tabList) {
+        if (tabList.includes("cookie_settings")) {
+            side_bar.style.top = "200px";
         } else {
-            element.style.top = "200px"; // Default value
+            side_bar.style.top = "110px"; // Default value
         }
     }
     // Get the hash (part after #)
-    let urlParts = window.location.href.split("#");
-    let lastHash = urlParts.length > 1 ? urlParts[urlParts.length - 1] : "";
-    updateTopBasedOnTab(lastHash);
+    var urlParts = window.location.href.split("#");
+    updateTopBasedOnTab(urlParts);
 
-    document.querySelectorAll(".gdpr-sub-tabs .gdpr-cookie-consent-admin-tab").forEach(tab => {
+    document.querySelectorAll(".gdpr-sub-tabs .gdpr-cookie-consent-admin-tab").forEach(function(tab){
         tab.addEventListener("click", function () {
-            let tabValue = this.getAttribute("data-tab");
-            updateTopBasedOnTab(tabValue);
+            var tabValue = this.getAttribute("data-tab");
+            updateTopBasedOnTab([tabValue]);
         });
     });
 }

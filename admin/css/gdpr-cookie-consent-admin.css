@@ -8276,32 +8276,33 @@ button.btn.gdpr-renew-now-btn.pro,
   width: 70px;
 }
 /* cookie list css */
-#gdpr-cookie-consent-cookies-list .gdpr-cookie-consent-cookie-list-tab {
-  height: 60px;
-  width: 260px;
-  padding: 12px 20px;
-  border: 1px solid rgba(228, 228, 230, 1);
-  background-color: rgba(250, 250, 250, 1);
-  font-family: "Roboto";
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  color: rgba(63, 63, 70, 1);
+.gdpr-cookie-list-tabs .gdpr-cookie-consent-cookie-list-tab {
+  height: 40px;
+    width: 169px;
+    border: 1px solid rgba(228, 228, 230, 1);
+    background-color: rgba(250, 250, 250, 1);
+    font-family: "Roboto";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(63, 63, 70, 1);
+    border-radius: 0;
 }
 .gdpr-cookie-list-tabs {
-  margin-top: 28px;
   border-bottom: 1px solid rgba(228, 228, 230, 1);
-  display: flex;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 65px;
+    left: 35%;
+    z-index: 100;
 }
-#gdpr-cookie-consent-cookies-list .gdpr-cookie-consent-cookie-list-tab:focus {
+.gdpr-cookie-list-tabs .gdpr-cookie-consent-cookie-list-tab:focus {
   box-shadow: none;
 }
-#gdpr-cookie-consent-cookies-list .gdpr-cookie-consent-cookie-list-tab-active {
+.gdpr-cookie-list-tabs .gdpr-cookie-consent-cookie-list-tab-active {
   background-color: rgba(244, 248, 255, 1);
-  border-bottom: 2px solid rgba(0, 89, 179, 1);
   color: rgba(0, 89, 179, 1);
-  border-top: unset;
-  border-left: unset;
   border-radius: unset;
 }
 .gdpr-cookie-list-tabs-container,
@@ -9711,4 +9712,34 @@ input.vs__search {
 div#gdpr-scan-history {
   padding: 2px !important;
   height: 113%;
+}
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+.cookie_arrow {
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 2px;
+  height: .1rem !important;
+  width: 0.1rem !important;
+  -webkit-transition: -webkit-transform 300ms linear;
+  transition: transform 300ms linear;
+
+}
+.tab-content .cookie_scan_dropdown, .tab-content .gdpr-cookie-list-tabs{
+  display: none !important;
+}
+.cookie_scan_dropdown{
+  position: absolute;
+    left: 47.5%;
+    padding: 8px 3px !important; 
+}
+.cookie_scan_dropdown:focus{
+  box-shadow: none !important;
 }
