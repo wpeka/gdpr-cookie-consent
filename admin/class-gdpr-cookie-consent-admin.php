@@ -2209,7 +2209,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#C1263E;color:#ffffff;display:block;width:100%;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#B3DDFC;color:#ffffff;display:block;width:100%;margin:0.5rem auto 0 auto;',
 						),
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
@@ -2657,7 +2657,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#369ee3;color:#e5e5e5;min-width:5rem;margin:0 0.5rem 0 0;border: 1px solid #369ee3;width:100%;',
+							'css'                  => 'background-color:#B3DDFC;color:#0D283B;min-width:5rem;margin:0 0.5rem 0 0;border: 1px solid #B3DDFC;width:100%;',
 						),
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
@@ -2682,7 +2682,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'grey_column'      => array(
 						'name'             => 'popup-grey_column',
-						'css'              => 'color:#000000;background-color:#f4f4f4;text-align:justify;border:1px solid #111111',
+						'css'              => 'color:#000000;background-color:#f4f4f4;text-align:justify;',
 						'color'            => '#000000',
 						'background_color' => '#f4f4f4',
 						'opacity'          => '1',
@@ -2924,7 +2924,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#369ee3;color:#e5e5e5;min-width:5rem;margin:0 0.5rem 0 0;border: 1px solid #369ee3;width:100%;',
+							'css'                  => 'background-color:#B3DDFC;color:#0D283B;min-width:5rem;margin:0 0.5rem 0 0;border: 1px solid #369ee3;width:100%;',
 						),
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
@@ -3037,7 +3037,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'grey_column'      => array(
 						'name'             => 'widget-grey_column',
-						'css'              => 'color:#000000;background-color:#f4f4f4;text-align:justify;border: 1px solid #111111;',
+						'css'              => 'color:#000000;background-color:#f4f4f4;text-align:justify;',
 						'color'            => '#000000',
 						'background_color' => '#f4f4f4',
 						'opacity'          => '1',
@@ -3631,7 +3631,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#369ee3;color:#e5e5e5;min-width:5rem;margin:0 0.5rem 0 0;border: 1px solid #369ee3;',
+							'css'                  => 'font-size:10.21px;background-color:#B3DDFC;color:#0D283B;min-width:5rem;margin:0 0.5rem 0 0;border: 1px solid #B3DDFC;',
 						),
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
@@ -3759,7 +3759,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#369ee3;color:#e5e5e5;min-width:5rem;margin:0 0.5rem 0 0;border: 1px solid #369ee3;width:fit-content;',
+							'css'                  => 'font-size:10.21px;background-color:#B3DDFC;color:#0D283B;min-width:5rem;margin:0 0.5rem 0 0;border: 1px solid #B3DDFC;width:fit-content;',
 						),
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
@@ -3784,7 +3784,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'grey_column'      => array(
 						'name'             => 'popup-grey_column',
-						'css'              => 'font-size:10.21px;color:#000000;background-color:#f4f4f4;text-align:justify;border:1px solid #111111',
+						'css'              => 'font-size:10.21px;color:#000000;background-color:#f4f4f4;text-align:justify;',
 						'color'            => '#000000',
 						'background_color' => '#f4f4f4',
 						'opacity'          => '1',
@@ -3838,12 +3838,12 @@ class Gdpr_Cookie_Consent_Admin {
 						'decline'          => array(
 							'text'                 => 'Decline',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:rgba(54,158,227,0);color:#e5e5e5;width:41%;margin:0 0.5rem 0 0;min-width:5rem;border:1px solid #369ee3;',
+							'css'                  => 'font-size:10.21px;background-color:rgba(54,158,227,0);color:#e5e5e5;width:41%;margin:0 0.5rem 0 0;min-width:5rem;border:1px solid #ffffff;',
 						),
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:rgba(54,158,227,0);color:#e5e5e5;width:41%;min-width:5rem;float:right;border:1px solid #369ee3;',
+							'css'                  => 'font-size:10.21px;background-color:rgba(54,158,227,0);color:#e5e5e5;width:41%;min-width:5rem;float:right;border:1px solid #ffffff;',
 						),
 						'accept'           => array(
 							'text'                 => 'Accept',
@@ -4137,7 +4137,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'grey_column'      => array(
 						'name'             => 'widget-grey_column',
-						'css'              => 'font-size:10.21px;color:#000000;background-color:#f4f4f4;text-align:justify;border: 1px solid #111111;',
+						'css'              => 'font-size:10.21px;color:#000000;background-color:#f4f4f4;text-align:justify;',
 						'color'            => '#000000',
 						'background_color' => '#f4f4f4',
 						'opacity'          => '1',
@@ -4233,17 +4233,17 @@ class Gdpr_Cookie_Consent_Admin {
 						'decline'          => array(
 							'text'                 => 'Decline',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:rgba(54,158,227,0);color:#e5e5e5;width:41%;margin:0 0.5rem 0 0;min-width:5rem;border:1px solid #369ee3;',
+							'css'                  => 'font-size:10.21px;background-color:rgba(54,158,227,0);color:#e5e5e5;width:41%;margin:0 0.5rem 0 0;min-width:5rem;border:1px solid #ffffff;',
 						),
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:rgba(54,158,227,0);color:#e5e5e5;width:41%;min-width:5rem;float:right;border:1px solid #369ee3;',
+							'css'                  => 'font-size:10.21px;background-color:rgba(54,158,227,0);color:#e5e5e5;width:41%;min-width:5rem;float:right;border:1px solid #ffffff;',
 						),
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#369ee3;color:#e5e5e5;width:100%;margin:1rem auto 0 auto;min-width:5rem;',
+							'css'                  => 'font-size:10.21px;background-color:#B3DDFC;color:#0D283B;width:100%;margin:1rem auto 0 auto;min-width:5rem;',
 						),
 						'confirm'          => array(
 							'text'                 => __( 'Confirm', 'gdpr-cookie-consent' ),

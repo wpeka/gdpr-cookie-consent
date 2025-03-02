@@ -2447,6 +2447,8 @@ input[type="search"]:focus {
 }
 .gdpr_messagebar_content_preview .group-description-preview .gdpr_preview {
   margin: 0;
+  font-size: 16px;
+  font-weight: 300;
 }
 .gdpr_messagebar_content_preview
   .group-description-preview
@@ -2833,7 +2835,7 @@ input[type="search"]:focus {
 }
 .banner-grey_column_preview #cookie_action_accept_preview,
 .banner-grey_column_preview #cookie_action_accept_all_preview {
-  max-width: fit-content !important;
+  max-width: initial !important;
   min-width: 10rem !important;
   margin: 0.5rem auto 0 auto !important;
 }
@@ -2846,8 +2848,8 @@ input[type="search"]:focus {
   width: 80% !important;
 }
 .banner-grey_column_preview .group-description-buttons-preview {
-  width: 20% !important;
-  margin: auto 0 auto 1rem !important;
+  width: 70% !important;
+  margin: 3px 13px auto 45px !important;
 }
 /* for widget */
 .widget-grey_column_preview .gdpr_messagebar_content_preview {
@@ -9426,7 +9428,7 @@ input.vs__search {
   .gdpr_messagebar_content_preview
   #default_buttons_preview
   > #cookie_action_settings_preview {
-  min-width: 9rem !important;
+  min-width: 8rem !important;
 }
 #toplevel_page_wp-legal-pages .wp-submenu > :nth-child(3) > a:has(img) {
   display: flex;
@@ -9802,4 +9804,10 @@ input.vs__search {
 div#gdpr-scan-history {
   padding: 2px !important;
   height: 113%;
+}
+#banner-preview-main-container .gdpr-almond-grey-template #cookie_action_accept_preview{
+  display:block;
+}
+.widget-dark_row_preview .gdpr_messagebar_content_preview #default_buttons_preview{
+  display: flex;
 }
