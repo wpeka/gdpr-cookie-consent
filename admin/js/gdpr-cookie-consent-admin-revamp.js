@@ -323,6 +323,19 @@ jQuery(document).ready(function () {
     jQuery(this).attr("href", href);
   });
 
+  /* Added for optimising revamp banners code */
+  if (jQuery(".banner-almond_column_preview").is(":visible")) {
+  if (jQuery("#cookie_action_reject_preview").is(":hidden")) {
+    if (jQuery(window).width() > 768) {
+      
+      jQuery(".banner-almond_column_preview #cookie_action_accept_preview, .banner-almond_column_preview #cookie_action_accept_all_preview").css({"width":"20%"});
+      jQuery(".banner-almond_column_preview #cookie_action_accept_preview, .banner-almond_column_preview #cookie_action_accept_all_preview").css({"margin":"0.5rem auto 0 auto !important"});
+      jQuery(".banner-almond_column_preview .gdpr_messagebar_content_preview .group-description-buttons-preview .gpdr_cookie_settings_btn").css({"margin":"0.5rem auto 0 11px !important"});
+      jQuery(".banner-almond_column_preview .group-description-buttons-preview").css({"width":"20%"});
+    }
+  }
+  } 
+
   /**
    * Javascript functionality for SaaS API Framework.
    */
