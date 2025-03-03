@@ -5475,6 +5475,9 @@ var gen = new Vue({
       this.discovered_cookies_list_tab = false;
       this.scan_history_list_tab = false;
       this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+      const dropdownarrow = document.querySelector('.cookie_arrow')
+      dropdownarrow.classList.remove('up');
+      dropdownarrow.classList.add('down');
       const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
         if (tabLink) {
             tabLink.click();
@@ -5486,6 +5489,9 @@ var gen = new Vue({
       this.discovered_cookies_list_tab = true;
       this.scan_history_list_tab = false;
       this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+      const dropdownarrow = document.querySelector('.cookie_arrow')
+      dropdownarrow.classList.remove('up');
+      dropdownarrow.classList.add('down');
       const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
         if (tabLink) {
             tabLink.click();
@@ -5497,6 +5503,9 @@ var gen = new Vue({
       this.discovered_cookies_list_tab = false;
       this.scan_history_list_tab = true;
       this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+      const dropdownarrow = document.querySelector('.cookie_arrow')
+      dropdownarrow.classList.remove('up');
+      dropdownarrow.classList.add('down');
       const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
         if (tabLink) {
             tabLink.click();

@@ -4746,7 +4746,7 @@ gdpr-cookie-consent-admin-tab-content {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9; /* Ensure the overlay is on top of the blurred background */
+  z-index: 8; /* Ensure the overlay is on top of the blurred background */
   opacity: 8.5;
 }
 
@@ -9736,10 +9736,12 @@ div#gdpr-scan-history {
   display: none !important;
 }
 .cookie_scan_dropdown{
-  position: absolute;
-    left: 47.5%;
+  margin-left: -15px;
     padding: 8px 3px !important; 
 }
 .cookie_scan_dropdown:focus{
   box-shadow: none !important;
+}
+#gdpr-cookie-consent-help-app .gdpr-cookie-consent-settings-nav{
+  margin-left: 0;
 }
