@@ -8955,9 +8955,9 @@ input.vs__search {
   justify-content: center;
   align-items: center;
 }
-.modal-template-field.gdpr-widget-navy_blue_box .modal-group-buttons{
+/* .modal-template-field.gdpr-widget-navy_blue_box .modal-group-buttons{
   display: block !important;
-}
+} */
 .modal-template-field.gdpr-widget-navy_blue_box .modal-right-field-content.modal-right-field-content-square{
   text-align: center;
 }
