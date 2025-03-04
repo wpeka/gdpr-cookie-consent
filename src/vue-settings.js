@@ -145,6 +145,21 @@ var gen = new Vue({
         ? settings_obj.ab_options["gacm_key"]
         : "",
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
+      gcm_is_on: settings_obj.the_options.hasOwnProperty("is_gcm_on") && 
+        (true === settings_obj.the_options["is_gcm_on"] ||
+          1 === settings_obj.the_options["is_gcm_on"])
+          ? true
+          : false,
+      gcm_wait_for_update_duration: settings_obj.the_options.hasOwnProperty(
+        "gcm_wait_for_update_duration"
+      )
+        ? settings_obj.the_options["gcm_wait_for_update_duration"]
+        : "500",
+      gcm_advanced: settings_obj.the_options.hasOwnProperty("is_gcm_advanced") && 
+        (true === settings_obj.the_options["is_gcm_advanced"] ||
+          1 === settings_obj.the_options["is_gcm_advanced"])
+          ? true
+          : false,
       dynamic_lang_is_on:
         settings_obj.the_options.hasOwnProperty("is_dynamic_lang_on") &&
         (true === settings_obj.the_options["is_dynamic_lang_on"] ||
@@ -2325,6 +2340,9 @@ var gen = new Vue({
         this.shortcode_copied = false;
       }, 1500);
     },
+    addNewRegion(){
+
+    },
     decodeHTMLString(encodedString) {
       var doc = new DOMParser().parseFromString(encodedString, "text/html");
       return doc.documentElement.textContent.replace(/\\/g, "");
@@ -2623,6 +2641,12 @@ var gen = new Vue({
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
       this.is_iabtcf_changed = true;
+    },
+    onSwitchGCMEnable(){
+      this.gcm_is_on = !this.gcm_is_on;
+    },
+    onSwitchGCMAdvanced(){
+      this.gcm_advanced = !this.gcm_advanced;
     },
     onSwitchDynamicLang() {
       this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
@@ -4804,6 +4828,7 @@ var gen = new Vue({
         this.show_visitor_conditions = true;
         this.show_revoke_card = false;
         this.iabtcf_is_on = false;
+        this.gcm_is_on = false;
         //visitors condition.
         this.selectedRadioWorldWide = "yes";
         this.is_worldwide_on = true;
@@ -5296,6 +5321,9 @@ var gen = new Vue({
       this.accept_background_color = "#18a300";
       this.open_url = false;
       this.iabtcf_is_on = false;
+      this.gcm_is_on = false;
+      this.gcm_wait_for_update_duration = '500';
+      this.gcm_advanced = false;
       this.dynamic_lang_is_on = false;
       this.gacm_is_on = false;
       this.accept_as_button = true;
@@ -7591,6 +7619,21 @@ var app = new Vue({
           ? true
           : false,
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
+      gcm_is_on: settings_obj.the_options.hasOwnProperty("is_gcm_on") && 
+        (true === settings_obj.the_options["is_gcm_on"] ||
+          1 === settings_obj.the_options["is_gcm_on"])
+          ? true
+          : false,
+      gcm_wait_for_update_duration: settings_obj.the_options.hasOwnProperty(
+        "gcm_wait_for_update_duration"
+      )
+        ? settings_obj.the_options["gcm_wait_for_update_duration"]
+        : "500",
+      gcm_advanced: settings_obj.the_options.hasOwnProperty("is_gcm_advanced") && 
+        (true === settings_obj.the_options["is_gcm_advanced"] ||
+          1 === settings_obj.the_options["is_gcm_advanced"])
+          ? true
+          : false,
       banner_preview_is_on:
         "true" == settings_obj.the_options["banner_preview_enable"] ||
         1 === settings_obj.the_options["banner_preview_enable"]
@@ -9825,6 +9868,12 @@ var app = new Vue({
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
     },
+    onSwitchGCMEnable(){
+      this.gcm_is_on = !this.gcm_is_on;
+    },
+    onSwitchGCMAdvanced(){
+      this.gcm_advanced = !this.gcm_advanced;
+    },
     onSwitchGacmEnable() {
       this.gacm_is_on = !this.gacm_is_on;
     },
@@ -11884,6 +11933,7 @@ var app = new Vue({
         this.show_visitor_conditions = true;
         this.show_revoke_card = false;
         this.iabtcf_is_on = false;
+        this.gcm_is_on = false;
         //visitors condition.
         this.selectedRadioWorldWide = "yes";
         this.is_worldwide_on = true;
@@ -12314,6 +12364,9 @@ var app = new Vue({
       this.button_readmore_button_border_color = "#333333";
       this.button_readmore_button_border_radius = "0";
       this.iabtcf_is_on = false;
+      this.gcm_is_on = false;
+      this.gcm_wait_for_update_duration = '500';
+      this.gcm_advanced = false;
       this.gacm_is_on = false;
       this.decline_text = "Decline";
       this.decline_url = "#";

@@ -1069,6 +1069,88 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 									<?php }?>
 								</c-row>
+								<c-row v-show="!is_ccpa">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Consent Mode(GCM)', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-switch v-bind="labelIcon" v-model="gcm_is_on" id="gdpr-cookie-consent-gcm-on" variant="3d"  color="success" :checked="gcm_is_on" v-on:update:checked="onSwitchGCMEnable"></c-switch>
+										<input type="hidden" name="gcc-gcm-enable" v-model="gcm_is_on">
+									</c-col>
+								</c-row>
+								<c-row v-show="gcm_is_on" style="border-bottom: 1px solid var(--gray-200);">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Default consent settings', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-12">
+										<p class="policy-description">
+											<?php echo esc_html__("The default consent state, 'Denied', will apply until consent is recieved. You can customize the default consent states for users in different geographical regions. ", 'gdpr-cookie-consent'); ?>
+										</p>
+									</c-col>
+									<c-col class="col-sm-12">
+										<table class="gcm-table">
+											<thead>
+												<tr>
+													<th>Analytics</th>
+													<th>Advertisment</th>
+													<th>Share data with Google</th>
+													<th>Use data for ad personalization</th>
+													<th>Region</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Denied</td>
+													<td>Denied</td>
+													<td>Denied</td>
+													<td>Denied</td>
+													<td>All</td>
+													<td style="display: flex; justify-content: center; gap: 5px; border-top: none; border-left: none;"><button><img src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/edit.png';?>"></button><button><img src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/trash.png';?>"></button></td>
+												</tr>
+												<tr>
+													<td>Denied</td>
+													<td>Denied</td>
+													<td>Denied</td>
+													<td>Denied</td>
+													<td>All</td>
+													<td style="display: flex; justify-content: center; gap: 5px; border-top: none; border-left: none;"><button><img src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/edit.png';?>"></button><button><img src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/trash.png';?>"></button></td>
+												</tr>
+											</tbody>
+										</table>
+									</c-col>
+									<c-col class="col-sm-12">
+										<c-button id="add-region-btn" class="btn btn-info" variant="outline" @click="addNewRegion">+ New Region</c-button>
+									</c-col>
+									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Allow Google tags to fire before consent(Advanced GCM)', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8" style="margin-top: 20px;">
+										<c-switch v-bind="labelIcon" v-model="gcm_advanced" id="gdpr-cookie-consent-gcm-advanced" variant="3d"  color="success" :checked="gcm_advanced" v-on:update:checked="onSwitchGCMAdvanced"></c-switch>
+										<input type="hidden" name="gcc-gcm-advanced" v-model="gcm_advanced">
+										<p class="policy-description cookie-notice-readmore-container">
+											<?php echo strip_tags('When enabled, the Google tags will fire before your users provide consent. Read more at <a href="https://support.google.com/google-ads/answer/10000067?hl=en" target="blank" class="cookie-notice-readmore">Basic vs Advanced consent mode</a>', '<p><a><i><em><b><strong>'); ?>
+										</p>
+									</c-col>
+									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Wait for update', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8" style="margin-top: 20px;">
+										<c-input name="gcm_wait_for_update_duration_field" v-model="gcm_wait_for_update_duration"></c-input>
+										<p class="policy-description">
+											<?php echo strip_tags('Number of milliseconds to wait before firing tags that are waiting for consent.', '<p><a><i><em><b><strong>'); ?>
+										</p>
+									</c-col>
+									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Pass ad click information through URLs', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8" style="margin-top: 20px;">
+										<c-switch v-bind="labelIcon" v-model="gcm_is_on" id="gdpr-cookie-consent-gcm-on" variant="3d"  color="success" :checked="gcm_is_on" v-on:update:checked="onSwitchGCMEnable"></c-switch>
+										<input type="hidden" name="gcc-gcm-enable" v-model="gcm_is_on">
+										<p class="policy-description cookie-notice-readmore-container">
+											<?php echo strip_tags('When enabled, internal links will include advertising identifiers (such as gclid, dclid, gclsrc, and _gl) in their URLs while awaiting consent.', '<p><a><i><em><b><strong>'); ?>
+										</p>
+									</c-col>
+									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Redact ads data', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8" style="margin-top: 20px;">
+										<c-switch v-bind="labelIcon" v-model="gcm_is_on" id="gdpr-cookie-consent-gcm-on" variant="3d"  color="success" :checked="gcm_is_on" v-on:update:checked="onSwitchGCMEnable"></c-switch>
+										<input type="hidden" name="gcc-gcm-enable" v-model="gcm_is_on">
+										<p class="policy-description cookie-notice-readmore-container">
+											<?php echo strip_tags('When enabled and the default consent state of "Advertisment" cookies is disabled, Google advertising tags will remove all advertising identifiers from the requests, and route traffic through domains that do not use cookies.', '<p><a><i><em><b><strong>'); ?>
+										</p>
+									</c-col>
+									
+								</c-row>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select the Type of Law', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
