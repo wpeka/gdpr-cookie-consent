@@ -347,36 +347,17 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 				return $response;
 			} 
 			else{
+				$settings   = new GDPR_Cookie_Consent_Settings();
+				$product_id = $settings->get( 'account', 'product_id' );
 				$defaults = array(
 					'wc_am_action'    => 'deactivate',
-					'product_id' => '32904',
+					'product_id' => $product_id,
 					'instance'   => $this->wc_am_instance_id,
 					'object'     => $this->wc_am_domain
 				);
 				$args       = wp_parse_args( $defaults, $args );
 				$target_url = esc_url_raw( $this->create_software_api_url( $args ) );
 				$request    = wp_safe_remote_post( $target_url, array( 'timeout' => 15 ) );
-				
-				if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
-					// Request failed
-					//try with old product id once
-					$defaults = array(
-						'wc_am_action'    => 'deactivate',
-						'product_id' => '129',
-						'instance'   => $this->wc_am_instance_id,
-						'object'     => $this->wc_am_domain
-					);
-					$args       = wp_parse_args( $defaults, $args );
-					$target_url = esc_url_raw( $this->create_software_api_url( $args ) );
-					$request    = wp_safe_remote_post( $target_url, array( 'timeout' => 15 ) );
-					if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
-						//request failed again
-						return false;
-					}
-					$response = wp_remote_retrieve_body( $request );
-					return $response;
-				}
-				
 				$response = wp_remote_retrieve_body( $request );
 				return $response;
 			}
