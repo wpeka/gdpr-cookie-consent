@@ -9706,7 +9706,7 @@ input.vs__search {
   background: transparent;
   border: 1px solid var(--blue-901);
 }
-.gdpr-api-detailed-info-wrapper .gdpr-api-connection-btns a[class="gdpr-start-auth"]{
+.gdpr-api-detailed-info-wrapper .gdpr-api-connection-btns a.gdpr-start-auth {
   width: 215px;
   height: 52px;
   border: none;

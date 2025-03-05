@@ -555,7 +555,7 @@ jQuery(document).ready(function () {
     // Prevent the default action of the event.
     event.preventDefault();
 
-    var is_new_user = this.classList.contains("gdpr-start-auth");
+    var is_new_user = this.classList.contains("gdpr-signup");
 
     // Create spinner element
     var spinner = jQuery('<div class="gdpr-spinner"></div>');
