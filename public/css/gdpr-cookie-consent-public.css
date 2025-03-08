@@ -2662,6 +2662,14 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 
 @media (max-width: 414px) {
+  #gdpr-cookie-consent-bar.widget-almond_column > .gdpr_messagebar_content > .group-description-buttons#default_buttons, 
+  #gdpr-cookie-consent-bar.widget-grey_column > .gdpr_messagebar_content > .group-description-buttons#default_buttons{
+    width: 45% !important;
+  }
+  #gdpr-cookie-consent-bar.gdpr-widget .btn.gdpr_action_button, 
+  #gdpr-cookie-consent-bar.gdpr-widget .btn.gdpr_action_button_link{
+    width: 100%;
+  }
   #gdpr-cookie-consent-bar.gdpr-banner.gdpr-column
     .gdpr_messagebar_content
     .group-description-buttons,
@@ -2718,9 +2726,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
     display: flex;
     justify-content: space-around;
   }
-  #gdpr-cookie-consent-bar.banner-default > .gdpr_messagebar_content > #default_buttons {
-    display: block;
-  }
+  
   #gdpr-cookie-consent-bar .btn.gdpr_action_button,
   #gdpr-cookie-consent-bar .btn.gdpr_action_button_link {
     margin-left: 0.25rem;
@@ -3197,7 +3203,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   align-items: center !important;
 }
 .popup-grey_column .gdpr_messagebar_content .gdpr.group-description-buttons{
-  display: flex !important;
+  /* display: flex !important; */
   flex-direction: column !important;
   align-items: center !important;
 }
@@ -3357,11 +3363,11 @@ display: block;
 #gdpr-cookie-consent-bar.widget-dark_row .gdpr_messagebar_content #default_buttons{
   display: flex;
 }
-#gdpr-cookie-consent-bar.banner-dark .gdpr_messagebar_content #default_buttons #cookie_action_reject,
+/* #gdpr-cookie-consent-bar.banner-dark .gdpr_messagebar_content #default_buttons #cookie_action_reject,
 #gdpr-cookie-consent-bar.popup-dark .gdpr_messagebar_content #default_buttons #cookie_action_reject,
 #gdpr-cookie-consent-bar.widget-dark .gdpr_messagebar_content #default_buttons #cookie_action_reject{
   float: none !important;
-}
+} */
 #gdpr-cookie-consent-bar.popup-grey_center .btn.gdpr_action_button,
 .popup-navy_blue_box .gdpr_messagebar_content #cookie_action_accept,
 .popup-navy_blue_box .gdpr_messagebar_content #cookie_action_settings, 
