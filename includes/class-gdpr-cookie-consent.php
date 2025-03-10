@@ -945,7 +945,7 @@ class Gdpr_Cookie_Consent {
 			'is_worldwide_on'                      => true,
 			'is_selectedCountry_on'                => false,
 			'logging_on'                           => true,
-			'show_credits'                         => false,
+			'show_credits'                         => true,
 			'is_ticked'                            => false,
 			'show_again'                           => true,
 			'is_script_blocker_on'                 => false,
