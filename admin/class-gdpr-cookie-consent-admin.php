@@ -6284,7 +6284,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public function wpl_cookie_template() {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
-			<c-card v-show="is_gdpr || is_lgpd">
+			<c-card v-show="is_gdpr || is_lgpd || is_ccpa || is_eprivacy">
 					<c-row>
 						<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_attr_e( 'Cookie Bar Template', 'gdpr-cookie-consent' ); ?></div></c-col>
 					</c-row>
