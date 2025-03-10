@@ -6271,7 +6271,16 @@ class Gdpr_Cookie_Consent_Admin {
 									<?php if ( isset( $template['readmore'] ) ) :
 										$class = $template['readmore']['as_button'] ? 'btn btn-sm' : '';
 										?>
-										<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ button_readmore_text }}</a>
+										<p>
+    									    <a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">
+    									        <?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+    									            {{ opt_out_text }}
+    									        <?php else : ?>
+    									            {{ button_readmore_text }}
+    									        <?php endif; ?>
+    									    </a>
+    									</p>
+
 									<?php endif; ?>
 								</p>
 							<?php endif; ?>
