@@ -6004,14 +6004,14 @@ class Gdpr_Cookie_Consent_Admin {
 							<?php
 							if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) :
 								?>
-								<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
-								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-								<h3 v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
-								<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-								<h3 v-if="gdpr_message_heading.length>0">{{ccpa_message_heading}}</h3>
-								<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-								<h3 v-if="gdpr_message_heading.length>0">{{eprivacy_message_heading}}</h3>
-								<?php endif; ?>
+							<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+							<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
+							<h3 v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
+							<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+							<h3 v-if="gdpr_message_heading.length>0">{{ccpa_message_heading}}</h3>
+							<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+							<h3 v-if="gdpr_message_heading.length>0">{{eprivacy_message_heading}}</h3>
+							<?php endif; ?>
 							<?php if ( $column ) : ?>
 								<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
 									<p v-html ="gdpr_message"></p>
