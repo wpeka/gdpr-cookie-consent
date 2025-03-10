@@ -6006,13 +6006,21 @@ class Gdpr_Cookie_Consent_Admin {
 								?>
 								<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-								<h3 v-if="gdpr_message_heading.length>0">{{lgpd_message_heading}}</h3>
+								<h3 v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
+								<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+								<h3 v-if="gdpr_message_heading.length>0">{{ccpa_message_heading}}</h3>
+								<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+								<h3 v-if="gdpr_message_heading.length>0">{{eprivacy_message_heading}}</h3>
 								<?php endif; ?>
 							<?php if ( $column ) : ?>
 								<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
 									<p v-html ="gdpr_message"></p>
 									<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-									<p>{{lgpd_message}}</p>
+									<p v-html ="lgpd_message"></p>
+									<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+									<p v-html ="ccpa_message"></p>
+									<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+									<p v-html ="eprivacy_message"></p>
 									<?php endif; ?>
 									<?php
 									if ( isset( $template['readmore'] ) ) :
@@ -6021,10 +6029,19 @@ class Gdpr_Cookie_Consent_Admin {
 											$class = 'btn btn-sm';
 										endif;
 										?>
-										<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{button_readmore_text}}</a></p>
+										
+										<p>
+    									    <a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">
+    									        <?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+    									            {{ opt_out_text }}
+    									        <?php else : ?>
+    									            {{ button_readmore_text }}
+    									        <?php endif; ?>
+    									    </a>
+    									</p>
 									<?php endif; ?>
 								<?php else : ?>
-									<p><?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+									<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
 									<p v-html ="gdpr_message"></p>
 									<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
 									<p v-html ="lgpd_message"></p>
@@ -6040,11 +6057,20 @@ class Gdpr_Cookie_Consent_Admin {
 												$class = 'btn btn-sm';
 											endif;
 											?>
-											<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{button_readmore_text}}</a>
+											<p>
+    									    	<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">
+    									    	    <?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+    									    	        {{ opt_out_text }}
+    									    	    <?php else : ?>
+    									    	        {{ button_readmore_text }}
+    									    	    <?php endif; ?>
+    									    	</a>
+    										</p>
 										<?php endif; ?>
-									</p>
+									
 								<?php endif; ?>
 							</div>
+							<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) : ?>
 							<div class="gdpr-group-buttons">
 									<?php if ( $square ) : ?>
 										<?php
@@ -6104,6 +6130,7 @@ class Gdpr_Cookie_Consent_Admin {
 									<?php endif; ?>
 								<?php endif; ?>
 							</div>
+							<?php endif; ?>
 						</div>
 					</div>
 				</div>
@@ -6200,25 +6227,46 @@ class Gdpr_Cookie_Consent_Admin {
 								<h3 v-if="gdpr_message_heading.length>0">{{ gdpr_message_heading }}</h3>
 							<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
 								<h3 v-if="lgpd_message_heading.length>0">{{ lgpd_message_heading }}</h3>
+							<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+								<h3 v-if="gdpr_message_heading.length>0">{{ccpa_message_heading}}</h3>
+							<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+								<h3 v-if="gdpr_message_heading.length>0">{{eprivacy_message_heading}}</h3>
 							<?php endif; ?>
 	
 							<?php if ( $column ) : ?>
 								<?php if ( in_array( $the_options['cookie_usage_for'], ['gdpr', 'both'], true ) ) : ?>
 									<p v-html="gdpr_message"></p>
 								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-									<p>{{ lgpd_message }}</p>
+									<p v-html="lgpd_message"></p>
+								<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+									<p v-html="ccpa_message"></p>
+								<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+									<p v-html="eprivacy_message"></p>
 								<?php endif; ?>
 								<?php if ( isset( $template['readmore'] ) ) :
 									$class = $template['readmore']['as_button'] ? 'btn btn-sm' : '';
 									?>
-									<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ button_readmore_text }}</a></p>
+									<p>
+    								    <a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">
+    								        <?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+    								            {{ opt_out_text }}
+    								        <?php else : ?>
+    								            {{ button_readmore_text }}
+    								        <?php endif; ?>
+    								    </a>
+    								</p>
+
 								<?php endif; ?>
 							<?php else : ?>
 								<p>
 									<?php if ( in_array( $the_options['cookie_usage_for'], ['gdpr', 'both'], true ) ) : ?>
 										<p v-html="gdpr_message"></p>
 									<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-										<p>{{ lgpd_message }}</p>
+										<p v-html ="lgpd_message"></p>
+									<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+										<p v-html ="ccpa_message"></p>
+									<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+										<p v-html ="eprivacy_message"></p>
 									<?php endif; ?>
 									<?php if ( isset( $template['readmore'] ) ) :
 										$class = $template['readmore']['as_button'] ? 'btn btn-sm' : '';
@@ -6228,7 +6276,8 @@ class Gdpr_Cookie_Consent_Admin {
 								</p>
 							<?php endif; ?>
 						</div>
-	
+
+						<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) : ?>
 						<div class="modal-group-buttons">
 							<?php if ( $square ) : ?>
 								<?php if ( isset( $template['decline'] ) ) :
@@ -6264,6 +6313,8 @@ class Gdpr_Cookie_Consent_Admin {
 								<?php endif; ?>
 							<?php endif; ?>
 						</div>
+						<?php endif; ?>
+
 					</div>
 				</div>
 			</div>
