@@ -6027,7 +6027,11 @@ class Gdpr_Cookie_Consent_Admin {
 									<p><?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
 									<p v-html ="gdpr_message"></p>
 									<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-									<p>{{lgpd_message}}</p>
+									<p v-html ="lgpd_message"></p>
+									<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+									<p v-html ="ccpa_message"></p>
+									<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+										<p v-html ="eprivacy_message"></p>
 									<?php endif; ?>
 										<?php
 										if ( isset( $template['readmore'] ) ) :
