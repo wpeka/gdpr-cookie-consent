@@ -2609,7 +2609,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
     width: 100% !important;
     left: 0 !important;
     right: 0 !important;
-    bottom: 0 !important;
+    bottom: 0;
   }
   .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-content {
     font-size: var(--text-xs-font-size);
