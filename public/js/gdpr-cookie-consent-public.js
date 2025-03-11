@@ -3634,7 +3634,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (this.settings.cookie_bar_as == "widget") {
             this.bar_config["width"] = "35%";
             if (this.settings.notify_position_horizontal == "left") {
-              this.bar_config["bottom"] = "20px";
               this.bar_config["left"] = "20px";
             } else if (this.settings.notify_position_horizontal == "right") {
               this.bar_config["bottom"] = "20px";
@@ -3644,9 +3643,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
             ) {
               this.bar_config["top"] = "20px";
               this.bar_config["right"] = "20px";
+              this.bar_config["bottom"] = "auto";
             } else if (this.settings.notify_position_horizontal == "top_left") {
               this.bar_config["top"] = "20px";
               this.bar_config["left"] = "20px";
+              this.bar_config["bottom"] = "auto";              
             }
           }
           if (this.settings.cookie_bar_as == "popup") {
@@ -3729,7 +3730,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (this.settings.cookie_bar_as == "widget") {
             this.bar_config["width"] = "35%";
             if (this.settings.notify_position_horizontal == "left") {
-              this.bar_config["bottom"] = "20px";
               this.bar_config["left"] = "20px";
             } else if (this.settings.notify_position_horizontal == "right") {
               this.bar_config["bottom"] = "20px";
@@ -3739,9 +3739,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
             ) {
               this.bar_config["top"] = "20px";
               this.bar_config["right"] = "20px";
+              this.bar_config["bottom"] = "auto";
             } else if (this.settings.notify_position_horizontal == "top_left") {
               this.bar_config["top"] = "20px";
               this.bar_config["left"] = "20px";
+              this.bar_config["bottom"] = "auto";
             }
           }
           if (this.settings.cookie_bar_as == "popup") {
@@ -3821,7 +3823,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (this.settings.cookie_bar_as == "widget") {
             this.bar_config["width"] = "35%";
             if (this.settings.notify_position_horizontal == "left") {
-              this.bar_config["bottom"] = "20px";
               this.bar_config["left"] = "20px";
             } else if (this.settings.notify_position_horizontal == "right") {
               this.bar_config["bottom"] = "20px";
@@ -3831,9 +3832,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
             ) {
               this.bar_config["top"] = "20px";
               this.bar_config["right"] = "20px";
+              this.bar_config["bottom"] = "auto";
             } else if (this.settings.notify_position_horizontal == "top_left") {
               this.bar_config["top"] = "20px";
               this.bar_config["left"] = "20px";
+              this.bar_config["bottom"] = "auto";
             }
           }
           if (this.settings.cookie_bar_as == "popup") {
@@ -3917,7 +3920,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (this.settings.cookie_bar_as == "widget") {
             this.bar_config["width"] = "35%";
             if (this.settings.notify_position_horizontal == "left") {
-              this.bar_config["bottom"] = "20px";
               this.bar_config["left"] = "20px";
             } else if (this.settings.notify_position_horizontal == "right") {
               this.bar_config["bottom"] = "20px";
@@ -3927,9 +3929,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
             ) {
               this.bar_config["top"] = "20px";
               this.bar_config["right"] = "20px";
+              this.bar_config["bottom"] = "auto";
             } else if (this.settings.notify_position_horizontal == "top_left") {
               this.bar_config["top"] = "20px";
               this.bar_config["left"] = "20px";
+              this.bar_config["bottom"] = "auto";
             }
           }
           if (this.settings.cookie_bar_as == "popup") {
@@ -4013,7 +4017,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           if (this.settings.cookie_bar_as == "widget") {
             this.bar_config["width"] = "35%";
             if (this.settings.notify_position_horizontal == "left") {
-              this.bar_config["bottom"] = "20px";
               this.bar_config["left"] = "20px";
             } else if (this.settings.notify_position_horizontal == "right") {
               this.bar_config["bottom"] = "20px";
@@ -4023,9 +4026,11 @@ GDPR_CCPA_COOKIE_EXPIRE =
             ) {
               this.bar_config["top"] = "20px";
               this.bar_config["right"] = "20px";
+              this.bar_config["bottom"] = "auto";
             } else if (this.settings.notify_position_horizontal == "top_left") {
               this.bar_config["top"] = "20px";
               this.bar_config["left"] = "20px";
+              this.bar_config["bottom"] = "auto";
             }
           }
           if (this.settings.cookie_bar_as == "popup") {
@@ -4782,7 +4787,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
             if (this.settings.cookie_bar_as == "widget") {
               this.bar_config["width"] = "35%";
               if (this.settings.notify_position_horizontal == "left") {
-                this.bar_config["bottom"] = "20px";
                 this.bar_config["left"] = "20px";
               } else if (this.settings.notify_position_horizontal == "right") {
                 this.bar_config["bottom"] = "20px";
@@ -4792,11 +4796,13 @@ GDPR_CCPA_COOKIE_EXPIRE =
               ) {
                 this.bar_config["top"] = "20px";
                 this.bar_config["right"] = "20px";
+                this.bar_config["bottom"] = "auto";
               } else if (
                 this.settings.notify_position_horizontal == "top_left"
               ) {
                 this.bar_config["top"] = "20px";
                 this.bar_config["left"] = "20px";
+                this.bar_config["bottom"] = "auto";
               }
             }
             if (this.settings.cookie_bar_as == "popup") {
