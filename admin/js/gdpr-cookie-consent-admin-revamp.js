@@ -451,6 +451,7 @@ jQuery(document).ready(function () {
     });
     setTimeout(function(){
       $("#gdpr-start-auth").on("click", gdprStartAuth);
+      //$(".gdpr-dashboard-start-auth").on("click", gdprStartAuth); //Commented this as it's causing double popup(account connection) to appear
       $("#gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
       $("#api-connect-to-account-btn").on("click", gdprStartAuth);
       $(".AB-testing-gdpr").on("click", gdprStartAuth);
