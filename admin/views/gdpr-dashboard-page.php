@@ -35,7 +35,7 @@ $is_gdpr_active = is_plugin_active( $plugin_name_gdpr );
 $image_path = GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/';
 $legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wplegalpages' ), 'install-plugin_wplegalpages' );
 $legalpages_activation_url = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_name . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin_name );
-$help_page_tab_url = admin_url() . 'admin.php?page=help-page';
+$help_page_tab_url = admin_url() . 'admin.php?page=wplp-dashboard#help-page';
 
 
 // Require the class file for gdpr cookie consent api framework settings.

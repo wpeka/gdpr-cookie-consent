@@ -2447,6 +2447,8 @@ input[type="search"]:focus {
 }
 .gdpr_messagebar_content_preview .group-description-preview .gdpr_preview {
   margin: 0;
+  font-size: 16px;
+  font-weight: 300;
 }
 .gdpr_messagebar_content_preview
   .group-description-preview
@@ -2512,7 +2514,7 @@ input[type="search"]:focus {
   align-items: center;
 }
 #cookie_action_accept_preview.widget-accept-preview {
-  min-width: 7.5rem;
+  min-width: 8rem;
 }
 .widget-accept-all-preview,
 .widget-decline-preview {
@@ -2627,24 +2629,25 @@ input[type="search"]:focus {
   float: none !important;
   max-width: fit-content !important;
   min-width: 10rem !important;
-  margin: 0.5rem auto 0 auto !important;
+  margin: 0.5rem auto 0 auto;
 }
 .banner-almond_column_preview #cookie_action_accept_preview,
 .banner-almond_column_preview #cookie_action_accept_all_preview {
-  max-width: fit-content !important;
+  /* max-width: fit-content !important; */
   min-width: 10rem !important;
-  margin: 0.5rem auto 0 auto !important;
+  margin: 0.5rem auto 0 11px !important;
+  width: 94%;
 }
 .banner-almond_column_preview #cookie_action_reject_preview {
   max-width: fit-content !important;
   min-width: 10rem !important;
-  margin: 0.5rem auto 0 auto !important;
+  margin: 0.5rem auto 0 11px !important;
 }
 .banner-almond_column_preview .group-description-preview {
   width: 80% !important;
 }
 .banner-almond_column_preview .group-description-buttons-preview {
-  width: 20% !important;
+  width: 70% !important;
   margin: auto 0 auto 1rem !important;
 }
 
@@ -2833,9 +2836,10 @@ input[type="search"]:focus {
 }
 .banner-grey_column_preview #cookie_action_accept_preview,
 .banner-grey_column_preview #cookie_action_accept_all_preview {
-  max-width: fit-content !important;
+  max-width: initial !important;
   min-width: 10rem !important;
   margin: 0.5rem auto 0 auto !important;
+  display: block;
 }
 .banner-grey_column_preview #cookie_action_reject_preview {
   max-width: fit-content !important;
@@ -2846,8 +2850,8 @@ input[type="search"]:focus {
   width: 80% !important;
 }
 .banner-grey_column_preview .group-description-buttons-preview {
-  width: 20% !important;
-  margin: auto 0 auto 1rem !important;
+  width: 70%;
+  margin: 3px 13px auto 45px !important;
 }
 /* for widget */
 .widget-grey_column_preview .gdpr_messagebar_content_preview {
@@ -7393,6 +7397,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 
 @media (max-width: 414px) {
+  
   #gdpr-cookie-consent-bar.gdpr-banner.gdpr-column
     .gdpr_messagebar_content
     .group-description-buttons {
@@ -8951,6 +8956,12 @@ input.vs__search {
   justify-content: center;
   align-items: center;
 }
+/* .modal-template-field.gdpr-widget-navy_blue_box .modal-group-buttons{
+  display: block !important;
+} */
+.modal-template-field.gdpr-widget-navy_blue_box .modal-right-field-content.modal-right-field-content-square{
+  text-align: center;
+}
 
 .gdpr_messagebar_body_heading_extended {
   border-top: 1px solid rgb(102, 102, 102);
@@ -9385,12 +9396,14 @@ input.vs__search {
   #default_buttons_preview {
   display: flex !important;
   flex-direction: row !important;
+  justify-content: center;
 }
 .widget-grey_center_preview
   .gdpr_messagebar_content_preview
   #default_buttons_preview {
   display: flex !important;
   flex-direction: row !important;
+  justify-content: center;
 }
 .widget-navy_blue_center_preview
   .gdpr_messagebar_content_preview
@@ -9426,7 +9439,7 @@ input.vs__search {
   .gdpr_messagebar_content_preview
   #default_buttons_preview
   > #cookie_action_settings_preview {
-  min-width: 9rem !important;
+  min-width: 8rem !important;
 }
 #toplevel_page_wp-legal-pages .wp-submenu > :nth-child(3) > a:has(img) {
   display: flex;
@@ -9802,4 +9815,12 @@ input.vs__search {
 div#gdpr-scan-history {
   padding: 2px !important;
   height: 113%;
+}
+#banner-preview-main-container .gdpr-almond-grey-template #cookie_action_accept_preview{
+  display:block;
+}
+
+#banner-preview-main-container.popup-default_preview .gdpr_messagebar_content_preview #default_buttons_preview,
+#banner-preview-main-container.popup-dark_preview .gdpr_messagebar_content_preview #default_buttons_preview  {
+  display: block;
 }
