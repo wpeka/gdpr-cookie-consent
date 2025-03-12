@@ -323,6 +323,23 @@ jQuery(document).ready(function () {
     jQuery(this).attr("href", href);
   });
 
+  /* Added for optimising revamp banners code - start */
+  if (jQuery(".banner-almond_column_preview").is(":visible")) {
+  if (jQuery("#cookie_action_reject_preview").is(":hidden")) {
+      jQuery(".banner-almond_column_preview #cookie_action_accept_preview, .banner-almond_column_preview #cookie_action_accept_all_preview").css({"width":"20%"});
+      jQuery(".banner-almond_column_preview #cookie_action_accept_preview, .banner-almond_column_preview #cookie_action_accept_all_preview").css({"margin":"0.5rem auto 0 auto !important"});
+      jQuery(".banner-almond_column_preview .gdpr_messagebar_content_preview .group-description-buttons-preview .gpdr_cookie_settings_btn").css({"margin":"0.5rem auto 0 11px"});
+      jQuery(".banner-almond_column_preview .group-description-buttons-preview").css({"width":"20%"});
+    
+  }
+  }
+  if (jQuery(".banner-grey_column_preview").is(":visible")) {
+    if (jQuery("#cookie_action_reject_preview").is(":hidden")) {
+      jQuery(".banner-grey_column_preview .gdpr_messagebar_content_preview .group-description-buttons-preview").css({"width":"auto"});
+    }
+  }
+  /* Added for optimising revamp banners code - end */
+
   /**
    * Javascript functionality for SaaS API Framework.
    */
@@ -434,7 +451,7 @@ jQuery(document).ready(function () {
     });
     setTimeout(function(){
       $("#gdpr-start-auth").on("click", gdprStartAuth);
-      $(".gdpr-dashboard-start-auth").on("click", gdprStartAuth);
+      //$(".gdpr-dashboard-start-auth").on("click", gdprStartAuth); //Commented this as it's causing double popup(account connection) to appear
       $("#gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
       $("#api-connect-to-account-btn").on("click", gdprStartAuth);
       $(".AB-testing-gdpr").on("click", gdprStartAuth);
