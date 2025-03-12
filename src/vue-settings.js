@@ -2266,6 +2266,7 @@ var gen = new Vue({
           ? true
           : false,
       cookie_list_tab: true,
+      cookie_scan_dropdown: false,
       discovered_cookies_list_tab: false,
       scan_history_list_tab: false,
       preview_cookie_declaration: true,
@@ -6184,6 +6185,7 @@ var gen = new Vue({
       this.cookie_font2 = "inherit";
       this.cookie_text_color2 = "#000000";
       this.cookie_list_tab = true;
+      this.cookie_scan_dropdown = false;
       this.discovered_cookies_list_tab = false;
       this.scan_history_list_tab = false;
       var data = {
@@ -6242,22 +6244,58 @@ var gen = new Vue({
       if (this.active_default_multiple_legislation === "gdpr")
         this.active_default_multiple_legislation = "ccpa";
     },
+    openCookieDropdown(){
+      const dropdownarrow = document.querySelector('.cookie_arrow')
+      if(this.cookie_scan_dropdown){
+        dropdownarrow.classList.remove('up');
+        dropdownarrow.classList.add('down');
+      }
+      else{
+        dropdownarrow.classList.remove('down');
+        dropdownarrow.classList.add('up');
+      }
+      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+    },
     onChangeCookieListTab() {
       this.cookie_list_tab = true;
       this.discovered_cookies_list_tab = false;
       this.scan_history_list_tab = false;
+      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+      const dropdownarrow = document.querySelector('.cookie_arrow')
+      dropdownarrow.classList.remove('up');
+      dropdownarrow.classList.add('down');
+      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
+        if (tabLink) {
+            tabLink.click();
+        }
       window.location.hash = "#cookie_settings#cookie_list#custom_cookie";
     },
     onChangeDiscoveredListTab() {
       this.cookie_list_tab = false;
       this.discovered_cookies_list_tab = true;
       this.scan_history_list_tab = false;
+      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+      const dropdownarrow = document.querySelector('.cookie_arrow')
+      dropdownarrow.classList.remove('up');
+      dropdownarrow.classList.add('down');
+      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
+        if (tabLink) {
+            tabLink.click();
+        }
       window.location.hash = "#cookie_settings#cookie_list#discovered_cookies";
     },
     onChangeScanHistoryTab() {
       this.cookie_list_tab = false;
       this.discovered_cookies_list_tab = false;
       this.scan_history_list_tab = true;
+      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+      const dropdownarrow = document.querySelector('.cookie_arrow')
+      dropdownarrow.classList.remove('up');
+      dropdownarrow.classList.add('down');
+      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
+        if (tabLink) {
+            tabLink.click();
+        }
       window.location.hash = "#cookie_settings#cookie_list#scan_history";
     },
     activateTabFromHash() {

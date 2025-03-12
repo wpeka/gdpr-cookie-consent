@@ -1472,3 +1472,25 @@ document.addEventListener("DOMContentLoaded", function () {
     '#wp-admin-bar-nexcess-mapps-delete-expired-transients input[id="nonce"]'
   ).attr("id", "nonce-delete-expired-transients");
 });
+document.addEventListener("DOMContentLoaded", alignSideBar);
+function alignSideBar(){
+  var side_bar = document.querySelector(".gdpr-sub-tabs");
+
+  function updateTopBasedOnTab(tabList) {
+        if (tabList.includes("cookie_settings")) {
+            side_bar.style.top = "200px";
+        } else {
+            side_bar.style.top = "110px"; // Default value
+        }
+    }
+    // Get the hash (part after #)
+    var urlParts = window.location.href.split("#");
+    updateTopBasedOnTab(urlParts);
+
+    document.querySelectorAll(".gdpr-sub-tabs .gdpr-cookie-consent-admin-tab").forEach(function(tab){
+        tab.addEventListener("click", function () {
+            var tabValue = this.getAttribute("data-tab");
+            updateTopBasedOnTab([tabValue]);
+        });
+    });
+}
