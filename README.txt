@@ -17,7 +17,7 @@ WP Cookie Consent is a powerful and user-friendly WordPress plugin designed to h
 
 With advanced cookie consent management, customizable banners, and automated compliance features, WP Cookie Consent ensures your website stays legally compliant while providing visitors with a seamless browsing experience.
 
-[youtube https://www.youtube.com/watch?v=HVVHczZtAzc]
+[youtube https://www.youtube.com/watch?v=93LIh4ARMN8]
 
 == 🌍 Why Choose WP Cookie Consent? ==
 == ✅ Comprehensive Compliance for Global Regulations ==
