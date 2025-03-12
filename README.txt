@@ -254,7 +254,9 @@ NOTE: Installing this plugin does not alone make your website GDPR compliant. Ev
 If you like this plugin, then consider checking out our other projects:
 
 - [WPLegalPages](https://wplegalpages.com/?&utm_source=wporg&utm_medium=referral&utm_campaign=cookie-consent) – Generate WordPress privacy policy, terms of use, terms & conditions, eCommerce returns, refunds policy, affiliate disclaimers & more.
+
 - [WP AdCenter](https://wpadcenter.com/?&utm_source=wporg&utm_medium=referral&utm_campaign=cookie-consent) – Easily Manage Ads on WordPress – Banner, Amazon, Google Adsense Ads.
+
 - [WPeka Woo Auction Software](https://www.wpauctionsoftware.com/?&utm_source=wporg&utm_medium=referral&utm_campaign=cookie-consent) – Host Simple / Reverse / Penny or eBay like auctions on your WooCommerce website.
 
 
@@ -266,7 +268,9 @@ You can find the official documentation for WP Cookie Consent here: [WP Cookie C
 This comprehensive guide covers everything from installation and setup to advanced features, ensuring you can easily configure the plugin to meet your compliance needs. 🚀
 
 = What features are included in the free version of WP Cookie Consent? =
-The free version allows you to scan your website for cookies, generate a basic cookie consent banner, and display it with unlimited pageviews. It’s an excellent choice for websites with minimal cookie usage and straightforward compliance needs.
+The free version allows you to scan your website for cookies, generate a basic cookie consent banner, and display it with unlimited pageviews. 
+
+It’s an excellent choice for websites with minimal cookie usage and straightforward compliance needs.
 
 = How does WP Cookie Consent ensure GDPR and CCPA compliance? =
 The plugin simplifies cookie consent management by helping you obtain and record user consent, ensuring compliance with GDPR, CCPA, and other privacy regulations. This helps you avoid potential legal risks and fines.
