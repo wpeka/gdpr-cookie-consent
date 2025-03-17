@@ -160,6 +160,16 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_gcm_advanced"])
           ? true
           : false,
+      gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
+        (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
+          1 === settings_obj.the_options["is_gcm_url_passthrough"])
+          ? true
+          : false,
+      gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
+        (true === settings_obj.the_options["is_gcm_ads_redact"] ||
+          1 === settings_obj.the_options["is_gcm_ads_redact"])
+          ? true
+          : false,
       dynamic_lang_is_on:
         settings_obj.the_options.hasOwnProperty("is_dynamic_lang_on") &&
         (true === settings_obj.the_options["is_dynamic_lang_on"] ||
@@ -2647,6 +2657,9 @@ var gen = new Vue({
     },
     onSwitchGCMAdvanced(){
       this.gcm_advanced = !this.gcm_advanced;
+    },
+    onSwitchGCMUrlPass(){
+      this.gcm_url_passthrough = !this.gcm_url_passthrough;
     },
     onSwitchDynamicLang() {
       this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
@@ -5324,6 +5337,8 @@ var gen = new Vue({
       this.gcm_is_on = false;
       this.gcm_wait_for_update_duration = '500';
       this.gcm_advanced = false;
+      this.gcm_url_passthrough = false;
+      this.gcm_ads_redact = false;
       this.dynamic_lang_is_on = false;
       this.gacm_is_on = false;
       this.accept_as_button = true;
@@ -7634,6 +7649,16 @@ var app = new Vue({
           1 === settings_obj.the_options["is_gcm_advanced"])
           ? true
           : false,
+      gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
+        (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
+          1 === settings_obj.the_options["is_gcm_url_passthrough"])
+          ? true
+          : false,
+      gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
+        (true === settings_obj.the_options["is_gcm_ads_redact"] ||
+          1 === settings_obj.the_options["is_gcm_ads_redact"])
+          ? true
+          : false,
       banner_preview_is_on:
         "true" == settings_obj.the_options["banner_preview_enable"] ||
         1 === settings_obj.the_options["banner_preview_enable"]
@@ -9873,6 +9898,8 @@ var app = new Vue({
     },
     onSwitchGCMAdvanced(){
       this.gcm_advanced = !this.gcm_advanced;
+    },onSwitchGCMUrlPass(){
+      this.gcm_url_passthrough = !this.gcm_url_passthrough;
     },
     onSwitchGacmEnable() {
       this.gacm_is_on = !this.gacm_is_on;
@@ -12367,6 +12394,8 @@ var app = new Vue({
       this.gcm_is_on = false;
       this.gcm_wait_for_update_duration = '500';
       this.gcm_advanced = false;
+      this.gcm_ads_redact = false;
+      this.gcm_url_passthrough = false;
       this.gacm_is_on = false;
       this.decline_text = "Decline";
       this.decline_url = "#";

@@ -1135,16 +1135,16 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Pass ad click information through URLs', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8" style="margin-top: 20px;">
-										<c-switch v-bind="labelIcon" v-model="gcm_is_on" id="gdpr-cookie-consent-gcm-on" variant="3d"  color="success" :checked="gcm_is_on" v-on:update:checked="onSwitchGCMEnable"></c-switch>
-										<input type="hidden" name="gcc-gcm-enable" v-model="gcm_is_on">
+										<c-switch v-bind="labelIcon" v-model="gcm_url_passthrough" id="gdpr-cookie-consent-gcm-url-passthrough" variant="3d"  color="success" :checked="gcm_url_passthrough" v-on:update:checked="onSwitchGCMUrlPass"></c-switch>
+										<input type="hidden" name="gcc-gcm-url-pass" v-model="gcm_url_passthrough">
 										<p class="policy-description cookie-notice-readmore-container">
 											<?php echo strip_tags('When enabled, internal links will include advertising identifiers (such as gclid, dclid, gclsrc, and _gl) in their URLs while awaiting consent.', '<p><a><i><em><b><strong>'); ?>
 										</p>
 									</c-col>
 									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Redact ads data', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8" style="margin-top: 20px;">
-										<c-switch v-bind="labelIcon" v-model="gcm_is_on" id="gdpr-cookie-consent-gcm-on" variant="3d"  color="success" :checked="gcm_is_on" v-on:update:checked="onSwitchGCMEnable"></c-switch>
-										<input type="hidden" name="gcc-gcm-enable" v-model="gcm_is_on">
+										<c-switch v-bind="labelIcon" v-model="gcm_ads_redact" id="gdpr-cookie-consent-gcm-ads-redact" variant="3d"  color="success" :checked="gcm_ads_redact" v-on:update:checked="onSwitchGCMAdsRedact"></c-switch>
+										<input type="hidden" name="gcc-gcm-ads-redact" v-model="gcm_ads_redact">
 										<p class="policy-description cookie-notice-readmore-container">
 											<?php echo strip_tags('When enabled and the default consent state of "Advertisment" cookies is disabled, Google advertising tags will remove all advertising identifiers from the requests, and route traffic through domains that do not use cookies.', '<p><a><i><em><b><strong>'); ?>
 										</p>
