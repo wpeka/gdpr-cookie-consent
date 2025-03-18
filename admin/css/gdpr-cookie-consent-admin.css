@@ -9730,7 +9730,6 @@ div#gdpr-scan-history {
   height: 113%;
 }
 
-//conflict start
 .down {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
@@ -9756,13 +9755,14 @@ div#gdpr-scan-history {
 .cookie_scan_dropdown{
   margin-left: -15px;
     padding: 8px 3px !important; 
+    z-index: 10;
 }
 .cookie_scan_dropdown:focus{
   box-shadow: none !important;
 }
 #gdpr-cookie-consent-help-app .gdpr-cookie-consent-settings-nav{
   margin-left: 0;
-
+}
 #banner-preview-main-container .gdpr-almond-grey-template #cookie_action_accept_preview{
   display:block;
 }
@@ -9771,4 +9771,4 @@ div#gdpr-scan-history {
 #banner-preview-main-container.popup-dark_preview .gdpr_messagebar_content_preview #default_buttons_preview  {
   display: block;
 }
-  //conflict end
+ 
