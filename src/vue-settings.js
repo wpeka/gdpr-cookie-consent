@@ -75,6 +75,8 @@ var gen = new Vue({
       account_connection: require("../admin/images/account_connection.svg"),
       closeOnBackdrop: true,
       centered: true,
+      edit_region: false,
+      add_region: false,
       accept_button_popup: false,
       accept_all_button_popup: false,
       decline_button_popup: false,
@@ -146,7 +148,8 @@ var gen = new Vue({
         : "",
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
       gcm_is_on: settings_obj.the_options.hasOwnProperty("is_gcm_on") && 
-        (true === settings_obj.the_options["is_gcm_on"] ||
+        (true === settings_obj.the_options["is_gcm_on"] || 
+          "true" === settings_obj.the_options["is_gcm_on"] ||
           1 === settings_obj.the_options["is_gcm_on"])
           ? true
           : false,
@@ -157,16 +160,19 @@ var gen = new Vue({
         : "500",
       gcm_advanced: settings_obj.the_options.hasOwnProperty("is_gcm_advanced") && 
         (true === settings_obj.the_options["is_gcm_advanced"] ||
+          "true" === settings_obj.the_options["is_gcm_advanced"] ||
           1 === settings_obj.the_options["is_gcm_advanced"])
           ? true
           : false,
       gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
         (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
+          "true" === settings_obj.the_options["is_gcm_url_passthrough"] ||
           1 === settings_obj.the_options["is_gcm_url_passthrough"])
           ? true
           : false,
       gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
         (true === settings_obj.the_options["is_gcm_ads_redact"] ||
+          "true" === settings_obj.the_options["is_gcm_ads_redact"] ||
           1 === settings_obj.the_options["is_gcm_ads_redact"])
           ? true
           : false,
@@ -617,6 +623,13 @@ var gen = new Vue({
       is_open_url:
         this.accept_action === "#cookie_action_close_header" ? false : true,
       accept_as_button_options: settings_obj.accept_button_as_options,
+      gcm_permission_options: settings_obj.gcm_permission_options,
+      gcm_analytics_permission: false,
+      gcm_ad_permission: false,
+      gcm_functional_permission: false,
+      gcm_share_permission: false,
+      gcm_ad_personalization_permission: false,
+      gcm_region: '',
       accept_as_button:
         settings_obj.the_options.hasOwnProperty("button_accept_as_button") &&
         (true === settings_obj.the_options["button_accept_as_button"] ||
@@ -2350,9 +2363,6 @@ var gen = new Vue({
         this.shortcode_copied = false;
       }, 1500);
     },
-    addNewRegion(){
-
-    },
     decodeHTMLString(encodedString) {
       var doc = new DOMParser().parseFromString(encodedString, "text/html");
       return doc.documentElement.textContent.replace(/\\/g, "");
@@ -2660,6 +2670,9 @@ var gen = new Vue({
     },
     onSwitchGCMUrlPass(){
       this.gcm_url_passthrough = !this.gcm_url_passthrough;
+    },
+    onSwitchGCMAdsRedact(){
+      this.gcm_ads_redact = !this.gcm_ads_redact;
     },
     onSwitchDynamicLang() {
       this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
@@ -9898,8 +9911,12 @@ var app = new Vue({
     },
     onSwitchGCMAdvanced(){
       this.gcm_advanced = !this.gcm_advanced;
-    },onSwitchGCMUrlPass(){
+    },
+    onSwitchGCMUrlPass(){
       this.gcm_url_passthrough = !this.gcm_url_passthrough;
+    },
+    onSwitchGCMAdsRedact(){
+      this.gcm_ads_redact = !this.gcm_ads_redact;
     },
     onSwitchGacmEnable() {
       this.gacm_is_on = !this.gacm_is_on;

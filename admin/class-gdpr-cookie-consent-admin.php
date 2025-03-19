@@ -5065,6 +5065,15 @@ class Gdpr_Cookie_Consent_Admin {
 			'label' => 'Link',
 			'code'  => false,
 		);
+		$gcm_permission_options = array();
+		$gcm_permission_options[0] = array(
+			'label' => 'Granted',
+			'code' => true,
+		);
+		$gcm_permission_options[1] = array(
+			'label' => 'Denied',
+			'code' => false,
+		);
 		$open_url_options            = array();
 		$open_url_options[0]         = array(
 			'label' => 'Yes',
@@ -5156,6 +5165,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'accept_size_options'              => $accept_size_options,
 				'accept_action_options'            => $accept_action_options,
 				'accept_button_as_options'         => $accept_button_as_options,
+				'gcm_permission_options'		   => $gcm_permission_options,
 				'open_url_options'                 => $open_url_options,
 				'widget_position_options'          => $widget_position_options,
 				'decline_action_options'           => $decline_action_options,
@@ -6843,7 +6853,14 @@ class Gdpr_Cookie_Consent_Admin {
 			if($the_options['is_gacm_on']  == "false" || $the_options['is_gacm_on']  == false){
 				$this->deactivate_gacm_updater();
 			}
-			$the_options['is_iabtcf_on']                       = isset( $_POST['gcc-iabtcf-enable'] ) && ( true === $_POST['gcc-iabtcf-enable'] || 'true' === $_POST['gcc-iabtcf-enable'] ) ? 'true' : 'false';
+			error_log("SAving". print_r($_POST['gcc-gcm-enable'], true));
+			$the_options['is_gcm_on']                       	 = isset( $_POST['gcc-gcm-enable'] ) && ( true === $_POST['gcc-gcm-enable'] || 'true' === $_POST['gcc-gcm-enable'] ) ? 'true' : 'false';
+			error_log("After SAving". print_r($the_options['is_gcm_on'], true));
+			$the_options['is_gcm_advanced']                      = isset( $_POST['gcc-gcm-advanced'] ) && ( true === $_POST['gcc-gcm-advanced'] || 'true' === $_POST['gcc-gcm-advanced'] ) ? 'true' : 'false';
+			$the_options['gcm_wait_for_update_duration']         = isset( $_POST['gcm_wait_for_update_duration_field'] ) ? sanitize_text_field(wp_unslash($_POST['gcm_wait_for_update_duration_field'])) : '500';
+			$the_options['is_gcm_url_passthrough']               = isset( $_POST['gcc-gcm-url-pass'] ) && ( true === $_POST['gcc-gcm-url-pass'] || 'true' === $_POST['gcc-gcm-url-pass'] ) ? 'true' : 'false';
+			$the_options['is_gcm_ads_redact']               	 = isset( $_POST['gcc-gcm-ads-redact'] ) && ( true === $_POST['gcc-gcm-ads-redact'] || 'true' === $_POST['gcc-gcm-ads-redact'] ) ? 'true' : 'false';
+			$the_options['is_iabtcf_on']                         = isset( $_POST['gcc-iabtcf-enable'] ) && ( true === $_POST['gcc-iabtcf-enable'] || 'true' === $_POST['gcc-iabtcf-enable'] ) ? 'true' : 'false';
 			$the_options['is_dynamic_lang_on']                   = isset( $_POST['gcc-dynamic-lang-enable'] ) && ( true === $_POST['gcc-dynamic-lang-enable'] || 'true' === $_POST['gcc-dynamic-lang-enable'] ) ? 'true' : 'false';
 			$the_options['optout_text']                          = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
 			$the_options['is_ccpa_iab_on']                       = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
