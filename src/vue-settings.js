@@ -6301,10 +6301,13 @@ var gen = new Vue({
     activateTabFromHash() {
       const hash = window.location.hash;
       if (hash === "#cookie_settings#cookie_list#custom_cookie") {
+        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
         this.onChangeCookieListTab();
       } else if (hash === "#cookie_settings#cookie_list#discovered_cookies") {
+        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
         this.onChangeDiscoveredListTab();
       } else if (hash === "#cookie_settings#cookie_list#scan_history") {
+        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
         this.onChangeScanHistoryTab();
       }
     },
@@ -6402,7 +6405,7 @@ var gen = new Vue({
         });
     },
     fetchIABData(){
-      GVL.baseUrl = "https://eadn-wc01-12578700.nxedge.io/cdn/rgh/";
+      GVL.baseUrl = "https://appwplegalpages.b-cdn.net/";
       const gvl = new GVL();
       gvl.readyPromise.then(() => {
       let data = {};

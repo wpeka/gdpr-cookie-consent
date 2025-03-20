@@ -4303,7 +4303,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
     margin-left: 20px;
     width: fit-content;
     min-width: fit-content !important;
-    z-index: 99;
+    z-index: 98;
     gap: 0 !important;
 }
 .gdpr-cookie-consent-admin-tab {
@@ -4342,6 +4342,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   font-style: normal;
   font-weight: var(--text-semi-bold-font-weight);
   line-height: var(--text-sm-line-height);
+  z-index: 100;
 }
 
 .dashboard-test {
@@ -7767,7 +7768,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   justify-content: space-between;
   position: sticky;
   top: 77px;
-  z-index: 99;
+  z-index: 98;
 }
 .gdpr-banner-preview-logo-text {
   display: flex;
@@ -8305,6 +8306,15 @@ button.btn.gdpr-renew-now-btn.pro,
     left: 35%;
     z-index: 100;
 }
+.dropdown_background{
+  z-index: 8;
+  background-color: transparent !important;
+  width: 100vw;
+  height: 100vh;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+}
 .gdpr-cookie-list-tabs .gdpr-cookie-consent-cookie-list-tab:focus {
   box-shadow: none;
 }
@@ -8465,9 +8475,7 @@ button.btn.gdpr-renew-now-btn.pro,
   margin-top: 33px;
 }
 @media (min-width: 1536px) {
-  .gdpr-cookie-list-tabs {
-    width: 1051px;
-  }
+  
   .compliances_card .card-body,
   .configuration_card .card-body,
   .desgin_card .card-body,

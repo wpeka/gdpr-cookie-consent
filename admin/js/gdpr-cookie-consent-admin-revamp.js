@@ -197,9 +197,9 @@ jQuery(document).ready(function () {
   // for free links
   jQuery(".gdpr-quick-link-item.settings_free").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.settings_free a").attr("href");
-
+    
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.cookie_banner_free").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.cookie_banner_free a").attr(
@@ -207,20 +207,20 @@ jQuery(document).ready(function () {
     );
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   // for pro links
   jQuery(".gdpr-quick-link-item.settings").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.settings a").attr("href");
-
+    
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.consent_logs").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.consent_logs a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-dashboard-cl-view-all-logs").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-dashboard-cl-view-all-logs span a").attr(
@@ -228,20 +228,20 @@ jQuery(document).ready(function () {
     );
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.policy_data").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.policy_data a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
 
   jQuery(".gdpr-dashboard-activation-tab ").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-dashboard-activation-tab a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
 
   jQuery(".gdpr-quick-link-item.scan_cookies").on("click", function (e) {
@@ -254,13 +254,13 @@ jQuery(document).ready(function () {
     var linkUrl = jQuery(".gdpr-quick-link-item.geo_targeting a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.cookie_banner").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.cookie_banner a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.banner_template").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.banner_template a").attr(
@@ -268,31 +268,31 @@ jQuery(document).ready(function () {
     );
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.script_blocker").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.script_blocker a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.policy_data").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.policy_data a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
 
   jQuery(".gdpr-cookie-summary-last-title a").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-cookie-summary-last-title a").attr("href");
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
 
   jQuery(".gdpr-dashboard-scan-now a").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-dashboard-scan-now a").attr("href");
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
 
   //check if data req is on, then show data req tab.
