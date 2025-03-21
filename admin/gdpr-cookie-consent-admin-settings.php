@@ -6577,12 +6577,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					</c-card>
 				</c-tab>
 				<c-button class="cookie_scan_dropdown" @click="openCookieDropdown"><i class="cookie_arrow down"></i></c-button>
-				<c-card v-show="cookie_scan_dropdown" class="dropdown_background" @click="openCookieDropdown"></c-card> 
+				
 				<div v-show="cookie_scan_dropdown" class="gdpr-cookie-list-tabs">
 						<c-button class="gdpr-cookie-consent-cookie-list-tab" @click="onChangeCookieListTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': cookie_list_tab == true }"><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?></c-button>
 						<c-button class="gdpr-cookie-consent-cookie-list-tab"  @click="onChangeDiscoveredListTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': discovered_cookies_list_tab == true }"><?php esc_html_e( 'Discovered Cookies', 'gdpr-cookie-consent' ); ?></c-button>
 						<c-button class="gdpr-cookie-consent-cookie-list-tab"  @click="onChangeScanHistoryTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': scan_history_list_tab == true }"><?php esc_html_e( 'Scan History', 'gdpr-cookie-consent' ); ?></c-button>
 				</div>
+				<c-card v-show="cookie_scan_dropdown" class="dropdown_background" @click="openCookieDropdown"></c-card> 
 				<!-- Script Blocker -->
 				<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 				<!--A/B Testing-->
