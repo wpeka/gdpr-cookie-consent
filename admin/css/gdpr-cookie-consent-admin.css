@@ -4303,7 +4303,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
     margin-left: 20px;
     width: fit-content;
     min-width: fit-content !important;
-    z-index: 99;
+    z-index: 98;
     gap: 0 !important;
 }
 .gdpr-cookie-consent-admin-tab {
@@ -4342,6 +4342,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   font-style: normal;
   font-weight: var(--text-semi-bold-font-weight);
   line-height: var(--text-sm-line-height);
+  z-index: 100;
 }
 
 .dashboard-test {
@@ -7767,7 +7768,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   justify-content: space-between;
   position: sticky;
   top: 77px;
-  z-index: 99;
+  z-index: 98;
 }
 .gdpr-banner-preview-logo-text {
   display: flex;
@@ -8302,8 +8303,23 @@ button.btn.gdpr-renew-now-btn.pro,
     flex-direction: column;
     position: absolute;
     top: 65px;
-    left: 35%;
+    left: 38%;
     z-index: 100;
+}
+@media (min-width:1646px) {
+  .gdpr-cookie-list-tabs{
+    left:40%;
+  }
+}
+.dropdown_background{
+  z-index: 7;
+  background-color: transparent !important;
+  width: 100vw;
+  max-width: none !important;
+  height: 100vh;
+  position: fixed !important;
+  top: 0;
+  left: 0;
 }
 .gdpr-cookie-list-tabs .gdpr-cookie-consent-cookie-list-tab:focus {
   box-shadow: none;
@@ -8465,9 +8481,7 @@ button.btn.gdpr-renew-now-btn.pro,
   margin-top: 33px;
 }
 @media (min-width: 1536px) {
-  .gdpr-cookie-list-tabs {
-    width: 1051px;
-  }
+  
   .compliances_card .card-body,
   .configuration_card .card-body,
   .desgin_card .card-body,
@@ -9730,7 +9744,6 @@ div#gdpr-scan-history {
   height: 113%;
 }
 
-//conflict start
 .down {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
@@ -9756,13 +9769,14 @@ div#gdpr-scan-history {
 .cookie_scan_dropdown{
   margin-left: -15px;
     padding: 8px 3px !important; 
+    z-index: 10;
 }
 .cookie_scan_dropdown:focus{
   box-shadow: none !important;
 }
 #gdpr-cookie-consent-help-app .gdpr-cookie-consent-settings-nav{
   margin-left: 0;
-
+}
 #banner-preview-main-container .gdpr-almond-grey-template #cookie_action_accept_preview{
   display:block;
 }
@@ -9771,4 +9785,4 @@ div#gdpr-scan-history {
 #banner-preview-main-container.popup-dark_preview .gdpr_messagebar_content_preview #default_buttons_preview  {
   display: block;
 }
-  //conflict end
+ 
