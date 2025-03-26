@@ -365,11 +365,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		?>
 		<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#script_blocker" id="gdpr-cookie-consent-script-blocker">
 			<c-card class="script-blocker-card">
-				<c-row>
-					<c-col class="col-sm-32">
-						<div id="gdpr-cookie-consent-settings-configure-cookie-bar-top"><?php esc_html_e( 'Script Blocker Settings', 'gdpr-cookie-consent' ); ?></div>
-					</c-col>
-				</c-row>
+				
 				<c-card-body style="position:relative;">
 					<div :class="{ 'overlay-script-style': enable_safe}" v-show="enable_safe">
 						<div :class="{ 'overlay-script-message': enable_safe}">
@@ -382,6 +378,11 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						?>
 						</div>
 					</div>
+					<c-row>
+						<c-col class="col-sm-32">
+							<div id="gdpr-cookie-consent-settings-configure-cookie-bar-top"><?php esc_html_e( 'Script Blocker Settings', 'gdpr-cookie-consent' ); ?></div>
+						</c-col>
+					</c-row>
 					<c-row>
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?></label></c-col>
 						<c-col class="col-sm-8">
