@@ -1056,7 +1056,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
           GDPR.logConsent(button_action);
         }
         if (open_link) {
-          if (new_window) {
+          if (elm.attr("target") === "_blank" || new_window) {
             window.open(elm.attr("href"), "_blank");
           } else {
             window.location.href = elm.attr("href");
