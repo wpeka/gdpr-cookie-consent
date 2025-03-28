@@ -134,6 +134,9 @@ function generatePDF(
       let startY = 100; // Initial startY for content
 
       // Check and display status for Necessary
+      if (typeof preferences === "string") {
+        preferences = JSON.parse(preferences);
+      }
       if (preferences.necessary === "yes") {
         doc.setFont(undefined, "bold");
         doc.text("Necessary:", 15, startY); // Adjusted x-coordinate from 12 to 15
