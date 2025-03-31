@@ -334,7 +334,6 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 == Change Log ==
 
 = 3.7.7 =
-* Improvement: Revamped the menu structure for a more intuitive and seamless user experience.
 * Fix: Bug fixes and improvements.
 
 = 3.7.6 =
@@ -762,7 +761,6 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 == Upgrade Notice ==
 
 = 3.7.7 =
-* Improvement: Revamped the menu structure for a more intuitive and seamless user experience.
 * Fix: Bug fixes and improvements.
 
 = 3.7.6 =
