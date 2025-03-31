@@ -197,9 +197,9 @@ jQuery(document).ready(function () {
   // for free links
   jQuery(".gdpr-quick-link-item.settings_free").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.settings_free a").attr("href");
-
+    
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.cookie_banner_free").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.cookie_banner_free a").attr(
@@ -207,20 +207,20 @@ jQuery(document).ready(function () {
     );
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   // for pro links
   jQuery(".gdpr-quick-link-item.settings").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.settings a").attr("href");
-
+    
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.consent_logs").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.consent_logs a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-dashboard-cl-view-all-logs").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-dashboard-cl-view-all-logs span a").attr(
@@ -228,20 +228,20 @@ jQuery(document).ready(function () {
     );
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.policy_data").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.policy_data a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
 
   jQuery(".gdpr-dashboard-activation-tab ").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-dashboard-activation-tab a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
 
   jQuery(".gdpr-quick-link-item.scan_cookies").on("click", function (e) {
@@ -254,13 +254,13 @@ jQuery(document).ready(function () {
     var linkUrl = jQuery(".gdpr-quick-link-item.geo_targeting a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.cookie_banner").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.cookie_banner a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.banner_template").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.banner_template a").attr(
@@ -268,31 +268,31 @@ jQuery(document).ready(function () {
     );
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.script_blocker").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.script_blocker a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
   jQuery(".gdpr-quick-link-item.policy_data").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.policy_data a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
 
   jQuery(".gdpr-cookie-summary-last-title a").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-cookie-summary-last-title a").attr("href");
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
 
   jQuery(".gdpr-dashboard-scan-now a").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-dashboard-scan-now a").attr("href");
     window.location.assign(linkUrl);
-    location.reload();
+    
   });
 
   //check if data req is on, then show data req tab.
@@ -322,6 +322,23 @@ jQuery(document).ready(function () {
     href += "#policy_data";
     jQuery(this).attr("href", href);
   });
+
+  /* Added for optimising revamp banners code - start */
+  if (jQuery(".banner-almond_column_preview").is(":visible")) {
+  if (jQuery("#cookie_action_reject_preview").is(":hidden")) {
+      jQuery(".banner-almond_column_preview #cookie_action_accept_preview, .banner-almond_column_preview #cookie_action_accept_all_preview").css({"width":"20%"});
+      jQuery(".banner-almond_column_preview #cookie_action_accept_preview, .banner-almond_column_preview #cookie_action_accept_all_preview").css({"margin":"0.5rem auto 0 auto !important"});
+      jQuery(".banner-almond_column_preview .gdpr_messagebar_content_preview .group-description-buttons-preview .gpdr_cookie_settings_btn").css({"margin":"0.5rem auto 0 11px"});
+      jQuery(".banner-almond_column_preview .group-description-buttons-preview").css({"width":"20%"});
+    
+  }
+  }
+  if (jQuery(".banner-grey_column_preview").is(":visible")) {
+    if (jQuery("#cookie_action_reject_preview").is(":hidden")) {
+      jQuery(".banner-grey_column_preview .gdpr_messagebar_content_preview .group-description-buttons-preview").css({"width":"auto"});
+    }
+  }
+  /* Added for optimising revamp banners code - end */
 
   /**
    * Javascript functionality for SaaS API Framework.
@@ -434,7 +451,7 @@ jQuery(document).ready(function () {
     });
     setTimeout(function(){
       $("#gdpr-start-auth").on("click", gdprStartAuth);
-      $(".gdpr-dashboard-start-auth").on("click", gdprStartAuth);
+      //$(".gdpr-dashboard-start-auth").on("click", gdprStartAuth); //Commented this as it's causing double popup(account connection) to appear
       $("#gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
       $("#api-connect-to-account-btn").on("click", gdprStartAuth);
       $(".AB-testing-gdpr").on("click", gdprStartAuth);

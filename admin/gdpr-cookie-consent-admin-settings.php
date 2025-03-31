@@ -848,10 +848,23 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						}
 						?>
 						</div>
-						<h3 v-show="is_gdpr && !is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: multiple_legislation_cookie_font1 , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
-						<p v-show="is_gdpr"  v-html="gdpr_message" class="gdpr_preview" :style="{ fontFamily: cookie_font }">
+						<h3 v-show="is_gdpr && !is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font1 , 'color': 'inherit'
+							}">{{gdpr_message_heading}}</h3>
+						<h3 v-show="is_lgpd" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font1 , 'color': 'inherit' }">{{lgpd_message_heading}}</h3>
+						<h3 v-show="is_gdpr && is_ccpa" class="gdpr_heading_preview" :style="{ fontFamily: cookie_font1 , 'color': 'inherit' }">{{gdpr_message_heading}}</h3>
+						<p v-show="is_gdpr" class="gdpr_preview" v-html="gdpr_message" :style="{ fontFamily: cookie_font1 }">
+						<br v-show="popup_template == 'popup-almond_column' && show_cookie_as == 'popup'">
+						<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
 						</p>
-						<a v-show="button_readmore_is_on && is_gdpr" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+						<p v-show="is_lgpd" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{lgpd_message}}
+						<br v-show="popup_template == 'popup-almond_column' && show_cookie_as == 'popup'">
+						<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+						</p>
+						<p v-show="is_eprivacy" class="gdpr_preview" :style="{ fontFamily: cookie_font }">{{eprivacy_message}}
+						<a v-show="button_readmore_is_on" id="cookie_action_link_prview" href="#" class="gdpr_link_button_preview"  :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ fontFamily: cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+						</p>
+						<p v-show="is_ccpa" class="ccpa_preview_msg" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ fontFamily: cookie_font1 }" >{{ccpa_message}} <a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color1,fontFamily: cookie_font1}">{{opt_out_text1}}</a>
+						</p>
 					</div>
 					<div v-show="['gdpr','eprivacy','both','lgpd'].includes(gdpr_policy)" class="group-description-buttons-preview" id="default_buttons_preview"
 						:class=" {'widget-button-container':
@@ -6743,11 +6756,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					</c-card>
 				</c-tab>
 				<c-button class="cookie_scan_dropdown" @click="openCookieDropdown"><i class="cookie_arrow down"></i></c-button>
+				
 				<div v-show="cookie_scan_dropdown" class="gdpr-cookie-list-tabs">
 						<c-button class="gdpr-cookie-consent-cookie-list-tab" @click="onChangeCookieListTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': cookie_list_tab == true }"><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?></c-button>
 						<c-button class="gdpr-cookie-consent-cookie-list-tab"  @click="onChangeDiscoveredListTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': discovered_cookies_list_tab == true }"><?php esc_html_e( 'Discovered Cookies', 'gdpr-cookie-consent' ); ?></c-button>
 						<c-button class="gdpr-cookie-consent-cookie-list-tab"  @click="onChangeScanHistoryTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': scan_history_list_tab == true }"><?php esc_html_e( 'Scan History', 'gdpr-cookie-consent' ); ?></c-button>
 				</div>
+				<c-card v-show="cookie_scan_dropdown" class="dropdown_background" @click="openCookieDropdown"></c-card> 
 				<!-- Script Blocker -->
 				<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 				<!--A/B Testing-->

@@ -62,7 +62,7 @@ var GDPR_Cookie = {
 };
 
 //url of the location where vendor-list.json is hosted
-GVL.baseUrl = "https://eadn-wc01-12578700.nxedge.io/cdn/rgh/";
+GVL.baseUrl = "https://appwplegalpages.b-cdn.net/";
 
 const gvl = new GVL();
 //tcf api definition provided by iab to handle and read the tcstring by vendors and validator
