@@ -28,7 +28,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
-	private $plugin_name;
+	private $plugin_name; 
 
 	/**
 	 * The name of the database table storing GDPR cookie scan categories.
@@ -403,6 +403,48 @@ class Gdpr_Cookie_Consent_Admin {
 			$reason = $_POST['reason'];
 
 			if ( $reason === 'gdpr-plugin-deactivate-with-data' ) {
+
+				// Delete fields from database
+					delete_option('gdpr_single_page_scan_url');
+					delete_option('wc_am_product_id_gdpr_cookie_consent');
+					delete_option('wc_am_client_gdpr_cookie_consent');
+					delete_option('gdpr_last_scan');
+					delete_option('gdpr_settings_enabled');
+					delete_option(GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT);
+					delete_option('_transient_timeout_gdpr_ab_testing_transient');
+					delete_option('_transient_gdpr_ab_testing_transient');
+					delete_option('_transient_timeout_gdpr_display_message_other_plugin_on_change');
+					delete_option('_transient_gdpr_display_message_other_plugin_on_change');
+	
+					// Delete consent logs from posts table
+					
+					$posts = $wpdb->get_col("
+								SELECT ID FROM {$wpdb->posts} WHERE post_type = 'wplconsentlogs'
+							");
+						if (!empty($posts)) {
+							foreach ($posts as $post_id) {
+								// Delete related post meta
+								delete_post_meta($post_id, '_wplconsentlogs_ip');
+								delete_post_meta($post_id, '_wplconsentlogs_userid');
+								delete_post_meta($post_id, '_wplconsentlogs_details');
+								delete_post_meta($post_id, '_wplconsentlogs_country');
+								delete_post_meta($post_id, '_wplconsentlogs_siteurl');
+								delete_post_meta($post_id, '_wplconsentlogs_consent_forward');
+								wp_delete_post($post_id, true); 
+							}
+						}
+					// Delete policies data from posts table
+					
+					$policy_posts = $wpdb->get_col("
+								SELECT ID FROM {$wpdb->posts} WHERE post_type = 'gdprpolicies'
+							");
+						if (!empty($policy_posts)) {
+							foreach ($policy_posts as $policy_post_id) {
+								delete_post_meta($policy_post_id, '_gdpr_policies_domain');
+								delete_post_meta($policy_post_id, '_gdpr_policies_links_editor');
+								wp_delete_post($policy_post_id, true); 
+							}
+						}
 				delete_option( 'gdpr_admin_modules' );
 				delete_option( 'gdpr_public_modules' );
 				delete_option( 'gdpr_version_number' );
