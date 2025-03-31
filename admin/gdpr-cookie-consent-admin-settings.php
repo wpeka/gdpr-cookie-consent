@@ -1210,14 +1210,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											
 										</c-modal>
 									</div>
-									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Allow Google tags to fire before consent(Advanced GCM)', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8" style="margin-top: 20px;">
-										<c-switch v-bind="labelIcon" v-model="gcm_advanced" id="gdpr-cookie-consent-gcm-advanced" variant="3d"  color="success" :checked="gcm_advanced" v-on:update:checked="onSwitchGCMAdvanced"></c-switch>
-										<input type="hidden" name="gcc-gcm-advanced" v-model="gcm_advanced">
-										<p class="policy-description cookie-notice-readmore-container">
-											<?php echo strip_tags('When enabled, the Google tags will fire before your users provide consent. Read more at <a href="https://support.google.com/google-ads/answer/10000067?hl=en" target="blank" class="cookie-notice-readmore">Basic vs Advanced consent mode</a>', '<p><a><i><em><b><strong>'); ?>
-										</p>
-									</c-col>
 									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Wait for update', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8" style="margin-top: 20px;">
 										<c-input name="gcm_wait_for_update_duration_field" v-model="gcm_wait_for_update_duration"></c-input>

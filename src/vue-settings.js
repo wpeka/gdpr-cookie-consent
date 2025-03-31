@@ -158,12 +158,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["gcm_wait_for_update_duration"]
         : "500",
-      gcm_advanced: settings_obj.the_options.hasOwnProperty("is_gcm_advanced") && 
-        (true === settings_obj.the_options["is_gcm_advanced"] ||
-          "true" === settings_obj.the_options["is_gcm_advanced"] ||
-          1 === settings_obj.the_options["is_gcm_advanced"])
-          ? true
-          : false,
       gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
         (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
           "true" === settings_obj.the_options["is_gcm_url_passthrough"] ||
@@ -2680,9 +2674,6 @@ var gen = new Vue({
     },
     onSwitchGCMEnable(){
       this.gcm_is_on = !this.gcm_is_on;
-    },
-    onSwitchGCMAdvanced(){
-      this.gcm_advanced = !this.gcm_advanced;
     },
     onSwitchGCMUrlPass(){
       this.gcm_url_passthrough = !this.gcm_url_passthrough;
@@ -5365,7 +5356,6 @@ var gen = new Vue({
       this.iabtcf_is_on = false;
       this.gcm_is_on = false;
       this.gcm_wait_for_update_duration = '500';
-      this.gcm_advanced = false;
       this.gcm_url_passthrough = false;
       this.gcm_ads_redact = false;
       this.dynamic_lang_is_on = false;
@@ -7785,11 +7775,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["gcm_wait_for_update_duration"]
         : "500",
-      gcm_advanced: settings_obj.the_options.hasOwnProperty("is_gcm_advanced") && 
-        (true === settings_obj.the_options["is_gcm_advanced"] ||
-          1 === settings_obj.the_options["is_gcm_advanced"])
-          ? true
-          : false,
       gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
         (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
           1 === settings_obj.the_options["is_gcm_url_passthrough"])
@@ -10036,9 +10021,6 @@ var app = new Vue({
     },
     onSwitchGCMEnable(){
       this.gcm_is_on = !this.gcm_is_on;
-    },
-    onSwitchGCMAdvanced(){
-      this.gcm_advanced = !this.gcm_advanced;
     },
     onSwitchGCMUrlPass(){
       this.gcm_url_passthrough = !this.gcm_url_passthrough;
@@ -12538,7 +12520,6 @@ var app = new Vue({
       this.iabtcf_is_on = false;
       this.gcm_is_on = false;
       this.gcm_wait_for_update_duration = '500';
-      this.gcm_advanced = false;
       this.gcm_ads_redact = false;
       this.gcm_url_passthrough = false;
       this.gacm_is_on = false;

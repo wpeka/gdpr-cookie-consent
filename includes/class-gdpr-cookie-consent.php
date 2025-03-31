@@ -941,7 +941,6 @@ class Gdpr_Cookie_Consent {
 
 			'is_on'                                => true,
 			'is_gcm_on'							   => false,
-			'is_gcm_advanced'					   => false,
 			'gcm_wait_for_update_duration'		   => false,		 
 			'is_gcm_url_passthrough'			   => false,	
 			'is_gcm_ads_redact'				       => false,

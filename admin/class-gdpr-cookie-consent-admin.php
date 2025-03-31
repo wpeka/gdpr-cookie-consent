@@ -6878,7 +6878,6 @@ class Gdpr_Cookie_Consent_Admin {
 				
 			}
 			$the_options['is_gcm_on']                       	 = isset( $_POST['gcc-gcm-enable'] ) && ( true === $_POST['gcc-gcm-enable'] || 'true' === $_POST['gcc-gcm-enable'] ) ? 'true' : 'false';
-			$the_options['is_gcm_advanced']                      = isset( $_POST['gcc-gcm-advanced'] ) && ( true === $_POST['gcc-gcm-advanced'] || 'true' === $_POST['gcc-gcm-advanced'] ) ? 'true' : 'false';
 			$the_options['gcm_wait_for_update_duration']         = isset( $_POST['gcm_wait_for_update_duration_field'] ) ? sanitize_text_field(wp_unslash($_POST['gcm_wait_for_update_duration_field'])) : '500';
 			$the_options['is_gcm_url_passthrough']               = isset( $_POST['gcc-gcm-url-pass'] ) && ( true === $_POST['gcc-gcm-url-pass'] || 'true' === $_POST['gcc-gcm-url-pass'] ) ? 'true' : 'false';
 			$the_options['is_gcm_ads_redact']               	 = isset( $_POST['gcc-gcm-ads-redact'] ) && ( true === $_POST['gcc-gcm-ads-redact'] || 'true' === $_POST['gcc-gcm-ads-redact'] ) ? 'true' : 'false';
