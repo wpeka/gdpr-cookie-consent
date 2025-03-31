@@ -2128,8 +2128,8 @@ input[type="search"]:focus {
   margin-bottom: 4px;
 }
 .modal-content {
-  min-width: 1336px;
-  right: 24%;
+  min-width: 1220px;
+  right: 18%;
 }
 @media (max-width: 1440px) and (max-height: 900px) {
   .modal-content {

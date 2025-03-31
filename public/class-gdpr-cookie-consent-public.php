@@ -87,7 +87,10 @@ class Gdpr_Cookie_Consent_Public {
 		$max = 1;
 		$randomNumber = mt_rand($min, $max);
 		if($randomNumber < 0.5) $this->chosenBanner = 2;
-
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		if($the_options['is_gcm_on'] === 'true' || $the_options['is_gcm_on'] === true || $the_options['is_gcm_on'] === 1){
+			add_action('wp_enqueue_scripts', array( $this,'insert_custom_consent_script'), 1);
+		}
 		add_action( 'wp_ajax_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
 	}
@@ -134,6 +137,94 @@ class Gdpr_Cookie_Consent_Public {
 		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap/bootstrap.bundle.js', array( 'jquery' ), $this->version, true );
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
 		wp_register_script( $this->plugin_name.'-tcf', plugin_dir_url( __FILE__ ) . '../admin/js/vue/gdpr-cookie-consent-admin-tcstring.js#async', array( 'jquery' ), $this->version, true );
+	}
+
+
+	public function insert_custom_consent_script() {
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$ads_data_redact = ($the_options['is_gcm_ads_redact'] === 'true' || $the_options['is_gcm_ads_redact'] === true || $the_options['is_gcm_ads_redact'] === 1) ? "true" : "false";
+		$url_pass = ($the_options['is_gcm_url_passthrough'] === 'true' || $the_options['is_gcm_url_passthrough'] === true || $the_options['is_gcm_url_passthrough'] === 1) ? "true" : "false";
+		$wait_for_update = (int) $the_options['gcm_wait_for_update_duration'];
+		$gcm_defaults = json_decode($the_options['gcm_defaults']) ?? [];
+		foreach ($gcm_defaults as $config) :
+			$regionParam = ($config->region === 'All') ? '' : '"region": ["' . implode('","', explode(',', $config->region)) . '"],';
+    ?>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("consent", "default", {
+			<?php echo $regionParam; ?>
+            ad_storage: "<?php echo $config->ad_storage; ?>",
+            ad_user_data: "<?php echo $config->ad_user_data; ?>",
+            ad_personalization: "<?php echo $config->ad_personalization; ?>",
+            analytics_storage: "<?php echo $config->analytics_storage; ?>",
+            functionality_storage: "<?php echo $config->functionality_storage; ?>",
+            personalization_storage: "<?php echo $config->personalization_storage; ?>",
+            security_storage: "<?php echo $config->security_storage; ?>",
+            wait_for_update: <?php echo $wait_for_update; ?>,
+        });
+        gtag("set", "ads_data_redaction", <?php echo $ads_data_redact; ?>);
+        gtag("set", "url_passthrough", <?php echo $url_pass; ?>);
+    </script>
+    <?php
+	endforeach;
+		?>
+		<script>
+			function getCookie(name) {
+				let cookieArr = document.cookie.split(";");
+				for (let i = 0; i < cookieArr.length; i++) {
+					let cookiePair = cookieArr[i].split("=");
+					if (name === cookiePair[0].trim()) {
+						return decodeURIComponent(cookiePair[1]);
+					}
+				}
+				return null;
+			}
+
+			function updateGTMByCookies() {
+				let userPreferences = getCookie("wpl_user_preference");
+
+				if (userPreferences) {
+					try {
+						userPreferences = JSON.parse(userPreferences);
+						
+						let analytics_consent = false;
+						let marketing_consent = false;
+						let preferences_consent = false;
+
+						Object.keys(userPreferences).forEach(key => {
+							if (key === "analytics" && userPreferences[key] === "yes") analytics_consent = true;
+							if (key === "marketing" && userPreferences[key] === "yes") marketing_consent = true;
+							if (key === "preferences" && userPreferences[key] === "yes") preferences_consent = true;
+						});
+
+						window.dataLayer = window.dataLayer || [];
+						function gtag() { dataLayer.push(arguments); }
+
+						gtag('consent', 'update', {
+							'ad_user_data': marketing_consent ? 'granted' : 'denied',
+							'ad_personalization': marketing_consent ? 'granted' : 'denied',
+							'ad_storage': marketing_consent ? 'granted' : 'denied',
+							'analytics_storage': analytics_consent ? 'granted' : 'denied',
+							'functionality_storage': preferences_consent ? 'granted' : 'denied',
+							'personalization_storage': preferences_consent ? 'granted' : 'denied',
+							'security_storage': 'granted'
+						});
+
+					} catch (error) {
+						console.error("Error parsing wpl_user_preference cookie:", error);
+					}
+				}
+			}
+
+			document.addEventListener('DOMContentLoaded', function() {
+				updateGTMByCookies();
+			});
+		</script>
+
+		<?php 
 	}
 
 	/**
@@ -1188,9 +1279,6 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		global $post;
 
-		if (is_admin() || defined('DOING_AJAX') || defined('DOING_CRON')) {
-			return;
-		}
 
 		$viewed_cookie = isset($_COOKIE['wpl_viewed_cookie']) ? sanitize_text_field(wp_unslash($_COOKIE['wpl_viewed_cookie'])) : '';
 		$the_options   = GDPR_Cookie_Consent::gdpr_get_settings();
@@ -1208,6 +1296,25 @@ class Gdpr_Cookie_Consent_Public {
 				add_action('wp_footer', array($this, 'gdprcookieconsent_output_footer'));
 			}
 		}
+	}
+
+	public function gdprcookieconsent_inject_sripts_on_consent(){
+		$the_options = GDPR_Cookie_Consent::gdpr_get_settings();
+		$viewed_cookie = isset($_COOKIE['wpl_viewed_cookie']) ? sanitize_text_field(wp_unslash($_COOKIE['wpl_viewed_cookie'])) : '';
+		if($the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie){
+			$header_scripts = isset($the_options['header_scripts']) ? "\r\n" . wp_unslash($the_options['header_scripts']) . "\r\n" : '';
+			$body_scripts = isset($the_options['body_scripts']) ? "\r\n" . wp_unslash($the_options['body_scripts']) . "\r\n" : '';
+	
+			// Return JSON response
+			wp_send_json_success([
+				'header_scripts' => $header_scripts,
+				'body_scripts'   => $body_scripts,
+			]);
+		}
+		else{
+			wp_send_json_error('Scripts already added');
+		}
+		// Get scripts
 	}
 
 	/**

@@ -232,6 +232,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_enable_iab', $plugin_admin, 'gdpr_cookie_consent_ajax_enable_iab', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gcc_save_gcm_region_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_gcm_region', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_ab_testing_enable', $plugin_admin, 'gdpr_cookie_consent_ab_testing_enable', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_auto_generated_banner', $plugin_admin, 'gdpr_cookie_consent_ajax_auto_generated_banner', 10, 1 );
@@ -294,6 +295,8 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'rest_api_init', $plugin_public, 'gdpr_cookie_data_endpoint' );
 			if ( ! get_option( 'wpl_pro_active' ) ) {
 				// action hooks for geo integration.
+				$this->loader->add_action( 'wp_ajax_gdpr_fire_scripts', $plugin_public, 'gdprcookieconsent_inject_sripts_on_consent' );
+				$this->loader->add_action( 'wp_ajax_nopriv_gdpr_fire_scripts', $plugin_public, 'gdprcookieconsent_inject_sripts_on_consent' );
 				$this->loader->add_action( 'wp_ajax_nopriv_show_cookie_consent_bar', $plugin_public, 'show_cookie_consent_bar' );
 				$this->loader->add_action( 'wp_ajax_show_cookie_consent_bar', $plugin_public, 'show_cookie_consent_bar' );
 				$this->loader->add_filter( 'gdprcookieconsent_json_settings', $plugin_public, 'wplcookieconsent_json_settings', 10, 1 );
@@ -937,6 +940,11 @@ class Gdpr_Cookie_Consent {
 			'font_family'                            => 'inherit', // Pick the family, not the easy name (see helper function below).
 
 			'is_on'                                => true,
+			'is_gcm_on'							   => false,
+			'is_gcm_advanced'					   => false,
+			'gcm_wait_for_update_duration'		   => false,		 
+			'is_gcm_url_passthrough'			   => false,	
+			'is_gcm_ads_redact'				       => false,
 			'is_iabtcf_on'                         => false,
 			'is_gacm_on'						   => false,
 			'is_eu_on'                             => false,

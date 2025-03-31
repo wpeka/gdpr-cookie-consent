@@ -6442,6 +6442,15 @@ class Gdpr_Cookie_Consent_Admin {
 				<?php
 	}
 
+	/**
+	 * Ajax callback for gcm region form.
+	 */
+	public function gdpr_cookie_consent_ajax_save_gcm_region(){
+		$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$the_options['gcm_defaults'] = json_encode(json_decode(stripslashes($_POST['regionArray'])));
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+	}
+
 
 	/**
 	 * Ajax callback for setting page.
@@ -6853,9 +6862,22 @@ class Gdpr_Cookie_Consent_Admin {
 			if($the_options['is_gacm_on']  == "false" || $the_options['is_gacm_on']  == false){
 				$this->deactivate_gacm_updater();
 			}
-			error_log("SAving". print_r($_POST['gcc-gcm-enable'], true));
+			if(!isset($the_options['gcm_defaults'])){
+				$the_options['gcm_defaults'] = json_encode([
+					(object)[
+						'region' => 'All',
+						'ad_storage' => 'denied',
+						'analytics_storage' => 'denied',
+						'ad_user_data' => 'denied',
+						'ad_personalization' => 'denied',
+						'functionality_storage' => 'denied',
+						'personalization_storage' => 'denied',
+						'security_storage' => 'granted',
+					]
+				]);
+				
+			}
 			$the_options['is_gcm_on']                       	 = isset( $_POST['gcc-gcm-enable'] ) && ( true === $_POST['gcc-gcm-enable'] || 'true' === $_POST['gcc-gcm-enable'] ) ? 'true' : 'false';
-			error_log("After SAving". print_r($the_options['is_gcm_on'], true));
 			$the_options['is_gcm_advanced']                      = isset( $_POST['gcc-gcm-advanced'] ) && ( true === $_POST['gcc-gcm-advanced'] || 'true' === $_POST['gcc-gcm-advanced'] ) ? 'true' : 'false';
 			$the_options['gcm_wait_for_update_duration']         = isset( $_POST['gcm_wait_for_update_duration_field'] ) ? sanitize_text_field(wp_unslash($_POST['gcm_wait_for_update_duration_field'])) : '500';
 			$the_options['is_gcm_url_passthrough']               = isset( $_POST['gcc-gcm-url-pass'] ) && ( true === $_POST['gcc-gcm-url-pass'] || 'true' === $_POST['gcc-gcm-url-pass'] ) ? 'true' : 'false';
@@ -7320,6 +7342,7 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 			}
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
 			wp_send_json_success( array( 'form_options_saved' => true ) );
 		}
 		

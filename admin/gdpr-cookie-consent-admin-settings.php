@@ -1087,32 +1087,28 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<table class="gcm-table">
 											<thead>
 												<tr>
-													<th>Analytics</th>
 													<th>Advertisment</th>
-													<th>Functional</th>
-													<th>Share data with Google</th>
-													<th>Use data for ad personalization</th>
+													<th>Analytics</th>
+													<th>User ad data</th>
+													<th>Ad personalization data</th>
+													<th>Functional storage</th>
+													<th>Personalization storage</th>
+													<th>Security storage</th>
 													<th>Region</th>
 													<th>Actions</th>
 												</tr>
 											</thead>
-											<tbody>
+											<tbody v-for="(regionObj, index) in regions" :key="index">
 												<tr>
-													<td>Denied</td>
-													<td>Denied</td>
-													<td>Denied</td>
-													<td>Denied</td>
-													<td>Denied</td>
-													<td>All</td>
-													<td style="display: flex; justify-content: center; gap: 5px; border-top: none; border-left: none;"><button><img src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/edit.png';?>"></button><button><img src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/trash.png';?>"></button></td>
-												</tr>
-												<tr>
-													<td>Denied</td>
-													<td>Denied</td>
-													<td>Denied</td>
-													<td>Denied</td>
-													<td>All</td>
-													<td style="display: flex; justify-content: center; gap: 5px; border-top: none; border-left: none;"><button><img src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/edit.png';?>"></button><button><img src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/trash.png';?>"></button></td>
+													<td>{{ regionObj.ad_storage }}</td>
+													<td>{{ regionObj.analytics_storage }}</td>
+													<td>{{ regionObj.ad_user_data }}</td>
+													<td>{{ regionObj.ad_personalization }}</td>
+													<td>{{ regionObj.functionality_storage }}</td>
+													<td>{{ regionObj.personalization_storage }}</td>
+													<td>{{ regionObj.security_storage }}</td>
+													<td>{{ regionObj.region }}</td>
+													<td style="display: flex; justify-content: center; gap: 5px; border-top: none; border-left: none;"><button @click="edit_region_entry(index, $event)"><img src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/edit.png';?>"></button><button @click="delete_gcm_data(index, $event)"><img src="<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/trash.png';?>"></button></td>
 												</tr>
 											</tbody>
 										</table>
@@ -1130,60 +1126,79 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										>
 										<div class="optout-settings-tittle-bar">
 												<div class="optout-setting-tittle"><?php esc_attr_e( 'New Region', 'gdpr-cookie-consent' ); ?></div>
-												<img @click="add_region=false" class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Add new entry logo">
+												<img @click="close_region_popup" class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Add new entry logo">
 												</div>
 												<div class="optout-settings-main-container">
 										<c-row class="gdpr-label-row">
 											<c-col class="col-sm-6">
-												<label><?php esc_attr_e( 'Analytics', 'gdpr-cookie-consent' ); ?></label>
+												<label><?php esc_attr_e( 'Advertisment', 'gdpr-cookie-consent' ); ?></label>
 											</c-col>
 											<c-col class="col-sm-6">
-												<label><?php esc_attr_e( 'Advertisment', 'gdpr-cookie-consent' ); ?></label>
+												<label><?php esc_attr_e( 'Analytics', 'gdpr-cookie-consent' ); ?></label>
 											</c-col>
 										</c-row>
 										<c-row>
 											<c-col class="col-sm-6">
-												<v-select class="form-group" id="gdpr-gcm-analytics-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="gcm_analytics_permission"></v-select>
-												<input type="hidden" name="gdpr-gcm-analytics-permission" v-model="gcm_analytics_permission">
+												<v-select class="form-group" id="gdpr-gcm-ad-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="newRegion.ad_storage"></v-select>
+												<input type="hidden" name="gdpr-gcm-ad-permission" v-model="newRegion.ad_storage">
 											</c-col>
 											<c-col class="col-sm-6">
-												<v-select class="form-group" id="gdpr-gcm-ad-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="gcm_ad_permission"></v-select>
-												<input type="hidden" name="gdpr-gcm-ad-permission" v-model="gcm_ad_permission">
+												<v-select class="form-group" id="gdpr-gcm-analytics-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="newRegion.analytics_storage"></v-select>
+												<input type="hidden" name="gdpr-gcm-analytics-permission" v-model="newRegion.analytics_storage">
 											</c-col>
 										</c-row>
 										<c-row  class="gdpr-label-row">
 											<c-col class="col-sm-6">
-												<label><?php esc_attr_e( 'Functional', 'gdpr-cookie-consent' ); ?></label>
+												<label><?php esc_attr_e( 'User ad data', 'gdpr-cookie-consent' ); ?></label>
 											</c-col>
 											<c-col class="col-sm-6">
-												<label><?php esc_attr_e( 'Share User Data with Google', 'gdpr-cookie-consent' ); ?>	</label>
+												<label><?php esc_attr_e( 'Ad personalization data', 'gdpr-cookie-consent' ); ?>	</label>
 											</c-col>
 										</c-row>
 										<c-row>
 											<c-col class="col-sm-6">
-												<v-select class="form-group" id="gdpr-gcm-functional-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="gcm_functional_permission"></v-select>
-												<input type="hidden" name="gdpr-gcm-functional-permission" v-model="gcm_functional_permission">
+												<v-select class="form-group" id="gdpr-gcm-user-ad-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="newRegion.ad_user_data"></v-select>
+												<input type="hidden" name="gdpr-gcm-user-ad-permission" v-model="newRegion.ad_user_data">
 											</c-col>
 											<c-col class="col-sm-6">
-												<v-select class="form-group" id="gdpr-gcm-share-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="gcm_share_permission"></v-select>
-												<input type="hidden" name="gdpr-gcm-share-permission" v-model="gcm_share_permission">
+												<v-select class="form-group" id="gdpr-gcm-ad-personalization-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="newRegion.ad_personalization"></v-select>
+												<input type="hidden" name="gdpr-gcm-ad-personalization-permission" v-model="newRegion.ad_personalization">
 											</c-col>
 										</c-row>
 										<c-row   class="gdpr-label-row">
 											<c-col class="col-sm-6">
-												<label><?php esc_attr_e( 'User data for ads personalization', 'gdpr-cookie-consent' ); ?></label>
+												<label><?php esc_attr_e( 'Functional storage', 'gdpr-cookie-consent' ); ?></label>
 											</c-col>
 											<c-col class="col-sm-6">
-												<label><?php esc_attr_e( 'Region', 'gdpr-cookie-consent' ); ?></label>
+												<label><?php esc_attr_e( 'Personalization storage', 'gdpr-cookie-consent' ); ?></label>
 											</c-col>
 										</c-row>
 										<c-row >
 											<c-col class="col-sm-6">
-												<v-select class="form-group" id="gdpr-gcm-ad-personalization-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="gcm_ad_personalization_permission"></v-select>
-												<input type="hidden" name="gdpr-gcm-ad-personalization-permission" v-model="gcm_ad_personalization_permission">
+												<v-select class="form-group" id="gdpr-gcm-functional-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="newRegion.functionality_storage"></v-select>
+												<input type="hidden" name="gdpr-gcm-functional-permission" v-model="newRegion.functionality_storage">
 											</c-col>
 											<c-col class="col-sm-6">
-												<c-input name="gdpr-gcm-region" v-model="gcm_region"></c-input>
+												<v-select class="form-group" id="gdpr-gcm-personalization-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="newRegion.personalization_storage"></v-select>
+												<input type="hidden" name="gdpr-gcm-personalization-permission" v-model="newRegion.personalization_storage">
+											</c-col>
+										</c-row>
+										<c-row   class="gdpr-label-row">
+											<c-col class="col-sm-6">
+												<label><?php esc_attr_e( 'Security storage', 'gdpr-cookie-consent' ); ?></label>
+											</c-col>
+											<c-col class="col-sm-6">
+												<label><?php esc_attr_e( 'Regions', 'gdpr-cookie-consent' ); ?></label>
+											</c-col>
+										</c-row>
+										<c-row >
+											<c-col class="col-sm-6">
+												<v-select class="form-group" id="gdpr-gcm-security-permission" :reduce="label => label.code" :options="gcm_permission_options" v-model="newRegion.security_storage"></v-select>
+												<input type="hidden" name="gdpr-gcm-security-permission" v-model="newRegion.security_storage">
+											</c-col>
+											<c-col class="col-sm-6">
+												<c-input name="gdpr-gcm-region" v-model="newRegion.region"></c-input>
+
 											</c-col>
 										</c-row>
 										<c-row>
