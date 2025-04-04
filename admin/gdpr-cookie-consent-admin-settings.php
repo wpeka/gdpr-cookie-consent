@@ -1089,6 +1089,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<input type="hidden" name="gcc-gcm-enable" v-model="gcm_is_on">
 									</c-col>
 								</c-row>
+								<c-row style="margin-top: -30px;"><c-col class="col-sm-4"></c-col><c-col class="col-sm-8"><p style="color:gray; font-weight:400;">Follow the guide <a href = "https://wplegalpages.com/docs/wp-cookie-consent/how-to-guides/implementing-google-consent-mode-using-wp-cookie-consent" target="_blank">here</a> to correctly implement Google Consent Mode</p></c-col></c-row>
 								<c-row v-show="gcm_is_on" style="border-bottom: 1px solid var(--gray-200);">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Default consent settings', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-12">
@@ -1215,7 +1216,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</c-col>
 										</c-row>
 										<c-row>
-											<p class="policy-description" style="text-align: center; width: 100%	;">In regions, by specifying "All", consent will get applied to all regions. You can specify a comma separated list of regions to apply consent to specific regions.
+											<p class="policy-description" style="text-align: center; width: 100%;">In regions, by specifying "All", consent will get applied to all regions. You can specify a comma separated list of region’s ISO-standardised <a href="https://en.wikipedia.org/wiki/ISO_3166-2#:~:text=level%20of%20subdivisions.-,Current%20codes%5Bedit%5D,-The%20following%20table" target="_blank">(ISO 3166-2)</a> codes to apply consent to specific regions.
 											</p>
 										</c-row>
 										
