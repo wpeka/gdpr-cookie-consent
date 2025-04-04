@@ -167,6 +167,7 @@ class Gdpr_Cookie_Consent_Public {
         });
         gtag("set", "ads_data_redaction", <?php echo $ads_data_redact; ?>);
         gtag("set", "url_passthrough", <?php echo $url_pass; ?>);
+		gtag("set", "developer_id.dZDM3Yj", true);
     </script>
     <?php
 	endforeach;
@@ -1181,7 +1182,8 @@ class Gdpr_Cookie_Consent_Public {
 				'button_revoke_consent_text_color' 			=> $the_options['button_revoke_consent_text_color'],
 				'button_revoke_consent_background_color'	=> $the_options['button_revoke_consent_background_color'],
 				'chosenBanner'								=> $chosenBanner,
-				'is_iabtcf_on'                              => $the_options['is_iabtcf_on']
+				'is_iabtcf_on'                              => $the_options['is_iabtcf_on'],
+				'is_gcm_on'									=> $the_options['is_gcm_on']
 			);
 
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
