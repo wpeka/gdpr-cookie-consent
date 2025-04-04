@@ -78,6 +78,19 @@ var gen = new Vue({
         dashboard_options["legal_pages_installed"] === "1"
           ? true
           : false,
+      is_legalpages_active:
+      dashboard_options.hasOwnProperty("is_legalpages_active") &&
+        dashboard_options["is_legalpages_active"] === "1"
+          ? true
+          : false,
+      is_legal_page_exist:
+      dashboard_options.hasOwnProperty("is_legal_page_exist") &&
+        dashboard_options["is_legal_page_exist"] === "1"
+          ? true
+          : false,
+      all_legal_pages_url: dashboard_options.hasOwnProperty("all_legal_pages_url")
+        ? dashboard_options["all_legal_pages_url"]
+        : "",
       last_scanned: dashboard_options.hasOwnProperty("last_scanned")
         ? dashboard_options["last_scanned"]
         : "Website not scanned for Cookies.",
@@ -443,12 +456,7 @@ var gen = new Vue({
         this.cookie_scanned = true;
       }
       let count_progress = 0;
-      if (
-        !this.other_plugins_active &&
-        (this.cookie_policy === "gdpr" ||
-          this.cookie_policy === "lgpd" ||
-          this.cookie_policy === "both")
-      ) {
+      if ( ! this.other_plugins_active ) {
         count_progress++;
       }
       if (
@@ -464,48 +472,27 @@ var gen = new Vue({
       if (
         this.is_user_connected &&
         !this.pro_installed &&
-        this.cookie_scanned &&
-        (this.cookie_policy === "gdpr" ||
-          this.cookie_policy === "lgpd" ||
-          this.cookie_policy === "both")
+        this.cookie_scanned
       ) {
         count_progress++;
       }
-      if (
-        this.showing_cookie_notice &&
-        (this.cookie_policy === "gdpr" ||
-          this.cookie_policy === "lgpd" ||
-          this.cookie_policy === "both")
-      ) {
+      if ( this.showing_cookie_notice ) {
         count_progress++;
       }
-      if (
-        this.api_key_activated &&
-        (this.cookie_policy === "gdpr" ||
-          this.cookie_policy === "lgpd" ||
-          this.cookie_policy === "both")
-      ) {
+      if ( this.api_key_activated ) {
         count_progress++;
       }
       // increase progress when user is connected to the api.
       if (
         this.is_user_connected &&
-        !this.pro_installed &&
-        (this.cookie_policy === "gdpr" ||
-          this.cookie_policy === "lgpd" ||
-          this.cookie_policy === "both")
+        !this.pro_installed
       ) {
         count_progress++;
       }
-      if (
-        this.cookie_policy === "gdpr" ||
-        this.cookie_policy === "lgpd" ||
-        this.cookie_policy === "both"
-      ) {
-        this.progress = (count_progress / 4) * 100;
-      } else {
-        this.progress = ((count_progress / 3) * 100).toFixed(1);
+      if ( this.legal_pages_installed && this.is_legalpages_active && this.is_legal_page_exist ) {
+        count_progress++;
       }
+      this.progress = (count_progress / 5) * 100;
     },
     updateChartWidth() {
       const viewportWidth = Math.min(

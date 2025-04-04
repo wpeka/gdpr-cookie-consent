@@ -36,6 +36,7 @@ $image_path = GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/';
 $legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wplegalpages' ), 'install-plugin_wplegalpages' );
 $legalpages_activation_url = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_name . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin_name );
 $help_page_tab_url = admin_url() . 'admin.php?page=wplp-dashboard#help-page';
+$all_legal_pages_url = admin_url() . 'admin.php?page=legal-pages#all_legal_pages';
 
 
 // Require the class file for gdpr cookie consent api framework settings.
@@ -247,7 +248,7 @@ if ( 200 === $response_status ) {
 									</div>
 								</div>
 							</li> 
-							<?php if($gdpr_policy === "GDPR" || $gdpr_policy === "LGPD" || $gdpr_policy === "GDPR & CCPA")  { ?>
+							
 							<li id="step3">
 								<div class="progress-step">
 									<div class="container">
@@ -256,7 +257,7 @@ if ( 200 === $response_status ) {
 									</div>
 								</div>
 							</li> 
-							<?php }?>
+							
 							<li id="step4">
 								<div class="progress-step">
 									<div class="container">
@@ -295,7 +296,7 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="show_cookie_url"><?php esc_html_e( 'Click here to configure.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
-						<?php if($gdpr_policy === "GDPR" || $gdpr_policy === "LGPD" || $gdpr_policy === "GDPR & CCPA")  { ?>
+						
 						<c-row :class="['gdpr-progress-list-item','vstep3', (pro_installed && pro_activated && api_key_activated && cookie_scanned)||(!pro_installed && is_user_connected && cookie_scanned) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span class="gdpr_scan_again_link" v-show="api_key_activated && cookie_scanned">
 								<?php esc_html_e( 'Cookies were last scanned on ', 'gdpr-cookie-consent' ); ?>
@@ -331,7 +332,7 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="cookie_scan_url"><?php esc_html_e( 'Scan now.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
-						<?php }?>
+						
 						<c-row :class="['gdpr-progress-list-item','vstep4', (pro_installed && pro_activated && api_key_activated)||(!pro_installed && is_user_connected) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span v-show="pro_installed && pro_activated && api_key_activated">
 								<?php esc_html_e( 'GDPR Pro activated.', 'gdpr-cookie-consent' ); ?>
@@ -343,7 +344,7 @@ if ( 200 === $response_status ) {
 							</span>
 							<!-- when pro is not installed and user is conneted to the api -->
 							<span v-show="!pro_installed && is_user_connected">
-								<?php esc_html_e( 'Website is connected to WP Cookie Consent.', 'gdpr-cookie-consent' ); ?>
+								<?php esc_html_e( 'Website is connected to WPLP Compliance Platform', 'gdpr-cookie-consent' ); ?>
 							</span>
 							<span v-show="pro_installed && !pro_activated">
 								<?php esc_html_e( 'Activate GDPR Pro plugin.', 'gdpr-cookie-consent' ); ?>
@@ -354,14 +355,22 @@ if ( 200 === $response_status ) {
 								<a class="gdpr-progress-list-link" :href="key_activate_url"><?php esc_html_e( 'Click here to activate.', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
-						<c-row :class="['gdpr-progress-list-item','vstep5', legal_pages_installed ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
+						<c-row :class="['gdpr-progress-list-item','vstep5', (legal_pages_installed && is_legalpages_active && is_legal_page_exist) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span class="gdpr-dashboard-legalpages-install-tab" v-show="!legal_pages_installed">
 								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
 								<span class="gdpr-progress-list-link step-install-wplp-plugin" :href="legalpages_install_url"><?php esc_html_e( 'Install WP Legal Pages', 'gdpr-cookie-consent' ); ?></span>
 							</span>
-							<span class="gdpr-dashboard-legalpages-create-pages-tab" v-show="legal_pages_installed">
+							<span class="gdpr-dashboard-legalpages-install-tab" v-show="legal_pages_installed && !is_legalpages_active">
 								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
-							<a target="_blank" class="gdpr-progress-list-link" :href="create_legalpages_url"><?php esc_html_e( 'Create WP Legal Pages', 'gdpr-cookie-consent' ); ?></a>
+								<span class="gdpr-progress-list-link step-install-wplp-plugin step-activate-wplp-plugin" :href="legalpages_install_url"><?php esc_html_e( 'Activate WP Legal Pages', 'gdpr-cookie-consent' ); ?></span>
+							</span>
+							<span class="gdpr-dashboard-legalpages-create-pages-tab" v-show="legal_pages_installed && is_legalpages_active && !is_legal_page_exist">
+								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
+								<a target="_blank" class="gdpr-progress-list-link" :href="create_legalpages_url"><?php esc_html_e( 'Create WP Legal Pages', 'gdpr-cookie-consent' ); ?></a>
+							</span>
+							<span class="gdpr-dashboard-legalpages-create-pages-tab" v-show="legal_pages_installed && is_legalpages_active && is_legal_page_exist">
+								<?php esc_html_e( 'Generated legal policy. ', 'gdpr-cookie-consent' ); ?>
+								<a target="_blank" class="gdpr-progress-list-link" :href="all_legal_pages_url"><?php esc_html_e( 'View All Legal Pages', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 						</c-row>
 					</c-col>
@@ -708,7 +717,7 @@ jQuery(document).ready(function () {
     	jQuery('.tasks-heading').text('You still have ' + progcount + ' tasks open.');
 	}
 	else{
-    	jQuery('.tasks-heading').text('You have 0 tasks open.');
+    	jQuery('.tasks-heading').text('You have 0 tasks open');
 	}
 
 	// Added for banner quick preview 

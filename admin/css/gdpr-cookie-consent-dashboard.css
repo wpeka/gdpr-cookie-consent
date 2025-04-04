@@ -169,6 +169,7 @@
 
 .gdpr-progress-list-link:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .gdpr-dashboard-quick-links-card {
