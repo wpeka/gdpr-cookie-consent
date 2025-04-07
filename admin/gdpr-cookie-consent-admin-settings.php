@@ -1101,15 +1101,15 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<table class="gcm-table">
 											<thead>
 												<tr>
-													<th>Advertisment</th>
-													<th>Analytics</th>
-													<th>User ad data</th>
-													<th>Ad personalization data</th>
-													<th>Functional storage</th>
-													<th>Personalization storage</th>
-													<th>Security storage</th>
-													<th>Region</th>
-													<th>Actions</th>
+													<th><?php echo esc_html__('Advertisment') ?></th>
+													<th><?php echo esc_html__('Analytics') ?></th>
+													<th><?php echo esc_html__('User ad data') ?> </th>
+													<th><?php echo esc_html__('Ad personalization data') ?> </th>
+													<th><?php echo esc_html__('Functional storage') ?> </th>
+													<th><?php echo esc_html__('Personalization storage') ?> </th>
+													<th><?php echo esc_html__('Security storage') ?> </th>
+													<th><?php echo esc_html__('Region') ?></th>
+													<th><?php echo esc_html__('Actions') ?></th>
 												</tr>
 											</thead>
 											<tbody v-for="(regionObj, index) in regions" :key="index">
@@ -1128,7 +1128,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</table>
 									</c-col>
 									<c-col class="col-sm-12">
-										<c-button id="add-region-btn" class="btn btn-info" variant="outline" @click="add_region=true">+ New Region</c-button>
+										<c-button id="add-region-btn" class="btn btn-info" variant="outline" @click="add_region=true"><?php echo esc_html__('+ New Region') ?></c-button>
 									</c-col>
 									<div class="opt-out-link-container">
 										<c-modal
@@ -1216,11 +1216,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</c-col>
 										</c-row>
 										<c-row>
-											<p class="policy-description" style="text-align: center; width: 100%;">In regions, by specifying "All", consent will get applied to all regions. You can specify a comma separated list of region’s ISO-standardised <a href="https://en.wikipedia.org/wiki/ISO_3166-2#:~:text=level%20of%20subdivisions.-,Current%20codes%5Bedit%5D,-The%20following%20table" target="_blank">(ISO 3166-2)</a> codes to apply consent to specific regions.
+											<p class="policy-description" style="text-align: center; width: 100%;"><?php echo esc_html__('In regions, by specifying "All", consent will get applied to all regions. You can specify a comma separated list of region’s ISO-standardised')?> <a href="https://en.wikipedia.org/wiki/ISO_3166-2#:~:text=level%20of%20subdivisions.-,Current%20codes%5Bedit%5D,-The%20following%20table" target="_blank">(ISO 3166-2)</a> <?php echo esc_html__('codes to apply consent to specific regions.')?>
 											</p>
 										</c-row>
 										
-												<button type="button" class="done-button-settings" @click="saveGCMDefault">Done</button></div>
+												<button type="button" class="done-button-settings" @click="saveGCMDefault"><?php echo esc_html__('Done')?></button></div>
 											
 										</c-modal>
 									</div>
