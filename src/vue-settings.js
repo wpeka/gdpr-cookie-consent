@@ -75,6 +75,8 @@ var gen = new Vue({
       account_connection: require("../admin/images/account_connection.svg"),
       closeOnBackdrop: true,
       centered: true,
+      edit_region: false,
+      add_region: false,
       accept_button_popup: false,
       accept_all_button_popup: false,
       decline_button_popup: false,
@@ -145,6 +147,51 @@ var gen = new Vue({
         ? settings_obj.ab_options["gacm_key"]
         : "",
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
+      gcm_is_on: settings_obj.the_options.hasOwnProperty("is_gcm_on") && 
+        (true === settings_obj.the_options["is_gcm_on"] || 
+          "true" === settings_obj.the_options["is_gcm_on"] ||
+          1 === settings_obj.the_options["is_gcm_on"])
+          ? true
+          : false,
+      gcm_wait_for_update_duration: settings_obj.the_options.hasOwnProperty(
+        "gcm_wait_for_update_duration"
+      )
+        ? settings_obj.the_options["gcm_wait_for_update_duration"]
+        : "500",
+      gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
+        (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
+          "true" === settings_obj.the_options["is_gcm_url_passthrough"] ||
+          1 === settings_obj.the_options["is_gcm_url_passthrough"])
+          ? true
+          : false,
+      gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
+        (true === settings_obj.the_options["is_gcm_ads_redact"] ||
+          "true" === settings_obj.the_options["is_gcm_ads_redact"] ||
+          1 === settings_obj.the_options["is_gcm_ads_redact"])
+          ? true
+          : false,
+      regions: settings_obj.the_options.hasOwnProperty('gcm_defaults') ? JSON.parse(settings_obj.the_options["gcm_defaults"]) : [
+        {
+          region: 'All',
+          ad_storage: 'denied',
+          analytics_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          functionality_storage: 'denied',
+          personalization_storage: 'denied',
+          security_storage: 'granted'
+        },
+      ],
+      newRegion: {
+        region: 'All',
+        ad_storage: false,
+        analytics_storage: false,
+        ad_user_data: false,
+        ad_personalization: false,
+        functionality_storage: false,
+        personalization_storage: false,
+        security_storage: true
+      },
       dynamic_lang_is_on:
         settings_obj.the_options.hasOwnProperty("is_dynamic_lang_on") &&
         (true === settings_obj.the_options["is_dynamic_lang_on"] ||
@@ -592,6 +639,7 @@ var gen = new Vue({
       is_open_url:
         this.accept_action === "#cookie_action_close_header" ? false : true,
       accept_as_button_options: settings_obj.accept_button_as_options,
+      gcm_permission_options: settings_obj.gcm_permission_options,
       accept_as_button:
         settings_obj.the_options.hasOwnProperty("button_accept_as_button") &&
         (true === settings_obj.the_options["button_accept_as_button"] ||
@@ -2623,6 +2671,15 @@ var gen = new Vue({
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
       this.is_iabtcf_changed = true;
+    },
+    onSwitchGCMEnable(){
+      this.gcm_is_on = !this.gcm_is_on;
+    },
+    onSwitchGCMUrlPass(){
+      this.gcm_url_passthrough = !this.gcm_url_passthrough;
+    },
+    onSwitchGCMAdsRedact(){
+      this.gcm_ads_redact = !this.gcm_ads_redact;
     },
     onSwitchDynamicLang() {
       this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
@@ -5341,6 +5398,7 @@ var gen = new Vue({
         this.show_visitor_conditions = true;
         this.show_revoke_card = false;
         this.iabtcf_is_on = false;
+        this.gcm_is_on = false;
         //visitors condition.
         this.selectedRadioWorldWide = "yes";
         this.is_worldwide_on = true;
@@ -5833,6 +5891,10 @@ var gen = new Vue({
       this.accept_background_color = "#18a300";
       this.open_url = false;
       this.iabtcf_is_on = false;
+      this.gcm_is_on = false;
+      this.gcm_wait_for_update_duration = '500';
+      this.gcm_url_passthrough = false;
+      this.gcm_ads_redact = false;
       this.dynamic_lang_is_on = false;
       this.gacm_is_on = false;
       this.accept_as_button = true;
@@ -7797,6 +7859,118 @@ var gen = new Vue({
         },
       });
     },
+    saveGCMDefault(){
+      var that = this;
+      var newObj = {
+        region: that.newRegion.region,
+        ad_storage: that.newRegion.ad_storage ? 'granted' : 'denied',
+        analytics_storage: that.newRegion.analytics_storage ? 'granted' : 'denied',
+        ad_user_data: that.newRegion.ad_user_data ? 'granted' : 'denied',
+        ad_personalization: that.newRegion.ad_personalization ? 'granted' : 'denied',
+        functionality_storage: that.newRegion.functionality_storage ? 'granted' : 'denied',
+        personalization_storage: that.newRegion.personalization_storage ? 'granted' : 'denied',
+        security_storage: that.newRegion.security_storage ? 'granted' : 'denied'
+      };
+      if(that.edit_region == false){
+        that.regions.push(Object.assign({}, newObj));
+      }
+      else{
+        that.regions[that.edit_region - 1] = newObj;
+      }
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: "regionArray=" + JSON.stringify(that.regions) + "&action=gcc_save_gcm_region_settings",
+        })
+        .done(function (data) {
+          if(that.edit_region == false){
+            that.success_error_message = "Region added";
+          }
+          else{
+            that.success_error_message = "Region edited successfully";
+          }
+          j("#gdpr-cookie-consent-save-settings-alert").css(
+            "background-color",
+            "#72b85c"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          that.edit_region = false;
+      });
+      this.add_region = false;
+      this.newRegion = {
+        region: 'All',
+        ad_storage: false,
+        analytics_storage: false,
+        ad_user_data: false,
+        ad_personalization: false,
+        functionality_storage: false,
+        personalization_storage: false,
+        security_storage: true
+      }
+      
+    },
+    close_region_popup(){
+      this.add_region = false;
+      this.edit_region = false;
+      this.newRegion = {
+        region: 'All',
+        ad_storage: false,
+        analytics_storage: false,
+        ad_user_data: false,
+        ad_personalization: false,
+        functionality_storage: false,
+        personalization_storage: false,
+        security_storage: true
+      }
+    },
+    delete_gcm_data(index, event){
+      event.preventDefault();
+      var that = this;
+      if(that.regions.length > 1){
+        that.regions.splice(index, 1);
+        jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: "regionArray=" + JSON.stringify(that.regions) + "&action=gcc_save_gcm_region_settings",
+        })
+        .done(function (data) {
+          that.success_error_message = "Region removed";
+          j("#gdpr-cookie-consent-save-settings-alert").css(
+            "background-color",
+            "#72b85c"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+        });
+      }
+      else{
+        that.success_error_message = "You need atleast 1 default setting";
+          j("#gdpr-cookie-consent-save-settings-alert").css(
+            "background-color",
+            "#72b85c"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+      }
+    },
+    edit_region_entry(index, event){
+      event.preventDefault();
+      this.newRegion = {
+        region: this.regions[index].region,
+        ad_storage: this.regions[index].ad_storage == 'granted' ? true : false,
+        analytics_storage: this.regions[index].analytics_storage == 'granted' ? true : false,
+        ad_user_data: this.regions[index].ad_user_data == 'granted' ? true : false,
+        ad_personalization: this.regions[index].ad_personalization == 'granted' ? true : false,
+        functionality_storage: this.regions[index].functionality_storage == 'granted' ? true : false,
+        personalization_storage: this.regions[index].personalization_storage == 'granted' ? true : false,
+        security_storage: true
+      }
+      this.edit_region = index + 1;
+      this.add_region = true;
+    },
     onSwitchABTestingEnable() {
       j("#gdpr-cookie-consent-updating-settings-alert")
         .fadeIn(200)
@@ -8130,6 +8304,26 @@ var app = new Vue({
           ? true
           : false,
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
+      gcm_is_on: settings_obj.the_options.hasOwnProperty("is_gcm_on") && 
+        (true === settings_obj.the_options["is_gcm_on"] ||
+          1 === settings_obj.the_options["is_gcm_on"])
+          ? true
+          : false,
+      gcm_wait_for_update_duration: settings_obj.the_options.hasOwnProperty(
+        "gcm_wait_for_update_duration"
+      )
+        ? settings_obj.the_options["gcm_wait_for_update_duration"]
+        : "500",
+      gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
+        (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
+          1 === settings_obj.the_options["is_gcm_url_passthrough"])
+          ? true
+          : false,
+      gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
+        (true === settings_obj.the_options["is_gcm_ads_redact"] ||
+          1 === settings_obj.the_options["is_gcm_ads_redact"])
+          ? true
+          : false,
       banner_preview_is_on:
         "true" == settings_obj.the_options["banner_preview_enable"] ||
         1 === settings_obj.the_options["banner_preview_enable"]
@@ -10363,6 +10557,15 @@ var app = new Vue({
         this.gdpr_about_cookie_message =
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
+    },
+    onSwitchGCMEnable(){
+      this.gcm_is_on = !this.gcm_is_on;
+    },
+    onSwitchGCMUrlPass(){
+      this.gcm_url_passthrough = !this.gcm_url_passthrough;
+    },
+    onSwitchGCMAdsRedact(){
+      this.gcm_ads_redact = !this.gcm_ads_redact;
     },
     onSwitchGacmEnable() {
       this.gacm_is_on = !this.gacm_is_on;
@@ -12959,6 +13162,7 @@ var app = new Vue({
         this.show_visitor_conditions = true;
         this.show_revoke_card = false;
         this.iabtcf_is_on = false;
+        this.gcm_is_on = false;
         //visitors condition.
         this.selectedRadioWorldWide = "yes";
         this.is_worldwide_on = true;
@@ -13389,6 +13593,10 @@ var app = new Vue({
       this.button_readmore_button_border_color = "#333333";
       this.button_readmore_button_border_radius = "0";
       this.iabtcf_is_on = false;
+      this.gcm_is_on = false;
+      this.gcm_wait_for_update_duration = '500';
+      this.gcm_ads_redact = false;
+      this.gcm_url_passthrough = false;
       this.gacm_is_on = false;
       this.decline_text = "Decline";
       this.decline_url = "#";
