@@ -6525,7 +6525,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							
 					</c-card>
 				</c-tab>
-				<c-tab v-show="is_gdpr" title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" 	id="gdpr-cookie-consent-cookies-list" style="position: relative;">
+				<c-tab title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" 	id="gdpr-cookie-consent-cookies-list" style="position: relative;">
 					<div class="gdpr-cookie-list-tabs-container" v-show="cookie_list_tab == true">
 						<img class="gdpr-cookie-list-tabs-logo"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/CookieConsent.png'; ?>" alt="Cookie Setting preview logo">
 						<p class="gdpr-cookie-list-tabs-heading"><?php esc_html_e( 'Create a Custom Cookie', 'gdpr-cookie-consent' ); ?></p>
