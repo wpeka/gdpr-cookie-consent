@@ -2128,8 +2128,8 @@ input[type="search"]:focus {
   margin-bottom: 4px;
 }
 .modal-content {
-  min-width: 1336px;
-  right: 24%;
+  min-width: 1220px;
+  right: 18%;
 }
 @media (max-width: 1440px) and (max-height: 900px) {
   .modal-content {
@@ -7849,18 +7849,21 @@ img.gdpr-tooltip-image {
   margin-right: 37px;
 }
 button.btn.gdpr-renew-now-btn.pro,
-#data-request-btn,
+#data-request-btn,#add-region-btn,
 .export-btn,
 .erase-btn,
 #reset-settings-btn {
   height: 44px;
   width: 160px;
 }
-#data-request-btn {
+#data-request-btn,#add-region-btn {
   color: var(--blue-901);
   background-color: var(--white-100);
 }
-#data-request-btn:hover {
+#add-region-btn{
+  margin-top: 15px;
+}
+#data-request-btn:hover, #add-region-btn:hover {
   color: var(--white-100);
 }
 #renew-consent-img {
@@ -9776,6 +9779,32 @@ div#gdpr-scan-history {
 }
 #gdpr-cookie-consent-help-app .gdpr-cookie-consent-settings-nav{
   margin-left: 0;
+}
+.gcm-table{
+  width: 100%;
+}
+.gcm-table th{
+      background-color: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-collapse: collapse;
+    padding: 8px;
+}
+.gcm-table td{
+  border: 1px solid var(--gray-200);
+    border-collapse: collapse;
+    padding: 8px;
+}
+.gcm-table button{
+  border: none;
+  background: white;
+}
+.gcm-table button:focus{
+  border: none;
+  background: white;
+  outline: none;
+}
+.gcm-table button img{
+  height: 14px;
 }
 #banner-preview-main-container .gdpr-almond-grey-template #cookie_action_accept_preview{
   display:block;

@@ -589,10 +589,10 @@ a .export-btn:hover {
 .upgrade-button:hover {
   background-color: #0056b3;
 }
-#data-request-btn {
+#data-request-btn, #add-region-btn {
   border: 1px solid #7195d0;
 }
-#data-request-btn:hover {
+#data-request-btn:hover, #add-region-btn:hover {
   background-color: #7195d0;
 }
 .consent-log-readmore-container .consent-log-readmore {
