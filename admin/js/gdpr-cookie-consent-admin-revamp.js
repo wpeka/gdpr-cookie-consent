@@ -1252,7 +1252,11 @@ jQuery(document).ready(function () {
                   _ajax_nonce: gdpr_localize_data._ajax_nonce,
               },
               beforeSend: function () {
+                if ( $clickedButton.hasClass('step-activate-wplp-plugin') ) {
+                  $clickedButton.text('Activating...');
+                } else{
                   $clickedButton.text('Installing...');
+                }
               },
               success: function (response) {
                   if (response.success) {
