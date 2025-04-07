@@ -1391,7 +1391,7 @@ banner.style.display = "none";
           jQuery(GDPR.settings.notify_div_id)
             .find(".gdpr.group-description-buttons")
             .show();
-          GDPR.displayHeader();
+          GDPR.displayHeader(false, false, false, true, false, true);
           if (
             GDPR.settings.cookie_bar_as === "popup" &&
             GDPR.settings.notify_animate_show !== false
@@ -4743,13 +4743,14 @@ banner.style.display = "none";
       ccpa_flag,
       lgpd_flag,
       force_display_bar,
-      force_display_show_again
+      force_display_show_again,
+      user_triggered = false
     ) {
       if (!gdpr_flag || !ccpa_flag || !lgpd_flag) {
         var animate_on_load = GDPR.settings.notify_animate_show;
         var self = this;
         if (force_display_bar || animate_on_load) {
-          if (this.settings.auto_banner_initialize) {
+          if (this.settings.auto_banner_initialize && !user_triggered) {
             var banner = this.bar_elm;
             var banner_delay = this.settings.auto_banner_initialize_delay;
             var animate_speed_hide = this.settings.animate_speed_hide;
