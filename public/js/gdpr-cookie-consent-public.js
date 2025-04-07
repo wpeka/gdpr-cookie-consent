@@ -483,6 +483,10 @@ GDPR_CCPA_COOKIE_EXPIRE =
         GDPR_Cookie.erase(GDPR_ACCEPT_COOKIE_NAME);
         GDPR_Cookie.erase(GDPR_CCPA_COOKIE_NAME);
         GDPR_Cookie.erase(US_PRIVACY_COOKIE_NAME);
+        var banner = document.getElementById(
+                "gdpr-cookie-consent-show-again"
+              );
+banner.style.display = "none";
       }
     },
     check_ccpa_eu: function (force_display_bar, force_display_show_again) {
