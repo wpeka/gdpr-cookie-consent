@@ -857,6 +857,7 @@ ul.gdpr_sub_tab li:first-child {
   padding: 2rem;
   box-shadow: rgba(142, 142, 142, 0.6) 1px 0px 5px 1px;
   width: 93%;
+  padding: 40px;
 }
 .template-widget
   .gdpr-templates-field-container
@@ -1003,7 +1004,7 @@ ul.gdpr_sub_tab li:first-child {
   /* font-size: inherit; */
   color: inherit;
   font-weight: var(--text-regular-font-weight);
-  font-size: var(--text-sem-13-font-size);
+  font-size: 14px;
 }
 .gdpr-templates-field-container .btn {
   display: inline-block;
