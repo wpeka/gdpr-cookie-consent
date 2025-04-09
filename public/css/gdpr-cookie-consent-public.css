@@ -124,6 +124,7 @@
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  font-weight: 600;
 }
 #gdpr-cookie-consent-bar.ccpa.gdpr-banner
   .gdpr_messagebar_content
