@@ -5287,9 +5287,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           .siblings(".toggle-group")
           .find("div.always-active")
           .css("color", GDPR.settings.button_accept_button_color);
-        // $(this)
-        //   .children(".gdpr-columns")
-        //   .css("background-color", background_obj.background);
         $(this)
           .children(".gdpr-columns")
           .find(".dashicons")
@@ -5331,10 +5328,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
       $(".gdpr-category-toggle.inner-gdpr-column", this);
       if (!$(this).children(".inner-gdpr-columns").hasClass("active-group")) {
         $(".inner-gdpr-columns").removeClass("active-group");
-        $(".inner-gdpr-columns").css(
-          "background-color",
-          background_obj.background
-        );
         $(".inner-gdpr-columns .dashicons").removeClass(
           "dashicons-arrow-up-alt2"
         );
@@ -5351,9 +5344,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           .css("color", GDPR.settings.button_accept_button_color);
         $(this)
           .children(".inner-gdpr-columns")
-          .css("background-color", background_obj.background);
-        $(this)
-          .children(".inner-gdpr-columns")
           .find(".dashicons")
           .removeClass("dashicons-arrow-down-alt2");
         $(this)
@@ -5366,10 +5356,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           .siblings(".toggle-group")
           .find("div.always-active")
           .css("color", GDPR.settings.button_accept_button_color);
-        $(".inner-gdpr-columns").css(
-          "background-color",
-          background_obj.background
-        );
         $(this)
           .children(".inner-gdpr-columns")
           .find(".dashicons")
@@ -5390,14 +5376,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
       $(".gdpr-default-category-toggle.inner-gdpr-column", this);
       if (!$(this).children(".inner-gdpr-columns").hasClass("active-group")) {
         $(".inner-gdpr-columns").removeClass("active-group");
-        $(".inner-gdpr-columns").css(
-          "background-color",
-          background_obj.background
-        );
         $(this).children(".inner-gdpr-columns").addClass("active-group");
-        $(this)
-          .children(".inner-gdpr-columns")
-          .css("background-color", GDPR.settings.button_accept_button_color);
       }
       if ($(this).siblings(".inner-description-container").hasClass("hide")) {
         $(".inner-description-container").addClass("hide");

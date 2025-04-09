@@ -88,24 +88,12 @@
 .gdpr_messagebar_detail .btn:hover {
   color: #212529;
 }
-.gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-content,
-.gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-content,
-.gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-content {
-  background-color: #2f467f;
-}
-.gdpr_messagebar_detail.almond_column .gdprmodal-dialog .gdprmodal-content {
-  background-color: #ede4ca;
-}
+
 .gdpr_messagebar_detail.grey_center .gdprmodal-dialog .gdprmodal-content,
 .gdpr_messagebar_detail.grey_column .gdprmodal-dialog .gdprmodal-content {
   background-color: #eaeaea;
 }
-.gdpr_messagebar_detail.dark .gdprmodal-dialog .gdprmodal-content {
-  background-color: #303030;
-}
-.gdpr_messagebar_detail.dark_row .gdprmodal-dialog .gdprmodal-content {
-  background-color: #3a404d;
-}
+
 .gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-header,
 .gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-header,
 .gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-header {
@@ -257,4 +245,10 @@
 }
 .wpl-iframe-placeholder {
   background-color: #b2b0b059;
+}
+/* Changes for keeping the color schema uniform for some templates in Cookie Settings section */
+.navy_blue_center .gdpr-category-toggle .category-header:hover,
+.dark .gdpr-category-toggle .category-header:hover,
+.dark_row .gdpr-category-toggle .category-header:hover{
+  color:  #ffffff !important;
 }
