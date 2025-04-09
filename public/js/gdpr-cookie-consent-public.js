@@ -4744,8 +4744,9 @@ banner.style.display = "none";
       lgpd_flag,
       force_display_bar,
       force_display_show_again,
-      user_triggered = false
+      user_triggered
     ) {
+      user_triggered = (typeof user_triggered === 'undefined') ? false : user_triggered;
       if (!gdpr_flag || !ccpa_flag || !lgpd_flag) {
         var animate_on_load = GDPR.settings.notify_animate_show;
         var self = this;
