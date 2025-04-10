@@ -71,29 +71,30 @@ function print_template_boxes( $name, $templates, $checked ) {
 					<div class="gdpr-right-field-content">
 						<div class="gdpr-group-description" style="margin-top:20px">
 							<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
-							<?php if ( $column ) : ?>
-								<p v-html="gdpr_message"></p>
-								<?php
-								if ( isset( $template['readmore'] ) ) :
-									$class = '';
-									if ( $template['readmore']['as_button'] ) :
-										$class = 'btn btn-sm';
-									endif;
-									?>
-									<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{button_readmore_text}}</a></p>
-								<?php endif; ?>
-							<?php else : ?>
-								<p v-html="gdpr_message">
-									<?php
-									if ( isset( $template['readmore'] ) ) :
-										$class = '';
-										if ( $template['readmore']['as_button'] ) :
-											$class = 'btn btn-sm';
-										endif;
-										?>
-										<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{button_readmore_text}}</a>
-									<?php endif; ?>
-									</p>
+							<?php if ( $column ) : 
+								?>
+								<p>{{gdpr_message}}</p>
+							<?php
+							if ( isset( $template['readmore'] ) ) :
+								$class = '';
+								if ( $template['readmore']['as_button'] ) :
+									$class = 'btn btn-sm';
+								endif;
+								?>
+								<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a></p>
+							<?php endif; ?>
+							<?php else : 
+								?>
+								<p>{{gdpr_message}}</p>
+							<?php
+							if ( isset( $template['readmore'] ) ) :
+								$class = '';
+								if ( $template['readmore']['as_button'] ) :
+									$class = 'btn btn-sm';
+								endif;
+								?>
+								<p><a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>"><?php echo esc_attr( $template['readmore']['text'] ); ?></a></p>
+							<?php endif; ?>
 							<?php endif; ?>
 						</div>
 						<div class="gdpr-group-buttons">
@@ -1566,6 +1567,12 @@ function get_templates( $template_type ) {
 							'css'        => 'color:#176CAE;',
 							'link_color' => '#176CAE',
 						),
+						'readmore'         => array(
+							'text'       => 'Read More',
+							'as_button'  => false,
+							'css'        => 'color:#369ee3;',
+							'link_color' => '#369ee3',
+						),
 					),
 				),
 				'widget' => array(
@@ -2284,6 +2291,12 @@ function get_templates( $template_type ) {
 							'as_button'  => false,
 							'css'        => 'color:#176CAE;',
 							'link_color' => '#176CAE',
+						),
+						'readmore'         => array(
+							'text'       => 'Read More',
+							'as_button'  => false,
+							'css'        => 'color:#369ee3;',
+							'link_color' => '#369ee3',
 						),
 					),
 				),
@@ -3564,6 +3577,12 @@ function get_templates( $template_type ) {
 							'css'        => 'font-size:10.21px;color:#176CAE;',
 							'link_color' => '#176CAE',
 						),
+						'readmore'         => array(
+							'text'       => 'Read More',
+							'as_button'  => false,
+							'css'        => 'color:#369ee3;',
+							'link_color' => '#369ee3',
+						),
 					),
 				),
 				'modal_widget' => array(
@@ -4282,6 +4301,12 @@ function get_templates( $template_type ) {
 							'as_button'  => false,
 							'css'        => 'font-size:10.21px;color:#176CAE;',
 							'link_color' => '#176CAE',
+						),
+						'readmore'         => array(
+							'text'       => 'Read More',
+							'as_button'  => false,
+							'css'        => 'color:#369ee3;',
+							'link_color' => '#369ee3',
 						),
 					),
 				),
