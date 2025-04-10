@@ -331,7 +331,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'color:#176CAE;',
+							'css'        => 'color:#176CAE; font-weight:600;',
 							'link_color' => '#176CAE;',
 						),
 						'settings'         => array(
@@ -394,7 +394,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#c1540c;color:#ffffff;display:block;width:100%;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#c1540c;color:#ffffff;display:block;width:100%;margin:0.5rem auto 0 auto; height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#c1540c',
 							'button_size'          => 'medium',
@@ -407,7 +407,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c',
+							'css'                  => 'background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c; height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#252525',
 							'button_size'          => 'medium',
@@ -420,7 +420,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#c1540c;',
+							'css'        => 'color:#c1540c;font-weight:600;',
 							'link_color' => '#c1540c',
 						),
 						'confirm'          => array(
@@ -470,7 +470,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#369ee3;',
+							'css'        => 'color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 						'accept'           => array(
@@ -546,7 +546,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#C1263E;color:#ffffff;display:block;width:100%;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#C1263E;color:#ffffff;display:block;width:100%;margin:0.5rem auto 0 auto;height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
@@ -559,7 +559,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'background-color:#ffffff;border:1px solid #C1263E;color:#C1263E;display:block;width:100%;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#ffffff;border:1px solid #C1263E;color:#C1263E;display:block;width:100%;margin:0.5rem auto 0 auto;height:32px;',
 							'link_color'           => '#C1263E',
 							'button_color'         => '#ffffff',
 							'button_size'          => 'medium',
@@ -572,7 +572,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#C1263E;',
+							'css'        => 'color:#C1263E;font-weight:600;',
 							'link_color' => '#C1263E',
 						),
 						'confirm'          => array(
@@ -648,7 +648,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#2b806a;',
+							'css'        => 'color:#2b806a;font-weight:600;',
 							'link_color' => '#2b806a',
 						),
 						'confirm'          => array(
@@ -698,7 +698,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#ac4008;',
+							'css'        => 'color:#ac4008;font-weight:600;',
 							'link_color' => '#ac4008',
 						),
 						'accept'           => array(
@@ -800,7 +800,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'color:#4570dc;',
+							'css'        => 'color:#4570dc;font-weight:600;',
 							'link_color' => '#4570dc',
 						),
 						'settings'         => array(
@@ -891,7 +891,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'color:#176CAE;',
+							'css'        => 'color:#176CAE;font-weight:600;',
 							'link_color' => '#176CAE',
 						),
 						'settings'         => array(
@@ -980,7 +980,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'color:#4570dc;',
+							'css'        => 'color:#4570dc;font-weight:600;',
 							'link_color' => '#4570dc',
 						),
 						'settings'         => array(
@@ -1043,7 +1043,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#c1540c;color:#ffffff;display:block;width:100%;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#c1540c;color:#ffffff;display:block;width:100%;margin:0.5rem auto 0 auto; height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#c1540c',
 							'button_size'          => 'medium',
@@ -1056,7 +1056,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c',
+							'css'                  => 'background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c; height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#252525',
 							'button_size'          => 'medium',
@@ -1069,7 +1069,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#c1540c;',
+							'css'        => 'color:#c1540c;font-weight:600;',
 							'link_color' => '#c1540c',
 						),
 						'confirm'          => array(
@@ -1119,7 +1119,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#369ee3;',
+							'css'        => 'color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 						'accept'           => array(
@@ -1221,7 +1221,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#2b806a;',
+							'css'        => 'color:#2b806a;font-weight:600;',
 							'link_color' => '#2b806a',
 						),
 						'confirm'          => array(
@@ -1271,7 +1271,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#ac4008;',
+							'css'        => 'color:#ac4008;font-weight:600;',
 							'link_color' => '#ac4008',
 						),
 						'accept'           => array(
@@ -1347,7 +1347,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#369ee3;',
+							'css'        => 'color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 						'accept'           => array(
@@ -1423,7 +1423,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#C1263E;color:#ffffff;display:block;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#C1263E;color:#ffffff;display:block;margin:0.5rem auto 0 auto;height:32px;width:100%;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
@@ -1436,7 +1436,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'background-color:#ffffff;border:1px solid #C1263E;color:#C1263E;display:block;max-width:fit-content;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#ffffff;border:1px solid #C1263E;color:#C1263E;display:block;margin:0.5rem auto 0 auto;height:32px;width:100%;',
 							'link_color'           => '#C1263E',
 							'button_color'         => '#ffffff',
 							'button_size'          => 'medium',
@@ -1449,7 +1449,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#C1263E;',
+							'css'        => 'color:#C1263E;font-weight:600;',
 							'link_color' => '#C1263E',
 						),
 						'confirm'          => array(
@@ -1570,7 +1570,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#369ee3;',
+							'css'        => 'color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 					),
@@ -1616,7 +1616,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'color:#176CAE;',
+							'css'        => 'color:#176CAE;font-weight:600;',
 							'link_color' => '#176CAE',
 						),
 						'settings'         => array(
@@ -1705,7 +1705,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'color:#4570dc;',
+							'css'        => 'color:#4570dc;font-weight:600;',
 							'link_color' => '#4570dc',
 						),
 						'settings'         => array(
@@ -1768,7 +1768,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#c1540c;color:#ffffff;display:block;width:100%;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#c1540c;color:#ffffff;display:block;width:100%;margin:0.5rem auto 0 auto;height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#c1540c',
 							'button_size'          => 'medium',
@@ -1781,7 +1781,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c',
+							'css'                  => 'background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c; height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#252525',
 							'button_size'          => 'medium',
@@ -1794,7 +1794,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#c1540c;',
+							'css'        => 'color:#c1540c;font-weight:600;',
 							'link_color' => '#c1540c',
 						),
 						'confirm'          => array(
@@ -1844,7 +1844,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#369ee3;',
+							'css'        => 'color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 						'accept'           => array(
@@ -1946,7 +1946,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#2b806a;',
+							'css'        => 'color:#2b806a;font-weight:600;',
 							'link_color' => '#2b806a',
 						),
 						'confirm'          => array(
@@ -1996,7 +1996,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#369ee3;',
+							'css'        => 'color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 						'accept'           => array(
@@ -2072,7 +2072,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#C1263E;color:#ffffff;display:block;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#C1263E;color:#ffffff;display:block;margin:0.5rem auto 0 auto;height:32px;width:100%;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
@@ -2085,7 +2085,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'background-color:#ffffff;border:1px solid #C1263E;color:#C1263E;display:block;margin:0.5rem auto 0 auto;',
+							'css'                  => 'background-color:#ffffff;border:1px solid #C1263E;color:#C1263E;display:block;margin:0.5rem auto 0 auto;height:32px;width:100%;',
 							'link_color'           => '#C1263E',
 							'button_color'         => '#ffffff',
 							'button_size'          => 'medium',
@@ -2098,7 +2098,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#C1263E;',
+							'css'        => 'color:#C1263E;font-weight:600;',
 							'link_color' => '#C1263E',
 						),
 						'confirm'          => array(
@@ -2148,7 +2148,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#AC4008;',
+							'css'        => 'color:#AC4008;font-weight:600;',
 							'link_color' => '#AC4008',
 						),
 						'accept'           => array(
@@ -2295,7 +2295,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#369ee3;',
+							'css'        => 'color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 					),
@@ -2341,7 +2341,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#176CAE;',
+							'css'        => 'font-size:14px;color:#176CAE;font-weight:600;',
 							'link_color' => '#176CAE',
 						),
 						'settings'         => array(
@@ -2404,7 +2404,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#c1540c;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'font-size:10.21px;background-color:#c1540c;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#c1540c',
 							'button_size'          => 'medium',
@@ -2417,7 +2417,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c',
+							'css'                  => 'font-size:10.21px;background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c;height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#252525',
 							'button_size'          => 'medium',
@@ -2430,7 +2430,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#c1540c;',
+							'css'        => 'font-size:14px;color:#c1540c;font-weight:600;',
 							'link_color' => '#c1540c',
 						),
 						'confirm'          => array(
@@ -2480,7 +2480,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#369ee3;',
+							'css'        => 'font-size:14px;color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 						'accept'           => array(
@@ -2556,7 +2556,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#C1263E;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'font-size:10.21px;background-color:#C1263E;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;height:32px;width:100%;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
@@ -2569,7 +2569,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;border:1px solid #C1263E;background-color:#ffffff;color:#C1263E;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'font-size:10.21px;border:1px solid #C1263E;background-color:#ffffff;color:#C1263E;display:block;max-width:10rem;margin:0.5rem auto 0 auto;height:32px;width:100%;',
 							'link_color'           => '#C1263E',
 							'button_color'         => '#ffffff',
 							'button_size'          => 'medium',
@@ -2582,7 +2582,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#C1263E;',
+							'css'        => 'font-size:14px;color:#C1263E;font-weight:600;',
 							'link_color' => '#C1263E',
 						),
 						'confirm'          => array(
@@ -2658,7 +2658,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#2b806a;',
+							'css'        => 'font-size:14px;color:#2b806a;font-weight:600;',
 							'link_color' => '#2b806a',
 						),
 						'confirm'          => array(
@@ -2708,7 +2708,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#ac4008;',
+							'css'        => 'font-size:14px;color:#ac4008;font-weight:600;',
 							'link_color' => '#ac4008',
 						),
 						'accept'           => array(
@@ -2810,7 +2810,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#4570dc;',
+							'css'        => 'font-size:14px;color:#4570dc;font-weight:600;',
 							'link_color' => '#4570dc',
 						),
 						'settings'         => array(
@@ -2901,7 +2901,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#176CAE;',
+							'css'        => 'font-size:14px;color:#176CAE;font-weight:600;',
 							'link_color' => '#176CAE',
 						),
 						'settings'         => array(
@@ -2990,7 +2990,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#4570dc;',
+							'css'        => 'font-size:14px;color:#4570dc;font-weight:600;',
 							'link_color' => '#4570dc',
 						),
 						'settings'         => array(
@@ -3053,7 +3053,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#c1540c;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'font-size:10.21px;background-color:#c1540c;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#c1540c',
 							'button_size'          => 'medium',
@@ -3066,7 +3066,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c',
+							'css'                  => 'font-size:10.21px;background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c;height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#252525',
 							'button_size'          => 'medium',
@@ -3079,7 +3079,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#c1540c;',
+							'css'        => 'font-size:14px;color:#c1540c;font-weight:600;',
 							'link_color' => '#c1540c',
 						),
 						'confirm'          => array(
@@ -3129,7 +3129,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#369ee3;',
+							'css'        => 'font-size:14px;color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 						'accept'           => array(
@@ -3231,7 +3231,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#2b806a;',
+							'css'        => 'font-size:14px;color:#2b806a;font-weight:600;',
 							'link_color' => '#2b806a',
 						),
 						'confirm'          => array(
@@ -3281,7 +3281,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#ac4008;',
+							'css'        => 'font-size:14px;color:#ac4008;font-weight:600;',
 							'link_color' => '#ac4008',
 						),
 						'accept'           => array(
@@ -3357,7 +3357,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#369ee3;',
+							'css'        => 'font-size:14px;color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 						'accept'           => array(
@@ -3433,7 +3433,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#C1263E;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'font-size:10.21px;background-color:#C1263E;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;height:32px;width:100%;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
@@ -3446,7 +3446,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;border:1px solid #C1263E;background-color:#ffffff;color:#C1263E;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'font-size:10.21px;border:1px solid #C1263E;background-color:#ffffff;color:#C1263E;display:block;max-width:10rem;margin:0.5rem auto 0 auto;height:32px;width:100%;',
 							'link_color'           => '#C1263E',
 							'button_color'         => '#ffffff',
 							'button_size'          => 'medium',
@@ -3459,7 +3459,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#C1263E;',
+							'css'        => 'font-size:14px;color:#C1263E;font-weight:600;',
 							'link_color' => '#C1263E',
 						),
 						'confirm'          => array(
@@ -3580,7 +3580,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#369ee3;',
+							'css'        => 'color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 					),
@@ -3626,7 +3626,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#176CAE;',
+							'css'        => 'font-size:14px;color:#176CAE;font-weight:600;',
 							'link_color' => '#176CAE',
 						),
 						'settings'         => array(
@@ -3715,7 +3715,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => __( 'Read More', 'gdpr-cookie-consent' ),
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#4570dc;',
+							'css'        => 'font-size:14px;color:#4570dc;font-weight:600;',
 							'link_color' => '#4570dc',
 						),
 						'settings'         => array(
@@ -3778,7 +3778,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#c1540c;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'font-size:10.21px;background-color:#c1540c;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#c1540c',
 							'button_size'          => 'medium',
@@ -3791,7 +3791,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c',
+							'css'                  => 'font-size:10.21px;background-color:#ffffff;color:#c1540c;display:block;width:100%;margin:0.5rem auto 0 auto; border: 1px solid #c1540c;height:32px;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#252525',
 							'button_size'          => 'medium',
@@ -3804,7 +3804,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#c1540c;',
+							'css'        => 'font-size:14px;color:#c1540c;font-weight:600;',
 							'link_color' => '#c1540c',
 						),
 						'confirm'          => array(
@@ -3854,7 +3854,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#369ee3;',
+							'css'        => 'font-size:14px;color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 						'accept'           => array(
@@ -3956,7 +3956,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#2b806a;',
+							'css'        => 'font-size:14px;color:#2b806a;font-weight:600;',
 							'link_color' => '#2b806a',
 						),
 						'confirm'          => array(
@@ -4006,7 +4006,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#369ee3;',
+							'css'        => 'font-size:14px;color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 						'accept'           => array(
@@ -4082,7 +4082,7 @@ function get_templates( $template_type ) {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;background-color:#C1263E;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'font-size:10.21px;background-color:#C1263E;color:#ffffff;display:block;max-width:10rem;margin:0.5rem auto 0 auto;height:32px;width:100%;',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#C1263E',
 							'button_size'          => 'medium',
@@ -4095,7 +4095,7 @@ function get_templates( $template_type ) {
 						'settings'         => array(
 							'text'                 => 'Cookie Settings',
 							'as_button'            => true,
-							'css'                  => 'font-size:10.21px;border:1px solid #C1263E;background-color:#ffffff;color:#C1263E;display:block;max-width:10rem;margin:0.5rem auto 0 auto;',
+							'css'                  => 'font-size:10.21px;border:1px solid #C1263E;background-color:#ffffff;color:#C1263E;display:block;max-width:10rem;margin:0.5rem auto 0 auto;height:32px;width:100%;',
 							'link_color'           => '#C1263E',
 							'button_color'         => '#ffffff',
 							'button_size'          => 'medium',
@@ -4108,7 +4108,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#C1263E;',
+							'css'        => 'font-size:14px;color:#C1263E;font-weight:600;',
 							'link_color' => '#C1263E',
 						),
 						'confirm'          => array(
@@ -4158,7 +4158,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'font-size:14px;color:#AC4008;',
+							'css'        => 'font-size:14px;color:#AC4008;font-weight:600;',
 							'link_color' => '#AC4008',
 						),
 						'accept'           => array(
@@ -4305,7 +4305,7 @@ function get_templates( $template_type ) {
 						'readmore'         => array(
 							'text'       => 'Read More',
 							'as_button'  => false,
-							'css'        => 'color:#369ee3;',
+							'css'        => 'color:#369ee3;font-weight:600;',
 							'link_color' => '#369ee3',
 						),
 					),
