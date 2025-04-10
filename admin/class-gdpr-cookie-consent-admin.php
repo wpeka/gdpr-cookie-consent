@@ -2542,7 +2542,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'popup'  => array(
 					'default'          => array(
 						'name'             => 'popup-default',
-						'css'              => 'color:#000000;background-color:#ffffff;text-align:justify;',
+						'css'              => 'color:#000000;background-color:#ffffff;text-align:justify;font-size:16px;',
 						'color'            => '#000000',
 						'background_color' => '#ffffff',
 						'opacity'          => '1',
@@ -2613,7 +2613,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'dark'             => array(
 						'name'             => 'popup-dark',
-						'css'              => 'color:#ffffff;background-color:#262626;text-align:justify;',
+						'css'              => 'color:#ffffff;background-color:#262626;text-align:justify;font-size:16px;',
 						'color'            => '#ffffff',
 						'background_color' => '#262626',
 						'opacity'          => '1',
@@ -2684,7 +2684,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'almond_column'    => array(
 						'name'             => 'popup-almond_column',
-						'css'              => 'color:#252525;background-color:#ffffff;text-align:justify;',
+						'css'              => 'color:#252525;background-color:#ffffff;text-align:justify;font-size:16px;',
 						'color'            => '#252525',
 						'background_color' => '#ffffff',
 						'opacity'          => '1',
@@ -2742,7 +2742,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'navy_blue_center' => array(
 						'name'             => 'popup-navy_blue_center',
-						'css'              => 'color:#e5e5e5;background-color:#2a3e71;text-align:center;border-radius:15px;',
+						'css'              => 'color:#e5e5e5;background-color:#2a3e71;text-align:center;border-radius:15px;font-size:16px;',
 						'color'            => '#e5e5e5',
 						'background_color' => '#2a3e71',
 						'opacity'          => '1',
@@ -2802,7 +2802,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'dark_row'         => array(
 						'name'             => 'popup-dark_row',
-						'css'              => 'color:#ffffff;background-color:#323742;text-align:center;',
+						'css'              => 'color:#ffffff;background-color:#323742;text-align:center;font-size:16px;',
 						'color'            => '#ffffff',
 						'background_color' => '#323742',
 						'opacity'          => '1',
@@ -2861,7 +2861,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'grey_center'      => array(
 						'name'             => 'popup-grey_center',
-						'css'              => 'color:#000000;background-color:#ffffff;text-align:center;box-shadow: 0px 2px 20px 0px #042a4b1c;',
+						'css'              => 'color:#000000;background-color:#ffffff;text-align:center;box-shadow: 0px 2px 20px 0px #042a4b1c;font-size:16px;',
 						'color'            => '#000000',
 						'background_color' => '#ffffff',
 						'opacity'          => '1',
@@ -2920,7 +2920,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'navy_blue_box'    => array(
 						'name'             => 'popup-navy_blue_box',
-						'css'              => 'color:#e5e5e5;background-color:#2a3e71;text-align:justify;border-radius:15px;',
+						'css'              => 'color:#e5e5e5;background-color:#2a3e71;text-align:justify;border-radius:15px;font-size:16px;',
 						'color'            => '#e5e5e5',
 						'background_color' => '#2a3e71',
 						'opacity'          => '1',
@@ -2979,7 +2979,7 @@ class Gdpr_Cookie_Consent_Admin {
 					),
 					'grey_column'      => array(
 						'name'             => 'popup-grey_column',
-						'css'              => 'color:#000000;background-color:#ffffff;text-align:justify;box-shadow: 0px 2px 20px 0px #042a4b1c;',
+						'css'              => 'color:#000000;background-color:#ffffff;text-align:justify;box-shadow: 0px 2px 20px 0px #042a4b1c;font-size:16px;',
 						'color'            => '#000000',
 						'background_color' => '#ffffff',
 						'opacity'          => '1',
