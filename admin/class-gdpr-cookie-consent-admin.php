@@ -2364,7 +2364,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'accept'           => array(
 							'text'                 => 'Accept',
 							'as_button'            => true,
-							'css'                  => 'background-color:#00B888;color:#ffffff;display:block;max-width:fit-content;min-width:160px;margin:0.5rem auto 0 auto;border:1px solid 00B888',
+							'css'                  => 'background-color: #00B888;color: #ffffff;display:block;max-width:fit-content;min-width:160px;margin:0.5rem auto 0 auto;border:1px solid 00B888',
 							'link_color'           => '#ffffff',
 							'button_color'         => '#00B888',
 							'button_size'          => 'medium',

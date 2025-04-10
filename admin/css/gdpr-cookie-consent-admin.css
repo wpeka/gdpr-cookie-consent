@@ -967,15 +967,19 @@ ul.gdpr_sub_tab li:first-child {
   .gdpr-group-buttons,
 .gdpr-templates-field-container
   .gdpr-template-field.gdpr-popup-navy_blue_box
-  .gdpr-right-field.gdpr-templates-field-container
+  .gdpr-right-field
+  .gdpr-right-field-content
+  .gdpr-group-buttons,
+.gdpr-templates-field-container
+  .gdpr-template-field.gdpr-popup-dark_row
+  .gdpr-right-field
+  .gdpr-right-field-content
+  .gdpr-group-buttons,
+.gdpr-templates-field-container
   .gdpr-template-field.gdpr-widget-dark_row
   .gdpr-right-field
   .gdpr-right-field-content
-  .gdpr-group-description {
-  padding: 0 0 0.5rem 0;
-}
-  .gdpr-right-field-content
-  .gdpr-group-buttons {
+  .gdpr-group-buttons{
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
