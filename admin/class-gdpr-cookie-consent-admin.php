@@ -10240,8 +10240,51 @@ class Gdpr_Cookie_Consent_Admin {
 				},
 			)
 		);
-		
+
+		$appwplp_payment_status_namespace  = 'appwplp/v1';
+		$appwplp_payment_status_route      = 'wplp_get_payment_status';
+		$appwplp_payment_status_full_route = '/' . trim($appwplp_payment_status_namespace, '/') . '/' . trim($appwplp_payment_status_route, '/');
+
+		$rest_server = rest_get_server();
+		$routes = $rest_server->get_routes();
+
+		if (!array_key_exists($appwplp_payment_status_full_route, $routes)) {
+			register_rest_route($appwplp_payment_status_namespace, '/' . $appwplp_payment_status_route, [
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_get_wplp_payment_status' ),
+				'permission_callback' => function() use ($is_user_connected) {
+					// Check if user is connected and the API plan is valid
+					if ($is_user_connected) {
+						return true; // Allow access
+					}
+					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
+				},
+			]);
+		}
 	}
+
+	public function gdpr_get_wplp_payment_status( WP_REST_Request $request ) {
+		error_log( 'GOT IT :)' );
+
+		error_log( print_r( $request, true ) );
+
+		$payment_status = $request->get_param( 'payment_status' );
+
+		if ( 'completed' === $payment_status ) {
+			delete_transient( 'app_wplp_subscription_payment_status_failed' );
+			$message = 'Completed';
+		} else {
+			set_transient( 'app_wplp_subscription_payment_status_failed', true, 7 * DAY_IN_SECONDS );
+			$message = 'Failed';
+		}
+
+		return rest_ensure_response(
+			array(
+				'message' => 'Status Changed to ' . $message,
+			)
+		);
+	}
+
 	//Function to register the Import CSV page - Policy data
 	function register_gdpr_policies_import_page() {
 		// This adds a page, even if it's not visible in the admin menu
