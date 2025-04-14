@@ -108,7 +108,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 			</div>
 			<?php
 			}
-			if ( get_option( 'app_wplp_subscription_status_cancelled' ) ) { ?>
+			if ( get_option( 'app_wplp_subscription_status_pending_cancel' ) ) { ?>
 			<div class="gdpr-subsription-payment-failed-notice" >
 				<p><span class="dashicons dashicons-warning"></span> <?php esc_html_e( 'Your plan has been canceled to the Free Plan due to a failed payment or manual cancellation. Upgrade now to restore premium features.', 'gdpr-cookie-consent' ); ?></p>
 			</div>
