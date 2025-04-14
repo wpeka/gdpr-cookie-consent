@@ -10241,25 +10241,51 @@ class Gdpr_Cookie_Consent_Admin {
 			)
 		);
 
-		$appwplp_payment_status_namespace  = 'appwplp/v1';
+		$appwplp_namespace  = 'appwplp/v1';
+
 		$appwplp_payment_status_route      = 'wplp_get_payment_status';
-		$appwplp_payment_status_full_route = '/' . trim($appwplp_payment_status_namespace, '/') . '/' . trim($appwplp_payment_status_route, '/');
+		$appwplp_payment_status_full_route = '/' . trim( $appwplp_namespace, '/' ) . '/' . trim( $appwplp_payment_status_route, '/' );
+
+		$appwplp_subscription_status_cancelled_route = 'wplp_subscription_status_cancelled';
+		$appwplp_subscription_status_full_route      = '/' . trim( $appwplp_namespace, '/' ) . '/' . trim( $appwplp_subscription_status_cancelled_route, '/' );
 
 		$rest_server = rest_get_server();
-		$routes = $rest_server->get_routes();
+		$routes      = $rest_server->get_routes();
 
-		if (!array_key_exists($appwplp_payment_status_full_route, $routes)) {
-			register_rest_route($appwplp_payment_status_namespace, '/' . $appwplp_payment_status_route, [
-				'methods'  => 'POST',
-				'callback' => array( $this, 'gdpr_get_wplp_payment_status' ),
-				'permission_callback' => function() use ($is_user_connected) {
-					// Check if user is connected and the API plan is valid
-					if ($is_user_connected) {
-						return true; // Allow access
-					}
-					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
-				},
-			]);
+		if ( ! array_key_exists( $appwplp_payment_status_full_route, $routes ) ) {
+			register_rest_route(
+				$appwplp_namespace,
+				'/' . $appwplp_payment_status_route,
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'gdpr_get_wplp_payment_status' ),
+					'permission_callback' => function() use ( $is_user_connected ) {
+						// Check if user is connected and the API plan is valid.
+						if ( $is_user_connected ) {
+							return true; // Allow access.
+						}
+						return new WP_Error( 'rest_forbidden', 'Unauthorized access', array( 'status' => 401 ) );
+					},
+				)
+			);
+		}
+
+		if ( ! array_key_exists( $appwplp_subscription_status_full_route, $routes ) ) {
+			register_rest_route(
+				$appwplp_namespace, '/' .
+				$appwplp_subscription_status_cancelled_route,
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'gdpr_set_subscription_payment_cancelled' ),
+					'permission_callback' => function() use ( $is_user_connected ) {
+						// Check if user is connected and the API plan is valid.
+						if ( $is_user_connected ) {
+							return true; // Allow access.
+						}
+						return new WP_Error( 'rest_forbidden', 'Unauthorized access', array( 'status' => 401 ) );
+					},
+				)
+			);
 		}
 	}
 
@@ -10281,6 +10307,27 @@ class Gdpr_Cookie_Consent_Admin {
 		return rest_ensure_response(
 			array(
 				'message' => 'Status Changed to ' . $message,
+			)
+		);
+	}
+
+	public function gdpr_set_subscription_payment_cancelled( WP_REST_Request $request ) {
+		error_log( 'GOT IT CANCELED' );
+		error_log( print_r( $request, true ) );
+
+		$subscription_status = $request->get_param( 'subscription_status' );
+
+		if ( 'active' === $subscription_status ) {
+			delete_option( 'app_wplp_subscription_status_cancelled' );
+			$message = 'Active';
+		} else {
+			update_option( 'app_wplp_subscription_status_cancelled', 1 );
+			$message = 'Cancelled';
+		}
+
+		return rest_ensure_response(
+			array(
+				'message' => 'Subscription Status Changed to ' . $message,
 			)
 		);
 	}
