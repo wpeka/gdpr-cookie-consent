@@ -765,6 +765,8 @@ input.gdpr-wizard-thankyou-live-preview {
   .gdpr-group-buttons {
   width: 30%;
   margin: auto 0 auto 1rem;
+  display: flex;
+  flex-direction: column;
 }
 .gdpr-templates-field-container-wizard
   .gdpr-template-field.gdpr-widget-navy_blue_square

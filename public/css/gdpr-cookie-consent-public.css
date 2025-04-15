@@ -124,6 +124,7 @@
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  font-weight: 600;
 }
 #gdpr-cookie-consent-bar.ccpa.gdpr-banner
   .gdpr_messagebar_content
@@ -1107,8 +1108,14 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .gdpr_messagebar_detail.grey_center
   .gdprmodal-dialog
   .gdprmodal-content
-  .gdprmodal-body{
-  background-color: #f4f4f4;
+
+  .gdprmodal-body,
+.gdpr_messagebar_detail.grey_column
+  .gdprmodal-dialog
+  .gdprmodal-content
+  .gdprmodal-body {
+  background-color: white;
+
   color: var(--black-50);
 }
 .gdpr_messagebar_detail.grey_column
