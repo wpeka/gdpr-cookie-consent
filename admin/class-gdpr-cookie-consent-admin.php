@@ -10289,6 +10289,16 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 	}
 
+	/**
+	 * REST API callback to update and store the subscription payment status.
+	 *
+	 * This endpoint is hit by the main site to inform the client site about the subscription payment status.
+	 * It either sets or deletes a transient based on whether the payment is 'completed' or not.
+	 *
+	 * @param WP_REST_Request $request The REST request object containing the payment status.
+	 *
+	 * @return WP_REST_Response The response confirming the updated status.
+	 */
 	public function gdpr_get_wplp_payment_status( WP_REST_Request $request ) {
 
 		$payment_status = $request->get_param( 'payment_status' );
@@ -10308,6 +10318,16 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 	}
 
+	/**
+	 * REST API callback to update the local subscription status to either 'active' or 'pending-cancel'.
+	 *
+	 * This endpoint is called by the main site to notify the client site about the subscription status change.
+	 * It updates or deletes an option based on the received status.
+	 *
+	 * @param WP_REST_Request $request The REST request object containing the subscription status.
+	 *
+	 * @return WP_REST_Response The response confirming the updated status.
+	 */
 	public function gdpr_set_subscription_payment_pending_cancel( WP_REST_Request $request ) {
 
 		$subscription_status = $request->get_param( 'subscription_status' );
