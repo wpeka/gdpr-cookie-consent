@@ -10290,9 +10290,6 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	public function gdpr_get_wplp_payment_status( WP_REST_Request $request ) {
-		error_log( 'GOT IT :)' );
-
-		error_log( print_r( $request, true ) );
 
 		$payment_status = $request->get_param( 'payment_status' );
 
@@ -10312,8 +10309,6 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	public function gdpr_set_subscription_payment_pending_cancel( WP_REST_Request $request ) {
-		error_log( 'GOT IT PENDING CANCELED' );
-		error_log( print_r( $request, true ) );
 
 		$subscription_status = $request->get_param( 'subscription_status' );
 
