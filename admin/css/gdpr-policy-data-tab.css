@@ -40,8 +40,8 @@
 .consent-log-heading-export .gdpr-not-pro-tooltip-text {
 	position: absolute;
 	padding: 5px 10px;
-	background: rgb(51, 51, 51);
-	color: rgb(255, 255, 255);
+	background: var(--gray-700);
+	color: var(--white-100);
 	border-radius: 5px;
 	pointer-events: auto;
 	z-index: 9;
