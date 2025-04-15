@@ -118,6 +118,9 @@ GDPR_CCPA_COOKIE_EXPIRE =
     window.consentGiven = function (callback){
     consentListeners.push(callback);
   };
+  window.wp_consent_type = 'optin';
+    let event = new CustomEvent('wp_consent_type_defined');
+  document.dispatchEvent( event );
   var gdpr_cookiebar_settings = gdpr_cookies_obj.gdpr_cookiebar_settings;
   var gdpr_ab_options = gdpr_cookies_obj.gdpr_ab_options;
   var gdpr_cookies_list = gdpr_cookies_obj.gdpr_cookies_list;
@@ -826,6 +829,18 @@ banner.style.display = "none";
             if(jQuery(this).is(":checked") && key == "marketing") marketing_consent = true;
             if(jQuery(this).is(":checked") && key == "preferences") preferences_consent = true;
           });
+          if (typeof window.wp_set_consent === 'function') {
+              if(marketing_consent) wp_set_consent('marketing', 'allow' ) ;
+              else wp_set_consent('marketing', 'deny' ) ;
+              if(analytics_consent) wp_set_consent('statistics', 'allow' ) ;
+              else wp_set_consent('statistics', 'deny' ) ;
+              if(analytics_consent) wp_set_consent('statistics-anonymous', 'allow' ) ;
+              else wp_set_consent('statistics-anonymous', 'deny' ) ;
+              if(preferences_consent) wp_set_consent('preferences', 'allow' ) ;
+              else wp_set_consent('preferences', 'deny' ) ;
+              wp_set_consent('functional', 'allow' );
+          }
+          
           if(is_gcm_on == 'true'){
             gtag('consent', 'update', {
               'ad_user_data': marketing_consent ? 'granted' : 'denied',
@@ -841,7 +856,6 @@ banner.style.display = "none";
           consent.marketing = marketing_consent == true ? 'yes' : 'no';
           consent.analytics = analytics_consent == true ? 'yes' : 'no';
           consent.preferences = preferences_consent == true ? 'yes' : 'no';
-          console.log("here: ", consent);
           consentListeners.forEach(function (callback) {
             callback(consent);
           });
@@ -950,6 +964,14 @@ banner.style.display = "none";
           // Log consent action
           GDPR.logConsent(button_action);
         } else if (button_action == "accept_all") {
+          if (typeof window.wp_set_consent === 'function') {
+            wp_set_consent('marketing', 'allow' ) ;
+            wp_set_consent('statistics', 'allow' ) ;
+            wp_set_consent('statistics-anonymous', 'allow' ) ;
+            wp_set_consent('preferences', 'allow' ) ;
+            wp_set_consent('functional', 'allow' );
+          }
+
           if(is_gcm_on == 'true'){
             gtag('consent', 'update', {
               'ad_user_data': 'granted',
@@ -1061,6 +1083,13 @@ banner.style.display = "none";
               },
               success: function (response) {},
             });
+          }
+          if (typeof window.wp_set_consent === 'function') {
+            wp_set_consent('functional', 'allow' );
+            wp_set_consent('marketing', 'deny' ) ;
+            wp_set_consent('statistics', 'deny' ) ;
+            wp_set_consent('statistics-anonymous', 'deny' ) ;
+            wp_set_consent('preferences', 'deny' ) ;
           }
           if(is_gcm_on == 'true'){
               gtag('consent', 'update', {
