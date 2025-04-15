@@ -4744,8 +4744,9 @@ banner.style.display = "none";
       lgpd_flag,
       force_display_bar,
       force_display_show_again,
-      user_triggered = false
+      user_triggered
     ) {
+      user_triggered = (typeof user_triggered === 'undefined') ? false : user_triggered;
       if (!gdpr_flag || !ccpa_flag || !lgpd_flag) {
         var animate_on_load = GDPR.settings.notify_animate_show;
         var self = this;
@@ -5430,9 +5431,6 @@ banner.style.display = "none";
           .siblings(".toggle-group")
           .find("div.always-active")
           .css("color", GDPR.settings.button_accept_button_color);
-        // $(this)
-        //   .children(".gdpr-columns")
-        //   .css("background-color", background_obj.background);
         $(this)
           .children(".gdpr-columns")
           .find(".dashicons")
@@ -5474,10 +5472,6 @@ banner.style.display = "none";
       $(".gdpr-category-toggle.inner-gdpr-column", this);
       if (!$(this).children(".inner-gdpr-columns").hasClass("active-group")) {
         $(".inner-gdpr-columns").removeClass("active-group");
-        $(".inner-gdpr-columns").css(
-          "background-color",
-          background_obj.background
-        );
         $(".inner-gdpr-columns .dashicons").removeClass(
           "dashicons-arrow-up-alt2"
         );
@@ -5494,9 +5488,6 @@ banner.style.display = "none";
           .css("color", GDPR.settings.button_accept_button_color);
         $(this)
           .children(".inner-gdpr-columns")
-          .css("background-color", background_obj.background);
-        $(this)
-          .children(".inner-gdpr-columns")
           .find(".dashicons")
           .removeClass("dashicons-arrow-down-alt2");
         $(this)
@@ -5509,10 +5500,6 @@ banner.style.display = "none";
           .siblings(".toggle-group")
           .find("div.always-active")
           .css("color", GDPR.settings.button_accept_button_color);
-        $(".inner-gdpr-columns").css(
-          "background-color",
-          background_obj.background
-        );
         $(this)
           .children(".inner-gdpr-columns")
           .find(".dashicons")
@@ -5533,14 +5520,7 @@ banner.style.display = "none";
       $(".gdpr-default-category-toggle.inner-gdpr-column", this);
       if (!$(this).children(".inner-gdpr-columns").hasClass("active-group")) {
         $(".inner-gdpr-columns").removeClass("active-group");
-        $(".inner-gdpr-columns").css(
-          "background-color",
-          background_obj.background
-        );
         $(this).children(".inner-gdpr-columns").addClass("active-group");
-        $(this)
-          .children(".inner-gdpr-columns")
-          .css("background-color", GDPR.settings.button_accept_button_color);
       }
       if ($(this).siblings(".inner-description-container").hasClass("hide")) {
         $(".inner-description-container").addClass("hide");
