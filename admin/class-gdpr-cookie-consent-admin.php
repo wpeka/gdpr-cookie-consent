@@ -749,6 +749,9 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @return void
 	 */
 	public function wpl_consent_log_overview() {
+		if ( isset( $_GET['page'] ) && $_GET['page'] !== 'gdpr-cookie-consent' ) {
+			return;
+		}
 		ob_start();
 		include GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-consent-logs.php';
 		// Style for consent log report.
@@ -763,7 +766,39 @@ class Gdpr_Cookie_Consent_Admin {
 				<div class="wpl-heading-export-consentlogs">
 					<div class="consent-log-heading-export">
 						<h1 class="wp-heading"><?php esc_html_e( 'Consent Logs', 'gdpr-cookie-consent' ); ?></h1>
-						<a href="<?php echo esc_url_raw( plugins_url( 'public/modules/consent-logs/csv.php', __DIR__ ) . '?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
+						<?php
+						$is_user_connected = $this->settings->is_connected();
+						$installed_plugins = get_plugins();
+						$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+						$api_user_plan     = $this->settings->get_plan();
+						if ( $is_user_connected == true && ! $pro_installed && $api_user_plan != 'free' ) {
+							$api_url           = GDPR_API_URL;
+							$updated_api_url = str_replace('/v2/', '/v1/', $api_url);
+							$url             = $updated_api_url . 'gdpr_export_consent_log';
+							$args            = array(
+								'source'     => 'gdpr-cookie-consent',
+								'plugin_dir' => plugins_url(),
+								'nonce'      => wp_create_nonce( 'wpl_csv_nonce' ),  
+							);
+							$request_url     = add_query_arg( $args, $url );
+							$response        = wp_remote_post( $request_url, array( 'timeout' => 10 ) );
+							$status_code     = wp_remote_retrieve_response_code( $response );
+							if ( 200 === (int) $status_code ) {
+								$body = json_decode( wp_remote_retrieve_body( $response ), true );
+								echo wp_kses_post( $body['body'] );
+							} else {
+								?>
+								<span class="data-req-export-button gdpr-not-pro-tooltip"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></span>
+								<div class="gdpr-not-pro-tooltip-text"><?php echo esc_html_e( 'This feature is only available in the Pro version. Kindly', 'gdpr-cookie-consent' );?> <a href="<?php echo esc_url( 'https://wplegalpages.com/pricing/?utm_source=wpcookieconsent&utm_medium=consent-log-export-settings' ); ?>" target="_blank"><?php echo esc_html_e( 'UPGRADE', 'gdpr-cookie-consent' ); ?></a> <?php esc_html_e( 'to unlock and use it.', 'gdpr-cookie-consent' ) ?></div>
+								<?php
+							}
+						} else {
+							?>
+							<span class="data-req-export-button gdpr-not-pro-tooltip"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></span>
+							<div class="gdpr-not-pro-tooltip-text"><?php echo esc_html_e( 'This feature is only available in the Pro version. Kindly', 'gdpr-cookie-consent' );?> <a href="<?php echo esc_url( 'https://wplegalpages.com/pricing/?utm_source=wpcookieconsent&utm_medium=consent-log-export-settings' ); ?>" target="_blank"><?php echo esc_html_e( 'UPGRADE', 'gdpr-cookie-consent' ); ?></a> <?php esc_html_e( 'to unlock and use it.', 'gdpr-cookie-consent' ) ?></div>
+							<?php
+						}
+						?>
 					</div>
 					<div class="consent-log-search-log"> 
 						<?php $consent_logs->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 

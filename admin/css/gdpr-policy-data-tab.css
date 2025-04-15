@@ -6,6 +6,10 @@
 .wpl-heading-export-consentlogs{
     display: flex;
 	justify-content: space-between;
+	margin-bottom: 40px;
+}
+.wpl-heading-export-datarequest {
+	margin-bottom: 40px;
 }
 .wp-heading{
   color: var(--black-50);
@@ -25,6 +29,27 @@
     margin-top: 13px;
 	margin-left: 20px;
 	text-decoration: underline
+}
+.data-req-export-button.gdpr-not-pro-tooltip {
+	color: var(--gray-400);
+	cursor: not-allowed;
+}
+.data-req-export-button.gdpr-not-pro-tooltip:hover {
+	color: var(--gray-400);
+}
+.consent-log-heading-export .gdpr-not-pro-tooltip-text {
+	position: absolute;
+	padding: 5px 10px;
+	background: rgb(51, 51, 51);
+	color: rgb(255, 255, 255);
+	border-radius: 5px;
+	pointer-events: auto;
+	z-index: 9;
+	width: 150px;
+	display: none;
+}
+.consent-log-heading-export .gdpr-not-pro-tooltip-text a {
+	color: var(--orange-50);
 }
 .data-req-export-button:hover{
 	color:var(--blue-2000);
@@ -96,6 +121,14 @@
 	margin-bottom: 40px;
 	/* position: relative;
 	left:100% */
+}
+.consent-log-search-log .search-and-export-container {
+	display: flex;
+	margin-bottom: 0;
+}
+.data-request-search-log .search-and-export-container{
+	display: flex;
+	margin-bottom: 0;
 }
 .search-and-export-container .search-box{
 	float:none;
