@@ -7613,6 +7613,20 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   width: 102%;
 }
 
+.gdpr-cookie-consent-main-admin-header .gdpr-subsription-payment-failed-notice {
+  position: relative;
+  left: -20px;
+  width: 102%;
+  padding: 20px;
+  background-color: var(--orange-50);
+}
+.gdpr-cookie-consent-main-admin-header .gdpr-subsription-payment-failed-notice p {
+  margin: 0;
+  color: var(--black-50);
+  font-family: "Roboto", sans-serif;
+  font-weight: var(--text-regular-font-weight);
+  font-size: var(--text-sm-font-size);
+}
 .gdpr-remaining-scans-content .gdpr-remaining-scans-container {
   margin: auto 0;
   margin-left: 20px;

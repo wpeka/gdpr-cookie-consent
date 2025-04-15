@@ -10240,8 +10240,113 @@ class Gdpr_Cookie_Consent_Admin {
 				},
 			)
 		);
-		
+
+		$appwplp_namespace  = 'appwplp/v1';
+
+		$appwplp_payment_status_route      = 'wplp_get_payment_status';
+		$appwplp_payment_status_full_route = '/' . trim( $appwplp_namespace, '/' ) . '/' . trim( $appwplp_payment_status_route, '/' );
+
+		$appwplp_subscription_status_pending_cancel_route = 'wplp_subscription_status_pending_cancel';
+		$appwplp_subscription_status_full_route           = '/' . trim( $appwplp_namespace, '/' ) . '/' . trim( $appwplp_subscription_status_pending_cancel_route, '/' );
+
+		$rest_server = rest_get_server();
+		$routes      = $rest_server->get_routes();
+
+		if ( ! array_key_exists( $appwplp_payment_status_full_route, $routes ) ) {
+			register_rest_route(
+				$appwplp_namespace,
+				'/' . $appwplp_payment_status_route,
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'gdpr_get_wplp_payment_status' ),
+					'permission_callback' => function() use ( $is_user_connected ) {
+						// Check if user is connected and the API plan is valid.
+						if ( $is_user_connected ) {
+							return true; // Allow access.
+						}
+						return new WP_Error( 'rest_forbidden', 'Unauthorized access', array( 'status' => 401 ) );
+					},
+				)
+			);
+		}
+
+		if ( ! array_key_exists( $appwplp_subscription_status_full_route, $routes ) ) {
+			register_rest_route(
+				$appwplp_namespace, '/' .
+				$appwplp_subscription_status_pending_cancel_route,
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'gdpr_set_subscription_payment_pending_cancel' ),
+					'permission_callback' => function() use ( $is_user_connected ) {
+						// Check if user is connected and the API plan is valid.
+						if ( $is_user_connected ) {
+							return true; // Allow access.
+						}
+						return new WP_Error( 'rest_forbidden', 'Unauthorized access', array( 'status' => 401 ) );
+					},
+				)
+			);
+		}
 	}
+
+	/**
+	 * REST API callback to update and store the subscription payment status.
+	 *
+	 * This endpoint is hit by the main site to inform the client site about the subscription payment status.
+	 * It either sets or deletes a transient based on whether the payment is 'completed' or not.
+	 *
+	 * @param WP_REST_Request $request The REST request object containing the payment status.
+	 *
+	 * @return WP_REST_Response The response confirming the updated status.
+	 */
+	public function gdpr_get_wplp_payment_status( WP_REST_Request $request ) {
+
+		$payment_status = $request->get_param( 'payment_status' );
+
+		if ( 'completed' === $payment_status ) {
+			delete_transient( 'app_wplp_subscription_payment_status_failed' );
+			$message = 'Completed';
+		} else {
+			set_transient( 'app_wplp_subscription_payment_status_failed', true, 7 * DAY_IN_SECONDS );
+			$message = 'Failed';
+		}
+
+		return rest_ensure_response(
+			array(
+				'message' => 'Status Changed to ' . $message,
+			)
+		);
+	}
+
+	/**
+	 * REST API callback to update the local subscription status to either 'active' or 'pending-cancel'.
+	 *
+	 * This endpoint is called by the main site to notify the client site about the subscription status change.
+	 * It updates or deletes an option based on the received status.
+	 *
+	 * @param WP_REST_Request $request The REST request object containing the subscription status.
+	 *
+	 * @return WP_REST_Response The response confirming the updated status.
+	 */
+	public function gdpr_set_subscription_payment_pending_cancel( WP_REST_Request $request ) {
+
+		$subscription_status = $request->get_param( 'subscription_status' );
+
+		if ( 'active' === $subscription_status ) {
+			delete_option( 'app_wplp_subscription_status_pending_cancel' );
+			$message = 'Active';
+		} else {
+			update_option( 'app_wplp_subscription_status_pending_cancel', 1 );
+			$message = 'Pending Cancel';
+		}
+
+		return rest_ensure_response(
+			array(
+				'message' => 'Subscription Status Changed to ' . $message,
+			)
+		);
+	}
+
 	//Function to register the Import CSV page - Policy data
 	function register_gdpr_policies_import_page() {
 		// This adds a page, even if it's not visible in the admin menu
