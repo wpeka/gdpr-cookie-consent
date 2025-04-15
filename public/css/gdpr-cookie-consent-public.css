@@ -1115,7 +1115,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   .gdprmodal-dialog
   .gdprmodal-content
   .gdprmodal-body {
-  background-color: #f4f4f4;
+  background-color: white;
   color: var(--black-50);
 }
 .gdpr_messagebar_detail.dark

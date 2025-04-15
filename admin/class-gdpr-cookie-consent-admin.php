@@ -9508,15 +9508,15 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			$the_options['template_parts'] = $template;
 			if ( in_array( $template, array( 'navy_blue_center', 'navy_blue_box', 'navy_blue_square' ), true ) ) {
-				$template_parts_background = '#1c2e5a';
+				$template_parts_background = '#2A3E71';
 			} elseif ( in_array( $template, array( 'almond_column' ), true ) ) {
-				$template_parts_background = '#FCF5DF';
+				$template_parts_background = '#FFFFFF';
 			} elseif ( in_array( $template, array( 'grey_column', 'grey_center' ), true ) ) {
-				$template_parts_background = '#f4f4f4';
+				$template_parts_background = '#FFFFFF';
 			} elseif ( in_array( $template, array( 'dark' ), true ) ) {
-				$template_parts_background = '#000000';
+				$template_parts_background = '#262626';
 			} elseif ( in_array( $template, array( 'dark_row' ), true ) ) {
-				$template_parts_background = '#36423f';
+				$template_parts_background = '#323742';
 			} else {
 				$template_parts_background = '#ffffff';
 			}
@@ -9601,15 +9601,15 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			$the_options['template_parts'] = $template;
 			if ( in_array( $template, array( 'navy_blue_center', 'navy_blue_box', 'navy_blue_square' ), true ) ) {
-				$template_parts_background = '#1c2e5a';
+				$template_parts_background = '#2A3E71';
 			} elseif ( in_array( $template, array( 'almond_column' ), true ) ) {
-				$template_parts_background = '#FCF5DF';
+				$template_parts_background = '#FFFFFF';
 			} elseif ( in_array( $template, array( 'grey_column', 'grey_center' ), true ) ) {
-				$template_parts_background = '#f4f4f4';
+				$template_parts_background = '#FFFFFF';
 			} elseif ( in_array( $template, array( 'dark' ), true ) ) {
-				$template_parts_background = '#000000';
+				$template_parts_background = '#262626';
 			} elseif ( in_array( $template, array( 'dark_row' ), true ) ) {
-				$template_parts_background = '#36423f';
+				$template_parts_background = '#323742';
 			} else {
 				$template_parts_background = '#ffffff';
 			}
@@ -10289,15 +10289,15 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			$the_options['template_parts'] = $template;
 			if ( in_array( $template, array( 'navy_blue_center', 'navy_blue_box', 'navy_blue_square' ), true ) ) {
-				$template_parts_background = '#1c2e5a';
+				$template_parts_background = '#2A3E71';
 			} elseif ( in_array( $template, array( 'almond_column' ), true ) ) {
-				$template_parts_background = '#FCF5DF';
+				$template_parts_background = '#FFFFFF';
 			} elseif ( in_array( $template, array( 'grey_column', 'grey_center' ), true ) ) {
-				$template_parts_background = '#f4f4f4';
+				$template_parts_background = '#FFFFFF';
 			} elseif ( in_array( $template, array( 'dark' ), true ) ) {
-				$template_parts_background = '#000000';
+				$template_parts_background = '#262626';
 			} elseif ( in_array( $template, array( 'dark_row' ), true ) ) {
-				$template_parts_background = '#36423f';
+				$template_parts_background = '#323742';
 			} else {
 				$template_parts_background = '#ffffff';
 			}

@@ -1907,7 +1907,7 @@ function get_templates( $template_type ) {
 						),
 					),
 					'dark_row'         => array(
-						'name'             => 'widget-ddark_rowark_row',
+						'name'             => 'widget-dark_row',
 						'css'              => 'color:#ffffff;background-color:#323742;text-align:center;',
 						'color'            => '#ffffff',
 						'background_color' => '#323742',
