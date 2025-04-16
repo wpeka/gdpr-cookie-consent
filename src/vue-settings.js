@@ -170,6 +170,12 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_gcm_ads_redact"])
           ? true
           : false,
+      gcm_debug_mode: settings_obj.the_options.hasOwnProperty("is_gcm_debug_mode") && 
+        (true === settings_obj.the_options["is_gcm_debug_mode"] ||
+          "true" === settings_obj.the_options["is_gcm_debug_mode"] ||
+          1 === settings_obj.the_options["is_gcm_debug_mode"])
+          ? true
+          : false,
       regions: settings_obj.the_options.hasOwnProperty('gcm_defaults') ? JSON.parse(settings_obj.the_options["gcm_defaults"]) : [
         {
           region: 'All',
@@ -2680,6 +2686,9 @@ var gen = new Vue({
     },
     onSwitchGCMAdsRedact(){
       this.gcm_ads_redact = !this.gcm_ads_redact;
+    },
+    onSwitchGCMDebugMode(){
+      this.gcm_debug_mode = !this.gcm_debug_mode;
     },
     onSwitchDynamicLang() {
       this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
@@ -5895,6 +5904,7 @@ var gen = new Vue({
       this.gcm_wait_for_update_duration = '500';
       this.gcm_url_passthrough = false;
       this.gcm_ads_redact = false;
+      this.gcm_debug_mode = false;
       this.dynamic_lang_is_on = false;
       this.gacm_is_on = false;
       this.accept_as_button = true;
@@ -8324,6 +8334,12 @@ var app = new Vue({
           1 === settings_obj.the_options["is_gcm_ads_redact"])
           ? true
           : false,
+      gcm_debug_mode: settings_obj.the_options.hasOwnProperty("is_gcm_debug_mode") && 
+        (true === settings_obj.the_options["is_gcm_debug_mode"] ||
+          "true" === settings_obj.the_options["is_gcm_debug_mode"] ||
+          1 === settings_obj.the_options["is_gcm_debug_mode"])
+          ? true
+          : false,
       banner_preview_is_on:
         "true" == settings_obj.the_options["banner_preview_enable"] ||
         1 === settings_obj.the_options["banner_preview_enable"]
@@ -10566,6 +10582,9 @@ var app = new Vue({
     },
     onSwitchGCMAdsRedact(){
       this.gcm_ads_redact = !this.gcm_ads_redact;
+    },
+    onSwitchGCMDebugMode(){
+      this.gcm_debug_mode = !this.gcm_debug_mode;
     },
     onSwitchGacmEnable() {
       this.gacm_is_on = !this.gacm_is_on;
@@ -13596,6 +13615,7 @@ var app = new Vue({
       this.gcm_is_on = false;
       this.gcm_wait_for_update_duration = '500';
       this.gcm_ads_redact = false;
+      this.gcm_debug_mode = false;
       this.gcm_url_passthrough = false;
       this.gacm_is_on = false;
       this.decline_text = "Decline";

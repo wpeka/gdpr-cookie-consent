@@ -1247,6 +1247,15 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<?php echo strip_tags('When enabled and the default consent state of "Advertisment" cookies is disabled, Google advertising tags will remove all advertising identifiers from the requests, and route traffic through domains that do not use cookies.', '<p><a><i><em><b><strong>'); ?>
 										</p>
 									</c-col>
+
+									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Enable debug mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8" style="margin-top: 20px;">
+										<c-switch v-bind="labelIcon" v-model="gcm_debug_mode" id="gdpr-cookie-consent-gcm-debug_mode" variant="3d"  color="success" :checked="gcm_debug_mode" v-on:update:checked="onSwitchGCMDebugMode"></c-switch>
+										<input type="hidden" name="gcc-gcm-debug-mode" v-model="gcm_debug_mode">
+										<p class="policy-description cookie-notice-readmore-container">
+											<?php echo strip_tags('When enabled your browser console will display the GCM default status, update status, and whether default consent was set in correct order.<br>To open the browser console, right click on any webpage, select Inspect -> Console.', '<p><a><i><em><b><strong><br>'); ?>
+										</p>
+									</c-col>
 									
 								</c-row>
 								<c-row>

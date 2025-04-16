@@ -186,8 +186,9 @@ class Gdpr_Cookie_Consent_Public {
 
 			function updateGTMByCookies() {
 				let userPreferences = getCookie("wpl_user_preference");
+				let banner_visible = getCookie("wpl_viewed_cookie");
 
-				if (userPreferences) {
+				if (userPreferences && banner_visible == "yes") {
 					try {
 						userPreferences = JSON.parse(userPreferences);
 						
@@ -1183,7 +1184,8 @@ class Gdpr_Cookie_Consent_Public {
 				'button_revoke_consent_background_color'	=> $the_options['button_revoke_consent_background_color'],
 				'chosenBanner'								=> $chosenBanner,
 				'is_iabtcf_on'                              => $the_options['is_iabtcf_on'],
-				'is_gcm_on'									=> $the_options['is_gcm_on']
+				'is_gcm_on'									=> $the_options['is_gcm_on'],
+				'is_gcm_debug_on'							=> isset($the_options['is_gcm_debug_mode']) ? $the_options['is_gcm_debug_mode'] : 'false' 
 			);
 
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );

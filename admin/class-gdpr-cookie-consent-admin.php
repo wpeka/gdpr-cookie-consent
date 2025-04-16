@@ -7739,6 +7739,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['gcm_wait_for_update_duration']         = isset( $_POST['gcm_wait_for_update_duration_field'] ) ? sanitize_text_field(wp_unslash($_POST['gcm_wait_for_update_duration_field'])) : '500';
 			$the_options['is_gcm_url_passthrough']               = isset( $_POST['gcc-gcm-url-pass'] ) && ( true === $_POST['gcc-gcm-url-pass'] || 'true' === $_POST['gcc-gcm-url-pass'] ) ? 'true' : 'false';
 			$the_options['is_gcm_ads_redact']               	 = isset( $_POST['gcc-gcm-ads-redact'] ) && ( true === $_POST['gcc-gcm-ads-redact'] || 'true' === $_POST['gcc-gcm-ads-redact'] ) ? 'true' : 'false';
+			$the_options['is_gcm_debug_mode']               	 = isset( $_POST['gcc-gcm-debug-mode'] ) && ( true === $_POST['gcc-gcm-debug-mode'] || 'true' === $_POST['gcc-gcm-debug-mode'] ) ? 'true' : 'false';
 			$the_options['is_iabtcf_on']                         = isset( $_POST['gcc-iabtcf-enable'] ) && ( true === $_POST['gcc-iabtcf-enable'] || 'true' === $_POST['gcc-iabtcf-enable'] ) ? 'true' : 'false';
 			$the_options['is_dynamic_lang_on']                   = isset( $_POST['gcc-dynamic-lang-enable'] ) && ( true === $_POST['gcc-dynamic-lang-enable'] || 'true' === $_POST['gcc-dynamic-lang-enable'] ) ? 'true' : 'false';
 			$the_options['optout_text']                          = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
