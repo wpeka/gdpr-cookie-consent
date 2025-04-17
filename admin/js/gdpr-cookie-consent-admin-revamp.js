@@ -344,6 +344,28 @@ jQuery(document).ready(function () {
    * Javascript functionality for SaaS API Framework.
    */
 
+
+
+
+  var advertisingModeContainer = jQuery('#gcm-advertiser-mode-container');
+    jQuery.ajax({
+        url: ajaxurl,
+        method: 'POST',
+        data: {
+            action: 'wpl_gcm_advertiser_mode_data',
+        },
+        success: function (response) {
+            if (window.gen && typeof window.gen.refreshGCMAdvertiserModeData === 'function') {
+                window.gen.refreshGCMAdvertiserModeData(response.data.html);
+            } else {
+                console.error('Vue instance not found or refreshCookieScannerData method missing.');
+            }
+        },
+        error: function () {
+            advertisingModeContainer.html('<p>Error loading cookie scanner data.</p>');
+        }
+    });
+
   /**
    * Add an event listener to listen for messages sent from the server.
    */
@@ -460,17 +482,17 @@ jQuery(document).ready(function () {
   });
   // connection overlay in compliance settings.
   jQuery(document).ready(function () {
-    var gdprTimer, ccpaTimer, bothTimer;
+    var gacmTimer, gcmTimer, gdprTimer, ccpaTimer, bothTimer;
 
     //GACM hover function
     jQuery(".gacm-slider").hover(
       function () {
-        gdprTimer = setTimeout(function () {
+        gacmTimer = setTimeout(function () {
           jQuery(".gdpr-gacm_message-gdpr").css("display", "block");
         }, 250); // 250ms delay
       },
       function () {
-        clearTimeout(gdprTimer); // Clear the timer to prevent delayed show
+        clearTimeout(gacmTimer); // Clear the timer to prevent delayed show
         jQuery(".gdpr-gacm_message-gdpr").css("display", "none");
       }
     );

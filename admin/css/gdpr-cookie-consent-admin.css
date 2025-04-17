@@ -8210,12 +8210,16 @@ button.btn.gdpr-renew-now-btn.pro,
 }
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-gacm_message-gdpr,
+.gdpr-gcm_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both {
   display: none;
 }
 .gdpr-disabled-geo-integration {
   position: relative;
+}
+.gcm-slider:hover ~ .gdpr-gcm_message-gdpr{
+display: block !important;
 }
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
@@ -8229,7 +8233,7 @@ button.btn.gdpr-renew-now-btn.pro,
   text-align: center;
   z-index: 99;
 }
-.gdpr-gacm_message-gdpr {
+.gdpr-gacm_message-gdpr, .gdpr-gcm_message-gdpr {
   width: 140px;
   position: absolute;
   left: 90px;

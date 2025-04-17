@@ -1089,7 +1089,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<input type="hidden" name="gcc-gcm-enable" v-model="gcm_is_on">
 									</c-col>
 								</c-row>
-								<c-row v-show="!is_ccpa || is_gdpr" style="margin-top: -30px;"><c-col class="col-sm-4"></c-col><c-col class="col-sm-8"><p style="color:gray; font-weight:400;">Follow the guide <a href = "https://wplegalpages.com/docs/wp-cookie-consent/how-to-guides/implementing-google-consent-mode-using-wp-cookie-consent" target="_blank">here</a> to correctly implement Google Consent Mode</p></c-col></c-row>
+								<c-row v-show="!is_ccpa || is_gdpr" style="margin-top: -30px;"><c-col class="col-sm-4"></c-col><c-col class="col-sm-8"><p style="color:gray; font-weight:400;">Follow the guide <a class="cookie-notice-readmore" href = "https://wplegalpages.com/docs/wp-cookie-consent/how-to-guides/implementing-google-consent-mode-using-wp-cookie-consent" target="_blank">here</a> to correctly implement Google Consent Mode</p></c-col></c-row>
 								<c-row v-show="gcm_is_on" style="border-bottom: 1px solid var(--gray-200);">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Default consent settings', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-12">
@@ -1256,6 +1256,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<?php echo strip_tags('When enabled your browser console will display the GCM default status, update status, and whether default consent was set in correct order.<br>To open the browser console, right click on any webpage, select Inspect -> Console.', '<p><a><i><em><b><strong><br>'); ?>
 										</p>
 									</c-col>
+									<div class="col-sm-12 col" style="display: flex;" v-html="gcm_adver_mode_data" id="gcm-advertiser-mode-container"></div>
 									
 								</c-row>
 								<c-row>

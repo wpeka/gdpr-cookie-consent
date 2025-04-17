@@ -67,6 +67,7 @@ var gen = new Vue({
       edit_discovered_cookie_on: false,
       cookie_scanner_data: '',
       ab_testing_data: '',
+      gcm_adver_mode_data: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
       progress_bar: require("../admin/images/progress_bar.svg"),
@@ -174,6 +175,12 @@ var gen = new Vue({
         (true === settings_obj.the_options["is_gcm_debug_mode"] ||
           "true" === settings_obj.the_options["is_gcm_debug_mode"] ||
           1 === settings_obj.the_options["is_gcm_debug_mode"])
+          ? true
+          : false,
+      gcm_advertiser_mode: settings_obj.the_options.hasOwnProperty("is_gcm_advertiser_mode") && 
+        (true === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          "true" === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          1 === settings_obj.the_options["is_gcm_advertiser_mode"])
           ? true
           : false,
       regions: settings_obj.the_options.hasOwnProperty('gcm_defaults') ? JSON.parse(settings_obj.the_options["gcm_defaults"]) : [
@@ -2360,6 +2367,19 @@ var gen = new Vue({
                 });
             });
     },
+    refreshGCMAdvertiserModeData(html) {
+      this.gcm_adver_mode_data = html;
+      const container = document.querySelector('#gcm-advertiser-mode-container');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
+                });
+            });
+    },
     isPluginVersionLessOrEqual(version) {
       return this.pluginVersion && this.pluginVersion <= version;
     },
@@ -2689,6 +2709,9 @@ var gen = new Vue({
     },
     onSwitchGCMDebugMode(){
       this.gcm_debug_mode = !this.gcm_debug_mode;
+    },
+    onSwitchGCMAdvertiserMode(){
+      this.gcm_advertiser_mode = !this.gcm_advertiser_mode;
     },
     onSwitchDynamicLang() {
       this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
@@ -5905,6 +5928,7 @@ var gen = new Vue({
       this.gcm_url_passthrough = false;
       this.gcm_ads_redact = false;
       this.gcm_debug_mode = false;
+      this.gcm_advertiser_mode = false;
       this.dynamic_lang_is_on = false;
       this.gacm_is_on = false;
       this.accept_as_button = true;
@@ -8340,6 +8364,12 @@ var app = new Vue({
           1 === settings_obj.the_options["is_gcm_debug_mode"])
           ? true
           : false,
+      gcm_advertiser_mode: settings_obj.the_options.hasOwnProperty("is_gcm_advertiser_mode") && 
+        (true === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          "true" === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          1 === settings_obj.the_options["is_gcm_advertiser_mode"])
+          ? true
+          : false,
       banner_preview_is_on:
         "true" == settings_obj.the_options["banner_preview_enable"] ||
         1 === settings_obj.the_options["banner_preview_enable"]
@@ -10585,6 +10615,9 @@ var app = new Vue({
     },
     onSwitchGCMDebugMode(){
       this.gcm_debug_mode = !this.gcm_debug_mode;
+    },
+    onSwitchGCMAdvertiserMode(){
+      this.gcm_advertiser_mode = !this.gcm_advertiser_mode;
     },
     onSwitchGacmEnable() {
       this.gacm_is_on = !this.gacm_is_on;
@@ -13616,6 +13649,7 @@ var app = new Vue({
       this.gcm_wait_for_update_duration = '500';
       this.gcm_ads_redact = false;
       this.gcm_debug_mode = false;
+      this.gcm_advertiser_mode = false;
       this.gcm_url_passthrough = false;
       this.gacm_is_on = false;
       this.decline_text = "Decline";

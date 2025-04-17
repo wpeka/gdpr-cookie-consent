@@ -666,6 +666,7 @@ a .export-btn:hover {
 }
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-gacm_message-gdpr,
+.gdpr-gcm_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both {
   border: 1px solid #ccc;
