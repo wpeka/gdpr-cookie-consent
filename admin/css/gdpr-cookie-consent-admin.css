@@ -960,16 +960,7 @@ ul.gdpr_sub_tab li:first-child {
   flex-direction: row;
   flex-wrap: wrap;
 }
-.gdpr-templates-field-container
-  .gdpr-template-field.gdpr-widget-navy_blue_box
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons,
-.gdpr-templates-field-container
-  .gdpr-template-field.gdpr-popup-navy_blue_box
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons,
+
 .gdpr-templates-field-container
   .gdpr-template-field.gdpr-popup-dark_row
   .gdpr-right-field
@@ -981,9 +972,24 @@ ul.gdpr_sub_tab li:first-child {
   .gdpr-right-field-content
   .gdpr-group-buttons{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
 }
+
+.gdpr-templates-field-container
+  .gdpr-template-field.gdpr-widget-navy_blue_box
+  .gdpr-right-field
+  .gdpr-right-field-content
+  .gdpr-group-buttons,
+.gdpr-templates-field-container
+  .gdpr-template-field.gdpr-popup-navy_blue_box
+  .gdpr-right-field
+  .gdpr-right-field-content
+  .gdpr-group-buttons{
+    display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  }
 .gdpr-templates-field-container
   .gdpr-template-field.gdpr-popup-dark_row
   .gdpr-right-field
