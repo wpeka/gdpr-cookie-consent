@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.7.1
-Stable tag: 3.7.8
+Stable tag: 3.7.9
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -332,6 +332,10 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 11.Consent Log table
 
 == Change Log ==
+
+= 3.7.9 =
+* Improvement: We've refreshed the look and feel of cookie banners to make them cleaner, more modern, and user-friendly.
+* Fix: Minor bug fixes and performance improvements to ensure smoother operation and better stability.
 
 = 3.7.8 =
 Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode with your cookie banner to ensure compliance and accurate tracking based on user consent.
@@ -763,6 +767,10 @@ Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.7.9 =
+* Improvement: We've refreshed the look and feel of cookie banners to make them cleaner, more modern, and user-friendly.
+* Fix: Minor bug fixes and performance improvements to ensure smoother operation and better stability.
 
 = 3.7.8 =
 Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode with your cookie banner to ensure compliance and accurate tracking based on user consent.
