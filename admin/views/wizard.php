@@ -73,7 +73,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 							<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 							<?php if ( $column ) : 
 								?>
-								<p>{{gdpr_message}}</p>
+								<p v-html="gdpr_message"></p>
 							<?php
 							if ( isset( $template['readmore'] ) ) :
 								$class = '';
@@ -85,7 +85,7 @@ function print_template_boxes( $name, $templates, $checked ) {
 							<?php endif; ?>
 							<?php else : 
 								?>
-								<p>{{gdpr_message}}</p>
+								<p v-html="gdpr_message"></p>
 							<?php
 							if ( isset( $template['readmore'] ) ) :
 								$class = '';
