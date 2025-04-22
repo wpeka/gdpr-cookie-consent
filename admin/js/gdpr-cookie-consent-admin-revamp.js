@@ -563,6 +563,24 @@ jQuery(document).ready(function () {
    */
   jQuery(".api-connect-to-account-btn").on("click", gdprStartAuth);
 
+  jQuery('.gdpr-not-pro-tooltip').on('mouseenter', function () {
+    jQuery(this).siblings('.gdpr-not-pro-tooltip-text').stop(true, true).fadeIn(200);
+  });
+  
+  jQuery('.gdpr-not-pro-tooltip, .gdpr-not-pro-tooltip-text').on('mouseleave', function () {
+    const $tooltip = jQuery(this).siblings('.gdpr-not-pro-tooltip-text').length
+      ? jQuery(this).siblings('.gdpr-not-pro-tooltip-text')
+      : jQuery(this);
+
+    setTimeout(function() {
+      if (
+        !$tooltip.is(':hover') &&
+        !$tooltip.siblings('.gdpr-not-pro-tooltip').is(':hover')
+      ) {
+        $tooltip.stop(true, true).fadeOut(200);
+      }
+    }, 100);
+  });
   /**
    * Function to Start the Authentication Process.
    *
