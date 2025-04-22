@@ -280,7 +280,7 @@ class Gdpr_Cookie_Consent {
 	 * @access   private
 	 */
 	private function define_public_hooks() {
-
+		error_log("DODODO in define_public_hooks() ");
 		$plugin_public = new Gdpr_Cookie_Consent_Public( $this->get_plugin_name(), $this->get_version() );
 		/**
 		 * Load public modules.
@@ -294,6 +294,7 @@ class Gdpr_Cookie_Consent {
 			// added rest endpoint for fetching current options for banner.
 			$this->loader->add_action( 'rest_api_init', $plugin_public, 'gdpr_cookie_data_endpoint' );
 			if ( ! get_option( 'wpl_pro_active' ) ) {
+				error_log("DODODO get_option NOT");
 				// action hooks for geo integration.
 				$this->loader->add_action( 'wp_ajax_gdpr_fire_scripts', $plugin_public, 'gdprcookieconsent_inject_sripts_on_consent' );
 				$this->loader->add_action( 'wp_ajax_nopriv_gdpr_fire_scripts', $plugin_public, 'gdprcookieconsent_inject_sripts_on_consent' );
@@ -956,9 +957,10 @@ class Gdpr_Cookie_Consent {
 			'is_ticked'                            => false,
 			'show_again'                           => true,
 			'is_script_blocker_on'                 => false,
+			'is_script_dependency_on'              => false,
 			'auto_hide'                            => false,
 			'auto_banner_initialize'               => false,
-			'auto_generated_banner'               => false,
+			'auto_generated_banner'                => false,
 			'auto_scroll'                          => false,
 			'auto_click'                           => false,
 			'auto_scroll_reload'                   => false,
@@ -1000,6 +1002,8 @@ class Gdpr_Cookie_Consent {
 			'footer_scripts'                         => '',
 			'restrict_posts'                         => array(),
 			'select_pages'                           => array(),
+			'header_dependency'					 => array(),
+			'footer_dependency'					 => array(),
 			'gdpr_css_text'                          => '',
 			'do_not_track_on'                        => false,
 			'data_req_editor_message'                => '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;',
@@ -1078,6 +1082,7 @@ class Gdpr_Cookie_Consent {
 			case 'button_confirm_as_button':
 			case 'button_confirm_is_on':
 			case 'data_reqs_on':
+			case 'is_script_dependency_on':
 				// consent forward .
 			case 'consent_forward':
 				if ( 'true' === $value || true === $value ) {
@@ -1152,6 +1157,11 @@ class Gdpr_Cookie_Consent {
 				$ret = trim( stripslashes( $value ) );
 				break;
 			case 'restrict_posts':
+				$ret = $value;
+				break;
+			// script dependencies
+			case 'header_dependency':
+			case 'footer_dependency':
 				$ret = $value;
 				break;
 			// hide banner.
@@ -1968,6 +1978,7 @@ class Gdpr_Cookie_Consent {
 			'is_selectedCountry_on'                  => $settings['is_selectedCountry_on'],
 			'is_ticked'                              => $settings['is_ticked'],
 			'is_script_blocker_on'                   => $settings['is_script_blocker_on'],
+			'is_script_dependency_on'                => $settings['is_script_dependency_on'],
 			'auto_scroll'                            => $settings['auto_scroll'],
 			'auto_click'                             => $settings['auto_click'],
 			'auto_scroll_reload'                     => $settings['auto_scroll_reload'],

@@ -2219,6 +2219,24 @@ var gen = new Vue({
         : [],
       select_pages_array: [],
       list_of_pages: settings_obj.list_of_pages,
+      
+      //script dependency
+      is_script_dependency_on:
+      settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
+      (true === settings_obj.the_options["is_script_dependency_on"] ||
+        1 === settings_obj.the_options["is_script_dependency_on"])
+        ? true
+        : false,
+      header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
+        ? settings_obj.the_options["header_dependency"]
+        : [],
+      header_dependency_selected: null,
+      header_dependency_list: settings_obj.header_dependency_list,
+      header_dependency_map: {
+        'Body Scripts': false,
+        'Footer Scripts': false,
+      },
+      footer_dependency_list: settings_obj.footer_dependency_list,
       // consent forward .
       consent_forward:
         settings_obj.the_options.hasOwnProperty("consent_forward") &&
@@ -5357,6 +5375,28 @@ var gen = new Vue({
       }
       this.select_pages = dummy_array;
     },
+    onSwitchingScriptDependency() {
+      this.is_script_dependency_on = !this.is_script_dependency_on;
+      console.log("DODODO is_script_dependency_on: ", this.is_script_dependency_on);
+    },
+    onHeaderDependencySelect(value) {
+      
+      this.header_dependency_map.body = false;
+      this.header_dependency_map.footer = false;
+
+      if (this.header_dependency_selected) {
+        this.header_dependency_map[this.header_dependency_selected] = true;
+        this.header_dependency = this.header_dependency_selected;
+      } else {
+        this.header_dependency = '';
+      }
+
+      console.log("DODODO header_dependency_map: ", this.header_dependency_map);
+      console.log("DODODO header_dependency_selected: ", this.header_dependency_selected);
+      console.log("DODODO header_dependency_list: ", this.header_dependency_list);
+      console.log("DODODO header_dependency: ", this.header_dependency);
+      console.log("DODODO header_scripts: ", this.header_scripts);
+    },
     onSiteSelect(value) {
       let tmp_array = [];
       for (let i = 0; i < value.length; i++) {
@@ -6246,6 +6286,9 @@ var gen = new Vue({
       this.cookie_scan_dropdown = false;
       this.discovered_cookies_list_tab = false;
       this.scan_history_list_tab = false;
+      // Script dependency
+      this.is_script_dependency_on = false;
+      this.header_dependency = [];
       var data = {
         action: "gcc_restore_default_settings",
         security: settings_obj.restore_settings_nonce,
@@ -10194,6 +10237,24 @@ var app = new Vue({
         : [],
       select_pages_array: [],
       list_of_pages: settings_obj.list_of_pages,
+      
+      //script dependency
+      is_script_dependency_on:
+      settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
+      (true === settings_obj.the_options["is_script_dependency_on"] ||
+        1 === settings_obj.the_options["is_script_dependency_on"])
+        ? true
+        : false,
+      header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
+        ? settings_obj.the_options["header_dependnecy"]
+        : [],
+      header_dependency_selected: null,
+      header_dependency_list: settings_obj.header_dependency_list,
+      header_dependency_map: {
+        'Body Scripts': false,
+        'Footer Scripts': false,
+      },
+      footer_dependency_list: settings_obj.footer_dependency_list,
       // revoke consent text color.
       button_revoke_consent_text_color: settings_obj.the_options.hasOwnProperty(
         "button_revoke_consent_text_color"
@@ -13126,6 +13187,28 @@ var app = new Vue({
       }
       this.select_pages = dummy_array;
     },
+    onSwitchingScriptDependency() {
+      this.is_script_dependency_on = !this.is_script_dependency_on;
+      console.log("DODODO is_script_dependency_on: ", this.is_script_dependency_on);
+    },
+    onHeaderDependencySelect(value) {
+      
+      this.header_dependency_map.body = false;
+      this.header_dependency_map.footer = false;
+
+      if (this.header_dependency_selected) {
+        this.header_dependency_map[this.header_dependency_selected] = true;
+        this.header_dependency = this.header_dependency_selected;
+      } else {
+        this.header_dependency = '';
+      }
+
+      console.log("DODODO header_dependency_map: ", this.dependency_map);
+      console.log("DODODO header_dependency_selected: ", this.header_dependency_selected);
+      console.log("DODODO header_dependency_list: ", this.header_dependency_list);
+      console.log("DODODO header_dependency: ", this.header_dependency);
+      console.log("DODODO header_scripts: ", this.header_scripts);
+    },
     onSelectPrivacyPage(value) {
       this.button_readmore_page = value;
     },
@@ -13706,6 +13789,9 @@ var app = new Vue({
       this.data_reqs_on = true;
       this.data_req_email_address = "";
       this.data_req_subject = "We have received your request";
+      // Script Dependency
+      this.is_script_dependency_on = false;
+      this.header_dependency = [];
       var data = {
         action: "gcc_restore_default_settings",
         security: settings_obj.restore_settings_nonce,

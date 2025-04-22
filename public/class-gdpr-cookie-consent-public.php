@@ -1319,12 +1319,15 @@ class Gdpr_Cookie_Consent_Public {
 	}
 
 	public function gdprcookieconsent_inject_sripts_on_consent(){
+		error_log("DODODO in gdprcookieconsent_inject_scripts_on_consent() called.");
 		$the_options = GDPR_Cookie_Consent::gdpr_get_settings();
 		$viewed_cookie = isset($_COOKIE['wpl_viewed_cookie']) ? sanitize_text_field(wp_unslash($_COOKIE['wpl_viewed_cookie'])) : '';
 		if($the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie){
 			$header_scripts = isset($the_options['header_scripts']) ? "\r\n" . wp_unslash($the_options['header_scripts']) . "\r\n" : '';
 			$body_scripts = isset($the_options['body_scripts']) ? "\r\n" . wp_unslash($the_options['body_scripts']) . "\r\n" : '';
-	
+			
+			error_log("DODODO header_scripts: " . print_r($header_scripts, true));
+			error_log("DODODO body_scripts: " . print_r($body_scripts, true));
 			// Return JSON response
 			wp_send_json_success([
 				'header_scripts' => $header_scripts,
@@ -1374,8 +1377,10 @@ class Gdpr_Cookie_Consent_Public {
 	 */
 	public function gdprcookieconsent_output_footer()
 	{
+		error_log("DODODO in gdprcookieconsent_output_footer(). ");
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$footer_scripts = $the_options['footer_scripts'];
+		error_log("DODODO footer_scripts: " . print_r($footer_scripts, true));
 		if ($footer_scripts) {
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
 			echo "\r\n" . wp_unslash($footer_scripts) . "\r\n";

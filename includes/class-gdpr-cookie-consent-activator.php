@@ -115,6 +115,7 @@ class Gdpr_Cookie_Consent_Activator {
 			$prev_gdpr_option['bar_heading_text']             = '';
 			$prev_gdpr_option['show_again']                   = true;
 			$prev_gdpr_option['is_script_blocker_on']         = false;
+			$prev_gdpr_option['is_script_dependency_on']      = false;
 			$prev_gdpr_option['auto_hide']                    = false;
 			$prev_gdpr_option['auto_banner_initialize']       = false;
 			$prev_gdpr_option['auto_scroll']                  = false;
