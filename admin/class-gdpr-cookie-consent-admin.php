@@ -10255,6 +10255,17 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 	}
 
+	/**
+	 * Fucntion to update gcm status
+	 */
+	public function update_gcm_status(WP_REST_Request $request){
+		$params = $request->get_json_params();
+		$the_options = get_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD);
+		$the_options['wpl_gcm_latest_scan_result'] = wp_json_encode($params);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+		return new WP_REST_Response(['status' => 'stored']);
+	}
+
 	// Register the REST API route for data from plugin to the saas appwplp server 
 
 	public function register_gdpr_dashboard_route() {
@@ -10292,6 +10303,14 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
 				},
+			)
+		);
+		register_rest_route(
+			'gdpr/v2', // Namespace
+			'/update_gcm_status', 
+			array(
+				'methods'  => 'POST',
+				'callback' => array($this, 'update_gcm_status'), // Function to handle the request
 			)
 		);
 		

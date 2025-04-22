@@ -68,6 +68,8 @@ var gen = new Vue({
       cookie_scanner_data: '',
       ab_testing_data: '',
       gcm_adver_mode_data: '',
+      gcm_scan_flag: false,
+      pollingInterval: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
       progress_bar: require("../admin/images/progress_bar.svg"),
@@ -105,6 +107,10 @@ var gen = new Vue({
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
       scan_in_progress: false,
+
+      gcm_scan_result: settings_obj.ab_options.hasOwnProperty("wpl_gcm_latest_scan_result")
+        ? settings_obj.ab_options["wpl_gcm_latest_scan_result"]
+        : "",
       consent_version: settings_obj.the_options.hasOwnProperty(
         "consent_version"
       )
@@ -2709,6 +2715,48 @@ var gen = new Vue({
     },
     onSwitchGCMDebugMode(){
       this.gcm_debug_mode = !this.gcm_debug_mode;
+    },
+    checkGCMStatus(){
+      var that = this;
+      var data = {
+        action: "wpl_check_gcm_status",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+      };
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          that.gcm_scan_flag = true;
+          that.pollingInterval = setInterval(that.fetchGCMStatus, 10000);
+        },
+        error: function (e) {
+          console.log(e);
+        },
+      });
+    },
+    fetchGCMStatus() {
+      var that = this;
+      jQuery.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        type: "POST",
+        data: {
+          action: "wpl_get_gcm_status"
+        },
+        success: (response) => {
+          if (response.success) {
+            that.gcm_scan_flag = false;
+            clearInterval(that.pollingInterval); 
+
+            that.gcm_scan_result = response.data;
+          } else {
+          }
+        },
+        error: (e) => {
+          console.error(e);
+        }
+      });
     },
     onSwitchGCMAdvertiserMode(){
       this.gcm_advertiser_mode = !this.gcm_advertiser_mode;
@@ -10615,6 +10663,8 @@ var app = new Vue({
     },
     onSwitchGCMDebugMode(){
       this.gcm_debug_mode = !this.gcm_debug_mode;
+    },
+    checkGCMStatus(){
     },
     onSwitchGCMAdvertiserMode(){
       this.gcm_advertiser_mode = !this.gcm_advertiser_mode;

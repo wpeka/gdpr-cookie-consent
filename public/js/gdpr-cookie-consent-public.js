@@ -148,7 +148,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
 				  updatePresent = i;
 				}
       }
-      if(entry[0] != undefined) firstTag = i;
+      if(entry[0] == undefined && firstTag == -1) firstTag = i;
     }
 
     // Log results to the console.
