@@ -416,7 +416,7 @@ a .export-btn:hover {
   background-color: #2a3e71;
 }
 .gdpr_messagebar_detail.almond_column .gdprmodal-dialog .gdprmodal-header {
-  background-color: #e8ddbb;
+  background-color: white;
 }
 .gdpr_messagebar_detail.grey_center .gdprmodal-dialog .gdprmodal-header,
 .gdpr_messagebar_detail.grey_column .gdprmodal-dialog .gdprmodal-header {
@@ -435,7 +435,7 @@ a .export-btn:hover {
   background-color: #2a3e71;
 }
 .gdpr_messagebar_detail.almond_column .gdprmodal-dialog .gdprmodal-footer {
-  background-color: #e8ddbb;
+  background-color: white;
 }
 .gdpr_messagebar_detail.grey_center .gdprmodal-dialog .gdprmodal-footer,
 .gdpr_messagebar_detail.grey_column .gdprmodal-dialog .gdprmodal-footer {
@@ -589,10 +589,10 @@ a .export-btn:hover {
 .upgrade-button:hover {
   background-color: #0056b3;
 }
-#data-request-btn {
+#data-request-btn, #add-region-btn {
   border: 1px solid #7195d0;
 }
-#data-request-btn:hover {
+#data-request-btn:hover, #add-region-btn:hover {
   background-color: #7195d0;
 }
 .consent-log-readmore-container .consent-log-readmore {

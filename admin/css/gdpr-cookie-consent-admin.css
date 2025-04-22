@@ -857,6 +857,7 @@ ul.gdpr_sub_tab li:first-child {
   padding: 2rem;
   box-shadow: rgba(142, 142, 142, 0.6) 1px 0px 5px 1px;
   width: 93%;
+  padding: 40px;
 }
 .template-widget
   .gdpr-templates-field-container
@@ -942,6 +943,8 @@ ul.gdpr_sub_tab li:first-child {
   .gdpr-group-buttons {
   width: 30%;
   margin: auto 0 auto 1rem;
+  display: flex;
+  flex-direction: column;
 }
 .gdpr-templates-field-container
   .gdpr-template-field.gdpr-widget-navy_blue_square
@@ -957,6 +960,22 @@ ul.gdpr_sub_tab li:first-child {
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.gdpr-templates-field-container
+  .gdpr-template-field.gdpr-popup-dark_row
+  .gdpr-right-field
+  .gdpr-right-field-content
+  .gdpr-group-buttons,
+.gdpr-templates-field-container
+  .gdpr-template-field.gdpr-widget-dark_row
+  .gdpr-right-field
+  .gdpr-right-field-content
+  .gdpr-group-buttons{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
 .gdpr-templates-field-container
   .gdpr-template-field.gdpr-widget-navy_blue_box
   .gdpr-right-field
@@ -966,11 +985,11 @@ ul.gdpr_sub_tab li:first-child {
   .gdpr-template-field.gdpr-popup-navy_blue_box
   .gdpr-right-field
   .gdpr-right-field-content
-  .gdpr-group-buttons {
-  display: flex;
+  .gdpr-group-buttons{
+    display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-}
+  }
 .gdpr-templates-field-container
   .gdpr-template-field.gdpr-popup-dark_row
   .gdpr-right-field
@@ -1003,7 +1022,7 @@ ul.gdpr_sub_tab li:first-child {
   /* font-size: inherit; */
   color: inherit;
   font-weight: var(--text-regular-font-weight);
-  font-size: var(--text-sem-13-font-size);
+  font-size: 14px;
 }
 .gdpr-templates-field-container .btn {
   display: inline-block;
@@ -2128,8 +2147,8 @@ input[type="search"]:focus {
   margin-bottom: 4px;
 }
 .modal-content {
-  min-width: 1336px;
-  right: 24%;
+  min-width: 1220px;
+  right: 18%;
 }
 @media (max-width: 1440px) and (max-height: 900px) {
   .modal-content {
@@ -5792,7 +5811,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   .gdprmodal-dialog
   .gdprmodal-content
   .gdprmodal-body {
-  background-color: #e8ddbb;
+  background-color: white;
   color: var(--blue-902);
 }
 .gdpr_messagebar_detail.navy_blue_square .gdpr-ad-purpose-details {
@@ -7600,6 +7619,20 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   width: 102%;
 }
 
+.gdpr-cookie-consent-main-admin-header .gdpr-subsription-payment-failed-notice {
+  position: relative;
+  left: -20px;
+  width: 102%;
+  padding: 20px;
+  background-color: var(--orange-50);
+}
+.gdpr-cookie-consent-main-admin-header .gdpr-subsription-payment-failed-notice p {
+  margin: 0;
+  color: var(--black-50);
+  font-family: "Roboto", sans-serif;
+  font-weight: var(--text-regular-font-weight);
+  font-size: var(--text-sm-font-size);
+}
 .gdpr-remaining-scans-content .gdpr-remaining-scans-container {
   margin: auto 0;
   margin-left: 20px;
@@ -7849,18 +7882,21 @@ img.gdpr-tooltip-image {
   margin-right: 37px;
 }
 button.btn.gdpr-renew-now-btn.pro,
-#data-request-btn,
+#data-request-btn,#add-region-btn,
 .export-btn,
 .erase-btn,
 #reset-settings-btn {
   height: 44px;
   width: 160px;
 }
-#data-request-btn {
+#data-request-btn,#add-region-btn {
   color: var(--blue-901);
   background-color: var(--white-100);
 }
-#data-request-btn:hover {
+#add-region-btn{
+  margin-top: 15px;
+}
+#data-request-btn:hover, #add-region-btn:hover {
   color: var(--white-100);
 }
 #renew-consent-img {
@@ -9329,6 +9365,13 @@ input.vs__search {
   flex-direction: row !important;
   justify-content: center;
 }
+.widget-dark_row_preview
+  .gdpr_messagebar_content_preview
+  #default_buttons_preview {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center;
+}
 .widget-navy_blue_center_preview
   .gdpr_messagebar_content_preview
   #default_buttons_preview
@@ -9776,6 +9819,32 @@ div#gdpr-scan-history {
 }
 #gdpr-cookie-consent-help-app .gdpr-cookie-consent-settings-nav{
   margin-left: 0;
+}
+.gcm-table{
+  width: 100%;
+}
+.gcm-table th{
+      background-color: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-collapse: collapse;
+    padding: 8px;
+}
+.gcm-table td{
+  border: 1px solid var(--gray-200);
+    border-collapse: collapse;
+    padding: 8px;
+}
+.gcm-table button{
+  border: none;
+  background: white;
+}
+.gcm-table button:focus{
+  border: none;
+  background: white;
+  outline: none;
+}
+.gcm-table button img{
+  height: 14px;
 }
 #banner-preview-main-container .gdpr-almond-grey-template #cookie_action_accept_preview{
   display:block;
