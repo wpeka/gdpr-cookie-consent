@@ -93,6 +93,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$this->version     = $version;
 		if ( ! get_option( 'wpl_pro_active' ) ) {
 			add_action( 'add_consent_log_content', array( $this, 'wpl_consent_log_overview' ) );
+			add_action( 'wp_ajax_wpl_gcm_advertiser_mode_data', array( $this, 'wp_settings_gcm_advertiser_mode' ) );
 		}
 		$pro_is_activated = get_option( 'wpl_pro_active', false );
 		if ( ! $pro_is_activated ) {
@@ -989,6 +990,57 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			update_option( 'gdpr_admin_modules', $out );
 		}
+	}
+
+	/**
+	 * 
+	 * function to add advertiser mode html markup in admin settings
+	 * @return void
+	 */
+	public function wp_settings_gcm_advertiser_mode() {
+			$pro_is_activated  = get_option( 'wpl_pro_active', false );
+			$installed_plugins = get_plugins();
+			$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+			$pro_is_activated  = get_option( 'wpl_pro_active', false );
+			$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated','' );
+			
+			// Require the class file for gdpr cookie consent api framework settings.
+			require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+			// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
+			$this->settings = new GDPR_Cookie_Consent_Settings();
+			// Call the is_connected() method from the instantiated object to check if the user is connected.
+			$is_user_connected = $this->settings->is_connected();
+			$api_user_plan     = $this->settings->get_plan();
+			$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+			
+			if ( ! defined( 'ABSPATH' ) ) {
+				exit;
+			}
+			$response_advertiser_mode = wp_remote_post(
+					GDPR_API_URL . 'get_advertiser_mode_data',
+					array(
+						'body' => array(
+							'the_options_enable_safe' => $the_options['enable_safe'],
+							'pro_installed'           => $pro_installed,
+							'pro_is_activated'        => $pro_is_activated,
+							'api_key_activated'       => $api_key_activated,
+							'is_user_connected'       => $is_user_connected,
+							'api_user_plan'			  => $api_user_plan,
+						),
+					)
+				);
+			if ( is_wp_error( $response_advertiser_mode ) ) {
+			 	$advertiser_mode_text = '';
+			}
+
+			 	$response_status = wp_remote_retrieve_response_code( $response_advertiser_mode );
+
+				if (200 === $response_status) {
+				$advertiser_mode_text = json_decode(wp_remote_retrieve_body($response_advertiser_mode));
+				wp_send_json_success(['html' => $advertiser_mode_text]);
+			} else {
+				wp_send_json_error(['message' => __('Failed to retrieve data from server.', 'gdpr-cookie-consent')]);
+			} 
 	}
 
 	/**
@@ -7908,6 +7960,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['gcm_wait_for_update_duration']         = isset( $_POST['gcm_wait_for_update_duration_field'] ) ? sanitize_text_field(wp_unslash($_POST['gcm_wait_for_update_duration_field'])) : '500';
 			$the_options['is_gcm_url_passthrough']               = isset( $_POST['gcc-gcm-url-pass'] ) && ( true === $_POST['gcc-gcm-url-pass'] || 'true' === $_POST['gcc-gcm-url-pass'] ) ? 'true' : 'false';
 			$the_options['is_gcm_ads_redact']               	 = isset( $_POST['gcc-gcm-ads-redact'] ) && ( true === $_POST['gcc-gcm-ads-redact'] || 'true' === $_POST['gcc-gcm-ads-redact'] ) ? 'true' : 'false';
+			$the_options['is_gcm_debug_mode']               	 = isset( $_POST['gcc-gcm-debug-mode'] ) && ( true === $_POST['gcc-gcm-debug-mode'] || 'true' === $_POST['gcc-gcm-debug-mode'] ) ? 'true' : 'false';
+			$the_options['is_gcm_advertiser_mode']               = isset( $_POST['gcc-gcm-advertiser-mode'] ) && ( true === $_POST['gcc-gcm-advertiser-mode'] || 'true' === $_POST['gcc-gcm-advertiser-mode'] ) ? 'true' : 'false';
 			$the_options['is_iabtcf_on']                         = isset( $_POST['gcc-iabtcf-enable'] ) && ( true === $_POST['gcc-iabtcf-enable'] || 'true' === $_POST['gcc-iabtcf-enable'] ) ? 'true' : 'false';
 			$the_options['is_dynamic_lang_on']                   = isset( $_POST['gcc-dynamic-lang-enable'] ) && ( true === $_POST['gcc-dynamic-lang-enable'] || 'true' === $_POST['gcc-dynamic-lang-enable'] ) ? 'true' : 'false';
 			$the_options['optout_text']                          = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
@@ -10370,6 +10424,17 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 	}
 
+	/**
+	 * Fucntion to update gcm status
+	 */
+	public function update_gcm_status(WP_REST_Request $request){
+		$params = $request->get_json_params();
+		$the_options = get_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD);
+		$the_options['wpl_gcm_latest_scan_result'] = wp_json_encode($params);
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+		return new WP_REST_Response(['status' => 'stored']);
+	}
+
 	// Register the REST API route for data from plugin to the saas appwplp server 
 
 	public function register_gdpr_dashboard_route() {
@@ -10407,6 +10472,14 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
 				},
+			)
+		);
+		register_rest_route(
+			'gdpr/v2', // Namespace
+			'/update_gcm_status', 
+			array(
+				'methods'  => 'POST',
+				'callback' => array($this, 'update_gcm_status'), // Function to handle the request
 			)
 		);
 

@@ -114,10 +114,88 @@ GDPR_CCPA_COOKIE_EXPIRE =
         ";";
     },
   };
+  //for our gcm template in google tag manager
   var consentListeners = [];
     window.consentGiven = function (callback){
     consentListeners.push(callback);
   };
+  //integration with wp consent api plugin
+  window.wp_consent_type = 'optin';
+    var event = new CustomEvent('wp_consent_type_defined');
+  document.dispatchEvent( event );
+
+  //debug mode for GCM
+  function debugConsentState() {
+    // Ensure the dataLayer exists and is an array.
+    if (!window.dataLayer || !Array.isArray(window.dataLayer)) {
+      console.log("Debug: dataLayer is not available.");
+      return;
+    }
+
+    var defaultPresent = -1;
+    var firstTag = -1;
+    var updatePresent = -1;
+
+    // Loop over each dataLayer entry.
+    for (var i = 0; i < window.dataLayer.length; i++) {
+      var entry = window.dataLayer[i];
+      // Check if entry is an object and it has a "consent" property.
+      if (entry && typeof entry === 'object' && entry[0] == "consent") {
+        if (entry[1] === "default") {
+          defaultPresent = i;
+        }
+        if (entry[1] === "update") {
+				  updatePresent = i;
+				}
+      }
+      if(entry[0] == undefined && firstTag == -1) firstTag = i;
+    }
+
+    // Log results to the console.
+    if (defaultPresent == -1) {
+      console.log("Debug: The default consent is missing. Make sure you have turned on support GCM, have atleast one default consent value set.");
+    } else {
+      console.log("Debug: The default consent successfully set to - ", window.dataLayer[defaultPresent][2]);
+    }
+    // Log results to the console.
+		if (updatePresent != -1) {
+		  console.log("Debug: The consent successfully updated to - ", window.dataLayer[updatePresent][2]);
+		}
+    if(defaultPresent != -1 && firstTag != -1 && defaultPresent < firstTag){
+      console.log("Debug: Default consent was set in correct order.")
+    }
+    else{
+      console.log("Debug: The default consent was not set in correct order. Make sure you have installed Google tag using scripts in script blocker section and GCM is turned on.")
+    }
+  }
+
+  function debugUpdateConsentState (){
+    if (!window.dataLayer || !Array.isArray(window.dataLayer)) {
+      console.log("Debug: dataLayer is not available.");
+      return;
+    }
+
+    var updatePresent = -1;
+
+    for (var i = 0; i < window.dataLayer.length; i++) {
+      var entry = window.dataLayer[i];
+      if (entry && typeof entry === 'object' && entry[0] == "consent") {
+        if (entry[1] === "update") {
+          updatePresent = i;
+        }
+      }
+    }
+
+
+    // Log results to the console.
+    if (updatePresent == -1) {
+      console.log("Debug: The update consent did not work correctly. Contact support.");
+    } else {
+      console.log("Debug: The consent successfully updated to - ", window.dataLayer[updatePresent][2]);
+    }
+  }
+
+
   var gdpr_cookiebar_settings = gdpr_cookies_obj.gdpr_cookiebar_settings;
   var gdpr_ab_options = gdpr_cookies_obj.gdpr_ab_options;
   var gdpr_cookies_list = gdpr_cookies_obj.gdpr_cookies_list;
@@ -134,6 +212,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
   var chosenBanner = gdpr_cookies_obj.chosenBanner;
   var is_iab_on = gdpr_cookies_obj.is_iabtcf_on;
   var is_gcm_on = gdpr_cookies_obj.is_gcm_on;
+  var is_gcm_debug_on = gdpr_cookies_obj.is_gcm_debug_on;  
   // Set the value for the Multiple Legislation Banner Selection
   var multiple_legislation_current_banner = "gdpr";
   var browser_dnt_value = "";
@@ -146,6 +225,12 @@ GDPR_CCPA_COOKIE_EXPIRE =
   } else {
     browser_dnt_value = false;
   }
+   // Run this check when the DOM is ready and when debug mode is on.
+   if(is_gcm_debug_on == 'true'){
+     document.addEventListener("DOMContentLoaded", function() {
+       setTimeout(debugConsentState, 1000);
+     });
+   }
   var GDPR = {
     bar_config: {},
     show_config: {},
@@ -826,6 +911,18 @@ banner.style.display = "none";
             if(jQuery(this).is(":checked") && key == "marketing") marketing_consent = true;
             if(jQuery(this).is(":checked") && key == "preferences") preferences_consent = true;
           });
+          if (typeof window.wp_set_consent === 'function') {
+              if(marketing_consent) wp_set_consent('marketing', 'allow' ) ;
+              else wp_set_consent('marketing', 'deny' ) ;
+              if(analytics_consent) wp_set_consent('statistics', 'allow' ) ;
+              else wp_set_consent('statistics', 'deny' ) ;
+              if(analytics_consent) wp_set_consent('statistics-anonymous', 'allow' ) ;
+              else wp_set_consent('statistics-anonymous', 'deny' ) ;
+              if(preferences_consent) wp_set_consent('preferences', 'allow' ) ;
+              else wp_set_consent('preferences', 'deny' ) ;
+              wp_set_consent('functional', 'allow' );
+          }
+          
           if(is_gcm_on == 'true'){
             gtag('consent', 'update', {
               'ad_user_data': marketing_consent ? 'granted' : 'denied',
@@ -841,11 +938,12 @@ banner.style.display = "none";
           consent.marketing = marketing_consent == true ? 'yes' : 'no';
           consent.analytics = analytics_consent == true ? 'yes' : 'no';
           consent.preferences = preferences_consent == true ? 'yes' : 'no';
-          console.log("here: ", consent);
           consentListeners.forEach(function (callback) {
             callback(consent);
           });
           
+          if(is_gcm_debug_on == 'true'){debugUpdateConsentState();}
+
           // Update the user preference cookie
           gdpr_user_preference_val = JSON.stringify(gdpr_user_preference_arr);
           GDPR_Cookie.set(
@@ -950,6 +1048,14 @@ banner.style.display = "none";
           // Log consent action
           GDPR.logConsent(button_action);
         } else if (button_action == "accept_all") {
+          if (typeof window.wp_set_consent === 'function') {
+            wp_set_consent('marketing', 'allow' ) ;
+            wp_set_consent('statistics', 'allow' ) ;
+            wp_set_consent('statistics-anonymous', 'allow' ) ;
+            wp_set_consent('preferences', 'allow' ) ;
+            wp_set_consent('functional', 'allow' );
+          }
+
           if(is_gcm_on == 'true'){
             gtag('consent', 'update', {
               'ad_user_data': 'granted',
@@ -968,6 +1074,9 @@ banner.style.display = "none";
           consentListeners.forEach(function (callback) {
             callback(consent);
           });
+
+          if(is_gcm_debug_on == 'true'){debugUpdateConsentState();}
+
           var cookie_data = {
             necessary: "yes",
             marketing: "yes",
@@ -1062,6 +1171,13 @@ banner.style.display = "none";
               success: function (response) {},
             });
           }
+          if (typeof window.wp_set_consent === 'function') {
+            wp_set_consent('functional', 'allow' );
+            wp_set_consent('marketing', 'deny' ) ;
+            wp_set_consent('statistics', 'deny' ) ;
+            wp_set_consent('statistics-anonymous', 'deny' ) ;
+            wp_set_consent('preferences', 'deny' ) ;
+          }
           if(is_gcm_on == 'true'){
               gtag('consent', 'update', {
                 'ad_user_data': 'denied',
@@ -1080,6 +1196,10 @@ banner.style.display = "none";
             consentListeners.forEach(function (callback) {
               callback(consent);
             });
+
+            if(is_gcm_debug_on == 'true'){debugUpdateConsentState();}
+
+
           GDPR.reject_close();
           new_window = GDPR.settings.button_decline_new_win ? true : false;
           gdpr_user_preference = JSON.parse(

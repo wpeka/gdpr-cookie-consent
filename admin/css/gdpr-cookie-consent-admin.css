@@ -7882,26 +7882,94 @@ img.gdpr-tooltip-image {
   margin-right: 37px;
 }
 button.btn.gdpr-renew-now-btn.pro,
-#data-request-btn,#add-region-btn,
+#data-request-btn,#add-region-btn, #checkGcmStatusButton, #checkGcmStatusLoadingButton,
 .export-btn,
 .erase-btn,
 #reset-settings-btn {
   height: 44px;
   width: 160px;
 }
-#data-request-btn,#add-region-btn {
+#checkGcmStatusLoadingButton{
+  position: relative;
+  padding-left: 30px;
+}
+.gcm_status_success{
+  font-size: 14px;
+  color: #16a34a;
+  font-weight: 500;
+  margin: 0;
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+.gcm_status_success:before {
+  content: "";
+  background-image: url(../images/green-tick.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  margin-right: 8px;
+  height: 18px;
+  width: 18px;
+  transform: translateY(5px);
+}
+.gcm_status_error{
+  font-size: 14px;
+  color:firebrick;
+  font-weight: 500;
+  margin: 0;
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+.gcm_status_error:before {
+  content: "";
+  background-image: url(../images/red-cross.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  margin-right: 8px;
+  height: 18px;
+  width: 18px;
+  transform: translateY(5px);
+}
+#data-request-btn, #checkGcmStatusButton, #checkGcmStatusLoadingButton, #add-region-btn {
   color: var(--blue-901);
   background-color: var(--white-100);
 }
 #add-region-btn{
   margin-top: 15px;
 }
-#data-request-btn:hover, #add-region-btn:hover {
+#data-request-btn:hover, #add-region-btn:hover, #checkGcmStatusButton:hover, #checkGcmStatusLoadingButton:hover {
   color: var(--white-100);
 }
 #renew-consent-img {
   margin-bottom: 3px;
   padding-left: 9px;
+}
+.checkGCMloader{
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  border: solid;
+  border-width: 3px;
+  border-radius: 50%;
+  border-top-color: white;
+  border-left-color: white;
+  border-right-color: #7195d0;
+  border-bottom-color: #7195d0;
+  margin-right: 5px;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  animation: rotateGCMloader 2s linear  infinite ;
+}
+@keyframes rotateGCMloader {
+  0%{
+    transform: translateY(-50%) rotate(0deg);
+  }
+  100%{
+    transform: translateY(-50%) rotate(360deg);
+  }
+  
 }
 .consent-log-readmore-container .consent-log-readmore {
   font-family: "Roboto", sans-serif;
@@ -8243,12 +8311,16 @@ button.btn.gdpr-renew-now-btn.pro,
 }
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-gacm_message-gdpr,
+.gdpr-gcm_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both {
   display: none;
 }
 .gdpr-disabled-geo-integration {
   position: relative;
+}
+.gcm-slider:hover ~ .gdpr-gcm_message-gdpr{
+display: block !important;
 }
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
@@ -8262,7 +8334,7 @@ button.btn.gdpr-renew-now-btn.pro,
   text-align: center;
   z-index: 99;
 }
-.gdpr-gacm_message-gdpr {
+.gdpr-gacm_message-gdpr, .gdpr-gcm_message-gdpr {
   width: 140px;
   position: absolute;
   left: 90px;
