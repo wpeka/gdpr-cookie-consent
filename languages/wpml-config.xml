@@ -87,6 +87,8 @@
       <key name="show_again"/>
       <key name="is_script_blocker_on"/>
       <key name="is_script_dependency_on"/>
+      <key name="header_dependency"/>
+      <key name="footer_dependency"/>
       <key name="auto_hide"/>
       <key name="auto_banner_initialize"/>
       <key name="auto_generated_banner"/>

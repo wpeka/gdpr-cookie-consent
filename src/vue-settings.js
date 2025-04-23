@@ -2229,8 +2229,7 @@ var gen = new Vue({
         : false,
       header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
         ? settings_obj.the_options["header_dependency"]
-        : [],
-      header_dependency_selected: null,
+        : '',
       header_dependency_list: settings_obj.header_dependency_list,
       header_dependency_map: {
         'Body Scripts': false,
@@ -2238,7 +2237,7 @@ var gen = new Vue({
       },
       footer_dependency: settings_obj.the_options.hasOwnProperty("footer_dependency")
         ? settings_obj.the_options["footer_dependency"]
-        : [],
+        : '',
       footer_dependency_selected: null,
       footer_dependency_list: settings_obj.footer_dependency_list,
       footer_dependency_map: {
@@ -5393,15 +5392,14 @@ var gen = new Vue({
       this.header_dependency_map.body = false;
       this.header_dependency_map.footer = false;
 
-      if (this.header_dependency_selected) {
-        this.header_dependency_map[this.header_dependency_selected] = true;
-        this.header_dependency = this.header_dependency_selected;
+      if (this.header_dependency) {
+        this.header_dependency_map[this.header_dependency] = true;
+        this.header_dependency = this.header_dependency;
       } else {
         this.header_dependency = '';
       }
 
       console.log("DODODO header_dependency_map: ", this.header_dependency_map);
-      console.log("DODODO header_dependency_selected: ", this.header_dependency_selected);
       console.log("DODODO header_dependency_list: ", this.header_dependency_list);
       console.log("DODODO header_dependency: ", this.header_dependency);
       console.log("DODODO header_scripts: ", this.header_scripts);
@@ -5411,9 +5409,9 @@ var gen = new Vue({
       this.footer_dependency_map.header = false;
       this.footer_dependency_map.body = false;
 
-      if (this.footer_dependency_selected) {
-        this.footer_dependency_map[this.footer_dependency_selected] = true;
-        this.footer_dependency = this.footer_dependency_selected;
+      if (this.footer_dependency) {
+        this.footer_dependency_map[this.footer_dependency] = true;
+        this.footer_dependency = this.footer_dependency;
       } else {
         this.footer_dependency = '';
       }
@@ -6315,8 +6313,8 @@ var gen = new Vue({
       this.scan_history_list_tab = false;
       // Script dependency
       this.is_script_dependency_on = false;
-      this.header_dependency = [];
-      this.footer_dependency = [];
+      this.header_dependency = '';
+      this.footer_dependency = '';
       var data = {
         action: "gcc_restore_default_settings",
         security: settings_obj.restore_settings_nonce,
@@ -10275,8 +10273,7 @@ var app = new Vue({
         : false,
       header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
         ? settings_obj.the_options["header_dependnecy"]
-        : [],
-      header_dependency_selected: null,
+        : '',
       header_dependency_list: settings_obj.header_dependency_list,
       header_dependency_map: {
         'Body Scripts': false,
@@ -10284,7 +10281,7 @@ var app = new Vue({
       },
       footer_dependency: settings_obj.the_options.hasOwnProperty("footer_dependency")
         ? settings_obj.the_options["footer_dependency"]
-        : [],
+        : '',
       footer_dependency_selected: null,
       footer_dependency_list: settings_obj.footer_dependency_list,
       footer_dependency_map: {
@@ -13233,15 +13230,14 @@ var app = new Vue({
       this.header_dependency_map.body = false;
       this.header_dependency_map.footer = false;
 
-      if (this.header_dependency_selected) {
-        this.header_dependency_map[this.header_dependency_selected] = true;
-        this.header_dependency = this.header_dependency_selected;
+      if (this.header_dependency) {
+        this.header_dependency_map[this.header_dependency] = true;
+        this.header_dependency = this.header_dependency;
       } else {
         this.header_dependency = '';
       }
 
       console.log("DODODO header_dependency_map: ", this.dependency_map);
-      console.log("DODODO header_dependency_selected: ", this.header_dependency_selected);
       console.log("DODODO header_dependency_list: ", this.header_dependency_list);
       console.log("DODODO header_dependency: ", this.header_dependency);
       console.log("DODODO header_scripts: ", this.header_scripts);
@@ -13251,15 +13247,14 @@ var app = new Vue({
       this.footer_dependency_map.header = false;
       this.footer_dependency_map.body = false;
 
-      if (this.footer_dependency_selected) {
-        this.footer_dependency_map[this.footer_dependency_selected] = true;
-        this.footer_dependency = this.footer_dependency_selected;
+      if (this.footer_dependency) {
+        this.footer_dependency_map[this.footer_dependency] = true;
+        this.footer_dependency = this.footer_dependency;
       } else {
         this.footer_dependency = '';
       }
 
       console.log("DODODO footer_dependency_map: ", this.footer_dependency_map);
-      console.log("DODODO footer_dependency_selected: ", this.footer_dependency_selected);
       console.log("DODODO footer_dependency_list: ", this.footer_dependency_list);
       console.log("DODODO footer_dependency: ", this.footer_dependency);
       console.log("DODODO footer_scripts: ", this.footer_scripts);
@@ -13846,8 +13841,8 @@ var app = new Vue({
       this.data_req_subject = "We have received your request";
       // Script Dependency
       this.is_script_dependency_on = false;
-      this.header_dependency = [];
-      this.footer_dependency = [];
+      this.header_dependency = '';
+      this.footer_dependency = '';
       var data = {
         action: "gcc_restore_default_settings",
         security: settings_obj.restore_settings_nonce,

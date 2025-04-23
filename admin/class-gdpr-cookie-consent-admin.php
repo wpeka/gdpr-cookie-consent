@@ -1928,6 +1928,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$prev_gdpr_option['show_again']                   = true;
 			$prev_gdpr_option['is_script_blocker_on']         = false;
 			$prev_gdpr_option['is_script_dependency_on']      = false;
+			$prev_gdpr_option['header_dependency']			  = '';
+			$prev_gdpr_option['footer_dependency']			  = '';
 			$prev_gdpr_option['auto_hide']                    = false;
 			$prev_gdpr_option['auto_banner_initialize']       = false;
 			$prev_gdpr_option['auto_scroll']                  = false;
@@ -6558,6 +6560,8 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( ! get_option( 'wpl_pro_active' ) ) {
 				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
 				$the_options['is_script_dependency_on'] = isset( $_POST['gcc-script-dependency-on'] ) && ( true === $_POST['gcc-script-dependency-on'] || 'true' === $_POST['gcc-script-dependency-on'] ) ? 'true' : 'false';
+				$the_options['header_dependency'] = isset( $_POST['gcc-header-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-header-dependency'] ) ): '';
+				$the_options['footer_dependency'] = isset( $_POST['gcc-footer-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-footer-dependency'] ) ): '';
 				$the_options['enable_safe']          = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
 				$the_options['logging_on']           = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 				// For EU.
@@ -6685,6 +6689,10 @@ class Gdpr_Cookie_Consent_Admin {
 
 				$the_options['is_script_dependency_on'] = isset( $_POST['gcc-script-dependency-on'] ) && ( true === $_POST['gcc-script-dependency-on'] || 'true' === $_POST['gcc-script-dependency-on'] ) ? 'true' : 'false';
 
+				$the_options['header_dependency'] = isset( $_POST['gcc-header-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-header-dependency'] ) ): '';
+				
+				$the_options['footer_dependency'] = isset( $_POST['gcc-footer-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-footer-dependency'] ) ): '';
+				
 				if ( isset( $the_options['cookie_usage_for'] ) ) {
 					switch ( $the_options['cookie_usage_for'] ) {
 						case 'both':

@@ -434,16 +434,16 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					<c-row v-show="is_script_dependency_on">
 						<c-col class="col-sm-4"></c-col>
 						<c-col class="col-sm-5">
-							<v-select id="gdpr-cookie-consent-set-dependency" placeholder="Select an option" :options="header_dependency_list" v-model="header_dependency_selected" @input="onHeaderDependencySelect"></v-select>
-							<input type="hidden" name="gcc-header-dependency" v-model="header_dependency">
+							<v-select id="gdpr-cookie-consent-set-dependency" placeholder="Select an option" :options="header_dependency_list" v-model="header_dependency" @input="onHeaderDependencySelect"></v-select>
+							<input type="hidden" name="gcc-header-dependency" :value="header_dependency">
 						</c-col>
 						<c-col class="col-sm-3"><label><?php esc_attr_e( 'waits for: Header Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
 					</c-row>
 					<c-row v-show="is_script_dependency_on">
 						<c-col class="col-sm-4"></c-col>
 						<c-col class="col-sm-5">
-							<v-select id="gdpr-cookie-consent-set-dependency" placeholder="Select an option" :options="footer_dependency_list" v-model="footer_dependency_selected" @input="onFooterDependencySelect"></v-select>
-							<input type="hidden" name="gcc-footer-dependency" v-model="footer_dependency">
+							<v-select id="gdpr-cookie-consent-set-dependency" placeholder="Select an option" :options="footer_dependency_list" v-model="footer_dependency" @input="onFooterDependencySelect"></v-select>
+							<input type="hidden" name="gcc-footer-dependency" :value="footer_dependency">
 						</c-col>
 						<c-col class="col-sm-3"><label><?php esc_attr_e( 'waits for: Footer Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
 					</c-row>
