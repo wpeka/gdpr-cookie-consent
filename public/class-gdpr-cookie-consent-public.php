@@ -1349,47 +1349,69 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$header_scripts = $the_options['header_scripts'];
-		$header_dependency = isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '';
-		error_log("DADADA in output_header and header_dependency is: " . $header_dependency);
+		$footer_dependency = isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '';
+
+		$dependee_script = [];
+		if( $footer_dependency === "Header Scripts" ){
+			$dependee_script[] = "Footer";
+		}
+		error_log("DADADA in output_header and dependee scripts are: " . print_r($dependee_script, true));
 
 		if ($header_scripts) {
 			$escaped_script = wp_kses_post(wp_unslash($header_scripts));
 		
-			if ( $header_dependency === 'Footer Scripts' ) {
-				echo "<script>
-					document.addEventListener('footer-scripts-loaded', function () {
-						try {
-							{$escaped_script}
-						} catch(e) {
-							console.error('Error in header script:', e);
-						}
-						console.log('Header Script Loaded for FOOTER!!!');
-						document.dispatchEvent(new Event('header-scripts-loaded'));
-					});
-				</script>";
-			} elseif ( $header_dependency === 'Body Scripts' ) {
-				echo "<script>
-					document.addEventListener('body-scripts-loaded', function () {
-						try {
-							{$escaped_script}
-						} catch(e) {
-							console.error('Error in header script:', e);
-						}
-						console.log('Header Script Loaded for BODY!!!');
-						document.dispatchEvent(new Event('header-scripts-loaded'));
-					});
-				</script>";
-			} else {
-				echo "<script>
-					try {
-						{$escaped_script}
-					} catch(e) {
-						console.error('Error in header script:', e);
+			if (is_array($dependee_script) && count($dependee_script) > 0){
+				foreach( $dependee_script as $dependee ){
+					if( $dependee === "Footer" ) { 
+						error_log("DADADA Header depends on Footer.");
+						echo "<script>
+							(function waitForFooter() {
+								if (window.footerScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Header script error:', e);
+									}
+									console.log('Header Script Loaded for FOOTER!!!');
+									window.headerScriptsLoaded = true;
+									} else {
+									setTimeout(waitForFooter, 50);
+								}
+							})();
+							</script>";
+					} else if ( $dependee === "Body" ) {
+						error_log("DADADA Header depends on Body.");
+						echo "<script>
+							(function waitForBody() {
+								if (window.bodyScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Header script error:', e);
+									}
+									console.log('Header Script Loaded for BODY!!!');
+									window.headerScriptsLoaded = true;
+									} else {
+									setTimeout(waitForBody, 50);
+								}
+							})();
+							</script>";
+					} else {
+						continue;
 					}
-					console.log('Header Script Loaded for NO ONE!!!');
-					document.dispatchEvent(new Event('header-scripts-loaded'));
-				</script>";
-			}
+				}
+			} else {
+				error_log("DADADA Header depends on No one.");
+				echo "<script>
+						try {
+							{$escaped_script}
+						} catch(e) {
+							console.error('Header script error:', e);
+						}
+						console.log('Header Script Loaded for NO ONE!!!');
+						window.headerScriptsLoaded = true;
+					</script>";
+			}			
 		}		
 	}
 
@@ -1402,18 +1424,75 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$the_options  = GDPR_Cookie_Consent::gdpr_get_settings();
 		$body_scripts = $the_options['body_scripts'];
+		$header_dependency = isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '';
+		$footer_dependency = isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '';
+
+		$dependee_script = [];
+		if( $header_dependency === "Body Scripts" ){
+			$dependee_script[] = "Header";
+		}
+
+		if( $footer_dependency === "Body Scripts" ){
+			$dependee_script[] = "Footer";
+		}
+
+		error_log("DADADA in output_body and dependee scripts are: " . print_r($dependee_script, true));
+
 		if ($body_scripts) {
 			$escaped_script = wp_kses_post(wp_unslash($body_scripts));
 
-			echo "<script>
-					try {
-						{$escaped_script}
-					} catch(e) {
-						console.error('Error in body script:', e);
+			if (is_array($dependee_script) && count($dependee_script) > 0){
+				foreach( $dependee_script as $dependee ){
+					if( $dependee === "Footer" ) { 
+						error_log("DADADA Body depends on Footer.");
+						echo "<script>
+							(function waitForFooter() {
+								if (window.footerScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Body script error:', e);
+									}
+									console.log('Body Script Loaded for FOOTER!!!');
+									window.bodyScriptsLoaded = true;
+									} else {
+									setTimeout(waitForFooter, 50);
+								}
+							})();
+							</script>";
+					} else if ( $dependee === "Header" ) {
+						error_log("DADADA Body depends on Header.");
+						echo "<script>
+							(function waitForHeader() {
+								if (window.headerScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Body script error:', e);
+									}
+									console.log('Body Script Loaded for HEADER!!!');
+									window.bodyScriptsLoaded = true;
+									} else {
+									setTimeout(waitForHeader, 50);
+								}
+							})();
+							</script>";
+					} else {
+						continue;
 					}
-					console.log('Body Script Loaded for NO ONE!!!');
-					document.dispatchEvent(new Event('body-scripts-loaded'));
-				</script>";
+				}
+			} else {
+				error_log("DADADA Body depends on No one.");
+				echo "<script>
+						try {
+							{$escaped_script}
+						} catch(e) {
+							console.error('Body script error:', e);
+						}
+						console.log('Body Script Loaded for NO ONE!!!');
+						window.bodyScriptsLoaded = true;
+					</script>";
+			}
 		}
 	}
 
@@ -1424,62 +1503,70 @@ class Gdpr_Cookie_Consent_Public {
 	 */
 	public function gdprcookieconsent_output_footer()
 	{
-		error_log("DODODO in gdprcookieconsent_output_footer(). ");
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$footer_scripts = $the_options['footer_scripts'];
-		$footer_dependency = isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '';
-		error_log("DADADA in output_header and footer_dependency is: " . $footer_dependency);
+		$header_dependency = isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '';
+
+		$dependee_script = [];
+		if( $header_dependency === "Footer Scripts" ){
+			$dependee_script[] = "Header";
+		}
+		error_log("DADADA in output_footer and dependee scripts are: " . print_r($dependee_script, true));
 
 		if ($footer_scripts) {
 			$escaped_script = wp_kses_post(wp_unslash($footer_scripts));
 
-			if( $footer_dependency === 'Header Scripts' ){
-				error_log("DADADA footer_dependency is Header");
-
+			if (is_array($dependee_script) && count($dependee_script) > 0){
+				foreach( $dependee_script as $dependee ){
+					if( $dependee === "Header" ) { 
+						error_log("DADADA Footer depends on Header.");
+						echo "<script>
+							(function waitForHeader() {
+								if (window.headerScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Header script error:', e);
+									}
+									console.log('Footer Script Loaded for HEADER!!!');
+									window.footerScriptsLoaded = true;
+									} else {
+									setTimeout(waitForHeader, 50);
+								}
+							})();
+							</script>";
+					} else if ( $dependee === "Body" ) {
+						error_log("DADADA Footer depends on Body.");
+						echo "<script>
+							(function waitForBody() {
+								if (window.bodyScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Footer script error:', e);
+									}
+									console.log('Footer Script Loaded for BODY!!!');
+									window.footerScriptsLoaded = true;
+									} else {
+									setTimeout(waitForBody, 50);
+								}
+							})();
+							</script>";
+					} else {
+						continue;
+					}
+				}
+			} else {
+				error_log("DADADA Footer depends on No one.");
 				echo "<script>
-					document.addEventListener('header-scripts-loaded', function () {
-						(function() {
-							try {
-								{$escaped_script}
-							} catch(e) {
-								console.error('Error in footer script:', e);
-							}
-							console.log('Footer Script Loaded for HEADER!!!');
-							document.dispatchEvent(new Event('footer-scripts-loaded'));
-						})();
-					});
-				</script>";
-			}
-			else if( $footer_dependency === 'Body Scripts' ){
-				error_log("DADADA footer dependency is boooodyyyyyyyy.");
-
-				echo "<script>
-					document.addEventListener('body-scripts-loaded', function () {
-						(function() {
-							try {
-								{$escaped_script}
-							} catch(e) {
-								console.error('Error in footer script:', e);
-							}
-							console.log('Footer Script Loaded for BODYYY!!!');
-							document.dispatchEvent(new Event('footer-scripts-loaded'));
-						})();
-					});
-				</script>";
-			}
-			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			else {
-				echo "<script>
-					(function() {
 						try {
 							{$escaped_script}
 						} catch(e) {
-							console.error('Error in footer script:', e);
+							console.error('Footer script error:', e);
 						}
 						console.log('Footer Script Loaded for NO ONE!!!');
-						document.dispatchEvent(new Event('footer-scripts-loaded'));
-					})();
-				</script>";
+						window.footerScriptsLoaded = true;
+					</script>";
 			}
 		}
 	}
