@@ -5385,6 +5385,11 @@ var gen = new Vue({
     },
     onSwitchingScriptDependency() {
       this.is_script_dependency_on = !this.is_script_dependency_on;
+
+      if( this.is_script_dependency_on === false ){
+        this.header_dependency = null;
+        this.footer_dependency = null;
+      }
     },
     onHeaderDependencySelect(value) {
       
@@ -13211,6 +13216,11 @@ var app = new Vue({
     },
     onSwitchingScriptDependency() {
       this.is_script_dependency_on = !this.is_script_dependency_on;
+
+      if( this.is_script_dependency_on === false ){
+        this.header_dependency = null;
+        this.footer_dependency = null;
+      }
     },
     onHeaderDependencySelect(value) {
       
