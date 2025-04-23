@@ -1368,7 +1368,6 @@ class Gdpr_Cookie_Consent_Public {
 									} catch(e) {
 										console.error('Header script error:', e);
 									}
-									console.log('Header Script Loaded for FOOTER!!!');
 									window.headerScriptsLoaded = true;
 									} else {
 									setTimeout(waitForFooter, 50);
@@ -1384,7 +1383,6 @@ class Gdpr_Cookie_Consent_Public {
 									} catch(e) {
 										console.error('Header script error:', e);
 									}
-									console.log('Header Script Loaded for BODY!!!');
 									window.headerScriptsLoaded = true;
 									} else {
 									setTimeout(waitForBody, 50);
@@ -1402,7 +1400,6 @@ class Gdpr_Cookie_Consent_Public {
 						} catch(e) {
 							console.error('Header script error:', e);
 						}
-						console.log('Header Script Loaded for NO ONE!!!');
 						window.headerScriptsLoaded = true;
 					</script>";
 			}			
@@ -1446,7 +1443,6 @@ class Gdpr_Cookie_Consent_Public {
 									} catch(e) {
 										console.error('Body script error:', e);
 									}
-									console.log('Body Script Loaded for FOOTER!!!');
 									window.bodyScriptsLoaded = true;
 									} else {
 									setTimeout(waitForFooter, 50);
@@ -1462,7 +1458,6 @@ class Gdpr_Cookie_Consent_Public {
 									} catch(e) {
 										console.error('Body script error:', e);
 									}
-									console.log('Body Script Loaded for HEADER!!!');
 									window.bodyScriptsLoaded = true;
 									} else {
 									setTimeout(waitForHeader, 50);
@@ -1480,7 +1475,6 @@ class Gdpr_Cookie_Consent_Public {
 						} catch(e) {
 							console.error('Body script error:', e);
 						}
-						console.log('Body Script Loaded for NO ONE!!!');
 						window.bodyScriptsLoaded = true;
 					</script>";
 			}
@@ -1518,7 +1512,6 @@ class Gdpr_Cookie_Consent_Public {
 									} catch(e) {
 										console.error('Header script error:', e);
 									}
-									console.log('Footer Script Loaded for HEADER!!!');
 									window.footerScriptsLoaded = true;
 									} else {
 									setTimeout(waitForHeader, 50);
@@ -1534,7 +1527,6 @@ class Gdpr_Cookie_Consent_Public {
 									} catch(e) {
 										console.error('Footer script error:', e);
 									}
-									console.log('Footer Script Loaded for BODY!!!');
 									window.footerScriptsLoaded = true;
 									} else {
 									setTimeout(waitForBody, 50);
@@ -1552,7 +1544,6 @@ class Gdpr_Cookie_Consent_Public {
 						} catch(e) {
 							console.error('Footer script error:', e);
 						}
-						console.log('Footer Script Loaded for NO ONE!!!');
 						window.footerScriptsLoaded = true;
 					</script>";
 			}
