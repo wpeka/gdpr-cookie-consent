@@ -121,7 +121,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
   };
   //integration with wp consent api plugin
   window.wp_consent_type = 'optin';
-    let event = new CustomEvent('wp_consent_type_defined');
+    var event = new CustomEvent('wp_consent_type_defined');
   document.dispatchEvent( event );
 
   //debug mode for GCM

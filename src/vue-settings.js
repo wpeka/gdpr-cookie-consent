@@ -2755,6 +2755,14 @@ var gen = new Vue({
         },
         error: (e) => {
           console.error(e);
+          that.gcm_scan_flag = false;
+          that.success_error_message = "Some error occured";
+          j("#gdpr-cookie-consent-save-settings-alert").css({
+            "background-color": "#72b85c",
+            "z-index": "10000",
+          });
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
         }
       });
     },
