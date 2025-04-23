@@ -2236,7 +2236,16 @@ var gen = new Vue({
         'Body Scripts': false,
         'Footer Scripts': false,
       },
+      footer_dependency: settings_obj.the_options.hasOwnProperty("footer_dependency")
+        ? settings_obj.the_options["footer_dependency"]
+        : [],
+      footer_dependency_selected: null,
       footer_dependency_list: settings_obj.footer_dependency_list,
+      footer_dependency_map: {
+        'Header Scripts': false,
+        'Body Scripts': false,
+      },
+      
       // consent forward .
       consent_forward:
         settings_obj.the_options.hasOwnProperty("consent_forward") &&
@@ -5397,6 +5406,24 @@ var gen = new Vue({
       console.log("DODODO header_dependency: ", this.header_dependency);
       console.log("DODODO header_scripts: ", this.header_scripts);
     },
+    onFooterDependencySelect(value) {
+      
+      this.footer_dependency_map.header = false;
+      this.footer_dependency_map.body = false;
+
+      if (this.footer_dependency_selected) {
+        this.footer_dependency_map[this.footer_dependency_selected] = true;
+        this.footer_dependency = this.footer_dependency_selected;
+      } else {
+        this.footer_dependency = '';
+      }
+
+      console.log("DODODO footer_dependency_map: ", this.footer_dependency_map);
+      console.log("DODODO footer_dependency_selected: ", this.footer_dependency_selected);
+      console.log("DODODO footer_dependency_list: ", this.footer_dependency_list);
+      console.log("DODODO footer_dependency: ", this.footer_dependency);
+      console.log("DODODO footer_scripts: ", this.footer_scripts);
+    },
     onSiteSelect(value) {
       let tmp_array = [];
       for (let i = 0; i < value.length; i++) {
@@ -6289,6 +6316,7 @@ var gen = new Vue({
       // Script dependency
       this.is_script_dependency_on = false;
       this.header_dependency = [];
+      this.footer_dependency = [];
       var data = {
         action: "gcc_restore_default_settings",
         security: settings_obj.restore_settings_nonce,
@@ -10254,7 +10282,16 @@ var app = new Vue({
         'Body Scripts': false,
         'Footer Scripts': false,
       },
+      footer_dependency: settings_obj.the_options.hasOwnProperty("footer_dependency")
+        ? settings_obj.the_options["footer_dependency"]
+        : [],
+      footer_dependency_selected: null,
       footer_dependency_list: settings_obj.footer_dependency_list,
+      footer_dependency_map: {
+        'Header Scripts': false,
+        'Body Scripts': false,
+      },
+      
       // revoke consent text color.
       button_revoke_consent_text_color: settings_obj.the_options.hasOwnProperty(
         "button_revoke_consent_text_color"
@@ -13209,6 +13246,24 @@ var app = new Vue({
       console.log("DODODO header_dependency: ", this.header_dependency);
       console.log("DODODO header_scripts: ", this.header_scripts);
     },
+    onFooterDependencySelect(value) {
+      
+      this.footer_dependency_map.header = false;
+      this.footer_dependency_map.body = false;
+
+      if (this.footer_dependency_selected) {
+        this.footer_dependency_map[this.footer_dependency_selected] = true;
+        this.footer_dependency = this.footer_dependency_selected;
+      } else {
+        this.footer_dependency = '';
+      }
+
+      console.log("DODODO footer_dependency_map: ", this.footer_dependency_map);
+      console.log("DODODO footer_dependency_selected: ", this.footer_dependency_selected);
+      console.log("DODODO footer_dependency_list: ", this.footer_dependency_list);
+      console.log("DODODO footer_dependency: ", this.footer_dependency);
+      console.log("DODODO footer_scripts: ", this.footer_scripts);
+    },
     onSelectPrivacyPage(value) {
       this.button_readmore_page = value;
     },
@@ -13792,6 +13847,7 @@ var app = new Vue({
       // Script Dependency
       this.is_script_dependency_on = false;
       this.header_dependency = [];
+      this.footer_dependency = [];
       var data = {
         action: "gcc_restore_default_settings",
         security: settings_obj.restore_settings_nonce,

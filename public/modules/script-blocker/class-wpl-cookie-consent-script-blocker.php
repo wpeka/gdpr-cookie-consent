@@ -439,6 +439,14 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						</c-col>
 						<c-col class="col-sm-3"><label><?php esc_attr_e( 'waits for: Header Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
 					</c-row>
+					<c-row v-show="is_script_dependency_on">
+						<c-col class="col-sm-4"></c-col>
+						<c-col class="col-sm-5">
+							<v-select id="gdpr-cookie-consent-set-dependency" placeholder="Select an option" :options="footer_dependency_list" v-model="footer_dependency_selected" @input="onFooterDependencySelect"></v-select>
+							<input type="hidden" name="gcc-footer-dependency" v-model="footer_dependency">
+						</c-col>
+						<c-col class="col-sm-3"><label><?php esc_attr_e( 'waits for: Footer Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
+					</c-row>
 					<v-modal :append-to="appendField" :based-on="show_script_blocker" @click="showScriptBlockerForm">
 						<div class="advanced-settings-wrapper">
 							<div class="advances-settings-tittle-bar">
