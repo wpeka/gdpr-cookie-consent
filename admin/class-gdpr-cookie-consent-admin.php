@@ -10271,6 +10271,8 @@ class Gdpr_Cookie_Consent_Admin {
 		$cookie_scan_class = new Gdpr_Cookie_Consent_Cookie_Scanner(); 
 		$cookie_scan_settings = $cookie_scan_class->wpl_settings_cookie_scan_values();
 		$default_settings = '';
+		$client_site_name = get_bloginfo('name');
+
 		
 		// Require the class file for gdpr cookie consent api framework settings.
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
@@ -10378,6 +10380,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'cookie_usage_for'                 => $gdpr_policy,
 				'user_email_id'					   => $user_email_id,
 				'location_status'				   => $locationStatus,
+				'client_site_name'				   => $client_site_name,
 			)
 		);
 	}
