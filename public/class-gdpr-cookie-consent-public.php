@@ -1349,7 +1349,8 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$header_scripts = $the_options['header_scripts'];
-		$footer_dependency = isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '';
+		$is_script_dependency_on = $the_options['is_script_dependency_on'];
+		$footer_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '' ) : '';
 
 		$dependee_script = [];
 		if( $footer_dependency === "Header Scripts" ){
@@ -1424,8 +1425,9 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$the_options  = GDPR_Cookie_Consent::gdpr_get_settings();
 		$body_scripts = $the_options['body_scripts'];
-		$header_dependency = isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '';
-		$footer_dependency = isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '';
+		$is_script_dependency_on = $the_options['is_script_dependency_on'];
+		$header_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '' ) : '';
+		$footer_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '' ) : '';
 
 		$dependee_script = [];
 		if( $header_dependency === "Body Scripts" ){
@@ -1505,7 +1507,8 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$footer_scripts = $the_options['footer_scripts'];
-		$header_dependency = isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '';
+		$is_script_dependency_on = $the_options['is_script_dependency_on'];
+		$header_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '' ) : '';
 
 		$dependee_script = [];
 		if( $header_dependency === "Footer Scripts" ){
