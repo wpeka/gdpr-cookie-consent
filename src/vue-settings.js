@@ -5385,7 +5385,6 @@ var gen = new Vue({
     },
     onSwitchingScriptDependency() {
       this.is_script_dependency_on = !this.is_script_dependency_on;
-      console.log("DODODO is_script_dependency_on: ", this.is_script_dependency_on);
     },
     onHeaderDependencySelect(value) {
       
@@ -5398,11 +5397,6 @@ var gen = new Vue({
       } else {
         this.header_dependency = '';
       }
-
-      console.log("DODODO header_dependency_map: ", this.header_dependency_map);
-      console.log("DODODO header_dependency_list: ", this.header_dependency_list);
-      console.log("DODODO header_dependency: ", this.header_dependency);
-      console.log("DODODO header_scripts: ", this.header_scripts);
     },
     onFooterDependencySelect(value) {
       
@@ -5415,12 +5409,6 @@ var gen = new Vue({
       } else {
         this.footer_dependency = '';
       }
-
-      console.log("DODODO footer_dependency_map: ", this.footer_dependency_map);
-      console.log("DODODO footer_dependency_selected: ", this.footer_dependency_selected);
-      console.log("DODODO footer_dependency_list: ", this.footer_dependency_list);
-      console.log("DODODO footer_dependency: ", this.footer_dependency);
-      console.log("DODODO footer_scripts: ", this.footer_scripts);
     },
     onSiteSelect(value) {
       let tmp_array = [];
@@ -13223,7 +13211,6 @@ var app = new Vue({
     },
     onSwitchingScriptDependency() {
       this.is_script_dependency_on = !this.is_script_dependency_on;
-      console.log("DODODO is_script_dependency_on: ", this.is_script_dependency_on);
     },
     onHeaderDependencySelect(value) {
       
@@ -13236,11 +13223,6 @@ var app = new Vue({
       } else {
         this.header_dependency = '';
       }
-
-      console.log("DODODO header_dependency_map: ", this.dependency_map);
-      console.log("DODODO header_dependency_list: ", this.header_dependency_list);
-      console.log("DODODO header_dependency: ", this.header_dependency);
-      console.log("DODODO header_scripts: ", this.header_scripts);
     },
     onFooterDependencySelect(value) {
       
@@ -13253,11 +13235,6 @@ var app = new Vue({
       } else {
         this.footer_dependency = '';
       }
-
-      console.log("DODODO footer_dependency_map: ", this.footer_dependency_map);
-      console.log("DODODO footer_dependency_list: ", this.footer_dependency_list);
-      console.log("DODODO footer_dependency: ", this.footer_dependency);
-      console.log("DODODO footer_scripts: ", this.footer_scripts);
     },
     onSelectPrivacyPage(value) {
       this.button_readmore_page = value;

@@ -1319,15 +1319,12 @@ class Gdpr_Cookie_Consent_Public {
 	}
 
 	public function gdprcookieconsent_inject_sripts_on_consent(){
-		error_log("DODODO in gdprcookieconsent_inject_scripts_on_consent() called.");
 		$the_options = GDPR_Cookie_Consent::gdpr_get_settings();
 		$viewed_cookie = isset($_COOKIE['wpl_viewed_cookie']) ? sanitize_text_field(wp_unslash($_COOKIE['wpl_viewed_cookie'])) : '';
 		if($the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie){
 			$header_scripts = isset($the_options['header_scripts']) ? "\r\n" . wp_unslash($the_options['header_scripts']) . "\r\n" : '';
 			$body_scripts = isset($the_options['body_scripts']) ? "\r\n" . wp_unslash($the_options['body_scripts']) . "\r\n" : '';
 			
-			error_log("DODODO header_scripts: " . print_r($header_scripts, true));
-			error_log("DODODO body_scripts: " . print_r($body_scripts, true));
 			// Return JSON response
 			wp_send_json_success([
 				'header_scripts' => $header_scripts,
@@ -1356,7 +1353,6 @@ class Gdpr_Cookie_Consent_Public {
 		if( $footer_dependency === "Header Scripts" ){
 			$dependee_script[] = "Footer";
 		}
-		error_log("DADADA in output_header and dependee scripts are: " . print_r($dependee_script, true));
 
 		if ($header_scripts) {
 			$escaped_script = wp_kses_post(wp_unslash($header_scripts));
@@ -1364,7 +1360,6 @@ class Gdpr_Cookie_Consent_Public {
 			if (is_array($dependee_script) && count($dependee_script) > 0){
 				foreach( $dependee_script as $dependee ){
 					if( $dependee === "Footer" ) { 
-						error_log("DADADA Header depends on Footer.");
 						echo "<script>
 							(function waitForFooter() {
 								if (window.footerScriptsLoaded) {
@@ -1381,7 +1376,6 @@ class Gdpr_Cookie_Consent_Public {
 							})();
 							</script>";
 					} else if ( $dependee === "Body" ) {
-						error_log("DADADA Header depends on Body.");
 						echo "<script>
 							(function waitForBody() {
 								if (window.bodyScriptsLoaded) {
@@ -1402,7 +1396,6 @@ class Gdpr_Cookie_Consent_Public {
 					}
 				}
 			} else {
-				error_log("DADADA Header depends on No one.");
 				echo "<script>
 						try {
 							{$escaped_script}
@@ -1438,7 +1431,6 @@ class Gdpr_Cookie_Consent_Public {
 			$dependee_script[] = "Footer";
 		}
 
-		error_log("DADADA in output_body and dependee scripts are: " . print_r($dependee_script, true));
 
 		if ($body_scripts) {
 			$escaped_script = wp_kses_post(wp_unslash($body_scripts));
@@ -1446,7 +1438,6 @@ class Gdpr_Cookie_Consent_Public {
 			if (is_array($dependee_script) && count($dependee_script) > 0){
 				foreach( $dependee_script as $dependee ){
 					if( $dependee === "Footer" ) { 
-						error_log("DADADA Body depends on Footer.");
 						echo "<script>
 							(function waitForFooter() {
 								if (window.footerScriptsLoaded) {
@@ -1463,7 +1454,6 @@ class Gdpr_Cookie_Consent_Public {
 							})();
 							</script>";
 					} else if ( $dependee === "Header" ) {
-						error_log("DADADA Body depends on Header.");
 						echo "<script>
 							(function waitForHeader() {
 								if (window.headerScriptsLoaded) {
@@ -1484,7 +1474,6 @@ class Gdpr_Cookie_Consent_Public {
 					}
 				}
 			} else {
-				error_log("DADADA Body depends on No one.");
 				echo "<script>
 						try {
 							{$escaped_script}
@@ -1514,7 +1503,6 @@ class Gdpr_Cookie_Consent_Public {
 		if( $header_dependency === "Footer Scripts" ){
 			$dependee_script[] = "Header";
 		}
-		error_log("DADADA in output_footer and dependee scripts are: " . print_r($dependee_script, true));
 
 		if ($footer_scripts) {
 			$escaped_script = wp_kses_post(wp_unslash($footer_scripts));
@@ -1522,7 +1510,6 @@ class Gdpr_Cookie_Consent_Public {
 			if (is_array($dependee_script) && count($dependee_script) > 0){
 				foreach( $dependee_script as $dependee ){
 					if( $dependee === "Header" ) { 
-						error_log("DADADA Footer depends on Header.");
 						echo "<script>
 							(function waitForHeader() {
 								if (window.headerScriptsLoaded) {
@@ -1539,7 +1526,6 @@ class Gdpr_Cookie_Consent_Public {
 							})();
 							</script>";
 					} else if ( $dependee === "Body" ) {
-						error_log("DADADA Footer depends on Body.");
 						echo "<script>
 							(function waitForBody() {
 								if (window.bodyScriptsLoaded) {
@@ -1560,7 +1546,6 @@ class Gdpr_Cookie_Consent_Public {
 					}
 				}
 			} else {
-				error_log("DADADA Footer depends on No one.");
 				echo "<script>
 						try {
 							{$escaped_script}
