@@ -432,11 +432,12 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						</c-col>
 					</c-row>
 					<c-row v-show="is_script_dependency_on">
-						<c-col class="col-sm-8">
+						<c-col class="col-sm-4"></c-col>
+						<c-col class="col-sm-5">
 							<v-select id="gdpr-cookie-consent-set-dependency" placeholder="Select an option" :options="header_dependency_list" v-model="header_dependency_selected" @input="onHeaderDependencySelect"></v-select>
 							<input type="hidden" name="gcc-header-dependency" v-model="header_dependency">
 						</c-col>
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'waits for: Header Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
+						<c-col class="col-sm-3"><label><?php esc_attr_e( 'waits for: Header Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
 					</c-row>
 					<v-modal :append-to="appendField" :based-on="show_script_blocker" @click="showScriptBlockerForm">
 						<div class="advanced-settings-wrapper">

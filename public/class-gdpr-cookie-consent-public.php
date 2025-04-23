@@ -1349,10 +1349,48 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$header_scripts = $the_options['header_scripts'];
+		$header_dependency = isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '';
+		error_log("DADADA in output_header and header_dependency is: " . $header_dependency);
+
 		if ($header_scripts) {
-			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash($header_scripts) . "\r\n";
-		}
+			$escaped_script = wp_kses_post(wp_unslash($header_scripts));
+		
+			if ( $header_dependency === 'Footer Scripts' ) {
+				echo "<script>
+					document.addEventListener('footer-scripts-loaded', function () {
+						try {
+							{$escaped_script}
+						} catch(e) {
+							console.error('Error in header script:', e);
+						}
+						console.log('Header Script Loaded for FOOTER!!!');
+						document.dispatchEvent(new Event('header-scripts-loaded'));
+					});
+				</script>";
+			} elseif ( $header_dependency === 'Body Scripts' ) {
+				echo "<script>
+					document.addEventListener('body-scripts-loaded', function () {
+						try {
+							{$escaped_script}
+						} catch(e) {
+							console.error('Error in header script:', e);
+						}
+						console.log('Header Script Loaded for BODY!!!');
+						document.dispatchEvent(new Event('header-scripts-loaded'));
+					});
+				</script>";
+			} else {
+				echo "<script>
+					try {
+						{$escaped_script}
+					} catch(e) {
+						console.error('Error in header script:', e);
+					}
+					console.log('Header Script Loaded for NO ONE!!!');
+					document.dispatchEvent(new Event('header-scripts-loaded'));
+				</script>";
+			}
+		}		
 	}
 
 	/**
@@ -1365,8 +1403,17 @@ class Gdpr_Cookie_Consent_Public {
 		$the_options  = GDPR_Cookie_Consent::gdpr_get_settings();
 		$body_scripts = $the_options['body_scripts'];
 		if ($body_scripts) {
-			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash($body_scripts) . "\r\n";
+			$escaped_script = wp_kses_post(wp_unslash($body_scripts));
+
+			echo "<script>
+					try {
+						{$escaped_script}
+					} catch(e) {
+						console.error('Error in body script:', e);
+					}
+					console.log('Body Script Loaded for NO ONE!!!');
+					document.dispatchEvent(new Event('body-scripts-loaded'));
+				</script>";
 		}
 	}
 
@@ -1380,10 +1427,60 @@ class Gdpr_Cookie_Consent_Public {
 		error_log("DODODO in gdprcookieconsent_output_footer(). ");
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$footer_scripts = $the_options['footer_scripts'];
-		error_log("DODODO footer_scripts: " . print_r($footer_scripts, true));
+		$footer_dependency = isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '';
+		error_log("DADADA in output_header and footer_dependency is: " . $footer_dependency);
+
 		if ($footer_scripts) {
+			$escaped_script = wp_kses_post(wp_unslash($footer_scripts));
+
+			if( $footer_dependency === 'Header Scripts' ){
+				error_log("DADADA footer_dependency is Header");
+
+				echo "<script>
+					document.addEventListener('header-scripts-loaded', function () {
+						(function() {
+							try {
+								{$escaped_script}
+							} catch(e) {
+								console.error('Error in footer script:', e);
+							}
+							console.log('Footer Script Loaded for HEADER!!!');
+							document.dispatchEvent(new Event('footer-scripts-loaded'));
+						})();
+					});
+				</script>";
+			}
+			else if( $footer_dependency === 'Body Scripts' ){
+				error_log("DADADA footer dependency is boooodyyyyyyyy.");
+
+				echo "<script>
+					document.addEventListener('body-scripts-loaded', function () {
+						(function() {
+							try {
+								{$escaped_script}
+							} catch(e) {
+								console.error('Error in footer script:', e);
+							}
+							console.log('Footer Script Loaded for BODYYY!!!');
+							document.dispatchEvent(new Event('footer-scripts-loaded'));
+						})();
+					});
+				</script>";
+			}
 			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash($footer_scripts) . "\r\n";
+			else {
+				echo "<script>
+					(function() {
+						try {
+							{$escaped_script}
+						} catch(e) {
+							console.error('Error in footer script:', e);
+						}
+						console.log('Footer Script Loaded for NO ONE!!!');
+						document.dispatchEvent(new Event('footer-scripts-loaded'));
+					})();
+				</script>";
+			}
 		}
 	}
 }
