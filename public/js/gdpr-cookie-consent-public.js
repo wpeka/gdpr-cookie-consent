@@ -60,7 +60,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
 
   var GDPR_Cookie = {
     set: function (name, value, days) {
-      console.log("DODODO setting the cookie.: ", name, value, days);
       var expires = "";
       if (days) {
         var date = new Date();
@@ -69,7 +68,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
       }
       document.cookie =
         name + "=" + encodeURIComponent(value) + expires + "; path=/";
-      console.log("DODODO cookie: ", document.cookie);
     },
     read: function (name) {
       var nameEQ = name + "=";
@@ -863,12 +861,10 @@ banner.style.display = "none";
         var gdpr_optout_cookie = "";
         var elm = jQuery(this);
         var button_action = elm.attr("data-gdpr_action");
-        console.log("DODODO button_action has been updated 1: ", button_action);
         var open_link =
           elm[0].hasAttribute("href") && elm.attr("href") != "#" ? true : false;
         var new_window = false;
         if (button_action == "accept") {
-          console.log("DODODO executing accept logic.");
           var gdpr_user_preference_arr = {};
           var gdpr_user_preference_val = "";
 
@@ -879,7 +875,6 @@ banner.style.display = "none";
             );
           }
 
-          console.log("DODODO retrieve info from wpl_user_preference cookie, user_preference_arr is: ", gdpr_user_preference_arr);
           //variables to store consent for gcm
           var analytics_consent = false, marketing_consent = false, preferences_consent = false;
 
@@ -911,7 +906,6 @@ banner.style.display = "none";
                 }
               );
             }
-            console.log("DODODO after looping through categories, array is: ", gdpr_user_preference_arr);
 
             //getting data for gcm
             if(jQuery(this).is(":checked") && key == "analytics") analytics_consent = true;
@@ -919,7 +913,6 @@ banner.style.display = "none";
             if(jQuery(this).is(":checked") && key == "preferences") preferences_consent = true;
           });
           if (typeof window.wp_set_consent === 'function') {
-            console.log("DODODO wp_set_consent is a function.");
               if(marketing_consent) wp_set_consent('marketing', 'allow' ) ;
               else wp_set_consent('marketing', 'deny' ) ;
               if(analytics_consent) wp_set_consent('statistics', 'allow' ) ;
@@ -932,7 +925,6 @@ banner.style.display = "none";
           }
           
           if(is_gcm_on == 'true'){
-            console.log("DODODO GCM is on.");
             gtag('consent', 'update', {
               'ad_user_data': marketing_consent ? 'granted' : 'denied',
               'ad_personalization': marketing_consent ? 'granted' : 'denied',
@@ -950,7 +942,6 @@ banner.style.display = "none";
           consentListeners.forEach(function (callback) {
             callback(consent);
           });
-          console.log("DODODO new array consent is: ", consent);
           
           if(is_gcm_debug_on == 'true'){debugUpdateConsentState();}
 
@@ -961,12 +952,10 @@ banner.style.display = "none";
             gdpr_user_preference_val,
             GDPR_ACCEPT_COOKIE_EXPIRE
           );
-          console.log("DODODO array has been stringified to update the cookie: ", gdpr_user_preference_val);
 
           var gdpr_viewed_cookie = GDPR_Cookie.read("wpl_viewed_cookie");
 
           if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
-            console.log("DODODO AB testing data.");
             // Log A/B testing data
             jQuery.ajax({
               url: log_obj.ajax_url,
@@ -991,15 +980,12 @@ banner.style.display = "none";
                 security: log_obj.consent_logging_nonce,
               },
               success: function (response) {
-                console.log("DODODO AJAX call was made successfully.");
                 function executeScript(scriptContent) {
-                  console.log("DODODO executeScript()");
                     var script = document.createElement("script");
                     script.textContent = scriptContent;
                     document.head.appendChild(script);
                 }
                 function executeBodyScript(scriptContent) {
-                  console.log("DODODO executeBodyScript()");
                     var script = document.createElement("script");
                     script.textContent = scriptContent;
                     document.body.appendChild(script);
@@ -1025,7 +1011,6 @@ banner.style.display = "none";
           // Dispatch appropriate events based on settings
           var event;
           if (GDPR.settings.cookie_usage_for == "gdpr") {
-            console.log("DODODO our cookie updated for GDPR");
             GDPR_Cookie.set(
               "wpl_user_preference",
               gdpr_user_preference_val,
@@ -1038,7 +1023,6 @@ banner.style.display = "none";
               },
             });
           } else if (GDPR.settings.cookie_usage_for == "lgpd") {
-            console.log("DODODO our cookie updated for LGPD");
             GDPR_Cookie.set(
               "wpl_user_preference",
               gdpr_user_preference_val,
@@ -1051,7 +1035,6 @@ banner.style.display = "none";
               },
             });
           } else if (GDPR.settings.cookie_usage_for == "eprivacy") {
-            console.log("DODODO our cookie updated for ePrivacy");
             event = new CustomEvent("GdprCookieConsentOnAccept", {
               detail: {
                 wpl_viewed_cookie: gdpr_viewed_cookie,
@@ -1066,9 +1049,7 @@ banner.style.display = "none";
           // Log consent action
           GDPR.logConsent(button_action);
         } else if (button_action == "accept_all") {
-          console.log("DODODO executing accept_all logic.");
           if (typeof window.wp_set_consent === 'function') {
-            console.log("DODODO wp_set_consent is a function.");
             wp_set_consent('marketing', 'allow' ) ;
             wp_set_consent('statistics', 'allow' ) ;
             wp_set_consent('statistics-anonymous', 'allow' ) ;
@@ -1077,7 +1058,6 @@ banner.style.display = "none";
           }
 
           if(is_gcm_on == 'true'){
-            console.log("DODODO GCM is on.");
             gtag('consent', 'update', {
               'ad_user_data': 'granted',
               'ad_personalization': 'granted',
@@ -1095,7 +1075,6 @@ banner.style.display = "none";
           consentListeners.forEach(function (callback) {
             callback(consent);
           });
-          console.log("DODODO consent  arrayis: ", consent);
 
           if(is_gcm_debug_on == 'true'){debugUpdateConsentState();}
 
@@ -1106,9 +1085,7 @@ banner.style.display = "none";
             preferences: "yes",
             unclassified: "yes",
           };
-          console.log("DODODO cookie_data array is: ", cookie_data);
           if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
-            console.log("DODODO AB testing data.");
             //ab-testing-data-collection
             jQuery.ajax({
               url: log_obj.ajax_url,
@@ -1124,7 +1101,6 @@ banner.style.display = "none";
           }
           GDPR.accept_close();
           GDPR.acceptAllCookies();
-          console.log("DODODO back from acceptAllCookies().");
           jQuery.ajax({
               url: log_obj.ajax_url,
               type: "POST",
@@ -1133,15 +1109,12 @@ banner.style.display = "none";
                 security: log_obj.consent_logging_nonce,
               },
               success: function (response) {
-                console.log("DODODO AJAX call was made successfully.");
                 function executeScript(scriptContent) {
-                  console.log("DODODO executeScript().");
                     var script = document.createElement("script");
                     script.textContent = scriptContent;
                     document.head.appendChild(script);
                 }
                 function executeBodyScript(scriptContent) {
-                  console.log("DODODO executeBodyScript().");
                     var script = document.createElement("script");
                     script.textContent = scriptContent;
                     document.body.appendChild(script);
@@ -1168,7 +1141,6 @@ banner.style.display = "none";
           gdpr_viewed_cookie = GDPR_Cookie.read("wpl_viewed_cookie");
 
           if (GDPR.settings.cookie_usage_for == "gdpr") {
-            console.log("DODODO our cookie updated for gdpr.");
             event = new CustomEvent("GdprCookieConsentOnAcceptAll", {
               detail: {
                 wpl_user_preference: gdpr_user_preference_arr,
@@ -1177,7 +1149,6 @@ banner.style.display = "none";
             });
             window.dispatchEvent(event);
           } else if (GDPR.settings.cookie_usage_for == "eprivacy") {
-            console.log("DODODO our cookie updated for ePrivacy");
             event = new CustomEvent("GdprCookieConsentOnAcceptAll", {
               detail: {
                 wpl_viewed_cookie: gdpr_viewed_cookie,
@@ -4847,15 +4818,12 @@ banner.style.display = "none";
       }
     },
     acceptAllCookies: function () {
-      console.log("DODODO acceptAllCookies() called.");
       var gdpr_user_preference_arr = {};
       var gdpr_user_preference_val = "";
-      console.log("DODODO array defined, like accept button: ", gdpr_user_preference_arr);
       if (GDPR_Cookie.read("wpl_user_preference")) {
         gdpr_user_preference_arr = JSON.parse(
           GDPR_Cookie.read("wpl_user_preference")
         );
-        console.log("DODODO read the cookie and updated the array: ", gdpr_user_preference_arr);
         jQuery.each(gdpr_user_preference_arr, function (key, value) {
           if (key != "necessary") {
             gdpr_user_preference_arr[key] = "yes";
@@ -4869,9 +4837,7 @@ banner.style.display = "none";
             }
           }
         });
-        console.log("DODODO looped through the checkboxes array: ", gdpr_user_preference_arr);
         gdpr_user_preference_val = JSON.stringify(gdpr_user_preference_arr);
-        console.log("DODODO array stringified for updating cookie: ", gdpr_user_preference_val);
         GDPR_Cookie.set(
           "wpl_user_preference",
           gdpr_user_preference_val,
