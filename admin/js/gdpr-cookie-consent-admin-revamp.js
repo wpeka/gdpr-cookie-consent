@@ -9,6 +9,7 @@ jQuery(document).ready(function () {
   const cookie_bar_as = gdpr_localize_data.cookie_bar_as;
   const button_settings_as_popup = gdpr_localize_data.button_settings_as_popup;
   const first_time_installed = gdpr_localize_data.first_time_installed;
+  const is_iabtcf_on = gdpr_localize_data.is_iabtcf_on;
   if (!isProActivated) {
     jQuery(".gdpr-cookie-consent-admin-tabs-section").addClass(
       "pro-is-activated"
@@ -347,7 +348,9 @@ jQuery(document).ready(function () {
 
 
 
-  var advertisingModeContainer = jQuery('#gcm-advertiser-mode-container');
+  
+  if(is_iabtcf_on == "true" || is_iabtcf_on == true || is_iabtcf_on == 1){
+    var advertisingModeContainer = jQuery('#gcm-advertiser-mode-container');
     jQuery.ajax({
         url: ajaxurl,
         method: 'POST',
@@ -355,6 +358,7 @@ jQuery(document).ready(function () {
             action: 'wpl_gcm_advertiser_mode_data',
         },
         success: function (response) {
+          jQuery('#gcm-advertiser-mode-container-loader').css("display", "none");
             if (window.gen && typeof window.gen.refreshGCMAdvertiserModeData === 'function') {
                 window.gen.refreshGCMAdvertiserModeData(response.data.html);
             } else {
@@ -365,6 +369,8 @@ jQuery(document).ready(function () {
             advertisingModeContainer.html('<p>Error loading cookie scanner data.</p>');
         }
     });
+  }
+  
 
   /**
    * Add an event listener to listen for messages sent from the server.
@@ -436,7 +442,20 @@ jQuery(document).ready(function () {
     jQuery("#gdpr-disconnect-wpcc-notice").hide();
     localStorage.setItem("gdprConnectPopupHide", "true");
   }
+  window.integrate_cookie_scanner_auth = function(){
+    jQuery(".cookie-scanner-container .gdpr-overlay .gdpr-start-auth").on("click", gdprStartAuth);
+      //$(".gdpr-dashboard-start-auth").on("click", gdprStartAuth); //Commented this as it's causing double popup(account connection) to appear
+      jQuery(".cookie-scanner-container .gdpr-overlay .gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
+      jQuery(".cookie-scanner-container .gdpr-overlay .api-connect-to-account-btn").on("click", gdprStartAuth);
 
+  }
+  window.integrate_ab_testing_auth = function(){
+    jQuery(".ab_testing-card .gdpr-overlay .gdpr-start-auth").on("click", gdprStartAuth);
+      //$(".gdpr-dashboard-start-auth").on("click", gdprStartAuth); //Commented this as it's causing double popup(account connection) to appear
+      jQuery(".ab_testing-card .gdpr-overlay .gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
+      jQuery(".ab_testing-card .gdpr-overlay .api-connect-to-account-btn").on("click", gdprStartAuth);
+
+  }
   /**
    * start authentication process
    */
@@ -470,15 +489,7 @@ jQuery(document).ready(function () {
       // Redirect to the plugins.php page
       window.location.href = pluginsPageURL;
       location.reload();
-    });
-    setTimeout(function(){
-      $("#gdpr-start-auth").on("click", gdprStartAuth);
-      //$(".gdpr-dashboard-start-auth").on("click", gdprStartAuth); //Commented this as it's causing double popup(account connection) to appear
-      $("#gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
-      $("#api-connect-to-account-btn").on("click", gdprStartAuth);
-      $(".AB-testing-gdpr").on("click", gdprStartAuth);
-      $(".cookie-consent-gdpr-overlay").on("click", gdprPaidAuth);
-    }, 3000);  
+    });  
   });
   // connection overlay in compliance settings.
   jQuery(document).ready(function () {
@@ -583,7 +594,6 @@ jQuery(document).ready(function () {
   /**
    * Clicked on connect to exiting account.
    */
-  jQuery(".api-connect-to-account-btn").on("click", gdprStartAuth);
 
   jQuery('.gdpr-not-pro-tooltip').on('mouseenter', function () {
     jQuery(this).siblings('.gdpr-not-pro-tooltip-text').stop(true, true).fadeIn(200);

@@ -39,7 +39,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	}
 	public function register_ab_testing_script(){
 		//getting scan data 
-		wp_enqueue_script('ab_testing_ajax', plugin_dir_url(__FILE__) . 'assets/js/ab-testing-data.js', array('jquery'), '1.0', true);
+		wp_enqueue_script('ab_testing_ajax', plugin_dir_url(__FILE__) . 'assets/js/ab-testing-data.js', array('jquery', 'gdpr-cookie-consent-admin-revamp'), '1.0', true);
 
 		wp_localize_script('ab_testing_ajax', 'ab_testing_ajax', array(
 			'ajax_url'         => admin_url( 'admin-ajax.php' )
@@ -131,6 +131,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 								'negative_percentage2'	  => $negative_percentage2,
 
 							),
+							'timeout' => 60,
 						)
 					);
 				if ( is_wp_error( $response_ab_testing ) ) {

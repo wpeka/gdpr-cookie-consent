@@ -405,6 +405,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 			if ( $reason === 'gdpr-plugin-deactivate-with-data' ) {
 
+				global $wpdb;
 				// Delete fields from database
 					delete_option('gdpr_single_page_scan_url');
 					delete_option('wc_am_product_id_gdpr_cookie_consent');
@@ -1027,6 +1028,7 @@ class Gdpr_Cookie_Consent_Admin {
 							'is_user_connected'       => $is_user_connected,
 							'api_user_plan'			  => $api_user_plan,
 						),
+						'timeout' => 60,
 					)
 				);
 			if ( is_wp_error( $response_advertiser_mode ) ) {
