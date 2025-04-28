@@ -432,6 +432,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 					'class_for_card_body_blur_content'  => $this->class_for_card_body_blur_content ,
 					'last_scan'         				=> $last_scan ,
 				),
+				'timeout' => 60,
 			)
 		);
 

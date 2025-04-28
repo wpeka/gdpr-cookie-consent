@@ -8322,6 +8322,26 @@ button.btn.gdpr-renew-now-btn.pro,
 .gcm-slider:hover ~ .gdpr-gcm_message-gdpr{
 display: block !important;
 }
+#gcm-advertiser-mode-container{
+  padding-left: 0;
+}
+#gcm-advertiser-mode-container-loader{
+  height: 50px;
+  width: 100%;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, white, #e7e7e7, white);
+  background-size: 200% 200%;
+  animation: adver-load 3s linear infinite;
+}
+@keyframes adver-load {
+  0%, 100%{
+        background-position: 0% 50%;
+  }
+  50%{
+        background-position: 100% 50%;
+  }
+  
+}
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both {

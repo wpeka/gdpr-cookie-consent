@@ -13,6 +13,7 @@ jQuery(document).ready(function ($) {
             } else {
                 console.error('Vue instance not found or refreshCookieScannerData method missing.');
             }
+            setTimeout(function(){window.integrate_cookie_scanner_auth()},1000);
         },
         error: function () {
             $scannerContainer.html('<p>Error loading cookie scanner data.</p>');

@@ -1266,11 +1266,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<p class="gcm_status_error" v-show="gcm_scan_result['hasConsentDefault'] == false" >Default Consent Missing</p>
 											<p class="gcm_status_error" v-show="gcm_scan_result['hasConsentUpdate'] == false" >Update Conset Missing</p>
 											<p class="gcm_status_error" v-show="gcm_scan_result['onTime'] == false" >Default Consent set too late</p>
-											<p v-show="gcm_scan_result['gtagExists'] != true || gcm_scan_result['hasConsentDefault'] != true || gcm_scan_result['hasConsentUpdate'] != true || gcm_scan_result['onTime'] != true" style="color:gray; font-weight:400;">Read the <a class="cookie-notice-readmore" href = "https://wplegalpages.com/docs/wp-cookie-consent/how-to-guides/implementing-google-consent-mode-using-wp-cookie-consent" target="_blank">documentation</a> to know more about the errors and how to fix them.</p>
+											<p v-show="gcm_scan_result['gtagExists'] != true || gcm_scan_result['hasConsentDefault'] != true || gcm_scan_result['hasConsentUpdate'] != true || gcm_scan_result['onTime'] != true" style="color:gray; font-weight:400;">Read the <a class="cookie-notice-readmore" href = "https://wplegalpages.com/docs/wp-cookie-consent/how-to-guides/google-consent-mode-troubleshooting-with-wplp-compliance-platform/" target="_blank">documentation</a> to know more about the errors and how to fix them.</p>
 										</div>
 									</c-col>
-									<div class="col-sm-12 col" style="display: flex;" v-html="gcm_adver_mode_data" id="gcm-advertiser-mode-container"></div>
-									
+									<?php if($the_options['is_iabtcf_on'] === true || $the_options['is_iabtcf_on'] === "true" || $the_options['is_iabtcf_on'] === 1) : ?>
+										<div class="col-sm-12 col" style="display: flex;" v-html="gcm_adver_mode_data" id="gcm-advertiser-mode-container"></div>
+										<div id="gcm-advertiser-mode-container-loader"></div>
+									<?php endif; ?>
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select the Type of Law', 'gdpr-cookie-consent' ); ?></label></c-col>
@@ -6768,7 +6770,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</div>
 					</c-card>
 					<c-card v-show="discovered_cookies_list_tab == true">
-						<div id="cookie-scanner-container">
+						<div id="cookie-scanner-container" class="cookie-scanner-container">
 							<div class="data_wait_loader_container">
 								<div class="data_wait_loader"></div>
 							</div>
