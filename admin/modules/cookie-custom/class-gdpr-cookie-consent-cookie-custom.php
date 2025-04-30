@@ -358,7 +358,14 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 				$cat_description = isset( $category['description'] ) ? addslashes( $category['description'] ) : '';
 				$cat_category    = isset( $category['name'] ) ? $category['name'] : '';
 				$cat_slug        = isset( $category['slug'] ) ? $category['slug'] : '';
-				$wpdb->query( $wpdb->prepare( 'INSERT IGNORE INTO `' . $wpdb->prefix . 'gdpr_cookie_scan_categories` (`gdpr_cookie_category_name`,`gdpr_cookie_category_slug`,`gdpr_cookie_category_description`) VALUES (%s,%s,%s)', array( $cat_category, $cat_slug, $cat_description ) ) ); // db call ok; no-cache ok.
+				// Check if slug already exists
+				$categories_exists = $wpdb->get_var( $wpdb->prepare(
+					"SELECT COUNT(*) FROM {$wpdb->prefix}gdpr_cookie_scan_categories WHERE gdpr_cookie_category_slug = %s",
+					$cat_slug
+				) );
+				if ( $categories_exists == 0 ) {
+					$wpdb->query( $wpdb->prepare( 'INSERT IGNORE INTO `' . $wpdb->prefix . 'gdpr_cookie_scan_categories` (`gdpr_cookie_category_name`,`gdpr_cookie_category_slug`,`gdpr_cookie_category_description`) VALUES (%s,%s,%s)', array( $cat_category, $cat_slug, $cat_description ) ) ); // db call ok; no-cache ok.
+				}
 			}
 		}
 	}
