@@ -589,10 +589,10 @@ a .export-btn:hover {
 .upgrade-button:hover {
   background-color: #0056b3;
 }
-#data-request-btn, #add-region-btn {
+#data-request-btn, #add-region-btn, #checkGcmStatusButton, #checkGcmStatusLoadingButton {
   border: 1px solid #7195d0;
 }
-#data-request-btn:hover, #add-region-btn:hover {
+#data-request-btn:hover, #add-region-btn:hover, #checkGcmStatusButton:hover, #checkGcmStatusLoadingButton:hover {
   background-color: #7195d0;
 }
 .consent-log-readmore-container .consent-log-readmore {
@@ -666,6 +666,7 @@ a .export-btn:hover {
 }
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-gacm_message-gdpr,
+.gdpr-gcm_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both {
   border: 1px solid #ccc;

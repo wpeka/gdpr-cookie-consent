@@ -82,7 +82,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.7.9';
+			$this->version = '3.8.0';
 		}
 		add_action(
 			'current_screen',
@@ -944,6 +944,8 @@ class Gdpr_Cookie_Consent {
 			'gcm_wait_for_update_duration'		   => false,		 
 			'is_gcm_url_passthrough'			   => false,	
 			'is_gcm_ads_redact'				       => false,
+			'is_gcm_debug_mode'					   => false,
+			'is_gcm_advertiser_mode'			   => false,
 			'is_iabtcf_on'                         => false,
 			'is_gacm_on'						   => false,
 			'is_eu_on'                             => false,

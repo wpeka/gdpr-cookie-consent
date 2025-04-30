@@ -186,8 +186,9 @@ class Gdpr_Cookie_Consent_Public {
 
 			function updateGTMByCookies() {
 				let userPreferences = getCookie("wpl_user_preference");
+				let banner_visible = getCookie("wpl_viewed_cookie");
 
-				if (userPreferences) {
+				if (userPreferences && banner_visible == "yes") {
 					try {
 						userPreferences = JSON.parse(userPreferences);
 						
@@ -502,6 +503,8 @@ class Gdpr_Cookie_Consent_Public {
 					'ajax_url'				=> WP_PLUGIN_URL.'/gdpr-cookie-consent/admin',
 					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
 					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
+					'is_gacm_on'			=> $the_options['is_gacm_on'],
+					'is_gcm_advertiser_mode'=> $the_options['is_gcm_advertiser_mode']
 				)
 			);
 			wp_enqueue_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-admin-tcf.js', array( 'jquery' ), $this->version, false );
@@ -1183,7 +1186,8 @@ class Gdpr_Cookie_Consent_Public {
 				'button_revoke_consent_background_color'	=> $the_options['button_revoke_consent_background_color'],
 				'chosenBanner'								=> $chosenBanner,
 				'is_iabtcf_on'                              => $the_options['is_iabtcf_on'],
-				'is_gcm_on'									=> $the_options['is_gcm_on']
+				'is_gcm_on'									=> $the_options['is_gcm_on'],
+				'is_gcm_debug_on'							=> isset($the_options['is_gcm_debug_mode']) ? $the_options['is_gcm_debug_mode'] : 'false' 
 			);
 
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );

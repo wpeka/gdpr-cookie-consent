@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.7.1
-Stable tag: 3.7.9
+Stable tag: 3.8.0
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -333,12 +333,18 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 
 == Change Log ==
 
+= 3.8.0 =
+* Google Consent Mode - Debug Mode: Added a dedicated debug mode to test and verify GCM behavior. Easily inspect consent signals and integration status during setup.
+* GCM Status Checker: Instantly view whether Google Consent Mode is active and functioning correctly on your site with the new status checker tool.
+* Advertiser Consent Mode (Pro): Pro users now have access to Advertiser Consent Mode, helping you stay compliant with evolving ad tech requirements while retaining ad tracking capabilities.
+* WP Consent API Compatbility: Added support for the WordPress Consent API to help improve compatibility with third-party plugins and services requesting user consent.
+
 = 3.7.9 =
 * Improvement: We've refreshed the look and feel of cookie banners to make them cleaner, more modern, and user-friendly.
 * Fix: Minor bug fixes and performance improvements to ensure smoother operation and better stability.
 
 = 3.7.8 =
-Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode with your cookie banner to ensure compliance and accurate tracking based on user consent.
+*Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode with your cookie banner to ensure compliance and accurate tracking based on user consent.
 * Fix: Bug fixes and improvements.
 
 = 3.7.7 =
@@ -767,6 +773,12 @@ Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.8.0 =
+* Google Consent Mode - Debug Mode: Added a dedicated debug mode to test and verify GCM behavior. Easily inspect consent signals and integration status during setup.
+* GCM Status Checker: Instantly view whether Google Consent Mode is active and functioning correctly on your site with the new status checker tool.
+* Advertiser Consent Mode (Pro): Pro users now have access to Advertiser Consent Mode, helping you stay compliant with evolving ad tech requirements while retaining ad tracking capabilities.
+* WP Consent API Compatbility: Added support for the WordPress Consent API to help improve compatibility with third-party plugins and services requesting user consent.
 
 = 3.7.9 =
 * Improvement: We've refreshed the look and feel of cookie banners to make them cleaner, more modern, and user-friendly.

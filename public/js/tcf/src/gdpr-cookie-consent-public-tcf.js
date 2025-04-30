@@ -81,6 +81,8 @@ const tcModel = new TCModel();
 var encodedString = "default tc string...";
 var acString = "";
 const eventListeners = [];
+var is_gacm_on = iabtcf.is_gacm_on == true || iabtcf.is_gacm_on == "true" ? 'true' : 'false' ;
+var is_gcm_advertiser_mode = iabtcf.is_gcm_advertiser_mode == true || iabtcf.is_gcm_advertiser_mode == "true" ? 'true' : 'false';
 //initializaation of cmp api instance that is used to read tcString by vendors and validator
 let cmpApi;
 
@@ -277,9 +279,9 @@ gvl.readyPromise.then(() => {
            * If using with 'removeEventListener' command, add a check to see if tcData is not a boolean. */
           if (typeof tcData !== "boolean") {
             // tcData will be constructed via the TC string and can be added to here
-            tcData.addtlConsent = acString;
+            if(is_gacm_on == 'true') tcData.addtlConsent = acString;
+            if(is_gcm_advertiser_mode == 'true') tcData.enableAdvertiserConsentMode = true;
           }
-
           // pass data and status along
           next(tcData, status);
         },

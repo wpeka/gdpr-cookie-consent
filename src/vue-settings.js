@@ -67,6 +67,9 @@ var gen = new Vue({
       edit_discovered_cookie_on: false,
       cookie_scanner_data: '',
       ab_testing_data: '',
+      gcm_adver_mode_data: '',
+      gcm_scan_flag: false,
+      pollingInterval: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
       progress_bar: require("../admin/images/progress_bar.svg"),
@@ -104,6 +107,10 @@ var gen = new Vue({
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
       scan_in_progress: false,
+
+      gcm_scan_result: settings_obj.ab_options.hasOwnProperty("wpl_gcm_latest_scan_result")
+        ? settings_obj.ab_options["wpl_gcm_latest_scan_result"]
+        : "",
       consent_version: settings_obj.the_options.hasOwnProperty(
         "consent_version"
       )
@@ -168,6 +175,18 @@ var gen = new Vue({
         (true === settings_obj.the_options["is_gcm_ads_redact"] ||
           "true" === settings_obj.the_options["is_gcm_ads_redact"] ||
           1 === settings_obj.the_options["is_gcm_ads_redact"])
+          ? true
+          : false,
+      gcm_debug_mode: settings_obj.the_options.hasOwnProperty("is_gcm_debug_mode") && 
+        (true === settings_obj.the_options["is_gcm_debug_mode"] ||
+          "true" === settings_obj.the_options["is_gcm_debug_mode"] ||
+          1 === settings_obj.the_options["is_gcm_debug_mode"])
+          ? true
+          : false,
+      gcm_advertiser_mode: settings_obj.the_options.hasOwnProperty("is_gcm_advertiser_mode") && 
+        (true === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          "true" === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          1 === settings_obj.the_options["is_gcm_advertiser_mode"])
           ? true
           : false,
       regions: settings_obj.the_options.hasOwnProperty('gcm_defaults') ? JSON.parse(settings_obj.the_options["gcm_defaults"]) : [
@@ -2354,6 +2373,19 @@ var gen = new Vue({
                 });
             });
     },
+    refreshGCMAdvertiserModeData(html) {
+      this.gcm_adver_mode_data = html;
+      const container = document.querySelector('#gcm-advertiser-mode-container');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
+                });
+            });
+    },
     isPluginVersionLessOrEqual(version) {
       return this.pluginVersion && this.pluginVersion <= version;
     },
@@ -2680,6 +2712,62 @@ var gen = new Vue({
     },
     onSwitchGCMAdsRedact(){
       this.gcm_ads_redact = !this.gcm_ads_redact;
+    },
+    onSwitchGCMDebugMode(){
+      this.gcm_debug_mode = !this.gcm_debug_mode;
+    },
+    checkGCMStatus(){
+      var that = this;
+      var data = {
+        action: "wpl_check_gcm_status",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+      };
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          that.gcm_scan_flag = true;
+          that.pollingInterval = setInterval(that.fetchGCMStatus, 10000);
+        },
+        error: function (e) {
+          console.log(e);
+        },
+      });
+    },
+    fetchGCMStatus() {
+      var that = this;
+      jQuery.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        type: "POST",
+        data: {
+          action: "wpl_get_gcm_status"
+        },
+        success: (response) => {
+          if (response.success) {
+            that.gcm_scan_flag = false;
+            clearInterval(that.pollingInterval); 
+
+            that.gcm_scan_result = response.data;
+          } else {
+          }
+        },
+        error: (e) => {
+          console.error(e);
+          that.gcm_scan_flag = false;
+          that.success_error_message = "Some error occured";
+          j("#gdpr-cookie-consent-save-settings-alert").css({
+            "background-color": "#72b85c",
+            "z-index": "10000",
+          });
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+        }
+      });
+    },
+    onSwitchGCMAdvertiserMode(){
+      this.gcm_advertiser_mode = !this.gcm_advertiser_mode;
     },
     onSwitchDynamicLang() {
       this.dynamic_lang_is_on = !this.dynamic_lang_is_on;
@@ -5891,6 +5979,8 @@ var gen = new Vue({
       this.gcm_wait_for_update_duration = '500';
       this.gcm_url_passthrough = false;
       this.gcm_ads_redact = false;
+      this.gcm_debug_mode = false;
+      this.gcm_advertiser_mode = false;
       this.dynamic_lang_is_on = false;
       this.gacm_is_on = false;
       this.accept_as_button = true;
@@ -6369,222 +6459,231 @@ var gen = new Vue({
         this.onChangeScanHistoryTab();
       }
     },
-    saveCookieSettings() {
-      this.save_loading = true;
-      // When Pro is activated set the values in the aceeditor
-      if (this.isGdprProActive) {
-        //intializing the acecode editor
-        var editor = ace.edit("aceEditor");
-        //getting the value of editor
-        var code = editor.getValue();
-        //setting the value
-        this.gdpr_css_text = code;
-        editor.setValue(this.gdpr_css_text);
-      }
-      if(this.is_iabtcf_changed && this.iabtcf_is_on){
-        this.fetchIABData();
-      }
-      var that = this;
-      var dataV = jQuery("#gcc-save-settings-form").serialize();
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data:
-            dataV +
-            "&action=gcc_save_admin_settings" +
-            "&lang_changed=" +
-            that.is_lang_changed +
-            "&logo_removed=" +
-            that.is_logo_removed +"&logo_removed1=" + that.is_logo_removed1 +"&logo_removed2="+ that.is_logo_removed2 +"&logo_removedML1=" + that.is_logo_removedML1 +
-            "&gdpr_css_text_field=" +
-            that.gdpr_css_text,
-        })
-        .done(function (data) {
-          that.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert").css({
-            "background-color": "#72b85c",
-            "z-index": "10000",
+    async saveCookieSettings() {
+        this.save_loading = true;
+        // When Pro is activated set the values in the aceeditor
+        if (this.isGdprProActive) {
+          //intializing the acecode editor
+          var editor = ace.edit("aceEditor");
+          //getting the value of editor
+          var code = editor.getValue();
+          //setting the value
+          this.gdpr_css_text = code;
+          editor.setValue(this.gdpr_css_text);
+        }
+        if(this.is_iabtcf_changed && this.iabtcf_is_on){
+          try {
+              await this.fetchIABData(); // now REALLY waits for ajax done
+          } catch (err) {
+              console.error("Failed to save IAB Data", err);
+          }
+        }
+        var that = this;
+        var dataV = jQuery("#gcc-save-settings-form").serialize();
+        jQuery
+          .ajax({
+            type: "POST",
+            url: settings_obj.ajaxurl,
+            data:
+              dataV +
+              "&action=gcc_save_admin_settings" +
+              "&lang_changed=" +
+              that.is_lang_changed +
+              "&logo_removed=" +
+              that.is_logo_removed +"&logo_removed1=" + that.is_logo_removed1 +"&logo_removed2="+ that.is_logo_removed2 +"&logo_removedML1=" + that.is_logo_removedML1 +
+              "&gdpr_css_text_field=" +
+              that.gdpr_css_text,
+          })
+          .done(function (data) {
+            that.success_error_message = "Settings Saved";
+            j("#gdpr-cookie-consent-save-settings-alert").css({
+              "background-color": "#72b85c",
+              "z-index": "10000",
+            });
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            if (that.is_template_changed) {
+              that.is_template_changed = false;
+              location.reload();
+            }
+            if (that.is_iabtcf_changed) {
+              that.is_iabtcf_changed = false;
+              location.reload();
+            }
+            if (that.is_lang_changed) {
+              that.is_lang_changed = false;
+              location.reload();
+            }
+            if (that.data_reqs_switch_clicked == true) {
+              that.data_reqs_switch_clicked = false;
+              location.reload();
+            }
+            if (that.consent_log_switch_clicked == true) {
+              that.consent_log_switch_clicked = false;
+              location.reload();
+            }
+            if (that.reload_onSelect_law == true) {
+              that.reload_onSelect_law = false;
+              location.reload();
+            }
+            if (that.reload_onSafeMode == true) {
+              that.reload_onSafeMode = false;
+              location.reload();
+            }
+            if (that.is_logo_removed == true) {
+              that.is_logo_removed = false;
+              location.reload();
+            }
+            if (that.is_logo_removed1 == true) {
+              that.is_logo_removed1 = false;
+              location.reload();
+            }
+            if (that.is_logo_removed2 == true) {
+              that.is_logo_removed2 = false;
+              location.reload();
+            }
+            if (that.is_logo_removedML1 == true) {
+              that.is_logo_removedML1 = false;
+              location.reload();
+            }
+            if (that.is_logo_added == true) {
+              that.is_logo_added = false;
+              location.reload();
+            }
+            that.save_loading = false;
+          })
+          .fail(function () {
+            that.save_loading = false;
           });
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          if (that.is_template_changed) {
-            that.is_template_changed = false;
-            location.reload();
-          }
-          if (that.is_iabtcf_changed) {
-            that.is_iabtcf_changed = false;
-            location.reload();
-          }
-          if (that.is_lang_changed) {
-            that.is_lang_changed = false;
-            location.reload();
-          }
-          if (that.data_reqs_switch_clicked == true) {
-            that.data_reqs_switch_clicked = false;
-            location.reload();
-          }
-          if (that.consent_log_switch_clicked == true) {
-            that.consent_log_switch_clicked = false;
-            location.reload();
-          }
-          if (that.reload_onSelect_law == true) {
-            that.reload_onSelect_law = false;
-            location.reload();
-          }
-          if (that.reload_onSafeMode == true) {
-            that.reload_onSafeMode = false;
-            location.reload();
-          }
-          if (that.is_logo_removed == true) {
-            that.is_logo_removed = false;
-            location.reload();
-          }
-          if (that.is_logo_removed1 == true) {
-            that.is_logo_removed1 = false;
-            location.reload();
-          }
-          if (that.is_logo_removed2 == true) {
-            that.is_logo_removed2 = false;
-            location.reload();
-          }
-          if (that.is_logo_removedML1 == true) {
-            that.is_logo_removedML1 = false;
-            location.reload();
-          }
-          if (that.is_logo_added == true) {
-            that.is_logo_added = false;
-            location.reload();
-          }
-          that.save_loading = false;
-        })
-        .fail(function () {
-          that.save_loading = false;
-        });
-    },
-    fetchIABData(){
+      },
+    async fetchIABData(){
+      var that = this;
       GVL.baseUrl = "https://appwplegalpages.b-cdn.net/";
       const gvl = new GVL();
-      gvl.readyPromise.then(() => {
-      let data = {};
-      let vendorMap = gvl.vendors;
-      let purposeMap = gvl.purposes;
-      let featureMap = gvl.features;
-      let dataCategoriesMap = gvl.dataCategories;
-      let specialPurposeMap = gvl.specialPurposes;
-      let specialFeatureMap = gvl.specialFeatures;
-      let purposeVendorMap = gvl.byPurposeVendorMap;
+      return gvl.readyPromise.then(() => {
+      
+        let data = {};
+        let vendorMap = gvl.vendors;
+        let purposeMap = gvl.purposes;
+        let featureMap = gvl.features;
+        let dataCategoriesMap = gvl.dataCategories;
+        let specialPurposeMap = gvl.specialPurposes;
+        let specialFeatureMap = gvl.specialFeatures;
+        let purposeVendorMap = gvl.byPurposeVendorMap;
 
-      var vendor_array = [],
-        vendor_id_array = [],
-        vendor_legint_id_array = [],
-        data_categories_array = [],
-        nayan = [];
-      var feature_array = [],
-        special_feature_id_array = [],
-        special_feature_array = [],
-        special_purpose_array = [];
-      var purpose_id_array = [],
-        purpose_legint_id_array = [],
-        purpose_array = [],
-        purpose_vendor_array = [];
-      var purpose_vendor_count_array = [],
-        feature_vendor_count_array = [],
-        special_purpose_vendor_count_array = [],
-        special_feature_vendor_count_array = [],
-        legint_purpose_vendor_count_array = [],
-        legint_feature_vendor_count_array = [];
-      Object.keys(vendorMap).forEach((key) => {
-        vendor_array.push(vendorMap[key]);
-        vendor_id_array.push(vendorMap[key].id);
-        if (vendorMap[key].legIntPurposes.length)
-          vendor_legint_id_array.push(vendorMap[key].id);
-      });
-      data.vendors = vendor_array;
-      data.allvendors = vendor_id_array;
-      data.allLegintVendors = vendor_legint_id_array;
+        var vendor_array = [],
+          vendor_id_array = [],
+          vendor_legint_id_array = [],
+          data_categories_array = [],
+          nayan = [];
+        var feature_array = [],
+          special_feature_id_array = [],
+          special_feature_array = [],
+          special_purpose_array = [];
+        var purpose_id_array = [],
+          purpose_legint_id_array = [],
+          purpose_array = [],
+          purpose_vendor_array = [];
+        var purpose_vendor_count_array = [],
+          feature_vendor_count_array = [],
+          special_purpose_vendor_count_array = [],
+          special_feature_vendor_count_array = [],
+          legint_purpose_vendor_count_array = [],
+          legint_feature_vendor_count_array = [];
+        Object.keys(vendorMap).forEach((key) => {
+          vendor_array.push(vendorMap[key]);
+          vendor_id_array.push(vendorMap[key].id);
+          if (vendorMap[key].legIntPurposes.length)
+            vendor_legint_id_array.push(vendorMap[key].id);
+        });
+        data.vendors = vendor_array;
+        data.allvendors = vendor_id_array;
+        data.allLegintVendors = vendor_legint_id_array;
 
-      Object.keys(featureMap).forEach((key) => {
-        feature_array.push(featureMap[key]);
-        feature_vendor_count_array.push(
-          Object.keys(gvl.getVendorsWithFeature(featureMap[key].id)).length
+        Object.keys(featureMap).forEach((key) => {
+          feature_array.push(featureMap[key]);
+          feature_vendor_count_array.push(
+            Object.keys(gvl.getVendorsWithFeature(featureMap[key].id)).length
+          );
+        });
+        data.features = feature_array;
+        data.featureVendorCount = feature_vendor_count_array;
+        data.dataCategories = nayan;
+
+        Object.keys(dataCategoriesMap).forEach((key) => {
+          data_categories_array.push(dataCategoriesMap[key]);
+        });
+        data.dataCategories = data_categories_array;
+
+        var legintCount = 0;
+        const purposeLegint = new Map();
+        Object.keys(purposeMap).forEach((key) => {
+          purpose_array.push(purposeMap[key]);
+          purpose_id_array.push(purposeMap[key].id);
+          purpose_vendor_count_array.push(
+            Object.keys(gvl.getVendorsWithConsentPurpose(purposeMap[key].id)).length
+          );
+          legintCount = Object.keys(
+            gvl.getVendorsWithLegIntPurpose(purposeMap[key].id)
+          ).length;
+          legint_purpose_vendor_count_array.push(legintCount);
+          if (legintCount) {
+            purposeLegint.set(purposeMap[key].id, legintCount);
+            purpose_legint_id_array.push(purposeMap[key].id);
+          }
+        });
+        data.purposes = purpose_array;
+        data.allPurposes = purpose_id_array;
+        data.purposeVendorCount = purpose_vendor_count_array;
+        data.allLegintPurposes = purpose_legint_id_array;
+        data.legintPurposeVendorCount = legint_purpose_vendor_count_array;
+
+        Object.keys(specialFeatureMap).forEach((key) => {
+          special_feature_array.push(specialFeatureMap[key]);
+          special_feature_id_array.push(specialFeatureMap[key].id);
+          special_feature_vendor_count_array.push(
+            Object.keys(gvl.getVendorsWithSpecialFeature(specialFeatureMap[key].id))
+              .length
+          );
+        });
+        data.specialFeatures = special_feature_array;
+        data.allSpecialFeatures = special_feature_id_array;
+        data.specialFeatureVendorCount = special_feature_vendor_count_array;
+
+        Object.keys(specialPurposeMap).forEach((key) => {
+          special_purpose_array.push(specialPurposeMap[key]);
+          special_purpose_vendor_count_array.push(
+            Object.keys(gvl.getVendorsWithSpecialPurpose(purposeMap[key].id)).length
+          );
+        });
+        data.specialPurposes = special_purpose_array;
+        data.specialPurposeVendorCount = special_purpose_vendor_count_array;
+
+        Object.keys(purposeVendorMap).forEach((key) =>
+          purpose_vendor_array.push(purposeVendorMap[key].legInt.size)
         );
+        data.purposeVendorMap = purpose_vendor_array;
+        data.secret_key = "sending_vendor_data";
+        return new Promise(function (resolve, reject) {
+          jQuery
+            .ajax({
+              type: "POST",
+              url: settings_obj.ajaxurl,
+              data: {
+                data: JSON.stringify(data), 
+                action: "gcc_enable_iab" 
+              },
+              dataType: "json",
+            })
+            .done(function (data) {
+              resolve(data);
+            })
+            .fail(function (e) {
+              that.save_loading = false;
+              reject(e);
+            });
+        });
       });
-      data.features = feature_array;
-      data.featureVendorCount = feature_vendor_count_array;
-      data.dataCategories = nayan;
-
-      Object.keys(dataCategoriesMap).forEach((key) => {
-        data_categories_array.push(dataCategoriesMap[key]);
-      });
-      data.dataCategories = data_categories_array;
-
-      var legintCount = 0;
-      const purposeLegint = new Map();
-      Object.keys(purposeMap).forEach((key) => {
-        purpose_array.push(purposeMap[key]);
-        purpose_id_array.push(purposeMap[key].id);
-        purpose_vendor_count_array.push(
-          Object.keys(gvl.getVendorsWithConsentPurpose(purposeMap[key].id)).length
-        );
-        legintCount = Object.keys(
-          gvl.getVendorsWithLegIntPurpose(purposeMap[key].id)
-        ).length;
-        legint_purpose_vendor_count_array.push(legintCount);
-        if (legintCount) {
-          purposeLegint.set(purposeMap[key].id, legintCount);
-          purpose_legint_id_array.push(purposeMap[key].id);
-        }
-      });
-      data.purposes = purpose_array;
-      data.allPurposes = purpose_id_array;
-      data.purposeVendorCount = purpose_vendor_count_array;
-      data.allLegintPurposes = purpose_legint_id_array;
-      data.legintPurposeVendorCount = legint_purpose_vendor_count_array;
-
-      Object.keys(specialFeatureMap).forEach((key) => {
-        special_feature_array.push(specialFeatureMap[key]);
-        special_feature_id_array.push(specialFeatureMap[key].id);
-        special_feature_vendor_count_array.push(
-          Object.keys(gvl.getVendorsWithSpecialFeature(specialFeatureMap[key].id))
-            .length
-        );
-      });
-      data.specialFeatures = special_feature_array;
-      data.allSpecialFeatures = special_feature_id_array;
-      data.specialFeatureVendorCount = special_feature_vendor_count_array;
-
-      Object.keys(specialPurposeMap).forEach((key) => {
-        special_purpose_array.push(specialPurposeMap[key]);
-        special_purpose_vendor_count_array.push(
-          Object.keys(gvl.getVendorsWithSpecialPurpose(purposeMap[key].id)).length
-        );
-      });
-      data.specialPurposes = special_purpose_array;
-      data.specialPurposeVendorCount = special_purpose_vendor_count_array;
-
-      Object.keys(purposeVendorMap).forEach((key) =>
-        purpose_vendor_array.push(purposeVendorMap[key].legInt.size)
-      );
-      data.purposeVendorMap = purpose_vendor_array;
-      data.secret_key = "sending_vendor_data";
-      var that = this;
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: {
-            data: JSON.stringify(data), 
-            action: "gcc_enable_iab" 
-          },
-          dataType: "json",
-        })
-        .done(function (data) {
-        })
-        .fail(function () {
-          that.save_loading = false;
-      });
-    });
 
     },
     openMediaModal() {
@@ -8318,6 +8417,18 @@ var app = new Vue({
       gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
         (true === settings_obj.the_options["is_gcm_ads_redact"] ||
           1 === settings_obj.the_options["is_gcm_ads_redact"])
+          ? true
+          : false,
+      gcm_debug_mode: settings_obj.the_options.hasOwnProperty("is_gcm_debug_mode") && 
+        (true === settings_obj.the_options["is_gcm_debug_mode"] ||
+          "true" === settings_obj.the_options["is_gcm_debug_mode"] ||
+          1 === settings_obj.the_options["is_gcm_debug_mode"])
+          ? true
+          : false,
+      gcm_advertiser_mode: settings_obj.the_options.hasOwnProperty("is_gcm_advertiser_mode") && 
+        (true === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          "true" === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          1 === settings_obj.the_options["is_gcm_advertiser_mode"])
           ? true
           : false,
       banner_preview_is_on:
@@ -10562,6 +10673,14 @@ var app = new Vue({
     },
     onSwitchGCMAdsRedact(){
       this.gcm_ads_redact = !this.gcm_ads_redact;
+    },
+    onSwitchGCMDebugMode(){
+      this.gcm_debug_mode = !this.gcm_debug_mode;
+    },
+    checkGCMStatus(){
+    },
+    onSwitchGCMAdvertiserMode(){
+      this.gcm_advertiser_mode = !this.gcm_advertiser_mode;
     },
     onSwitchGacmEnable() {
       this.gacm_is_on = !this.gacm_is_on;
@@ -13590,6 +13709,8 @@ var app = new Vue({
       this.gcm_is_on = false;
       this.gcm_wait_for_update_duration = '500';
       this.gcm_ads_redact = false;
+      this.gcm_debug_mode = false;
+      this.gcm_advertiser_mode = false;
       this.gcm_url_passthrough = false;
       this.gacm_is_on = false;
       this.decline_text = "Decline";

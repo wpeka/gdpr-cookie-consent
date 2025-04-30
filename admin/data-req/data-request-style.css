@@ -82,6 +82,9 @@
   display: flex;
   margin-bottom: 40px;
 }
+.policy-data-search-log .search-and-export-container {
+  margin-bottom: 0;
+}
 .search-and-export-container .search-box {
   float: none;
 }
@@ -110,7 +113,6 @@
 .wpl_resolved_select_filter {
   width: 128px;
 	height: 36px;
-	margin-bottom: 20px;
 	background-color: var(--gray-100) !important;
 	font-family: "Poppins", sans-serif;
 	color: var(--gray-600) !important;
