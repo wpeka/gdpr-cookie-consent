@@ -874,6 +874,7 @@ banner.style.display = "none";
               GDPR_Cookie.read("wpl_user_preference")
             );
           }
+
           //variables to store consent for gcm
           var analytics_consent = false, marketing_consent = false, preferences_consent = false;
 
@@ -1142,7 +1143,7 @@ banner.style.display = "none";
           if (GDPR.settings.cookie_usage_for == "gdpr") {
             event = new CustomEvent("GdprCookieConsentOnAcceptAll", {
               detail: {
-                wpl_user_preference: gdpr_user_preference,
+                wpl_user_preference: gdpr_user_preference_arr,
                 wpl_viewed_cookie: gdpr_viewed_cookie,
               },
             });
@@ -4830,11 +4831,9 @@ banner.style.display = "none";
               "checked",
               true
             );
-            var length = GDPR.allowed_categories.length;
-            for (var i = 0; i < length; i++) {
-              if (GDPR.allowed_categories[i] == key) {
-                GDPR.allowed_categories.splice(i, 1);
-              }
+
+            if (!GDPR.allowed_categories.includes(key)) {
+              GDPR.allowed_categories.push(key);
             }
           }
         });
