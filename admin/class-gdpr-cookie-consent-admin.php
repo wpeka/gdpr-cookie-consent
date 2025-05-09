@@ -6967,31 +6967,23 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function print_template_boxes( $name, $templates, $checked,$active_banner ) {
+	public function print_template_boxes( $name, $checked, $active_banner ) {
 		$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 		$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
 		$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
 		$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$json_path = plugin_dir_path(__FILE__) . '../includes/templates/template.json';
+		if (file_exists($json_path)) {
+			$json_data = file_get_contents($json_path);
+			$templates = json_decode($json_data, true); // Use true for associative array
+		} else {
+			$templates = [];
+		}
 		?>
 		<div class="gdpr-templates-field-container">
-			<?php
-
-			// Show the first 5 templates
-			$templates_to_show = array_slice( $templates, 0, 5 );
-			foreach ( $templates_to_show as $key => $template ) :
-				if ( false !== strpos( $template['name'], 'column' ) ) {
-					$column = true;
-				} else {
-					$column = false;
-				}
-				if ( false !== strpos( $template['name'], 'square' ) ) {
-					$square = true;
-				} else {
-					$square = false;
-				}
-				?>
-				<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
-					<div class="gdpr-left-field">
+		<?Php foreach ( $templates as $key => $template ) : ?>
+			<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
+				<div class="gdpr-left-field">
 					<c-input type="radio"  name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
 					<?php
 					if ( $template['name'] === $checked ) {
@@ -6999,200 +6991,126 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 					?>
 					>
-					</div>
-					<div class="gdpr-right-field" style="<?php echo esc_attr( $template['css'] ); ?>">
-						<div class="gdpr-right-field-content">
-							<div class="gdpr-group-description">
-					<?php
-					if($active_banner == 1) {
+				</div>
+				<?php 
 
-						$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
-							if (!empty($get_banner_img1)) {
-								?>
-									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
-									<?php
-							}
-						 }elseif($active_banner == 2){
-							$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
-							if (!empty($get_banner_img2)) {
-								?>
-									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
-									<?php
-							}
-						 }else{
-							$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-							if (!empty($get_banner_img1)) {
-								?>
-									<img class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-									<?php
-							}
-					}
-					?>
+					$styles_attr = '';
+					foreach ($template['styles'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $styles_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					} 
+
+					$accept_style_attr = '';
+					foreach ($template['accept_button'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $accept_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					} 
+					$accept_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+
+					$accept_all_style_attr = '';
+					foreach ($template['accept_all_button'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $accept_all_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					} 
+					$accept_all_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+
+					$decline_style_attr = '';
+					foreach ($template['decline_button'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $decline_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					} 
+					$decline_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+
+					$settings_style_attr = '';
+					foreach ($template['settings_button'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $settings_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					}  
+					$settings_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					
+					$logo_style_attr = '';
+					foreach ($template['logo'] as $key => $value) {
+						$logo_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					}  
+
+					$readmore_style_attr = '';
+					foreach ($template['readmore_button'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $readmore_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					}  
+					$heading_style_attr = "";
+					foreach ($template['heading'] as $key => $value) {
+						$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					}  
+				?>
+				<div class="gdpr-right-field template-type-<?php echo esc_attr( $name )?>">
+						<div style = "<?php echo esc_attr($styles_attr); ?>" class="cookie_notice_content">
 							<?php
-							if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) :
+								if($active_banner == 1) {
+									$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+									if (!empty($get_banner_img1)) {
+										?>
+											<img style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>" >
+											<?php
+									}
+								}else if($active_banner == 2){
+									$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+									if (!empty($get_banner_img2)) {
+										?>
+											<img style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
+											<?php
+									}
+								}else{
+									$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
+									if (!empty($get_banner_img)) {
+										?>
+											<img style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+											<?php
+									}
+								}
 								?>
-							<h3 v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
-							<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-							<h3 v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
-							<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-							<h3 v-if="gdpr_message_heading.length>0">{{ccpa_message_heading}}</h3>
-							<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-							<h3 v-if="gdpr_message_heading.length>0">{{eprivacy_message_heading}}</h3>
-							<?php endif; ?>
-							<?php if ( $column ) : ?>
-								<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-									<p v-html ="gdpr_message"></p>
-									<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-									<p v-html ="lgpd_message"></p>
-									<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-									<p v-html ="ccpa_message"></p>
-									<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-									<p v-html ="eprivacy_message"></p>
-									<?php endif; ?>
-									<?php
-									if ( isset( $template['readmore'] ) ) :
-										$class = '';
-										if ( $template['readmore']['as_button'] ) :
-											$class = 'btn btn-sm';
-										endif;
-										?>
-										
-										<p>
-    									    <a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">
-    									        <?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-    									            {{ opt_out_text }}
-    									        <?php else : ?>
-    									            {{ button_readmore_text }}
-    									        <?php endif; ?>
-    									    </a>
-    									</p>
-									<?php endif; ?>
-								<?php else : ?>
-									<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-									<p v-html ="gdpr_message"></p>
-									<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-									<p v-html ="lgpd_message"></p>
-									<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-									<p v-html ="ccpa_message"></p>
-									<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-										<p v-html ="eprivacy_message"></p>
-									<?php endif; ?>
-										<?php
-										if ( isset( $template['readmore'] ) ) :
-											$class = '';
-											if ( $template['readmore']['as_button'] ) :
-												$class = 'btn btn-sm';
-											endif;
-											?>
-											<p>
-    									    	<a style="<?php echo esc_attr( $template['readmore']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">
-    									    	    <?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-    									    	        {{ opt_out_text }}
-    									    	    <?php else : ?>
-    									    	        {{ button_readmore_text }}
-    									    	    <?php endif; ?>
-    									    	</a>
-    										</p>
-										<?php endif; ?>
-									
+								<?php
+								if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
+									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
+								<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="gdpr_message_heading.length>0">{{ccpa_message_heading}}</h3>
+								<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="gdpr_message_heading.length>0">{{eprivacy_message_heading}}</h3>
 								<?php endif; ?>
-							</div>
-							<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) : ?>
-							<div class="gdpr-group-buttons">
-									<?php if ( $square ) : ?>
-										<?php
-										if ( isset( $template['decline'] ) ) :
-											$class = '';
-											if ( $template['decline']['as_button'] ) :
-												$class = 'btn btn-sm';
-											endif;
-											?>
-										<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ decline_text }}</a>
+								<div class="<?php echo esc_attr($template['static-settings']['layout']);?>">
+									<p>
+										<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+											<span v-html ="gdpr_message"></span>
+											<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
+											<span v-html ="lgpd_message"></span>
+											<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+											<span v-html ="ccpa_message"></span>
+											<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+											<span v-html ="eprivacy_message"></span>
 										<?php endif; ?>
-										<?php
-										if ( isset( $template['settings'] ) ) :
-											$class = '';
-											if ( $template['settings']['as_button'] ) :
-												$class = 'btn btn-sm';
-											endif;
-											?>
-										<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ settings_text }}</a>
-										<?php endif; ?>
-										<?php
-										if ( isset( $template['accept'] ) ) :
-											$class = '';
-											if ( $template['accept']['as_button'] ) :
-												$class = 'btn btn-sm';
-											endif;
-											?>
-										<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ accept_text }}</a>
-										<?php endif; ?>
-								<?php else : ?>
-									<?php
-									if ( isset( $template['accept'] ) ) :
-										$class = '';
-										if ( $template['accept']['as_button'] ) :
-											$class = 'btn btn-sm';
-										endif;
-										?>
-										<a style="<?php echo esc_attr( $template['accept']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ accept_text }}</a>
+										<a style = "<?php echo esc_attr($readmore_style_attr); ?>" >
+											<?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+												{{ opt_out_text }}
+											<?php else : ?>
+												{{ button_readmore_text }}
+											<?php endif; ?>
+										</a>
+									</p>
+									<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) : ?>
+										<div class="cookie_notice_buttons <?php echo esc_attr($template['static-settings']['layout']) . '-buttons';?>">
+											<div class="left_buttons">
+												<?php if($template["decline_button"]["is_on"]) : ?><a style="<?php echo esc_attr( $decline_style_attr ); ?>">{{ decline_text }}</a><?php endif;?>
+												<?php if($template["settings_button"]["is_on"]) : ?><a style="<?php echo esc_attr( $settings_style_attr ); ?>">{{ settings_text }}</a><?php endif;?>
+											</div>
+											<div class="right_buttons">
+												<?php if($template["accept_button"]["is_on"]) : ?><a style="<?php echo esc_attr( $accept_style_attr ); ?>">{{ accept_text }}</a><?php endif;?>
+												<?php if($template["accept_all_button"]["is_on"]) : ?><a style="<?php echo esc_attr( $accept_all_style_attr); ?>">{{ accept_all_text }}</a><?php endif;?>
+											</div>
+										</div>
 									<?php endif; ?>
-									<?php
-									if ( isset( $template['decline'] ) ) :
-										$class = '';
-										if ( $template['decline']['as_button'] ) :
-											$class = 'btn btn-sm';
-										endif;
-										?>
-										<a style="<?php echo esc_attr( $template['decline']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ decline_text }}</a>
-									<?php endif; ?>
-									<?php
-									if ( isset( $template['settings'] ) ) :
-										$class = '';
-										if ( $template['settings']['as_button'] ) :
-											$class = 'btn btn-sm';
-										endif;
-										?>
-										<a style="<?php echo esc_attr( $template['settings']['css'] ); ?>" class="<?php echo esc_attr( $class ); ?>">{{ settings_text }}</a>
-									<?php endif; ?>
-								<?php endif; ?>
-							</div>
-							<?php endif; ?>
+								</div>
 						</div>
 					</div>
-				</div>
-				<p class="gdpr-configuration-line-divider"></p>
-				<?php endforeach; ?>
 			</div>
-
-			
-			<!-- Modal for the show more templates -->
-			<c-card-body class="show-more-modal-card-container">
-				<c-row>
-				<c-col class="col-sm-12 show-more-modal-card-container-column">
-					<c-button class="show-more-cookie-design" @click="show_more_cookie_design_popup=true">
-						<span class="show-more-design-text">
-							<?php esc_attr_e( 'More Templates' ); ?>
-						</span>
-					</c-button>
-				</c-col>
-				</c-row>
-			
-				<c-modal
-					title="More Template Designs"
-					:show.sync="show_more_cookie_design_popup"
-					size="lg"
-					:close-on-backdrop="closeOnBackdrop"
-					:centered="centered"
-					class="more-design-modal-container"
-				>
-					<c-row>
-					<?php $this->get_more_templates_modal_data($name,$active_banner); ?>
-					</c-row>
-				</c-modal>
-			</c-card-body>
-
-			<?php
+		<?php endforeach; ?>	
+		</div>
+		<?php
 	}
 
 	// Show the modal based on the type of the template
@@ -7434,29 +7352,29 @@ class Gdpr_Cookie_Consent_Admin {
 						</div>
 					</c-row>
 					<?php $ab_options                        = get_option( 'wpl_ab_options' );
-					if( !$ab_options ['ab_testing_enabled'] ){?> 
+					if( $ab_options ['ab_testing_enabled'] === false || $ab_options ['ab_testing_enabled'] === "false" || $ab_options ['ab_testing_enabled'] === 0 ){?> 
 					<c-row v-show="show_banner_template">
-						<c-col class="col-sm-3">
+						<c-col class="col-sm-0">
 							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
 						</c-col>
-						<c-col class="col-sm-9">
-							<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'],0 ); ?>
+						<c-col class="col-sm-12">
+							<?php $this->print_template_boxes( 'banner', $the_options['banner_template'],0 ); ?>
 						</c-col>
 					</c-row>
 						<c-row v-show="show_popup_template">
-							<c-col class="col-sm-3">
+							<c-col class="col-sm-0">
 								<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
 							</c-col>
-							<c-col class="col-sm-9">
-					<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'],0 ); ?>
+							<c-col class="col-sm-12">
+					<?php $this->print_template_boxes( 'popup', $the_options['popup_template'],0 ); ?>
 							</c-col>
 						</c-row>
 						<c-row v-show="show_widget_template">
-							<c-col class="col-sm-3">
+							<c-col class="col-sm-0">
 								<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
 							</c-col>
-							<c-col class="col-sm-9">
-					<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'],0 ); ?>
+							<c-col class="col-sm-12">
+					<?php $this->print_template_boxes( 'widget', $the_options['widget_template'],0 ); ?>
 							</c-col>
 					</c-row>
 					<input type="hidden" name="gdpr-template" v-model="template">
@@ -7464,27 +7382,27 @@ class Gdpr_Cookie_Consent_Admin {
 					<?php } else{?>
 						<div v-show="active_test_banner_tab === 1">
 						<c-row v-show="show_banner_template">
-						<c-col class="col-sm-3">
+						<c-col class="col-sm-0">
 							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
 						</c-col>
-						<c-col class="col-sm-9">
-							<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'],1 ); ?>
+						<c-col class="col-sm-12">
+							<?php $this->print_template_boxes( 'banner', $the_options['banner_template'],1 ); ?>
 						</c-col>
 					</c-row>
 						<c-row v-show="show_popup_template">
-							<c-col class="col-sm-3">
+							<c-col class="col-sm-0">
 								<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
 							</c-col>
-							<c-col class="col-sm-9">
-					<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'],1 ); ?>
+							<c-col class="col-sm-12">
+					<?php $this->print_template_boxes( 'popup', $the_options['popup_template'],1 ); ?>
 							</c-col>
 						</c-row>
 						<c-row v-show="show_widget_template">
-							<c-col class="col-sm-3">
+							<c-col class="col-sm-0">
 								<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
 							</c-col>
-							<c-col class="col-sm-9">
-					<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'],1 ); ?>
+							<c-col class="col-sm-12">
+					<?php $this->print_template_boxes( 'widget', $the_options['widget_template'],1 ); ?>
 							</c-col>
 					</c-row>
 					<input type="hidden" name="gdpr-template" v-model="template">
@@ -7492,27 +7410,27 @@ class Gdpr_Cookie_Consent_Admin {
 						</div>
 						<div v-show="active_test_banner_tab === 2">
 						<c-row v-show="show_banner_template">
-						<c-col class="col-sm-3">
+						<c-col class="col-sm-0">
 							<input type="hidden" name="gdpr-banner-template" v-model="banner_template">
 						</c-col>
-						<c-col class="col-sm-9">
-							<?php $this->print_template_boxes( 'banner', $this->get_templates( 'banner' ), $the_options['banner_template'],2 ); ?>
+						<c-col class="col-sm-12">
+							<?php $this->print_template_boxes( 'banner', $the_options['banner_template'],2 ); ?>
 						</c-col>
 					</c-row>
 						<c-row v-show="show_popup_template">
-							<c-col class="col-sm-3">
+							<c-col class="col-sm-0">
 								<input type="hidden" name="gdpr-popup-template" v-model="popup_template">
 							</c-col>
-							<c-col class="col-sm-9">
-					<?php $this->print_template_boxes( 'popup', $this->get_templates( 'popup' ), $the_options['popup_template'],2 ); ?>
+							<c-col class="col-sm-12">
+					<?php $this->print_template_boxes( 'popup', $the_options['popup_template'],2 ); ?>
 							</c-col>
 						</c-row>
 						<c-row v-show="show_widget_template">
-							<c-col class="col-sm-3">
+							<c-col class="col-sm-0">
 								<input type="hidden" name="gdpr-widget-template" v-model="widget_template">
 							</c-col>
-							<c-col class="col-sm-9">
-					<?php $this->print_template_boxes( 'widget', $this->get_templates( 'widget' ), $the_options['widget_template'],2 ); ?>
+							<c-col class="col-sm-12">
+					<?php $this->print_template_boxes( 'widget', $the_options['widget_template'],2 ); ?>
 							</c-col>
 					</c-row>
 					<input type="hidden" name="gdpr-template" v-model="template">
