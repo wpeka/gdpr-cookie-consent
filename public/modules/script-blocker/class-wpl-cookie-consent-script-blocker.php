@@ -423,6 +423,30 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 							<c-button id="script-blocker-advanced-settings-btn" @click="showScriptBlockerForm" :disabled="enable_safe"><span>Advanced Settings</span></c-button>
 						</c-col>
 					</c-row>
+					<!-- Script Dependency -->
+					<c-row>
+						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Script Dependency', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use this to load your script only after another script it depends on has been accepted and loaded. Ensures proper functionality and prevents errors.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-col class="col-sm-8">
+							<c-switch v-bind="labelIcon" v-model="is_script_dependency_on" id="gdpr-cookie-consent-script-dependency-on" variant="3d"  color="success" :checked="!enable_safe && is_script_dependency_on" v-on:update:checked="onSwitchingScriptDependency" :disabled="enable_safe"></c-switch>
+							<input type="hidden" name="gcc-script-dependency-on" v-model="is_script_dependency_on" :disabled="enable_safe">
+						</c-col>
+					</c-row>
+					<c-row v-show="is_script_dependency_on">
+						<c-col class="col-sm-4"></c-col>
+						<c-col class="col-sm-5">
+							<v-select id="gdpr-cookie-consent-set-dependency" placeholder="Select an option" :options="header_dependency_list" v-model="header_dependency" @input="onHeaderDependencySelect"></v-select>
+							<input type="hidden" name="gcc-header-dependency" :value="header_dependency">
+						</c-col>
+						<c-col class="col-sm-3"><label><?php esc_attr_e( 'waits for: Header Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
+					</c-row>
+					<c-row v-show="is_script_dependency_on">
+						<c-col class="col-sm-4"></c-col>
+						<c-col class="col-sm-5">
+							<v-select id="gdpr-cookie-consent-set-dependency" placeholder="Select an option" :options="footer_dependency_list" v-model="footer_dependency" @input="onFooterDependencySelect"></v-select>
+							<input type="hidden" name="gcc-footer-dependency" :value="footer_dependency">
+						</c-col>
+						<c-col class="col-sm-3"><label><?php esc_attr_e( 'waits for: Footer Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
+					</c-row>
 					<v-modal :append-to="appendField" :based-on="show_script_blocker" @click="showScriptBlockerForm">
 						<div class="advanced-settings-wrapper">
 							<div class="advances-settings-tittle-bar">
