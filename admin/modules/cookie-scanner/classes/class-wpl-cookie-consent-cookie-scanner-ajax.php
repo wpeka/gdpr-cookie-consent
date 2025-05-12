@@ -21,6 +21,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie_Scanner {
 
 	/**
+	 * GDPR Cookie Consent Settings.
+	 *
+	 * @since 3.8.1
+	 * @access public
+	 * @var string $plan settings of GDPR Cookie Consent.
+	 */
+	public $settings;
+
+	/**
+	 * The user's purchased plan.
+	 *
+	 * @since 3.8.1
+	 * @access public
+	 * @var string $plan Purchased plan of user.
+	 */
+	public $plan = '';
+
+	/**
 	 * Gdpr_Cookie_Consent_Cookie_Scanner_Ajax constructor.
 	 */
 	public function __construct() {
@@ -28,6 +46,11 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		add_action('wp_ajax_wpl_check_gcm_status', array($this, 'ajax_check_gcm_status'));
 		add_action('wp_ajax_wpl_get_gcm_status', array($this, 'ajax_get_gcm_status'));
 		add_action( 'wp_ajax_wpl_cookies_deletion', array( $this, 'ajax_cookies_deletion' ) );
+
+		// Require the class file for gdpr cookie consent api framework settings.
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+		$this->settings = GDPR_Cookie_Consent_Settings::get_instance();
+		$this->plan = $this->settings->get_plan(); //Get user's plan.
 	}
 
 	public function ajax_check_gcm_status(){
@@ -274,6 +297,17 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		);
 		check_admin_referer( 'wpl_cookie_scanner', 'security' );
 		$scan_cookie_list = $this->get_scan_cookie_list();
+
+		$monthly_free_scans_no = (int) get_option( 'gdpr_free_monthly_no_scans', 0 );
+
+		if ( 'free' === $this->plan ) {
+			$monthly_free_scans_no = ++$monthly_free_scans_no;
+			update_option( 'gdpr_free_monthly_no_scans', $monthly_free_scans_no );
+			if ( $monthly_free_scans_no >= 5 ) {
+				set_transient( 'gdpr_monthly_scan_limit_exhausted', 1, MONTH_IN_SECONDS );
+			}
+		}
+
 		$out['response']  = true;
 		$out['message']   = __( 'Success', 'gdpr-cookie-consent' );
 		$out['total']     = $scan_cookie_list['total'];

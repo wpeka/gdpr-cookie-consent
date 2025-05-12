@@ -90,6 +90,14 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 */
 	public $is_user_connected = false;
 	/**
+	 * The user's purchased plan.
+	 *
+	 * @since 3.8.1
+	 * @access public
+	 * @var string $plan Purchased plan of user.
+	 */
+	public $plan = '';
+	/**
 	 * Class for bluring the content.
 	 *
 	 * @since 3.0.0
@@ -138,6 +146,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$this->is_user_connected = $this->settings->is_connected();
+		$this->plan                             = $this->settings->get_plan(); //Get user's plan.
 		$this->class_for_blur_content = $this->is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes
 		$this->class_for_card_body_blur_content = $this->is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes
 
@@ -299,7 +308,17 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			} else {
 				$total_no_of_found_cookies = 0;
 			}
-		$api_gdpr_cookie_scan = '';
+			$api_gdpr_cookie_scan = '';
+
+			if ( 'free' !== $this->plan ) {
+				delete_transient( 'gdpr_monthly_scan_limit_exhausted' );
+			}
+
+			$is_monthly_limit_exhausted = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
+			if ( ! $is_monthly_limit_exhausted ) {
+				delete_option( 'gdpr_free_monthly_no_scans' );
+			}
+
 			/**
 			 * Send a POST request to the GDPR API endpoint 'get_data'
 			*/
@@ -318,6 +337,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 						'last_scan'         				=> $last_scan ,
 						'cookie_scan_count'         	    => $cookie_scan_count ,
 						'total_no_of_found_cookies'         => $total_no_of_found_cookies,
+						'plan'                              => $this->plan,
+						'is_monthly_limit_exhausted'        => get_transient( 'gdpr_monthly_scan_limit_exhausted' ),
 					),
 					'timeout' => 60,
 				)

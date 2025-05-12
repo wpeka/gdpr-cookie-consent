@@ -89,7 +89,34 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 			?>
 			<div class="gdpr-remaining-scans-content" >
 				<div class="gdpr-remaining-scans-container">
-					<span class="gdpr-remaining-scans-title">Remaining Scans: </span><span><?php echo $gdpr_no_of_page_scan; ?> / <?php echo $total_no_of_free_scans; ?><span><span> (<?php echo ceil( $remaining_percentage_scan_limit ); ?>%)</span>
+					<span class="gdpr-remaining-scans-title"><?php esc_html_e( 'Remaining Pages/Scan:', 'gdpr-cookie-consent'); ?> </span>
+					<span>
+						<?php echo $gdpr_no_of_page_scan; ?> / <?php echo $total_no_of_free_scans; ?>
+						<span> (<?php echo ceil( $remaining_percentage_scan_limit ); ?>%)</span>
+					</span>
+					<?php
+					if ( 'free' === $api_user_plan ) {
+						$no_monthly_scans = get_option( 'gdpr_free_monthly_no_scans', 0 );
+						?>
+						<span class="gdpr-remaining-scans-clicks-wrapper"> | 
+							<span class="gdpr-remaining-scan-clicks-title"> 
+								<?php
+								if ( get_transient( 'gdpr_monthly_scan_limit_exhausted' ) ) {
+									?> 
+									<?php
+									$available_in = get_option( '_transient_timeout_gdpr_monthly_scan_limit_exhausted' );
+									?>
+									<p class="gdpr-cookie-scanning-available-in-notice"><?php echo esc_html( 'Available in ' . date( 'Y-m-d H:i:s', $available_in ), 'gdpr-cookie-consent' ); ?></p>
+									<?php
+								}
+								?>	
+								<?php esc_html_e( 'Remaining Scans:', 'gdpr-cookie-consent'); ?> <?php echo $no_monthly_scans ?> / 5
+								<span class="dashicons dashicons-info"></span>
+							</span>
+						</span>
+						<?php
+					}
+					?>
 				</div>
 				<div class="gdpr-current-plan-container">
 					<p><span>Current Plan: </span><?php echo $api_user_plan; ?></p>
