@@ -7646,7 +7646,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   text-align: center;
   color: var(--white-100);
 }
-.gdpr-remaining-scans-content .gdpr-remaining-scans-container .gdpr-remaining-scans-clicks-wrapper span.dashicons {
+.gdpr-remaining-scans-content .gdpr-remaining-scans-container .gdpr-available-scans-clicks-wrapper span.dashicons {
   font-family: dashicons;
   font-size: var(--text-lg-font-size);
   color: var(--white-100);
