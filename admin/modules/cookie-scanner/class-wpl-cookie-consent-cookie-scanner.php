@@ -314,11 +314,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 				delete_transient( 'gdpr_monthly_scan_limit_exhausted' );
 			}
 
-			$is_monthly_limit_exhausted = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
-			if ( ! $is_monthly_limit_exhausted ) {
-				delete_option( 'gdpr_free_monthly_no_scans' );
-			}
-
 			/**
 			 * Send a POST request to the GDPR API endpoint 'get_data'
 			*/
@@ -338,7 +333,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 						'cookie_scan_count'         	    => $cookie_scan_count ,
 						'total_no_of_found_cookies'         => $total_no_of_found_cookies,
 						'plan'                              => $this->plan,
-						'is_monthly_limit_exhausted'        => get_transient( 'gdpr_monthly_scan_limit_exhausted' ),
+						'is_monthly_limit_exhausted'        => (int) get_transient( 'gdpr_monthly_scan_limit_exhausted' ),
 					),
 					'timeout' => 60,
 				)

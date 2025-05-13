@@ -298,13 +298,22 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		check_admin_referer( 'wpl_cookie_scanner', 'security' );
 		$scan_cookie_list = $this->get_scan_cookie_list();
 
-		$monthly_free_scans_no = (int) get_option( 'gdpr_free_monthly_no_scans', 0 );
-
 		if ( 'free' === $this->plan ) {
-			$monthly_free_scans_no = ++$monthly_free_scans_no;
-			update_option( 'gdpr_free_monthly_no_scans', $monthly_free_scans_no );
-			if ( $monthly_free_scans_no >= 5 ) {
+			$scan_limit = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
+			// Transient Doesn't Exist.
+			if ( false === $scan_limit ) {
 				set_transient( 'gdpr_monthly_scan_limit_exhausted', 1, MONTH_IN_SECONDS );
+			} else {
+				global $wpdb;
+				$wpdb->query(
+					$wpdb->prepare(
+						"UPDATE {$wpdb->options}
+						SET option_value = option_value + 1
+						WHERE option_name = %s
+						AND option_value REGEXP '^[0-9]+$'",
+						'_transient_gdpr_monthly_scan_limit_exhausted'
+					)
+				);
 			}
 		}
 

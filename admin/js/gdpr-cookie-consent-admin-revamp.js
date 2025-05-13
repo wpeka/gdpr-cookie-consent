@@ -507,7 +507,7 @@ jQuery(document).ready(function () {
         jQuery(".gdpr-gacm_message-gdpr").css("display", "none");
       }
     );
-    jQuery(".gdpr-remaining-scan-clicks-title .dashicons-info").hover(
+    jQuery(".gdpr-available-scan-clicks-title .dashicons-info").hover(
       function () {
         gacmTimer = setTimeout(function () {
           jQuery(".gdpr-cookie-scanning-available-in-notice").css("display", "block");
