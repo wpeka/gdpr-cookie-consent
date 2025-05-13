@@ -1354,8 +1354,32 @@ class Gdpr_Cookie_Consent_Public {
 			$dependee_script[] = "Footer";
 		}
 
+		$allowed_tags = array(
+			'script' => array(
+				'type' => true,
+				'src' => true,
+				'async' => true,
+				'charset' => true,
+				'crossorigin' => true,
+			),
+			'iframe' => array(
+				'src' => true,
+				'width' => true,
+				'height' => true,
+				'frameborder' => true,
+				'allow' => true,
+				'allowfullscreen' => true,
+				'loading' => true,
+				'style' => true,
+				'title' => true,
+			),
+			'div' => array('class' => true, 'style' => true),
+			'style' => array(),
+			'a' => array('href' => true),
+		);
+
 		if ($header_scripts) {
-			$escaped_script = wp_kses_post(wp_unslash($header_scripts));
+			$escaped_script = wp_kses(wp_unslash($header_scripts), $allowed_tags);
 		
 			if (is_array($dependee_script) && count($dependee_script) > 0){
 				foreach( $dependee_script as $dependee ){
@@ -1428,9 +1452,32 @@ class Gdpr_Cookie_Consent_Public {
 			$dependee_script[] = "Footer";
 		}
 
+		$allowed_tags = array(
+			'script' => array(
+				'type' => true,
+				'src' => true,
+				'async' => true,
+				'charset' => true,
+				'crossorigin' => true,
+			),
+			'iframe' => array(
+				'src' => true,
+				'width' => true,
+				'height' => true,
+				'frameborder' => true,
+				'allow' => true,
+				'allowfullscreen' => true,
+				'loading' => true,
+				'style' => true,
+				'title' => true,
+			),
+			'div' => array('class' => true, 'style' => true),
+			'style' => array(),
+			'a' => array('href' => true),
+		);
 
 		if ($body_scripts) {
-			$escaped_script = wp_kses_post(wp_unslash($body_scripts));
+			$escaped_script = wp_kses(wp_unslash($body_scripts), $allowed_tags);
 
 			if (is_array($dependee_script) && count($dependee_script) > 0){
 				foreach( $dependee_script as $dependee ){
@@ -1498,8 +1545,32 @@ class Gdpr_Cookie_Consent_Public {
 			$dependee_script[] = "Header";
 		}
 
+		$allowed_tags = array(
+			'script' => array(
+				'type' => true,
+				'src' => true,
+				'async' => true,
+				'charset' => true,
+				'crossorigin' => true,
+			),
+			'iframe' => array(
+				'src' => true,
+				'width' => true,
+				'height' => true,
+				'frameborder' => true,
+				'allow' => true,
+				'allowfullscreen' => true,
+				'loading' => true,
+				'style' => true,
+				'title' => true,
+			),
+			'div' => array('class' => true, 'style' => true),
+			'style' => array(),
+			'a' => array('href' => true),
+		);
+
 		if ($footer_scripts) {
-			$escaped_script = wp_kses_post(wp_unslash($footer_scripts));
+			$escaped_script = wp_kses(wp_unslash($footer_scripts), $allowed_tags);
 
 			if (is_array($dependee_script) && count($dependee_script) > 0){
 				foreach( $dependee_script as $dependee ){
