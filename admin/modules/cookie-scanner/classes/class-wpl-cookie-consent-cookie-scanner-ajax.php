@@ -89,6 +89,13 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		if ( ! current_user_can( 'manage_options' )){
 			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
+		if ( 'free' === $this->plan ) {
+			$scan_limit     = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
+			$scan_limit_int = (int) $scan_limit;
+			if ( $scan_limit_int > 5 ) {
+				exit();
+			}
+		}
 		if ( isset( $_POST['wpl_scanner_action'] ) ) {
 			$wpl_scan_action = sanitize_text_field( wp_unslash( $_POST['wpl_scanner_action'] ) );
 			$allowed_actions = array( 'get_pages', 'scan_pages', 'stop_scan', 'check_api', 'scan_cookie_list', 'update_scan_cookie', 'get_post_scan_cookies', 'get_scanned_cookies_list' );
@@ -104,6 +111,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		global $wpdb;
 		$scan_table    = $wpdb->prefix . 'wpl_cookie_scan_cookies';
 		$result = $wpdb->query("TRUNCATE TABLE {$scan_table}");
+		if ( 'free' === $this->plan ) {
+			set_transient( 'gdpr_clear_cookies_action', 1 );
+		}
     	return $result !== false;
 	}
 	/**
@@ -304,16 +314,21 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			if ( false === $scan_limit ) {
 				set_transient( 'gdpr_monthly_scan_limit_exhausted', 1, MONTH_IN_SECONDS );
 			} else {
-				global $wpdb;
-				$wpdb->query(
-					$wpdb->prepare(
-						"UPDATE {$wpdb->options}
-						SET option_value = option_value + 1
-						WHERE option_name = %s
-						AND option_value REGEXP '^[0-9]+$'",
-						'_transient_gdpr_monthly_scan_limit_exhausted'
-					)
-				);
+				$action = (int) get_transient( 'gdpr_clear_cookies_action' );
+				if ( $action ) {
+					delete_transient( 'gdpr_clear_cookies_action' );
+				} else {
+					global $wpdb;
+					$wpdb->query(
+						$wpdb->prepare(
+							"UPDATE {$wpdb->options}
+							SET option_value = option_value + 1
+							WHERE option_name = %s
+							AND option_value REGEXP '^[0-9]+$'",
+							'_transient_gdpr_monthly_scan_limit_exhausted'
+						)
+					);
+				}
 			}
 		}
 
