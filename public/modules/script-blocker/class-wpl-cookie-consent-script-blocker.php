@@ -431,6 +431,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 							<input type="hidden" name="gcc-script-dependency-on" v-model="is_script_dependency_on" :disabled="enable_safe">
 						</c-col>
 					</c-row>
+					<c-row v-show="is_script_dependency_on" style="margin-top: -30px;"><c-col class="col-sm-4"></c-col><c-col class="col-sm-8"><p style="color:gray; font-weight:400;">Follow the guide <a href = "https://wplegalpages.com/docs/wp-cookie-consent/settings/gdpr-settings-script-blocker-pro/#h-script-dependency" target="_blank">here</a> to learn more about Script Dependency.</p></c-col></c-row>
 					<c-row v-show="is_script_dependency_on">
 						<c-col class="col-sm-4"></c-col>
 						<c-col class="col-sm-5">
