@@ -3,7 +3,7 @@ Contributors: wplegalpages
 Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
-Tested up to: 6.7.1
+Tested up to: 6.8.1
 Stable tag: 3.8.1
 Requires PHP: 7.0
 License: GPLv3
