@@ -746,6 +746,10 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	 * Save script center data.
 	 */
 	public function wpl_ajax_script_save() {
+		// Verify Nonce.
+		if ( ! check_ajax_referer( 'wpl_save_script_nonce', '_wpnonce', false ) ) {
+			wp_send_json_error( array( 'message' => 'Security Check Failed, Unauthorized access' ), 403 );
+		}
 		 // Capability check
 		 if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
