@@ -362,11 +362,49 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				</p>
 
 				<p v-show="is_lgpd" class="notice-message" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }">{{lgpd_message}}
-					<a v-show="button_readmore_is_on" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+				<a v-show="button_readmore_is_on && is_gdpr" href="#" class="notice-message-link" 
+					:class="{
+     				  'btn': this[`button_readmore_as_button${active_test_banner_tab}`],
+     				  'button-as-link': !this[`button_readmore_as_button${active_test_banner_tab}`],
+     				  'btn-lg': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'large',
+     				  'btn-sm': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'small'
+     				}"
+     				:style="{
+     				  'font-family': this[`cookie_font${active_test_banner_tab}`],
+     				  'color': this[`button_readmore_link_color${active_test_banner_tab}`],
+     				  'border-style': this[`button_readmore_button_border_style${active_test_banner_tab}`],
+     				  'border-width': this[`button_readmore_button_border_width${active_test_banner_tab}`] ? this[`button_readmore_button_border_width${active_test_banner_tab}`] + 'px' : '0',
+     				  'border-color': this[`button_readmore_button_border_color${active_test_banner_tab}`],
+     				  'border-radius': this[`button_readmore_button_border_radius${active_test_banner_tab}`] + 'px',
+     				  'background-color': this[`button_readmore_as_button${active_test_banner_tab}`]
+     				    ? this[`button_readmore_button_color${active_test_banner_tab}`] + Math.floor(this[`button_readmore_button_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()
+     				    : 'transparent'
+     				}">
+						{{button_readmore_text}}
+					</a>
 				</p>
 
 				<p v-show="is_eprivacy" class="notice-message" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }">{{eprivacy_message}}
-					<a v-show="button_readmore_is_on" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+				<a v-show="button_readmore_is_on && is_gdpr" href="#" class="notice-message-link" 
+					:class="{
+     				  'btn': this[`button_readmore_as_button${active_test_banner_tab}`],
+     				  'button-as-link': !this[`button_readmore_as_button${active_test_banner_tab}`],
+     				  'btn-lg': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'large',
+     				  'btn-sm': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'small'
+     				}"
+     				:style="{
+     				  'font-family': this[`cookie_font${active_test_banner_tab}`],
+     				  'color': this[`button_readmore_link_color${active_test_banner_tab}`],
+     				  'border-style': this[`button_readmore_button_border_style${active_test_banner_tab}`],
+     				  'border-width': this[`button_readmore_button_border_width${active_test_banner_tab}`] ? this[`button_readmore_button_border_width${active_test_banner_tab}`] + 'px' : '0',
+     				  'border-color': this[`button_readmore_button_border_color${active_test_banner_tab}`],
+     				  'border-radius': this[`button_readmore_button_border_radius${active_test_banner_tab}`] + 'px',
+     				  'background-color': this[`button_readmore_as_button${active_test_banner_tab}`]
+     				    ? this[`button_readmore_button_color${active_test_banner_tab}`] + Math.floor(this[`button_readmore_button_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()
+     				    : 'transparent'
+     				}">
+						{{button_readmore_text}}
+					</a>				
 				</p>
 
 				<p v-show="is_ccpa" class="notice-message" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }" >{{ccpa_message}} 
