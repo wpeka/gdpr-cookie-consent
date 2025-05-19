@@ -99,12 +99,171 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			?>
 			</div>	
 			<div class="notice-heading-wrapper">
-				<h3 v-show="is_gdpr && !is_ccpa" class="notice-heading" :style="{ fontFamily: cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
-				<h3 v-show="is_lgpd" class="notice-heading" :style="{ fontFamily: cookie_font , 'color': 'inherit'}">{{lgpd_message_heading}}</h3>
-				<h3 v-show="is_gdpr && is_ccpa" class="notice-heading" :style="{ fontFamily: cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
+				<h3 v-show="is_gdpr && !is_ccpa" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
+				<h3 v-show="is_lgpd" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{lgpd_message_heading}}</h3>
+				<h3 v-show="is_gdpr && is_ccpa" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
 			</div>	
 			<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
+				<p v-show="is_gdpr" v-html="gdpr_message" class="notice-message" :style="{ 'font-family': cookie_font }">
+					<a v-show="button_readmore_is_on && is_gdpr" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+				</p>
 
+				<p v-show="is_lgpd" class="notice-message" :style="{ 'font-family': cookie_font }">{{lgpd_message}}
+					<a v-show="button_readmore_is_on" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+				</p>
+
+				<p v-show="is_eprivacy" class="notice-message" :style="{ 'font-family': cookie_font }">{{eprivacy_message}}
+					<a v-show="button_readmore_is_on" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+				</p>
+
+				<p v-show="is_ccpa" class="notice-message" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ 'font-family': cookie_font }" >{{ccpa_message}} 
+					<a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color,'font-family': cookie_font}">{{opt_out_text}}</a>
+				</p>
+
+				<div v-show="ab_testing_enabled" class="notice-buttons-wrapper">
+					<div v-if="ab_testing_enabled && active_test_banner_tab == 1" class="notice-left-buttons">
+						<a v-show="cookie_decline_on1"
+						  href="#"
+						  :style="{
+						    'background-color': decline_as_button1 ? `${decline_background_color1}${Math.floor(decline_opacity1 * 255).toString(16).toUpperCase()}` : 'transparent',
+						    'color': decline_text_color1,
+						    'border-style': decline_style1,
+						    'border-width': decline_border_width1 + 'px',
+						    'border-color': decline_border_color1,
+						    'border-radius': decline_border_radius1 + 'px',
+						    'font-family': cookie_font1,
+							'min-width': 140px,
+						    'display': 'flex',
+						    'justify-content': 'center',
+						    'align-items': 'center',
+						    'text-align': 'center'
+						  }"
+						>
+						  {{ decline_text1 }}
+						</a>			
+
+						<a v-show="cookie_settings_on1" 
+						  href="#"
+						  :style="{
+						    'background-color': settings_as_button1 ? `${settings_background_color1}${Math.floor(settings_opacity1 * 255).toString(16).toUpperCase()}` : 'transparent',
+						    'color': settings_text_color1,
+						    'border-style': settings_style1,
+						    'border-width': settings_border_width1 + 'px',
+						    'border-color': settings_border_color1,
+						    'border-radius': settings_border_radius1 + 'px',
+						    'font-family': cookie_font1,
+							'min-width': 140px,
+						    'display': 'flex',
+						    'justify-content': 'center',
+						    'align-items': 'center',
+						    'text-align': 'center'
+						  }"
+						>
+							{{ settings_text1 }}
+						</a>
+					</div>
+
+					<div v-if="ab_testing_enabled && active_test_banner_tab == 1" class="notice-right-buttons">
+						<a v-show="cookie_accept_on1" href="#">{{ accept_text1 }}</a>
+						<a v-show="cookie_accept_all_on1" href="#">{{ accept_all_text1 }}</a>
+					</div>
+
+					<div v-if="ab_testing_enabled && active_test_banner_tab == 2" class="notice-left-buttons">
+						<a v-show="cookie_decline_on2"
+						  href="#"
+						  :style="{
+						    'background-color': decline_as_button2 ? `${decline_background_color2}${Math.floor(decline_opacity2 * 255).toString(16).toUpperCase()}` : 'transparent',
+						    'color': decline_text_color2,
+						    'border-style': decline_style2,
+						    'border-width': decline_border_width2 + 'px',
+						    'border-color': decline_border_color2,
+						    'border-radius': decline_border_radius2 + 'px',
+						    'font-family': cookie_font2,
+							'min-width': 140px,
+						    'display': 'flex',
+						    'justify-content': 'center',
+						    'align-items': 'center',
+						    'text-align': 'center'
+						  }"
+						>
+							{{ decline_text2 }}
+						</a>
+
+						<a v-show="cookie_settings_on2" 
+						  href="#"
+						  :style="{
+						    'background-color': settings_as_button2 ? `${settings_background_color2}${Math.floor(settings_opacity2 * 255).toString(16).toUpperCase()}` : 'transparent',
+						    'color': settings_text_color2,
+						    'border-style': settings_style2,
+						    'border-width': settings_border_width2 + 'px',
+						    'border-color': settings_border_color2,
+						    'border-radius': settings_border_radius2 + 'px',
+						    'font-family': cookie_font2,
+							'min-width': 140px,
+						    'display': 'flex',
+						    'justify-content': 'center',
+						    'align-items': 'center',
+						    'text-align': 'center'
+						  }"
+						>
+							{{ settings_text2 }}
+						</a>
+					</div>
+
+					<div v-if="ab_testing_enabled && active_test_banner_tab == 2" class="notice-right-buttons">
+						<a v-show="cookie_accept_on2" href="#">{{ accept_text2 }}</a>
+						<a v-show="cookie_accept_all_on2" href="#">{{ accept_all_text2 }}</a>
+					</div>
+				</div>
+
+				<div v-show="!ab_testing_enabled" class="notice-buttons-wrapper">
+					<div class="notice-left-buttons">
+						<a v-show="cookie_decline_on"
+						  href="#"
+						  :style="{
+						    'background-color': decline_as_button ? `${decline_background_color}${Math.floor(decline_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
+						    'color': decline_text_color,
+						    'border-style': decline_style,
+						    'border-width': decline_border_width + 'px',
+						    'border-color': decline_border_color,
+						    'border-radius': decline_border_radius + 'px',
+						    'font-family': cookie_font,
+							'min-width': 140px,
+						    'display': 'flex',
+						    'justify-content': 'center',
+						    'align-items': 'center',
+						    'text-align': 'center'
+						  }"
+						>
+						  {{ decline_text }}
+						</a>
+
+						<a v-show="cookie_settings_on" 
+						  href="#"
+						  :style="{
+					  	    'background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
+					  	    'color': settings_text_color,
+					  	    'border-style': settings_style,
+					  	    'border-width': settings_border_width + 'px',
+					  	    'border-color': settings_border_color,
+					  	    'border-radius': settings_border_radius + 'px',
+					  	    'font-family': cookie_font,
+							'min-width': 140px,
+					  	    'display': 'flex',
+					  	    'justify-content': 'center',
+					  	    'align-items': 'center',
+					  	    'text-align': 'center'
+					  	  }"
+						>
+						  {{ settings_text }}
+						</a>
+					</div>
+
+					<div class="notice-right-buttons">
+						<a v-show="cookie_accept_on" href="#">{{ accept_text }}</a>
+						<a v-show="cookie_accept_all_on" href="#">{{ accept_all_text }}</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -132,7 +291,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					</div>
 				</div>
 			</div>
-			<!-- DEPRCATED START -->
 			<div class="gdpr-banner-preview-save-btn">
 					<div class="gdpr-banner-preview-logo-text">
 						<div class="gdpr-banner-preview-logo">
@@ -156,7 +314,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
 					</div>
 			</div>
-			<!-- DEPRCATED END -->
 			<hr id="preview-btn-setting-nav-seperator">
 			<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 
