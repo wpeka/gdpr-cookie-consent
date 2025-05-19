@@ -19,7 +19,6 @@ Vue.use(VueIntro);
 import "intro.js/introjs.css";
 
 //Import template.json file
-import templates from "../includes/templates/template.json";
 
 // Import AceEditor
 import AceEditor from "vuejs-ace-editor";
@@ -110,7 +109,6 @@ var gen = new Vue({
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
       scan_in_progress: false,
-      templates: templates,
 
       gcm_scan_result: settings_obj.ab_options.hasOwnProperty("wpl_gcm_latest_scan_result")
         ? settings_obj.ab_options["wpl_gcm_latest_scan_result"]
@@ -3190,142 +3188,8 @@ var gen = new Vue({
     cookiewidgetPositionChange(value) {
       this.cookie_widget_position = value;
     },
-    onTemplateChangeNew(value){
-      console.log("DODODO in onTemplateChangeNew......");
-      console.log("DODODO value passed is: ", value);
-      const selectedTemplate = this.templates[value];
-      console.log("DODODO selectedTemplate json properties: ", selectedTemplate);
-      this.accept_border_radius = selectedTemplate["accept_button"]["border-radius"];
-      this.accept_border_radius1 = selectedTemplate["accept_button"]["border-radius"];
-      this.accept_border_radius2 = selectedTemplate["accept_button"]["border-radius"];
-      this.accept_all_border_radius = selectedTemplate["accept_all_button"]["border-radius"];
-      this.accept_all_border_radius1 = selectedTemplate["accept_all_button"]["border-radius"];
-      this.accept_all_border_radius2 = selectedTemplate["accept_all_button"]["border-radius"];
-      this.decline_border_radius = selectedTemplate["decline_button"]["border-radius"];
-      this.decline_border_radius1 = selectedTemplate["decline_button"]["border-radius"];
-      this.decline_border_radius2 = selectedTemplate["decline_button"]["border-radius"];
-      this.settings_border_radius = selectedTemplate["settings_button"]["border-radius"];
-      this.settings_border_radius1 = selectedTemplate["settings_button"]["border-radius"];
-      this.settings_border_radius2 = selectedTemplate["settings_button"]["border-radius"];
-      this.cookie_text_color = selectedTemplate["styles"]["color"];
-      this.cookie_text_color1 = selectedTemplate["styles"]["color"];
-      this.cookie_text_color2 = selectedTemplate["styles"]["color"];
-      this.decline_border_color = selectedTemplate["decline_button"]["border-color"];
-      this.decline_border_color1 = selectedTemplate["decline_button"]["border-color"];
-      this.decline_border_color2 = selectedTemplate["decline_button"]["border-color"];
-      this.decline_text_color = selectedTemplate["decline_button"]["color"];
-      this.decline_text_color1 = selectedTemplate["decline_button"]["color"];
-      this.decline_text_color2 = selectedTemplate["decline_button"]["color"];
-      this.decline_border_width = selectedTemplate["decline_button"]["border-width"];
-      this.decline_border_width1 = selectedTemplate["decline_button"]["border-width"];
-      this.decline_border_width2 = selectedTemplate["decline_button"]["border-width"];
-      this.decline_style = selectedTemplate["decline_button"]["border-style"];
-      this.decline_style1 = selectedTemplate["decline_button"]["border-style"];
-      this.decline_style2 = selectedTemplate["decline_button"]["border-style"];
-      this.accept_all_text_color = selectedTemplate["accept_all_button"]["color"];
-      this.accept_all_text_color1 = selectedTemplate["accept_all_button"]["color"];
-      this.accept_all_text_color2 = selectedTemplate["accept_all_button"]["color"];
-      this.accept_all_border_color = selectedTemplate["accept_all_button"]["border-color"];
-      this.accept_all_border_color1 = selectedTemplate["accept_all_button"]["border-color"];
-      this.accept_all_border_color2 = selectedTemplate["accept_all_button"]["border-color"];
-      this.cookie_bar_color = selectedTemplate["styles"]["background-color"];
-      this.cookie_bar_color1 = selectedTemplate["styles"]["background-color"];
-      this.cookie_bar_color2 = selectedTemplate["styles"]["background-color"];
-      this.cookie_bar_border_radius = selectedTemplate["styles"]["border-radius"];
-      this.cookie_bar_border_radius1 = selectedTemplate["styles"]["border-radius"];
-      this.cookie_bar_border_radius2 = selectedTemplate["styles"]["border-radius"];
-      this.multiple_legislation_cookie_bar_color = selectedTemplate["styles"]["background-color"];
-      this.multiple_legislation_cookie_bar_color1 = selectedTemplate["styles"]["background-color"];
-      this.multiple_legislation_cookie_bar_color2 = selectedTemplate["styles"]["background-color"];
-      this.accept_all_background_color = selectedTemplate["accept_all_button"]["background-color"];
-      this.accept_all_background_color1 = selectedTemplate["accept_all_button"]["background-color"];
-      this.accept_all_background_color2 = selectedTemplate["accept_all_button"]["background-color"];
-      this.decline_background_color = selectedTemplate["decline_button"]["background-color"];
-      this.decline_background_color1 = selectedTemplate["decline_button"]["background-color"];
-      this.decline_background_color2 = selectedTemplate["decline_button"]["background-color"];
-      this.settings_background_color = selectedTemplate["settings_button"]["background-color"];
-      this.settings_background_color1 = selectedTemplate["settings_button"]["background-color"];
-      this.settings_background_color2 = selectedTemplate["settings_button"]["background-color"];
-      this.accept_background_color = selectedTemplate["accept_button"]["background-color"];
-      this.accept_background_color1 = selectedTemplate["accept_button"]["background-color"];
-      this.accept_background_color2 = selectedTemplate["accept_button"]["background-color"];
-      this.settings_border_width = selectedTemplates["settings_button"]["border-width"];
-      this.settings_border_width1 = selectedTemplates["settings_button"]["border-width"];
-      this.settings_border_width2 = selectedTemplates["settings_button"]["border-width"];
-      this.settings_border_color = selectedTemplate["settings_button"]["border-color"];
-      this.settings_border_color1 = selectedTemplate["settings_button"]["border-color"];
-      this.settings_border_color2 = selectedTemplate["settings_button"]["border-color"];
-      this.settings_style = selectedTemplate["settings_button"]["border-style"];
-      this.settings_style1 = selectedTemplate["settings_button"]["border-style"];
-      this.settings_style2 = selectedTemplate["settings_button"]["border-style"];
-      this.button_readmore_link_color = selectedTemplate["readmore_button"]["color"];
-      this.button_readmore_link_color1 = selectedTemplate["readmore_button"]["color"];
-      this.button_readmore_link_color2 = selectedTemplate["readmore_button"]["color"];
-      this.settings_text_color = selectedTemplate["settings_button"]["color"];
-      this.settings_text_color1 = selectedTemplate["settings_button"]["color"];
-      this.settings_text_color2 = selectedTemplate["settings_button"]["color"];
-      this.button_revoke_consent_text_color = selectedTemplate["revoke_consent_button"]["color"];
-      this.button_revoke_consent_text_color1 = selectedTemplate["revoke_consent_button"]["color"];
-      this.button_revoke_consent_text_color2 = selectedTemplate["revoke_consent_button"]["color"];
-      this.button_revoke_consent_background_color = selectedTemplate["revoke_consent_button"]["background-color"];
-      this.button_revoke_consent_background_color1 = selectedTemplate["revoke_consent_button"]["background-color"];
-      this.button_revoke_consent_background_color2 = selectedTemplate["revoke_consent_button"]["background-color"];
-      this.multiple_legislation_cookie_text_color = selectedTemplate["styles"]["color"];
-      this.multiple_legislation_cookie_text_color1 = selectedTemplate["styles"]["color"];
-      this.multiple_legislation_cookie_text_color2 = selectedTemplate["styles"]["color"];
-      this.accept_text_color = selectedTemplate["accept_button"]["color"];
-      console.log("DODODO this.accept_text_color is: ", this.accept_text_color);
-      this.accept_text_color1 = selectedTemplate["accept_button"]["color"];
-      this.accept_text_color2 = selectedTemplate["accept_button"]["color"];
-      this.accept_style = selectedTemplate["accept_button"]["border-style"];
-      this.accept_style1 = selectedTemplate["accept_button"]["border-style"];
-      this.accept_style2 = selectedTemplate["accept_button"]["border-style"];
-      this.accept_border_width = selectedTemplate["accept_button"]["border-width"];
-      this.accept_border_width1 = selectedTemplate["accept_button"]["border-width"];
-      this.accept_border_width2 = selectedTemplate["accept_button"]["border-width"];
-      this.accept_border_color = selectedTemplate["accept_button"]["border-color"];
-      this.accept_border_color1 = selectedTemplate["accept_button"]["border-color"];
-      this.accept_border_color2 = selectedTemplate["accept_button"]["border-color"];
-      this.accept_all_style = selectedTemplate["accept_all_button"]["border-style"];
-      this.accept_all_style1 = selectedTemplate["accept_all_button"]["border-style"];
-      this.accept_all_style2 = selectedTemplate["accept_all_button"]["border-style"];
-      this.accept_all_border_width = selectedTemplate["accept_all_button"]["border-width"];
-      this.accept_all_border_width1 = selectedTemplate["accept_all_button"]["border-width"];
-      this.accept_all_border_width2 = selectedTemplate["accept_all_button"]["border-width"];
-      this.cookie_bar_border_width = selectedTemplate["styles"]["border-width"];
-      this.cookie_bar_border_width1 = selectedTemplate["styles"]["border-width"];
-      this.cookie_bar_border_width2 = selectedTemplate["styles"]["border-width"];
-      this.multiple_legislation_cookie_bar_border_radius = selectedTemplate["styles"]["border-radius"];
-      this.multiple_legislation_cookie_bar_border_radius1 = selectedTemplate["styles"]["border-radius"];
-      this.multiple_legislation_cookie_bar_border_radius2 = selectedTemplate["styles"]["border-radius"];
-      this.multiple_legislation_cookie_bar_border_width = selectedTemplate["styles"]["border-width"];
-      this.multiple_legislation_cookie_bar_border_width1 = selectedTemplate["styles"]["border-width"];
-      this.multiple_legislation_cookie_bar_border_width2 = selectedTemplate["styles"]["border-width"];
-      this.multiple_legislation_settings_text_color = selectedTemplate["settings_button"]["color"];
-      this.multiple_legislation_settings_text_color1 = selectedTemplate["settings_button"]["color"];
-      this.multiple_legislation_settings_text_color2 = selectedTemplate["settings_button"]["color"];
-      this.multiple_legislation_decline_text_color = selectedTemplate["decline_button"]["color"];
-      this.multiple_legislation_decline_text_color1 = selectedTemplate["decline_button"]["color"];
-      this.multiple_legislation_decline_text_color2 = selectedTemplate["decline_button"]["color"];
-      this.multiple_legislation_accept_background_color = selectedTemplate["accept_button"]["background-color"];
-      this.multiple_legislation_accept_background_color1 = selectedTemplate["accept_button"]["background-color"];
-      this.multiple_legislation_accept_background_color2 = selectedTemplate["accept_button"]["background-color"];
-      this.multiple_legislation_accept_all_background_color = selectedTemplate["accept_all_button"]["background-color"];
-      this.multiple_legislation_accept_all_background_color1 = selectedTemplate["accept_all_button"]["background-color"];
-      this.multiple_legislation_accept_all_background_color2 = selectedTemplate["accept_all_button"]["background-color"];
-      this.multiple_legislation_decline_border_color = selectedTemplate["decline_button"]["border-color"];
-      this.multiple_legislation_decline_border_color1 = selectedTemplate["decline_button"]["border-color"];
-      this.multiple_legislation_decline_border_color2 = selectedTemplate["decline_button"]["border-color"];
-      this.multiple_legislation_settings_border_color = selectedTemplate["settings_button"]["border-color"];
-      this.multiple_legislation_settings_border_color1 = selectedTemplate["settings_button"]["border-color"];
-      this.multiple_legislation_settings_border_color2 = selectedTemplate["settings_button"]["border-color"];
 
-      this.is_template_changed = true;
-    },
     onTemplateChange(value) {
-      console.log("DODODO template changing..... 1 ......");
-      console.log("DODODO value is: ", value);
-      console.log("DODODO show_cookie_as: ", this.show_cookie_as);
       this.processof_auto_template_generated = false;
       if (this.show_cookie_as === "banner") {
         this.banner_template = value;
