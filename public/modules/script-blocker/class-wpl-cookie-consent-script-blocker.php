@@ -431,6 +431,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 							<input type="hidden" name="gcc-script-dependency-on" v-model="is_script_dependency_on" :disabled="enable_safe">
 						</c-col>
 					</c-row>
+					<c-row v-show="is_script_dependency_on" style="margin-top: -30px;"><c-col class="col-sm-4"></c-col><c-col class="col-sm-8"><p style="color:gray; font-weight:400;"><?php echo esc_html__( 'Follow the guide ', 'gdpr-cookie-consent' ); ?><a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wp-cookie-consent/settings/gdpr-settings-script-blocker-pro/#h-script-dependency' ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'here', 'gdpr-cookie-consent' ); ?></a><?php echo esc_html__( ' to learn more about Script Dependency.', 'gdpr-cookie-consent' ); ?></p></c-col></c-row>
 					<c-row v-show="is_script_dependency_on">
 						<c-col class="col-sm-4"></c-col>
 						<c-col class="col-sm-5">
@@ -745,6 +746,10 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	 * Save script center data.
 	 */
 	public function wpl_ajax_script_save() {
+		// Verify Nonce.
+		if ( ! check_ajax_referer( 'wpl_save_script_nonce', '_wpnonce', false ) ) {
+			wp_send_json_error( array( 'message' => 'Security Check Failed, Unauthorized access' ), 403 );
+		}
 		 // Capability check
 		 if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
