@@ -3094,6 +3094,7 @@ var gen = new Vue({
     cookieTypeChange(value) {
       this.processof_auto_template_generated = false;
       if (value === "banner") {
+        if(this.template == 'blue_full') this.template = 'blue_center';
         this.is_banner = true;
       } else {
         this.is_banner = false;
@@ -3106,7 +3107,6 @@ var gen = new Vue({
       this.cookie_widget_position = value;
     },
     onTemplateChange(value) {
-      this.processof_auto_template_generated = false;
       this.template = value;
       const selectedTemplate = this.json_templates[value];
       this.cookie_bar_color =                       selectedTemplate['styles']['background-color'];
@@ -6199,6 +6199,7 @@ var app = new Vue({
       disableSwitch: false,
       is_template_changed: false,
       is_lang_changed: false,
+      json_templates: json_templates,
       is_logo_removed: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
