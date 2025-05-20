@@ -64,526 +64,353 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 	<!-- Preview banner code restructure -->
 	<div v-show="banner_preview_is_on && show_cookie_as == 'popup'" class="gdpr-popup-overlay" style="background-color: red">
 	</div>
-	<div v-show="banner_preview_is_on && !ab_testing_enabled" class="notice-container" :class="{ 'notice-type-banner': show_cookie_as == 'banner', 'notice-type-popup': show_cookie_as == 'popup', 'notice-type-widget': show_cookie_as == 'widget', 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position == 'bottom' && show_cookie_as == 'banner', 'widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position == 'right' && show_cookie_as == 'widget', 'widget-top-right': cookie_widget_position == 'top_right' && show_cookie_as == 'widget', 'widget-top-left': cookie_widget_position == 'top_left' && show_cookie_as == 'widget' }">
-		<div class="notice-content" :class="'notice-template-' + template"
-		  :style="{
-			'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,
-			'color': cookie_text_color,
-			'border-style': border_style,
-			'border-width': cookie_bar_border_width,
-			'border-radius': cookie_bar_border_radius
-		  }"
-		>
-			<div v-show="ab_testing_enabled" class="notice-logo-container">
-				<div v-if="ab_testing_enabled && active_test_banner_tab == 1">
-				<?php
-					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
-					if ( ! empty( $get_banner_img ) ) {
-					?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+	<?php if ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true' ) { 
+		error_log("DODODO if AB_testing: " . $ab_options['ab_testing_enabled']); ?> 
+		<!-- AB TESTING ENABLED -->
+		<div v-show="banner_preview_is_on && ab_testing_enabled" class="NO_AB notice-container" :class="{ 'notice-type-banner': show_cookie_as == 'banner', 'notice-type-popup': show_cookie_as == 'popup', 'notice-type-widget': show_cookie_as == 'widget', 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position == 'bottom' && show_cookie_as == 'banner', 'widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position == 'right' && show_cookie_as == 'widget', 'widget-top-right': cookie_widget_position == 'top_right' && show_cookie_as == 'widget', 'widget-top-left': cookie_widget_position == 'top_left' && show_cookie_as == 'widget' }">
+			<div v-show="ab_testing_enabled && ( active_test_banner_tab == 1 || active_test_banner_tab == 2 )" class="notice-content" :class="'notice-template-' + template"
+			:style="{
+			  'background-color': this[`cookie_bar_color${active_test_banner_tab}`] + Math.floor(this[`cookie_bar_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase(),
+			  'color': this[`cookie_text_color${active_test_banner_tab}`],
+			  'border-style': this[`border_style${active_test_banner_tab}`],
+			  'border-width': this[`cookie_bar_border_width${active_test_banner_tab}`],
+			  'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`]
+			}"
+			>
+				<div class="notice-logo-container">
+					<div v-if="ab_testing_enabled && active_test_banner_tab == 1">
 					<?php
-				}
-				?>
-				</div>
-				<div v-if="ab_testing_enabled && active_test_banner_tab == 2">
-				<?php
-					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
-					if ( ! empty( $get_banner_img ) ) {
+						$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+						if ( ! empty( $get_banner_img ) ) {
+						?>
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+					}
 					?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-					<?php
-				}
-				?>
-				</div>
-			</div>
-			<div v-show="!ab_testing_enabled" class="notice-logo-container">
-			<?php
-				$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
-				if ( ! empty( $get_banner_img ) ) {
-				?>
-					<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-				<?php
-			}
-			?>
-			</div>	
-			<div class="notice-heading-wrapper">
-				<h3 v-show="is_gdpr && !is_ccpa" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
-				<h3 v-show="is_lgpd" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{lgpd_message_heading}}</h3>
-				<h3 v-show="is_gdpr && is_ccpa" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
-			</div>	
-			<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
-				<p v-show="is_gdpr" v-html="gdpr_message" class="notice-message" :style="{ 'font-family': cookie_font }">
-					<a v-show="button_readmore_is_on && is_gdpr" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
-				</p>
-
-				<p v-show="is_lgpd" class="notice-message" :style="{ 'font-family': cookie_font }">{{lgpd_message}}
-					<a v-show="button_readmore_is_on" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
-				</p>
-
-				<p v-show="is_eprivacy" class="notice-message" :style="{ 'font-family': cookie_font }">{{eprivacy_message}}
-					<a v-show="button_readmore_is_on" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
-				</p>
-
-				<p v-show="is_ccpa" class="notice-message" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ 'font-family': cookie_font }" >{{ccpa_message}} 
-					<a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color,'font-family': cookie_font}">{{opt_out_text}}</a>
-				</p>
-
-				<div v-if="ab_testing_enabled" class="notice-buttons-wrapper">
-					<div class="notice-left-buttons">
-						<a v-show="ab_testing_enabled && ( this[`cookie_decline_on${active_test_banner_tab}`] == 1 || this[`cookie_decline_on${active_test_banner_tab}`] == 2 )"
-						  href="#"
-						  :style="{
-  							  'background-color': this[`decline_as_button${active_test_banner_tab}`] ? `${this[`decline_background_color${active_test_banner_tab}`]}${Math.floor(this[`decline_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': this[`decline_text_color${active_test_banner_tab}`],
-  							  'border-style': this[`decline_style${active_test_banner_tab}`],
-    						  'border-width': this[`decline_border_width${active_test_banner_tab}`] + 'px',
-    						  'border-color': this[`decline_border_color${active_test_banner_tab}`],
-    						  'border-radius': this[`decline_border_radius${active_test_banner_tab}`] + 'px',
-    						  'font-family': this[`cookie_font${active_test_banner_tab}`],
-							  'min-width': '140px',
-  							  'display': 'flex',
-  							  'justify-content': 'center',
-  							  'align-items': 'center',
-  							  'text-align': 'center'
-  							}"
-						>
-						  {{ this[`decline_text${active_test_banner_tab}`] }}
-						</a>
-
-						<a v-show="ab_testing_enabled && ( this[`cookie_settings_on${active_test_banner_tab}`] == 1 || this[`cookie_settings_on${active_test_banner_tab}`] == 2 )"
-						  href="#"
-						  :style="{
-  							  'background-color': this[`settings_as_button${active_test_banner_tab}`] ? `${this[`settings_background_color${active_test_banner_tab}`]}${Math.floor(this[`settings_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': this[`settings_text_color${active_test_banner_tab}`],
-  							  'border-style': this[`settings_style${active_test_banner_tab}`],
-    						  'border-width': this[`settings_border_width${active_test_banner_tab}`] + 'px',
-    						  'border-color': this[`settings_border_color${active_test_banner_tab}`],
-    						  'border-radius': this[`settings_border_radius${active_test_banner_tab}`] + 'px',
-    						  'font-family': this[`cookie_font${active_test_banner_tab}`],
-							  'min-width': '140px',
-  							  'display': 'flex',
-  							  'justify-content': 'center',
-  							  'align-items': 'center',
-  							  'text-align': 'center'
-  							}"
-						>
-						  {{ this[`settings_text${active_test_banner_tab}`] }}
-						</a>
 					</div>
-
-					<div class="notice-right-buttons">
-						<a v-show="ab_testing_enabled && ( this[`cookie_accept_on${active_test_banner_tab}`] == 1 || this[`cookie_accept_on${active_test_banner_tab}`] == 2 )"
-						  href="#"
-						  :style="{
-  							  'background-color': this[`accept_as_button${active_test_banner_tab}`] ? `${this[`accept_background_color${active_test_banner_tab}`]}${Math.floor(this[`accept_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': this[`accept_text_color${active_test_banner_tab}`],
-  							  'border-style': this[`accept_style${active_test_banner_tab}`],
-    						  'border-width': this[`accept_border_width${active_test_banner_tab}`] + 'px',
-    						  'border-color': this[`accept_border_color${active_test_banner_tab}`],
-    						  'border-radius': this[`accept_border_radius${active_test_banner_tab}`] + 'px',
-    						  'font-family': this[`cookie_font${active_test_banner_tab}`],
-							  'min-width': '140px',
-  							  'display': 'flex',
-  							  'justify-content': 'center',
-  							  'align-items': 'center',
-  							  'text-align': 'center'
-  							}"
-						>
-						  {{ this[`accept_text${active_test_banner_tab}`] }}
-						</a>
-						
-						<a v-show="ab_testing_enabled && ( this[`cookie_accept_all_on${active_test_banner_tab}`] == 1 || this[`cookie_accept_all_on${active_test_banner_tab}`] == 2 )"
-						  href="#"
-						  :style="{
-  							  'background-color': this[`accept_all_as_button${active_test_banner_tab}`] ? `${this[`accept_all_background_color${active_test_banner_tab}`]}${Math.floor(this[`accept_all_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': this[`accept_all_text_color${active_test_banner_tab}`],
-  							  'border-style': this[`accept_all_style${active_test_banner_tab}`],
-    						  'border-width': this[`accept_all_border_width${active_test_banner_tab}`] + 'px',
-    						  'border-color': this[`accept_all_border_color${active_test_banner_tab}`],
-    						  'border-radius': this[`accept_all_border_radius${active_test_banner_tab}`] + 'px',
-    						  'font-family': this[`cookie_font${active_test_banner_tab}`],
-							  'min-width': '140px',
-  							  'display': 'flex',
-  							  'justify-content': 'center',
-  							  'align-items': 'center',
-  							  'text-align': 'center'
-  							}"
-						>
-						  {{ this[`accept_all_text${active_test_banner_tab}`] }}
-						</a>
+					<div v-if="ab_testing_enabled && active_test_banner_tab == 2">
+					<?php
+						$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+						if ( ! empty( $get_banner_img ) ) {
+						?>
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+						<?php
+					}
+					?>
 					</div>
 				</div>
-
-				<div v-if="!ab_testing_enabled" class="notice-buttons-wrapper">
-					<div class="notice-left-buttons">
-						<a v-show="cookie_decline_on"
-						  href="#"
-						  :style="{
-  							  'background-color': decline_as_button ? `${decline_background_color}${Math.floor(decline_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': decline_text_color,
-  							  'border-style': decline_style,
-  							  'border-width': decline_border_width + 'px',
-  							  'border-color': decline_border_color,
-  							  'border-radius': decline_border_radius + 'px',
-  							  'font-family': cookie_font,
-  							  'display': 'flex',
-  							  'justify-content': 'center',
-  							  'align-items': 'center',
-  							  'text-align': 'center'
-  							}"
-						>
-						  {{ decline_text }}
+				
+				<div class="notice-heading-wrapper">
+					<h3 v-show="is_gdpr && !is_ccpa" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
+					<h3 v-show="is_lgpd" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{lgpd_message_heading}}</h3>
+					<h3 v-show="is_gdpr && is_ccpa" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
+				</div>	
+				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
+					<p v-show="is_gdpr" v-html="gdpr_message" class="notice-message" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }">
+						<a v-show="button_readmore_is_on && is_gdpr" href="#" class="notice-message-link" 
+						:class="{
+    	 				  'btn': this[`button_readmore_as_button${active_test_banner_tab}`],
+    	 				  'button-as-link': !this[`button_readmore_as_button${active_test_banner_tab}`],
+    	 				  'btn-lg': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'large',
+    	 				  'btn-sm': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'small'
+    	 				}"
+    	 				:style="{
+    	 				  'font-family': this[`cookie_font${active_test_banner_tab}`],
+    	 				  'color': this[`button_readmore_link_color${active_test_banner_tab}`],
+    	 				  'border-style': this[`button_readmore_button_border_style${active_test_banner_tab}`],
+    	 				  'border-width': this[`button_readmore_button_border_width${active_test_banner_tab}`] ? this[`button_readmore_button_border_width${active_test_banner_tab}`] + 'px' : '0',
+    	 				  'border-color': this[`button_readmore_button_border_color${active_test_banner_tab}`],
+    	 				  'border-radius': this[`button_readmore_button_border_radius${active_test_banner_tab}`] + 'px',
+    	 				  'background-color': this[`button_readmore_as_button${active_test_banner_tab}`]
+    	 				    ? this[`button_readmore_button_color${active_test_banner_tab}`] + Math.floor(this[`button_readmore_button_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()
+    	 				    : 'transparent'
+    	 				}">
+							{{button_readmore_text}}
 						</a>
+					</p>
 
-						<a v-show="cookie_settings_on" 
-						  href="#"
-						  :style="{
-  							  'background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': settings_text_color,
-  							  'border-style': settings_style,
-  							  'border-width': settings_border_width + 'px',
-  							  'border-color': settings_border_color,
-  							  'border-radius': settings_border_radius + 'px',
-  							  'font-family': cookie_font,
-  							  'display': 'flex',
-  							  'justify-content': 'center',
-  							  'align-items': 'center',
-  							  'text-align': 'center'
-  							}"
-						>
-							{{ settings_text }}
-						</a>
-					</div>
-
-					<div class="notice-right-buttons">
-						<a v-show="cookie_accept_on" 
-						  href="#"
-						  :style="{
-  							  'background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': accept_text_color,
-  							  'border-style': accept_style,
-  							  'border-width': accept_border_width + 'px',
-  							  'border-color': accept_border_color,
-  							  'border-radius': accept_border_radius + 'px',
-  							  'font-family': cookie_font,
-  							  'display': 'flex',
-  							  'justify-content': 'center',
-  							  'align-items': 'center',
-  							  'text-align': 'center'
-  							}"
-						>
-							{{ accept_text }}
-						</a>
-						<a v-show="cookie_accept_all_on" 
-						  href="#"
-						  :style="{
-  							  'background-color': accept_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': accept_all_text_color,
-  							  'border-style': accept_all_style,
-  							  'border-width': accept_all_border_width + 'px',
-  							  'border-color': accept_all_border_color,
-  							  'border-radius': accept_all_border_radius + 'px',
-  							  'font-family': cookie_font,
-  							  'display': 'flex',
-  							  'justify-content': 'center',
-  							  'align-items': 'center',
-  							  'text-align': 'center'
-  							}"
-						>
-							{{ accept_all_text }}
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- AB TESTING ENABLED -->
-	<div v-show="banner_preview_is_on && ab_testing_enabled" class="notice-container" :class="{ 'notice-type-banner': show_cookie_as == 'banner', 'notice-type-popup': show_cookie_as == 'popup', 'notice-type-widget': show_cookie_as == 'widget', 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position == 'bottom' && show_cookie_as == 'banner', 'widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position == 'right' && show_cookie_as == 'widget', 'widget-top-right': cookie_widget_position == 'top_right' && show_cookie_as == 'widget', 'widget-top-left': cookie_widget_position == 'top_left' && show_cookie_as == 'widget' }">
-		<div v-show="ab_testing_enabled && ( active_test_banner_tab == 1 || active_test_banner_tab == 2 )" class="notice-content" :class="'notice-template-' + template"
-		:style="{
-		  'background-color': this[`cookie_bar_color${active_test_banner_tab}`] + Math.floor(this[`cookie_bar_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase(),
-		  'color': this[`cookie_text_color${active_test_banner_tab}`],
-		  'border-style': this[`border_style${active_test_banner_tab}`],
-		  'border-width': this[`cookie_bar_border_width${active_test_banner_tab}`],
-		  'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`]
-		}"
-		>
-			<div class="notice-logo-container">
-				<div v-if="ab_testing_enabled && active_test_banner_tab == 1">
-				<?php
-					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
-					if ( ! empty( $get_banner_img ) ) {
-					?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-					<?php
-				}
-				?>
-				</div>
-				<div v-if="ab_testing_enabled && active_test_banner_tab == 2">
-				<?php
-					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
-					if ( ! empty( $get_banner_img ) ) {
-					?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
-					<?php
-				}
-				?>
-				</div>
-			</div>
-	
-			<div class="notice-heading-wrapper">
-				<h3 v-show="is_gdpr && !is_ccpa" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
-				<h3 v-show="is_lgpd" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{lgpd_message_heading}}</h3>
-				<h3 v-show="is_gdpr && is_ccpa" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
-			</div>	
-			<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
-				<p v-show="is_gdpr" v-html="gdpr_message" class="notice-message" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }">
+					<p v-show="is_lgpd" class="notice-message" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }">{{lgpd_message}}
 					<a v-show="button_readmore_is_on && is_gdpr" href="#" class="notice-message-link" 
-					:class="{
-     				  'btn': this[`button_readmore_as_button${active_test_banner_tab}`],
-     				  'button-as-link': !this[`button_readmore_as_button${active_test_banner_tab}`],
-     				  'btn-lg': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'large',
-     				  'btn-sm': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'small'
-     				}"
-     				:style="{
-     				  'font-family': this[`cookie_font${active_test_banner_tab}`],
-     				  'color': this[`button_readmore_link_color${active_test_banner_tab}`],
-     				  'border-style': this[`button_readmore_button_border_style${active_test_banner_tab}`],
-     				  'border-width': this[`button_readmore_button_border_width${active_test_banner_tab}`] ? this[`button_readmore_button_border_width${active_test_banner_tab}`] + 'px' : '0',
-     				  'border-color': this[`button_readmore_button_border_color${active_test_banner_tab}`],
-     				  'border-radius': this[`button_readmore_button_border_radius${active_test_banner_tab}`] + 'px',
-     				  'background-color': this[`button_readmore_as_button${active_test_banner_tab}`]
-     				    ? this[`button_readmore_button_color${active_test_banner_tab}`] + Math.floor(this[`button_readmore_button_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()
-     				    : 'transparent'
-     				}">
-						{{button_readmore_text}}
-					</a>
-				</p>
-
-				<p v-show="is_lgpd" class="notice-message" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }">{{lgpd_message}}
-				<a v-show="button_readmore_is_on && is_gdpr" href="#" class="notice-message-link" 
-					:class="{
-     				  'btn': this[`button_readmore_as_button${active_test_banner_tab}`],
-     				  'button-as-link': !this[`button_readmore_as_button${active_test_banner_tab}`],
-     				  'btn-lg': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'large',
-     				  'btn-sm': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'small'
-     				}"
-     				:style="{
-     				  'font-family': this[`cookie_font${active_test_banner_tab}`],
-     				  'color': this[`button_readmore_link_color${active_test_banner_tab}`],
-     				  'border-style': this[`button_readmore_button_border_style${active_test_banner_tab}`],
-     				  'border-width': this[`button_readmore_button_border_width${active_test_banner_tab}`] ? this[`button_readmore_button_border_width${active_test_banner_tab}`] + 'px' : '0',
-     				  'border-color': this[`button_readmore_button_border_color${active_test_banner_tab}`],
-     				  'border-radius': this[`button_readmore_button_border_radius${active_test_banner_tab}`] + 'px',
-     				  'background-color': this[`button_readmore_as_button${active_test_banner_tab}`]
-     				    ? this[`button_readmore_button_color${active_test_banner_tab}`] + Math.floor(this[`button_readmore_button_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()
-     				    : 'transparent'
-     				}">
-						{{button_readmore_text}}
-					</a>
-				</p>
-
-				<p v-show="is_eprivacy" class="notice-message" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }">{{eprivacy_message}}
-				<a v-show="button_readmore_is_on && is_gdpr" href="#" class="notice-message-link" 
-					:class="{
-     				  'btn': this[`button_readmore_as_button${active_test_banner_tab}`],
-     				  'button-as-link': !this[`button_readmore_as_button${active_test_banner_tab}`],
-     				  'btn-lg': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'large',
-     				  'btn-sm': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'small'
-     				}"
-     				:style="{
-     				  'font-family': this[`cookie_font${active_test_banner_tab}`],
-     				  'color': this[`button_readmore_link_color${active_test_banner_tab}`],
-     				  'border-style': this[`button_readmore_button_border_style${active_test_banner_tab}`],
-     				  'border-width': this[`button_readmore_button_border_width${active_test_banner_tab}`] ? this[`button_readmore_button_border_width${active_test_banner_tab}`] + 'px' : '0',
-     				  'border-color': this[`button_readmore_button_border_color${active_test_banner_tab}`],
-     				  'border-radius': this[`button_readmore_button_border_radius${active_test_banner_tab}`] + 'px',
-     				  'background-color': this[`button_readmore_as_button${active_test_banner_tab}`]
-     				    ? this[`button_readmore_button_color${active_test_banner_tab}`] + Math.floor(this[`button_readmore_button_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()
-     				    : 'transparent'
-     				}">
-						{{button_readmore_text}}
-					</a>				
-				</p>
-
-				<p v-show="is_ccpa" class="notice-message" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }" >{{ccpa_message}} 
-					<a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color,'font-family': cookie_font}">{{opt_out_text}}</a>
-				</p>
-
-				<div v-if="ab_testing_enabled" class="notice-buttons-wrapper">
-					<div class="notice-left-buttons">
-						<a v-show="ab_testing_enabled && ( this[`cookie_decline_on${active_test_banner_tab}`] == 1 || this[`cookie_decline_on${active_test_banner_tab}`] == 2 )"
-						  href="#"
-						  :style="{
-  							  'background-color': this[`decline_as_button${active_test_banner_tab}`] ? `${this[`decline_background_color${active_test_banner_tab}`]}${Math.floor(this[`decline_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': this[`decline_text_color${active_test_banner_tab}`],
-  							  'border-style': this[`decline_style${active_test_banner_tab}`],
-    						  'border-width': this[`decline_border_width${active_test_banner_tab}`] + 'px',
-    						  'border-color': this[`decline_border_color${active_test_banner_tab}`],
-    						  'border-radius': this[`decline_border_radius${active_test_banner_tab}`] + 'px',
-    						  'font-family': this[`cookie_font${active_test_banner_tab}`],
-							  'min-width': json_templates[template]?.['decline_button']?.['min-width'],
-  							  'display': json_templates[template]?.['decline_button']?.['display'],
-  							  'justify-content': json_templates[template]?.['decline_button']?.['justify-content'],
-  							  'align-items': json_templates[template]?.['decline_button']?.['align-items'],
-  							  'text-align': json_templates[template]?.['decline_button']?.['text-align']
-  							}"
-						>
-						  {{ this[`decline_text${active_test_banner_tab}`] }}
+						:class="{
+    	 				  'btn': this[`button_readmore_as_button${active_test_banner_tab}`],
+    	 				  'button-as-link': !this[`button_readmore_as_button${active_test_banner_tab}`],
+    	 				  'btn-lg': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'large',
+    	 				  'btn-sm': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'small'
+    	 				}"
+    	 				:style="{
+    	 				  'font-family': this[`cookie_font${active_test_banner_tab}`],
+    	 				  'color': this[`button_readmore_link_color${active_test_banner_tab}`],
+    	 				  'border-style': this[`button_readmore_button_border_style${active_test_banner_tab}`],
+    	 				  'border-width': this[`button_readmore_button_border_width${active_test_banner_tab}`] ? this[`button_readmore_button_border_width${active_test_banner_tab}`] + 'px' : '0',
+    	 				  'border-color': this[`button_readmore_button_border_color${active_test_banner_tab}`],
+    	 				  'border-radius': this[`button_readmore_button_border_radius${active_test_banner_tab}`] + 'px',
+    	 				  'background-color': this[`button_readmore_as_button${active_test_banner_tab}`]
+    	 				    ? this[`button_readmore_button_color${active_test_banner_tab}`] + Math.floor(this[`button_readmore_button_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()
+    	 				    : 'transparent'
+    	 				}">
+							{{button_readmore_text}}
 						</a>
+					</p>
 
-						<a v-show="ab_testing_enabled && ( this[`cookie_settings_on${active_test_banner_tab}`] == 1 || this[`cookie_settings_on${active_test_banner_tab}`] == 2 )"
-						  href="#"
-						  :style="{
-  							  'background-color': this[`settings_as_button${active_test_banner_tab}`] ? `${this[`settings_background_color${active_test_banner_tab}`]}${Math.floor(this[`settings_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': this[`settings_text_color${active_test_banner_tab}`],
-  							  'border-style': this[`settings_style${active_test_banner_tab}`],
-    						  'border-width': this[`settings_border_width${active_test_banner_tab}`] + 'px',
-    						  'border-color': this[`settings_border_color${active_test_banner_tab}`],
-    						  'border-radius': this[`settings_border_radius${active_test_banner_tab}`] + 'px',
-    						  'font-family': this[`cookie_font${active_test_banner_tab}`],
-							  'min-width': json_templates[template]?.['settings_button']?.['min-width'],
-  							  'display': json_templates[template]?.['settings_button']?.['display'],
-  							  'justify-content': json_templates[template]?.['settings_button']?.['justify-content'],
-  							  'align-items': json_templates[template]?.['settings_button']?.['align-items'],
-  							  'text-align': json_templates[template]?.['settings_button']?.['text-align']
-  							}"
-						>
-						  {{ this[`settings_text${active_test_banner_tab}`] }}
-						</a>
-					</div>
+					<p v-show="is_eprivacy" class="notice-message" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }">{{eprivacy_message}}
+					<a v-show="button_readmore_is_on && is_gdpr" href="#" class="notice-message-link" 
+						:class="{
+    	 				  'btn': this[`button_readmore_as_button${active_test_banner_tab}`],
+    	 				  'button-as-link': !this[`button_readmore_as_button${active_test_banner_tab}`],
+    	 				  'btn-lg': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'large',
+    	 				  'btn-sm': this[`button_readmore_as_button${active_test_banner_tab}`] && this[`button_readmore_button_size${active_test_banner_tab}`] === 'small'
+    	 				}"
+    	 				:style="{
+    	 				  'font-family': this[`cookie_font${active_test_banner_tab}`],
+    	 				  'color': this[`button_readmore_link_color${active_test_banner_tab}`],
+    	 				  'border-style': this[`button_readmore_button_border_style${active_test_banner_tab}`],
+    	 				  'border-width': this[`button_readmore_button_border_width${active_test_banner_tab}`] ? this[`button_readmore_button_border_width${active_test_banner_tab}`] + 'px' : '0',
+    	 				  'border-color': this[`button_readmore_button_border_color${active_test_banner_tab}`],
+    	 				  'border-radius': this[`button_readmore_button_border_radius${active_test_banner_tab}`] + 'px',
+    	 				  'background-color': this[`button_readmore_as_button${active_test_banner_tab}`]
+    	 				    ? this[`button_readmore_button_color${active_test_banner_tab}`] + Math.floor(this[`button_readmore_button_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()
+    	 				    : 'transparent'
+    	 				}">
+							{{button_readmore_text}}
+						</a>				
+					</p>
 
-					<div class="notice-right-buttons">
-						<a v-show="ab_testing_enabled && ( this[`cookie_accept_on${active_test_banner_tab}`] == 1 || this[`cookie_accept_on${active_test_banner_tab}`] == 2 )"
-						  href="#"
-						  :style="{
-  							  'background-color': this[`accept_as_button${active_test_banner_tab}`] ? `${this[`accept_background_color${active_test_banner_tab}`]}${Math.floor(this[`accept_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': this[`accept_text_color${active_test_banner_tab}`],
-  							  'border-style': this[`accept_style${active_test_banner_tab}`],
-    						  'border-width': this[`accept_border_width${active_test_banner_tab}`] + 'px',
-    						  'border-color': this[`accept_border_color${active_test_banner_tab}`],
-    						  'border-radius': this[`accept_border_radius${active_test_banner_tab}`] + 'px',
-    						  'font-family': this[`cookie_font${active_test_banner_tab}`],
-							  'min-width': json_templates[template]?.['accept_button']?.['min-width'],
-  							  'display': json_templates[template]?.['accept_button']?.['display'],
-  							  'justify-content': json_templates[template]?.['accept_button']?.['justify-content'],
-  							  'align-items': json_templates[template]?.['accept_button']?.['align-items'],
-  							  'text-align': json_templates[template]?.['accept_button']?.['text-align']
-  							}"
-						>
-						  {{ this[`accept_text${active_test_banner_tab}`] }}
-						</a>
-						
-						<a v-show="ab_testing_enabled && ( this[`cookie_accept_all_on${active_test_banner_tab}`] == 1 || this[`cookie_accept_all_on${active_test_banner_tab}`] == 2 )"
-						  href="#"
-						  :style="{
-  							  'background-color': this[`accept_all_as_button${active_test_banner_tab}`] ? `${this[`accept_all_background_color${active_test_banner_tab}`]}${Math.floor(this[`accept_all_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': this[`accept_all_text_color${active_test_banner_tab}`],
-  							  'border-style': this[`accept_all_style${active_test_banner_tab}`],
-    						  'border-width': this[`accept_all_border_width${active_test_banner_tab}`] + 'px',
-    						  'border-color': this[`accept_all_border_color${active_test_banner_tab}`],
-    						  'border-radius': this[`accept_all_border_radius${active_test_banner_tab}`] + 'px',
-    						  'font-family': this[`cookie_font${active_test_banner_tab}`],
-							  'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
-  							  'display': json_templates[template]?.['accept_all_button']?.['display'],
-  							  'justify-content': json_templates[template]?.['accept_all_button']?.['justify-content'],
-  							  'align-items': json_templates[template]?.['accept_all_button']?.['align-items'],
-  							  'text-align': json_templates[template]?.['accept_all_button']?.['text-align']
-  							}"
-						>
-						  {{ this[`accept_all_text${active_test_banner_tab}`] }}
-						</a>
-					</div>
+					<p v-show="is_ccpa" class="notice-message" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`] }" >{{ccpa_message}} 
+						<a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color,'font-family': cookie_font}">{{opt_out_text}}</a>
+					</p>
+
+					<div v-if="ab_testing_enabled" class="notice-buttons-wrapper">
+						<div class="notice-left-buttons">
+							<a v-show="ab_testing_enabled && ( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_decline_on${active_test_banner_tab}`]"
+							  href="#"
+							  :style="{
+								  'background-color': this[`decline_as_button${active_test_banner_tab}`]
+								    ? `${this[`decline_background_color${active_test_banner_tab}`]}${Math.floor(this[`decline_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}`
+								    : 'transparent',
+  								  'color': this[`decline_text_color${active_test_banner_tab}`],
+  								  'border-style': this[`decline_style${active_test_banner_tab}`],
+    							  'border-width': this[`decline_border_width${active_test_banner_tab}`] + 'px',
+    							  'border-color': this[`decline_border_color${active_test_banner_tab}`],
+    							  'border-radius': this[`decline_border_radius${active_test_banner_tab}`] + 'px',
+    							  'font-family': this[`cookie_font${active_test_banner_tab}`],
+								  'min-width': json_templates[template]?.['decline_button']?.['min-width'],
+  								  'display': json_templates[template]?.['decline_button']?.['display'],
+  								  'justify-content': json_templates[template]?.['decline_button']?.['justify-content'],
+  								  'align-items': json_templates[template]?.['decline_button']?.['align-items'],
+  								  'text-align': json_templates[template]?.['decline_button']?.['text-align']
+  								}"
+							>
+							  {{ this[`decline_text${active_test_banner_tab}`] }}
+							</a>
+
+							<a v-show="ab_testing_enabled && ( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_settings_on${active_test_banner_tab}`]"
+							  href="#"
+							  :style="{
+								  'background-color': this[`settings_as_button${active_test_banner_tab}`]
+								    ? `${this[`settings_background_color${active_test_banner_tab}`]}${Math.floor(this[`settings_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}`
+								    : 'transparent',
+  								  'color': this[`settings_text_color${active_test_banner_tab}`],
+  								  'border-style': this[`settings_style${active_test_banner_tab}`],
+    							  'border-width': this[`settings_border_width${active_test_banner_tab}`] + 'px',
+    							  'border-color': this[`settings_border_color${active_test_banner_tab}`],
+    							  'border-radius': this[`settings_border_radius${active_test_banner_tab}`] + 'px',
+    							  'font-family': this[`cookie_font${active_test_banner_tab}`],
+								  'min-width': json_templates[template]?.['settings_button']?.['min-width'],
+  								  'display': json_templates[template]?.['settings_button']?.['display'],
+  								  'justify-content': json_templates[template]?.['settings_button']?.['justify-content'],
+  								  'align-items': json_templates[template]?.['settings_button']?.['align-items'],
+  								  'text-align': json_templates[template]?.['settings_button']?.['text-align']
+  								}"
+							>
+							  {{ this[`settings_text${active_test_banner_tab}`] }}
+							</a>
+						</div>
+
+						<div class="notice-right-buttons">
+							<a v-show="ab_testing_enabled && ( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_accept_on${active_test_banner_tab}`]"
+							  href="#"
+							  :style="{
+								  'background-color': this[`accept_as_button${active_test_banner_tab}`]
+								    ? `${this[`accept_background_color${active_test_banner_tab}`]}${Math.floor(this[`accept_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}`
+								    : 'transparent',
+  								  'color': this[`accept_text_color${active_test_banner_tab}`],
+  								  'border-style': this[`accept_style${active_test_banner_tab}`],
+    							  'border-width': this[`accept_border_width${active_test_banner_tab}`] + 'px',
+    							  'border-color': this[`accept_border_color${active_test_banner_tab}`],
+    							  'border-radius': this[`accept_border_radius${active_test_banner_tab}`] + 'px',
+    							  'font-family': this[`cookie_font${active_test_banner_tab}`],
+								  'min-width': json_templates[template]?.['accept_button']?.['min-width'],
+  								  'display': json_templates[template]?.['accept_button']?.['display'],
+  								  'justify-content': json_templates[template]?.['accept_button']?.['justify-content'],
+  								  'align-items': json_templates[template]?.['accept_button']?.['align-items'],
+  								  'text-align': json_templates[template]?.['accept_button']?.['text-align']
+  								}"
+							>
+							  {{ this[`accept_text${active_test_banner_tab}`] }}
+							</a>
+
+							<a v-show="ab_testing_enabled && ( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_accept_all_on${active_test_banner_tab}`]"
+							  href="#"
+							  :style="{
+								  'background-color': this[`accept_all_as_button${active_test_banner_tab}`]
+								    ? `${this[`accept_all_background_color${active_test_banner_tab}`]}${Math.floor(this[`accept_all_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}`
+								    : 'transparent',
+  								  'color': this[`accept_all_text_color${active_test_banner_tab}`],
+  								  'border-style': this[`accept_all_style${active_test_banner_tab}`],
+    							  'border-width': this[`accept_all_border_width${active_test_banner_tab}`] + 'px',
+    							  'border-color': this[`accept_all_border_color${active_test_banner_tab}`],
+    							  'border-radius': this[`accept_all_border_radius${active_test_banner_tab}`] + 'px',
+    							  'font-family': this[`cookie_font${active_test_banner_tab}`],
+								  'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
+  								  'display': json_templates[template]?.['accept_all_button']?.['display'],
+  								  'justify-content': json_templates[template]?.['accept_all_button']?.['justify-content'],
+  								  'align-items': json_templates[template]?.['accept_all_button']?.['align-items'],
+  								  'text-align': json_templates[template]?.['accept_all_button']?.['text-align']
+  								}"
+							>
+							  {{ this[`accept_all_text${active_test_banner_tab}`] }}
+							</a>
+						</div>
+					</div>			
 				</div>
+			</div>
+		</div>
+	<?php } elseif ( $ab_options['ab_testing_enabled'] === false || $ab_options['ab_testing_enabled'] === 'false' ) { 
+		error_log("DODODO else AB_testing: " . $ab_options['ab_testing_enabled']); ?>
+		<div v-show="banner_preview_is_on && !ab_testing_enabled" class="AB notice-container" :class="{ 'notice-type-banner': show_cookie_as == 'banner', 'notice-type-popup': show_cookie_as == 'popup', 'notice-type-widget': show_cookie_as == 'widget', 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position == 'bottom' && show_cookie_as == 'banner', 'widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position == 'right' && show_cookie_as == 'widget', 'widget-top-right': cookie_widget_position == 'top_right' && show_cookie_as == 'widget', 'widget-top-left': cookie_widget_position == 'top_left' && show_cookie_as == 'widget' }">
+			<div class="notice-content" :class="'notice-template-' + template"
+			  :style="{
+				'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,
+				'color': cookie_text_color,
+				'border-style': border_style,
+				'border-width': cookie_bar_border_width,
+				'border-radius': cookie_bar_border_radius
+			  }"
+			>
+				<div v-show="!ab_testing_enabled" class="notice-logo-container">
+				<?php
+					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+					if ( ! empty( $get_banner_img ) ) {
+					?>
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+					<?php
+				}
+				?>
+				</div>	
+				<div class="notice-heading-wrapper">
+					<h3 v-show="is_gdpr && !is_ccpa" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
+					<h3 v-show="is_lgpd" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{lgpd_message_heading}}</h3>
+					<h3 v-show="is_gdpr && is_ccpa" class="notice-heading" :style="{ 'font-family': cookie_font , 'color': 'inherit'}">{{gdpr_message_heading}}</h3>
+				</div>	
+				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
+					<p v-show="is_gdpr" v-html="gdpr_message" class="notice-message" :style="{ 'font-family': cookie_font }">
+						<a v-show="button_readmore_is_on && is_gdpr" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+					</p>
 
-				<div v-if="!ab_testing_enabled" class="notice-buttons-wrapper">
-					<div class="notice-left-buttons">
-						<a v-show="cookie_decline_on"
-						  href="#"
-						  :style="{
-  							  'background-color': decline_as_button ? `${decline_background_color}${Math.floor(decline_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': decline_text_color,
-  							  'border-style': decline_style,
-  							  'border-width': decline_border_width + 'px',
-  							  'border-color': decline_border_color,
-  							  'border-radius': decline_border_radius + 'px',
-  							  'font-family': cookie_font,
-							  'min-width': json_templates[template]?.['decline_button']?.['min-width'],
-  							  'display': json_templates[template]?.['decline_button']?.['display'],
-  							  'justify-content': json_templates[template]?.['decline_button']?.['justify-content'],
-  							  'align-items': json_templates[template]?.['decline_button']?.['align-items'],
-  							  'text-align': json_templates[template]?.['decline_button']?.['text-align']
-  							}"
-						>
-						  {{ decline_text }}
-						</a>
+					<p v-show="is_lgpd" class="notice-message" :style="{ 'font-family': cookie_font }">{{lgpd_message}}
+						<a v-show="button_readmore_is_on" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+					</p>
 
-						<a v-show="cookie_settings_on" 
-						  href="#"
-						  :style="{
-  							  'background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': settings_text_color,
-  							  'border-style': settings_style,
-  							  'border-width': settings_border_width + 'px',
-  							  'border-color': settings_border_color,
-  							  'border-radius': settings_border_radius + 'px',
-  							  'font-family': cookie_font,
-							  'min-width': json_templates[template]?.['settings_button']?.['min-width'],
-  							  'display': json_templates[template]?.['settings_button']?.['display'],
-  							  'justify-content': json_templates[template]?.['settings_button']?.['justify-content'],
-  							  'align-items': json_templates[template]?.['settings_button']?.['align-items'],
-  							  'text-align': json_templates[template]?.['settings_button']?.['text-align']
-  							}"
-						>
-							{{ settings_text }}
-						</a>
-					</div>
+					<p v-show="is_eprivacy" class="notice-message" :style="{ 'font-family': cookie_font }">{{eprivacy_message}}
+						<a v-show="button_readmore_is_on" href="#" class="notice-message-link" :class="{ 'btn': button_readmore_as_button,'button-as-link':!button_readmore_as_button,  'btn-lg': button_readmore_as_button && button_readmore_button_size === 'large','btn-sm': button_readmore_as_button && button_readmore_button_size === 'small' }" :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }">{{button_readmore_text}}</a>
+					</p>
 
-					<div class="notice-right-buttons">
-						<a v-show="cookie_accept_on" 
-						  href="#"
-						  :style="{
-  							  'background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': accept_text_color,
-  							  'border-style': accept_style,
-  							  'border-width': accept_border_width + 'px',
-  							  'border-color': accept_border_color,
-  							  'border-radius': accept_border_radius + 'px',
-  							  'font-family': cookie_font,
-							  'min-width': json_templates[template]?.['accept_button']?.['min-width'],
-  							  'display': json_templates[template]?.['accept_button']?.['display'],
-  							  'justify-content': json_templates[template]?.['accept_button']?.['justify-content'],
-  							  'align-items': json_templates[template]?.['accept_button']?.['align-items'],
-  							  'text-align': json_templates[template]?.['accept_button']?.['text-align']
-  							}"
-						>
-							{{ accept_text }}
-						</a>
-						<a v-show="cookie_accept_all_on" 
-						  href="#"
-						  :style="{
-  							  'background-color': accept_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
-  							  'color': accept_all_text_color,
-  							  'border-style': accept_all_style,
-  							  'border-width': accept_all_border_width + 'px',
-  							  'border-color': accept_all_border_color,
-  							  'border-radius': accept_all_border_radius + 'px',
-  							  'font-family': cookie_font,
-							  'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
-  							  'display': json_templates[template]?.['accept_all_button']?.['display'],
-  							  'justify-content': json_templates[template]?.['accept_all_button']?.['justify-content'],
-  							  'align-items': json_templates[template]?.['accept_all_button']?.['align-items'],
-  							  'text-align': json_templates[template]?.['accept_all_button']?.['text-align']
-  							}"
-						>
-							{{ accept_all_text }}
-						</a>
+					<p v-show="is_ccpa" class="notice-message" :class="{'ccpa-center-text':show_cookie_as == 'banner' && gdpr_policy != 'both' }" :style="{ 'font-family': cookie_font }" >{{ccpa_message}} 
+						<a href="#" class="ccpa_link_button_preview" :style="{'color':opt_out_text_color,'font-family': cookie_font}">{{opt_out_text}}</a>
+					</p>
+
+					<div v-if="!ab_testing_enabled" class="notice-buttons-wrapper">
+						<div class="notice-left-buttons">
+							<?php error_log("DODODO AB is OFF, Decline button is: " . $the_options['button_decline_is_on']);
+							error_log("DODODO AB is OFF, Settings button is: " . $the_options['button_settings_is_on']); ?>
+
+							<a v-show="!ab_testing_enabled && cookie_decline_on"
+							  href="#"
+							  :style="{
+  								  'background-color': decline_as_button ? `${decline_background_color}${Math.floor(decline_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
+  								  'color': decline_text_color,
+  								  'border-style': decline_style,
+  								  'border-width': decline_border_width + 'px',
+  								  'border-color': decline_border_color,
+  								  'border-radius': decline_border_radius + 'px',
+  								  'font-family': cookie_font,
+								  'min-width': json_templates[template]?.['decline_button']?.['min-width'],
+  								  'display': json_templates[template]?.['decline_button']?.['display'],
+  								  'justify-content': json_templates[template]?.['decline_button']?.['justify-content'],
+  								  'align-items': json_templates[template]?.['decline_button']?.['align-items'],
+  								  'text-align': json_templates[template]?.['decline_button']?.['text-align']
+  								}"
+							>
+							  {{ decline_text }}
+							</a>
+
+							<a v-show="!ab_testing_enabled && cookie_settings_on" 
+							  href="#"
+							  :style="{
+  								  'background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
+  								  'color': settings_text_color,
+  								  'border-style': settings_style,
+  								  'border-width': settings_border_width + 'px',
+  								  'border-color': settings_border_color,
+  								  'border-radius': settings_border_radius + 'px',
+  								  'font-family': cookie_font,
+								  'min-width': json_templates[template]?.['settings_button']?.['min-width'],
+  								  'display': json_templates[template]?.['settings_button']?.['display'],
+  								  'justify-content': json_templates[template]?.['settings_button']?.['justify-content'],
+  								  'align-items': json_templates[template]?.['settings_button']?.['align-items'],
+  								  'text-align': json_templates[template]?.['settings_button']?.['text-align']
+  								}"
+							>
+								{{ settings_text }}
+							</a>
+						</div>
+
+						<div class="notice-right-buttons">
+							<a v-show="!ab_testing_enabled && cookie_accept_on" 
+							  href="#"
+							  :style="{
+  								  'background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
+  								  'color': accept_text_color,
+  								  'border-style': accept_style,
+  								  'border-width': accept_border_width + 'px',
+  								  'border-color': accept_border_color,
+  								  'border-radius': accept_border_radius + 'px',
+  								  'font-family': cookie_font,
+								  'min-width': json_templates[template]?.['accept_button']?.['min-width'],
+  								  'display': json_templates[template]?.['accept_button']?.['display'],
+  								  'justify-content': json_templates[template]?.['accept_button']?.['justify-content'],
+  								  'align-items': json_templates[template]?.['accept_button']?.['align-items'],
+  								  'text-align': json_templates[template]?.['accept_button']?.['text-align']
+  								}"
+							>
+								{{ accept_text }}
+							</a>
+
+							<a v-show="!ab_testing_enabled && cookie_accept_all_on" 
+							  href="#"
+							  :style="{
+  								  'background-color': accept_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
+  								  'color': accept_all_text_color,
+  								  'border-style': accept_all_style,
+  								  'border-width': accept_all_border_width + 'px',
+  								  'border-color': accept_all_border_color,
+  								  'border-radius': accept_all_border_radius + 'px',
+  								  'font-family': cookie_font,
+								  'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
+  								  'display': json_templates[template]?.['accept_all_button']?.['display'],
+  								  'justify-content': json_templates[template]?.['accept_all_button']?.['justify-content'],
+  								  'align-items': json_templates[template]?.['accept_all_button']?.['align-items'],
+  								  'text-align': json_templates[template]?.['accept_all_button']?.['text-align']
+  								}"
+							>
+								{{ accept_all_text }}
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	<?php } ?>
 	
 	<c-container class="gdpr-cookie-consent-settings-container">
 		<c-form id="gcc-save-settings-form" method="post" spellcheck="false" class="gdpr-cookie-consent-settings-form">
