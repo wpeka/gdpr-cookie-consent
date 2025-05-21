@@ -33,7 +33,6 @@ $api_user_plan          = $this->settings->get_plan();
 $no_of_pages_scan       = get_option( 'gdpr_no_of_page_scan' );
 $total_pages_scan_limit = 100;
 $template_view_type = $the_options['cookie_bar_as'];
-error_log("DODODO template_view_type is: " . $template_view_type);
 $active_banner = 1;
 
 if ( $api_user_plan == 'free' ) {
@@ -64,20 +63,26 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 	<!-- Preview banner code restructure -->
 	<div v-show="banner_preview_is_on && show_cookie_as == 'popup'" class="gdpr-popup-overlay">
 	</div>
-	<?php if ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true' ) { 
-		error_log("DODODO if AB_testing: " . $ab_options['ab_testing_enabled']); ?> 
+	<?php if ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true' ) { ?> 
 		<!-- AB TESTING ENABLED -->
-		<div v-show="banner_preview_is_on" class="notice-container" :class="{ 'notice-type-banner': show_cookie_as == 'banner', 'notice-type-popup': show_cookie_as == 'popup', 'notice-type-widget': show_cookie_as == 'widget', 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position == 'bottom' && show_cookie_as == 'banner', 'widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position == 'right' && show_cookie_as == 'widget', 'widget-top-right': cookie_widget_position == 'top_right' && show_cookie_as == 'widget', 'widget-top-left': cookie_widget_position == 'top_left' && show_cookie_as == 'widget' }">
+		<div v-show="banner_preview_is_on" class="notice-container" :class="{ 'notice-type-banner': show_cookie_as == 'banner', 'notice-type-popup': show_cookie_as == 'popup', 'notice-type-widget': show_cookie_as == 'widget', 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position == 'bottom' && show_cookie_as == 'banner', 'widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position == 'right' && show_cookie_as == 'widget', 'widget-top-right': cookie_widget_position == 'top_right' && show_cookie_as == 'widget', 'widget-top-left': cookie_widget_position == 'top_left' && show_cookie_as == 'widget' }"
+		  :style="{
+		  	'background-color': this[`cookie_bar_color${active_test_banner_tab}`] + Math.floor(this[`cookie_bar_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase(),
+			'color': this[`cookie_text_color${active_test_banner_tab}`],
+		  	'border-style': this[`border_style${active_test_banner_tab}`],
+			'border-width': this[`cookie_bar_border_width${active_test_banner_tab}`] + 'px',
+			'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`] + 'px',
+			'border-color': this[`cookie_border_color${active_test_banner_tab}`]
+		  }"
+		>
 			<div v-show="ab_testing_enabled && ( active_test_banner_tab == 1 || active_test_banner_tab == 2 )" class="notice-content" :class="'notice-template-' + template"
 			:style="{
 			  'background-color': this[`cookie_bar_color${active_test_banner_tab}`] + Math.floor(this[`cookie_bar_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase(),
 			  'color': this[`cookie_text_color${active_test_banner_tab}`],
-			  'border-style': this[`border_style${active_test_banner_tab}`],
-			  'border-width': this[`cookie_bar_border_width${active_test_banner_tab}`],
-			  'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`]
+			  'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`] + 'px',
 			}"
 			>
-			<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': '10px', 'right': '10px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">x</button>
+			<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">x</button>
 				<div class="notice-logo-container">
 					<div v-if="active_test_banner_tab == 1">
 					<?php
@@ -164,12 +169,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-radius': this[`decline_border_radius${active_test_banner_tab}`] + 'px',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_decline_on${active_test_banner_tab}`] ? {
-  								    'min-width': json_templates[template]?.['decline_button']?.['min-width'],
-  								    'display': json_templates[template]?.['decline_button']?.['display'],
-  								    'justify-content': json_templates[template]?.['decline_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['decline_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['decline_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${active_test_banner_tab == '1' ? decline_size1 : decline_size2}_padding`]
+  								    'min-width': json_templates[template]['decline_button']['min-width'],
+									'width': json_templates[template]['decline_button']?.['width'],
+  								    'display': json_templates[template]['decline_button']['display'],
+  								    'justify-content': json_templates[template]['decline_button']['justify-content'],
+  								    'align-items': json_templates[template]['decline_button']['align-items'],
+  								    'text-align': json_templates[template]['decline_button']['text-align'],
+									'padding': json_templates[template]['static-settings'][`button_${active_test_banner_tab == '1' ? decline_size1 : decline_size2}_padding`]
   								  } : {})
   								}"
 							>
@@ -189,8 +195,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-radius': this[`settings_border_radius${active_test_banner_tab}`] + 'px',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_settings_on${active_test_banner_tab}`] ? {
-  								    'min-width': json_templates[template]?.['settings_button']?.['min-width'],
-  								    'display': json_templates[template]?.['settings_button']?.['display'],
+  								    'min-width': json_templates[template]?.['settings_button']['min-width'],
+									'width': json_templates[template]?.['settings_button']?.['width'],
+  								    'display': json_templates[template]?.['settings_button']['display'],
   								    'justify-content': json_templates[template]?.['settings_button']?.['justify-content'],
   								    'align-items': json_templates[template]?.['settings_button']?.['align-items'],
   								    'text-align': json_templates[template]?.['settings_button']?.['text-align'],
@@ -217,6 +224,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_accept_on${active_test_banner_tab}`] ? {
   								    'min-width': json_templates[template]?.['accept_button']?.['min-width'],
+									'width': json_templates[template]['accept_button']?.['width'],
   								    'display': json_templates[template]?.['accept_button']?.['display'],
   								    'justify-content': json_templates[template]?.['accept_button']?.['justify-content'],
   								    'align-items': json_templates[template]?.['accept_button']?.['align-items'],
@@ -242,6 +250,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_accept_all_on${active_test_banner_tab}`] ? {
   								    'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
+									'width': json_templates[template]['accept_all_button']?.['width'],
   								    'display': json_templates[template]?.['accept_all_button']?.['display'],
   								    'justify-content': json_templates[template]?.['accept_all_button']?.['justify-content'],
   								    'align-items': json_templates[template]?.['accept_all_button']?.['align-items'],
@@ -257,19 +266,19 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				</div>
 			</div>
 		</div>
-	<?php } elseif ( $ab_options['ab_testing_enabled'] === false || $ab_options['ab_testing_enabled'] === 'false' ) { 
-		error_log("DODODO else AB_testing: " . $ab_options['ab_testing_enabled']); ?>
+	<?php } elseif ( $ab_options['ab_testing_enabled'] === false || $ab_options['ab_testing_enabled'] === 'false' ) { ?>
 		<div v-show="banner_preview_is_on" class="notice-container" :class="{ 'notice-type-banner': show_cookie_as == 'banner', 'notice-type-popup': show_cookie_as == 'popup', 'notice-type-widget': show_cookie_as == 'widget', 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position == 'bottom' && show_cookie_as == 'banner', 'widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position == 'right' && show_cookie_as == 'widget', 'widget-top-right': cookie_widget_position == 'top_right' && show_cookie_as == 'widget', 'widget-top-left': cookie_widget_position == 'top_left' && show_cookie_as == 'widget' }">
 			<div class="notice-content" :class="'notice-template-' + template"
 			  :style="{
 				'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,
 				'color': cookie_text_color,
 				'border-style': border_style,
-				'border-width': cookie_bar_border_width,
-				'border-radius': cookie_bar_border_radius
+				'border-width': cookie_bar_border_width + 'px',
+				'border-radius': cookie_bar_border_radius + 'px',
+				'border-color': cookie_border_color
 			  }"
 			>
-				<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': '10px', 'right': '10px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">x</button>
+				<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">x</button>
 				<div class="notice-logo-container">
 				<?php
 					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
@@ -316,9 +325,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 					<div class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
 						<div class="notice-left-buttons">
-							<?php error_log("DODODO AB is OFF, Decline button is: " . $the_options['button_decline_is_on']);
-							error_log("DODODO AB is OFF, Settings button is: " . $the_options['button_settings_is_on']); ?>
-
 							<a v-show="cookie_decline_on"
 							  href="#"
 							  :style="{
@@ -331,6 +337,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'font-family': cookie_font,
 								  ...(cookie_decline_on ? {
   								    'min-width': json_templates[template]?.['decline_button']?.['min-width'],
+									'width': json_templates[template]?.['decline_button']?.['width'],
   								    'display': json_templates[template]?.['decline_button']?.['display'],
   								    'justify-content': json_templates[template]?.['decline_button']?.['justify-content'],
   								    'align-items': json_templates[template]?.['decline_button']?.['align-items'],
@@ -354,6 +361,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'font-family': cookie_font,
 								  ...(cookie_settings_on ? {
   								    'min-width': json_templates[template]?.['settings_button']?.['min-width'],
+									'width': json_templates[template]?.['settings_button']?.['width'],
   								    'display': json_templates[template]?.['settings_button']?.['display'],
   								    'justify-content': json_templates[template]?.['settings_button']?.['justify-content'],
   								    'align-items': json_templates[template]?.['settings_button']?.['align-items'],
@@ -379,7 +387,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'font-family': cookie_font,
 								  ...(cookie_accept_on ? {
   								    'min-width': json_templates[template]?.['accept_button']?.['min-width'],
-  								    'display': json_templates[template]?.['accept_button']?.['display'],
+									'width': json_templates[template]?.['accept_button']?.['width'],
+  								    'display': json_templates[template]?.['accept_button']['display'],
   								    'justify-content': json_templates[template]?.['accept_button']?.['justify-content'],
   								    'align-items': json_templates[template]?.['accept_button']?.['align-items'],
   								    'text-align': json_templates[template]?.['accept_button']?.['text-align'],
@@ -402,6 +411,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'font-family': cookie_font,
 								  ...(cookie_accept_all_on ? {
   								    'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
+									'width': json_templates[template]['accept_all_button']?.['width'],
   								    'display': json_templates[template]?.['accept_all_button']?.['display'],
   								    'justify-content': json_templates[template]?.['accept_all_button']?.['justify-content'],
   								    'align-items': json_templates[template]?.['accept_all_button']?.['align-items'],
