@@ -40,15 +40,7 @@ if ( $api_user_plan == 'free' ) {
 } else {
 	$total_pages_scan_limit = 20000;
 }
-
-// $json_path = plugin_dir_path(__FILE__) . '../includes/templates/template.json';
-// if (file_exists($json_path)) {
-// 	$json_data = file_get_contents($json_path);
-// 	$json_templates = json_decode($json_data, true);
-// } else {
-// 	$json_templates = [];
-// }
-// ?>
+?>
 
 <?php
 $gdpr_no_of_page_scan_left       = $total_pages_scan_limit - get_option( 'gdpr_no_of_page_scan' );
@@ -58,7 +50,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 <div id="gdpr-before-mount" style="top:0;left:0;right:0;left:0;height:100%;width:100%;position:fixed;background-color:white;z-index:999"></div>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-settings-app">
 	<!-- main preview container -->
-
+	<div v-if="banner_preview_is_on">
+		<?php require plugin_dir_path( __FILE__ ) . 'templates/skin/cookie_settings.php'; ?>
+	</div>
 
 	<!-- Preview banner code restructure -->
 	<div v-show="banner_preview_is_on && show_cookie_as == 'popup'" class="gdpr-popup-overlay">
@@ -82,7 +76,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			  'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`] + 'px',
 			}"
 			>
-			<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">x</button>
+			<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">
+				<span class="dashicons dashicons-no"></span>
+			</button>
 				<div class="notice-logo-container">
 					<div v-if="active_test_banner_tab == 1">
 					<?php
@@ -183,6 +179,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</a>
 
 							<a v-show="( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_settings_on${active_test_banner_tab}`]"
+							  id="cookie_action_settings_preview"
 							  href="#"
 							  :style="{
 								  'background-color': this[`settings_as_button${active_test_banner_tab}`]
@@ -278,7 +275,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				'border-color': cookie_border_color
 			  }"
 			>
-				<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">x</button>
+				<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">
+					<span class="dashicons dashicons-no"></span>
+				</button>
 				<div class="notice-logo-container">
 				<?php
 					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
@@ -349,7 +348,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  {{ decline_text }}
 							</a>
 
-							<a v-show="cookie_settings_on" 
+							<a v-show="cookie_settings_on" id="cookie_action_settings_preview"
 							  href="#"
 							  :style="{
   								  'background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}` : 'transparent',

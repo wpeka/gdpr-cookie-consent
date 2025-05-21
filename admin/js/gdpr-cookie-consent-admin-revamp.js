@@ -979,8 +979,17 @@ jQuery(document).ready(function () {
   }
 
   jQuery(document).ready(function ($) {
+    $(".cookie-settings-popup-close").click(function () {
+      $(".gdpr_messagebar_detail").addClass("hide-popup");
+    });
+    $(".cookie-settings-popup-save").click(function () {
+      $(".gdpr_messagebar_detail").addClass("hide-popup");
+    });
     $("#cookie_action_settings_preview").click(function () {
+      $(".gdpr_messagebar_detail").removeClass("hide-popup");
+      console.log("DODODO Cookie Settings clicked.");
       if ("true" === $("#gdpr-cookie-consent-iabtcf-on").attr("value")) {
+        console.log("DODODO true");
         $(".gdpr_messagebar_detail .gdpr-about-cookies").css("display", "none");
         $(".gdpr_messagebar_detail .gdpr-about-cookies.iabtcf").css(
           "display",
@@ -997,6 +1006,7 @@ jQuery(document).ready(function () {
         $(".gdpr_messagebar_detail .outer-container").css("display", "block");
       }
       if ("false" === $("#gdpr-cookie-consent-iabtcf-on").attr("value")) {
+        console.log("DODODO false");
         $(".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar").css(
           "display",
           "none"
