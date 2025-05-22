@@ -348,7 +348,7 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 == Change Log ==
 
 = 3.8.2 =
-* Fix: Bug fixes and improvements.
+* Fix: Fixed minor issue with Maxmind integration.
 
 = 3.8.1 =
 * Improvement: Option to define dependencies between scripts for improved integration and script loading control.
@@ -796,7 +796,7 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 == Upgrade Notice ==
 
 = 3.8.2 =
-* Fix: Bug fixes and improvements.
+* Fix: Fixed minor issue with Maxmind integration.
 
 = 3.8.1 =
 * Improvement: Option to define dependencies between scripts for improved integration and script loading control.
