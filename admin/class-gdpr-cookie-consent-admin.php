@@ -3840,6 +3840,7 @@ class Gdpr_Cookie_Consent_Admin {
 					foreach ($template['styles'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $styles_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
+					$styles_attr .= "position: relative;";
 
 					$accept_style_attr = '';
 					foreach ($template['accept_button'] as $key => $value) {
@@ -3881,6 +3882,7 @@ class Gdpr_Cookie_Consent_Admin {
 				?>
 				<div :class=" 'gdpr-right-field template-type-' + show_cookie_as ">
 						<div style = "<?php echo esc_attr($styles_attr); ?>" class="cookie_notice_content">
+							<button style="border: none; height:20px; width: 20px; position: absolute; top: 10px; right: 10px; border-radius: 50%; background-color: <?php echo $template['accept_button']['background-color'] ?>; color: <?php echo $template['accept_button']['color']; ?>;">x</button>
 							<?php
 								if($active_banner == 1) {
 									$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );

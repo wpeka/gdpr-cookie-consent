@@ -1095,7 +1095,8 @@ class Gdpr_Cookie_Consent_Public {
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
 
 			$chosenBanner = $this->chosenBanner;
-			include plugin_dir_path( __FILE__ ) . 'templates/default.php';
+			// include plugin_dir_path( __FILE__ ) . 'templates/default.php';
+			include plugin_dir_path(__FILE__) . 'templates/cookie-notice.php';
 			?>
 			<style>
 				.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
@@ -1103,21 +1104,6 @@ class Gdpr_Cookie_Consent_Public {
 				.gdpr_messagebar_detail .category-group .toggle-group .checkbox input:checked+label {
 					background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
 				}
-
-				.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
-					background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
-				}
-				/* .gdpr_messagebar_detail.dark_row .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.dark_row .gdprmodal-dialog .gdprmodal-body .close,
-				.gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.navy_blue_center .gdprmodal-dialog .gdprmodal-body .close,
-				.gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.navy_blue_square .gdprmodal-dialog .gdprmodal-body .close,
-				.gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.navy_blue_box .gdprmodal-dialog .gdprmodal-body .close{
-					background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
-				} */
 			</style>
 			<?php
 

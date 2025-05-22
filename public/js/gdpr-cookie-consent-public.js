@@ -1491,19 +1491,7 @@ banner.style.display = "none";
               GDPR.bar_config["position"] = "unset";
               GDPR.bar_config["box-shadow"] = "unset";
               GDPR.bar_config["background-color"] = "unset";
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "background-color",
-                background
-              );
-              jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "border-radius",
-                GDPR.settings.background_border_radius + "px"
-              );
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "box-shadow",
-                GDPR.settings.background + " 0 0 8px"
-              );
+              
             }
             GDPR.bar_elm.css(GDPR.bar_config).hide();
             GDPR.show_again_elm.css(GDPR.show_config).hide();
@@ -3919,19 +3907,7 @@ banner.style.display = "none";
             this.bar_config["position"] = "unset";
             this.bar_config["box-shadow"] = "unset";
             this.bar_config["background-color"] = "unset";
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "background-color",
-              background
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "border-radius",
-              this.settings.background_border_radius + "px"
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "box-shadow",
-              this.settings.background + " 0 0 8px"
-            );
+            
           }
           this.bar_elm.css(this.bar_config).hide();
           this.show_again_elm.css(this.show_config).hide();
@@ -4016,19 +3992,7 @@ banner.style.display = "none";
             this.bar_config["position"] = "unset";
             this.bar_config["box-shadow"] = "unset";
             this.bar_config["background-color"] = "unset";
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "background-color",
-              background
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "border-radius",
-              this.settings.background_border_radius + "px"
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "box-shadow",
-              this.settings.background + " 0 0 8px"
-            );
+            
           }
           this.bar_elm.css(this.bar_config).hide();
           this.show_again_elm.css(this.show_config).hide();
@@ -4110,19 +4074,7 @@ banner.style.display = "none";
             this.bar_config["position"] = "unset";
             this.bar_config["box-shadow"] = "unset";
             this.bar_config["background-color"] = "unset";
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "background-color",
-              background
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "border-radius",
-              this.settings.background_border_radius + "px"
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "box-shadow",
-              this.settings.background + " 0 0 8px"
-            );
+            
           }
           this.bar_elm.css(this.bar_config).hide();
           this.show_again_elm.css(this.show_config).hide();
@@ -4208,19 +4160,7 @@ banner.style.display = "none";
             this.bar_config["position"] = "unset";
             this.bar_config["box-shadow"] = "unset";
             this.bar_config["background-color"] = "unset";
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "background-color",
-              background
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "border-radius",
-              this.settings.background_border_radius1 + "px"
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "box-shadow",
-              this.settings.background + " 0 0 8px"
-            );
+            
           }
 
           this.bar_elm.css(this.bar_config).hide();
@@ -4306,19 +4246,7 @@ banner.style.display = "none";
             this.bar_config["position"] = "unset";
             this.bar_config["box-shadow"] = "unset";
             this.bar_config["background-color"] = "unset";
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "background-color",
-              background
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "border-radius",
-              this.settings.background_border_radius2 + "px"
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "box-shadow",
-              this.settings.background + " 0 0 8px"
-            );
+            
           }
 
           this.bar_elm.css(this.bar_config).hide();
@@ -5079,19 +5007,7 @@ banner.style.display = "none";
               this.bar_config["position"] = "unset";
               this.bar_config["box-shadow"] = "unset";
               this.bar_config["background-color"] = "unset";
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "background-color",
-                background
-              );
-              jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "border-radius",
-                this.settings.background_border_radius + "px"
-              );
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "box-shadow",
-                this.settings.background + " 0 0 8px"
-              );
+              
             }
             // this.bar_elm.css(this.bar_config).hide();
             // this.show_again_elm.css(this.show_config).hide();

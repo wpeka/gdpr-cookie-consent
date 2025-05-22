@@ -813,7 +813,7 @@ ul.gdpr_sub_tab li:first-child {
 .gdpr-templates-field-container .gdpr-template-field .gdpr-left-field .form-group {
   margin-bottom: 0 !important;
 }
-.gdpr-templates-field-container .gdpr-template-field .gdpr-right-field {
+.gdpr-templates-field-container .gdpr-template-field .gdpr-right-field .cookie_notice_content {
   box-shadow: rgb(191 191 191 / 35%) 6px 6px 20px 4px;
 }
 .gdpr-templates-field-container .gdpr-template-field .gdpr-right-field.template-type-banner {
