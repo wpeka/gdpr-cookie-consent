@@ -46,12 +46,28 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	public function ajax_get_gcm_status() {
 		$data = get_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD);
 		if ( isset($data['wpl_gcm_latest_scan_result']) && $data['wpl_gcm_latest_scan_result'] !== '' ) {
-			wp_send_json_success(json_decode($data['wpl_gcm_latest_scan_result']));
+			$getting_data = json_decode($data['wpl_gcm_latest_scan_result']);
+			$this->settings = new GDPR_Cookie_Consent_Settings();
+			$api_user_email         = $this->settings->get_email();
+			$response_gcm_status_mail = wp_remote_post(
+				GDPR_API_URL . 'send_gcm_status_mail',
+				array(
+					'body' => array(
+						'gcm_scan_data'			  => $data['wpl_gcm_latest_scan_result'],
+						'site_admin_mail'		  => $api_user_email
+					),
+					'timeout' => 60,
+				)
+			);
 			$data['wpl_gcm_latest_scan_result'] = '';
 			update_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $data);
- 		} else {
+			wp_send_json_success($getting_data);
+
+		} else {
 			wp_send_json_error(['message' => 'not_ready']);
 		}
+
+			
 	}
 
 	/**
