@@ -3936,10 +3936,6 @@ class Gdpr_Cookie_Consent_Admin {
 									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
 									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
-								<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="gdpr_message_heading.length>0">{{ccpa_message_heading}}</h3>
-								<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="gdpr_message_heading.length>0">{{eprivacy_message_heading}}</h3>
 								<?php endif; ?>
 								<div class="<?php echo esc_attr($template['static-settings']['layout']);?>">
 									<p>
@@ -6342,14 +6338,6 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		?>
 		<style>
-			.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
-			.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input:checked+label,
-			.gdpr_messagebar_detail .category-group .toggle-group .checkbox input:checked+label {
-				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
-			}
-			.gdprmodal-dialog .gdprmodal-footer button {
-				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> ;
-			}
 
 			.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
 			#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
@@ -6436,14 +6424,7 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		?>
 		<style>
-			.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
-			.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input:checked+label,
-			.gdpr_messagebar_detail .category-group .toggle-group .checkbox input:checked+label {
-				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
-			}
-			.gdprmodal-dialog .gdprmodal-footer button {
-				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> ;
-			}
+
 
 			.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
 			#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
@@ -7250,15 +7231,6 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		?>
 		<style>
-			.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
-			.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input:checked+label,
-			.gdpr_messagebar_detail .category-group .toggle-group .checkbox input:checked+label {
-				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
-			}
-			.gdprmodal-dialog .gdprmodal-footer button {
-				background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> ;
-			}
-
 			.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
 			#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
 				background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> ;

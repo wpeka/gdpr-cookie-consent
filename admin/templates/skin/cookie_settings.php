@@ -47,13 +47,21 @@
     }
     $allFeaturesFlag = false;    
 ?>
-<div class="gdpr_messagebar_detail layout-classic hide-popup" :class="'settings-template-' + template" style="position: absolute; z-index: 9999999999;">
+<div class="gdpr_messagebar_detail layout-classic hide-popup" :class="'settings-template-' + template" style="position: absolute; z-index: 9999999999;" :style="{ '--accept-bg-color': accept_background_color }">
    <div class="gdprmodal gdprfade gdprshow" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="false" aria-gdprmodal="true" style="padding-right: 15px; display: block;">
 	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
 		<!-- Modal content-->
-		<div class="gdprmodal-content">
+		<div class="gdprmodal-content" 
+      :style="{
+         'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,
+         'color': cookie_text_color,
+			'border-style': border_style,
+			'border-width': cookie_bar_border_width + 'px',
+			'border-radius': cookie_bar_border_radius + 'px',
+			'border-color': cookie_border_color
+         }">
 			<div class="gdprmodal-header">
-				<button type="button" class="cookie-settings-popup-close" data-dismiss="gdprmodal" data-gdpr_action="close">
+				<button type="button" class="cookie-settings-popup-close" data-dismiss="gdprmodal" data-gdpr_action="close" :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">
 					<span class="dashicons dashicons-no"></span>
 				</button>
 			</div>
@@ -63,14 +71,45 @@
                      <div class="gdpr-about-cookies">Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.</div>
 					      <div class="gdpr-about-cookies iabtcf">Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest. The choices you make regarding the purposes and entities listed in this notice are saved in a cookie named wpl_tc_string for a maximum duration of 12 months.</div>
                      <ul class="gdpr-iab-navbar">
-                        <li class="gdpr-iab-navbar-item" id="gdprIABTabCategory"><button class="gdpr-iab-navbar-button active">Cookie Categories</button></li>
-                        <li class="gdpr-iab-navbar-item" id="gdprIABTabFeatures"><button class="gdpr-iab-navbar-button">Purposes and Features</button></li>
-                        <li class="gdpr-iab-navbar-item" id="gdprIABTabVendors"><button class="gdpr-iab-navbar-button">Vendors</button></li>
+                        <li class="gdpr-iab-navbar-item" id="gdprIABTabCategory">
+                           <button class="gdpr-iab-navbar-button"
+                              :class="{ active: isCategoryActive }"
+                              @click="selectTab('category')"
+                              :style="{ 
+                                 'color': isCategoryActive ? accept_background_color : '',
+                                 'border-bottom': isCategoryActive ? '2px solid ' + accept_background_color : ''
+                              }"
+                           >Cookie Categories</button>
+                        </li>
+                        <li class="gdpr-iab-navbar-item" id="gdprIABTabFeatures">
+                           <button class="gdpr-iab-navbar-button"
+                              :class="{ active: isFeaturesActive }"
+                              @click="selectTab('features')"
+                              :style="{ 
+                                 'color': isFeaturesActive ? accept_background_color : '',
+                                 'border-bottom': isFeaturesActive ? '2px solid ' + accept_background_color : ''
+                              }"
+                           >Purposes and Features</button>
+                        </li>
+                        <li class="gdpr-iab-navbar-item" id="gdprIABTabVendors">
+                           <button class="gdpr-iab-navbar-button"
+                              :class="{ active: isVendorsActive }"
+                              @click="selectTab('vendors')"
+                              :style="{ 
+                                 'color': isVendorsActive ? accept_background_color : '',
+                                 'border-bottom': isVendorsActive ? '2px solid ' + accept_background_color : ''
+                              }"
+                           >Vendors</button>
+                        </li>
                      </ul>
                      <ul class="cat category-group tabContainer">
                         <li class="category-item">
                            <div class="toggle-group">
-                              <div class="always-active">Always Active</div>
+                              <div class="always-active"
+                                 :style="{
+                                    'color': accept_background_color
+                                 }"
+                              >Always Active</div>
                               <input id="gdpr_messagebar_body_button_necessary" type="hidden" name="gdpr_messagebar_body_button_necessary" value="necessary">
                            </div>
                            <div class="gdpr-column gdpr-category-toggle default">
@@ -85,7 +124,7 @@
                               <div class="category-cookies-list-container">
                               </div>
                            </div>
-                           <hr>
+                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
                         </li>
                         <li class="category-item">
                            <div class="toggle-group">
@@ -112,7 +151,7 @@
                               <div class="category-cookies-list-container">
                               </div>
                            </div>
-                           <hr>
+                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
                         </li>
                         <li class="category-item">
                            <div class="toggle-group">
@@ -139,7 +178,7 @@
                               <div class="category-cookies-list-container">
                               </div>
                            </div>
-                           <hr>
+                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
                         </li>
                         <li class="category-item">
                            <div class="toggle-group">
@@ -166,7 +205,7 @@
                               <div class="category-cookies-list-container">
                               </div>
                            </div>
-                           <hr>
+                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
                         </li>
                         <li class="category-item">
                            <div class="toggle-group">
@@ -193,7 +232,7 @@
                               <div class="category-cookies-list-container">
                               </div>
                            </div>
-                           <hr>
+                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
                         </li>
                      </ul>
                      <ul class="category-group feature-group tabContainer">
@@ -299,7 +338,7 @@
                                     foreach ( $values as $key => $value ) {
                                     	?>
                                  <li class="category-item">
-                                    <hr>
+                                    <hr :style="{'border-top': '1px solid ' + accept_background_color}">
                                     <?php
                                        if( $display ) {
                                        ?>
@@ -376,7 +415,7 @@
                                        <div class="group-description" tabindex="0">
                                           <!-- Uncomment this later -->
                                           <div class="gdpr-ad-purpose-details">
-                                             <p class="gdpr-ad-purpose-details-desc"><?php echo esc_html__( $value->description, 'gdpr-cookie-consent' );?></p>
+                                             <p class="gdpr-ad-purpose-details-desc" :style="{'color': cookie_text_color}"><?php echo esc_html__( $value->description, 'gdpr-cookie-consent' );?></p>
                                              <?php if($value->illustrations) {?>
                                              <div class="gdpr-ad-purpose-illustrations">
                                                 <p class="gdpr-ad-purpose-illustrations-title"><?php echo esc_html__( "Illustrations", 'gdpr-cookie-consent' );  ?></p>
@@ -389,7 +428,7 @@
                                                 </ul>
                                              </div>
                                              <?php } ?>
-                                             <p class="gdpr-ad-purpose-vendor-count-wrapper">
+                                             <p class="gdpr-ad-purpose-vendor-count-wrapper" :style="{'color': cookie_text_color}">
                                                 <?php
                                                    if(!$legInt) echo "Number of vendors seeking consent: ".$count[$key];
                                                    else echo "Number of Vendors seeking consent or relying on legitimate interest: ".$count[$key]+$legintcount[$key];
@@ -404,7 +443,7 @@
                                     ?>
                               </ul>
                            </div>
-                           <hr>
+                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
                         </li>
                         <?php
                            }
@@ -455,7 +494,7 @@
                                     	
                                     	?>
                                  <li class="category-item">
-                                    <hr>
+                                    <hr :style="{'border-top': '1px solid ' + accept_background_color}">
                                     <div class="toggle-group">
                                        <div class="vendor-switch-wrapper">
                                           <?php
@@ -523,7 +562,7 @@
                                     <div class="inner-description-container hide">
                                        <div class="group-description" tabindex="0">
                                           <div class="gdpr-ad-purpose-details">
-                                             <div class="gdpr-vendor-wrapper">
+                                             <div class="gdpr-vendor-wrapper" :style="{'color': cookie_text_color}">
                                                 <p class="gdpr-vendor-privacy-link">
                                                    <span class="gdpr-vendor-privacy-link-title"><?php echo esc_html("Privacy Policy: ", "gdpr-cookie-consent");?></span>
                                                    <a href=<?php echo $vendor->urls[0]->privacy;?> target="_blank" rel="noopener noreferrer" aria-label="Privacy Policy"><?php echo $vendor->urls[0]->privacy;?></a>
@@ -571,7 +610,7 @@
                                     ?>
                               </ul>
                            </div>
-                           <hr>
+                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
                         </li>
                         <?php
                            }
@@ -624,7 +663,7 @@
 																	if($vendor[0] != null) {
 																		?>
 																		<li class="category-item">
-																		<hr>
+																		<hr :style="{'border-top': '1px solid ' + accept_background_color}">
 																				<div class="toggle-group bottom-toggle">
 																					<div class="vendor-switch-wrapper">
 																						<div class="vendor-consent-switch-wrapper">
@@ -683,7 +722,7 @@
 										}}?>
 															</ul>
 												</div>
-										<hr>
+										<hr :style="{'border-top': '1px solid ' + accept_background_color}">
 									</li>
 										<?php
 									}
@@ -695,7 +734,16 @@
 				</div>
 			</div>
 			<div class="gdprmodal-footer">
-				<button type="button" class="cookie-settings-popup-save" data-gdpr_action="accept" data-dismiss="gdprmodal" >Save And Accept</button>
+				<button type="button" class="cookie-settings-popup-save" data-gdpr_action="accept" data-dismiss="gdprmodal"
+            :style="{
+               'background-color': accept_background_color,
+  					'color': accept_text_color,
+  					'border-style': accept_style,
+  					'border-width': accept_border_width + 'px',
+  					'border-color': accept_border_color,
+  					'border-radius': accept_border_radius + 'px',
+               'padding': '12px 29px',
+            }" >Save And Accept</button>
 			</div>
 		</div>
 	</div>

@@ -2342,6 +2342,10 @@ var gen = new Vue({
       preview_analysis: false,
       preview_preference: false,
       preview_unclassified: false,
+
+      isCategoryActive: true,
+      isFeaturesActive: false,
+      isVendorsActive: false
     };
   },
 
@@ -3131,7 +3135,14 @@ var gen = new Vue({
     cookiewidgetPositionChange(value) {
       this.cookie_widget_position = value;
     },
-
+    selectTab(tabName) {
+      this.isCategoryActive  = (tabName === 'category');
+      this.isFeaturesActive  = (tabName === 'features');
+      this.isVendorsActive   = (tabName === 'vendors');
+    },
+    turnOffPreviewBanner() {
+      this.banner_preview_is_on = false;
+    },
     onTemplateChange(value) {
       this.processof_auto_template_generated = false;
       this.template = value;
@@ -8258,6 +8269,11 @@ var app = new Vue({
           1 === settings_obj.the_options["is_selectedCountry_on"])
           ? true
           : false,
+
+      
+      isCategoryActive: true,
+      isFeaturesActive: false,
+      isVendorsActive: false
     };
   },
   methods: {
@@ -8844,6 +8860,14 @@ var app = new Vue({
           }
         }.bind(this)
       );
+    },
+    selectTab(tabName) {
+      this.isCategoryActive  = (tabName === 'category');
+      this.isFeaturesActive  = (tabName === 'features');
+      this.isVendorsActive   = (tabName === 'vendors');
+    },
+    turnOffPreviewBanner() {
+      this.banner_preview_is_on = false;
     },
     onTemplateChange(value) {
       this.processof_auto_template_generated = false;
