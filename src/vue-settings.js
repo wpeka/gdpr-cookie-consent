@@ -3170,12 +3170,6 @@ var gen = new Vue({
     turnOffPreviewBanner() {
       this.banner_preview_is_on = false;
     },
-    showCookieSettingsPopup() {
-      const cookieSettingsPopup = document.getElementsByClassName("gdpr_messagebar_detail");
-      for (let i = 0; i < cookieSettingsPopup.length; i++) {
-        cookieSettingsPopup[i].classList.remove("hide-popup");
-      }
-    },
     onTemplateChange(value) {
       this.template = value;
       const selectedTemplate = this.json_templates[value];
@@ -3485,6 +3479,14 @@ var gen = new Vue({
         this.gdpr_about_cookie_message =
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
+
+      this.success_error_message = "Law Updated. Save Changes Please.";
+      j("#gdpr-cookie-consent-save-settings-alert").css(
+        "background-color",
+        "#72b85c"
+      );
+      j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
     },
 
     onSwitchDefaultCookieBar() {
@@ -8903,53 +8905,6 @@ var app = new Vue({
     turnOffPreviewBanner() {
       this.banner_preview_is_on = false;
     },
-    // showCookieSettingsPopup() {
-    //   document.querySelectorAll(".gdpr_messagebar_detail").forEach(el =>
-    //     el.classList.remove("hide-popup")
-    //   );
-  
-    //   if (this.iabtcf_is_on) {
-    //     console.log("DODODO iab is true");
-  
-    //     document.querySelectorAll(".gdpr_messagebar_detail .gdpr-about-cookies").forEach(el =>
-    //       el.style.display = "none"
-    //     );
-    //     document.querySelectorAll(".gdpr_messagebar_detail .gdpr-about-cookies.iabtcf").forEach(el =>
-    //       el.style.display = "block"
-    //     );
-    //     document.querySelectorAll(".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar").forEach(el =>
-    //       el.style.display = "flex"
-    //     );
-    //     document.querySelectorAll(
-    //       ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar #gdprIABTabFeatures, " +
-    //       ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar #gdprIABTabVendors"
-    //     ).forEach(el => el.style.display = "list-item");
-  
-    //     document.querySelectorAll(".gdpr_messagebar_detail .outer-container").forEach(el =>
-    //       el.style.display = "block"
-    //     );
-    //   } else {
-    //     console.log("DODODO iab is false");
-  
-    //     document.querySelectorAll(".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar").forEach(el =>
-    //       el.style.display = "none"
-    //     );
-    //     document.querySelectorAll(
-    //       ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar #gdprIABTabFeatures, " +
-    //       ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar #gdprIABTabVendors"
-    //     ).forEach(el => el.style.display = "none");
-  
-    //     document.querySelectorAll(".gdpr_messagebar_detail .gdpr-about-cookies").forEach(el =>
-    //       el.style.display = "block"
-    //     );
-    //     document.querySelectorAll(".gdpr_messagebar_detail .gdpr-about-cookies.iabtcf").forEach(el =>
-    //       el.style.display = "none"
-    //     );
-    //     document.querySelectorAll(".gdpr_messagebar_detail .outer-container").forEach(el =>
-    //       el.style.display = "none"
-    //     );
-    //   }
-    // },
     onTemplateChange(value) {
       this.processof_auto_template_generated = false;
       this.template = value;

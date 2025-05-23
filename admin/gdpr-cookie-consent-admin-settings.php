@@ -76,16 +76,16 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			  'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`] + 'px',
 			}"
 			>
-			<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">
+			<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }" @click="turnOffPreviewBanner">
 				<span class="dashicons dashicons-no"></span>
 			</button>
 				<div class="notice-logo-container">
 					<div v-if="active_test_banner_tab == 1">
 					<?php
-						$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
-						if ( ! empty( $get_banner_img ) ) {
+						$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+						if ( ! empty( $get_banner_img1 ) ) {
 						?>
-							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>"
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>"
 							  :style="{
 							  	'margin-left': json_templates[template]?.['logo']?.['margin-left'],
 								'width': json_templates[template]?.['logo']?.['fit-content'],
@@ -98,10 +98,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					</div>
 					<div v-if="active_test_banner_tab == 2">
 					<?php
-						$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
-						if ( ! empty( $get_banner_img ) ) {
+						$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
+						if ( ! empty( $get_banner_img2 ) ) {
 						?>
-							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>"
+							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>"
 							:style="{
 							  	'margin-left': json_templates[template]?.['logo']?.['margin-left'],
 								'width': json_templates[template]?.['logo']?.['fit-content'],
@@ -124,15 +124,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				</div>	
 				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
 					<p>	
-						<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-							<span v-html ="gdpr_message"></span>
-							<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-							<span v-html ="lgpd_message"></span>
-							<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-							<span v-html ="ccpa_message"></span>
-							<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-							<span v-html ="eprivacy_message"></span>
-						<?php endif; ?>
+						<span v-show="is_gdpr" v-html ="gdpr_message"></span>
+						<span v-show="is_lgpd" v-html ="lgpd_message"></span>
+						<span v-show="is_ccpa" v-html ="ccpa_message"></span>
+						<span v-show="is_eprivacy" v-html ="eprivacy_message"></span>
 						<a :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`],
     	 				  'color': this[`button_readmore_link_color`],
     	 				  'border-style': this[`button_readmore_button_border_style${active_test_banner_tab}`],
@@ -142,15 +137,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     	 				  'background-color': this[`button_readmore_as_button${active_test_banner_tab}`]
     	 				    ? this[`button_readmore_button_color${active_test_banner_tab}`] + Math.floor(this[`button_readmore_button_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()
     	 				    : 'transparent' }" >
-							<?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-								{{ opt_out_text }}
-							<?php else : ?>
-								{{ button_readmore_text }}
-							<?php endif; ?>
+							 <span v-if="is_ccpa">{{ opt_out_text }}</span>
+							 <span v-if="!is_ccpa">{{ button_readmore_text }}</span>
 						</a>
 					</p>
 
-					<div v-if="ab_testing_enabled" class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
+					<div  v-if="ab_testing_enabled && !is_ccpa" class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
 						<div class="notice-left-buttons">
 							<a v-show="( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_decline_on${active_test_banner_tab}`]"
 							  href="#"
@@ -264,15 +256,21 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			</div>
 		</div>
 	<?php } elseif ( $ab_options['ab_testing_enabled'] === false || $ab_options['ab_testing_enabled'] === 'false' ) { ?>
-		<div v-show="banner_preview_is_on" class="notice-container" :class="{ 'notice-type-banner': show_cookie_as == 'banner', 'notice-type-popup': show_cookie_as == 'popup', 'notice-type-widget': show_cookie_as == 'widget', 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position == 'bottom' && show_cookie_as == 'banner', 'widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position == 'right' && show_cookie_as == 'widget', 'widget-top-right': cookie_widget_position == 'top_right' && show_cookie_as == 'widget', 'widget-top-left': cookie_widget_position == 'top_left' && show_cookie_as == 'widget' }">
-			<div class="notice-content" :class="'notice-template-' + template"
-			  :style="{
+		<div v-show="banner_preview_is_on" class="notice-container" :class="{ 'notice-type-banner': show_cookie_as == 'banner', 'notice-type-popup': show_cookie_as == 'popup', 'notice-type-widget': show_cookie_as == 'widget', 'banner-top': cookie_position == 'top' && show_cookie_as == 'banner' ,'banner-bottom': cookie_position == 'bottom' && show_cookie_as == 'banner', 'widget-left': cookie_widget_position == 'left' && show_cookie_as == 'widget','widget-right': cookie_widget_position == 'right' && show_cookie_as == 'widget', 'widget-top-right': cookie_widget_position == 'top_right' && show_cookie_as == 'widget', 'widget-top-left': cookie_widget_position == 'top_left' && show_cookie_as == 'widget' }"
+			:style="{
 				'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,
 				'color': cookie_text_color,
 				'border-style': border_style,
 				'border-width': cookie_bar_border_width + 'px',
 				'border-radius': cookie_bar_border_radius + 'px',
 				'border-color': cookie_border_color
+			}"
+		>
+			<div class="notice-content" :class="'notice-template-' + template"
+			  :style="{
+				'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,
+				'color': cookie_text_color,
+				'border-radius': cookie_bar_border_radius + 'px',
 			  }"
 			>
 				<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }" @click="turnOffPreviewBanner">
@@ -280,7 +278,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				</button>
 				<div class="notice-logo-container">
 				<?php
-					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
+					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 					if ( ! empty( $get_banner_img ) ) {
 					?>
 						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>"
@@ -304,25 +302,17 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				</div>	
 				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
 					<p>	
-						<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-							<span v-html ="gdpr_message"></span>
-							<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-							<span v-html ="lgpd_message"></span>
-							<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-							<span v-html ="ccpa_message"></span>
-							<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-							<span v-html ="eprivacy_message"></span>
-						<?php endif; ?>
+						<span v-show="is_gdpr" v-html ="gdpr_message"></span>
+						<span v-show="is_lgpd" v-html ="lgpd_message"></span>
+						<span v-show="is_ccpa" v-html ="ccpa_message"></span>
+						<span v-show="is_eprivacy" v-html ="eprivacy_message"></span>
 						<a :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }" >
-							<?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-								{{ opt_out_text }}
-							<?php else : ?>
-								{{ button_readmore_text }}
-							<?php endif; ?>
+							<span v-if="is_ccpa">{{ opt_out_text }}</span>
+							<span v-if="!is_ccpa">{{ button_readmore_text }}</span>
 						</a>
 					</p>
 
-					<div class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
+					<div v-show="!is_ccpa" class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
 						<div class="notice-left-buttons">
 							<a v-show="cookie_decline_on"
 							  href="#"
@@ -374,7 +364,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</div>
 
 						<div class="notice-right-buttons">
-							<a v-show=" cookie_accept_on" 
+							<a v-show="cookie_accept_on" 
 							  href="#"
 							  :style="{
   								  'background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
@@ -401,7 +391,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<a v-show="cookie_accept_all_on" 
 							  href="#"
 							  :style="{
-  								  'background-color': accept_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
+  								  'background-color': accept_all_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
   								  'color': accept_all_text_color,
   								  'border-style': accept_all_style,
   								  'border-width': accept_all_border_width + 'px',
