@@ -2345,10 +2345,36 @@ var gen = new Vue({
 
       isCategoryActive: true,
       isFeaturesActive: false,
-      isVendorsActive: false
+      isVendorsActive: false,
+      cookieSettingsPopupAccentColor: ''
     };
   },
+  computed: {
+    computedBackgroundColor() {
+      const color = this.ab_testing_enabled
+        ? this[`cookie_bar_color${this.active_test_banner_tab}`]
+        : this.cookie_bar_color;
 
+      const opacity = this.ab_testing_enabled
+        ? this[`cookie_bar_opacity${this.active_test_banner_tab}`]
+        : this.cookie_bar_opacity;
+
+      const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
+      const acceptBGColor = this.iabtcf_is_on ? ( this.active_test_banner_tab === 1 ? this.accept_background_color1 : this.accept_background_color2 ) : this.accept_background_color;
+
+      if( finalColor.toUpperCase().slice(0, -2) === acceptBGColor.toUpperCase() ) {
+        if( this.ab_testing_enabled ){
+          this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.accept_text_color1 : this.accept_text_color2;
+        } else {
+          this.cookieSettingsPopupAccentColor = this.accept_text_color;
+        }
+      } else {
+        this.cookieSettingsPopupAccentColor =  acceptBGColor;
+      }
+
+      return finalColor;
+    }
+  },
   methods: {  
     refreshCookieScannerData(html) {
       this.cookie_scanner_data = html;
@@ -3143,6 +3169,12 @@ var gen = new Vue({
     },
     turnOffPreviewBanner() {
       this.banner_preview_is_on = false;
+    },
+    showCookieSettingsPopup() {
+      const cookieSettingsPopup = document.getElementsByClassName("gdpr_messagebar_detail");
+      for (let i = 0; i < cookieSettingsPopup.length; i++) {
+        cookieSettingsPopup[i].classList.remove("hide-popup");
+      }
     },
     onTemplateChange(value) {
       this.template = value;
@@ -8274,7 +8306,8 @@ var app = new Vue({
       
       isCategoryActive: true,
       isFeaturesActive: false,
-      isVendorsActive: false
+      isVendorsActive: false,
+      cookieSettingsPopupAccentColor: ''
     };
   },
   methods: {
@@ -8870,6 +8903,53 @@ var app = new Vue({
     turnOffPreviewBanner() {
       this.banner_preview_is_on = false;
     },
+    // showCookieSettingsPopup() {
+    //   document.querySelectorAll(".gdpr_messagebar_detail").forEach(el =>
+    //     el.classList.remove("hide-popup")
+    //   );
+  
+    //   if (this.iabtcf_is_on) {
+    //     console.log("DODODO iab is true");
+  
+    //     document.querySelectorAll(".gdpr_messagebar_detail .gdpr-about-cookies").forEach(el =>
+    //       el.style.display = "none"
+    //     );
+    //     document.querySelectorAll(".gdpr_messagebar_detail .gdpr-about-cookies.iabtcf").forEach(el =>
+    //       el.style.display = "block"
+    //     );
+    //     document.querySelectorAll(".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar").forEach(el =>
+    //       el.style.display = "flex"
+    //     );
+    //     document.querySelectorAll(
+    //       ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar #gdprIABTabFeatures, " +
+    //       ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar #gdprIABTabVendors"
+    //     ).forEach(el => el.style.display = "list-item");
+  
+    //     document.querySelectorAll(".gdpr_messagebar_detail .outer-container").forEach(el =>
+    //       el.style.display = "block"
+    //     );
+    //   } else {
+    //     console.log("DODODO iab is false");
+  
+    //     document.querySelectorAll(".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar").forEach(el =>
+    //       el.style.display = "none"
+    //     );
+    //     document.querySelectorAll(
+    //       ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar #gdprIABTabFeatures, " +
+    //       ".gdpr_messagebar_detail.layout-default .gdpr-iab-navbar #gdprIABTabVendors"
+    //     ).forEach(el => el.style.display = "none");
+  
+    //     document.querySelectorAll(".gdpr_messagebar_detail .gdpr-about-cookies").forEach(el =>
+    //       el.style.display = "block"
+    //     );
+    //     document.querySelectorAll(".gdpr_messagebar_detail .gdpr-about-cookies.iabtcf").forEach(el =>
+    //       el.style.display = "none"
+    //     );
+    //     document.querySelectorAll(".gdpr_messagebar_detail .outer-container").forEach(el =>
+    //       el.style.display = "none"
+    //     );
+    //   }
+    // },
     onTemplateChange(value) {
       this.processof_auto_template_generated = false;
       this.template = value;
@@ -10876,6 +10956,32 @@ var app = new Vue({
     this.setPostListValues();
     if (this.scan_cookie_list_length > 0) {
       this.setScanListValues();
+    }
+  },
+  computed: {
+    computedBackgroundColor() {
+      const color = this.ab_testing_enabled
+        ? this[`cookie_bar_color${this.active_test_banner_tab}`]
+        : this.cookie_bar_color;
+
+      const opacity = this.ab_testing_enabled
+        ? this[`cookie_bar_opacity${this.active_test_banner_tab}`]
+        : this.cookie_bar_opacity;
+
+      const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
+      const acceptBGColor = this.iabtcf_is_on ? ( this.active_test_banner_tab === 1 ? this.accept_background_color1 : this.accept_background_color2 ) : this.accept_background_color;
+
+      if( finalColor.toUpperCase().slice(0, -2) === acceptBGColor.toUpperCase() ) {
+        if( this.ab_testing_enabled ){
+          this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.accept_text_color1 : this.accept_text_color2;
+        } else {
+          this.cookieSettingsPopupAccentColor = this.accept_text_color;
+        }
+      } else {
+        this.cookieSettingsPopupAccentColor =  acceptBGColor;
+      }
+
+      return finalColor;
     }
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },

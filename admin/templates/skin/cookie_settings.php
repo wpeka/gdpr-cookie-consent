@@ -47,21 +47,21 @@
     }
     $allFeaturesFlag = false;    
 ?>
-<div class="gdpr_messagebar_detail layout-classic hide-popup" :class="'settings-template-' + template" style="position: absolute; z-index: 9999999999;" :style="{ '--accept-bg-color': accept_background_color }">
+<div class="gdpr_messagebar_detail layout-classic hide-popup" :class="'settings-template-' + template" style="position: absolute; z-index: 9999999999;" :style="{ '--accept-bg-color': cookieSettingsPopupAccentColor }">
    <div class="gdprmodal gdprfade gdprshow" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="false" aria-gdprmodal="true" style="padding-right: 15px; display: block;">
 	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
 		<!-- Modal content-->
 		<div class="gdprmodal-content" 
       :style="{
-         'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,
-         'color': cookie_text_color,
-			'border-style': border_style,
-			'border-width': cookie_bar_border_width + 'px',
-			'border-radius': cookie_bar_border_radius + 'px',
-			'border-color': cookie_border_color
+         'background-color': computedBackgroundColor,
+         'color': ab_testing_enabled ? this[`cookie_text_color${active_test_banner_tab}`] : cookie_text_color,
+			'border-style': ab_testing_enabled ? this[`border_style${active_test_banner_tab}`] : border_style,
+			'border-width': ab_testing_enabled ? this[`cookie_bar_border_width${active_test_banner_tab}`] + 'px' : cookie_bar_border_width + 'px',
+			'border-radius': ab_testing_enabled ? this[`cookie_bar_border_radius${active_test_banner_tab}`] + 'px' : cookie_bar_border_radius + 'px',
+			'border-color': ab_testing_enabled ? this[`cookie_border_color${active_test_banner_tab}`] : cookie_border_color
          }">
 			<div class="gdprmodal-header">
-				<button type="button" class="cookie-settings-popup-close" data-dismiss="gdprmodal" data-gdpr_action="close" :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }">
+				<button type="button" class="cookie-settings-popup-close" data-dismiss="gdprmodal" data-gdpr_action="close" :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': ab_testing_enabled ? (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px' : (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': ab_testing_enabled ? (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px' : (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%', 'background-color': ( ab_testing_enabled ? this[`accept_background_color${active_test_banner_tab}`] : accept_background_color ), 'color': ( ab_testing_enabled ? this[`accept_text_color${active_test_banner_tab}`] : accept_text_color ) }">
 					<span class="dashicons dashicons-no"></span>
 				</button>
 			</div>
@@ -76,8 +76,8 @@
                               :class="{ active: isCategoryActive }"
                               @click="selectTab('category')"
                               :style="{ 
-                                 'color': isCategoryActive ? accept_background_color : '',
-                                 'border-bottom': isCategoryActive ? '2px solid ' + accept_background_color : ''
+                                 'color': isCategoryActive ? cookieSettingsPopupAccentColor : '',
+                                 'border-bottom': isCategoryActive ? '2px solid ' + cookieSettingsPopupAccentColor : ''
                               }"
                            >Cookie Categories</button>
                         </li>
@@ -86,8 +86,8 @@
                               :class="{ active: isFeaturesActive }"
                               @click="selectTab('features')"
                               :style="{ 
-                                 'color': isFeaturesActive ? accept_background_color : '',
-                                 'border-bottom': isFeaturesActive ? '2px solid ' + accept_background_color : ''
+                                 'color': isFeaturesActive ? cookieSettingsPopupAccentColor : '',
+                                 'border-bottom': isFeaturesActive ? '2px solid ' + cookieSettingsPopupAccentColor : ''
                               }"
                            >Purposes and Features</button>
                         </li>
@@ -96,8 +96,8 @@
                               :class="{ active: isVendorsActive }"
                               @click="selectTab('vendors')"
                               :style="{ 
-                                 'color': isVendorsActive ? accept_background_color : '',
-                                 'border-bottom': isVendorsActive ? '2px solid ' + accept_background_color : ''
+                                 'color': isVendorsActive ? cookieSettingsPopupAccentColor : '',
+                                 'border-bottom': isVendorsActive ? '2px solid ' + cookieSettingsPopupAccentColor : ''
                               }"
                            >Vendors</button>
                         </li>
@@ -107,7 +107,7 @@
                            <div class="toggle-group">
                               <div class="always-active"
                                  :style="{
-                                    'color': accept_background_color
+                                    'color': cookieSettingsPopupAccentColor
                                  }"
                               >Always Active</div>
                               <input id="gdpr_messagebar_body_button_necessary" type="hidden" name="gdpr_messagebar_body_button_necessary" value="necessary">
@@ -124,7 +124,7 @@
                               <div class="category-cookies-list-container">
                               </div>
                            </div>
-                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
+                           <hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
                         </li>
                         <li class="category-item">
                            <div class="toggle-group">
@@ -151,7 +151,7 @@
                               <div class="category-cookies-list-container">
                               </div>
                            </div>
-                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
+                           <hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
                         </li>
                         <li class="category-item">
                            <div class="toggle-group">
@@ -178,7 +178,7 @@
                               <div class="category-cookies-list-container">
                               </div>
                            </div>
-                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
+                           <hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
                         </li>
                         <li class="category-item">
                            <div class="toggle-group">
@@ -205,7 +205,7 @@
                               <div class="category-cookies-list-container">
                               </div>
                            </div>
-                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
+                           <hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
                         </li>
                         <li class="category-item">
                            <div class="toggle-group">
@@ -232,7 +232,7 @@
                               <div class="category-cookies-list-container">
                               </div>
                            </div>
-                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
+                           <hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
                         </li>
                      </ul>
                      <ul class="category-group feature-group tabContainer">
@@ -338,7 +338,7 @@
                                     foreach ( $values as $key => $value ) {
                                     	?>
                                  <li class="category-item">
-                                    <hr :style="{'border-top': '1px solid ' + accept_background_color}">
+                                    <hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
                                     <?php
                                        if( $display ) {
                                        ?>
@@ -443,7 +443,7 @@
                                     ?>
                               </ul>
                            </div>
-                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
+                           <hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
                         </li>
                         <?php
                            }
@@ -494,7 +494,7 @@
                                     	
                                     	?>
                                  <li class="category-item">
-                                    <hr :style="{'border-top': '1px solid ' + accept_background_color}">
+                                    <hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
                                     <div class="toggle-group">
                                        <div class="vendor-switch-wrapper">
                                           <?php
@@ -610,7 +610,7 @@
                                     ?>
                               </ul>
                            </div>
-                           <hr :style="{'border-top': '1px solid ' + accept_background_color}">
+                           <hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
                         </li>
                         <?php
                            }
@@ -663,7 +663,7 @@
 																	if($vendor[0] != null) {
 																		?>
 																		<li class="category-item">
-																		<hr :style="{'border-top': '1px solid ' + accept_background_color}">
+																		<hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
 																				<div class="toggle-group bottom-toggle">
 																					<div class="vendor-switch-wrapper">
 																						<div class="vendor-consent-switch-wrapper">
@@ -722,7 +722,7 @@
 										}}?>
 															</ul>
 												</div>
-										<hr :style="{'border-top': '1px solid ' + accept_background_color}">
+										<hr :style="{'border-top': '1px solid ' + cookieSettingsPopupAccentColor}">
 									</li>
 										<?php
 									}
