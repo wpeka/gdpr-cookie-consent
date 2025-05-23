@@ -2203,21 +2203,19 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<div style="font-size: 10px;" v-else>No File Chosen</div>
 										</c-col>
 										<c-col class="col-sm-6" id="import-btn-container">
-											<label style="margin-bottom:0; font-size:0.875rem;
-											<?php
-											echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff;' ) : 'color:#3399ff;';
-											?>
-											text-decoration:underline;margin: right 10px ;padding-left:42px;margin-top:6px;" for="fileInput">Choose file</label>
-											<input style="display: none;" type="file"
-											<?php
-											echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? '' : 'disabled' ) : '';
-											?>
-											@change="updateFileName" name="fileInput" accept=".json" id="fileInput">
-											<c-button variant="outline"class="disable-import-button"
-											@click="importsettings" id="importButton" disabled>
-												<?php esc_html_e( 'Import', 'gdpr-cookie-consent' ); ?>
-											</c-button>
-										</c-col>
+                                            <label style="margin-bottom:0; font-size:0.875rem;<?php
+                                            echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? 'color:#D8DBE0;' : 'color:#3399ff;' ) : 'color:#3399ff;';
+                                            ?> text-decoration:underline;margin: right 10px ;padding-left:42px;margin-top:6px;" for="fileInput">Choose file</label>
+                                            <input style="display: none;" type="file"
+                                            <?php
+                                            echo version_compare( $plugin_version, '2.5.2', '<=' ) ? ( ! $is_pro_active ? '' : 'disabled' ) : '';
+                                            ?>
+                                            @change="updateFileName" name="fileInput" accept=".json" id="fileInput">
+                                            <c-button variant="outline"class="disable-import-button"
+                                            @click="importsettings" id="importButton" disabled>
+                                                <?php esc_html_e( 'Import', 'gdpr-cookie-consent' ); ?>
+                                            </c-button>
+                                        </c-col>
 
 							</c-row>
 							<c-row class="pt-1 mb-0">
