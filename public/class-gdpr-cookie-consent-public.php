@@ -150,11 +150,6 @@ class Gdpr_Cookie_Consent_Public {
 
 	}
 
-	public function get_lazy_load_bootstrap_script() {
-	$script_url = plugin_dir_url(__FILE__) . 'js/bootstrap/bootstrap.bundle.js';
-	return '<script src="' . $script_url . '" defer></script>';
-}
-
 	public function insert_custom_consent_script() {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$ads_data_redact = ($the_options['is_gcm_ads_redact'] === 'true' || $the_options['is_gcm_ads_redact'] === true || $the_options['is_gcm_ads_redact'] === 1) ? "true" : "false";
