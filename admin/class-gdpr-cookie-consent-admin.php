@@ -3835,7 +3835,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function print_template_boxes( $name, $checked, $active_banner ) {
+	public function print_template_boxes( $active_banner ) {
 		$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 		$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
 		$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
@@ -3849,16 +3849,10 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 		?>
 		<div class="gdpr-templates-field-container">
-		<?Php foreach ( $templates as $key => $template ) : ?>
-			<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
+		<?php foreach ( $templates as $key => $template ) : ?>
+			<div v-show = "show_cookie_as == 'widget' || show_cookie_as == 'popup' || '<?php echo esc_js($template['name']); ?>' !== 'blue_full'" class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 				<div class="gdpr-left-field">
-					<c-input type="radio"  name="<?php echo 'template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
-					<?php
-					if ( $template['name'] === $checked ) {
-						echo ':checked="true"';
-					}
-					?>
-					>
+					<c-input type="radio"  name="<?php echo 'template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'">
 				</div>
 				<?php 
 
@@ -3905,7 +3899,7 @@ class Gdpr_Cookie_Consent_Admin {
 						$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
 				?>
-				<div class="gdpr-right-field template-type-<?php echo esc_attr( $name )?>">
+				<div :class=" 'gdpr-right-field template-type-' + show_cookie_as ">
 						<div style = "<?php echo esc_attr($styles_attr); ?>" class="cookie_notice_content">
 							<?php
 								if($active_banner == 1) {
@@ -4045,7 +4039,7 @@ class Gdpr_Cookie_Consent_Admin {
 							<input type="hidden" name="gdpr-template" v-model="template">
 						</c-col>
 						<c-col class="col-sm-12">
-							<?php $this->print_template_boxes( 'banner', $the_options['template'],0 ); ?>
+							<?php $this->print_template_boxes( 0 ); ?>
 						</c-col>
 					</c-row>
 					<input type="hidden" name="gdpr-template" v-model="template">
@@ -4057,7 +4051,7 @@ class Gdpr_Cookie_Consent_Admin {
 							<input type="hidden" name="gdpr-template" v-model="template">
 						</c-col>
 						<c-col class="col-sm-12">
-							<?php $this->print_template_boxes( 'banner', $the_options['template'],1 ); ?>
+							<?php $this->print_template_boxes( 1 ); ?>
 						</c-col>
 					</c-row>
 						
@@ -4070,7 +4064,7 @@ class Gdpr_Cookie_Consent_Admin {
 								<input type="hidden" name="gdpr-template" v-model="template">
 							</c-col>
 							<c-col class="col-sm-12">
-								<?php $this->print_template_boxes( 'banner', $the_options['template'],2 ); ?>
+								<?php $this->print_template_boxes( 2 ); ?>
 							</c-col>
 						</c-row>
 					<input type="hidden" name="gdpr-template" v-model="template">
