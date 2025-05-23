@@ -257,9 +257,3 @@
 .wpl-iframe-placeholder {
   background-color: #b2b0b059;
 }
-/* Changes for keeping the color schema uniform for some templates in Cookie Settings section */
-.navy_blue_center .gdpr-category-toggle .category-header:hover,
-.dark .gdpr-category-toggle .category-header:hover,
-.dark_row .gdpr-category-toggle .category-header:hover{
-  color:  #ffffff !important;
-}
