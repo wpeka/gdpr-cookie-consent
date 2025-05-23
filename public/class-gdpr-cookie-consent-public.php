@@ -144,39 +144,16 @@ class Gdpr_Cookie_Consent_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
+		$this->register_script_with_defer( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
 		$this->register_script_with_defer( $this->plugin_name.'-tcf', plugin_dir_url( __FILE__ ) . '../admin/js/vue/gdpr-cookie-consent-admin-tcstring.js', array( 'jquery' ), $this->version, true );
-		// Add inline  lazy loaded bootstrap js file to footer
-		add_action('wp_footer', function() {
-			echo $this->get_lazy_load_bootstrap_script();
-		});
+		$this->register_script_with_defer( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap/bootstrap.bundle.js', array( 'jquery' ), $this->version, true );
+
 	}
-	/* Lazyload the bootstrap js file */
+
 	public function get_lazy_load_bootstrap_script() {
 	$script_url = plugin_dir_url(__FILE__) . 'js/bootstrap/bootstrap.bundle.js';
-
-		$lazybootstrapjs = '<script>
-		(function() {
-			let loaded = false;
-			function loadBootstrap() {
-				if (loaded) return;
-				loaded = true;
-				const script = document.createElement("script");
-				script.src = "' . $script_url . '";
-				script.defer = true;
-				document.body.appendChild(script);
-				window.removeEventListener("scroll", loadBootstrap);
-				window.removeEventListener("click", loadBootstrap);
-				window.removeEventListener("keydown", loadBootstrap);
-			}
-			window.addEventListener("scroll", loadBootstrap, { once: true });
-			window.addEventListener("click", loadBootstrap, { once: true });
-			window.addEventListener("keydown", loadBootstrap, { once: true });
-		})();
-		</script>';
-
-		return $lazybootstrapjs;
-	}
+	return '<script src="' . $script_url . '" defer></script>';
+}
 
 	public function insert_custom_consent_script() {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -551,6 +528,7 @@ class Gdpr_Cookie_Consent_Public {
 			wp_enqueue_style( $this->plugin_name . '-custom' );
 			wp_enqueue_style( $this->plugin_name . '-public-variables' );
 			wp_enqueue_style( $this->plugin_name . '-frontend' );
+			wp_enqueue_script( $this->plugin_name . '-bootstrap-js' );
 			wp_enqueue_script( $this->plugin_name );
 			wp_localize_script(
 				$this->plugin_name,
