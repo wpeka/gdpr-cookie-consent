@@ -446,7 +446,7 @@ jQuery(document).ready(function () {
     jQuery(".cookie-scanner-container .gdpr-overlay .gdpr-start-auth").on("click", gdprStartAuth);
       //$(".gdpr-dashboard-start-auth").on("click", gdprStartAuth); //Commented this as it's causing double popup(account connection) to appear
       jQuery(".cookie-scanner-container .gdpr-overlay .gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
-      jQuery(".cookie-scanner-container .gdpr-overlay .api-connect-to-account-btn").on("click", gdprStartAuth);
+      jQuery(".api-connect-to-account-btn").on("click", gdprStartAuth);
 
   }
   window.integrate_ab_testing_auth = function(){
