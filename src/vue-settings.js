@@ -3310,6 +3310,25 @@ var gen = new Vue({
       this.settings_border_width2 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius2 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
 
+      // Multiple Legislation
+      this.multiple_legislation_cookie_bar_color1 =         selectedTemplate["styles"]["background-color"];
+      this.multiple_legislation_cookie_bar_border_radius1 = selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.multiple_legislation_cookie_text_color1 =        selectedTemplate['styles']['color'];
+      this.multiple_legislation_cookie_bar_opacity1 =       selectedTemplate['styles']['opacity'];
+      this.multiple_legislation_border_style1 =             selectedTemplate['styles']['border-style'];
+      this.multiple_legislation_cookie_bar_border_width1 =  selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+      this.multiple_legislation_cookie_border_color1 =      selectedTemplate['styles']['border-color'];
+      this.multiple_legislation_cookie_font1 =              selectedTemplate['styles']['font-family'];
+
+      this.multiple_legislation_cookie_bar_color2 =         selectedTemplate["styles"]["background-color"];
+      this.multiple_legislation_cookie_bar_border_radius2 = selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.multiple_legislation_cookie_text_color2 =        selectedTemplate['styles']['color'];
+      this.multiple_legislation_cookie_bar_opacity2 =       selectedTemplate['styles']['opacity'];
+      this.multiple_legislation_border_style2 =             selectedTemplate['styles']['border-style'];
+      this.multiple_legislation_cookie_bar_border_width2 =  selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+      this.multiple_legislation_cookie_border_color2 =      selectedTemplate['styles']['border-color'];
+      this.multiple_legislation_cookie_font2 =              selectedTemplate['styles']['font-family'];
+
       this.is_template_changed = true;
     },
     onLanguageChange() {
@@ -9048,6 +9067,25 @@ var app = new Vue({
       this.settings_opacity2 =                       selectedTemplate['settings_button']['opacity'];
       this.settings_border_width2 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius2 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
+
+      // Multiple Legislation
+      this.multiple_legislation_cookie_bar_color1 =         selectedTemplate["styles"]["background-color"];
+      this.multiple_legislation_cookie_bar_border_radius1 = selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.multiple_legislation_cookie_text_color1 =        selectedTemplate['styles']['color'];
+      this.multiple_legislation_cookie_bar_opacity1 =       selectedTemplate['styles']['opacity'];
+      this.multiple_legislation_border_style1 =             selectedTemplate['styles']['border-style'];
+      this.multiple_legislation_cookie_bar_border_width1 =  selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+      this.multiple_legislation_cookie_border_color1 =      selectedTemplate['styles']['border-color'];
+      this.multiple_legislation_cookie_font1 =              selectedTemplate['styles']['font-family'];
+
+      this.multiple_legislation_cookie_bar_color2 =         selectedTemplate["styles"]["background-color"];
+      this.multiple_legislation_cookie_bar_border_radius2 = selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.multiple_legislation_cookie_text_color2 =        selectedTemplate['styles']['color'];
+      this.multiple_legislation_cookie_bar_opacity2 =       selectedTemplate['styles']['opacity'];
+      this.multiple_legislation_border_style2 =             selectedTemplate['styles']['border-style'];
+      this.multiple_legislation_cookie_bar_border_width2 =  selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+      this.multiple_legislation_cookie_border_color2 =      selectedTemplate['styles']['border-color'];
+      this.multiple_legislation_cookie_font2 =              selectedTemplate['styles']['font-family'];
 
       this.is_template_changed = true;
     },
