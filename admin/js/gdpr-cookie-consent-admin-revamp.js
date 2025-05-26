@@ -979,7 +979,7 @@ jQuery(document).ready(function () {
   }
 
   jQuery(document).ready(function ($) {
-    $("#cookie_action_settings_preview").click(function () {
+    $(document).on("click", "#cookie_action_settings_preview", function () {
       $(".notice-container").css("display", "none");
       $(".gdpr_messagebar_detail").removeClass("hide-popup");
       if ("true" === $("#gdpr-cookie-consent-iabtcf-on").attr("value")) {
