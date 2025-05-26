@@ -290,8 +290,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				</div>	
 				<div class="notice-heading-wrapper">
 						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'color': json_templates[template]?.['styles']?.['color'] }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
-=						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'color': json_templates[template]?.['styles']?.['color'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
-=				</div>	
+						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'color': json_templates[template]?.['styles']?.['color'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
+				</div>	
 				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
 					<p>	
 						<span v-show="is_gdpr" v-html ="gdpr_message"></span>

@@ -2690,6 +2690,9 @@ var gen = new Vue({
       this.cookie_is_on = !this.cookie_is_on;
     },
     onSwitchBannerPreviewEnable() {
+      this.isCategoryActive = true;
+      this.isFeaturesActive = false;
+      this.isVendorsActive = false;
       //changing the value of banner_preview_swicth_value enable/disable
       this.banner_preview_is_on = !this.banner_preview_is_on;
     },
@@ -8513,6 +8516,9 @@ var app = new Vue({
       this.cookie_is_on = !this.cookie_is_on;
     },
     onSwitchBannerPreviewEnable() {
+      this.isCategoryActive = true;
+      this.isFeaturesActive = false;
+      this.isVendorsActive = false;
       //changing the value of banner_preview_swicth_value enable/disable
       this.banner_preview_is_on = !this.banner_preview_is_on;
     },
