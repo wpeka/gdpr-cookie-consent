@@ -2211,6 +2211,32 @@ var gen = new Vue({
         : [],
       select_pages_array: [],
       list_of_pages: settings_obj.list_of_pages,
+      
+      //script dependency
+      is_script_dependency_on:
+      settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
+      (true === settings_obj.the_options["is_script_dependency_on"] ||
+        1 === settings_obj.the_options["is_script_dependency_on"])
+        ? true
+        : false,
+      header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
+        ? settings_obj.the_options["header_dependency"]
+        : '',
+      header_dependency_list: settings_obj.header_dependency_list,
+      header_dependency_map: {
+        'Body Scripts': false,
+        'Footer Scripts': false,
+      },
+      footer_dependency: settings_obj.the_options.hasOwnProperty("footer_dependency")
+        ? settings_obj.the_options["footer_dependency"]
+        : '',
+      footer_dependency_selected: null,
+      footer_dependency_list: settings_obj.footer_dependency_list,
+      footer_dependency_map: {
+        'Header Scripts': false,
+        'Body Scripts': false,
+      },
+      
       // consent forward .
       consent_forward:
         settings_obj.the_options.hasOwnProperty("consent_forward") &&
@@ -2316,9 +2342,39 @@ var gen = new Vue({
       preview_analysis: false,
       preview_preference: false,
       preview_unclassified: false,
+
+      isCategoryActive: true,
+      isFeaturesActive: false,
+      isVendorsActive: false,
+      cookieSettingsPopupAccentColor: ''
     };
   },
+  computed: {
+    computedBackgroundColor() {
+      const color = this.ab_testing_enabled
+        ? this[`cookie_bar_color${this.active_test_banner_tab}`]
+        : this.cookie_bar_color;
 
+      const opacity = this.ab_testing_enabled
+        ? this[`cookie_bar_opacity${this.active_test_banner_tab}`]
+        : this.cookie_bar_opacity;
+
+      const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
+      const acceptBGColor = this.iabtcf_is_on ? ( this.active_test_banner_tab === 1 ? this.accept_background_color1 : this.accept_background_color2 ) : this.accept_background_color;
+
+      if( finalColor.toUpperCase().slice(0, -2) === acceptBGColor.toUpperCase() ) {
+        if( this.ab_testing_enabled ){
+          this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.accept_text_color1 : this.accept_text_color2;
+        } else {
+          this.cookieSettingsPopupAccentColor = this.accept_text_color;
+        }
+      } else {
+        this.cookieSettingsPopupAccentColor =  acceptBGColor;
+      }
+
+      return finalColor;
+    }
+  },
   methods: {  
     refreshCookieScannerData(html) {
       this.cookie_scanner_data = html;
@@ -3106,6 +3162,14 @@ var gen = new Vue({
     cookiewidgetPositionChange(value) {
       this.cookie_widget_position = value;
     },
+    selectTab(tabName) {
+      this.isCategoryActive  = (tabName === 'category');
+      this.isFeaturesActive  = (tabName === 'features');
+      this.isVendorsActive   = (tabName === 'vendors');
+    },
+    turnOffPreviewBanner() {
+      this.banner_preview_is_on = false;
+    },
     onTemplateChange(value) {
       this.template = value;
       const selectedTemplate = this.json_templates[value];
@@ -3115,7 +3179,7 @@ var gen = new Vue({
       this.border_style =                           selectedTemplate['styles']['border-style'];
       this.cookie_bar_border_width =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
       this.cookie_border_color =                    selectedTemplate['styles']['border-color'];
-      this.cookie_bar_border_radius =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);;
+      this.cookie_bar_border_radius =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
       this.cookie_font =                            selectedTemplate['styles']['font-family'];
       this.cookie_accept_on =                       selectedTemplate['accept_button']['is_on'];
       this.accept_text_color =                      selectedTemplate['accept_button']['color'];
@@ -3167,7 +3231,7 @@ var gen = new Vue({
       this.border_style1 =                           selectedTemplate['styles']['border-style'];
       this.cookie_bar_border_width1 =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
       this.cookie_border_color1 =                    selectedTemplate['styles']['border-color'];
-      this.cookie_bar_border_radius1 =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);;
+      this.cookie_bar_border_radius1 =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
       this.cookie_font1 =                            selectedTemplate['styles']['font-family'];
       this.cookie_accept_on1 =                       selectedTemplate['accept_button']['is_on'];
       this.accept_text_color1 =                      selectedTemplate['accept_button']['color'];
@@ -3208,7 +3272,7 @@ var gen = new Vue({
       this.border_style2 =                           selectedTemplate['styles']['border-style'];
       this.cookie_bar_border_width2 =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
       this.cookie_border_color2 =                    selectedTemplate['styles']['border-color'];
-      this.cookie_bar_border_radius2 =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);;
+      this.cookie_bar_border_radius2 =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
       this.cookie_font2 =                            selectedTemplate['styles']['font-family'];
       this.cookie_accept_on2 =                       selectedTemplate['accept_button']['is_on'];
       this.accept_text_color2 =                      selectedTemplate['accept_button']['color'];
@@ -3294,6 +3358,38 @@ var gen = new Vue({
         dummy_array[i] = value[i];
       }
       this.select_pages = dummy_array;
+    },
+    onSwitchingScriptDependency() {
+      this.is_script_dependency_on = !this.is_script_dependency_on;
+
+      if( this.is_script_dependency_on === false ){
+        this.header_dependency = null;
+        this.footer_dependency = null;
+      }
+    },
+    onHeaderDependencySelect(value) {
+      
+      this.header_dependency_map.body = false;
+      this.header_dependency_map.footer = false;
+
+      if (this.header_dependency) {
+        this.header_dependency_map[this.header_dependency] = true;
+        this.header_dependency = this.header_dependency;
+      } else {
+        this.header_dependency = '';
+      }
+    },
+    onFooterDependencySelect(value) {
+      
+      this.footer_dependency_map.header = false;
+      this.footer_dependency_map.body = false;
+
+      if (this.footer_dependency) {
+        this.footer_dependency_map[this.footer_dependency] = true;
+        this.footer_dependency = this.footer_dependency;
+      } else {
+        this.footer_dependency = '';
+      }
     },
     onSiteSelect(value) {
       let tmp_array = [];
@@ -3383,6 +3479,14 @@ var gen = new Vue({
         this.gdpr_about_cookie_message =
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
+
+      this.success_error_message = "Law Updated. Save Changes Please.";
+      j("#gdpr-cookie-consent-save-settings-alert").css(
+        "background-color",
+        "#72b85c"
+      );
+      j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
     },
 
     onSwitchDefaultCookieBar() {
@@ -4183,6 +4287,10 @@ var gen = new Vue({
       this.cookie_scan_dropdown = false;
       this.discovered_cookies_list_tab = false;
       this.scan_history_list_tab = false;
+      // Script dependency
+      this.is_script_dependency_on = false;
+      this.header_dependency = '';
+      this.footer_dependency = '';
       var data = {
         action: "gcc_restore_default_settings",
         security: settings_obj.restore_settings_nonce,
@@ -8125,6 +8233,32 @@ var app = new Vue({
         : [],
       select_pages_array: [],
       list_of_pages: settings_obj.list_of_pages,
+      
+      //script dependency
+      is_script_dependency_on:
+      settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
+      (true === settings_obj.the_options["is_script_dependency_on"] ||
+        1 === settings_obj.the_options["is_script_dependency_on"])
+        ? true
+        : false,
+      header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
+        ? settings_obj.the_options["header_dependnecy"]
+        : '',
+      header_dependency_list: settings_obj.header_dependency_list,
+      header_dependency_map: {
+        'Body Scripts': false,
+        'Footer Scripts': false,
+      },
+      footer_dependency: settings_obj.the_options.hasOwnProperty("footer_dependency")
+        ? settings_obj.the_options["footer_dependency"]
+        : '',
+      footer_dependency_selected: null,
+      footer_dependency_list: settings_obj.footer_dependency_list,
+      footer_dependency_map: {
+        'Header Scripts': false,
+        'Body Scripts': false,
+      },
+      
       // revoke consent text color.
       button_revoke_consent_text_color: settings_obj.the_options.hasOwnProperty(
         "button_revoke_consent_text_color"
@@ -8170,6 +8304,12 @@ var app = new Vue({
           1 === settings_obj.the_options["is_selectedCountry_on"])
           ? true
           : false,
+
+      
+      isCategoryActive: true,
+      isFeaturesActive: false,
+      isVendorsActive: false,
+      cookieSettingsPopupAccentColor: ''
     };
   },
   methods: {
@@ -8757,6 +8897,14 @@ var app = new Vue({
         }.bind(this)
       );
     },
+    selectTab(tabName) {
+      this.isCategoryActive  = (tabName === 'category');
+      this.isFeaturesActive  = (tabName === 'features');
+      this.isVendorsActive   = (tabName === 'vendors');
+    },
+    turnOffPreviewBanner() {
+      this.banner_preview_is_on = false;
+    },
     onTemplateChange(value) {
       this.processof_auto_template_generated = false;
       this.template = value;
@@ -8767,7 +8915,7 @@ var app = new Vue({
       this.border_style =                           selectedTemplate['styles']['border-style'];
       this.cookie_bar_border_width =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
       this.cookie_border_color =                    selectedTemplate['styles']['border-color'];
-      this.cookie_bar_border_radius =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);;
+      this.cookie_bar_border_radius =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
       this.cookie_font =                            selectedTemplate['styles']['font-family'];
       this.cookie_accept_on =                       selectedTemplate['accept_button']['is_on'];
       this.accept_text_color =                      selectedTemplate['accept_button']['color'];
@@ -8819,7 +8967,7 @@ var app = new Vue({
       this.border_style1 =                           selectedTemplate['styles']['border-style'];
       this.cookie_bar_border_width1 =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
       this.cookie_border_color1 =                    selectedTemplate['styles']['border-color'];
-      this.cookie_bar_border_radius1 =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);;
+      this.cookie_bar_border_radius1 =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
       this.cookie_font1 =                            selectedTemplate['styles']['font-family'];
       this.cookie_accept_on1 =                       selectedTemplate['accept_button']['is_on'];
       this.accept_text_color1 =                      selectedTemplate['accept_button']['color'];
@@ -8860,7 +9008,7 @@ var app = new Vue({
       this.border_style2 =                           selectedTemplate['styles']['border-style'];
       this.cookie_bar_border_width2 =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
       this.cookie_border_color2 =                    selectedTemplate['styles']['border-color'];
-      this.cookie_bar_border_radius2 =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);;
+      this.cookie_bar_border_radius2 =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
       this.cookie_font2 =                            selectedTemplate['styles']['font-family'];
       this.cookie_accept_on2 =                       selectedTemplate['accept_button']['is_on'];
       this.accept_text_color2 =                      selectedTemplate['accept_button']['color'];
@@ -8932,6 +9080,38 @@ var app = new Vue({
         dummy_array[i] = value[i];
       }
       this.select_pages = dummy_array;
+    },
+    onSwitchingScriptDependency() {
+      this.is_script_dependency_on = !this.is_script_dependency_on;
+
+      if( this.is_script_dependency_on === false ){
+        this.header_dependency = null;
+        this.footer_dependency = null;
+      }
+    },
+    onHeaderDependencySelect(value) {
+      
+      this.header_dependency_map.body = false;
+      this.header_dependency_map.footer = false;
+
+      if (this.header_dependency) {
+        this.header_dependency_map[this.header_dependency] = true;
+        this.header_dependency = this.header_dependency;
+      } else {
+        this.header_dependency = '';
+      }
+    },
+    onFooterDependencySelect(value) {
+      
+      this.footer_dependency_map.header = false;
+      this.footer_dependency_map.body = false;
+
+      if (this.footer_dependency) {
+        this.footer_dependency_map[this.footer_dependency] = true;
+        this.footer_dependency = this.footer_dependency;
+      } else {
+        this.footer_dependency = '';
+      }
     },
     onSelectPrivacyPage(value) {
       this.button_readmore_page = value;
@@ -9512,6 +9692,10 @@ var app = new Vue({
       this.data_reqs_on = true;
       this.data_req_email_address = "";
       this.data_req_subject = "We have received your request";
+      // Script Dependency
+      this.is_script_dependency_on = false;
+      this.header_dependency = '';
+      this.footer_dependency = '';
       var data = {
         action: "gcc_restore_default_settings",
         security: settings_obj.restore_settings_nonce,
@@ -10727,6 +10911,32 @@ var app = new Vue({
     this.setPostListValues();
     if (this.scan_cookie_list_length > 0) {
       this.setScanListValues();
+    }
+  },
+  computed: {
+    computedBackgroundColor() {
+      const color = this.ab_testing_enabled
+        ? this[`cookie_bar_color${this.active_test_banner_tab}`]
+        : this.cookie_bar_color;
+
+      const opacity = this.ab_testing_enabled
+        ? this[`cookie_bar_opacity${this.active_test_banner_tab}`]
+        : this.cookie_bar_opacity;
+
+      const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
+      const acceptBGColor = this.iabtcf_is_on ? ( this.active_test_banner_tab === 1 ? this.accept_background_color1 : this.accept_background_color2 ) : this.accept_background_color;
+
+      if( finalColor.toUpperCase().slice(0, -2) === acceptBGColor.toUpperCase() ) {
+        if( this.ab_testing_enabled ){
+          this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.accept_text_color1 : this.accept_text_color2;
+        } else {
+          this.cookieSettingsPopupAccentColor = this.accept_text_color;
+        }
+      } else {
+        this.cookieSettingsPopupAccentColor =  acceptBGColor;
+      }
+
+      return finalColor;
     }
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
