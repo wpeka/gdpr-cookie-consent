@@ -3873,7 +3873,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 					$readmore_style_attr = '';
 					foreach ($template['readmore_button'] as $key => $value) {
-						if($key != 'opacity' && $key != 'is_on') $readmore_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+						if($key == 'color') $readmore_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
 					$heading_style_attr = "";
 					foreach ($template['heading'] as $key => $value) {

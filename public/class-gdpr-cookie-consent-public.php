@@ -1093,7 +1093,15 @@ class Gdpr_Cookie_Consent_Public {
 				}
 			}
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
-
+			$ab_options    = get_option( 'wpl_ab_options' );
+			$json_path = plugin_dir_path(__FILE__) . '../includes/templates/template.json';
+			if (file_exists($json_path)) {
+				$json_data = file_get_contents($json_path);
+				$templates = json_decode($json_data, true); // Use true for associative array
+			} else {
+				$templates = [];
+			}
+			$template_object = $templates[$the_options['template']];
 			$chosenBanner = $this->chosenBanner;
 			// include plugin_dir_path( __FILE__ ) . 'templates/default.php';
 			include plugin_dir_path(__FILE__) . 'templates/cookie-notice.php';
