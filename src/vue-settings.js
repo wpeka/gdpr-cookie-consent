@@ -3221,11 +3221,11 @@ var gen = new Vue({
       this.button_readmore_button_opacity =         selectedTemplate['readmore_button']['opacity'];
       this.button_readmore_button_border_style =    selectedTemplate['readmore_button']['border-style'];
       this.button_readmore_button_border_color =    selectedTemplate['readmore_button']['border-color'];
-      this.button_readmore_button_border_radius =   selectedTemplate['readmore_button']['border-radius'];
+      this.button_readmore_button_border_radius =   selectedTemplate['readmore_button']['border-radius'].substring(0, selectedTemplate['readmore_button']['border-radius'].length - 2);
+      this.button_readmore_button_border_width =    selectedTemplate['readmore_button']['border-width'].substring(0, selectedTemplate['readmore_button']['border-width'].length - 2);
       this.opt_out_text_color =                     selectedTemplate['opt_out_button']['color'];
       this.button_revoke_consent_text_color =       selectedTemplate['revoke_consent_button']['color'];
       this.button_revoke_consent_background_color = selectedTemplate['revoke_consent_button']['background-color'];
-
       //ab testing banners settings
       
       this.cookie_bar_color1 =                       selectedTemplate['styles']['background-color'];

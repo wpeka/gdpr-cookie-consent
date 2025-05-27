@@ -1093,9 +1093,18 @@ class Gdpr_Cookie_Consent_Public {
 				}
 			}
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
-
+			$ab_options    = get_option( 'wpl_ab_options' );
+			$json_path = plugin_dir_path(__FILE__) . '../includes/templates/template.json';
+			if (file_exists($json_path)) {
+				$json_data = file_get_contents($json_path);
+				$templates = json_decode($json_data, true); // Use true for associative array
+			} else {
+				$templates = [];
+			}
+			$template_object = $templates[$the_options['template']];
 			$chosenBanner = $this->chosenBanner;
-			include plugin_dir_path( __FILE__ ) . 'templates/default.php';
+			// include plugin_dir_path( __FILE__ ) . 'templates/default.php';
+			include plugin_dir_path(__FILE__) . 'templates/cookie-notice.php';
 			?>
 			<style>
 				.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
@@ -1103,21 +1112,6 @@ class Gdpr_Cookie_Consent_Public {
 				.gdpr_messagebar_detail .category-group .toggle-group .checkbox input:checked+label {
 					background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
 				}
-
-				.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
-					background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
-				}
-				/* .gdpr_messagebar_detail.dark_row .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.dark_row .gdprmodal-dialog .gdprmodal-body .close,
-				.gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.navy_blue_center .gdprmodal-dialog .gdprmodal-body .close,
-				.gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.navy_blue_square .gdprmodal-dialog .gdprmodal-body .close,
-				.gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.navy_blue_box .gdprmodal-dialog .gdprmodal-body .close{
-					background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
-				} */
 			</style>
 			<?php
 
