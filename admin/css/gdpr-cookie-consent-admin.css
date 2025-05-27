@@ -5044,6 +5044,9 @@ Bootstrap CSS for frontend UI
   position: relative;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  height: 57vh;
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }
 
 .gdprmodal-body #gdpr-cookie-consent-bar {
@@ -5461,6 +5464,9 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-body {
   padding: 1rem;
+  height: 57vh;
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-body p {
   margin: 0;
@@ -5597,7 +5603,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   color: #98b2ab;
 }
 .dark .gdpr-ad-purpose-details {
-  color: #949494;
+  color: inherit;
 }
 .gdpr-ad-purpose-details a {
   color: #115ca7;

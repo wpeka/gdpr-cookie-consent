@@ -81,7 +81,7 @@
 					<span class="dashicons dashicons-no"></span>
 				</button>
 			</div>
-			<div class="gdprmodal-body">
+			<div class="gdprmodal-body" :style="'scrollbar-color: ' + cookieSettingsPopupAccentColor + ' transparent;'">
 				<div class="gdpr-details-content">
 				<div class="gdpr-groups-container">
                      <div class="gdpr-about-cookies">Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.</div>

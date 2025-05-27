@@ -2360,7 +2360,7 @@ var gen = new Vue({
         : this.cookie_bar_opacity;
 
       const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
-      const acceptBGColor = this.iabtcf_is_on ? ( this.active_test_banner_tab === 1 ? this.accept_background_color1 : this.accept_background_color2 ) : this.accept_background_color;
+      const acceptBGColor = this.ab_testing_enabled ? ( this.active_test_banner_tab === 1 ? this.accept_background_color1 : this.accept_background_color2 ) : this.accept_background_color;
 
       if( finalColor.toUpperCase().slice(0, -2) === acceptBGColor.toUpperCase() ) {
         if( this.ab_testing_enabled ){
