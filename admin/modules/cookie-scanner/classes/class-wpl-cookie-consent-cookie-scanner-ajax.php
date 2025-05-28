@@ -21,6 +21,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie_Scanner {
 
 	/**
+	 * GDPR Cookie Consent Settings.
+	 *
+	 * @since 3.8.1
+	 * @access public
+	 * @var string $plan settings of GDPR Cookie Consent.
+	 */
+	public $settings;
+
+	/**
+	 * The user's purchased plan.
+	 *
+	 * @since 3.8.1
+	 * @access public
+	 * @var string $plan Purchased plan of user.
+	 */
+	public $plan = '';
+
+	/**
 	 * Gdpr_Cookie_Consent_Cookie_Scanner_Ajax constructor.
 	 */
 	public function __construct() {
@@ -28,6 +46,11 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		add_action('wp_ajax_wpl_check_gcm_status', array($this, 'ajax_check_gcm_status'));
 		add_action('wp_ajax_wpl_get_gcm_status', array($this, 'ajax_get_gcm_status'));
 		add_action( 'wp_ajax_wpl_cookies_deletion', array( $this, 'ajax_cookies_deletion' ) );
+
+		// Require the class file for gdpr cookie consent api framework settings.
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+		$this->settings = GDPR_Cookie_Consent_Settings::get_instance();
+		$this->plan = $this->settings->get_plan(); //Get user's plan.
 	}
 
 	public function ajax_check_gcm_status(){
@@ -66,6 +89,13 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		if ( ! current_user_can( 'manage_options' )){
 			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
+		if ( 'free' === $this->plan ) {
+			$scan_limit     = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
+			$scan_limit_int = (int) $scan_limit;
+			if ( $scan_limit_int > 5 ) {
+				exit();
+			}
+		}
 		if ( isset( $_POST['wpl_scanner_action'] ) ) {
 			$wpl_scan_action = sanitize_text_field( wp_unslash( $_POST['wpl_scanner_action'] ) );
 			$allowed_actions = array( 'get_pages', 'scan_pages', 'stop_scan', 'check_api', 'scan_cookie_list', 'update_scan_cookie', 'get_post_scan_cookies', 'get_scanned_cookies_list' );
@@ -81,6 +111,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		global $wpdb;
 		$scan_table    = $wpdb->prefix . 'wpl_cookie_scan_cookies';
 		$result = $wpdb->query("TRUNCATE TABLE {$scan_table}");
+		if ( 'free' === $this->plan ) {
+			set_transient( 'gdpr_clear_cookies_action', 1 );
+		}
     	return $result !== false;
 	}
 	/**
@@ -274,6 +307,31 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		);
 		check_admin_referer( 'wpl_cookie_scanner', 'security' );
 		$scan_cookie_list = $this->get_scan_cookie_list();
+
+		if ( 'free' === $this->plan ) {
+			$scan_limit = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
+			// Transient Doesn't Exist.
+			if ( false === $scan_limit ) {
+				set_transient( 'gdpr_monthly_scan_limit_exhausted', 1, MONTH_IN_SECONDS );
+			} else {
+				$action = (int) get_transient( 'gdpr_clear_cookies_action' );
+				if ( $action ) {
+					delete_transient( 'gdpr_clear_cookies_action' );
+				} else {
+					global $wpdb;
+					$wpdb->query(
+						$wpdb->prepare(
+							"UPDATE {$wpdb->options}
+							SET option_value = option_value + 1
+							WHERE option_name = %s
+							AND option_value REGEXP '^[0-9]+$'",
+							'_transient_gdpr_monthly_scan_limit_exhausted'
+						)
+					);
+				}
+			}
+		}
+
 		$out['response']  = true;
 		$out['message']   = __( 'Success', 'gdpr-cookie-consent' );
 		$out['total']     = $scan_cookie_list['total'];

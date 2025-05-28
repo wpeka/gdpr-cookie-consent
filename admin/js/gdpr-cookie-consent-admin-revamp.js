@@ -507,6 +507,17 @@ jQuery(document).ready(function () {
         jQuery(".gdpr-gacm_message-gdpr").css("display", "none");
       }
     );
+    jQuery(".gdpr-available-scan-clicks-title .dashicons-info").hover(
+      function () {
+        gacmTimer = setTimeout(function () {
+          jQuery(".gdpr-cookie-scanning-available-in-notice").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(gacmTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-cookie-scanning-available-in-notice").css("display", "none");
+      }
+    );
 
     // GDPR hover function
     jQuery("#gdpr-visitors-condition-radio-btn-disabled-gdpr").hover(
