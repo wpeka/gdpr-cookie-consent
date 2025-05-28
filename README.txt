@@ -3,8 +3,8 @@ Contributors: wplegalpages
 Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
-Tested up to: 6.7.1
-Stable tag: 3.8.0
+Tested up to: 6.8.1
+Stable tag: 3.8.2
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -137,6 +137,20 @@ Choose from professional cookie banner designs.
 Enable users to change their consent preferences later.
 
 [🔗Learn More About WP Cookie Consent Pro](https://wplegalpages.com/cookie-consent/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=link)
+
+= 📊 Google Consent Mode v2 Support =
+
+- **Full Compatibility with Google Consent Mode v2:**
+Ensures your cookie banners are aligned with Google's latest consent framework.
+
+- **Automatic Tag Behavior Based on Consent:**
+Google Ads, Analytics, and other tags adjust behavior dynamically based on user choices.
+
+- **Support for Both Basic and Advanced Consent Modes:**
+Choose between simple blocking or advanced tag customization based on user consent signals.
+
+- **Compliance Made Easy for Google Services:**
+Helps you meet Google’s requirements for consent-based advertising in GDPR and ePrivacy regions.
 
 =  🛠️ Consent Log Management =
 - **Automated Consent Logging:**
@@ -332,6 +346,13 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 11.Consent Log table
 
 == Change Log ==
+
+= 3.8.2 =
+* Fix: Fixed minor issue with Maxmind integration.
+
+= 3.8.1 =
+* Improvement: Option to define dependencies between scripts for improved integration and script loading control.
+* Fix: Bug fixes, code improvements, and enhanced security.
 
 = 3.8.0 =
 * Google Consent Mode - Debug Mode: Added a dedicated debug mode to test and verify GCM behavior. Easily inspect consent signals and integration status during setup.
@@ -773,6 +794,13 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.8.2 =
+* Fix: Fixed minor issue with Maxmind integration.
+
+= 3.8.1 =
+* Improvement: Option to define dependencies between scripts for improved integration and script loading control.
+* Fix: Bug fixes, code improvements, and enhanced security.
 
 = 3.8.0 =
 * Google Consent Mode - Debug Mode: Added a dedicated debug mode to test and verify GCM behavior. Easily inspect consent signals and integration status during setup.

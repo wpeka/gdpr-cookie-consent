@@ -82,7 +82,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.8.0';
+			$this->version = '3.8.2';
 		}
 		add_action(
 			'current_screen',
@@ -280,7 +280,6 @@ class Gdpr_Cookie_Consent {
 	 * @access   private
 	 */
 	private function define_public_hooks() {
-
 		$plugin_public = new Gdpr_Cookie_Consent_Public( $this->get_plugin_name(), $this->get_version() );
 		/**
 		 * Load public modules.
@@ -960,7 +959,7 @@ class Gdpr_Cookie_Consent {
 			'is_script_blocker_on'                 => false,
 			'auto_hide'                            => false,
 			'auto_banner_initialize'               => false,
-			'auto_generated_banner'               => false,
+			'auto_generated_banner'                => false,
 			'auto_scroll'                          => false,
 			'auto_click'                           => false,
 			'auto_scroll_reload'                   => false,
@@ -997,11 +996,14 @@ class Gdpr_Cookie_Consent {
 			'popup_overlay'                          => true,
 			'about_message'                          => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
 			'about_message_lgpd'                     => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
+			'is_script_dependency_on'                => false,
 			'header_scripts'                         => '',
 			'body_scripts'                           => '',
 			'footer_scripts'                         => '',
 			'restrict_posts'                         => array(),
 			'select_pages'                           => array(),
+			'header_dependency'					 	 => '',
+			'footer_dependency'					 	 => '',
 			'gdpr_css_text'                          => '',
 			'do_not_track_on'                        => false,
 			'data_req_editor_message'                => '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;',
@@ -1080,6 +1082,7 @@ class Gdpr_Cookie_Consent {
 			case 'button_confirm_as_button':
 			case 'button_confirm_is_on':
 			case 'data_reqs_on':
+			case 'is_script_dependency_on':
 				// consent forward .
 			case 'consent_forward':
 				if ( 'true' === $value || true === $value ) {
@@ -1154,6 +1157,11 @@ class Gdpr_Cookie_Consent {
 				$ret = trim( stripslashes( $value ) );
 				break;
 			case 'restrict_posts':
+				$ret = $value;
+				break;
+			// script dependencies
+			case 'header_dependency':
+			case 'footer_dependency':
 				$ret = $value;
 				break;
 			// hide banner.
@@ -1970,6 +1978,9 @@ class Gdpr_Cookie_Consent {
 			'is_selectedCountry_on'                  => $settings['is_selectedCountry_on'],
 			'is_ticked'                              => $settings['is_ticked'],
 			'is_script_blocker_on'                   => $settings['is_script_blocker_on'],
+			'is_script_dependency_on'                => $settings['is_script_dependency_on'],
+			'header_dependency'						 => $settings['header_dependency'],
+			'footer_dependency'						 => $settings['footer_dependency'],
 			'auto_scroll'                            => $settings['auto_scroll'],
 			'auto_click'                             => $settings['auto_click'],
 			'auto_scroll_reload'                     => $settings['auto_scroll_reload'],

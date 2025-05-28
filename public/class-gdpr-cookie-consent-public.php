@@ -1328,7 +1328,7 @@ class Gdpr_Cookie_Consent_Public {
 		if($the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie){
 			$header_scripts = isset($the_options['header_scripts']) ? "\r\n" . wp_unslash($the_options['header_scripts']) . "\r\n" : '';
 			$body_scripts = isset($the_options['body_scripts']) ? "\r\n" . wp_unslash($the_options['body_scripts']) . "\r\n" : '';
-	
+			
 			// Return JSON response
 			wp_send_json_success([
 				'header_scripts' => $header_scripts,
@@ -1350,10 +1350,64 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$header_scripts = $the_options['header_scripts'];
-		if ($header_scripts) {
-			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash($header_scripts) . "\r\n";
+		$is_script_dependency_on = $the_options['is_script_dependency_on'];
+		$footer_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '' ) : '';
+
+		$dependee_script = [];
+		if( $footer_dependency === "Header Scripts" ){
+			$dependee_script[] = "Footer";
 		}
+
+		if ($header_scripts) {
+			$escaped_script = wp_kses_post(wp_unslash($header_scripts));
+		
+			if (is_array($dependee_script) && count($dependee_script) > 0){
+				foreach( $dependee_script as $dependee ){
+					if( $dependee === "Footer" ) { 
+						echo "<script>
+							(function waitForFooter() {
+								if (window.footerScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Header script error:', e);
+									}
+									window.headerScriptsLoaded = true;
+									} else {
+									setTimeout(waitForFooter, 50);
+								}
+							})();
+							</script>";
+					} else if ( $dependee === "Body" ) {
+						echo "<script>
+							(function waitForBody() {
+								if (window.bodyScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Header script error:', e);
+									}
+									window.headerScriptsLoaded = true;
+									} else {
+									setTimeout(waitForBody, 50);
+								}
+							})();
+							</script>";
+					} else {
+						continue;
+					}
+				}
+			} else {
+				echo "<script>
+						try {
+							{$escaped_script}
+						} catch(e) {
+							console.error('Header script error:', e);
+						}
+						window.headerScriptsLoaded = true;
+					</script>";
+			}			
+		}		
 	}
 
 	/**
@@ -1365,9 +1419,69 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$the_options  = GDPR_Cookie_Consent::gdpr_get_settings();
 		$body_scripts = $the_options['body_scripts'];
+		$is_script_dependency_on = $the_options['is_script_dependency_on'];
+		$header_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '' ) : '';
+		$footer_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '' ) : '';
+
+		$dependee_script = [];
+		if( $header_dependency === "Body Scripts" ){
+			$dependee_script[] = "Header";
+		}
+
+		if( $footer_dependency === "Body Scripts" ){
+			$dependee_script[] = "Footer";
+		}
+
+
 		if ($body_scripts) {
-			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash($body_scripts) . "\r\n";
+			$escaped_script = wp_kses_post(wp_unslash($body_scripts));
+
+			if (is_array($dependee_script) && count($dependee_script) > 0){
+				foreach( $dependee_script as $dependee ){
+					if( $dependee === "Footer" ) { 
+						echo "<script>
+							(function waitForFooter() {
+								if (window.footerScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Body script error:', e);
+									}
+									window.bodyScriptsLoaded = true;
+									} else {
+									setTimeout(waitForFooter, 50);
+								}
+							})();
+							</script>";
+					} else if ( $dependee === "Header" ) {
+						echo "<script>
+							(function waitForHeader() {
+								if (window.headerScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Body script error:', e);
+									}
+									window.bodyScriptsLoaded = true;
+									} else {
+									setTimeout(waitForHeader, 50);
+								}
+							})();
+							</script>";
+					} else {
+						continue;
+					}
+				}
+			} else {
+				echo "<script>
+						try {
+							{$escaped_script}
+						} catch(e) {
+							console.error('Body script error:', e);
+						}
+						window.bodyScriptsLoaded = true;
+					</script>";
+			}
 		}
 	}
 
@@ -1380,9 +1494,63 @@ class Gdpr_Cookie_Consent_Public {
 	{
 		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
 		$footer_scripts = $the_options['footer_scripts'];
+		$is_script_dependency_on = $the_options['is_script_dependency_on'];
+		$header_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '' ) : '';
+
+		$dependee_script = [];
+		if( $header_dependency === "Footer Scripts" ){
+			$dependee_script[] = "Header";
+		}
+
 		if ($footer_scripts) {
-			// After referring to the competitor WordPress.org plugins, we are following the same approach.
-			echo "\r\n" . wp_unslash($footer_scripts) . "\r\n";
+			$escaped_script = wp_kses_post(wp_unslash($footer_scripts));
+
+			if (is_array($dependee_script) && count($dependee_script) > 0){
+				foreach( $dependee_script as $dependee ){
+					if( $dependee === "Header" ) { 
+						echo "<script>
+							(function waitForHeader() {
+								if (window.headerScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Header script error:', e);
+									}
+									window.footerScriptsLoaded = true;
+									} else {
+									setTimeout(waitForHeader, 50);
+								}
+							})();
+							</script>";
+					} else if ( $dependee === "Body" ) {
+						echo "<script>
+							(function waitForBody() {
+								if (window.bodyScriptsLoaded) {
+									try {
+										{$escaped_script}
+									} catch(e) {
+										console.error('Footer script error:', e);
+									}
+									window.footerScriptsLoaded = true;
+									} else {
+									setTimeout(waitForBody, 50);
+								}
+							})();
+							</script>";
+					} else {
+						continue;
+					}
+				}
+			} else {
+				echo "<script>
+						try {
+							{$escaped_script}
+						} catch(e) {
+							console.error('Footer script error:', e);
+						}
+						window.footerScriptsLoaded = true;
+					</script>";
+			}
 		}
 	}
 }
