@@ -1987,7 +1987,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$prev_gdpr_option['button_1_text']              = 'Accept';
 			$prev_gdpr_option['notify_message']             = addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' );
 			$prev_gdpr_option['opacity']                    = '1';
-			$prev_gdpr_option['template']                   = 'banner-default';
+			$prev_gdpr_option['template']                   = 'default';
 			$prev_gdpr_option['banner_template']            = 'banner-default';
 			$prev_gdpr_option['popup_template']             = 'popup-default';
 			$prev_gdpr_option['widget_template']            = 'widget-default';
