@@ -77,7 +77,7 @@
 			'border-color': ab_testing_enabled ? this[`cookie_border_color${active_test_banner_tab}`] : cookie_border_color
          }">
 			<div class="gdprmodal-header">
-				<button type="button" class="cookie-settings-popup-close" data-dismiss="gdprmodal" data-gdpr_action="close" :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': ab_testing_enabled ? (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px' : ( gdpr_policy === 'both' ? ( (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px' ) : (parseInt(cookie_bar_border_radius)/3 + 10) + 'px' ), 'right': ab_testing_enabled ? (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px' : ( gdpr_policy === 'both' ? ( (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px' ) : (parseInt(cookie_bar_border_radius)/3 + 10) + 'px' ), 'border-radius': '50%', 'background-color': ( ab_testing_enabled ? this[`accept_all_background_color${active_test_banner_tab}`] : accept_all_background_color ), 'color': ( ab_testing_enabled ? this[`accept_all_text_color${active_test_banner_tab}`] : accept_all_text_color ) }">
+				<button type="button" class="cookie-settings-popup-close" data-dismiss="gdprmodal" data-gdpr_action="close" :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': ab_testing_enabled ? (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px' : ( gdpr_policy === 'both' ? ( (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px' ) : (parseInt(cookie_bar_border_radius)/3 + 10) + 'px' ), 'right': ab_testing_enabled ? (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px' : ( gdpr_policy === 'both' ? ( (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px' ) : (parseInt(cookie_bar_border_radius)/3 + 10) + 'px' ), 'border-radius': '50%', 'background-color': ( ab_testing_enabled ? this[`accept_all_background_color${active_test_banner_tab}`] : gdpr_policy === 'both' ? accept_all_background_color1 : accept_all_background_color ), 'color': ( ab_testing_enabled ? this[`accept_all_text_color${active_test_banner_tab}`] : gdpr_policy === 'both' ? accept_all_text_color1 : accept_all_text_color ) }">
 					<span class="dashicons dashicons-no"></span>
 				</button>
 			</div>
@@ -754,22 +754,22 @@
             :style="{
                'background-color': ab_testing_enabled
                 ? this[`accept_all_background_color${active_test_banner_tab}`]
-                : accept_all_background_color,
+                : gdpr_policy === 'both' ? accept_all_background_color1 : accept_all_background_color,
   					'color': ab_testing_enabled
                 ? this[`accept_all_text_color${active_test_banner_tab}`]
-                : accept_all_text_color,
+                : gdpr_policy === 'both' ? accept_all_text_color1 : accept_all_text_color,
   					'border-style': ab_testing_enabled 
                 ? this[`accept_all_style${active_test_banner_tab}`]
-                : accept_all_style,
+                : gdpr_policy === 'both' ? accept_all_style1 : accept_all_style,
   					'border-width': ab_testing_enabled
                 ? this[`accept_all_border_width${active_test_banner_tab}`] + 'px'
-                : accept_all_border_width + 'px',
+                : gdpr_policy === 'both' ? accept_all_border_width1 + 'px' : accept_all_border_width + 'px',
   					'border-color': ab_testing_enabled
                 ? this[`accept_all_border_color${active_test_banner_tab}`]
-                : accept_all_border_color,
+                : gdpr_policy === 'both' ? accept_all_border_color1 : accept_all_border_color,
   					'border-radius': ab_testing_enabled
                 ? this[`accept_all_border_radius${active_test_banner_tab}`] + 'px'
-                : accept_all_border_radius + 'px',
+                : gdpr_policy === 'both' ? accept_all_border_radius1 + 'px' : accept_all_border_radius + 'px',
                'padding': '12px 29px',
                'margin-right': ab_testing_enabled
                 ? `${parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`]) / 3 + 10}px`

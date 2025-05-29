@@ -147,7 +147,7 @@
 #gdpr-ccpa-gdprmodal .gdprmodal-content {
   padding: 2rem 3rem;
   text-align: center;
-  height: 16vh;
+  height: 20vh;
 	width:500px;
 }
 
@@ -173,8 +173,7 @@
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-body {
   padding-top: 1rem;
-  overflow-y: scroll;
-  scrollbar-width: thin;
+  overflow: hidden;
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-body p {
   margin: 0;
@@ -193,9 +192,7 @@
 }
 
 @media (max-width:1228px) and (min-width: 768px) {
-  #gdpr-ccpa-gdprmodal .gdprmodal-content {
-    height: 16vh;
-  }
+  
 }
 @media (max-width: 1228px) {
   .gdprmodal-dialog .gdprmodal-content {
@@ -232,6 +229,15 @@
     /* width: 100%; */
     min-width: 155px !important;
   }
+  #gdpr-ccpa-gdprmodal .gdprmodal-content {
+    height: 25vh;
+  }
+  .vendor-switch-label,
+  .purposes-switch-label,
+  .special-features-switch-label {
+    display: none !important;
+  }
+
 }
 @media (max-width:550px) {
 
@@ -261,8 +267,14 @@
   #gdpr-cookie-consent-bar .side_column {
     flex-direction: column;
   }
+  #gdpr-ccpa-gdprmodal .gdprmodal-footer .gdprmodal-footer-buttons {
+    flex-direction: column-reverse;
+  }
+  .gdprmodal-dialog .gdprmodal-content {
+    margin-left: 2%;
+    margin-right: 2%;
+  }
 
-  
 
 
 }
@@ -285,9 +297,6 @@
   #gdpr-cookie-consent-bar 
   .cookie_notice_buttons.row_spaced-buttons a{
     min-width: auto !important;
-  }
-  #gdpr-ccpa-gdprmodal .gdprmodal-content {
-    height: 20vh;
   }
   #gdpr-ccpa-gdprmodal .gdprmodal-content .gdprmodal-footer .gdprmodal-footer-buttons {
     flex-direction: column-reverse;
@@ -793,11 +802,10 @@ Bootstrap CSS for frontend UI
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;
-  width: 833px;
+  width: 50vw;
   pointer-events: auto;
   outline: 0;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
-  top:7vh;
 }
 
 .gdprmodal-backdrop {
@@ -875,10 +883,6 @@ Bootstrap CSS for frontend UI
 }
 
 @media (min-width: 576px) {
-  .gdprmodal-dialog {
-    max-width: fit-content;
-    margin: 1.75rem auto;
-  }
   .gdprmodal-dialog-scrollable {
     max-height: calc(100% - 3.5rem);
   }
@@ -978,6 +982,20 @@ Bootstrap CSS for frontend UI
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+
+}
+.gdpr-dropdown-arrow {
+  position: relative;
+  top: 8px;
+  transition: transform 0.3s ease;
+}
+
+.gdpr-dropdown-arrow svg {
+  transform: rotate(0deg);
+}
+
+.gdpr-dropdown-arrow.rotated svg {
+  transform: rotate(270deg);
 }
 
 @media (max-width: 1199.98px) {
@@ -1162,7 +1180,6 @@ Bootstrap CSS for frontend UI
 
 /* purpose and feature description */
 .gdpr-ad-purpose-details {
-  color: #555555;
   font-size: 12px;
   line-height: 24px;
   margin: 0 0 0 18px;
@@ -2176,7 +2193,10 @@ Bootstrap CSS for frontend UI
   }
 }
 
-
+.gdprmodal-dialog {
+  max-width: fit-content;
+  margin: 1.75rem auto;
+}
 
 .wpl-iframe-placeholder {
   background-image: url(../images/placeholder.svg);
@@ -2199,4 +2219,19 @@ Bootstrap CSS for frontend UI
 }
 .hide_show_again_dnt {
   display: none !important;
+}
+@media (max-width: 990px) {
+  .gdprmodal-content {
+    width: 75vw !important;
+  }
+}
+@media (max-width: 768px) {
+  .gdprmodal-content {
+    width: 85vw !important;
+  }
+}
+@media (max-width: 550px) {
+  .gdprmodal-content {
+    width: 94vw !important;
+  }
 }

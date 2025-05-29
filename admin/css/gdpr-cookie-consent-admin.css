@@ -5391,12 +5391,6 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   padding: 1.5rem;
   border: unset;
 }
-.gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-footer,
-.gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-footer,
-.gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-footer {
-  background-color: #2e4683;
-}
-.
 .gdpr_messagebar_detail
   .gdprmodal-dialog
   .gdprmodal-footer
@@ -5407,7 +5401,6 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-content {
   color: var(--black-50);
-  background-color: var(--white-100);
 }
 
 #gdpr-ccpa-gdprmodal .gdprmodal-footer {
@@ -5422,8 +5415,6 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 #gdpr-ccpa-gdprmodal .gdprmodal-body {
   padding: 1rem;
   height: 57vh;
-  overflow-y: scroll;
-  scrollbar-width: thin;
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-body p {
   margin: 0;
