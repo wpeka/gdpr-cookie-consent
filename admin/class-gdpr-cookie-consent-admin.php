@@ -190,8 +190,6 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_style( $this->plugin_name . '-backend', plugin_dir_url( __FILE__ ) . 'css/gdpr-cookie-consent-backend' . GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_style( $this->plugin_name . '-backend' );
-		wp_enqueue_style( $this->plugin_name .'-introjs-css',plugin_dir_url( __FILE__ ) .  'css/intro.min'. GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name . '-introjs-css' );
 		wp_enqueue_style( $this->plugin_name .'-fonts-css',plugin_dir_url( __FILE__ ) .  'css/gdpr-cookie-consent-fonts'. GDPR_CC_SUFFIX . '.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name . '-fonts-css' );
 		
