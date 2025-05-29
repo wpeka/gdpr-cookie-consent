@@ -24,28 +24,23 @@
 	$allVendorsFlag = false;	//flag for all vendors toggle button
 	$allFeaturesFlag = false;
 
-    $top_value = ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? intval( $the_options[ 'cookie_bar_border_radius' . $chosenBanner ] ) / 3 + 10 : intval($the_options['background_border_radius']) / 3 + 10;
+    $top_value = ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? intval( $the_options[ 'cookie_bar_border_radius' . $chosenBanner ] ) / 3 + 10 : intval($the_options['background_border_radius']) / 3 + 10;
 
     $cookieSettingsPopupAccentColor = '';
-	error_log("DODODO ab_testing: " . print_r($ab_options['ab_testing_enbled'], true));
-    $color = ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? $the_options[ 'cookie_bar_color' . $chosenBanner ] : $the_options['background'];
+    $color = ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? $the_options[ 'cookie_bar_color' . $chosenBanner ] : $the_options['background'];
     $opacity = $the_options['opacity'];
-	error_log("DODODO color: " . $color);
-    // Compute final color
-    $opacityHex = strtoupper(str_pad(dechex((int) floor($opacity * 255)), 2, '0', STR_PAD_LEFT));
+
+	$opacityHex = strtoupper(str_pad(dechex((int) floor($opacity * 255)), 2, '0', STR_PAD_LEFT));
     $finalColor = strtoupper($color . $opacityHex);
-	error_log("DODODO finalColor: " . $finalColor);
-    // Determine accept background color
-    $acceptAllBGColor = ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? $the_options[ 'button_accept_all_button_color' . $banner_choice ] : $the_options['button_accept_all_button_color'];
-    error_log("DODODO acceptAllBGColor: " . $acceptAllBGColor);
-	// Determine cookieSettingsPopupAccentColor
-    if (strtoupper(substr($finalColor, 0, -2)) === strtoupper($acceptAllBGColor)) {
+    
+	$acceptAllBGColor = ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? $the_options[ 'button_accept_all_button_color' . $chosenBanner ] : $the_options['button_accept_all_button_color'];
+
+	if (strtoupper(substr($finalColor, 0, -2)) === strtoupper($acceptAllBGColor)) {
         $cookieSettingsPopupAccentColor = $the_options['button_accept_all_link_color'];
     } else {
         $cookieSettingsPopupAccentColor = $acceptAllBGColor;
     }
 
-	error_log("DODODO cookieSettingsPopupAccentColor: " . $cookieSettingsPopupAccentColor);
 	
 ?>
 
@@ -57,19 +52,19 @@
 		<div class="gdprmodal-content" 
         style="
             background-color: <?php echo esc_html($finalColor )?>;
-            color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+            color: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 			 ? esc_html( $the_options[ 'cookie_text_color' . $chosenBanner ] )
 			 : esc_html( $the_options['text'] ); ?>;
-            border-style: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+            border-style: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 			 ? esc_html( $the_options[ 'border_style' . $chosenBanner ] )
 			 : esc_html( $the_options['background_border_style'] ); ?>;
-            border-width: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+            border-width: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 			 ? esc_html( $the_options[ 'cookie_bar_border_width' . $chosenBanner ] . 'px' )
 			 : esc_html( $the_options['background_border_width'] . 'px' ); ?>;
-            border-radius: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+            border-radius: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 			 ? esc_html( $the_options[ 'cookie_bar_border_radius' . $chosenBanner ] . 'px' )
 			 : esc_html( $the_options['background_border_radius'] . 'px'); ?>;
-            border-color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+            border-color: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 			 ? esc_html( $the_options[ 'cookie_border_color' . $chosenBanner ] )
 			 : esc_html( $the_options['background_border_color'] ); ?>;
         ">
@@ -85,7 +80,7 @@
                     right: <?php echo esc_html($top_value); ?>px;
                     border-radius: 50%;
                     background-color: <?php echo esc_html( $cookieSettingsPopupAccentColor ); ?>;
-                    color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+                    color: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 					 ? esc_html( $the_options[ 'button_accept_all_link_color' . $chosenBanner ] )
 					 : esc_html( $the_options['button_accept_all_link_color'] ); ?>;
                 ">
@@ -829,22 +824,22 @@
 				?>
 				<button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="gdprmodal"
 					style="
-						background-color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						background-color: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 						 ? esc_attr( $the_options[ 'button_accept_all_button_color' . $chosenBanner ] )
 						 : esc_attr( $the_options['button_accept_all_button_color'] ); ?>;
-						color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						color: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 						 ? esc_attr( $the_options[ 'button_accept_all_link_color' . $chosenBanner ] )
 						 : esc_attr( $the_options['button_accept_all_link_color'] ); ?>;
-						border-style: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						border-style: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 						 ? esc_attr( $the_options[ 'button_accept_all_button_border_style' . $chosenBanner ] )
 						 : esc_attr( $the_options['button_accept_all_button_border_style'] ); ?>;
-						border-width: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						border-width: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 						 ? esc_attr( $the_options[ 'button_accept_all_button_border_width' . $chosenBanner ] . 'px' )	
 						 : esc_attr( $the_options['button_accept_all_button_border_width'] ); ?>px;
-						border-color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						border-color: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 						 ? esc_attr( $the_options[ 'button_accept_all_button_border_color' . $chosenBanner ] )
 						 : esc_attr( $the_options['button_accept_all_button_border_color'] ); ?>;
-						border-radius: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						border-radius: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 						 ? esc_attr( $the_options[ 'button_accept_all_button_border_radius' . $chosenBanner ] . 'px' )
 						 : esc_attr( $the_options['button_accept_all_button_border_radius'] ); ?>px;
 						padding: 12px 29px;

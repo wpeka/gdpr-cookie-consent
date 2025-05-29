@@ -81,16 +81,6 @@
   color: var(--popup_accent_color);
 }
 
-
-
-.gdpr_messagebar_detail
-  .category-group
-  .category-item
-  .gdpr-column
-  .gdpr-columns.active-group {
-  background-color: #7b7b7b;
-}
-
 .gdpr_messagebar_detail.layout-classic.navy_blue_center
   .category-group
   .category-item

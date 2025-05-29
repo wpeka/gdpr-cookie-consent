@@ -1110,7 +1110,7 @@ class Gdpr_Cookie_Consent_Public {
 				.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
 				.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input:checked+label,
 				.gdpr_messagebar_detail .category-group .toggle-group .checkbox input:checked+label {
-					background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+					background: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true' ) ? esc_attr( $the_options['button_accept_all_button_color' . $chosenBanner] ) : esc_attr( $the_options['button_accept_all_button_color'] ); ?> !important;
 				}
 			</style>
 			<?php
