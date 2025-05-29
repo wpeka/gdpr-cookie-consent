@@ -94,7 +94,17 @@ class Gdpr_Cookie_Consent_Public {
 		add_action( 'wp_ajax_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
 	}
+	/* Add defer attribute to scripts */
+	public function register_script_with_defer( $handle, $src, $deps = array(), $ver = false, $in_footer = true ) {
+		wp_register_script( $handle, $src, $deps, $ver, $in_footer );
 
+		add_filter( 'script_loader_tag', function ( $tag, $h, $s ) use ( $handle ) {
+			if ( $h === $handle ) {
+				return str_replace( ' src', ' defer src', $tag );
+			}
+			return $tag;
+		}, 10, 3 );
+}
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
@@ -134,11 +144,11 @@ class Gdpr_Cookie_Consent_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_register_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap/bootstrap.bundle.js', array( 'jquery' ), $this->version, true );
-		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
-		wp_register_script( $this->plugin_name.'-tcf', plugin_dir_url( __FILE__ ) . '../admin/js/vue/gdpr-cookie-consent-admin-tcstring.js#async', array( 'jquery' ), $this->version, true );
-	}
+		$this->register_script_with_defer( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
+		$this->register_script_with_defer( $this->plugin_name.'-tcf', plugin_dir_url( __FILE__ ) . '../admin/js/vue/gdpr-cookie-consent-admin-tcstring.js', array( 'jquery' ), $this->version, true );
+		$this->register_script_with_defer( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap/bootstrap.bundle.js', array( 'jquery' ), $this->version, true );
 
+	}
 
 	public function insert_custom_consent_script() {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
