@@ -76,7 +76,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			  'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`] + 'px',
 			}"
 			>
-			<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }" @click="turnOffPreviewBanner">
+			<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'background-color': this[`accept_all_background_color${active_test_banner_tab}`], 'color': this[`accept_all_text_color${active_test_banner_tab}`] }" @click="turnOffPreviewBanner">
 				<span class="dashicons dashicons-no"></span>
 			</button>
 				<div class="notice-logo-container">
@@ -124,15 +124,22 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<span v-show="is_lgpd" v-html ="lgpd_message"></span>
 						<span v-show="is_ccpa" v-html ="ccpa_message"></span>
 						<span v-show="is_eprivacy" v-html ="eprivacy_message"></span>
-						<a :style="{ 'font-family': this[`cookie_font${active_test_banner_tab}`],
-    	 				  'color': this[`button_readmore_link_color`],
-    	 				  'border-style': this[`button_readmore_button_border_style${active_test_banner_tab}`],
-    	 				  'border-width': this[`button_readmore_button_border_width${active_test_banner_tab}`] ? this[`button_readmore_button_border_width${active_test_banner_tab}`] + 'px' : '0',
-    	 				  'border-color': this[`button_readmore_button_border_color${active_test_banner_tab}`],
-    	 				  'border-radius': this[`button_readmore_button_border_radius${active_test_banner_tab}`] + 'px',
-    	 				  'background-color': this[`button_readmore_as_button${active_test_banner_tab}`]
-    	 				    ? this[`button_readmore_button_color${active_test_banner_tab}`] + Math.floor(this[`button_readmore_button_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()
-    	 				    : 'transparent' }" >
+						<a :style="{ 
+							'font-family': cookie_font,
+							'color':button_readmore_link_color,
+							'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
+							'border-width': button_readmore_as_button ? button_readmore_button_border_width + 'px':'0', 
+							'border-color': button_readmore_as_button ? button_readmore_button_border_color : 'transparent', 
+							'border-radius': button_readmore_as_button ? button_readmore_button_border_radius+'px' : '0px',
+							'background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent',
+							 ...(button_readmore_as_button ? {
+							 'display': 'block',
+							 'width': 'fit-content',
+							 'margin-top': '5px',
+							 'padding': json_templates[template]?.['static-settings']?.[`button_${button_readmore_button_size}_padding`]
+							} : { 'display': 'inline-block',
+							  }) 
+						}" >
 							 <span v-if="is_ccpa">{{ opt_out_text }}</span>
 							 <span v-if="!is_ccpa">{{ button_readmore_text }}</span>
 						</a>
@@ -147,10 +154,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								    ? `${this[`decline_background_color${active_test_banner_tab}`]}${Math.floor(this[`decline_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}`
 								    : 'transparent',
   								  'color': this[`decline_text_color${active_test_banner_tab}`],
-  								  'border-style': this[`decline_style${active_test_banner_tab}`],
-    							  'border-width': this[`decline_border_width${active_test_banner_tab}`] + 'px',
-    							  'border-color': this[`decline_border_color${active_test_banner_tab}`],
-    							  'border-radius': this[`decline_border_radius${active_test_banner_tab}`] + 'px',
+  								  'border-style': this[`decline_as_button${active_test_banner_tab}`] ? this[`decline_style${active_test_banner_tab}`] : 'none',
+    							  'border-width': this[`decline_as_button${active_test_banner_tab}`] ? this[`decline_border_width${active_test_banner_tab}`] + 'px' : '0',
+    							  'border-color': this[`decline_as_button${active_test_banner_tab}`] ? this[`decline_border_color${active_test_banner_tab}`] : 'transparent',
+    							  'border-radius': this[`decline_as_button${active_test_banner_tab}`] ? this[`decline_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_decline_on${active_test_banner_tab}`] ? {
   								    'min-width': json_templates[template]['decline_button']['min-width'],
@@ -174,10 +181,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								    ? `${this[`settings_background_color${active_test_banner_tab}`]}${Math.floor(this[`settings_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}`
 								    : 'transparent',
   								  'color': this[`settings_text_color${active_test_banner_tab}`],
-  								  'border-style': this[`settings_style${active_test_banner_tab}`],
-    							  'border-width': this[`settings_border_width${active_test_banner_tab}`] + 'px',
-    							  'border-color': this[`settings_border_color${active_test_banner_tab}`],
-    							  'border-radius': this[`settings_border_radius${active_test_banner_tab}`] + 'px',
+  								  'border-style': this[`settings_as_button${active_test_banner_tab}`] ? this[`settings_style${active_test_banner_tab}`] : 'none',
+    							  'border-width': this[`settings_as_button${active_test_banner_tab}`] ? this[`settings_border_width${active_test_banner_tab}`] + 'px' : '0',
+    							  'border-color': this[`settings_as_button${active_test_banner_tab}`] ? this[`settings_border_color${active_test_banner_tab}`] : 'transparent',
+    							  'border-radius': this[`settings_as_button${active_test_banner_tab}`] ? this[`settings_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_settings_on${active_test_banner_tab}`] ? {
   								    'min-width': json_templates[template]?.['settings_button']['min-width'],
@@ -202,10 +209,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								    ? `${this[`accept_background_color${active_test_banner_tab}`]}${Math.floor(this[`accept_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}`
 								    : 'transparent',
   								  'color': this[`accept_text_color${active_test_banner_tab}`],
-  								  'border-style': this[`accept_style${active_test_banner_tab}`],
-    							  'border-width': this[`accept_border_width${active_test_banner_tab}`] + 'px',
-    							  'border-color': this[`accept_border_color${active_test_banner_tab}`],
-    							  'border-radius': this[`accept_border_radius${active_test_banner_tab}`] + 'px',
+  								  'border-style': this[`accept_as_button${active_test_banner_tab}`] ? this[`accept_style${active_test_banner_tab}`] : 'none',
+    							  'border-width': this[`accept_as_button${active_test_banner_tab}`] ? this[`accept_border_width${active_test_banner_tab}`] + 'px' : '0',
+    							  'border-color': this[`accept_as_button${active_test_banner_tab}`] ? this[`accept_border_color${active_test_banner_tab}`] : 'transparent',
+    							  'border-radius': this[`accept_as_button${active_test_banner_tab}`] ? this[`accept_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_accept_on${active_test_banner_tab}`] ? {
   								    'min-width': json_templates[template]?.['accept_button']?.['min-width'],
@@ -228,10 +235,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								    ? `${this[`accept_all_background_color${active_test_banner_tab}`]}${Math.floor(this[`accept_all_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase()}`
 								    : 'transparent',
   								  'color': this[`accept_all_text_color${active_test_banner_tab}`],
-  								  'border-style': this[`accept_all_style${active_test_banner_tab}`],
-    							  'border-width': this[`accept_all_border_width${active_test_banner_tab}`] + 'px',
-    							  'border-color': this[`accept_all_border_color${active_test_banner_tab}`],
-    							  'border-radius': this[`accept_all_border_radius${active_test_banner_tab}`] + 'px',
+  								  'border-style': this[`accept_all_as_button${active_test_banner_tab}`] ? this[`accept_all_style${active_test_banner_tab}`] : 'none',
+    							  'border-width': this[`accept_all_as_button${active_test_banner_tab}`] ? this[`accept_all_border_width${active_test_banner_tab}`] + 'px' : '0',
+    							  'border-color': this[`accept_all_as_button${active_test_banner_tab}`] ? this[`accept_all_border_color${active_test_banner_tab}`] : 'transparent',
+    							  'border-radius': this[`accept_all_as_button${active_test_banner_tab}`] ? this[`accept_all_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_accept_all_on${active_test_banner_tab}`] ? {
   								    'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
@@ -269,7 +276,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				'border-radius': cookie_bar_border_radius + 'px',
 			  }"
 			>
-				<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }" @click="turnOffPreviewBanner">
+				<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%', 'background-color': accept_all_background_color, 'color': accept_all_text_color }" @click="turnOffPreviewBanner">
 					<span class="dashicons dashicons-no"></span>
 				</button>
 				<div class="notice-logo-container">
@@ -298,7 +305,22 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<span v-show="is_lgpd" v-html ="lgpd_message"></span>
 						<span v-show="is_ccpa" v-html ="ccpa_message"></span>
 						<span v-show="is_eprivacy" v-html ="eprivacy_message"></span>
-						<a :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }" >
+						<a :style="{ 
+							'font-family': cookie_font,
+							'color':button_readmore_link_color,
+							'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
+							'border-width': button_readmore_as_button ? button_readmore_button_border_width + 'px':'0', 
+							'border-color': button_readmore_as_button ? button_readmore_button_border_color : 'transparent', 
+							'border-radius': button_readmore_as_button ? button_readmore_button_border_radius+'px' : '0px',
+							'background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent',
+							 ...(button_readmore_as_button ? {
+							 'display': 'block',
+							 'width': 'fit-content',
+							 'margin-top': '5px',
+							 'padding': json_templates[template]?.['static-settings']?.[`button_${button_readmore_button_size}_padding`]
+							} : { 'display': 'inline-block',
+							  })
+						}" >
 							<span v-if="is_ccpa">{{ opt_out_text }}</span>
 							<span v-if="!is_ccpa">{{ button_readmore_text }}</span>
 						</a>
@@ -311,10 +333,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  :style="{
   								  'background-color': decline_as_button ? `${decline_background_color}${Math.floor(decline_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
   								  'color': decline_text_color,
-  								  'border-style': decline_style,
-  								  'border-width': decline_border_width + 'px',
-  								  'border-color': decline_border_color,
-  								  'border-radius': decline_border_radius + 'px',
+  								  'border-style': decline_as_button ? decline_style : 'none',
+  								  'border-width': decline_as_button ? decline_border_width + 'px' : '0',
+  								  'border-color': decline_as_button ? decline_border_color : 'transparent',
+  								  'border-radius': decline_as_button ? decline_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_decline_on ? {
   								    'min-width': json_templates[template]?.['decline_button']?.['min-width'],
@@ -335,10 +357,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  :style="{
   								  'background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
   								  'color': settings_text_color,
-  								  'border-style': settings_style,
-  								  'border-width': settings_border_width + 'px',
-  								  'border-color': settings_border_color,
-  								  'border-radius': settings_border_radius + 'px',
+  								  'border-style': settings_as_button ? settings_style : 'none',
+  								  'border-width': settings_as_button ? settings_border_width + 'px' : '0',
+  								  'border-color': settings_as_button ? settings_border_color : 'transparent',
+  								  'border-radius': settings_as_button ? settings_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_settings_on ? {
   								    'min-width': json_templates[template]?.['settings_button']?.['min-width'],
@@ -361,10 +383,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  :style="{
   								  'background-color': accept_as_button ? `${accept_background_color}${Math.floor(accept_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
   								  'color': accept_text_color,
-  								  'border-style': accept_style,
-  								  'border-width': accept_border_width + 'px',
-  								  'border-color': accept_border_color,
-  								  'border-radius': accept_border_radius + 'px',
+  								  'border-style': accept_as_button ? accept_style : 'none', 
+  								  'border-width': accept_as_button ? accept_border_width + 'px' : '0',
+  								  'border-color': accept_as_button ? accept_border_color : 'transparent',
+  								  'border-radius': accept_as_button ? accept_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_accept_on ? {
   								    'min-width': json_templates[template]?.['accept_button']?.['min-width'],
@@ -385,10 +407,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  :style="{
   								  'background-color': accept_all_as_button ? `${accept_all_background_color}${Math.floor(accept_all_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
   								  'color': accept_all_text_color,
-  								  'border-style': accept_all_style,
-  								  'border-width': accept_all_border_width + 'px',
-  								  'border-color': accept_all_border_color,
-  								  'border-radius': accept_all_border_radius + 'px',
+  								  'border-style': accept_all_as_button ? accept_all_style : 'none',
+  								  'border-width': accept_all_as_button ? accept_all_border_width + 'px' : '0',
+  								  'border-color': accept_all_as_button ? accept_all_border_color : 'transparent',
+  								  'border-radius': accept_all_as_button ? accept_all_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_accept_all_on ? {
   								    'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
@@ -452,7 +474,22 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<p>	
 						<span v-show="active_default_multiple_legislation === 'gdpr'" v-html ="gdpr_message"></span>
 						<span v-show="active_default_multiple_legislation === 'ccpa'" v-html ="ccpa_message"></span>
-						<a :style="{ 'font-family': cookie_font,color:button_readmore_link_color,'border-style': button_readmore_button_border_style, 'border-width': button_readmore_button_border_width ? button_readmore_button_border_width + 'px':'0', 'border-color': button_readmore_button_border_color, 'border-radius': button_readmore_button_border_radius+'px','background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent' }" >
+						<a :style="{ 
+							'font-family': cookie_font,
+							'color':button_readmore_link_color,
+							'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
+							'border-width': button_readmore_as_button ? button_readmore_button_border_width + 'px':'0', 
+							'border-color': button_readmore_as_button ? button_readmore_button_border_color : 'transparent', 
+							'border-radius': button_readmore_as_button ? button_readmore_button_border_radius+'px' : '0px',
+							'background-color': button_readmore_as_button ? `${button_readmore_button_color}${Math.floor(button_readmore_button_opacity * 255).toString(16).toUpperCase()}`:'transparent',
+							 ...(button_readmore_as_button ? {
+							 'display': 'block',
+							 'width': 'fit-content',
+							 'margin-top': '5px',
+							 'padding': json_templates[template]?.['static-settings']?.[`button_${button_readmore_button_size}_padding`]
+							} : { 'display': 'inline-block',
+							  })
+						}" >
 							<span v-if="active_default_multiple_legislation === 'gdpr'">{{ button_readmore_text }}</span>
 							<span v-if="active_default_multiple_legislation === 'ccpa'">{{ opt_out_text }}</span>
 						</a>
@@ -465,10 +502,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  :style="{
   								  'background-color': decline_as_button1 ? `${decline_background_color1}${Math.floor(decline_opacity1 * 255).toString(16).toUpperCase()}` : 'transparent',
   								  'color': decline_text_color1,
-  								  'border-style': decline_style1,
-  								  'border-width': decline_border_width1 + 'px',
-  								  'border-color': decline_border_color1,
-  								  'border-radius': decline_border_radius1 + 'px',
+  								  'border-style': decline_as_button1 ? decline_style1 : 'none',
+  								  'border-width': decline_as_button1 ? decline_border_width1 + 'px' : '0',
+  								  'border-color': decline_as_button1 ? decline_border_color1 : 'transparent',
+  								  'border-radius': decline_as_button1 ? decline_border_radius1 + 'px' : '0',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_decline_on1 ? {
   								    'min-width': json_templates[template]?.['decline_button']?.['min-width'],
@@ -489,10 +526,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  :style="{
   								  'background-color': settings_as_button1 ? `${settings_background_color1}${Math.floor(settings_opacity1 * 255).toString(16).toUpperCase()}` : 'transparent',
   								  'color': settings_text_color1,
-  								  'border-style': settings_style1,
-  								  'border-width': settings_border_width1 + 'px',
-  								  'border-color': settings_border_color1,
-  								  'border-radius': settings_border_radius1 + 'px',
+  								  'border-style': settings_as_button1 ? settings_style1 : 'none',
+  								  'border-width': settings_as_button1 ? settings_border_width1 + 'px' : '0',
+  								  'border-color': settings_as_button1 ? settings_border_color1 : 'transparent',
+  								  'border-radius': settings_as_button1 ? settings_border_radius1 + 'px' : '0',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_settings_on1 ? {
   								    'min-width': json_templates[template]?.['settings_button']?.['min-width'],
@@ -515,10 +552,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  :style="{
   								  'background-color': accept_as_button1 ? `${accept_background_color1}${Math.floor(accept_opacity1 * 255).toString(16).toUpperCase()}` : 'transparent',
   								  'color': accept_text_color1,
-  								  'border-style': accept_style1,
-  								  'border-width': accept_border_width1 + 'px',
-  								  'border-color': accept_border_color1,
-  								  'border-radius': accept_border_radius1 + 'px',
+  								  'border-style': accept_as_button1 ? accept_style1 : 'none',
+  								  'border-width': accept_as_button1 ? accept_border_width1 + 'px' : '0',
+  								  'border-color': accept_as_button1 ? accept_border_color1 : 'transparent',
+  								  'border-radius': accept_as_button1 ? accept_border_radius1 + 'px' : '0',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_accept_on1 ? {
   								    'min-width': json_templates[template]?.['accept_button']?.['min-width'],

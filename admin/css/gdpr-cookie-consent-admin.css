@@ -5044,6 +5044,9 @@ Bootstrap CSS for frontend UI
   position: relative;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  height: 57vh;
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }
 
 .gdprmodal-body #gdpr-cookie-consent-bar {
@@ -5388,66 +5391,16 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   padding: 1.5rem;
   border: unset;
 }
-.gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-footer,
-.gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-footer,
-.gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-footer {
-  background-color: #2e4683;
-}
-.
 .gdpr_messagebar_detail
   .gdprmodal-dialog
   .gdprmodal-footer
   .powered-by-credits {
-  color: var(--black-50);
   position: absolute;
   left: 2%;
   font-size: var(--text-2xs-font-size);
 }
-.gdpr_messagebar_detail.navy_blue_center
-  .gdprmodal-dialog
-  .gdprmodal-footer
-  .powered-by-credits,
-.gdpr_messagebar_detail.navy_blue_box
-  .gdprmodal-dialog
-  .gdprmodal-footer
-  .powered-by-credits,
-.gdpr_messagebar_detail.navy_blue_square
-  .gdprmodal-dialog
-  .gdprmodal-footer
-  .powered-by-credits {
-  color: var(--gray-905);
-}
-.gdpr_messagebar_detail.almond_column
-  .gdprmodal-dialog
-  .gdprmodal-footer
-  .powered-by-credits {
-  color: var(--blue-902);
-}
-.gdpr_messagebar_detail.grey_center
-  .gdprmodal-dialog
-  .gdprmodal-footer
-  .powered-by-credits,
-.gdpr_messagebar_detail.grey_column
-  .gdprmodal-dialog
-  .gdprmodal-footer
-  .powered-by-credits {
-  color: var(--black-50);
-}
-.gdpr_messagebar_detail.dark
-  .gdprmodal-dialog
-  .gdprmodal-footer
-  .powered-by-credits {
-  color: var(--white-100);
-}
-.gdpr_messagebar_detail.dark_row
-  .gdprmodal-dialog
-  .gdprmodal-footer
-  .powered-by-credits {
-  color: var(--white-100);
-}
 #gdpr-ccpa-gdprmodal .gdprmodal-content {
   color: var(--black-50);
-  background-color: var(--white-100);
 }
 
 #gdpr-ccpa-gdprmodal .gdprmodal-footer {
@@ -5461,6 +5414,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-body {
   padding: 1rem;
+  height: 57vh;
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-body p {
   margin: 0;
@@ -5597,7 +5551,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   color: #98b2ab;
 }
 .dark .gdpr-ad-purpose-details {
-  color: #949494;
+  color: inherit;
 }
 .gdpr-ad-purpose-details a {
   color: #115ca7;

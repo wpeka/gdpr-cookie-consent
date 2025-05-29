@@ -382,7 +382,7 @@ a .export-btn:hover {
   background-color: #434a58;
 }
 .gdpr_messagebar_detail #cookie_credit_link {
-  color: #0274be;
+  color: var(--accept-bg-color);
 }
 #gdpr-cookie-consent-bar .btn,
 .gdpr_messagebar_detail .btn {
