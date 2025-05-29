@@ -1987,7 +1987,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$prev_gdpr_option['button_1_text']              = 'Accept';
 			$prev_gdpr_option['notify_message']             = addslashes( 'This website uses cookies to improve your experience. We\'ll assume you\'re ok with this, but you can opt-out if you wish.' );
 			$prev_gdpr_option['opacity']                    = '1';
-			$prev_gdpr_option['template']                   = 'banner-default';
+			$prev_gdpr_option['template']                   = 'default';
 			$prev_gdpr_option['banner_template']            = 'banner-default';
 			$prev_gdpr_option['popup_template']             = 'popup-default';
 			$prev_gdpr_option['widget_template']            = 'widget-default';
@@ -3902,7 +3902,11 @@ class Gdpr_Cookie_Consent_Admin {
 				?>
 				<div :class=" 'gdpr-right-field template-type-' + show_cookie_as ">
 						<div style = "<?php echo esc_attr($styles_attr); ?>" class="cookie_notice_content">
-							<button style="border: none; height:20px; width: 20px; position: absolute; top: 10px; right: 10px; border-radius: 50%; background-color: <?php echo $template['accept_button']['background-color'] ?>; color: <?php echo $template['accept_button']['color']; ?>;">x</button>
+							<span style="display: inline-flex; align-items: center; justify-content: center; position: absolute; top:20px; right: 20px; height: 20px; width: 20px; border-radius: 50%;background-color: <?php echo $template['accept_button']['background-color'] ?>; color: <?php echo $template['accept_button']['color']; ?>;">
+								<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+								</svg>
+							</span>
 							<?php
 								if($active_banner == 1) {
 									$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
