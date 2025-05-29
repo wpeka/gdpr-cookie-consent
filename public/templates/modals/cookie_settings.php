@@ -24,39 +24,54 @@
 	$allVendorsFlag = false;	//flag for all vendors toggle button
 	$allFeaturesFlag = false;
 
-    $top_value = intval($the_options['background_border_radius']) / 3 + 10;
+    $top_value = ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? intval( $the_options[ 'cookie_bar_border_radius' . $chosenBanner ] ) / 3 + 10 : intval($the_options['background_border_radius']) / 3 + 10;
 
     $cookieSettingsPopupAccentColor = '';
-    $color = $the_options['background'];
+	error_log("DODODO ab_testing: " . print_r($ab_options['ab_testing_enbled'], true));
+    $color = ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? $the_options[ 'cookie_bar_color' . $chosenBanner ] : $the_options['background'];
     $opacity = $the_options['opacity'];
-
+	error_log("DODODO color: " . $color);
     // Compute final color
     $opacityHex = strtoupper(str_pad(dechex((int) floor($opacity * 255)), 2, '0', STR_PAD_LEFT));
     $finalColor = strtoupper($color . $opacityHex);
-
+	error_log("DODODO finalColor: " . $finalColor);
     // Determine accept background color
-    $acceptBGColor = $the_options['button_accept_button_color'];
-    // Determine cookieSettingsPopupAccentColor
-    if (strtoupper(substr($finalColor, 0, -2)) === strtoupper($acceptBGColor)) {
-        $cookieSettingsPopupAccentColor = $the_options['accept_text_color'];
+    $acceptAllBGColor = ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? $the_options[ 'button_accept_all_button_color' . $banner_choice ] : $the_options['button_accept_all_button_color'];
+    error_log("DODODO acceptAllBGColor: " . $acceptAllBGColor);
+	// Determine cookieSettingsPopupAccentColor
+    if (strtoupper(substr($finalColor, 0, -2)) === strtoupper($acceptAllBGColor)) {
+        $cookieSettingsPopupAccentColor = $the_options['button_accept_all_link_color'];
     } else {
-        $cookieSettingsPopupAccentColor = $acceptBGColor;
+        $cookieSettingsPopupAccentColor = $acceptAllBGColor;
     }
+
+	error_log("DODODO cookieSettingsPopupAccentColor: " . $cookieSettingsPopupAccentColor);
 	
 ?>
 
+<?php if( $the_options['cookie_usage_for'] !== "ccpa" ) { ?>
 
 <div class="gdprmodal gdprfade" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_html( $cookie_data['backdrop'] ); ?>" >
 	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
 		<!-- Modal content-->
 		<div class="gdprmodal-content" 
         style="
-            background-color: <?php echo esc_html( $the_options['background'] ); ?>;
-            color: <?php echo esc_html( $the_options['text'] ); ?>;
-            border-style: <?php echo esc_html( $the_options['background_border_style'] ); ?>;
-            border-width: <?php echo esc_html( $the_options['background_border_width'] . 'px'); ?>;
-            border-radius: <?php echo esc_html( $the_options['background_border_radius'] . 'px'); ?>;
-            border-color: <?php echo esc_html( $the_options['background_border_color'] ); ?>;
+            background-color: <?php echo esc_html($finalColor )?>;
+            color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+			 ? esc_html( $the_options[ 'cookie_text_color' . $chosenBanner ] )
+			 : esc_html( $the_options['text'] ); ?>;
+            border-style: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+			 ? esc_html( $the_options[ 'border_style' . $chosenBanner ] )
+			 : esc_html( $the_options['background_border_style'] ); ?>;
+            border-width: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+			 ? esc_html( $the_options[ 'cookie_bar_border_width' . $chosenBanner ] . 'px' )
+			 : esc_html( $the_options['background_border_width'] . 'px' ); ?>;
+            border-radius: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+			 ? esc_html( $the_options[ 'cookie_bar_border_radius' . $chosenBanner ] . 'px' )
+			 : esc_html( $the_options['background_border_radius'] . 'px'); ?>;
+            border-color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+			 ? esc_html( $the_options[ 'cookie_border_color' . $chosenBanner ] )
+			 : esc_html( $the_options['background_border_color'] ); ?>;
         ">
 			<div class="gdprmodal-header">
             
@@ -69,10 +84,14 @@
                     top: <?php echo esc_html($top_value); ?>px;
                     right: <?php echo esc_html($top_value); ?>px;
                     border-radius: 50%;
-                    background-color: <?php echo esc_html( $the_options['button_accept_button_color'] ); ?>;
-                    color: <?php echo esc_html( $the_options['button_accept_link_color'] ); ?>;
+                    background-color: <?php echo esc_html( $cookieSettingsPopupAccentColor ); ?>;
+                    color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+					 ? esc_html( $the_options[ 'button_accept_all_link_color' . $chosenBanner ] )
+					 : esc_html( $the_options['button_accept_all_link_color'] ); ?>;
                 ">
-					<span class="dashicons dashicons-no">&#10005</span>
+					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+					</svg>
 				</button>
 			</div>
 			<div class="gdprmodal-body classic classic-nvg" style="scrollbar-color: <?php echo esc_html( $cookieSettingsPopupAccentColor ); ?> transparent;">
@@ -800,7 +819,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="gdprmodal-footer">
+			<div class="gdprmodal-footer" style="--popup_accent_color: <?php echo esc_html( '#' . ltrim($cookieSettingsPopupAccentColor, '#') ); ?>;">
 				<?php
 				if ( ! empty( $cookie_data['show_credits'] ) ) {
 					?>
@@ -808,8 +827,134 @@
 					<?php
 				}
 				?>
-				<button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="gdprmodal"><?php echo esc_html( $cookie_data['save_button'] ); ?></button>
+				<button id="cookie_action_save" type="button" class="gdpr_action_button btn" data-gdpr_action="accept" data-dismiss="gdprmodal"
+					style="
+						background-color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						 ? esc_attr( $the_options[ 'button_accept_all_button_color' . $chosenBanner ] )
+						 : esc_attr( $the_options['button_accept_all_button_color'] ); ?>;
+						color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						 ? esc_attr( $the_options[ 'button_accept_all_link_color' . $chosenBanner ] )
+						 : esc_attr( $the_options['button_accept_all_link_color'] ); ?>;
+						border-style: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						 ? esc_attr( $the_options[ 'button_accept_all_button_border_style' . $chosenBanner ] )
+						 : esc_attr( $the_options['button_accept_all_button_border_style'] ); ?>;
+						border-width: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						 ? esc_attr( $the_options[ 'button_accept_all_button_border_width' . $chosenBanner ] . 'px' )	
+						 : esc_attr( $the_options['button_accept_all_button_border_width'] ); ?>px;
+						border-color: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						 ? esc_attr( $the_options[ 'button_accept_all_button_border_color' . $chosenBanner ] )
+						 : esc_attr( $the_options['button_accept_all_button_border_color'] ); ?>;
+						border-radius: <?php echo ( $ab_options['ab_testing_enbled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+						 ? esc_attr( $the_options[ 'button_accept_all_button_border_radius' . $chosenBanner ] . 'px' )
+						 : esc_attr( $the_options['button_accept_all_button_border_radius'] ); ?>px;
+						padding: 12px 29px;
+						margin-right: <?php echo esc_attr( $top_value ); ?>px;
+					"><?php echo esc_html( $cookie_data['save_button'] ); ?></button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<?php } else { ?>
+
+<div class="gdprmodal gdprfade" id="gdpr-ccpa-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_html( $cookie_data['backdrop'] ); ?>">
+	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
+		<div class="gdprmodal-content"
+		style="
+            background-color: <?php echo esc_html( $the_options['background'] ); ?>;
+            color: <?php echo esc_html( $the_options['text'] ); ?>;
+            border-style: <?php echo esc_html( $the_options['background_border_style'] ); ?>;
+            border-width: <?php echo esc_html( $the_options['background_border_width'] . 'px'); ?>;
+            border-radius: <?php echo esc_html( $the_options['background_border_radius'] . 'px'); ?>;
+            border-color: <?php echo esc_html( $the_options['background_border_color'] ); ?>;
+        ">
+			<div class="gdprmodal-header">
+				<button type="button" class="gdpr_action_button close dashicons dashicons-no" data-dismiss="gdprmodal" data-gdpr_action="ccpa_close"
+					style="
+                	    border: none;
+                	    height: 20px;
+                	    width: 20px;
+                	    position: absolute;
+                	    top: <?php echo esc_html($top_value); ?>px;
+                	    right: <?php echo esc_html($top_value); ?>px;
+                	    border-radius: 50%;
+                	    background-color: <?php echo esc_html( $the_options['button_accept_button_color'] ); ?>;
+                	    color: <?php echo esc_html( $the_options['button_accept_link_color'] ); ?>;
+                	">
+					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+					</svg>
+				</button>
+			</div>
+
+			<div class="gdprmodal-body"><p><?php echo esc_html__( $cookie_data['dash_optout_text'], 'gdpr-cookie-consent' ); //phpcs:ignore?>
+					</p>
+			</div>
+			<div class="gdprmodal-footer" style="--popup_accent_color: <?php echo esc_html( '#' . ltrim($cookieSettingsPopupAccentColor, '#') ); ?>;">
+				<div class="gdprmodal-footer-buttons">
+					<?php if ($the_options['cookie_usage_for'] == 'both') {
+					?>
+						<button id="cookie_action_cancel" type="button" class="<?php echo esc_html( $the_options['button_cancel_classes'] ); ?>" data-gdpr_action="cancel" data-dismiss="gdprmodal"
+						style="
+							background-color: <?php echo esc_attr( $the_options['button_decline_button_color'] ); ?>;
+							color: <?php echo esc_attr( $the_options['button_decline_link_color'] ); ?>;
+							border-style: <?php echo esc_attr( $the_options['button_decline_button_border_style'] ); ?>;
+							border-width: <?php echo esc_attr( $the_options['button_decline_button_border_width'] ); ?>px;
+							border-color: <?php echo esc_attr( $the_options['button_decline_button_border_color'] ); ?>;
+							border-radius: <?php echo esc_attr( $the_options['button_decline_button_border_radius'] ); ?>px;
+							padding: 12px 29px;
+							width: 100%;
+						"><?php echo esc_html__( $the_options['button_cancel_text1'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
+						<button id="cookie_action_confirm" type="button" class="<?php echo esc_html( $the_options['button_confirm_classes'] ); ?>" data-gdpr_action="confirm" data-dismiss="gdprmodal"
+						style="
+							background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?>;
+							color: <?php echo esc_attr( $the_options['button_accept_link_color'] ); ?>;
+							border-style: <?php echo esc_attr( $the_options['button_accept_button_border_style'] ); ?>;
+							border-width: <?php echo esc_attr( $the_options['button_accept_button_border_width'] ); ?>px;
+							border-color: <?php echo esc_attr( $the_options['button_accept_button_border_color'] ); ?>;
+							border-radius: <?php echo esc_attr( $the_options['button_accept_button_border_radius'] ); ?>px;
+							padding: 12px 29px;
+							width: 100%;
+						"><?php echo esc_html__( $the_options['button_confirm_text1'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
+					<?php } else {?>
+						<button id="cookie_action_cancel" type="button" class="<?php echo esc_html( $the_options['button_cancel_classes'] ); ?>" data-gdpr_action="cancel" data-dismiss="gdprmodal"
+						style="
+							background-color: <?php echo esc_attr( $the_options['button_decline_button_color'] ); ?>;
+							color: <?php echo esc_attr( $the_options['button_decline_link_color'] ); ?>;
+							border-style: <?php echo esc_attr( $the_options['button_decline_button_border_style'] ); ?>;
+							border-width: <?php echo esc_attr( $the_options['button_decline_button_border_width'] ); ?>px;
+							border-color: <?php echo esc_attr( $the_options['button_decline_button_border_color'] ); ?>;
+							border-radius: <?php echo esc_attr( $the_options['button_decline_button_border_radius'] ); ?>px;
+							padding: 12px 29px;
+							width: 100%;
+						"><?php echo esc_html__(  $cookie_data['dash_button_cancel_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
+					<button id="cookie_action_confirm" type="button" class="<?php echo esc_html( $the_options['button_confirm_classes'] ); ?>" data-gdpr_action="confirm" data-dismiss="gdprmodal"
+					style="
+							background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?>;
+							color: <?php echo esc_attr( $the_options['button_accept_link_color'] ); ?>;
+							border-style: <?php echo esc_attr( $the_options['button_accept_button_border_style'] ); ?>;
+							border-width: <?php echo esc_attr( $the_options['button_accept_button_border_width'] ); ?>px;
+							border-color: <?php echo esc_attr( $the_options['button_accept_button_border_color'] ); ?>;
+							border-radius: <?php echo esc_attr( $the_options['button_accept_button_border_radius'] ); ?>px;
+							padding: 12px 29px;
+							width: 100%;
+						"><?php echo esc_html__( $cookie_data['dash_button_confirm_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></button>
+					<?php } ?>
+				</div>
+				
+
+				<?php
+				if ( ! empty( $cookie_data['show_credits'] ) ) {
+					if ( ! empty( $cookie_data['credits'] ) ) {
+						?>
+						<div class="powered-by-credits"><?php echo wp_kses_post( $cookie_data['credits'] ); ?></div>
+						<?php
+					}
+				}
+				?>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php } ?>

@@ -135,10 +135,64 @@
   width: 100%;
 }
 
+#gdpr-ccpa-gdprmodal .gdprmodal-content {
+  padding: 2rem 3rem;
+  text-align: center;
+  height: 16vh;
+	width:500px;
+}
 
+#gdpr-ccpa-gdprmodal .gdprmodal-footer {
+  border: unset;
+}
+#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-footer .powered-by-credits {
+  position: absolute;
+  font-size: 0.45em;
+  bottom: 20px;
+}
+#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-footer .powered-by-credits a {
+  color: var(--popup_accent_color);
+}
+#gdpr-ccpa-gdprmodal .gdprmodal-footer .gdprmodal-footer-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+  gap: 5px;
+}
+#gdpr-ccpa-gdprmodal .gdprmodal-body {
+  padding-top: 1rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+#gdpr-ccpa-gdprmodal .gdprmodal-body p {
+  margin: 0;
+  padding: 0;
+}
+#gdpr-ccpa-gdprmodal .gdprmodal-body .gdpr_action_button.close {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  padding: 0px;
+  background-color: none;
+  border-style: none;
+}
+#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-footer {
+  padding: 0;
+}
 
+@media (max-width:1228px) and (min-width: 768px) {
+  #gdpr-ccpa-gdprmodal .gdprmodal-content {
+    height: 16vh;
+  }
+}
 @media (max-width:1228px) {
-  
+  .gdprmodal-dialog .gdprmodal-content {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
 }
 @media (max-width: 768px) {
   #gdpr-cookie-consent-bar.gdpr-popup, #gdpr-cookie-consent-bar.gdpr-widget{
@@ -152,12 +206,18 @@
   }
 }
 @media (max-width:550px) {
-  
+  #gdpr-ccpa-gdprmodal .gdprmodal-content {
+    height: 20vh;
+  }
+  #gdpr-ccpa-gdprmodal .gdprmodal-content .gdprmodal-footer .gdprmodal-footer-buttons {
+    flex-direction: column-reverse;
+    margin-top: 20px;
+  }
 }
 #gdpr-cookie-consent-bar #cookie_credit_link {
   border: unset !important;
   background: unset !important;
-  color: #0274be;
+  color: var(--popup_accent_color);
 }
 #gdpr-cookie-consent-bar a {
   background-color: inherit;
@@ -655,8 +715,9 @@ Bootstrap CSS for frontend UI
   flex-direction: column;
   width: 833px;
   pointer-events: auto;
-  background-color: var(--white-100);
   outline: 0;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  top:7vh;
 }
 
 .gdprmodal-backdrop {
@@ -706,8 +767,6 @@ Bootstrap CSS for frontend UI
   scrollbar-width: thin;
 }
 
-
-
 .gdprmodal-footer {
   display: -ms-flexbox;
   display: flex;
@@ -717,6 +776,7 @@ Bootstrap CSS for frontend UI
   justify-content: center;
   padding: 1rem;
 }
+
 
 .gdprmodal-footer > :not(:first-child) {
   margin-left: 0.25rem;
@@ -738,9 +798,6 @@ Bootstrap CSS for frontend UI
   .gdprmodal-dialog {
     max-width: fit-content;
     margin: 1.75rem auto;
-  }
-  #gdpr-ccpa-gdprmodal .gdprmodal-dialog {
-    max-width: 300px;
   }
   .gdprmodal-dialog-scrollable {
     max-height: calc(100% - 3.5rem);
@@ -913,42 +970,9 @@ Bootstrap CSS for frontend UI
   .gdprmodal-dialog
   .gdprmodal-footer
   .powered-by-credits {
-  color: var(--black-50);
   position: absolute;
-  left: 2%;
+  left: 10px;
   font-size: 9px;
-}
-#gdpr-ccpa-gdprmodal .gdprmodal-content {
-  color: var(--black-50);
-  background-color: var(--white-100);
-}
-
-#gdpr-ccpa-gdprmodal .gdprmodal-footer {
-  border: unset;
-}
-#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-footer .powered-by-credits {
-  position: absolute;
-  right: 3%;
-  font-size: 0.55em;
-  bottom: 0;
-}
-#gdpr-ccpa-gdprmodal .gdprmodal-body {
-  padding: 1rem;
-  height: 66vh;
-  overflow-y: scroll;
-  scrollbar-width: thin;
-}
-#gdpr-ccpa-gdprmodal .gdprmodal-body p {
-  margin: 0;
-  padding: 0;
-}
-#gdpr-ccpa-gdprmodal .gdprmodal-body .gdpr_action_button.close {
-  position: absolute;
-  right: 0.5rem;
-  top: 0.5rem;
-  padding: 0px;
-  background-color: none;
-  border-style: none;
 }
 /* Navbar for IAB TCF */
 .gdpr_messagebar_detail .gdpr-iab-navbar {
@@ -2014,7 +2038,6 @@ Bootstrap CSS for frontend UI
 }
 .gdpr_messagebar_detail .feature-group a.btn.purposes,
 .gdpr_messagebar_detail .vendor-group a.btn.vendors {
-  width: 60%;
   text-align: left;
 }
 .gdpr_messagebar_detail a.btn:focus {
@@ -2027,9 +2050,7 @@ Bootstrap CSS for frontend UI
   }
 }
 @media (min-width: 1000px) {
-  .gdpr_messagebar_detail .gdprmodal-dialog {
-    max-width: 50% !important;
-  }
+
 }
 
 @media (max-width: 768px) {
@@ -2055,6 +2076,16 @@ Bootstrap CSS for frontend UI
     position: relative !important;
     left: unset !important;
     padding-top: 10px !important;
+  }
+  .gdpr_messagebar_detail .gdprmodal-content .gdprmodal-body {
+    height: 60vh;
+  }
+  .gdpr_messagebar_detail .gdprmodal-content .gdprmodal-body .special-features-switch-label {
+    display: none;
+  }
+  .gdpr_messagebar_detail.layout-classic .category-group .toggle-group, 
+  .gdpr_messagebar_detail.layout-default .category-group .toggle-group {
+    top: 20px;
   }
 }
 

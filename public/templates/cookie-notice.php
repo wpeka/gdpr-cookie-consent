@@ -242,7 +242,7 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 if ( ! empty( $the_options['ccpa_notify'] ) ) {
 	?>
 	<div class="ccpa_messagebar_detail layout-classic <?php echo esc_html( $the_options['template_parts'] ); ?>">
-		<?php include plugin_dir_path( __FILE__ ) . 'modals/ccpa.php'; ?>
+		<?php include plugin_dir_path( __FILE__ ) . 'modals/cookie_settings.php'; ?>
 	</div>
 	<?php
 }

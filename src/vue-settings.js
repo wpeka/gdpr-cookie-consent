@@ -2360,16 +2360,16 @@ var gen = new Vue({
         : this.cookie_bar_opacity;
 
       const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
-      const acceptBGColor = this.ab_testing_enabled ? ( this.active_test_banner_tab === 1 ? this.accept_background_color1 : this.accept_background_color2 ) : this.accept_background_color;
+      const acceptAllBGColor = this.ab_testing_enabled ? ( this.active_test_banner_tab === 1 ? this.accept_all_background_color1 : this.accept_all_background_color2 ) : this.accept_all_background_color;
 
-      if( finalColor.toUpperCase().slice(0, -2) === acceptBGColor.toUpperCase() ) {
+      if( finalColor.toUpperCase().slice(0, -2) === acceptAllBGColor.toUpperCase() ) {
         if( this.ab_testing_enabled ){
-          this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.accept_text_color1 : this.accept_text_color2;
+          this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.accept_all_text_color1 : this.accept_all_text_color2;
         } else {
-          this.cookieSettingsPopupAccentColor = this.accept_text_color;
+          this.cookieSettingsPopupAccentColor = this.accept_all_text_color;
         }
       } else {
-        this.cookieSettingsPopupAccentColor =  acceptBGColor;
+        this.cookieSettingsPopupAccentColor =  acceptAllBGColor;
       }
 
       return finalColor;
@@ -10968,16 +10968,16 @@ var app = new Vue({
         : this.cookie_bar_opacity;
 
       const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
-      const acceptBGColor = this.iabtcf_is_on ? ( this.active_test_banner_tab === 1 ? this.accept_background_color1 : this.accept_background_color2 ) : this.accept_background_color;
+      const acceptAllBGColor = this.iabtcf_is_on ? ( this.active_test_banner_tab === 1 ? this.accept_all_background_color1 : this.accept_all_background_color2 ) : this.accept_all_background_color;
 
-      if( finalColor.toUpperCase().slice(0, -2) === acceptBGColor.toUpperCase() ) {
+      if( finalColor.toUpperCase().slice(0, -2) === acceptAllBGColor.toUpperCase() ) {
         if( this.ab_testing_enabled ){
-          this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.accept_text_color1 : this.accept_text_color2;
+          this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.accept_all_text_color1 : this.accept_all_text_color2;
         } else {
-          this.cookieSettingsPopupAccentColor = this.accept_text_color;
+          this.cookieSettingsPopupAccentColor = this.accept_all_text_color;
         }
       } else {
-        this.cookieSettingsPopupAccentColor =  acceptBGColor;
+        this.cookieSettingsPopupAccentColor =  acceptAllBGColor;
       }
 
       return finalColor;
