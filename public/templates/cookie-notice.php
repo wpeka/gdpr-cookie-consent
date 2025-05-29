@@ -400,8 +400,8 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 		if ( 'banner' === $the_options['cookie_bar_as'] && ! $the_options['button_settings_as_popup'] ) {//phpcs:ignore
 		} else {
 			?>
-			<div class="gdpr_messagebar_detail <?php echo esc_html( $the_options['button_settings_layout_skin'] ); ?> <?php echo esc_html( $the_options['template_parts'] ); ?> <?php echo esc_html( $the_options['theme_class'] ); ?>">
-			<?php include plugin_dir_path( __FILE__ ) . $the_options['layout_skin_template']; ?>
+			<div class="gdpr_messagebar_detail layout-classic <?php echo esc_html( $the_options['template_parts'] ); ?> <?php echo esc_html( $the_options['theme_class'] ); ?>">
+			<?php include plugin_dir_path( __FILE__ ) . 'modals/cookie_settings.php'; ?>
 		</div>
 			<?php
 		}
@@ -426,8 +426,8 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 
 if ( ! empty( $the_options['ccpa_notify'] ) ) {
 	?>
-	<div class="ccpa_messagebar_detail <?php echo esc_html( $the_options['button_settings_layout_skin'] ); ?> <?php echo esc_html( $the_options['template_parts'] ); ?>">
-		<?php include plugin_dir_path( __FILE__ ) . 'modals/ccpa.php'; ?>
+	<div class="ccpa_messagebar_detail layout-classic <?php echo esc_html( $the_options['template_parts'] ); ?>">
+		<?php include plugin_dir_path( __FILE__ ) . 'modals/cookie_settings.php'; ?>
 	</div>
 	<?php
 }
