@@ -1988,7 +1988,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<v-select class="form-group" id="gdpr-cookie-accept-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_as_button"></v-select>
+									<v-select class="form-group" id="gdpr-cookie-accept-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_as_button"  @input="onButtonChange($event, 'accept')"></v-select>
 									<input type="hidden" name="gdpr-cookie-accept-as" v-model="accept_as_button">
 								</c-col>
 								<c-col class="col-sm-6">
@@ -2139,7 +2139,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<v-select class="form-group" id="gdpr-cookie-accept-all-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_all_as_button"></v-select>
+									<v-select class="form-group" id="gdpr-cookie-accept-all-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_all_as_button" @input="onButtonChange($event, 'accept_all')"></v-select>
 									<input type="hidden" name="gdpr-cookie-accept-all-as" v-model="accept_all_as_button">
 								</c-col>
 								<c-col class="col-sm-6">
@@ -2288,7 +2288,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
-										<v-select class="form-group" id="gdpr-cookie-decline-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="decline_as_button"></v-select>
+										<v-select class="form-group" id="gdpr-cookie-decline-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="decline_as_button" @input="onButtonChange($event, 'decline')"></v-select>
 										<input type="hidden" name="gdpr-cookie-decline-as" v-model="decline_as_button">
 									</c-col>
 									<c-col class="col-sm-6"><v-select class="form-group" id="gdpr-cookie-decline-action" :reduce="label => label.code" :options="decline_action_options" v-model="decline_action" @input="cookieDeclineChange">
@@ -2448,7 +2448,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<v-select class="form-group" id="gdpr-cookie-settings-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button"></v-select>
+									<v-select class="form-group" id="gdpr-cookie-settings-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button" @input="onButtonChange($event, 'settings')"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-as" v-model="settings_as_button">
 								</c-col>
 								<c-col v-show="is_banner && !iabtcf_is_on" class="col-sm-6" >
@@ -3046,7 +3046,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-6">
-											<v-select class="form-group" id="gdpr-cookie-accept-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_as_button1"></v-select>
+											<v-select class="form-group" id="gdpr-cookie-accept-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_as_button1" @input="onButtonChange($event, 'accept1')"></v-select>
 											<input type="hidden" name="gdpr-cookie-accept-as1" v-model="accept_as_button1">
 										</c-col>
 										<c-col class="col-sm-6">
@@ -3199,7 +3199,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-6">
-											<v-select class="form-group" id="gdpr-cookie-accept-all-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_all_as_button1"></v-select>
+											<v-select class="form-group" id="gdpr-cookie-accept-all-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_all_as_button1" @input="onButtonChange($event, 'accept_all1')"></v-select>
 											<input type="hidden" name="gdpr-cookie-accept-all-as1" v-model="accept_all_as_button1">
 										</c-col>
 										<c-col class="col-sm-6">
@@ -3351,7 +3351,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</c-row>
 										<c-row>
 											<c-col class="col-sm-6">
-												<v-select class="form-group" id="gdpr-cookie-decline-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="decline_as_button1"></v-select>
+												<v-select class="form-group" id="gdpr-cookie-decline-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="decline_as_button1" @input="onButtonChange($event, 'decline1')"></v-select>
 												<input type="hidden" name="gdpr-cookie-decline-as1" v-model="decline_as_button1">
 											</c-col>
 											<c-col class="col-sm-6"><v-select class="form-group" id="gdpr-cookie-decline-action1" :reduce="label => label.code" :options="decline_action_options" v-model="decline_action1">
@@ -3514,20 +3514,20 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-6">
-											<v-select class="form-group" id="gdpr-cookie-settings-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button"></v-select>
-											<input type="hidden" name="gdpr-cookie-settings-as" v-model="settings_as_button">
+											<v-select class="form-group" id="gdpr-cookie-settings-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button1" @input="onButtonChange($event, 'settings1')"></v-select>
+											<input type="hidden" name="gdpr-cookie-settings-as1" v-model="settings_as_button1">
 										</c-col>
 										<c-col v-show="is_banner && !iabtcf_is_on" class="col-sm-6" >
-											<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
-											<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
+											<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
+											<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
 										</c-col>
 										<c-col v-show="!is_banner" class="col-sm-6" >
-											<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
-											<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
+											<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
+											<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
 										</c-col>
 										<c-col v-show="is_banner && iabtcf_is_on" class="col-sm-6" >
-											<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
-											<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
+											<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
+											<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
 										</c-col>
 									</c-row>
 									<c-row v-show="settings_as_button1" class="gdpr-label-row">
@@ -4303,7 +4303,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<v-select class="form-group" id="gdpr-cookie-accept-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_as_button1"></v-select>
+									<v-select class="form-group" id="gdpr-cookie-accept-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_as_button1" @input="onButtonChange($event, 'accept1')"></v-select>
 									<input type="hidden" name="gdpr-cookie-accept-as1" v-model="accept_as_button1">
 								</c-col>
 								<c-col class="col-sm-6">
@@ -4456,7 +4456,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<v-select class="form-group" id="gdpr-cookie-accept-all-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_all_as_button1"></v-select>
+									<v-select class="form-group" id="gdpr-cookie-accept-all-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_all_as_button1" @input="onButtonChange($event, 'accept_all1')"></v-select>
 									<input type="hidden" name="gdpr-cookie-accept-all-as1" v-model="accept_all_as_button1">
 								</c-col>
 								<c-col class="col-sm-6">
@@ -4608,7 +4608,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
-										<v-select class="form-group" id="gdpr-cookie-decline-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="decline_as_button1"></v-select>
+										<v-select class="form-group" id="gdpr-cookie-decline-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="decline_as_button1" @input="onButtonChange($event, 'decline1')"></v-select>
 										<input type="hidden" name="gdpr-cookie-decline-as1" v-model="decline_as_button1">
 									</c-col>
 									<c-col class="col-sm-6"><v-select class="form-group" id="gdpr-cookie-decline-action1" :reduce="label => label.code" :options="decline_action_options" v-model="decline_action1">
@@ -4771,7 +4771,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<v-select class="form-group" id="gdpr-cookie-settings-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button1"></v-select>
+									<v-select class="form-group" id="gdpr-cookie-settings-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button1" @input="onButtonChange($event, 'settings1')"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-as1" v-model="settings_as_button1">
 								</c-col>
 								<c-col v-show="is_banner && !is_iab_on" class="col-sm-6" >
@@ -5381,7 +5381,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<v-select class="form-group" id="gdpr-cookie-accept-as-button2" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_as_button2"></v-select>
+									<v-select class="form-group" id="gdpr-cookie-accept-as-button2" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_as_button2" @input="onButtonChange($event, 'accept2')"></v-select>
 									<input type="hidden" name="gdpr-cookie-accept-as2" v-model="accept_as_button2">
 								</c-col>
 								<c-col class="col-sm-6">
@@ -5533,7 +5533,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<v-select class="form-group" id="gdpr-cookie-accept-all-as-button2" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_all_as_button2"></v-select>
+									<v-select class="form-group" id="gdpr-cookie-accept-all-as-button2" :reduce="label => label.code" :options="accept_as_button_options" v-model="accept_all_as_button2" @input="onButtonChange($event, 'accept_all2')"></v-select>
 									<input type="hidden" name="gdpr-cookie-accept-all-as2" v-model="accept_all_as_button2">
 								</c-col>
 								<c-col class="col-sm-6">
@@ -5685,7 +5685,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
-										<v-select class="form-group" id="gdpr-cookie-decline-as-button2" :reduce="label => label.code" :options="accept_as_button_options" v-model="decline_as_button2"></v-select>
+										<v-select class="form-group" id="gdpr-cookie-decline-as-button2" :reduce="label => label.code" :options="accept_as_button_options" v-model="decline_as_button2" @input="onButtonChange($event, 'decline2')"></v-select>
 										<input type="hidden" name="gdpr-cookie-decline-as2" v-model="decline_as_button2">
 									</c-col>
 									<c-col class="col-sm-6"><v-select class="form-group" id="gdpr-cookie-decline-action2" :reduce="label => label.code" :options="decline_action_options" v-model="decline_action2">
@@ -5849,7 +5849,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<v-select class="form-group" id="gdpr-cookie-settings-as-button2" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button2"></v-select>
+									<v-select class="form-group" id="gdpr-cookie-settings-as-button2" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button2" @input="onButtonChange($event, 'settings2')"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-as2" v-model="settings_as_button2">
 								</c-col>
 								<c-col v-show="is_banner && !is_iab_on" class="col-sm-6" >
