@@ -3341,6 +3341,58 @@ var gen = new Vue({
       this.multiple_legislation_cookie_border_color2 =      selectedTemplate['styles']['border-color'];
       this.multiple_legislation_cookie_font2 =              selectedTemplate['styles']['font-family'];
 
+      //CCPA popup buttons
+      this.confirm_button_popup =                     selectedTemplate['accept_all_button']['is_on'];
+      this.confirm_text_color =                       selectedTemplate['accept_all_button']['color'];
+      this.confirm_background_color =                 selectedTemplate['accept_all_button']['background-color'];
+      this.confirm_opacity =                          selectedTemplate['accept_all_button']['opacity'];
+      this.confirm_style =                            selectedTemplate['accept_all_button']['border-style'];
+      this.confirm_border_color =                     selectedTemplate['accept_all_button']['border-color'];
+      this.confirm_border_radius =                    selectedTemplate['accept_all_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.confirm_border_width =                     selectedTemplate['accept_all_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+      this.cancel_button_popup =                      selectedTemplate['decline_button']['is_on'];
+      this.cancel_text_color =                        selectedTemplate['decline_button']['color'];
+      this.cancel_background_color =                  selectedTemplate['decline_button']['background-color'];
+      this.cancel_opacity =                           selectedTemplate['decline_button']['opacity'];
+      this.cancel_style =                             selectedTemplate['decline_button']['border-style'];
+      this.cancel_border_color =                      selectedTemplate['decline_button']['border-color'];
+      this.cancel_border_radius =                     selectedTemplate['decline_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.cancel_border_width =                      selectedTemplate['decline_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+
+      this.confirm_button_popup1 =                     selectedTemplate['accept_all_button']['is_on'];
+      this.confirm_text_color1 =                       selectedTemplate['accept_all_button']['color'];
+      this.confirm_background_color1 =                 selectedTemplate['accept_all_button']['background-color'];
+      this.confirm_opacity1 =                          selectedTemplate['accept_all_button']['opacity'];
+      this.confirm_style1 =                            selectedTemplate['accept_all_button']['border-style'];
+      this.confirm_border_color1 =                     selectedTemplate['accept_all_button']['border-color'];
+      this.confirm_border_radius1 =                    selectedTemplate['accept_all_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.confirm_border_width1 =                     selectedTemplate['accept_all_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+      this.cancel_button_popup1 =                      selectedTemplate['decline_button']['is_on'];
+      this.cancel_text_color1 =                        selectedTemplate['decline_button']['color'];
+      this.cancel_background_color1 =                  selectedTemplate['decline_button']['background-color'];
+      this.cancel_opacity1 =                           selectedTemplate['decline_button']['opacity'];
+      this.cancel_style1 =                             selectedTemplate['decline_button']['border-style'];
+      this.cancel_border_color1 =                      selectedTemplate['decline_button']['border-color'];
+      this.cancel_border_radius1 =                     selectedTemplate['decline_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.cancel_border_width1 =                      selectedTemplate['decline_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+
+      this.confirm_button_popup2 =                     selectedTemplate['accept_all_button']['is_on'];
+      this.confirm_text_color2 =                       selectedTemplate['accept_all_button']['color'];
+      this.confirm_background_color2 =                 selectedTemplate['accept_all_button']['background-color'];
+      this.confirm_opacity2 =                          selectedTemplate['accept_all_button']['opacity'];
+      this.confirm_style2 =                            selectedTemplate['accept_all_button']['border-style'];
+      this.confirm_border_color2 =                     selectedTemplate['accept_all_button']['border-color'];
+      this.confirm_border_radius2 =                    selectedTemplate['accept_all_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.confirm_border_width2 =                     selectedTemplate['accept_all_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+      this.cancel_button_popup2 =                      selectedTemplate['decline_button']['is_on'];
+      this.cancel_text_color2 =                        selectedTemplate['decline_button']['color'];
+      this.cancel_background_color2 =                  selectedTemplate['decline_button']['background-color'];
+      this.cancel_opacity2 =                           selectedTemplate['decline_button']['opacity'];
+      this.cancel_style2 =                             selectedTemplate['decline_button']['border-style'];
+      this.cancel_border_color2 =                      selectedTemplate['decline_button']['border-color'];
+      this.cancel_border_radius2 =                     selectedTemplate['decline_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.cancel_border_width2 =                      selectedTemplate['decline_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+
       this.is_template_changed = true;
     },
     onLanguageChange() {
