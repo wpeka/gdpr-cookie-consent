@@ -270,6 +270,7 @@
 							?>
 						</ul>
 						
+						<?php if ( $the_options['is_iabtcf_on']) : ?>
 						<ul class="category-group feature-group tabContainer">
 							<?php
 						    $values = ["Purposes", "Special Purposes","Features","Special Features"];
@@ -841,7 +842,7 @@
 						</ul>
 
 						<?php } ?>
-						
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
