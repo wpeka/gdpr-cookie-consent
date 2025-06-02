@@ -94,6 +94,7 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! get_option( 'wpl_pro_active' ) ) {
 			add_action( 'add_consent_log_content', array( $this, 'wpl_consent_log_overview' ) );
 			add_action( 'wp_ajax_wpl_gcm_advertiser_mode_data', array( $this, 'wp_settings_gcm_advertiser_mode' ) );
+			add_action( 'wp_ajax_gdpr_get_banners', array( $this, 'gdpr_fetch_cookie_banners' ) );
 		}
 		$pro_is_activated = get_option( 'wpl_pro_active', false );
 		if ( ! $pro_is_activated ) {
@@ -4045,7 +4046,21 @@ class Gdpr_Cookie_Consent_Admin {
 							<input type="hidden" name="gdpr-template" v-model="template">
 						</c-col>
 						<c-col class="col-sm-12">
-							<?php $this->print_template_boxes( 0 ); ?>
+							<?php
+								if ( $this->settings->is_connected() ) {
+									// Send API Request.
+									echo "CONNECTED";
+									?>
+										<div id="gdpr-display-admin-banners-loading"></div>
+										<div id="gdpr-display-admin-banners"></div>
+									<?php
+								} else {
+									// Show Default Banner.
+									$this->print_template_boxes( 0 );
+									echo "NOT CONNECTED";
+								}
+							?>
+							
 						</c-col>
 					</c-row>
 					<input type="hidden" name="gdpr-template" v-model="template">
@@ -7220,6 +7235,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'is_data_req_on'             => $data_reqs_on,
 				'is_consent_log_on'          => $consent_log_on,
 				'gdpr_app_url'               => GDPR_APP_URL,
+				'gdpr_api_url'               => GDPR_API_URL,
 				'_ajax_nonce'                => wp_create_nonce( 'gdpr-cookie-consent' ),
 				'is_user_connected'          => $is_user_connected,
 				'background'                 => $template_parts_background,
@@ -7381,4 +7397,23 @@ public function gdpr_support_request_handler() {
 		return false;
 	}
 
+	public function gdpr_fetch_cookie_banners() {
+		check_admin_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
+		$api_url         = GDPR_API_URL;
+		$updated_api_url = str_replace( '/v2/', '/v1/', $api_url );
+		$url             = $updated_api_url . 'gdpr_get_banners';
+		$args            = array(
+			'source' => 'gdpr-cookie-consent',
+		);
+		$request_url     = add_query_arg( $args, $url );
+		$response        = wp_remote_post( $request_url, array( 'timeout' => 10 ) );
+		$status_code     = wp_remote_retrieve_response_code( $response );
+		if ( 200 === (int) $status_code ) {
+			$body = json_decode( wp_remote_retrieve_body( $response ), true );
+			echo wp_kses_post( $body['body'] );
+		} else {
+			
+		}
+		wp_send_json_success( array( 'response' => $response ) );
+	}
 }

@@ -1392,6 +1392,22 @@ jQuery(document).ready(function () {
       );
     }
   });
+
+  // Send Request to fetch Banners.
+  jQuery.ajax({
+    url: ajaxurl,
+    method: 'POST',
+    data: {
+      action: 'gdpr_get_banners',
+      _ajax_nonce: gdpr_localize_data._ajax_nonce,
+    },
+    success: function (response) {
+      console.log(response)
+    },
+    error: function (err) {
+      console.log(err)
+    }
+  });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
