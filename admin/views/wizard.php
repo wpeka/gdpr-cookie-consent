@@ -120,8 +120,6 @@ function print_template_boxes( ) {
 									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
 									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
-								<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="gdpr_message_heading.length>0">{{ccpa_message_heading}}</h3>
 								<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
 									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="gdpr_message_heading.length>0">{{eprivacy_message_heading}}</h3>
 								<?php endif; ?>

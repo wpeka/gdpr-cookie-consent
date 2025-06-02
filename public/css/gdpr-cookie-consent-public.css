@@ -236,11 +236,6 @@
   #gdpr-ccpa-gdprmodal .gdprmodal-content {
     height: 25vh;
   }
-  .vendor-switch-label,
-  .purposes-switch-label,
-  .special-features-switch-label {
-    display: none !important;
-  }
 
 }
 @media (max-width:550px) {
