@@ -993,11 +993,12 @@ Bootstrap CSS for frontend UI
 }
 .gdpr-dropdown-arrow {
   position: relative;
-  top: 8px;
+  top: -3px;
   transition: transform 0.3s ease;
 }
 
 .gdpr-dropdown-arrow svg {
+  color: inherit;
   transform: rotate(0deg);
 }
 
@@ -1442,18 +1443,6 @@ Bootstrap CSS for frontend UI
   .gdpr-columns {
   margin-bottom: 10px;
 }
-.gdpr_messagebar_detail
-  .category-group
-  .category-item
-  .gdpr-column
-  .gdpr-columns,
-.gdpr_messagebar_detail
-  .category-group
-  .category-item
-  .inner-gdpr-column
-  .inner-gdpr-columns {
-  margin-bottom: 20px;
-}
 @media (max-width: 450px) {
   .gdpr_messagebar_detail
     .category-group
@@ -1837,7 +1826,6 @@ Bootstrap CSS for frontend UI
 }
 .gdpr_messagebar_detail.layout-classic .category-group .toggle-group,
 .gdpr_messagebar_detail.layout-default .category-group .toggle-group {
-  position: absolute;
   top: 0;
   right: 0;
   padding: 10px 20px;
@@ -2241,4 +2229,36 @@ Bootstrap CSS for frontend UI
   .gdprmodal-content {
     width: 94vw !important;
   }
+}
+.gdpr-column .gdpr-columns, .inner-gdpr-column .inner-gdpr-columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+.gdpr-column .gdpr-columns .left, .inner-gdpr-column .inner-gdpr-columns .left {
+  display: flex;
+  flex: 1;
+}
+.gdpr-column .gdpr-columns .right, .inner-gdpr-column .inner-gdpr-columns .right {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+@media (max-width: 1024px) {
+  .gdpr-column .gdpr-columns, .inner-gdpr-column .inner-gdpr-columns {
+    flex-wrap: wrap;
+  }
+  .gdpr-column .gdpr-columns .right, .inner-gdpr-column .inner-gdpr-columns .right {
+    flex-direction: column;
+    align-items: flex-end;
+    flex: 1;
+    justify-content: flex-start;
+  }
+  .vendor-legitimate-switch-wrapper,
+  .purposes-legitimate-switch-wrapper {
+  border-right: none;
+  padding: 0;
+}
 }
