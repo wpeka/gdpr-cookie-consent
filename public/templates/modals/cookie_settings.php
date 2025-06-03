@@ -26,14 +26,27 @@
 
     $top_value = ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? intval( $the_options[ 'cookie_bar_border_radius' . $chosenBanner ] ) / 3 + 10 : intval($the_options['background_border_radius']) / 3 + 10;
 
-    $cookieSettingsPopupAccentColor = '';
-    $color = ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? $the_options[ 'cookie_bar_color' . $chosenBanner ] : ( $the_options['cookie_usage_for'] === 'both' ? $the_options['multiple_legislation_cookie_bar_color1'] : $the_options['background'] );
-    $opacity = $the_options['opacity'];
+	$abTesting = $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true';
+	
+	$color = $abTesting
+	    ? $the_options['cookie_bar_color' . $chosenBanner]
+	    : $the_options['background'];
+
+	$opacity = $abTesting
+	    ? $the_options['cookie_bar_opacity' . $chosenBanner]
+	    : $the_options['opacity'];
+
 
 	$opacityHex = strtoupper(str_pad(dechex((int) floor($opacity * 255)), 2, '0', STR_PAD_LEFT));
     $finalColor = strtoupper($color . $opacityHex);
     
 	$acceptAllBGColor = ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true') ? $the_options[ 'button_accept_all_button_color' . $chosenBanner ] : ( $the_options['cookie_usage_for'] === 'both' ? $the_options[ 'button_accept_all_button_color1'] : $the_options['button_accept_all_button_color'] );
+
+	$acceptAllBGColor = $abTesting
+		? $the_options[ 'button_accept_all_button_color' . $chosenBanner ]
+		: ( $the_options['cookie_usage_for'] === 'both' 
+			? $the_options[ 'button_accept_all_button_color1'] 
+			: $the_options['button_accept_all_button_color'] );
 
 	if (strtoupper(substr($finalColor, 0, -2)) === strtoupper($acceptAllBGColor)) {
         $cookieSettingsPopupAccentColor = $the_options['button_accept_all_link_color'];
@@ -41,7 +54,6 @@
         $cookieSettingsPopupAccentColor = $acceptAllBGColor;
     }
 
-	
 ?>
 
 <?php if( $the_options['cookie_usage_for'] !== "ccpa" || $the_options['cookie_usage_for'] === "both" ) { ?>
@@ -51,7 +63,11 @@
 		<!-- Modal content-->
 		<div class="gdprmodal-content" 
         style="
-            background-color: <?php echo esc_html($finalColor )?>;
+            background-color: <?php 
+				echo esc_html($the_options['cookie_usage_for'] === "both" 
+					? strtoupper($the_options['multiple_legislation_cookie_bar_color1'] . strtoupper( str_pad(dechex((int) floor($the_options['multiple_legislation_cookie_bar_opacity1'] * 255)), 2, '0', STR_PAD_LEFT) ))
+					: $finalColor
+				)?>;
             color: <?php 
 				echo esc_html(( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 			 		? ( $the_options[ 'cookie_text_color' . $chosenBanner ] )
@@ -190,81 +206,160 @@
 									<div class="group-description" tabindex="0"><?php echo esc_html__( $category['gdpr_cookie_category_description'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
 									<!-- sub groups -->
 									<?php
-									if ( ! empty( $the_options['button_settings_display_cookies'] ) ) {
-										?>
-										<div class="category-cookies-list-container">
-											<?php
-											if ( $category['total'] >= '1' ) {
-												?>
-												<table class="table table-striped">
-												<thead class="thead-dark">
-												<tr>
-													<th><?php echo esc_html( $cookie_data['name'] ); ?></th>
-													<th><?php echo esc_html( $cookie_data['domain'] ); ?></th>
-													<th><?php echo esc_html( $cookie_data['purpose'] ); ?></th>
-													<th><?php echo esc_html( $cookie_data['expiry'] ); ?></th>
-													<th><?php echo esc_html( $cookie_data['type'] ); ?></th>
-												</tr>
-												</thead>
-												<tbody>
-													<?php
-													foreach ( $category['data'] as $cookie ) {
-														?>
-														<tr><td>
-															<?php
-															if ( $cookie['name'] ) {
-																echo esc_html( $cookie['name'] );
-															} else {
-																echo esc_html( '---' );
-															}
-															?>
-															</td>
-															<td>
-															<?php
-															if ( ! empty( $cookie['domain'] ) ) {
-																echo esc_html( $cookie['domain'] );
-															} else {
-																echo esc_html( '---' );
-															}
-															?>
-															</td>
-															<td>
-															<?php
-															if ( ! empty( $cookie['description'] ) ) {
-																echo esc_html( $cookie['description'] );
-															} else {
-																echo esc_html( '---' );
-															}
-															?>
-															</td>
-															<td>
-															<?php
-															if ( ! empty( $cookie['duration'] ) ) {
-																echo esc_html( $cookie['duration'] );
-															} else {
-																echo esc_html( '---' );
-															}
-															?>
-															</td>
-															<td>
-															<?php
-															if ( ! empty( $cookie['type'] ) ) {
-																echo esc_html( $cookie['type'] );
-															} else {
-																echo esc_html( '---' );
-															}
-															?>
-															</td></tr>
-														<?php
-													}
-													?>
-												</tbody>
-											</table>
-												<?php
-											}
+									if( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true' ) {
+										if ( ( $the_options['button_settings_display_cookies' . $chosenBanner] === true || $the_options['button_settings_display_cookies' . $chosenBanner] === 'true' ) ) {
 											?>
-									</div>
-										<?php
+											<div class="category-cookies-list-container">
+												<?php
+												if ( $category['total'] >= '1' ) {
+													?>
+													<table class="table table-striped">
+													<thead class="thead-dark">
+													<tr>
+														<th><?php echo esc_html( $cookie_data['name'] ); ?></th>
+														<th><?php echo esc_html( $cookie_data['domain'] ); ?></th>
+														<th><?php echo esc_html( $cookie_data['purpose'] ); ?></th>
+														<th><?php echo esc_html( $cookie_data['expiry'] ); ?></th>
+														<th><?php echo esc_html( $cookie_data['type'] ); ?></th>
+													</tr>
+													</thead>
+													<tbody>
+														<?php
+														foreach ( $category['data'] as $cookie ) {
+															?>
+															<tr><td>
+																<?php
+																if ( $cookie['name'] ) {
+																	echo esc_html( $cookie['name'] );
+																} else {
+																	echo esc_html( '---' );
+																}
+																?>
+																</td>
+																<td>
+																<?php
+																if ( ! empty( $cookie['domain'] ) ) {
+																	echo esc_html( $cookie['domain'] );
+																} else {
+																	echo esc_html( '---' );
+																}
+																?>
+																</td>
+																<td>
+																<?php
+																if ( ! empty( $cookie['description'] ) ) {
+																	echo esc_html( $cookie['description'] );
+																} else {
+																	echo esc_html( '---' );
+																}
+																?>
+																</td>
+																<td>
+																<?php
+																if ( ! empty( $cookie['duration'] ) ) {
+																	echo esc_html( $cookie['duration'] );
+																} else {
+																	echo esc_html( '---' );
+																}
+																?>
+																</td>
+																<td>
+																<?php
+																if ( ! empty( $cookie['type'] ) ) {
+																	echo esc_html( $cookie['type'] );
+																} else {
+																	echo esc_html( '---' );
+																}
+																?>
+																</td></tr>
+															<?php
+														}
+														?>
+													</tbody>
+												</table>
+													<?php
+												}
+												?>
+										</div>
+											<?php
+										}
+									} else {
+										if ( ( $the_options['button_settings_display_cookies'] === true || $the_options['button_settings_display_cookies'] === 'true' ) ) {
+											?>
+											<div class="category-cookies-list-container">
+												<?php
+												if ( $category['total'] >= '1' ) {
+													?>
+													<table class="table table-striped">
+													<thead class="thead-dark">
+													<tr>
+														<th><?php echo esc_html( $cookie_data['name'] ); ?></th>
+														<th><?php echo esc_html( $cookie_data['domain'] ); ?></th>
+														<th><?php echo esc_html( $cookie_data['purpose'] ); ?></th>
+														<th><?php echo esc_html( $cookie_data['expiry'] ); ?></th>
+														<th><?php echo esc_html( $cookie_data['type'] ); ?></th>
+													</tr>
+													</thead>
+													<tbody>
+														<?php
+														foreach ( $category['data'] as $cookie ) {
+															?>
+															<tr><td>
+																<?php
+																if ( $cookie['name'] ) {
+																	echo esc_html( $cookie['name'] );
+																} else {
+																	echo esc_html( '---' );
+																}
+																?>
+																</td>
+																<td>
+																<?php
+																if ( ! empty( $cookie['domain'] ) ) {
+																	echo esc_html( $cookie['domain'] );
+																} else {
+																	echo esc_html( '---' );
+																}
+																?>
+																</td>
+																<td>
+																<?php
+																if ( ! empty( $cookie['description'] ) ) {
+																	echo esc_html( $cookie['description'] );
+																} else {
+																	echo esc_html( '---' );
+																}
+																?>
+																</td>
+																<td>
+																<?php
+																if ( ! empty( $cookie['duration'] ) ) {
+																	echo esc_html( $cookie['duration'] );
+																} else {
+																	echo esc_html( '---' );
+																}
+																?>
+																</td>
+																<td>
+																<?php
+																if ( ! empty( $cookie['type'] ) ) {
+																	echo esc_html( $cookie['type'] );
+																} else {
+																	echo esc_html( '---' );
+																}
+																?>
+																</td></tr>
+															<?php
+														}
+														?>
+													</tbody>
+												</table>
+													<?php
+												}
+												?>
+										</div>
+											<?php
+										}
 									}
 									?>
 								</div>
@@ -959,10 +1054,11 @@ if( $the_options['cookie_usage_for'] === "ccpa" || $the_options['cookie_usage_fo
 	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
 		<div class="gdprmodal-content"
 		style="
-            background-color: <?php echo esc_html(
-				$the_options['cookie_usage_for'] === 'both'
-					? $the_options['multiple_legislation_cookie_bar_color2']
-					: ($finalColor ))?>;
+            background-color: <?php 
+				echo esc_html($the_options['cookie_usage_for'] === "both" 
+					? strtoupper($the_options['multiple_legislation_cookie_bar_color2'] . strtoupper( str_pad(dechex((int) floor($the_options['multiple_legislation_cookie_bar_opacity2'] * 255)), 2, '0', STR_PAD_LEFT) ))
+					: $finalColor
+				)?>;
             color: <?php 
 				echo esc_html(( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 			 		? ( $the_options[ 'cookie_text_color' . $chosenBanner ] )
@@ -990,18 +1086,27 @@ if( $the_options['cookie_usage_for'] === "ccpa" || $the_options['cookie_usage_fo
 				); ?>;
         ">
 			<div class="gdprmodal-header">
-				<button type="button" class="gdpr_action_button close dashicons dashicons-no" data-dismiss="gdprmodal" data-gdpr_action="ccpa_close"
-					style="
-                	    border: none;
-                	    height: 20px;
-                	    width: 20px;
-                	    position: absolute;
-                	    top: <?php echo esc_html($top_value); ?>px;
-                	    right: <?php echo esc_html($top_value); ?>px;
-                	    border-radius: 50%;
-                	    background-color: <?php echo esc_html( $the_options['button_accept_button_color'] ); ?>;
-                	    color: <?php echo esc_html( $the_options['button_accept_link_color'] ); ?>;
-                	">
+			<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close" 
+                style="
+                    border: none;
+                    height: 20px;
+                    width: 20px;
+                    position: absolute;
+                    top: <?php echo esc_html($top_value); ?>px;
+                    right: <?php echo esc_html($top_value); ?>px;
+                    border-radius: 50%;
+                    background-color: <?php echo esc_html( $cookieSettingsPopupAccentColor ); ?>;
+                    color: <?php 
+					    echo esc_html(
+					        ($ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+					            ? $the_options['button_accept_all_link_color' . $chosenBanner]
+					            : ($the_options['cookie_usage_for'] === 'both'
+					                ? $the_options['button_accept_all_link_color1']
+					                : $the_options['button_accept_all_link_color']
+					            )
+					    );
+					?>;
+                ">
 					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 					</svg>

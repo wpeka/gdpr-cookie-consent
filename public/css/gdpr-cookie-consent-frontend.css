@@ -54,75 +54,13 @@
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   font-size: 13px;
 }
-.table {
-  color: #212529;
-}
+
 .table th,
 .table td {
   border: 1px solid #dee2e6;
 }
-.table .thead-dark th {
-  background-color: #ebebeb;
-}
-.gdpr_messagebar_detail.navy_blue_center .table .thead-dark th,
-.gdpr_messagebar_detail.navy_blue_box .table .thead-dark th,
-.gdpr_messagebar_detail.navy_blue_square .table .thead-dark th {
-  background-color: #354e8e;
-}
-.gdpr_messagebar_detail.almond_column .table .thead-dark th {
-  background-color: #f2ecd8;
-}
-.gdpr_messagebar_detail.dark .table .thead-dark th {
-  background-color: #3a3a3a;
-}
-.gdpr_messagebar_detail.dark_row .table .thead-dark th {
-  background-color: #434a58;
-}
 .gdpr_messagebar_detail #cookie_credit_link {
   color: var(--popup_accent_color);
-}
-
-.gdpr_messagebar_detail.layout-classic.navy_blue_center
-  .category-group
-  .category-item
-  .description-container,
-.gdpr_messagebar_detail.layout-classic.navy_blue_box
-  .category-group
-  .category-item
-  .description-container,
-.gdpr_messagebar_detail.layout-classic.navy_blue_square
-  .category-group
-  .category-item
-  .description-container {
-  background-color: #2f467f;
-}
-.gdpr_messagebar_detail.layout-classic.almond_column
-  .category-group
-  .category-item
-  .description-container {
-  background-color: white;
-}
-.gdpr_messagebar_detail.layout-classic.grey_center
-  .category-group
-  .category-item
-  .description-container,
-.gdpr_messagebar_detail.layout-classic.grey_column
-  .category-group
-  .category-item
-  .description-container {
-  background-color: #f4f4f4;
-}
-.gdpr_messagebar_detail.layout-classic.dark
-  .category-group
-  .category-item
-  .description-container {
-  background-color: #303030;
-}
-.gdpr_messagebar_detail.layout-classic.dark_row
-  .category-group
-  .category-item
-  .description-container {
-  background-color: #3a404d;
 }
 .gdpr_messagebar_detail
   .category-group
