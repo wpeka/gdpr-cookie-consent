@@ -2643,20 +2643,26 @@ banner.style.display = "none";
 
     }
     $(".gdpr-iab-navbar-item").click(function () {
+      const modalBody = document.querySelector('.gdprmodal-body');
+
       $(
         ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active"
       ).css("color", GDPR.settings.button_accept_all_button_color);
       $(".gdpr-iab-navbar-item", this);
       $(".tabContainer").css("display", "none");
+
       switch (this.id) {
         case "gdprIABTabCategory":
           $(".cat").css("display", "block");
+          modalBody.style.height = '67vh';
           break;
         case "gdprIABTabFeatures":
           $(".feature-group").css("display", "block");
+          modalBody.style.height = '56vh';
           break;
         case "gdprIABTabVendors":
           $(".vendor-group").css("display", "block");
+          modalBody.style.height = '60vh';
           break;
       }
       if (!$(this).children(".gdpr-iab-navbar-button").hasClass("active")) {
