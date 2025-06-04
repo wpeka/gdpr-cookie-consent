@@ -30,6 +30,18 @@ $is_user_connected      = $this->settings->is_connected();
 $api_user_email         = $this->settings->get_email();
 $api_user_site_key      = $this->settings->get_website_key();
 $api_user_plan          = $this->settings->get_plan();
+if ( $pro_is_activated ) {
+	$credit_link_href = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=gdpr&utm_medium=show-credits&utm_campaign=link&utm_content=powered-by-gdpr';
+} else {
+	$credit_link_href = 'https://wordpress.org/plugins/gdpr-cookie-consent/?utm_source=gdpr&utm_medium=show-credits&utm_campaign=link&utm_content=powered-by-gdpr';
+}
+$credit_link_text = __( 'WP Cookie consent', 'gdpr-cookie-consent' );
+
+$credit_link = sprintf(
+	/* translators: 1: GDPR Cookie Consent Plugin*/
+	__( 'Powered by %s', 'gdpr-cookie-consent' ),
+	'<a href="' . esc_url( $credit_link_href ) . '" id="cookie_credit_link" rel="nofollow noopener" target="_blank">' . $credit_link_text . '</a>'
+);
 $no_of_pages_scan       = get_option( 'gdpr_no_of_page_scan' );
 $total_pages_scan_limit = 100;
 $template_view_type = $the_options['cookie_bar_as'];
@@ -75,9 +87,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			  'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`] + 'px',
 			}"
 			>
-			<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'background-color': this[`accept_all_background_color${active_test_banner_tab}`], 'color': this[`accept_all_text_color${active_test_banner_tab}`] }" @click="turnOffPreviewBanner">
-				<span class="dashicons dashicons-no"></span>
-			</button>
+			<span :style="{ 'border': 'none', 'cursor': 'pointer', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'background-color': cookieSettingsPopupAccentColor, 'color': this[`accept_all_as_button${active_test_banner_tab}`] && !is_ccpa ? this[`accept_all_text_color${active_test_banner_tab}`] : 'white' }" @click="turnOffPreviewBanner">
+				<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+				</svg>
+			</span>
 				<div class="notice-logo-container">
 					<div v-if="active_test_banner_tab == 1">
 					<?php
@@ -114,17 +128,17 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				</div>
 				
 				<div class="notice-heading-wrapper">
-						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'color': json_templates[template]?.['styles']?.['color'] }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
-						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'color': json_templates[template]?.['styles']?.['color'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
+						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'] }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
+						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
 				</div>	
 				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
 					<p>	
-						<span v-show="is_gdpr" v-html ="gdpr_message"></span>
-						<span v-show="is_lgpd" v-html ="lgpd_message"></span>
-						<span v-show="is_ccpa" v-html ="ccpa_message"></span>
-						<span v-show="is_eprivacy" v-html ="eprivacy_message"></span>
-						<a :style="{ 
-							'font-family': cookie_font,
+						<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_gdpr" v-html ="gdpr_message"></span>
+						<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_lgpd" v-html ="lgpd_message"></span>
+						<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_ccpa" v-html ="ccpa_message"></span>
+						<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_eprivacy" v-html ="eprivacy_message"></span>
+						<a  v-if="!is_ccpa" :style="{ 
+							'font-family': this[`cookie_font${active_test_banner_tab}`],
 							'color':button_readmore_link_color,
 							'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
 							'border-width': button_readmore_as_button ? button_readmore_button_border_width + 'px':'0', 
@@ -139,13 +153,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							} : { 'display': 'inline-block',
 							  }) 
 						}" >
-							 <span v-if="is_ccpa">{{ opt_out_text }}</span>
-							 <span v-if="!is_ccpa">{{ button_readmore_text }}</span>
+							 
+							 <span>{{ button_readmore_text }}</span>
 						</a>
+						<a  v-if="is_ccpa" :style="{'font-family': this[`cookie_font${active_test_banner_tab}`],'color':this[`opt_out_text_color${active_test_banner_tab}`]}"><span>{{ opt_out_text }}</span></a>
 					</p>
 
 					<div  v-if="ab_testing_enabled && !is_ccpa" class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
-						<div class="notice-left-buttons">
+						<div  v-show="template != 'blue_full' || ( this[`cookie_decline_on${active_test_banner_tab}`] || (this[`cookie_settings_on${active_test_banner_tab} `] && !is_eprivacy))" class="notice-left-buttons">
 							<a v-show="( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_decline_on${active_test_banner_tab}`]"
 							  href="#"
 							  :style="{
@@ -172,7 +187,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  {{ this[`decline_text${active_test_banner_tab}`] }}
 							</a>
 
-							<a v-show="( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_settings_on${active_test_banner_tab}`]"
+							<a v-show="( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_settings_on${active_test_banner_tab} `] && !is_eprivacy"
 							  id="cookie_action_settings_preview"
 							  href="#"
 							  :style="{
@@ -185,7 +200,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-color': this[`settings_as_button${active_test_banner_tab}`] ? this[`settings_border_color${active_test_banner_tab}`] : 'transparent',
     							  'border-radius': this[`settings_as_button${active_test_banner_tab}`] ? this[`settings_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
-								  ...(this[`cookie_settings_on${active_test_banner_tab}`] ? {
+								  ...(this[`cookie_settings_on${active_test_banner_tab}`] && !is_eprivacy ? {
   								    'min-width': json_templates[template]?.['settings_button']['min-width'],
 									'width': json_templates[template]?.['settings_button']?.['width'],
   								    'display': json_templates[template]?.['settings_button']['display'],
@@ -200,7 +215,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</a>
 						</div>
 
-						<div class="notice-right-buttons">
+						<div v-show="template != 'blue_full' || ( this[`cookie_accept_on${active_test_banner_tab}`] || this[`cookie_accept_all_on${active_test_banner_tab}`])" class="notice-right-buttons">
 							<a v-show="( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_accept_on${active_test_banner_tab}`]"
 							  href="#"
 							  :style="{
@@ -255,6 +270,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</div>
 					</div>			
 				</div>
+				<div v-show="show_credits" class="powered-by-credits"  :style="{'--popup_accent_color': cookieSettingsPopupAccentColor, 'text-align':'center', 'font-size': '10px', 'margin-bottom':'-10px'}"><?php echo wp_kses_post( $credit_link  ); ?></div>
+				
 			</div>
 		</div>
 	<?php } elseif ( $ab_options['ab_testing_enabled'] === false || $ab_options['ab_testing_enabled'] === 'false' ) { ?>
@@ -274,9 +291,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				'border-radius': cookie_bar_border_radius + 'px',
 			  }"
 			>
-				<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%', 'background-color': accept_all_background_color, 'color': accept_all_text_color }" @click="turnOffPreviewBanner">
-					<span class="dashicons dashicons-no"></span>
-				</button>
+				<span :style="{ 'border': 'none', 'cursor': 'pointer', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%','background-color': cookieSettingsPopupAccentColor, 'color': accept_all_as_button && !is_ccpa ? accept_all_text_color : 'white' }" @click="turnOffPreviewBanner">
+					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+					</svg>
+				</span>
 				<div class="notice-logo-container">
 				<?php
 					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
@@ -294,16 +313,16 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				?>
 				</div>	
 				<div class="notice-heading-wrapper">
-						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'color': json_templates[template]?.['styles']?.['color'] }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
-						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'color': json_templates[template]?.['styles']?.['color'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
+						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'font-family': cookie_font }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
+						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'font-family': cookie_font }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
 				</div>	
 				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
 					<p>	
-						<span v-show="is_gdpr" v-html ="gdpr_message"></span>
-						<span v-show="is_lgpd" v-html ="lgpd_message"></span>
-						<span v-show="is_ccpa" v-html ="ccpa_message"></span>
-						<span v-show="is_eprivacy" v-html ="eprivacy_message"></span>
-						<a :style="{ 
+						<span :style="{'font-family': cookie_font}" v-show="is_gdpr" v-html ="gdpr_message"></span>
+						<span :style="{'font-family': cookie_font}" v-show="is_lgpd" v-html ="lgpd_message"></span>
+						<span :style="{'font-family': cookie_font}" v-show="is_ccpa" v-html ="ccpa_message"></span>
+						<span :style="{'font-family': cookie_font}" v-show="is_eprivacy" v-html ="eprivacy_message"></span>
+						<a v-if="!is_ccpa" :style="{ 
 							'font-family': cookie_font,
 							'color':button_readmore_link_color,
 							'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
@@ -319,13 +338,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							} : { 'display': 'inline-block',
 							  })
 						}" >
-							<span v-if="is_ccpa">{{ opt_out_text }}</span>
-							<span v-if="!is_ccpa">{{ button_readmore_text }}</span>
+							<span>{{ button_readmore_text }}</span>
 						</a>
+						<a  v-if="is_ccpa" :style="{'font-family': cookie_font,'color': opt_out_text_color}"><span>{{ opt_out_text }}</span></a>
 					</p>
 
 					<div v-show="!is_ccpa" class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
-						<div class="notice-left-buttons">
+						<div v-show="template != 'blue_full' || (cookie_decline_on || (cookie_settings_on && !is_eprivacy))" class="notice-left-buttons">
 							<a v-show="cookie_decline_on"
 							  href="#"
 							  :style="{
@@ -350,7 +369,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  {{ decline_text }}
 							</a>
 
-							<a v-show="cookie_settings_on" id="cookie_action_settings_preview"
+							<a v-show="cookie_settings_on && !is_eprivacy" id="cookie_action_settings_preview"
 							  href="#"
 							  :style="{
   								  'background-color': settings_as_button ? `${settings_background_color}${Math.floor(settings_opacity * 255).toString(16).toUpperCase()}` : 'transparent',
@@ -360,7 +379,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-color': settings_as_button ? settings_border_color : 'transparent',
   								  'border-radius': settings_as_button ? settings_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
-								  ...(cookie_settings_on ? {
+								  ...(cookie_settings_on && !is_eprivacy ? {
   								    'min-width': json_templates[template]?.['settings_button']?.['min-width'],
 									'width': json_templates[template]?.['settings_button']?.['width'],
   								    'display': json_templates[template]?.['settings_button']?.['display'],
@@ -375,7 +394,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</a>
 						</div>
 
-						<div class="notice-right-buttons">
+						<div  v-show="template != 'blue_full' || (cookie_accept_on || cookie_accept_all_on)" class="notice-right-buttons">
 							<a v-show="cookie_accept_on" 
 							  href="#"
 							  :style="{
@@ -426,6 +445,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</div>
 					</div>
 				</div>
+				<div v-show="show_credits" class="powered-by-credits"  :style="{'--popup_accent_color': cookieSettingsPopupAccentColor, 'text-align':'center', 'font-size': '10px', 'margin-bottom':'-10px'}"><?php echo wp_kses_post($credit_link  ); ?></div>
+				
 			</div>
 		</div>
 
@@ -445,9 +466,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				'border-radius': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 + 'px' : multiple_legislation_cookie_bar_border_radius2 + 'px',
 			  }"
 			>
-				<button :style="{ 'border': 'none', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px', 'right': (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px', 'border-radius': '50%', 'background-color': json_templates[template]?.['accept_button']?.['background-color'], 'color': json_templates[template]?.['accept_button']?.['color'] }" @click="turnOffPreviewBanner">
-					<span class="dashicons dashicons-no"></span>
-				</button>
+				<span :style="{ 'border': 'none', 'cursor': 'pointer', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px', 'right': (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px', 'border-radius': '50%', 'background-color': cookieSettingsPopupAccentColor, 'color': accept_all_as_button1 ? accept_all_text_color1 : 'white' }" @click="turnOffPreviewBanner">
+					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+					</svg>
+				</span>
 				<div class="notice-logo-container">
 				<?php
 					$get_banner_imgml = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
@@ -465,14 +488,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					?>
 				</div>	
 				<div class="notice-heading-wrapper">
-						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'color': json_templates[template]?.['styles']?.['color'] }" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'] }" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 				</div>	
 				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
 					<p>	
-						<span v-show="active_default_multiple_legislation === 'gdpr'" v-html ="gdpr_message"></span>
-						<span v-show="active_default_multiple_legislation === 'ccpa'" v-html ="ccpa_message"></span>
-						<a :style="{ 
-							'font-family': cookie_font,
+						<span :style="{'font-family': multiple_legislation_cookie_font1}" v-show="active_default_multiple_legislation === 'gdpr'" v-html ="gdpr_message"></span>
+						<span :style="{'font-family': multiple_legislation_cookie_font2}" v-show="active_default_multiple_legislation === 'ccpa'" v-html ="ccpa_message"></span>
+						<a v-if="active_default_multiple_legislation === 'gdpr'" :style="{ 
+							'font-family': multiple_legislation_cookie_font1,
 							'color':button_readmore_link_color,
 							'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
 							'border-width': button_readmore_as_button ? button_readmore_button_border_width + 'px':'0', 
@@ -487,13 +510,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							} : { 'display': 'inline-block',
 							  })
 						}" >
-							<span v-if="active_default_multiple_legislation === 'gdpr'">{{ button_readmore_text }}</span>
-							<span v-if="active_default_multiple_legislation === 'ccpa'">{{ opt_out_text }}</span>
+							<span>{{ button_readmore_text }}</span>
+							
 						</a>
+						<a v-if="active_default_multiple_legislation === 'ccpa'" :style="{'font-family': multiple_legislation_cookie_font2, 'color':opt_out_text_color1,}"><span>{{ opt_out_text }}</span></a>
 					</p>
 
 					<div v-show="active_default_multiple_legislation === 'gdpr'" class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
-						<div class="notice-left-buttons">
+						<div v-show="template != 'blue_full' || (cookie_decline_on1 || cookie_settings_on1)" class="notice-left-buttons">
 							<a v-show="cookie_decline_on1"
 							  href="#"
 							  :style="{
@@ -518,7 +542,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  {{ decline_text1 }}
 							</a>
 
-							<a v-show="cookie_settings_on1" id="cookie_action_settings_preview"
+							<a v-show="cookie_settings_on1 && !is_eprivacy" id="cookie_action_settings_preview"
 							  href="#"
 							  :style="{
   								  'background-color': settings_as_button1 ? `${settings_background_color1}${Math.floor(settings_opacity1 * 255).toString(16).toUpperCase()}` : 'transparent',
@@ -543,7 +567,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</a>
 						</div>
 
-						<div class="notice-right-buttons">
+						<div v-show="template != 'blue_full' || (cookie_accept_on1 || cookie_accept_all_on1)" class="notice-right-buttons">
 							<a v-show="cookie_accept_on1" 
 							  href="#"
 							  :style="{
@@ -594,6 +618,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</div>
 					</div>
 				</div>
+				
+				<div v-show="show_credits" class="powered-by-credits"  :style="{'--popup_accent_color': cookieSettingsPopupAccentColor, 'text-align':'center', 'font-size': '10px', 'margin-bottom':'-10px'}"><?php echo wp_kses_post( $credit_link  ); ?></div>
+					
 			</div>
 		</div>
 	<?php } ?>
@@ -2476,26 +2503,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-6">
 									<label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?></label>
 								</c-col>
-								<c-col class="col-sm-6">
-									<label><?php esc_attr_e( 'Cookie Settings Layout', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Select the style of the Cookie Settings', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-								</c-col>
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
 									<v-select class="form-group" id="gdpr-cookie-settings-as-button" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button" @input="onButtonChange($event, 'settings')"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-as" v-model="settings_as_button">
-								</c-col>
-								<c-col v-show="is_banner && !iabtcf_is_on" class="col-sm-6" >
-									<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
-									<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
-								</c-col>
-								<c-col v-show="!is_banner" class="col-sm-6" >
-									<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
-									<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
-								</c-col>
-								<c-col v-show="is_banner && iabtcf_is_on" class="col-sm-6" >
-									<v-select class="form-group" id="gdpr-cookie-settings-layout" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout" @input="cookieLayoutChange"></v-select>
-									<input type="hidden" name="gdpr-cookie-settings-layout" v-model="settings_layout">
 								</c-col>
 							</c-row>
 							<c-row v-show="settings_as_button" class="gdpr-label-row">
@@ -3542,26 +3554,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-col class="col-sm-6">
 											<label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?></label>
 										</c-col>
-										<c-col class="col-sm-6">
-											<label><?php esc_attr_e( 'Cookie Settings Layout', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Select the style of the Cookie Settings', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-										</c-col>
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-6">
 											<v-select class="form-group" id="gdpr-cookie-settings-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button1" @input="onButtonChange($event, 'settings1')"></v-select>
 											<input type="hidden" name="gdpr-cookie-settings-as1" v-model="settings_as_button1">
-										</c-col>
-										<c-col v-show="is_banner && !iabtcf_is_on" class="col-sm-6" >
-											<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
-											<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
-										</c-col>
-										<c-col v-show="!is_banner" class="col-sm-6" >
-											<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
-											<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
-										</c-col>
-										<c-col v-show="is_banner && iabtcf_is_on" class="col-sm-6" >
-											<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
-											<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
 										</c-col>
 									</c-row>
 									<c-row v-show="settings_as_button1" class="gdpr-label-row">
@@ -4799,26 +4796,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-6">
 									<label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?></label>
 								</c-col>
-								<c-col class="col-sm-6">
-									<label><?php esc_attr_e( 'Cookie Settings Layout', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Select the style of the Cookie Settings', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-								</c-col>
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
 									<v-select class="form-group" id="gdpr-cookie-settings-as-button1" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button1" @input="onButtonChange($event, 'settings1')"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-as1" v-model="settings_as_button1">
-								</c-col>
-								<c-col v-show="is_banner && !is_iab_on" class="col-sm-6" >
-									<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
-									<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
-								</c-col>
-								<c-col v-show="!is_banner" class="col-sm-6" >
-									<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
-									<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
-								</c-col>
-								<c-col v-show="!is_banner && is_iab_on" class="col-sm-6" >
-									<v-select class="form-group" id="gdpr-cookie-settings-layout1" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout1" @input="cookieLayoutChange1"></v-select>
-									<input type="hidden" name="gdpr-cookie-settings-layout1" v-model="settings_layout1">
 								</c-col>
 							</c-row>
 							<c-row v-show="settings_as_button1" class="gdpr-label-row">
@@ -5877,26 +5859,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-6">
 									<label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?></label>
 								</c-col>
-								<c-col class="col-sm-6">
-									<label><?php esc_attr_e( 'Cookie Settings Layout', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Select the style of the Cookie Settings', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-								</c-col>
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
 									<v-select class="form-group" id="gdpr-cookie-settings-as-button2" :reduce="label => label.code" :options="accept_as_button_options" v-model="settings_as_button2" @input="onButtonChange($event, 'settings2')"></v-select>
 									<input type="hidden" name="gdpr-cookie-settings-as2" v-model="settings_as_button2">
-								</c-col>
-								<c-col v-show="is_banner && !is_iab_on" class="col-sm-6" >
-									<v-select class="form-group" id="gdpr-cookie-settings-layout2" :reduce="label => label.code" :options="settings_layout_options" v-model="settings_layout2" @input="cookieLayoutChange2"></v-select>
-									<input type="hidden" name="gdpr-cookie-settings-layout2" v-model="settings_layout2">
-								</c-col>
-								<c-col v-show="!is_banner" class="col-sm-6" >
-									<v-select class="form-group" id="gdpr-cookie-settings-layout2" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout2" @input="cookieLayoutChange2"></v-select>
-									<input type="hidden" name="gdpr-cookie-settings-layout2" v-model="settings_layout2">
-								</c-col>
-								<c-col v-show="!is_banner && is_iab_on" class="col-sm-6" >
-									<v-select class="form-group" id="gdpr-cookie-settings-layout2" :reduce="label => label.code" :options="settings_layout_options_extended" v-model="settings_layout2" @input="cookieLayoutChange2"></v-select>
-									<input type="hidden" name="gdpr-cookie-settings-layout2" v-model="settings_layout2">
 								</c-col>
 							</c-row>
 							<c-row v-show="settings_as_button2" class="gdpr-label-row">

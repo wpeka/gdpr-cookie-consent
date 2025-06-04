@@ -785,22 +785,8 @@ var gen = new Vue({
           1 === settings_obj.the_options["button_settings_is_on"])
           ? true
           : false,
-      settings_layout_options: settings_obj.settings_layout_options,
-      settings_layout_options_extended:
-        settings_obj.settings_layout_options_extended,
-      settings_layout:
-        settings_obj.the_options.hasOwnProperty("button_settings_as_popup") &&
-        (true === settings_obj.the_options["button_settings_as_popup"] ||
-          1 === settings_obj.the_options["button_settings_as_popup"])
-          ? true
-          : false,
       is_banner: this.show_cookie_as === "banner" ? true : false,
-      layout_skin_options: settings_obj.layout_skin_options,
-      layout_skin: settings_obj.the_options.hasOwnProperty(
-        "button_settings_layout_skin"
-      )
-        ? settings_obj.the_options["button_settings_layout_skin"]
-        : "layout-default",
+      
       settings_text: settings_obj.the_options.hasOwnProperty(
         "button_settings_text"
       )
@@ -1372,18 +1358,6 @@ var gen = new Vue({
           ? false
           : true,
 
-      settings_layout1:
-        settings_obj.the_options.hasOwnProperty("button_settings_as_popup1") &&
-        (true === settings_obj.the_options["button_settings_as_popup1"] ||
-          1 === settings_obj.the_options["button_settings_as_popup1"] ||
-          "true" === settings_obj.the_options["button_settings_as_popup1"])
-          ? true
-          : false,
-      layout_skin1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_layout_skin1"
-      )
-        ? settings_obj.the_options["button_settings_layout_skin1"]
-        : "layout-default",
       settings_text1: settings_obj.the_options.hasOwnProperty(
         "button_settings_text1"
       )
@@ -1828,18 +1802,7 @@ var gen = new Vue({
           ? false
           : true,
 
-      settings_layout2:
-        settings_obj.the_options.hasOwnProperty("button_settings_as_popup2") &&
-        (true === settings_obj.the_options["button_settings_as_popup2"] ||
-          1 === settings_obj.the_options["button_settings_as_popup2"] ||
-          "true" === settings_obj.the_options["button_settings_as_popup2"])
-          ? true
-          : false,
-      layout_skin2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_layout_skin2"
-      )
-        ? settings_obj.the_options["button_settings_layout_skin2"]
-        : "layout-default",
+      
       settings_text2: settings_obj.the_options.hasOwnProperty(
         "button_settings_text2"
       )
@@ -2369,15 +2332,23 @@ var gen = new Vue({
 
       const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
       const acceptAllBGColor = this.ab_testing_enabled ? ( this.active_test_banner_tab === 1 ? this.accept_all_background_color1 : this.accept_all_background_color2 ) : this.accept_all_background_color;
-
-      if( finalColor.toUpperCase().slice(0, -2) === acceptAllBGColor.toUpperCase() ) {
+      if(this.is_ccpa == true && this.is_gdpr == false){
+        if( this.ab_testing_enabled ){
+          this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.opt_out_text_color1 : this.opt_out_text_color2;
+        } else {
+          this.cookieSettingsPopupAccentColor = this.opt_out_text_color;
+        }
+      }
+      else if( finalColor.toUpperCase().slice(0, -2) === acceptAllBGColor.toUpperCase() ) {
         if( this.ab_testing_enabled ){
           this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.accept_all_text_color1 : this.accept_all_text_color2;
+        } else if(this.is_gdpr == true && this.is_ccpa == true){
+          this.cookieSettingsPopupAccentColor = this.accept_all_text_color1;
         } else {
           this.cookieSettingsPopupAccentColor = this.accept_all_text_color;
         }
       } else {
-        this.cookieSettingsPopupAccentColor =  acceptAllBGColor;
+        this.cookieSettingsPopupAccentColor =  (this.is_gdpr == true && this.is_ccpa == true) ? this.accept_all_background_color1 : acceptAllBGColor;
       }
 
       return finalColor;
@@ -3171,6 +3142,7 @@ var gen = new Vue({
       this.cookie_position = position;
     },
     cookiewidgetPositionChange(value) {
+      console.log(this.is_eprivacy, typeof(this.is_eprivacy));
       this.cookie_widget_position = value;
     },
     selectTab(tabName) {
@@ -3183,6 +3155,9 @@ var gen = new Vue({
     },
     onTemplateChange(value) {
       this.template = value;
+      
+      console.log(this.template);
+      this.auto_generated_banner = false;
       const selectedTemplate = this.json_templates[value];
       this.cookie_bar_color =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity =                     selectedTemplate['styles']['opacity'];
@@ -3284,6 +3259,7 @@ var gen = new Vue({
       this.settings_opacity1 =                       selectedTemplate['settings_button']['opacity'];
       this.settings_border_width1 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius1 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
+      this.opt_out_text_color1 =                     selectedTemplate['opt_out_button']['color'];
 
       this.cookie_bar_color2 =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity2 =                     selectedTemplate['styles']['opacity'];
@@ -3329,6 +3305,7 @@ var gen = new Vue({
       this.settings_opacity2 =                       selectedTemplate['settings_button']['opacity'];
       this.settings_border_width2 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius2 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
+      this.opt_out_text_color2 =                     selectedTemplate['opt_out_button']['color'];
 
       // Multiple Legislation
       this.multiple_legislation_cookie_bar_color1 =         selectedTemplate["styles"]["background-color"];
@@ -3405,27 +3382,6 @@ var gen = new Vue({
     },
     onLanguageChange() {
       this.is_lang_changed = true;
-    },
-    cookieLayoutChange(value) {
-      if (value) {
-        this.settings_layout = true;
-      } else {
-        this.settings_layout = false;
-      }
-    },
-    cookieLayoutChange1(value) {
-      if (value) {
-        this.settings_layout1 = true;
-      } else {
-        this.settings_layout1 = false;
-      }
-    },
-    cookieLayoutChange2(value) {
-      if (value) {
-        this.settings_layout2 = true;
-      } else {
-        this.settings_layout2 = false;
-      }
     },
     onSwitchButtonReadMoreIsOn() {
       this.button_readmore_is_on = !this.button_readmore_is_on;
@@ -3651,13 +3607,13 @@ var gen = new Vue({
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
 
-      this.success_error_message = "Law Updated. Save Changes Please.";
+      this.success_error_message = "Law Updated. Save changes please before progressing further.";
       j("#gdpr-cookie-consent-save-settings-alert").css(
         "background-color",
         "#72b85c"
       );
       j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(5000);
     },
 
     onSwitchDefaultCookieBar() {
@@ -4123,8 +4079,6 @@ var gen = new Vue({
       this.settings_as_button = true;
       this.settings_size = "medium";
       this.cookie_on_frontend = true;
-      this.settings_layout = false;
-      this.layout_skin = "default";
       this.opt_out_text = "Do Not Sell My Personal Information";
       this.confirm_text = "Confirm";
       this.confirm_size = "medium";
@@ -4153,8 +4107,6 @@ var gen = new Vue({
       this.settings_as_button1 = true;
       this.settings_size1 = "medium";
       this.cookie_on_frontend1 = true;
-      this.settings_layout1 = false;
-      this.layout_skin1 = "default";
       this.opt_out_text1 = "Do Not Sell My Personal Information";
       this.confirm_text1 = "Confirm";
       this.confirm_size1 = "medium";
@@ -4183,8 +4135,6 @@ var gen = new Vue({
       this.settings_as_button2 = true;
       this.settings_size2 = "medium";
       this.cookie_on_frontend2 = true;
-      this.settings_layout2 = false;
-      this.layout_skin2 = "default";
       this.opt_out_text2 = "Do Not Sell My Personal Information";
       this.confirm_text2 = "Confirm";
       this.confirm_size2 = "medium";
@@ -4382,6 +4332,7 @@ var gen = new Vue({
       this.settings_opacity1 =                       selectedTemplate['settings_button']['opacity'];
       this.settings_border_width1 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius1 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
+      this.opt_out_text_color1 =                     selectedTemplate['opt_out_button']['color'];
 
       this.cookie_bar_color2 =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity2 =                     selectedTemplate['styles']['opacity'];
@@ -4427,6 +4378,7 @@ var gen = new Vue({
       this.settings_opacity2 =                       selectedTemplate['settings_button']['opacity'];
       this.settings_border_width2 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius2 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
+      this.opt_out_text_color2 =                     selectedTemplate['opt_out_button']['color'];
 
       // Multiple Legislation
       this.multiple_legislation_cookie_bar_color1 =         selectedTemplate["styles"]["background-color"];
@@ -7106,22 +7058,8 @@ var app = new Vue({
           1 === settings_obj.the_options["button_settings_is_on"])
           ? true
           : false,
-      settings_layout_options: settings_obj.settings_layout_options,
-      settings_layout_options_extended:
-        settings_obj.settings_layout_options_extended,
-      settings_layout:
-        settings_obj.the_options.hasOwnProperty("button_settings_as_popup") &&
-        (true === settings_obj.the_options["button_settings_as_popup"] ||
-          1 === settings_obj.the_options["button_settings_as_popup"])
-          ? true
-          : false,
       is_banner: this.show_cookie_as === "banner" ? true : false,
-      layout_skin_options: settings_obj.layout_skin_options,
-      layout_skin: settings_obj.the_options.hasOwnProperty(
-        "button_settings_layout_skin"
-      )
-        ? settings_obj.the_options["button_settings_layout_skin"]
-        : "layout-default",
+      
       settings_text: settings_obj.the_options.hasOwnProperty(
         "button_settings_text"
       )
@@ -7555,18 +7493,6 @@ var app = new Vue({
           ? false
           : true,
 
-      settings_layout1:
-        settings_obj.the_options.hasOwnProperty("button_settings_as_popup1") &&
-        (true === settings_obj.the_options["button_settings_as_popup1"] ||
-          1 === settings_obj.the_options["button_settings_as_popup1"] ||
-          "true" === settings_obj.the_options["button_settings_as_popup1"])
-          ? true
-          : false,
-      layout_skin1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_layout_skin1"
-      )
-        ? settings_obj.the_options["button_settings_layout_skin1"]
-        : "layout-default",
       settings_text1: settings_obj.the_options.hasOwnProperty(
         "button_settings_text1"
       )
@@ -8011,18 +7937,6 @@ var app = new Vue({
           ? false
           : true,
 
-      settings_layout2:
-        settings_obj.the_options.hasOwnProperty("button_settings_as_popup2") &&
-        (true === settings_obj.the_options["button_settings_as_popup2"] ||
-          1 === settings_obj.the_options["button_settings_as_popup2"] ||
-          "true" === settings_obj.the_options["button_settings_as_popup2"])
-          ? true
-          : false,
-      layout_skin2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_layout_skin2"
-      )
-        ? settings_obj.the_options["button_settings_layout_skin2"]
-        : "layout-default",
       settings_text2: settings_obj.the_options.hasOwnProperty(
         "button_settings_text2"
       )
@@ -9171,6 +9085,7 @@ var app = new Vue({
       this.settings_opacity1 =                       selectedTemplate['settings_button']['opacity'];
       this.settings_border_width1 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius1 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
+      this.opt_out_text_color1 =                     selectedTemplate['opt_out_button']['color'];
 
       this.cookie_bar_color2 =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity2 =                     selectedTemplate['styles']['opacity'];
@@ -9216,6 +9131,7 @@ var app = new Vue({
       this.settings_opacity2 =                       selectedTemplate['settings_button']['opacity'];
       this.settings_border_width2 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius2 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
+      this.opt_out_text_color2 =                     selectedTemplate['opt_out_button']['color'];
 
       // Multiple Legislation
       this.multiple_legislation_cookie_bar_color1 =         selectedTemplate["styles"]["background-color"];
@@ -9236,17 +9152,62 @@ var app = new Vue({
       this.multiple_legislation_cookie_border_color2 =      selectedTemplate['styles']['border-color'];
       this.multiple_legislation_cookie_font2 =              selectedTemplate['styles']['font-family'];
 
+      //CCPA popup buttons
+      this.confirm_button_popup =                     selectedTemplate['accept_all_button']['is_on'];
+      this.confirm_text_color =                       selectedTemplate['accept_all_button']['color'];
+      this.confirm_background_color =                 selectedTemplate['accept_all_button']['background-color'];
+      this.confirm_opacity =                          selectedTemplate['accept_all_button']['opacity'];
+      this.confirm_style =                            selectedTemplate['accept_all_button']['border-style'];
+      this.confirm_border_color =                     selectedTemplate['accept_all_button']['border-color'];
+      this.confirm_border_radius =                    selectedTemplate['accept_all_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.confirm_border_width =                     selectedTemplate['accept_all_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+      this.cancel_button_popup =                      selectedTemplate['decline_button']['is_on'];
+      this.cancel_text_color =                        selectedTemplate['decline_button']['color'];
+      this.cancel_background_color =                  selectedTemplate['decline_button']['background-color'];
+      this.cancel_opacity =                           selectedTemplate['decline_button']['opacity'];
+      this.cancel_style =                             selectedTemplate['decline_button']['border-style'];
+      this.cancel_border_color =                      selectedTemplate['decline_button']['border-color'];
+      this.cancel_border_radius =                     selectedTemplate['decline_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.cancel_border_width =                      selectedTemplate['decline_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+
+      this.confirm_button_popup1 =                     selectedTemplate['accept_all_button']['is_on'];
+      this.confirm_text_color1 =                       selectedTemplate['accept_all_button']['color'];
+      this.confirm_background_color1 =                 selectedTemplate['accept_all_button']['background-color'];
+      this.confirm_opacity1 =                          selectedTemplate['accept_all_button']['opacity'];
+      this.confirm_style1 =                            selectedTemplate['accept_all_button']['border-style'];
+      this.confirm_border_color1 =                     selectedTemplate['accept_all_button']['border-color'];
+      this.confirm_border_radius1 =                    selectedTemplate['accept_all_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.confirm_border_width1 =                     selectedTemplate['accept_all_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+      this.cancel_button_popup1 =                      selectedTemplate['decline_button']['is_on'];
+      this.cancel_text_color1 =                        selectedTemplate['decline_button']['color'];
+      this.cancel_background_color1 =                  selectedTemplate['decline_button']['background-color'];
+      this.cancel_opacity1 =                           selectedTemplate['decline_button']['opacity'];
+      this.cancel_style1 =                             selectedTemplate['decline_button']['border-style'];
+      this.cancel_border_color1 =                      selectedTemplate['decline_button']['border-color'];
+      this.cancel_border_radius1 =                     selectedTemplate['decline_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.cancel_border_width1 =                      selectedTemplate['decline_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+
+      this.confirm_button_popup2 =                     selectedTemplate['accept_all_button']['is_on'];
+      this.confirm_text_color2 =                       selectedTemplate['accept_all_button']['color'];
+      this.confirm_background_color2 =                 selectedTemplate['accept_all_button']['background-color'];
+      this.confirm_opacity2 =                          selectedTemplate['accept_all_button']['opacity'];
+      this.confirm_style2 =                            selectedTemplate['accept_all_button']['border-style'];
+      this.confirm_border_color2 =                     selectedTemplate['accept_all_button']['border-color'];
+      this.confirm_border_radius2 =                    selectedTemplate['accept_all_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.confirm_border_width2 =                     selectedTemplate['accept_all_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+      this.cancel_button_popup2 =                      selectedTemplate['decline_button']['is_on'];
+      this.cancel_text_color2 =                        selectedTemplate['decline_button']['color'];
+      this.cancel_background_color2 =                  selectedTemplate['decline_button']['background-color'];
+      this.cancel_opacity2 =                           selectedTemplate['decline_button']['opacity'];
+      this.cancel_style2 =                             selectedTemplate['decline_button']['border-style'];
+      this.cancel_border_color2 =                      selectedTemplate['decline_button']['border-color'];
+      this.cancel_border_radius2 =                     selectedTemplate['decline_button']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
+      this.cancel_border_width2 =                      selectedTemplate['decline_button']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
+
       this.is_template_changed = true;
     },
     onLanguageChange() {
       this.is_lang_changed = true;
-    },
-    cookieLayoutChange(value) {
-      if (value) {
-        this.settings_layout = true;
-      } else {
-        this.settings_layout = false;
-      }
     },
     onSwitchButtonReadMoreIsOn() {
       this.button_readmore_is_on = !this.button_readmore_is_on;
@@ -9792,8 +9753,6 @@ var app = new Vue({
       this.settings_size = "medium";
       this.cookie_settings_on = true;
       this.cookie_on_frontend = true;
-      this.settings_layout = false;
-      this.layout_skin = "layout-default";
       this.settings_opacity = "1";
       this.settings_border_width = "0";
       this.settings_style = "none";
@@ -10002,6 +9961,11 @@ var app = new Vue({
     saveWizardCookieSettings() {
       var that = this;
       var dataV = jQuery(".gcc-save-wizard-settings-form").serialize();
+      
+      dataV += "&gcc-cookie-accept-enable=" + encodeURIComponent(that.cookie_accept_on);
+      dataV += "&gcc-cookie-accept-all-enable=" + encodeURIComponent(that.cookie_accept_all_on);
+      dataV += "&gcc-cookie-decline-enable=" + encodeURIComponent(that.cookie_decline_on);
+      dataV += "&gcc-cookie-settings-enable=" + encodeURIComponent(that.cookie_settings_on);
       dataV += "&gdpr-cookie-bar-color=" + encodeURIComponent(that.cookie_bar_color);
       dataV += "&gdpr-cookie-text-color=" + encodeURIComponent(that.cookie_text_color);
       dataV += "&gdpr-cookie-bar-opacity=" + encodeURIComponent(that.cookie_bar_opacity);

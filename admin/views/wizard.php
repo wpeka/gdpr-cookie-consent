@@ -92,8 +92,8 @@ function print_template_boxes( ) {
 
 					$readmore_style_attr = '';
 					foreach ($template['readmore_button'] as $key => $value) {
-						if($key != 'opacity' && $key != 'is_on') $readmore_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
-					}  
+						if($key == 'color') $readmore_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					}    
 					$heading_style_attr = "";
 					foreach ($template['heading'] as $key => $value) {
 						$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
@@ -120,8 +120,6 @@ function print_template_boxes( ) {
 									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
 									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
-								<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="gdpr_message_heading.length>0">{{eprivacy_message_heading}}</h3>
 								<?php endif; ?>
 								<div class="<?php echo esc_attr($template['static-settings']['layout']);?>">
 									<p>
@@ -146,7 +144,7 @@ function print_template_boxes( ) {
 										<div class="cookie_notice_buttons <?php echo esc_attr($template['static-settings']['layout']) . '-buttons';?>">
 											<div class="left_buttons">
 												<?php if($template["decline_button"]["is_on"]) : ?><a style="<?php echo esc_attr( $decline_style_attr ); ?>">{{ decline_text }}</a><?php endif;?>
-												<?php if($template["settings_button"]["is_on"]) : ?><a style="<?php echo esc_attr( $settings_style_attr ); ?>">{{ settings_text }}</a><?php endif;?>
+												<?php if($template["settings_button"]["is_on"] && $the_options['cookie_usage_for'] !== 'eprivacy') : ?><a style="<?php echo esc_attr( $settings_style_attr ); ?>">{{ settings_text }}</a><?php endif;?>
 											</div>
 											<div class="right_buttons">
 												<?php if($template["accept_button"]["is_on"]) : ?><a style="<?php echo esc_attr( $accept_style_attr ); ?>">{{ accept_text }}</a><?php endif;?>
@@ -592,7 +590,7 @@ function print_template_boxes( ) {
 
 								<?php $the_options = Gdpr_Cookie_Consent::gdpr_get_settings(); ?>
 
-								<div v-show="is_gdpr || is_lgpd" class="show-cookie-template-card">
+								<div class="show-cookie-template-card">
 									<c-card-header class="show-cookie-template-label"><?php esc_html_e( 'Choose template for your cookie bar', 'gdpr-cookie-consent' ); ?></c-card-header>
 									<c-card-body>
 										<!-- banner templates  -->
