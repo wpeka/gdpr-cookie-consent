@@ -149,7 +149,7 @@
 #gdpr-ccpa-gdprmodal .gdprmodal-content {
   padding: 2rem 3rem;
   text-align: center;
-  height: 20vh;
+  height: 18vh;
 	width:500px;
 }
 
@@ -158,7 +158,7 @@
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-footer .powered-by-credits {
   position: absolute;
-  font-size: 0.45em;
+  font-size: 12px;
   bottom: 20px;
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-footer .powered-by-credits a {
@@ -180,6 +180,7 @@
 #gdpr-ccpa-gdprmodal .gdprmodal-body p {
   margin: 0;
   padding: 0;
+  font-size: 1.6rem;
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-body .gdpr_action_button.close {
   position: absolute;
@@ -778,6 +779,7 @@ Bootstrap CSS for frontend UI
   display: flex;
   -ms-flex-align: center;
   align-items: center;
+  justify-content: center;
   min-height: calc(100% - 1rem);
 }
 
@@ -814,6 +816,7 @@ Bootstrap CSS for frontend UI
   outline: 0;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
 }
+
 
 .gdprmodal-backdrop {
   position: fixed;
@@ -857,9 +860,11 @@ Bootstrap CSS for frontend UI
   position: relative;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  height: 66vh;
+  height: 67vh;
   overflow-y: scroll;
   scrollbar-width: thin;
+
+  transition: height 0.3s ease;
 }
 
 .gdprmodal-footer {
@@ -937,7 +942,6 @@ Bootstrap CSS for frontend UI
 .table {
   width: 100%;
   margin-bottom: 1rem;
-  color: #212529;
   border-collapse: collapse;
 }
 
@@ -953,15 +957,6 @@ Bootstrap CSS for frontend UI
 }
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: inherit;
-}
-.table-striped tbody tr:nth-of-type(even) {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.table .thead-dark th {
-  color: #000000;
-  background-color: #ebebeb;
-  border-color: rgba(224, 224, 224, 0.5);
 }
 
 @media (max-width: 575.98px) {
@@ -993,11 +988,12 @@ Bootstrap CSS for frontend UI
 }
 .gdpr-dropdown-arrow {
   position: relative;
-  top: 8px;
+  top: -3px;
   transition: transform 0.3s ease;
 }
 
 .gdpr-dropdown-arrow svg {
+  color: inherit;
   transform: rotate(0deg);
 }
 
@@ -1037,7 +1033,6 @@ Bootstrap CSS for frontend UI
 
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header {
   justify-content: flex-end;
-  padding: 2rem;
   border: unset;
 }
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
@@ -1067,17 +1062,12 @@ Bootstrap CSS for frontend UI
   outline: unset;
 }
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-footer {
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 1.5rem;
   border: unset;
 }
-.gdpr_messagebar_detail
-  .gdprmodal-dialog
-  .gdprmodal-footer
-  .powered-by-credits {
-  position: absolute;
-  left: 10px;
-  font-size: 9px;
+#gdpr-ccpa-gdprmodal gdprmodal-dialog .gdprmodal-footer {
+  justify-content: center;
 }
 /* Navbar for IAB TCF */
 .gdpr_messagebar_detail .gdpr-iab-navbar {
@@ -1085,10 +1075,7 @@ Bootstrap CSS for frontend UI
   display: flex;
   column-gap: 24px;
   margin: 0;
-  padding-left: 10px;
-}
-.gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar {
-  padding: 0px 20px;
+  padding-left: 15px;
 }
 .gdpr_messagebar_detail.layout-default .gdpr-iab-navbar {
   flex-direction: column;
@@ -1435,25 +1422,6 @@ Bootstrap CSS for frontend UI
   width: auto;
   float: unset;
 }
-.gdpr_messagebar_detail
-  .category-group
-  .category-item:last-child
-  .gdpr-column
-  .gdpr-columns {
-  margin-bottom: 10px;
-}
-.gdpr_messagebar_detail
-  .category-group
-  .category-item
-  .gdpr-column
-  .gdpr-columns,
-.gdpr_messagebar_detail
-  .category-group
-  .category-item
-  .inner-gdpr-column
-  .inner-gdpr-columns {
-  margin-bottom: 20px;
-}
 @media (max-width: 450px) {
   .gdpr_messagebar_detail
     .category-group
@@ -1624,6 +1592,7 @@ Bootstrap CSS for frontend UI
   font-size: inherit;
   line-height: inherit;
   overflow-x: auto;
+  color: inherit;
   padding: 15px 0;
 }
 .gdpr_messagebar_detail.layout-classic
@@ -1636,7 +1605,7 @@ Bootstrap CSS for frontend UI
   .category-item
   .inner-description-container
   .category-cookies-list-container {
-  padding: 0 10px 10px 10px;
+  padding: 20px 10px 10px 10px;
 }
 .gdpr_messagebar_detail
   .category-group
@@ -1837,7 +1806,6 @@ Bootstrap CSS for frontend UI
 }
 .gdpr_messagebar_detail.layout-classic .category-group .toggle-group,
 .gdpr_messagebar_detail.layout-default .category-group .toggle-group {
-  position: absolute;
   top: 0;
   right: 0;
   padding: 10px 20px;
@@ -2201,7 +2169,6 @@ Bootstrap CSS for frontend UI
 }
 
 .gdprmodal-dialog {
-  max-width: fit-content;
   margin: 1.75rem auto;
 }
 
@@ -2240,5 +2207,42 @@ Bootstrap CSS for frontend UI
 @media (max-width: 550px) {
   .gdprmodal-content {
     width: 94vw !important;
+  }
+}
+.gdpr-column .gdpr-columns, .inner-gdpr-column .inner-gdpr-columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+.gdpr-column .gdpr-columns .left, .inner-gdpr-column .inner-gdpr-columns .left {
+  display: flex;
+  flex: 1;
+}
+.gdpr-column .gdpr-columns .right, .inner-gdpr-column .inner-gdpr-columns .right {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+@media (max-width: 1024px) {
+  .gdpr-column .gdpr-columns, .inner-gdpr-column .inner-gdpr-columns {
+    flex-wrap: wrap;
+  }
+  .gdpr-column .gdpr-columns .right, .inner-gdpr-column .inner-gdpr-columns .right {
+    flex-direction: column;
+    align-items: flex-end;
+    flex: 1;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .vendor-legitimate-switch-wrapper,
+  .purposes-legitimate-switch-wrapper {
+    border-right: none;
+    padding: 0;
+  }
+  .gdpr-column .gdpr-columns .left, .inner-gdpr-column .inner-gdpr-columns .left {
+    width: 100%;
+    justify-content: flex-start;
   }
 }
