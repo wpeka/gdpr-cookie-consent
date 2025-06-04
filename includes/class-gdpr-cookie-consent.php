@@ -697,7 +697,6 @@ class Gdpr_Cookie_Consent {
 			'button_settings_is_on'                  => true,
 			'button_settings_display_cookies'        => true,
 			'button_settings_as_popup'               => true,
-			'button_settings_layout_skin'            => 'layout-default',
 			'button_settings_button_opacity'         => '1', // 0 to 1.
 			'button_settings_button_border_width'    => '2', // in pixel.
 			'button_settings_button_border_style'    => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
@@ -807,7 +806,6 @@ class Gdpr_Cookie_Consent {
 			'button_settings_is_on1'                  => true,
 			'button_settings_display_cookies1'        => true,
 			'button_settings_as_popup1'               => true,
-			'button_settings_layout_skin1'            => 'layout-default',
 			'button_settings_button_opacity1'         => '1', // 0 to 1.
 			'button_settings_button_border_width1'    => '2', // in pixel.
 			'button_settings_button_border_style1'    => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
@@ -899,7 +897,6 @@ class Gdpr_Cookie_Consent {
 			'button_settings_is_on2'                  => true,
 			'button_settings_display_cookies2'        => true,
 			'button_settings_as_popup2'               => true,
-			'button_settings_layout_skin2'            => 'layout-default',
 			'button_settings_button_opacity2'         => '1', // 0 to 1.
 			'button_settings_button_border_width2'    => '2', // in pixel.
 			'button_settings_button_border_style2'    => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
@@ -1785,7 +1782,6 @@ class Gdpr_Cookie_Consent {
 			'button_settings_is_on1'                 => $settings['button_settings_is_on1'],
 			'button_settings_display_cookies1'       => $settings['button_settings_display_cookies1'],
 			'button_settings_as_popup1'              => $settings['button_settings_as_popup1'],
-			'button_settings_layout_skin1'           => $settings['button_settings_layout_skin1'],
 			'font_family1'                           => $settings['cookie_font1'],
 			'button_accept_button_opacity1'          => $settings['button_accept_button_opacity1'],
 			'button_accept_all_btn_opacity1'         => $settings['button_accept_all_btn_opacity1'],
@@ -1864,7 +1860,6 @@ class Gdpr_Cookie_Consent {
 			'button_settings_is_on2'                 => $settings['button_settings_is_on2'],
 			'button_settings_display_cookies2'       => $settings['button_settings_display_cookies2'],
 			'button_settings_as_popup2'              => $settings['button_settings_as_popup2'],
-			'button_settings_layout_skin2'           => $settings['button_settings_layout_skin2'],
 			'font_family2'                           => $settings['cookie_font2'],
 			'button_accept_button_opacity2'          => $settings['button_accept_button_opacity2'],
 			'button_accept_all_btn_opacity2'         => $settings['button_accept_all_btn_opacity2'],
@@ -1955,7 +1950,6 @@ class Gdpr_Cookie_Consent {
 			'button_settings_is_on'                  => $settings['button_settings_is_on'],
 			'button_settings_display_cookies'        => $settings['button_settings_display_cookies'],
 			'button_settings_as_popup'               => $settings['button_settings_as_popup'],
-			'button_settings_layout_skin'            => $settings['button_settings_layout_skin'],
 			'font_family'                            => $settings['font_family'],
 			'notify_animate_hide'                    => $settings['notify_animate_hide'],
 			'notify_animate_show'                    => $settings['notify_animate_show'],

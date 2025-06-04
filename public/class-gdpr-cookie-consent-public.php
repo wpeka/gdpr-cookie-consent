@@ -642,11 +642,6 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			$the_options['skin_template']        = 'skins/' . $template . '.php';
 			$the_options['container_class']      = $the_options['cookie_usage_for'] . ' gdpr-' . $the_options['cookie_bar_as'] . ' gdpr-' . $template . ' ' . $the_options['template'];
-			$layout                              = $the_options['button_settings_layout_skin'];
-			$layout_parts                        = explode( '-', $layout );
-			$layout_skin                         = array_pop( $layout_parts );
-			$the_options['container_class']     .= ' layout-' . $layout_skin;
-			$the_options['layout_skin_template'] = 'modals/' . $layout_skin . '.php';
 
 			$current_theme = wp_get_theme();
 			if ( isset( $current_theme->template ) ) {
