@@ -2316,11 +2316,19 @@ var gen = new Vue({
     computedBackgroundColor() {
       const color = this.ab_testing_enabled
         ? this[`cookie_bar_color${this.active_test_banner_tab}`]
-        : this.cookie_bar_color;
+        : this.gdpr_policy === 'both'
+          ? this.active_default_multiple_legislation === 'gdpr'
+            ? this.multiple_legislation_cookie_bar_color1 
+            : this.multiple_legislation_cookie_bar_color2
+          : this.cookie_bar_color
 
       const opacity = this.ab_testing_enabled
         ? this[`cookie_bar_opacity${this.active_test_banner_tab}`]
-        : this.cookie_bar_opacity;
+        : this.gdpr_policy === 'both'
+          ? this.active_default_multiple_legislation === 'gdpr'
+            ? this.multiple_legislation_cookie_bar_opacity1
+            : this.multiple_legislation_cookie_bar_opacity2
+          : this.cookie_bar_opacity;
 
       const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
       const acceptAllBGColor = this.ab_testing_enabled ? ( this.active_test_banner_tab === 1 ? this.accept_all_background_color1 : this.accept_all_background_color2 ) : this.accept_all_background_color;
@@ -6128,6 +6136,8 @@ var gen = new Vue({
         .fadeIn(200)
         .fadeOut(2000);
       this.ab_testing_enabled = !this.ab_testing_enabled;
+      this.cookie_on_frontend1 = true;
+      this.cookie_on_frontend2 = true;
       if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
 
       var dataV = jQuery("#gcc-save-settings-form").serialize();
@@ -11064,14 +11074,22 @@ var app = new Vue({
     computedBackgroundColor() {
       const color = this.ab_testing_enabled
         ? this[`cookie_bar_color${this.active_test_banner_tab}`]
-        : this.cookie_bar_color;
+        : this.gdpr_policy === 'both'
+          ? this.active_default_multiple_legislation === 'gdpr'
+            ? this.multiple_legislation_cookie_bar_color1 
+            : this.multiple_legislation_cookie_bar_color2
+          : this.cookie_bar_color
 
       const opacity = this.ab_testing_enabled
         ? this[`cookie_bar_opacity${this.active_test_banner_tab}`]
-        : this.cookie_bar_opacity;
+        : this.gdpr_policy === 'both'
+          ? this.active_default_multiple_legislation === 'gdpr'
+            ? this.multiple_legislation_cookie_bar_opacity1
+            : this.multiple_legislation_cookie_bar_opacity2
+          : this.cookie_bar_opacity;
 
       const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
-      const acceptAllBGColor = this.iabtcf_is_on ? ( this.active_test_banner_tab === 1 ? this.accept_all_background_color1 : this.accept_all_background_color2 ) : this.accept_all_background_color;
+      const acceptAllBGColor = this.ab_testing_enabled ? ( this.active_test_banner_tab === 1 ? this.accept_all_background_color1 : this.accept_all_background_color2 ) : this.accept_all_background_color;
 
       if( finalColor.toUpperCase().slice(0, -2) === acceptAllBGColor.toUpperCase() ) {
         if( this.ab_testing_enabled ){

@@ -83,8 +83,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 		>
 			<div v-show="ab_testing_enabled && ( active_test_banner_tab == 1 || active_test_banner_tab == 2 )" class="notice-content" :class="'notice-template-' + template"
 			:style="{
-			  'background-color': this[`cookie_bar_color${active_test_banner_tab}`] + Math.floor(this[`cookie_bar_opacity${active_test_banner_tab}`] * 255).toString(16).toUpperCase(),
-			  'color': this[`cookie_text_color${active_test_banner_tab}`],
+			  'width': '100%',
 			  'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`] + 'px',
 			}"
 			>
@@ -288,8 +287,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 		>
 			<div class="notice-content" :class="'notice-template-' + template"
 			  :style="{
-				'background-color': `${cookie_bar_color}${Math.floor(cookie_bar_opacity * 255).toString(16).toUpperCase()}`,
-				'color': cookie_text_color,
+			  	'width': '100%',
 				'border-radius': cookie_bar_border_radius + 'px',
 			  }"
 			>
@@ -464,8 +462,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 		>
 			<div class="notice-content" :class="'notice-template-' + template"
 			  :style="{
-				'background-color': active_default_multiple_legislation === 'gdpr' ? `${multiple_legislation_cookie_bar_color1}${Math.floor(multiple_legislation_cookie_bar_opacity1 * 255).toString(16).toUpperCase()}` : `${multiple_legislation_cookie_bar_color2}${Math.floor(multiple_legislation_cookie_bar_opacity2 * 255).toString(16).toUpperCase()}`,
-				'color': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_text_color1 : multiple_legislation_cookie_text_color2,
+				'width': '100%',
 				'border-radius': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 + 'px' : multiple_legislation_cookie_bar_border_radius2 + 'px',
 			  }"
 			>
