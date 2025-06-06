@@ -107,6 +107,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_resolve' ) );
 			add_action( 'admin_init', array( $this, 'gdpr_migrate_old_template_names_once') );
+			add_action( 'admin_init', array( $this, 'gdpr_initialise') );
 			add_action( 'wp_ajax_set_default_test_banner_1', array( $this, 'set_default_banner_1' ) );
 			add_action( 'wp_ajax_set_default_test_banner_2', array( $this, 'set_default_banner_2' ) );
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
@@ -435,6 +436,21 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 
 		update_option('gdpr_template_migration_done', true);
+	}
+
+
+
+	public function gdpr_initialise(){
+
+		if (get_option('gdpr_default_template_object')) {
+			return;
+		}
+
+		$default_json_path = plugin_dir_path(__FILE__) . '../includes/templates/default_template.json';
+		$json_data = file_get_contents($default_json_path);
+		$default_template = json_decode($json_data, true); 
+		// error_log(print_r($default_template, true));
+		update_option('gdpr_default_template_object', $default_template);
 	}
 
 
@@ -3873,32 +3889,11 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
-	 *  Cookie Template card for Pro version.
-	 *
-	 * @param string $name name of the template.
-	 *
-	 * @param array  $templates list of template settings.
-	 *
-	 * @param string $checked name of the selected template.
-	 *
-	 * @since 1.0.0
+	 *  Card for a single template
 	 */
-	public function print_template_boxes() {
-		$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
-		$get_banner_img1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
-		$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
-		$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
-		$json_path = plugin_dir_path(__FILE__) . '../includes/templates/template.json';
-		if (file_exists($json_path)) {
-			$json_data = file_get_contents($json_path);
-			$templates = json_decode($json_data, true); // Use true for associative array
-		} else {
-			$templates = [];
-		}
+	public function template_card($the_options, $template) {
 		?>
-		<div class="gdpr-templates-field-container">
-		<?php foreach ( $templates as $key => $template ) : ?>
-			<div v-show = "show_cookie_as == 'widget' || show_cookie_as == 'popup' || '<?php echo esc_js($template['name']); ?>' !== 'blue_full'" class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
+		<div v-show = "show_cookie_as == 'widget' || show_cookie_as == 'popup' || '<?php echo esc_js($template['name']); ?>' !== 'blue_full'" class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 				<div class="gdpr-left-field">
 					<c-input type="radio"  name="<?php echo 'template_field'; ?>" :value="'<?php echo esc_attr( $template['name'] ); ?>'" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'">
 				</div>
@@ -3999,7 +3994,82 @@ class Gdpr_Cookie_Consent_Admin {
 						</div>
 					</div>
 			</div>
-		<?php endforeach; ?>	
+			<?php 
+	}
+
+	/**
+	 *  Cookie Template card for Pro version.
+	 *
+	 * @param string $name name of the template.
+	 *
+	 * @param array  $templates list of template settings.
+	 *
+	 * @param string $checked name of the selected template.
+	 *
+	 * @since 1.0.0
+	 */
+	public function print_template_boxes() {
+		$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$json_path = plugin_dir_path(__FILE__) . '../includes/templates/template.json';
+		if (file_exists($json_path)) {
+			$json_data = file_get_contents($json_path);
+			$templates = json_decode($json_data, true); // Use true for associative array
+		} else {
+			$templates = [];
+		}
+		$default_template = get_option('gdpr_default_template_object');
+		?>
+		<div class="gdpr-templates-field-container">
+		<?php	
+			$this -> template_card($the_options, $default_template);
+			$is_user_connected = $this->settings->is_connected();
+			$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+			$pro_is_activated  = get_option( 'wpl_pro_active', false );
+			$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated','' );
+			if(!$is_user_connected) : ?>
+				<div class="template_loader_container">
+					<div :class=" 'template_loader loader-type-' + show_cookie_as ">
+						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/mock_banner.png'; ?>" class="mock_banner" />
+						<div class="wpl-cookie-consent-overlay"></div>
+						<?php
+						if ( $pro_installed ) :
+							?>
+							<?php if ( $api_key_activated == 'Deactivated' ) : ?>
+							<div class="gdpr-overlay">
+								<p class="key-text"><?php esc_html_e( 'To access more templates, please activate your API key.', 'gdpr-cookie-consent' ); ?></p>
+								<button class="gdpr-activate-api-plugin"><?php esc_html_e( 'Activate API Key', 'gdpr-cookie-consent' ); ?></button>
+							</div>
+							<?php endif; ?>
+							<?php if ( ! $pro_is_activated ) : ?>
+								<div class="gdpr-overlay">
+								<p class="key-text"><?php esc_html_e( 'To access more templates, please activate your WP Cookie Consent Pro plugin', 'gdpr-cookie-consent' ); ?></p>
+								<button class="gdpr-activate-plugin"><?php esc_html_e( 'Activate Pro Plugin', 'gdpr-cookie-consent' ); ?></button>
+								</div> 
+							<?php endif; ?>
+						<?php endif; ?>
+						<!-- API Connection Screen  -->
+						<?php if ( ! $is_user_connected && ! $pro_installed ) : ?>
+							<div class="gdpr-overlay">
+								<img :src="account_connection.default" class="gdpr-cookie-account_connection">
+								<p class="enable-text"><?php esc_html_e( 'To access more templates, create your FREE WP Cookie Consent account.', 'gdpr-cookie-consent' ); ?></p>
+								<button class="gdpr-start-auth"><?php esc_html_e( 'New? Create an account', 'gdpr-cookie-consent' ); ?></button>
+								<p><span class="already-have-acc"><?php esc_html_e( 'Already have an account? ', 'gdpr-cookie-consent' ); ?></span><span class="api-connect-to-account-btn" ><?php esc_html_e( 'Connect your existing account', 'gdpr-cookie-consent' ); ?></span></p>
+							</div>
+						<?php endif; ?>
+					</div>
+				</div>
+			<?php else : ?>
+				<!-- <div class="template_loader_container">
+					<div :class=" 'template_loader loader-type-' + show_cookie_as ">
+						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/logo_placeholder.png'; ?>" class="mock_banner" />
+					</div>
+				</div> -->
+			<?php endif;
+		 	// foreach ( $templates as $key => $template ) : 
+			// 	if($key != "default") :
+			// 		$this -> template_card($the_options, $template);
+			// 	endif;
+			// endforeach; ?>	
 		</div>
 		<?php
 	}
