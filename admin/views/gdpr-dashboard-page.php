@@ -563,7 +563,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'Read the documentation to find answers to your questions.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="<?php esc_html_e($help_page_tab_url); ?>" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="<?php esc_html_e($help_page_tab_url); ?>" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
@@ -575,7 +575,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'If you need help understanding, using, or extending WP Cookie Consent Plugin.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
@@ -587,7 +587,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'Explore video tutorials for insights on WP Cookie Consent functionality.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/video-resources/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/video-resources/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
@@ -599,7 +599,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'Find answers to some of the most commonly asked questions.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
@@ -611,7 +611,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'Enjoy our WordPress plugin? Share your feedback!', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews/" target="__blank" class="gdpr-help-button"><?php esc_html_e( 'Share Reviews', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews/" target="__blank" class="gdpr-help-button"><?php esc_html_e( 'Share Reviews', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
@@ -623,7 +623,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'Use this shortcode for third-party cookie info on privacy or cookie pages.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/" target="__blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/" target="__blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
@@ -635,7 +635,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'Report bugs in the WP Cookie Consent plugin by creating a helpdesk ticket.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://wplegalpages.com/contact-us/" target="__blank" class="gdpr-help-button"><?php esc_html_e( 'Go To Help Desk', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/contact-us/" target="__blank" class="gdpr-help-button"><?php esc_html_e( 'Go To Help Desk', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 						</div>
 					</div>
 				</c-card-body>
@@ -648,7 +648,7 @@ if ( 200 === $response_status ) {
 				</h1>
 				<a href="https://wplegalpages.com/blog/" target="_blank">
 				<button class="gdpr-dashboard-tips-tricks-button">
-                <?php esc_html_e('Visit Our Blog ','gdpr-cookie-consent') ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"> 
+                <?php esc_html_e('Visit Our Blog ','gdpr-cookie-consent') ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"> 
 				</button>
 				</a>
 			</header>

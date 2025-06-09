@@ -72,6 +72,7 @@ var gen = new Vue({
       pollingInterval: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
+      alt_configure_text: "WPCS Configure Logo icon",
       progress_bar: require("../admin/images/progress_bar.svg"),
       edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
       close_round_img: require("../admin/images/Close_round.svg"),
@@ -8423,6 +8424,7 @@ var app = new Vue({
       is_logo_removed: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
+      alt_configure_text: "WPCS Configure Logo icon",
       closeOnBackdrop: true,
       centered: true,
       accept_button_popup: false,
@@ -8467,7 +8469,8 @@ var app = new Vue({
           ? true
           : false,
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
-      gcm_is_on: settings_obj.the_options.hasOwnProperty("is_gcm_on") && 
+      gcm_is_on:
+        settings_obj.the_options.hasOwnProperty("is_gcm_on") &&
         (true === settings_obj.the_options["is_gcm_on"] ||
           1 === settings_obj.the_options["is_gcm_on"])
           ? true
@@ -8477,23 +8480,27 @@ var app = new Vue({
       )
         ? settings_obj.the_options["gcm_wait_for_update_duration"]
         : "500",
-      gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
+      gcm_url_passthrough:
+        settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") &&
         (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
           1 === settings_obj.the_options["is_gcm_url_passthrough"])
           ? true
           : false,
-      gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
+      gcm_ads_redact:
+        settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") &&
         (true === settings_obj.the_options["is_gcm_ads_redact"] ||
           1 === settings_obj.the_options["is_gcm_ads_redact"])
           ? true
           : false,
-      gcm_debug_mode: settings_obj.the_options.hasOwnProperty("is_gcm_debug_mode") && 
+      gcm_debug_mode:
+        settings_obj.the_options.hasOwnProperty("is_gcm_debug_mode") &&
         (true === settings_obj.the_options["is_gcm_debug_mode"] ||
           "true" === settings_obj.the_options["is_gcm_debug_mode"] ||
           1 === settings_obj.the_options["is_gcm_debug_mode"])
           ? true
           : false,
-      gcm_advertiser_mode: settings_obj.the_options.hasOwnProperty("is_gcm_advertiser_mode") && 
+      gcm_advertiser_mode:
+        settings_obj.the_options.hasOwnProperty("is_gcm_advertiser_mode") &&
         (true === settings_obj.the_options["is_gcm_advertiser_mode"] ||
           "true" === settings_obj.the_options["is_gcm_advertiser_mode"] ||
           1 === settings_obj.the_options["is_gcm_advertiser_mode"])
@@ -10373,32 +10380,36 @@ var app = new Vue({
         : [],
       select_pages_array: [],
       list_of_pages: settings_obj.list_of_pages,
-      
+
       //script dependency
       is_script_dependency_on:
-      settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
-      (true === settings_obj.the_options["is_script_dependency_on"] ||
-        1 === settings_obj.the_options["is_script_dependency_on"])
-        ? true
-        : false,
-      header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
+        settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
+        (true === settings_obj.the_options["is_script_dependency_on"] ||
+          1 === settings_obj.the_options["is_script_dependency_on"])
+          ? true
+          : false,
+      header_dependency: settings_obj.the_options.hasOwnProperty(
+        "header_dependency"
+      )
         ? settings_obj.the_options["header_dependnecy"]
-        : '',
+        : "",
       header_dependency_list: settings_obj.header_dependency_list,
       header_dependency_map: {
-        'Body Scripts': false,
-        'Footer Scripts': false,
+        "Body Scripts": false,
+        "Footer Scripts": false,
       },
-      footer_dependency: settings_obj.the_options.hasOwnProperty("footer_dependency")
+      footer_dependency: settings_obj.the_options.hasOwnProperty(
+        "footer_dependency"
+      )
         ? settings_obj.the_options["footer_dependency"]
-        : '',
+        : "",
       footer_dependency_selected: null,
       footer_dependency_list: settings_obj.footer_dependency_list,
       footer_dependency_map: {
-        'Header Scripts': false,
-        'Body Scripts': false,
+        "Header Scripts": false,
+        "Body Scripts": false,
       },
-      
+
       // revoke consent text color.
       button_revoke_consent_text_color: settings_obj.the_options.hasOwnProperty(
         "button_revoke_consent_text_color"
@@ -10412,6 +10423,7 @@ var app = new Vue({
           ? settings_obj.the_options["button_revoke_consent_background_color"]
           : "",
       right_arrow: require("../admin/images/dashboard-icons/right-arrow.svg"),
+      alt_right_arrow: "WPCS right arrow icon",
       is_selectedCountry_on:
         settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
         (true === settings_obj.the_options["is_selectedCountry_on"] ||

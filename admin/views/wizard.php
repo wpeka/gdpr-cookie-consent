@@ -4322,7 +4322,7 @@ function get_templates( $template_type ) {
 ?>
 
 <div class="gdpr-wizard-top-container">
-	<img class="gdpr-wizard-logo" src="<?php echo esc_url( $image_path ) . 'gdprLogo.png'; ?>">
+	<img class="gdpr-wizard-logo" src="<?php echo esc_url( $image_path ) . 'gdprLogo.png'; ?>" alt="WP Cookie Consent Wizard Logo">
 	<span class="gdpr-main-heading">WP Cookie Consent</span>
 
 </div>
@@ -4340,7 +4340,7 @@ function get_templates( $template_type ) {
 			<input type="hidden" name="gcc_settings_form_nonce_wizard" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-wizard' ) ); ?>"/>
 			
 			<div class="gdpr-wizard-header-section">
-				<div class="gdpr-general-wizard-logo-container"><img class="gdpr-general-wizard-logo" src="<?php echo esc_url( $image_path ) . 'CookieConsent.png'; ?>">
+				<div class="gdpr-general-wizard-logo-container"><img class="gdpr-general-wizard-logo" src="<?php echo esc_url( $image_path ) . 'CookieConsent.png'; ?>" alt="WP Cookie Consent General Wizard Logo">
 					<span class="gdpr-general-wizard-main-heading">Welcome to WP Cookie Consent</span>
 					<p class="gdpr-general-wizard-sub-heading">Follow the guided wizard to get started</p>
 				</div>
@@ -4356,7 +4356,7 @@ function get_templates( $template_type ) {
 				<br>
 			</div>
 			<div class="gdpr-wizard-thankyou-page">
-				<div class="gdpr-general-wizard-thankyou-container"><img class="gdpr-general-wizard-thankyou-checked" src="<?php echo esc_url( $image_path ) . 'wizard-thakyou-checkd.svg'; ?>">
+				<div class="gdpr-general-wizard-thankyou-container"><img class="gdpr-general-wizard-thankyou-checked" src="<?php echo esc_url( $image_path ) . 'wizard-thakyou-checkd.svg'; ?>" alt="WP Cookie Consent Wizard Thank you">
 					<span class="gdpr-wizard-thankyou-heading">Congratulations! Your Banner Is Live Now</span>	
 					<div class="gdpr-wizard-thankyou-container">
 						<input type="button" name="live-preview" class="gdpr-wizard-thankyou-live-preview" value="Live Preview" />
@@ -4796,7 +4796,7 @@ function get_templates( $template_type ) {
 
 					<div class="gdpr-wizard-help-center">
 						<div class="gdpr-help-item">
-								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'help-center.svg'; ?>">
+								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'help-center.svg'; ?>" alt="WPCS Help Center Icon">
 							<div class="gdpr-help-content">
 							<span class="gdpr-help-caption">
 								<?php esc_html_e( 'Help Center', 'gdpr-cookie-consent' ); ?>
@@ -4804,11 +4804,11 @@ function get_templates( $template_type ) {
 							<span class="gdpr-help-description">
 								<?php esc_html_e( 'Read the documentation to find answers to your questions.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 							</div>
 						</div>
 						<div class="gdpr-help-item">
-								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'video.svg'; ?>">
+								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'video.svg'; ?>" alt="WPCS Video icon">
 							<div class="gdpr-help-content">
 							<span class="gdpr-help-caption">
 								<?php esc_html_e( 'Video Guides', 'gdpr-cookie-consent' ); ?>
@@ -4816,11 +4816,11 @@ function get_templates( $template_type ) {
 							<span class="gdpr-help-description">
 								<?php esc_html_e( 'Explore video tutorials for insights on WP Cookie Consent functionality.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 							</div>
 						</div>
 						<div class="gdpr-help-item">
-								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'faqs.svg'; ?>">
+								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'faqs.svg'; ?>" alt="WPCS Other plugin image">
 							<div class="gdpr-help-content">
 							<span class="gdpr-help-caption">
 								<?php esc_html_e( 'FAQ with Answers', 'gdpr-cookie-consent' ); ?>
@@ -4828,7 +4828,7 @@ function get_templates( $template_type ) {
 							<span class="gdpr-help-description">
 								<?php esc_html_e( 'Find answers to some of the most commonly asked questions.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 							</div>
 						</div>
 					</div>
