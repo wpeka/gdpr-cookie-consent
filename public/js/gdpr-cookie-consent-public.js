@@ -2661,11 +2661,11 @@ banner.style.display = "none";
       switch (this.id) {
         case "gdprIABTabCategory":
           $(".cat").css("display", "block");
-          modalBody.style.height = '67vh';
+          modalBody.style.height = '63vh';
           break;
         case "gdprIABTabFeatures":
           $(".feature-group").css("display", "block");
-          modalBody.style.height = '56vh';
+          modalBody.style.height = '54vh';
           break;
         case "gdprIABTabVendors":
           $(".vendor-group").css("display", "block");

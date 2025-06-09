@@ -854,7 +854,7 @@ Bootstrap CSS for frontend UI
   position: relative;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  height: 67vh;
+  height: 63vh;
   overflow-y: scroll;
   scrollbar-width: thin;
 
