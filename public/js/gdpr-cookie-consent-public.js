@@ -2321,7 +2321,14 @@ banner.style.display = "none";
           this.settings.cookie_usage_for == "both" ||
           this.settings.cookie_usage_for == "lgpd"
         ) {
-          this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+          if (this.settings.auto_banner_initialize) {
+            setTimeout(() => {
+              this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+            }, this.settings.auto_banner_initialize_delay);
+          } else {
+            this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+          }
+          
         }
       }
     },
