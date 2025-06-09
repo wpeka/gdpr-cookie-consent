@@ -370,6 +370,24 @@ jQuery(document).ready(function () {
         }
     });
   }
+
+
+  jQuery('#more_templates_button').on("click", function (e) {
+    e.preventDefault();
+    jQuery('#template_selection_panel').css({'height': '85vh'});
+    jQuery('#template_selection_backface').css({'height': '100vh'});
+  })
+  jQuery('#template_selection_backface').on("click", function (e) {
+    e.preventDefault();
+    jQuery('#template_selection_panel').css({'height': '0'});
+    jQuery('#template_selection_backface').css({'height': '0'});
+  })
+  jQuery('.template_selection_panel_close').on("click", function (e) {
+    e.preventDefault();
+    jQuery('#template_selection_panel').css({'height': '0'});
+    jQuery('#template_selection_backface').css({'height': '0'});
+  })
+  
   
 
   /**

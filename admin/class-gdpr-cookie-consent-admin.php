@@ -3996,6 +3996,114 @@ class Gdpr_Cookie_Consent_Admin {
 			</div>
 			<?php 
 	}
+	/**
+	 *  Small card for a single template
+	 */
+	public function small_template_card($the_options, $template) {
+		?>
+		<div v-show = "show_cookie_as == 'widget' || show_cookie_as == 'popup' || '<?php echo esc_js($template['name']); ?>' !== 'blue_full'" class="gdpr-template-field-small gdpr-<?php echo esc_attr( $template['name'] ); ?>">
+				<div class="gdpr-left-field">
+					<c-input type="radio"  name="<?php echo 'template_field'; ?>" :value="'<?php echo esc_attr( $template['name'] ); ?>'" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'">
+				</div>
+				<?php 
+
+					$styles_attr = '';
+					foreach ($template['styles'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $styles_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					} 
+					$styles_attr .= "position: relative;";
+
+					$accept_style_attr = '';
+					foreach ($template['accept_button'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $accept_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					} 
+					$accept_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+
+					$accept_all_style_attr = '';
+					foreach ($template['accept_all_button'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $accept_all_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					} 
+					$accept_all_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+
+					$decline_style_attr = '';
+					foreach ($template['decline_button'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $decline_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					} 
+					$decline_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+
+					$settings_style_attr = '';
+					foreach ($template['settings_button'] as $key => $value) {
+						if($key != 'opacity' && $key != 'is_on') $settings_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					}  
+					$settings_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					
+					$logo_style_attr = '';
+					foreach ($template['logo'] as $key => $value) {
+						$logo_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					}  
+
+					$readmore_style_attr = '';
+					foreach ($template['readmore_button'] as $key => $value) {
+						if($key == 'color') $readmore_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					}  
+					$heading_style_attr = "";
+					foreach ($template['heading'] as $key => $value) {
+						$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					}  
+				?>
+				<div :class=" 'gdpr-right-field template-type-' + show_cookie_as ">
+						<div style = "<?php echo esc_attr($styles_attr); ?>" class="cookie_notice_content">
+							<span style="display: inline-flex; align-items: center; justify-content: center; position: absolute; top:20px; right: 20px; height: 20px; width: 20px; border-radius: 50%;background-color: <?php echo $template['accept_button']['background-color'] ?>; color: <?php echo $template['accept_button']['color']; ?>;">
+								<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+								</svg>
+							</span>
+							
+								<img style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/logo_placeholder.png'; ?>" >
+										
+								<?php
+								if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
+									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
+								<?php endif; ?>
+								<div class="<?php echo esc_attr($template['static-settings']['layout']);?>">
+									<p>
+										<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+											<span v-html ="gdpr_message"></span>
+											<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
+											<span v-html ="lgpd_message"></span>
+											<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+											<span v-html ="ccpa_message"></span>
+											<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+											<span v-html ="eprivacy_message"></span>
+										<?php endif; ?>
+										<a style = "<?php echo esc_attr($readmore_style_attr); ?>" >
+											<?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+												{{ opt_out_text }}
+											<?php else : ?>
+												{{ button_readmore_text }}
+											<?php endif; ?>
+										</a>
+									</p>
+									<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) : ?>
+										<div class="cookie_notice_buttons <?php echo esc_attr($template['static-settings']['layout']) . '-buttons';?>">
+											<div class="left_buttons">
+												<?php if($template["decline_button"]["is_on"]) : ?><a style="<?php echo esc_attr( $decline_style_attr ); ?>">{{ decline_text }}</a><?php endif;?>
+												<?php if($template["settings_button"]["is_on"] && $the_options['cookie_usage_for'] !== 'eprivacy') : ?><a style="<?php echo esc_attr( $settings_style_attr ); ?>">{{ settings_text }}</a><?php endif;?>
+											</div>
+											<div class="right_buttons">
+												<?php if($template["accept_button"]["is_on"]) : ?><a style="<?php echo esc_attr( $accept_style_attr ); ?>">{{ accept_text }}</a><?php endif;?>
+												<?php if($template["accept_all_button"]["is_on"]) : ?><a style="<?php echo esc_attr( $accept_all_style_attr); ?>">{{ accept_all_text }}</a><?php endif;?>
+											</div>
+										</div>
+									<?php endif; ?>
+								</div>
+						</div>
+					</div>
+			</div>
+			<?php 
+	}
 
 	/**
 	 *  Cookie Template card for Pro version.
@@ -4011,6 +4119,11 @@ class Gdpr_Cookie_Consent_Admin {
 	public function print_template_boxes() {
 		$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$json_path = plugin_dir_path(__FILE__) . '../includes/templates/template.json';
+
+		$is_user_connected = $this->settings->is_connected();
+			$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+			$pro_is_activated  = get_option( 'wpl_pro_active', false );
+			$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated','' );
 		if (file_exists($json_path)) {
 			$json_data = file_get_contents($json_path);
 			$templates = json_decode($json_data, true); // Use true for associative array
@@ -4022,10 +4135,6 @@ class Gdpr_Cookie_Consent_Admin {
 		<div class="gdpr-templates-field-container">
 		<?php	
 			$this -> template_card($the_options, $default_template);
-			$is_user_connected = $this->settings->is_connected();
-			$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
-			$pro_is_activated  = get_option( 'wpl_pro_active', false );
-			$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated','' );
 			if(!$is_user_connected) : ?>
 				<div class="template_loader_container">
 					<div :class=" 'template_loader loader-type-' + show_cookie_as ">
@@ -4059,17 +4168,36 @@ class Gdpr_Cookie_Consent_Admin {
 					</div>
 				</div>
 			<?php else : ?>
-				<!-- <div class="template_loader_container">
-					<div :class=" 'template_loader loader-type-' + show_cookie_as ">
-						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/logo_placeholder.png'; ?>" class="mock_banner" />
+				<div class="more_templates_option_container">
+					<div class=" more_templates_option ">
+						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_designs_options.png'; ?>"/>
+						<p><?php echo esc_html("We have a library of 20+ templates to choose from"); ?></p>
+						<button class="more_templates_button" id="more_templates_button">Explore more templates</button>
 					</div>
-				</div> -->
-			<?php endif;
-		 	// foreach ( $templates as $key => $template ) : 
-			// 	if($key != "default") :
-			// 		$this -> template_card($the_options, $template);
-			// 	endif;
-			// endforeach; ?>	
+					<div id = "template_selection_panel" class="template_selection_panel">
+						<div class="template_selection_header">
+							<span class="template_selection_panel_close" style="display: inline-flex; cursor: pointer; align-items: center; justify-content: center; height: 20px; width: 20px; border-radius: 50%;background-color: gray; color: white;">
+								<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+								</svg>
+							</span>
+						</div>
+						<div class="template_selection_body">
+							<?php 
+								foreach ( $templates as $key => $template ) : 
+									if($key != "default") :
+										$this -> small_template_card($the_options, $template);
+									endif;
+								endforeach; ?>
+						</div>
+						<div class="template_selection_footer">
+							<button class="template_selection_panel_close template_selection_cancel">Cancel</button>
+							<button class="template_selection_save">Save Changes</button>
+						</div>
+					</div>
+					<div id = "template_selection_backface" class="template_selection_backface"></div>
+				</div>
+			<?php endif; ?>	
 		</div>
 		<?php
 	}
