@@ -2322,7 +2322,7 @@ banner.style.display = "none";
           this.settings.cookie_usage_for == "lgpd"
         ) {
           if (this.settings.auto_banner_initialize) {
-            setTimeout(() => {
+            setTimeout(function() {
               this.show_again_elm.slideDown(this.settings.animate_speed_hide);
             }, this.settings.auto_banner_initialize_delay);
           } else {
