@@ -38,6 +38,7 @@
     font-weight: var(--text-regular-font-weight);
     font-size: 14px;
     text-align: justify;
+    text-wrap: auto;
 }
 #gdpr-cookie-consent-bar 
   .cookie_notice_buttons a{
@@ -1022,7 +1023,7 @@ Bootstrap CSS for frontend UI
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-content {
   border: unset;
   font-size: var(--text-sem-13-font-size);
-  line-height: var(--text-lg-line-height);
+  line-height: 20px;
 }
 
 .gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header {
@@ -1161,7 +1162,7 @@ Bootstrap CSS for frontend UI
 .special-features-switch-label {
   font-size: 11px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   margin: 0 8px 0 0;
   vertical-align: middle;
 }
@@ -1169,7 +1170,7 @@ Bootstrap CSS for frontend UI
 /* purpose and feature description */
 .gdpr-ad-purpose-details {
   font-size: 12px;
-  line-height: 24px;
+  line-height: 20px;
   margin: 0 0 0 18px;
 }
 .navy_blue_center .gdpr-ad-purpose-details,
@@ -1201,7 +1202,7 @@ Bootstrap CSS for frontend UI
 }
 .gdpr-ad-purpose-details * {
   font-size: 12px;
-  line-height: 24px;
+  line-height: 20px;
   word-wrap: break-word;
 }
 
@@ -1277,6 +1278,8 @@ Bootstrap CSS for frontend UI
 }
 .gdpr_messagebar_detail .gdpr-about-cookies {
   padding: 10px 20px;
+  text-align: justify;
+    text-wrap: auto;
 }
 
 .gdpr_messagebar_detail .category-group .category-item {
