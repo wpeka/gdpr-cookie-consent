@@ -8211,8 +8211,7 @@ var gen = new Vue({
           spinner.hide();
           location.reload();
         });
-    },
-    
+    }, 
   },
   mounted() {
     if (window.vueMounted) return; // Prevent duplicate execution
@@ -10897,8 +10896,6 @@ var app = new Vue({
                 "image",
                 attachmentURL
               );
-             
-
             }
           });
         });
@@ -15179,8 +15176,7 @@ var app = new Vue({
           j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
         },
       });
-    },
-   
+    },   
   },
   mounted() {
     j("#gdpr-before-mount").css("display", "none");
@@ -15191,5 +15187,4 @@ var app = new Vue({
     }
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
- 
 });
