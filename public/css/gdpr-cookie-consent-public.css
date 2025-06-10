@@ -153,7 +153,7 @@
 #gdpr-ccpa-gdprmodal .gdprmodal-content {
   padding: 2rem 3rem;
   text-align: center;
-  height: 176px;
+  height: 150px;
 	width:500px;
 }
 
@@ -162,8 +162,11 @@
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-footer .powered-by-credits {
   position: absolute;
-  font-size: 12px;
+  font-size: 10px;
   bottom: 20px;
+}
+.gdprmodal-dialog .gdprmodal-footer .powered-by-credits {
+  font-size: 10px;
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-footer .powered-by-credits a {
   color: var(--popup_accent_color);
@@ -219,7 +222,7 @@
     width: calc(100vw - 30px);
     left:15px;
     right: 15px;
-    padding: 20px;
+    padding: 30px;
     padding-top: 50px;
   }
   #gdpr-cookie-consent-bar.gdpr-banner{
@@ -240,10 +243,16 @@
     min-width: 155px !important;
   }
   #gdpr-ccpa-gdprmodal .gdprmodal-content {
-    height: 250px;
+    height: 210px;
   }
-
 }
+
+@media (max-width: 450px) {
+  #gdpr-ccpa-gdprmodal .gdprmodal-content {
+    height: 240px;
+  }
+}
+
 @media (max-width:550px) {
 
   #gdpr-cookie-consent-bar 
@@ -288,6 +297,9 @@
   #gdpr-cookie-consent-bar 
   .cookie_notice_buttons a{
     text-wrap-mode: nowrap;
+  }
+  #gdpr-cookie-consent-bar #cookie-banner-cancle-img {
+    right: 25px !important;
   }
   
 
@@ -841,6 +853,10 @@ Bootstrap CSS for frontend UI
   padding: 1rem 1rem;
 }
 
+#gdpr-ccpa-gdprmodal .gdprmodal-header {
+  padding: 0;
+}
+
 .gdprmodal-header .close {
   padding: 0;
   margin: 0;
@@ -855,7 +871,7 @@ Bootstrap CSS for frontend UI
   position: relative;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  height: 63vh;
+  height: 530px;
   overflow-y: scroll;
   scrollbar-width: thin;
 
@@ -2127,6 +2143,9 @@ Bootstrap CSS for frontend UI
   .gdpr_messagebar_detail .gdprmodal-footer {
     flex-direction: column-reverse;
   }
+  #gdpr-ccpa-gdprmodal .gdprmodal-footer {
+    flex-direction: column;
+  }
   .gdpr_messagebar_detail .gdprmodal-footer .powered-by-credits {
     position: relative !important;
     left: unset !important;
@@ -2229,4 +2248,10 @@ Bootstrap CSS for frontend UI
     justify-content: flex-start;
   }
 
+}
+
+.gdpr-notice-content-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

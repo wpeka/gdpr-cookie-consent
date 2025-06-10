@@ -8847,7 +8847,9 @@ var app = new Vue({
       }
     },
     cookieTypeChange(value) {
+      this.processof_auto_template_generated = false;
       if (value === "banner") {
+        if(this.template == 'blue_full') this.template = 'blue_center';
         this.is_banner = true;
       } else {
         this.is_banner = false;
