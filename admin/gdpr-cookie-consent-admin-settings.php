@@ -6789,7 +6789,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<?php do_action( 'gdpr_cookie_scanned_history' ); ?>
 					</c-card>
 				</c-tab>
-				<c-button class="cookie_scan_dropdown" @click="openCookieDropdown"><i class="cookie_arrow down"></i></c-button>
+				<c-button class="cookie_scan_dropdown" @click="openCookieDropdown" aria-label="Open cookie dropdown"><i class="cookie_arrow down"></i></c-button>
 				
 				<div v-show="cookie_scan_dropdown" class="gdpr-cookie-list-tabs">
 						<c-button class="gdpr-cookie-consent-cookie-list-tab" @click="onChangeCookieListTab":class="{ 'gdpr-cookie-consent-cookie-list-tab-active': cookie_list_tab == true }"><?php esc_html_e( 'Custom Cookies', 'gdpr-cookie-consent' ); ?></c-button>

@@ -15,7 +15,7 @@
 		<!-- Modal content-->
 		<div class="gdprmodal-content">
 			<div class="gdprmodal-header">
-				<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close">
+				<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close" aria-label="Close modal">
 					<span class="dashicons dashicons-no"></span>
 				</button>
 			</div>
@@ -54,8 +54,8 @@
                               <div class="toggle">
                                  <div class="checkbox">
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
-                                    <input id="gdpr_messagebar_body_button_marketing" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_marketing" value="marketing">
-                                    <label for="gdpr_messagebar_body_button_marketing">
+                                    <input id="gdpr_messagebar_body_button_marketing_dark" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_marketing_dark" value="marketing">
+                                    <label for="gdpr_messagebar_body_button_marketing_dark">
                                     <span class="label-text">Marketing</span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -81,8 +81,8 @@
                               <div class="toggle">
                                  <div class="checkbox">
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
-                                    <input id="gdpr_messagebar_body_button_analytics" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_analytics" value="analytics">
-                                    <label for="gdpr_messagebar_body_button_analytics">
+                                    <input id="gdpr_messagebar_body_button_analytics_dark" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_analytics_dark" value="analytics">
+                                    <label for="gdpr_messagebar_body_button_analytics_dark">
                                     <span class="label-text">Analytics</span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -108,8 +108,8 @@
                               <div class="toggle">
                                  <div class="checkbox">
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
-                                    <input id="gdpr_messagebar_body_button_preferences" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_preferences" value="preferences">
-                                    <label for="gdpr_messagebar_body_button_preferences">
+                                    <input id="gdpr_messagebar_body_button_preferences_dark" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_preferences_dark" value="preferences">
+                                    <label for="gdpr_messagebar_body_button_preferences_dark">
                                     <span class="label-text">Preference</span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -135,8 +135,8 @@
                               <div class="toggle">
                                  <div class="checkbox">
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
-                                    <input id="gdpr_messagebar_body_button_unclassified" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_unclassified" value="unclassified">
-                                    <label for="gdpr_messagebar_body_button_unclassified">
+                                    <input id="gdpr_messagebar_body_button_unclassified_dark" class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_unclassified_dark" value="unclassified">
+                                    <label for="gdpr_messagebar_body_button_unclassified_dark">
                                     <span class="label-text">Unclassified</span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -240,8 +240,8 @@
                                        <?php
                                           } 
                                           ?>
-                                       id="gdpr_messagebar_body_button" class="<?php echo esc_html($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button">
-                                    <label for="gdpr_messagebar_body_button">
+                                       id="gdpr_messagebar_body_button_dark_<?php echo esc_html($classnames);?>" class="<?php echo esc_html($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_dark_<?php echo esc_html($classnames);?>">
+                                    <label for="gdpr_messagebar_body_button_dark_<?php echo esc_html($classnames);?></label>">
                                     <span class="label-text"></span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -311,12 +311,12 @@
                                                       <?php
                                                          } 
                                                          ?>
-                                                      id="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
+                                                      id="gdpr_messagebar_body_button_dark_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
                                                       class="<?php echo esc_html($classnames)?>-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($value->id);?>"
                                                       type="checkbox" 
-                                                      name="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
+                                                      name="gdpr_messagebar_body_button_dark_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
                                                       value=<?php echo esc_html( $value->id ); ?> >
-                                                   <label for="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>">
+                                                   <label for="gdpr_messagebar_body_button_dark_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>">
                                                    <span class="label-text"><?php echo esc_html( $value->id ); ?></span>
                                                    </label>
                                                    <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -390,12 +390,12 @@
                                        <?php
                                           } 
                                           ?>
-                                       id="gdpr_messagebar_body_button" 
+                                       id="gdpr_messagebar_body_button_dark_vendor-all" 
                                        class="vendor-all-switch-handler" 
                                        type="checkbox" 
-                                       name="gdpr_messagebar_body_button" 
+                                       name="gdpr_messagebar_body_button_dark_vendor-all" 
                                        value="<?php echo esc_html( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
-                                    <label for="gdpr_messagebar_body_button">
+                                    <label for="gdpr_messagebar_body_button_dark_vendor-all">
                                     <span class="label-text"></span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -462,12 +462,12 @@
                                                       <?php
                                                          }
                                                          ?>
-                                                      id="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>" 
+                                                      id="gdpr_messagebar_body_button_dark_consent_vendor_<?php echo esc_html($vendor->id);?>" 
                                                       class="vendor-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor->id);?>" 
                                                       type="checkbox" 
-                                                      name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>" 
+                                                      name="gdpr_messagebar_body_button_dark_consent_vendor_<?php echo esc_html($vendor->id);?>" 
                                                       value=<?php echo esc_html( $vendor->id ); ?>>
-                                                   <label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>">
+                                                   <label for="gdpr_messagebar_body_button_dark_consent_vendor_<?php echo esc_html($vendor->id);?>">
                                                    <span class="label-text"><?php echo esc_html( $vendor->id ); ?></span>
                                                    </label>
                                                    <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -560,12 +560,12 @@
 																<?php
 															} 
 															?>
-															id="gdpr_messagebar_body_button" 
+															id="gdpr_messagebar_body_button_dark_gacm-vendor-all" 
 															class="gacm-vendor-all-switch-handler" 
 															type="checkbox" 
-															name="gdpr_messagebar_body_button" 
+															name="gdpr_messagebar_body_button_dark_gacm-vendor-all" 
 															value=<?php echo esc_html( $data->allvendors ); ?>>
-															<label for="gdpr_messagebar_body_button">
+															<label for="gdpr_messagebar_body_button_dark_gacm-vendor-all">
 																<span class="label-text"></span>
 															</label>
 															<!-- DYNAMICALLY GENERATE Input ID  -->
@@ -603,12 +603,12 @@
 																										<?php
 																									}	
 																									?>
-																									id="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
+																									id="gdpr_messagebar_body_button_dark_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
 																									class="vendor-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor[0]);?>" 
 																									type="checkbox" 
-																									name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
+																									name="gdpr_messagebar_body_button_dark_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
 																									value=<?php echo esc_html( $vendor[0]); ?>>
-																									<label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>">
+																									<label for="gdpr_messagebar_body_button_dark_consent_vendor_<?php echo esc_html($vendor[0]);?>">
 																										<span class="label-text"><?php echo esc_html( $vendor[0] ); ?></span>
 																									</label>
 																									<!-- DYNAMICALLY GENERATE Input ID  -->

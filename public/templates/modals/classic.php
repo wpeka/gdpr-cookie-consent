@@ -31,7 +31,7 @@
 		<!-- Modal content-->
 		<div class="gdprmodal-content">
 			<div class="gdprmodal-header">
-				<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close">
+				<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close" aria-label="Close modal">
 					<span class="dashicons dashicons-no">&#10005</span>
 				</button>
 			</div>
@@ -351,12 +351,12 @@
 																							<?php
 																						} 
 																						?>
-																						id="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
+																						id="gdpr_messagebar_body_button_classic_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
 																						class="<?php echo esc_html($classnames)?>-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($value->id);?>"
 																						type="checkbox" 
-																						name="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
+																						name="gdpr_messagebar_body_button_classic_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
 																						value=<?php echo esc_html( $value->id ); ?> >
-																						<label for="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>">
+																						<label for="gdpr_messagebar_body_button_classic_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>">
 																							<span class="label-text"><?php echo esc_html( $value->id ); ?></span>
 																						</label>
 																						<!-- DYNAMICALLY GENERATE Input ID  -->
@@ -514,12 +514,12 @@
 																									<?php
 																								}
 																								?>
-																								id="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>" 
+																								id="gdpr_messagebar_body_button_classic_consent_vendor_<?php echo esc_html($vendor->id);?>" 
 																								class="vendor-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor->id);?>" 
 																								type="checkbox" 
-																								name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>" 
+																								name="gdpr_messagebar_body_button_classic_consent_vendor_<?php echo esc_html($vendor->id);?>" 
 																								value=<?php echo esc_html( $vendor->id ); ?>>
-																								<label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>">
+																								<label for="gdpr_messagebar_body_button_classic_consent_vendor_<?php echo esc_html($vendor->id);?>">
 																									<span class="label-text"><?php echo esc_html( $vendor->id ); ?></span>
 																								</label>
 																								<!-- DYNAMICALLY GENERATE Input ID  -->
@@ -685,12 +685,12 @@
 																										<?php
 																									}	
 																									?>
-																									id="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
+																									id="gdpr_messagebar_body_button_classic_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
 																									class="gacm-vendor-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor[0]);?>" 
 																									type="checkbox" 
-																									name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
+																									name="gdpr_messagebar_body_button_classic_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
 																									value=<?php echo esc_html( $vendor[0]); ?>>
-																									<label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>">
+																									<label for="gdpr_messagebar_body_button_classic_consent_vendor_<?php echo esc_html($vendor[0]);?>">
 																										<span class="label-text"><?php echo esc_html( $vendor[0] ); ?></span>
 																									</label>
 																									<!-- DYNAMICALLY GENERATE Input ID  -->

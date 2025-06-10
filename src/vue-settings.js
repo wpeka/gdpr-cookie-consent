@@ -8212,6 +8212,7 @@ var gen = new Vue({
           location.reload();
         });
     },
+    
   },
   mounted() {
     if (window.vueMounted) return; // Prevent duplicate execution
@@ -10896,6 +10897,8 @@ var app = new Vue({
                 "image",
                 attachmentURL
               );
+             
+
             }
           });
         });
@@ -15177,6 +15180,7 @@ var app = new Vue({
         },
       });
     },
+   
   },
   mounted() {
     j("#gdpr-before-mount").css("display", "none");
@@ -15187,4 +15191,5 @@ var app = new Vue({
     }
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
+ 
 });
