@@ -2661,15 +2661,15 @@ banner.style.display = "none";
       switch (this.id) {
         case "gdprIABTabCategory":
           $(".cat").css("display", "block");
-          modalBody.style.height = '63vh';
+          modalBody.style.height = '530px';
           break;
         case "gdprIABTabFeatures":
           $(".feature-group").css("display", "block");
-          modalBody.style.height = '54vh';
+          modalBody.style.height = '480px';
           break;
         case "gdprIABTabVendors":
           $(".vendor-group").css("display", "block");
-          modalBody.style.height = '60vh';
+          modalBody.style.height = '510px';
           break;
       }
       if (!$(this).children(".gdpr-iab-navbar-button").hasClass("active")) {
