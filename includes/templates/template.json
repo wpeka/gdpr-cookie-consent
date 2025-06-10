@@ -104,8 +104,8 @@
             "color": "#176CAE"
         },
         "revoke_consent_button": {
-            "color": "#176CAE",
-            "background-color": "#ffffff"
+            "color": "#ffffff",
+            "background-color": "#176CAE"
         }
     },
     "dark": {
@@ -213,8 +213,8 @@
             "color": "#4570DC"
         },
         "revoke_consent_button": {
-            "color": "#4570DC",
-            "background-color": "#262626"
+            "color": "#ffffff",
+            "background-color": "#4570DC"
         }
     },
     "almond": {
@@ -326,8 +326,8 @@
             "color": "#C1540C"
         },
         "revoke_consent_button": {
-            "color": "#C1540C",
-            "background-color": "#ffffff"
+            "color": "#ffffff",
+            "background-color": "#C1540C"
         }
     },
     "blue_full": {
@@ -439,8 +439,8 @@
             "color": "#B3DDFC"
         },
         "revoke_consent_button": {
-            "color": "#B3DDFC",
-            "background-color": "#2A3E71"
+            "color": "#0D283B",
+            "background-color": "#B3DDFC"
         }
     },
     "gray": {
@@ -552,8 +552,8 @@
             "color": "#00B888"
         },
         "revoke_consent_button": {
-            "color": "#00B888",
-            "background-color": "#323742"
+            "color": "#ffffff",
+            "background-color": "#00B888"
         }
     },
     "blue_center": {
@@ -661,8 +661,8 @@
             "color": "#B3DDFC"
         },
         "revoke_consent_button": {
-            "color": "#B3DDFC",
-            "background-color": "#2A3E71"
+            "color": "#0D283B",
+            "background-color": "#B3DDFC"
         }
     },
     "gray_pink": {
@@ -883,8 +883,8 @@
             "color": "#C1540C"
         },
         "revoke_consent_button": {
-            "color": "#C1540C",
-            "background-color": "#ffffff"
+            "color": "#ffffff",
+            "background-color": "#C1540C"
         }
     },
     "blue_center_column": {
@@ -996,8 +996,8 @@
             "color": "#B3DDFC"
         },
         "revoke_consent_button": {
-            "color": "#B3DDFC",
-            "background-color": "#2A3E71"
+            "color": "#0D283B",
+            "background-color": "#B3DDFC"
         }
     }
 }
