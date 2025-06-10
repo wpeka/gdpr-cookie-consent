@@ -49,7 +49,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 	}
 //styling for banner
 
-	$ab_testing_enabled = ($ab_options['ab_testing_enabled'] === "false") ? "false" : "true";
+	$ab_testing_enabled = (!isset($ab_options['ab_testing_enabled']) || ($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false)) ? "false" : "true";
 
 	$notice_container_styles = "position: fixed; display: none; flex-direction: column; gap: 15px; border-radius: {$the_options[($ab_testing_enabled === "true" ? 'cookie_bar_border_radius' . $chosenBanner : ($the_options['cookie_usage_for'] === 'both' ? 'multiple_legislation_cookie_bar_border_radius1' : 'background_border_radius'))]}px;";
 

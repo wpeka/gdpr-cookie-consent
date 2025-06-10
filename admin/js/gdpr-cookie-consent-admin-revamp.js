@@ -446,7 +446,7 @@ jQuery(document).ready(function () {
     jQuery(".cookie-scanner-container .gdpr-overlay .gdpr-start-auth").on("click", gdprStartAuth);
       //$(".gdpr-dashboard-start-auth").on("click", gdprStartAuth); //Commented this as it's causing double popup(account connection) to appear
       jQuery(".cookie-scanner-container .gdpr-overlay .gdpr-cookie-consent-admin-upgrade-button").on("click", gdprPaidAuth);
-      jQuery(".cookie-scanner-container .gdpr-overlay .api-connect-to-account-btn").on("click", gdprStartAuth);
+      jQuery(".api-connect-to-account-btn").on("click", gdprStartAuth);
 
   }
   window.integrate_ab_testing_auth = function(){
@@ -505,6 +505,17 @@ jQuery(document).ready(function () {
       function () {
         clearTimeout(gacmTimer); // Clear the timer to prevent delayed show
         jQuery(".gdpr-gacm_message-gdpr").css("display", "none");
+      }
+    );
+    jQuery(".gdpr-available-scan-clicks-title .dashicons-info").hover(
+      function () {
+        gacmTimer = setTimeout(function () {
+          jQuery(".gdpr-cookie-scanning-available-in-notice").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(gacmTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-cookie-scanning-available-in-notice").css("display", "none");
       }
     );
 

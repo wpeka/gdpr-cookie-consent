@@ -5402,7 +5402,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 
 #gdpr-ccpa-gdprmodal .gdprmodal-body {
   padding: 1rem;
-  height: 57vh;
+  height: 530px;
 }
 #gdpr-ccpa-gdprmodal .gdprmodal-body p {
   margin: 0;
@@ -6696,6 +6696,11 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   text-align: center;
   color: var(--white-100);
 }
+.gdpr-remaining-scans-content .gdpr-remaining-scans-container .gdpr-available-scans-clicks-wrapper span.dashicons {
+  font-family: dashicons;
+  font-size: var(--text-lg-font-size);
+  color: var(--white-100);
+}
 
 .gdpr-remaining-scans-content .gdpr-remaining-scans-title {
   font-family: Roboto;
@@ -7362,9 +7367,14 @@ button.btn.gdpr-renew-now-btn.pro,
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-gacm_message-gdpr,
 .gdpr-gcm_message-gdpr,
+.gdpr-cookie-scanning-limit-exhaust-monthly-free-notice,
+.gdpr-cookie-scanning-available-in-notice,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both {
   display: none;
+}
+.gdpr-cookie-scanning-wrapper:hover .gdpr-cookie-scanning-limit-exhaust-monthly-free-notice {
+  display: block;
 }
 .gdpr-disabled-geo-integration {
   position: relative;
@@ -7404,7 +7414,7 @@ display: block !important;
   text-align: center;
   z-index: 99;
 }
-.gdpr-gacm_message-gdpr, .gdpr-gcm_message-gdpr {
+.gdpr-gacm_message-gdpr, .gdpr-gcm_message-gdpr, .gdpr-cookie-scanning-limit-exhaust-monthly-free-notice, .gdpr-cookie-scanning-available-in-notice {
   width: 140px;
   position: absolute;
   left: 90px;
@@ -7412,6 +7422,23 @@ display: block !important;
   background: var(--black-50);
   padding: 10px;
   color: var(--white-100);
+}
+.gdpr-cookie-list-tabs-btn-container .gdpr-cookie-scanning-wrapper {
+  position: relative;
+}
+.gdpr-cookie-scanning-limit-exhaust-monthly-free-notice {
+  left: calc( 100% + 20px );
+  top: -20px;
+}
+.gdpr-cookie-scanning-available-in-notice {
+  width: auto;
+  left: 350px;
+  top: -30px;
+}
+.gdpr-cookie-scanning-month-limit-exhaust-message {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--orange-50);
 }
 #gdpr-install-activate-img {
   max-width: 100%;
@@ -7670,7 +7697,7 @@ display: block !important;
     padding-top: 28px;
   }
 }
-.gdpr-cookie-list-tabs-btn-container {
+.gdpr-cookie-list-tabs-btn-container, .gdpr-cookie-scanning-wrapper {
   display: flex;
   gap: 10px;
 }
