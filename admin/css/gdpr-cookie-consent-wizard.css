@@ -541,7 +541,8 @@ input.gdpr-wizard-thankyou-live-preview {
   padding-right: 17px;
 }
 .show-banner-template {
-  width: 600px;
+  width: 100%;
+  margin-left: 0px;
 }
 .select-rule {
   margin: 40px 120px;
@@ -602,7 +603,12 @@ input.gdpr-wizard-thankyou-live-preview {
 
 .show-cookie-template-card .card-header {
   border-bottom: 0px solid;
-  margin-left: -18px;
+  margin:0px;
+  padding-left: 0px;
+  margin-bottom: 25px;
+}
+.show-cookie-template-card .card-body {
+  padding: 0px;
 }
 
 .show-cookie-template-card {
@@ -617,16 +623,37 @@ input.gdpr-wizard-thankyou-live-preview {
 
 .gdpr-templates-field-container-wizard {
   font-size: var(--text-2xs-font-size);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 .gdpr-templates-field-container-wizard .gdpr-template-field {
-  margin: 10px 0;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 2px solid rgb(245, 245, 245);
 }
+.gdpr-templates-field-container-wizard
+  .gdpr-template-field
+  .gdpr-right-field
+  .cookie_notice_content{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .gdpr-templates-field-container-wizard .template-type-banner .cookie_notice_content,
+  .gdpr-templates-field-container-wizard .template-type-widget .cookie_notice_content,
+  .gdpr-templates-field-container-wizard .template-type-popup .cookie_notice_content{
+    padding: 40px;
+  }
 .gdpr-templates-field-container-wizard
   .gdpr-template-field
   .gdpr-left-field-wizard,
 .gdpr-templates-field-container-wizard .gdpr-template-field .gdpr-right-field {
-  vertical-align: middle;
-  display: inline-block;
+  width: 100%;
 }
 .gdpr-templates-field-container-wizard
   .gdpr-template-field
@@ -635,198 +662,58 @@ input.gdpr-wizard-thankyou-live-preview {
 }
 .gdpr-templates-field-container-wizard
   .gdpr-template-field
-  .gdpr-right-field
-  .gdpr-right-field-content {
-  vertical-align: middle;
-  margin: 0 auto;
-}
-.template-banner
-  .gdpr-templates-field-container-wizard
-  .gdpr-template-field
-  .gdpr-right-field
-  .gdpr-right-field-content {
-  margin: 0 5rem;
-}
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-popup-almond_column
-  .gdpr-right-field
-  .gdpr-right-field-content,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-widget-almond_column
-  .gdpr-right-field
-  .gdpr-right-field-content,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-banner-almond_column
-  .gdpr-right-field
-  .gdpr-right-field-content,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-popup-grey_column
-  .gdpr-right-field
-  .gdpr-right-field-content,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-widget-grey_column
-  .gdpr-right-field
-  .gdpr-right-field-content,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-banner-grey_column
-  .gdpr-right-field
-  .gdpr-right-field-content {
-  display: flex;
-  flex-direction: row;
-}
+  .gdpr-left-field-wizard .form-group{
+    margin-bottom: 0;
+  }
+
+
 .gdpr-templates-field-container-wizard .gdpr-template-field .gdpr-right-field {
-  padding: 3rem;
   box-shadow: rgba(142, 142, 142, 0.6) 1px 0px 5px 1px;
   width: 93%;
 }
-.template-widget
-  .gdpr-templates-field-container-wizard
-  .gdpr-template-field
-  .gdpr-right-field,
-.template-popup
-  .gdpr-templates-field-container-wizard
-  .gdpr-template-field
-  .gdpr-right-field {
-  padding: 1.5rem;
-}
+
 .gdpr-templates-field-container-wizard
   .gdpr-template-field
   .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description {
-  margin: 0;
-  padding: 0 0 1rem 0;
-  font-size: 13px;
-  font-weight: 400;
-}
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-popup-almond_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-widget-almond_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-banner-almond_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-popup-grey_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-widget-grey_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-banner-grey_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description {
-  width: 70%;
-  margin: 0;
-  padding: 0;
-}
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-popup-almond_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-widget-almond_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-banner-almond_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-popup-grey_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-widget-grey_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-banner-grey_column
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons {
-  width: 30%;
-  margin: auto 0 auto 1rem;
-  display: flex;
-  flex-direction: column;
-}
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-widget-navy_blue_square
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-popup-navy_blue_square
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-widget-navy_blue_box
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-popup-navy_blue_box
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-buttons {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-}
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-popup-dark_row
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description,
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field.gdpr-widget-dark_row
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description {
-  padding: 0 0 0.5rem 0;
-}
-.gdpr-templates-field-container-wizard
-  .gdpr-template-field
-  .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description
+  .cookie_notice_content
   h3 {
   color: inherit;
   margin: 0;
-  padding: 0 0 1rem 0;
+      font-size: var(--text-sm-font-size);
 }
 .gdpr-templates-field-container-wizard
   .gdpr-template-field
   .gdpr-right-field
-  .gdpr-right-field-content
-  .gdpr-group-description
+  .cookie_notice_content
   p {
   margin: 0;
-  font-size: inherit;
   color: inherit;
+  font-weight: var(--text-regular-font-weight);
+      font-size: var(--text-2xs-font-size);
+  text-align: justify;
+}
+.gdpr-templates-field-container-wizard
+  .gdpr-template-field
+  .gdpr-right-field
+  .cookie_notice_content 
+  .cookie_notice_buttons{
+    display: flex;
+  }
+  .gdpr-templates-field-container-wizard
+  .gdpr-template-field
+  .gdpr-right-field
+  .cookie_notice_content 
+  .cookie_notice_buttons a{
+    padding: 9px 20px !important;
+    min-width: 120px !important;
+  }
+ 
+.cookie_notice_buttons
+  .right_buttons,
+  .cookie_notice_buttons
+  .left_buttons{
+    display: flex;
+    gap: 10px;
 }
 .gdpr-templates-field-container-wizard .btn {
   display: inline-block;
