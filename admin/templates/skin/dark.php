@@ -241,7 +241,7 @@
                                           } 
                                           ?>
                                        id="gdpr_messagebar_body_button_dark_<?php echo esc_html($classnames);?>" class="<?php echo esc_html($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_dark_<?php echo esc_html($classnames);?>">
-                                    <label for="gdpr_messagebar_body_button_dark_<?php echo esc_html($classnames);?></label>">
+                                    <label for="gdpr_messagebar_body_button_dark_<?php echo esc_html($classnames);?>" ></label>">
                                     <span class="label-text"></span>
                                     </label>
                                     <!-- DYNAMICALLY GENERATE Input ID  -->

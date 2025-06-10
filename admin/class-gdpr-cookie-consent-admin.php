@@ -7011,7 +7011,8 @@ class Gdpr_Cookie_Consent_Admin {
 				?>
 				<div class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 					<div class="gdpr-left-field">
-					<c-input type="radio"  name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
+						<label for="<?php echo esc_attr( $name ) . '_template_field'; ?>" class="screen-reader-label"><?php esc_attr_e('template names'); ?></label>
+					<c-input id="<?php echo esc_attr( $name ) . '_template_field'; ?>" type="radio"  name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
 					<?php
 					if ( $template['name'] === $checked ) {
 						echo ':checked="true"';
@@ -7236,7 +7237,8 @@ class Gdpr_Cookie_Consent_Admin {
 			?>
 			<div class="modal-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 				<div class="modal-left-field">
-					<c-input type="radio" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
+					<label for="<?php echo esc_attr( $name ) . '_template_field'; ?>" class="screen-reader-label"><?php esc_attr_e('template names'); ?></label>
+					<c-input id="<?php echo esc_attr( $name ) . '_template_field'; ?>" type="radio" name="<?php echo esc_attr( $name ) . '_template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange"
 					<?php if ( $template['name'] === $checked ) {
 						echo ':checked="true"';
 					} ?>
