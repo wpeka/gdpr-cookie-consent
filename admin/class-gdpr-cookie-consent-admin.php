@@ -10498,6 +10498,7 @@ class Gdpr_Cookie_Consent_Admin {
 	// Register the REST API route for data from plugin to the saas appwplp server 
 
 	public function register_gdpr_dashboard_route() {
+		
 		global $is_user_connected, $api_user_plan; // Make global variables accessible
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 		
@@ -10540,6 +10541,9 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'update_gcm_status'), // Function to handle the request
+				'permission_callback' => function() use ($is_user_connected) {
+						return true; // Allow access
+				},
 			)
 		);
 
