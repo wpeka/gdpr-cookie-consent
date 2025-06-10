@@ -1613,6 +1613,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</c-col>
 								</c-row>
 								<?php endif; ?>
+								<?php if ( ! $is_pro_active ) : ?>
+								<c-row>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Share Usage Data', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Allow us to collect anonymous data about how you use the plugin. This helps us identify issues, improve features, and enhance user experience. No personal or sensitive information is ever collected.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<input type="hidden" name="gcc-usage-data" v-model="usage_data"><c-switch  v-bind="labelIcon " id="gdpr-cookie-consent-usage-data" variant="3d" color="success" :checked="usage_data" v-on:update:checked="onSwitchEnableUsageData" v-model="usage_data"></c-switch>
+										</c-col>
+								</c-row>
+								<?php endif; ?>
 								<?php if ( $is_pro_active ) : ?>
 									<?php do_action( 'gdpr_consent_settings_safe_enable' ); ?>
 								<?php endif; ?>

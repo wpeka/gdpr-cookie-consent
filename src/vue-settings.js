@@ -2166,6 +2166,9 @@ var gen = new Vue({
           1 === settings_obj.the_options["enable_safe"])
           ? true
           : false,
+      usage_data: settings_obj.hasOwnProperty("is_usage_tracking_allowed")
+      ? ("true" === settings_obj["is_usage_tracking_allowed"] )
+      : "false",
       reload_onSelect_law: false,
       reload_onSafeMode: false,
       // hide banner.
@@ -3044,6 +3047,9 @@ var gen = new Vue({
       this.onEnablesafeSwitchCCPA();
       this.onSwitchReloadSafeMode();
       this.enable_safe = !this.enable_safe;
+    },
+    onSwitchEnableUsageData() {
+      this.usage_data = !this.usage_data;
     },
     onSwitchReloadSafeMode() {
       this.reload_onSafeMode = !this.reload_onSafeMode;
