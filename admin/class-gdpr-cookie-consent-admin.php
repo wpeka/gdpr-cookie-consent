@@ -7014,6 +7014,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'update_gcm_status'), // Function to handle the request
+				'permission_callback' => '__return_true',
 			)
 		);
 

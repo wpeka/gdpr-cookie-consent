@@ -473,10 +473,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				</span>
 				<div class="notice-logo-container">
 				<?php
-					$get_banner_imgml = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
-					if ( ! empty( $get_banner_imgml ) ) {
+					$get_banner_imgml1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+					if ( ! empty( $get_banner_imgml1 ) ) {
 					?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_imgml ); ?>"
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_imgml1 ); ?>"
 						:style="{
 						  	'margin-left': json_templates[template]?.['logo']?.['margin-left'],
 							'width': json_templates[template]?.['logo']?.['fit-content'],
@@ -3024,9 +3024,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
 												</c-button>
 												<?php
-												$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+												$get_banner_imgml = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
 												?>
-												<img id="gdpr-cookie-bar-logo-holderML1" name="gdpr-cookie-bar-logo-holderML1" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>">
+												<img id="gdpr-cookie-bar-logo-holderML1" name="gdpr-cookie-bar-logo-holderML1" src="<?php echo esc_url_raw( $get_banner_imgml ); ?>">
 												<p class="image-upload-notice" style="margin-left: 10px;">
 													<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 												</p>
