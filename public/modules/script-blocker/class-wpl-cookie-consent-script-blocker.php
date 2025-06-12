@@ -408,7 +408,8 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					<c-row>
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Body Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Add scripts in the body location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
-							<c-textarea :rows="4" name="gcc-body-scripts" v-model="body_scripts" :disabled="enable_safe"></c-textarea>
+							<label for="gcc-body-scripts" class="screen-reader-label"><?php esc_attr_e('gcc body scripts',  'gdpr-cookie-consent'); ?></label>
+							<c-textarea id="gcc-body-scripts" :rows="4" name="gcc-body-scripts" v-model="body_scripts" :disabled="enable_safe"></c-textarea>
 						</c-col>
 					</c-row>
 					<c-row>
@@ -579,7 +580,9 @@ class Gdpr_Cookie_Consent_Script_Blocker {
                     <label>' . __( 'Name', 'gdpr-cookie-consent' ) . '</label>
                 </div>
                 <div>
+				<label for="wpl_whitelist_script[' . $i . ']" class="screen-reader-label">'.__('wpl whitelist script','gdpr-cookie-consent').'.</label>
                     <input type="text"
+							id="wpl_whitelist_script[' . $i . ']"
                     		data-name="name"
                            class="wpl_name wpl-whitelist-name-field"
                            name="wpl_whitelist_script[' . $i . '][name]"
@@ -590,7 +593,9 @@ class Gdpr_Cookie_Consent_Script_Blocker {
                 </div>
                       <div>
                       <div class="wpl-hidden wpl-url-template">
-                      	<div><input type="text"
+                      	<div>
+						<label for="wpl_whitelist_script[' . $i . ']" class="screen-reader-label">'.__('wpl whitelist script','gdpr-cookie-consent').'.</label>
+						<input type="text"
 							   data-name="urls"
 							   name="wpl_whitelist_script[' . $i . '][urls][]"
 							   value=""><button type="button" aria-label="remove url" class="wpl_remove_url">' . '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
@@ -634,7 +639,9 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 								<input type="hidden"
 									   value="0"
 										name="wpl_whitelist_script[' . $i . '][enable]">
+								<label for="wpl-checkbox-enable" class="screen-reader-label">'.__('Email', 'gdpr-cookie-consent').'</label>
 								<input type="checkbox"
+									   id="wpl-checkbox-enable"
 									   name="wpl_whitelist_script[' . $i . '][enable]"
 									   class="wpl-checkbox wpl-enable"
 									   size="40"
