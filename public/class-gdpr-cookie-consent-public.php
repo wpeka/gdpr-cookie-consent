@@ -652,11 +652,6 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			$the_options['skin_template']        = 'skins/' . $template . '.php';
 			$the_options['container_class']      = $the_options['cookie_usage_for'] . ' gdpr-' . $the_options['cookie_bar_as'] . ' gdpr-' . $template . ' ' . $the_options['template'];
-			$layout                              = $the_options['button_settings_layout_skin'];
-			$layout_parts                        = explode( '-', $layout );
-			$layout_skin                         = array_pop( $layout_parts );
-			$the_options['container_class']     .= ' layout-' . $layout_skin;
-			$the_options['layout_skin_template'] = 'modals/' . $layout_skin . '.php';
 
 			$current_theme = wp_get_theme();
 			if ( isset( $current_theme->template ) ) {
@@ -1103,31 +1098,25 @@ class Gdpr_Cookie_Consent_Public {
 				}
 			}
 			$the_options['credits'] = $the_options['show_credits'] ? $credit_link : '';
-
+			$ab_options    = get_option( 'wpl_ab_options' );
+			$json_path = plugin_dir_path(__FILE__) . '../includes/templates/template.json';
+			if (file_exists($json_path)) {
+				$json_data = file_get_contents($json_path);
+				$templates = json_decode($json_data, true); // Use true for associative array
+			} else {
+				$templates = [];
+			}
+			$template_object = $templates[$the_options['template']];
 			$chosenBanner = $this->chosenBanner;
-			include plugin_dir_path( __FILE__ ) . 'templates/default.php';
+			// include plugin_dir_path( __FILE__ ) . 'templates/default.php';
+			include plugin_dir_path(__FILE__) . 'templates/cookie-notice.php';
 			?>
 			<style>
 				.gdpr_messagebar_detail .category-group .category-item .description-container .group-toggle .checkbox input:checked+label,
 				.gdpr_messagebar_detail .category-group .category-item .inner-description-container .group-toggle .checkbox input:checked+label,
 				.gdpr_messagebar_detail .category-group .toggle-group .checkbox input:checked+label {
-					background: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
+					background: <?php echo ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true' ) ? esc_attr( $the_options['button_accept_all_button_color' . $chosenBanner] ) : esc_attr( $the_options['button_accept_all_button_color'] ); ?> !important;
 				}
-
-				.gdpr_messagebar_detail .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal .gdprmodal-dialog .gdprmodal-body .close {
-					background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
-				}
-				/* .gdpr_messagebar_detail.dark_row .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.dark_row .gdprmodal-dialog .gdprmodal-body .close,
-				.gdpr_messagebar_detail.navy_blue_center .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.navy_blue_center .gdprmodal-dialog .gdprmodal-body .close,
-				.gdpr_messagebar_detail.navy_blue_square .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.navy_blue_square .gdprmodal-dialog .gdprmodal-body .close,
-				.gdpr_messagebar_detail.navy_blue_box .gdprmodal-dialog .gdprmodal-header .close,
-				#gdpr-ccpa-gdprmodal.navy_blue_box .gdprmodal-dialog .gdprmodal-body .close{
-					background-color: <?php echo esc_attr( $the_options['button_accept_button_color'] ); ?> !important;
-				} */
 			</style>
 			<?php
 
