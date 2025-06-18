@@ -232,8 +232,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
      });
    }
   var GDPR = {
-    bar_config: {},
-    show_config: {},
     allowed_categories: [],
     set: function (args) {
       if (typeof JSON.parse !== "function") {
@@ -263,22 +261,13 @@ GDPR_CCPA_COOKIE_EXPIRE =
       this.confirm_button = jQuery("#cookie_action_confirm");
       this.cancel_button = jQuery("#cookie_action_cancel");
 
-      this.configBar();
       this.check_ccpa_eu();
 
       this.attachEvents();
       this.configButtons();
 
       // changing the color and background of cookie setting button.
-      var revoke_color = document.getElementById(
-        "gdpr-cookie-consent-show-again"
-      );
-      // Check if the element exists before applying the style
-      if (revoke_color) {
-        revoke_color.style.color = button_revoke_consent_text_color;
-        revoke_color.style.backgroundColor =
-          button_revoke_consent_background_color;
-      }
+      
 
       // bypassed consent.
       window.addEventListener("load", function () {
@@ -1408,107 +1397,21 @@ banner.style.display = "none";
             GDPR.settings.cookie_usage_for == "both" &&
             multiple_legislation_current_banner == "gdpr"
           ) {
-            var background = GDPR.convertToHex(
-              GDPR.settings.multiple_legislation_cookie_bar_color1,
-              GDPR.settings.multiple_legislation_cookie_bar_opacity1
-            );
-
-            var border =
-              GDPR.settings.multiple_legislation_cookie_bar_border_width1 +
-              "px " +
-              GDPR.settings.multiple_legislation_border_style1 +
-              " " +
-              GDPR.settings.multiple_legislation_cookie_border_color1;
-
-            GDPR.bar_config = {
-              "background-color": background,
-              color: GDPR.settings.multiple_legislation_cookie_text_color1,
-              "font-family": GDPR.settings.multiple_legislation_cookie_font1,
-              "box-shadow": GDPR.settings.background + " 0 0 8px",
-              border: border,
-              "border-radius":
-                GDPR.settings.multiple_legislation_cookie_bar_border_radius1 +
-                "px",
-            };
-            GDPR.show_config = {
-              width: "auto",
-              "background-color": background,
-              "box-shadow": GDPR.settings.background + " 0 0 8px",
-              color: GDPR.settings.text,
-              "font-family": GDPR.settings.font_family,
-              position: "fixed",
-              bottom: "0",
-              border: border,
-              "border-radius": GDPR.settings.background_border_radius + "px",
-            };
-
-            var template = GDPR.settings.template;
-            if (template.includes("row") || template.includes("center")) {
-              GDPR.bar_config["text-align"] = "center";
-            } else {
-              GDPR.bar_config["text-align"] = "justify";
-            }
-
-            if (GDPR.settings.show_again_position == "right") {
-              GDPR.show_config["right"] = GDPR.settings.show_again_margin + "%";
-            } else {
-              GDPR.show_config["left"] = GDPR.settings.show_again_margin + "%";
-            }
-            GDPR.bar_config["position"] = "fixed";
-            if (GDPR.settings.cookie_bar_as == "banner") {
-              GDPR.bar_elm
-                .find(".gdpr_messagebar_content")
-                .css("max-width", "800px");
-              if (GDPR.settings.notify_position_vertical == "bottom") {
-                GDPR.bar_config["bottom"] = "0";
-              } else {
-                GDPR.bar_config["top"] = "0";
-              }
-            }
-            if (GDPR.settings.cookie_bar_as == "widget") {
-              GDPR.bar_config["width"] = "35%";
-              if (GDPR.settings.notify_position_horizontal == "left") {
-                GDPR.bar_config["bottom"] = "20px";
-                GDPR.bar_config["left"] = "20px";
-              } else if (GDPR.settings.notify_position_horizontal == "right") {
-                GDPR.bar_config["bottom"] = "20px";
-                GDPR.bar_config["right"] = "20px";
-              } else if (
-                GDPR.settings.notify_position_horizontal == "top_right"
-              ) {
-                GDPR.bar_config["top"] = "20px";
-                GDPR.bar_config["right"] = "20px";
-              } else if (
-                GDPR.settings.notify_position_horizontal == "top_left"
-              ) {
-                GDPR.bar_config["top"] = "20px";
-                GDPR.bar_config["left"] = "20px";
-              }
-            }
-            if (GDPR.settings.cookie_bar_as == "popup") {
-              GDPR.bar_config["border"] = "unset";
-              GDPR.bar_config["border-radius"] = "unset";
-              GDPR.bar_config["position"] = "unset";
-              GDPR.bar_config["box-shadow"] = "unset";
-              GDPR.bar_config["background-color"] = "unset";
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "background-color",
-                background
-              );
-              jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "border-radius",
-                GDPR.settings.background_border_radius + "px"
-              );
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "box-shadow",
-                GDPR.settings.background + " 0 0 8px"
-              );
-            }
-            GDPR.bar_elm.css(GDPR.bar_config).hide();
-            GDPR.show_again_elm.css(GDPR.show_config).hide();
+            GDPR.bar_elm.hide();
+            GDPR.show_again_elm.hide();
           }
+          if (GDPR.settings.cookie_usage_for == "both"){
+              jQuery(GDPR.settings.notify_div_id).css("background", GDPR.convertToHex(GDPR.settings.multiple_legislation_cookie_bar_color1, GDPR.settings.multiple_legislation_cookie_bar_opacity1));
+              jQuery(GDPR.settings.notify_div_id).css("color", GDPR.settings.multiple_legislation_cookie_text_color1);
+              jQuery(GDPR.settings.notify_div_id).css("border-style", GDPR.settings.multiple_legislation_border_style1);
+              jQuery(GDPR.settings.notify_div_id).css("border-color", GDPR.settings.multiple_legislation_cookie_border_color1);
+              jQuery(GDPR.settings.notify_div_id).css("border-width", GDPR.settings.multiple_legislation_cookie_bar_border_width1);
+              jQuery(GDPR.settings.notify_div_id).css("border-radius", GDPR.settings.multiple_legislation_cookie_bar_border_radius1);
+              jQuery(GDPR.settings.notify_div_id).css("font-family", GDPR.settings.multiple_legislation_cookie_font1);
+            }
+          
           jQuery(GDPR.settings.notify_div_id).find("p.gdpr").show();
+          jQuery(GDPR.settings.notify_div_id).find("h3.gdpr_heading").show();
           jQuery(GDPR.settings.notify_div_id)
             .find(".gdpr.group-description-buttons")
             .show();
@@ -1542,56 +1445,14 @@ banner.style.display = "none";
             elm.addClass(
               "gdpr_messagebar_detail_body_content_tab_item_selected"
             );
-            elm.css("border-bottom-color", GDPR.settings.border_active_color);
-            elm.css("background-color", GDPR.settings.background_active_color);
-            jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
-              "border-bottom-color",
-              GDPR.settings.border_color
-            );
-            jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
-              "background-color",
-              GDPR.settings.background_color
-            );
           } else {
             if (Number(chosenBanner) === 1) {
               elm.addClass(
                 "gdpr_messagebar_detail_body_content_tab_item_selected"
               );
-              elm.css(
-                "border-bottom-color",
-                GDPR.settings.border_active_color1
-              );
-              elm.css(
-                "background-color",
-                GDPR.settings.background_active_color1
-              );
-              jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
-                "border-bottom-color",
-                GDPR.settings.border_color1
-              );
-              jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
-                "background-color",
-                GDPR.settings.background_color1
-              );
             } else {
               elm.addClass(
                 "gdpr_messagebar_detail_body_content_tab_item_selected"
-              );
-              elm.css(
-                "border-bottom-color",
-                GDPR.settings.border_active_color2
-              );
-              elm.css(
-                "background-color",
-                GDPR.settings.background_active_color2
-              );
-              jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
-                "border-bottom-color",
-                GDPR.settings.border_color2
-              );
-              jQuery("#gdpr_messagebar_detail_body_content_tabs_about").css(
-                "background-color",
-                GDPR.settings.background_color2
               );
             }
           }
@@ -1618,56 +1479,14 @@ banner.style.display = "none";
             elm.addClass(
               "gdpr_messagebar_detail_body_content_tab_item_selected"
             );
-            elm.css("border-bottom-color", GDPR.settings.border_active_color);
-            elm.css("background-color", GDPR.settings.background_active_color);
-            jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
-              "border-bottom-color",
-              GDPR.settings.border_color
-            );
-            jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
-              "background-color",
-              GDPR.settings.background_color
-            );
           } else {
             if (Number(chosenBanner) === 1) {
               elm.addClass(
                 "gdpr_messagebar_detail_body_content_tab_item_selected"
               );
-              elm.css(
-                "border-bottom-color",
-                GDPR.settings.border_active_color1
-              );
-              elm.css(
-                "background-color",
-                GDPR.settings.background_active_color1
-              );
-              jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
-                "border-bottom-color",
-                GDPR.settings.border_color1
-              );
-              jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
-                "background-color",
-                GDPR.settings.background_color1
-              );
             } else {
               elm.addClass(
                 "gdpr_messagebar_detail_body_content_tab_item_selected"
-              );
-              elm.css(
-                "border-bottom-color",
-                GDPR.settings.border_active_color2
-              );
-              elm.css(
-                "background-color",
-                GDPR.settings.background_active_color2
-              );
-              jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
-                "border-bottom-color",
-                GDPR.settings.border_color2
-              );
-              jQuery("#gdpr_messagebar_detail_body_content_tabs_overview").css(
-                "background-color",
-                GDPR.settings.background_color2
               );
             }
           }
@@ -1692,17 +1511,9 @@ banner.style.display = "none";
               .removeClass(
                 "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
               );
-            prnt
-              .find("a")
-              .css("border-right-color", GDPR.settings.border_color);
-            prnt
-              .find("a")
-              .css("background-color", GDPR.settings.background_color);
             elm.addClass(
               "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
             );
-            elm.css("border-right-color", GDPR.settings.border_active_color);
-            elm.css("background-color", GDPR.settings.background_active_color);
           } else {
             if (Number(chosenBanner) === 1) {
               prnt
@@ -1710,19 +1521,8 @@ banner.style.display = "none";
                 .removeClass(
                   "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
                 );
-              prnt
-                .find("a")
-                .css("border-right-color", GDPR.settings.border_color1);
-              prnt
-                .find("a")
-                .css("background-color", GDPR.settings.background_color1);
               elm.addClass(
                 "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-              );
-              elm.css("border-right-color", GDPR.settings.border_active_color1);
-              elm.css(
-                "background-color",
-                GDPR.settings.background_active_color1
               );
             } else {
               prnt
@@ -1730,20 +1530,6 @@ banner.style.display = "none";
                 .removeClass(
                   "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
                 );
-              prnt
-                .find("a")
-                .css("border-right-color", GDPR.settings.border_color2);
-              prnt
-                .find("a")
-                .css("background-color", GDPR.settings.background_color2);
-              elm.addClass(
-                "gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-              );
-              elm.css("border-right-color", GDPR.settings.border_active_color2);
-              elm.css(
-                "background-color",
-                GDPR.settings.background_active_color2
-              );
             }
           }
 
@@ -1769,2057 +1555,21 @@ banner.style.display = "none";
           this.settings.cookie_usage_for == "both" &&
           multiple_legislation_current_banner == "gdpr"
         ) {
-          this.settings_button.css(
-            "color",
-            this.settings.button_settings_link_color1
-          );
-          if (
-            this.settings.button_settings_as_button1 === true ||
-            this.settings.button_settings_as_button1 === "true"
-          ) {
-            var settings_background = this.convertToHex(
-              this.settings.button_settings_button_color1,
-              this.settings.button_settings_button_opacity1
-            );
-            var settings_border =
-              this.settings.button_settings_button_border_width1 +
-              "px " +
-              this.settings.button_settings_button_border_style1 +
-              " " +
-              this.settings.button_settings_button_border_color1;
-            this.settings_button.css("border", settings_border);
-            this.settings_button.css(
-              "border-radius",
-              this.settings.button_settings_button_border_radius1 + "px"
-            );
-            this.settings_button.css("background-color", settings_background);
-            this.settings_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_settings_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", settings_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.settings_button.css("width", "40%");
-            this.settings_button.css("float", "right");
-          } else if ( template.includes("column")) {
-            if ($(window).width() <= 768) {
-              $("#gdpr-cookie-consent-bar .btn.gdpr_action_button, #gdpr-cookie-consent-bar .btn.gdpr_action_button_link").css({"min-width":"fit-content","width":"80%"});
-              $(
-                "#gdpr-cookie-consent-bar  > .gdpr_messagebar_content > #default_buttons"
-              ).css({"width":"45%","margin":"none !important","display":"block"});
-              $("#gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons a, #gdpr-cookie-consent-bar.inner-gdpr-column .gdpr_messagebar_content .group-description-buttons a").css({"margin":"0.5rem auto 0px 9px"});
-              $("#gdpr-cookie-consent-bar.gdpr-banner .gdpr_messagebar_content").css({"padding":"1.2rem"});
-            }
-          if ($("#cookie_action_reject").length === 0) {
-            if ($(window).width() > 768) {
-              $(
-                "#gdpr-cookie-consent-bar  > .gdpr_messagebar_content > #default_buttons"
-              ).css({
-                "width":"0"
-              });
-              $(
-                "#gdpr-cookie-consent-bar.gdpr-popup  > .gdpr_messagebar_content > #default_buttons"
-              ).css({
-                "width":"auto"
-              });
-              $("#gdpr-cookie-consent-bar .group-description-buttons #cookie_action_settings").css({"margin-left":"0"});
-              $("#gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons a, #gdpr-cookie-consent-bar.inner-gdpr-column .gdpr_messagebar_content .group-description-buttons a").css({"margin":"0.5rem auto 0 auto"});
-            }
-          }
-          } else if (template.includes("center")) {
-            this.settings_button.css("margin-right", "0");
-          } else if (template.includes("dark")) {
-            this.settings_button.css("float", "right");
-          } else {
-            this.settings_button.css("float", "right");
-            this.settings_button.css("margin-right", "0");
-          }
-
-          if (this.settings.button_accept_all_is_on1) {
-            if (template.includes("center")) {
-              if (template.includes("popup") || template.includes("widget")) {
-                $(
-                  ".gdpr-popup > .gdpr_messagebar_content > .group-description-buttons > a"
-                ).css({
-                  "margin-bottom": "10px",
-                });
-                $(
-                  ".gdpr-widget > .gdpr_messagebar_content > .group-description-buttons > a"
-                ).css({
-                  "margin-bottom": "10px",
-                });
-              }
-            }
-            
-          }
-
-          this.main_button.css(
-            "color",
-            this.settings.button_accept_link_color1
-          );
-          if (
-            this.settings.button_accept_as_button1 == true ||
-            this.settings.button_accept_as_button1 == "true"
-          ) {
-            var main_background = this.convertToHex(
-              this.settings.button_accept_button_color1,
-              this.settings.button_accept_button_opacity1
-            );
-            var main_border =
-              this.settings.button_accept_button_border_width1 +
-              "px " +
-              this.settings.button_accept_button_border_style1 +
-              " " +
-              this.settings.button_accept_button_border_color1;
-            this.main_button.css("border", main_border);
-            this.main_button.css(
-              "border-radius",
-              this.settings.button_accept_button_border_radius1 + "px"
-            );
-            this.main_button.css("background-color", main_background);
-            this.main_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_accept_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", main_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.main_button.css("width", "100%");
-            this.main_button.css("margin", "1rem auto 0 auto");
-          }
-
-          this.accept_all_button.css(
-            "color",
-            this.settings.button_accept_all_link_color1
-          );
-          if (
-            this.settings.button_accept_all_as_button1 == true ||
-            this.settings.button_accept_all_as_button1 == "true"
-          ) {
-            var accept_all_background = this.convertToHex(
-              this.settings.button_accept_all_button_color1,
-              this.settings.button_accept_all_btn_opacity1
-            );
-            var main_border =
-              this.settings.button_accept_all_btn_border_width1 +
-              "px " +
-              this.settings.button_accept_all_btn_border_style1 +
-              " " +
-              this.settings.button_accept_all_btn_border_color1;
-            this.accept_all_button.css("border", main_border);
-            this.accept_all_button.css(
-              "border-radius",
-              this.settings.multiple_legislation_accept_all_border_radius1 + "px"
-            );
-            this.accept_all_button.css(
-              "background-color",
-              accept_all_background
-            );
-            this.accept_all_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_accept_all_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", accept_all_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.accept_all_button.css("width", "100%");
-            this.accept_all_button.css("margin", "1rem auto 0 auto");
-          }
-
-          this.confirm_button.css(
-            "color",
-            this.settings.button_confirm_link_color1
-          );
-          if (
-            this.settings.button_confirm_as_button1 == true ||
-            this.settings.button_confirm_as_button1 == "true"
-          ) {
-            var confirm_background = this.convertToHex(
-              this.settings.button_confirm_button_color1,
-              this.settings.button_confirm_button_opacity1
-            );
-            var confirm_border =
-              this.settings.button_confirm_button_border_width1 +
-              "px " +
-              this.settings.button_confirm_button_border_style1 +
-              " " +
-              this.settings.button_confirm_button_border_color1;
-            this.confirm_button.css("border", confirm_border);
-            this.confirm_button.css(
-              "border-radius",
-              this.settings.button_confirm_button_border_radius1 + "px"
-            );
-            this.confirm_button.css("background-color", confirm_background);
-            this.confirm_button.css("width", "100%");
-            this.confirm_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_confirm_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", confirm_background);
-              }
-            );
-          }
-
-          /* [wpl_cookie_link] */
-          this.main_link.css("color", this.settings.button_readmore_link_color);
-          this.vendor_link.css(
-            "color",
-            this.settings.button_readmore_link_color
-          );
-          if (this.settings.button_readmore_as_button) {
-            var readmore_background = this.convertToHex(
-              this.settings.button_readmore_button_color,
-              this.settings.button_readmore_button_opacity
-            );
-            var readmore_border =
-              this.settings.button_readmore_button_border_width +
-              "px " +
-              this.settings.button_readmore_button_border_style +
-              " " +
-              this.settings.button_readmore_button_border_color;
-            this.main_link.css("border", readmore_border);
-            this.main_link.css(
-              "border-radius",
-              this.settings.button_readmore_button_border_radius + "px"
-            );
-            this.main_link.css("background-color", readmore_background);
-            this.main_link.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_readmore_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", readmore_background);
-              }
-            );
-          }
-
-          this.donotsell_link.css(
-            "color",
-            this.settings.button_donotsell_link_color1
-          );
-
-          this.reject_button.css(
-            "color",
-            this.settings.button_decline_link_color1
-          );
-          if (
-            this.settings.button_decline_as_button1 == true ||
-            this.settings.button_decline_as_button1 == "true"
-          ) {
-            var decline_background = this.convertToHex(
-              this.settings.button_decline_button_color1,
-              this.settings.button_decline_button_opacity1
-            );
-            var reject_border =
-              this.settings.button_decline_button_border_width1 +
-              "px " +
-              this.settings.button_decline_button_border_style1 +
-              " " +
-              this.settings.button_decline_button_border_color1;
-            this.reject_button.css("border", reject_border);
-            this.reject_button.css(
-              "border-radius",
-              this.settings.button_decline_button_border_radius1 + "px"
-            );
-            this.reject_button.css("background-color", decline_background);
-            this.reject_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_decline_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", decline_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.reject_button.css("width", "40%");
-          } else if (
-            template.includes("dark")
-          ) {
-            this.reject_button.css("float", "right");
-          }
-
-          this.cancel_button.css(
-            "color",
-            this.settings.button_cancel_link_color1
-          );
-          if (
-            this.settings.button_cancel_as_button1 == true ||
-            this.settings.button_cancel_as_button1 == "true"
-          ) {
-            var cancel_background = this.convertToHex(
-              this.settings.button_cancel_button_color1,
-              this.settings.button_cancel_button_opacity1
-            );
-            var cancel_border =
-              this.settings.button_cancel_button_border_width1 +
-              "px " +
-              this.settings.button_cancel_button_border_style1 +
-              " " +
-              this.settings.button_cancel_button_border_color1;
-            this.cancel_button.css("border", cancel_border);
-            this.cancel_button.css(
-              "border-radius",
-              this.settings.button_cancel_button_border_radius1 + "px"
-            );
-            this.cancel_button.css("display", "inline-block");
-            this.cancel_button.css("background-color", cancel_background);
-            this.cancel_button.css("width", "100%");
-            this.cancel_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_cancel_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", cancel_background);
-              }
-            );
-          }
-
-          this.save_button.css(
-            "color",
-            this.settings.button_accept_link_color1
-          );
-          this.save_button.css("background-color", main_background);
-          this.save_button.css("border", main_border);
-          this.save_button.css(
-            "border-radius",
-            this.settings.button_accept_button_border_radius1 + "px"
-          );
-          this.save_button.hover(
-            function () {
-              jQuery(this).css(
-                "background-color",
-                GDPR.settings.button_accept_button_hover1
-              );
-            },
-            function () {
-              jQuery(this).css("background-color", main_background);
-            }
-          );
-          this.details_elm
-            .find(
-              "table.gdpr_messagebar_detail_body_content_cookie_type_table tr"
-            )
-            .css("border-color", GDPR.settings.border_color1);
-          this.details_elm
-            .find(".gdpr_messagebar_detail_body_content_cookie_type_intro")
-            .css("border-color", GDPR.settings.border_color1);
-          this.details_elm.find("a").each(function () {
-            jQuery(this).css("border-color", GDPR.settings.border_color1);
-            jQuery(this).css(
-              "background-color",
-              GDPR.settings.background_color1
-            );
-          });
-          this.details_elm
-            .find(
-              "a.gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-            )
-            .css("border-right-color", GDPR.settings.border_active_color1);
-          this.details_elm
-            .find(
-              "a.gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-            )
-            .css("background-color", GDPR.settings.background_active_color1);
-          this.details_elm
-            .find("#gdpr_messagebar_detail_body_content")
-            .css("border-color", GDPR.settings.border_color1);
-          this.details_elm
-            .find("#gdpr_messagebar_detail_body_content_tabs")
-            .css("border-color", GDPR.settings.border_color1);
-          this.details_elm
-            .find(
-              "#gdpr_messagebar_detail_body_content_tabs .gdpr_messagebar_detail_body_content_tab_item_selected"
-            )
-            .css("border-bottom-color", GDPR.settings.border_active_color1);
-          this.details_elm
-            .find(
-              "#gdpr_messagebar_detail_body_content_tabs .gdpr_messagebar_detail_body_content_tab_item_selected"
-            )
-            .css("background-color", GDPR.settings.background_active_color1);
-
-          this.credit_link.css(
-            "color",
-            this.settings.button_readmore_link_color
-          );
-          $(".gdpr-column .gdpr-columns.active-group").css(
-            "background-color",
-            GDPR.settings.button_accept_button_color1
-          );
-          $(
-            ".gdpr_messagebar_detail .category-group .toggle-group .always-active"
-          ).css("color", GDPR.settings.button_accept_button_color1);
+          
         } else if (
           this.settings.cookie_usage_for == "both" &&
           multiple_legislation_current_banner == "ccpa"
         ) {
-          this.settings_button.css(
-            "color",
-            this.settings.button_settings_link_color2
-          );
-          if (
-            this.settings.button_settings_as_button2 === true ||
-            this.settings.button_settings_as_button2 === "true"
-          ) {
-            var settings_background = this.convertToHex(
-              this.settings.button_settings_button_color2,
-              this.settings.button_settings_button_opacity2
-            );
-            var settings_border =
-              this.settings.button_settings_button_border_width2 +
-              "px " +
-              this.settings.button_settings_button_border_style2 +
-              " " +
-              this.settings.button_settings_button_border_color2;
-            this.settings_button.css("border", settings_border);
-            this.settings_button.css(
-              "border-radius",
-              this.settings.button_settings_button_border_radius2 + "px"
-            );
-            this.settings_button.css("background-color", settings_background);
-            this.settings_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_settings_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", settings_background);
-              }
-            );
-          }
-         
-          if (template.includes("square")) {
-            this.settings_button.css("width", "40%");
-            this.settings_button.css("float", "right");
-          } else if (template.includes("column")) {
-            if ($(window).width() <= 768) {
-              $("#gdpr-cookie-consent-bar .btn.gdpr_action_button, #gdpr-cookie-consent-bar .btn.gdpr_action_button_link").css({"min-width":"fit-content","width":"80%"});
-              $(
-                "#gdpr-cookie-consent-bar  > .gdpr_messagebar_content > #default_buttons"
-              ).css({"width":"45%","margin":"none !important","display":"block"});
-              $("#gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons a, #gdpr-cookie-consent-bar.inner-gdpr-column .gdpr_messagebar_content .group-description-buttons a").css({"margin":"0.5rem auto 0px 9px"});
-              $("#gdpr-cookie-consent-bar.gdpr-banner .gdpr_messagebar_content").css({"padding":"1.2rem"});
-            }
-          if ($("#cookie_action_reject").length === 0) {
-            if ($(window).width() > 768) {
-              $(
-                "#gdpr-cookie-consent-bar  > .gdpr_messagebar_content > #default_buttons"
-              ).css({
-                "width":"0"
-              });
-              $(
-                "#gdpr-cookie-consent-bar.gdpr-popup  > .gdpr_messagebar_content > #default_buttons"
-              ).css({
-                "width":"auto"
-              });
-              $("#gdpr-cookie-consent-bar .group-description-buttons #cookie_action_settings").css({"margin-left":"0"});
-              $("#gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons a, #gdpr-cookie-consent-bar.inner-gdpr-column .gdpr_messagebar_content .group-description-buttons a").css({"margin":"0.5rem auto 0 auto"});
-
-            }
-          }
-          } else if (template.includes("center")) {
-            this.settings_button.css("margin-right", "0");
-          } else if (template.includes("dark")) {
-            this.settings_button.css("float", "right");
-          } else {
-            this.settings_button.css("float", "right");
-            this.settings_button.css("margin-right", "0");
-          }
-
-          if (this.settings.button_accept_all_is_on2) {
-            if (template.includes("center")) {
-              if (template.includes("popup") || template.includes("widget")) {
-                $(
-                  ".gdpr-popup > .gdpr_messagebar_content > .group-description-buttons > a"
-                ).css({
-                  "margin-bottom": "10px",
-                });
-                $(
-                  ".gdpr-widget > .gdpr_messagebar_content > .group-description-buttons > a"
-                ).css({
-                  "margin-bottom": "10px",
-                });
-              }
-            }
-            
-          }
-
-          this.main_button.css(
-            "color",
-            this.settings.button_accept_link_color2
-          );
-          if (
-            this.settings.button_accept_as_button2 === true ||
-            this.settings.button_accept_as_button2 === "true"
-          ) {
-            var main_background = this.convertToHex(
-              this.settings.button_accept_button_color2,
-              this.settings.button_accept_button_opacity2
-            );
-            var main_border =
-              this.settings.button_accept_button_border_width2 +
-              "px " +
-              this.settings.button_accept_button_border_style2 +
-              " " +
-              this.settings.button_accept_button_border_color2;
-            this.main_button.css("border", main_border);
-            this.main_button.css(
-              "border-radius",
-              this.settings.button_accept_button_border_radius2 + "px"
-            );
-            this.main_button.css("background-color", main_background);
-            this.main_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_accept_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", main_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.main_button.css("width", "100%");
-            this.main_button.css("margin", "1rem auto 0 auto");
-          }
-
-          this.accept_all_button.css(
-            "color",
-            this.settings.button_accept_all_link_color2
-          );
-          if (
-            this.settings.button_accept_all_as_button2 === true ||
-            this.settings.button_accept_all_as_button2 === "true"
-          ) {
-            var accept_all_background = this.convertToHex(
-              this.settings.button_accept_all_button_color2,
-              this.settings.button_accept_all_btn_opacity2
-            );
-            var main_border =
-              this.settings.button_accept_all_btn_border_width2 +
-              "px " +
-              this.settings.button_accept_all_btn_border_style2 +
-              " " +
-              this.settings.button_accept_all_btn_border_color2;
-            this.accept_all_button.css("border", main_border);
-            this.accept_all_button.css(
-              "border-radius",
-              this.settings.button_accept_all_btn_border_radius2 + "px"
-            );
-            this.accept_all_button.css(
-              "background-color",
-              accept_all_background
-            );
-            this.accept_all_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_accept_all_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", accept_all_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.accept_all_button.css("width", "100%");
-            this.accept_all_button.css("margin", "1rem auto 0 auto");
-          }
-
-          this.confirm_button.css(
-            "color",
-            this.settings.button_confirm_link_color2
-          );
-          if (
-            this.settings.button_confirm_as_button2 === true ||
-            this.settings.button_confirm_as_button2 === "true"
-          ) {
-            var confirm_background = this.convertToHex(
-              this.settings.button_confirm_button_color2,
-              this.settings.button_confirm_button_opacity2
-            );
-            var confirm_border =
-              this.settings.button_confirm_button_border_width2 +
-              "px " +
-              this.settings.button_confirm_button_border_style2 +
-              " " +
-              this.settings.button_confirm_button_border_color2;
-            this.confirm_button.css("border", confirm_border);
-            this.confirm_button.css(
-              "border-radius",
-              this.settings.button_confirm_button_border_radius2 + "px"
-            );
-            this.confirm_button.css("background-color", confirm_background);
-            this.confirm_button.css("width", "100%");
-            this.confirm_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_confirm_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", confirm_background);
-              }
-            );
-          }
-
-          /* [wpl_cookie_link] */
-          this.main_link.css("color", this.settings.button_readmore_link_color);
-          this.vendor_link.css(
-            "color",
-            this.settings.button_readmore_link_color
-          );
-          if (this.settings.button_readmore_as_button) {
-            var readmore_background = this.convertToHex(
-              this.settings.button_readmore_button_color,
-              this.settings.button_readmore_button_opacity
-            );
-            var readmore_border =
-              this.settings.button_readmore_button_border_width +
-              "px " +
-              this.settings.button_readmore_button_border_style +
-              " " +
-              this.settings.button_readmore_button_border_color;
-            this.main_link.css("border", readmore_border);
-            this.main_link.css(
-              "border-radius",
-              this.settings.button_readmore_button_border_radius + "px"
-            );
-            this.main_link.css("background-color", readmore_background);
-            this.main_link.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_readmore_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", readmore_background);
-              }
-            );
-          }
-
-          this.donotsell_link.css(
-            "color",
-            this.settings.button_donotsell_link_color2
-          );
-
-          this.reject_button.css(
-            "color",
-            this.settings.button_decline_link_color
-          );
-          if (
-            this.settings.button_decline_as_button2 === true ||
-            this.settings.button_decline_as_button2 === "true"
-          ) {
-            var decline_background = this.convertToHex(
-              this.settings.button_decline_button_color2,
-              this.settings.button_decline_button_opacity2
-            );
-            var reject_border =
-              this.settings.button_decline_button_border_width2 +
-              "px " +
-              this.settings.button_decline_button_border_style2 +
-              " " +
-              this.settings.button_decline_button_border_color2;
-            this.reject_button.css("border", reject_border);
-            this.reject_button.css(
-              "border-radius",
-              this.settings.button_decline_button_border_radius2 + "px"
-            );
-            this.reject_button.css("background-color", decline_background);
-            this.reject_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_decline_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", decline_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.reject_button.css("width", "40%");
-          } else if (
-            template.includes("dark")
-          ) {
-            this.reject_button.css("float", "right");
-          }
-
-          this.cancel_button.css(
-            "color",
-            this.settings.button_cancel_link_color2
-          );
-          if (
-            this.settings.button_cancel_as_button2 === true ||
-            this.settings.button_cancel_as_button2 === "true"
-          ) {
-            var cancel_background = this.convertToHex(
-              this.settings.button_cancel_button_color2,
-              this.settings.button_cancel_button_opacity2
-            );
-            var cancel_border =
-              this.settings.button_cancel_button_border_width2 +
-              "px " +
-              this.settings.button_cancel_button_border_style2 +
-              " " +
-              this.settings.button_cancel_button_border_color2;
-            this.cancel_button.css("border", cancel_border);
-            this.cancel_button.css(
-              "border-radius",
-              this.settings.button_cancel_button_border_radius2 + "px"
-            );
-            this.cancel_button.css("display", "inline-block");
-            this.cancel_button.css("background-color", cancel_background);
-            this.cancel_button.css("width", "100%");
-            this.cancel_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_cancel_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", cancel_background);
-              }
-            );
-          }
-
-          this.save_button.css(
-            "color",
-            this.settings.button_accept_link_color2
-          );
-          this.save_button.css("background-color", main_background);
-          this.save_button.css("border", main_border);
-          this.save_button.css(
-            "border-radius",
-            this.settings.button_accept_button_border_radius2 + "px"
-          );
-          this.save_button.hover(
-            function () {
-              jQuery(this).css(
-                "background-color",
-                GDPR.settings.button_accept_button_hover2
-              );
-            },
-            function () {
-              jQuery(this).css("background-color", main_background);
-            }
-          );
-          this.details_elm
-            .find(
-              "table.gdpr_messagebar_detail_body_content_cookie_type_table tr"
-            )
-            .css("border-color", GDPR.settings.border_color2);
-          this.details_elm
-            .find(".gdpr_messagebar_detail_body_content_cookie_type_intro")
-            .css("border-color", GDPR.settings.border_color2);
-          this.details_elm.find("a").each(function () {
-            jQuery(this).css("border-color", GDPR.settings.border_color2);
-            jQuery(this).css(
-              "background-color",
-              GDPR.settings.background_color2
-            );
-          });
-          this.details_elm
-            .find(
-              "a.gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-            )
-            .css("border-right-color", GDPR.settings.border_active_color2);
-          this.details_elm
-            .find(
-              "a.gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-            )
-            .css("background-color", GDPR.settings.background_active_color2);
-          this.details_elm
-            .find("#gdpr_messagebar_detail_body_content")
-            .css("border-color", GDPR.settings.border_color2);
-          this.details_elm
-            .find("#gdpr_messagebar_detail_body_content_tabs")
-            .css("border-color", GDPR.settings.border_color2);
-          this.details_elm
-            .find(
-              "#gdpr_messagebar_detail_body_content_tabs .gdpr_messagebar_detail_body_content_tab_item_selected"
-            )
-            .css("border-bottom-color", GDPR.settings.border_active_color2);
-          this.details_elm
-            .find(
-              "#gdpr_messagebar_detail_body_content_tabs .gdpr_messagebar_detail_body_content_tab_item_selected"
-            )
-            .css("background-color", GDPR.settings.background_active_color2);
-
-          this.credit_link.css(
-            "color",
-            this.settings.button_readmore_link_color
-          );
-          $(".gdpr-column .gdpr-columns.active-group").css(
-            "background-color",
-            GDPR.settings.button_accept_button_color2
-          );
-          $(
-            ".gdpr_messagebar_detail .category-group .toggle-group .always-active"
-          ).css("color", GDPR.settings.button_accept_button_color2);
+                 
         } else {
-          this.settings_button.css(
-            "color",
-            this.settings.button_settings_link_color
-          );
-          if (this.settings.button_settings_as_button) {
-            var settings_background = this.convertToHex(
-              this.settings.button_settings_button_color,
-              this.settings.button_settings_button_opacity
-            );
-            var settings_border =
-              this.settings.button_settings_button_border_width +
-              "px " +
-              this.settings.button_settings_button_border_style +
-              " " +
-              this.settings.button_settings_button_border_color;
-            this.settings_button.css("border", settings_border);
-            this.settings_button.css(
-              "border-radius",
-              this.settings.button_settings_button_border_radius + "px"
-            );
-            this.settings_button.css("background-color", settings_background);
-            this.settings_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_settings_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", settings_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.settings_button.css("width", "40%");
-            this.settings_button.css("float", "right");
-          } else if (template.includes("column")) {
-            if ($(window).width() <= 768) {
-                $("#gdpr-cookie-consent-bar .btn.gdpr_action_button, #gdpr-cookie-consent-bar .btn.gdpr_action_button_link").css({"min-width":"fit-content","width":"80%"});
-                $(
-                  "#gdpr-cookie-consent-bar  > .gdpr_messagebar_content > #default_buttons"
-                ).css({"width":"45%","margin":"none !important","display":"block"});
-                $("#gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons a, #gdpr-cookie-consent-bar.inner-gdpr-column .gdpr_messagebar_content .group-description-buttons a").css({"margin":"0.5rem auto 0px 9px"});
-                $("#gdpr-cookie-consent-bar.gdpr-banner .gdpr_messagebar_content").css({"padding":"1.2rem"});
-              }
-            if ($("#cookie_action_reject").length === 0) {
-              if ($(window).width() > 768) {
-                $(
-                  "#gdpr-cookie-consent-bar  > .gdpr_messagebar_content > #default_buttons"
-                ).css({
-                  "width":"0"
-                });
-                $(
-                  "#gdpr-cookie-consent-bar.gdpr-popup  > .gdpr_messagebar_content > #default_buttons"
-                ).css({
-                  "width":"auto"
-                });
-                $("#gdpr-cookie-consent-bar .group-description-buttons #cookie_action_settings").css({"margin-left":"0"});
-                $("#gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons a, #gdpr-cookie-consent-bar.inner-gdpr-column .gdpr_messagebar_content .group-description-buttons a").css({"margin":"0.5rem auto 0 auto"});
-
-              }
-            }
-            
-          } else if (template.includes("center")) {
-            if ($(window).width() <= 768) {
-              $(".gdpr-banner > .gdpr_messagebar_content > #default_buttons").css({"display":"block"});
-              if ($("#cookie_action_reject").length !== 0) {
-              $("#gdpr-cookie-consent-bar .group-description-buttons #cookie_action_settings, #gdpr-cookie-consent-bar .group-description-buttons #cookie_action_accept").css({"width":"auto"});
-              }
-              $("#gdpr-cookie-consent-bar .gdpr_messagebar_content #default_buttons #cookie_action_settings").css({"float":"right"});
-              $("#gdpr-cookie-consent-bar.gdpr-banner .gdpr_messagebar_content").css({"padding":"1.2rem","text-align":"left"});
-              $("#gdpr-cookie-consent-bar.gdpr-popup .btn.gdpr_action_button").css({"width":"75%"});
-            }
-            this.settings_button.css("margin-right", "0");
-          } else if (template.includes("dark")) {
-            this.settings_button.css("float", "right");
-          } else {
-            this.settings_button.css("float", "right");
-            this.settings_button.css("margin-right", "0");
-          }
-
-          if (this.settings.button_accept_all_is_on) {
-            if (template.includes("center")) {
-              if (template.includes("popup") || template.includes("widget")) {
-                $(
-                  ".gdpr-popup > .gdpr_messagebar_content > .group-description-buttons > a"
-                ).css({
-                  "margin-bottom": "10px",
-                });
-                $(
-                  ".gdpr-widget > .gdpr_messagebar_content > .group-description-buttons > a"
-                ).css({
-                  "margin-bottom": "10px",
-                });
-              }
-            }
-          
-          }
-
-          this.main_button.css("color", this.settings.button_accept_link_color);
-          if (this.settings.button_accept_as_button) {
-            var main_background = this.convertToHex(
-              this.settings.button_accept_button_color,
-              this.settings.button_accept_button_opacity
-            );
-            var main_border =
-              this.settings.button_accept_button_border_width +
-              "px " +
-              this.settings.button_accept_button_border_style +
-              " " +
-              this.settings.button_accept_button_border_color;
-            this.main_button.css("border", main_border);
-            this.main_button.css(
-              "border-radius",
-              this.settings.button_accept_button_border_radius + "px"
-            );
-            this.main_button.css("background-color", main_background);
-            this.main_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_accept_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", main_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.main_button.css("width", "100%");
-            this.main_button.css("margin", "1rem auto 0 auto");
-          }
-
-          this.accept_all_button.css(
-            "color",
-            this.settings.button_accept_all_link_color
-          );
-          if (this.settings.button_accept_all_as_button) {
-            var accept_all_background = this.convertToHex(
-              this.settings.button_accept_all_button_color,
-              this.settings.button_accept_all_btn_opacity
-            );
-            var main_border =
-              this.settings.button_accept_all_btn_border_width +
-              "px " +
-              this.settings.button_accept_all_btn_border_style +
-              " " +
-              this.settings.button_accept_all_btn_border_color;
-            this.accept_all_button.css("border", main_border);
-            this.accept_all_button.css(
-              "border-radius",
-              this.settings.button_accept_all_btn_border_radius + "px"
-            );
-            this.accept_all_button.css(
-              "background-color",
-              accept_all_background
-            );
-            this.accept_all_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_accept_all_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", accept_all_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.accept_all_button.css("width", "100%");
-            this.accept_all_button.css("margin", "1rem auto 0 auto");
-          }
-
-          this.confirm_button.css(
-            "color",
-            this.settings.button_confirm_link_color
-          );
-          if (this.settings.button_confirm_as_button) {
-            var confirm_background = this.convertToHex(
-              this.settings.button_confirm_button_color,
-              this.settings.button_confirm_button_opacity
-            );
-            var confirm_border =
-              this.settings.button_confirm_button_border_width +
-              "px " +
-              this.settings.button_confirm_button_border_style +
-              " " +
-              this.settings.button_confirm_button_border_color;
-            this.confirm_button.css("border", confirm_border);
-            this.confirm_button.css(
-              "border-radius",
-              this.settings.button_confirm_button_border_radius + "px"
-            );
-            this.confirm_button.css("background-color", confirm_background);
-            this.confirm_button.css("width", "100%");
-            this.confirm_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_confirm_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", confirm_background);
-              }
-            );
-          }
-
-          /* [wpl_cookie_link] */
-          this.main_link.css("color", this.settings.button_readmore_link_color);
-          this.vendor_link.css(
-            "color",
-            this.settings.button_readmore_link_color
-          );
-          if (this.settings.button_readmore_as_button) {
-            var readmore_background = this.convertToHex(
-              this.settings.button_readmore_button_color,
-              this.settings.button_readmore_button_opacity
-            );
-            var readmore_border =
-              this.settings.button_readmore_button_border_width +
-              "px " +
-              this.settings.button_readmore_button_border_style +
-              " " +
-              this.settings.button_readmore_button_border_color;
-            this.main_link.css("border", readmore_border);
-            this.main_link.css(
-              "border-radius",
-              this.settings.button_readmore_button_border_radius + "px"
-            );
-            this.main_link.css("background-color", readmore_background);
-            this.main_link.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_readmore_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", readmore_background);
-              }
-            );
-          }
-
-          this.donotsell_link.css(
-            "color",
-            this.settings.button_donotsell_link_color
-          );
-
-          this.reject_button.css(
-            "color",
-            this.settings.button_decline_link_color
-          );
-          if (this.settings.button_decline_as_button) {
-            var decline_background = this.convertToHex(
-              this.settings.button_decline_button_color,
-              this.settings.button_decline_button_opacity
-            );
-            var reject_border =
-              this.settings.button_decline_button_border_width +
-              "px " +
-              this.settings.button_decline_button_border_style +
-              " " +
-              this.settings.button_decline_button_border_color;
-            this.reject_button.css("border", reject_border);
-            this.reject_button.css(
-              "border-radius",
-              this.settings.button_decline_button_border_radius + "px"
-            );
-            this.reject_button.css("background-color", decline_background);
-            this.reject_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_decline_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", decline_background);
-              }
-            );
-          }
-
-          if (template.includes("square")) {
-            this.reject_button.css("width", "40%");
-          } else if (
-            template.includes("dark")
-          ) {
-            this.reject_button.css("float", "right");
-          }
-
-          this.cancel_button.css(
-            "color",
-            this.settings.button_cancel_link_color
-          );
-          if (this.settings.button_cancel_as_button) {
-            var cancel_background = this.convertToHex(
-              this.settings.button_cancel_button_color,
-              this.settings.button_cancel_button_opacity
-            );
-            var cancel_border =
-              this.settings.button_cancel_button_border_width +
-              "px " +
-              this.settings.button_cancel_button_border_style +
-              " " +
-              this.settings.button_cancel_button_border_color;
-            this.cancel_button.css("border", cancel_border);
-            this.cancel_button.css(
-              "border-radius",
-              this.settings.button_cancel_button_border_radius + "px"
-            );
-            this.cancel_button.css("display", "inline-block");
-            this.cancel_button.css("background-color", cancel_background);
-            this.cancel_button.css("width", "100%");
-            this.cancel_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_cancel_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", cancel_background);
-              }
-            );
-          }
-
-          this.save_button.css("color", this.settings.button_accept_link_color);
-          this.save_button.css("background-color", main_background);
-          this.save_button.css("border", main_border);
-          this.save_button.css(
-            "border-radius",
-            this.settings.button_accept_button_border_radius + "px"
-          );
-          this.save_button.hover(
-            function () {
-              jQuery(this).css(
-                "background-color",
-                GDPR.settings.button_accept_button_hover
-              );
-            },
-            function () {
-              jQuery(this).css("background-color", main_background);
-            }
-          );
-          this.details_elm
-            .find(
-              "table.gdpr_messagebar_detail_body_content_cookie_type_table tr"
-            )
-            .css("border-color", GDPR.settings.border_color);
-          this.details_elm
-            .find(".gdpr_messagebar_detail_body_content_cookie_type_intro")
-            .css("border-color", GDPR.settings.border_color);
-          this.details_elm.find("a").each(function () {
-            jQuery(this).css("border-color", GDPR.settings.border_color);
-            jQuery(this).css(
-              "background-color",
-              GDPR.settings.background_color
-            );
-          });
-          this.details_elm
-            .find(
-              "a.gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-            )
-            .css("border-right-color", GDPR.settings.border_active_color);
-          this.details_elm
-            .find(
-              "a.gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-            )
-            .css("background-color", GDPR.settings.background_active_color);
-          this.details_elm
-            .find("#gdpr_messagebar_detail_body_content")
-            .css("border-color", GDPR.settings.border_color);
-          this.details_elm
-            .find("#gdpr_messagebar_detail_body_content_tabs")
-            .css("border-color", GDPR.settings.border_color);
-          this.details_elm
-            .find(
-              "#gdpr_messagebar_detail_body_content_tabs .gdpr_messagebar_detail_body_content_tab_item_selected"
-            )
-            .css("border-bottom-color", GDPR.settings.border_active_color);
-          this.details_elm
-            .find(
-              "#gdpr_messagebar_detail_body_content_tabs .gdpr_messagebar_detail_body_content_tab_item_selected"
-            )
-            .css("background-color", GDPR.settings.background_active_color);
-
-          this.credit_link.css(
-            "color",
-            this.settings.button_readmore_link_color
-          );
-          $(".gdpr-column .gdpr-columns.active-group").css(
-            "background-color",
-            GDPR.settings.button_accept_button_color
-          );
-          $(
-            ".gdpr_messagebar_detail .category-group .toggle-group .always-active"
-          ).css("color", GDPR.settings.button_accept_button_color);
+         
         }
       } else {
         if (Number(chosenBanner) === 1) {
-          this.settings_button.css(
-            "color",
-            this.settings.button_settings_link_color1
-          );
-          if (
-            this.settings.button_settings_as_button1 === true ||
-            this.settings.button_settings_as_button1 === "true"
-          ) {
-            var settings_background = this.convertToHex(
-              this.settings.button_settings_button_color1,
-              this.settings.button_settings_button_opacity1
-            );
-            var settings_border =
-              this.settings.button_settings_button_border_width1 +
-              "px " +
-              this.settings.button_settings_button_border_style1 +
-              " " +
-              this.settings.button_settings_button_border_color1;
-            this.settings_button.css("border", settings_border);
-            this.settings_button.css(
-              "border-radius",
-              this.settings.button_settings_button_border_radius1 + "px"
-            );
-            this.settings_button.css("background-color", settings_background);
-            this.settings_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_settings_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", settings_background);
-              }
-            );
-          }
-          if (template.includes("square")) {
-            this.settings_button.css("width", "40%");
-            this.settings_button.css("float", "right");
-          } else if ( template.includes("column")) {
-            if ($(window).width() <= 768) {
-              $("#gdpr-cookie-consent-bar .btn.gdpr_action_button, #gdpr-cookie-consent-bar .btn.gdpr_action_button_link").css({"min-width":"fit-content","width":"80%"});
-              $(
-                "#gdpr-cookie-consent-bar  > .gdpr_messagebar_content > #default_buttons"
-              ).css({"width":"45%","margin":"none !important","display":"block"});
-              $("#gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons a, #gdpr-cookie-consent-bar.inner-gdpr-column .gdpr_messagebar_content .group-description-buttons a").css({"margin":"0.5rem auto 0px 9px"});
-              $("#gdpr-cookie-consent-bar.gdpr-banner .gdpr_messagebar_content").css({"padding":"1.2rem"});
-            }
-          if ($("#cookie_action_reject").length === 0) {
-            if ($(window).width() > 768) {
-              $(
-                "#gdpr-cookie-consent-bar  > .gdpr_messagebar_content > #default_buttons"
-              ).css({
-                "width":"0"
-              });
-              $(
-                "#gdpr-cookie-consent-bar.gdpr-popup  > .gdpr_messagebar_content > #default_buttons"
-              ).css({
-                "width":"auto"
-              });
-              $("#gdpr-cookie-consent-bar .group-description-buttons #cookie_action_settings").css({"margin-left":"0"});
-              $("#gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons a, #gdpr-cookie-consent-bar.inner-gdpr-column .gdpr_messagebar_content .group-description-buttons a").css({"margin":"0.5rem auto 0 auto"});
-            }
-          }
-          } else if (template.includes("center")) {
-            this.settings_button.css("margin-right", "0");
-          } else if (template.includes("dark")) {
-            this.settings_button.css("float", "right");
-          } else {
-            this.settings_button.css("float", "right");
-            this.settings_button.css("margin-right", "0");
-          }
-          if (this.settings.button_accept_all_is_on1) {
-            if (template.includes("center")) {
-              if (template.includes("popup") || template.includes("widget")) {
-                $(
-                  ".gdpr-popup > .gdpr_messagebar_content > .group-description-buttons > a"
-                ).css({
-                  "margin-bottom": "10px",
-                });
-                $(
-                  ".gdpr-widget > .gdpr_messagebar_content > .group-description-buttons > a"
-                ).css({
-                  "margin-bottom": "10px",
-                });
-              }
-            }
-            
-          }
-          this.main_button.css(
-            "color",
-            this.settings.button_accept_link_color1
-          );
-          if (
-            this.settings.button_accept_as_button1 === true ||
-            this.settings.button_accept_as_button1 === "true"
-          ) {
-            var main_background = this.convertToHex(
-              this.settings.button_accept_button_color1,
-              this.settings.button_accept_button_opacity1
-            );
-            var main_border =
-              this.settings.button_accept_button_border_width1 +
-              "px " +
-              this.settings.button_accept_button_border_style1 +
-              " " +
-              this.settings.button_accept_button_border_color1;
-            this.main_button.css("border", main_border);
-            this.main_button.css(
-              "border-radius",
-              this.settings.button_accept_button_border_radius1 + "px"
-            );
-            this.main_button.css("background-color", main_background);
-            this.main_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_accept_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", main_background);
-              }
-            );
-          }
-          if (template.includes("square")) {
-            this.main_button.css("width", "100%");
-            this.main_button.css("margin", "1rem auto 0 auto");
-          }
-          this.accept_all_button.css(
-            "color",
-            this.settings.button_accept_all_link_color1
-          );
-          if (
-            this.settings.button_accept_all_as_button1 === true ||
-            this.settings.button_accept_all_as_button1 === "true"
-          ) {
-            var accept_all_background = this.convertToHex(
-              this.settings.button_accept_all_button_color1,
-              this.settings.button_accept_all_btn_opacity1
-            );
-            var main_border =
-              this.settings.button_accept_all_btn_border_width1 +
-              "px " +
-              this.settings.button_accept_all_btn_border_style1 +
-              " " +
-              this.settings.button_accept_all_btn_border_color1;
-            this.accept_all_button.css("border", main_border);
-            this.accept_all_button.css(
-              "border-radius",
-              this.settings.button_accept_all_btn_border_radius1 + "px"
-            );
-            this.accept_all_button.css(
-              "background-color",
-              accept_all_background
-            );
-            this.accept_all_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_accept_all_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", accept_all_background);
-              }
-            );
-          }
-          if (template.includes("square")) {
-            this.accept_all_button.css("width", "100%");
-            this.accept_all_button.css("margin", "1rem auto 0 auto");
-          }
-          this.confirm_button.css(
-            "color",
-            this.settings.button_confirm_link_color1
-          );
-          if (
-            this.settings.button_confirm_as_button1 === true ||
-            this.settings.button_confirm_as_button1 === "true"
-          ) {
-            var confirm_background = this.convertToHex(
-              this.settings.button_confirm_button_color1,
-              this.settings.button_confirm_button_opacity1
-            );
-            var confirm_border =
-              this.settings.button_confirm_button_border_width1 +
-              "px " +
-              this.settings.button_confirm_button_border_style1 +
-              " " +
-              this.settings.button_confirm_button_border_color1;
-            this.confirm_button.css("border", confirm_border);
-            this.confirm_button.css(
-              "border-radius",
-              this.settings.button_confirm_button_border_radius1 + "px"
-            );
-            this.confirm_button.css("background-color", confirm_background);
-            this.confirm_button.css("width", "100%");
-            this.confirm_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_confirm_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", confirm_background);
-              }
-            );
-          }
-          /* [wpl_cookie_link] */
-          this.main_link.css("color", this.settings.button_readmore_link_color);
-          this.vendor_link.css(
-            "color",
-            this.settings.button_readmore_link_color
-          );
-          if (this.settings.button_readmore_as_button) {
-            var readmore_background = this.convertToHex(
-              this.settings.button_readmore_button_color,
-              this.settings.button_readmore_button_opacity
-            );
-            var readmore_border =
-              this.settings.button_readmore_button_border_width +
-              "px " +
-              this.settings.button_readmore_button_border_style +
-              " " +
-              this.settings.button_readmore_button_border_color;
-            this.main_link.css("border", readmore_border);
-            this.main_link.css(
-              "border-radius",
-              this.settings.button_readmore_button_border_radius + "px"
-            );
-            this.main_link.css("background-color", readmore_background);
-            this.main_link.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_readmore_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", readmore_background);
-              }
-            );
-          }
-          this.donotsell_link.css(
-            "color",
-            this.settings.button_donotsell_link_color1
-          );
-          this.reject_button.css(
-            "color",
-            this.settings.button_decline_link_color
-          );
-          if (
-            this.settings.button_decline_as_button1 === true ||
-            this.settings.button_decline_as_button1 === "true"
-          ) {
-            var decline_background = this.convertToHex(
-              this.settings.button_decline_button_color1,
-              this.settings.button_decline_button_opacity1
-            );
-            var reject_border =
-              this.settings.button_decline_button_border_width1 +
-              "px " +
-              this.settings.button_decline_button_border_style1 +
-              " " +
-              this.settings.button_decline_button_border_color1;
-            this.reject_button.css("border", reject_border);
-            this.reject_button.css(
-              "border-radius",
-              this.settings.button_decline_button_border_radius1 + "px"
-            );
-            this.reject_button.css("background-color", decline_background);
-            this.reject_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_decline_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", decline_background);
-              }
-            );
-          }
-          if (template.includes("square")) {
-            this.reject_button.css("width", "40%");
-          } else if (
-            template.includes("dark")
-          ) {
-            this.reject_button.css("float", "right");
-          }
-          this.cancel_button.css(
-            "color",
-            this.settings.button_cancel_link_color1
-          );
-          if (
-            this.settings.button_cancel_as_button1 === true ||
-            this.settings.button_cancel_as_button1 === "true"
-          ) {
-            var cancel_background = this.convertToHex(
-              this.settings.button_cancel_button_color1,
-              this.settings.button_cancel_button_opacity1
-            );
-            var cancel_border =
-              this.settings.button_cancel_button_border_width1 +
-              "px " +
-              this.settings.button_cancel_button_border_style1 +
-              " " +
-              this.settings.button_cancel_button_border_color1;
-            this.cancel_button.css("border", cancel_border);
-            this.cancel_button.css(
-              "border-radius",
-              this.settings.button_cancel_button_border_radius1 + "px"
-            );
-            this.cancel_button.css("display", "inline-block");
-            this.cancel_button.css("background-color", cancel_background);
-            this.cancel_button.css("width", "100%");
-            this.cancel_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_cancel_button_hover1
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", cancel_background);
-              }
-            );
-          }
-          this.save_button.css(
-            "color",
-            this.settings.button_accept_link_color1
-          );
-          this.save_button.css("background-color", main_background);
-          this.save_button.css("border", main_border);
-          this.save_button.css(
-            "border-radius",
-            this.settings.button_accept_button_border_radius1 + "px"
-          );
-          this.save_button.hover(
-            function () {
-              jQuery(this).css(
-                "background-color",
-                GDPR.settings.button_accept_button_hover1
-              );
-            },
-            function () {
-              jQuery(this).css("background-color", main_background);
-            }
-          );
-          this.details_elm
-            .find(
-              "table.gdpr_messagebar_detail_body_content_cookie_type_table tr"
-            )
-            .css("border-color", GDPR.settings.border_color1);
-          this.details_elm
-            .find(".gdpr_messagebar_detail_body_content_cookie_type_intro")
-            .css("border-color", GDPR.settings.border_color1);
-          this.details_elm.find("a").each(function () {
-            jQuery(this).css("border-color", GDPR.settings.border_color1);
-            jQuery(this).css(
-              "background-color",
-              GDPR.settings.background_color1
-            );
-          });
-          this.details_elm
-            .find(
-              "a.gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-            )
-            .css("border-right-color", GDPR.settings.border_active_color1);
-          this.details_elm
-            .find(
-              "a.gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-            )
-            .css("background-color", GDPR.settings.background_active_color1);
-          this.details_elm
-            .find("#gdpr_messagebar_detail_body_content")
-            .css("border-color", GDPR.settings.border_color1);
-          this.details_elm
-            .find("#gdpr_messagebar_detail_body_content_tabs")
-            .css("border-color", GDPR.settings.border_color1);
-          this.details_elm
-            .find(
-              "#gdpr_messagebar_detail_body_content_tabs .gdpr_messagebar_detail_body_content_tab_item_selected"
-            )
-            .css("border-bottom-color", GDPR.settings.border_active_color1);
-          this.details_elm
-            .find(
-              "#gdpr_messagebar_detail_body_content_tabs .gdpr_messagebar_detail_body_content_tab_item_selected"
-            )
-            .css("background-color", GDPR.settings.background_active_color1);
-          this.credit_link.css(
-            "color",
-            this.settings.button_readmore_link_color
-          );
-          $(".gdpr-column .gdpr-columns.active-group").css(
-            "background-color",
-            GDPR.settings.button_accept_button_color1
-          );
-          $(
-            ".gdpr_messagebar_detail .category-group .toggle-group .always-active"
-          ).css("color", GDPR.settings.button_accept_button_color1);
+          
+          
         } else {
-          this.settings_button.css(
-            "color",
-            this.settings.button_settings_link_color2
-          );
-          if (
-            this.settings.button_settings_as_button2 === true ||
-            this.settings.button_settings_as_button2 === "true"
-          ) {
-            var settings_background = this.convertToHex(
-              this.settings.button_settings_button_color2,
-              this.settings.button_settings_button_opacity2
-            );
-            var settings_border =
-              this.settings.button_settings_button_border_width2 +
-              "px " +
-              this.settings.button_settings_button_border_style2 +
-              " " +
-              this.settings.button_settings_button_border_color2;
-            this.settings_button.css("border", settings_border);
-            this.settings_button.css(
-              "border-radius",
-              this.settings.button_settings_button_border_radius2 + "px"
-            );
-            this.settings_button.css("background-color", settings_background);
-            this.settings_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_settings_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", settings_background);
-              }
-            );
-          }
-          if (template.includes("square")) {
-            this.settings_button.css("width", "40%");
-            this.settings_button.css("float", "right");
-          } else if (template.includes("column")) {
-            if ($(window).width() <= 768) {
-              $("#gdpr-cookie-consent-bar .btn.gdpr_action_button, #gdpr-cookie-consent-bar .btn.gdpr_action_button_link").css({"min-width":"fit-content","width":"80%"});
-              $(
-                "#gdpr-cookie-consent-bar  > .gdpr_messagebar_content > #default_buttons"
-              ).css({"width":"45%","margin":"none !important","display":"block"});
-              $("#gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons a, #gdpr-cookie-consent-bar.inner-gdpr-column .gdpr_messagebar_content .group-description-buttons a").css({"margin":"0.5rem auto 0px 9px"});
-              $("#gdpr-cookie-consent-bar.gdpr-banner .gdpr_messagebar_content").css({"padding":"1.2rem"});
-            }
-          if ($("#cookie_action_reject").length === 0) {
-            if ($(window).width() > 768) {
-              $(
-                "#gdpr-cookie-consent-bar  > .gdpr_messagebar_content > #default_buttons"
-              ).css({
-                "width":"0"
-              });
-              $(
-                "#gdpr-cookie-consent-bar.gdpr-popup  > .gdpr_messagebar_content > #default_buttons"
-              ).css({
-                "width":"auto"
-              });
-              $("#gdpr-cookie-consent-bar .group-description-buttons #cookie_action_settings").css({"margin-left":"0"});
-              $("#gdpr-cookie-consent-bar.gdpr-column .gdpr_messagebar_content .group-description-buttons a, #gdpr-cookie-consent-bar.inner-gdpr-column .gdpr_messagebar_content .group-description-buttons a").css({"margin":"0.5rem auto 0 auto"});
-
-            }
-          }
-          } else if (template.includes("center")) {
-            this.settings_button.css("margin-right", "0");
-          } else if (template.includes("dark")) {
-            this.settings_button.css("float", "right");
-          } else {
-            this.settings_button.css("float", "right");
-            this.settings_button.css("margin-right", "0");
-          }
-          if (this.settings.button_accept_all_is_on2) {
-            if (template.includes("center")) {
-              if (template.includes("popup") || template.includes("widget")) {
-                $(
-                  ".gdpr-popup > .gdpr_messagebar_content > .group-description-buttons > a"
-                ).css({
-                  "margin-bottom": "10px",
-                });
-                $(
-                  ".gdpr-widget > .gdpr_messagebar_content > .group-description-buttons > a"
-                ).css({
-                  "margin-bottom": "10px",
-                });
-              }
-            }
-            
-           
-          }
-          this.main_button.css(
-            "color",
-            this.settings.button_accept_link_color2
-          );
-          if (
-            this.settings.button_accept_as_button2 === true ||
-            this.settings.button_accept_as_button2 === "true"
-          ) {
-            var main_background = this.convertToHex(
-              this.settings.button_accept_button_color2,
-              this.settings.button_accept_button_opacity2
-            );
-            var main_border =
-              this.settings.button_accept_button_border_width2 +
-              "px " +
-              this.settings.button_accept_button_border_style2 +
-              " " +
-              this.settings.button_accept_button_border_color2;
-            this.main_button.css("border", main_border);
-            this.main_button.css(
-              "border-radius",
-              this.settings.button_accept_button_border_radius2 + "px"
-            );
-            this.main_button.css("background-color", main_background);
-            this.main_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_accept_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", main_background);
-              }
-            );
-          }
-          if (template.includes("square")) {
-            this.main_button.css("width", "100%");
-            this.main_button.css("margin", "1rem auto 0 auto");
-          }
-          this.accept_all_button.css(
-            "color",
-            this.settings.button_accept_all_link_color2
-          );
-          if (
-            this.settings.button_accept_all_as_button2 === true ||
-            this.settings.button_accept_all_as_button2 === "true"
-          ) {
-            var accept_all_background = this.convertToHex(
-              this.settings.button_accept_all_button_color2,
-              this.settings.button_accept_all_btn_opacity2
-            );
-            var main_border =
-              this.settings.button_accept_all_btn_border_width2 +
-              "px " +
-              this.settings.button_accept_all_btn_border_style2 +
-              " " +
-              this.settings.button_accept_all_btn_border_color2;
-            this.accept_all_button.css("border", main_border);
-            this.accept_all_button.css(
-              "border-radius",
-              this.settings.button_accept_all_btn_border_radius2 + "px"
-            );
-            this.accept_all_button.css(
-              "background-color",
-              accept_all_background
-            );
-            this.accept_all_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_accept_all_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", accept_all_background);
-              }
-            );
-          }
-          if (template.includes("square")) {
-            this.accept_all_button.css("width", "100%");
-            this.accept_all_button.css("margin", "1rem auto 0 auto");
-          }
-          this.confirm_button.css(
-            "color",
-            this.settings.button_confirm_link_color2
-          );
-          if (
-            this.settings.button_confirm_as_button2 === true ||
-            this.settings.button_confirm_as_button2 === "true"
-          ) {
-            var confirm_background = this.convertToHex(
-              this.settings.button_confirm_button_color2,
-              this.settings.button_confirm_button_opacity2
-            );
-            var confirm_border =
-              this.settings.button_confirm_button_border_width2 +
-              "px " +
-              this.settings.button_confirm_button_border_style2 +
-              " " +
-              this.settings.button_confirm_button_border_color2;
-            this.confirm_button.css("border", confirm_border);
-            this.confirm_button.css(
-              "border-radius",
-              this.settings.button_confirm_button_border_radius2 + "px"
-            );
-            this.confirm_button.css("background-color", confirm_background);
-            this.confirm_button.css("width", "100%");
-            this.confirm_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_confirm_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", confirm_background);
-              }
-            );
-          }
-          /* [wpl_cookie_link] */
-          this.main_link.css("color", this.settings.button_readmore_link_color);
-          this.vendor_link.css(
-            "color",
-            this.settings.button_readmore_link_color
-          );
-          if (this.settings.button_readmore_as_button) {
-            var readmore_background = this.convertToHex(
-              this.settings.button_readmore_button_color,
-              this.settings.button_readmore_button_opacity
-            );
-            var readmore_border =
-              this.settings.button_readmore_button_border_width +
-              "px " +
-              this.settings.button_readmore_button_border_style +
-              " " +
-              this.settings.button_readmore_button_border_color;
-            this.main_link.css("border", readmore_border);
-            this.main_link.css(
-              "border-radius",
-              this.settings.button_readmore_button_border_radius + "px"
-            );
-            this.main_link.css("background-color", readmore_background);
-            this.main_link.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_readmore_button_hover
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", readmore_background);
-              }
-            );
-          }
-          this.donotsell_link.css(
-            "color",
-            this.settings.button_donotsell_link_color2
-          );
-          this.reject_button.css(
-            "color",
-            this.settings.button_decline_link_color
-          );
-          if (
-            this.settings.button_decline_as_button2 === true ||
-            this.settings.button_decline_as_button2 === "true"
-          ) {
-            var decline_background = this.convertToHex(
-              this.settings.button_decline_button_color2,
-              this.settings.button_decline_button_opacity2
-            );
-            var reject_border =
-              this.settings.button_decline_button_border_width2 +
-              "px " +
-              this.settings.button_decline_button_border_style2 +
-              " " +
-              this.settings.button_decline_button_border_color2;
-            this.reject_button.css("border", reject_border);
-            this.reject_button.css(
-              "border-radius",
-              this.settings.button_decline_button_border_radius2 + "px"
-            );
-            this.reject_button.css("background-color", decline_background);
-            this.reject_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_decline_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", decline_background);
-              }
-            );
-          }
-          if (template.includes("square")) {
-            this.reject_button.css("width", "40%");
-          } else if (
-            template.includes("dark")
-          ) {
-            this.reject_button.css("float", "right");
-          }
-          this.cancel_button.css(
-            "color",
-            this.settings.button_cancel_link_color2
-          );
-          if (
-            this.settings.button_cancel_as_button2 === true ||
-            this.settings.button_cancel_as_button2 === "true"
-          ) {
-            var cancel_background = this.convertToHex(
-              this.settings.button_cancel_button_color2,
-              this.settings.button_cancel_button_opacity2
-            );
-            var cancel_border =
-              this.settings.button_cancel_button_border_width2 +
-              "px " +
-              this.settings.button_cancel_button_border_style2 +
-              " " +
-              this.settings.button_cancel_button_border_color2;
-            this.cancel_button.css("border", cancel_border);
-            this.cancel_button.css(
-              "border-radius",
-              this.settings.button_cancel_button_border_radius2 + "px"
-            );
-            this.cancel_button.css("display", "inline-block");
-            this.cancel_button.css("background-color", cancel_background);
-            this.cancel_button.css("width", "100%");
-            this.cancel_button.hover(
-              function () {
-                jQuery(this).css(
-                  "background-color",
-                  GDPR.settings.button_cancel_button_hover2
-                );
-              },
-              function () {
-                jQuery(this).css("background-color", cancel_background);
-              }
-            );
-          }
-          this.save_button.css(
-            "color",
-            this.settings.button_accept_link_color2
-          );
-          this.save_button.css("background-color", main_background);
-          this.save_button.css("border", main_border);
-          this.save_button.css(
-            "border-radius",
-            this.settings.button_accept_button_border_radius2 + "px"
-          );
-          this.save_button.hover(
-            function () {
-              jQuery(this).css(
-                "background-color",
-                GDPR.settings.button_accept_button_hover2
-              );
-            },
-            function () {
-              jQuery(this).css("background-color", main_background);
-            }
-          );
-          this.details_elm
-            .find(
-              "table.gdpr_messagebar_detail_body_content_cookie_type_table tr"
-            )
-            .css("border-color", GDPR.settings.border_color2);
-          this.details_elm
-            .find(".gdpr_messagebar_detail_body_content_cookie_type_intro")
-            .css("border-color", GDPR.settings.border_color2);
-          this.details_elm.find("a").each(function () {
-            jQuery(this).css("border-color", GDPR.settings.border_color2);
-            jQuery(this).css(
-              "background-color",
-              GDPR.settings.background_color2
-            );
-          });
-          this.details_elm
-            .find(
-              "a.gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-            )
-            .css("border-right-color", GDPR.settings.border_active_color2);
-          this.details_elm
-            .find(
-              "a.gdpr_messagebar_detail_body_content_overview_cookie_container_type_selected"
-            )
-            .css("background-color", GDPR.settings.background_active_color2);
-          this.details_elm
-            .find("#gdpr_messagebar_detail_body_content")
-            .css("border-color", GDPR.settings.border_color2);
-          this.details_elm
-            .find("#gdpr_messagebar_detail_body_content_tabs")
-            .css("border-color", GDPR.settings.border_color2);
-          this.details_elm
-            .find(
-              "#gdpr_messagebar_detail_body_content_tabs .gdpr_messagebar_detail_body_content_tab_item_selected"
-            )
-            .css("border-bottom-color", GDPR.settings.border_active_color2);
-          this.details_elm
-            .find(
-              "#gdpr_messagebar_detail_body_content_tabs .gdpr_messagebar_detail_body_content_tab_item_selected"
-            )
-            .css("background-color", GDPR.settings.background_active_color2);
-          this.credit_link.css(
-            "color",
-            this.settings.button_readmore_link_color
-          );
-          $(".gdpr-column .gdpr-columns.active-group").css(
-            "background-color",
-            GDPR.settings.button_accept_button_color2
-          );
-          $(
-            ".gdpr_messagebar_detail .category-group .toggle-group .always-active"
-          ).css("color", GDPR.settings.button_accept_button_color2);
+          
         }
       }
     },
@@ -3830,501 +1580,6 @@ banner.style.display = "none";
       var b = parseInt(hex.substring(4, 6), 16);
       var result = "rgba(" + r + "," + g + "," + b + "," + opacity + ")";
       return result;
-    },
-    configBar: function () {
-      if (
-        gdpr_ab_options.ab_testing_enabled === "false" ||
-        gdpr_ab_options.ab_testing_enabled === false
-      ) {
-        if (
-          this.settings.cookie_usage_for == "both" &&
-          multiple_legislation_current_banner == "gdpr"
-        ) {
-          var background = this.convertToHex(
-            this.settings.multiple_legislation_cookie_bar_color1,
-            this.settings.multiple_legislation_cookie_bar_opacity1
-          );
-          var border =
-            this.settings.multiple_legislation_cookie_bar_border_width1 +
-            "px " +
-            this.settings.multiple_legislation_border_style1 +
-            " " +
-            this.settings.multiple_legislation_cookie_border_color1;
-          this.bar_config = {
-            "background-color": background,
-            color: this.settings.multiple_legislation_cookie_text_color1,
-            "font-family": this.settings.multiple_legislation_cookie_font1,
-            "box-shadow": this.settings.background + " 0 0 8px",
-            border: border,
-            "border-radius":
-              this.settings.multiple_legislation_cookie_bar_border_radius1 +
-              "px",
-          };
-          this.show_config = {
-            width: "auto",
-            "background-color": background,
-            "box-shadow": this.settings.background + " 0 0 8px",
-            color: this.settings.text,
-            "font-family": this.settings.font_family,
-            position: "fixed",
-            bottom: "0",
-            border: border,
-            "border-radius": this.settings.background_border_radius + "px",
-          };
-          var template = this.settings.template;
-          if (template.includes("row") || template.includes("center")) {
-            this.bar_config["text-align"] = "center";
-          } else {
-            this.bar_config["text-align"] = "justify";
-          }
-          if (this.settings.show_again_position == "right") {
-            this.show_config["right"] = this.settings.show_again_margin + "%";
-          } else {
-            this.show_config["left"] = this.settings.show_again_margin + "%";
-          }
-          this.bar_config["position"] = "fixed";
-          if (this.settings.cookie_bar_as == "banner") {
-            this.bar_elm
-              .find(".gdpr_messagebar_content")
-              .css("max-width", "800px");
-            if (this.settings.notify_position_vertical == "bottom") {
-              this.bar_config["bottom"] = "0";
-            } else {
-              this.bar_config["top"] = "0";
-            }
-          }
-          if (this.settings.cookie_bar_as == "widget") {
-            this.bar_config["width"] = "35%";
-            this.bar_config["bottom"] = "20px";
-            if (this.settings.notify_position_horizontal == "left") {
-              this.bar_config["left"] = "20px";
-            } else if (this.settings.notify_position_horizontal == "right") {
-              this.bar_config["bottom"] = "20px";
-              this.bar_config["right"] = "20px";
-            } else if (
-              this.settings.notify_position_horizontal == "top_right"
-            ) {
-              this.bar_config["top"] = "20px";
-              this.bar_config["right"] = "20px";
-              this.bar_config["bottom"] = "auto";
-            } else if (this.settings.notify_position_horizontal == "top_left") {
-              this.bar_config["top"] = "20px";
-              this.bar_config["left"] = "20px";
-              this.bar_config["bottom"] = "auto";              
-            }
-          }
-          if (this.settings.cookie_bar_as == "popup") {
-            this.bar_config["border"] = "unset";
-            this.bar_config["border-radius"] = "unset";
-            this.bar_config["position"] = "unset";
-            this.bar_config["box-shadow"] = "unset";
-            this.bar_config["background-color"] = "unset";
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "background-color",
-              background
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "border-radius",
-              this.settings.background_border_radius + "px"
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "box-shadow",
-              this.settings.background + " 0 0 8px"
-            );
-          }
-          this.bar_elm.css(this.bar_config).hide();
-          this.show_again_elm.css(this.show_config).hide();
-        } else if (
-          this.settings.cookie_usage_for == "both" &&
-          multiple_legislation_current_banner == "ccpa"
-        ) {
-          var background = this.convertToHex(
-            this.settings.background,
-            this.settings.opacity
-          );
-          var border =
-            this.settings.background_border_width +
-            "px " +
-            this.settings.background_border_style +
-            " " +
-            this.settings.background_border_color;
-          this.bar_config = {
-            "background-color": background,
-            color: this.settings.text,
-            "font-family": this.settings.font_family,
-            "box-shadow": this.settings.background + " 0 0 8px",
-            border: border,
-            "border-radius": this.settings.background_border_radius + "px",
-          };
-          this.show_config = {
-            width: "auto",
-            "background-color": background,
-            "box-shadow": this.settings.background + " 0 0 8px",
-            color: this.settings.text,
-            "font-family": this.settings.font_family,
-            position: "fixed",
-            bottom: "0",
-            border: border,
-            "border-radius": this.settings.background_border_radius + "px",
-          };
-          var template = this.settings.template;
-          if (template.includes("row") || template.includes("center")) {
-            this.bar_config["text-align"] = "center";
-          } else {
-            this.bar_config["text-align"] = "justify";
-          }
-          if (this.settings.show_again_position == "right") {
-            this.show_config["right"] = this.settings.show_again_margin + "%";
-          } else {
-            this.show_config["left"] = this.settings.show_again_margin + "%";
-          }
-          this.bar_config["position"] = "fixed";
-          if (this.settings.cookie_bar_as == "banner") {
-            this.bar_elm
-              .find(".gdpr_messagebar_content")
-              .css("max-width", "800px");
-            if (this.settings.notify_position_vertical == "bottom") {
-              this.bar_config["bottom"] = "0";
-            } else {
-              this.bar_config["top"] = "0";
-            }
-          }
-          if (this.settings.cookie_bar_as == "widget") {
-            this.bar_config["width"] = "35%";
-            if (this.settings.notify_position_horizontal == "left") {
-              this.bar_config["bottom"] = "20px";
-              this.bar_config["left"] = "20px";
-            } else if (this.settings.notify_position_horizontal == "right") {
-              this.bar_config["bottom"] = "20px";
-              this.bar_config["right"] = "20px";
-            } else if (
-              this.settings.notify_position_horizontal == "top_right"
-            ) {
-              this.bar_config["top"] = "20px";
-              this.bar_config["right"] = "20px";
-              this.bar_config["bottom"] = "auto";
-            } else if (this.settings.notify_position_horizontal == "top_left") {
-              this.bar_config["top"] = "20px";
-              this.bar_config["left"] = "20px";
-              this.bar_config["bottom"] = "auto";
-            }
-          }
-          if (this.settings.cookie_bar_as == "popup") {
-            this.bar_config["border"] = "unset";
-            this.bar_config["border-radius"] = "unset";
-            this.bar_config["position"] = "unset";
-            this.bar_config["box-shadow"] = "unset";
-            this.bar_config["background-color"] = "unset";
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "background-color",
-              background
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "border-radius",
-              this.settings.background_border_radius + "px"
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "box-shadow",
-              this.settings.background + " 0 0 8px"
-            );
-          }
-          this.bar_elm.css(this.bar_config).hide();
-          this.show_again_elm.css(this.show_config).hide();
-        } else {
-          var background = this.convertToHex(
-            this.settings.background,
-            this.settings.opacity
-          );
-          var border =
-            this.settings.background_border_width +
-            "px " +
-            this.settings.background_border_style +
-            " " +
-            this.settings.background_border_color;
-          this.bar_config = {
-            "background-color": background,
-            color: this.settings.text,
-            "font-family": this.settings.font_family,
-            "box-shadow": this.settings.background + " 0 0 8px",
-            border: border,
-            "border-radius": this.settings.background_border_radius + "px",
-          };
-          this.show_config = {
-            width: "auto",
-            "background-color": background,
-            "box-shadow": this.settings.background + " 0 0 8px",
-            color: this.settings.text,
-            "font-family": this.settings.font_family,
-            position: "fixed",
-            bottom: "0",
-            border: border,
-            "border-radius": this.settings.background_border_radius + "px",
-          };
-          var template = this.settings.template;
-          if (template.includes("row") || template.includes("center")) {
-            this.bar_config["text-align"] = "center";
-          } else {
-            this.bar_config["text-align"] = "justify";
-          }
-          if (this.settings.show_again_position == "right") {
-            this.show_config["right"] = this.settings.show_again_margin + "%";
-          } else {
-            this.show_config["left"] = this.settings.show_again_margin + "%";
-          }
-          this.bar_config["position"] = "fixed";
-          if (this.settings.cookie_bar_as == "banner") {
-            this.bar_elm
-              .find(".gdpr_messagebar_content")
-              .css("max-width", "800px");
-            if (this.settings.notify_position_vertical == "bottom") {
-              this.bar_config["bottom"] = "0";
-            } else {
-              this.bar_config["top"] = "0";
-            }
-          }
-          if (this.settings.cookie_bar_as == "widget") {
-            this.bar_config["width"] = "35%";
-            if (this.settings.notify_position_horizontal == "left") {
-              this.bar_config["bottom"] = "20px";
-              this.bar_config["left"] = "20px";
-            } else if (this.settings.notify_position_horizontal == "right") {
-              this.bar_config["bottom"] = "20px";
-              this.bar_config["right"] = "20px";
-            } else if (
-              this.settings.notify_position_horizontal == "top_right"
-            ) {
-              this.bar_config["top"] = "20px";
-              this.bar_config["right"] = "20px";
-              this.bar_config["bottom"] = "auto";
-            } else if (this.settings.notify_position_horizontal == "top_left") {
-              this.bar_config["top"] = "20px";
-              this.bar_config["left"] = "20px";
-              this.bar_config["bottom"] = "auto";
-            }
-          }
-          if (this.settings.cookie_bar_as == "popup") {
-            this.bar_config["border"] = "unset";
-            this.bar_config["border-radius"] = "unset";
-            this.bar_config["position"] = "unset";
-            this.bar_config["box-shadow"] = "unset";
-            this.bar_config["background-color"] = "unset";
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "background-color",
-              background
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "border-radius",
-              this.settings.background_border_radius + "px"
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "box-shadow",
-              this.settings.background + " 0 0 8px"
-            );
-          }
-          this.bar_elm.css(this.bar_config).hide();
-          this.show_again_elm.css(this.show_config).hide();
-        }
-      } else {
-        if (Number(chosenBanner) === 1) {
-          var background = this.convertToHex(
-            this.settings.background1,
-            this.settings.opacity1
-          );
-          var border =
-            this.settings.background_border_width1 +
-            "px " +
-            this.settings.background_border_style1 +
-            " " +
-            this.settings.background_border_color1;
-          this.bar_config = {
-            "background-color": background,
-            color: this.settings.text1,
-            "font-family": this.settings.font_family1,
-            "box-shadow": this.settings.background + " 0 0 8px",
-            border: border,
-            "border-radius": this.settings.background_border_radius1 + "px",
-          };
-          this.show_config = {
-            width: "auto",
-            "background-color": background,
-            "box-shadow": this.settings.background + " 0 0 8px",
-            color: this.settings.text1,
-            "font-family": this.settings.font_family1,
-            position: "fixed",
-            bottom: "0",
-            border: border,
-            "border-radius": this.settings.background_border_radius1 + "px",
-          };
-
-          var template = this.settings.template;
-          if (template.includes("row") || template.includes("center")) {
-            this.bar_config["text-align"] = "center";
-          } else {
-            this.bar_config["text-align"] = "justify";
-          }
-
-          if (this.settings.show_again_position == "right") {
-            this.show_config["right"] = this.settings.show_again_margin + "%";
-          } else {
-            this.show_config["left"] = this.settings.show_again_margin + "%";
-          }
-          this.bar_config["position"] = "fixed";
-          if (this.settings.cookie_bar_as == "banner") {
-            this.bar_elm
-              .find(".gdpr_messagebar_content")
-              .css("max-width", "800px");
-            if (this.settings.notify_position_vertical == "bottom") {
-              this.bar_config["bottom"] = "0";
-            } else {
-              this.bar_config["top"] = "0";
-            }
-          }
-          if (this.settings.cookie_bar_as == "widget") {
-            this.bar_config["width"] = "35%";
-            if (this.settings.notify_position_horizontal == "left") {
-              this.bar_config["bottom"] = "20px";
-              this.bar_config["left"] = "20px";
-            } else if (this.settings.notify_position_horizontal == "right") {
-              this.bar_config["bottom"] = "20px";
-              this.bar_config["right"] = "20px";
-            } else if (
-              this.settings.notify_position_horizontal == "top_right"
-            ) {
-              this.bar_config["top"] = "20px";
-              this.bar_config["right"] = "20px";
-              this.bar_config["bottom"] = "auto";
-            } else if (this.settings.notify_position_horizontal == "top_left") {
-              this.bar_config["top"] = "20px";
-              this.bar_config["left"] = "20px";
-              this.bar_config["bottom"] = "auto";
-            }
-          }
-          if (this.settings.cookie_bar_as == "popup") {
-            this.bar_config["border"] = "unset";
-            this.bar_config["border-radius"] = "unset";
-            this.bar_config["position"] = "unset";
-            this.bar_config["box-shadow"] = "unset";
-            this.bar_config["background-color"] = "unset";
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "background-color",
-              background
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "border-radius",
-              this.settings.background_border_radius1 + "px"
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "box-shadow",
-              this.settings.background + " 0 0 8px"
-            );
-          }
-
-          this.bar_elm.css(this.bar_config).hide();
-          this.show_again_elm.css(this.show_config).hide();
-        } else {
-          var background = this.convertToHex(
-            this.settings.background2,
-            this.settings.opacity2
-          );
-          var border =
-            this.settings.background_border_width2 +
-            "px " +
-            this.settings.background_border_style2 +
-            " " +
-            this.settings.background_border_color2;
-
-          this.bar_config = {
-            "background-color": background,
-            color: this.settings.text2,
-            "font-family": this.settings.font_family2,
-            "box-shadow": this.settings.background + " 0 0 8px",
-            border: border,
-            "border-radius": this.settings.background_border_radius2 + "px",
-          };
-          this.show_config = {
-            width: "auto",
-            "background-color": background,
-            "box-shadow": this.settings.background + " 0 0 8px",
-            color: this.settings.text2,
-            "font-family": this.settings.font_family2,
-            position: "fixed",
-            bottom: "0",
-            border: border,
-            "border-radius": this.settings.background_border_radius2 + "px",
-          };
-
-          var template = this.settings.template;
-          if (template.includes("row") || template.includes("center")) {
-            this.bar_config["text-align"] = "center";
-          } else {
-            this.bar_config["text-align"] = "justify";
-          }
-
-          if (this.settings.show_again_position == "right") {
-            this.show_config["right"] = this.settings.show_again_margin + "%";
-          } else {
-            this.show_config["left"] = this.settings.show_again_margin + "%";
-          }
-          this.bar_config["position"] = "fixed";
-          if (this.settings.cookie_bar_as == "banner") {
-            this.bar_elm
-              .find(".gdpr_messagebar_content")
-              .css("max-width", "800px");
-            if (this.settings.notify_position_vertical == "bottom") {
-              this.bar_config["bottom"] = "0";
-            } else {
-              this.bar_config["top"] = "0";
-            }
-          }
-          if (this.settings.cookie_bar_as == "widget") {
-            this.bar_config["width"] = "35%";
-            if (this.settings.notify_position_horizontal == "left") {
-              this.bar_config["bottom"] = "20px";
-              this.bar_config["left"] = "20px";
-            } else if (this.settings.notify_position_horizontal == "right") {
-              this.bar_config["bottom"] = "20px";
-              this.bar_config["right"] = "20px";
-            } else if (
-              this.settings.notify_position_horizontal == "top_right"
-            ) {
-              this.bar_config["top"] = "20px";
-              this.bar_config["right"] = "20px";
-              this.bar_config["bottom"] = "auto";
-            } else if (this.settings.notify_position_horizontal == "top_left") {
-              this.bar_config["top"] = "20px";
-              this.bar_config["left"] = "20px";
-              this.bar_config["bottom"] = "auto";
-            }
-          }
-          if (this.settings.cookie_bar_as == "popup") {
-            this.bar_config["border"] = "unset";
-            this.bar_config["border-radius"] = "unset";
-            this.bar_config["position"] = "unset";
-            this.bar_config["box-shadow"] = "unset";
-            this.bar_config["background-color"] = "unset";
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "background-color",
-              background
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "border-radius",
-              this.settings.background_border_radius2 + "px"
-            );
-            jQuery("#gdpr-popup .gdprmodal-content").css(
-              "box-shadow",
-              this.settings.background + " 0 0 8px"
-            );
-          }
-
-          this.bar_elm.css(this.bar_config).hide();
-          this.show_again_elm.css(this.show_config).hide();
-        }
-      }
     },
 
     toggleBar: function (force_display_bar, force_display_show_again) {
@@ -4847,14 +2102,12 @@ banner.style.display = "none";
     },
     show_details: function () {
       this.details_elm.show();
-      this.bar_elm.css("opacity", 1);
       this.details_elm.css("border-top-color", GDPR.settings.border_color);
       this.settings_button.attr("data-gdpr_action", "hide_settings");
       jQuery("#gdpr_messagebar_detail_body_content_about").hide();
     },
     hide_details: function () {
       this.details_elm.hide();
-      this.bar_elm.css("opacity", GDPR.settings.opacity);
       this.settings_button.attr("data-gdpr_action", "show_settings");
     },
     displayHeader: function (
@@ -4980,6 +2233,7 @@ banner.style.display = "none";
 
       if (gdpr_flag) {
         jQuery(GDPR.settings.notify_div_id).find("p.gdpr").hide();
+        jQuery(GDPR.settings.notify_div_id).find("h3.gdpr_heading").hide();
         jQuery(GDPR.settings.notify_div_id)
           .find(".gdpr.group-description-buttons")
           .hide();
@@ -4987,124 +2241,37 @@ banner.style.display = "none";
         if (this.settings.auto_banner_initialize) {
           var banner_delay = this.settings.auto_banner_initialize_delay;
           setTimeout(function () {
+            if (GDPR.settings.cookie_usage_for == "both"){
+              jQuery(GDPR.settings.notify_div_id).css("background", GDPR.convertToHex(GDPR.settings.multiple_legislation_cookie_bar_color2, GDPR.settings.multiple_legislation_cookie_bar_opacity2));
+              jQuery(GDPR.settings.notify_div_id).css("color", GDPR.settings.multiple_legislation_cookie_text_color2);
+              jQuery(GDPR.settings.notify_div_id).css("border-style", GDPR.settings.multiple_legislation_border_style2);
+              jQuery(GDPR.settings.notify_div_id).css("border-color", GDPR.settings.multiple_legislation_cookie_border_color2);
+              jQuery(GDPR.settings.notify_div_id).css("border-width", GDPR.settings.multiple_legislation_cookie_bar_border_width2);
+              jQuery(GDPR.settings.notify_div_id).css("border-radius", GDPR.settings.multiple_legislation_cookie_bar_border_radius2);
+              jQuery(GDPR.settings.notify_div_id).css("font-family", GDPR.settings.multiple_legislation_cookie_font2);
+            }
             jQuery(GDPR.settings.notify_div_id).find("p.ccpa").show();
           }, banner_delay);
         } else {
           multiple_legislation_current_banner = "ccpa";
-          if (
-            this.settings.cookie_usage_for == "both" &&
-            multiple_legislation_current_banner == "ccpa"
-          ) {
-            var background = this.convertToHex(
-              this.settings.multiple_legislation_cookie_bar_color2,
-              this.settings.multiple_legislation_cookie_bar_opacity2
-            );
-            var border =
-              this.settings.multiple_legislation_cookie_bar_border_width2 +
-              "px " +
-              this.settings.multiple_legislation_border_style2 +
-              " " +
-              this.settings.multiple_legislation_cookie_border_color2;
-
-            this.bar_config = {
-              "background-color": background,
-              color: this.settings.multiple_legislation_cookie_text_color2,
-              "font-family": this.settings.multiple_legislation_cookie_font2,
-              "box-shadow": this.settings.background + " 0 0 8px",
-              border: border,
-              "border-radius":
-                this.settings.multiple_legislation_cookie_bar_border_radius2 +
-                "px",
-            };
-            this.show_config = {
-              width: "auto",
-              "background-color": background,
-              "box-shadow": this.settings.background + " 0 0 8px",
-              color: this.settings.text,
-              "font-family": this.settings.font_family,
-              position: "fixed",
-              bottom: "0",
-              border: border,
-              "border-radius": this.settings.background_border_radius + "px",
-            };
-
-            var template = this.settings.template;
-            if (template.includes("row") || template.includes("center")) {
-              this.bar_config["text-align"] = "center";
-            } else {
-              this.bar_config["text-align"] = "justify";
-            }
-
-            if (this.settings.show_again_position == "right") {
-              this.show_config["right"] = this.settings.show_again_margin + "%";
-            } else {
-              this.show_config["left"] = this.settings.show_again_margin + "%";
-            }
-            this.bar_config["position"] = "fixed";
-            if (this.settings.cookie_bar_as == "banner") {
-              this.bar_elm
-                .find(".gdpr_messagebar_content")
-                .css("max-width", "800px");
-              if (this.settings.notify_position_vertical == "bottom") {
-                this.bar_config["bottom"] = "0";
-              } else {
-                this.bar_config["top"] = "0";
-              }
-            }
-            if (this.settings.cookie_bar_as == "widget") {
-              this.bar_config["width"] = "35%";
-              if (this.settings.notify_position_horizontal == "left") {
-                this.bar_config["bottom"] = "20px";
-                this.bar_config["left"] = "20px";
-              } else if (this.settings.notify_position_horizontal == "right") {
-                this.bar_config["bottom"] = "20px";
-                this.bar_config["right"] = "20px";
-              } else if (
-                this.settings.notify_position_horizontal == "top_right"
-              ) {
-                this.bar_config["top"] = "20px";
-                this.bar_config["right"] = "20px";
-                this.bar_config["bottom"] = "auto";
-              } else if (
-                this.settings.notify_position_horizontal == "top_left"
-              ) {
-                this.bar_config["top"] = "20px";
-                this.bar_config["left"] = "20px";
-                this.bar_config["bottom"] = "auto";
-              }
-            }
-            if (this.settings.cookie_bar_as == "popup") {
-              this.bar_config["border"] = "unset";
-              this.bar_config["border-radius"] = "unset";
-              this.bar_config["position"] = "unset";
-              this.bar_config["box-shadow"] = "unset";
-              this.bar_config["background-color"] = "unset";
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "background-color",
-                background
-              );
-              jQuery("#gdpr-popup .gdprmodal-content").css("border", border);
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "border-radius",
-                this.settings.background_border_radius + "px"
-              );
-              jQuery("#gdpr-popup .gdprmodal-content").css(
-                "box-shadow",
-                this.settings.background + " 0 0 8px"
-              );
-            }
-            // this.bar_elm.css(this.bar_config).hide();
-            // this.show_again_elm.css(this.show_config).hide();
+          if (GDPR.settings.cookie_usage_for == "both"){
+            jQuery(GDPR.settings.notify_div_id).css("background", GDPR.convertToHex(GDPR.settings.multiple_legislation_cookie_bar_color2, GDPR.settings.multiple_legislation_cookie_bar_opacity2));
+            jQuery(GDPR.settings.notify_div_id).css("color", GDPR.settings.multiple_legislation_cookie_text_color2);
+            jQuery(GDPR.settings.notify_div_id).css("border-style", GDPR.settings.multiple_legislation_border_style2);
+            jQuery(GDPR.settings.notify_div_id).css("border-color", GDPR.settings.multiple_legislation_cookie_border_color2);
+            jQuery(GDPR.settings.notify_div_id).css("border-width", GDPR.settings.multiple_legislation_cookie_bar_border_width2);
+            jQuery(GDPR.settings.notify_div_id).css("border-radius", GDPR.settings.multiple_legislation_cookie_bar_border_radius2);
+            jQuery(GDPR.settings.notify_div_id).css("font-family", GDPR.settings.multiple_legislation_cookie_font2);
           }
           jQuery(GDPR.settings.notify_div_id).find("p.ccpa").show();
         }
       }
       if (lgpd_flag) {
         jQuery(GDPR.settings.notify_div_id).find("p.gdpr").hide();
+        jQuery(GDPR.settings.notify_div_id).find("h3.gdpr_heading").hide();
         jQuery(GDPR.settings.notify_div_id)
           .find(".gdpr.group-description-buttons")
           .hide();
-        // jQuery( GDPR.settings.notify_div_id ).find( 'p.ccpa' ).show();
         if (this.settings.auto_banner_initialize) {
           var banner_delay = this.settings.auto_banner_initialize_delay;
           setTimeout(function () {
@@ -5154,7 +2321,14 @@ banner.style.display = "none";
           this.settings.cookie_usage_for == "both" ||
           this.settings.cookie_usage_for == "lgpd"
         ) {
-          this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+          if (this.settings.auto_banner_initialize) {
+            setTimeout(function() {
+              this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+            }, this.settings.auto_banner_initialize_delay);
+          } else {
+            this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+          }
+          
         }
       }
     },
@@ -5448,52 +2622,54 @@ banner.style.display = "none";
   });
 
   $(document).ready(function () {
-    $(".gdpr_messagebar_detail .category-group .category-item hr").css(
-      "border-top",
-      "1px solid " + GDPR.settings.button_accept_button_color
-    );
-    $(".gdpr_messagebar_detail.dark_row .category-group .category-item hr").css(
-      "border-top",
-      "1px solid #73DBC0"
-    );
-    $(
-      ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active"
-    ).css("color", GDPR.settings.button_accept_button_color);
-    $(
-      ".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button.active"
-    ).css(
-      "border-bottom",
-      "2px solid " + GDPR.settings.button_accept_button_color
-    );
-    $(".gdpr_messagebar_detail.layout-default  .category-group").css(
-      "background-color",
-      background_obj.background
-    );
-    if (is_iab_on) {
-      $(".gdpr_messagebar_detail.layout-default  .category-group.outer").css(
-        "border-left",
-        "1px solid " + GDPR.settings.button_accept_button_color
-      );
-    }
-    $(
-      ".gdpr_messagebar_detail.layout-default.dark_row  .category-group.outer"
-    ).css("border-left", "1px solid #73DBC0");
-    // GDPR.settings.button_accept_button_color = "#00f";
-    $(".gdpr-iab-navbar-item").click(function () {
+    if ( gdpr_ab_options.ab_testing_enabled === "false" || gdpr_ab_options.ab_testing_enabled === false ) {
+      $(
+          ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active"
+        ).css("color", GDPR.settings.button_accept_all_button_color);
+        $(
+          ".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button.active"
+        ).css(
+          "border-bottom",
+          "2px solid " + GDPR.settings.button_accept_all_button_color
+        );
+    } else {
+      const accentColor = GDPR.settings["button_accept_all_button_color" + chosenBanner];
       $(
         ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active"
-      ).css("color", GDPR.settings.button_accept_button_color);
+      ).css("color", accentColor);
+      $(
+        ".gdpr_messagebar_detail.layout-classic .gdpr-iab-navbar .gdpr-iab-navbar-button.active"
+      ).css(
+        "border-bottom",
+        "2px solid " + accentColor
+
+      );
+    }
+    
+    if (is_iab_on) {
+
+    }
+    $(".gdpr-iab-navbar-item").click(function () {
+      const modalBody = document.querySelector('.gdprmodal-body');
+
+      $(
+        ".gdpr_messagebar_detail .gdpr-iab-navbar .gdpr-iab-navbar-button.active"
+      ).css("color", GDPR.settings.button_accept_all_button_color);
       $(".gdpr-iab-navbar-item", this);
       $(".tabContainer").css("display", "none");
+
       switch (this.id) {
         case "gdprIABTabCategory":
           $(".cat").css("display", "block");
+          modalBody.style.height = '530px';
           break;
         case "gdprIABTabFeatures":
           $(".feature-group").css("display", "block");
+          modalBody.style.height = '480px';
           break;
         case "gdprIABTabVendors":
           $(".vendor-group").css("display", "block");
+          modalBody.style.height = '510px';
           break;
       }
       if (!$(this).children(".gdpr-iab-navbar-button").hasClass("active")) {
@@ -5502,18 +2678,35 @@ banner.style.display = "none";
         $(".gdpr-iab-navbar-button").css("border-bottom", "none");
         $(this).children(".gdpr-iab-navbar-button").addClass("active");
         $(".gdpr-iab-navbar-button").css("color", "inherit");
-        $(this)
-          .children(".gdpr-iab-navbar-button.active")
-          .css("color", GDPR.settings.button_accept_button_color);
-        $(this)
-          .children(".gdpr-iab-navbar-button.active")
-          .css("color", GDPR.settings.button_accept_button_color);
-        $(this)
-          .children(".gdpr-iab-navbar-button.active")
-          .css(
-            "border-bottom",
-            "2px solid " + GDPR.settings.button_accept_button_color
-          );
+        
+        if ( gdpr_ab_options.ab_testing_enabled === "false" || gdpr_ab_options.ab_testing_enabled === false ) {
+          $(this)
+            .children(".gdpr-iab-navbar-button.active")
+            .css("color", GDPR.settings.button_accept_all_button_color);
+          $(this)
+            .children(".gdpr-iab-navbar-button.active")
+            .css("color", GDPR.settings.button_accept_all_button_color);
+          $(this)
+            .children(".gdpr-iab-navbar-button.active")
+            .css(
+              "border-bottom",
+              "2px solid " + GDPR.settings.button_accept_all_button_color
+            );
+        } else {
+          const accentColor = GDPR.settings["button_accept_all_button_color" + chosenBanner];
+          $(this)
+            .children(".gdpr-iab-navbar-button.active")
+            .css("color", accentColor);
+          $(this)
+            .children(".gdpr-iab-navbar-button.active")
+            .css("color", accentColor);
+          $(this)
+            .children(".gdpr-iab-navbar-button.active")
+            .css(
+              "border-bottom",
+              "2px solid " + accentColor);
+        }
+        
         $(this).siblings(".gdpr-iab-navbar-button").css("display", "none");
       }
       $(
@@ -5526,9 +2719,7 @@ banner.style.display = "none";
         $(".gdpr-columns").removeClass("active-group");
         // $(".gdpr-columns").css("background-color", background_obj.background);
         $(this).children(".gdpr-columns").addClass("active-group");
-        $(this)
-          .children(".gdpr-columns")
-          .css("background-color", GDPR.settings.button_accept_button_color);
+        
       }
       if ($(this).siblings(".description-container").hasClass("hide")) {
         $(".description-container").addClass("hide");
@@ -5540,40 +2731,20 @@ banner.style.display = "none";
       if (!$(this).children(".gdpr-columns").hasClass("active-group")) {
         $(".gdpr-columns").removeClass("active-group");
         // $(".gdpr-columns").css("background-color", background_obj.background);
-        $(".gdpr-columns .dashicons").removeClass("dashicons-arrow-up-alt2");
-        $(".gdpr-columns .dashicons").addClass("dashicons-arrow-down-alt2");
+        $(".gdpr-columns .gdpr-dropdown-arrow").removeClass("rotated");
+        
         $(this).children(".gdpr-columns").addClass("active-group");
-        $(".toggle-group")
-          .find("div.always-active")
-          .css("color", GDPR.settings.button_accept_button_color);
-        $(this)
-          .siblings(".toggle-group")
-          .find("div.always-active")
-          .css("color", GDPR.settings.button_accept_button_color);
         $(this)
           .children(".gdpr-columns")
-          .find(".dashicons")
-          .removeClass("dashicons-arrow-down-alt2");
-        $(this)
-          .children(".gdpr-columns")
-          .find(".dashicons")
-          .addClass("dashicons-arrow-up-alt2");
+          .find(".gdpr-dropdown-arrow")
+          .addClass("rotated");
         // $( this ).children( ".gdpr-columns" ).find( ".btn.category-header" ).css( "color", button_revoke_consent_text_color );
       } else {
         $(".gdpr-columns").removeClass("active-group");
         $(this)
-          .siblings(".toggle-group")
-          .find("div.always-active")
-          .css("color", GDPR.settings.button_accept_button_color);
-        // $(".gdpr-columns").css("background-color", background_obj.background);
-        $(this)
           .children(".gdpr-columns")
-          .find(".dashicons")
-          .removeClass("dashicons-arrow-up-alt2");
-        $(this)
-          .children(".gdpr-columns")
-          .find(".dashicons")
-          .addClass("dashicons-arrow-down-alt2");
+          .find(".gdpr-dropdown-arrow")
+          .removeClass("rotated");
       }
       if ($(this).siblings(".description-container").hasClass("hide")) {
         $(".description-container").addClass("hide");
@@ -5585,48 +2756,22 @@ banner.style.display = "none";
 
     $(".gdpr-category-toggle.inner-gdpr-column").click(function () {
       var heightOfB = $(this).outerHeight() - 23;
-      $(this)
-        .siblings(".toggle-group")
-        .attr("style", "top: " + heightOfB + "px !important");
       $(".gdpr-category-toggle.inner-gdpr-column", this);
       if (!$(this).children(".inner-gdpr-columns").hasClass("active-group")) {
         $(".inner-gdpr-columns").removeClass("active-group");
-        $(".inner-gdpr-columns .dashicons").removeClass(
-          "dashicons-arrow-up-alt2"
-        );
-        $(".inner-gdpr-columns .dashicons").addClass(
-          "dashicons-arrow-down-alt2"
-        );
+        $(".inner-gdpr-columns .gdpr-dropdown-arrow").removeClass("rotated");
+
         $(this).children(".inner-gdpr-columns").addClass("active-group");
-        $(".toggle-group")
-          .find("div.always-active")
-          .css("color", GDPR.settings.button_accept_button_color);
-        $(this)
-          .siblings(".toggle-group")
-          .find("div.always-active")
-          .css("color", GDPR.settings.button_accept_button_color);
         $(this)
           .children(".inner-gdpr-columns")
-          .find(".dashicons")
-          .removeClass("dashicons-arrow-down-alt2");
-        $(this)
-          .children(".inner-gdpr-columns")
-          .find(".dashicons")
-          .addClass("dashicons-arrow-up-alt2");
+          .find(".gdpr-dropdown-arrow")
+          .addClass("rotated");
       } else {
         $(".inner-gdpr-columns").removeClass("active-group");
         $(this)
-          .siblings(".toggle-group")
-          .find("div.always-active")
-          .css("color", GDPR.settings.button_accept_button_color);
-        $(this)
           .children(".inner-gdpr-columns")
-          .find(".dashicons")
-          .removeClass("dashicons-arrow-up-alt2");
-        $(this)
-          .children(".inner-gdpr-columns")
-          .find(".dashicons")
-          .addClass("dashicons-arrow-down-alt2");
+          .find(".gdpr-dropdown-arrow")
+          .removeClass("rotated");
       }
       if ($(this).siblings(".inner-description-container").hasClass("hide")) {
         $(".inner-description-container").addClass("hide");
@@ -5654,44 +2799,7 @@ banner.style.display = "none";
     gdpr_ab_options.ab_testing_enabled === false
   ) {
     // CSS for the banner when ab testing is disabled.
-    if (cookie_options.active_law != "both") {
-      $(
-        ".gdprmodal-header, .gdpr-about-cookies, .gdprmodal-footer, .category-item, .gdpr-columns"
-      ).css({
-        "background-color": cookie_options.background,
-        opacity: cookie_options.opacity,
-        color: cookie_options.text,
-      });
-    }
-    if (cookie_options.active_law == "both") {
-      $(
-        ".gdprmodal-header, .gdpr-about-cookies, .gdprmodal-footer, .category-item, .gdpr-columns"
-      ).css({
-        "background-color": cookie_options.background_legislation,
-        opacity: cookie_options.opacity_legislation,
-        color: cookie_options.text_legislation,
-      });
-    }
-  } else {
-    if (Number(chosenBanner) === 1) {
-      // CSS for the banner A when ab testing is enabled.
-      $(
-        ".gdprmodal-header, .gdpr-about-cookies, .gdprmodal-footer, .category-item, .gdpr-columns"
-      ).css({
-        "background-color": cookie_options.background1,
-        opacity: cookie_options.opacity1,
-        color: cookie_options.text1,
-      });
-    } else {
-      // CSS for the banner B when ab testing is enabled.
-      $(
-        ".gdprmodal-header, .gdpr-about-cookies, .gdprmodal-footer, .category-item, .gdpr-columns"
-      ).css({
-        "background-color": cookie_options.background2,
-        opacity: cookie_options.opacity2,
-        color: cookie_options.text2,
-      });
-    }
+    
   }
   document.addEventListener("DOMContentLoaded", function () {
     const parent = document.querySelector(
