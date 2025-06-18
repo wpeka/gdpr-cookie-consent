@@ -4121,15 +4121,25 @@ class Gdpr_Cookie_Consent_Admin {
 		$json_path = plugin_dir_path(__FILE__) . '../includes/templates/template.json';
 
 		$is_user_connected = $this->settings->is_connected();
-			$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
-			$pro_is_activated  = get_option( 'wpl_pro_active', false );
-			$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated','' );
-		if (file_exists($json_path)) {
-			$json_data = file_get_contents($json_path);
-			$templates = json_decode($json_data, true); // Use true for associative array
-		} else {
-			$templates = [];
+		if ($is_user_connected) {
+			$response = wp_remote_get(GDPR_API_URL . 'get_templates_json');
+			error_log("templates: " . print_r(wp_remote_retrieve_body($response), true));
+			if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
+				$json_data = wp_remote_retrieve_body($response);
+				$templates = json_decode($json_data, true);
+			} else {
+				$templates = []; // Fallback in case of error
+			}
 		}
+		$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
+		$pro_is_activated  = get_option( 'wpl_pro_active', false );
+		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated','' );
+		// if (file_exists($json_path)) {
+		// 	$json_data = file_get_contents($json_path);
+		// 	$templates = json_decode($json_data, true); // Use true for associative array
+		// } else {
+		// 	$templates = [];
+		// }
 		$default_template = get_option('gdpr_default_template_object');
 		?>
 		<div class="gdpr-templates-field-container">
@@ -4185,14 +4195,12 @@ class Gdpr_Cookie_Consent_Admin {
 						<div class="template_selection_body">
 							<?php 
 								foreach ( $templates as $key => $template ) : 
-									if($key != "default") :
-										$this -> small_template_card($the_options, $template);
-									endif;
+									$this -> small_template_card($the_options, $template);
 								endforeach; ?>
 						</div>
 						<div class="template_selection_footer">
 							<button class="template_selection_panel_close template_selection_cancel">Cancel</button>
-							<button class="template_selection_save">Save Changes</button>
+							<button class="template_selection_save" :disabled="save_loading" @click="saveCookieSettings">Save Changes</button>
 						</div>
 					</div>
 					<div id = "template_selection_backface" class="template_selection_backface"></div>
