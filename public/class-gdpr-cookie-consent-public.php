@@ -220,7 +220,7 @@ class Gdpr_Cookie_Consent_Public {
 							'ad_personalization': marketing_consent ? 'granted' : 'denied',
 							'ad_storage': marketing_consent ? 'granted' : 'denied',
 							'analytics_storage': analytics_consent ? 'granted' : 'denied',
-							'functionality_storage': preferences_consent ? 'granted' : 'denied',
+							'functionality_storage': 'granted',
 							'personalization_storage': preferences_consent ? 'granted' : 'denied',
 							'security_storage': 'granted'
 						});
