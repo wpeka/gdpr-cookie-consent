@@ -74,21 +74,23 @@ var gen = new Vue({
           ? true
           : false,
       legal_pages_installed:
-      dashboard_options.hasOwnProperty("legal_pages_installed") &&
+        dashboard_options.hasOwnProperty("legal_pages_installed") &&
         dashboard_options["legal_pages_installed"] === "1"
           ? true
           : false,
       is_legalpages_active:
-      dashboard_options.hasOwnProperty("is_legalpages_active") &&
+        dashboard_options.hasOwnProperty("is_legalpages_active") &&
         dashboard_options["is_legalpages_active"] === "1"
           ? true
           : false,
       is_legal_page_exist:
-      dashboard_options.hasOwnProperty("is_legal_page_exist") &&
+        dashboard_options.hasOwnProperty("is_legal_page_exist") &&
         dashboard_options["is_legal_page_exist"] === "1"
           ? true
           : false,
-      all_legal_pages_url: dashboard_options.hasOwnProperty("all_legal_pages_url")
+      all_legal_pages_url: dashboard_options.hasOwnProperty(
+        "all_legal_pages_url"
+      )
         ? dashboard_options["all_legal_pages_url"]
         : "",
       last_scanned: dashboard_options.hasOwnProperty("last_scanned")
@@ -164,12 +166,16 @@ var gen = new Vue({
       key_activate_url: dashboard_options.hasOwnProperty("key_activate_url")
         ? dashboard_options["key_activate_url"]
         : "",
-      create_legalpages_url: dashboard_options.hasOwnProperty("create_legalpages_url")
-      ? dashboard_options["create_legalpages_url"]
-      : "",
-      legalpages_install_url: dashboard_options.hasOwnProperty("legalpages_install_url")
-      ? dashboard_options["legalpages_install_url"]
-      : "",
+      create_legalpages_url: dashboard_options.hasOwnProperty(
+        "create_legalpages_url"
+      )
+        ? dashboard_options["create_legalpages_url"]
+        : "",
+      legalpages_install_url: dashboard_options.hasOwnProperty(
+        "legalpages_install_url"
+      )
+        ? dashboard_options["legalpages_install_url"]
+        : "",
       all_plugins_url:
         "https://profiles.wordpress.org/wpeka-club/#content-plugins",
       faq1_url: "https://youtu.be/ZESzSKnUkOg",
@@ -209,6 +215,7 @@ var gen = new Vue({
       survey_funnel_icon: require("../admin/images/dashboard-icons/survey-funnel-icon.png"),
       arrow_icon: require("../admin/images/dashboard-icons/arrow-icon.png"),
       right_arrow: require("../admin/images/dashboard-icons/right-arrow.svg"),
+      alt_right_arrow: "WPCS right arrow icon",
       angle_arrow: require("../admin/images/dashboard-icons/angle-arrow.svg"),
       legalpages_icon: require("../admin/images/dashboard-icons/legalpages-icon.png"),
       survey_funnel_icon: require("../admin/images/dashboard-icons/survey-funnel-icon.png"),

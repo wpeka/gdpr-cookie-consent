@@ -171,7 +171,7 @@ function print_template_boxes( ) {
 ?>
 
 <div class="gdpr-wizard-top-container">
-	<img class="gdpr-wizard-logo" src="<?php echo esc_url( $image_path ) . 'gdprLogo.png'; ?>">
+	<img class="gdpr-wizard-logo" src="<?php echo esc_url( $image_path ) . 'gdprLogo.png'; ?>" alt="WP Cookie Consent Wizard Logo">
 	<span class="gdpr-main-heading">WP Cookie Consent</span>
 
 </div>
@@ -189,7 +189,7 @@ function print_template_boxes( ) {
 			<input type="hidden" name="gcc_settings_form_nonce_wizard" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-wizard' ) ); ?>"/>
 			
 			<div class="gdpr-wizard-header-section">
-				<div class="gdpr-general-wizard-logo-container"><img class="gdpr-general-wizard-logo" src="<?php echo esc_url( $image_path ) . 'CookieConsent.png'; ?>">
+				<div class="gdpr-general-wizard-logo-container"><img class="gdpr-general-wizard-logo" src="<?php echo esc_url( $image_path ) . 'CookieConsent.png'; ?>" alt="WP Cookie Consent General Wizard Logo">
 					<span class="gdpr-general-wizard-main-heading">Welcome to WP Cookie Consent</span>
 					<p class="gdpr-general-wizard-sub-heading">Follow the guided wizard to get started</p>
 				</div>
@@ -205,7 +205,7 @@ function print_template_boxes( ) {
 				<br>
 			</div>
 			<div class="gdpr-wizard-thankyou-page">
-				<div class="gdpr-general-wizard-thankyou-container"><img class="gdpr-general-wizard-thankyou-checked" src="<?php echo esc_url( $image_path ) . 'wizard-thakyou-checkd.svg'; ?>">
+				<div class="gdpr-general-wizard-thankyou-container"><img class="gdpr-general-wizard-thankyou-checked" src="<?php echo esc_url( $image_path ) . 'wizard-thakyou-checkd.svg'; ?>" alt="WP Cookie Consent Wizard Thank you">
 					<span class="gdpr-wizard-thankyou-heading">Congratulations! Your Banner Is Live Now</span>	
 					<div class="gdpr-wizard-thankyou-container">
 						<input type="button" name="live-preview" class="gdpr-wizard-thankyou-live-preview" value="Live Preview" />
@@ -257,7 +257,7 @@ function print_template_boxes( ) {
 						</div>
 						<div class="geo-targeting-wizard-section">
 						<div v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa'">
-							<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable"v-model="selectedRadioWorldWide" @click="onSwitchWorldWideEnable"><label class="wp-select-law-test"><?php esc_attr_e( 'Worldwide', 'gdpr-cookie-consent' ); ?></label></div>
+							<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable"v-model="selectedRadioWorldWide" @click="onSwitchWorldWideEnable" id="gcc-worldwide-enable"><label for="gcc-worldwide-enable" class="wp-select-law-test"><?php esc_attr_e( 'Worldwide', 'gdpr-cookie-consent' ); ?></label></div>
 							<div>
 								<input type="hidden" name="gcc-worldwide-enable" v-model="is_worldwide_on">
 							</div>
@@ -267,20 +267,20 @@ function print_template_boxes( ) {
 							$geo_options = get_option( 'wpl_geo_options' );
 							if ( !$is_user_connected) :
 								?>
-								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input id="gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled><label class="wp-select-law-test"><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
+								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input id="gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled><label for="gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard" class="wp-select-law-test"><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
 								<p class=" gdpr-eu_visitors_message-gdpr">
 									<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
 								</p>
 							<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
 								<div  style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;" class="gdpr-disabled-geo-integration">
 									<input id="gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled>
-									<label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
+									<label for="gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard"><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
 								</div>
 								<p class="gdpr-eu_visitors_message-gdpr">
 									<?php esc_attr_e( 'Safe Mode enabled. Disable it in Compliance settings to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 								</p>
 							<?php else : ?>
-								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" v-model="is_eu_on" @click="onSwitchEUEnable($event.target.checked)"><label class="wp-select-law-test"><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
+								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input id="gdpr-visitors-condition-radio-btn" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" v-model="is_eu_on" @click="onSwitchEUEnable($event.target.checked)"><label for="gdpr-visitors-condition-radio-btn" class="wp-select-law-test"><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label></div>
 								<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
 							<?php endif; ?>
 						</div>
@@ -289,17 +289,17 @@ function print_template_boxes( ) {
 								$geo_options = get_option( 'wpl_geo_options' );
 							if ( !$is_user_connected ) :
 								?>
-								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;" class="wp-select-law-test"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label for="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard" style="width:114px;" class="wp-select-law-test"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 								<p class=" gdpr-eu_visitors_message-ccpa">
 								<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
 								</p>
 							<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
-								<div  style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;" class="gdpr-disabled-geo-integration"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+								<div  style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;" class="gdpr-disabled-geo-integration"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label for="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard" style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 								<p class="gdpr-eu_visitors_message-ccpa">
 									<?php esc_attr_e( 'Safe Mode enabled. Disable it in Compliance settings to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 								</p>
 							<?php else : ?>
-								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" v-model="is_ccpa_on" @click="onSwitchCCPAEnable($event.target.checked)"><label class="wp-select-law-test"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input id="gdpr-visitors-radio-btn" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" v-model="is_ccpa_on" @click="onSwitchCCPAEnable($event.target.checked)"><label for="gdpr-visitors-radio-btn" class="wp-select-law-test"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 								<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
 							<?php endif; ?>
 						</div>
@@ -308,17 +308,17 @@ function print_template_boxes( ) {
 								$geo_options = get_option( 'wpl_geo_options' );
 							if ( !$is_user_connected ) :
 								?>
-									<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable"disabled><label class="wp-select-law-test"><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+									<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable"disabled><label for="gdpr-visitors-condition-radio-btn-disabled-both-wizard" class="wp-select-law-test"><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 									<p class=" gdpr-eu_visitors_message-both">
 									<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
 									</p>
 							<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
-									<div  style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;" class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+									<div  style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;" class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable" disabled><label for="gdpr-visitors-condition-radio-btn-disabled-both-wizard"><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 									<p class="gdpr-eu_visitors_message-both">
 									<?php esc_attr_e( 'Safe Mode enabled. Disable it in Compliance settings to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 									</p>
 							<?php else : ?>
-								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label class="wp-select-law-test"><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+								<div style="padding-bottom: 10px;display: flex;align-items: center;gap: 4px;"><input id="gdpr-visitors-radio-btn" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label for="gdpr-visitors-radio-btn" class="wp-select-law-test"><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 								<input type="hidden" name="gcc-select-countries-enable" v-model="is_selectedCountry_on">
 							<?php endif; ?>
 						</div>
@@ -416,6 +416,7 @@ function print_template_boxes( ) {
 																	<path fill="#00CF21"d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
 																</svg>
 															</div>
+															<label for="email-input" class="screen-reader-label"><?php esc_attr_e('Email address','gdpr-cookie-consent'); ?></label>
 															<c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input"></c-input>
 
 														</c-col>
@@ -457,6 +458,7 @@ function print_template_boxes( ) {
 																	<path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
 																</svg>
 															</div>
+															<label for="subject-input" class="screen-reader-label"><?php esc_attr_e('Email Subject'); ?></label>
 															<c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input"></c-input>
 														</c-col>
 													</div>
@@ -623,7 +625,7 @@ function print_template_boxes( ) {
 
 					<div class="gdpr-wizard-help-center">
 						<div class="gdpr-help-item">
-								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'help-center.svg'; ?>">
+								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'help-center.svg'; ?>" alt="WPCS Help Center Icon">
 							<div class="gdpr-help-content">
 							<span class="gdpr-help-caption">
 								<?php esc_html_e( 'Help Center', 'gdpr-cookie-consent' ); ?>
@@ -631,11 +633,11 @@ function print_template_boxes( ) {
 							<span class="gdpr-help-description">
 								<?php esc_html_e( 'Read the documentation to find answers to your questions.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 							</div>
 						</div>
 						<div class="gdpr-help-item">
-								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'video.svg'; ?>">
+								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'video.svg'; ?>" alt="WPCS Video icon">
 							<div class="gdpr-help-content">
 							<span class="gdpr-help-caption">
 								<?php esc_html_e( 'Video Guides', 'gdpr-cookie-consent' ); ?>
@@ -643,11 +645,11 @@ function print_template_boxes( ) {
 							<span class="gdpr-help-description">
 								<?php esc_html_e( 'Explore video tutorials for insights on WP Cookie Consent functionality.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 							</div>
 						</div>
 						<div class="gdpr-help-item">
-								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'faqs.svg'; ?>">
+								<img class="gdpr-other-plugin-image" src="<?php echo esc_url( $image_path ) . 'faqs.svg'; ?>" alt="WPCS Other plugin image">
 							<div class="gdpr-help-content">
 							<span class="gdpr-help-caption">
 								<?php esc_html_e( 'FAQ with Answers', 'gdpr-cookie-consent' ); ?>
@@ -655,7 +657,7 @@ function print_template_boxes( ) {
 							<span class="gdpr-help-description">
 								<?php esc_html_e( 'Find answers to some of the most commonly asked questions.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
 							</div>
 						</div>
 					</div>
