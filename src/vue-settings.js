@@ -6409,6 +6409,33 @@ var gen = new Vue({
       // Trigger the scan
       this.onClickStartScan();
     }
+
+    //For fixing quill js buttons accessibility issues
+     this.$nextTick(() => {
+       const quillLabels = {
+         "ql-bold": "Bold",
+         "ql-italic": "Italic",
+         "ql-underline": "Underline",
+         "ql-code-block": "Code Block",
+         "ql-strike": "Strikethrough",
+         "ql-link": "Insert Link",
+         "ql-image": "Insert Image",
+         "ql-list": "List",
+         "ql-clean": "Remove Formatting",
+         "ql-align": "Align Text",
+         "ql-blockquote": "Blockquote",
+         "ql-indent": "Indent Text",
+         "ql-video": "Insert Video",
+       };
+
+       Object.entries(quillLabels).forEach(([className, label]) => {
+         const buttons = document.querySelectorAll(`.ql-toolbar .${className}`);
+         buttons.forEach((button) => {
+           button.setAttribute("aria-label", label);
+           button.setAttribute("title", label);
+         });
+       });
+     });
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });

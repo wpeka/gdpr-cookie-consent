@@ -211,7 +211,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="%1$s_id[]" value="%2$s" />',
+			'<label class="screen-reader-text" for="consent-log-rep-%1$s_id-%2$s">Select Log</label><input id="consent-log-rep-%1$s_id-%2$s" type="checkbox" name="%1$s_id[]" value="%2$s" />',
 			esc_attr( $this->_args['singular'] ),
 			esc_attr( $item['ID'] )
 		);
