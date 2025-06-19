@@ -580,9 +580,9 @@ class Gdpr_Cookie_Consent_Script_Blocker {
                     <label>' . __( 'Name', 'gdpr-cookie-consent' ) . '</label>
                 </div>
                 <div>
-				<label for="wpl_whitelist_script[' . $i . ']" class="screen-reader-label">'.__('wpl whitelist script','gdpr-cookie-consent').'.</label>
+				<label for="wpl_whitelist_script[' . $i . ']['.$value['name'].']" class="screen-reader-label">'.__('wpl whitelist script','gdpr-cookie-consent').'.</label>
                     <input type="text"
-							id="wpl_whitelist_script[' . $i . ']"
+							id="wpl_whitelist_script[' . $i . ']['.$value['name'].']"
                     		data-name="name"
                            class="wpl_name wpl-whitelist-name-field"
                            name="wpl_whitelist_script[' . $i . '][name]"
