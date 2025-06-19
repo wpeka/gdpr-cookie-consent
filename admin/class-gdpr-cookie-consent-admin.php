@@ -4544,7 +4544,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'analytics_storage' => 'denied',
 						'ad_user_data' => 'denied',
 						'ad_personalization' => 'denied',
-						'functionality_storage' => 'denied',
+						'functionality_storage' => 'granted',
 						'personalization_storage' => 'denied',
 						'security_storage' => 'granted',
 					]

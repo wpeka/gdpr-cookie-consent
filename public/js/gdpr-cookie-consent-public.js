@@ -919,7 +919,7 @@ banner.style.display = "none";
               'ad_personalization': marketing_consent ? 'granted' : 'denied',
               'ad_storage': marketing_consent ? 'granted' : 'denied',
               'analytics_storage': analytics_consent ? 'granted' : 'denied',
-              'functionality_storage': preferences_consent ? 'granted' : 'denied',
+              'functionality_storage': 'granted',
               'personalization_storage': preferences_consent ? 'granted' : 'denied',
               'security_storage': 'granted'
             });
@@ -1174,7 +1174,7 @@ banner.style.display = "none";
                 'ad_personalization': 'denied',
                 'ad_storage': 'denied',
                 'analytics_storage': 'denied',
-                'functionality_storage': 'denied',
+                'functionality_storage': 'granted',
                 'personalization_storage': 'denied',
                 'security_storage': 'granted'
               });
