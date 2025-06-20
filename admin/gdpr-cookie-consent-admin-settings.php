@@ -685,6 +685,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Cookie Notice', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
+										<label for="gdpr-cookie-consent-cookie-on" class="screen-reader-text"><?php esc_attr_e( 'Enable Cookie Consent', 'gdpr-cookie-consent' ); ?></label>
 										<c-switch v-bind="labelIcon" v-model="cookie_is_on" id="gdpr-cookie-consent-cookie-on" variant="3d"  color="success" :checked="cookie_is_on" v-on:update:checked="onSwitchCookieEnable"></c-switch>
 										<input type="hidden" name="gcc-cookie-enable" v-model="cookie_is_on">
 									</c-col>
@@ -692,6 +693,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support IAB TCF v2.2', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
+										<label for="gdpr-cookie-consent-iabtcf-on" class="screen-reader-text"><?php esc_attr_e( 'IAB On','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="iabtcf_is_on" id="gdpr-cookie-consent-iabtcf-on" variant="3d"  color="success" :checked="iabtcf_is_on" v-on:update:checked="onSwitchIabtcfEnable"></c-switch>
 										<input type="hidden" name="gcc-iabtcf-enable" v-model="iabtcf_is_on">
 									</c-col>
@@ -700,12 +702,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<?php if($api_user_plan == "10sites" || $api_user_plan == "3sites" || $api_user_plan == "10Sites" || $api_user_plan == "3Sites") { ?>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
+										<label for="gdpr-cookie-consent-gacm-on" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gacm-on','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable"></c-switch>
 										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
 									</c-col>
 									<?php } else if($is_user_connected) { ?>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gacm-slider">
+										<label for="gdpr-cookie-consent-gacm-on" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gacm-on','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable" disabled></c-switch>
 										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
 										<p class=" gdpr-gacm_message-gdpr">
@@ -715,6 +719,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<?php } else { ?>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gacm-slider">
+										<label for="gdpr-cookie-consent-gacm-on" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gacm-on','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable" disabled></c-switch>
 										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
 										<p class=" gdpr-gacm_message-gdpr">
@@ -726,6 +731,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row v-show="!is_ccpa || is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Consent Mode(GCM)', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
+										<label for="gdpr-cookie-consent-gcm-on" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-on','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gcm_is_on" id="gdpr-cookie-consent-gcm-on" variant="3d"  color="success" :checked="gcm_is_on" v-on:update:checked="onSwitchGCMEnable"></c-switch>
 										<input type="hidden" name="gcc-gcm-enable" v-model="gcm_is_on">
 									</c-col>
@@ -876,6 +882,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Pass ad click information through URLs', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8" style="margin-top: 20px;">
+										<label for="gdpr-cookie-consent-gcm-url-passthrough" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-url-passthrough','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gcm_url_passthrough" id="gdpr-cookie-consent-gcm-url-passthrough" variant="3d"  color="success" :checked="gcm_url_passthrough" v-on:update:checked="onSwitchGCMUrlPass"></c-switch>
 										<input type="hidden" name="gcc-gcm-url-pass" v-model="gcm_url_passthrough">
 										<p class="policy-description cookie-notice-readmore-container">
@@ -884,6 +891,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Redact ads data', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8" style="margin-top: 20px;">
+										<label for="gdpr-cookie-consent-gcm-ads-redact" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-ads-redact','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gcm_ads_redact" id="gdpr-cookie-consent-gcm-ads-redact" variant="3d"  color="success" :checked="gcm_ads_redact" v-on:update:checked="onSwitchGCMAdsRedact"></c-switch>
 										<input type="hidden" name="gcc-gcm-ads-redact" v-model="gcm_ads_redact">
 										<p class="policy-description cookie-notice-readmore-container">
@@ -893,6 +901,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Enable debug mode', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8" style="margin-top: 20px;">
+										<label for="gdpr-cookie-consent-gcm-debug_mode" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-debug_mode','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gcm_debug_mode" id="gdpr-cookie-consent-gcm-debug_mode" variant="3d"  color="success" :checked="gcm_debug_mode" v-on:update:checked="onSwitchGCMDebugMode"></c-switch>
 										<input type="hidden" name="gcc-gcm-debug-mode" v-model="gcm_debug_mode">
 										<p class="policy-description cookie-notice-readmore-container">
@@ -1059,8 +1068,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												</p>
 											<?php else : ?>
 												<div>
-													<input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" v-model="is_eu_on" @click="onSwitchEUEnable($event.target.checked)">
-													<label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
+													<input id="gdpr-eu-id" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" v-model="is_eu_on" @click="onSwitchEUEnable($event.target.checked)">
+													<label for="gdpr-eu-id"><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
 												</div>
 												<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
 											<?php endif; ?>
@@ -1080,7 +1089,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<?php esc_attr_e( 'Safe Mode enabled. Disable it in Compliance settings to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php else : ?>
-											<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" v-model="is_ccpa_on" @click="onSwitchCCPAEnable($event.target.checked)"><label><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+											<div><input id="gdpr-united-enabled" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" v-model="is_ccpa_on" @click="onSwitchCCPAEnable($event.target.checked)"><label for="gdpr-united-enabled"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 											<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
 										<?php endif; ?>
 									</div>
@@ -1099,7 +1108,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<?php esc_attr_e( 'Safe Mode enabled. Disable it in Compliance settings to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php else : ?>
-											<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+											<div><input id="gdpr-select-countries" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label for="gdpr-select-countries"><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 											<input type="hidden" name="gcc-select-countries-enable" v-model="is_selectedCountry_on">
 										<?php endif; ?>
 									</div>
@@ -1116,6 +1125,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row v-show="show_revoke_card || is_lgpd">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
+										<label for="gdpr-cookie-consent-readmore-is-on" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-readmore-is-on','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="button_readmore_is_on" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on" v-on:update:checked="onSwitchButtonReadMoreIsOn"></c-switch>
 										<input type="hidden" name="gcc-readmore-is-on" v-model="button_readmore_is_on">
 									</c-col>
@@ -1130,7 +1140,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="button_readmore_link_color"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="button_readmore_link_color"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-readmore-link-color" class="screen-reader-text"><?php esc_html_e('Button readmore link color', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-readmore-link-color" v-model="button_readmore_link_color"></c-input>
 									</c-col>
@@ -1146,7 +1156,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row v-show="button_readmore_as_button">
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick" >
-											<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_color"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_color"></c-input><?php echo esc_attr_e('button_readmore_button_color','gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-readmore-button-color" class="screen-reader-text"><?php esc_attr_e('GCC readmore button color'); ?></label>
 											<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-readmore-button-color" v-model="button_readmore_button_color"></c-input>
 										</c-col>
@@ -1169,7 +1179,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row v-show="button_readmore_as_button">
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="button_readmore_button_border_width"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="button_readmore_button_border_width"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gcc-readmore-button-border-width" class="screen-reader-text"><?php esc_attr_e('GCC readmore btn border width'); ?></label>
 											<c-input id="gcc-readmore-button-border-width" class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-width" v-model="button_readmore_button_border_width"></c-input>
 										</c-col>
@@ -1185,7 +1195,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row v-show="button_readmore_as_button">
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="button_readmore_button_border_radius"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="button_readmore_button_border_radius"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gcc-readmore-button-border-radius" class="screen-reader-text"><?php esc_attr_e('GCC readmore button border radius'); ?></label>
 											<c-input id="gcc-readmore-button-border-radius" class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-radius" v-model="button_readmore_button_border_radius"></c-input>
 										</c-col>
@@ -1216,6 +1226,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row v-show="button_readmore_url_type">
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Sync with WordPress Policy Page', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 										<c-col class="col-sm-8">
+											<label for="gdpr-cookie-consent-readmore-wp-page" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-readmore-wp-page','gdpr-cookie-consent'); ?></label>
 											<c-switch v-bind="labelIcon" v-model="button_readmore_wp_page" id="gdpr-cookie-consent-readmore-wp-page" variant="3d"  color="success" :checked="button_readmore_wp_page" v-on:update:checked="onSwitchButtonReadMoreWpPage"></c-switch>
 											<input type="hidden" name="gcc-readmore-wp-page" v-model="button_readmore_wp_page">
 										</c-col>
@@ -1231,6 +1242,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Open URL in New Window?', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
+										<label for="gdpr-cookie-consent-readmore-new-win" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-readmore-new-win','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="button_readmore_new_win" id="gdpr-cookie-consent-readmore-new-win" variant="3d"  color="success" :checked="button_readmore_new_win" v-on:update:checked="onSwitchButtonReadMoreNewWin"></c-switch>
 										<input type="hidden" name="gcc-readmore-new-win" v-model="button_readmore_new_win">
 									</c-col>
@@ -1242,6 +1254,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row v-show="show_revoke_card || is_lgpd">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
+										<label for="gdpr-cookie-consent-revoke-consent" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-revoke-consent','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on" v-on:update:checked="onSwitchRevokeConsentEnable"></c-switch>
 										<input type="hidden" name="gcc-revoke-consent-enable" v-model="is_revoke_consent_on">
 									</c-col>
@@ -1256,14 +1269,15 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_text_color"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_text_color"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color"></c-input>
 									</c-col>
 								</c-row>
 								<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_background_color"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_background_color"></c-input><?php echo esc_attr_e('button_revoke_consent_background_color','gdpr-cookie-consent'); ?></label>
+										<label for="gdpr-readmore-button-color" class="screen-reader-text"><?php esc_attr_e( 'gdpr-readmore-button-color','gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color"></c-input>
 									</c-col>
 								</c-row>
@@ -1294,6 +1308,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</a>
 											</div></label></c-col>											
 										<c-col class="col-sm-8">
+										<label for="gdpr-cookie-consent-logging-on" class="screen-reader-text"><?php esc_attr_e( 'Consent logging on','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="logging_on" id="gdpr-cookie-consent-logging-on" variant="3d"  color="success" :checked="logging_on" v-on:update:checked="onSwitchLoggingOn"></c-switch>
 										<input type="hidden" name="gcc-logging-on" v-model="logging_on">
 									</c-col>
@@ -1305,6 +1320,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row v-show="is_gdpr">
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Autotick for Non-Necessary Cookies ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Pre-select non-necessary cookie checkboxes.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 								<c-col class="col-sm-8">
+									<label for="gdpr-cookie-consent-autotick" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-autotick','gdpr-cookie-consent'); ?></label>
 									<c-switch v-bind="labelIcon" v-model="autotick" id="gdpr-cookie-consent-autotick" variant="3d"  color="success" :checked="autotick" v-on:update:checked="onSwitchAutotick"></c-switch>
 									<input type="hidden" name="gcc-autotick" v-model="autotick">
 								</c-col>
@@ -1921,7 +1937,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row>
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick" >
-								<c-input class="gdpr-color-input" type="text" v-model="cookie_bar_color"></c-input>
+								<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="cookie_bar_color"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 								<label for="gdpr-cookie-bar-color" class="screen-reader-text"><?php esc_attr_e('gdpr cookie bar color'); ?></label>
 								<c-input class="gdpr-color-select" id="gdpr-cookie-bar-color" type="color" name="gdpr-cookie-bar-color" v-model="cookie_bar_color"></c-input>
 								</c-col>
@@ -1929,7 +1945,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row>
 								<c-col class="col-sm-4"><label><?php esc_attr_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick">
-								<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity"></c-input>
+								<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 								<label for="gdpr-cookie-bar-opacity" class="screen-reader-text"><?php esc_attr_e('gdpr cookie bar opacity'); ?></label>
 								<c-input id="gdpr-cookie-bar-opacity" class="gdpr-slider-input opacity-slider" type="number"  min="0" max="1" step="0.01" name="gdpr-cookie-bar-opacity" v-model="cookie_bar_opacity"></c-input>
 								</c-col>
@@ -1937,7 +1953,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row>
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick" >
-								<c-input class="gdpr-color-input" type="text" v-model="cookie_text_color"></c-input>
+								<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="cookie_text_color"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 								<label for="gdpr-cookie-text-color" class="screen-reader-text"><?php esc_attr_e('Email address'); ?></label>
 								<c-input class="gdpr-color-select" id="gdpr-cookie-text-color" type="color" name="gdpr-cookie-text-color" v-model="cookie_text_color"></c-input>
 								</c-col>
@@ -1953,7 +1969,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row>
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick">
-								<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width"></c-input>
+								<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 								<label for="gdpr-cookie-bar-border-width" class="screen-reader-text"><?php esc_attr_e('gdpr cookie bar border width'); ?></label>
 								<c-input id="gdpr-cookie-bar-border-width" class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-width" v-model="cookie_bar_border_width"></c-input>
 								</c-col>
@@ -1969,7 +1985,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row>
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick">
-								<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius"></c-input>
+								<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 								<label for="gdpr-cookie-bar-border-radius" class="screen-reader-text"><?php esc_attr_e('gdpr cookie bar border radius'); ?></label>
 								<c-input id="gdpr-cookie-bar-border-radius" class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius" v-model="cookie_bar_border_radius"></c-input>
 								</c-col>
@@ -2074,7 +2090,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input id="button_accept_text_field" name="button_accept_text_field" v-model="accept_text"></c-input>
 								</c-col>
 								<c-col class="col-sm-6 gdpr-color-pick">
-									<c-input class="gdpr-color-input" type="text" v-model="accept_text_color"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="accept_text_color"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-accept-text-color" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept text color'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-accept-text-color" type="color" name="gdpr-cookie-accept-text-color" v-model="accept_text_color"></c-input>
 								</c-col>
@@ -2174,12 +2190,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input id="gdpr-cookie-accept-opacity" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-accept-opacity" v-model="accept_opacity"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-accept-border-width" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept border width'); ?></label>
 									<c-input id="gdpr-cookie-accept-border-width" class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-width" v-model="accept_border_width"></c-input>
 								</c-col>
 								<c-col class="col-sm-4  gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-accept-border-radius" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept border radius'); ?></label>
 									<c-input id="gdpr-cookie-accept-border-radius" class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-radius" v-model="accept_border_radius"></c-input>
 								</c-col>
@@ -2233,7 +2249,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input id="button_accept_all_text_field" name="button_accept_all_text_field" v-model="accept_all_text"></c-input>
 								</c-col>
 								<c-col class="col-sm-6 gdpr-color-pick">
-									<c-input class="gdpr-color-input" type="text" v-model="accept_all_text_color"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="accept_all_text_color"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-accept-all-text-color" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept all text color'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-accept-all-text-color" type="color" name="gdpr-cookie-accept-all-text-color" v-model="accept_all_text_color"></c-input>
 								</c-col>
@@ -2333,12 +2349,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input id="gdpr-cookie-accept-all-opacity" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-accept-all-opacity" v-model="accept_all_opacity"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-accept-all-border-width" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept all border width'); ?></label>
 									<c-input id="gdpr-cookie-accept-all-border-width" class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-width" v-model="accept_all_border_width"></c-input>
 								</c-col>
 								<c-col class="col-sm-4  gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-accept-all-border-radius" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept all border radius'); ?></label>
 									<c-input id="gdpr-cookie-accept-all-border-radius" class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-radius" v-model="accept_all_border_radius"></c-input>
 								</c-col>
@@ -2390,7 +2406,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="button_decline_text_field" name="button_decline_text_field" v-model="decline_text"></c-input>
 									</c-col>
 									<c-col class="col-sm-6  gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="decline_text_color"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="decline_text_color"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-decline-text-color" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline text color'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-decline-text-color" type="color" name="gdpr-cookie-decline-text-color" v-model="decline_text_color"></c-input>
 									</c-col>
@@ -2487,12 +2503,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<label for="gdpr-cookie-decline-opacity" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline opacity'); ?></label>
 										<c-input id="gdpr-cookie-decline-opacity" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-decline-opacity" v-model="decline_opacity"></c-input>
 									</c-col>
-									<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width"></c-input>
+									<c-col class="col-sm-4 gdpr-color-pick"><label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-decline-border-width" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline border width'); ?></label>
 										<c-input id="gdpr-cookie-decline-border-width" class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-width" v-model="decline_border_width"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-decline-border-radius" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline border radius'); ?></label>
 										<c-input id="gdpr-cookie-decline-border-radius" class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-radius" v-model="decline_border_radius"></c-input>
 									</c-col>
@@ -2558,7 +2574,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input id="button_settings_text_field" name="button_settings_text_field" v-model="settings_text"></c-input>
 								</c-col>
 								<c-col class="col-sm-6  gdpr-color-pick">
-									<c-input class="gdpr-color-input" type="text" v-model="settings_text_color"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="settings_text_color"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-settings-text-color" class="screen-reader-text"><?php esc_attr_e('gdpr cookie settings text color'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-settings-text-color" type="color" name="gdpr-cookie-settings-text-color" v-model="settings_text_color"></c-input>
 								</c-col>
@@ -2632,12 +2648,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input id="gdpr-cookie-settings-opacity" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-settings-opacity" v-model="settings_opacity"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-settings-border-width" class="screen-reader-text"><?php esc_attr_e('gdpr cookie settings border width'); ?></label>
 									<c-input id="gdpr-cookie-settings-border-width" class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-width" v-model="settings_border_width"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-settings-border-radius" class="screen-reader-text"><?php esc_attr_e('gdpr cookie settings border radius'); ?></label>
 									<c-input id="gdpr-cookie-settings-border-radius" class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-radius" v-model="settings_border_radius"></c-input>
 								</c-col>
@@ -2685,7 +2701,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="button_confirm_text_field" name="button_confirm_text_field" v-model="confirm_text"></c-input>
 									</c-col>
 									<c-col class="col-sm-6 gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="confirm_text_color"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="confirm_text_color"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-confirm-text-color" class="screen-reader-text"><?php esc_attr_e('gdpr cookie confirm text color'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-confirm-text-color" type="color" name="gdpr-cookie-confirm-text-color" v-model="confirm_text_color"></c-input>
 									</c-col>
@@ -2748,12 +2764,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="gdpr-cookie-confirm-opacity" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-confirm-opacity" v-model="confirm_opacity"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-confirm-border-width" class="screen-reader-text"><?php esc_attr_e('gdpr cookie confirm border width'); ?></label>
 										<c-input id="gdpr-cookie-confirm-border-width" class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-width" v-model="confirm_border_width"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-confirm-border-radius" class="screen-reader-text"><?php esc_attr_e('gdpr cookie confirm border radius'); ?></label>
 										<c-input id="gdpr-cookie-confirm-border-radius" class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-radius" v-model="confirm_border_radius"></c-input>
 									</c-col>
@@ -2801,7 +2817,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="button_cancel_text_field" name="button_cancel_text_field" v-model="cancel_text"></c-input>
 									</c-col>
 									<c-col class="col-sm-6 gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="cancel_text_color"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="cancel_text_color"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-cancel-text-color" class="screen-reader-text"><?php esc_attr_e('gdpr cookie cancel text color'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-cancel-text-color" type="color" name="gdpr-cookie-cancel-text-color" v-model="cancel_text_color"></c-input>
 									</c-col>
@@ -2864,12 +2880,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="gdpr-cookie-cancel-opacity" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1"  name="gdpr-cookie-cancel-opacity" v-model="cancel_opacity"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-cancel-border-width" class="screen-reader-text"><?php esc_attr_e('gdpr cookie cancel border width'); ?></label>
 										<c-input id="gdpr-cookie-cancel-border-width" class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-width" v-model="cancel_border_width"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-cancel-border-radius" class="screen-reader-text"><?php esc_attr_e('gdpr cookie cancel border radius'); ?></label>
 										<c-input id="gdpr-cookie-cancel-border-radius" class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-radius" v-model="cancel_border_radius"></c-input>
 									</c-col>
@@ -2918,7 +2934,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<c-input id="button_donotsell_text_field" name="button_donotsell_text_field" v-model="opt_out_text"></c-input>
 										</c-col>
 										<c-col class="col-sm-6 gdpr-color-pick">
-											<c-input class="gdpr-color-input" type="text" v-model="opt_out_text_color"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="opt_out_text_color"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-cookie-opt-out-text-color" class="screen-reader-text"><?php esc_attr_e('gdpr cookie opt out text color'); ?></label>
 											<c-input class="gdpr-color-select" id="gdpr-cookie-opt-out-text-color" type="color" name="gdpr-cookie-opt-out-text-color" v-model="opt_out_text_color"></c-input>
 										</c-col>
@@ -3019,7 +3035,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="multiple_legislation_cookie_bar_color1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="multiple_legislation_cookie_bar_color1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-multiple-legislation-cookie-bar-color1" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie bar color1'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-multiple-legislation-cookie-bar-color1" type="color" name="gdpr-multiple-legislation-cookie-bar-color1" v-model="multiple_legislation_cookie_bar_color1"></c-input>
 										</c-col>
@@ -3027,7 +3043,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="multiple_legislation_cookie_bar_opacity1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="multiple_legislation_cookie_bar_opacity1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-multiple-legislation-cookie-bar-opacity1" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie bar opacity1'); ?></label>
 										<c-input id="gdpr-multiple-legislation-cookie-bar-opacity1" class="gdpr-slider-input opacity-slider" type="number"  min="0" max="1" step="0.01" name="gdpr-multiple-legislation-cookie-bar-opacity1" v-model="multiple_legislation_cookie_bar_opacity1"></c-input>
 										</c-col>
@@ -3035,7 +3051,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="multiple_legislation_cookie_text_color1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="multiple_legislation_cookie_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-multiple-legislation-cookie-text-color1" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie text color1'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-multiple-legislation-cookie-text-color1" type="color" name="gdpr-multiple-legislation-cookie-text-color1" v-model="multiple_legislation_cookie_text_color1"></c-input>
 										</c-col>
@@ -3051,7 +3067,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="multiple_legislation_cookie_bar_border_width1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="multiple_legislation_cookie_bar_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-multiple-legislation-cookie-bar-border-width1" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie bar border width1'); ?></label>
 										<c-input id="gdpr-multiple-legislation-cookie-bar-border-width1" class="gdpr-slider-input"type="number" name="gdpr-multiple-legislation-cookie-bar-border-width1" v-model="multiple_legislation_cookie_bar_border_width1"></c-input>
 										</c-col>
@@ -3067,7 +3083,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="multiple_legislation_cookie_bar_border_radius1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="multiple_legislation_cookie_bar_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-multiple-legislation-cookie-bar-border-radius1" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie bar border radius1'); ?></label>
 										<c-input id="gdpr-multiple-legislation-cookie-bar-border-radius1" class="gdpr-slider-input"type="number" name="gdpr-multiple-legislation-cookie-bar-border-radius1" v-model="multiple_legislation_cookie_bar_border_radius1"></c-input>
 										</c-col>
@@ -3117,7 +3133,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<?php
 												$get_banner_imgml = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
 												?>
-												<img id="gdpr-cookie-bar-logo-holderML1" name="gdpr-cookie-bar-logo-holderML1" src="<?php echo esc_url_raw( $get_banner_imgml ); ?>">
+												<img alt="WPCC Logo holder" id="gdpr-cookie-bar-logo-holderML1" name="gdpr-cookie-bar-logo-holderML1" src="<?php echo esc_url_raw( $get_banner_imgml ); ?>">
 												<p class="image-upload-notice" style="margin-left: 10px;">
 													<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 												</p>
@@ -3170,7 +3186,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<c-input id="button_accept_text_fieldnum1" name="button_accept_text_field1" v-model="accept_text1"></c-input>
 										</c-col>
 										<c-col class="col-sm-6 gdpr-color-pick">
-											<c-input class="gdpr-color-input" type="text" v-model="accept_text_color1"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="accept_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-cookie-accept-text-colorvar1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept text color1'); ?></label>
 											<c-input class="gdpr-color-select" id="gdpr-cookie-accept-text-colorvar1" type="color" name="gdpr-cookie-accept-text-color1" v-model="accept_text_color1"></c-input>
 										</c-col>
@@ -3270,12 +3286,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<c-input id="gdpr-cookie-accept-opacity1" class="gdpr-slider-input opacity-slider" type="number"  min="0" max="1" step="0.1"  name="gdpr-cookie-accept-opacity1" v-model="accept_opacity1"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width1"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-cookie-accept-border-width1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept border width1'); ?></label>
 											<c-input id="gdpr-cookie-accept-border-width1" class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-width1" v-model="accept_border_width1"></c-input>
 										</c-col>
 										<c-col class="col-sm-4  gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius1"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-cookie-accept-border-radius1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept border radius1'); ?></label>
 											<c-input id="gdpr-cookie-accept-border-radius1" class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-radius1" v-model="accept_border_radius1"></c-input>
 										</c-col>
@@ -3331,7 +3347,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<c-input id="button_accept_all_text_field1" name="button_accept_all_text_field1" v-model="accept_all_text1"></c-input>
 										</c-col>
 										<c-col class="col-sm-6 gdpr-color-pick">
-											<c-input class="gdpr-color-input" type="text" v-model="accept_all_text_color1"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="accept_all_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-cookie-accept-all-text-color1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept all text color1'); ?></label>
 											<c-input class="gdpr-color-select" id="gdpr-cookie-accept-all-text-color1" type="color" name="gdpr-cookie-accept-all-text-color1" v-model="accept_all_text_color1"></c-input>
 										</c-col>
@@ -3431,12 +3447,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<c-input id="gdpr-cookie-accept-all-opacity1" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-accept-all-opacity1" v-model="accept_all_opacity1"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width1"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-cookie-accept-all-border-width1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept all border width1'); ?></label>
 											<c-input id="gdpr-cookie-accept-all-border-width1" class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-width1" v-model="accept_all_border_width1"></c-input>
 										</c-col>
 										<c-col class="col-sm-4  gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="multiple_legislation_accept_all_border_radius1"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="multiple_legislation_accept_all_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-multiple-legislation-cookie-accept-all-border-radius1" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie accept all border radius1'); ?></label>
 											<c-input id="gdpr-multiple-legislation-cookie-accept-all-border-radius1" class="gdpr-slider-input"type="number" name="gdpr-multiple-legislation-cookie-accept-all-border-radius1" v-model="multiple_legislation_accept_all_border_radius1"></c-input>
 										</c-col>
@@ -3491,7 +3507,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<c-input id="button_decline_text_field1" name="button_decline_text_field1" v-model="decline_text1"></c-input>
 											</c-col>
 											<c-col class="col-sm-6  gdpr-color-pick">
-												<c-input class="gdpr-color-input" type="text" v-model="decline_text_color1"></c-input>
+												<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="decline_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 												<label for="gdpr-cookie-decline-text-color1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline text color1'); ?></label>
 												<c-input class="gdpr-color-select" id="gdpr-cookie-decline-text-color1" type="color" name="gdpr-cookie-decline-text-color1" v-model="decline_text_color1"></c-input>
 											</c-col>
@@ -3588,12 +3604,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<label for="gdpr-cookie-decline-opacity1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline opacity1'); ?></label>
 												<c-input id="gdpr-cookie-decline-opacity1" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-decline-opacity1" v-model="decline_opacity1"></c-input>
 											</c-col>
-											<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width1"></c-input>
+											<c-col class="col-sm-4 gdpr-color-pick"><label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-cookie-decline-border-width1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline border width1'); ?></label>
 												<c-input id="gdpr-cookie-decline-border-width1" class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-width1" v-model="decline_border_width1"></c-input>
 											</c-col>
 											<c-col class="col-sm-4 gdpr-color-pick">
-												<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius1"></c-input>
+												<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 												<label for="gdpr-cookie-decline-border-radius1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline border radius1'); ?></label>
 												<c-input id="gdpr-cookie-decline-border-radius1" class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-radius1" v-model="decline_border_radius1"></c-input>
 											</c-col>
@@ -3662,7 +3678,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<c-input id="button_settings_text_field1" name="button_settings_text_field1" v-model="settings_text1"></c-input>
 										</c-col>
 										<c-col class="col-sm-6  gdpr-color-pick">
-											<c-input class="gdpr-color-input" type="text" v-model="settings_text_color1"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="settings_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-cookie-settings-text-color1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie settings text color1'); ?></label>
 											<c-input class="gdpr-color-select" id="gdpr-cookie-settings-text-color1" type="color" name="gdpr-cookie-settings-text-color1" v-model="settings_text_color1"></c-input>
 										</c-col>
@@ -3736,12 +3752,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<c-input id="gdpr-cookie-settings-opacity1" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-settings-opacity1" v-model="settings_opacity1"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width1"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-cookie-settings-border-width1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie settings border width1'); ?></label>
 											<c-input id="gdpr-cookie-settings-border-width1" class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-width1" v-model="settings_border_width1"></c-input>
 										</c-col>
 										<c-col class="col-sm-4 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius1"></c-input>
+											<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 											<label for="gdpr-cookie-settings-border-radius1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie settings border radius1'); ?></label>
 											<c-input id="gdpr-cookie-settings-border-radius1" class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-radius1" v-model="settings_border_radius1"></c-input>
 										</c-col>
@@ -3836,7 +3852,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="multiple_legislation_cookie_bar_color2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="multiple_legislation_cookie_bar_color2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-multiple-legislation-cookie-bar-color2" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie bar color2'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-multiple-legislation-cookie-bar-color2" type="color" name="gdpr-multiple-legislation-cookie-bar-color2" v-model="multiple_legislation_cookie_bar_color2"></c-input>
 										</c-col>
@@ -3844,7 +3860,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="multiple_legislation_cookie_bar_opacity2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="multiple_legislation_cookie_bar_opacity2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-multiple-legislation-cookie-bar-opacity2" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie bar opacity2'); ?></label>
 										<c-input id="gdpr-multiple-legislation-cookie-bar-opacity2" class="gdpr-slider-input opacity-slider" type="number"  min="0" max="1" step="0.01" name="gdpr-multiple-legislation-cookie-bar-opacity2" v-model="multiple_legislation_cookie_bar_opacity2"></c-input>
 										</c-col>
@@ -3852,7 +3868,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="multiple_legislation_cookie_text_color2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="multiple_legislation_cookie_text_color2"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-multiple-legislation-cookie-text-color2" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie text color2'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-multiple-legislation-cookie-text-color2" type="color" name="gdpr-multiple-legislation-cookie-text-color2" v-model="multiple_legislation_cookie_text_color2"></c-input>
 										</c-col>
@@ -3868,7 +3884,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="multiple_legislation_cookie_bar_border_width2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="multiple_legislation_cookie_bar_border_width2"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-multiple-legislation-cookie-bar-border-width2" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie bar border width2'); ?></label>
 										<c-input id="gdpr-multiple-legislation-cookie-bar-border-width2" class="gdpr-slider-input"type="number" name="gdpr-multiple-legislation-cookie-bar-border-width2" v-model="multiple_legislation_cookie_bar_border_width2"></c-input>
 										</c-col>
@@ -3884,7 +3900,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="multiple_legislation_cookie_bar_border_radius2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="multiple_legislation_cookie_bar_border_radius2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-multiple-legislation-cookie-bar-border-radius2" class="screen-reader-text"><?php esc_attr_e('gdpr multiple legislation cookie bar border radius2'); ?></label>
 										<c-input id="gdpr-multiple-legislation-cookie-bar-border-radius2" class="gdpr-slider-input" type="number" name="gdpr-multiple-legislation-cookie-bar-border-radius2" v-model="multiple_legislation_cookie_bar_border_radius2"></c-input>
 										</c-col>
@@ -3966,7 +3982,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<c-input id="button_confirm_text_field1" name="button_confirm_text_field1" v-model="confirm_text1"></c-input>
 											</c-col>
 											<c-col class="col-sm-6 gdpr-color-pick">
-												<c-input class="gdpr-color-input" type="text" v-model="confirm_text_color1"></c-input>
+												<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="confirm_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 												<label for="gdpr-cookie-confirm-text-color1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie confirm text color1'); ?></label>
 												<c-input class="gdpr-color-select" id="gdpr-cookie-confirm-text-color1" type="color" name="gdpr-cookie-confirm-text-color1" v-model="confirm_text_color1"></c-input>
 											</c-col>
@@ -4029,12 +4045,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<c-input id="gdpr-cookie-confirm-opacity1" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-confirm-opacity1" v-model="confirm_opacity1"></c-input>
 											</c-col>
 											<c-col class="col-sm-4 gdpr-color-pick">
-												<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width1"></c-input>
+												<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 												<label for="gdpr-cookie-confirm-border-width1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie confirm border width1'); ?></label>
 												<c-input id="gdpr-cookie-confirm-border-width1" class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-width1" v-model="confirm_border_width1"></c-input>
 											</c-col>
 											<c-col class="col-sm-4 gdpr-color-pick">
-												<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius1"></c-input>
+												<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 												<label for="gdpr-cookie-confirm-border-radius1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie confirm border radius1'); ?></label>
 												<c-input id="gdpr-cookie-confirm-border-radius1" class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-radius1" v-model="confirm_border_radius1"></c-input>
 											</c-col>
@@ -4085,7 +4101,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<c-input id="button_cancel_text_field1" name="button_cancel_text_field1" v-model="cancel_text1"></c-input>
 											</c-col>
 											<c-col class="col-sm-6 gdpr-color-pick">
-												<c-input class="gdpr-color-input" type="text" v-model="cancel_text_color1"></c-input>
+												<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="cancel_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 												<label for="gdpr-cookie-cancel-text-color1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie cancel text color1'); ?></label>
 												<c-input class="gdpr-color-select" id="gdpr-cookie-cancel-text-color1" type="color" name="gdpr-cookie-cancel-text-color1" v-model="cancel_text_color1"></c-input>
 											</c-col>
@@ -4148,12 +4164,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<c-input id="gdpr-cookie-cancel-opacity1" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1"  name="gdpr-cookie-cancel-opacity1" v-model="cancel_opacity1"></c-input>
 											</c-col>
 											<c-col class="col-sm-4 gdpr-color-pick">
-												<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width1"></c-input>
+												<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 												<label for="gdpr-cookie-cancel-border-width1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie cancel border width1'); ?></label>
 												<c-input id="gdpr-cookie-cancel-border-width1" class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-width1" v-model="cancel_border_width1"></c-input>
 											</c-col>
 											<c-col class="col-sm-4 gdpr-color-pick">
-												<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius1"></c-input>
+												<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 												<label for="gdpr-cookie-cancel-border-radius1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie cancel border radius1'); ?></label>
 												<c-input id="gdpr-cookie-cancel-border-radius1" class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-radius1" v-model="cancel_border_radius1"></c-input>
 											</c-col>
@@ -4204,7 +4220,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<c-input id="button_donotsell_text_field1" name="button_donotsell_text_field1" v-model="opt_out_text1"></c-input>
 											</c-col>
 											<c-col class="col-sm-6 gdpr-color-pick">
-												<c-input class="gdpr-color-input" type="text" v-model="opt_out_text_color1"></c-input>
+												<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="opt_out_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 												<label for="gdpr-cookie-opt-out-text-color1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie opt out text color1'); ?></label>
 												<c-input class="gdpr-color-select" id="gdpr-cookie-opt-out-text-color1" type="color" name="gdpr-cookie-opt-out-text-color1" v-model="opt_out_text_color1"></c-input>
 											</c-col>
@@ -4323,7 +4339,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
-									<c-input class="gdpr-color-input" type="text" v-model="cookie_bar_color1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="cookie_bar_color1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-bar-color1" class="screen-reader-text"><?php esc_attr_e('gdpr-cookie-bar-color1','gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-bar-color1" type="color" name="gdpr-cookie-bar-color1" v-model="cookie_bar_color1"></c-input>
 									</c-col>
@@ -4331,7 +4347,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-bar-opacity1" class="screen-reader-text"><?php esc_attr_e('gdpr-cookie-bar-opacity1','gdpr-cookie-consent'); ?></label>
 									<c-input id="gdpr-cookie-bar-opacity1" class="gdpr-slider-input opacity-slider" type="number"  min="0" max="1" step="0.01" name="gdpr-cookie-bar-opacity1" v-model="cookie_bar_opacity1"></c-input>
 									</c-col>
@@ -4339,7 +4355,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick" >
-									<c-input class="gdpr-color-input" type="text" v-model="cookie_text_color1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="cookie_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-text-color1" class="screen-reader-text"><?php esc_attr_e('gdpr-cookie-text-color1','gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-text-color1" type="color" name="gdpr-cookie-text-color1" v-model="cookie_text_color1"></c-input>
 									</c-col>
@@ -4355,7 +4371,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-bar-border-width1" class="screen-reader-text"><?php esc_attr_e('gdpr-cookie-bar-border-width1','gdpr-cookie-consent'); ?></label>
 									<c-input id="gdpr-cookie-bar-border-width1" class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-width1" v-model="cookie_bar_border_width1"></c-input>
 									</c-col>
@@ -4371,7 +4387,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-bar-border-radius1" class="screen-reader-text"><?php esc_attr_e('gdpr-cookie-bar-border-radius1','gdpr-cookie-consent'); ?></label>
 									<c-input id="gdpr-cookie-bar-border-radius1" class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius1" v-model="cookie_bar_border_radius1"></c-input>
 									</c-col>
@@ -4472,7 +4488,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input id="button_accept_text_fieldvar1" name="button_accept_text_field1" v-model="accept_text1"></c-input>
 								</c-col>
 								<c-col class="col-sm-6 gdpr-color-pick">
-									<c-input class="gdpr-color-input" type="text" v-model="accept_text_color1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="accept_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-accept-text-colornum1" class="screen-reader-text"><?php esc_attr_e('gdpr cookie accept text color1'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-accept-text-colornum1" type="color" name="gdpr-cookie-accept-text-color1" v-model="accept_text_color1"></c-input>
 								</c-col>
@@ -4568,11 +4584,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input class="gdpr-slider-input opacity-slider" type="number"  min="0" max="1" step="0.1"  name="gdpr-cookie-accept-opacity1" v-model="accept_opacity1"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-width1" v-model="accept_border_width1"></c-input>
 								</c-col>
 								<c-col class="col-sm-4  gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-radius1" v-model="accept_border_radius1"></c-input>
 								</c-col>
 							</c-row>
@@ -4626,7 +4642,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input name="button_accept_all_text_field1" v-model="accept_all_text1"></c-input>
 								</c-col>
 								<c-col class="col-sm-6 gdpr-color-pick">
-									<c-input class="gdpr-color-input" type="text" v-model="accept_all_text_color1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="accept_all_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-accept-all-text-color1" type="color" name="gdpr-cookie-accept-all-text-color1" v-model="accept_all_text_color1"></c-input>
 								</c-col>
 							</c-row>
@@ -4721,11 +4737,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-accept-all-opacity1" v-model="accept_all_opacity1"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-width1" v-model="accept_all_border_width1"></c-input>
 								</c-col>
 								<c-col class="col-sm-4  gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-radius1" v-model="accept_all_border_radius1"></c-input>
 								</c-col>
 							</c-row>
@@ -4778,7 +4794,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input name="button_decline_text_field1" v-model="decline_text1"></c-input>
 									</c-col>
 									<c-col class="col-sm-6  gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="decline_text_color1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="decline_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-decline-text-color1" type="color" name="gdpr-cookie-decline-text-color1" v-model="decline_text_color1"></c-input>
 									</c-col>
 								</c-row>
@@ -4870,11 +4886,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="decline_opacity1"></c-input>
 										<c-input class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-decline-opacity1" v-model="decline_opacity1"></c-input>
 									</c-col>
-									<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width1"></c-input>
+									<c-col class="col-sm-4 gdpr-color-pick"><label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-width1" v-model="decline_border_width1"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-radius1" v-model="decline_border_radius1"></c-input>
 									</c-col>
 								</c-row> 
@@ -4941,7 +4957,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input name="button_settings_text_field1" v-model="settings_text1"></c-input>
 								</c-col>
 								<c-col class="col-sm-6  gdpr-color-pick">
-									<c-input class="gdpr-color-input" type="text" v-model="settings_text_color1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="settings_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-settings-text-color1" type="color" name="gdpr-cookie-settings-text-color1" v-model="settings_text_color1"></c-input>
 								</c-col>
 							</c-row>
@@ -5011,11 +5027,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-settings-opacity1" v-model="settings_opacity1"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-width1" v-model="settings_border_width1"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius1"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-radius1" v-model="settings_border_radius1"></c-input>
 								</c-col>
 							</c-row>
@@ -5065,7 +5081,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input name="button_confirm_text_field1" v-model="confirm_text1"></c-input>
 									</c-col>
 									<c-col class="col-sm-6 gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="confirm_text_color1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="confirm_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-confirm-text-color1" type="color" name="gdpr-cookie-confirm-text-color1" v-model="confirm_text_color1"></c-input>
 									</c-col>
 								</c-row>
@@ -5124,11 +5140,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-confirm-opacity1" v-model="confirm_opacity1"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-width1" v-model="confirm_border_width1"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-radius1" v-model="confirm_border_radius1"></c-input>
 									</c-col>
 								</c-row>
@@ -5177,7 +5193,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input name="button_cancel_text_field1" v-model="cancel_text1"></c-input>
 									</c-col>
 									<c-col class="col-sm-6 gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="cancel_text_color1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="cancel_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-cancel-text-color1" type="color" name="gdpr-cookie-cancel-text-color1" v-model="cancel_text_color1"></c-input>
 									</c-col>
 								</c-row>
@@ -5236,11 +5252,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1"  name="gdpr-cookie-cancel-opacity1" v-model="cancel_opacity1"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width1"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-width1" v-model="cancel_border_width1"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius1"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-radius1" v-model="cancel_border_radius1"></c-input>
 									</c-col>
 								</c-row>
@@ -5286,10 +5302,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<c-row>
 									<c-col class="col-sm-6">
-										<c-input name="button_donotsell_text_field1" v-model="opt_out_text1"></c-input>
+										 <label class="screen-reader-text"><c-input name="button_donotsell_text_field1" v-model="opt_out_text1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									</c-col>
 									<c-col class="col-sm-6 gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="opt_out_text_color1"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="opt_out_text_color1"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-opt-out-text-color1" type="color" name="gdpr-cookie-opt-out-text-color1" v-model="opt_out_text_color1"></c-input>
 									</c-col>
 								</c-row>
@@ -5394,21 +5410,21 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="cookie_bar_color2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="cookie_bar_color2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-bar-color2" type="color" name="gdpr-cookie-bar-color2" v-model="cookie_bar_color2"></c-input>
 										</c-col>
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.01" name="gdpr-cookie-bar-opacity2" v-model="cookie_bar_opacity2"></c-input>
 										</c-col>
 									</c-row>
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="cookie_text_color2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="cookie_text_color2"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-text-color2" type="color" name="gdpr-cookie-text-color2" v-model="cookie_text_color2"></c-input>
 										</c-col>
 									</c-row>
@@ -5423,7 +5439,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width2"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-width2" v-model="cookie_bar_border_width2"></c-input>
 										</c-col>
 									</c-row>
@@ -5437,7 +5453,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius2" v-model="cookie_bar_border_radius2"></c-input>
 										</c-col>
 									</c-row>
@@ -5533,10 +5549,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<c-input name="button_accept_text_field2" v-model="accept_text2"></c-input>
+									<label class="screen-reader-text"><c-input name="button_accept_text_field2" v-model="accept_text2"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 								</c-col>
 								<c-col class="col-sm-6 gdpr-color-pick">
-									<c-input class="gdpr-color-input" type="text" v-model="accept_text_color2"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="accept_text_color2"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-accept-text-color2" type="color" name="gdpr-cookie-accept-text-color2" v-model="accept_text_color2"></c-input>
 								</c-col>
 							</c-row>
@@ -5631,11 +5647,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-accept-opacity2" v-model="accept_opacity2"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width2"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_border_width2"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-width2" v-model="accept_border_width2"></c-input>
 								</c-col>
 								<c-col class="col-sm-4  gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius2"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_border_radius2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-border-radius2" v-model="accept_border_radius2"></c-input>
 								</c-col>
 							</c-row>
@@ -5688,7 +5704,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input name="button_accept_all_text_field2" v-model="accept_all_text2"></c-input>
 								</c-col>
 								<c-col class="col-sm-6 gdpr-color-pick">
-									<c-input class="gdpr-color-input" type="text" v-model="accept_all_text_color2"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="accept_all_text_color2"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-accept-all-text-color2" type="color" name="gdpr-cookie-accept-all-text-color2" v-model="accept_all_text_color2"></c-input>
 								</c-col>
 							</c-row>
@@ -5787,12 +5803,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input id="gdpr-cookie-accept-all-opacity2" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-accept-all-opacity2" v-model="accept_all_opacity2"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width2"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="accept_all_border_width2"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-accept-all-border-width2" class="screen-reader-text"><?php esc_attr_e('gdpr-cookie-accept-all-border-width2', 'gdpr-cookie-consent'); ?></label>
 									<c-input id="gdpr-cookie-accept-all-border-width2" class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-width2" v-model="accept_all_border_width2"></c-input>
 								</c-col>
 								<c-col class="col-sm-4  gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius2"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="accept_all_border_radius2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-accept-all-border-radius2" class="screen-reader-text"><?php esc_attr_e('gdpr-cookie-accept-all-border-radius2', 'gdpr-cookie-consent'); ?></label>
 									<c-input id="gdpr-cookie-accept-all-border-radius2" class="gdpr-slider-input"type="number" name="gdpr-cookie-accept-all-border-radius2" v-model="accept_all_border_radius2"></c-input>
 								</c-col>
@@ -5847,7 +5863,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="button_decline_text_field2" name="button_decline_text_field2" v-model="decline_text2"></c-input>
 									</c-col>
 									<c-col class="col-sm-6  gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="decline_text_color2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="decline_text_color2"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-decline-text-color2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline text color2', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-decline-text-color2" type="color" name="gdpr-cookie-decline-text-color2" v-model="decline_text_color2"></c-input>
 									</c-col>
@@ -5944,12 +5960,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<label for="gdpr-cookie-decline-opacity2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline opacity2', 'gdpr-cookie-consent'); ?></label>
 										<c-input id="gdpr-cookie-decline-opacity2" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-decline-opacity2" v-model="decline_opacity2"></c-input>
 									</c-col>
-									<c-col class="col-sm-4 gdpr-color-pick"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width2"></c-input>
+									<c-col class="col-sm-4 gdpr-color-pick"><label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="decline_border_width2"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-decline-border-width2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline border width2', 'gdpr-cookie-consent'); ?></label>
 										<c-input id="gdpr-cookie-decline-border-width2" class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-width2" v-model="decline_border_width2"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="decline_border_radius2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-decline-border-radius2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline border radius2', 'gdpr-cookie-consent'); ?></label>
 										<c-input id="gdpr-cookie-decline-border-radius2" class="gdpr-slider-input"type="number" name="gdpr-cookie-decline-border-radius2" v-model="decline_border_radius2"></c-input>
 									</c-col>
@@ -6019,7 +6035,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input id="button_settings_text_field2" name="button_settings_text_field2" v-model="settings_text2"></c-input>
 								</c-col>
 								<c-col class="col-sm-6  gdpr-color-pick">
-									<c-input class="gdpr-color-input" type="text" v-model="settings_text_color2"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="settings_text_color2"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-settings-text-color2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie settings text color2', 'gdpr-cookie-consent'); ?></label>
 									<c-input class="gdpr-color-select" id="gdpr-cookie-settings-text-color2" type="color" name="gdpr-cookie-settings-text-color2" v-model="settings_text_color2"></c-input>
 								</c-col>
@@ -6093,12 +6109,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-input id="gdpr-cookie-settings-opacity2" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-settings-opacity2" v-model="settings_opacity2"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width2"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="settings_border_width2"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-settings-border-width2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie settings border width2', 'gdpr-cookie-consent'); ?></label>
 									<c-input id="gdpr-cookie-settings-border-width2" class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-width2" v-model="settings_border_width2"></c-input>
 								</c-col>
 								<c-col class="col-sm-4 gdpr-color-pick">
-									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius2"></c-input>
+									<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="settings_border_radius2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 									<label for="gdpr-cookie-settings-border-radius2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie settings border radius2', 'gdpr-cookie-consent'); ?></label>
 									<c-input id="gdpr-cookie-settings-border-radius2" class="gdpr-slider-input"type="number" name="gdpr-cookie-settings-border-radius2" v-model="settings_border_radius2"></c-input>
 								</c-col>
@@ -6150,7 +6166,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="button_confirm_text_field2" name="button_confirm_text_field2" v-model="confirm_text2"></c-input>
 									</c-col>
 									<c-col class="col-sm-6 gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="confirm_text_color2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="confirm_text_color2"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-confirm-text-color2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie confirm text color2', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-confirm-text-color2" type="color" name="gdpr-cookie-confirm-text-color2" v-model="confirm_text_color2"></c-input>
 									</c-col>
@@ -6213,12 +6229,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="gdpr-cookie-confirm-opacity2" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-confirm-opacity2" v-model="confirm_opacity2"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="confirm_border_width2"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-confirm-border-width2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie confirm border width2', 'gdpr-cookie-consent'); ?></label>
 										<c-input id="gdpr-cookie-confirm-border-width2" class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-width2" v-model="confirm_border_width2"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="confirm_border_radius2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-confirm-border-radius2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie confirm border radius2', 'gdpr-cookie-consent'); ?></label>
 										<c-input id="gdpr-cookie-confirm-border-radius2" class="gdpr-slider-input"type="number" name="gdpr-cookie-confirm-border-radius2" v-model="confirm_border_radius2"></c-input>
 									</c-col>
@@ -6269,7 +6285,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="button_cancel_text_field2" name="button_cancel_text_field2" v-model="cancel_text2"></c-input>
 									</c-col>
 									<c-col class="col-sm-6 gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="cancel_text_color2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="cancel_text_color2"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-cancel-text-color2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie cancel text color2', 'gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-cancel-text-color2" type="color" name="gdpr-cookie-cancel-text-color2" v-model="cancel_text_color2"></c-input>
 									</c-col>
@@ -6332,12 +6348,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="gdpr-cookie-cancel-opacity2" class="gdpr-slider-input opacity-slider" type="number" min="0" max="1" step="0.1" name="gdpr-cookie-cancel-opacity2" v-model="cancel_opacity2"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cancel_border_width2"></c-input><?php esc_attr_e('GDPR Cookie range data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-cancel-border-width2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie cancel border width2', 'gdpr-cookie-consent'); ?></label>
 										<c-input id="gdpr-cookie-cancel-border-width2" class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-width2" v-model="cancel_border_width2"></c-input>
 									</c-col>
 									<c-col class="col-sm-4 gdpr-color-pick">
-										<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cancel_border_radius2"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-cancel-border-radius2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie cancel border radius2', 'gdpr-cookie-consent'); ?></label>
 										<c-input id="gdpr-cookie-cancel-border-radius2" class="gdpr-slider-input"type="number" name="gdpr-cookie-cancel-border-radius2" v-model="cancel_border_radius2"></c-input>
 									</c-col>
@@ -6388,7 +6404,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-input id="button_donotsell_text_field2" name="button_donotsell_text_field2" v-model="opt_out_text2"></c-input>
 									</c-col>
 									<c-col class="col-sm-6 gdpr-color-pick">
-										<c-input class="gdpr-color-input" type="text" v-model="opt_out_text_color2"></c-input>
+										<label class="screen-reader-text"><c-input class="gdpr-color-input" type="text" v-model="opt_out_text_color2"></c-input><?php esc_attr_e('GDPR Cookie input text data', 'gdpr-cookie-consent'); ?></label>
 										<label for="gdpr-cookie-opt-out-text-color2" class="screen-reader-text"><?php esc_attr_e('gdpr cookie opt out text color2'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-opt-out-text-color2" type="color" name="gdpr-cookie-opt-out-text-color2" v-model="opt_out_text_color2"></c-input>
 									</c-col>

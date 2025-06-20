@@ -6426,6 +6426,9 @@ var gen = new Vue({
          "ql-blockquote": "Blockquote",
          "ql-indent": "Indent Text",
          "ql-video": "Insert Video",
+         "ql-header": "Header",
+         "ql-color": "Text Color",
+         "ql-background": "Background Color",
        };
 
        Object.entries(quillLabels).forEach(([className, label]) => {
@@ -6436,6 +6439,7 @@ var gen = new Vue({
          });
        });
      });
+    
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });

@@ -46,12 +46,13 @@ function print_template_boxes( ) {
 	} else {
 		$templates = [];
 	}
+
 	?>
 	<div class="gdpr-templates-field-container-wizard">
 		<?php foreach ( $templates as $key => $template ) : ?>
 			<div v-show = "show_cookie_as == 'widget' || show_cookie_as == 'popup' || '<?php echo esc_js($template['name']); ?>' !== 'blue_full'" class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 				<div class="gdpr-left-field">
-					<c-input type="radio"  name="<?php echo 'template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'">
+					<label class="screen-reader-text"><c-input type="radio"  name="<?php echo 'template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'" /><?php echo esc_html( $template['name'] ); ?></label>
 				</div>
 				<?php 
 
@@ -111,7 +112,7 @@ function print_template_boxes( ) {
 								$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 								if (!empty($get_banner_img)) {
 								?>
-									<img style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
+									<img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 								<?php
 								}
 								?>
@@ -346,7 +347,7 @@ function print_template_boxes( ) {
 								<div class="enable-consent-log-content">
 									<c-col class="enable-consent-log-content-label"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="enable-consent-log-switch">
-										<c-switch v-bind="	 labelIcon " v-model="logging_on" id="gdpr-cookie-consent-logging" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
+										<c-switch v-bind="labelIcon" v-model="logging_on" id="gdpr-cookie-consent-logging" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
 										<input type="hidden" name="gcc-logging-on" v-model="logging_on">
 									</c-col>
 								</div>
