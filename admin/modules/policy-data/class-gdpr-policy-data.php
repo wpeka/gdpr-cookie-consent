@@ -205,7 +205,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'                  => '<input type="checkbox"/>',
+			'cb'                  => '<label class="screen-reader-text" for="policy-data-actions-checkbox">Policy Data report Log</label><input id="policy-data-actions-checkbox" type="checkbox"/>',
 			'title'               => __( 'Company Name', 'gdpr-cookie-consent' ),
 			'gdprpurpose'         => __( 'Policy Purpose', 'gdpr-cookie-consent' ),
 			'gdprlinks'           => __( 'Links', 'gdpr-cookie-consent' ),

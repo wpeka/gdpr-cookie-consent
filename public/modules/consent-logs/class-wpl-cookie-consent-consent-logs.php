@@ -760,7 +760,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 */
 	public function wplcl_manage_edit_columns( $columns ) {
 		$columns = array(
-			'cb'                    => '<input type="checkbox" />',
+			'cb'                    => '<label class="screen-reader-text" for="consent-log-actions-checkbox">Consent logs report</label><input id="consent-log-actions-checkbox" type="checkbox" />',
 			'wplconsentlogsip'      => '<div style="text-align: center;">' . __( 'IP Address', 'gdpr-cookie-consent' ) . '</div>',
 			'wplconsentlogsdates'   => '<div style="text-align: center;">' . __( 'Visited Date', 'gdpr-cookie-consent' ) . '</div>',
 			'wplconsentlogscountry' => '<div style="text-align: center;">' . __( 'Country', 'gdpr-cookie-consent' ) . '</div>',
