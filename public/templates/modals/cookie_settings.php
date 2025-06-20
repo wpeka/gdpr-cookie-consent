@@ -102,7 +102,7 @@
 			<div class="gdprmodal-header">
             
 				<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close" 
-                style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; position: absolute; top:20px; right: <?php echo 20 + ((int)$the_options[($ab_testing_enabled === "true" ? 'cookie_bar_border_radius' . $chosenBanner : ($the_options['cookie_usage_for'] === 'both' ? 'multiple_legislation_cookie_bar_border_radius1' : 'background_border_radius'))]) / 2;?>px; height: 20px; width: 20px; border-radius: 50%; background-color: <?php echo $the_options['cookie_usage_for'] == 'ccpa' ?  esc_html($the_options['button_donotsell_link_color' . $suffix]) : ((bool)$the_options['button_accept_all_as_button' . $suffix] === 'true' || (bool)$the_options['button_accept_all_as_button' . $suffix] === true || (bool)$the_options['button_accept_all_as_button' . $suffix] === 1 ? esc_html($the_options['button_accept_all_button_color' . $suffix]) : esc_html($the_options["button_accept_all_link_color" . $suffix]));?>; color: <?php echo ((bool)$the_options['button_accept_all_as_button' . $suffix] === 'true' || (bool)$the_options['button_accept_all_as_button' . $suffix] === true || (bool)$the_options['button_accept_all_as_button' . $suffix] === 1) && $the_options['cookie_usage_for'] !== 'ccpa' ? esc_html($the_options['button_accept_all_link_color' . $suffix]) : "white";?>;">
+                style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; position: absolute; top:20px; right: <?php echo 20 + ((int)$the_options[($ab_testing_enabled === "true" ? 'cookie_bar_border_radius' . $chosenBanner : ($the_options['cookie_usage_for'] === 'both' ? 'multiple_legislation_cookie_bar_border_radius1' : 'background_border_radius'))]) / 2;?>px; height: 20px; width: 20px; border-radius: 50%; color: <?php echo $the_options['cookie_usage_for'] == 'ccpa' ?  esc_html($the_options['button_donotsell_link_color' . $suffix]) : ((bool)$the_options['button_accept_all_as_button' . $suffix] === 'true' || (bool)$the_options['button_accept_all_as_button' . $suffix] === true || (bool)$the_options['button_accept_all_as_button' . $suffix] === 1 ? esc_html($the_options['button_accept_all_button_color' . $suffix]) : esc_html($the_options["button_accept_all_link_color" . $suffix]));?>;background-color: transparent;">
 					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 					</svg>
@@ -119,7 +119,7 @@
 								<div class="gdpr-about-cookies"><?php echo $the_options['is_iabtcf_on'] ? esc_html__( $cookie_data['dash_about_message_iabtcf'], 'gdpr-cookie-consent' ) : esc_html__( $cookie_data['dash_about_message'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
 							<?php endif; 
 							if($the_options['is_gcm_on'] == 'true') : ?>
-								<div class="gdpr-about-cookies"><?php echo esc_html("For more information on how Google's third party cookies operate and handle your data, see: "); // phpcs:ignore ?><a href="https://business.safety.google/privacy" target="blank">Google's Privacy Policy</a></div>
+								<div class="gdpr-about-cookies"><?php echo esc_html("For more information on how Google's third party cookies operate and handle your data, see: "); // phpcs:ignore ?><a style="color: <?php echo $the_options['cookie_usage_for'] == 'ccpa' ?  esc_html($the_options['button_donotsell_link_color' . $suffix]) : ((bool)$the_options['button_accept_all_as_button' . $suffix] === 'true' || (bool)$the_options['button_accept_all_as_button' . $suffix] === true || (bool)$the_options['button_accept_all_as_button' . $suffix] === 1 ? esc_html($the_options['button_accept_all_button_color' . $suffix]) : esc_html($the_options["button_accept_all_link_color" . $suffix]));?>;" href="https://business.safety.google/privacy" target="blank"><?php echo esc_html("Google's Privacy Policy"); ?></a></div>
 							<?php endif;
 						if ( $the_options['is_iabtcf_on']) :
 						?>
@@ -1081,17 +1081,8 @@ if( $the_options['cookie_usage_for'] === "ccpa" || $the_options['cookie_usage_fo
                     top: <?php echo esc_html($top_value); ?>px;
                     right: <?php echo esc_html($top_value); ?>px;
                     border-radius: 50%;
-                    background-color: <?php echo esc_html( $cookieSettingsPopupAccentColor ); ?>;
-                    color: <?php 
-					    echo esc_html(
-					        ($ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
-					            ? $the_options['button_accept_all_link_color' . $chosenBanner]
-					            : ($the_options['cookie_usage_for'] === 'both'
-					                ? $the_options['button_accept_all_link_color1']
-					                : $the_options['button_accept_all_link_color']
-					            )
-					    );
-					?>;
+                    color: <?php echo esc_html( $cookieSettingsPopupAccentColor ); ?>;
+					background-color: transparent;
                 ">
 					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
@@ -1099,7 +1090,7 @@ if( $the_options['cookie_usage_for'] === "ccpa" || $the_options['cookie_usage_fo
 				</button>
 			</div>
 
-			<div class="gdprmodal-body"><p><?php echo esc_html__( $cookie_data['dash_optout_text'], 'gdpr-cookie-consent' ); //phpcs:ignore?>
+			<div class="gdprmodal-body"><p style="line-height: 25px;"><?php echo esc_html__( $cookie_data['dash_optout_text'], 'gdpr-cookie-consent' ); //phpcs:ignore?>
 					</p>
 			</div>
 			<div class="gdprmodal-footer" style="--popup_accent_color: <?php echo esc_html( '#' . ltrim($cookieSettingsPopupAccentColor, '#') ); ?>;">

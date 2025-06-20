@@ -82,7 +82,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.8.3';
+			$this->version = '3.9.0';
 		}
 		add_action(
 			'current_screen',
@@ -1810,7 +1810,7 @@ class Gdpr_Cookie_Consent {
 			'button_accept_button_border_radius1'    => $settings['button_accept_button_border_radius1'],
 			'button_accept_all_btn_border_radius1'   => $settings['button_accept_all_btn_border_radius1'],
 			'button_decline_button_border_radius1'   => $settings['button_decline_button_border_radius1'],
-			'multiple_legislation_accept_all_border_radius1'   => $settings['multiple_legislation_accept_all_border_radius1'],
+			'multiple_legislation_accept_all_border_radius1' => isset($settings['multiple_legislation_accept_all_border_radius1']) ? $settings['multiple_legislation_accept_all_border_radius1'] : '',
 			'button_settings_button_border_radius1'  => $settings['button_settings_button_border_radius1'],
 			'button_confirm_button_border_radius1'   => $settings['button_confirm_button_border_radius1'],
 			'button_cancel_button_border_radius1'    => $settings['button_cancel_button_border_radius1'],

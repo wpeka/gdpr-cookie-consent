@@ -198,7 +198,7 @@ var gen = new Vue({
           analytics_storage: 'denied',
           ad_user_data: 'denied',
           ad_personalization: 'denied',
-          functionality_storage: 'denied',
+          functionality_storage: 'granted',
           personalization_storage: 'denied',
           security_storage: 'granted'
         },
@@ -209,7 +209,7 @@ var gen = new Vue({
         analytics_storage: false,
         ad_user_data: false,
         ad_personalization: false,
-        functionality_storage: false,
+        functionality_storage: true,
         personalization_storage: false,
         security_storage: true
       },
@@ -8856,7 +8856,9 @@ var app = new Vue({
       }
     },
     cookieTypeChange(value) {
+      this.processof_auto_template_generated = false;
       if (value === "banner") {
+        if(this.template == 'blue_full') this.template = 'blue_center';
         this.is_banner = true;
       } else {
         this.is_banner = false;

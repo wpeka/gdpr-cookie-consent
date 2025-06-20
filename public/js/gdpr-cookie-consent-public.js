@@ -919,7 +919,7 @@ banner.style.display = "none";
               'ad_personalization': marketing_consent ? 'granted' : 'denied',
               'ad_storage': marketing_consent ? 'granted' : 'denied',
               'analytics_storage': analytics_consent ? 'granted' : 'denied',
-              'functionality_storage': preferences_consent ? 'granted' : 'denied',
+              'functionality_storage': 'granted',
               'personalization_storage': preferences_consent ? 'granted' : 'denied',
               'security_storage': 'granted'
             });
@@ -1174,7 +1174,7 @@ banner.style.display = "none";
                 'ad_personalization': 'denied',
                 'ad_storage': 'denied',
                 'analytics_storage': 'denied',
-                'functionality_storage': 'denied',
+                'functionality_storage': 'granted',
                 'personalization_storage': 'denied',
                 'security_storage': 'granted'
               });
@@ -2321,7 +2321,14 @@ banner.style.display = "none";
           this.settings.cookie_usage_for == "both" ||
           this.settings.cookie_usage_for == "lgpd"
         ) {
-          this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+          if (this.settings.auto_banner_initialize) {
+            setTimeout(function() {
+              this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+            }, this.settings.auto_banner_initialize_delay);
+          } else {
+            this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+          }
+          
         }
       }
     },
@@ -2654,15 +2661,15 @@ banner.style.display = "none";
       switch (this.id) {
         case "gdprIABTabCategory":
           $(".cat").css("display", "block");
-          modalBody.style.height = '67vh';
+          modalBody.style.height = '530px';
           break;
         case "gdprIABTabFeatures":
           $(".feature-group").css("display", "block");
-          modalBody.style.height = '56vh';
+          modalBody.style.height = '480px';
           break;
         case "gdprIABTabVendors":
           $(".vendor-group").css("display", "block");
-          modalBody.style.height = '60vh';
+          modalBody.style.height = '510px';
           break;
       }
       if (!$(this).children(".gdpr-iab-navbar-button").hasClass("active")) {

@@ -87,7 +87,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			  'border-radius': this[`cookie_bar_border_radius${active_test_banner_tab}`] + 'px',
 			}"
 			>
-			<span :style="{ 'border': 'none', 'cursor': 'pointer', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'background-color': cookieSettingsPopupAccentColor, 'color': this[`accept_all_as_button${active_test_banner_tab}`] && !is_ccpa ? this[`accept_all_text_color${active_test_banner_tab}`] : 'white' }" @click="turnOffPreviewBanner">
+			<span :style="{ 'border': 'none', 'cursor': 'pointer', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'right': (parseInt(this[`cookie_bar_border_radius${active_test_banner_tab}`])/3 + 10) + 'px', 'border-radius': '50%', 'color': cookieSettingsPopupAccentColor, 'background-color': 'transparent' }" @click="turnOffPreviewBanner">
 				<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 					<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 				</svg>
@@ -291,7 +291,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				'border-radius': cookie_bar_border_radius + 'px',
 			  }"
 			>
-				<span :style="{ 'border': 'none', 'cursor': 'pointer', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%','background-color': cookieSettingsPopupAccentColor, 'color': accept_all_as_button && !is_ccpa ? accept_all_text_color : 'white' }" @click="turnOffPreviewBanner">
+				<span :style="{ 'border': 'none', 'cursor': 'pointer', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'right': (parseInt(cookie_bar_border_radius)/3 + 10) + 'px', 'border-radius': '50%','color': cookieSettingsPopupAccentColor, 'background-color':'transparent' }" @click="turnOffPreviewBanner">
 					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 					</svg>
@@ -466,17 +466,17 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				'border-radius': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 + 'px' : multiple_legislation_cookie_bar_border_radius2 + 'px',
 			  }"
 			>
-				<span :style="{ 'border': 'none', 'cursor': 'pointer', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px', 'right': (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px', 'border-radius': '50%', 'background-color': cookieSettingsPopupAccentColor, 'color': accept_all_as_button1 ? accept_all_text_color1 : 'white' }" @click="turnOffPreviewBanner">
+				<span :style="{ 'border': 'none', 'cursor': 'pointer', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'position': 'absolute', 'top': (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px', 'right': (parseInt( active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_bar_border_radius1 : multiple_legislation_cookie_bar_border_radius2 )/3 + 10) + 'px', 'border-radius': '50%', 'color': cookieSettingsPopupAccentColor, 'background-color': 'transparent' }" @click="turnOffPreviewBanner">
 					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 					</svg>
 				</span>
 				<div class="notice-logo-container">
 				<?php
-					$get_banner_imgml = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
-					if ( ! empty( $get_banner_imgml ) ) {
+					$get_banner_imgml1 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+					if ( ! empty( $get_banner_imgml1 ) ) {
 					?>
-						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_imgml ); ?>"
+						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_imgml1 ); ?>"
 						:style="{
 						  	'margin-left': json_templates[template]?.['logo']?.['margin-left'],
 							'width': json_templates[template]?.['logo']?.['fit-content'],
@@ -3032,9 +3032,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
 												</c-button>
 												<?php
-												$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+												$get_banner_imgml = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
 												?>
-												<img id="gdpr-cookie-bar-logo-holderML1" name="gdpr-cookie-bar-logo-holderML1" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>">
+												<img id="gdpr-cookie-bar-logo-holderML1" name="gdpr-cookie-bar-logo-holderML1" src="<?php echo esc_url_raw( $get_banner_imgml ); ?>">
 												<p class="image-upload-notice" style="margin-left: 10px;">
 													<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 												</p>

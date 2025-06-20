@@ -153,7 +153,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	}
 	public function register_cookie_scanner_script(){
 		//getting scan data 
-		wp_enqueue_script('cookie_scanner_ajax', plugin_dir_url(__FILE__) . 'assets/js/cookie-scanner-data.js', array('jquery'), '1.0', true);
+		wp_enqueue_script('cookie_scanner_ajax', plugin_dir_url(__FILE__) . 'assets/js/cookie-scanner-data.js', array('jquery', 'gdpr-cookie-consent-admin-revamp'), '1.0', true);
 
 		wp_localize_script('cookie_scanner_ajax', 'cookie_scanner_ajax', array(
 			'ajax_url'         => admin_url( 'admin-ajax.php' )
