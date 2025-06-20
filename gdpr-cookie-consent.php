@@ -151,6 +151,7 @@ function uninstall_gdpr_cookie_consent() {
 	delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
 	delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
 	delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
+	delete_option('gdpr_default_template_object');
 }
 /**
  * The core plugin class that is used to define internationalization,

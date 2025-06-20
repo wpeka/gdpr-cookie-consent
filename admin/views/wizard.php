@@ -39,20 +39,12 @@ function print_template_boxes( ) {
 	$is_pro     = get_option( 'wpl_pro_active', false );
 	$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 	$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
-	$json_path = plugin_dir_path(__FILE__) . '../../includes/templates/template.json';
-	if (file_exists($json_path)) {
-		$json_data = file_get_contents($json_path);
-		$templates = json_decode($json_data, true); // Use true for associative array
-	} else {
-		$templates = [];
-	}
+	$template  = json_decode($the_options['selected_template_json'], true);
+	error_log("wizard: " .print_r($the_options['selected_template_json'], true));
 	?>
 	<div class="gdpr-templates-field-container-wizard">
-		<?php foreach ( $templates as $key => $template ) : ?>
 			<div v-show = "show_cookie_as == 'widget' || show_cookie_as == 'popup' || '<?php echo esc_js($template['name']); ?>' !== 'blue_full'" class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
-				<div class="gdpr-left-field">
-					<c-input type="radio"  name="<?php echo 'template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'">
-				</div>
+				
 				<?php 
 
 					$styles_attr = '';
@@ -156,7 +148,7 @@ function print_template_boxes( ) {
 						</div>
 					</div>
 			</div>
-		<?php endforeach; ?>	
+			<p style="color: gray; font-size: 12px; text-align : justify;"><?php echo esc_html("To change the template, navigate to Cookie Settings -> Configuration tab. To modify it further, navigate to Cookie Settings -> Design tab.") ;?> </p>
 		</div>
 	<?php
 }
@@ -591,7 +583,7 @@ function print_template_boxes( ) {
 								<?php $the_options = Gdpr_Cookie_Consent::gdpr_get_settings(); ?>
 
 								<div class="show-cookie-template-card">
-									<c-card-header class="show-cookie-template-label"><?php esc_html_e( 'Choose template for your cookie bar', 'gdpr-cookie-consent' ); ?></c-card-header>
+									<c-card-header class="show-cookie-template-label"><?php esc_html_e( 'Your cookie bar', 'gdpr-cookie-consent' ); ?></c-card-header>
 									<c-card-body>
 										<!-- banner templates  -->
 										<c-row class="show-banner-template">

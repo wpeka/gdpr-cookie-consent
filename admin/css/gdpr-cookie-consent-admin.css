@@ -1346,9 +1346,11 @@ ul.gdpr_sub_tab li:first-child {
 }
 .gdpr-templates-field-container .template_loader.loader-type-banner {
   width: calc(100% - 64px);
+  height: 225px;
 }
 .gdpr-templates-field-container .template_loader.loader-type-widget, .gdpr-templates-field-container .template_loader.loader-type-popup{
   width: 600px;
+  height: 225px;
   margin-left: calc(50% + 32px);
   transform: translateX(-50%);
 }

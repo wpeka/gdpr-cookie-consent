@@ -69,7 +69,8 @@ var gen = new Vue({
       ab_testing_data: '',
       gcm_adver_mode_data: '',
       gcm_scan_flag: false,
-      json_templates: json_templates,
+      json_templates: settings_obj.templates,
+      default_template_json: settings_obj.default_template_json,
       pollingInterval: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
@@ -2037,6 +2038,9 @@ var gen = new Vue({
       continue_scan: 1,
       pollCount: 0,
       onPrg: 0,
+      selected_template_json : settings_obj.the_options.hasOwnProperty("selected_template_json") 
+        ? JSON.parse(settings_obj.the_options['selected_template_json'])
+        : [],
       template: settings_obj.the_options.hasOwnProperty("template")
         ? settings_obj.the_options["template"]
         : "default",
@@ -3161,10 +3165,15 @@ var gen = new Vue({
     },
     onTemplateChange(value) {
       this.template = value;
-      
-      console.log(this.template);
       this.auto_generated_banner = false;
-      const selectedTemplate = this.json_templates[value];
+      console.log(this.default_template_json, this.json_templates[value]);
+      let selectedTemplate
+      if(value == "default"){
+        selectedTemplate = this.default_template_json;
+      }
+      else{
+        selectedTemplate = this.json_templates[value];
+      }
       this.cookie_bar_color =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity =                     selectedTemplate['styles']['opacity'];
       this.cookie_text_color =                      selectedTemplate['styles']['color'];
@@ -6425,7 +6434,7 @@ var app = new Vue({
       disableSwitch: false,
       is_template_changed: false,
       is_lang_changed: false,
-      json_templates: json_templates,
+      json_templates: settings_obj.templates,
       is_logo_removed: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
