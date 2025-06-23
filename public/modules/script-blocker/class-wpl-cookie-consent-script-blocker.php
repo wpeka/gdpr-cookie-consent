@@ -402,7 +402,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					<c-row>
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Header Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Add scripts in the header location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
-							<c-textarea :rows="4" name="gcc-header-scripts" v-model="header_scripts" :disabled="enable_safe"></c-textarea>
+							<label class="screen-reader-text"><c-textarea :rows="4" name="gcc-header-scripts" v-model="header_scripts" :disabled="enable_safe"></c-textarea><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 						</c-col>
 					</c-row>
 					<c-row>
@@ -415,7 +415,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					<c-row>
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Footer Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Add scripts in the footer location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
-							<c-textarea :rows="4" name="gcc-footer-scripts" v-model="footer_scripts" :disabled="enable_safe"></c-textarea>
+							<label class="screen-reader-text"><c-textarea :rows="4" name="gcc-footer-scripts" v-model="footer_scripts" :disabled="enable_safe"></c-textarea><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 						</c-col>
 					</c-row>
 					<c-row v-show="is_gdpr">
@@ -597,6 +597,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						<label for="wpl_whitelist_script[' . $i . ']" class="screen-reader-label">'.__('wpl whitelist script','gdpr-cookie-consent').'.</label>
 						<input type="text"
 							   data-name="urls"
+							   id="wpl_whitelist_script[' . $i . ']"
 							   name="wpl_whitelist_script[' . $i . '][urls][]"
 							   value=""><button type="button" aria-label="remove url" class="wpl_remove_url">' . '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
 							   height="' . $size . '" >
@@ -609,8 +610,11 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 			}
 			foreach ( $value['urls'] as $url ) {
 				++$counter;
-				$html .= '<div class="wpl-whitelist-plus-minus"><input type="text"
+				
+				$html .= '<div class="wpl-whitelist-plus-minus"><label class="screen-reader-text" for="whitelist_url_' . $i . '_' . $counter . '">Whitelist URL ' . $counter . '</label>
+							<input type="text"
 							data-name="urls"
+							id="whitelist_url_' . $i . '_' . $counter . '"
 							class="wpl-whitelist-plus-script-field"
 							name="wpl_whitelist_script[' . $i . '][urls][]"
 							value="' . esc_html( $url ) . '">';

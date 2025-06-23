@@ -418,7 +418,7 @@ function print_template_boxes( ) {
 																</svg>
 															</div>
 															<label for="email-input" class="screen-reader-label"><?php esc_attr_e('Email address','gdpr-cookie-consent'); ?></label>
-															<c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input"></c-input>
+															<label class="screen-reader-text"><c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 
 														</c-col>
 														<!-- email validation script -->
@@ -460,7 +460,7 @@ function print_template_boxes( ) {
 																</svg>
 															</div>
 															<label for="subject-input" class="screen-reader-label"><?php esc_attr_e('Email Subject'); ?></label>
-															<c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input"></c-input>
+															<label class="screen-reader-text"><c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
 														</c-col>
 													</div>
 

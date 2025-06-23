@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<input type="hidden" name="gdpr-custom-cookie-type" v-model="cookie['type']">
 			</c-row>
 			<c-row class="table-rows">
-				<c-col class="col-sm-12 table-cols-left"><c-textarea placeholder="Cookie Purpose" name="gdpr-cookie-consent-custom-cookie-purpose" v-model="cookie['description']" ></c-textarea></c-col>
+				<c-col class="col-sm-12 table-cols-left"><label class="screen-reader-text"><c-textarea placeholder="Cookie Purpose" name="gdpr-cookie-consent-custom-cookie-purpose" v-model="cookie['description']" ></c-textarea><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label></c-col>
 			</c-row>
 		</c-col>
 		<c-col class="col-sm-3"></c-col>
