@@ -674,7 +674,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
 
 			<!-- COMPLIANCES SECTION START -->
-				<c-tab title="<?php esc_attr_e( 'Compliances', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#compliances"id="gdpr-cookie-consent-complianz" >
+				<c-tab title="<?php esc_attr_e( 'General', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#compliances"id="gdpr-cookie-consent-complianz" >
 						<!--  Banner preview  -->
 						<c-card class="compliances_card">
 							<c-card-body>
@@ -962,60 +962,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</div>
 									</c-col>
 								</c-row>
-								<c-row v-show="is_gdpr">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-textarea name="bar_heading_text_field" v-model="gdpr_message_heading"></c-textarea>
-									</c-col>
-								</c-row>
-								<c-row v-show="is_eprivacy">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'ePrivacy Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as ePrivacy notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-textarea name="notify_message_eprivacy_field" v-model="eprivacy_message"></c-textarea>
-									</c-col>
-								</c-row>
-								<c-row v-show="is_gdpr">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-textarea name="notify_message_field" v-model="gdpr_message" :readonly="iabtcf_is_on"></c-textarea>
-									</c-col>
-								</c-row>
-								<c-row v-show="is_ccpa">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-textarea name="notify_message_ccpa_field" v-model="ccpa_message"></c-textarea>
-									</c-col>
-								</c-row>
-								<c-row v-show="is_ccpa">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-textarea name="notify_message_ccpa_optout_field" v-model="ccpa_optout_message"></c-textarea>
-									</c-col>
-								</c-row>
-								<c-row v-show="is_gdpr">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-textarea :rows="6" name="about_message_field" v-model="gdpr_about_cookie_message" :readonly="iabtcf_is_on"></c-textarea>
-									</c-col>
-								</c-row>
-								<c-row v-show="is_lgpd">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-textarea name="bar_heading_text_lgpd_field" v-model="lgpd_message_heading"></c-textarea>
-									</c-col>
-								</c-row>
-								<c-row v-show="is_lgpd">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'LGPD Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-textarea name="notify_message_lgpd_field" v-model="lgpd_message"></c-textarea>
-									</c-col>
-								</c-row>
-								<c-row v-show="is_lgpd">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-textarea :rows="6" name="about_message_lgpd_field" v-model="lgpd_about_cookie_message"></c-textarea>
-									</c-col>
-								</c-row>
+
+								<!-- THIS HAS TO MOVE TO CONTENT AND DESIGN  -->
+
+
+
+								<!-- TILL HERE MOVE TO CONTENT AND DESIGN ^^^^^^^ -->
+
 								<!-- Visitors Condition -->
 								<c-row v-show=" gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa'">
 									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Banner Geo-Targeting', 'gdpr-cookie-consent' ); ?></div></c-col>
@@ -1098,169 +1051,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<input type="hidden" name="gcc-selected-countries" v-model="select_countries">
 								</div>
 								<p v-show="( gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa' )" class="maxmind-notice">This product includes GeoLite2 data created by MaxMind, available from <a href="https://www.maxmind.com">https://www.maxmind.com</a>.</p>
-								<!-- Privacy Policy Settings -->
-								<c-row v-show="show_revoke_card || is_lgpd">
-									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
-								</c-row>
-								<c-row v-show="show_revoke_card || is_lgpd">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-switch v-bind="labelIcon" v-model="button_readmore_is_on" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on" v-on:update:checked="onSwitchButtonReadMoreIsOn"></c-switch>
-										<input type="hidden" name="gcc-readmore-is-on" v-model="button_readmore_is_on">
-									</c-col>
-								</c-row>
-								<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text of the privacy policy button/link.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-input name="button_readmore_text_field" v-model="button_readmore_text"></c-input>
-									</c-col>
-								</c-row>
-								<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="button_readmore_link_color"></c-input>
-										<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-readmore-link-color" v-model="button_readmore_link_color"></c-input>
-									</c-col>
-								</c-row>
-								<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show as', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8">
-										<v-select class="form-group" id="gcc-readmore-as-button" :reduce="label => label.code" :options="show_as_options" v-model="button_readmore_as_button"></v-select>
-										<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">
-									</c-col>
-								</c-row>
-								<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
-									<c-row v-show="button_readmore_as_button">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8 gdpr-color-pick" >
-											<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_color"></c-input>
-											<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-readmore-button-color" v-model="button_readmore_button_color"></c-input>
-										</c-col>
-									</c-row>
-									<c-row v-show="button_readmore_as_button">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="button_readmore_button_opacity"></c-input>
-											<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-opacity" v-model="button_readmore_button_opacity"></c-input>
-										</c-col>
-									</c-row>
-									<c-row v-show="button_readmore_as_button">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8">
-											<v-select class="form-group" id="gcc-readmore-button-border-style" :reduce="label => label.code" :options="border_style_options" v-model="button_readmore_button_border_style"></v-select>
-											<input type="hidden" name="gcc-readmore-button-border-style" v-model="button_readmore_button_border_style">
-										</c-col>
-									</c-row>
-									<c-row v-show="button_readmore_as_button">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="button_readmore_button_border_width"></c-input>
-											<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-width" v-model="button_readmore_button_border_width"></c-input>
-										</c-col>
-									</c-row>
-									<c-row v-show="button_readmore_as_button">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8 gdpr-color-pick" >
-											<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_border_color"></c-input>
-											<c-input class="gdpr-color-select" id="gdpr-readmore-button-border-color" type="color" name="gcc-readmore-button-border-color" v-model="button_readmore_button_border_color"></c-input>
-										</c-col>
-									</c-row>
-									<c-row v-show="button_readmore_as_button">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8 gdpr-color-pick">
-											<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="button_readmore_button_border_radius"></c-input>
-											<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-radius" v-model="button_readmore_button_border_radius"></c-input>
-										</c-col>
-									</c-row>
-									<c-row v-show="button_readmore_as_button">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8">
-											<v-select class="form-group" id="gcc-readmore-button-size" :reduce="label => label.code" :options="button_size_options" v-model="button_readmore_button_size"></v-select>
-											<input type="hidden" name="gcc-readmore-button-size" v-model="button_readmore_button_size">
-										</c-col>
-									</c-row>
-								</div>
-								<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8">
-										<v-select class="form-group" id="gcc-readmore-url-type" :reduce="label => label.code" :options="url_type_options" v-model="button_readmore_url_type"></v-select>
-										<input type="hidden" name="gcc-readmore-url-type" v-model="button_readmore_url_type">
-									</c-col>
-								</c-row>
-								<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
-									<c-row v-show="button_readmore_url_type">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8">
-											<v-select class="form-group"  placeholder="Select Policy Page" id="gcc-readmore-page" :reduce="label => label.code" :options="privacy_policy_options" v-model="readmore_page" @input="onSelectPrivacyPage"></v-select>
-											<input type="hidden" name="gcc-readmore-page" v-model="button_readmore_page">
-										</c-col>
-									</c-row>
-									<c-row v-show="button_readmore_url_type">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Sync with WordPress Policy Page', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-										<c-col class="col-sm-8">
-											<c-switch v-bind="labelIcon" v-model="button_readmore_wp_page" id="gdpr-cookie-consent-readmore-wp-page" variant="3d"  color="success" :checked="button_readmore_wp_page" v-on:update:checked="onSwitchButtonReadMoreWpPage"></c-switch>
-											<input type="hidden" name="gcc-readmore-wp-page" v-model="button_readmore_wp_page">
-										</c-col>
-									</c-row>
-									<c-row v-show="!button_readmore_url_type">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'URL', 'gdpr-cookie-consent' ); ?></label></c-col>
-										<c-col class="col-sm-8">
-											<c-input name="gcc-readmore-url" v-model="button_readmore_url"></c-input>
-										</c-col>
-									</c-row>
-								</div>
-								<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Open URL in New Window?', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8">
-										<c-switch v-bind="labelIcon" v-model="button_readmore_new_win" id="gdpr-cookie-consent-readmore-new-win" variant="3d"  color="success" :checked="button_readmore_new_win" v-on:update:checked="onSwitchButtonReadMoreNewWin"></c-switch>
-										<input type="hidden" name="gcc-readmore-new-win" v-model="button_readmore_new_win">
-									</c-col>
-								</c-row>
-								<!-- Revoke Consent settings -->
-								<c-row v-show="show_revoke_card || is_lgpd">
-									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Revoke Consent', 'gdpr-cookie-consent' ); ?></div></c-col>
-								</c-row>
-								<c-row v-show="show_revoke_card || is_lgpd">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-8">
-										<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on" v-on:update:checked="onSwitchRevokeConsentEnable"></c-switch>
-										<input type="hidden" name="gcc-revoke-consent-enable" v-model="is_revoke_consent_on">
-									</c-col>
-								</c-row>
-								<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Text', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8">
-										<c-input name="show_again_text_field" v-model="tab_text"></c-input>
-									</c-col>
-								</c-row>
-								<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_text_color"></c-input>
-										<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color"></c-input>
-									</c-col>
-								</c-row>
-								<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8 gdpr-color-pick" >
-										<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_background_color"></c-input>
-										<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color"></c-input>
-									</c-col>
-								</c-row>
-								<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Position', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8">
-										<v-select class="form-group" id="gdpr-cookie-consent-tab-position" :reduce="label => label.code" :options="tab_position_options" v-model="tab_position">
-										</v-select>
-										<input type="hidden" name="gcc-tab-position" v-model="tab_position">
-									</c-col>
-								</c-row>
-								<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab margin (in percent)', 'gdpr-cookie-consent' ); ?></label></c-col>
-									<c-col class="col-sm-8">
-										<c-input type="number" min="0" max="100" name="gcc-tab-margin" v-model="tab_margin"></c-input>
-									</c-col>
-								</c-row>
+								
+								<!-- THIS HAS TO MOVE -->
+								
+
 								<!-- Cookie Settings  -->
 								<c-row>
 									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Consent Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
@@ -1540,6 +1334,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<?php do_action( 'gdpr_consent_settings_consent_forward' ); ?>
 									<?php endif ?>
 									<?php if ( ! $is_pro_active ) : ?>
+
+								<!-- MOVE TILL HERE ^^^^ -->
+
+								<!-- NEWLY CONTENT ADDED -->
+
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Restrict Pages and/or Posts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
@@ -1547,6 +1346,24 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<input type="hidden" name="gcc-restrict-posts" v-model="restrict_posts">
 									</c-col>
 								</c-row>
+
+
+								<c-row>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Initialization', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-switch v-bind="labelIcon" v-model="auto_banner_initialize" id="gdpr-cookie-consent-auto_initialize" variant="3d"  color="success" :checked="auto_banner_initialize" v-on:update:checked="onSwitchAutoBannerInitialize"></c-switch>
+										<input type="hidden" name="gcc-auto-banner-initialize" v-model="auto_banner_initialize">
+									</c-col>
+								</c-row>
+								<c-row v-show="auto_banner_initialize">
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Initialization Delay (in milliseconds)', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-8">
+										<c-input type="number" min="0" max="60000" step="1000" name="gcc-auto-banner-initialize-delay" v-model="auto_banner_initialize_delay"></c-input>
+									</c-col>
+								</c-row>
+
+								<!-- NEWLY ADDED CONTENT ^^^ -->
+
 								<!-- renew consent free  -->
 								<c-row>
 									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Renew User Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( "If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent' ); ?>"></tooltip>
@@ -1578,6 +1395,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<?php endif ?>
 								<?php do_action( 'gdpr_consent_settings_pro_bottom' ); ?>
+
+								<!-- REMOVE EXTRA SETTINGS -->
+
 								<!-- Extra Settings -->
 								<c-row>
 									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Extra Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
@@ -1656,7 +1476,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 			<!-- COMPLIANCES SECTION END -->	
 
 			<!-- CONFIGURATION SECTION START -->
-				<c-tab title="<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#configuration" id="gdpr-cookie-consent-configuration">
+				<c-tab title="<?php esc_attr_e( 'Layout', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#configuration" id="gdpr-cookie-consent-configuration">
 
 					<!-- Configure Banner preview  -->
 					<c-card class="configuration_card">
@@ -1781,19 +1601,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<input type="hidden" name="gcc-dynamic-lang-enable" v-model="dynamic_lang_is_on">
 									</c-col>
 								</c-row>
-							<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Initialization', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-8">
-									<c-switch v-bind="labelIcon" v-model="auto_banner_initialize" id="gdpr-cookie-consent-auto_initialize" variant="3d"  color="success" :checked="auto_banner_initialize" v-on:update:checked="onSwitchAutoBannerInitialize"></c-switch>
-									<input type="hidden" name="gcc-auto-banner-initialize" v-model="auto_banner_initialize">
-								</c-col>
-							</c-row>
-							<c-row v-show="auto_banner_initialize">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Initialization Delay (in milliseconds)', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-8">
-									<c-input type="number" min="0" max="60000" step="1000" name="gcc-auto-banner-initialize-delay" v-model="auto_banner_initialize_delay"></c-input>
-								</c-col>
-							</c-row>
+
+
 							<!-- For hide banner -->
 							<?php
 							$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
@@ -1825,6 +1634,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<?php } ?>
 							<!-- Template screens -->
 							<?php do_action( 'gdpr_cookie_template' ); ?>
+
+							<!-- MOVE TO COOKIE SETTINGS EXPORT/IMPORT -->
+
 							<!-- Export Settings Label -->
 							<c-row>
 								<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-configure-cookie-bar-top"><?php esc_html_e( 'Settings Export / Import', 'gdpr-cookie-consent' ); ?></div></c-col>
@@ -1879,18 +1691,245 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-button id="reset-settings-configuration" color="danger" variant="outline" @click="onClickRestoreButton"><?php esc_html_e( 'Reset to Default', 'gdpr-cookie-consent' ); ?></c-button>
 								</c-col>
 							</c-row>
+
+							<!-- MOVE TO COOKIE SETTINGS EXPORT/IMPORT ^^^^^ -->
+
 						</c-card-body>
 					</c-card>
 				</c-tab>
 			<!-- CONFIGURATION SECTION START -->
 			 
-			<!-- DESIGN SECTION START -->
-				<c-tab title="<?php esc_attr_e( 'Design', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#gdpr_design" id="gdpr-cookie-consent-design">
-													
+			<!-- CONTENT AND DESIGN SECTION START -->
+				<c-tab title="<?php esc_attr_e( 'Content and Design', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#gdpr_design" id="gdpr-cookie-consent-design">
+
 					<!-- Desgin Banner preview if A/B Testing is disabled and GDPR&CCPA both are not selected -->
 					<c-card v-show="!ab_testing_enabled && gdpr_policy != 'both'">
 					<c-card class="desgin_card">
 						<c-card-body>
+
+						<!-- NEWLY ADDED -->
+													
+						<c-row v-show="is_gdpr">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="bar_heading_text_field" v-model="gdpr_message_heading"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_eprivacy">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'ePrivacy Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as ePrivacy notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_eprivacy_field" v-model="eprivacy_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_gdpr">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_field" v-model="gdpr_message" :readonly="iabtcf_is_on"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_ccpa">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_ccpa_field" v-model="ccpa_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_ccpa">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_ccpa_optout_field" v-model="ccpa_optout_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_gdpr">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea :rows="6" name="about_message_field" v-model="gdpr_about_cookie_message" :readonly="iabtcf_is_on"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_lgpd">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="bar_heading_text_lgpd_field" v-model="lgpd_message_heading"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_lgpd">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'LGPD Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_lgpd_field" v-model="lgpd_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_lgpd">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea :rows="6" name="about_message_lgpd_field" v-model="lgpd_about_cookie_message"></c-textarea>
+							</c-col>
+						</c-row>
+													
+						<!-- Privacy Policy Settings -->
+						<c-row v-show="show_revoke_card || is_lgpd">
+							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
+						</c-row>
+						<c-row v-show="show_revoke_card || is_lgpd">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-switch v-bind="labelIcon" v-model="button_readmore_is_on" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on" v-on:update:checked="onSwitchButtonReadMoreIsOn"></c-switch>
+								<input type="hidden" name="gcc-readmore-is-on" v-model="button_readmore_is_on">
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text of the privacy policy button/link.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-input name="button_readmore_text_field" v-model="button_readmore_text"></c-input>
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8 gdpr-color-pick" >
+								<c-input class="gdpr-color-input" type="text" v-model="button_readmore_link_color"></c-input>
+								<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-readmore-link-color" v-model="button_readmore_link_color"></c-input>
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show as', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<v-select class="form-group" id="gcc-readmore-as-button" :reduce="label => label.code" :options="show_as_options" v-model="button_readmore_as_button"></v-select>
+								<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">
+							</c-col>
+						</c-row>
+						<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8 gdpr-color-pick" >
+									<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_color"></c-input>
+									<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-readmore-button-color" v-model="button_readmore_button_color"></c-input>
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8 gdpr-color-pick">
+									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="button_readmore_button_opacity"></c-input>
+									<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-opacity" v-model="button_readmore_button_opacity"></c-input>
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8">
+									<v-select class="form-group" id="gcc-readmore-button-border-style" :reduce="label => label.code" :options="border_style_options" v-model="button_readmore_button_border_style"></v-select>
+									<input type="hidden" name="gcc-readmore-button-border-style" v-model="button_readmore_button_border_style">
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8 gdpr-color-pick">
+									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="button_readmore_button_border_width"></c-input>
+									<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-width" v-model="button_readmore_button_border_width"></c-input>
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8 gdpr-color-pick" >
+									<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_border_color"></c-input>
+									<c-input class="gdpr-color-select" id="gdpr-readmore-button-border-color" type="color" name="gcc-readmore-button-border-color" v-model="button_readmore_button_border_color"></c-input>
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8 gdpr-color-pick">
+									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="button_readmore_button_border_radius"></c-input>
+									<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-radius" v-model="button_readmore_button_border_radius"></c-input>
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8">
+									<v-select class="form-group" id="gcc-readmore-button-size" :reduce="label => label.code" :options="button_size_options" v-model="button_readmore_button_size"></v-select>
+									<input type="hidden" name="gcc-readmore-button-size" v-model="button_readmore_button_size">
+								</c-col>
+							</c-row>
+						</div>
+						<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<v-select class="form-group" id="gcc-readmore-url-type" :reduce="label => label.code" :options="url_type_options" v-model="button_readmore_url_type"></v-select>
+								<input type="hidden" name="gcc-readmore-url-type" v-model="button_readmore_url_type">
+							</c-col>
+						</c-row>
+						<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-row v-show="button_readmore_url_type">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8">
+									<v-select class="form-group"  placeholder="Select Policy Page" id="gcc-readmore-page" :reduce="label => label.code" :options="privacy_policy_options" v-model="readmore_page" @input="onSelectPrivacyPage"></v-select>
+									<input type="hidden" name="gcc-readmore-page" v-model="button_readmore_page">
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_url_type">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Sync with WordPress Policy Page', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+								<c-col class="col-sm-8">
+									<c-switch v-bind="labelIcon" v-model="button_readmore_wp_page" id="gdpr-cookie-consent-readmore-wp-page" variant="3d"  color="success" :checked="button_readmore_wp_page" v-on:update:checked="onSwitchButtonReadMoreWpPage"></c-switch>
+									<input type="hidden" name="gcc-readmore-wp-page" v-model="button_readmore_wp_page">
+								</c-col>
+							</c-row>
+							<c-row v-show="!button_readmore_url_type">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'URL', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8">
+									<c-input name="gcc-readmore-url" v-model="button_readmore_url"></c-input>
+								</c-col>
+							</c-row>
+						</div>
+						<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Open URL in New Window?', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<c-switch v-bind="labelIcon" v-model="button_readmore_new_win" id="gdpr-cookie-consent-readmore-new-win" variant="3d"  color="success" :checked="button_readmore_new_win" v-on:update:checked="onSwitchButtonReadMoreNewWin"></c-switch>
+								<input type="hidden" name="gcc-readmore-new-win" v-model="button_readmore_new_win">
+							</c-col>
+						</c-row>
+						<!-- Revoke Consent settings -->
+						<c-row v-show="show_revoke_card || is_lgpd">
+							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Revoke Consent', 'gdpr-cookie-consent' ); ?></div></c-col>
+						</c-row>
+						<c-row v-show="show_revoke_card || is_lgpd">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on" v-on:update:checked="onSwitchRevokeConsentEnable"></c-switch>
+								<input type="hidden" name="gcc-revoke-consent-enable" v-model="is_revoke_consent_on">
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Text', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<c-input name="show_again_text_field" v-model="tab_text"></c-input>
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8 gdpr-color-pick" >
+								<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_text_color"></c-input>
+								<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color"></c-input>
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8 gdpr-color-pick" >
+								<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_background_color"></c-input>
+								<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color"></c-input>
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Position', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<v-select class="form-group" id="gdpr-cookie-consent-tab-position" :reduce="label => label.code" :options="tab_position_options" v-model="tab_position">
+								</v-select>
+								<input type="hidden" name="gcc-tab-position" v-model="tab_position">
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab margin (in percent)', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<c-input type="number" min="0" max="100" name="gcc-tab-margin" v-model="tab_margin"></c-input>
+							</c-col>
+						</c-row>
+													
+						<!-- NEWLY ADDED ^^^^^^ -->
+
 							<c-row>
 								<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-configure-cookie-bar-top"><?php esc_html_e( 'Cookie Bar Body Design', 'gdpr-cookie-consent' ); ?></div></c-col>
 							</c-row>
@@ -2849,72 +2888,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<button  type="button" class="done-button-settings" @click="opt_out_link_popup=false">Done</button>
 								</div>
 							</c-modal> </div>
-							<!-- add custom css card  -->
-					<?php
-					$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-					if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-						if ( $is_pro_active ) {
-							do_action( 'gdpr_custom_css' );
-						} else {
-							?>
-										<c-row>
-											<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></div></c-col>
-										</c-row>
-										<c-col class="col-sm-12" style="padding-left:0px;">
-											<aceeditor
-												id = "aceEditorFree"
-												v-model="gdpr_css_text_free"
-												@init="editorInit"
-												lang="css"
-												theme="monokai"
-												width="100%"
-												height="300px"
-												:options="{
-													enableBasicAutocompletion: true,
-													enableLiveAutocompletion: true,
-													fontSize: 14,
-													highlightActiveLine: true,
-													enableSnippets: true,
-													showLineNumbers: true,
-													tabSize: 2,
-													showPrintMargin: false,
-													showGutter: true,
-												}"
-											/>
-										</c-col>
-							<?php
-						}
-					} else {
-						?>
-						<c-row>
-							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></div></c-col>
-						</c-row>
-						<c-col class="col-sm-12" style="padding-left:0px;">
-							<aceeditor
-								id = "aceEditor"
-								name="gdpr_css_text_field"
-								v-model="gdpr_css_text"
-								@init="editorInit"
-								lang="css"
-								theme="monokai"
-								width="100%"
-								height="300px"
-								:options="{
-									enableBasicAutocompletion: true,
-									enableLiveAutocompletion: true,
-									fontSize: 14,
-									highlightActiveLine: true,
-									enableSnippets: true,
-									showLineNumbers: true,
-									tabSize: 2,
-									showPrintMargin: false,
-									showGutter: true,
-								}"
-							/>
-						</c-col>
-						<?php
-					}
-					?>
+
 					</c-card>
 					</c-card>
 					<!-- Adding Virat-->
@@ -2939,6 +2913,195 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											<input type="hidden" name="gdpr-default_cookie_bar" v-model="default_cookie_bar">
 										</c-col> 
 									</c-row> -->
+									
+									<!-- NEWLY ADDED -->
+							
+									<c-row v-show="is_gdpr">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="bar_heading_text_field" v-model="gdpr_message_heading"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_gdpr">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="notify_message_field" v-model="gdpr_message" :readonly="iabtcf_is_on"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_gdpr">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea :rows="6" name="about_message_field" v-model="gdpr_about_cookie_message" :readonly="iabtcf_is_on"></c-textarea>
+										</c-col>
+									</c-row>
+
+									<!-- Privacy Policy Settings -->
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
+									</c-row>
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch v-bind="labelIcon" v-model="button_readmore_is_on" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on" v-on:update:checked="onSwitchButtonReadMoreIsOn"></c-switch>
+											<input type="hidden" name="gcc-readmore-is-on" v-model="button_readmore_is_on">
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text of the privacy policy button/link.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-input name="button_readmore_text_field" v-model="button_readmore_text"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8 gdpr-color-pick" >
+											<c-input class="gdpr-color-input" type="text" v-model="button_readmore_link_color"></c-input>
+											<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-readmore-link-color" v-model="button_readmore_link_color"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show as', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<v-select class="form-group" id="gcc-readmore-as-button" :reduce="label => label.code" :options="show_as_options" v-model="button_readmore_as_button"></v-select>
+											<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">
+										</c-col>
+									</c-row>
+									<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick" >
+												<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_color"></c-input>
+												<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-readmore-button-color" v-model="button_readmore_button_color"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick">
+												<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="button_readmore_button_opacity"></c-input>
+												<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-opacity" v-model="button_readmore_button_opacity"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<v-select class="form-group" id="gcc-readmore-button-border-style" :reduce="label => label.code" :options="border_style_options" v-model="button_readmore_button_border_style"></v-select>
+												<input type="hidden" name="gcc-readmore-button-border-style" v-model="button_readmore_button_border_style">
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick">
+												<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="button_readmore_button_border_width"></c-input>
+												<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-width" v-model="button_readmore_button_border_width"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick" >
+												<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_border_color"></c-input>
+												<c-input class="gdpr-color-select" id="gdpr-readmore-button-border-color" type="color" name="gcc-readmore-button-border-color" v-model="button_readmore_button_border_color"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick">
+												<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="button_readmore_button_border_radius"></c-input>
+												<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-radius" v-model="button_readmore_button_border_radius"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<v-select class="form-group" id="gcc-readmore-button-size" :reduce="label => label.code" :options="button_size_options" v-model="button_readmore_button_size"></v-select>
+												<input type="hidden" name="gcc-readmore-button-size" v-model="button_readmore_button_size">
+											</c-col>
+										</c-row>
+									</div>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<v-select class="form-group" id="gcc-readmore-url-type" :reduce="label => label.code" :options="url_type_options" v-model="button_readmore_url_type"></v-select>
+											<input type="hidden" name="gcc-readmore-url-type" v-model="button_readmore_url_type">
+										</c-col>
+									</c-row>
+									<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-row v-show="button_readmore_url_type">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<v-select class="form-group"  placeholder="Select Policy Page" id="gcc-readmore-page" :reduce="label => label.code" :options="privacy_policy_options" v-model="readmore_page" @input="onSelectPrivacyPage"></v-select>
+												<input type="hidden" name="gcc-readmore-page" v-model="button_readmore_page">
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_url_type">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Sync with WordPress Policy Page', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+											<c-col class="col-sm-8">
+												<c-switch v-bind="labelIcon" v-model="button_readmore_wp_page" id="gdpr-cookie-consent-readmore-wp-page" variant="3d"  color="success" :checked="button_readmore_wp_page" v-on:update:checked="onSwitchButtonReadMoreWpPage"></c-switch>
+												<input type="hidden" name="gcc-readmore-wp-page" v-model="button_readmore_wp_page">
+											</c-col>
+										</c-row>
+										<c-row v-show="!button_readmore_url_type">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'URL', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<c-input name="gcc-readmore-url" v-model="button_readmore_url"></c-input>
+											</c-col>
+										</c-row>
+									</div>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Open URL in New Window?', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch v-bind="labelIcon" v-model="button_readmore_new_win" id="gdpr-cookie-consent-readmore-new-win" variant="3d"  color="success" :checked="button_readmore_new_win" v-on:update:checked="onSwitchButtonReadMoreNewWin"></c-switch>
+											<input type="hidden" name="gcc-readmore-new-win" v-model="button_readmore_new_win">
+										</c-col>
+									</c-row>
+									<!-- Revoke Consent settings -->
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Revoke Consent', 'gdpr-cookie-consent' ); ?></div></c-col>
+									</c-row>
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on" v-on:update:checked="onSwitchRevokeConsentEnable"></c-switch>
+											<input type="hidden" name="gcc-revoke-consent-enable" v-model="is_revoke_consent_on">
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Text', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<c-input name="show_again_text_field" v-model="tab_text"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8 gdpr-color-pick" >
+											<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_text_color"></c-input>
+											<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8 gdpr-color-pick" >
+											<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_background_color"></c-input>
+											<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Position', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<v-select class="form-group" id="gdpr-cookie-consent-tab-position" :reduce="label => label.code" :options="tab_position_options" v-model="tab_position">
+											</v-select>
+											<input type="hidden" name="gcc-tab-position" v-model="tab_position">
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab margin (in percent)', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<c-input type="number" min="0" max="100" name="gcc-tab-margin" v-model="tab_margin"></c-input>
+										</c-col>
+									</c-row>
+
+									<!-- NEWLY ADDED ^^^^^^ -->
+
+
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick" >
@@ -3639,86 +3802,194 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</div>
 								</c-card-body>
 							</c-card>
-					<!-- add custom css card  -->
-					<?php
-					$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-					if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-						if ( $is_pro_active ) {
-							do_action( 'gdpr_custom_css' );
-						} else {
-							?>
-									<c-card >
-									<c-card-header class="gdpr-cookie-consent-design-subheading"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
 
-									<div class="gdpr-pro-label absolute" style="top: 10px; right: 750px;"><div class="gdpr-pro-label-text">Pro</div></div>
-
-									</c-card-header>
-									<c-card-body>
-										<c-col class="col-sm-12">
-											<aceeditor
-												id = "aceEditorFree"
-												v-model="gdpr_css_text_free"
-												@init="editorInit"
-												lang="css"
-												theme="monokai"
-												width="100%"
-												height="300px"
-												:options="{
-													enableBasicAutocompletion: true,
-													enableLiveAutocompletion: true,
-													fontSize: 14,
-													highlightActiveLine: true,
-													enableSnippets: true,
-													showLineNumbers: true,
-													tabSize: 2,
-													showPrintMargin: false,
-													showGutter: true,
-												}"
-											/>
-										</c-col>
-									</c-card-body>
-								</c-card>
-							<?php
-						}
-					} else {
-						?>
-					<c-card >
-					<c-card-header class="gdpr-cookie-consent-design-subheading"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></c-card-header>
-					<c-card-body>
-						<c-col class="col-sm-12">
-							<aceeditor
-								id = "aceEditor"
-								name="gdpr_css_text_field"
-								v-model="gdpr_css_text"
-								@init="editorInit"
-								lang="css"
-								theme="monokai"
-								width="100%"
-								height="300px"
-								:options="{
-									enableBasicAutocompletion: true,
-									enableLiveAutocompletion: true,
-									fontSize: 14,
-									highlightActiveLine: true,
-									enableSnippets: true,
-									showLineNumbers: true,
-									tabSize: 2,
-									showPrintMargin: false,
-									showGutter: true,
-								}"
-							/>
-
-						</c-col>
-
-						</c-card-body>
-					</c-card>
-					<?php
-					}
-					?>
 
 						</c-card-body>
 						<c-card-body v-show="active_default_multiple_legislation === 'ccpa'">
 						<c-card-body >
+
+								<!-- NEWLY ADDED -->
+							
+									<c-row v-show="is_ccpa">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="notify_message_ccpa_field" v-model="ccpa_message"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_ccpa">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="notify_message_ccpa_optout_field" v-model="ccpa_optout_message"></c-textarea>
+										</c-col>
+									</c-row>
+									
+									<!-- Privacy Policy Settings -->
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
+									</c-row>
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch v-bind="labelIcon" v-model="button_readmore_is_on" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on" v-on:update:checked="onSwitchButtonReadMoreIsOn"></c-switch>
+											<input type="hidden" name="gcc-readmore-is-on" v-model="button_readmore_is_on">
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text of the privacy policy button/link.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-input name="button_readmore_text_field" v-model="button_readmore_text"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8 gdpr-color-pick" >
+											<c-input class="gdpr-color-input" type="text" v-model="button_readmore_link_color"></c-input>
+											<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-readmore-link-color" v-model="button_readmore_link_color"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show as', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<v-select class="form-group" id="gcc-readmore-as-button" :reduce="label => label.code" :options="show_as_options" v-model="button_readmore_as_button"></v-select>
+											<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">
+										</c-col>
+									</c-row>
+									<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick" >
+												<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_color"></c-input>
+												<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-readmore-button-color" v-model="button_readmore_button_color"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick">
+												<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="button_readmore_button_opacity"></c-input>
+												<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-opacity" v-model="button_readmore_button_opacity"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<v-select class="form-group" id="gcc-readmore-button-border-style" :reduce="label => label.code" :options="border_style_options" v-model="button_readmore_button_border_style"></v-select>
+												<input type="hidden" name="gcc-readmore-button-border-style" v-model="button_readmore_button_border_style">
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick">
+												<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="button_readmore_button_border_width"></c-input>
+												<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-width" v-model="button_readmore_button_border_width"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick" >
+												<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_border_color"></c-input>
+												<c-input class="gdpr-color-select" id="gdpr-readmore-button-border-color" type="color" name="gcc-readmore-button-border-color" v-model="button_readmore_button_border_color"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick">
+												<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="button_readmore_button_border_radius"></c-input>
+												<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-radius" v-model="button_readmore_button_border_radius"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<v-select class="form-group" id="gcc-readmore-button-size" :reduce="label => label.code" :options="button_size_options" v-model="button_readmore_button_size"></v-select>
+												<input type="hidden" name="gcc-readmore-button-size" v-model="button_readmore_button_size">
+											</c-col>
+										</c-row>
+									</div>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<v-select class="form-group" id="gcc-readmore-url-type" :reduce="label => label.code" :options="url_type_options" v-model="button_readmore_url_type"></v-select>
+											<input type="hidden" name="gcc-readmore-url-type" v-model="button_readmore_url_type">
+										</c-col>
+									</c-row>
+									<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-row v-show="button_readmore_url_type">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<v-select class="form-group"  placeholder="Select Policy Page" id="gcc-readmore-page" :reduce="label => label.code" :options="privacy_policy_options" v-model="readmore_page" @input="onSelectPrivacyPage"></v-select>
+												<input type="hidden" name="gcc-readmore-page" v-model="button_readmore_page">
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_url_type">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Sync with WordPress Policy Page', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+											<c-col class="col-sm-8">
+												<c-switch v-bind="labelIcon" v-model="button_readmore_wp_page" id="gdpr-cookie-consent-readmore-wp-page" variant="3d"  color="success" :checked="button_readmore_wp_page" v-on:update:checked="onSwitchButtonReadMoreWpPage"></c-switch>
+												<input type="hidden" name="gcc-readmore-wp-page" v-model="button_readmore_wp_page">
+											</c-col>
+										</c-row>
+										<c-row v-show="!button_readmore_url_type">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'URL', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<c-input name="gcc-readmore-url" v-model="button_readmore_url"></c-input>
+											</c-col>
+										</c-row>
+									</div>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Open URL in New Window?', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch v-bind="labelIcon" v-model="button_readmore_new_win" id="gdpr-cookie-consent-readmore-new-win" variant="3d"  color="success" :checked="button_readmore_new_win" v-on:update:checked="onSwitchButtonReadMoreNewWin"></c-switch>
+											<input type="hidden" name="gcc-readmore-new-win" v-model="button_readmore_new_win">
+										</c-col>
+									</c-row>
+									<!-- Revoke Consent settings -->
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Revoke Consent', 'gdpr-cookie-consent' ); ?></div></c-col>
+									</c-row>
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on" v-on:update:checked="onSwitchRevokeConsentEnable"></c-switch>
+											<input type="hidden" name="gcc-revoke-consent-enable" v-model="is_revoke_consent_on">
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Text', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<c-input name="show_again_text_field" v-model="tab_text"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8 gdpr-color-pick" >
+											<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_text_color"></c-input>
+											<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8 gdpr-color-pick" >
+											<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_background_color"></c-input>
+											<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Position', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<v-select class="form-group" id="gdpr-cookie-consent-tab-position" :reduce="label => label.code" :options="tab_position_options" v-model="tab_position">
+											</v-select>
+											<input type="hidden" name="gcc-tab-position" v-model="tab_position">
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab margin (in percent)', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<c-input type="number" min="0" max="100" name="gcc-tab-margin" v-model="tab_margin"></c-input>
+										</c-col>
+									</c-row>
+
+									<!-- NEWLY ADDED ^^^^^^ -->
+
+
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8 gdpr-color-pick" >
@@ -4082,82 +4353,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-card-body>
 								
 										
-					<!-- add custom css card  -->
-					<?php
-					$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-					if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-						if ( $is_pro_active ) {
-							do_action( 'gdpr_custom_css' );
-						} else {
-							?>
-									<c-card >
-									<c-card-header class="gdpr-cookie-consent-design-subheading"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
-
-									<div class="gdpr-pro-label absolute" style="top: 10px; right: 750px;"><div class="gdpr-pro-label-text">Pro</div></div>
-
-									</c-card-header>
-									<c-card-body>
-										<c-col class="col-sm-12">
-											<aceeditor
-												id = "aceEditorFree"
-												v-model="gdpr_css_text_free"
-												@init="editorInit"
-												lang="css"
-												theme="monokai"
-												width="100%"
-												height="300px"
-												:options="{
-													enableBasicAutocompletion: true,
-													enableLiveAutocompletion: true,
-													fontSize: 14,
-													highlightActiveLine: true,
-													enableSnippets: true,
-													showLineNumbers: true,
-													tabSize: 2,
-													showPrintMargin: false,
-													showGutter: true,
-												}"
-											/>
-										</c-col>
-									</c-card-body>
-								</c-card>
-							<?php
-						}
-					} else {
-						?>
-					<c-card >
-					<c-card-header class="gdpr-cookie-consent-design-subheading"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></c-card-header>
-					<c-card-body>
-						<c-col class="col-sm-12">
-							<aceeditor
-								id = "aceEditor"
-								name="gdpr_css_text_field"
-								v-model="gdpr_css_text"
-								@init="editorInit"
-								lang="css"
-								theme="monokai"
-								width="100%"
-								height="300px"
-								:options="{
-									enableBasicAutocompletion: true,
-									enableLiveAutocompletion: true,
-									fontSize: 14,
-									highlightActiveLine: true,
-									enableSnippets: true,
-									showLineNumbers: true,
-									tabSize: 2,
-									showPrintMargin: false,
-									showGutter: true,
-								}"
-							/>
-
-						</c-col>
-
-					</c-card-body>
-					</c-card>
-									<?php
-					}
-					?>
 						</c-card-body>	
 							
 					</c-card>
@@ -4170,6 +4365,231 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					</div>
 					<c-card-body v-show="active_test_banner_tab === 1">
 							<c-card-body >
+
+													<!-- NEWLY ADDED -->
+								
+						<c-row v-show="is_gdpr">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="bar_heading_text_field" v-model="gdpr_message_heading"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_eprivacy">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'ePrivacy Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as ePrivacy notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_eprivacy_field" v-model="eprivacy_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_gdpr">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_field" v-model="gdpr_message" :readonly="iabtcf_is_on"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_ccpa">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_ccpa_field" v-model="ccpa_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_ccpa">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_ccpa_optout_field" v-model="ccpa_optout_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_gdpr">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea :rows="6" name="about_message_field" v-model="gdpr_about_cookie_message" :readonly="iabtcf_is_on"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_lgpd">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="bar_heading_text_lgpd_field" v-model="lgpd_message_heading"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_lgpd">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'LGPD Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_lgpd_field" v-model="lgpd_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="is_lgpd">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea :rows="6" name="about_message_lgpd_field" v-model="lgpd_about_cookie_message"></c-textarea>
+							</c-col>
+						</c-row>
+
+						<!-- Privacy Policy Settings -->
+						<c-row v-show="show_revoke_card || is_lgpd">
+							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
+						</c-row>
+						<c-row v-show="show_revoke_card || is_lgpd">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-switch v-bind="labelIcon" v-model="button_readmore_is_on" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on" v-on:update:checked="onSwitchButtonReadMoreIsOn"></c-switch>
+								<input type="hidden" name="gcc-readmore-is-on" v-model="button_readmore_is_on">
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text of the privacy policy button/link.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-input name="button_readmore_text_field" v-model="button_readmore_text"></c-input>
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8 gdpr-color-pick" >
+								<c-input class="gdpr-color-input" type="text" v-model="button_readmore_link_color"></c-input>
+								<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-readmore-link-color" v-model="button_readmore_link_color"></c-input>
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show as', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<v-select class="form-group" id="gcc-readmore-as-button" :reduce="label => label.code" :options="show_as_options" v-model="button_readmore_as_button"></v-select>
+								<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">
+							</c-col>
+						</c-row>
+						<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8 gdpr-color-pick" >
+									<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_color"></c-input>
+									<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-readmore-button-color" v-model="button_readmore_button_color"></c-input>
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8 gdpr-color-pick">
+									<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="button_readmore_button_opacity"></c-input>
+									<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-opacity" v-model="button_readmore_button_opacity"></c-input>
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8">
+									<v-select class="form-group" id="gcc-readmore-button-border-style" :reduce="label => label.code" :options="border_style_options" v-model="button_readmore_button_border_style"></v-select>
+									<input type="hidden" name="gcc-readmore-button-border-style" v-model="button_readmore_button_border_style">
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8 gdpr-color-pick">
+									<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="button_readmore_button_border_width"></c-input>
+									<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-width" v-model="button_readmore_button_border_width"></c-input>
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8 gdpr-color-pick" >
+									<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_border_color"></c-input>
+									<c-input class="gdpr-color-select" id="gdpr-readmore-button-border-color" type="color" name="gcc-readmore-button-border-color" v-model="button_readmore_button_border_color"></c-input>
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8 gdpr-color-pick">
+									<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="button_readmore_button_border_radius"></c-input>
+									<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-radius" v-model="button_readmore_button_border_radius"></c-input>
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_as_button">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8">
+									<v-select class="form-group" id="gcc-readmore-button-size" :reduce="label => label.code" :options="button_size_options" v-model="button_readmore_button_size"></v-select>
+									<input type="hidden" name="gcc-readmore-button-size" v-model="button_readmore_button_size">
+								</c-col>
+							</c-row>
+						</div>
+						<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<v-select class="form-group" id="gcc-readmore-url-type" :reduce="label => label.code" :options="url_type_options" v-model="button_readmore_url_type"></v-select>
+								<input type="hidden" name="gcc-readmore-url-type" v-model="button_readmore_url_type">
+							</c-col>
+						</c-row>
+						<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-row v-show="button_readmore_url_type">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8">
+									<v-select class="form-group"  placeholder="Select Policy Page" id="gcc-readmore-page" :reduce="label => label.code" :options="privacy_policy_options" v-model="readmore_page" @input="onSelectPrivacyPage"></v-select>
+									<input type="hidden" name="gcc-readmore-page" v-model="button_readmore_page">
+								</c-col>
+							</c-row>
+							<c-row v-show="button_readmore_url_type">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Sync with WordPress Policy Page', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+								<c-col class="col-sm-8">
+									<c-switch v-bind="labelIcon" v-model="button_readmore_wp_page" id="gdpr-cookie-consent-readmore-wp-page" variant="3d"  color="success" :checked="button_readmore_wp_page" v-on:update:checked="onSwitchButtonReadMoreWpPage"></c-switch>
+									<input type="hidden" name="gcc-readmore-wp-page" v-model="button_readmore_wp_page">
+								</c-col>
+							</c-row>
+							<c-row v-show="!button_readmore_url_type">
+								<c-col class="col-sm-4"><label><?php esc_attr_e( 'URL', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-8">
+									<c-input name="gcc-readmore-url" v-model="button_readmore_url"></c-input>
+								</c-col>
+							</c-row>
+						</div>
+						<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Open URL in New Window?', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<c-switch v-bind="labelIcon" v-model="button_readmore_new_win" id="gdpr-cookie-consent-readmore-new-win" variant="3d"  color="success" :checked="button_readmore_new_win" v-on:update:checked="onSwitchButtonReadMoreNewWin"></c-switch>
+								<input type="hidden" name="gcc-readmore-new-win" v-model="button_readmore_new_win">
+							</c-col>
+						</c-row>
+						<!-- Revoke Consent settings -->
+						<c-row v-show="show_revoke_card || is_lgpd">
+							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Revoke Consent', 'gdpr-cookie-consent' ); ?></div></c-col>
+						</c-row>
+						<c-row v-show="show_revoke_card || is_lgpd">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on" v-on:update:checked="onSwitchRevokeConsentEnable"></c-switch>
+								<input type="hidden" name="gcc-revoke-consent-enable" v-model="is_revoke_consent_on">
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Text', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<c-input name="show_again_text_field" v-model="tab_text"></c-input>
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8 gdpr-color-pick" >
+								<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_text_color"></c-input>
+								<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color"></c-input>
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8 gdpr-color-pick" >
+								<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_background_color"></c-input>
+								<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color"></c-input>
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Position', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<v-select class="form-group" id="gdpr-cookie-consent-tab-position" :reduce="label => label.code" :options="tab_position_options" v-model="tab_position">
+								</v-select>
+								<input type="hidden" name="gcc-tab-position" v-model="tab_position">
+							</c-col>
+						</c-row>
+						<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab margin (in percent)', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-8">
+								<c-input type="number" min="0" max="100" name="gcc-tab-margin" v-model="tab_margin"></c-input>
+							</c-col>
+						</c-row>
+										
+						<!-- NEWLY ADDED ^^^^^^ -->
+
+
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Consent Banner Title', 'gdpr-cookie-consent' ); ?> </label></c-col>
 									<c-col class="col-sm-8">
@@ -5154,85 +5574,234 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</div>
 						</c-card-body>
 					</c-card>
-					<!-- add custom css card  -->
-					<?php
-					$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-					if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-						if ( $is_pro_active ) {
-							do_action( 'gdpr_custom_css' );
-						} else {
-							?>
-									<c-card >
-									<c-card-header class="gdpr-cookie-consent-design-subheading"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
 
-									<div class="gdpr-pro-label absolute" style="top: 10px; right: 750px;"><div class="gdpr-pro-label-text">Pro</div></div>
-
-									</c-card-header>
-									<c-card-body>
-										<c-col class="col-sm-12">
-											<aceeditor
-												id = "aceEditorFree"
-												v-model="gdpr_css_text_free"
-												@init="editorInit"
-												lang="css"
-												theme="monokai"
-												width="100%"
-												height="300px"
-												:options="{
-													enableBasicAutocompletion: true,
-													enableLiveAutocompletion: true,
-													fontSize: 14,
-													highlightActiveLine: true,
-													enableSnippets: true,
-													showLineNumbers: true,
-													tabSize: 2,
-													showPrintMargin: false,
-													showGutter: true,
-												}"
-											/>
-										</c-col>
-									</c-card-body>
-								</c-card>
-							<?php
-						}
-					} else {
-						?>
-					<c-card >
-					<c-card-header class="gdpr-cookie-consent-design-subheading"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></c-card-header>
-					<c-card-body>
-						<c-col class="col-sm-12">
-							<aceeditor
-								id = "aceEditor"
-								name="gdpr_css_text_field"
-								v-model="gdpr_css_text"
-								@init="editorInit"
-								lang="css"
-								theme="monokai"
-								width="100%"
-								height="300px"
-								:options="{
-									enableBasicAutocompletion: true,
-									enableLiveAutocompletion: true,
-									fontSize: 14,
-									highlightActiveLine: true,
-									enableSnippets: true,
-									showLineNumbers: true,
-									tabSize: 2,
-									showPrintMargin: false,
-									showGutter: true,
-								}"
-							/>
-
-						</c-col>
-
-					</c-card-body>
-					</c-card>
-									<?php
-					}
-					?>
 							</c-card-body>
 						<c-card-body v-show="active_test_banner_tab === 2">
 								<c-card-body >
+
+														<!-- NEWLY ADDED -->
+								
+									<c-row v-show="is_gdpr">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="bar_heading_text_field" v-model="gdpr_message_heading"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_eprivacy">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'ePrivacy Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as ePrivacy notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="notify_message_eprivacy_field" v-model="eprivacy_message"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_gdpr">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="notify_message_field" v-model="gdpr_message" :readonly="iabtcf_is_on"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_ccpa">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="notify_message_ccpa_field" v-model="ccpa_message"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_ccpa">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="notify_message_ccpa_optout_field" v-model="ccpa_optout_message"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_gdpr">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea :rows="6" name="about_message_field" v-model="gdpr_about_cookie_message" :readonly="iabtcf_is_on"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_lgpd">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="bar_heading_text_lgpd_field" v-model="lgpd_message_heading"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_lgpd">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'LGPD Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea name="notify_message_lgpd_field" v-model="lgpd_message"></c-textarea>
+										</c-col>
+									</c-row>
+									<c-row v-show="is_lgpd">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Cookie Settings" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-textarea :rows="6" name="about_message_lgpd_field" v-model="lgpd_about_cookie_message"></c-textarea>
+										</c-col>
+									</c-row>
+											
+									<!-- Privacy Policy Settings -->
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
+									</c-row>
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch v-bind="labelIcon" v-model="button_readmore_is_on" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on" v-on:update:checked="onSwitchButtonReadMoreIsOn"></c-switch>
+											<input type="hidden" name="gcc-readmore-is-on" v-model="button_readmore_is_on">
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text of the privacy policy button/link.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-input name="button_readmore_text_field" v-model="button_readmore_text"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8 gdpr-color-pick" >
+											<c-input class="gdpr-color-input" type="text" v-model="button_readmore_link_color"></c-input>
+											<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-readmore-link-color" v-model="button_readmore_link_color"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show as', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<v-select class="form-group" id="gcc-readmore-as-button" :reduce="label => label.code" :options="show_as_options" v-model="button_readmore_as_button"></v-select>
+											<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">
+										</c-col>
+									</c-row>
+									<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick" >
+												<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_color"></c-input>
+												<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-readmore-button-color" v-model="button_readmore_button_color"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick">
+												<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="button_readmore_button_opacity"></c-input>
+												<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-opacity" v-model="button_readmore_button_opacity"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<v-select class="form-group" id="gcc-readmore-button-border-style" :reduce="label => label.code" :options="border_style_options" v-model="button_readmore_button_border_style"></v-select>
+												<input type="hidden" name="gcc-readmore-button-border-style" v-model="button_readmore_button_border_style">
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick">
+												<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="button_readmore_button_border_width"></c-input>
+												<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-width" v-model="button_readmore_button_border_width"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick" >
+												<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_border_color"></c-input>
+												<c-input class="gdpr-color-select" id="gdpr-readmore-button-border-color" type="color" name="gcc-readmore-button-border-color" v-model="button_readmore_button_border_color"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8 gdpr-color-pick">
+												<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="button_readmore_button_border_radius"></c-input>
+												<c-input class="gdpr-slider-input"type="number" name="gcc-readmore-button-border-radius" v-model="button_readmore_button_border_radius"></c-input>
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_as_button">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<v-select class="form-group" id="gcc-readmore-button-size" :reduce="label => label.code" :options="button_size_options" v-model="button_readmore_button_size"></v-select>
+												<input type="hidden" name="gcc-readmore-button-size" v-model="button_readmore_button_size">
+											</c-col>
+										</c-row>
+									</div>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<v-select class="form-group" id="gcc-readmore-url-type" :reduce="label => label.code" :options="url_type_options" v-model="button_readmore_url_type"></v-select>
+											<input type="hidden" name="gcc-readmore-url-type" v-model="button_readmore_url_type">
+										</c-col>
+									</c-row>
+									<div v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-row v-show="button_readmore_url_type">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Page', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<v-select class="form-group"  placeholder="Select Policy Page" id="gcc-readmore-page" :reduce="label => label.code" :options="privacy_policy_options" v-model="readmore_page" @input="onSelectPrivacyPage"></v-select>
+												<input type="hidden" name="gcc-readmore-page" v-model="button_readmore_page">
+											</c-col>
+										</c-row>
+										<c-row v-show="button_readmore_url_type">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'Sync with WordPress Policy Page', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+											<c-col class="col-sm-8">
+												<c-switch v-bind="labelIcon" v-model="button_readmore_wp_page" id="gdpr-cookie-consent-readmore-wp-page" variant="3d"  color="success" :checked="button_readmore_wp_page" v-on:update:checked="onSwitchButtonReadMoreWpPage"></c-switch>
+												<input type="hidden" name="gcc-readmore-wp-page" v-model="button_readmore_wp_page">
+											</c-col>
+										</c-row>
+										<c-row v-show="!button_readmore_url_type">
+											<c-col class="col-sm-4"><label><?php esc_attr_e( 'URL', 'gdpr-cookie-consent' ); ?></label></c-col>
+											<c-col class="col-sm-8">
+												<c-input name="gcc-readmore-url" v-model="button_readmore_url"></c-input>
+											</c-col>
+										</c-row>
+									</div>
+									<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Open URL in New Window?', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch v-bind="labelIcon" v-model="button_readmore_new_win" id="gdpr-cookie-consent-readmore-new-win" variant="3d"  color="success" :checked="button_readmore_new_win" v-on:update:checked="onSwitchButtonReadMoreNewWin"></c-switch>
+											<input type="hidden" name="gcc-readmore-new-win" v-model="button_readmore_new_win">
+										</c-col>
+									</c-row>
+									<!-- Revoke Consent settings -->
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Revoke Consent', 'gdpr-cookie-consent' ); ?></div></c-col>
+									</c-row>
+									<c-row v-show="show_revoke_card || is_lgpd">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-8">
+											<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on" v-on:update:checked="onSwitchRevokeConsentEnable"></c-switch>
+											<input type="hidden" name="gcc-revoke-consent-enable" v-model="is_revoke_consent_on">
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Text', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<c-input name="show_again_text_field" v-model="tab_text"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8 gdpr-color-pick" >
+											<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_text_color"></c-input>
+											<c-input class="gdpr-color-select" id="gdpr-readmore-link-color" type="color" name="gcc-revoke-consent-text-color" v-model="button_revoke_consent_text_color"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8 gdpr-color-pick" >
+											<c-input class="gdpr-color-input" type="text" v-model="button_revoke_consent_background_color"></c-input>
+											<c-input class="gdpr-color-select" id="gdpr-readmore-button-color" type="color" name="gcc-revoke-consent-background-color" v-model="button_revoke_consent_background_color"></c-input>
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab Position', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<v-select class="form-group" id="gdpr-cookie-consent-tab-position" :reduce="label => label.code" :options="tab_position_options" v-model="tab_position">
+											</v-select>
+											<input type="hidden" name="gcc-tab-position" v-model="tab_position">
+										</c-col>
+									</c-row>
+									<c-row v-show="(show_revoke_card || is_lgpd) && is_revoke_consent_on">
+										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Tab margin (in percent)', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-8">
+											<c-input type="number" min="0" max="100" name="gcc-tab-margin" v-model="tab_margin"></c-input>
+										</c-col>
+									</c-row>
+													
+									<!-- NEWLY ADDED ^^^^^^ -->
+											
 									<c-row>
 										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Consent Banner Title', 'gdpr-cookie-consent' ); ?> </label></c-col>
 										<c-col class="col-sm-8">
@@ -6217,7 +6786,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</div>
 						</c-card-body>
 					</c-card>
-					<!-- add custom css card  -->
+							</c-card-body>	
+							
+					</c-card>
+				</c-tab>
+
+			<!-- CUSTOM CSS START -->
+				<c-tab title="<?php esc_attr_e( 'Custom CSS', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#custom_css" id="gdpr-cookie-consent-custom-css">
+					<div class="card-body">
 					<?php
 					$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
 					if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
@@ -6225,14 +6801,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							do_action( 'gdpr_custom_css' );
 						} else {
 							?>
-									<c-card >
-									<c-card-header class="gdpr-cookie-consent-design-subheading"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?>
-
-									<div class="gdpr-pro-label absolute" style="top: 10px; right: 750px;"><div class="gdpr-pro-label-text">Pro</div></div>
-
-									</c-card-header>
-									<c-card-body>
-										<c-col class="col-sm-12">
+										<c-row>
+											<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></div></c-col>
+										</c-row>
+										<c-col class="col-sm-12" style="padding-left:0px;">
 											<aceeditor
 												id = "aceEditorFree"
 												v-model="gdpr_css_text_free"
@@ -6254,16 +6826,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												}"
 											/>
 										</c-col>
-									</c-card-body>
-								</c-card>
 							<?php
 						}
 					} else {
 						?>
-					<c-card >
-					<c-card-header class="gdpr-cookie-consent-design-subheading"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></c-card-header>
-					<c-card-body>
-						<c-col class="col-sm-12">
+						<c-row>
+							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Add Your Custom CSS', 'gdpr-cookie-consent' ); ?></div></c-col>
+						</c-row>
+						<c-col class="col-sm-12" style="padding-left:0px;">
 							<aceeditor
 								id = "aceEditor"
 								name="gdpr_css_text_field"
@@ -6285,19 +6855,15 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									showGutter: true,
 								}"
 							/>
-
 						</c-col>
-
-					</c-card-body>
-					</c-card>
-									<?php
+						<?php
 					}
 					?>
-							</c-card-body>	
-							
-					</c-card>
+					</div>
+
 				</c-tab>
-				<c-tab title="<?php esc_attr_e( 'Cookie List', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" 	id="gdpr-cookie-consent-cookies-list" style="position: relative;">
+
+				<c-tab title="<?php esc_attr_e( 'Cookie Manager', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" 	id="gdpr-cookie-consent-cookies-list" style="position: relative;">
 					<div class="gdpr-cookie-list-tabs-container" v-show="cookie_list_tab == true">
 						<img class="gdpr-cookie-list-tabs-logo"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/CookieConsent.png'; ?>" alt="Cookie Setting preview logo">
 						<p class="gdpr-cookie-list-tabs-heading"><?php esc_html_e( 'Create a Custom Cookie', 'gdpr-cookie-consent' ); ?></p>

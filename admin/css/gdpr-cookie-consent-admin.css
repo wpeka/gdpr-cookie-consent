@@ -6896,9 +6896,6 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   line-height: var(--text-sm-line-height);
   padding-bottom: 14px;
   border-bottom: 1px solid var(--gray-100);
-  border-top: 1px solid var(--gray-200);
-  padding-top: 40px;
-  margin-top: 40px;
 }
 .gdpr-cookie-consent-settings-nav
   #gdpr-cookie-consent-settings-cookie-notice-top,
