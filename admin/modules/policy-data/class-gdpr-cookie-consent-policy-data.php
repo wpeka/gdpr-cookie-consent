@@ -150,7 +150,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 */
 	public function gdpr_manage_edit_columns( $columns ) {
 		$columns = array(
-			'cb'          => '<input type="checkbox" />',
+			'cb'          => '<label class="screen-reader-text" for="policy-data-checkbox">Policy Data Request checkbox</label><input id="policy-data-checkbox" type="checkbox" />',
 			'title'       => __( 'Company Name', 'gdpr-cookie-consent' ),
 			'gdprpurpose' => __( 'Policy Purpose', 'gdpr-cookie-consent' ),
 			'gdprlinks'   => __( 'Links', 'gdpr-cookie-consent' ),

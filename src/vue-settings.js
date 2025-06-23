@@ -73,6 +73,7 @@ var gen = new Vue({
       pollingInterval: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
+      alt_configure_text: "WPCS Configure Logo icon",
       progress_bar: require("../admin/images/progress_bar.svg"),
       edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
       close_round_img: require("../admin/images/Close_round.svg"),
@@ -6408,6 +6409,92 @@ var gen = new Vue({
       // Trigger the scan
       this.onClickStartScan();
     }
+
+    //For fixing quill js buttons accessibility issues
+    this.$nextTick(() => {
+      const quillLabels = {
+        "ql-bold": "Bold",
+        "ql-italic": "Italic",
+        "ql-underline": "Underline",
+        "ql-code-block": "Code Block",
+        "ql-strike": "Strikethrough",
+        "ql-link": "Insert Link",
+        "ql-image": "Insert Image",
+        "ql-list": "List",
+        "ql-clean": "Remove Formatting",
+        "ql-align": "Align Text",
+        "ql-blockquote": "Blockquote",
+        "ql-indent": "Indent Text",
+        "ql-video": "Insert Video",
+        "ql-header": "Header",
+        "ql-color": "Text Color",
+        "ql-background": "Background Color",
+        "ql-preview": "Preview",
+      };
+
+      Object.entries(quillLabels).forEach(([className, label]) => {
+        const buttons = document.querySelectorAll(`.ql-toolbar .${className}`);
+        buttons.forEach((button) => {
+          button.setAttribute("aria-label", label);
+          button.setAttribute("title", label);
+        });
+      });
+
+      // Fix for Ace Editor’s textarea
+      const observer = new MutationObserver(() => {
+        const aceInput = document.querySelector(".ace_text-input");
+        if (aceInput) {
+          aceInput.setAttribute("aria-hidden", "true");
+          aceInput.setAttribute("tabindex", "-1");
+          aceInput.setAttribute("role", "presentation");
+          aceInput.removeAttribute("aria-label"); // optional, but removes confusion
+          aceInput.removeAttribute("title"); // in case any tooltips are there
+
+          observer.disconnect();
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+      setTimeout(() => observer.disconnect(), 10000);
+
+      // First: For ab_testing_period_text_field
+      const abInterval = setInterval(() => {
+        const inputs = document.querySelectorAll(
+          'input[name="ab_testing_period_text_field"]'
+        );
+
+        inputs.forEach((input) => {
+          if (
+            !input.hasAttribute("aria-label") &&
+            !input.hasAttribute("aria-labelledby")
+          ) {
+            input.setAttribute("aria-label", "A/B Testing Period");
+          }
+        });
+
+        if (inputs.length) clearInterval(abInterval);
+      }, 300);
+
+      setTimeout(() => clearInterval(abInterval), 7000); // safety timeout
+
+      // Second: For display-time inputs
+      const timeInterval = setInterval(() => {
+        const timeInputs = document.querySelectorAll("input.display-time");
+
+        timeInputs.forEach((input) => {
+          if (
+            !input.hasAttribute("aria-label") &&
+            !input.hasAttribute("aria-labelledby")
+          ) {
+            input.setAttribute("aria-label", "Choose time");
+          }
+        });
+
+        if (timeInputs.length) clearInterval(timeInterval);
+      }, 300);
+
+      setTimeout(() => clearInterval(timeInterval), 7000);
+    });
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });
@@ -6429,6 +6516,7 @@ var app = new Vue({
       is_logo_removed: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
+      alt_configure_text: "WPCS Configure Logo icon",
       closeOnBackdrop: true,
       centered: true,
       accept_button_popup: false,
@@ -8352,6 +8440,7 @@ var app = new Vue({
           ? settings_obj.the_options["button_revoke_consent_background_color"]
           : "",
       right_arrow: require("../admin/images/dashboard-icons/right-arrow.svg"),
+      alt_right_arrow: "WPCS right arrow icon",
       is_selectedCountry_on:
         settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
         (true === settings_obj.the_options["is_selectedCountry_on"] ||
