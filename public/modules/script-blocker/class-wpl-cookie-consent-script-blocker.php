@@ -402,20 +402,20 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					<c-row>
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Header Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Add scripts in the header location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
-							<label class="screen-reader-text"><c-textarea :rows="4" name="gcc-header-scripts" v-model="header_scripts" :disabled="enable_safe"></c-textarea><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
+							<c-textarea :rows="4" name="gcc-header-scripts" v-model="header_scripts" :disabled="enable_safe" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-textarea>
 						</c-col>
 					</c-row>
 					<c-row>
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Body Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Add scripts in the body location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
-							<label for="gcc-body-scripts" class="screen-reader-label"><?php esc_attr_e('gcc body scripts',  'gdpr-cookie-consent'); ?></label>
+							<label for="gcc-body-scripts" class="screen-reader-text"><?php esc_attr_e('gcc body scripts',  'gdpr-cookie-consent'); ?></label>
 							<c-textarea id="gcc-body-scripts" :rows="4" name="gcc-body-scripts" v-model="body_scripts" :disabled="enable_safe"></c-textarea>
 						</c-col>
 					</c-row>
 					<c-row>
 						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Footer Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Add scripts in the footer location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
-							<label class="screen-reader-text"><c-textarea :rows="4" name="gcc-footer-scripts" v-model="footer_scripts" :disabled="enable_safe"></c-textarea><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
+							<c-textarea :rows="4" name="gcc-footer-scripts" v-model="footer_scripts" :disabled="enable_safe" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-textarea>
 						</c-col>
 					</c-row>
 					<c-row v-show="is_gdpr">
@@ -580,7 +580,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
                     <label>' . __( 'Name', 'gdpr-cookie-consent' ) . '</label>
                 </div>
                 <div>
-				<label for="wpl_whitelist_script[' . $i . ']['.$value['name'].']" class="screen-reader-label">'.__('wpl whitelist script','gdpr-cookie-consent').'.</label>
+				<label for="wpl_whitelist_script[' . $i . ']['.$value['name'].']" class="screen-reader-text">'.__('wpl whitelist script','gdpr-cookie-consent').'.</label>
                     <input type="text"
 							id="wpl_whitelist_script[' . $i . ']['.$value['name'].']"
                     		data-name="name"
@@ -594,7 +594,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
                       <div>
                       <div class="wpl-hidden wpl-url-template">
                       	<div>
-						<label for="wpl_whitelist_script[' . $i . ']" class="screen-reader-label">'.__('wpl whitelist script','gdpr-cookie-consent').'.</label>
+						<label for="wpl_whitelist_script[' . $i . ']" class="screen-reader-text">'.__('wpl whitelist script','gdpr-cookie-consent').'.</label>
 						<input type="text"
 							   data-name="urls"
 							   id="wpl_whitelist_script[' . $i . ']"
@@ -643,7 +643,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 								<input type="hidden"
 									   value="0"
 										name="wpl_whitelist_script[' . $i . '][enable]">
-								<label for="wpl-checkbox-enable" class="screen-reader-label">'.__('Email', 'gdpr-cookie-consent').'</label>
+								<label for="wpl-checkbox-enable" class="screen-reader-text">'.__('Whitelist', 'gdpr-cookie-consent').'</label>
 								<input type="checkbox"
 									   id="wpl-checkbox-enable"
 									   name="wpl_whitelist_script[' . $i . '][enable]"

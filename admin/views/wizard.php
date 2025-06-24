@@ -52,7 +52,7 @@ function print_template_boxes( ) {
 		<?php foreach ( $templates as $key => $template ) : ?>
 			<div v-show = "show_cookie_as == 'widget' || show_cookie_as == 'popup' || '<?php echo esc_js($template['name']); ?>' !== 'blue_full'" class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 				<div class="gdpr-left-field">
-					<label class="screen-reader-text"><c-input type="radio"  name="<?php echo 'template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'" /><?php echo esc_html( $template['name'] ); ?></label>
+					<c-input type="radio"  name="<?php echo 'template_field'; ?>" value="<?php echo esc_attr( $template['name'] ); ?>" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'" aria-label="<?php echo esc_html( $template['name'] ); ?>"/>
 				</div>
 				<?php 
 
@@ -417,8 +417,8 @@ function print_template_boxes( ) {
 																	<path fill="#00CF21"d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
 																</svg>
 															</div>
-															<label for="email-input" class="screen-reader-label"><?php esc_attr_e('Email address','gdpr-cookie-consent'); ?></label>
-															<label class="screen-reader-text"><c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
+															<label for="email-input" class="screen-reader-text"><?php esc_attr_e('Email address','gdpr-cookie-consent'); ?></label>
+															<c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input"></c-input>
 
 														</c-col>
 														<!-- email validation script -->
@@ -459,8 +459,8 @@ function print_template_boxes( ) {
 																	<path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
 																</svg>
 															</div>
-															<label for="subject-input" class="screen-reader-label"><?php esc_attr_e('Email Subject'); ?></label>
-															<label class="screen-reader-text"><c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input"></c-input><?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?></label>
+															<label for="subject-input" class="screen-reader-text"><?php esc_attr_e('Email Subject'); ?></label>
+															<c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
 														</c-col>
 													</div>
 
