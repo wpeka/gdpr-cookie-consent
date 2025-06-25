@@ -634,7 +634,7 @@ function print_template_boxes( ) {
 							<span class="gdpr-help-description">
 								<?php esc_html_e( 'Read the documentation to find answers to your questions.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" alt="WPCS right arrow icon"></a>
 							</div>
 						</div>
 						<div class="gdpr-help-item">
@@ -646,7 +646,7 @@ function print_template_boxes( ) {
 							<span class="gdpr-help-description">
 								<?php esc_html_e( 'Explore video tutorials for insights on WP Cookie Consent functionality.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" alt="WPCS right arrow icon"></a>
 							</div>
 						</div>
 						<div class="gdpr-help-item">
@@ -658,7 +658,7 @@ function print_template_boxes( ) {
 							<span class="gdpr-help-description">
 								<?php esc_html_e( 'Find answers to some of the most commonly asked questions.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" :alt="alt_right_arrow"></a>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" alt="WPCS right arrow icon"></a>
 							</div>
 						</div>
 					</div>

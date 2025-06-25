@@ -73,7 +73,6 @@ var gen = new Vue({
       pollingInterval: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
-      alt_configure_text: "WPCS Configure Logo icon",
       progress_bar: require("../admin/images/progress_bar.svg"),
       edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
       close_round_img: require("../admin/images/Close_round.svg"),
@@ -6516,7 +6515,6 @@ var app = new Vue({
       is_logo_removed: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
-      alt_configure_text: "WPCS Configure Logo icon",
       closeOnBackdrop: true,
       centered: true,
       accept_button_popup: false,
@@ -8440,7 +8438,6 @@ var app = new Vue({
           ? settings_obj.the_options["button_revoke_consent_background_color"]
           : "",
       right_arrow: require("../admin/images/dashboard-icons/right-arrow.svg"),
-      alt_right_arrow: "WPCS right arrow icon",
       is_selectedCountry_on:
         settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
         (true === settings_obj.the_options["is_selectedCountry_on"] ||
