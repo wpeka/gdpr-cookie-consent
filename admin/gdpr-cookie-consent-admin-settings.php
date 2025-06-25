@@ -2053,7 +2053,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3" v-show="is_gdpr || is_eprivacy || is_lgpd">
 									<c-button :disabled="!cookie_accept_on" class="gdpr-configure-button" @click="accept_button_popup=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -2210,7 +2210,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3"  v-show="is_gdpr || is_eprivacy || is_lgpd">
 									<c-button :disabled="!cookie_accept_all_on" class="gdpr-configure-button" @click="accept_all_button_popup=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -2368,7 +2368,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3" v-show="is_gdpr || is_eprivacy || is_lgpd">
 									<c-button :disabled="!cookie_decline_on" class="gdpr-configure-button" @click="decline_button_popup=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -2522,7 +2522,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3" v-show="is_gdpr || is_lgpd">
 									<c-button :disabled="!cookie_settings_on" class="gdpr-configure-button" @click="settings_button_popup=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -2663,7 +2663,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-4" v-show="is_ccpa">
 									<c-button class="gdpr-configure-button" @click="confirm_button_popup=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -2779,7 +2779,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-4" v-show="is_ccpa">
 									<c-button class="gdpr-configure-button" @click="cancel_button_popup=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -2895,7 +2895,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-4" v-show="is_ccpa">
 									<c-button class="gdpr-configure-button" @click="opt_out_link_popup=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -3148,7 +3148,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-col class="col-sm-3">
 											<c-button :disabled="!cookie_accept_on1" class="gdpr-configure-button" @click="accept_button_popup1=true">
 												<span>
-													<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+													<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 													<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 												</span>
 											</c-button>
@@ -3307,7 +3307,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-col class="col-sm-3">
 											<c-button :disabled="!cookie_accept_all_on1" class="gdpr-configure-button" @click="accept_all_button_popup1=true">
 												<span>
-													<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+													<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 													<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 												</span>
 											</c-button>
@@ -3467,7 +3467,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-col class="col-sm-3">
 											<c-button :disabled="!cookie_decline_on1" class="gdpr-configure-button" @click="decline_button_popup1=true">
 												<span>
-													<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+													<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 													<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 												</span>
 											</c-button>
@@ -3624,7 +3624,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-col class="col-sm-3">
 											<c-button :disabled="!cookie_settings_on1" class="gdpr-configure-button" @click="settings_button_popup1=true">
 												<span>
-													<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+													<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 													<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 												</span>
 											</c-button>
@@ -3942,7 +3942,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-col class="col-sm-8">
 											<c-button class="gdpr-configure-button" @click="confirm_button_popup1=true">
 												<span>
-													<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+													<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 													<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 												</span>
 											</c-button>
@@ -4061,7 +4061,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-col class="col-sm-8">
 											<c-button class="gdpr-configure-button" @click="cancel_button_popup1=true">
 												<span>
-													<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+													<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 													<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 												</span>
 											</c-button>
@@ -4180,7 +4180,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<c-col class="col-sm-8">
 											<c-button class="gdpr-configure-button" @click="opt_out_link_popup1=true">
 												<span>
-													<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+													<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 													<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 												</span>
 											</c-button>
@@ -4448,7 +4448,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3">
 									<c-button :disabled="!cookie_accept_on1" class="gdpr-configure-button" @click="accept_button_popup1=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -4603,7 +4603,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3">
 									<c-button :disabled="!cookie_accept_all_on1" class="gdpr-configure-button" @click="accept_all_button_popup1=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -4755,7 +4755,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3">
 									<c-button :disabled="!cookie_decline_on1" class="gdpr-configure-button" @click="decline_button_popup1=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -4904,7 +4904,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3">
 									<c-button :disabled="!cookie_settings_on1" class="gdpr-configure-button" @click="settings_button_popup1=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -5042,7 +5042,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-8">
 									<c-button class="gdpr-configure-button" @click="confirm_button_popup1=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -5154,7 +5154,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-8">
 									<c-button class="gdpr-configure-button" @click="cancel_button_popup1=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -5266,7 +5266,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-8">
 									<c-button class="gdpr-configure-button" @click="opt_out_link_popup1=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -5513,7 +5513,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3">
 									<c-button :disabled="!cookie_accept_on2" class="gdpr-configure-button" @click="accept_button_popup2 = true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -5665,7 +5665,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3">
 									<c-button :disabled="!cookie_accept_all_on2" class="gdpr-configure-button" @click="accept_all_button_popup2=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -5823,7 +5823,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3">
 									<c-button :disabled="!cookie_decline_on2" class="gdpr-configure-button" @click="decline_button_popup2=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -5980,7 +5980,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-3">
 									<c-button :disabled="!cookie_settings_on2" class="gdpr-configure-button" @click="settings_button_popup2=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -6126,7 +6126,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-8">
 									<c-button class="gdpr-configure-button" @click="confirm_button_popup2=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -6245,7 +6245,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-8">
 									<c-button class="gdpr-configure-button" @click="cancel_button_popup2=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
@@ -6364,7 +6364,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-8">
 									<c-button class="gdpr-configure-button" @click="opt_out_link_popup2=true">
 										<span>
-											<img class="gdpr-configure-image" :src="configure_image_url.default" :alt="alt_configure_text">
+											<img class="gdpr-configure-image" :src="configure_image_url.default" alt="WPCS Configure Logo icon">
 											<?php esc_attr_e( 'Configuration', 'gdpr-cookie-consent' ); ?>
 										</span>
 									</c-button>
