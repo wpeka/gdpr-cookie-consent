@@ -9269,3 +9269,6 @@ div#gdpr-scan-history {
   input:checked + label {
   background: var(--accept-bg-color) !important;
 }
+.gdpr-readmore-toggle-row{
+  margin-bottom: 0.3rem;
+}
