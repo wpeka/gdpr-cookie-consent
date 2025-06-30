@@ -187,7 +187,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'                     => '<input type="checkbox"/>',
+			'cb'                     => '<label class="screen-reader-text" for="data-req-checkbox">Data Request report Log</label><input id="data-req-checkbox" type="checkbox"/>',
 			'name'                   => __( 'Name', 'gdpr-cookie-consent' ),
 			'email'                  => __( 'Email', 'gdpr-cookie-consent' ),
 			'resolved'               => __( 'Status', 'gdpr-cookie-consent' ),

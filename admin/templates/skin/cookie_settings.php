@@ -91,6 +91,9 @@
 				<div class="gdpr-groups-container">
                      <div class="gdpr-about-cookies">Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.</div>
 					      <div class="gdpr-about-cookies iabtcf">Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest. The choices you make regarding the purposes and entities listed in this notice are saved in a cookie named wpl_tc_string for a maximum duration of 12 months.</div>
+                     <?php if($the_options['is_gcm_on'] == 'true') : ?>
+								<div class="gdpr-about-cookies"><?php echo esc_html("For more information on how Google's third party cookies operate and handle your data, see: "); // phpcs:ignore ?><a :style="{'color': cookieSettingsPopupAccentColor}" href="https://business.safety.google/privacy" target="blank"><?php echo esc_html("Google's Privacy Policy"); ?></a></div>
+							<?php endif; ?>
                      <ul class="gdpr-iab-navbar">
                         <li class="gdpr-iab-navbar-item" id="gdprIABTabCategory">
                            <button class="gdpr-iab-navbar-button"

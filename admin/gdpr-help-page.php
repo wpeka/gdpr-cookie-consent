@@ -33,18 +33,21 @@ if ( ! defined( 'ABSPATH' ) ) {
                            <div class="row">
                               <div class="col-sm-6 col">
                                  <div role="group" class="form-group">
-                                    <input type="text" name="sup-name" placeholder="Name" class="form-control">
+                                    <label for="sup-name" class="screen-reader-text"><?php esc_attr_e('help name'); ?></label>
+                                    <input id="sup-name" type="text" name="sup-name" placeholder="Name" class="form-control">
                                  </div>
                               </div>
                               <div class="col-sm-6 col">
                                  <div role="group" class="form-group">
-                                  	<input type="text" name="sup-email" placeholder="Email" class="form-control">
+                                    <label for="sup-email" class="screen-reader-text"><?php esc_attr_e('help email'); ?></label>
+                                  	<input id="sup-email" type="text" name="sup-email" placeholder="Email" class="form-control">
                                     <div data-lastpass-icon-root="" style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"></div>
                                  </div>
                               </div>
 							   <div class="col-sm-12 col">
                                  <div role="group" class="form-group">
-                                  	<textarea rows="10" cols="115" name="sup-message" placeholder="Message" class="form-textarea" ></textarea>
+                                    <label for="sup-message" class="screen-reader-text"><?php esc_attr_e('help message'); ?></label>
+                                  	<textarea id="sup-message" rows="10" cols="115" name="sup-message" placeholder="Message" class="form-textarea" ></textarea>
                                     <div data-lastpass-icon-root="" style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"></div>
                                  </div>
                               </div>

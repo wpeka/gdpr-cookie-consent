@@ -3930,7 +3930,7 @@ class Gdpr_Cookie_Consent_Admin {
 		<?php foreach ( $templates as $key => $template ) : ?>
 			<div v-show = "show_cookie_as == 'widget' || show_cookie_as == 'popup' || '<?php echo esc_js($template['name']); ?>' !== 'blue_full'" class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
 				<div class="gdpr-left-field">
-					<c-input type="radio"  name="<?php echo 'template_field'; ?>" :value="'<?php echo esc_attr( $template['name'] ); ?>'" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'">
+					<c-input type="radio"  name="<?php echo 'template_field'; ?>" :value="'<?php echo esc_attr( $template['name'] ); ?>'" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'" aria-label="<?php echo esc_html( $template['name'] ); ?>"/>
 				</div>
 				<?php 
 
@@ -3986,7 +3986,7 @@ class Gdpr_Cookie_Consent_Admin {
 								</svg>
 							</span>
 							
-								<img style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/logo_placeholder.png'; ?>" >
+								<img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/logo_placeholder.png'; ?>" >
 										
 								<?php
 								if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
@@ -4544,7 +4544,7 @@ class Gdpr_Cookie_Consent_Admin {
 						'analytics_storage' => 'denied',
 						'ad_user_data' => 'denied',
 						'ad_personalization' => 'denied',
-						'functionality_storage' => 'denied',
+						'functionality_storage' => 'granted',
 						'personalization_storage' => 'denied',
 						'security_storage' => 'granted',
 					]
