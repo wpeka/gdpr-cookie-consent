@@ -83,7 +83,11 @@ var gen = new Vue({
       add_region: false,
       accept_button_popup: false,
       button_readmore_popup: false,
+      button_readmore_popup1: false,
+      button_readmore_popup2: false,
       revoke_consent_popup: false,
+      revoke_consent_popup1: false,
+      revoke_consent_popup2: false,
       accept_all_button_popup: false,
       decline_button_popup: false,
       show_script_blocker: false,
@@ -317,17 +321,51 @@ var gen = new Vue({
           1 === settings_obj.the_options["show_again"])
           ? true
           : false,
+      is_revoke_consent_on1:
+      settings_obj.the_options.hasOwnProperty("show_again1") &&
+      (true === settings_obj.the_options["show_again1"] ||
+        1 === settings_obj.the_options["show_again1"])
+        ? true
+        : false,
+      is_revoke_consent_on2:
+      settings_obj.the_options.hasOwnProperty("show_again2") &&
+      (true === settings_obj.the_options["show_again2"] ||
+        1 === settings_obj.the_options["show_again2"])
+        ? true
+        : false,
       tab_position_options: settings_obj.tab_position_options,
       tab_position: settings_obj.the_options.hasOwnProperty(
         "show_again_position"
       )
         ? settings_obj.the_options["show_again_position"]
         : "right",
+      tab_position1: settings_obj.the_options.hasOwnProperty(
+        "show_again_position1"
+      )
+        ? settings_obj.the_options["show_again_position1"]
+        : "right",
+      tab_position2: settings_obj.the_options.hasOwnProperty(
+        "show_again_position2"
+      )
+        ? settings_obj.the_options["show_again_position2"]
+        : "right",
       tab_margin: settings_obj.the_options.hasOwnProperty("show_again_margin")
         ? settings_obj.the_options["show_again_margin"]
         : "5",
+      tab_margin1: settings_obj.the_options.hasOwnProperty("show_again_margin1")
+        ? settings_obj.the_options["show_again_margin1"]
+        : "5",
+      tab_margin2: settings_obj.the_options.hasOwnProperty("show_again_margin2")
+        ? settings_obj.the_options["show_again_margin2"]
+        : "5",
       tab_text: settings_obj.the_options.hasOwnProperty("show_again_text")
         ? settings_obj.the_options["show_again_text"]
+        : "Cookie Settings",
+      tab_text1: settings_obj.the_options.hasOwnProperty("show_again_text1")
+        ? settings_obj.the_options["show_again_text1"]
+        : "Cookie Settings",
+      tab_text2: settings_obj.the_options.hasOwnProperty("show_again_text2")
+        ? settings_obj.the_options["show_again_text2"]
         : "Cookie Settings",
       show_revoke_card: this.is_gdpr || this.is_eprivacy,
       autotick:
@@ -438,6 +476,18 @@ var gen = new Vue({
           1 === settings_obj.the_options["button_readmore_is_on"])
           ? true
           : false,
+      button_readmore_is_on1:
+        settings_obj.the_options.hasOwnProperty("button_readmore_is_on1") &&
+        (true === settings_obj.the_options["button_readmore_is_on1"] ||
+          1 === settings_obj.the_options["button_readmore_is_on1"])
+          ? true
+          : false,
+      button_readmore_is_on2:
+      settings_obj.the_options.hasOwnProperty("button_readmore_is_on2") &&
+      (true === settings_obj.the_options["button_readmore_is_on2"] ||
+        1 === settings_obj.the_options["button_readmore_is_on2"])
+        ? true
+        : false,
       button_readmore_text: settings_obj.the_options.hasOwnProperty(
         "button_readmore_text"
       )
@@ -1523,6 +1573,89 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_donotsell_link_color1"]
         : "#359bf5",
+      button_readmore_text1: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_text1"
+      )
+        ? settings_obj.the_options["button_readmore_text1"]
+        : "Read More",
+      button_readmore_link_color1: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_link_color1"
+      )
+        ? settings_obj.the_options["button_readmore_link_color1"]
+        : "#359bf5",
+      button_readmore_as_button1:
+        settings_obj.the_options.hasOwnProperty("button_readmore_as_button1") &&
+        (true === settings_obj.the_options["button_readmore_as_button1"] ||
+          1 === settings_obj.the_options["button_readmore_as_button1"])
+          ? true
+          : false,
+      button_readmore_url_type1:
+        settings_obj.the_options.hasOwnProperty("button_readmore_url_type1") &&
+        (false === settings_obj.the_options["button_readmore_url_type1"] ||
+          0 === settings_obj.the_options["button_readmore_url_type1"])
+          ? false
+          : true,
+      button_readmore_page1: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_page1"
+      )
+        ? settings_obj.the_options["button_readmore_page1"]
+        : "0",
+      button_readmore_wp_page1:
+        settings_obj.the_options.hasOwnProperty("button_readmore_wp_page1") &&
+        (true === settings_obj.the_options["button_readmore_wp_page1"] ||
+          1 === settings_obj.the_options["button_readmore_wp_page1"])
+          ? true
+          : false,
+      button_readmore_new_win1:
+        settings_obj.the_options.hasOwnProperty("button_readmore_new_win1") &&
+        (true === settings_obj.the_options["button_readmore_new_win1"] ||
+          1 === settings_obj.the_options["button_readmore_new_win1"])
+          ? true
+          : false,
+      button_readmore_url1: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_url1"
+      )
+        ? settings_obj.the_options["button_readmore_url1"]
+        : "#",
+      button_readmore_button_color1: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_button_color1"
+      )
+        ? settings_obj.the_options["button_readmore_button_color1"]
+        : "#000000",
+      button_readmore_button_opacity1: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_button_opacity1"
+      )
+        ? settings_obj.the_options["button_readmore_button_opacity1"]
+        : "1",
+      button_readmore_button_border_style1:
+        settings_obj.the_options.hasOwnProperty(
+          "button_readmore_button_border_style1"
+        )
+          ? settings_obj.the_options["button_readmore_button_border_style1"]
+          : "none",
+      button_readmore_button_border_width1:
+        settings_obj.the_options.hasOwnProperty(
+          "button_readmore_button_border_width1"
+        )
+          ? settings_obj.the_options["button_readmore_button_border_width1"]
+          : "0",
+      button_readmore_button_border_color1:
+        settings_obj.the_options.hasOwnProperty(
+          "button_readmore_button_border_color1"
+        )
+          ? settings_obj.the_options["button_readmore_button_border_color1"]
+          : "#000000",
+      button_readmore_button_border_radius1:
+        settings_obj.the_options.hasOwnProperty(
+          "button_readmore_button_border_radius1"
+        )
+          ? settings_obj.the_options["button_readmore_button_border_radius1"]
+          : "0",
+      button_readmore_button_size1: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_button_size1"
+      )
+        ? settings_obj.the_options["button_readmore_button_size1"]
+        : "medium",  
       cookie_bar2_name: settings_obj.the_options.hasOwnProperty(
         "cookie_bar2_name"
       )
@@ -1968,7 +2101,89 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_donotsell_link_color2"]
         : "#359bf5",
-
+      button_readmore_text2: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_text2"
+      )
+        ? settings_obj.the_options["button_readmore_text2"]
+        : "Read More",
+      button_readmore_link_color2: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_link_color2"
+      )
+        ? settings_obj.the_options["button_readmore_link_color2"]
+        : "#359bf5",
+      button_readmore_as_button2:
+        settings_obj.the_options.hasOwnProperty("button_readmore_as_button2") &&
+        (true === settings_obj.the_options["button_readmore_as_button2"] ||
+          1 === settings_obj.the_options["button_readmore_as_button2"])
+          ? true
+          : false,
+      button_readmore_url_type2:
+        settings_obj.the_options.hasOwnProperty("button_readmore_url_type2") &&
+        (false === settings_obj.the_options["button_readmore_url_type2"] ||
+          0 === settings_obj.the_options["button_readmore_url_type2"])
+          ? false
+          : true,
+      button_readmore_page2: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_page2"
+      )
+        ? settings_obj.the_options["button_readmore_page2"]
+        : "0",
+      button_readmore_wp_page2:
+        settings_obj.the_options.hasOwnProperty("button_readmore_wp_page2") &&
+        (true === settings_obj.the_options["button_readmore_wp_page2"] ||
+          1 === settings_obj.the_options["button_readmore_wp_page2"])
+          ? true
+          : false,
+      button_readmore_new_win2:
+        settings_obj.the_options.hasOwnProperty("button_readmore_new_win2") &&
+        (true === settings_obj.the_options["button_readmore_new_win2"] ||
+          1 === settings_obj.the_options["button_readmore_new_win2"])
+          ? true
+          : false,
+      button_readmore_url2: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_url2"
+      )
+        ? settings_obj.the_options["button_readmore_url2"]
+        : "#",
+      button_readmore_button_color2: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_button_color2"
+      )
+        ? settings_obj.the_options["button_readmore_button_color2"]
+        : "#000000",
+      button_readmore_button_opacity2: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_button_opacity2"
+      )
+        ? settings_obj.the_options["button_readmore_button_opacity2"]
+        : "1",
+      button_readmore_button_border_style2:
+        settings_obj.the_options.hasOwnProperty(
+          "button_readmore_button_border_style2"
+        )
+          ? settings_obj.the_options["button_readmore_button_border_style2"]
+          : "none",
+      button_readmore_button_border_width2:
+        settings_obj.the_options.hasOwnProperty(
+          "button_readmore_button_border_width2"
+        )
+          ? settings_obj.the_options["button_readmore_button_border_width2"]
+          : "0",
+      button_readmore_button_border_color2:
+        settings_obj.the_options.hasOwnProperty(
+          "button_readmore_button_border_color2"
+        )
+          ? settings_obj.the_options["button_readmore_button_border_color2"]
+          : "#000000",
+      button_readmore_button_border_radius2:
+        settings_obj.the_options.hasOwnProperty(
+          "button_readmore_button_border_radius2"
+        )
+          ? settings_obj.the_options["button_readmore_button_border_radius2"]
+          : "0",
+      button_readmore_button_size2: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_button_size2"
+      )
+        ? settings_obj.the_options["button_readmore_button_size2"]
+        : "medium",  
       is_script_blocker_on:
         settings_obj.the_options.hasOwnProperty("is_script_blocker_on") &&
         (true === settings_obj.the_options["is_script_blocker_on"] ||
@@ -2266,6 +2481,28 @@ var gen = new Vue({
           "button_revoke_consent_background_color"
         )
           ? settings_obj.the_options["button_revoke_consent_background_color"]
+          : "",
+      button_revoke_consent_text_color1: settings_obj.the_options.hasOwnProperty(
+        "button_revoke_consent_text_color1"
+      )
+        ? settings_obj.the_options["button_revoke_consent_text_color1"]
+        : "",
+      button_revoke_consent_background_color1:
+        settings_obj.the_options.hasOwnProperty(
+          "button_revoke_consent_background_color1"
+        )
+          ? settings_obj.the_options["button_revoke_consent_background_color1"]
+          : "",
+      button_revoke_consent_text_color2: settings_obj.the_options.hasOwnProperty(
+        "button_revoke_consent_text_color2"
+      )
+        ? settings_obj.the_options["button_revoke_consent_text_color2"]
+        : "",
+      button_revoke_consent_background_color2:
+        settings_obj.the_options.hasOwnProperty(
+          "button_revoke_consent_background_color2"
+        )
+          ? settings_obj.the_options["button_revoke_consent_background_color2"]
           : "",
       is_selectedCountry_on:
         settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
@@ -2886,6 +3123,12 @@ var gen = new Vue({
     onSwitchRevokeConsentEnable() {
       this.is_revoke_consent_on = !this.is_revoke_consent_on;
     },
+    onSwitchRevokeConsentEnable1() {
+      this.is_revoke_consent_on1 = !this.is_revoke_consent_on1;
+    },
+    onSwitchRevokeConsentEnable2() {
+      this.is_revoke_consent_on2 = !this.is_revoke_consent_on2;
+    },
     onSwitchAutotick() {
       this.autotick = !this.autotick;
     },
@@ -3268,6 +3511,15 @@ var gen = new Vue({
       this.settings_border_width1 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius1 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
       this.opt_out_text_color1 =                     selectedTemplate['opt_out_button']['color'];
+      this.button_readmore_link_color1 =             selectedTemplate['readmore_button']['color'];
+      this.button_readmore_button_color1 =           selectedTemplate['readmore_button']['background-color'];
+      this.button_readmore_button_opacity1 =         selectedTemplate['readmore_button']['opacity'];
+      this.button_readmore_button_border_style1 =    selectedTemplate['readmore_button']['border-style'];
+      this.button_readmore_button_border_color1 =    selectedTemplate['readmore_button']['border-color'];
+      this.button_readmore_button_border_radius1 =   selectedTemplate['readmore_button']['border-radius'].substring(0, selectedTemplate['readmore_button']['border-radius'].length - 2);
+      this.button_readmore_button_border_width1 =    selectedTemplate['readmore_button']['border-width'].substring(0, selectedTemplate['readmore_button']['border-width'].length - 2);
+      this.button_revoke_consent_text_color1 =       selectedTemplate['revoke_consent_button']['color'];
+      this.button_revoke_consent_background_color1 = selectedTemplate['revoke_consent_button']['background-color'];
 
       this.cookie_bar_color2 =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity2 =                     selectedTemplate['styles']['opacity'];
@@ -3314,6 +3566,15 @@ var gen = new Vue({
       this.settings_border_width2 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius2 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
       this.opt_out_text_color2 =                     selectedTemplate['opt_out_button']['color'];
+      this.button_readmore_link_color2 =             selectedTemplate['readmore_button']['color'];
+      this.button_readmore_button_color2 =           selectedTemplate['readmore_button']['background-color'];
+      this.button_readmore_button_opacity2 =         selectedTemplate['readmore_button']['opacity'];
+      this.button_readmore_button_border_style2 =    selectedTemplate['readmore_button']['border-style'];
+      this.button_readmore_button_border_color2 =    selectedTemplate['readmore_button']['border-color'];
+      this.button_readmore_button_border_radius2 =   selectedTemplate['readmore_button']['border-radius'].substring(0, selectedTemplate['readmore_button']['border-radius'].length - 2);
+      this.button_readmore_button_border_width2 =    selectedTemplate['readmore_button']['border-width'].substring(0, selectedTemplate['readmore_button']['border-width'].length - 2);
+      this.button_revoke_consent_text_color2 =       selectedTemplate['revoke_consent_button']['color'];
+      this.button_revoke_consent_background_color2 = selectedTemplate['revoke_consent_button']['background-color'];
 
       // Multiple Legislation
       this.multiple_legislation_cookie_bar_color1 =         selectedTemplate["styles"]["background-color"];
@@ -3394,11 +3655,29 @@ var gen = new Vue({
     onSwitchButtonReadMoreIsOn() {
       this.button_readmore_is_on = !this.button_readmore_is_on;
     },
+    onSwitchButtonReadMoreIsOn1() {
+      this.button_readmore_is_on1 = !this.button_readmore_is_on1;
+    },
+    onSwitchButtonReadMoreIsOn2() {
+      this.button_readmore_is_on2 = !this.button_readmore_is_on2;
+    },
     onSwitchButtonReadMoreWpPage() {
       this.button_readmore_wp_page = !this.button_readmore_wp_page;
     },
+    onSwitchButtonReadMoreWpPage1() {
+      this.button_readmore_wp_page1 = !this.button_readmore_wp_page1;
+    },
+    onSwitchButtonReadMoreWpPage2() {
+      this.button_readmore_wp_page2 = !this.button_readmore_wp_page2;
+    },
     onSwitchButtonReadMoreNewWin() {
       this.button_readmore_new_win = !this.button_readmore_new_win;
+    },
+    onSwitchButtonReadMoreNewWin1() {
+      this.button_readmore_new_win1 = !this.button_readmore_new_win1;
+    },
+    onSwitchButtonReadMoreNewWin2() {
+      this.button_readmore_new_win2 = !this.button_readmore_new_win2;
     },
     onSwitchingScriptBlocker() {
       this.is_script_blocker_on = !this.is_script_blocker_on;
@@ -3458,6 +3737,12 @@ var gen = new Vue({
     },
     onSelectPrivacyPage(value) {
       this.button_readmore_page = value;
+    },
+    onSelectPrivacyPage1(value) {
+      this.button_readmore_page1 = value;
+    },
+    onSelectPrivacyPage2(value) {
+      this.button_readmore_page2 = value;
     },
     onButtonChange(value, modelKey){
       if (modelKey == 'accept') {
@@ -4077,6 +4362,27 @@ var gen = new Vue({
       this.button_readmore_url_type = true;
       this.button_readmore_wp_page = false;
       this.button_readmore_page = "0";
+      
+      this.button_readmore_text1 = "Read More";
+      this.button_readmore_url1 = "#";
+      this.button_readmore_new_win1 = false;
+      this.button_readmore_as_button1 = false;
+      this.button_readmore_button_size1 = "medium";
+      this.button_readmore_is_on1 = true;
+      this.button_readmore_url_type1 = true;
+      this.button_readmore_wp_page1 = false;
+      this.button_readmore_page1 = "0";
+
+      this.button_readmore_text2 = "Read More";
+      this.button_readmore_url2 = "#";
+      this.button_readmore_new_win2 = false;
+      this.button_readmore_as_button2 = false;
+      this.button_readmore_button_size2 = "medium";
+      this.button_readmore_is_on2 = true;
+      this.button_readmore_url_type2 = true;
+      this.button_readmore_wp_page2 = false;
+      this.button_readmore_page2 = "0";
+
       this.decline_text = "Decline";
       this.decline_url = "#";
       this.decline_action = "#cookie_action_settings";
@@ -4157,6 +4463,8 @@ var gen = new Vue({
       this.show_credits = true;
       this.autotick = false;
       this.is_revoke_consent_on = true;
+      this.is_revoke_consent_on1 = true;
+      this.is_revoke_consent_on2 = true;
       this.is_script_blocker_on = false;
       this.auto_hide = false;
       this.auto_banner_initialize = false;
@@ -4167,8 +4475,14 @@ var gen = new Vue({
       this.decline_reload = false;
       this.delete_on_deactivation = false;
       this.tab_position = "right";
+      this.tab_position1 = "right";
+      this.tab_position2 = "right";
       this.tab_text = "Cookie Settings";
+      this.tab_text1 = "Cookie Settings";
+      this.tab_text2 = "Cookie Settings";
       this.tab_margin = "5";
+      this.tab_margin1 = "5";
+      this.tab_margin2 = "5";
       this.auto_hide_delay = "10000";
       this.auto_banner_initialize_delay = "10000";
       this.auto_scroll_offset = "10";
@@ -6435,7 +6749,11 @@ var app = new Vue({
       centered: true,
       accept_button_popup: false,
       button_readmore_popup: false,
+      button_readmore_popup1: false,
+      button_readmore_popup2: false,
       revoke_consent_popup: false,
+      revoke_consent_popup1: false,
+      revoke_consent_popup2: false,
       accept_all_button_popup: false,
       decline_button_popup: false,
       show_script_blocker: false,
@@ -6605,17 +6923,51 @@ var app = new Vue({
           1 === settings_obj.the_options["show_again"])
           ? true
           : false,
+      is_revoke_consent_on1:
+      settings_obj.the_options.hasOwnProperty("show_again1") &&
+      (true === settings_obj.the_options["show_again1"] ||
+        1 === settings_obj.the_options["show_again1"])
+        ? true
+        : false,
+      is_revoke_consent_on2:
+      settings_obj.the_options.hasOwnProperty("show_again2") &&
+      (true === settings_obj.the_options["show_again2"] ||
+        1 === settings_obj.the_options["show_again2"])
+        ? true
+        : false,
       tab_position_options: settings_obj.tab_position_options,
       tab_position: settings_obj.the_options.hasOwnProperty(
         "show_again_position"
       )
         ? settings_obj.the_options["show_again_position"]
         : "right",
+      tab_position1: settings_obj.the_options.hasOwnProperty(
+        "show_again_position1"
+      )
+        ? settings_obj.the_options["show_again_position1"]
+        : "right",
+      tab_position2: settings_obj.the_options.hasOwnProperty(
+        "show_again_position2"
+      )
+        ? settings_obj.the_options["show_again_position2"]
+        : "right",
       tab_margin: settings_obj.the_options.hasOwnProperty("show_again_margin")
         ? settings_obj.the_options["show_again_margin"]
         : "5",
+      tab_margin1: settings_obj.the_options.hasOwnProperty("show_again_margin1")
+        ? settings_obj.the_options["show_again_margin1"]
+        : "5",
+      tab_margin2: settings_obj.the_options.hasOwnProperty("show_again_margin2")
+        ? settings_obj.the_options["show_again_margin2"]
+        : "5",
       tab_text: settings_obj.the_options.hasOwnProperty("show_again_text")
         ? settings_obj.the_options["show_again_text"]
+        : "Cookie Settings",
+      tab_text1: settings_obj.the_options.hasOwnProperty("show_again_text1")
+        ? settings_obj.the_options["show_again_text1"]
+        : "Cookie Settings",
+      tab_text2: settings_obj.the_options.hasOwnProperty("show_again_text2")
+        ? settings_obj.the_options["show_again_text2"]
         : "Cookie Settings",
       show_revoke_card: this.is_gdpr || this.is_eprivacy,
       autotick:
@@ -6720,6 +7072,18 @@ var app = new Vue({
           1 === settings_obj.the_options["button_readmore_is_on"])
           ? true
           : false,
+      button_readmore_is_on1:
+      settings_obj.the_options.hasOwnProperty("button_readmore_is_on1") &&
+      (true === settings_obj.the_options["button_readmore_is_on1"] ||
+        1 === settings_obj.the_options["button_readmore_is_on1"])
+        ? true
+        : false,
+      button_readmore_is_on2:
+      settings_obj.the_options.hasOwnProperty("button_readmore_is_on2") &&
+      (true === settings_obj.the_options["button_readmore_is_on2"] ||
+        1 === settings_obj.the_options["button_readmore_is_on2"])
+        ? true
+        : false,
       button_readmore_text: settings_obj.the_options.hasOwnProperty(
         "button_readmore_text"
       )
@@ -8355,6 +8719,28 @@ var app = new Vue({
         )
           ? settings_obj.the_options["button_revoke_consent_background_color"]
           : "",
+      button_revoke_consent_text_color1: settings_obj.the_options.hasOwnProperty(
+        "button_revoke_consent_text_color1"
+      )
+        ? settings_obj.the_options["button_revoke_consent_text_color1"]
+        : "",
+      button_revoke_consent_background_color1:
+        settings_obj.the_options.hasOwnProperty(
+          "button_revoke_consent_background_color1"
+        )
+          ? settings_obj.the_options["button_revoke_consent_background_color1"]
+          : "",
+      button_revoke_consent_text_color2: settings_obj.the_options.hasOwnProperty(
+        "button_revoke_consent_text_color2"
+      )
+        ? settings_obj.the_options["button_revoke_consent_text_color2"]
+        : "",
+      button_revoke_consent_background_color2:
+        settings_obj.the_options.hasOwnProperty(
+          "button_revoke_consent_background_color2"
+        )
+          ? settings_obj.the_options["button_revoke_consent_background_color2"]
+          : "",
       right_arrow: require("../admin/images/dashboard-icons/right-arrow.svg"),
       is_selectedCountry_on:
         settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
@@ -8744,6 +9130,12 @@ var app = new Vue({
     onSwitchRevokeConsentEnable() {
       this.is_revoke_consent_on = !this.is_revoke_consent_on;
     },
+    onSwitchRevokeConsentEnable1() {
+      this.is_revoke_consent_on1 = !this.is_revoke_consent_on1;
+    },
+    onSwitchRevokeConsentEnable2() {
+      this.is_revoke_consent_on2 = !this.is_revoke_consent_on2;
+    },
     onSwitchAutotick() {
       this.autotick = !this.autotick;
     },
@@ -9098,6 +9490,15 @@ var app = new Vue({
       this.settings_border_width1 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius1 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
       this.opt_out_text_color1 =                     selectedTemplate['opt_out_button']['color'];
+      this.button_readmore_link_color1 =             selectedTemplate['readmore_button']['color'];
+      this.button_readmore_button_color1 =           selectedTemplate['readmore_button']['background-color'];
+      this.button_readmore_button_opacity1 =         selectedTemplate['readmore_button']['opacity'];
+      this.button_readmore_button_border_style1 =    selectedTemplate['readmore_button']['border-style'];
+      this.button_readmore_button_border_color1 =    selectedTemplate['readmore_button']['border-color'];
+      this.button_readmore_button_border_radius1 =   selectedTemplate['readmore_button']['border-radius'].substring(0, selectedTemplate['readmore_button']['border-radius'].length - 2);
+      this.button_readmore_button_border_width1 =    selectedTemplate['readmore_button']['border-width'].substring(0, selectedTemplate['readmore_button']['border-width'].length - 2);
+      this.button_revoke_consent_text_color1 =       selectedTemplate['revoke_consent_button']['color'];
+      this.button_revoke_consent_background_color1 = selectedTemplate['revoke_consent_button']['background-color'];
 
       this.cookie_bar_color2 =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity2 =                     selectedTemplate['styles']['opacity'];
@@ -9144,6 +9545,15 @@ var app = new Vue({
       this.settings_border_width2 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
       this.settings_border_radius2 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
       this.opt_out_text_color2 =                     selectedTemplate['opt_out_button']['color'];
+      this.button_readmore_link_color2 =             selectedTemplate['readmore_button']['color'];
+      this.button_readmore_button_color2 =           selectedTemplate['readmore_button']['background-color'];
+      this.button_readmore_button_opacity2 =         selectedTemplate['readmore_button']['opacity'];
+      this.button_readmore_button_border_style2 =    selectedTemplate['readmore_button']['border-style'];
+      this.button_readmore_button_border_color2 =    selectedTemplate['readmore_button']['border-color'];
+      this.button_readmore_button_border_radius2 =   selectedTemplate['readmore_button']['border-radius'].substring(0, selectedTemplate['readmore_button']['border-radius'].length - 2);
+      this.button_readmore_button_border_width2 =    selectedTemplate['readmore_button']['border-width'].substring(0, selectedTemplate['readmore_button']['border-width'].length - 2);
+      this.button_revoke_consent_text_color2 =       selectedTemplate['revoke_consent_button']['color'];
+      this.button_revoke_consent_background_color2 = selectedTemplate['revoke_consent_button']['background-color'];
 
       // Multiple Legislation
       this.multiple_legislation_cookie_bar_color1 =         selectedTemplate["styles"]["background-color"];
@@ -9224,11 +9634,29 @@ var app = new Vue({
     onSwitchButtonReadMoreIsOn() {
       this.button_readmore_is_on = !this.button_readmore_is_on;
     },
+    onSwitchButtonReadMoreIsOn1() {
+      this.button_readmore_is_on1 = !this.button_readmore_is_on1;
+    },
+    onSwitchButtonReadMoreIsOn2() {
+      this.button_readmore_is_on2 = !this.button_readmore_is_on2;
+    },
     onSwitchButtonReadMoreWpPage() {
       this.button_readmore_wp_page = !this.button_readmore_wp_page;
     },
+    onSwitchButtonReadMoreWpPage1() {
+      this.button_readmore_wp_page1 = !this.button_readmore_wp_page1;
+    },
+    onSwitchButtonReadMoreWpPage2() {
+      this.button_readmore_wp_page2 = !this.button_readmore_wp_page2;
+    },
     onSwitchButtonReadMoreNewWin() {
       this.button_readmore_new_win = !this.button_readmore_new_win;
+    },
+    onSwitchButtonReadMoreNewWin1() {
+      this.button_readmore_new_win1 = !this.button_readmore_new_win1;
+    },
+    onSwitchButtonReadMoreNewWin2() {
+      this.button_readmore_new_win2 = !this.button_readmore_new_win2;
     },
     onSwitchingScriptBlocker() {
       this.is_script_blocker_on = !this.is_script_blocker_on;
@@ -9281,6 +9709,12 @@ var app = new Vue({
     },
     onSelectPrivacyPage(value) {
       this.button_readmore_page = value;
+    },
+    onSelectPrivacyPage1(value) {
+      this.button_readmore_page1 = value;
+    },
+    onSelectPrivacyPage2(value) {
+      this.button_readmore_page2 = value;
     },
     cookiePolicyChange(value) {
       this.onSwitchReloadLaw();
@@ -9736,6 +10170,41 @@ var app = new Vue({
       this.button_readmore_button_border_style = "none";
       this.button_readmore_button_border_color = "#333333";
       this.button_readmore_button_border_radius = "0";
+      
+      this.button_readmore_text1 = "Read More";
+      this.button_readmore_url1 = "#";
+      this.button_readmore_link_color1 = "#359bf5";
+      this.button_readmore_button_color1 = "#333333";
+      this.button_readmore_new_win1 = false;
+      this.button_readmore_as_button1 = false;
+      this.button_readmore_button_size1 = "medium";
+      this.button_readmore_is_on1 = true;
+      this.button_readmore_url_type1 = true;
+      this.button_readmore_wp_page1 = false;
+      this.button_readmore_page1 = "0";
+      this.button_readmore_button_opacity1 = "1";
+      this.button_readmore_button_border_width1 = "0";
+      this.button_readmore_button_border_style1 = "none";
+      this.button_readmore_button_border_color1 = "#333333";
+      this.button_readmore_button_border_radius1 = "0";
+
+      this.button_readmore_text2 = "Read More";
+      this.button_readmore_url2 = "#";
+      this.button_readmore_link_color2 = "#359bf5";
+      this.button_readmore_button_color2 = "#333333";
+      this.button_readmore_new_win2 = false;
+      this.button_readmore_as_button2 = false;
+      this.button_readmore_button_size2 = "medium";
+      this.button_readmore_is_on2 = true;
+      this.button_readmore_url_type2 = true;
+      this.button_readmore_wp_page2 = false;
+      this.button_readmore_page2 = "0";
+      this.button_readmore_button_opacity2 = "1";
+      this.button_readmore_button_border_width2 = "0";
+      this.button_readmore_button_border_style2 = "none";
+      this.button_readmore_button_border_color2 = "#333333";
+      this.button_readmore_button_border_radius2 = "0";
+      
       this.iabtcf_is_on = false;
       this.gcm_is_on = false;
       this.gcm_wait_for_update_duration = '500';
@@ -9801,6 +10270,8 @@ var app = new Vue({
       this.show_credits = true;
       this.autotick = false;
       this.is_revoke_consent_on = true;
+      this.is_revoke_consent_on1 = true;
+      this.is_revoke_consent_on2 = true;
       this.is_script_blocker_on = false;
       this.auto_hide = false;
       this.auto_banner_initialize = false;
@@ -9811,8 +10282,14 @@ var app = new Vue({
       this.decline_reload = false;
       this.delete_on_deactivation = false;
       this.tab_position = "right";
+      this.tab_position1 = "right";
+      this.tab_position2 = "right";
       this.tab_text = "Cookie Settings";
+      this.tab_text1 = "Cookie Settings";
+      this.tab_text2 = "Cookie Settings";
       this.tab_margin = "5";
+      this.tab_margin1 = "5";
+      this.tab_margin2 = "5";
       this.auto_hide_delay = "10000";
       this.auto_banner_initialize_delay = "10000";
       this.auto_scroll_offset = "10";

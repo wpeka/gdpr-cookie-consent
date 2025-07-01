@@ -493,6 +493,10 @@ class Gdpr_Cookie_Consent_Public {
 	 * @since 1.0
 	 */
 	public function gdprcookieconsent_inject_gdpr_script() {
+		error_log("DODODO inside inject_gdpr_script()");
+
+		$chosenBanner = $this->chosenBanner;
+		$ab_options = get_option( 'wpl_ab_options' );
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		if ( true === $the_options['is_on'] ) {
 			if ( 'ccpa' === $the_options['cookie_usage_for'] || 'both' === $the_options['cookie_usage_for'] ) {
@@ -689,20 +693,38 @@ class Gdpr_Cookie_Consent_Public {
 			);
 
 			$button_readmore_url_link = '';
-			if ( true === $the_options['button_readmore_url_type'] ) {
-				if ( true === $the_options['button_readmore_wp_page'] ) {
-					$button_readmore_url_link = get_privacy_policy_url();
-				}
-				if ( empty( $button_readmore_url_link ) ) {
-					if ( '0' !== $the_options['button_readmore_page'] ) {
-						$button_readmore_url_link = get_page_link( $the_options['button_readmore_page'] );
-					} else {
-						$button_readmore_url_link = '#';
+			if( isset( $ab_options['ab_testing_enabled'] ) && ( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true' ) ) {
+				if ( true === $the_options['button_readmore_url_type' . $chosenBanner] ) {
+					if ( true === $the_options['button_readmore_wp_page' . $chosenBanner] ) {
+						$button_readmore_url_link = get_privacy_policy_url();
 					}
+					if ( empty( $button_readmore_url_link ) ) {
+						if ( '0' !== $the_options['button_readmore_page' . $chosenBanner] ) {
+							$button_readmore_url_link = get_page_link( $the_options['button_readmore_page' . $chosenBanner] );
+						} else {
+							$button_readmore_url_link = '#';
+						}
+					}
+				} else {
+					$button_readmore_url_link = $the_options['button_readmore_url' . $chosenBanner];
 				}
 			} else {
-				$button_readmore_url_link = $the_options['button_readmore_url'];
+				if ( true === $the_options['button_readmore_url_type'] ) {
+					if ( true === $the_options['button_readmore_wp_page'] ) {
+						$button_readmore_url_link = get_privacy_policy_url();
+					}
+					if ( empty( $button_readmore_url_link ) ) {
+						if ( '0' !== $the_options['button_readmore_page'] ) {
+							$button_readmore_url_link = get_page_link( $the_options['button_readmore_page'] );
+						} else {
+							$button_readmore_url_link = '#';
+						}
+					}
+				} else {
+					$button_readmore_url_link = $the_options['button_readmore_url'];
+				}
 			}
+
 			$the_options['button_readmore_url_link'] = $button_readmore_url_link;
 
 			$the_options['button_accept_all_classes'] = 'gdpr_action_button ';
@@ -859,7 +881,15 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['backdrop']          = $the_options['backdrop'];
 				$cookie_data['dash_notify_message_eprivacy'] = $the_options['notify_message_eprivacy'];
 				$cookie_data['dash_notify_message_lgpd'] = $the_options['notify_message_lgpd'];
-				$cookie_data['dash_button_readmore_text'] = $the_options['button_readmore_text'];
+				if( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true' ) {
+					$cookie_data['dash_button_readmore_text'] = $the_options['button_readmore_text' . $chosenBanner];
+				} else {
+					$cookie_data['dash_button_readmore_text'] = $the_options['button_readmore_text'];
+				}
+				error_log("DODODO inside inject_gdpr_script() readmore text is: " . $cookie_data['dash_button_readmore_text']);
+				error_log("DODODO inside inject_gdpr_script() AB - 1 readmore text is: " . $the_options['button_readmore_text1']);
+				error_log("DODODO inside inject_gdpr_script() AB - 2 readmore text is: " . $the_options['button_readmore_text2']);
+
 				$cookie_data['dash_button_accept_text'] = $the_options['button_accept_text'];
 				$cookie_data['dash_button_accept_all_text'] = $the_options['button_accept_all_text'];
 				$cookie_data['dash_button_decline_text'] = $the_options['button_decline_text'];
@@ -871,7 +901,11 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['dash_button_donotsell_text'] = $the_options['button_donotsell_text'];
 				$cookie_data['dash_button_confirm_text'] = $the_options['button_confirm_text'];
 				$cookie_data['dash_button_cancel_text'] = $the_options['button_cancel_text'];
-				$cookie_data['dash_show_again_text'] = $the_options['show_again_text'];
+				if( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true' ) {
+					$cookie_data['dash_show_again_text'] = $the_options['show_again_text' . $chosenBanner];
+				} else {
+					$cookie_data['dash_show_again_text'] = $the_options['show_again_text'];
+				}
 				$cookie_data['dash_optout_text'] = $the_options['optout_text'];
 				$cookie_data['dash_notify_message_iabtcf'] = $the_options['notify_message'];
 				$cookie_data['dash_about_message_iabtcf']  = $the_options['about_message'];
@@ -1107,7 +1141,7 @@ class Gdpr_Cookie_Consent_Public {
 				$templates = [];
 			}
 			$template_object = $templates[$the_options['template']];
-			$chosenBanner = $this->chosenBanner;
+			
 			// include plugin_dir_path( __FILE__ ) . 'templates/default.php';
 			include plugin_dir_path(__FILE__) . 'templates/cookie-notice.php';
 			?>
@@ -1183,6 +1217,10 @@ class Gdpr_Cookie_Consent_Public {
 				'consent_forwarding'      					=> $the_options['consent_forward'],
 				'button_revoke_consent_text_color' 			=> $the_options['button_revoke_consent_text_color'],
 				'button_revoke_consent_background_color'	=> $the_options['button_revoke_consent_background_color'],
+				'button_revoke_consent_text_color1' 		=> $the_options['button_revoke_consent_text_color1'],
+				'button_revoke_consent_background_color1'	=> $the_options['button_revoke_consent_background_color1'],
+				'button_revoke_consent_text_color2' 		=> $the_options['button_revoke_consent_text_color2'],
+				'button_revoke_consent_background_color2'	=> $the_options['button_revoke_consent_background_color2'],
 				'chosenBanner'								=> $chosenBanner,
 				'is_iabtcf_on'                              => $the_options['is_iabtcf_on'],
 				'is_gcm_on'									=> $the_options['is_gcm_on'],
