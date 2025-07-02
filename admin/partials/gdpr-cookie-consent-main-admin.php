@@ -376,6 +376,11 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-policy-data-tab" data-tab="policy_data">
 				<?php echo esc_html('Policy&nbsp;Data','gdpr-cookie-consent'); ?>
 				</div>
+
+				<!-- Advanced Settings Tab  -->
+				<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-advanced-settings-tab" data-tab="advanced_settings">
+					<?php echo esc_html('Advanced&nbsp;Settings','gdpr-cookie-consent'); ?>
+				</div>
 				<?php
 				if ( $pro_is_activated ) {
 					?>
@@ -408,6 +413,12 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 					<?php do_action( 'add_policy_data_content' ); ?>
 					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-policy-data-tab-template.php'; ?>
 				</div>
+
+				<!-- Advanced Settings content  -->
+				<div class="gdpr-cookie-consent-admin-advanced-settings-content gdpr-cookie-consent-admin-tab-content" id="advanced_settings">
+					<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-advanced-settings-tab-template.php'; ?>
+				</div>
+
 				<!-- consent log data content  -->
 				<div class="gdpr-cookie-consent-admin-consent-logs-data-content gdpr-cookie-consent-admin-tab-content" id="consent_logs">
 				<?php do_action( 'add_consent_log_content' ); ?>

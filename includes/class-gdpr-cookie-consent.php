@@ -607,7 +607,6 @@ class Gdpr_Cookie_Consent {
 	 * @return array|mixed
 	 */
 	public static function gdpr_get_default_settings( $key = '' ) {
-		error_log("DODODO getting default settings for key: $key");
 		$settings = array(
 			'gdpr_cookie_bar_logo_url_holder'        => '',
 			'animate_speed_hide'                     => '500',
@@ -1074,8 +1073,6 @@ class Gdpr_Cookie_Consent {
 	 * @return bool|null|string
 	 */
 	public static function gdpr_sanitise_settings( $key, $value ) {
-		error_log("DODODO sanitising GDPR settings()");
-		error_log("DODODO sanitising GDPR settings() key: $key, value: $value");
 		$ret = null;
 		switch ( $key ) {
 			// Convert all boolean values from text to bool.
@@ -1248,7 +1245,6 @@ class Gdpr_Cookie_Consent {
 	 * @return array|mixed
 	 */
 	public static function gdpr_get_settings() {
-		error_log("DODODO getting GDPR settings");
 		$settings             = self::gdpr_get_default_settings();
 		self::$stored_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		if ( ! empty( self::$stored_options ) ) {
