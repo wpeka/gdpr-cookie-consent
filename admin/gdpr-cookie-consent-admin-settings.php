@@ -100,10 +100,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						?>
 							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img1 ); ?>"
 							  :style="{
-							  	'margin-left': json_templates[template]?.['logo']?.['margin-left'],
-								'width': json_templates[template]?.['logo']?.['fit-content'],
-								'height': json_templates[template]?.['logo']?.['height'],
-								'transform': json_templates[template]?.['logo']?.['transform']
+							  	'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
+								'width': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['fit-content'],
+								'height': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['height'],
+								'transform': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['transform']
 							  }" >
 						<?php
 					}
@@ -116,10 +116,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						?>
 							<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>"
 							:style="{
-							  	'margin-left': json_templates[template]?.['logo']?.['margin-left'],
-								'width': json_templates[template]?.['logo']?.['fit-content'],
-								'height': json_templates[template]?.['logo']?.['height'],
-								'transform': json_templates[template]?.['logo']?.['transform']
+							  	'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
+								'width': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['fit-content'],
+								'height': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['height'],
+								'transform': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['transform']
 							  }"  >
 						<?php
 					}
@@ -128,10 +128,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				</div>
 				
 				<div class="notice-heading-wrapper">
-						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'] }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
-						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
+						<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'] }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
+						<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
 				</div>	
-				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
+				<div class="notice-content-body" :class="'notice-template-name-' + (template == 'default' ? default_template_json : json_templates[template])?.name + ' template-' + (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['layout']">
 					<p>	
 						<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_gdpr" v-html ="gdpr_message"></span>
 						<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_lgpd" v-html ="lgpd_message"></span>
@@ -149,7 +149,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							 'display': 'block',
 							 'width': 'fit-content',
 							 'margin-top': '5px',
-							 'padding': json_templates[template]?.['static-settings']?.[`button_${button_readmore_button_size}_padding`]
+							 'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${button_readmore_button_size}_padding`]
 							} : { 'display': 'inline-block',
 							  }) 
 						}" >
@@ -159,7 +159,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<a  v-if="is_ccpa" :style="{'font-family': this[`cookie_font${active_test_banner_tab}`],'color':this[`opt_out_text_color${active_test_banner_tab}`]}"><span>{{ opt_out_text }}</span></a>
 					</p>
 
-					<div  v-if="ab_testing_enabled && !is_ccpa" class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
+					<div  v-if="ab_testing_enabled && !is_ccpa" class="notice-buttons-wrapper" :class="'template-' + (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['layout'] + '-buttons'">
 						<div  v-show="template != 'blue_full' || ( this[`cookie_decline_on${active_test_banner_tab}`] || (this[`cookie_settings_on${active_test_banner_tab} `] && !is_eprivacy))" class="notice-left-buttons">
 							<a v-show="( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_decline_on${active_test_banner_tab}`]"
 							  href="#"
@@ -174,13 +174,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-radius': this[`decline_as_button${active_test_banner_tab}`] ? this[`decline_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_decline_on${active_test_banner_tab}`] ? {
-  								    'min-width': json_templates[template]['decline_button']['min-width'],
-									'width': json_templates[template]['decline_button']?.['width'],
-  								    'display': json_templates[template]['decline_button']['display'],
-  								    'justify-content': json_templates[template]['decline_button']['justify-content'],
-  								    'align-items': json_templates[template]['decline_button']['align-items'],
-  								    'text-align': json_templates[template]['decline_button']['text-align'],
-									'padding': json_templates[template]['static-settings'][`button_${active_test_banner_tab == '1' ? decline_size1 : decline_size2}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])['decline_button']['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])['decline_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])['decline_button']['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])['decline_button']['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])['decline_button']['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])['decline_button']['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])['static-settings'][`button_${active_test_banner_tab == '1' ? decline_size1 : decline_size2}_padding`]
   								  } : {})
   								}"
 							>
@@ -201,13 +201,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-radius': this[`settings_as_button${active_test_banner_tab}`] ? this[`settings_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_settings_on${active_test_banner_tab}`] && !is_eprivacy ? {
-  								    'min-width': json_templates[template]?.['settings_button']['min-width'],
-									'width': json_templates[template]?.['settings_button']?.['width'],
-  								    'display': json_templates[template]?.['settings_button']['display'],
-  								    'justify-content': json_templates[template]?.['settings_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['settings_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['settings_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${active_test_banner_tab == '1' ? settings_size1 : settings_size2}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${active_test_banner_tab == '1' ? settings_size1 : settings_size2}_padding`]
   								  } : {})
   								}"
 							>
@@ -229,13 +229,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-radius': this[`accept_as_button${active_test_banner_tab}`] ? this[`accept_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_accept_on${active_test_banner_tab}`] ? {
-  								    'min-width': json_templates[template]?.['accept_button']?.['min-width'],
-									'width': json_templates[template]['accept_button']?.['width'],
-  								    'display': json_templates[template]?.['accept_button']?.['display'],
-  								    'justify-content': json_templates[template]?.['accept_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['accept_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['accept_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${active_test_banner_tab == '1' ? accept_size1 : accept_size2}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])['accept_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${active_test_banner_tab == '1' ? accept_size1 : accept_size2}_padding`]
   								  } : {})
   								}"
 							>
@@ -255,13 +255,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-radius': this[`accept_all_as_button${active_test_banner_tab}`] ? this[`accept_all_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_accept_all_on${active_test_banner_tab}`] ? {
-  								    'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
-									'width': json_templates[template]['accept_all_button']?.['width'],
-  								    'display': json_templates[template]?.['accept_all_button']?.['display'],
-  								    'justify-content': json_templates[template]?.['accept_all_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['accept_all_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['accept_all_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${active_test_banner_tab == '1' ? accept_all_size1 : accept_all_size2}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])['accept_all_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${active_test_banner_tab == '1' ? accept_all_size1 : accept_all_size2}_padding`]
   								  } : {})
   								}"
 							>
@@ -303,20 +303,20 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					?>
 						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>"
 						:style="{
-						  	'margin-left': json_templates[template]?.['logo']?.['margin-left'],
-							'width': json_templates[template]?.['logo']?.['fit-content'],
-							'height': json_templates[template]?.['logo']?.['height'],
-							'transform': json_templates[template]?.['logo']?.['transform']
+						  	'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
+							'width': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['fit-content'],
+							'height': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['height'],
+							'transform': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['transform']
 						  }"  >
 					<?php
 				}
 				?>
 				</div>	
 				<div class="notice-heading-wrapper">
-						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'font-family': cookie_font }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
-						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'], 'font-family': cookie_font }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
+						<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'font-family': cookie_font }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
+						<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'font-family': cookie_font }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
 				</div>	
-				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
+				<div class="notice-content-body" :class="'notice-template-name-' + (template == 'default' ? default_template_json : json_templates[template])?.name + ' template-' + (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['layout']">
 					<p>	
 						<span :style="{'font-family': cookie_font}" v-show="is_gdpr" v-html ="gdpr_message"></span>
 						<span :style="{'font-family': cookie_font}" v-show="is_lgpd" v-html ="lgpd_message"></span>
@@ -334,7 +334,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							 'display': 'block',
 							 'width': 'fit-content',
 							 'margin-top': '5px',
-							 'padding': json_templates[template]?.['static-settings']?.[`button_${button_readmore_button_size}_padding`]
+							 'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${button_readmore_button_size}_padding`]
 							} : { 'display': 'inline-block',
 							  })
 						}" >
@@ -343,7 +343,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<a  v-if="is_ccpa" :style="{'font-family': cookie_font,'color': opt_out_text_color}"><span>{{ opt_out_text }}</span></a>
 					</p>
 
-					<div v-show="!is_ccpa" class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
+					<div v-show="!is_ccpa" class="notice-buttons-wrapper" :class="'template-' + (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['layout'] + '-buttons'">
 						<div v-show="template != 'blue_full' || (cookie_decline_on || (cookie_settings_on && !is_eprivacy))" class="notice-left-buttons">
 							<a v-show="cookie_decline_on"
 							  href="#"
@@ -356,13 +356,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': decline_as_button ? decline_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_decline_on ? {
-  								    'min-width': json_templates[template]?.['decline_button']?.['min-width'],
-									'width': json_templates[template]?.['decline_button']?.['width'],
-  								    'display': json_templates[template]?.['decline_button']?.['display'],
-  								    'justify-content': json_templates[template]?.['decline_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['decline_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['decline_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${decline_size}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${decline_size}_padding`]
   								  } : {})
   								}"
 							>
@@ -380,13 +380,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': settings_as_button ? settings_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_settings_on && !is_eprivacy ? {
-  								    'min-width': json_templates[template]?.['settings_button']?.['min-width'],
-									'width': json_templates[template]?.['settings_button']?.['width'],
-  								    'display': json_templates[template]?.['settings_button']?.['display'],
-  								    'justify-content': json_templates[template]?.['settings_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['settings_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['settings_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${settings_size}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${settings_size}_padding`]
   								  } : {})
   								}"
 							>
@@ -406,13 +406,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': accept_as_button ? accept_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_accept_on ? {
-  								    'min-width': json_templates[template]?.['accept_button']?.['min-width'],
-									'width': json_templates[template]?.['accept_button']?.['width'],
-  								    'display': json_templates[template]?.['accept_button']['display'],
-  								    'justify-content': json_templates[template]?.['accept_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['accept_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['accept_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${accept_size}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${accept_size}_padding`]
   								  } : {})
   								}"
 							>
@@ -430,13 +430,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': accept_all_as_button ? accept_all_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_accept_all_on ? {
-  								    'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
-									'width': json_templates[template]['accept_all_button']?.['width'],
-  								    'display': json_templates[template]?.['accept_all_button']?.['display'],
-  								    'justify-content': json_templates[template]?.['accept_all_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['accept_all_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['accept_all_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${accept_all_size}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])['accept_all_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${accept_all_size}_padding`]
   								  } : {})
   								}"
 							>
@@ -478,19 +478,19 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					?>
 						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_imgml1 ); ?>"
 						:style="{
-						  	'margin-left': json_templates[template]?.['logo']?.['margin-left'],
-							'width': json_templates[template]?.['logo']?.['fit-content'],
-							'height': json_templates[template]?.['logo']?.['height'],
-							'transform': json_templates[template]?.['logo']?.['transform']
+						  	'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
+							'width': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['fit-content'],
+							'height': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['height'],
+							'transform': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['transform']
 						  }"  >
 					<?php
 					}
 					?>
 				</div>	
 				<div class="notice-heading-wrapper">
-						<h3 :style = "{ 'text-align': json_templates[template]?.['heading']?.['text-align'] }" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+						<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'] }" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
 				</div>	
-				<div class="notice-content-body" :class="'notice-template-name-' + json_templates[template]?.name + ' template-' + json_templates[template]?.['static-settings']?.['layout']">
+				<div class="notice-content-body" :class="'notice-template-name-' + (template == 'default' ? default_template_json : json_templates[template])?.name + ' template-' + (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['layout']">
 					<p>	
 						<span :style="{'font-family': multiple_legislation_cookie_font1}" v-show="active_default_multiple_legislation === 'gdpr'" v-html ="gdpr_message"></span>
 						<span :style="{'font-family': multiple_legislation_cookie_font2}" v-show="active_default_multiple_legislation === 'ccpa'" v-html ="ccpa_message"></span>
@@ -506,7 +506,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							 'display': 'block',
 							 'width': 'fit-content',
 							 'margin-top': '5px',
-							 'padding': json_templates[template]?.['static-settings']?.[`button_${button_readmore_button_size}_padding`]
+							 'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${button_readmore_button_size}_padding`]
 							} : { 'display': 'inline-block',
 							  })
 						}" >
@@ -516,7 +516,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<a v-if="active_default_multiple_legislation === 'ccpa'" :style="{'font-family': multiple_legislation_cookie_font2, 'color':opt_out_text_color1,}"><span>{{ opt_out_text }}</span></a>
 					</p>
 
-					<div v-show="active_default_multiple_legislation === 'gdpr'" class="notice-buttons-wrapper" :class="'template-' + json_templates[template]?.['static-settings']?.['layout'] + '-buttons'">
+					<div v-show="active_default_multiple_legislation === 'gdpr'" class="notice-buttons-wrapper" :class="'template-' + (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['layout'] + '-buttons'">
 						<div v-show="template != 'blue_full' || (cookie_decline_on1 || cookie_settings_on1)" class="notice-left-buttons">
 							<a v-show="cookie_decline_on1"
 							  href="#"
@@ -529,13 +529,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': decline_as_button1 ? decline_border_radius1 + 'px' : '0',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_decline_on1 ? {
-  								    'min-width': json_templates[template]?.['decline_button']?.['min-width'],
-									'width': json_templates[template]?.['decline_button']?.['width'],
-  								    'display': json_templates[template]?.['decline_button']?.['display'],
-  								    'justify-content': json_templates[template]?.['decline_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['decline_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['decline_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${decline_size}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${decline_size}_padding`]
   								  } : {})
   								}"
 							>
@@ -553,13 +553,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': settings_as_button1 ? settings_border_radius1 + 'px' : '0',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_settings_on1 ? {
-  								    'min-width': json_templates[template]?.['settings_button']?.['min-width'],
-									'width': json_templates[template]?.['settings_button']?.['width'],
-  								    'display': json_templates[template]?.['settings_button']?.['display'],
-  								    'justify-content': json_templates[template]?.['settings_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['settings_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['settings_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${settings_size}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${settings_size}_padding`]
   								  } : {})
   								}"
 							>
@@ -579,13 +579,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': accept_as_button1 ? accept_border_radius1 + 'px' : '0',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_accept_on1 ? {
-  								    'min-width': json_templates[template]?.['accept_button']?.['min-width'],
-									'width': json_templates[template]?.['accept_button']?.['width'],
-  								    'display': json_templates[template]?.['accept_button']['display'],
-  								    'justify-content': json_templates[template]?.['accept_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['accept_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['accept_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${accept_size}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${accept_size}_padding`]
   								  } : {})
   								}"
 							>
@@ -603,13 +603,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': accept_all_border_radius1 + 'px',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_accept_all_on1 ? {
-  								    'min-width': json_templates[template]?.['accept_all_button']?.['min-width'],
-									'width': json_templates[template]['accept_all_button']?.['width'],
-  								    'display': json_templates[template]?.['accept_all_button']?.['display'],
-  								    'justify-content': json_templates[template]?.['accept_all_button']?.['justify-content'],
-  								    'align-items': json_templates[template]?.['accept_all_button']?.['align-items'],
-  								    'text-align': json_templates[template]?.['accept_all_button']?.['text-align'],
-									'padding': json_templates[template]?.['static-settings']?.[`button_${accept_all_size}_padding`]
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['min-width'],
+									'width': (template == 'default' ? default_template_json : json_templates[template])['accept_all_button']?.['width'],
+  								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['display'],
+  								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['justify-content'],
+  								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['align-items'],
+  								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['text-align'],
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${accept_all_size}_padding`]
   								  } : {})
   								}"
 							>

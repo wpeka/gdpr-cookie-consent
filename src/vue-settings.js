@@ -3152,7 +3152,6 @@ var gen = new Vue({
       this.cookie_position = position;
     },
     cookiewidgetPositionChange(value) {
-      console.log(this.is_eprivacy, typeof(this.is_eprivacy));
       this.cookie_widget_position = value;
     },
     selectTab(tabName) {
@@ -3166,7 +3165,6 @@ var gen = new Vue({
     onTemplateChange(value) {
       this.template = value;
       this.auto_generated_banner = false;
-      console.log(this.default_template_json, this.json_templates[value]);
       let selectedTemplate
       if(value == "default"){
         selectedTemplate = this.default_template_json;

@@ -1101,7 +1101,6 @@ class Gdpr_Cookie_Consent_Public {
 			$ab_options    = get_option( 'wpl_ab_options' );
 			
 			$template_object = json_decode($the_options['selected_template_json'], true);
-			error_log("template in frontend: " . print_r($template_object, true));
 			$chosenBanner = $this->chosenBanner;
 			// include plugin_dir_path( __FILE__ ) . 'templates/default.php';
 			include plugin_dir_path(__FILE__) . 'templates/cookie-notice.php';

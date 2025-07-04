@@ -431,39 +431,44 @@ class Gdpr_Cookie_Consent_Admin {
 			$default_json_path = plugin_dir_path(__FILE__) . '../includes/templates/default_template.json';
 			$json_data = file_get_contents($default_json_path);
 			$default_template = json_decode($json_data, true); 
-			// error_log(print_r($default_template, true));
 			update_option('gdpr_default_template_object', $default_template);
 		}
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$is_user_connected = $this->settings->is_connected();
-		if($is_user_connected){
-			$response = wp_remote_get(GDPR_API_URL . 'get_templates_json');
-			if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
-				$json_data = wp_remote_retrieve_body($response);
-				$this -> templates_json = json_decode($json_data, true);
-			} else {
-				$this -> templates_json = []; // Fallback in case of error
-			}
-		}
 		$the_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
-		if(!isset($the_options['selected_template_json'])) {
-			if($the_options['template'] == 'default'){
-				$the_options['selected_template_json'] = json_encode(get_option('gdpr_default_template_object'));
-			}
-			else{
+		if(!isset($this->templates_json)){
+			if($is_user_connected){
 				$response = wp_remote_get(GDPR_API_URL . 'get_templates_json');
 				if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
 					$json_data = wp_remote_retrieve_body($response);
-					$templates_json = json_decode($json_data, true);
-					$the_options['selected_template_json'] = json_encode($templates_json[$the_options['template']]);
+					$this -> templates_json = json_decode($json_data, true);
+					if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode($this -> templates_json[$the_options['template']]);
 				} else {
-					$the_options['selected_template_json'] = json_encode([]); // Fallback in case of error
+					$this -> templates_json = []; // Fallback in case of error
+					if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode([]);
 				}
 			}
-			
+			else{
+				if($the_options['template'] == 'default'){
+					$the_options['selected_template_json'] = json_encode(get_option('gdpr_default_template_object'));
+				}
+				else{
+					$response = wp_remote_get(GDPR_API_URL . 'get_templates_json');
+					if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
+						$json_data = wp_remote_retrieve_body($response);
+						$templates_json = json_decode($json_data, true);
+						$this->templates_json = [$the_options['template'] => $templates_json[$the_options['template']]];
+						if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode($templates_json[$the_options['template']]);
+					} else {
+						if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode([]); // Fallback in case of error
+					}
+				}
+			}
 		}
+		
+		
 		update_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options);
 	}
 
@@ -4230,7 +4235,7 @@ class Gdpr_Cookie_Consent_Admin {
 						</div>
 						<div class="template_selection_footer">
 							<button class="template_selection_panel_close template_selection_cancel">Cancel</button>
-							<button class="template_selection_save" :disabled="save_loading" @click="saveCookieSettings">Save Changes</button>
+							<button class="template_selection_save" :disabled="save_loading" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</button>
 						</div>
 					</div>
 					<div id = "template_selection_backface" class="template_selection_backface"></div>
@@ -5123,7 +5128,6 @@ class Gdpr_Cookie_Consent_Admin {
 					$the_options['template']                     = $template;
 					if($template != "default") $the_options['selected_template_json'] 		 = json_encode($this->templates_json[$template]);
 					else $the_options['selected_template_json'] 							 = json_encode(get_option('gdpr_default_template_object'));
-					error_log("saving template to : " . print_r($the_options['selected_template_json'], true));
 				}
 			}
 			// restrict posts when gpdr free is activated.
@@ -5178,7 +5182,6 @@ class Gdpr_Cookie_Consent_Admin {
 					$the_options['template']                     = $template;
 					if($template != "default") $the_options['selected_template_json'] 		 = json_encode($this->templates_json[$template]);
 					else $the_options['selected_template_json'] = json_encode(get_option('gdpr_default_template_object'));
-					error_log(" saving template 2 to : " . print_r($the_options['selected_template_json'], true));
 				}
 			}
 			// language translation based on the selected language.

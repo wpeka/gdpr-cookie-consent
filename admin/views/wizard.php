@@ -40,7 +40,6 @@ function print_template_boxes( ) {
 	$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 	$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
 	$template  = json_decode($the_options['selected_template_json'], true);
-	error_log("wizard: " .print_r($the_options['selected_template_json'], true));
 	?>
 	<div class="gdpr-templates-field-container-wizard">
 			<div v-show = "show_cookie_as == 'widget' || show_cookie_as == 'popup' || '<?php echo esc_js($template['name']); ?>' !== 'blue_full'" class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
