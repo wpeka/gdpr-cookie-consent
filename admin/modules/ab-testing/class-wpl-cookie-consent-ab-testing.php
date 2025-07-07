@@ -51,9 +51,6 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	 * @since 3.0.2
 	 */
 	public function wp_settings_ab_testing_tab() {
-		?>
-		
-		<?php
 				$pro_is_activated  = get_option( 'wpl_pro_active', false );
 				$installed_plugins = get_plugins();
 				$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
