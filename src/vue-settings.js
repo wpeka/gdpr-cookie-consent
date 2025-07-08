@@ -19,7 +19,7 @@ Vue.use(VueIntro);
 import "intro.js/introjs.css";
 import json_templates from "../includes/templates/template.json";
 // Import AceEditor
-import AceEditor from "vuejs-ace-editor";
+import AceEditor, { data } from "vuejs-ace-editor";
 
 import {
   cilPencil,
@@ -11977,18 +11977,41 @@ var adv = new Vue({
       }
     },
     saveAdvancedCookieSettings() {
+      console.log("Saving advanced cookie settings...");
       this.save_loading = true;
-      this.success_error_message = "Settings Saved.";
+      
+      var that = this;
+      var dataV = jQuery("#gcc-save-advanced-settings-form").serialize();
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: dataV + "&action=gcc_save_advanced_settings",
+        })
+        .done(function (data) {
+          that.success_error_message = "Settings Saved.";
+          console.log("Succcess error message: ", that.success_error_message);
+          j("#gdpr-cookie-consent-save-settings-alert").css({
+              "background-color": "#72b85c",
+              "z-index": "10000",
+          });
+          console.log("style:", j("#gdpr-cookie-consent-save-settings-alert")[0].style.cssText);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
 
-      // .done() function
-      if (that.consent_log_switch_clicked == true) {
-        that.consent_log_switch_clicked = false;
-        location.reload();
-      }
-      if (that.reload_onSafeMode == true) {
-        that.reload_onSafeMode = false;
-        location.reload();
-      }
+          if (that.consent_log_switch_clicked == true) {
+            that.consent_log_switch_clicked = false;
+            location.reload();
+          }
+          if (that.reload_onSafeMode == true) {
+            that.reload_onSafeMode = false;
+            location.reload();
+          }
+          that.save_loading = false;
+        })
+        .fail(function () {
+          that.save_loading = false;
+        });
     },
     onSwitchLoggingOn() {
       this.logging_on = !this.logging_on;

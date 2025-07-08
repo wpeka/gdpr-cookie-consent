@@ -6,7 +6,7 @@
  * This file is used to markup the advanced settings of the WP Cookie Consent plugin.
  *
  * @link       https://club.wpeka.com/
- * @since      3.9.1
+ * @since      9.2.11
  *
  * @package gdpr-cookie-consent
  */

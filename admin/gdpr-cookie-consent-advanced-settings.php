@@ -305,15 +305,6 @@
                                         </c-button>
                                     </c-col>
 							    </c-row>
-							    <c-row class="pt-1 mb-0">
-							    	<c-col class="col-sm-4">
-							    		<label style="margin-bottom:0"><?php esc_attr_e( 'Reset Settings ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'This will reset all settings to defaults. All data in the WP Cookie Consent plugin will be deleted. ', 'gdpr-cookie-consent' ); ?>">
-							    				</tooltip></label>
-							    	</c-col>
-							    	<c-col class="col-sm-8">
-							    		<c-button id="reset-settings-configuration" color="danger" variant="outline" @click="onClickRestoreButton"><?php esc_html_e( 'Reset to Default', 'gdpr-cookie-consent' ); ?></c-button>
-							    	</c-col>
-							    </c-row>
                             </c-card-body>
                         </c-card>
                     </c-tab> 

@@ -493,8 +493,6 @@ class Gdpr_Cookie_Consent_Public {
 	 * @since 1.0
 	 */
 	public function gdprcookieconsent_inject_gdpr_script() {
-		error_log("DODODO inside inject_gdpr_script()");
-
 		$chosenBanner = $this->chosenBanner;
 		$ab_options = get_option( 'wpl_ab_options' );
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -886,9 +884,6 @@ class Gdpr_Cookie_Consent_Public {
 				} else {
 					$cookie_data['dash_button_readmore_text'] = $the_options['button_readmore_text'];
 				}
-				error_log("DODODO inside inject_gdpr_script() readmore text is: " . $cookie_data['dash_button_readmore_text']);
-				error_log("DODODO inside inject_gdpr_script() AB - 1 readmore text is: " . $the_options['button_readmore_text1']);
-				error_log("DODODO inside inject_gdpr_script() AB - 2 readmore text is: " . $the_options['button_readmore_text2']);
 
 				$cookie_data['dash_button_accept_text'] = $the_options['button_accept_text'];
 				$cookie_data['dash_button_accept_all_text'] = $the_options['button_accept_all_text'];
