@@ -444,7 +444,7 @@ class Gdpr_Cookie_Consent_Admin {
 				if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
 					$json_data = wp_remote_retrieve_body($response);
 					$this -> templates_json = json_decode($json_data, true);
-					if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode($this -> templates_json[$the_options['template']]);
+					if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = ($the_options['template'] == 'default' ? json_encode(get_option('gdpr_default_template_object')) : json_encode($this -> templates_json[$the_options['template']]));
 				} else {
 					$this -> templates_json = []; // Fallback in case of error
 					if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode([]);
@@ -3945,9 +3945,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public function template_card($the_options, $template) {
 		?>
 		<div v-show = "show_cookie_as == 'widget' || show_cookie_as == 'popup' || '<?php echo esc_js($template['name']); ?>' !== 'blue_full'" class="gdpr-template-field gdpr-<?php echo esc_attr( $template['name'] ); ?>">
-				<div class="gdpr-left-field">
-					<c-input type="radio"  name="<?php echo 'template_field'; ?>" :value="'<?php echo esc_attr( $template['name'] ); ?>'" @change="onTemplateChange" :checked="template === '<?php echo esc_attr($template['name']); ?>'" aria-label="<?php echo esc_html( $template['name'] ); ?>"/>
-				</div>
+				
 				<?php 
 
 					$styles_attr = '';
@@ -4104,7 +4102,7 @@ class Gdpr_Cookie_Consent_Admin {
 				?>
 				<div :class=" 'gdpr-right-field template-type-' + show_cookie_as ">
 						<div style = "<?php echo esc_attr($styles_attr); ?>" class="cookie_notice_content">
-							<span style="display: inline-flex; align-items: center; justify-content: center; position: absolute; top:20px; right: 20px; height: 20px; width: 20px; border-radius: 50%;background-color: <?php echo $template['accept_button']['background-color'] ?>; color: <?php echo $template['accept_button']['color']; ?>;">
+							<span style="display: inline-flex; align-items: center; justify-content: center; position: absolute; top:20px; right: 20px; height: 20px; width: 20px; border-radius: 50%;color: <?php echo $template['accept_button']['background-color'] ?>; background-color: transparent">
 								<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 								</svg>
@@ -4179,7 +4177,7 @@ class Gdpr_Cookie_Consent_Admin {
 		?>
 		<div class="gdpr-templates-field-container">
 		<?php	
-			$this -> template_card($the_options, $default_template);
+			$this->template_card($the_options,json_decode($the_options['selected_template_json'], true));
 			if(!$is_user_connected) : ?>
 				<div class="template_loader_container">
 					<div :class=" 'template_loader loader-type-' + show_cookie_as ">
@@ -4217,7 +4215,7 @@ class Gdpr_Cookie_Consent_Admin {
 					<div class=" more_templates_option ">
 						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_designs_options.png'; ?>"/>
 						<p><?php echo esc_html("We have a library of 20+ templates to choose from"); ?></p>
-						<button class="more_templates_button" id="more_templates_button">Explore more templates</button>
+						<button class="more_templates_button" id="more_templates_button">Explore templates</button>
 					</div>
 					<div id = "template_selection_panel" class="template_selection_panel">
 						<div class="template_selection_header">
@@ -4229,6 +4227,7 @@ class Gdpr_Cookie_Consent_Admin {
 						</div>
 						<div class="template_selection_body">
 							<?php 
+								$this -> small_template_card($the_options, $default_template);
 								foreach ( $templates as $key => $template ) : 
 									$this -> small_template_card($the_options, $template);
 								endforeach; ?>
@@ -4306,6 +4305,7 @@ class Gdpr_Cookie_Consent_Admin {
 							<?php } ?>
 						</div>
 					</c-row>
+					<c-row style="margin-bottom: 0;"><c-col class="col-sm-4"><label><?php esc_attr_e( 'Your Selected Template', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'To change, connect Account if not connected and then click on Explore templates button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col></c-row>
 					<c-row>
 						<c-col class="col-sm-0">
 							<input type="hidden" name="gdpr-template" v-model="template">

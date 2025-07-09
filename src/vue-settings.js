@@ -4244,7 +4244,7 @@ var gen = new Vue({
 
 
       //styles
-      const selectedTemplate = this.json_templates["default"];
+      const selectedTemplate = this.default_template_json;
       this.cookie_bar_color =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity =                     selectedTemplate['styles']['opacity'];
       this.cookie_text_color =                      selectedTemplate['styles']['color'];
