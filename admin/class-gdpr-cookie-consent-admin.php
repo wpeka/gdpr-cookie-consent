@@ -108,7 +108,11 @@ class Gdpr_Cookie_Consent_Admin {
 
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_resolve' ) );
 			add_action( 'admin_init', array( $this, 'gdpr_migrate_old_template_names_once') );
-			add_action( 'admin_init', array( $this, 'gdpr_initialise') );
+			add_action('admin_init', function() {
+				if (!defined('DOING_AJAX') && !defined('REST_REQUEST')) {
+					$this->gdpr_initialise();
+				}
+			});
 			add_action( 'wp_ajax_set_default_test_banner_1', array( $this, 'set_default_banner_1' ) );
 			add_action( 'wp_ajax_set_default_test_banner_2', array( $this, 'set_default_banner_2' ) );
 			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
@@ -215,6 +219,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since    1.0
 	 */
 	public function gdpr_admin_init() {
+		
 		global $wpdb;
 		// Check if tawk script is added as third party cookie and add to database if not added.
 		if ( ! get_option( 'wpl_pro_tawk_script_added' ) ) {
@@ -425,7 +430,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 
 	public function gdpr_initialise(){
-
+		error_log("admin init wokring");
 		if (!get_option('gdpr_default_template_object')) {
 		
 			$default_json_path = plugin_dir_path(__FILE__) . '../includes/templates/default_template.json';
