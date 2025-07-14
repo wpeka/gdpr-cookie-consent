@@ -103,6 +103,8 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 		$script_patterns = $this->wpl_get_script_patterns();
 		$script_lists    = $this->get_cookie_scripts();
 		$script_lists    = isset( $script_lists['data'] ) ? $script_lists['data'] : array();
+
+
 		if ( isset( $script_lists ) && ! empty( $script_lists ) ) {
 			foreach ( $script_lists as $key => $value ) {
 				$category = $this->get_category_by_id( $value['script_category'] );
@@ -268,6 +270,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	 * @return array
 	 */
 	public function wpl_automate_default( $type = null, $data = array(), $parts = array() ) {
+
 		$patterns      = array();
 		$has_src       = $data['has_src'];
 		$has_js        = $data['has_js'];
@@ -354,6 +357,14 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 				}
 			}
 		}
+		// Adding this block before the final return
+		if ( $type === 'youtube' ) {
+			$elementor_youtube_pattern = array(
+				'<div[^>]+class="[^"]*elementor-wrapper[^"]*"[^>]*>\s*<div[^>]+class="[^"]*elementor-video[^"]*"[^>]*>\s*</div>\s*</div>'
+			);
+			$parts = $this->wpl_prepare_script( $elementor_youtube_pattern, 'si', $type, $parts, $data );
+		}
+
 		return $this->wpl_prepare_script( $patterns, '', $type, $parts, $data );
 	}
 
@@ -371,32 +382,49 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	 * @throws \RuntimeException Run time exception.
 	 */
 	public function wpl_prepare_script( $patterns = '', $modifiers = '', $type = null, $parts = array(), $data = array() ) {
-		$wrap_pattern = '#%s#' . $modifiers;
-		$pattern      = array();
-		foreach ( $patterns as $ptrn ) {
-			$pattern[] = sprintf( $wrap_pattern, $ptrn );
-		}
-		if ( ! isset( $parts['head'] ) || ! isset( $parts['body'] ) ) {
-			// the data in the $type is not the user generated code.
-			throw new InvalidArgumentException( 'Parts array is not valid for ' . $type . ': head or body entry not found.' ); // phpcs:ignore
-		}
-		$parts['head'] = $this->wpl_script_replace_callback( $parts['head'], $pattern, $data, 'head' );
-		if ( null === $parts['head'] ) {
-			throw new RuntimeException( 'An error occurred calling preg_replace_callback() context head.' );
-		}
-		$wrap_pattern = '#%s#' . $modifiers;
-		$pattern      = array();
-		foreach ( $patterns as $ptrn ) {
-			$pattern[] = sprintf( $wrap_pattern, $ptrn );
-		}
-		$parts['body'] = $this->wpl_script_replace_callback( $parts['body'], $pattern, $data, 'body' );
+	
 
-		if ( null === $parts['body'] ) {
-			throw new RuntimeException( 'An error occurred calling preg_replace_callback() context body.' );
-		}
+	// Default pattern for Elementor YouTube placeholder
+	if ( empty( $patterns ) && $type === 'youtube' ) {
+		$patterns = array(
+			'<div[^>]*class="[^"]*elementor-wrapper[^"]*"[^>]*>\s*<div[^>]*class="[^"]*elementor-video[^"]*"[^>]*>\s*</div>\s*</div>'
 
-		return $parts;
+		);
+		$modifiers = 'si'; // s: dot matches newlines, i: case-insensitive
 	}
+$wrap_pattern = '#%s#' . $modifiers;
+	$pattern      = array();
+	// Compile all patterns with modifiers
+	foreach ( $patterns as $ptrn ) {
+		$pattern[] = sprintf( $wrap_pattern, $ptrn );
+	}
+
+	// Make sure 'head' and 'body' exist
+	if ( ! isset( $parts['head'] ) || ! isset( $parts['body'] ) ) {
+		throw new InvalidArgumentException( 'Parts array is not valid for ' . $type . ': head or body entry not found.' );
+	}
+
+	// Replace in head
+	$parts['head'] = $this->wpl_script_replace_callback( $parts['head'], $pattern, $data, 'head' );
+	if ( null === $parts['head'] ) {
+		throw new RuntimeException( 'An error occurred calling preg_replace_callback() context head.' );
+	}
+
+	// Recompile pattern for body
+	$pattern = array();
+	foreach ( $patterns as $ptrn ) {
+		$pattern[] = sprintf( $wrap_pattern, $ptrn );
+	}
+
+	// Replace in body
+	$parts['body'] = $this->wpl_script_replace_callback( $parts['body'], $pattern, $data, 'body' );
+	if ( null === $parts['body'] ) {
+		throw new RuntimeException( 'An error occurred calling preg_replace_callback() context body.' );
+	}
+
+	return $parts;
+}
+
 
 	/**
 	 * Replace callback for blocking scripts.
@@ -422,7 +450,6 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 				$whitelist_urls = $this->wpl_whitelisted_scripts();
 
 				$result = $this->wpl_check_for_script_match( $whitelist_urls, $match );
-error_log('$matches=='.print_r($matches	, true));
 				if ( $result ) {
 					// if whitelist script matches then bypass.
 					return $match;
@@ -431,19 +458,17 @@ error_log('$matches=='.print_r($matches	, true));
 						$placeholder = $data['placeholder'];
 					}
 					$wpl_replace = 'data-wpl-class="wpl-blocker-script" data-wpl-label="' . $script_label . '"  data-wpl-script-type="' . $script_category_slug . '" data-wpl-block="' . $script_load_on_start . '" data-wpl-element-position="' . $elm_position . '"';
-					// if ( ( preg_match( '/<iframe.*(src=\"(.*)\").*>.*<\/iframe>/', $match, $element_match ) ) || ( preg_match( '/<object.*(src=\"(.*)\").*>.*<\/object >/', $match, $element_match ) ) || ( preg_match( '/<embed.*(src=\"(.*)\").*>/', $match, $element_match ) ) || ( preg_match( '/<img.*(src=\"(.*)\").*>/', $match, $element_match ) ) ) {
+				
 					if (
 						preg_match( '/<iframe\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>.*?<\/iframe>/is', $match, $element_match ) ||
+						preg_match( '/<iframe[^>]+src=["\']([^"\']*youtube\.com[^"\']*)["\'][^>]*>/i', $match, $element_match ) ||
 				preg_match( '/<object\b[^>]*?\bdata=["\']([^"\']+)["\'][^>]*?>.*?<\/object>/is', $match, $element_match ) ||
 				preg_match( '/<embed\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>/i', $match, $element_match ) ||
 				preg_match( '/<img\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>/i', $match, $element_match )
 
             )	{
-					error_log('in ifffffffff=====');
-					error_log('matchhh=='. print_r($match, true));
 
 						if ( strpos( $match, 'youtube' ) !== false ) {
-    error_log( 'YouTube match found: ' . $match );
 }
 						$element_src        = $element_match[1];
 						$original_src_attr  = 'src="' . $element_src . '"';
@@ -457,6 +482,14 @@ error_log('$matches=='.print_r($matches	, true));
 					$match = str_replace( $original_src_attr, $replacement_attr, $match );
 				}
 					} 
+					elseif (
+	strpos( $match, 'elementor-wrapper' ) !== false &&
+	strpos( $match, 'elementor-video' ) !== false
+) {
+
+	$placeholder_html = '<div class="gdpr-placeholder" ' . $wpl_replace . '>' . esc_html( $placeholder ) . '</div>';
+	return $placeholder_html;
+}
 					elseif ( preg_match( '/type=/', $match ) ) {
 				preg_match( '/(type=["\']text\/javascript["\'])/i', $match, $output_array );
 				if ( ! empty( $output_array ) ) {
@@ -468,6 +501,9 @@ error_log('$matches=='.print_r($matches	, true));
 				} else {
 					$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
 				}
+
+
+
 					return $match;
 				}
 			},

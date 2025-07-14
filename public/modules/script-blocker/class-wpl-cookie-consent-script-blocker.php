@@ -46,6 +46,10 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		}
 		add_action( 'wp_ajax_wpl_script_add', array( $this, 'wpl_ajax_script_add' ), 10, 1 );
 		add_action( 'wp_ajax_wpl_script_save', array( $this, 'wpl_ajax_script_save' ), 10, 1 );
+		
+		//Added for Youtube script placeholder
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_gdpr_consent_blocker_script'),10,1);
+
 	}
 
 	/**
@@ -1414,6 +1418,44 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 
 		$url = preg_replace( "#$regex#", '${1}', $url );
 		return ( null === $url ) ? '' : $url;
+	}
+	public function enqueue_gdpr_consent_blocker_script() {
+		global $wpdb;
+
+		wp_enqueue_script(
+			'gdpr-consent-blocker',
+			plugins_url( 'js/gdpr-consent-blocker.js', __FILE__ ),
+			array(),
+			'1.0',
+			true
+		);
+
+		// Get script_key and category ID
+		$table_scripts = $wpdb->prefix . 'wpl_cookie_scripts';
+		$table_categories = $wpdb->prefix . 'gdpr_cookie_scan_categories';
+
+		// Join both tables to get script_key → category_slug
+		$query = "
+			SELECT s.script_key, c.gdpr_cookie_category_slug
+			FROM $table_scripts s
+			LEFT JOIN $table_categories c
+				ON s.script_category = c.id_gdpr_cookie_category
+			WHERE s.script_status = 1
+		";
+
+		$results = $wpdb->get_results( $query, ARRAY_A );
+
+		$script_to_category = array();
+
+		foreach ( $results as $row ) {
+			$key = $row['script_key'];                  // e.g. youtube_embed
+			$slug = $row['gdpr_cookie_category_slug']; // e.g. marketing
+			if ( $key && $slug ) {
+				$script_to_category[ $key ] = $slug;
+			}
+		}
+
+		wp_localize_script( 'gdpr-consent-blocker', 'wplConsentScriptTypes', $script_to_category );
 	}
 }
 new Gdpr_Cookie_Consent_Script_Blocker();
