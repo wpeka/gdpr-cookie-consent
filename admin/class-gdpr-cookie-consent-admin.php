@@ -430,7 +430,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 
 	public function gdpr_initialise(){
-		error_log("admin init wokring");
 		if (!get_option('gdpr_default_template_object')) {
 		
 			$default_json_path = plugin_dir_path(__FILE__) . '../includes/templates/default_template.json';
