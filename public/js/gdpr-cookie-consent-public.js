@@ -2844,7 +2844,7 @@ banner.style.display = "none";
                src.includes("youtube.com") &&
                !iframe.hasAttribute("data-wpl-placeholder")
              ) {
-               // Build replacement iframe with data-wpl-* attributes
+               // add replacement iframe with data-wpl-* attributes
                const wrapper = document.createElement("div");
                wrapper.style.display = "none"; // prevent flash
                iframe.parentNode.insertBefore(wrapper, iframe);

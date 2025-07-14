@@ -357,13 +357,6 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 				}
 			}
 		}
-		// Adding this block before the final return
-		if ( $type === 'youtube' ) {
-			$elementor_youtube_pattern = array(
-				'<div[^>]+class="[^"]*elementor-wrapper[^"]*"[^>]*>\s*<div[^>]+class="[^"]*elementor-video[^"]*"[^>]*>\s*</div>\s*</div>'
-			);
-			$parts = $this->wpl_prepare_script( $elementor_youtube_pattern, 'si', $type, $parts, $data );
-		}
 
 		return $this->wpl_prepare_script( $patterns, '', $type, $parts, $data );
 	}
@@ -382,48 +375,32 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	 * @throws \RuntimeException Run time exception.
 	 */
 	public function wpl_prepare_script( $patterns = '', $modifiers = '', $type = null, $parts = array(), $data = array() ) {
-	
+		$wrap_pattern = '#%s#' . $modifiers;
+		$pattern      = array();
+		foreach ( $patterns as $ptrn ) {
+			$pattern[] = sprintf( $wrap_pattern, $ptrn );
+		}
+		if ( ! isset( $parts['head'] ) || ! isset( $parts['body'] ) ) {
+			// the data in the $type is not the user generated code.
+			throw new InvalidArgumentException( 'Parts array is not valid for ' . $type . ': head or body entry not found.' ); // phpcs:ignore
+		}
+		$parts['head'] = $this->wpl_script_replace_callback( $parts['head'], $pattern, $data, 'head' );
+		if ( null === $parts['head'] ) {
+			throw new RuntimeException( 'An error occurred calling preg_replace_callback() context head.' );
+		}
+		$wrap_pattern = '#%s#' . $modifiers;
+		$pattern      = array();
+		foreach ( $patterns as $ptrn ) {
+			$pattern[] = sprintf( $wrap_pattern, $ptrn );
+		}
+		$parts['body'] = $this->wpl_script_replace_callback( $parts['body'], $pattern, $data, 'body' );
 
-	// Default pattern for Elementor YouTube placeholder
-	if ( empty( $patterns ) && $type === 'youtube' ) {
-		$patterns = array(
-			'<div[^>]*class="[^"]*elementor-wrapper[^"]*"[^>]*>\s*<div[^>]*class="[^"]*elementor-video[^"]*"[^>]*>\s*</div>\s*</div>'
+		if ( null === $parts['body'] ) {
+			throw new RuntimeException( 'An error occurred calling preg_replace_callback() context body.' );
+		}
 
-		);
-		$modifiers = 'si'; // s: dot matches newlines, i: case-insensitive
+		return $parts;
 	}
-$wrap_pattern = '#%s#' . $modifiers;
-	$pattern      = array();
-	// Compile all patterns with modifiers
-	foreach ( $patterns as $ptrn ) {
-		$pattern[] = sprintf( $wrap_pattern, $ptrn );
-	}
-
-	// Make sure 'head' and 'body' exist
-	if ( ! isset( $parts['head'] ) || ! isset( $parts['body'] ) ) {
-		throw new InvalidArgumentException( 'Parts array is not valid for ' . $type . ': head or body entry not found.' );
-	}
-
-	// Replace in head
-	$parts['head'] = $this->wpl_script_replace_callback( $parts['head'], $pattern, $data, 'head' );
-	if ( null === $parts['head'] ) {
-		throw new RuntimeException( 'An error occurred calling preg_replace_callback() context head.' );
-	}
-
-	// Recompile pattern for body
-	$pattern = array();
-	foreach ( $patterns as $ptrn ) {
-		$pattern[] = sprintf( $wrap_pattern, $ptrn );
-	}
-
-	// Replace in body
-	$parts['body'] = $this->wpl_script_replace_callback( $parts['body'], $pattern, $data, 'body' );
-	if ( null === $parts['body'] ) {
-		throw new RuntimeException( 'An error occurred calling preg_replace_callback() context body.' );
-	}
-
-	return $parts;
-}
 
 
 	/**
@@ -461,49 +438,36 @@ $wrap_pattern = '#%s#' . $modifiers;
 				
 					if (
 						preg_match( '/<iframe\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>.*?<\/iframe>/is', $match, $element_match ) ||
-						preg_match( '/<iframe[^>]+src=["\']([^"\']*youtube\.com[^"\']*)["\'][^>]*>/i', $match, $element_match ) ||
-				preg_match( '/<object\b[^>]*?\bdata=["\']([^"\']+)["\'][^>]*?>.*?<\/object>/is', $match, $element_match ) ||
-				preg_match( '/<embed\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>/i', $match, $element_match ) ||
-				preg_match( '/<img\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>/i', $match, $element_match )
+						preg_match( '/<object\b[^>]*?\bdata=["\']([^"\']+)["\'][^>]*?>.*?<\/object>/is', $match, $element_match ) ||
+						preg_match( '/<embed\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>/i', $match, $element_match ) ||
+						preg_match( '/<img\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>/i', $match, $element_match )
 
-            )	{
+					){
 
-						if ( strpos( $match, 'youtube' ) !== false ) {
-}
 						$element_src        = $element_match[1];
 						$original_src_attr  = 'src="' . $element_src . '"';
-				$replacement_attr   = $wpl_replace . ' data-wpl-placeholder="' . esc_attr( $placeholder ) . '" data-wpl-src="' . esc_url( $element_src ) . '"';
+						$replacement_attr   = $wpl_replace . ' data-wpl-placeholder="' . esc_attr( $placeholder ) . '" data-wpl-src="' . esc_url( $element_src ) . '"';
 
 						
-				if ( strpos( $match, $original_src_attr ) !== false ) {
-					$match = str_replace( $original_src_attr, $replacement_attr, $match );
-				} else {
-					$original_src_attr = "src='" . $element_src . "'";
-					$match = str_replace( $original_src_attr, $replacement_attr, $match );
-				}
+						if ( strpos( $match, $original_src_attr ) !== false ) {
+							$match = str_replace( $original_src_attr, $replacement_attr, $match );
+						} else {
+							$original_src_attr = "src='" . $element_src . "'";
+							$match = str_replace( $original_src_attr, $replacement_attr, $match );
+						}
 					} 
-					elseif (
-	strpos( $match, 'elementor-wrapper' ) !== false &&
-	strpos( $match, 'elementor-video' ) !== false
-) {
 
-	$placeholder_html = '<div class="gdpr-placeholder" ' . $wpl_replace . '>' . esc_html( $placeholder ) . '</div>';
-	return $placeholder_html;
-}
 					elseif ( preg_match( '/type=/', $match ) ) {
-				preg_match( '/(type=["\']text\/javascript["\'])/i', $match, $output_array );
-				if ( ! empty( $output_array ) ) {
-					$match = str_replace( $output_array[1], 'type="' . $script_type . '" ' . $wpl_replace, $match );
-				}
-				if ( 'Matomo Analytics' === $script_label ) {
-					$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
-				}
-				} else {
-					$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
-				}
-
-
-
+						preg_match( '/(type=["\']text\/javascript["\'])/i', $match, $output_array );
+						if ( ! empty( $output_array ) ) {
+							$match = str_replace( $output_array[1], 'type="' . $script_type . '" ' . $wpl_replace, $match );
+						}
+						if ( 'Matomo Analytics' === $script_label ) {
+							$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
+						}
+					} else {
+						$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
+					}
 					return $match;
 				}
 			},
