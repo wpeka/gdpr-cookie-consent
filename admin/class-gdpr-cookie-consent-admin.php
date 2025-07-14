@@ -4220,7 +4220,7 @@ class Gdpr_Cookie_Consent_Admin {
 					<div class=" more_templates_option ">
 						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_designs_options.png'; ?>"/>
 						<p><?php echo esc_html("We have a library of 20+ templates to choose from"); ?></p>
-						<button class="more_templates_button" id="more_templates_button">Explore templates</button>
+						<button class="more_templates_button" id="more_templates_button"><?php echo esc_html("Explore templates");?></button>
 					</div>
 					<div id = "template_selection_panel" class="template_selection_panel">
 						<div class="template_selection_header">
