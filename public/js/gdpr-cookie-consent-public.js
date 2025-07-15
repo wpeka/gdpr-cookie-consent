@@ -2534,7 +2534,6 @@ banner.style.display = "none";
           for (var i = 0; i < length; i++) {
             var currentElm = blockingElms[i];
             var elmType = currentElm.tagName;
-            var elmType = currentElm.tagName;
             if (srcReplaceableElms.indexOf(elmType) !== -1) {
               var elmCategory = currentElm.getAttribute("data-wpl-script-type");
               
