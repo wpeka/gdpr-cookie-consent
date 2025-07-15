@@ -103,6 +103,8 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 		$script_patterns = $this->wpl_get_script_patterns();
 		$script_lists    = $this->get_cookie_scripts();
 		$script_lists    = isset( $script_lists['data'] ) ? $script_lists['data'] : array();
+
+
 		if ( isset( $script_lists ) && ! empty( $script_lists ) ) {
 			foreach ( $script_lists as $key => $value ) {
 				$category = $this->get_category_by_id( $value['script_category'] );
@@ -268,6 +270,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	 * @return array
 	 */
 	public function wpl_automate_default( $type = null, $data = array(), $parts = array() ) {
+
 		$patterns      = array();
 		$has_src       = $data['has_src'];
 		$has_js        = $data['has_js'];
@@ -354,6 +357,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 				}
 			}
 		}
+
 		return $this->wpl_prepare_script( $patterns, '', $type, $parts, $data );
 	}
 
@@ -398,6 +402,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 		return $parts;
 	}
 
+
 	/**
 	 * Replace callback for blocking scripts.
 	 *
@@ -422,7 +427,6 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 				$whitelist_urls = $this->wpl_whitelisted_scripts();
 
 				$result = $this->wpl_check_for_script_match( $whitelist_urls, $match );
-
 				if ( $result ) {
 					// if whitelist script matches then bypass.
 					return $match;
@@ -431,13 +435,30 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 						$placeholder = $data['placeholder'];
 					}
 					$wpl_replace = 'data-wpl-class="wpl-blocker-script" data-wpl-label="' . $script_label . '"  data-wpl-script-type="' . $script_category_slug . '" data-wpl-block="' . $script_load_on_start . '" data-wpl-element-position="' . $elm_position . '"';
-					if ( ( preg_match( '/<iframe.*(src=\"(.*)\").*>.*<\/iframe>/', $match, $element_match ) ) || ( preg_match( '/<object.*(src=\"(.*)\").*>.*<\/object >/', $match, $element_match ) ) || ( preg_match( '/<embed.*(src=\"(.*)\").*>/', $match, $element_match ) ) || ( preg_match( '/<img.*(src=\"(.*)\").*>/', $match, $element_match ) ) ) {
-						$element_src        = $element_match[1];
-						$element_modded_src = str_replace( 'src=', $wpl_replace . ' data-wpl-placeholder="' . $placeholder . '" data-wpl-src=', $element_src );
-						$match              = str_replace( $element_src, $element_modded_src, $match );
+				
+					if (
+						preg_match( '/<iframe\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>.*?<\/iframe>/is', $match, $element_match ) ||
+						preg_match( '/<object\b[^>]*?\bdata=["\']([^"\']+)["\'][^>]*?>.*?<\/object>/is', $match, $element_match ) ||
+						preg_match( '/<embed\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>/i', $match, $element_match ) ||
+						preg_match( '/<img\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>/i', $match, $element_match )
 
-					} elseif ( preg_match( '/type=/', $match ) ) {
-							preg_match( "/(type=[\"|']text\/javascript[\"|']).*>(.*)/im", $match, $output_array );
+					){
+
+						$element_src        = $element_match[1];
+						$original_src_attr  = 'src="' . $element_src . '"';
+						$replacement_attr   = $wpl_replace . ' data-wpl-placeholder="' . esc_attr( $placeholder ) . '" data-wpl-src="' . esc_url( $element_src ) . '"';
+
+						
+						if ( strpos( $match, $original_src_attr ) !== false ) {
+							$match = str_replace( $original_src_attr, $replacement_attr, $match );
+						} else {
+							$original_src_attr = "src='" . $element_src . "'";
+							$match = str_replace( $original_src_attr, $replacement_attr, $match );
+						}
+					} 
+
+					elseif ( preg_match( '/type=/', $match ) ) {
+						preg_match( '/(type=["\']text\/javascript["\'])/i', $match, $output_array );
 						if ( ! empty( $output_array ) ) {
 							$match = str_replace( $output_array[1], 'type="' . $script_type . '" ' . $wpl_replace, $match );
 						}

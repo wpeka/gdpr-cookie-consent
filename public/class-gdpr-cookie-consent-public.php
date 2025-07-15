@@ -493,6 +493,7 @@ class Gdpr_Cookie_Consent_Public {
 	 * @since 1.0
 	 */
 	public function gdprcookieconsent_inject_gdpr_script() {
+		global $wpdb;
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		if ( true === $the_options['is_on'] ) {
 			if ( 'ccpa' === $the_options['cookie_usage_for'] || 'both' === $the_options['cookie_usage_for'] ) {
@@ -525,6 +526,20 @@ class Gdpr_Cookie_Consent_Public {
 			wp_enqueue_style( $this->plugin_name . '-frontend' );
 			wp_enqueue_script( $this->plugin_name . '-bootstrap-js' );
 			wp_enqueue_script( $this->plugin_name );
+
+			// Fetch Youtube category
+			//$total_results = $wpdb->get_row( $wpdb->prepare( 'SELECT id FROM ' . $wpdb->prefix . 'wpl_cookie_scripts WHERE `script_key`=%s', array( $value['script_key'] ) ), ARRAY_A ); // db call ok; no-cache ok.
+$selected_script_category = $wpdb->get_var(
+    $wpdb->prepare(
+        "SELECT cat.gdpr_cookie_category_name
+         FROM {$wpdb->prefix}wpl_cookie_scripts AS script
+         JOIN {$wpdb->prefix}gdpr_cookie_scan_categories AS cat
+           ON script.script_category = cat.id_gdpr_cookie_category
+         WHERE script.script_title = %s",
+        'Youtube Embed'
+    )
+);
+
 			wp_localize_script(
 				$this->plugin_name,
 				'log_obj',
@@ -532,6 +547,7 @@ class Gdpr_Cookie_Consent_Public {
 					'ajax_url'              => admin_url( 'admin-ajax.php' ),
 					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
 					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
+					'selected_script_category' => $selected_script_category,
 				)
 			);
 			wp_localize_script(
