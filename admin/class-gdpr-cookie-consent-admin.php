@@ -4185,7 +4185,7 @@ class Gdpr_Cookie_Consent_Admin {
 			if(!$is_user_connected) : ?>
 				<div class="template_loader_container">
 					<div :class=" 'template_loader loader-type-' + show_cookie_as ">
-						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/mock_banner.png'; ?>" class="mock_banner" />
+						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/mock_banner_overlay.png'; ?>" class="mock_banner" />
 						<div class="wpl-cookie-consent-overlay"></div>
 						<?php
 						if ( $pro_installed ) :
@@ -4217,7 +4217,7 @@ class Gdpr_Cookie_Consent_Admin {
 			<?php else : ?>
 				<div class="more_templates_option_container">
 					<div class=" more_templates_option ">
-						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_designs_options.png'; ?>"/>
+						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_designs_templates.png'; ?>"/>
 						<p><?php echo esc_html("We have a library of 20+ templates to choose from"); ?></p>
 						<button class="more_templates_button" id="more_templates_button"><?php echo esc_html("Explore templates");?></button>
 					</div>
