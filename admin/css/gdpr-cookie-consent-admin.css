@@ -7075,12 +7075,12 @@ button.btn.gdpr-renew-now-btn.pro,
   justify-content: space-around;
   align-items: center;
 }
-.dashicons-saved:before {
+#gdpr-cookie-consent-main-admin-structure .dashicons-saved:before {
   position: absolute;
   left: -2px;
   top: -1px;
 }
-.dashicons-saved {
+#gdpr-cookie-consent-main-admin-structure .dashicons-saved {
   content: "\f15e";
   position: relative;
   left: 115px;
