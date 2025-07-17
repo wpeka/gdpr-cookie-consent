@@ -456,7 +456,7 @@ a .export-btn:hover {
 #reset-settings-configuration:hover {
   border-color: #e55353;
 }
-.dashicons-saved {
+#gdpr-cookie-consent-main-admin-structure .dashicons-saved {
   background-color: #16a34a;
   color: #f0fdf4;
   border: 1px solid #16a34a;
