@@ -12,9 +12,10 @@
         },
         "static-settings": {
             "layout" : "row_spaced",
-            "button_medium_padding": "12px 29px",
-            "button_large_padding": "14px 35px",
-            "button_small_padding": "10px 23px"
+            "button_padding": "12px 29px",
+            "min_width_small": "150px",
+            "min_width_medium": "160px",
+            "min_width_large": "170px"
         },
         "heading":{
             "text-align":"start"
@@ -35,7 +36,6 @@
             "border-color": "#176CAE",
             "border-radius": "0px",
             "opacity": "1",
-            "min-width": "150px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
@@ -51,7 +51,6 @@
             "border-color": "#176CAE",
             "border-radius": "0px",
             "opacity": "1",
-            "min-width": "150px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
@@ -67,7 +66,6 @@
             "border-color": "#176CAE",
             "border-radius": "0px",
             "opacity": "1",
-            "min-width": "150px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
@@ -83,7 +81,6 @@
             "border-color": "#176CAE",
             "border-radius": "0px",
             "opacity": "1",
-            "min-width": "150px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",

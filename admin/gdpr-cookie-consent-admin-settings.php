@@ -174,13 +174,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-radius': this[`decline_as_button${active_test_banner_tab}`] ? this[`decline_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_decline_on${active_test_banner_tab}`] ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])['decline_button']['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])['static-settings']['min_width_${active_test_banner_tab == '1' ? decline_size1 : decline_size2}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])['decline_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])['decline_button']['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])['decline_button']['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])['decline_button']['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])['decline_button']['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])['static-settings'][`button_${active_test_banner_tab == '1' ? decline_size1 : decline_size2}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])['static-settings'][`button_padding`]
   								  } : {})
   								}"
 							>
@@ -201,13 +201,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-radius': this[`settings_as_button${active_test_banner_tab}`] ? this[`settings_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_settings_on${active_test_banner_tab}`] && !is_eprivacy ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']['min_width_${active_test_banner_tab == '1' ? settings_size1 : settings_size2}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${active_test_banner_tab == '1' ? settings_size1 : settings_size2}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>
@@ -229,13 +229,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-radius': this[`accept_as_button${active_test_banner_tab}`] ? this[`accept_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_accept_on${active_test_banner_tab}`] ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['min_width_${active_test_banner_tab == '1' ? accept_size1 : accept_size2}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])['accept_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${active_test_banner_tab == '1' ? accept_size1 : accept_size2}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>
@@ -255,13 +255,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
     							  'border-radius': this[`accept_all_as_button${active_test_banner_tab}`] ? this[`accept_all_border_radius${active_test_banner_tab}`] + 'px' : '0',
     							  'font-family': this[`cookie_font${active_test_banner_tab}`],
 								  ...(this[`cookie_accept_all_on${active_test_banner_tab}`] ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['min_width_${active_test_banner_tab == '1' ? accept_all_size1 : accept_all_size2}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])['accept_all_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${active_test_banner_tab == '1' ? accept_all_size1 : accept_all_size2}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>
@@ -356,13 +356,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': decline_as_button ? decline_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_decline_on ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['min_width_${decline_size}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${decline_size}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>
@@ -380,13 +380,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': settings_as_button ? settings_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_settings_on && !is_eprivacy ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['min_width_${settings_size}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${settings_size}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>
@@ -406,13 +406,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': accept_as_button ? accept_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_accept_on ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['min_width_${accept_size}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${accept_size}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>
@@ -430,13 +430,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': accept_all_as_button ? accept_all_border_radius + 'px' : '0',
   								  'font-family': cookie_font,
 								  ...(cookie_accept_all_on ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['min_width_${accept_all_size}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])['accept_all_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${accept_all_size}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>
@@ -529,13 +529,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': decline_as_button1 ? decline_border_radius1 + 'px' : '0',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_decline_on1 ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['min_width_${decline_size}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['decline_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${decline_size}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>
@@ -553,13 +553,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': settings_as_button1 ? settings_border_radius1 + 'px' : '0',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_settings_on1 ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['min_width_${settings_size}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['settings_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${settings_size}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>
@@ -579,13 +579,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': accept_as_button1 ? accept_border_radius1 + 'px' : '0',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_accept_on1 ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['min_width_${accept_size}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${accept_size}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>
@@ -603,13 +603,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
   								  'border-radius': accept_all_border_radius1 + 'px',
   								  'font-family': active_default_multiple_legislation === 'gdpr' ? multiple_legislation_cookie_font1 : multiple_legislation_cookie_font2,
 								  ...(cookie_accept_all_on1 ? {
-  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['min-width'],
+  								    'min-width': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['min_width_${accept_all_size}'],
 									'width': (template == 'default' ? default_template_json : json_templates[template])['accept_all_button']?.['width'],
   								    'display': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['display'],
   								    'justify-content': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['justify-content'],
   								    'align-items': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['align-items'],
   								    'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['accept_all_button']?.['text-align'],
-									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_${accept_all_size}_padding`]
+									'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
   								  } : {})
   								}"
 							>

@@ -430,13 +430,13 @@ class Gdpr_Cookie_Consent_Admin {
 
 
 	public function gdpr_initialise(){
-		if (!get_option('gdpr_default_template_object')) {
+		// if (!get_option('gdpr_default_template_object')) {
 		
 			$default_json_path = plugin_dir_path(__FILE__) . '../includes/templates/default_template.json';
 			$json_data = file_get_contents($default_json_path);
 			$default_template = json_decode($json_data, true); 
 			update_option('gdpr_default_template_object', $default_template);
-		}
+		// }
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
@@ -3962,25 +3962,25 @@ class Gdpr_Cookie_Consent_Admin {
 					foreach ($template['accept_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $accept_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
-					$accept_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$accept_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 
 					$accept_all_style_attr = '';
 					foreach ($template['accept_all_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $accept_all_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
-					$accept_all_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$accept_all_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 
 					$decline_style_attr = '';
 					foreach ($template['decline_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $decline_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
-					$decline_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$decline_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 
 					$settings_style_attr = '';
 					foreach ($template['settings_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $settings_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
-					$settings_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$settings_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 					
 					$logo_style_attr = '';
 					foreach ($template['logo'] as $key => $value) {
@@ -4070,25 +4070,25 @@ class Gdpr_Cookie_Consent_Admin {
 					foreach ($template['accept_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $accept_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
-					$accept_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$accept_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 
 					$accept_all_style_attr = '';
 					foreach ($template['accept_all_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $accept_all_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
-					$accept_all_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$accept_all_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 
 					$decline_style_attr = '';
 					foreach ($template['decline_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $decline_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
-					$decline_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$decline_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 
 					$settings_style_attr = '';
 					foreach ($template['settings_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $settings_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
-					$settings_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$settings_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 					
 					$logo_style_attr = '';
 					foreach ($template['logo'] as $key => $value) {
