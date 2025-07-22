@@ -9646,7 +9646,7 @@ div#gdpr-scan-history {
   border-radius: 16px;
   padding: 30px 20px;
   width: 300px;
-  height: 220px;
+  height: 250px;
   border: 1px solid #E4E4E7;
 }
 
@@ -9672,6 +9672,13 @@ div#gdpr-scan-history {
   font-size: 14px;
   max-width: 280px;
   color: #383838;
+}
+
+.gdpr-cookie-consent-help-card a {
+  margin-top: 10px;
+  font-size: 14px;
+  max-width: 280px;
+  color: #0059B3;
 }
 
 .gdpr-cookie-consent-help-footer {
