@@ -56,25 +56,25 @@ function print_template_boxes( ) {
 					foreach ($template['accept_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $accept_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
-					$accept_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$accept_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 
 					$accept_all_style_attr = '';
 					foreach ($template['accept_all_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $accept_all_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
-					$accept_all_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$accept_all_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 
 					$decline_style_attr = '';
 					foreach ($template['decline_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $decline_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
-					$decline_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$decline_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 
 					$settings_style_attr = '';
 					foreach ($template['settings_button'] as $key => $value) {
 						if($key != 'opacity' && $key != 'is_on') $settings_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
-					$settings_style_attr.= "padding: " . esc_attr($template['static-settings']['button_medium_padding']) . ';';
+					$settings_style_attr.= "padding: " . esc_attr($template['static-settings']['button_padding']) . ';';
 					
 					$logo_style_attr = '';
 					foreach ($template['logo'] as $key => $value) {

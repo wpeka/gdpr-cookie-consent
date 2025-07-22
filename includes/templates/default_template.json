@@ -12,10 +12,7 @@
         },
         "static-settings": {
             "layout" : "row_spaced",
-            "button_padding": "12px 29px",
-            "min_width_small": "150px",
-            "min_width_medium": "160px",
-            "min_width_large": "170px"
+            "button_padding": "12px 29px"
         },
         "heading":{
             "text-align":"start"
@@ -36,6 +33,7 @@
             "border-color": "#176CAE",
             "border-radius": "0px",
             "opacity": "1",
+            "min-width": "150px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
@@ -51,6 +49,7 @@
             "border-color": "#176CAE",
             "border-radius": "0px",
             "opacity": "1",
+            "min-width": "150px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
@@ -66,6 +65,7 @@
             "border-color": "#176CAE",
             "border-radius": "0px",
             "opacity": "1",
+            "min-width": "150px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
@@ -81,6 +81,7 @@
             "border-color": "#176CAE",
             "border-radius": "0px",
             "opacity": "1",
+            "min-width": "150px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
@@ -100,7 +101,7 @@
             "color": "#176CAE"
         },
         "revoke_consent_button": {
-            "color": "#176CAE",
-            "background-color": "#ffffff"
+            "color": "#ffffff",
+            "background-color": "#176CAE"
         }
     }
