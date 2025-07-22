@@ -25,43 +25,50 @@ if ( ! defined( 'ABSPATH' ) ) {
          <div class="gdpr-cookie-consent-settings-nav">
             <div class="">
                <div class="tab-content">
-                  <div data-v-0f37f1a8="" class="tab-pane active" id="wplegalpages-help-general">
-						<h4><?php echo esc_html('Support','wplegalpages'); ?></h4>
-						<p><?php echo esc_html('Got a question or need help with our plugins? We are here to help and guide you.','wplegalpages'); ?></p>
-                     <div class="card">
-                        <div class="card-body">
-                           <div class="row">
-                              <div class="col-sm-6 col">
-                                 <div role="group" class="form-group">
-                                    <label for="sup-name" class="screen-reader-text"><?php esc_attr_e('help name'); ?></label>
-                                    <input id="sup-name" type="text" name="sup-name" placeholder="Name" class="form-control">
-                                 </div>
-                              </div>
-                              <div class="col-sm-6 col">
-                                 <div role="group" class="form-group">
-                                    <label for="sup-email" class="screen-reader-text"><?php esc_attr_e('help email'); ?></label>
-                                  	<input id="sup-email" type="text" name="sup-email" placeholder="Email" class="form-control">
-                                    <div data-lastpass-icon-root="" style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"></div>
-                                 </div>
-                              </div>
-							   <div class="col-sm-12 col">
-                                 <div role="group" class="form-group">
-                                    <label for="sup-message" class="screen-reader-text"><?php esc_attr_e('help message'); ?></label>
-                                  	<textarea id="sup-message" rows="10" cols="115" name="sup-message" placeholder="Message" class="form-textarea" ></textarea>
-                                    <div data-lastpass-icon-root="" style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"></div>
-                                 </div>
-                              </div>
-                           </div>
-                          
-                          
+                  <main class="gdpr-cookie-consent-help-container">
+                    <section class="gdpr-cookie-consent-help-header">
+                      <h1><?php esc_html_e( 'Help & Resources', 'gdpr-cookie-consent' ); ?></h1>
+                      <p><?php esc_html_e( 'Need help or want to explore more? Find everything you need to get the most out of WPLP Compliance Platform.', 'gdpr-cookie-consent' ); ?></p>
+                    </section>
+
+                    <section class="gdpr-cookie-consent-help-cards">
+                      <div class="gdpr-cookie-consent-help-card">
+                        <div class="gdpr-cookie-consent-help-icon">
+                          <span>
+                            <img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/File_dock_fill.png' ); ?>" alt="<?php esc_attr_e( 'Help Documentation', 'gdpr-cookie-consent' ); ?>">
+                          </span>
                         </div>
-                     </div>
-                     <div class="gdpr-settings-bottom">
-                        <div class="gdpr-help-save-button"><input type="submit" name="sup-submit" class="btn btn-info" value="Submit"></input></div>
-                     </div>
-                  </div>
-                  
-                  
+                        <h3><?php esc_html_e( 'Documentation', 'gdpr-cookie-consent' ); ?></h3>
+                        <p><?php esc_html_e( 'Browse our step-by-step guides and articles to help you get started and troubleshoot with ease.', 'gdpr-cookie-consent' ); ?></p>
+                      </div>
+
+                      <div class="gdpr-cookie-consent-help-card">
+                        <div class="gdpr-cookie-consent-help-icon">
+                          <span>
+                            <img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/Video_file_fill.png' ); ?>" alt="<?php esc_attr_e( 'Help Video Tutorials', 'gdpr-cookie-consent' ); ?>">
+                          </span>
+                        </div>
+                        <h3><?php esc_html_e( 'Video Tutorials', 'gdpr-cookie-consent' ); ?></h3>
+                        <p><?php esc_html_e( 'Prefer learning by watching? Explore our tutorials to see the plugin in action and learn how to use it effectively.', 'gdpr-cookie-consent' ); ?></p>
+                      </div>
+
+                      <div class="gdpr-cookie-consent-help-card">
+                        <div class="gdpr-cookie-consent-help-icon">
+                          <span>
+                            <img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/Subttasks_fill.png' ); ?>" alt="<?php esc_attr_e( 'Help Request Feature', 'gdpr-cookie-consent' ); ?>">
+                          </span>
+                        </div>
+                        <h3><?php esc_html_e( 'Request a Feature', 'gdpr-cookie-consent' ); ?></h3>
+                        <p><?php esc_html_e( 'Got an idea that could make the plugin better? We’d love to hear from you.', 'gdpr-cookie-consent' ); ?></p>
+                      </div>
+                    </section>
+
+                    <section class="gdpr-cookie-consent-help-footer">
+                      <h2><?php esc_html_e( 'Need Further Help?', 'gdpr-cookie-consent' ); ?></h2>
+                      <p><?php esc_html_e( 'Can’t find what you’re looking for? Escalate your issue to our support team and we’ll get back to you shortly.', 'gdpr-cookie-consent' ); ?></p>
+                      <p><?php echo wp_kses_post( __( 'Email us at <a href="mailto:support@wplegalpages.com">support@wplegalpages.com</a>', 'gdpr-cookie-consent' ) ); ?></p>
+                    </section>
+                  </main>
                </div>
             </div>
          </div>
