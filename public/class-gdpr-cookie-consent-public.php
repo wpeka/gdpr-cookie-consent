@@ -107,8 +107,6 @@ class Gdpr_Cookie_Consent_Public {
 	}
 	/* Add defer async attribute to the script */
 	public function register_script_with_defer_async( $handle, $src, $deps = array(), $ver = false, $in_footer = true ) {
-		error_log("DADADA src is: " . $src);
-		error_log("DIDIDI out: " . wp_register_script( $handle, $src, $deps, $ver, $in_footer ));
 		wp_register_script( $handle, $src, $deps, $ver, $in_footer );
 
 		add_filter( 'script_loader_tag', function ( $tag, $h, $s ) use ( $handle ) {
