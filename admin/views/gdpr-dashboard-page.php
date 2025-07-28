@@ -435,16 +435,8 @@ if ( 200 === $response_status ) {
 						</div>
 					</div>
 				<div class="gdpr-preview-config-btn">
-				<a href="?page=gdpr-cookie-consent#cookie_settings" class="gdpr-configure-banner-btn"><?php esc_html_e( 'Configure Banner', 'gdpr-cookie-consent' ); ?><span class="dashicons dashicons-admin-customizer"></span></a>
-
-						<div class="gdpr-preview-toggle-btn">
-							<label class="gdpr-btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
-								<c-switch class="gdpr-btn-switch" v-model="banner_preview_is_on" id="gdpr-banner-preview-dash" variant="3d"  color="success" ></c-switch>
-								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
-								
-							</div>
-
-					</div>
+					<a href="?page=gdpr-cookie-consent#cookie_settings" class="gdpr-configure-banner-btn"><?php esc_html_e( 'Configure Banner', 'gdpr-cookie-consent' ); ?><span class="dashicons dashicons-admin-customizer"></span></a>
+				</div>
 			</div>
 		</c-card>
 		<!-- Card for dashboard cookie banner -->
@@ -719,31 +711,6 @@ jQuery(document).ready(function () {
 	else{
     	jQuery('.tasks-heading').text('You have 0 tasks open');
 	}
-
-	// Added for banner quick preview 
-
-   var clonepreviewbanner = jQuery('.gdpr-cookie-consent-admin-cookie-settings-content #banner-preview-main-container').clone();
-
-	// Listen for changes on the checkbox
-	jQuery('#gdpr-banner-preview-dash').change(function() {
-		// Check if the checkbox is checked
-		if (jQuery(this).is(':checked')) {
-			if (!jQuery('.gdpr-cookie-consent-admin-dashboard-content').find(clonepreviewbanner).length) {
-				jQuery('.gdpr-cookie-consent-admin-dashboard-content').append(clonepreviewbanner);
-			}
-
-			clonepreviewbanner.css({
-				'display': 'block',
-				'visibility': 'visible'
-			});
-		} else {
-			// Hide the content if the checkbox is unchecked
-			clonepreviewbanner.css({
-				'display': 'none',
-				'visibility': 'hidden'
-			});
-		}
-	});
 
 	var dashboardOptions = <?php echo json_encode($api_gdpr_dashboard); ?>;
 
