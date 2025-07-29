@@ -112,10 +112,7 @@ if ( ! class_exists( 'Gdpr_Cookie_Consent_Cookie_Serve_Api' ) ) {
 		 * @return array|bool|mixed|object
 		 */
 		public function get_post_cookies( $hash ) {
-			$response      = wp_remote_get( $this->wpl_api_url . $this->wpl_post_cookie_api_path . '?hash=' . $hash,
-				array(
-					'timeout' => 30, // timeout in seconds
-				) );
+			$response      = wp_remote_get( $this->wpl_api_url . $this->wpl_post_cookie_api_path . '?hash=' . $hash );
 			$response_code = wp_remote_retrieve_response_code( $response );
 			if ( 200 === $response_code ) {
 				$body    = wp_remote_retrieve_body( $response );
