@@ -1172,6 +1172,20 @@ jQuery(document).ready(function () {
         $(".gdpr_messagebar_detail").addClass("hide-popup");
       });
     });
+
+    $(document).on("click", "#cookie_action_opt_out_preview", function () {
+      console.log("CCPA clicked");
+      $(".notice-container").css("display", "none");
+      $(".gdpr_messagebar_detail").removeClass("hide-popup");
+      $(".ccpa-popup-close").click(function () {
+        $(".notice-container").css("display", "block");
+        $(".gdpr_messagebar_detail").addClass("hide-popup");
+      });
+      $(".ccpa-popup-save").click(function () {
+        $(".notice-container").css("display", "block");
+        $(".gdpr_messagebar_detail").addClass("hide-popup");
+      });
+    });
     //For Installing plugin - Unified Dashboard 
     jQuery(document).ready(function ($) {
      
