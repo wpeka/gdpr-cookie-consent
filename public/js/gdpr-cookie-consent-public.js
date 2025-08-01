@@ -523,7 +523,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
                   action: "gdpr_increase_page_view",
                   security: log_obj.consent_logging_nonce,
                 },
-                success: function (response) {},
+                success: function (response) { },
               });
               document.addEventListener("click", userInteracted);
               document.addEventListener("scroll", userInteracted);
@@ -539,20 +539,12 @@ GDPR_CCPA_COOKIE_EXPIRE =
                 action: "gdpr_increase_page_view",
                 security: log_obj.consent_logging_nonce,
               },
-              success: function (response) {},
+              success: function (response) { },
             });
             document.addEventListener("click", userInteracted);
             document.addEventListener("scroll", userInteracted);
           }
-        jQuery.ajax({
-          url: log_obj.ajax_url,
-          type: "POST",
-          data: {
-            action: "gdpr_increase_page_view",
-            security: log_obj.consent_logging_nonce,
-          },
-          success: function (response) {},
-        });
+        
         //delete cookies
         GDPR_Cookie.erase(GDPR_ACCEPT_COOKIE_NAME);
         GDPR_Cookie.erase(GDPR_CCPA_COOKIE_NAME);
@@ -1415,6 +1407,7 @@ banner.style.display = "none";
           jQuery(GDPR.settings.notify_div_id)
             .find(".gdpr.group-description-buttons")
             .show();
+
           GDPR.displayHeader(false, false, false, true, false, true);
           if (
             GDPR.settings.cookie_bar_as === "popup" &&
@@ -2133,6 +2126,21 @@ banner.style.display = "none";
           } else {
             self.bar_elm.slideDown(self.settings.animate_speed_hide);
           }
+
+          setTimeout(function () {
+            self.bar_elm.show();
+            jQuery.ajax({
+              url: log_obj.ajax_url,
+              type: "POST",
+              data: {
+                action: "gdpr_increase_page_view",
+                security: log_obj.consent_logging_nonce,
+              },
+              success: function (response) { },
+            });
+            document.addEventListener("click", userInteracted);
+            document.addEventListener("scroll", userInteracted);
+          }, this.settings.auto_banner_initialize_delay ? this.settings.auto_banner_initialize_delay : 0);
         } else {
           // Check if pages are selected to hide the banner
           var hideBanner = false;
@@ -2207,7 +2215,7 @@ banner.style.display = "none";
                   action: "gdpr_increase_page_view",
                   security: log_obj.consent_logging_nonce,
                 },
-                success: function (response) {},
+                success: function (response) { },
               });
               document.addEventListener("click", userInteracted);
               document.addEventListener("scroll", userInteracted);
@@ -2223,7 +2231,7 @@ banner.style.display = "none";
                 action: "gdpr_increase_page_view",
                 security: log_obj.consent_logging_nonce,
               },
-              success: function (response) {},
+              success: function (response) { },
             });
             document.addEventListener("click", userInteracted);
             document.addEventListener("scroll", userInteracted);
