@@ -12,9 +12,7 @@
         },
         "static-settings": {
             "layout" : "row_spaced",
-            "button_medium_padding": "12px 29px",
-            "button_large_padding": "14px 35px",
-            "button_small_padding": "10px 23px"
+            "button_padding": "12px 29px"
         },
         "heading":{
             "text-align":"start"
@@ -103,7 +101,7 @@
             "color": "#176CAE"
         },
         "revoke_consent_button": {
-            "color": "#176CAE",
-            "background-color": "#ffffff"
+            "color": "#ffffff",
+            "background-color": "#176CAE"
         }
     }
