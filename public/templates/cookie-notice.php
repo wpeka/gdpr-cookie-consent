@@ -31,22 +31,25 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 
 <!-- cookie notice-->
 <?php 
-	function hex_to_rgba($hex, $opacity = 1) {
-		$hex = str_replace('#', '', $hex);
-		if (strlen($hex) === 3) {
-			$r = hexdec(str_repeat(substr($hex, 0, 1), 2));
-			$g = hexdec(str_repeat(substr($hex, 1, 1), 2));
-			$b = hexdec(str_repeat(substr($hex, 2, 1), 2));
-		} elseif (strlen($hex) === 6) {
-			$r = hexdec(substr($hex, 0, 2));
-			$g = hexdec(substr($hex, 2, 2));
-			$b = hexdec(substr($hex, 4, 2));
-		} else {
-			return 'rgba(0,0,0,1)'; // fallback
-		}
+	if(!function_exists('hex_to_rgba')){
+		function hex_to_rgba($hex, $opacity = 1) {
+			$hex = str_replace('#', '', $hex);
+			if (strlen($hex) === 3) {
+				$r = hexdec(str_repeat(substr($hex, 0, 1), 2));
+				$g = hexdec(str_repeat(substr($hex, 1, 1), 2));
+				$b = hexdec(str_repeat(substr($hex, 2, 1), 2));
+			} elseif (strlen($hex) === 6) {
+				$r = hexdec(substr($hex, 0, 2));
+				$g = hexdec(substr($hex, 2, 2));
+				$b = hexdec(substr($hex, 4, 2));
+			} else {
+				return 'rgba(0,0,0,1)'; // fallback
+			}
 
-		return "rgba($r, $g, $b, $opacity)";
+			return "rgba($r, $g, $b, $opacity)";
+		}
 	}
+	
 //styling for banner
 
 	$ab_testing_enabled = (!isset($ab_options['ab_testing_enabled']) || ($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false)) ? "false" : "true";
