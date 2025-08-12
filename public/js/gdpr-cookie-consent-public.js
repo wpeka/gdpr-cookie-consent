@@ -523,7 +523,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
                   action: "gdpr_increase_page_view",
                   security: log_obj.consent_logging_nonce,
                 },
-                success: function (response) {},
+                success: function (response) { },
               });
               document.addEventListener("click", userInteracted);
               document.addEventListener("scroll", userInteracted);
@@ -539,20 +539,12 @@ GDPR_CCPA_COOKIE_EXPIRE =
                 action: "gdpr_increase_page_view",
                 security: log_obj.consent_logging_nonce,
               },
-              success: function (response) {},
+              success: function (response) { },
             });
             document.addEventListener("click", userInteracted);
             document.addEventListener("scroll", userInteracted);
           }
-        jQuery.ajax({
-          url: log_obj.ajax_url,
-          type: "POST",
-          data: {
-            action: "gdpr_increase_page_view",
-            security: log_obj.consent_logging_nonce,
-          },
-          success: function (response) {},
-        });
+        
         //delete cookies
         GDPR_Cookie.erase(GDPR_ACCEPT_COOKIE_NAME);
         GDPR_Cookie.erase(GDPR_CCPA_COOKIE_NAME);
@@ -1415,6 +1407,7 @@ banner.style.display = "none";
           jQuery(GDPR.settings.notify_div_id)
             .find(".gdpr.group-description-buttons")
             .show();
+
           GDPR.displayHeader(false, false, false, true, false, true);
           if (
             GDPR.settings.cookie_bar_as === "popup" &&
@@ -2133,6 +2126,21 @@ banner.style.display = "none";
           } else {
             self.bar_elm.slideDown(self.settings.animate_speed_hide);
           }
+
+          setTimeout(function () {
+            self.bar_elm.show();
+            jQuery.ajax({
+              url: log_obj.ajax_url,
+              type: "POST",
+              data: {
+                action: "gdpr_increase_page_view",
+                security: log_obj.consent_logging_nonce,
+              },
+              success: function (response) { },
+            });
+            document.addEventListener("click", userInteracted);
+            document.addEventListener("scroll", userInteracted);
+          }, this.settings.auto_banner_initialize_delay ? this.settings.auto_banner_initialize_delay : 0);
         } else {
           // Check if pages are selected to hide the banner
           var hideBanner = false;
@@ -2207,7 +2215,7 @@ banner.style.display = "none";
                   action: "gdpr_increase_page_view",
                   security: log_obj.consent_logging_nonce,
                 },
-                success: function (response) {},
+                success: function (response) { },
               });
               document.addEventListener("click", userInteracted);
               document.addEventListener("scroll", userInteracted);
@@ -2223,7 +2231,7 @@ banner.style.display = "none";
                 action: "gdpr_increase_page_view",
                 security: log_obj.consent_logging_nonce,
               },
-              success: function (response) {},
+              success: function (response) { },
             });
             document.addEventListener("click", userInteracted);
             document.addEventListener("scroll", userInteracted);
@@ -2543,6 +2551,7 @@ banner.style.display = "none";
             var elmType = currentElm.tagName;
             if (srcReplaceableElms.indexOf(elmType) !== -1) {
               var elmCategory = currentElm.getAttribute("data-wpl-script-type");
+              
               var isBlock = currentElm.getAttribute("data-wpl-block");
               if (GDPR_Blocker.blockingStatus === true) {
                 if (
@@ -2551,6 +2560,7 @@ banner.style.display = "none";
                   (GDPR_Cookie.read(GDPR_ACCEPT_COOKIE_NAME) != null &&
                     isBlock === "false")
                 ) {
+                
                   this.replaceSrc(currentElm);
                 } else {
                   this.addPlaceholder(currentElm);
@@ -2605,6 +2615,8 @@ banner.style.display = "none";
           }
         },
       };
+      GDPR.addPlaceholder = htmlElmFuncs.addPlaceholder;
+
       genericFuncs.reviewConsent();
       genericFuncs.renderByElement(GDPR_Blocker.removeCookieByCategory);
     },
@@ -2824,4 +2836,82 @@ banner.style.display = "none";
       }
   }
   });
+
+
+  // For adding placeholder for blocked Youtube scripts
+ document.addEventListener("DOMContentLoaded", function () {
+
+   var observer = new MutationObserver(function (mutations) {
+  mutations.forEach(function (mutation) {
+    mutation.addedNodes.forEach(function (node) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        var iframes = (node.matches && node.matches("iframe"))
+          ? [node]
+          : (node.querySelectorAll ? node.querySelectorAll("iframe") : []);
+
+        iframes.forEach(function (iframe) {
+          var src =
+            iframe.getAttribute("src") ||
+            iframe.getAttribute("data-src") ||
+            "";
+
+          if (
+            src.indexOf("youtube.com") !== -1 &&
+            !iframe.hasAttribute("data-wpl-placeholder")
+          ) {
+            // add replacement iframe with data-wpl-* attributes
+            var wrapper = document.createElement("div");
+            wrapper.style.display = "none"; // prevent flash
+            iframe.parentNode.insertBefore(wrapper, iframe);
+            iframe.parentNode.removeChild(iframe);
+
+            var placeholderIframe = document.createElement("iframe");
+            placeholderIframe.setAttribute(
+              "width",
+              iframe.getAttribute("width") || "625"
+            );
+            placeholderIframe.setAttribute(
+              "height",
+              iframe.getAttribute("height") || "300"
+            );
+            placeholderIframe.setAttribute(
+              "data-wpl-placeholder",
+              "Accept <a class='wpl_manage_current_consent'>" +
+                log_obj.selected_script_category +
+                "</a> cookies to view the content."
+            );
+            placeholderIframe.setAttribute("data-wpl-src", src);
+            placeholderIframe.setAttribute(
+              "data-wpl-class",
+              "wpl-blocker-script"
+            );
+            placeholderIframe.setAttribute(
+              "data-wpl-script-type",
+              "marketing"
+            );
+
+            wrapper.appendChild(placeholderIframe);
+            wrapper.style.display = ""; // show again
+
+            // Calling placeholder logic
+            if (
+              typeof GDPR !== "undefined" &&
+              typeof GDPR.addPlaceholder === "function"
+            ) {
+              GDPR.addPlaceholder(placeholderIframe);
+            }
+          }
+        });
+      }
+    });
+  });
+});
+
+
+   observer.observe(document.body, {
+     childList: true,
+     subtree: true,
+   });
+ });
+  
 })(jQuery);
