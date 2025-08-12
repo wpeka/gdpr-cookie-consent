@@ -78,6 +78,7 @@ var gen = new Vue({
       edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
       close_round_img: require("../admin/images/Close_round.svg"),
       account_connection: require("../admin/images/account_connection.svg"),
+      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
       closeOnBackdrop: true,
       centered: true,
       edit_region: false,
