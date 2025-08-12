@@ -966,16 +966,19 @@ class Gdpr_Cookie_Consent_Public {
 			}
 
 			//detect user's preffered language from browser.
-			function parseLanguageList($languageList) {
-				$languages = array();
-				$languageRanges = explode(',', trim($languageList));
-				foreach ($languageRanges as $languageRange) {
-					if (preg_match('/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/', trim($languageRange), $match)) {
-						array_push($languages,strtolower($match[1]));
+			if(!function_exists('parseLanguageList')){
+				function parseLanguageList($languageList) {
+					$languages = array();
+					$languageRanges = explode(',', trim($languageList));
+					foreach ($languageRanges as $languageRange) {
+						if (preg_match('/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/', trim($languageRange), $match)) {
+							array_push($languages,strtolower($match[1]));
+						}
 					}
+					return $languages;
 				}
-				return $languages;
 			}
+			
 			//code to change the language according to user's preferences
 			if(isset($the_options["is_dynamic_lang_on"]) && ($the_options["is_dynamic_lang_on"] === true || $the_options["is_dynamic_lang_on"] === "true")){
 				$languages = parseLanguageList($_SERVER['HTTP_ACCEPT_LANGUAGE']);	//user's preffered language
