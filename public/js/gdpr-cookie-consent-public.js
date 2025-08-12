@@ -2376,11 +2376,18 @@ banner.style.display = "none";
     },
     removeCookieByCategory: function () {
       if (GDPR_Blocker.blockingStatus == true) {
-        var cookiesList = GDPR_Blocker.cookies;
+        var gdpr_user_preference_arr = []
+        if (GDPR_Cookie.read("wpl_user_preference")) {
+            gdpr_user_preference_arr = JSON.parse(
+              GDPR_Cookie.read("wpl_user_preference")
+            );
+        }
+        var cookiesList = JSON.parse(GDPR_Blocker.cookies);
         for (var i = 0; i < cookiesList.length; i++) {
           var cookie = cookiesList[i];
           var current_category = cookie["gdpr_cookie_category_slug"];
-          if (GDPR.allowed_categories.indexOf(current_category) === -1) {
+          if(current_category == "necessary") continue;
+          if ( !gdpr_user_preference_arr.hasOwnProperty(current_category) || gdpr_user_preference_arr[current_category] === "no") {
             var cookies = cookie["data"];
             if (cookies && cookies.length != 0) {
               for (var c_key in cookies) {
