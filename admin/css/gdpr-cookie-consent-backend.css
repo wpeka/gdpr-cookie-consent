@@ -770,6 +770,7 @@ a .export-btn:hover {
 
 #gdprmodal-ccpa-popup .gdprmodal-header {
   padding: 0;
+  z-index: 1;
 }
 
 #gdprmodal-ccpa-popup .gdprmodal-body {
