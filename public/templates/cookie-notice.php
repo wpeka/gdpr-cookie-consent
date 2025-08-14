@@ -190,6 +190,10 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 	if(isset($template_object['decline_button']['width'])) $decline_style_attr .= "width : {$template_object['decline_button']['width']};";
 
 	$badging_color = $the_options['button_accept_all_button_color' . $suffix] === ($ab_testing_enabled === "true" ? $the_options['cookie_bar_color' . $chosenBanner] : ($the_options['cookie_usage_for'] === 'both' ? $the_options['multiple_legislation_cookie_bar_color1'] : $the_options['background'])) ? $template_object['accept_all_button']['background-color'] : $the_options['button_accept_all_button_color' . $suffix];
+	$decoration_styles_attr = '';
+	if($template_object['decoration']) foreach ($template_object['decoration'] as $key => $value) {
+		$decoration_styles_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+	} 
 ?>
 
 <div id="<?php echo esc_html( $the_options['container_id'] ); ?>" class="<?php echo esc_html( $the_options['container_class'] ); ?> <?php echo esc_html( $the_options['theme_class'] ); ?>"  style="<?php echo esc_attr($notice_container_styles); ?>">	
@@ -247,6 +251,10 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 			}
 		}
 	} ?>
+
+	<?php if($decoration_styles_attr !== ''){ ?>
+		<div  style = "<?php echo esc_attr($decoration_styles_attr); ?>" class="gdpr_banner_decoration"></div>
+	<?php } ?>
 	
 
 	<div class="<?php echo esc_attr($template_object['static-settings']['layout']);?>">

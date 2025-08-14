@@ -179,6 +179,73 @@
   width: 100%;
 }
 
+#gdpr-cookie-consent-bar.blue_split{
+  flex-direction: row !important;
+
+}
+#gdpr-cookie-consent-bar .small_row_big_column {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  align-items: center;
+  justify-content: center;
+  margin-left: calc(25% - 100px);
+  position: unset;
+}
+#gdpr-cookie-consent-bar.blue_split .gdpr_banner_decoration{
+  width: 25%;
+} 
+#gdpr-cookie-consent-bar.blue_split.gdpr-widget .gdpr-notice-content-body h3, #gdpr-cookie-consent-bar.blue_split.gdpr-popup .gdpr-notice-content-body h3{
+    left: 40px;
+    top: 82px;
+    width: calc(25% - 40px);
+}
+#gdpr-cookie-consent-bar.blue_split.gdpr-banner .gdpr-notice-content-body h3{
+    left: 120px;
+    top: 82px;
+    width: calc(25% - 120px);
+}
+
+
+#gdpr-cookie-consent-bar .small_row_big_column .small_row_big_column-buttons {
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+}
+#gdpr-cookie-consent-bar .small_row_big_column .small_row_big_column-buttons a{
+  min-width: 160px;
+}
+#gdpr-cookie-consent-bar .small_row_big_column .small_row_big_column-buttons .left-buttons,
+#gdpr-cookie-consent-bar .small_row_big_column .small_row_big_column-buttons .right-buttons {
+  width: fit-content;
+  flex: 1 1 0;
+}
+#gdpr-cookie-consent-bar .small_row_big_column .small_row_big_column {
+  flex-direction: row;
+}
+
+#gdpr-cookie-consent-bar .small_row_big_column .small_row_big_column-buttons {
+  flex-direction: column-reverse;
+  min-width: 280px;
+    width: fit-content;
+}
+#gdpr-cookie-consent-bar .small_row_big_column .small_row_big_column-buttons a{
+  min-width: auto;
+}
+#gdpr-cookie-consent-bar .small_row_big_column .small_row_big_column-buttons .left-buttons,
+#gdpr-cookie-consent-bar .small_row_big_column .small_row_big_column-buttons .right-buttons {
+  width: 100%;
+  flex: auto;
+}
+#gdpr-cookie-consent-bar.blue_split .powered-by-credits{
+  position: absolute;
+  bottom: 15px;
+  left:50%;
+  transform: translateX(-50%);
+}
+
 
 #gdpr-ccpa-gdprmodal .gdprmodal-content {
   padding: 2rem 3rem;
