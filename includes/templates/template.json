@@ -1011,7 +1011,7 @@
             "left":"0"
         },
         "static-settings": {
-            "layout" : "side_column",
+            "layout" : "small_row_big_column",
             "button_padding": "10px 20px"
         },
         "heading":{
@@ -1038,7 +1038,6 @@
             "border-color": "#044389",
             "border-radius": "50px",
             "opacity": "1",
-            "min-width": "150px",
             "width":"100%",
             "display": "flex",
             "justify-content": "center",
@@ -1055,7 +1054,6 @@
             "border-color": "#ffffff",
             "border-radius": "50px",
             "opacity": "1",
-            "min-width": "165px",
             "width":"100%",
             "display": "flex",
             "justify-content": "center",
@@ -1089,7 +1087,6 @@
             "border-color": "#044389",
             "border-radius": "50px",
             "opacity": "1",
-            "min-width": "150px",
             "width":"100%",
             "display": "flex",
             "justify-content": "center",
