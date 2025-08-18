@@ -1282,6 +1282,7 @@ ul.gdpr_sub_tab li:first-child {
   -webkit-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease;
   outline: none;
+  cursor: pointer;
 }
 .gdpr-mascot-quick-links-menu
   .gdpr-mascot-quick-links-menu-item

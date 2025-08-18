@@ -707,7 +707,7 @@ $selected_script_category = $wpdb->get_var(
 			} else {
 				$credit_link_href = 'https://wordpress.org/plugins/gdpr-cookie-consent/?utm_source=gdpr&utm_medium=show-credits&utm_campaign=link&utm_content=powered-by-gdpr';
 			}
-			$credit_link_text = __( 'WP Cookie consent', 'gdpr-cookie-consent' );
+			$credit_link_text = __( 'WPLP Compliance Platform', 'gdpr-cookie-consent' );
 
 			$credit_link = sprintf(
 				/* translators: 1: GDPR Cookie Consent Plugin*/
