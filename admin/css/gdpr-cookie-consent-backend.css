@@ -76,6 +76,7 @@ table.gdpr_script_items tr:nth-child(odd) td {
 .gdpr-mascot-quick-links-menu
   .gdpr-mascot-quick-links-menu-item.gdpr-mascot-quick-links-item-upgrade {
   background: #704cbc;
+  cursor: pointer;
 }
 .gdpr-mascot-quick-links-menu
   .gdpr-mascot-quick-links-menu-item.gdpr-mascot-quick-links-item-upgrade:hover {
