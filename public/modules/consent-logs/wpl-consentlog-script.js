@@ -46,6 +46,11 @@ function generatePDF(
   const websiteUrl = window.location.hostname;
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF("p", "mm", "a4"); // Create A4 size PDF
+
+  doc.autoTableSetDefaults({
+    margin: { top: 20, left: 20, right: 20 }, // 20 mm margins
+    styles: { fontSize: 11 }
+  });
   var wrappedText = "";
   var actext = "";
   if (tcString != "") {

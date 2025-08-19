@@ -1282,6 +1282,7 @@ ul.gdpr_sub_tab li:first-child {
   -webkit-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease;
   outline: none;
+  cursor: pointer;
 }
 .gdpr-mascot-quick-links-menu
   .gdpr-mascot-quick-links-menu-item
@@ -9703,13 +9704,14 @@ div#gdpr-scan-history {
 .gdpr-cookie-consent-help-footer a {
   color: #0059B3;
 }
-=======
+
 .gdpr-remaining-scans-content .gdpr-remaining-scans-content-left {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  margin-right: 25px;
 }
 
 .gdpr-remaining-scans-content .gdpr-remaining-scans-content-left .gdpr-remaining-scans-content-separator {
