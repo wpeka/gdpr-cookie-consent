@@ -521,7 +521,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		
 		$limits = [
 		  'free' => 20000,
-		  '3sites' => 1000000,
+		  '3sites' => 100000,
 		  '10sites' => PHP_INT_MAX, // effect: unlimited
 		];
 		$limit = $limits[$this->api_user_plan] ?? PHP_INT_MAX;
