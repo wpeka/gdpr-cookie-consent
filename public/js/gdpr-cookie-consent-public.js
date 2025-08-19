@@ -2551,12 +2551,16 @@ banner.style.display = "none";
             var elmType = currentElm.tagName;
             if (srcReplaceableElms.indexOf(elmType) !== -1) {
               var elmCategory = currentElm.getAttribute("data-wpl-script-type");
-              
+              var gdpr_user_preference_arr = []
+              if (GDPR_Cookie.read("wpl_user_preference")) {
+                  gdpr_user_preference_arr = JSON.parse(
+                    GDPR_Cookie.read("wpl_user_preference")
+                  );
+              }
               var isBlock = currentElm.getAttribute("data-wpl-block");
               if (GDPR_Blocker.blockingStatus === true) {
                 if (
-                  (GDPR_Cookie.read(GDPR_ACCEPT_COOKIE_NAME) == "yes" &&
-                    GDPR.allowed_categories.indexOf(elmCategory) !== -1) ||
+                  (GDPR_Cookie.read(GDPR_ACCEPT_COOKIE_NAME) == "yes" && (gdpr_user_preference_arr.hasOwnProperty(elmCategory) && gdpr_user_preference_arr[elmCategory] === "yes")) ||
                   (GDPR_Cookie.read(GDPR_ACCEPT_COOKIE_NAME) != null &&
                     isBlock === "false")
                 ) {
