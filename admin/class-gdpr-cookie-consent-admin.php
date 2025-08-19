@@ -3156,7 +3156,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * 
 	 * @since 9.2.11
 	 */
-	public function gdpr_cookie_consent_advanced_settings(){
+	public function gdpr_cookie_consent_advanced_settings() {
 		$is_user_connected = $this->settings->is_connected();
 		$api_user_plan = $this->settings->get_plan();
 
@@ -3218,6 +3218,50 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 
 		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-advanced-settings.php';
+	}
+
+	/**
+	 * AB Testing Page
+	 * 
+	 * @since 9.2.11
+	 */
+	public function gdpr_cookie_consent_abtesting_settings() {
+		$is_user_connected = $this->settings->is_connected();
+		$api_user_plan = $this->settings->get_plan();
+
+		$is_pro            = get_option( 'wpl_pro_active', false );
+		if ( $is_pro ) {
+			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=support';
+		} else {
+			$support_url = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
+		}
+		wp_enqueue_style( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name . '-vue' );
+		wp_enqueue_script( $this->plugin_name . '-mascot' );
+		wp_enqueue_style( $this->plugin_name . '-select2' );
+		wp_enqueue_script( $this->plugin_name . '-select2' );
+
+		wp_localize_script(
+			$this->plugin_name . '-mascot',
+			'mascot_obj',
+			array(
+				'api_user_plan' => $api_user_plan,
+				'documentation_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/',
+				'faq_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/',
+				'support_url' => $support_url,
+				'upgrade_url' => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
+				'is_user_connected' => $is_user_connected,
+			)
+		);
+		// Lock out non-admins.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+		}
+		// Get options.
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-abtesting-settings.php';
 	}
 
 	/**
@@ -5239,6 +5283,17 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
+	 * AB Testing callback to save advanced settings.
+	 */
+	public function gdpr_cookie_consent_ajax_save_abtesting_settings() {
+		if ( isset( $_POST['gcc_settings_form_nonce_abtesting'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_abtesting'] ) ), 'gcc-settings-form-nonce-abtesting' ) ) {
+				return;
+			}
+		}
+	}
+
+	/**
 	 * Function to enable IAB and download vendor list
 	 */
 	public function gdpr_cookie_consent_ajax_enable_iab(){
@@ -5298,6 +5353,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Ajax callback for A-B Testing value.
 	 */
 	public function gdpr_cookie_consent_ab_testing_enable(){
+		error_log("DODODO inside gdpr_cookie_consent_ab_testing_enable()");
 			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$ab_options     = get_option( 'wpl_ab_options' );
 			if ( ! $ab_options ) {

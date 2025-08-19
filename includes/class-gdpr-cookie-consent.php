@@ -232,6 +232,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_save_advanced_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_advanced_settings', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gcc_save_abtesting_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_abtesting_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_enable_iab', $plugin_admin, 'gdpr_cookie_consent_ajax_enable_iab', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_save_gcm_region_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_gcm_region', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_ab_testing_enable', $plugin_admin, 'gdpr_cookie_consent_ab_testing_enable', 10, 1 );

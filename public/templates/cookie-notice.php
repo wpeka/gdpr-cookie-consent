@@ -85,7 +85,6 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 		$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 	}  
 	$readmore_style_attr = "";
-	error_log("DODODO readmore_is_on: " . $the_options['button_readmore_is_on' . $suffix] . " suffix: " . $suffix);
 
 	$readmore_style_attr .= " color: {$the_options['button_readmore_link_color' . $suffix]};";
 	if ($the_options['button_readmore_as_button' . $suffix] === 'true' || $the_options['button_readmore_as_button' . $suffix] === true || $the_options['button_readmore_as_button' . $suffix] === 1) {
