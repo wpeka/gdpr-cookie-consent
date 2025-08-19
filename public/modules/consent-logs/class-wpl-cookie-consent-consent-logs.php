@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'GDPR_Cookie_Consent', 'wplconsentlogs' );
 
+require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
 /**
  * The frontend-specific functionality for consent log.
  *
@@ -23,12 +25,17 @@ define( 'GDPR_Cookie_Consent', 'wplconsentlogs' );
  */
 class Gdpr_Cookie_Consent_Consent_Logs {
 
+	private $settings;
+	private $api_user_plan;
 	/**
 	 * Gdpr_Cookie_Consent_Consent_Logs constructor.
 	 */
 	public function __construct() {
 		register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'wplcl_activator' ) );
 		add_action( 'init', array( $this, 'wplcl_register_custom_post_type' ) );
+
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+		$this->api_user_plan = $this->settings->get_plan();
 
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_action( 'admin_menu', array( $this, 'wplcl_admin_menu' ), 12 );
@@ -48,9 +55,9 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		add_action( 'wp_ajax_nopriv_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
 		add_action( 'wp_ajax_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_increase_page_view', array( $this, 'wplcl_increase_page_view' ) );
-		add_action( 'wp_ajax_gdpr_gdpr_increase_page_view', array( $this, 'wplcl_increase_page_view' ) );
+		add_action( 'wp_ajax_gdpr_increase_page_view', array( $this, 'wplcl_increase_page_view' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_increase_ignore_rate', array( $this, 'wplcl_increase_ignore_rate' ) );
-		add_action( 'wp_ajax_gdpr_gdpr_increase_ignore_rate', array( $this, 'wplcl_increase_ignore_rate' ) );
+		add_action( 'wp_ajax_gdpr_increase_ignore_rate', array( $this, 'wplcl_increase_ignore_rate' ) );
 		add_action( 'wp_ajax_gdpr_collect_abtesting_data_action', array( $this, 'wplcl_collect_abtesting_data_action' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_collect_abtesting_data_action', array( $this, 'wplcl_collect_abtesting_data_action' ) );
 
@@ -508,9 +515,50 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			$wpl_page_views[$key] = 1;
 		}
 		$wpl_total_page_views++;
+
+		$current_month = date('M Y');
+		$monthly_views = $this->get_monthly_views($wpl_page_views, $current_month);
+		
+		$limits = [
+		  'free' => 20000,
+		  '3sites' => 100000,
+		  '10sites' => PHP_INT_MAX, // effect: unlimited
+		];
+		$limit = $limits[$this->api_user_plan] ?? PHP_INT_MAX;
+
+		$plan_limit_messages = [
+		    'free' => "20k monthly banner views used on your free plan. Go Pro to continue displaying it.",
+		    '3sites' => "100K monthly banner views used on your current plan. Upgrade to Business Plan to keep it running.",
+			'10sites' => ""
+		];
+
+		if ($monthly_views >= $limit) {
+		    if ($limit != PHP_INT_MAX) {
+		        update_option( 'page_view_notice_message', $plan_limit_messages[$this->api_user_plan] );
+		    }
+		} else {
+		    // If the limit is not reached, clear the notice message
+		    update_option( 'page_view_notice_message', '' );
+		}
+
 		update_option('wpl_page_views', $wpl_page_views);
 		update_option('wpl_total_page_views', $wpl_total_page_views);
 	}
+
+	/**
+	 * Calculate monthly page views.
+	 */
+	function get_monthly_views($wpl_page_views, $current_month) {
+		$monthly_views = 0;
+		foreach ($wpl_page_views as $date => $views) {
+			$date_obj = DateTime::createFromFormat('M d, Y', $date);
+			if ($date_obj && $date_obj->format('M Y') === $current_month) {
+				$monthly_views += $views;
+			}
+		}
+		return $monthly_views;
+	}
+
 	/**
 	 * Save consent logs.
 	 *

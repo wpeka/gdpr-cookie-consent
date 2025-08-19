@@ -46,6 +46,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		}
 		add_action( 'wp_ajax_wpl_script_add', array( $this, 'wpl_ajax_script_add' ), 10, 1 );
 		add_action( 'wp_ajax_wpl_script_save', array( $this, 'wpl_ajax_script_save' ), 10, 1 );
+
 	}
 
 	/**

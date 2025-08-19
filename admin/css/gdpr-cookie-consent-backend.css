@@ -76,6 +76,7 @@ table.gdpr_script_items tr:nth-child(odd) td {
 .gdpr-mascot-quick-links-menu
   .gdpr-mascot-quick-links-menu-item.gdpr-mascot-quick-links-item-upgrade {
   background: #704cbc;
+  cursor: pointer;
 }
 .gdpr-mascot-quick-links-menu
   .gdpr-mascot-quick-links-menu-item.gdpr-mascot-quick-links-item-upgrade:hover {
@@ -759,4 +760,58 @@ a .export-btn:hover {
 .scan-frequency-day {
   position: relative;
   left: 7px;
+}
+
+#gdprmodal-ccpa-popup {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#gdprmodal-ccpa-popup .gdprmodal-header {
+  padding: 0;
+  z-index: 1;
+}
+
+#gdprmodal-ccpa-popup .gdprmodal-body {
+  padding-top: 2.5rem;
+  width: 100%;
+  overflow-y: hidden;
+}
+
+#gdprmodal-ccpa-popup .gdprmodal-body p {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 25px;
+}
+
+#gdprmodal-ccpa-popup .gdprmodal-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+#gdprmodal-ccpa-popup .gdprmodal-footer .gdprmodal-footer-buttons-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+}
+
+#gdprmodal-ccpa-popup .gdprmodal-footer .gdprmodal-footer-buttons-wrapper button {
+  width: 100%;
+  margin: 0;
+}
+
+#gdprmodal-ccpa-popup .gdprmodal-footer .powered-by-credits {
+  margin: 0;
 }
