@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.8.1
-Stable tag: 3.9.0
+Stable tag: 3.9.5
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -346,6 +346,24 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 11.Consent Log table
 
 == Change Log ==
+
+= 3.9.5 =
+* Minor bug fixes and improvements.
+
+= 3.9.4 =
+* Fixed: A/B Testing functionality not working on Bluehost sites.
+* Fixed: Button size customization was not applied consistently to all buttons (Accept, Accept All, Decline, Cookie Settings).
+* Fixed: PHP Notices and warning messages under GDPR settings.
+
+= 3.9.3 =
+* Fix: Minor changes.
+
+= 3.9.2 =
+* Fix: Bug fixes and improvements.
+
+= 3.9.1 =
+* Improvement: Improved functional cookie handling under Google Consent Mode (GCM) settings for better accuracy and categorization.
+* Fix: Resolved accessibility issues to ensure better compliance with WCAG (Web Content Accessibility Guidelines).
 
 = 3.9.0 =
 * Revamped Cookie Banner Structure: All banner templates are now fully responsive and optimized to display perfectly across all devices and screen sizes.
@@ -806,6 +824,24 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.9.5 =
+* Minor bug fixes and improvements.
+
+= 3.9.4 =
+* Fixed: A/B Testing functionality not working on Bluehost sites.
+* Fixed: Button size customization was not applied consistently to all buttons (Accept, Accept All, Decline, Cookie Settings).
+* Fixed: PHP Notices and warning messages under GDPR settings.
+
+= 3.9.3 =
+* Fix: Minor changes.
+
+= 3.9.2 =
+* Fix: Bug fixes and improvements.
+
+= 3.9.1 =
+* Improvement: Improved functional cookie handling under Google Consent Mode (GCM) settings for better accuracy and categorization.
+* Fix: Resolved accessibility issues to ensure better compliance with WCAG (Web Content Accessibility Guidelines).
 
 = 3.9.0 =
 * Revamped Cookie Banner Structure: All banner templates are now fully responsive and optimized to display perfectly across all devices and screen sizes.

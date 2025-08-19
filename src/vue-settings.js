@@ -69,7 +69,8 @@ var gen = new Vue({
       ab_testing_data: '',
       gcm_adver_mode_data: '',
       gcm_scan_flag: false,
-      json_templates: json_templates,
+      json_templates: settings_obj.templates,
+      default_template_json: settings_obj.default_template_json,
       pollingInterval: '',
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
@@ -566,17 +567,6 @@ var gen = new Vue({
         )
           ? settings_obj.the_options["button_readmore_button_border_radius"]
           : "0",
-      button_readmore_button_size: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_size"
-      )
-        ? settings_obj.the_options["button_readmore_button_size"]
-        : "medium",
-      button_size_options: settings_obj.button_size_options,
-      button_readmore_button_size: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_size"
-      )
-        ? settings_obj.the_options["button_readmore_button_size"]
-        : "medium",
       banner_preview: true,
       show_cookie_as_options: settings_obj.show_cookie_as_options,
       show_language_as_options: settings_obj.show_language_as_options,
@@ -689,12 +679,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_accept_link_color"]
         : "#ffffff",
-      accept_size_options: settings_obj.accept_size_options,
-      accept_size: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_size"
-      )
-        ? settings_obj.the_options["button_accept_button_size"]
-        : "medium",
       accept_action_options: settings_obj.accept_action_options,
       accept_action: settings_obj.the_options.hasOwnProperty(
         "button_accept_action"
@@ -803,11 +787,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_decline_button_border_radius"]
         : "0",
-      decline_size: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_size"
-      )
-        ? settings_obj.the_options["button_decline_button_size"]
-        : "medium",
       decline_action: settings_obj.the_options.hasOwnProperty(
         "button_decline_action"
       )
@@ -881,11 +860,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_settings_button_border_radius"]
         : "0",
-      settings_size: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_size"
-      )
-        ? settings_obj.the_options["button_settings_button_size"]
-        : "medium",
       cookie_on_frontend:
         settings_obj.the_options.hasOwnProperty(
           "button_settings_display_cookies"
@@ -934,11 +908,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_confirm_button_border_radius"]
         : "0",
-      confirm_size: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_size"
-      )
-        ? settings_obj.the_options["button_confirm_button_size"]
-        : "medium",
       cancel_text: settings_obj.the_options.hasOwnProperty("button_cancel_text")
         ? settings_obj.the_options["button_cancel_text"]
         : "Cancel",
@@ -977,11 +946,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_cancel_button_border_radius"]
         : "0",
-      cancel_size: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_size"
-      )
-        ? settings_obj.the_options["button_cancel_button_size"]
-        : "medium",
       opt_out_text: settings_obj.the_options.hasOwnProperty(
         "button_donotsell_text"
       )
@@ -1184,11 +1148,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_accept_link_color1"]
         : "#ffffff",
-      accept_size1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_size1"
-      )
-        ? settings_obj.the_options["button_accept_button_size1"]
-        : "medium",
       accept_action1: settings_obj.the_options.hasOwnProperty(
         "button_accept_action1"
       )
@@ -1289,11 +1248,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_accept_all_button_color1"]
         : "#18a300",
-      accept_all_size1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_button_size1"
-      )
-        ? settings_obj.the_options["button_accept_all_button_size1"]
-        : "medium",
       accept_all_style1: settings_obj.the_options.hasOwnProperty(
         "button_accept_all_btn_border_style1"
       )
@@ -1374,11 +1328,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_decline_button_border_radius1"]
         : "0",
-      decline_size1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_size1"
-      )
-        ? settings_obj.the_options["button_decline_button_size1"]
-        : "medium",
       decline_action1: settings_obj.the_options.hasOwnProperty(
         "button_decline_action1"
       )
@@ -1453,11 +1402,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_settings_button_border_radius1"]
         : "0",
-      settings_size1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_size1"
-      )
-        ? settings_obj.the_options["button_settings_button_size1"]
-        : "medium",
       cookie_on_frontend1:
         settings_obj.the_options.hasOwnProperty(
           "button_settings_display_cookies1"
@@ -1509,11 +1453,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_confirm_button_border_radius1"]
         : "0",
-      confirm_size1: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_size1"
-      )
-        ? settings_obj.the_options["button_confirm_button_size1"]
-        : "medium",
       cancel_text1: settings_obj.the_options.hasOwnProperty(
         "button_cancel_text1"
       )
@@ -1554,11 +1493,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_cancel_button_border_radius1"]
         : "0",
-      cancel_size1: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_size1"
-      )
-        ? settings_obj.the_options["button_cancel_button_size1"]
-        : "medium",
       opt_out_text1: settings_obj.the_options.hasOwnProperty(
         "button_donotsell_text1"
       )
@@ -1711,11 +1645,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_accept_link_color2"]
         : "#ffffff",
-      accept_size2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_size2"
-      )
-        ? settings_obj.the_options["button_accept_button_size2"]
-        : "medium",
       accept_action2: settings_obj.the_options.hasOwnProperty(
         "button_accept_action2"
       )
@@ -1816,11 +1745,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_accept_all_button_color2"]
         : "#18a300",
-      accept_all_size2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_button_size2"
-      )
-        ? settings_obj.the_options["button_accept_all_button_size2"]
-        : "medium",
       accept_all_style2: settings_obj.the_options.hasOwnProperty(
         "button_accept_all_btn_border_style2"
       )
@@ -1901,11 +1825,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_decline_button_border_radius2"]
         : "0",
-      decline_size2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_size2"
-      )
-        ? settings_obj.the_options["button_decline_button_size2"]
-        : "medium",
       decline_action2: settings_obj.the_options.hasOwnProperty(
         "button_decline_action2"
       )
@@ -1981,11 +1900,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_settings_button_border_radius2"]
         : "0",
-      settings_size2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_size2"
-      )
-        ? settings_obj.the_options["button_settings_button_size2"]
-        : "medium",
       cookie_on_frontend2:
         settings_obj.the_options.hasOwnProperty(
           "button_settings_display_cookies2"
@@ -2037,11 +1951,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_confirm_button_border_radius2"]
         : "0",
-      confirm_size2: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_size2"
-      )
-        ? settings_obj.the_options["button_confirm_button_size2"]
-        : "medium",
       cancel_text2: settings_obj.the_options.hasOwnProperty(
         "button_cancel_text2"
       )
@@ -2082,11 +1991,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_cancel_button_border_radius2"]
         : "0",
-      cancel_size2: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_size2"
-      )
-        ? settings_obj.the_options["button_cancel_button_size2"]
-        : "medium",
       opt_out_text2: settings_obj.the_options.hasOwnProperty(
         "button_donotsell_text2"
       )
@@ -2250,6 +2154,9 @@ var gen = new Vue({
       continue_scan: 1,
       pollCount: 0,
       onPrg: 0,
+      selected_template_json : settings_obj.the_options.hasOwnProperty("selected_template_json") 
+        ? JSON.parse(settings_obj.the_options['selected_template_json'])
+        : [],
       template: settings_obj.the_options.hasOwnProperty("template")
         ? settings_obj.the_options["template"]
         : "default",
@@ -2301,11 +2208,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_accept_all_button_color"]
         : "#18a300",
-      accept_all_size: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_button_size"
-      )
-        ? settings_obj.the_options["button_accept_all_button_size"]
-        : "medium",
       accept_all_style: settings_obj.the_options.hasOwnProperty(
         "button_accept_all_btn_border_style"
       )
@@ -3398,7 +3300,6 @@ var gen = new Vue({
       this.cookie_position = position;
     },
     cookiewidgetPositionChange(value) {
-      console.log(this.is_eprivacy, typeof(this.is_eprivacy));
       this.cookie_widget_position = value;
     },
     selectTab(tabName) {
@@ -3411,10 +3312,14 @@ var gen = new Vue({
     },
     onTemplateChange(value) {
       this.template = value;
-      
-      console.log(this.template);
       this.auto_generated_banner = false;
-      const selectedTemplate = this.json_templates[value];
+      let selectedTemplate
+      if(value == "default"){
+        selectedTemplate = this.default_template_json;
+      }
+      else{
+        selectedTemplate = this.json_templates[value];
+      }
       this.cookie_bar_color =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity =                     selectedTemplate['styles']['opacity'];
       this.cookie_text_color =                      selectedTemplate['styles']['color'];
@@ -4350,19 +4255,16 @@ var gen = new Vue({
       this.gcm_advertiser_mode = false;
       this.dynamic_lang_is_on = false;
       this.gacm_is_on = false;
-      this.accept_size = "medium";
       this.accept_all_button_popup = false;
       this.accept_all_text = "Accept All";
       this.accept_all_url = "#";
       this.accept_all_action = "#cookie_action_close_header";
       this.accept_all_new_win = false;
       this.accept_all_as_button = true;
-      this.accept_all_size = "medium";
       this.button_readmore_text = "Read More";
       this.button_readmore_url = "#";
       this.button_readmore_new_win = false;
       this.button_readmore_as_button = false;
-      this.button_readmore_button_size = "medium";
       this.button_readmore_is_on = true;
       this.button_readmore_url_type = true;
       this.button_readmore_wp_page = false;
@@ -4393,72 +4295,56 @@ var gen = new Vue({
       this.decline_action = "#cookie_action_settings";
       this.open_decline_url = false;
       this.decline_as_button = true;
-      this.decline_size = "medium";
       this.settings_text = "Cookie Settings";
       this.settings_as_button = true;
-      this.settings_size = "medium";
       this.cookie_on_frontend = true;
       this.opt_out_text = "Do Not Sell My Personal Information";
       this.confirm_text = "Confirm";
-      this.confirm_size = "medium";
       this.cancel_text = "Cancel";
-      this.cancel_size = "medium";
       this.accept_text1 = "Accept";
       this.accept_url1 = "#";
       this.accept_action1 = "#cookie_action_close_header";
       this.open_url1 = false;
       this.accept_as_button1 = true;
-      this.accept_size1 = "medium";
       this.accept_all_button_popup1 = false;
       this.accept_all_text1 = "Accept All";
       this.accept_all_url1 = "#";
       this.accept_all_action1 = "#cookie_action_close_header";
       this.accept_all_new_win1 = false;
       this.accept_all_as_button1 = true;
-      this.accept_all_size1 = "medium";
       this.decline_text1 = "Decline";
       this.decline_url1 = "#";
       this.decline_action1 = "#cookie_action_settings";
       this.open_decline_url1 = false;
       this.decline_as_button1 = true;
-      this.decline_size1 = "medium";
       this.settings_text1 = "Cookie Settings";
       this.settings_as_button1 = true;
-      this.settings_size1 = "medium";
       this.cookie_on_frontend1 = true;
       this.opt_out_text1 = "Do Not Sell My Personal Information";
       this.confirm_text1 = "Confirm";
-      this.confirm_size1 = "medium";
       this.cancel_text1 = "Cancel";
-      this.cancel_size1 = "medium";
       this.accept_text2 = "Accept";
       this.accept_url2 = "#";
       this.accept_action2 = "#cookie_action_close_header";
       this.open_url2 = false;
       this.accept_as_button2 = true;
-      this.accept_size2 = "medium";
       this.accept_all_button_popup2 = false;
       this.accept_all_text2 = "Accept All";
       this.accept_all_url2 = "#";
       this.accept_all_action2 = "#cookie_action_close_header";
       this.accept_all_new_win2 = false;
       this.accept_all_as_button2 = true;
-      this.accept_all_size2 = "medium";
       this.decline_text2 = "Decline";
       this.decline_url2 = "#";
       this.decline_action2 = "#cookie_action_settings";
       this.open_decline_url2 = false;
       this.decline_as_button2 = true;
-      this.decline_size2 = "medium";
       this.settings_text2 = "Cookie Settings";
       this.settings_as_button2 = true;
-      this.settings_size2 = "medium";
       this.cookie_on_frontend2 = true;
       this.opt_out_text2 = "Do Not Sell My Personal Information";
       this.confirm_text2 = "Confirm";
-      this.confirm_size2 = "medium";
       this.cancel_text2 = "Cancel";
-      this.cancel_size2 = "medium";
       this.cookie_is_on = true;
       this.is_eu_on = false;
       this.is_ccpa_on = false;
@@ -4558,7 +4444,7 @@ var gen = new Vue({
 
 
       //styles
-      const selectedTemplate = this.json_templates["default"];
+      const selectedTemplate = this.default_template_json;
       this.cookie_bar_color =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity =                     selectedTemplate['styles']['opacity'];
       this.cookie_text_color =                      selectedTemplate['styles']['color'];
@@ -6729,6 +6615,92 @@ var gen = new Vue({
       // Trigger the scan
       this.onClickStartScan();
     }
+
+    //For fixing quill js buttons accessibility issues
+    this.$nextTick(() => {
+      const quillLabels = {
+        "ql-bold": "Bold",
+        "ql-italic": "Italic",
+        "ql-underline": "Underline",
+        "ql-code-block": "Code Block",
+        "ql-strike": "Strikethrough",
+        "ql-link": "Insert Link",
+        "ql-image": "Insert Image",
+        "ql-list": "List",
+        "ql-clean": "Remove Formatting",
+        "ql-align": "Align Text",
+        "ql-blockquote": "Blockquote",
+        "ql-indent": "Indent Text",
+        "ql-video": "Insert Video",
+        "ql-header": "Header",
+        "ql-color": "Text Color",
+        "ql-background": "Background Color",
+        "ql-preview": "Preview",
+      };
+
+      Object.entries(quillLabels).forEach(([className, label]) => {
+        const buttons = document.querySelectorAll(`.ql-toolbar .${className}`);
+        buttons.forEach((button) => {
+          button.setAttribute("aria-label", label);
+          button.setAttribute("title", label);
+        });
+      });
+
+      // Fix for Ace Editor’s textarea
+      const observer = new MutationObserver(() => {
+        const aceInput = document.querySelector(".ace_text-input");
+        if (aceInput) {
+          aceInput.setAttribute("aria-hidden", "true");
+          aceInput.setAttribute("tabindex", "-1");
+          aceInput.setAttribute("role", "presentation");
+          aceInput.removeAttribute("aria-label"); // optional, but removes confusion
+          aceInput.removeAttribute("title"); // in case any tooltips are there
+
+          observer.disconnect();
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+      setTimeout(() => observer.disconnect(), 10000);
+
+      // First: For ab_testing_period_text_field
+      const abInterval = setInterval(() => {
+        const inputs = document.querySelectorAll(
+          'input[name="ab_testing_period_text_field"]'
+        );
+
+        inputs.forEach((input) => {
+          if (
+            !input.hasAttribute("aria-label") &&
+            !input.hasAttribute("aria-labelledby")
+          ) {
+            input.setAttribute("aria-label", "A/B Testing Period");
+          }
+        });
+
+        if (inputs.length) clearInterval(abInterval);
+      }, 300);
+
+      setTimeout(() => clearInterval(abInterval), 7000); // safety timeout
+
+      // Second: For display-time inputs
+      const timeInterval = setInterval(() => {
+        const timeInputs = document.querySelectorAll("input.display-time");
+
+        timeInputs.forEach((input) => {
+          if (
+            !input.hasAttribute("aria-label") &&
+            !input.hasAttribute("aria-labelledby")
+          ) {
+            input.setAttribute("aria-label", "Choose time");
+          }
+        });
+
+        if (timeInputs.length) clearInterval(timeInterval);
+      }, 300);
+
+      setTimeout(() => clearInterval(timeInterval), 7000);
+    });
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });
@@ -6747,7 +6719,7 @@ var app = new Vue({
       disableSwitch: false,
       is_template_changed: false,
       is_lang_changed: false,
-      json_templates: json_templates,
+      json_templates: settings_obj.templates,
       is_logo_removed: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
@@ -7467,12 +7439,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_accept_link_color"]
         : "#ffffff",
-      accept_size_options: settings_obj.accept_size_options,
-      accept_size: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_size"
-      )
-        ? settings_obj.the_options["button_accept_button_size"]
-        : "medium",
       accept_action_options: settings_obj.accept_action_options,
       accept_action: settings_obj.the_options.hasOwnProperty(
         "button_accept_action"
@@ -7580,11 +7546,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_decline_button_border_radius"]
         : "0",
-      decline_size: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_size"
-      )
-        ? settings_obj.the_options["button_decline_button_size"]
-        : "medium",
       decline_action: settings_obj.the_options.hasOwnProperty(
         "button_decline_action"
       )
@@ -7658,11 +7619,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_settings_button_border_radius"]
         : "0",
-      settings_size: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_size"
-      )
-        ? settings_obj.the_options["button_settings_button_size"]
-        : "medium",
       cookie_on_frontend:
         settings_obj.the_options.hasOwnProperty(
           "button_settings_display_cookies"
@@ -7711,11 +7667,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_confirm_button_border_radius"]
         : "0",
-      confirm_size: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_size"
-      )
-        ? settings_obj.the_options["button_confirm_button_size"]
-        : "medium",
       cancel_text: settings_obj.the_options.hasOwnProperty("button_cancel_text")
         ? settings_obj.the_options["button_cancel_text"]
         : "Cancel",
@@ -7754,11 +7705,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_cancel_button_border_radius"]
         : "0",
-      cancel_size: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_size"
-      )
-        ? settings_obj.the_options["button_cancel_button_size"]
-        : "medium",
       opt_out_text: settings_obj.the_options.hasOwnProperty(
         "button_donotsell_text"
       )
@@ -7823,11 +7769,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_accept_link_color1"]
         : "#ffffff",
-      accept_size1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_size1"
-      )
-        ? settings_obj.the_options["button_accept_button_size1"]
-        : "medium",
       accept_action1: settings_obj.the_options.hasOwnProperty(
         "button_accept_action1"
       )
@@ -7928,11 +7869,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_accept_all_button_color1"]
         : "#18a300",
-      accept_all_size1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_button_size1"
-      )
-        ? settings_obj.the_options["button_accept_all_button_size1"]
-        : "medium",
       accept_all_style1: settings_obj.the_options.hasOwnProperty(
         "button_accept_all_btn_border_style1"
       )
@@ -8013,11 +7949,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_decline_button_border_radius1"]
         : "0",
-      decline_size1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_size1"
-      )
-        ? settings_obj.the_options["button_decline_button_size1"]
-        : "medium",
       decline_action1: settings_obj.the_options.hasOwnProperty(
         "button_decline_action1"
       )
@@ -8092,11 +8023,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_settings_button_border_radius1"]
         : "0",
-      settings_size1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_size1"
-      )
-        ? settings_obj.the_options["button_settings_button_size1"]
-        : "medium",
       confirm_text1: settings_obj.the_options.hasOwnProperty(
         "button_confirm_text1"
       )
@@ -8137,11 +8063,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_confirm_button_border_radius1"]
         : "0",
-      confirm_size1: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_size1"
-      )
-        ? settings_obj.the_options["button_confirm_button_size1"]
-        : "medium",
       cancel_text1: settings_obj.the_options.hasOwnProperty(
         "button_cancel_text1"
       )
@@ -8182,11 +8103,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_cancel_button_border_radius1"]
         : "0",
-      cancel_size1: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_size1"
-      )
-        ? settings_obj.the_options["button_cancel_button_size1"]
-        : "medium",
       opt_out_text1: settings_obj.the_options.hasOwnProperty(
         "button_donotsell_text1"
       )
@@ -8256,11 +8172,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_accept_link_color2"]
         : "#ffffff",
-      accept_size2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_size2"
-      )
-        ? settings_obj.the_options["button_accept_button_size2"]
-        : "medium",
       accept_action2: settings_obj.the_options.hasOwnProperty(
         "button_accept_action2"
       )
@@ -8361,11 +8272,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_accept_all_button_color2"]
         : "#18a300",
-      accept_all_size2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_button_size2"
-      )
-        ? settings_obj.the_options["button_accept_all_button_size2"]
-        : "medium",
       accept_all_style2: settings_obj.the_options.hasOwnProperty(
         "button_accept_all_btn_border_style2"
       )
@@ -8446,11 +8352,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_decline_button_border_radius2"]
         : "0",
-      decline_size2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_size2"
-      )
-        ? settings_obj.the_options["button_decline_button_size2"]
-        : "medium",
       decline_action2: settings_obj.the_options.hasOwnProperty(
         "button_decline_action2"
       )
@@ -8525,11 +8426,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_settings_button_border_radius2"]
         : "0",
-      settings_size2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_size2"
-      )
-        ? settings_obj.the_options["button_settings_button_size2"]
-        : "medium",
       confirm_text2: settings_obj.the_options.hasOwnProperty(
         "button_confirm_text2"
       )
@@ -8570,11 +8466,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_confirm_button_border_radius2"]
         : "0",
-      confirm_size2: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_size2"
-      )
-        ? settings_obj.the_options["button_confirm_button_size2"]
-        : "medium",
       cancel_text2: settings_obj.the_options.hasOwnProperty(
         "button_cancel_text2"
       )
@@ -8615,11 +8506,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_cancel_button_border_radius2"]
         : "0",
-      cancel_size2: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_size2"
-      )
-        ? settings_obj.the_options["button_cancel_button_size2"]
-        : "medium",
       opt_out_text2: settings_obj.the_options.hasOwnProperty(
         "button_donotsell_text2"
       )
@@ -8752,11 +8638,6 @@ var app = new Vue({
       )
         ? settings_obj.the_options["button_accept_all_button_color"]
         : "#18a300",
-      accept_all_size: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_button_size"
-      )
-        ? settings_obj.the_options["button_accept_all_button_size"]
-        : "medium",
       accept_all_style: settings_obj.the_options.hasOwnProperty(
         "button_accept_all_btn_border_style"
       )
@@ -10284,7 +10165,6 @@ var app = new Vue({
       this.accept_background_color = "#18a300";
       this.open_url = false;
       this.accept_as_button = true;
-      this.accept_size = "medium";
       this.cookie_accept_on = true;
       this.accept_opacity = "1";
       this.accept_border_width = "0";
@@ -10299,7 +10179,6 @@ var app = new Vue({
       this.accept_all_background_color = "#18a300";
       this.accept_all_new_win = false;
       this.accept_all_as_button = true;
-      this.accept_all_size = "medium";
       this.cookie_accept_all_on = false;
       this.accept_all_opacity = "1";
       this.accept_all_border_width = "0";
@@ -10312,7 +10191,6 @@ var app = new Vue({
       this.button_readmore_button_color = "#333333";
       this.button_readmore_new_win = false;
       this.button_readmore_as_button = false;
-      this.button_readmore_button_size = "medium";
       this.button_readmore_is_on = true;
       this.button_readmore_url_type = true;
       this.button_readmore_wp_page = false;
@@ -10372,7 +10250,6 @@ var app = new Vue({
       this.decline_background_color = "#333333";
       this.open_decline_url = false;
       this.decline_as_button = true;
-      this.decline_size = "medium";
       this.cookie_decline_on = true;
       this.decline_opacity = "1";
       this.decline_border_width = "0";
@@ -10383,7 +10260,6 @@ var app = new Vue({
       this.settings_text_color = "#ffffff";
       this.settings_background_color = "#333333";
       this.settings_as_button = true;
-      this.settings_size = "medium";
       this.cookie_settings_on = true;
       this.cookie_on_frontend = true;
       this.settings_opacity = "1";
@@ -10396,7 +10272,6 @@ var app = new Vue({
       this.confirm_text = "Confirm";
       this.confirm_background_color = "#18a300";
       this.confirm_text_color = "#ffffff";
-      this.confirm_size = "medium";
       this.confirm_opacity = "1";
       this.confirm_border_width = "0";
       this.confirm_style = "none";
@@ -10405,7 +10280,6 @@ var app = new Vue({
       this.cancel_text = "Cancel";
       this.cancel_background_color = "#333333";
       this.cancel_text_color = "#ffffff";
-      this.cancel_size = "medium";
       this.cancel_opacity = "1";
       this.cancel_border_width = "0";
       this.cancel_style = "none";
@@ -10639,13 +10513,10 @@ var app = new Vue({
       dataV += "&gcc-readmore-button-border-width=" + encodeURIComponent(that.button_readmore_button_border_width);
       dataV += "&gcc-readmore-button-border-color=" + encodeURIComponent(that.button_readmore_button_border_color);
       dataV += "&gcc-readmore-button-border-radius=" + encodeURIComponent(that.button_readmore_button_border_radius);
-      dataV += "&gcc-readmore-button-size=" + encodeURIComponent(that.button_readmore_button_size);
       dataV += "&gdpr-cookie-decline-opacity=" + encodeURIComponent(that.decline_opacity);
       dataV += "&gdpr-cookie-decline-border-radius=" + encodeURIComponent(that.decline_border_radius);
-      dataV += "&gdpr-cookie-decline-size=" + encodeURIComponent(that.decline_size);
       dataV += "&gdpr-cookie-settings-opacity=" + encodeURIComponent(that.settings_opacity);
       dataV += "&gdpr-cookie-settings-border-radius=" + encodeURIComponent(that.settings_border_radius);
-      dataV += "&gdpr-cookie-settings-size=" + encodeURIComponent(that.settings_size);
       dataV += "&gdpr-cookie-confirm-text-color=" + encodeURIComponent(that.confirm_text_color);
       dataV += "&gdpr-cookie-confirm-background-color=" + encodeURIComponent(that.confirm_background_color);
       dataV += "&gdpr-cookie-confirm-opacity=" + encodeURIComponent(that.confirm_opacity);
@@ -10653,7 +10524,6 @@ var app = new Vue({
       dataV += "&gdpr-cookie-confirm-border-color=" + encodeURIComponent(that.confirm_border_color);
       dataV += "&gdpr-cookie-confirm-border-width=" + encodeURIComponent(that.confirm_border_width);
       dataV += "&gdpr-cookie-confirm-border-radius=" + encodeURIComponent(that.confirm_border_radius);
-      dataV += "&gdpr-cookie-confirm-size=" + encodeURIComponent(that.confirm_size);
       dataV += "&gdpr-cookie-cancel-text-color=" + encodeURIComponent(that.cancel_text_color);
       dataV += "&gdpr-cookie-cancel-background-color=" + encodeURIComponent(that.cancel_background_color);
       dataV += "&gdpr-cookie-cancel-opacity=" + encodeURIComponent(that.cancel_opacity);
@@ -10661,11 +10531,9 @@ var app = new Vue({
       dataV += "&gdpr-cookie-cancel-border-color=" + encodeURIComponent(that.cancel_border_color);
       dataV += "&gdpr-cookie-cancel-border-width=" + encodeURIComponent(that.cancel_border_width);
       dataV += "&gdpr-cookie-cancel-border-radius=" + encodeURIComponent(that.cancel_border_radius);
-      dataV += "&gdpr-cookie-cancel-size=" + encodeURIComponent(that.cancel_size);
       dataV += "&gdpr-cookie-opt-out-text-color=" + encodeURIComponent(that.opt_out_text_color);
       dataV += "&gdpr-cookie-accept-all-text-color=" + encodeURIComponent(that.accept_all_text_color);
       dataV += "&gdpr-cookie-accept-all-background-color=" + encodeURIComponent(that.accept_all_background_color);
-      dataV += "&gdpr-cookie-accept-all-size=" + encodeURIComponent(that.accept_all_size);
       dataV += "&gdpr-cookie-accept-all-border-style=" + encodeURIComponent(that.accept_all_style);
       dataV += "&gdpr-cookie-accept-all-border-color=" + encodeURIComponent(that.accept_all_border_color);
       dataV += "&gdpr-cookie-accept-all-opacity=" + encodeURIComponent(that.accept_all_opacity);

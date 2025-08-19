@@ -370,6 +370,24 @@ jQuery(document).ready(function () {
         }
     });
   }
+
+
+  jQuery('#more_templates_button').on("click", function (e) {
+    e.preventDefault();
+    jQuery('#template_selection_panel').css({'height': '85vh'});
+    jQuery('#template_selection_backface').css({'height': '100vh'});
+  })
+  jQuery('#template_selection_backface').on("click", function (e) {
+    e.preventDefault();
+    jQuery('#template_selection_panel').css({'height': '0'});
+    jQuery('#template_selection_backface').css({'height': '0'});
+  })
+  jQuery('.template_selection_panel_close').on("click", function (e) {
+    e.preventDefault();
+    jQuery('#template_selection_panel').css({'height': '0'});
+    jQuery('#template_selection_backface').css({'height': '0'});
+  })
+  
   
 
   /**
@@ -1154,6 +1172,20 @@ jQuery(document).ready(function () {
         $(".gdpr_messagebar_detail").addClass("hide-popup");
       });
     });
+
+    $(document).on("click", "#cookie_action_opt_out_preview", function () {
+      $(".notice-container").css("display", "none");
+      $(".gdpr_messagebar_detail").removeClass("hide-popup");
+      
+      $(".ccpa-popup-close").click(function () {
+        $(".notice-container").css("display", "block");
+        $(".gdpr_messagebar_detail").addClass("hide-popup");
+      });
+      $(".ccpa-popup-save").click(function () {
+        $(".notice-container").css("display", "block");
+        $(".gdpr_messagebar_detail").addClass("hide-popup");
+      });
+    });
     //For Installing plugin - Unified Dashboard 
     jQuery(document).ready(function ($) {
      
@@ -1433,6 +1465,19 @@ document.addEventListener("DOMContentLoaded", function () {
   jQuery(
     '#wp-admin-bar-nexcess-mapps-delete-expired-transients input[id="nonce"]'
   ).attr("id", "nonce-delete-expired-transients");
+
+  //For fixing accessibility issues
+  jQuery("#current-page-selector-policy-data").attr("aria-label", "Current page number");
+  jQuery("#current-page-selector-consent_logs").attr(
+    "aria-label",
+    "Current page number"
+  );
+    jQuery("#current-page-selector-data-request").attr(
+      "aria-label",
+      "Current page number"
+    );
+  jQuery(".display-time.is-empty").attr("aria-label", "No data available in table");
+  jQuery("#ace_text-input").attr("aria-label", "Cookie Name Input Field");
 });
 document.addEventListener("DOMContentLoaded", alignSideBar);
 function alignSideBar(){

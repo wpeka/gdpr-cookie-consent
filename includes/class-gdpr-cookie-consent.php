@@ -82,7 +82,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '3.9.0';
+			$this->version = '3.9.5';
 		}
 		add_action(
 			'current_screen',
@@ -178,7 +178,7 @@ class Gdpr_Cookie_Consent {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Gdpr_Cookie_Consent_I18n();
+		$plugin_i18n = new Gdpr_Cookie_Consent_I18n(GDPR_COOKIE_CONSENT_PLUGIN_FILENAME);
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
@@ -271,6 +271,9 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_review_already_done', 5 );
 			// action to update banner according to ab testing result
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_ab_testing_complete' );
+			// Register translation strings for extraction only
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_cookie_consent_register_translation_strings' );
+		
 		}
 	}
 
