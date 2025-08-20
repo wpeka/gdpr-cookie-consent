@@ -7847,8 +7847,12 @@ public function gdpr_support_request_handler() {
 	public function gdpr_get_user_ip() {
 		if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
 			return $_SERVER['HTTP_CLIENT_IP'];
-		} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) )) > 0 ) {
+			$xForwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $xForwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+			return $ipaddress;
 		} else {
 			return $_SERVER['REMOTE_ADDR'];
 		}

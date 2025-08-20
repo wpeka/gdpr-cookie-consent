@@ -101,14 +101,26 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 			$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
 		} elseif( isset($_SERVER['HTTP_CF_CONNECTING_IP']) ) {
             $ipaddress = $_SERVER['HTTP_CF_CONNECTING_IP'];
-        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
-			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-		} elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
-			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-		} elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
-			$ipaddress = $_SERVER['HTTP_FORWARDED'];
+        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) )) > 0 ) {
+			$xForwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $xForwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED'] ) )) > 0 ) {
+			$xForwarded = $_SERVER['HTTP_X_FORWARDED'];
+			$ipList = array_map('trim', explode(',', $xForwarded));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+		} elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED_FOR'] ) )) > 0 ) {
+			$forwardedFor = $_SERVER['HTTP_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $forwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+		} elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED'] ) )) > 0 ) {
+			$forwarded = $_SERVER['HTTP_FORWARDED'];
+			$ipList = array_map('trim', explode(',', $forwarded));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
 		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 			$ipaddress = $_SERVER['REMOTE_ADDR'];
 		} else {
