@@ -348,7 +348,8 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 == Change Log ==
 
 = 3.9.6 =
-* Minor bug fixes and improvements.
+* Fixed: Issue with user consent
+* Fixed: IP addresses not visible in consent log
 
 = 3.9.5 =
 * Minor bug fixes and improvements.
@@ -829,7 +830,8 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 == Upgrade Notice ==
 
 = 3.9.6 =
-* Minor bug fixes and improvements.
+* Fixed: Issue with user consent
+* Fixed: IP addresses not visible in consent log
 
 = 3.9.5 =
 * Minor bug fixes and improvements.
