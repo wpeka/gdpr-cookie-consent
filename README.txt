@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.8.1
-Stable tag: 3.9.5
+Stable tag: 3.9.6
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -346,6 +346,10 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 11.Consent Log table
 
 == Change Log ==
+
+= 3.9.6 =
+* Fixed: Issue with user consent
+* Fixed: IP addresses not visible in consent log
 
 = 3.9.5 =
 * Minor bug fixes and improvements.
@@ -824,6 +828,10 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Initial version
 
 == Upgrade Notice ==
+
+= 3.9.6 =
+* Fixed: Issue with user consent
+* Fixed: IP addresses not visible in consent log
 
 = 3.9.5 =
 * Minor bug fixes and improvements.
