@@ -442,38 +442,34 @@ class Gdpr_Cookie_Consent_Admin {
 		// Call the is_connected() method from the instantiated object to check if the user is connected.
 		$is_user_connected = $this->settings->is_connected();
 		$the_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
-		$json_path = plugin_dir_path(__FILE__) . '../includes/templates/template.json';
-		$json_data_pro = file_get_contents($json_path);
-		$templatesD = json_decode($json_data_pro, true); 
 		if(!isset($this->templates_json)){
-			// if($is_user_connected){
-			// 	$response = wp_remote_get(GDPR_API_URL . 'get_templates_json');
-			// 	if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
-			// 		$json_data = wp_remote_retrieve_body($response);
-					// $this -> templates_json = json_decode($json_data, true);
-					$this -> templates_json = $templatesD;
+			if($is_user_connected){
+				$response = wp_remote_get(GDPR_API_URL . 'get_templates_json');
+				if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
+					$json_data = wp_remote_retrieve_body($response);
+					$this -> templates_json = json_decode($json_data, true);
 					if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = ($the_options['template'] == 'default' ? json_encode(get_option('gdpr_default_template_object')) : json_encode($this -> templates_json[$the_options['template']]));
-			// 	} else {
-			// 		$this -> templates_json = []; // Fallback in case of error
-			// 		if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode([]);
-			// 	}
-			// }
-			// else{
-			// 	if($the_options['template'] == 'default'){
-			// 		$the_options['selected_template_json'] = json_encode(get_option('gdpr_default_template_object'));
-			// 	}
-			// 	else{
-			// 		$response = wp_remote_get(GDPR_API_URL . 'get_templates_json');
-			// 		if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
-			// 			$json_data = wp_remote_retrieve_body($response);
-			// 			$templates_json = json_decode($json_data, true);
-			// 			$this->templates_json = [$the_options['template'] => $templates_json[$the_options['template']]];
-			// 			if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode($templates_json[$the_options['template']]);
-			// 		} else {
-			// 			if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode([]); // Fallback in case of error
-			// 		}
-			// 	}
-			// }
+				} else {
+					$this -> templates_json = []; // Fallback in case of error
+					if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode([]);
+				}
+			}
+			else{
+				if($the_options['template'] == 'default'){
+					$the_options['selected_template_json'] = json_encode(get_option('gdpr_default_template_object'));
+				}
+				else{
+					$response = wp_remote_get(GDPR_API_URL . 'get_templates_json');
+					if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
+						$json_data = wp_remote_retrieve_body($response);
+						$templates_json = json_decode($json_data, true);
+						$this->templates_json = [$the_options['template'] => $templates_json[$the_options['template']]];
+						if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode($templates_json[$the_options['template']]);
+					} else {
+						if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode([]); // Fallback in case of error
+					}
+				}
+			}
 		}
 		
 		
