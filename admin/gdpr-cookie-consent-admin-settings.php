@@ -35,7 +35,7 @@ if ( $pro_is_activated ) {
 } else {
 	$credit_link_href = 'https://wordpress.org/plugins/gdpr-cookie-consent/?utm_source=gdpr&utm_medium=show-credits&utm_campaign=link&utm_content=powered-by-gdpr';
 }
-$credit_link_text = __( 'WP Cookie consent', 'gdpr-cookie-consent' );
+$credit_link_text = __( 'WPLP Compliance Platform', 'gdpr-cookie-consent' );
 
 $credit_link = sprintf(
 	/* translators: 1: GDPR Cookie Consent Plugin*/
@@ -190,7 +190,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								
 								<span>{{ button_readmore_text }}</span>
 							</a>
-							<a  v-if="is_ccpa" :style="{'font-family': this[`cookie_font${active_test_banner_tab}`],'color':this[`opt_out_text_color${active_test_banner_tab}`]}"><span>{{ opt_out_text }}</span></a>
+							<a id="cookie_action_opt_out_preview" v-if="is_ccpa" :style="{'font-family': this[`cookie_font${active_test_banner_tab}`],'color':this[`opt_out_text_color${active_test_banner_tab}`], 'cursor':'pointer'}"><span>{{ opt_out_text }}</span></a>
 						</p>
 					</div>
 					
@@ -398,7 +398,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							}" >
 								<span>{{ button_readmore_text }}</span>
 							</a>
-							<a  v-if="is_ccpa" :style="{'font-family': cookie_font,'color': opt_out_text_color}"><span>{{ opt_out_text }}</span></a>
+							<a id="cookie_action_opt_out_preview" v-if="is_ccpa" :style="{'font-family': cookie_font,'color': opt_out_text_color,'cursor':'pointer'}"><span>{{ opt_out_text }}</span></a>
 						</p>
 					</div>	
 				
@@ -594,7 +594,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<span>{{ button_readmore_text }}</span>
 								
 							</a>
-							<a v-if="active_default_multiple_legislation === 'ccpa'" :style="{'font-family': multiple_legislation_cookie_font2, 'color':opt_out_text_color1,}"><span>{{ opt_out_text }}</span></a>
+							<a id="cookie_action_opt_out_preview" v-if="active_default_multiple_legislation === 'ccpa'" :style="{'font-family': multiple_legislation_cookie_font2, 'color':opt_out_text_color1, 'cursor':'pointer'}"><span>{{ opt_out_text }}</span></a>
 						</p>
 					</div>
 					

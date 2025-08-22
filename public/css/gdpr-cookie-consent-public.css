@@ -241,7 +241,8 @@
 #gdpr-ccpa-gdprmodal .gdprmodal-content {
   padding: 2rem 3rem;
   text-align: center;
-  height: 150px;
+  height: 200px;
+  box-sizing: border-box;
 	width:500px;
 }
 
@@ -2400,4 +2401,9 @@ Bootstrap CSS for frontend UI
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+.elementor-widget-video .elementor-wrapper iframe, 
+.elementor-widget-video .elementor-wrapper video
+{
+  height: 300px;
 }

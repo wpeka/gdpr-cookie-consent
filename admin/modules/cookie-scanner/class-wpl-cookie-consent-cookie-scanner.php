@@ -245,15 +245,27 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
             $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
         } elseif( isset($_SERVER['HTTP_CF_CONNECTING_IP']) && false === strpos( $_SERVER['HTTP_CF_CONNECTING_IP'], '127.0.0.1' ) ) {
             $ipaddress = $_SERVER['HTTP_CF_CONNECTING_IP'];
-        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )  && false === strpos( $_SERVER['HTTP_X_FORWARDED_FOR'], '127.0.0.1' ) ) {
-            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] )  && false === strpos( $_SERVER['HTTP_X_FORWARDED'], '127.0.0.1' ) ) {
-            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-        } elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] )  && false === strpos( $_SERVER['HTTP_FORWARDED_FOR'], '127.0.0.1' ) ) {
-            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-        } elseif ( isset( $_SERVER['HTTP_FORWARDED'] )  && false === strpos( $_SERVER['HTTP_FORWARDED'], '127.0.0.1' ) ) {
-            $ipaddress = $_SERVER['HTTP_FORWARDED'];
-        } elseif ( isset( $_SERVER['REMOTE_ADDR'] )  && false === strpos( $_SERVER['REMOTE_ADDR'], '127.0.0.1' ) ) {
+        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) )) > 0 && false === strpos( $_SERVER['HTTP_X_FORWARDED_FOR'], '127.0.0.1' ) ) {
+            $xForwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $xForwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED'] ) )) > 0 && false === strpos( $_SERVER['HTTP_X_FORWARDED'], '127.0.0.1' ) ) {
+            $xForwarded = $_SERVER['HTTP_X_FORWARDED'];
+			$ipList = array_map('trim', explode(',', $xForwarded));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+        } elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED_FOR'] ) )) > 0 && false === strpos( $_SERVER['HTTP_FORWARDED_FOR'], '127.0.0.1' ) ) {
+			$forwardedFor = $_SERVER['HTTP_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $forwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+        } elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED'] ) )) > 0 && false === strpos( $_SERVER['HTTP_FORWARDED'], '127.0.0.1' ) ) {
+			$forwarded = $_SERVER['HTTP_FORWARDED'];
+			$ipList = array_map('trim', explode(',', $forwarded));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+		} elseif ( isset( $_SERVER['REMOTE_ADDR'] )  && false === strpos( $_SERVER['REMOTE_ADDR'], '127.0.0.1' ) ) {
             $ipaddress = $_SERVER['REMOTE_ADDR'];
         } else {
             $ipaddress = '127.0.0.1';

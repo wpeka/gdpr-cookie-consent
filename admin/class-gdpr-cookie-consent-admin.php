@@ -130,6 +130,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('all_admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			//option to store page views
 			if(get_option("wpl_page_views") === false) add_option("wpl_page_views", []);
+			if(get_option("page_view_notice_message") === false ) add_option( "page_view_notice_message", "");
 			if(get_option("wpl_total_page_views") === false) add_option("wpl_total_page_views", 0);
 			add_action('wp_ajax_install_plugin', array($this, 'gdpr_wplp_install_plugin_ajax_handler'));
 			add_action('wp_ajax_gdpr_support_request', array($this, 'gdpr_support_request_handler'));
@@ -547,6 +548,7 @@ class Gdpr_Cookie_Consent_Admin {
 				delete_option( 'wpl_datarequests_db_version' );
 				delete_option( 'wpl_cl_decline' );
 				delete_option( 'wpl_page_views' );
+				delete_option( 'page_view_notice_message' );
 				delete_option( 'wpl_cl_accept' );
 				delete_option( 'wpl_cl_partially_accept' );
 				delete_option( 'wpl_cl_bypass' );
@@ -7620,8 +7622,12 @@ public function gdpr_support_request_handler() {
 	public function gdpr_get_user_ip() {
 		if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
 			return $_SERVER['HTTP_CLIENT_IP'];
-		} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) )) > 0 ) {
+			$xForwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $xForwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+			return $ipaddress;
 		} else {
 			return $_SERVER['REMOTE_ADDR'];
 		}

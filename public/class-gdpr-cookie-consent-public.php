@@ -104,7 +104,18 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			return $tag;
 		}, 10, 3 );
-}
+	}
+	/* Add defer async attribute to the script */
+	public function register_script_with_defer_async( $handle, $src, $deps = array(), $ver = false, $in_footer = true ) {
+		wp_register_script( $handle, $src, $deps, $ver, $in_footer );
+
+		add_filter( 'script_loader_tag', function ( $tag, $h, $s ) use ( $handle ) {
+			if ( $h === $handle ) {
+				return str_replace( ' src', ' defer async src', $tag );
+			}
+			return $tag;
+		}, 10, 3 );
+	}
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
@@ -144,7 +155,7 @@ class Gdpr_Cookie_Consent_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		$this->register_script_with_defer( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js#async', array( 'jquery' ), $this->version, true );
+		$this->register_script_with_defer_async( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js', array( 'jquery' ), $this->version, true );
 		$this->register_script_with_defer( $this->plugin_name.'-tcf', plugin_dir_url( __FILE__ ) . '../admin/js/vue/gdpr-cookie-consent-admin-tcstring.js', array( 'jquery' ), $this->version, true );
 		$this->register_script_with_defer( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap/bootstrap.bundle.js', array( 'jquery' ), $this->version, true );
 
@@ -493,6 +504,7 @@ class Gdpr_Cookie_Consent_Public {
 	 * @since 1.0
 	 */
 	public function gdprcookieconsent_inject_gdpr_script() {
+		global $wpdb;
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		if ( true === $the_options['is_on'] ) {
 			if ( 'ccpa' === $the_options['cookie_usage_for'] || 'both' === $the_options['cookie_usage_for'] ) {
@@ -525,6 +537,20 @@ class Gdpr_Cookie_Consent_Public {
 			wp_enqueue_style( $this->plugin_name . '-frontend' );
 			wp_enqueue_script( $this->plugin_name . '-bootstrap-js' );
 			wp_enqueue_script( $this->plugin_name );
+
+			// Fetch Youtube category
+			//$total_results = $wpdb->get_row( $wpdb->prepare( 'SELECT id FROM ' . $wpdb->prefix . 'wpl_cookie_scripts WHERE `script_key`=%s', array( $value['script_key'] ) ), ARRAY_A ); // db call ok; no-cache ok.
+$selected_script_category = $wpdb->get_var(
+    $wpdb->prepare(
+        "SELECT cat.gdpr_cookie_category_name
+         FROM {$wpdb->prefix}wpl_cookie_scripts AS script
+         JOIN {$wpdb->prefix}gdpr_cookie_scan_categories AS cat
+           ON script.script_category = cat.id_gdpr_cookie_category
+         WHERE script.script_title = %s",
+        'Youtube Embed'
+    )
+);
+
 			wp_localize_script(
 				$this->plugin_name,
 				'log_obj',
@@ -532,6 +558,7 @@ class Gdpr_Cookie_Consent_Public {
 					'ajax_url'              => admin_url( 'admin-ajax.php' ),
 					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
 					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
+					'selected_script_category' => $selected_script_category,
 				)
 			);
 			wp_localize_script(
@@ -680,7 +707,7 @@ class Gdpr_Cookie_Consent_Public {
 			} else {
 				$credit_link_href = 'https://wordpress.org/plugins/gdpr-cookie-consent/?utm_source=gdpr&utm_medium=show-credits&utm_campaign=link&utm_content=powered-by-gdpr';
 			}
-			$credit_link_text = __( 'WP Cookie consent', 'gdpr-cookie-consent' );
+			$credit_link_text = __( 'WPLP Compliance Platform', 'gdpr-cookie-consent' );
 
 			$credit_link = sprintf(
 				/* translators: 1: GDPR Cookie Consent Plugin*/
@@ -1202,14 +1229,26 @@ class Gdpr_Cookie_Consent_Public {
 		$ipaddress = '';
 		if (isset($_SERVER['HTTP_CLIENT_IP'])) {
 			$ipaddress = filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$ipaddress = filter_var($_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_X_FORWARDED'])) {
-			$ipaddress = filter_var($_SERVER['HTTP_X_FORWARDED'], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
-			$ipaddress = filter_var($_SERVER['HTTP_FORWARDED_FOR'], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_FORWARDED'])) {
-			$ipaddress = filter_var($_SERVER['HTTP_FORWARDED'], FILTER_VALIDATE_IP);
+		} elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) )) > 0) {
+			$xForwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $xForwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+		} elseif (isset($_SERVER['HTTP_X_FORWARDED']) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED'] ) )) > 0) {
+			$xForwarded = $_SERVER['HTTP_X_FORWARDED'];
+			$ipList = array_map('trim', explode(',', $xForwarded));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+		} elseif (isset($_SERVER['HTTP_FORWARDED_FOR']) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED_FOR'] ) )) > 0) {
+			$forwardedFor = $_SERVER['HTTP_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $forwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+		} elseif (isset($_SERVER['HTTP_FORWARDED']) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED'] ) )) > 0) {
+			$forwarded = $_SERVER['HTTP_FORWARDED'];
+			$ipList = array_map('trim', explode(',', $forwarded));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['REMOTE_ADDR'])) {
 			$ipaddress = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
 		} else {

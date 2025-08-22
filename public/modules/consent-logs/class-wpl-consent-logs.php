@@ -680,6 +680,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 					}
 				}
 
+				$scanner = new Gdpr_Cookie_Consent_Cookie_Scanner();
+				$scan_cookie_list = $scanner->get_scan_cookie_list();
+				
 				ob_start();
 				?>
 				<div class="download-pdf-button">
@@ -692,6 +695,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'<?php echo esc_attr( $acString ); ?>',
 					'<?php echo esc_attr( $siteaddress ); ?>',
 					'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
+					'<?php echo esc_js( wp_json_encode( $scan_cookie_list ) ); ?>'
 					)">Download</a>
 				</div>
 				<?php
