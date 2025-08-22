@@ -3942,7 +3942,7 @@ class Gdpr_Cookie_Consent_Admin {
 						$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
 					$decoration_styles_attr = '';
-					if($template['decoration']) foreach ($template['decoration'] as $key => $value) {
+					if(isset($template['decoration'])) foreach ($template['decoration'] as $key => $value) {
 						 $decoration_styles_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
 				?>
@@ -4066,7 +4066,7 @@ class Gdpr_Cookie_Consent_Admin {
 						$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}
 					$decoration_styles_attr = '';
-					if($template['decoration']) foreach ($template['decoration'] as $key => $value) {
+					if(isset($template['decoration'])) foreach ($template['decoration'] as $key => $value) {
 						 $decoration_styles_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					} 
 				?>
@@ -5091,7 +5091,7 @@ class Gdpr_Cookie_Consent_Admin {
 				if ( 'none' !== $template && $saved_options['template'] !== $template ) {
 					
 					$the_options['template']                     = $template;
-					if($template != "default") $the_options['selected_template_json'] 		 = json_encode($this->templates_json[$template]);
+					if($template != "default"  && isset($this->templates_json[$template])) $the_options['selected_template_json'] 		 = json_encode($this->templates_json[$template]);
 					else $the_options['selected_template_json'] 							 = json_encode(get_option('gdpr_default_template_object'));
 				}
 			}
