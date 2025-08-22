@@ -6402,6 +6402,7 @@ var app = new Vue({
       is_logo_removed: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
+      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
       closeOnBackdrop: true,
       centered: true,
       accept_button_popup: false,
