@@ -121,9 +121,6 @@
                 createElement('span', {
                     class:'gdpr-mascot-bg-img gdpr-mascot-quick-links-mascot',
                 }),
-                  createElement('span',{
-                      class: 'gdpr-mascot-quick-link-title'
-                  }, 'See Quick Links')
               ]),
               createElement('transition-group', {
                   staticClass: 'gdpr-mascot-quick-links-menu',

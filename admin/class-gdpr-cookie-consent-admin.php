@@ -762,7 +762,7 @@ class Gdpr_Cookie_Consent_Admin {
 						<div class="gdpr-review-notice updated">
 						<form method="post" action="%2$s" id="review_form">
 							<div class="gdpr-review-notice-text-container">
-								<p><span>%3$s<strong>Cookie Consent fro WP</strong>.%4$s</span></p>
+								<p><span>%3$s<strong>Cookie Consent for WP</strong>.%4$s</span></p>
 								<button class="gdpr-review-dismiss-btn" style="border: none;padding:0;background: none;color: #2271b1;"href="%2$s"><i class="dashicons dashicons-dismiss"></i>%5$s</button>
 							</div>
 							<div class="gdpr-review-btns-container">
@@ -776,7 +776,7 @@ class Gdpr_Cookie_Consent_Admin {
 						esc_url( 'https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews/' ),
 						esc_url( get_admin_url() . '?already_done=1' ),
 						esc_html__( 'Hey, we hope you are enjoying managing cookies with ', 'gdpr' ),
-						esc_html__( ' Could you please write us a review and give it a 5- star rating on WordPress? Just to help us spread the word and boost our motivation.', 'gdpr' ),
+						esc_html__( ' Could you please write us a review and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation.', 'gdpr' ),
 						esc_html__( 'Dismiss', 'gdpr' ),
 						esc_html__( 'Rate Us', 'gdpr' ),
 						esc_html__( 'I already did', 'gdpr' )
