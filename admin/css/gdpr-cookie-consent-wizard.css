@@ -715,6 +715,16 @@ input.gdpr-wizard-thankyou-live-preview {
     display: flex;
     gap: 10px;
 }
+.gdpr-template-field-small.gdpr-blue_split .cookie_notice_content .small_row_big_column{
+    margin-left: 19%;
+  }
+  .gdpr-template-field-small.gdpr-blue_split .cookie_notice_content .small_row_big_column h3{
+    left: 40px;
+    top: 86px;
+    font-size: 19px;
+    width: calc(20% - 40px);
+  }
+
 .gdpr-templates-field-container-wizard .btn {
   display: inline-block;
   font-weight: var(--text-regular-font-weight);
