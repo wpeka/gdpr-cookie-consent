@@ -3224,7 +3224,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$wp_legalpolicy_data = get_posts( $args );
 		$content             = '';
 		if ( is_array( $wp_legalpolicy_data ) && ! empty( $wp_legalpolicy_data ) ) {
-			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
+			$content .= '<p>Our website uses cookies from trusted third-party services to improve functionality, analytics, and advertising. Below is a list of third-party cookies that may be set in your browser:</p>';
 			$content .= "<div class='wp_legalpolicy' style='overflow-x:scroll;overflow:auto;'>";
 			$content .= '<table style="width:100%;margin:0 auto;border-collapse:collapse;">';
 			$content .= '<thead>';
