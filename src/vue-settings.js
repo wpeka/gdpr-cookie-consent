@@ -17,7 +17,6 @@ import "vue2-timepicker/dist/VueTimepicker.css";
 import VueIntro from "vue-introjs";
 Vue.use(VueIntro);
 import "intro.js/introjs.css";
-import json_templates from "../includes/templates/template.json";
 // Import AceEditor
 import AceEditor from "vuejs-ace-editor";
 
