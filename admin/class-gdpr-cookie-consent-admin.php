@@ -762,7 +762,7 @@ class Gdpr_Cookie_Consent_Admin {
 						<div class="gdpr-review-notice updated">
 						<form method="post" action="%2$s" id="review_form">
 							<div class="gdpr-review-notice-text-container">
-								<p><span>%3$s<strong>Cookie Consent fro WP</strong>.%4$s</span></p>
+								<p><span>%3$s<strong>Cookie Consent for WP</strong>.%4$s</span></p>
 								<button class="gdpr-review-dismiss-btn" style="border: none;padding:0;background: none;color: #2271b1;"href="%2$s"><i class="dashicons dashicons-dismiss"></i>%5$s</button>
 							</div>
 							<div class="gdpr-review-btns-container">
@@ -776,7 +776,7 @@ class Gdpr_Cookie_Consent_Admin {
 						esc_url( 'https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews/' ),
 						esc_url( get_admin_url() . '?already_done=1' ),
 						esc_html__( 'Hey, we hope you are enjoying managing cookies with ', 'gdpr' ),
-						esc_html__( ' Could you please write us a review and give it a 5- star rating on WordPress? Just to help us spread the word and boost our motivation.', 'gdpr' ),
+						esc_html__( ' Could you please write us a review and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation.', 'gdpr' ),
 						esc_html__( 'Dismiss', 'gdpr' ),
 						esc_html__( 'Rate Us', 'gdpr' ),
 						esc_html__( 'I already did', 'gdpr' )
@@ -3224,7 +3224,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$wp_legalpolicy_data = get_posts( $args );
 		$content             = '';
 		if ( is_array( $wp_legalpolicy_data ) && ! empty( $wp_legalpolicy_data ) ) {
-			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
+			$content .= '<p>Our website uses cookies from trusted third-party services to improve functionality, analytics, and advertising. Below is a list of third-party cookies that may be set in your browser:</p>';
 			$content .= "<div class='wp_legalpolicy' style='overflow-x:scroll;overflow:auto;'>";
 			$content .= '<table style="width:100%;margin:0 auto;border-collapse:collapse;">';
 			$content .= '<thead>';
@@ -3691,6 +3691,8 @@ class Gdpr_Cookie_Consent_Admin {
 					$the_options['is_ccpa_iab_on'] = 'true';
 				}
 			}
+			$the_options['data_reqs_on'] = isset( $_POST['gcc-data_reqs'] ) && ( true === $_POST['gcc-data_reqs'] || 'true' === $_POST['gcc-data_reqs'] ) ? 'true' : 'false';
+			
 			if ( ! get_option( 'wpl_pro_active' ) ) {
 				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
 				$the_options['is_script_dependency_on'] = isset( $_POST['gcc-script-dependency-on'] ) && ( true === $_POST['gcc-script-dependency-on'] || 'true' === $_POST['gcc-script-dependency-on'] ) ? 'true' : 'false';
