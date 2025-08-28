@@ -2185,6 +2185,12 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_worldwide_on"])
           ? true
           : false,
+      selectedRadioWorldWideCcpa:
+        settings_obj.the_options.hasOwnProperty("is_worldwide_on_ccpa") &&
+        (true === settings_obj.the_options["is_worldwide_on_ccpa"] ||
+          1 === settings_obj.the_options["is_worldwide_on-ccpa"])
+          ? true
+          : false,
       list_of_countries: settings_obj.list_of_countries,
       select_countries: settings_obj.the_options.hasOwnProperty(
         "select_countries"
@@ -2721,7 +2727,7 @@ var gen = new Vue({
         this.is_worldwide_on = false;
       } else {
         this.is_eu_on = false;
-        if (this.is_selectedCountry_on != true && this.is_ccpa_on != true) {
+        if (this.is_selectedCountry_on != true) {
           this.selectedRadioWorldWide = "yes";
         }
       }
@@ -2742,13 +2748,13 @@ var gen = new Vue({
     },
     onSwitchCCPAEnable(isChecked) {
       if (isChecked) {
-        this.selectedRadioWorldWide = false;
+        this.selectedRadioWorldWideCcpa = false;
         this.is_ccpa_on = true;
-        this.is_worldwide_on = false;
+        this.is_worldwide_on_ccpa = false;
       } else {
         this.is_ccpa_on = false;
-        if (this.is_selectedCountry_on != true && this.is_eu_on != true) {
-          this.selectedRadioWorldWide = "yes";
+        if (this.is_selectedCountry_on_ccpa != true) {
+          this.selectedRadioWorldWideCcpa = "yes";
         }
       }
     },
