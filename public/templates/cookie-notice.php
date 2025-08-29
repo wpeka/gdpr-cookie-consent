@@ -267,9 +267,16 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 				<?php
 					if ( ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) && strlen($the_options['bar_heading_text']) > 0) : ?>
 						<h3 class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr_heading';?>" style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html($the_options['bar_heading_text']); ?></h3>
+					<?php elseif ( ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) && strlen($the_options['bar_heading_text']) === 0 && $template_object['name'] === 'blue_split') : ?> 
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
 					<?php elseif (( $the_options['cookie_usage_for'] === 'lgpd' ) && strlen($the_options['bar_heading_lgpd_text']) > 0) : ?>
 						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html($the_options['bar_heading_lgpd_text']); ?></h3>
+					<?php elseif ( ($the_options['cookie_usage_for'] === 'lgpd') && strlen($the_options['bar_heading_lgpd_text']) === 0 && $template_object['name'] === 'blue_split') : ?> 
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
+					<?php elseif( $template_object['name'] === 'blue_split' ) : ?> 
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
 					<?php endif; ?>
+					
 				<p  class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr';?>">
 					<?php if ( $the_options['cookie_usage_for'] === 'gdpr'  || $the_options['cookie_usage_for'] === 'both' ) : ?>
 						<span><?php echo $the_options['is_iabtcf_on'] ? $cookie_data['dash_notify_message_iabtcf']: strip_tags(__( $cookie_data['dash_notify_message']), '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?></span>
