@@ -9904,12 +9904,7 @@ div#gdpr-scan-history {
     flex-direction: column;
     gap: 5px;
 }
-#gdpr-cookie-consent-settings-app .notice-container .notice-content.notice-template-bold .powered-by-credits{
-  position: absolute;
-  bottom: 10px;
-  left:50%;
-  transform: translateX(-50%);
-}
+
 #gdpr-cookie-consent-settings-app .notice-container .notice-content .template-side_row {
   display: flex;
   flex-direction: row;
@@ -9933,7 +9928,7 @@ div#gdpr-scan-history {
 }
 #gdpr-cookie-consent-settings-app .notice-container .notice-content.notice-template-blue_split .powered-by-credits{
   position: absolute;
-  bottom: 10px;
+  bottom: 20px;
   left:50%;
   transform: translateX(-50%);
 }
@@ -9944,6 +9939,11 @@ div#gdpr-scan-history {
     margin-left: 15%;
     position: unset;
   }
+  @media(min-width:1536px){
+    #gdpr-cookie-consent-settings-app .notice-container .notice-content.notice-template-blue_split .notice-content-body{
+      margin-left: 18%;
+    }
+  }
  #gdpr-cookie-consent-settings-app .notice-container.notice-type-popup .notice-content.notice-template-blue_split .notice-content-body h3,  #gdpr-cookie-consent-settings-app .notice-container.notice-type-widget .notice-content.notice-template-blue_split .notice-content-body h3{
     left: 40px;
     top: 82px;
@@ -9952,5 +9952,5 @@ div#gdpr-scan-history {
   #gdpr-cookie-consent-settings-app .notice-container.notice-type-banner .notice-content.notice-template-blue_split .notice-content-body h3{
     left: 120px;
     top: 82px;
-    width: calc(25% - 120px);
+    width: calc(25% - 130px);
   }
