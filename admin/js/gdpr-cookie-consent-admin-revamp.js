@@ -17,6 +17,19 @@ jQuery(document).ready(function () {
     jQuery(".gdpr-cookie-consent-admin-tab").addClass("pro-is-activated");
   }
 
+  // Dashboard Revamp Collapsible Sidebar
+
+  jQuery(".wplp-compliance-cookie-consent-tab").on("click", function (e) {
+    e.preventDefault();
+
+    if( jQuery(".wplp-compliance-cookie-consent-tab").hasClass("open-tab") ) {
+      jQuery(".wplp-compliance-cookie-consent-tab").removeClass("open-tab");
+    } else {
+      jQuery(".wplp-compliance-cookie-consent-tab").addClass("open-tab");
+    }
+  });
+
+  
   // Hide all tab contents initially except the first one
   jQuery(".gdpr-cookie-consent-admin-tab-content").not(":first").hide();
   jQuery(".gdpr-cookie-consent-admin-cookie-banner-tab").addClass("active-tab");
