@@ -10059,8 +10059,8 @@ div#gdpr-scan-history {
 .wplp-compliance-main
   .gdpr-cookie-consent-admin-tabs-section 
   .gdpr-cookie-consent-admin-tabs
-  .gdpr-admin-tab-link.open-tab
-  .wplp-admin-tab-link-content > svg:last-of-type {
+  .gdpr-admin-tab-link
+  .wplp-admin-tab-link-content.open-tab > svg:last-of-type {
   transform: rotate(180deg);
   transition: transform 0.3s ease;
 }
@@ -10118,17 +10118,15 @@ div#gdpr-scan-history {
   padding-left: 20px;
 }
 
-/* Start hidden */
 .gdpr-sub-tabs {
-  display: none;           /* Hidden initially */
-  max-height: 0;           /* Collapsed height */
+  display: none;
+  max-height: 0;
   overflow: hidden;        
   transition: max-height 0.3s ease; 
   flex-direction: column;
 }
 
-/* Open state */
-.wplp-compliance-cookie-consent-tab.open-tab + .gdpr-sub-tabs {
-  display: flex;           /* Show when active */
-  max-height: 500px;       /* Large enough to fit content */
+.wplp-compliance-cookie-consent-tab-admin.open-tab + .gdpr-sub-tabs {
+  display: flex;
+  max-height: 500px;
 }

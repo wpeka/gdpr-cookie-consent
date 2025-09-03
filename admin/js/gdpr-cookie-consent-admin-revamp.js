@@ -18,15 +18,16 @@ jQuery(document).ready(function () {
   }
 
   // Dashboard Revamp Collapsible Sidebar
+  jQuery(document).ready(function ($) {
+    const tabHeader = $(".wplp-compliance-cookie-consent-tab-admin");
 
-  jQuery(".wplp-compliance-cookie-consent-tab").on("click", function (e) {
-    e.preventDefault();
+    tabHeader.addClass("open-tab");
+    tabHeader.closest(".gdpr-admin-tab-link").addClass("active-tab");
 
-    if( jQuery(".wplp-compliance-cookie-consent-tab").hasClass("open-tab") ) {
-      jQuery(".wplp-compliance-cookie-consent-tab").removeClass("open-tab");
-    } else {
-      jQuery(".wplp-compliance-cookie-consent-tab").addClass("open-tab");
-    }
+    tabHeader.on("click", function (e) {
+      e.preventDefault();
+      $(this).toggleClass("open-tab");
+    })
   });
 
   
