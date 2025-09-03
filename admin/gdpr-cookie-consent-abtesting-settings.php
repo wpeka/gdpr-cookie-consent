@@ -8,7 +8,7 @@
 				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
 
                 <div class="gdpr-banner-preview-save-btn">
-                    <div>insert something here?</div>
+                    <div></div>
                     <div class="gdpr-preview-publish-btn">
 						<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveABTestingSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
 					</div>

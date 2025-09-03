@@ -28,6 +28,7 @@ import {
   cibGoogleKeep,
   cibTreehouse,
 } from "@coreui/icons";
+
 Vue.use(CoreuiVue);
 Vue.use(VueApexCharts);
 Vue.component("apexchart", VueApexCharts);
@@ -567,6 +568,12 @@ var gen = new Vue({
         )
           ? settings_obj.the_options["button_readmore_button_border_radius"]
           : "0",
+      button_readmore_button_size: settings_obj.the_options.hasOwnProperty(
+        "button_readmore_button_size"
+      )
+        ? settings_obj.the_options["button_readmore_button_size"]
+        : "medium",
+      button_size_options: settings_obj.button_size_options,
       banner_preview: true,
       show_cookie_as_options: settings_obj.show_cookie_as_options,
       show_language_as_options: settings_obj.show_language_as_options,
@@ -2509,7 +2516,6 @@ var gen = new Vue({
             });
     },
     refreshABTestingData(html) {
-      console.log("DODODO Refreshing AB Testing Data for gen");
       this.ab_testing_data = html;
       const container = document.querySelector('#ab-testing-container');
       this.$nextTick(() => {
@@ -12130,6 +12136,7 @@ var abt = new Vue({
       save_loading: false,
       success_error_message: "",
       ab_testing_data: '',
+      account_connection: require("../admin/images/account_connection.svg"),
       gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
         ? settings_obj.the_options["cookie_usage_for"]
         : "gdpr",
@@ -12311,6 +12318,30 @@ var abt = new Vue({
     },
     saveABTestingSettings() {
       console.log("DODODO Saving AB Testing Settings...");
+      this.save_loading = true;
+
+      var that = this;
+      var dataV = jQuery("#gcc-save-abtesting-settings-form").serialize();
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: dataV + "&action=gcc_save_abtesting_settings",
+        })
+        .done(function (data) {
+          that.success_error_message = "Settings Saved.";
+          j("#gdpr-cookie-consent-save-settings-alert").css({
+              "background-color": "#72b85c",
+              "z-index": "10000",
+          });
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+
+          that.save_loading = false;
+        })
+        .fail(function () {
+          that.save_loading = false;
+        });
     },
     restoreDefaultSettings() {
       this.ab_testing_enabled = false;
@@ -12324,6 +12355,504 @@ var abt = new Vue({
   mounted() {
     j("#gdpr-before-mount").css("display", "none");
     this.setValues();
+
+    //For fixing quill js buttons accessibility issues
+    this.$nextTick(() => {
+      const quillLabels = {
+        "ql-bold": "Bold",
+        "ql-italic": "Italic",
+        "ql-underline": "Underline",
+        "ql-code-block": "Code Block",
+        "ql-strike": "Strikethrough",
+        "ql-link": "Insert Link",
+        "ql-image": "Insert Image",
+        "ql-list": "List",
+        "ql-clean": "Remove Formatting",
+        "ql-align": "Align Text",
+        "ql-blockquote": "Blockquote",
+        "ql-indent": "Indent Text",
+        "ql-video": "Insert Video",
+        "ql-header": "Header",
+        "ql-color": "Text Color",
+        "ql-background": "Background Color",
+        "ql-preview": "Preview",
+      };
+
+      Object.entries(quillLabels).forEach(([className, label]) => {
+        const buttons = document.querySelectorAll(`.ql-toolbar .${className}`);
+        buttons.forEach((button) => {
+          button.setAttribute("aria-label", label);
+          button.setAttribute("title", label);
+        });
+      });
+
+      // Fix for Ace Editor’s textarea
+      const observer = new MutationObserver(() => {
+        const aceInput = document.querySelector(".ace_text-input");
+        if (aceInput) {
+          aceInput.setAttribute("aria-hidden", "true");
+          aceInput.setAttribute("tabindex", "-1");
+          aceInput.setAttribute("role", "presentation");
+          aceInput.removeAttribute("aria-label"); // optional, but removes confusion
+          aceInput.removeAttribute("title"); // in case any tooltips are there
+
+          observer.disconnect();
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+      setTimeout(() => observer.disconnect(), 10000);
+
+      // First: For ab_testing_period_text_field
+      const abInterval = setInterval(() => {
+        const inputs = document.querySelectorAll(
+          'input[name="ab_testing_period_text_field"]'
+        );
+
+        inputs.forEach((input) => {
+          if (
+            !input.hasAttribute("aria-label") &&
+            !input.hasAttribute("aria-labelledby")
+          ) {
+            input.setAttribute("aria-label", "A/B Testing Period");
+          }
+        });
+
+        if (inputs.length) clearInterval(abInterval);
+      }, 300);
+
+      setTimeout(() => clearInterval(abInterval), 7000); // safety timeout
+
+      // Second: For display-time inputs
+      const timeInterval = setInterval(() => {
+        const timeInputs = document.querySelectorAll("input.display-time");
+
+        timeInputs.forEach((input) => {
+          if (
+            !input.hasAttribute("aria-label") &&
+            !input.hasAttribute("aria-labelledby")
+          ) {
+            input.setAttribute("aria-label", "Choose time");
+          }
+        });
+
+        if (timeInputs.length) clearInterval(timeInterval);
+      }, 300);
+
+      setTimeout(() => clearInterval(timeInterval), 7000);
+    });
   },
 });
 window.abt = abt;
+
+var scb = new Vue({
+  el: "#gdpr-cookie-consent-script_blocker-settings",
+  data() {
+    return {
+      labelIcon: {},
+      labelIconNew: {
+        labelOn: "\u2713",
+        labelOff: "\uD83D\uDD12",
+      },
+      save_loading: false,
+      success_error_message: "",
+      gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
+        ? settings_obj.the_options["cookie_usage_for"]
+        : "gdpr",
+      appendField: ".gdpr-cookie-consent-settings-container",
+      show_revoke_card: this.is_gdpr || this.is_eprivacy,
+      enable_safe:
+        settings_obj.the_options.hasOwnProperty("enable_safe") &&
+        ("true" === settings_obj.the_options["enable_safe"] ||
+          1 === settings_obj.the_options["enable_safe"])
+          ? true
+          : false,
+      is_script_blocker_on:
+        settings_obj.the_options.hasOwnProperty("is_script_blocker_on") &&
+        (true === settings_obj.the_options["is_script_blocker_on"] ||
+          1 === settings_obj.the_options["is_script_blocker_on"])
+          ? true
+          : false,
+      show_script_blocker: false,
+      scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty(
+        "scripts_list"
+      )
+        ? settings_obj.script_blocker_settings.scripts_list["total"]
+        : 0,
+      scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty(
+        "scripts_list"
+      )
+        ? settings_obj.script_blocker_settings.scripts_list["data"]
+        : [],
+      category_list_options:
+        settings_obj.script_blocker_settings.hasOwnProperty("category_list")
+          ? settings_obj.script_blocker_settings["category_list"]
+          : [],
+      header_scripts: settings_obj.the_options.hasOwnProperty("header_scripts")
+        ? this.stripSlashes(settings_obj.the_options["header_scripts"])
+        : "",
+      body_scripts: settings_obj.the_options.hasOwnProperty("body_scripts")
+        ? this.stripSlashes(settings_obj.the_options["body_scripts"])
+        : "",
+      footer_scripts: settings_obj.the_options.hasOwnProperty("footer_scripts")
+        ? this.stripSlashes(settings_obj.the_options["footer_scripts"])
+        : "",
+      is_gdpr:
+        this.gdpr_policy === "gdpr" || this.gdpr_policy === "both"
+          ? true
+          : false,
+      is_script_dependency_on:
+      settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
+      (true === settings_obj.the_options["is_script_dependency_on"] ||
+        1 === settings_obj.the_options["is_script_dependency_on"])
+        ? true
+        : false,
+      header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
+        ? settings_obj.the_options["header_dependency"]
+        : '',
+      header_dependency_list: settings_obj.header_dependency_list,
+      header_dependency_map: {
+        'Body Scripts': false,
+        'Footer Scripts': false,
+      },
+      footer_dependency: settings_obj.the_options.hasOwnProperty("footer_dependency")
+        ? settings_obj.the_options["footer_dependency"]
+        : '',
+      footer_dependency_selected: null,
+      footer_dependency_list: settings_obj.footer_dependency_list,
+      footer_dependency_map: {
+        'Header Scripts': false,
+        'Body Scripts': false,
+      },
+    }
+  },
+  methods: {
+    setValues() {
+      if (this.gdpr_policy === "both") {
+        this.is_ccpa = true;
+        this.is_gdpr = true;
+        this.is_eprivacy = false;
+        this.is_lgpd = false;
+        this.show_visitor_conditions = true;
+        this.show_revoke_card = true;
+      } else if (this.gdpr_policy === "ccpa") {
+        this.is_ccpa = true;
+        this.is_eprivacy = false;
+        this.is_gdpr = false;
+        this.is_lgpd = false;
+        this.show_visitor_conditions = true;
+        this.show_revoke_card = false;
+      } else if (this.gdpr_policy === "gdpr") {
+        this.is_gdpr = true;
+        this.is_ccpa = false;
+        this.is_eprivacy = false;
+        this.is_lgpd = false;
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = true;
+      } else if (this.gdpr_policy === "lgpd") {
+        this.is_gdpr = false;
+        this.is_ccpa = false;
+        this.is_lgpd = true;
+        this.is_eprivacy = false;
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = false;
+      } else {
+        this.is_eprivacy = true;
+        this.is_gdpr = false;
+        this.is_ccpa = false;
+        this.is_lgpd = false;
+        this.show_visitor_conditions = false;
+        this.show_revoke_card = true;
+      }
+
+      for (let i = 0; i < this.scripts_list_total; i++) {
+        this.scripts_list_data[i]["script_status"] = Boolean(
+          parseInt(this.scripts_list_data[i]["script_status"])
+        );
+        for (let j = 0; j < this.category_list_options.length; j++) {
+          if (
+            this.category_list_options[j].code ===
+            this.scripts_list_data[i]["script_category"].toString()
+          ) {
+            this.scripts_list_data[i]["script_category_label"] =
+              this.category_list_options[j].label;
+            break;
+          }
+        }
+      }
+    },
+    stripSlashes(value) {
+      return value.replace(/\\(.)/gm, "$1");
+    },
+    onSwitchingScriptBlocker() {
+      this.is_script_blocker_on = !this.is_script_blocker_on;
+    },
+    showScriptBlockerForm() {
+      console.log("DODODO inside scb's showScriptBlockerForm()");
+      console.log("DODODO current value: ", this.show_script_blocker);
+      this.show_script_blocker = !this.show_script_blocker;
+      console.log("DODODO new value: ", this.show_script_blocker);
+    },
+    onSwitchingScriptDependency() {
+      this.is_script_dependency_on = !this.is_script_dependency_on;
+
+      if( this.is_script_dependency_on === false ){
+        this.header_dependency = null;
+        this.footer_dependency = null;
+      }
+    },
+    onHeaderDependencySelect(value) {
+      
+      this.header_dependency_map.body = false;
+      this.header_dependency_map.footer = false;
+
+      if (this.header_dependency) {
+        this.header_dependency_map[this.header_dependency] = true;
+        this.header_dependency = this.header_dependency;
+      } else {
+        this.header_dependency = '';
+      }
+    },
+    onFooterDependencySelect(value) {
+      
+      this.footer_dependency_map.header = false;
+      this.footer_dependency_map.body = false;
+
+      if (this.footer_dependency) {
+        this.footer_dependency_map[this.footer_dependency] = true;
+        this.footer_dependency = this.footer_dependency;
+      } else {
+        this.footer_dependency = '';
+      }
+    },
+    onSwitchScriptBlocker(script_id) {
+      j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
+      j("#gdpr-cookie-consent-updating-settings-alert").fadeOut(2000);
+      var that = this;
+      this.scripts_list_data[script_id - 1]["script_status"] =
+        !this.scripts_list_data[script_id - 1]["script_status"];
+      var status = "1";
+      if (this.scripts_list_data[script_id - 1]["script_status"]) {
+        status = "1";
+      } else {
+        status = "0";
+      }
+      var data = {
+        action: "wpl_script_blocker",
+        security:
+          settings_obj.script_blocker_settings.nonces.wpl_script_blocker,
+        wpl_script_action: "update_script_status",
+        status: status,
+        id: script_id,
+      };
+      jQuery.ajax({
+        url: settings_obj.script_blocker_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+        },
+      });
+    },
+    onScriptCategorySelect(values) {
+      if (!values) {
+        this.success_error_message = "You must select a category.";
+        j("#gdpr-cookie-consent-save-settings-alert").css(
+          "background-color",
+          "#e55353"
+        );
+        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+        return false;
+      }
+      var that = this;
+      var category_code = values.split(",")[0];
+      var script_id = values.split(",")[1];
+      for (let i = 0; i < this.category_list_options.length; i++) {
+        if (this.category_list_options[i]["code"] === category_code) {
+          if (
+            this.scripts_list_data[script_id - 1]["script_category"] ===
+            category_code
+          ) {
+            this.success_error_message = "Category updated successfully";
+            j("#gdpr-cookie-consent-save-settings-alert").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            return false;
+          } else {
+            this.scripts_list_data[script_id - 1]["script_category"] =
+              this.category_list_options[i].code;
+            this.scripts_list_data[script_id - 1]["script_category_label"] =
+              this.category_list_options[i].label;
+            break;
+          }
+        }
+      }
+      var data = {
+        action: "wpl_script_blocker",
+        security:
+          settings_obj.script_blocker_settings.nonces.wpl_script_blocker,
+        wpl_script_action: "update_script_category",
+        category: category_code,
+        id: script_id,
+      };
+      jQuery.ajax({
+        url: settings_obj.script_blocker_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+        },
+      });
+    },
+    saveScriptBlockerSettings() {
+      console.log("DODODO Saving Script Blocker Settings...");
+      this.save_loading = true;
+
+      var that = this;
+      var dataV = jQuery("#gcc-save-script-blocker-settings-form").serialize();
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: dataV + "&action=gcc_save_script_blocker_settings",
+        })
+        .done(function (data) {
+          that.success_error_message = "Settings Saved.";
+          console.log("Succcess error message: ", that.success_error_message);
+          j("#gdpr-cookie-consent-save-settings-alert").css({
+              "background-color": "#72b85c",
+              "z-index": "10000",
+          });
+          console.log("style:", j("#gdpr-cookie-consent-save-settings-alert")[0].style.cssText);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+
+          that.save_loading = false;
+        })
+        .fail(function () {
+          that.save_loading = false;
+        });
+    }
+  },
+  mounted() {
+    j("#gdpr-before-mount").css("display", "none");
+    this.setValues();
+  }
+});
+
+var lang = new Vue({
+  el: "#gdpr-cookie-consent-language-settings", 
+  data() {
+    return {
+      labelIcon: {},
+      labelIconNew: {
+        labelOn: "\u2713",
+        labelOff: "\uD83D\uDD12",
+      },
+      save_loading: false,
+      success_error_message: "",
+      is_lang_changed: false,
+      show_language_as: settings_obj.the_options.hasOwnProperty("lang_selected")
+        ? settings_obj.the_options["lang_selected"]
+        : "en",
+      show_language_as_options: settings_obj.show_language_as_options,
+    }
+  },
+  methods: {
+    saveLanguageSettings() {
+      console.log("DODODO Saving Language Settings...");
+      this.save_loading = true; 
+
+      var that = this;
+      var dataV = jQuery("#gcc-save-language-settings-form").serialize();
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data:
+            dataV + "&action=gcc_save_language_settings" + 
+            "&lang_changed=" + 
+            that.is_lang_changed,
+        })
+        .done(function(data) {
+          console.log("DIDIDI language save response:", data);
+          that.success_error_message = "Settings Saved";
+          j("#gdpr-cookie-consent-save-settings-alert").css(
+            "background-color",
+            "#72b85c"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          
+          if (that.is_lang_changed) {
+            that.is_lang_changed = false;
+            location.reload();
+          }
+
+          that.save_loading = false;
+        })
+        .fail(function() {
+          that.save_loading = false;
+        });
+    },
+    onLanguageChange() {
+      this.is_lang_changed = true;
+    },
+  }
+});
