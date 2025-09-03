@@ -185,7 +185,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 										<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path d="M8.95817 13.9994C9.24984 13.9994 9.4965 13.8985 9.69817 13.6969C9.89984 13.4952 10.0004 13.2488 9.99984 12.9577C9.99928 12.6666 9.89873 12.4199 9.69817 12.2177C9.49762 12.0155 9.25095 11.9149 8.95817 11.916C8.66539 11.9171 8.419 12.018 8.219 12.2185C8.019 12.4191 7.91817 12.6655 7.9165 12.9577C7.91484 13.2499 8.01567 13.4966 8.219 13.6977C8.42234 13.8988 8.66873 13.9994 8.95817 13.9994ZM8.20817 10.791H9.74984C9.74984 10.3327 9.80206 9.97157 9.9065 9.70769C10.0109 9.4438 10.3059 9.08269 10.7915 8.62435C11.1526 8.26324 11.4373 7.91935 11.6457 7.59269C11.854 7.26602 11.9582 6.8738 11.9582 6.41602C11.9582 5.63824 11.6734 5.04102 11.104 4.62435C10.5346 4.20769 9.86095 3.99935 9.08317 3.99935C8.2915 3.99935 7.64928 4.20769 7.15651 4.62435C6.66373 5.04102 6.31984 5.54102 6.12484 6.12435L7.49984 6.66602C7.56928 6.41602 7.72567 6.14519 7.969 5.85352C8.21234 5.56185 8.58373 5.41602 9.08317 5.41602C9.52762 5.41602 9.86095 5.53769 10.0832 5.78102C10.3054 6.02435 10.4165 6.29158 10.4165 6.58269C10.4165 6.86046 10.3332 7.12102 10.1665 7.36435C9.99984 7.60769 9.7915 7.83324 9.5415 8.04102C8.93039 8.58269 8.55539 8.99241 8.4165 9.27019C8.27762 9.54796 8.20817 10.0549 8.20817 10.791ZM8.99984 17.3327C7.84706 17.3327 6.76373 17.1141 5.74984 16.6769C4.73595 16.2396 3.854 15.6457 3.10401 14.8952C2.354 14.1446 1.76039 13.2627 1.32317 12.2494C0.885949 11.236 0.667061 10.1527 0.666505 8.99935C0.665949 7.84602 0.884838 6.76269 1.32317 5.74935C1.76151 4.73602 2.35512 3.85408 3.10401 3.10352C3.85289 2.35296 4.73484 1.75935 5.74984 1.32269C6.76484 0.88602 7.84817 0.667131 8.99984 0.66602C10.1515 0.664909 11.2348 0.883798 12.2498 1.32269C13.2648 1.76158 14.1468 2.35519 14.8957 3.10352C15.6446 3.85185 16.2384 4.7338 16.6773 5.74935C17.1162 6.76491 17.3348 7.84824 17.3332 8.99935C17.3315 10.1505 17.1126 11.2338 16.6765 12.2494C16.2404 13.2649 15.6468 14.1469 14.8957 14.8952C14.1446 15.6435 13.2626 16.2374 12.2498 16.6769C11.2371 17.1163 10.1537 17.3349 8.99984 17.3327Z" fill="currentColor"/>
 										</svg>
-							
+
 										<?php echo esc_html('Help','gdpr-cookie-consent'); ?>
 									</div>
 								</div>
@@ -202,7 +202,7 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 			// if user is connected to the app.wplegalpages then show remaining scans
 			if ( $is_user_connected == true && !$pro_installed ) {
 				?>
-				<div class="gdpr-remaining-scans-content" >
+				<div class="gdpr-remaining-scans-content">
 					<div class="gdpr-remaining-scans-content-left"
 						style="width:<?php echo empty($page_view_notice_message) ? '100%' : 'auto'; ?>;"
 					>
@@ -262,13 +262,37 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 				</div>
 				<?php if ( get_transient( 'app_wplp_subscription_payment_status_failed' ) ) { ?>
 				<div class="gdpr-subsription-payment-failed-notice" >
-					<p><span class="dashicons dashicons-warning"></span> <?php esc_html_e( 'Your last payment attempt failed. Please update your payment details within 7 days to avoid service disruption.', 'gdpr-cookie-consent' ); ?></p>
+					<svg class="gdpr-payment-fail-icon" viewBox="0 0 24 24">
+  					  <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none" stroke-width="2"/>
+  					  <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  					  <line x1="12" y1="12" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  					</svg>
+					<p>
+						<span class="gdpr-payment-fail-message">
+							<strong>
+								<?php esc_html_e( 'Your last payment attempt failed.', 'gdpr-cookie-consent' ); ?>
+							</strong> 
+							<?php esc_html_e( 'Please update your payment details within 7 days to avoid service disruption.', 'gdpr-cookie-consent' ); ?>
+						</span>
+					</p>
 				</div>
 				<?php
 				}
 				if ( get_option( 'app_wplp_subscription_status_pending_cancel' ) ) { ?>
 				<div class="gdpr-subsription-payment-failed-notice" >
-					<p><span class="dashicons dashicons-warning"></span> <?php esc_html_e( 'Your plan has been canceled to the Free Plan due to a failed payment or manual cancellation. Upgrade now to restore premium features.', 'gdpr-cookie-consent' ); ?></p>
+					<svg class="gdpr-payment-fail-icon" viewBox="0 0 24 24">
+  					  <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none" stroke-width="2"/>
+  					  <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  					  <line x1="12" y1="12" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  					</svg>
+					<p>
+						<span class="gdpr-payment-fail-message">
+						<?php esc_html_e( 'Your plan has been cancelled to the Free Plan due to a failed payment or manual cancellation.', 'gdpr-cookie-consent' ); ?>
+							<strong>
+								<?php esc_html_e( 'Upgrade now to restore premium features.', 'gdpr-cookie-consent' ); ?>
+							</strong>
+						</span>
+					</p>
 				</div>
 				<?php
 				}
@@ -277,10 +301,6 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 			?>
 
 			<!-- connect your website to WP Cookie Consent  -->
-
-			<?php
-			if ( $is_user_connected != true && ! $pro_installed ) {
-				?>
 			<div class="gdpr-cookie-consent-connect-api-container">
 				<div class="gdpr-api-info-content">
 					<div class="wplp-compliance-banner-content">
@@ -310,7 +330,6 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 					</div>
 				</div>
 			</div>
-			<?php } ?>
 
 			<!-- tab content  -->
 

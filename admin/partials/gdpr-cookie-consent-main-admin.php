@@ -373,13 +373,37 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 				</div>
 				<?php if ( get_transient( 'app_wplp_subscription_payment_status_failed' ) ) { ?>
 				<div class="gdpr-subsription-payment-failed-notice" >
-					<p><span class="dashicons dashicons-warning"></span> <?php esc_html_e( 'Your last payment attempt failed. Please update your payment details within 7 days to avoid service disruption.', 'gdpr-cookie-consent' ); ?></p>
+					<svg class="gdpr-payment-fail-icon" viewBox="0 0 24 24">
+  					  <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none" stroke-width="2"/>
+  					  <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  					  <line x1="12" y1="12" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  					</svg>
+					<p>
+						<span class="gdpr-payment-fail-message">
+							<strong>
+								<?php esc_html_e( 'Your last payment attempt failed.', 'gdpr-cookie-consent' ); ?>
+							</strong> 
+							<?php esc_html_e( 'Please update your payment details within 7 days to avoid service disruption.', 'gdpr-cookie-consent' ); ?>
+						</span>
+					</p>
 				</div>
 				<?php
 				}
 				if ( get_option( 'app_wplp_subscription_status_pending_cancel' ) ) { ?>
 				<div class="gdpr-subsription-payment-failed-notice" >
-					<p><span class="dashicons dashicons-warning"></span> <?php esc_html_e( 'Your plan has been canceled to the Free Plan due to a failed payment or manual cancellation. Upgrade now to restore premium features.', 'gdpr-cookie-consent' ); ?></p>
+					<svg class="gdpr-payment-fail-icon" viewBox="0 0 24 24">
+  					  <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none" stroke-width="2"/>
+  					  <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  					  <line x1="12" y1="12" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  					</svg>
+					<p>
+						<span class="gdpr-payment-fail-message">
+						<?php esc_html_e( 'Your plan has been cancelled to the Free Plan due to a failed payment or manual cancellation.', 'gdpr-cookie-consent' ); ?>
+							<strong>
+								<?php esc_html_e( 'Upgrade now to restore premium features.', 'gdpr-cookie-consent' ); ?>
+							</strong>
+						</span>
+					</p>
 				</div>
 				<?php
 				}
