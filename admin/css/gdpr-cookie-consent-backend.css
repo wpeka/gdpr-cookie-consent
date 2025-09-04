@@ -98,7 +98,7 @@ table.gdpr_script_items tr:nth-child(odd) td {
   ul
   li.nav-item
   a.nav-link.active  {
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
 }
 .c-switch-3d-success .c-switch-input:checked + .c-switch-slider {
   background-color: #0059b3 !important;

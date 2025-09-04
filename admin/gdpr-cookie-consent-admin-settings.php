@@ -733,28 +733,29 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					</div>
 				</div>
 			</div>
+			
 			<div class="gdpr-banner-preview-save-btn">
-					<div class="gdpr-banner-preview-logo-text">
-						<div class="gdpr-banner-preview-logo">
-							<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/CookieConsent.png'; ?>" alt="Cookie Setting preview logo">
-						</div>
-						<div class="gdpr-banner-preview-text">
-							<span id="gdpr-banner-preview-cookie-banner-title">
-								<?php esc_html_e( 'Your Site\'s Cookie Banner', 'gdpr-cookie-consent' ); ?>
-							</span><br>
-							<span id="gdpr-banner-preview-cookie-banner-description">
-								<?php esc_html_e( 'The banner currently displayed on your website.', 'gdpr-cookie-consent' ); ?>
-							</span>
-						</div>
+				<div class="gdpr-banner-preview-logo-text">
+					<div class="gdpr-banner-preview-logo">
+						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/CookieConsent.png'; ?>" alt="Cookie Setting preview logo">
 					</div>
+					<div class="gdpr-banner-preview-text">
+						<span id="gdpr-banner-preview-cookie-banner-title">
+							<?php esc_html_e( 'Your Site\'s Cookie Banner', 'gdpr-cookie-consent' ); ?>
+						</span><br>
+						<span id="gdpr-banner-preview-cookie-banner-description">
+							<?php esc_html_e( 'The banner currently displayed on your website.', 'gdpr-cookie-consent' ); ?>
+						</span>
+					</div>
+				</div>
 				<div class="gdpr-preview-publish-btn">
-						<div class="gdpr-preview-toggle-btn">
-							<label class="gdpr-btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
-								<c-switch class="gdpr-btn-switch" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
-								<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
-						</div>
-						<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
+					<div class="gdpr-preview-toggle-btn">
+						<label class="gdpr-btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
+							<c-switch class="gdpr-btn-switch" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
+							<input type="hidden" name="gcc-banner-preview-enable" v-model="banner_preview_is_on">
 					</div>
+					<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
+				</div>
 			</div>
 			<hr id="preview-btn-setting-nav-seperator">
 			<c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
@@ -6757,28 +6758,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</c-card>
 
 				</c-tab>
-				<!-- Connection Tab  -->
-				<?php if ( $is_user_connected && ! $pro_is_activated ) : ?>
-				<c-tab title="<?php esc_attr_e( 'Connection', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#connection" id="gdpr-cookie-consent-connection">
-					<c-card class="gdpr-cookie-consent-settings-cookie-notice-top">
-							<c-card-body class="gdpr-connection-card-body" >
-								<div class="gdpr-connect-information">
-									<div class="gdpr-connection-success-tick">
-										<div class="gdpr-connection-success-img"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/check_ring.svg'; ?>" alt="API Connection Success Mark"></div>
-										<div class="gdpr-connection-success-descreption"><?php esc_html_e( 'Your website is connected to WP Cookie Consent', 'gdpr-cookie-consent' ); ?></div>
-									</div>
-									<div class="gdpr-connect-information-section">
-										<p class="gpdr-email-info"><span class="gdpr-info-title" ><?php esc_html_e( 'Email : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_email ); ?>  </p>
-										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Site Key : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_site_key ); ?>  </p>
-										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Plan : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_plan ); ?>  </p>
-										<!-- API Disconnect Button  -->
-										<div class="api-connection-disconnect-btn" ><?php esc_attr_e( 'Disconnect', 'gdpr-cookie-consent' ); ?></div>
-									</div>
-								</div>
-							</c-card-body>
-						</c-card>
-				</c-tab>
-				<?php endif; ?>
 			</c-tabs>
 			</div>
 		</c-form>
