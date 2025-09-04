@@ -17,7 +17,6 @@ import "vue2-timepicker/dist/VueTimepicker.css";
 import VueIntro from "vue-introjs";
 Vue.use(VueIntro);
 import "intro.js/introjs.css";
-import json_templates from "../includes/templates/template.json";
 // Import AceEditor
 import AceEditor from "vuejs-ace-editor";
 
@@ -78,6 +77,7 @@ var gen = new Vue({
       edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
       close_round_img: require("../admin/images/Close_round.svg"),
       account_connection: require("../admin/images/account_connection.svg"),
+      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
       closeOnBackdrop: true,
       centered: true,
       edit_region: false,
@@ -6401,6 +6401,7 @@ var app = new Vue({
       is_logo_removed: false,
       appendField: ".gdpr-cookie-consent-settings-container",
       configure_image_url: require("../admin/images/configure-icon.png"),
+      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
       closeOnBackdrop: true,
       centered: true,
       accept_button_popup: false,
