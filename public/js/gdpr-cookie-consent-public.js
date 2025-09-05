@@ -798,7 +798,7 @@ banner.style.display = "none";
       });
     },
     checkEuAndCCPAStatus: function (response) {
-      if (response.both_status == "off") {
+      if (response.eu_status == "off" && response.ccpa_status == "off") {
         $("#gdpr-cookie-consent-bar").addClass("hide_show_again_dnt");
       }
       if (response.eu_status == "on" && response.ccpa_status == "off") {

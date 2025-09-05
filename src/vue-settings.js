@@ -8324,6 +8324,12 @@ var app = new Vue({
           1 === settings_obj.the_options["is_worldwide_on"])
           ? true
           : false,
+      selectedRadioWorldWideCcpa:
+        settings_obj.the_options.hasOwnProperty("is_worldwide_on_ccpa") &&
+        (true === settings_obj.the_options["is_worldwide_on_ccpa"] ||
+          1 === settings_obj.the_options["is_worldwide_on_ccpa"])
+          ? true
+          : false,
       list_of_countries: settings_obj.list_of_countries,
       select_countries: settings_obj.the_options.hasOwnProperty(
         "select_countries"
