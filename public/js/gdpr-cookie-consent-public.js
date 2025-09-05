@@ -2112,6 +2112,22 @@ banner.style.display = "none";
       user_triggered
     ) {
       user_triggered = (typeof user_triggered === 'undefined') ? false : user_triggered;
+      function userInteracted() {
+            // Make the AJAX call
+            jQuery.ajax({
+              url: log_obj.ajax_url,
+              type: "POST",
+              data: {
+                action: "gdpr_increase_ignore_rate",
+                security: log_obj.consent_logging_nonce,
+              },
+              success: function (response) {},
+            });
+
+            // Remove the listeners after interaction
+            document.removeEventListener("click", userInteracted);
+            document.removeEventListener("scroll", userInteracted);
+          }
       if (!gdpr_flag || !ccpa_flag || !lgpd_flag) {
         var animate_on_load = GDPR.settings.notify_animate_show;
         var self = this;
@@ -2126,9 +2142,9 @@ banner.style.display = "none";
           } else {
             self.bar_elm.slideDown(self.settings.animate_speed_hide);
           }
-
+          
           setTimeout(function () {
-            self.bar_elm.show();
+            // self.bar_elm.show();
             jQuery.ajax({
               url: log_obj.ajax_url,
               type: "POST",
@@ -2329,12 +2345,13 @@ banner.style.display = "none";
           this.settings.cookie_usage_for == "both" ||
           this.settings.cookie_usage_for == "lgpd"
         ) {
-          if (this.settings.auto_banner_initialize) {
-            setTimeout(function() {
-              this.show_again_elm.slideDown(this.settings.animate_speed_hide);
-            }, this.settings.auto_banner_initialize_delay);
+          var self = this;
+          if (self.settings.auto_banner_initialize) {
+            setTimeout(function() { //arrow functions dont work in grunt build
+              self.show_again_elm.slideDown(self.settings.animate_speed_hide);
+            }, self.settings.auto_banner_initialize_delay);
           } else {
-            this.show_again_elm.slideDown(this.settings.animate_speed_hide);
+            self.show_again_elm.slideDown(self.settings.animate_speed_hide);
           }
           
         }
