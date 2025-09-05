@@ -3740,6 +3740,18 @@ class Gdpr_Cookie_Consent_Admin {
 						$the_options['is_worldwide_on'] = 'true';
 					}
 				}
+				if ( isset( $_POST['gcc-worldwide-enable-ccpa'] ) ) {
+					if ( 'no' === $_POST['gcc-worldwide-enable-ccpa'] ) {
+						$the_options['is_worldwide_on_ccpa'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-worldwide-enable-ccpa'] ) {
+						$the_options['is_worldwide_on_ccpa'] = 'false';
+					} else {
+						if(!$the_options['is_worldwide_on_ccpa']){
+							$this->disable_auto_update_maxminddb();
+						}
+						$the_options['is_worldwide_on_ccpa'] = 'true';
+					}
+				}
 				// For select country dropdown.
 				if ( isset( $_POST['gcc-select-countries-enable'] ) ) {
 					if ( 'no' === $_POST['gcc-select-countries-enable'] ) {
@@ -3756,8 +3768,27 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 				$selected_countries             = array();
 				$selected_countries             = isset( $_POST['gcc-selected-countries'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries'] ) ) ) : '';
-				// storing id of pages in database.
 				$the_options['select_countries'] = $selected_countries;
+
+				if ( isset( $_POST['gcc-select-countries-enable-ccpa'] ) ) {
+					if ( 'no' === $_POST['gcc-select-countries-enable-ccpa'] ) {
+						$the_options['is_selectedCountry_on_ccpa'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-select-countries-enable-ccpa'] ) {
+						$the_options['is_selectedCountry_on_ccpa'] = 'false';
+					} else {
+						if(!$the_options['is_selectedCountry_on_ccpa']){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
+						$the_options['is_selectedCountry_on_ccpa'] = 'true';
+					}
+				}
+
+				$selected_countries_ccpa             = array();
+				$selected_countries_ccpa             = isset( $_POST['gcc-selected-countries-ccpa'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries-ccpa'] ) ) ) : '';
+				$the_options['select_countries_ccpa'] = $selected_countries_ccpa;
+				// storing id of pages in database.
+				
 				if ( isset( $the_options['cookie_usage_for'] ) ) {
 					switch ( $the_options['cookie_usage_for'] ) {
 						case 'both':
@@ -4968,6 +4999,10 @@ class Gdpr_Cookie_Consent_Admin {
 				$selected_countries             = isset( $_POST['gcc-selected-countries'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries'] ) ) ) : '';
 				// storing id of pages in database.
 				$the_options['select_countries'] = $selected_countries;
+				$selected_countries_ccpa             = array();
+				$selected_countries_ccpa             = isset( $_POST['gcc-selected-countries-ccpa'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries-ccpa'] ) ) ) : '';
+				// storing id of pages in database.
+				$the_options['select_countries_ccpa'] = $selected_countries_ccpa;
 				// For EU.
 				if ( isset( $_POST['gcc-eu-enable'] ) ) {
 					if ( 'no' === $_POST['gcc-eu-enable'] ) {
@@ -5049,6 +5084,19 @@ class Gdpr_Cookie_Consent_Admin {
 							$this->download_maxminddb();
 						}
 						$the_options['is_selectedCountry_on'] = 'true';
+					}
+				}
+				if ( isset( $_POST['gcc-select-countries-enable-ccpa'] ) ) {
+					if ( 'no' === $_POST['gcc-select-countries-enable-ccpa'] ) {
+						$the_options['is_selectedCountry_on_ccpa'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-select-countries-enable-ccpa'] ) {
+						$the_options['is_selectedCountry_on_ccpa'] = 'false';
+					} else {
+						if(!$the_options['is_selectedCountry_on_ccpa']){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
+						$the_options['is_selectedCountry_on_ccpa'] = 'true';
 					}
 				}
 				if ( isset( $the_options['cookie_usage_for'] ) ) {

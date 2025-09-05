@@ -2173,10 +2173,22 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_selectedCountry_on"])
           ? true
           : false,
+      is_selectedCountry_on_ccpa:
+        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on_ccpa") &&
+        (true === settings_obj.the_options["is_selectedCountry_on_ccpa"] ||
+          1 === settings_obj.the_options["is_selectedCountry_on_ccpa"])
+          ? true
+          : false,
       is_worldwide_on:
         settings_obj.the_options.hasOwnProperty("is_worldwide_on") &&
         (true === settings_obj.the_options["is_worldwide_on"] ||
           1 === settings_obj.the_options["is_worldwide_on"])
+          ? true
+          : false,
+      is_worldwide_on_ccpa:
+        settings_obj.the_options.hasOwnProperty("is_worldwide_on_ccpa") &&
+        (true === settings_obj.the_options["is_worldwide_on_ccpa"] ||
+          1 === settings_obj.the_options["is_worldwide_on_ccpa"])
           ? true
           : false,
       selectedRadioWorldWide:
@@ -2188,7 +2200,7 @@ var gen = new Vue({
       selectedRadioWorldWideCcpa:
         settings_obj.the_options.hasOwnProperty("is_worldwide_on_ccpa") &&
         (true === settings_obj.the_options["is_worldwide_on_ccpa"] ||
-          1 === settings_obj.the_options["is_worldwide_on-ccpa"])
+          1 === settings_obj.the_options["is_worldwide_on_ccpa"])
           ? true
           : false,
       list_of_countries: settings_obj.list_of_countries,
@@ -2197,12 +2209,24 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["select_countries"]
         : [],
+      select_countries_ccpa: settings_obj.the_options.hasOwnProperty(
+        "select_countries_ccpa"
+      )
+        ? settings_obj.the_options["select_countries_ccpa"]
+        : [],
       select_countries_array: [],
+      select_countries_array_ccpa: [],
       show_Select_Country: false,
       selectedRadioCountry:
         settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
         (true === settings_obj.the_options["is_selectedCountry_on"] ||
           1 === settings_obj.the_options["is_selectedCountry_on"])
+          ? true
+          : false,
+      selectedRadioCountryCcpa:
+        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on_ccpa") &&
+        (true === settings_obj.the_options["is_selectedCountry_on_ccpa"] ||
+          1 === settings_obj.the_options["is_selectedCountry_on_ccpa"])
           ? true
           : false,
       cookie_list_tab: true,
@@ -2462,6 +2486,11 @@ var gen = new Vue({
           this.select_countries_array.push(this.list_of_countries[i]);
         }
       }
+      for (let i = 0; i < this.list_of_countries.length; i++) {
+        if (this.select_countries_ccpa.includes(this.list_of_countries[i].code)) {
+          this.select_countries_array_ccpa.push(this.list_of_countries[i]);
+        }
+      }
 
       // multiple entries for hide banner.
       for (let i = 0; i < this.list_of_pages.length; i++) {
@@ -2718,6 +2747,12 @@ var gen = new Vue({
       this.is_worldwide_on = true;
       this.is_eu_on = false;
       this.is_selectedCountry_on = false;
+    },
+    onSwitchWorldWideEnableCcpa() {
+      this.selectedRadioWorldWideCcpa = "yes";
+      this.selectedRadioCountryCcpa = false;
+      this.is_worldwide_on_ccpa = true;
+      this.is_selectedCountry_on_ccpa = false;
       this.is_ccpa_on = false;
     },
     onSwitchEUEnable(isChecked) {
@@ -2741,8 +2776,22 @@ var gen = new Vue({
       } else {
         this.is_selectedCountry_on = false;
         this.selectedRadioCountry = false;
-        if (this.is_eu_on != true && this.is_ccpa_on != true) {
+        if (this.is_eu_on != true) {
           this.selectedRadioWorldWide = "yes";
+        }
+      }
+    },
+    onSwitchSelectedCountryEnableCcpa(isChecked) {
+      if (isChecked) {
+        this.is_selectedCountry_on_ccpa = true;
+        this.selectedRadioCountryCcpa = true;
+        this.selectedRadioWorldWideCcpa = false;
+        this.is_worldwide_on_ccpa = false;
+      } else {
+        this.is_selectedCountry_on_ccpa = false;
+        this.selectedRadioCountryCcpa = false;
+        if (this.is_ccpa_on != true) {
+          this.selectedRadioWorldWideCcpa = "yes";
         }
       }
     },
@@ -2761,6 +2810,10 @@ var gen = new Vue({
     onCountrySelect(value) {
       this.select_countries = this.select_countries_array.join(",");
     },
+    onCountrySelectCcpa(value) {
+      this.select_countries_ccpa = this.select_countries_array_ccpa.join(",");
+      
+    },
     showSelectCountryForm() {
       this.show_Select_Country = !this.show_Select_Country;
     },
@@ -2770,23 +2823,18 @@ var gen = new Vue({
     onEnablesafeSwitch() {
       if (this.enable_safe === "true") {
         this.is_worldwide_on = true;
+        this.is_worldwide_on_ccpa = true;
         this.is_eu_on = false;
-        this.selectedRadioCountry = false;
-      } else {
-        this.is_worldwide_on = true;
-        this.is_eu_on = false;
-        this.selectedRadioCountry = false;
-      }
-    },
-    onEnablesafeSwitchCCPA() {
-      if (this.enable_safe === "true") {
-        this.is_worldwide_on = true;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
+        this.selectedRadioCountryCcpa = false;
       } else {
         this.is_worldwide_on = true;
+        this.is_worldwide_on_ccpa = true;
+        this.is_eu_on = false;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
+        this.selectedRadioCountryCcpa = false;
       }
     },
     onSwitchRevokeConsentEnable() {
@@ -2952,7 +3000,6 @@ var gen = new Vue({
     },
     onSwitchEnableSafe() {
       this.onEnablesafeSwitch();
-      this.onEnablesafeSwitchCCPA();
       this.onSwitchReloadSafeMode();
       this.enable_safe = !this.enable_safe;
     },
@@ -3459,11 +3506,15 @@ var gen = new Vue({
         this.show_revoke_card = true;
         //visitors condition.
         this.selectedRadioWorldWide = "yes";
+        this.selectedRadioWorldWideCcpa = "yes";
         this.is_worldwide_on = true;
+        this.is_worldwide_on_ccpa = true;
         this.is_eu_on = false;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
+        this.selectedRadioCountryCcpa = false;
         this.is_selectedCountry_on = false;
+        this.is_selectedCountry_on_ccpa = false;
       } else if (value === "ccpa") {
         this.is_ccpa = true;
         this.is_eprivacy = false;
@@ -3475,11 +3526,15 @@ var gen = new Vue({
         this.gcm_is_on = false;
         //visitors condition.
         this.selectedRadioWorldWide = "yes";
+        this.selectedRadioWorldWideCcpa = "yes";
         this.is_worldwide_on = true;
+        this.is_worldwide_on_ccpa = true;
         this.is_eu_on = false;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
+        this.selectedRadioCountryCcpa = false;
         this.is_selectedCountry_on = false;
+        this.is_selectedCountry_on_ccpa = false;
         this.gacm_is_on = false;
       } else if (value === "gdpr") {
         this.is_gdpr = true;
@@ -3489,11 +3544,15 @@ var gen = new Vue({
         this.show_revoke_card = true;
         this.show_visitor_conditions = true;
         this.selectedRadioWorldWide = "yes";
+        this.selectedRadioWorldWideCcpa = "yes";
         this.is_worldwide_on = true;
+        this.is_worldwide_on_ccpa = true;
         this.is_eu_on = false;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
+        this.selectedRadioCountryCcpa = false;
         this.is_selectedCountry_on = false;
+        this.is_selectedCountry_on_ccpa = false;
       } else if (value === "lgpd") {
         this.is_ccpa = false;
         this.is_eprivacy = false;
@@ -4104,12 +4163,18 @@ var gen = new Vue({
       this.consent_forward = false;
       this.select_sites = [];
       this.selectedRadioCountry = false;
+      this.selectedRadioCountryCcpa = false;
       this.is_selectedCountry_on = false;
-      this.selectedRadioWorldWide = false;
-      this.is_worldwide_on = false;
+      this.is_selectedCountry_on_ccpa = false;
+      this.selectedRadioWorldWide = true;
+      this.selectedRadioWorldWideCcpa = true;
+      this.is_worldwide_on = true;
+      this.is_worldwide_on_ccpa = true;
       this.list_of_countries = [];
       this.select_countries = [];
+      this.select_countries_ccpa = [];
       this.select_countries_array = [];
+      this.select_countries_array_ccpa = [];
       this.show_Select_Country = false;
       this.cookie_font1 = "inherit";
       this.cookie_text_color1 = "#000000";
@@ -8234,10 +8299,22 @@ var app = new Vue({
           1 === settings_obj.the_options["is_selectedCountry_on"])
           ? true
           : false,
+      is_selectedCountry_on_ccpa:
+        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on_ccpa") &&
+        (true === settings_obj.the_options["is_selectedCountry_on_ccpa"] ||
+          1 === settings_obj.the_options["is_selectedCountry_on_ccpa"])
+          ? true
+          : false,
       is_worldwide_on:
         settings_obj.the_options.hasOwnProperty("is_worldwide_on") &&
         (true === settings_obj.the_options["is_worldwide_on"] ||
           1 === settings_obj.the_options["is_worldwide_on"])
+          ? true
+          : false,
+      is_worldwide_on_ccpa:
+        settings_obj.the_options.hasOwnProperty("is_worldwide_on_ccpa") &&
+        (true === settings_obj.the_options["is_worldwide_on_ccpa"] ||
+          1 === settings_obj.the_options["is_worldwide_on_ccpa"])
           ? true
           : false,
       selectedRadioWorldWide:
@@ -8252,7 +8329,13 @@ var app = new Vue({
       )
         ? settings_obj.the_options["select_countries"]
         : [],
+      select_countries_ccpa: settings_obj.the_options.hasOwnProperty(
+        "select_countries_ccpa"
+      )
+        ? settings_obj.the_options["select_countries_ccpa"]
+        : [],
       select_countries_array: [],
+      select_countries_array_ccpa: [],
       show_Select_Country: false,
       selectedRadioCountry:
         settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
@@ -8260,8 +8343,12 @@ var app = new Vue({
           1 === settings_obj.the_options["is_selectedCountry_on"])
           ? true
           : false,
-
-      
+      selectedRadioCountryCcpa:
+        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on_ccpa") &&
+        (true === settings_obj.the_options["is_selectedCountry_on_ccpa"] ||
+          1 === settings_obj.the_options["is_selectedCountry_on_ccpa"])
+          ? true
+          : false,      
       isCategoryActive: true,
       isFeaturesActive: false,
       isVendorsActive: false,
@@ -8365,6 +8452,11 @@ var app = new Vue({
       for (let i = 0; i < this.list_of_countries.length; i++) {
         if (this.select_countries.includes(this.list_of_countries[i].code)) {
           this.select_countries_array.push(this.list_of_countries[i]);
+        }
+      }
+      for (let i = 0; i < this.list_of_countries.length; i++) {
+        if (this.select_countries_ccpa.includes(this.list_of_countries[i].code)) {
+          this.select_countries_array_ccpa.push(this.list_of_countries[i]);
         }
       }
       for (let i = 0; i < this.scripts_list_total; i++) {
@@ -8510,6 +8602,12 @@ var app = new Vue({
       this.is_worldwide_on = true;
       this.is_eu_on = false;
       this.is_selectedCountry_on = false;
+    },
+    onSwitchWorldWideEnableCcpa() {
+      this.selectedRadioWorldWideCcpa = "yes";
+      this.selectedRadioCountryCcpa = false;
+      this.is_worldwide_on_ccpa = true;
+      this.is_selectedCountry_on_ccpa = false;
       this.is_ccpa_on = false;
     },
     onSwitchEUEnable(isChecked) {
@@ -8521,7 +8619,7 @@ var app = new Vue({
       } else {
         // this.selectedRadioGdpr = false;
         this.is_eu_on = false;
-        if (this.is_selectedCountry_on != true && this.is_ccpa_on != true) {
+        if (this.is_selectedCountry_on != true) {
           this.selectedRadioWorldWide = "yes";
         }
       }
@@ -8540,20 +8638,37 @@ var app = new Vue({
         }
       }
     },
+    onSwitchSelectedCountryEnableCcpa(isChecked) {
+      if (isChecked) {
+        this.is_selectedCountry_on_ccpa = true;
+        this.selectedRadioCountryCcpa = true;
+        this.selectedRadioWorldWideCcpa = false;
+        this.is_worldwide_on_ccpa = false;
+      } else {
+        this.is_selectedCountry_on_ccpa = false;
+        this.selectedRadioCountryCcpa = false;
+        if (this.is_ccpa_on != true) {
+          this.selectedRadioWorldWideCcpa = "yes";
+        }
+      }
+    },
     onSwitchCCPAEnable(isChecked) {
       if (isChecked) {
-        this.selectedRadioWorldWide = false;
+        this.selectedRadioWorldWideCcpa = false;
         this.is_ccpa_on = true;
-        this.is_worldwide_on = false;
+        this.is_worldwide_on_ccpa = false;
       } else {
         this.is_ccpa_on = false;
-        if (this.is_selectedCountry_on != true && this.is_eu_on != true) {
-          this.selectedRadioWorldWide = "yes";
+        if (this.is_selectedCountry_on != true) {
+          this.selectedRadioWorldWideCcpa = "yes";
         }
       }
     },
     onCountrySelect(value) {
       this.select_countries = this.select_countries_array.join(",");
+    },
+    onCountrySelectCcpa(value) {
+      this.select_countries_ccpa = this.select_countries_array_ccpa.join(",");
     },
     showSelectCountryForm() {
       this.show_Select_Country = !this.show_Select_Country;
@@ -8594,23 +8709,18 @@ var app = new Vue({
     onEnablesafeSwitch() {
       if (this.enable_safe === "true") {
         this.is_worldwide_on = true;
+        this.is_worldwide_on_ccpa = true;
         this.is_eu_on = false;
-        this.selectedRadioCountry = false;
-      } else {
-        this.is_worldwide_on = true;
-        this.is_eu_on = false;
-        this.selectedRadioCountry = false;
-      }
-    },
-    onEnablesafeSwitchCCPA() {
-      if (this.enable_safe === "true") {
-        this.is_worldwide_on = true;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
+        this.selectedRadioCountryCcpa = false;
       } else {
         this.is_worldwide_on = true;
+        this.is_worldwide_on_ccpa = true;
+        this.is_eu_on = false;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
+        this.selectedRadioCountryCcpa = false;
       }
     },
     onSwitchRevokeConsentEnable() {
@@ -8645,7 +8755,6 @@ var app = new Vue({
     },
     onSwitchEnableSafe() {
       this.onEnablesafeSwitch();
-      this.onEnablesafeSwitchCCPA();
       this.onSwitchReloadSafeMode();
       this.enable_safe = !this.enable_safe;
     },
@@ -9168,11 +9277,15 @@ var app = new Vue({
         this.show_revoke_card = true;
         //visitors condition.
         this.selectedRadioWorldWide = "yes";
+        this.selectedRadioWorldWideCcpa = "yes";
         this.is_worldwide_on = true;
+        this.is_worldwide_on_ccpa = true;
         this.is_eu_on = false;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
+        this.selectedRadioCountryCcpa = false;
         this.is_selectedCountry_on = false;
+        this.is_selectedCountry_on_ccpa = false;
       } else if (value === "ccpa") {
         this.is_ccpa = true;
         this.is_eprivacy = false;
@@ -9184,11 +9297,15 @@ var app = new Vue({
         this.gcm_is_on = false;
         //visitors condition.
         this.selectedRadioWorldWide = "yes";
+        this.selectedRadioWorldWideCcpa = "yes";
         this.is_worldwide_on = true;
+        this.is_worldwide_on_ccpa = true;
         this.is_eu_on = false;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
+        this.selectedRadioCountryCcpa = false;
         this.is_selectedCountry_on = false;
+        this.is_selectedCountry_on_ccpa = false;
       } else if (value === "gdpr") {
         this.is_gdpr = true;
         this.is_ccpa = false;
@@ -9197,11 +9314,15 @@ var app = new Vue({
         this.show_revoke_card = true;
         this.show_visitor_conditions = true;
         this.selectedRadioWorldWide = "yes";
+        this.selectedRadioWorldWideCcpa = "yes";
         this.is_worldwide_on = true;
+        this.is_worldwide_on_ccpa = true;
         this.is_eu_on = false;
         this.is_ccpa_on = false;
         this.selectedRadioCountry = false;
+        this.selectedRadioCountryCcpa = false;
         this.is_selectedCountry_on = false;
+        this.is_selectedCountry_on_ccpa = false;
       } else if (value === "lgpd") {
         this.is_ccpa = false;
         this.is_eprivacy = false;

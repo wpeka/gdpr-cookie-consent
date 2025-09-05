@@ -1150,9 +1150,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<?php endif; ?>
 									</div>
 								</div>
-								<div class="select-countries-dropdown" v-show="(is_selectedCountry_on) && ( gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa' )">
-									<v-select id="gdpr-cookie-consent-geotargeting-countries" placeholder="Select Countries":reduce="label => label.code" class="form-group" :options="list_of_countries" multiple v-model="select_countries_array" @input="onCountrySelect"></v-select>
-									<input type="hidden" name="gcc-selected-countries" v-model="select_countries">
+								<div class="select-countries-dropdown" v-show="(is_selectedCountry_on_ccpa) && ( gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa' )">
+									<v-select id="gdpr-cookie-consent-geotargeting-countries-ccpa" placeholder="Select Countries":reduce="label => label.code" class="form-group" :options="list_of_countries" multiple v-model="select_countries_array_ccpa" @input="onCountrySelectCcpa"></v-select>
+									<input type="hidden" name="gcc-selected-countries-ccpa" v-model="select_countries_ccpa">
 								</div>
 								<p v-show="( gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa' )" class="maxmind-notice">This product includes GeoLite2 data created by MaxMind, available from <a href="https://www.maxmind.com">https://www.maxmind.com</a>.</p>
 								<!-- Privacy Policy Settings -->

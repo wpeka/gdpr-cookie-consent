@@ -951,7 +951,9 @@ class Gdpr_Cookie_Consent {
 			'is_ccpa_on'                           => false,
 			'is_ccpa_iab_on'                       => false,
 			'is_worldwide_on'                      => true,
+			'is_worldwide_on_ccpa'				   => true,
 			'is_selectedCountry_on'                => false,
+			'is_selectedCountry_on_ccpa'           => false,
 			'logging_on'                           => true,
 			'show_credits'                         => true,
 			'is_ticked'                            => false,
@@ -1041,6 +1043,8 @@ class Gdpr_Cookie_Consent {
 			case 'auto_hide':
 			case 'is_worldwide_on':
 			case 'is_selectedCountry_on':
+			case 'is_worldwide_on_ccpa':
+			case 'is_selectedCountry_on_ccpa':
 			case 'auto_banner_initialize':
 			case 'auto_generated_banner':
 			case 'auto_scroll':
@@ -1173,6 +1177,9 @@ class Gdpr_Cookie_Consent {
 				$ret = $value;
 				break;
 			case 'select_countries':
+				$ret = $value;
+				break;
+			case 'select_countries_ccpa':
 				$ret = $value;
 				break;
 			// Basic sanitisation for all the rest.
@@ -1973,6 +1980,8 @@ class Gdpr_Cookie_Consent {
 			'is_ccpa_iab_on'                         => $settings['is_ccpa_iab_on'],
 			'is_worldwide_on'                        => $settings['is_worldwide_on'],
 			'is_selectedCountry_on'                  => $settings['is_selectedCountry_on'],
+			'is_worldwide_on_ccpa'                   => $settings['is_worldwide_on_ccpa'],
+			'is_selectedCountry_on_ccpa'             => $settings['is_selectedCountry_on_ccpa'],
 			'is_ticked'                              => $settings['is_ticked'],
 			'is_script_blocker_on'                   => $settings['is_script_blocker_on'],
 			'is_script_dependency_on'                => $settings['is_script_dependency_on'],
