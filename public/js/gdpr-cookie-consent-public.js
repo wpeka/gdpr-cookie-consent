@@ -2142,9 +2142,8 @@ banner.style.display = "none";
           } else {
             self.bar_elm.slideDown(self.settings.animate_speed_hide);
           }
-          
+
           setTimeout(function () {
-            // self.bar_elm.show();
             jQuery.ajax({
               url: log_obj.ajax_url,
               type: "POST",
