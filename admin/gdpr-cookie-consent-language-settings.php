@@ -1,5 +1,5 @@
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-language-settings">
-    <c-container class="gdpr-cookie-consent-settings-container">
+    <c-container class="gdpr-cookie-consent-settings-container gdpr-cookie-consent-language-container">
         <c-form id="gcc-save-language-settings-form" method="post" spellcheck="false" class="gdpr-cookie-consent-settings-form">
             <input type="hidden" name="gcc_settings_form_nonce_language" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-language' ) ); ?>"/>
             

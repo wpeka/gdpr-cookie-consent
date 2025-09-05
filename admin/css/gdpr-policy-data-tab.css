@@ -246,15 +246,6 @@
 #wpl-dnsmpd-filter-consent-logs  #current-page-selector-consent_logs{
 	height: 38px;
 }
-#dataRequestContainer.wpl.wrap{
-	margin: 0;
-	border-radius: 4px;
-    border-right: 1px solid var(--Gray-200, var(--gray-200));
-    border-bottom: 1px solid var(--Gray-200, var(--gray-200));
-    border-left: 1px solid var(--Gray-200, var(--gray-200));
-    background: var(--var(--white-100), #FFF);
-    border-top: 1px solid var(--Gray-200, var(--gray-200));
-}
 #wpl-dnsmpd-filter .policy-data-add-new-button{
 	height: 40px;
 	border-radius: 4px;
