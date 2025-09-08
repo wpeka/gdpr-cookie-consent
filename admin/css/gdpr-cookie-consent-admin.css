@@ -1678,16 +1678,22 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
   .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
   > div:nth-child(1),
-  #gdpr-cookie-consent-help-app
+#gdpr-cookie-consent-help-app
+  .gdpr-cookie-consent-settings-container
+  .gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  > div:nth-child(1),
+#gdpr-cookie-consent-advanced-settings
   .gdpr-cookie-consent-settings-container
   .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
   > div:nth-child(1) {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   /* align-items: center; */
   min-width: 260px;
   /* width: 100%; */
+  padding-left: 18px;
 }
 #gdpr-cookie-consent-settings-app
   .gdpr-cookie-consent-settings-container
@@ -4431,10 +4437,13 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
 }
 #gdpr-cookie-consent-settings-app
   .gdpr-cookie-consent-settings-nav
+  .nav.nav-pills,
+#gdpr-cookie-consent-advanced-settings
+  .gdpr-cookie-consent-settings-nav
   .nav.nav-pills {
   display: flex;
-  width: 100%;
-    flex-wrap: nowrap;
+  width: 60%;
+  flex-wrap: nowrap;
 }
 .consent-logs-export-btn,
 .policy-export-btn,
@@ -10249,8 +10258,8 @@ div#gdpr-scan-history {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: 
     radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -10261,8 +10270,8 @@ div#gdpr-scan-history {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: 
     radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -10273,8 +10282,8 @@ div#gdpr-scan-history {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: 
     radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -10548,4 +10557,36 @@ div#gdpr-scan-history {
 #gdpr-cookie-consent-abtesting-settings .gdpr-cookie-consent-abtesting-container .nav,
 #gdpr-cookie-consent-language-settings .gdpr-cookie-consent-language-container .nav {
   display: none;
+}
+
+.gdpr-progress-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.gdpr-progress-wrapper
+  .gdpr-progress-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gdpr-progress-wrapper
+  .gdpr-progress-content h3,
+.gdpr-progress-wrapper
+  .gdpr-progress-content p {
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #3A3A41;
+}
+
+.gdpr-progress-wrapper
+  .gdpr-progress-content p {
+  font-weight: 400;
+  color: #52525B;
 }

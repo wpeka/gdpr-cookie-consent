@@ -38,6 +38,7 @@ if ( $api_user_plan == 'free' ) {
 	$total_no_of_free_scans = 20000; // actual 50000.
 }
 
+$gdpr_pages_scanned 			 = get_option('gdpr_no_of_page_scan', 0);
 $gdpr_no_of_page_scan            = $total_no_of_free_scans - get_option( 'gdpr_no_of_page_scan' );
 $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' ) / $total_no_of_free_scans ) * 100 );
 
@@ -321,23 +322,47 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 							<p><?php echo esc_html( '& Usage:', 'gdpr-cookie-consent' ); ?></p>
 						</div>
 						
-						<div class="gdpr-remaining-scans-progress">
-							<span><?php echo ceil( $remaining_percentage_scan_limit ); ?>%</span>
-  							<progress value="<?php echo ceil( $remaining_percentage_scan_limit ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
+						<div class="gdpr-progress-wrapper">
+							<div class="gdpr-remaining-scans-progress">
+								<span><?php echo ceil( $remaining_percentage_scan_limit ); ?>%</span>
+  								<progress value="<?php echo ceil( $remaining_percentage_scan_limit ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
+							</div>
+
+							<div class="gdpr-progress-content">
+								<h3><?php echo esc_html( 'Scans / Month', 'gdpr-cookie-consent' ); ?></h3>
+								<p><?php echo esc_html( '40 / 50', 'gdpr-cookie-consent' ) ?></p>
+								<p><?echo esc_html( '20 Remaining', 'gdpr-cookie-consent' ); ?></p>
+							</div>
 						</div>
 
-						<div class="gdpr-monthly-scans-progress">
-							<span><?php echo ceil( $remaining_percentage_scan_limit ); ?>%</span>
-  							<progress value="<?php echo ceil( $remaining_percentage_scan_limit ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
+						<div class="gdpr-progress-wrapper">
+							<div class="gdpr-monthly-scans-progress">
+								<span><?php echo ceil( $remaining_percentage_scan_limit ); ?>%</span>
+  								<progress value="<?php echo ceil( $remaining_percentage_scan_limit ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
+							</div>
+
+							<div class="gdpr-progress-content">
+								<h3><?php echo esc_html( 'Pages / Scan', 'gdpr-cookie-consent' ); ?></h3>
+								<p><?php echo esc_html( $gdpr_pages_scanned . ' / ' . $total_no_of_free_scans, 'gdpr-cookie-consent' ) ?></p>
+								<p><?echo esc_html( $gdpr_no_of_page_scan . ' Remaining', 'gdpr-cookie-consent' ); ?></p>
+							</div>
 						</div>
 
-						<div class="gdpr-pageviews-progress">
-							<span><?php echo ceil( $remaining_percentage_scan_limit ); ?>%</span>
-  							<progress value="<?php echo ceil( $remaining_percentage_scan_limit ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
+						<div class="gdpr-progress-wrapper">
+							<div class="gdpr-pageviews-progress">
+								<span><?php echo ceil( $remaining_percentage_scan_limit ); ?>%</span>
+  								<progress value="<?php echo ceil( $remaining_percentage_scan_limit ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
+							</div>
+					
+							<div class="gdpr-progress-content">
+								<h3><?php echo esc_html( 'Page Views / Month', 'gdpr-cookie-consent' ); ?></h3>
+								<p><?php echo esc_html( '20k / 100k', 'gdpr-cookie-consent' ) ?></p>
+								<p><?echo esc_html( '80k Remaining', 'gdpr-cookie-consent' ); ?></p>
+							</div>
 						</div>
 
 						<div class="wplp-plan-details">
-							<p><?php echo esc_html('Current Plan: ' . $api_user_plan, 'gdpr-cookie-consent'); ?></p>
+							<p><?php echo esc_html('Current Plan: ' . ( $api_user_plan === 'free' ? 'Lite' : ( $api_user_plan === '3sites' ? 'Professional' : 'Business' ) ), 'gdpr-cookie-consent'); ?></p>
 							<button><?php echo esc_html('Upgrade', 'gdpr-cookie-consent'); ?></button>
 						</div>
 
