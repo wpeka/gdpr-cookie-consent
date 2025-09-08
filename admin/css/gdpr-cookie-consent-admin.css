@@ -7812,7 +7812,8 @@ button.btn.gdpr-renew-now-btn.pro,
 .gdpr-cookie-scanning-limit-exhaust-monthly-free-notice,
 .gdpr-cookie-scanning-available-in-notice,
 .gdpr-eu_visitors_message-ccpa,
-.gdpr-eu_visitors_message-both {
+.gdpr-eu_visitors_message-both,
+.gdpr-eu_visitors_message-both-ccpa {
   display: none;
 }
 .gdpr-cookie-scanning-wrapper:hover .gdpr-cookie-scanning-limit-exhaust-monthly-free-notice {
@@ -7846,7 +7847,8 @@ display: block !important;
 }
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
-.gdpr-eu_visitors_message-both {
+.gdpr-eu_visitors_message-both,
+.gdpr-eu_visitors_message-both-ccpa {
   position: absolute;
   text-wrap: nowrap;
   width: fit-content;
