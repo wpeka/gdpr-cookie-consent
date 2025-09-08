@@ -2593,7 +2593,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="col-sm-4">
-										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend" id="gdpr-cookie-consent-cookie-frontend" variant="3d"  color="success" :checked="cookie_on_frontend" v-on:update:checked="onSwitchCookieOnFrontend"></c-switch>
+										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend" id="gdpr-cookie-consent-cookie-frontend" variant="3d"  color="success" :checked="cookie_on_frontend" v-on:update:checked="onSwitchCookieOnFrontend" :disabled="!cookie_settings_on"></c-switch>
 										<input type="hidden" name="gcc-cookie-on-frontend" v-model="cookie_on_frontend">
 									</c-col>
 									<c-col class="col-sm-4">
@@ -3659,7 +3659,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
 											</c-col>
 											<c-col class="col-sm-4">
-												<c-switch v-bind="labelIcon" v-model="cookie_on_frontend1" id="gdpr-cookie-consent-cookie-on-frontend1" variant="3d"  color="success" :checked="cookie_on_frontend1" v-on:update:checked="onSwitchCookieOnFrontend1"></c-switch>
+												<c-switch v-bind="labelIcon" v-model="cookie_on_frontend1" id="gdpr-cookie-consent-cookie-on-frontend1" variant="3d" color="success" :checked="cookie_on_frontend1" v-on:update:checked="onSwitchCookieOnFrontend1" :disabled="!cookie_settings_on1"></c-switch>
 												<input type="hidden" name="gcc-cookie-on-frontend1" v-model="cookie_on_frontend1">
 											</c-col>
 											<c-col class="col-sm-4">
@@ -4903,7 +4903,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="col-sm-4">
-										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend1" id="gdpr-cookie-consent-cookie-on-frontend1" variant="3d"  color="success" :checked="cookie_on_frontend1" v-on:update:checked="onSwitchCookieOnFrontend1"></c-switch>
+										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend1" id="gdpr-cookie-consent-cookie-on-frontend1" variant="3d"  color="success" :checked="cookie_on_frontend1" v-on:update:checked="onSwitchCookieOnFrontend1" :disabled="!cookie_settings_on1"></c-switch>
 										<input type="hidden" name="gcc-cookie-on-frontend1" v-model="cookie_on_frontend1">
 									</c-col>
 									<c-col class="col-sm-4">
@@ -5943,7 +5943,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="col-sm-4">
-										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend2" id="gdpr-cookie-consent-cookie-on-frontend2" variant="3d"  color="success" :checked="cookie_on_frontend2" v-on:update:checked="onSwitchCookieOnFrontend2"></c-switch>
+										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend2" id="gdpr-cookie-consent-cookie-on-frontend2" variant="3d"  color="success" :checked="cookie_on_frontend2" v-on:update:checked="onSwitchCookieOnFrontend2" :disabled="!cookie_settings_on2"></c-switch>
 										<input type="hidden" name="gcc-cookie-on-frontend2" v-model="cookie_on_frontend2">
 									</c-col>
 									<c-col class="col-sm-4">
