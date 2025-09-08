@@ -77,19 +77,25 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 
 
 	$logo_style_attr = '';
-	foreach ($template_object['logo'] as $key => $value) {
-		if($key != 'src') $logo_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
-	} 
+	if (isset($template_object['logo']) && is_array($template_object['logo'])) {
+		foreach ($template_object['logo'] as $key => $value) {
+			if($key != 'src') $logo_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+		}
+	}
 
 	$heading_style_attr = "";
-	foreach ($template_object['heading'] as $key => $value) {
-		$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
-	}  
+	if ( isset( $template_object['heading'] ) && is_array( $template_object['heading'] ) ) {
+		foreach ($template_object['heading'] as $key => $value) {
+			$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+		}  
+	}
 	$readmore_style_attr = "";
 	$readmore_style_attr .= " color: {$the_options['button_readmore_link_color']};";
 	if ($the_options['button_readmore_as_button'] === 'true' || $the_options['button_readmore_as_button'] === true || $the_options['button_readmore_as_button'] === 1) {
 		$padding_key = 'button_padding';
-		$padding_value = $template_object['static-settings'][$padding_key] ?? '';
+		if (isset($template_object['static-settings']) && is_array($template_object['static-settings'])) {
+        	$padding_value = $template_object['static-settings'][$padding_key] ?? '';
+    	}
 		$readmore_style_attr .= "display: block; width:fit-content; margin-top: 5px;";
 		$readmore_style_attr .= "border-style: {$the_options['button_readmore_button_border_style']};";
 		$readmore_style_attr .= "border-color: {$the_options['button_readmore_button_border_color']};";
@@ -110,7 +116,9 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 	$accept_style_attr .=  " color: {$the_options["button_accept_link_color" . $suffix]};";
 	if ($the_options['button_accept_as_button' . $suffix] === 'true' || $the_options['button_accept_as_button' . $suffix] === true || $the_options['button_accept_as_button' . $suffix] === 1) {
 		$padding_key = 'button_padding';
-		$padding_value = $template_object['static-settings'][$padding_key] ?? '';
+		if (isset($template_object['static-settings']) && is_array($template_object['static-settings'])) {
+        	$padding_value = $template_object['static-settings'][$padding_key] ?? '';
+    	}
 		$accept_style_attr .= "border-style: {$the_options['button_accept_button_border_style' . $suffix]};";
 		$accept_style_attr .= "border-color: {$the_options['button_accept_button_border_color' . $suffix]};";
 		$accept_style_attr .= "border-width: {$the_options['button_accept_button_border_width' . $suffix]}px;";
@@ -132,7 +140,9 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 	$accept_all_style_attr .=  " color: {$the_options["button_accept_all_link_color" . $suffix]};";
 	if ($the_options['button_accept_all_as_button' . $suffix] === 'true' || $the_options['button_accept_all_as_button' . $suffix] === true || $the_options['button_accept_all_as_button' . $suffix] === 1) {
 		$padding_key = 'button_padding';
-		$padding_value = $template_object['static-settings'][$padding_key] ?? '';
+		if (isset($template_object['static-settings']) && is_array($template_object['static-settings'])) {
+        	$padding_value = $template_object['static-settings'][$padding_key] ?? '';
+    	}
 		$accept_all_style_attr .= "border-style: {$the_options['button_accept_all_btn_border_style' . $suffix]};";
 		$accept_all_style_attr .= "border-color: {$the_options['button_accept_all_btn_border_color' . $suffix]};";
 		$accept_all_style_attr .= "border-width: {$the_options['button_accept_all_btn_border_width' . $suffix]}px;";
@@ -141,20 +151,24 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 		$rgba_color = hex_to_rgba($the_options['button_accept_all_button_color' . $suffix], $the_options['button_accept_all_btn_opacity' . $suffix]);
 		$accept_all_style_attr .= "background: {$rgba_color};";
 	}
-	$accept_all_style_attr .= "min-width: " . ($template_object['accept_all_button']['min-width'] ?? '') . ";";
-	$accept_all_style_attr .= "display: " . ($template_object['accept_all_button']['display'] ?? '') . ";";
-	$accept_all_style_attr .= "justify-content: " . ($template_object['accept_all_button']['justify-content'] ?? '') . ";";
-	$accept_all_style_attr .= "align-items: " . ($template_object['accept_all_button']['align-items'] ?? '') . ";";
-	$accept_all_style_attr .= "text-align: " . ($template_object['accept_all_button']['text-align'] ?? '') . ";";
 
-    $accept_all_style_attr .= isset($template_object['accept_all_button']['width']) ? "width : {$template_object['accept_all_button']['width']};" : '';
+	$accept_all_button = $template_object['accept_all_button'] ?? [];
+	$accept_all_style_attr .= "min-width: " . ($accept_all_button['min-width'] ?? '') . ";";
+	$accept_all_style_attr .= "display: " . ($accept_all_button['display'] ?? '') . ";";
+	$accept_all_style_attr .= "justify-content: " . ($accept_all_button['justify-content'] ?? '') . ";";
+	$accept_all_style_attr .= "align-items: " . ($accept_all_button['align-items'] ?? '') . ";";
+	$accept_all_style_attr .= "text-align: " . ($accept_all_button['text-align'] ?? '') . ";";
+
+	$accept_all_style_attr .= isset($accept_all_button['width']) ? "width: {$accept_all_button['width']};" : '';
 
 
 	$settings_style_attr ="";
 	$settings_style_attr .=  " color: {$the_options["button_settings_link_color" . $suffix]};";
 	if ($the_options['button_settings_as_button' . $suffix] === 'true' || $the_options['button_settings_as_button' . $suffix] === true || $the_options['button_settings_as_button' . $suffix] === 1) {
 		$padding_key = 'button_padding';
-		$padding_value = $template_object['static-settings'][$padding_key];
+		if (isset($template_object['static-settings']) && is_array($template_object['static-settings'])) {
+			$padding_value = $template_object['static-settings'][$padding_key] ?? '';
+		}
 		$settings_style_attr .= "border-style: {$the_options['button_settings_button_border_style' . $suffix]};";
 		$settings_style_attr .= "border-color: {$the_options['button_settings_button_border_color' . $suffix]};";
 		$settings_style_attr .= "border-width: {$the_options['button_settings_button_border_width' . $suffix]}px;";
@@ -163,11 +177,14 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 		$rgba_color = hex_to_rgba($the_options['button_settings_button_color' . $suffix], $the_options['button_settings_button_opacity' . $suffix]);
 		$settings_style_attr .= "background: {$rgba_color};";
 	}
-	$settings_style_attr .= "min-width: " . ($template_object['settings_button']['min-width'] ?? '') . ";";
-	$settings_style_attr .= "display: " . ($template_object['settings_button']['display'] ?? '') . ";";
-	$settings_style_attr .= "justify-content: " . ($template_object['settings_button']['justify-content'] ?? '') . ";";
-	$settings_style_attr .= "align-items: " . ($template_object['settings_button']['align-items'] ?? '') . ";";
-	$settings_style_attr .= "text-align: " . ($template_object['settings_button']['text-align'] ?? '') . ";";
+
+	$settings_button = $template_object['settings_button'] ?? [];
+	$settings_style_attr .= "min-width: " . ($settings_button['min-width'] ?? '') . ";";
+	$settings_style_attr .= "display: " . ($settings_button['display'] ?? '') . ";";
+	$settings_style_attr .= "justify-content: " . ($settings_button['justify-content'] ?? '') . ";";
+	$settings_style_attr .= "align-items: " . ($settings_button['align-items'] ?? '') . ";";
+	$settings_style_attr .= "text-align: " . ($settings_button['text-align'] ?? '') . ";";
+	$settings_style_attr .= isset($settings_button['width']) ? "width: {$settings_button['width']};" : '';
 
 	$settings_style_attr .= isset($template_object['settings_button']['width']) ? "width : {$template_object['settings_button']['width']};" : '';
 
@@ -176,7 +193,9 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 	$decline_style_attr .=  " color: {$the_options["button_decline_link_color" . $suffix]};";
 	if ($the_options['button_decline_as_button' . $suffix] === 'true' || $the_options['button_decline_as_button' . $suffix] === true || $the_options['button_decline_as_button' . $suffix] === 1) {
 		$padding_key = 'button_padding';
-		$padding_value = $template_object['static-settings'][$padding_key];
+		if (isset($template_object['static-settings']) && is_array($template_object['static-settings'])) {
+        	$padding_value = $template_object['static-settings'][$padding_key] ?? '';
+    	}
 		$decline_style_attr .= "border-style: {$the_options['button_decline_button_border_style' . $suffix]};";
 		$decline_style_attr .= "border-color: {$the_options['button_decline_button_border_color' . $suffix]};";
 		$decline_style_attr .= "border-width: {$the_options['button_decline_button_border_width' . $suffix]}px;";
@@ -185,11 +204,12 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 		$rgba_color = hex_to_rgba($the_options['button_decline_button_color' . $suffix], $the_options['button_decline_button_opacity' . $suffix]);
 		$decline_style_attr .= "background: {$rgba_color};";
 	}
-	$decline_style_attr .= "min-width: " . ($template_object['decline_button']['min-width'] ?? '') . ";";
-	$decline_style_attr .= "display: " . ($template_object['decline_button']['display'] ?? '') . ";";
-	$decline_style_attr .= "justify-content: " . ($template_object['decline_button']['justify-content'] ?? '') . ";";
-	$decline_style_attr .= "align-items: " . ($template_object['decline_button']['align-items'] ?? '') . ";";
-	$decline_style_attr .= "text-align: " . ($template_object['decline_button']['text-align'] ?? '') . ";";
+	$decline_button = $template_object['decline_button'] ?? [];
+	$decline_style_attr .= "min-width: " . ($decline_button['min-width'] ?? '') . ";";
+	$decline_style_attr .= "display: " . ($decline_button['display'] ?? '') . ";";
+	$decline_style_attr .= "justify-content: " . ($decline_button['justify-content'] ?? '') . ";";
+	$decline_style_attr .= "align-items: " . ($decline_button['align-items'] ?? '') . ";";
+	$decline_style_attr .= "text-align: " . ($decline_button['text-align'] ?? '') . ";";
 
 	$decline_style_attr .= isset($template_object['decline_button']['width']) ? "width: {$template_object['decline_button']['width']};" : '';
 
@@ -279,7 +299,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 					
 				<p  class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr';?>">
 					<?php if ( $the_options['cookie_usage_for'] === 'gdpr'  || $the_options['cookie_usage_for'] === 'both' ) : ?>
-						<span><?php echo $the_options['is_iabtcf_on'] ? $cookie_data['dash_notify_message_iabtcf']: strip_tags(__( $cookie_data['dash_notify_message']), '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?></span>
+						 <span><?php echo $the_options['is_iabtcf_on'] ? ($cookie_data['dash_notify_message_iabtcf'] ?? '') : (isset($cookie_data['dash_notify_message']) ? strip_tags(__($cookie_data['dash_notify_message']), '<a><br><em><strong><span><p><i><img><b><div><label>') : ''); ?></span>
 						<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
 						<span><?php echo strip_tags(__(  $cookie_data['dash_notify_message_lgpd']), '<a><br><em><strong><span><p><i><img><b><div><label>' );?></span>
 						<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
@@ -299,7 +319,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 							target="_blank"
 						<?php } ?>
 						>
-							<?php echo esc_html__( $cookie_data['dash_button_readmore_text'], 'gdpr-cookie-consent' ); ?>
+							<?php echo esc_html__( $cookie_data['dash_button_readmore_text'] ?? '', 'gdpr-cookie-consent' ); ?>
 						</a>
 					<?php endif; ?>
 				</p>
@@ -319,7 +339,10 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 		<?php endif; ?>
 		</div>
 		<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) : ?>
-			<div class="gdpr group-description-buttons cookie_notice_buttons <?php echo esc_attr($template_object['static-settings']['layout'] ?? '') . '-buttons';?>">
+				<?php
+					$static_settings = $template_object['static-settings'] ?? [];
+				?>
+				<div class="gdpr group-description-buttons cookie_notice_buttons <?php echo esc_attr(($static_settings['layout'] ?? '') . '-buttons'); ?>">
 				<div class="left_buttons"><?php 
 					if(! empty( $the_options['button_decline_is_on' . $suffix] ) &&  ($the_options['button_decline_is_on' . $suffix] === true || $the_options['button_decline_is_on' . $suffix] === "true" || $the_options['button_decline_is_on' . $suffix] === 1)) : ?>
 						<a id="cookie_action_reject" class="<?php echo esc_html( $the_options['button_decline_classes'] ); ?>" tabindex="0" aria-label="Reject"
@@ -460,7 +483,7 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 	if ( ! empty( $the_options['show_again'] ) ) {
 		?>
 		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color']); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color']); ?>; <?php if($the_options['show_again_position'] === 'right') echo "right: ". esc_html($the_options['show_again_margin']) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin']) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
-		<span><?php echo esc_html__( $cookie_data['dash_show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
+		 <span><?php echo esc_html__( $cookie_data['dash_show_again_text'] ?? '', 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
 	</div>
 		<?php
 	}
