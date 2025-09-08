@@ -131,6 +131,7 @@ class Gdpr_Cookie_Consent_Admin {
 			//option to store page views
 			if(get_option("wpl_page_views") === false) add_option("wpl_page_views", []);
 			if(get_option("page_view_notice_message") === false ) add_option( "page_view_notice_message", "");
+			if(get_option("wpl_monthly_page_views") === false ) add_option( "wpl_monthly_page_views", 0);
 			if(get_option("wpl_total_page_views") === false) add_option("wpl_total_page_views", 0);
 			add_action('wp_ajax_install_plugin', array($this, 'gdpr_wplp_install_plugin_ajax_handler'));
 			add_action('wp_ajax_gdpr_support_request', array($this, 'gdpr_support_request_handler'));
@@ -549,6 +550,7 @@ class Gdpr_Cookie_Consent_Admin {
 				delete_option( 'wpl_cl_decline' );
 				delete_option( 'wpl_page_views' );
 				delete_option( 'page_view_notice_message' );
+				delete_option( 'wpl_monthly_page_views' );
 				delete_option( 'wpl_cl_accept' );
 				delete_option( 'wpl_cl_partially_accept' );
 				delete_option( 'wpl_cl_bypass' );

@@ -7499,9 +7499,7 @@ button.btn.gdpr-renew-now-btn.pro,
   width: 100%;
   cursor: pointer;
 }
-.cookie-consent-upgrade-to-pro-banner-container {
-  margin: 24px;
-}
+
 #banner_position_options {
   display: flex;
   justify-content: space-around;
@@ -10237,6 +10235,16 @@ div#gdpr-scan-history {
 .wplp-compliance-main
   .wplp-compliance-content-wrapper
   .gdpr-remaining-scans-content
+  .wplp-remaining-scan-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wplp-compliance-main
+  .wplp-compliance-content-wrapper
+  .gdpr-remaining-scans-content
+  .wplp-remaining-scan-header-left
   .wplp-scan-label {
   display: flex;
   flex-direction: column;
@@ -10246,12 +10254,40 @@ div#gdpr-scan-history {
 .wplp-compliance-main
   .wplp-compliance-content-wrapper
   .gdpr-remaining-scans-content
+  .wplp-remaining-scan-header-left
   .wplp-scan-label p {
   margin: 0;
   font-weight: 500;
   font-size: 14px;
   line-height: 100%;
   color: #2D2D32;
+}
+
+.wplp-compliance-main
+  .wplp-compliance-content-wrapper
+  .gdpr-remaining-scans-content
+  .wplp-remaining-scan-header-left
+  .wplp-plan-limit-warning {
+  background-color: #F8E6E6;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.wplp-compliance-main
+  .wplp-compliance-content-wrapper
+  .gdpr-remaining-scans-content
+  .wplp-remaining-scan-header-left
+  .wplp-plan-limit-warning p {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 16px;
+  color: #52525B;
+  margin: 0;
 }
 
 .gdpr-remaining-scans-progress {
@@ -10261,9 +10297,6 @@ div#gdpr-scan-history {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: 
-    radial-gradient(closest-side, white 90%, transparent 80% 100%),
-    conic-gradient(#469955 75%, #e6f5ee 0);    
 }
 
 .gdpr-monthly-scans-progress {
@@ -10273,9 +10306,6 @@ div#gdpr-scan-history {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: 
-    radial-gradient(closest-side, white 90%, transparent 80% 100%),
-    conic-gradient(#ca8b25 75%, #fef7c3 0);    
 }
 
 .gdpr-pageviews-progress {
@@ -10288,6 +10318,92 @@ div#gdpr-scan-history {
   background: 
     radial-gradient(closest-side, white 90%, transparent 80% 100%),
     conic-gradient(#c93a38 75%, #f8e6e6 0);  
+}
+
+.gdpr-monthly-scans-progress span,
+.gdpr-remaining-scans-progress span,
+.gdpr-pageviews-progress span {
+  font-weight: 700;;
+  font-size: 14px;
+  line-height: 100%;
+  text-align: center;
+}
+
+.wplp-compliance-main
+  .wplp-compliance-content-wrapper
+  .gdpr-remaining-scans-content
+  .wplp-plan-details {  
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.wplp-compliance-main
+  .wplp-compliance-content-wrapper
+  .gdpr-remaining-scans-content
+  .wplp-plan-details p {
+  margin: 0;
+}
+
+.wplp-compliance-main
+  .wplp-compliance-content-wrapper
+  .gdpr-remaining-scans-content
+  .wplp-plan-details p span {
+  font-weight: 500;
+}
+
+.wplp-compliance-main
+  .wplp-compliance-content-wrapper
+  .gdpr-remaining-scans-content
+  .wplp-plan-details 
+  a.wplp--scan-header-upgrade-plan {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  background-color: #074EA8;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-decoration: none;
+}
+
+.wplp-compliance-main
+  .wplp-compliance-content-wrapper
+  .gdpr-remaining-scans-content
+  .wplp-plan-details 
+  a.wplp--scan-header-upgrade-plan:hover {
+  text-decoration: none;
+  transform: scale(1.03);
+  background-color: #0a62c4;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.wplp-compliance-main
+  .wplp-compliance-content-wrapper
+  .gdpr-remaining-scans-content
+  .wplp-plan-details 
+  a.wplp-scan-header-add-sites {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #042B5C;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
 }
 
 #gdpr-cookie-consent-settings-app
@@ -10339,6 +10455,7 @@ div#gdpr-scan-history {
   line-height: 20px;
   padding: 8px 20px;
   transition: all 0.3s ease;
+  text-wrap: nowrap;
 }
 
 #gdpr-cookie-consent-settings-app
@@ -10589,4 +10706,13 @@ div#gdpr-scan-history {
   .gdpr-progress-content p {
   font-weight: 400;
   color: #52525B;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.gdpr-progress-wrapper
+  .gdpr-progress-content p span img {
+    vertical-align: baseline;
 }

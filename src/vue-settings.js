@@ -3317,6 +3317,7 @@ var gen = new Vue({
       this.banner_preview_is_on = false;
     },
     onTemplateChange(value) {
+      console.log("DODODO template: ", this.json_templates);
       this.template = value;
       this.auto_generated_banner = false;
       let selectedTemplate
@@ -4451,6 +4452,7 @@ var gen = new Vue({
 
       //styles
       const selectedTemplate = this.default_template_json;
+      console.log("DODODO in restoreDefaultSettings gen template: ", this.default_template_json);
       this.cookie_bar_color =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity =                     selectedTemplate['styles']['opacity'];
       this.cookie_text_color =                      selectedTemplate['styles']['color'];
