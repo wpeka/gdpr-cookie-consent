@@ -227,6 +227,11 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 									<?php echo esc_html('Cookie&nbsp;Settings','gdpr-cookie-consent'); ?>
 								</div>
 
+								<!-- Cookie Manager tab  -->
+								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-manager-tab" data-tab="cookie_manager">
+									<?php echo esc_html('Cookie&nbsp;Manager','gdpr-cookie-consent'); ?>
+								</div>
+
 								<!-- Script Blocker tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-script-blocker-settings-tab" data-tab="script_blocker">
 									<?php echo esc_html('Script&nbsp;Blocker','gdpr-cookie-consent'); ?>
@@ -609,6 +614,11 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 							<!-- cookie settings content -->
 							<div class="gdpr-cookie-consent-admin-cookie-settings-content gdpr-cookie-consent-admin-tab-content" id="cookie_settings">
 								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-settings-tab-template.php'; ?>
+							</div>
+
+							<!-- cookie manager content -->
+							<div class="gdpr-cookie-consent-admin-cookie-manager-content gdpr-cookie-consent-admin-tab-content" id="cookie_manager">
+								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-manager-tab-template.php'; ?>
 							</div>
 
 							<!-- Script Blocker content  -->

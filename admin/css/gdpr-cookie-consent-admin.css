@@ -4015,6 +4015,13 @@ a .export-btn:hover {
   .gdpr-cookie-consent-settings-nav
   .tab-content
   .card
+  .overlay-script-style,
+#gdpr-cookie-consent-script_blocker-settings
+  .gdpr-cookie-consent-settings-container
+  .gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .tab-content
+  .card
   .overlay-script-style {
   z-index: 9;
   display: grid;
@@ -4030,6 +4037,14 @@ a .export-btn:hover {
   height: 100%;
 }
 #gdpr-cookie-consent-settings-app
+  .gdpr-cookie-consent-settings-container
+  .gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .tab-content
+  .card
+  .overlay-script-style
+  .overlay-script-message,
+#gdpr-cookie-consent-script_blocker-settings
   .gdpr-cookie-consent-settings-container
   .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
@@ -9931,6 +9946,7 @@ div#gdpr-scan-history {
   align-items: flex-start;
   position: sticky;
   top:50px;
+  z-index: 10;
 }
 
 .wplp-compliance-main

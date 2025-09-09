@@ -3354,6 +3354,50 @@ class Gdpr_Cookie_Consent_Admin {
 		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-script-blocker-settings.php';
 	}
 
+	/**
+	 * Cookie Manager Page
+	 * 
+	 * @since 9.2.11
+	 */
+	public function gdpr_cookie_consent_cookie_manager_settings() {
+		$is_user_connected = $this->settings->is_connected();
+		$api_user_plan = $this->settings->get_plan();
+
+		$is_pro            = get_option( 'wpl_pro_active', false );
+		if ( $is_pro ) {
+			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=support';
+		} else {
+			$support_url = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
+		}
+		wp_enqueue_style( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name . '-vue' );
+		wp_enqueue_script( $this->plugin_name . '-mascot' );
+		wp_enqueue_style( $this->plugin_name . '-select2' );
+		wp_enqueue_script( $this->plugin_name . '-select2' );
+
+		wp_localize_script(
+			$this->plugin_name . '-mascot',
+			'mascot_obj',
+			array(
+				'api_user_plan' => $api_user_plan,
+				'documentation_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/',
+				'faq_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/',
+				'support_url' => $support_url,
+				'upgrade_url' => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
+				'is_user_connected' => $is_user_connected,
+			)
+		);
+		// Lock out non-admins.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+		}
+		// Get options.
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		
+		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-cookie-manager-settings.php';
+	}
+
 		/**
 	 * Languages Page
 	 * 
