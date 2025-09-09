@@ -4138,7 +4138,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   .gdpr-cookie-consent-admin-fixed-banner
   .gdpr-cookie-consent-admin-logo-and-label {
   display: flex;
-  margin-left: 50px;
+  margin-left: 16px;
 }
 .gdpr-cookie-consent-main-admin-structure
   .gdpr-cookie-consent-admin-fixed-banner
@@ -4171,9 +4171,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
 .gdpr-cookie-consent-admin-product-tour {
   display: flex;
 }
-.gdpr-cookie-consent-admin-help-and-support .gdpr-cookie-consent-admin-support {
-  padding-left: 30px;
-}
+
 .gdpr-cookie-consent-admin-help-and-support
   .gdpr-cookie-consent-admin-help-text,
 .gdpr-cookie-consent-admin-help-and-support
@@ -8819,10 +8817,7 @@ input.vs__search {
   min-width: 124px;
   width: fit-content;
 }
-.gdpr-cookie-consent-admin-help-and-support
-  .gdpr-cookie-consent-admin-product-tour-text {
-  margin-right: 30px;
-}
+
 .gdpr-cookie-consent-admin-product-tour-icon img {
   width: 15px;
   height: 15px;
@@ -10715,4 +10710,46 @@ div#gdpr-scan-history {
 .gdpr-progress-wrapper
   .gdpr-progress-content p span img {
     vertical-align: baseline;
+}
+
+.wplp-compliance-main-wrapper
+  .gdpr-cookie-consent-admin-fixed-banner
+  .gdpr-cookie-consent-admin-help-and-support {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 25px;
+  margin-right: 16px;
+}
+
+.wplp-compliance-main-wrapper
+  .gdpr-cookie-consent-admin-fixed-banner
+  .gdpr-cookie-consent-admin-help-and-support
+  .gdpr-cookie-consent-admin-login {
+  display: flex;
+  flex-direction: row;
+}
+
+.wplp-compliance-main-wrapper
+  .gdpr-cookie-consent-admin-fixed-banner
+  .gdpr-cookie-consent-admin-help-and-support
+  .gdpr-cookie-consent-admin-login
+  .gdpr-cookie-consent-admin-login-text a {
+  padding-left: 6px;
+  color: var(--white, #fff);
+  font-size: var(--text-sm-font-size);
+  font-style: normal;
+  font-weight: var(--text-semi-bold-font-weight);
+  line-height: var(--text-sm-line-height-rem);
+  text-transform: capitalize;
+  margin: auto 0; 
+  cursor: pointer;
+}
+
+.wplp-compliance-main-wrapper
+  .gdpr-cookie-consent-admin-fixed-banner
+  .gdpr-cookie-consent-admin-help-and-support
+  .gdpr-cookie-consent-admin-login
+  .gdpr-cookie-consent-admin-login-text a:hover {
+  text-decoration: none;
 }
