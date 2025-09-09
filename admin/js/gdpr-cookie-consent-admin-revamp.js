@@ -575,6 +575,18 @@ jQuery(document).ready(function () {
         jQuery(".gdpr-eu_visitors_message-both").css("display", "none");
       }
     );
+
+    jQuery("#gdpr-visitors-condition-radio-btn-disabled-both-ccpa").hover(
+      function () {
+        bothTimer = setTimeout(function () {
+          jQuery(".gdpr-eu_visitors_message-both-ccpa").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(bothTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-eu_visitors_message-both-ccpa").css("display", "none");
+      }
+    );
   });
 
   // connection overlay for the create cookie banner.
@@ -617,6 +629,17 @@ jQuery(document).ready(function () {
       function () {
         clearTimeout(bothTimer); // Clear the timer to prevent delayed show
         jQuery(".gdpr-eu_visitors_message-both").css("display", "none");
+      }
+    );
+    jQuery("#gdpr-visitors-condition-radio-btn-disabled-both-ccpa-wizard").hover(
+      function () {
+        bothTimer = setTimeout(function () {
+          jQuery(".gdpr-eu_visitors_message-both-ccpa").css("display", "block");
+        }, 250); // 250ms delay
+      },
+      function () {
+        clearTimeout(bothTimer); // Clear the timer to prevent delayed show
+        jQuery(".gdpr-eu_visitors_message-both-ccpa").css("display", "none");
       }
     );
   });
