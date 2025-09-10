@@ -5743,6 +5743,29 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
+	 * Cookie Manager callback to save settings.
+	 */
+	public function gdpr_cookie_consent_ajax_save_cookie_manager_settings() {
+		error_log("DIDIDI saving Cookie Manager settings. AJAX");
+		if ( isset( $_POST['gcc_settings_form_nonce_cookie_manager'] ) ) {
+			error_log("DIDIDI inside nonce check");
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_cookie_manager'] ) ), 'gcc-settings-form-nonce-cookie-manager' ) ) {
+				return;
+			}
+
+			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
+
+			//update values here
+
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
+			wp_send_json_success( array( 'form_options_saved' => true ) );
+		}
+		error_log("DIDIDI end of function");
+	}
+
+	/**
 	 * Function to enable IAB and download vendor list
 	 */
 	public function gdpr_cookie_consent_ajax_enable_iab(){

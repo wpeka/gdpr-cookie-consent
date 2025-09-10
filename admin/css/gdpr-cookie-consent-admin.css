@@ -1613,7 +1613,8 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 #gdpr-cookie-consent-script_blocker-settings.gdpr-cookie-consent-app-container,
 #gdpr-cookie-consent-abtesting-settings.gdpr-cookie-consent-app-container,
 #gdpr-cookie-consent-language-settings.gdpr-cookie-consent-app-container,
-#gdpr-cookie-consent-advanced-settings.gdpr-cookie-consent-app-container {
+#gdpr-cookie-consent-advanced-settings.gdpr-cookie-consent-app-container,
+#gdpr-cookie-consent-cookie_manager-settings.gdpr-cookie-consent-app-container {
   background-color: var(--white-100);
   font-family: "Roboto", sans-serif;
   font-weight: var(--text-medium-font-weight);
@@ -3185,10 +3186,6 @@ input[type="search"]:focus {
   height: 100%;
   background: rgba(82, 82, 82, 0.4);
   z-index: 9000;
-}
-
-.schedule-popup-container {
-  display: none;
 }
 
 .schedule-popup-container.show-schedule-popup {
@@ -7365,7 +7362,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .compliances_card .card-body,
 .configuration_card .card-body,
 .desgin_card .card-body,
-.cookie_list .card-body,
+.cookie_list_card .card-body,
 .language-card .card-body,
 .script-blocker-card .card-body {
   width: 100%;
@@ -8133,7 +8130,7 @@ display: block !important;
   .compliances_card .card-body,
   .configuration_card .card-body,
   .desgin_card .card-body,
-  .cookie_list .card-body,
+  .cookie_list_card .card-body,
   .language-card .card-body,
   .script-blocker-card .card-body,
   .wpl-cookie-consent-integrations-form-container {
@@ -10560,14 +10557,16 @@ div#gdpr-scan-history {
 #gdpr-cookie-consent-script_blocker-settings.gdpr-cookie-consent-app-container,
 #gdpr-cookie-consent-abtesting-settings.gdpr-cookie-consent-app-container,
 #gdpr-cookie-consent-language-settings.gdpr-cookie-consent-app-container,
-#gdpr-cookie-consent-advanced-settings.gdpr-cookie-consent-app-container {
+#gdpr-cookie-consent-advanced-settings.gdpr-cookie-consent-app-container,
+#gdpr-cookie-consent-cookie_manager-settings.gdpr-cookie-consent-app-container {
   border-radius: 6px;
 }
 
 #gdpr-cookie-consent-script_blocker-settings .gdpr-cookie-consent-script-blocker-container,
 #gdpr-cookie-consent-abtesting-settings .gdpr-cookie-consent-abtesting-container,
 #gdpr-cookie-consent-language-settings .gdpr-cookie-consent-language-container,
-#gdpr-cookie-consent-advanced-settings .gdpr-cookie-consent-advanced-settings-container {
+#gdpr-cookie-consent-advanced-settings .gdpr-cookie-consent-advanced-settings-container,
+#gdpr-cookie-consent-cookie_manager-settings .gdpr-cookie-consent-cookie-manager-container {
   margin: 0px;
   padding: 0px;
 }
@@ -10589,7 +10588,16 @@ div#gdpr-scan-history {
   .additional_card,
 .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
-  .export_import_card {
+  .export_import_card,
+.gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .cookie_list_card, 
+.gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .cookie_scanner_card,
+.gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .scan_history_card {
   margin: 0px;
   max-width: none;
 }
@@ -10617,6 +10625,18 @@ div#gdpr-scan-history {
 .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
   .export_import_card
+  .card-body,
+.gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .cookie_list_card
+  .card-body, 
+.gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .cookie_scanner_card
+  .card-body,
+.gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .scan_history_card
   .card-body {
   margin: 0;
   padding: 0;
@@ -10768,4 +10788,11 @@ div#gdpr-scan-history {
   .gdpr-cookie-consent-admin-login
   .gdpr-cookie-consent-admin-login-text a:hover {
   text-decoration: none;
+}
+
+.gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .card
+  .schedule-popup-container {
+  display: none;
 }

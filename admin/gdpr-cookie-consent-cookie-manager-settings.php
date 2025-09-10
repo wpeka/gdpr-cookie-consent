@@ -24,7 +24,7 @@
 				    		<p class="gdpr-cookie-list-tabs-sub-heading"><?php esc_html_e( 'Design and personalize a unique cookie to suit your preferences.', 'gdpr-cookie-consent' ); ?>.</p>
 				    		<input type="button" class="gdpr-cookie-list-tabs-popup-btn" value="Create Cookie" @click="showCreateCookiePopup">
 				    	</div>
-				    	<c-card v-show="cookie_list_tab == true"class="cookie_list">
+				    	<c-card v-show="cookie_list_tab == true" class="cookie_list_card">
 				    		<div id="popup-container" class="gdpr-cookie-consent-cookies-list-popup" :class="{'show-cookie-list-popup':show_custom_cookie_popup,'popup-overlay':show_custom_cookie_popup}">
 				    			<div class="gdpr-cooki-list-tabs-popup-content">
 				    				<div class="cookie-list-tittle-bar">
@@ -69,7 +69,7 @@
 				    		<?php require plugin_dir_path( __FILE__ ) . 'gdpr-custom-saved-cookie.php'; ?>
 				    		</div>
 				    	</c-card>
-				    	<c-card v-show="discovered_cookies_list_tab == true">
+				    	<c-card v-show="discovered_cookies_list_tab == true" class="cookie_scanner_card">
 				    		<div id="cookie-scanner-container" class="cookie-scanner-container">
 				    			<div class="data_wait_loader_container">
 				    				<div class="data_wait_loader"></div>
@@ -77,7 +77,7 @@
 				    			 <div v-html="cookie_scanner_data"></div>
 				    		</div>
 				    	</c-card>
-				    	<c-card v-show="scan_history_list_tab == true">
+				    	<c-card v-show="scan_history_list_tab == true" class="scan_history_card">
 				    		<?php do_action( 'gdpr_cookie_scanned_history' ); ?>
 				    	</c-card>
 				    </c-tab>

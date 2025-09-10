@@ -8,8 +8,9 @@ jQuery(document).ready(function ($) {
         },
         success: function (response) {
             $('.data_wait_loader_container').css("display","none");
-            if (window.gen && typeof window.gen.refreshCookieScannerData === 'function') {
-                window.gen.refreshCookieScannerData(response.data.html);
+            console.log("cookie scanner response: ", response.data.html)
+            if (window.ckm && typeof window.ckm.refreshCookieScannerData === 'function') {
+                window.ckm.refreshCookieScannerData(response.data.html);
             } else {
                 console.error('Vue instance not found or refreshCookieScannerData method missing.');
             }
