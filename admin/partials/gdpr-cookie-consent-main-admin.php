@@ -418,7 +418,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						</div>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10sites' === $api_user_plan ) { ?>
+							<?php if ( '10Sites' === $api_user_plan ) { ?>
 								<div class="gdpr-remaining-scans-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -457,7 +457,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						</div>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10sites' === $api_user_plan ) { ?>
+							<?php if ( '10Sites' === $api_user_plan ) { ?>
 								<div class="gdpr-pageviews-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -507,63 +507,6 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 								<a class="wplp-scan-header-add-sites" href="<?php echo esc_url( 'https://wplegalpages.com/pricing/' ); ?>" target="_blank"><?php echo esc_html('Add More Sites', 'gdpr-cookie-consent'); ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_add_site.svg'; ?>" alt=""></a>
 							<?php } ?>
 						</div>
-
-						<!-- <div class="gdpr-remaining-scans-content-left"
-							style="width:<?php echo empty($page_view_notice_message) ? '100%' : 'auto'; ?>;"
-						>
-								<div class="gdpr-remaining-scans-container">
-									<span class="gdpr-remaining-scans-title"><?php esc_html_e( 'Remaining Pages/Scan:', 'gdpr-cookie-consent'); ?> </span>
-									<span>
-										<?php echo $gdpr_no_of_page_scan; ?> / <?php echo $total_no_of_free_scans; ?>
-										<span> (<?php echo ceil( $remaining_percentage_scan_limit ); ?>%)</span>
-									</span>
-									<?php
-									if ( 'free' === $api_user_plan ) {
-										$scan_limit     = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
-										$scan_limit_int = (int) $scan_limit;
-										?>
-										<span class="gdpr-available-scans-clicks-wrapper"> | 
-											<span class="gdpr-available-scan-clicks-title"> 	
-												<?php esc_html_e( 'Used Scans:', 'gdpr-cookie-consent'); ?> <?php echo $scan_limit_int ?> / 5
-												<?php
-												if ( false !== $scan_limit && $scan_limit >= 5 ) {
-													?> 
-													<?php
-													$available_in = get_option( '_transient_timeout_gdpr_monthly_scan_limit_exhausted' );
-													?>
-													<p class="gdpr-cookie-scanning-available-in-notice"><?php echo esc_html( 'Monthly scan limit reached. Available again on ' . date( 'Y-m-d H:i:s', $available_in ), 'gdpr-cookie-consent' ); ?></p>
-													<span class="dashicons dashicons-info"></span>
-													<?php
-												}
-												?>
-											</span>
-										</span>
-										<?php
-									}
-									?>
-								</div>
-								<span class="gdpr-remaining-scans-content-separator"
-									style="display:<?php echo empty($page_view_notice_message) ? 'none' : ''; ?>;"
-								>|</span>
-								<div class="gdpr-current-plan-container">
-									<p><span>Current Plan: </span><?php echo $api_user_plan; ?></p>
-									<?php
-									if ( $api_user_plan == 'free' ) {
-										?>
-									<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_upgrade_btn.png'; ?>" class="gdpr-cookie-consent-admin-upgrade-button" alt="<?php echo esc_attr( 'Upgrade Button', 'gdpr-cookie-consent' ); ?>">
-										<?php
-									}
-									?>
-								</div>
-						</div>
-
-						<div class="gdpr-remaining-scans-content-right"
-							style="display:<?php echo empty($page_view_notice_message) ? 'none' : 'flex'; ?>;"
-						>
-							<div class="page-view-notice">
-								<p class="page-view-notice-content"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/pageview-notice-warning.png'; ?>" alt="" class="page-view-notice-logo"><?php echo esc_attr_e( $page_view_notice_message ? $page_view_notice_message : 'Your monthly page views limit has been exceeded. Please upgrade to continue runnning it.', 'gdpr-cookie-consent' ); ?><a href="<?php echo ( $api_user_plan == 'free' ) ? esc_url( 'https://app.wplegalpages.com/pricing/' ) : esc_url( 'https://app.wplegalpages.com/product/wplp-compliance-platform-membership-plan/' ); ?>" target="_blank"><?php  echo esc_attr_e( 'Please Upgrade!', 'gdpr-cookie-consent' ) ?></a></p>
-							</div>
-						</div> -->
 					</div>
 					<?php if ( get_transient( 'app_wplp_subscription_payment_status_failed' ) ) { ?>
 					<div class="gdpr-subsription-payment-failed-notice" >

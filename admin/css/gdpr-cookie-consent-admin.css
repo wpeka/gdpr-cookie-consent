@@ -10243,6 +10243,13 @@ div#gdpr-scan-history {
 
 .wplp-compliance-main
   .wplp-compliance-content-wrapper
+  .gdpr-remaining-scans-content-dashboard {
+  position: sticky;
+  top: 250px;
+}
+
+.wplp-compliance-main
+  .wplp-compliance-content-wrapper
   .gdpr-remaining-scans-content
   .wplp-remaining-scan-header-left {
   display: flex;
