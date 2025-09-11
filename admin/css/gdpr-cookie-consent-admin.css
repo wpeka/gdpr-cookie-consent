@@ -10821,3 +10821,10 @@ div#gdpr-scan-history {
   justify-content: center;
   align-items: center;
 }
+
+.gdpr-cookie-consent-settings-content 
+  .gdpr-cookie-consent-settings-nav 
+  .scan_history_card 
+  .card-body {
+  width: 100%;
+}
