@@ -2126,7 +2126,8 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
   background-color: var(--blue-500);
 }
 #gdpr-cookie-consent-settings-app .gdpr-cookie-consent-settings-container .row,
-#gdpr-cookie-consent-help-app .gdpr-cookie-consent-settings-container .row {
+#gdpr-cookie-consent-help-app .gdpr-cookie-consent-settings-container .row,
+#gdpr-cookie-consent-cookie_manager-settings .gdpr-cookie-consent-settings-container .row {
   margin-bottom: 1.5rem;
   padding-right: 10px;
 }
@@ -7974,7 +7975,7 @@ display: block !important;
   color: rgba(0, 89, 179, 1);
   border-radius: unset;
 }
-.gdpr-cookie-list-tabs-container,
+.gdpr-cookie-list-tabs-container .card-body #custom-cookie-container,
 .gdpr-cookie-discovered-tab-container,
 .gdpr-cookie-scan-history-tab-container {
   display: flex;
@@ -10597,7 +10598,10 @@ div#gdpr-scan-history {
   .cookie_scanner_card,
 .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
-  .scan_history_card {
+  .scan_history_card,
+.gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .gdpr-cookie-list-tabs-container  {
   margin: 0px;
   max-width: none;
 }
@@ -10637,6 +10641,10 @@ div#gdpr-scan-history {
 .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
   .scan_history_card
+  .card-body,
+.gdpr-cookie-consent-settings-content
+  .gdpr-cookie-consent-settings-nav
+  .gdpr-cookie-list-tabs-container
   .card-body {
   margin: 0;
   padding: 0;
@@ -10703,7 +10711,8 @@ div#gdpr-scan-history {
 
 #gdpr-cookie-consent-script_blocker-settings .gdpr-cookie-consent-script-blocker-container .nav,
 #gdpr-cookie-consent-abtesting-settings .gdpr-cookie-consent-abtesting-container .nav,
-#gdpr-cookie-consent-language-settings .gdpr-cookie-consent-language-container .nav {
+#gdpr-cookie-consent-language-settings .gdpr-cookie-consent-language-container .nav,
+#gdpr-cookie-consent-cookie_manager-settings .gdpr-cookie-consent-cookie-manager-container .nav {
   display: none;
 }
 
@@ -10795,4 +10804,13 @@ div#gdpr-scan-history {
   .card
   .schedule-popup-container {
   display: none;
+}
+
+.cookie_scanner_card
+  #cookie-scanner-container
+  .cookie-scanner-data-content,
+.scan_history_card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

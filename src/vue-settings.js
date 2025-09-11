@@ -12968,35 +12968,6 @@ var ckm = new Vue({
       this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
 
     },
-    saveCookieManagerSettings() {
-      console.log("DODODO Saving Cookie Manager Settings...");
-      this.save_loading = true; 
-
-      var that = this;
-      var dataV = jQuery("#gcc-save-cookie-manager-settings-form").serialize();
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data:
-            dataV + "&action=gcc_save_language_settings"
-        })
-        .done(function(data) {
-          console.log("DODODO cookie manager save response:", data);
-          that.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#72b85c"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-
-          that.save_loading = false;
-        })
-        .fail(function() {
-          that.save_loading = false;
-        });
-    },
     refreshCookieScannerData(html) {
       this.cookie_scanner_data = html;
       const container = document.querySelector('#cookie-scanner-container');
@@ -13045,10 +13016,12 @@ var ckm = new Vue({
       }
     },
     onSaveCustomCookie() {
+      console.log("DODODO onSaveCustomCookie()");
       var parent = j(".gdpr-custom-save-cookie").parents(
         "div.gdpr-add-custom-cookie-form"
       );
       var gdpr_addcookie = parent.find('input[name="gdpr_addcookie"]').val();
+      console.log("DODODO gdpr_addcookie: ", gdpr_addcookie);
       if (gdpr_addcookie == 1) {
         var pattern =
           /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
@@ -14167,6 +14140,52 @@ var ckm = new Vue({
         error: function () {
           // error function.
           that.showErrorScreen("Some error occuered");
+        },
+      });
+    },
+    saveCustomPostCookies(cookie_data) {
+      console.log("DODODO saveCustomPostCookies()");
+      var that = this;
+      var data = {
+        action: "gdpr_cookie_custom",
+        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+        gdpr_custom_action: "save_post_cookie",
+        cookie_arr: cookie_data,
+      };
+      j.ajax({
+        url: settings_obj.cookie_list_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            that.hideCookieForm();
+            that.getPostCookieList();
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
         },
       });
     },
