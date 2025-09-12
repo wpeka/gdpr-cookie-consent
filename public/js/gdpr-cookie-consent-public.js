@@ -1454,22 +1454,6 @@ banner.style.display = "none";
           $(this).hide();
         }
       );
-    //   jQuery(document).on("click", "#gdpr-gdprmodal .gdprmodal-close", function (e) {
-    //     e.preventDefault();
-
-    //     if (GDPR.settings.cookie_usage_for === "both") {
-    //         GDPR.bar_elm.show();
-    //         GDPR.show_again_elm.hide();
-
-    //         // Show GDPR consent text and buttons, hide CCPA part
-    //         jQuery("#gdpr-cookie-consent-bar .gdpr").show();
-    //         // jQuery("#gdpr-cookie-consent-bar .ccpa").hide();
-    //         jQuery("#gdpr-cookie-consent-bar .gdpr.group-description-buttons").show();
-    //     } else {
-    //         GDPR.bar_elm.show();
-    //         GDPR.show_again_elm.hide();
-    //     }
-    // });
 
       jQuery(document).on(
         "click",
