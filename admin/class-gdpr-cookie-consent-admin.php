@@ -762,7 +762,7 @@ class Gdpr_Cookie_Consent_Admin {
 						<div class="gdpr-review-notice updated">
 						<form method="post" action="%2$s" id="review_form">
 							<div class="gdpr-review-notice-text-container">
-								<p><span>%3$s<strong>Cookie Consent fro WP</strong>.%4$s</span></p>
+								<p><span>%3$s<strong>Cookie Consent for WP</strong>.%4$s</span></p>
 								<button class="gdpr-review-dismiss-btn" style="border: none;padding:0;background: none;color: #2271b1;"href="%2$s"><i class="dashicons dashicons-dismiss"></i>%5$s</button>
 							</div>
 							<div class="gdpr-review-btns-container">
@@ -776,7 +776,7 @@ class Gdpr_Cookie_Consent_Admin {
 						esc_url( 'https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews/' ),
 						esc_url( get_admin_url() . '?already_done=1' ),
 						esc_html__( 'Hey, we hope you are enjoying managing cookies with ', 'gdpr' ),
-						esc_html__( ' Could you please write us a review and give it a 5- star rating on WordPress? Just to help us spread the word and boost our motivation.', 'gdpr' ),
+						esc_html__( ' Could you please write us a review and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation.', 'gdpr' ),
 						esc_html__( 'Dismiss', 'gdpr' ),
 						esc_html__( 'Rate Us', 'gdpr' ),
 						esc_html__( 'I already did', 'gdpr' )
@@ -3224,7 +3224,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$wp_legalpolicy_data = get_posts( $args );
 		$content             = '';
 		if ( is_array( $wp_legalpolicy_data ) && ! empty( $wp_legalpolicy_data ) ) {
-			$content .= '<p>For further information on how we use cookies, please refer to the table below.</p>';
+			$content .= '<p>Our website uses cookies from trusted third-party services to improve functionality, analytics, and advertising. Below is a list of third-party cookies that may be set in your browser:</p>';
 			$content .= "<div class='wp_legalpolicy' style='overflow-x:scroll;overflow:auto;'>";
 			$content .= '<table style="width:100%;margin:0 auto;border-collapse:collapse;">';
 			$content .= '<thead>';
@@ -3691,6 +3691,8 @@ class Gdpr_Cookie_Consent_Admin {
 					$the_options['is_ccpa_iab_on'] = 'true';
 				}
 			}
+			$the_options['data_reqs_on'] = isset( $_POST['gcc-data_reqs'] ) && ( true === $_POST['gcc-data_reqs'] || 'true' === $_POST['gcc-data_reqs'] ) ? 'true' : 'false';
+			
 			if ( ! get_option( 'wpl_pro_active' ) ) {
 				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
 				$the_options['is_script_dependency_on'] = isset( $_POST['gcc-script-dependency-on'] ) && ( true === $_POST['gcc-script-dependency-on'] || 'true' === $_POST['gcc-script-dependency-on'] ) ? 'true' : 'false';
@@ -3740,6 +3742,18 @@ class Gdpr_Cookie_Consent_Admin {
 						$the_options['is_worldwide_on'] = 'true';
 					}
 				}
+				if ( isset( $_POST['gcc-worldwide-enable-ccpa'] ) ) {
+					if ( 'no' === $_POST['gcc-worldwide-enable-ccpa'] ) {
+						$the_options['is_worldwide_on_ccpa'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-worldwide-enable-ccpa'] ) {
+						$the_options['is_worldwide_on_ccpa'] = 'false';
+					} else {
+						if(!$the_options['is_worldwide_on_ccpa']){
+							$this->disable_auto_update_maxminddb();
+						}
+						$the_options['is_worldwide_on_ccpa'] = 'true';
+					}
+				}
 				// For select country dropdown.
 				if ( isset( $_POST['gcc-select-countries-enable'] ) ) {
 					if ( 'no' === $_POST['gcc-select-countries-enable'] ) {
@@ -3756,8 +3770,27 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 				$selected_countries             = array();
 				$selected_countries             = isset( $_POST['gcc-selected-countries'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries'] ) ) ) : '';
-				// storing id of pages in database.
 				$the_options['select_countries'] = $selected_countries;
+
+				if ( isset( $_POST['gcc-select-countries-enable-ccpa'] ) ) {
+					if ( 'no' === $_POST['gcc-select-countries-enable-ccpa'] ) {
+						$the_options['is_selectedCountry_on_ccpa'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-select-countries-enable-ccpa'] ) {
+						$the_options['is_selectedCountry_on_ccpa'] = 'false';
+					} else {
+						if(!$the_options['is_selectedCountry_on_ccpa']){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
+						$the_options['is_selectedCountry_on_ccpa'] = 'true';
+					}
+				}
+
+				$selected_countries_ccpa             = array();
+				$selected_countries_ccpa             = isset( $_POST['gcc-selected-countries-ccpa'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries-ccpa'] ) ) ) : '';
+				$the_options['select_countries_ccpa'] = $selected_countries_ccpa;
+				// storing id of pages in database.
+				
 				if ( isset( $the_options['cookie_usage_for'] ) ) {
 					switch ( $the_options['cookie_usage_for'] ) {
 						case 'both':
@@ -3928,7 +3961,7 @@ class Gdpr_Cookie_Consent_Admin {
 					
 					$logo_style_attr = '';
 					foreach ($template['logo'] as $key => $value) {
-						$logo_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+						if($key != 'src')  $logo_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
 
 					$readmore_style_attr = '';
@@ -3939,6 +3972,10 @@ class Gdpr_Cookie_Consent_Admin {
 					foreach ($template['heading'] as $key => $value) {
 						$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
+					$decoration_styles_attr = '';
+					if(isset($template['decoration'])) foreach ($template['decoration'] as $key => $value) {
+						 $decoration_styles_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					} 
 				?>
 				<div :class=" 'gdpr-right-field template-type-' + show_cookie_as ">
 						<div style = "<?php echo esc_attr($styles_attr); ?>" class="cookie_notice_content">
@@ -3947,34 +3984,49 @@ class Gdpr_Cookie_Consent_Admin {
 									<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 								</svg>
 							</span>
+
+								<?php if($template['logo']['src'] !== '') { ?><img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template['logo']['src']; ?>" >
+								<?php }else { ?>
+									<!-- <p style="height: 30px;"></p> -->
+								<?php } ?>
+								<?php if($decoration_styles_attr !== ''){ ?>
+									<div  style = "<?php echo esc_attr($decoration_styles_attr); ?>" class="gdpr_banner_decoration"></div>
+								<?php } ?>
 							
-								<img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/logo_placeholder.png'; ?>" >
+								
 										
-								<?php
-								if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
-								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
-								<?php endif; ?>
+								
 								<div class="<?php echo esc_attr($template['static-settings']['layout']);?>">
-									<p>
-										<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-											<span v-html ="gdpr_message"></span>
+									<div style="display: flex; flex-direction: column; gap: 10px;">
+										<?php
+											if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+												<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
 											<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-											<span v-html ="lgpd_message"></span>
-											<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-											<span v-html ="ccpa_message"></span>
-											<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-											<span v-html ="eprivacy_message"></span>
-										<?php endif; ?>
-										<a style = "<?php echo esc_attr($readmore_style_attr); ?>" >
-											<?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-												{{ opt_out_text }}
-											<?php else : ?>
-												{{ button_readmore_text }}
+												<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
+												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="lgpd_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
+											<?php elseif( $template['name'] === 'blue_split' ) : ?> <h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
 											<?php endif; ?>
-										</a>
-									</p>
+										<p>
+											<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+												<span v-html ="gdpr_message"></span>
+												<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
+												<span v-html ="lgpd_message"></span>
+												<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+												<span v-html ="ccpa_message"></span>
+												<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+												<span v-html ="eprivacy_message"></span>
+											<?php endif; ?>
+											<a style = "<?php echo esc_attr($readmore_style_attr); ?>" >
+												<?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+													{{ opt_out_text }}
+												<?php else : ?>
+													{{ button_readmore_text }}
+												<?php endif; ?>
+											</a>
+										</p>
+									</div>
+									
 									<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) : ?>
 										<div class="cookie_notice_buttons <?php echo esc_attr($template['static-settings']['layout']) . '-buttons';?>">
 											<div class="left_buttons">
@@ -4036,7 +4088,7 @@ class Gdpr_Cookie_Consent_Admin {
 					
 					$logo_style_attr = '';
 					foreach ($template['logo'] as $key => $value) {
-						$logo_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+						if($key != 'src') $logo_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
 
 					$readmore_style_attr = '';
@@ -4046,7 +4098,11 @@ class Gdpr_Cookie_Consent_Admin {
 					$heading_style_attr = "";
 					foreach ($template['heading'] as $key => $value) {
 						$heading_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
-					}  
+					}
+					$decoration_styles_attr = '';
+					if(isset($template['decoration'])) foreach ($template['decoration'] as $key => $value) {
+						 $decoration_styles_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+					} 
 				?>
 				<div :class=" 'gdpr-right-field template-type-' + show_cookie_as ">
 						<div style = "<?php echo esc_attr($styles_attr); ?>" class="cookie_notice_content">
@@ -4055,34 +4111,51 @@ class Gdpr_Cookie_Consent_Admin {
 									<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 								</svg>
 							</span>
+
+
+								<?php if($template['logo']['src'] !== '') { ?><img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template['logo']['src']; ?>" > 
+								<?php }else { ?>
+									<p style="height: 20px;"></p>
+								<?php } ?>
+
+								<?php if($decoration_styles_attr !== ''){ ?>
+									<div  style = "<?php echo esc_attr($decoration_styles_attr); ?>" class="gdpr_banner_decoration"></div>
+								<?php } ?>  
 							
-								<img style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/logo_placeholder.png'; ?>" >
+								
 										
-								<?php
-								if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
-								<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-									<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
-								<?php endif; ?>
+								
 								<div class="<?php echo esc_attr($template['static-settings']['layout']);?>">
-									<p>
-										<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-											<span v-html ="gdpr_message"></span>
+									<div style="display: flex; flex-direction: column; gap: 5px; <?php if($template['name'] === 'bold') echo "height: 100%;"; ?>">
+										<?php
+											if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+												<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
 											<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-											<span v-html ="lgpd_message"></span>
-											<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-											<span v-html ="ccpa_message"></span>
-											<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-											<span v-html ="eprivacy_message"></span>
-										<?php endif; ?>
-										<a style = "<?php echo esc_attr($readmore_style_attr); ?>" >
-											<?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-												{{ opt_out_text }}
-											<?php else : ?>
-												{{ button_readmore_text }}
+												<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
+												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="lgpd_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
+											<?php elseif( $template['name'] === 'blue_split' ) : ?> <h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
 											<?php endif; ?>
-										</a>
-									</p>
+										<p>
+											<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+												<span v-html ="gdpr_message"></span>
+												<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
+												<span v-html ="lgpd_message"></span>
+												<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+												<span v-html ="ccpa_message"></span>
+												<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
+												<span v-html ="eprivacy_message"></span>
+											<?php endif; ?>
+											<a style = "<?php echo esc_attr($readmore_style_attr); ?>" >
+												<?php if ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
+													{{ opt_out_text }}
+												<?php else : ?>
+													{{ button_readmore_text }}
+												<?php endif; ?>
+											</a>
+										</p>
+									</div>
+									
 									<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) : ?>
 										<div class="cookie_notice_buttons <?php echo esc_attr($template['static-settings']['layout']) . '-buttons';?>">
 											<div class="left_buttons">
@@ -4968,6 +5041,10 @@ class Gdpr_Cookie_Consent_Admin {
 				$selected_countries             = isset( $_POST['gcc-selected-countries'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries'] ) ) ) : '';
 				// storing id of pages in database.
 				$the_options['select_countries'] = $selected_countries;
+				$selected_countries_ccpa             = array();
+				$selected_countries_ccpa             = isset( $_POST['gcc-selected-countries-ccpa'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries-ccpa'] ) ) ) : '';
+				// storing id of pages in database.
+				$the_options['select_countries_ccpa'] = $selected_countries_ccpa;
 				// For EU.
 				if ( isset( $_POST['gcc-eu-enable'] ) ) {
 					if ( 'no' === $_POST['gcc-eu-enable'] ) {
@@ -4998,7 +5075,7 @@ class Gdpr_Cookie_Consent_Admin {
 					}
 				}
 				// for World wide.
-				if ( isset( $_POST['gcc-worldwide-enable'] ) ) {
+				if ( isset( $_POST['gcc-worldwide-enable'] ) && ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both') ) {
 					if ( filter_var( $the_options['is_worldwide_on'], FILTER_VALIDATE_BOOLEAN ) !==  filter_var( $_POST['gcc-worldwide-enable'], FILTER_VALIDATE_BOOLEAN ) ) {
 						$is_maxmind_turned_on = filter_var( $_POST['gcc-worldwide-enable'], FILTER_VALIDATE_BOOLEAN ) ? 'Turned Off' : 'Turned On';
 						$data_args = array(
@@ -5017,6 +5094,26 @@ class Gdpr_Cookie_Consent_Admin {
 						$the_options['is_worldwide_on'] = 'true';
 					}
 				}
+				// for World wide of CCPA Notice.
+				if ( isset( $_POST['gcc-worldwide-enable-ccpa'] ) && ($the_options['cookie_usage_for'] === 'ccpa' || $the_options['cookie_usage_for'] === 'both') ) {
+					if ( filter_var( $the_options['is_worldwide_on_ccpa'], FILTER_VALIDATE_BOOLEAN ) !==  filter_var( $_POST['gcc-worldwide-enable-ccpa'], FILTER_VALIDATE_BOOLEAN ) ) {
+						$is_maxmind_turned_on = filter_var( $_POST['gcc-worldwide-enable-ccpa'], FILTER_VALIDATE_BOOLEAN ) ? 'Turned Off' : 'Turned On';
+						$data_args = array(
+							'Status' => 'Maxmind ' . $is_maxmind_turned_on,
+						);
+						$this->gdpr_send_shared_usage_data( 'GCC Maxmind Status', $data_args );
+					}
+					if ( 'no' === $_POST['gcc-worldwide-enable-ccpa'] ) {
+						$the_options['is_worldwide_on_ccpa'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-worldwide-enable-ccpa'] ) {
+						$the_options['is_worldwide_on_ccpa'] = 'false';
+					} else {
+						if(!$the_options['is_worldwide_on_ccpa']){
+							$this->disable_auto_update_maxminddb();
+						}
+						$the_options['is_worldwide_on_ccpa'] = 'true';
+					}
+				}
 				// For select country dropdown.
 				if ( isset( $_POST['gcc-select-countries-enable'] ) ) {
 					if ( 'no' === $_POST['gcc-select-countries-enable'] ) {
@@ -5029,6 +5126,19 @@ class Gdpr_Cookie_Consent_Admin {
 							$this->download_maxminddb();
 						}
 						$the_options['is_selectedCountry_on'] = 'true';
+					}
+				}
+				if ( isset( $_POST['gcc-select-countries-enable-ccpa'] ) ) {
+					if ( 'no' === $_POST['gcc-select-countries-enable-ccpa'] ) {
+						$the_options['is_selectedCountry_on_ccpa'] = 'false';
+					} elseif ( 'false' == $_POST['gcc-select-countries-enable-ccpa'] ) {
+						$the_options['is_selectedCountry_on_ccpa'] = 'false';
+					} else {
+						if(!$the_options['is_selectedCountry_on_ccpa']){
+							$this->auto_update_maxminddb();
+							$this->download_maxminddb();
+						}
+						$the_options['is_selectedCountry_on_ccpa'] = 'true';
 					}
 				}
 				if ( isset( $the_options['cookie_usage_for'] ) ) {
@@ -5055,7 +5165,7 @@ class Gdpr_Cookie_Consent_Admin {
 				if ( 'none' !== $template && $saved_options['template'] !== $template ) {
 					
 					$the_options['template']                     = $template;
-					if($template != "default") $the_options['selected_template_json'] 		 = json_encode($this->templates_json[$template]);
+					if($template != "default"  && isset($this->templates_json[$template])) $the_options['selected_template_json'] 		 = json_encode($this->templates_json[$template]);
 					else $the_options['selected_template_json'] 							 = json_encode(get_option('gdpr_default_template_object'));
 				}
 			}
@@ -7588,8 +7698,12 @@ public function gdpr_support_request_handler() {
 	public function gdpr_get_user_ip() {
 		if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
 			return $_SERVER['HTTP_CLIENT_IP'];
-		} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) )) > 0 ) {
+			$xForwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $xForwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+			return $ipaddress;
 		} else {
 			return $_SERVER['REMOTE_ADDR'];
 		}

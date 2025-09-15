@@ -687,6 +687,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		if ( $post_id ) {
 			$details = $args['consent_details'];
 			$user_id = get_current_user_id();
+
 			$user_ip = $this->wpl_get_user_ip();
 			// Fetch country information using ip-api.com.
 			$api_url  = 'http://ip-api.com/json/' . $user_ip;
@@ -741,14 +742,26 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		$ipaddress = '';
 		if (isset($_SERVER['HTTP_CLIENT_IP'])) {
 			$ipaddress = filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$ipaddress = filter_var($_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_X_FORWARDED'])) {
-			$ipaddress = filter_var($_SERVER['HTTP_X_FORWARDED'], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
-			$ipaddress = filter_var($_SERVER['HTTP_FORWARDED_FOR'], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_FORWARDED'])) {
-			$ipaddress = filter_var($_SERVER['HTTP_FORWARDED'], FILTER_VALIDATE_IP);
+		} elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) )) > 0) {
+			$xForwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $xForwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+		} elseif (isset($_SERVER['HTTP_X_FORWARDED']) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED'] ) )) > 0) {
+			$xForwarded = $_SERVER['HTTP_X_FORWARDED'];
+			$ipList = array_map('trim', explode(',', $xForwarded));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+		} elseif (isset($_SERVER['HTTP_FORWARDED_FOR']) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED_FOR'] ) )) > 0) {
+			$forwardedFor = $_SERVER['HTTP_FORWARDED_FOR'];
+			$ipList = array_map('trim', explode(',', $forwardedFor));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
+		} elseif (isset($_SERVER['HTTP_FORWARDED']) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED'] ) )) > 0) {
+			$forwarded = $_SERVER['HTTP_FORWARDED'];
+			$ipList = array_map('trim', explode(',', $forwarded));
+
+			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
 		} elseif (isset($_SERVER['REMOTE_ADDR'])) {
 			$ipaddress = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
 		} else {

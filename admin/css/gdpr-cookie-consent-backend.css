@@ -509,7 +509,8 @@ a .export-btn:hover {
 .gdpr-gacm_message-gdpr,
 .gdpr-gcm_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
-.gdpr-eu_visitors_message-both {
+.gdpr-eu_visitors_message-both,
+.gdpr-eu_visitors_message-both-ccpa {
   border: 1px solid #ccc;
 }
 
