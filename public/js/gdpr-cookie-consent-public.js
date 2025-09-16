@@ -225,6 +225,15 @@ GDPR_CCPA_COOKIE_EXPIRE =
   } else {
     browser_dnt_value = false;
   }
+  var browser_gpc_value = "";
+  if(navigator.globalPrivacyControl === true){
+    // User has enabled Global Privacy Control
+    browser_gpc_value = true;
+  } else if (navigator.globalPrivacyControl === false){
+    browser_gpc_value = false;
+  }else{
+    browser_gpc_value = false;
+  }
    // Run this check when the DOM is ready and when debug mode is on.
    if(is_gcm_debug_on == 'true'){
      document.addEventListener("DOMContentLoaded", function() {
@@ -320,7 +329,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
       });
       // if DNT request is true then hide the banner and auto decline the consent
 
-      if (gdpr_do_not_track == "true" && browser_dnt_value) {
+      if ((gdpr_do_not_track == "true" && browser_dnt_value ) || (gdpr_do_not_track == "true" && browser_gpc_value)) {
         // hide the banner
         this.bar_elm.hide();
         // Decline the cookies
@@ -356,7 +365,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
             },
           });
           window.dispatchEvent(event);
-        } else if (GDPR.settings.cookie_usage_for == "both") {
+        } else if (GDPR.settings.cookie_usage_for == "both" || GDPR.settings.cookie_usage_for === "ccpa") {
           GDPR.ccpa_cancel_close();
           var gdpr_optout_cookie = "";
           gdpr_optout_cookie = GDPR_Cookie.read("wpl_optout_cookie");
@@ -1903,9 +1912,9 @@ banner.style.display = "none";
       }
       this.show_again_elm.slideDown(this.settings.animate_speed_hide);
       if (
-        (this.settings.decline_reload == true && !browser_dnt_value) ||
-        (this.settings.decline_reload == true && gdpr_do_not_track == "false")
-      ) {
+        this.settings.decline_reload == true &&
+        !(gdpr_do_not_track == "true" && (browser_dnt_value || browser_gpc_value))
+    ) {
         setTimeout(function () {
           window.location.reload();
         }, 1100);
@@ -1965,9 +1974,9 @@ banner.style.display = "none";
       }
       this.show_again_elm.slideDown(this.settings.animate_speed_hide);
       if (
-        (this.settings.decline_reload == true && !browser_dnt_value) ||
-        (this.settings.decline_reload == true && gdpr_do_not_track == "false")
-      ) {
+        this.settings.decline_reload == true &&
+        !(gdpr_do_not_track == "true" && (browser_dnt_value || browser_gpc_value))
+    ) {
         setTimeout(function () {
           window.location.reload();
         }, 1100);
