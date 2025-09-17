@@ -10,12 +10,6 @@ Wizard Style
 html {
   height: 100%;
 }
-.gdpr-wizard-top-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 4em;
-  display: none;
-}
 
 .gdpr-main-heading {
   color: var(--black-50);
@@ -1298,4 +1292,9 @@ input[type="radio"]:checked {
 }
 .geo-targeting-wizard-section{
   margin-top: 16px;
+}
+
+/* Admin Dashboard Revamp Sep25 */
+.gdpr-wizard-main-container {
+  padding: 20px;
 }

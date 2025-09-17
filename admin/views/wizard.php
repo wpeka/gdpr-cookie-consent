@@ -170,11 +170,6 @@ function print_template_boxes( ) {
 
 ?>
 
-<div class="gdpr-wizard-top-container">
-	<img class="gdpr-wizard-logo" src="<?php echo esc_url( $image_path ) . 'gdprLogo.png'; ?>" alt="WP Cookie Consent Wizard Logo">
-	<span class="gdpr-main-heading">WP Cookie Consent</span>
-
-</div>
 
 <div class="gdpr-wizard-main-container" id="gdpr-cookie-consent-settings-app-wizard">
 

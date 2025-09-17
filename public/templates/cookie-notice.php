@@ -54,6 +54,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 
 	$ab_testing_enabled = (!isset($ab_options['ab_testing_enabled']) || ($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false)) ? "false" : "true";
 
+	error_log("DADADA ab_testing_enabled: " . $ab_testing_enabled);
 	$notice_container_styles = "position: fixed; display: none; flex-direction: column; gap: 15px; border-radius: {$the_options[($ab_testing_enabled === "true" ? 'cookie_bar_border_radius' . $chosenBanner : ($the_options['cookie_usage_for'] === 'both' ? 'multiple_legislation_cookie_bar_border_radius1' : 'background_border_radius'))]}px;";
 
 	if ( $the_options['cookie_bar_as'] === 'banner' ) { $notice_container_styles .= "left: 0px; {$the_options['notify_position_vertical']}: 0px;"; $notice_container_styles .= " box-shadow: 2px 5px 11px 4px #dddddd;"; } 
@@ -75,6 +76,8 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 	$notice_container_styles .= "border-width: " . ($ab_testing_enabled === "true" ? $the_options['cookie_bar_border_width' . $chosenBanner] : ($the_options['cookie_usage_for'] === 'both' ? $the_options['multiple_legislation_cookie_bar_border_width1'] : $the_options["background_border_width"])) . "px;"; 
 	$notice_container_styles .= "font-family: " . ($ab_testing_enabled === "true" ? $the_options['cookie_font' . $chosenBanner] : ($the_options['cookie_usage_for'] === 'both' ? $the_options['multiple_legislation_cookie_font1'] : $the_options["font_family"])) . ";"; 
 
+	$suffix =  ($ab_testing_enabled === "true" ? $chosenBanner : ($the_options['cookie_usage_for'] === 'both' ? '1' : ''));
+	$opt_out_style_attr = "color: {$the_options['button_donotsell_link_color' . $suffix]}";
 
 	$logo_style_attr = '';
 	foreach ($template_object['logo'] as $key => $value) {
@@ -91,20 +94,18 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 		$padding_key = 'button_padding';
 		$padding_value = $template_object['static-settings'][$padding_key] ?? '';
 		$readmore_style_attr .= "display: block; width:fit-content; margin-top: 5px;";
-		$readmore_style_attr .= "border-style: {$the_options['button_readmore_button_border_style']};";
-		$readmore_style_attr .= "border-color: {$the_options['button_readmore_button_border_color']};";
-		$readmore_style_attr .= "border-width: {$the_options['button_readmore_button_border_width']}px;";
-		$readmore_style_attr .= "border-radius: {$the_options['button_readmore_button_border_radius']}px;";
+		$readmore_style_attr .= "border-style: {$the_options['button_readmore_button_border_style' . $suffix]};";
+		$readmore_style_attr .= "border-color: {$the_options['button_readmore_button_border_color' . $suffix]};";
+		$readmore_style_attr .= "border-width: {$the_options['button_readmore_button_border_width' . $suffix]}px;";
+		$readmore_style_attr .= "border-radius: {$the_options['button_readmore_button_border_radius' . $suffix]}px;";
 		$readmore_style_attr .= "padding: {$padding_value};";
-		$rgba_color = hex_to_rgba($the_options['button_readmore_button_color'], $the_options['button_readmore_button_opacity']);
+		$rgba_color = hex_to_rgba($the_options['button_readmore_button_color' . $suffix], $the_options['button_readmore_button_opacity' . $suffix]);
 		$readmore_style_attr .= "background: {$rgba_color};";
 	}
 	else{
 		$readmore_style_attr .= "display: inline-block;";
 	}
 	
-	$suffix =  ($ab_testing_enabled === "true" ? $chosenBanner : ($the_options['cookie_usage_for'] === 'both' ? '1' : ''));
-	$opt_out_style_attr = "color: {$the_options['button_donotsell_link_color' . $suffix]}";
 
 	$accept_style_attr = "";
 	$accept_style_attr .=  " color: {$the_options["button_accept_link_color" . $suffix]};";
@@ -441,9 +442,9 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 		</div>
 		<?php
 	}
-	if ( ! empty( $the_options['show_again'] ) ) {
+	if ( ! empty( $the_options['show_again' . $suffix] ) ) {
 		?>
-		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color']); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color']); ?>; <?php if($the_options['show_again_position'] === 'right') echo "right: ". esc_html($the_options['show_again_margin']) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin']) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
+		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
 		<span><?php echo esc_html__( $cookie_data['dash_show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
 	</div>
 		<?php
@@ -457,18 +458,18 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 		</div>
 		<?php
 	}
-	if ( ! empty( $the_options['show_again'] ) ) {
+	if ( ! empty( $the_options['show_again' . $suffix] ) ) {
 		?>
-		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color']); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color']); ?>; <?php if($the_options['show_again_position'] === 'right') echo "right: ". esc_html($the_options['show_again_margin']) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin']) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
+		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
 		<span><?php echo esc_html__( $cookie_data['dash_show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
 	</div>
 		<?php
 	}
 }
 if ( ! empty( $the_options['eprivacy_notify'] ) ) {
-	if ( ! empty( $the_options['show_again'] ) ) {
+	if ( ! empty( $the_options['show_again' . $suffix] ) ) {
 		?>
-		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color']); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color']); ?>; <?php if($the_options['show_again_position'] === 'right') echo "right: ". esc_html($the_options['show_again_margin']) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin']) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
+		<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
 			<span><?php echo esc_html__( $cookie_data['dash_show_again_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></span>
 		</div>
 		<?php
