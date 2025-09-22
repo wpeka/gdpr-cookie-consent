@@ -8,7 +8,6 @@ jQuery(document).ready(function ($) {
         },
         success: function (response) {
             $('.data_wait_loader_container').css("display","none");
-            console.log("cookie scanner response: ", response.data.html)
             if (window.ckm && typeof window.ckm.refreshCookieScannerData === 'function') {
                 window.ckm.refreshCookieScannerData(response.data.html);
             } else {

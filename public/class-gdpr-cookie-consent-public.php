@@ -1391,7 +1391,6 @@ $selected_script_category = $wpdb->get_var(
 	}
 
 	public function gdprcookieconsent_inject_sripts_on_consent(){
-		error_log("DADADA injecting scripts on consent");
 		$the_options = GDPR_Cookie_Consent::gdpr_get_settings();
 		$viewed_cookie = isset($_COOKIE['wpl_viewed_cookie']) ? sanitize_text_field(wp_unslash($_COOKIE['wpl_viewed_cookie'])) : '';
 		if($the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie){

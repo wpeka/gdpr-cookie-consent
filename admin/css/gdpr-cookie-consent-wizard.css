@@ -462,17 +462,12 @@ input.gdpr-wizard-thankyou-live-preview {
 .show-banner-layoout-position,
 .gdpr-wizard-widget {
   padding: 15px;
-  width: 620px;
 }
 .gdpr-wizard-widget-item {
   padding-right: 20px;
 }
 
 @media screen and (max-width: 1500px) {
-  .gdpr-wizard-widget,
-  #gdpr-wizard-data-req-admin-container {
-    width: 550px;
-  }
   .gdpr-wizard-widget-item {
     padding-right: 0px;
   }

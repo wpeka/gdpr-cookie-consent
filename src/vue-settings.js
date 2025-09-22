@@ -3317,7 +3317,6 @@ var gen = new Vue({
       this.banner_preview_is_on = false;
     },
     onTemplateChange(value) {
-      console.log("DODODO template: ", this.json_templates);
       this.template = value;
       this.auto_generated_banner = false;
       let selectedTemplate
@@ -4452,7 +4451,6 @@ var gen = new Vue({
 
       //styles
       const selectedTemplate = this.default_template_json;
-      console.log("DODODO in restoreDefaultSettings gen template: ", this.default_template_json);
       this.cookie_bar_color =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity =                     selectedTemplate['styles']['opacity'];
       this.cookie_text_color =                      selectedTemplate['styles']['color'];
@@ -11834,7 +11832,6 @@ var adv = new Vue({
       }
     },
     saveAdvancedCookieSettings() {
-      console.log("Saving advanced cookie settings...");
       this.save_loading = true;
       
       var that = this;
@@ -11847,12 +11844,10 @@ var adv = new Vue({
         })
         .done(function (data) {
           that.success_error_message = "Settings Saved.";
-          console.log("Succcess error message: ", that.success_error_message);
           j("#gdpr-cookie-consent-save-settings-alert").css({
               "background-color": "#72b85c",
               "z-index": "10000",
           });
-          console.log("style:", j("#gdpr-cookie-consent-save-settings-alert")[0].style.cssText);
           j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
           j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
 
@@ -12253,7 +12248,6 @@ var abt = new Vue({
       }
     },
     refreshABTestingData(html) {
-      console.log("DODODO Refreshing AB Testing Data for abt");
       this.ab_testing_data = html;
       const container = document.querySelector('#ab-testing-container');
       this.$nextTick(() => {
@@ -12320,7 +12314,6 @@ var abt = new Vue({
       this.ab_testing_auto = !this.ab_testing_auto;
     },
     saveABTestingSettings() {
-      console.log("DODODO Saving AB Testing Settings...");
       this.save_loading = true;
 
       var that = this;
@@ -12591,10 +12584,7 @@ var scb = new Vue({
       this.is_script_blocker_on = !this.is_script_blocker_on;
     },
     showScriptBlockerForm() {
-      console.log("DODODO inside scb's showScriptBlockerForm()");
-      console.log("DODODO current value: ", this.show_script_blocker);
       this.show_script_blocker = !this.show_script_blocker;
-      console.log("DODODO new value: ", this.show_script_blocker);
     },
     onSwitchingScriptDependency() {
       this.is_script_dependency_on = !this.is_script_dependency_on;
@@ -12764,7 +12754,6 @@ var scb = new Vue({
       });
     },
     saveScriptBlockerSettings() {
-      console.log("DODODO Saving Script Blocker Settings...");
       this.save_loading = true;
 
       var that = this;
@@ -12777,12 +12766,10 @@ var scb = new Vue({
         })
         .done(function (data) {
           that.success_error_message = "Settings Saved.";
-          console.log("Succcess error message: ", that.success_error_message);
           j("#gdpr-cookie-consent-save-settings-alert").css({
               "background-color": "#72b85c",
               "z-index": "10000",
           });
-          console.log("style:", j("#gdpr-cookie-consent-save-settings-alert")[0].style.cssText);
           j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
           j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
 
@@ -12819,7 +12806,6 @@ var lang = new Vue({
   },
   methods: {
     saveLanguageSettings() {
-      console.log("DODODO Saving Language Settings...");
       this.save_loading = true; 
 
       var that = this;
@@ -12832,7 +12818,6 @@ var lang = new Vue({
             dataV + "&action=gcc_save_language_settings"
         })
         .done(function(data) {
-          console.log("DODODO cookie manager save response:", data);
           that.success_error_message = "Settings Saved";
           j("#gdpr-cookie-consent-save-settings-alert").css(
             "background-color",
@@ -13016,12 +13001,10 @@ var ckm = new Vue({
       }
     },
     onSaveCustomCookie() {
-      console.log("DODODO onSaveCustomCookie()");
       var parent = j(".gdpr-custom-save-cookie").parents(
         "div.gdpr-add-custom-cookie-form"
       );
       var gdpr_addcookie = parent.find('input[name="gdpr_addcookie"]').val();
-      console.log("DODODO gdpr_addcookie: ", gdpr_addcookie);
       if (gdpr_addcookie == 1) {
         var pattern =
           /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
@@ -14144,7 +14127,6 @@ var ckm = new Vue({
       });
     },
     saveCustomPostCookies(cookie_data) {
-      console.log("DODODO saveCustomPostCookies()");
       var that = this;
       var data = {
         action: "gdpr_cookie_custom",

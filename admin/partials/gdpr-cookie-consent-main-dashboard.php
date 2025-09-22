@@ -40,8 +40,36 @@ if ( $api_user_plan == 'free' ) {
 	$total_no_of_free_scans = 20000; // actual 50000.
 }
 
+$gdpr_pages_scanned 			 = get_option('gdpr_no_of_page_scan', 0);
 $gdpr_no_of_page_scan            = $total_no_of_free_scans - get_option( 'gdpr_no_of_page_scan' );
 $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' ) / $total_no_of_free_scans ) * 100 );
+
+//Monthly scan
+$gdpr_monthly_scan_percent = 0;
+if ( 'free' === $api_user_plan ) { 
+	$scan_limit     = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
+	$scan_limit_int = (int) $scan_limit; 
+	$gdpr_monthly_scan_percent = ( ( $scan_limit_int ) / 5 ) * 100;
+}
+
+$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
+$gdpr_monthly_page_views_limit = 0;
+$gdpr_monthly_page_views_percent = 0;
+if ( 'free' === $api_user_plan ) { 
+	$gdpr_monthly_page_views_limit = 20000;
+	$gdpr_monthly_page_views_percent = ( ( $gdpr_monthly_page_views ) / 20000 ) * 100;
+} else if ( '3sites' === $api_user_plan ) {
+	$gdpr_monthly_page_views_limit = 100000;
+	$gdpr_monthly_page_views_percent = ( ( $gdpr_monthly_page_views ) / 100000 ) * 100;
+}
+
+$gdpr_remaining_page_views = $gdpr_monthly_page_views_limit - $gdpr_monthly_page_views;
+
+$gdpr_plan_warning = false;
+
+if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit === 100 || $gdpr_monthly_scan_percent === 100 ) {
+	$gdpr_plan_warning = true;
+}
 
 ?>
 
@@ -81,6 +109,25 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 								Support</a>
 							</div>
 						</div>
+
+						<div class="gdpr-cookie-consent-admin-login">
+							<div class="gdpr-cookie-consent-admin-login-icon">
+								<a <?php if ( $is_user_connected ) {
+									echo 'href="https://app.wplegalpages.com/my-account" target="_blank"';
+								} else {
+									echo 'class="api-connect-to-account-btn"'; 
+								} ?> >
+									<img src="<?php echo $is_user_connected ? esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/admin_my_account.svg' : esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/admin_login.svg'; ?>" alt="Login/Logout">
+								</a>
+							</div>
+							<div class="gdpr-cookie-consent-admin-login-text">
+								<a <?php if ( $is_user_connected ) {
+									echo 'href="https://app.wplegalpages.com/my-account" target="_blank"';
+								} else {
+									echo 'class="api-connect-to-account-btn"'; 
+								} ?> ><?php echo $is_user_connected ? esc_html('My Account', 'gdpr-cookie-consent') :esc_html('Login', 'gdpr-cookie-consent'); ?></a>
+							</div>
+						</div>
 					</div>
 			</div>
 
@@ -99,29 +146,29 @@ $remaining_percentage_scan_limit = round( ( get_option( 'gdpr_no_of_page_scan' )
 								if($legalpages_version >= '3.3.0') { ?>
 
 							<a href="?page=wplp-dashboard" class="gdpr-admin-tab-link wplp-main-tab gdpr-cookie-consent-admin-dashboard-tab">
-									<div class="wp-legalpages-admin-gdpr-main-tab wplp-admin-tab-link-content">
-										<div class="wplp-admin-tab-link-left">
-											<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M10.8333 7.5V2.5H17.5V7.5H10.8333ZM2.5 10.8333V2.5H9.16667V10.8333H2.5ZM10.8333 17.5V9.16667H17.5V17.5H10.8333ZM2.5 17.5V12.5H9.16667V17.5H2.5Z" fill="currentColor"/>
-											</svg>
+								<div class="wp-legalpages-admin-gdpr-main-tab wplp-admin-tab-link-content">
+									<div class="wplp-admin-tab-link-left">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M10.8333 7.5V2.5H17.5V7.5H10.8333ZM2.5 10.8333V2.5H9.16667V10.8333H2.5ZM10.8333 17.5V9.16667H17.5V17.5H10.8333ZM2.5 17.5V12.5H9.16667V17.5H2.5Z" fill="currentColor"/>
+										</svg>
 
-											<?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?>
-										</div>
+										<?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?>
 									</div>
+								</div>
 							</a>
 						<?php } }
 						else{
 							?>
 							<a href="?page=wplp-dashboard" class="gdpr-admin-tab-link wplp-main-tab gdpr-cookie-consent-admin-dashboard-tab">
-									<div class="wp-legalpages-admin-gdpr-main-tab wplp-admin-tab-link-content">
-										<div class="wplp-admin-tab-link-left">
-											<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M10.8333 7.5V2.5H17.5V7.5H10.8333ZM2.5 10.8333V2.5H9.16667V10.8333H2.5ZM10.8333 17.5V9.16667H17.5V17.5H10.8333ZM2.5 17.5V12.5H9.16667V17.5H2.5Z" fill="currentColor"/>
-											</svg>
-
-											<?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?>
-										</div>
+								<div class="wp-legalpages-admin-gdpr-main-tab wplp-admin-tab-link-content">
+									<div class="wplp-admin-tab-link-left">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M10.8333 7.5V2.5H17.5V7.5H10.8333ZM2.5 10.8333V2.5H9.16667V10.8333H2.5ZM10.8333 17.5V9.16667H17.5V17.5H10.8333ZM2.5 17.5V12.5H9.16667V17.5H2.5Z" fill="currentColor"/>
+										</svg>
+										
+										<?php echo esc_html('Dashboard','gdpr-cookie-consent'); ?>
 									</div>
+								</div>
 							</a> 
 						<?php
 						} ?>
