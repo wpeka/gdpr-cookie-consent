@@ -1670,7 +1670,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
   background-color: var(--white-100);
   border-bottom: 1px solid var(--gray-903);
   position: sticky;
-  top: 153px;
+  top: 130px;
   z-index: 9;
   border-bottom: none;
 }
@@ -2140,7 +2140,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
   border-radius: 5px;
   display: none;
   color: var(--white-100);
-  margin-left: 44%;
+  margin-left: 16%;
   margin-top: 10%;
   top: 10%;
   z-index: 9999;
@@ -2548,9 +2548,7 @@ input[type="search"]:focus {
     margin-right: 1%;
   }
 }
-.gdpr-label-row {
-  margin-bottom: 0 !important;
-}
+
 .modal-footer {
   padding: 0.25rem;
 }
@@ -7301,7 +7299,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   align-items: center;
   justify-content: space-between;
   position: sticky;
-  top: 53px;
+  top: 37px;
   border-radius: 6px;
   z-index: 9;
 }
@@ -9944,8 +9942,6 @@ div#gdpr-scan-history {
   flex-direction: column;
   gap: 10px;
   align-items: flex-start;
-  position: sticky;
-  top:50px;
   z-index: 10;
 }
 
@@ -10240,13 +10236,15 @@ div#gdpr-scan-history {
   border: none;
   border-radius: 6px;
   background-color: white;
+
 }
 
 .wplp-compliance-main
   .wplp-compliance-content-wrapper
   .gdpr-remaining-scans-content-dashboard {
   position: sticky;
-  top: 250px;
+  top: 53px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 
 .wplp-compliance-main
@@ -10612,6 +10610,7 @@ div#gdpr-scan-history {
   .gdpr-cookie-list-tabs-container  {
   margin: 0px;
   max-width: none;
+  gap: 20px;
 }
 
 .gdpr-cookie-consent-settings-content
@@ -10817,7 +10816,8 @@ div#gdpr-scan-history {
 .cookie_scanner_card
   #cookie-scanner-container
   .cookie-scanner-data-content,
-.scan_history_card {
+.scan_history_card
+  #scan-history-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10828,4 +10828,11 @@ div#gdpr-scan-history {
   .scan_history_card 
   .card-body {
   width: 100%;
+}
+
+#dashboard-tab {
+  background-color: transparent;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }

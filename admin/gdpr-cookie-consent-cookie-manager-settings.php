@@ -94,7 +94,7 @@
 				    				<div class="data_wait_loader_container">
 				    					<div class="data_wait_loader"></div>
 				    				</div>
-				    				 <div class="cookie-scanner-data-content" v-html="cookie_scanner_data"></div>
+				    				<div class="cookie-scanner-data-content" v-html="cookie_scanner_data"></div>
 				    			</div>
 							</c-card-body>
 				    	</c-card>
@@ -104,7 +104,10 @@
 								<c-row>
 									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice-top"><?php esc_html_e( 'Scan History', 'gdpr-cookie-consent' ); ?></div></c-col>
 								</c-row>
-								<?php do_action( 'gdpr_cookie_scanned_history' ); ?>
+
+								<div id="scan-history-container" class="scan-history-container">
+									<?php do_action( 'gdpr_cookie_scanned_history' ); ?>
+								</div>			
 							</c-card-body>
 				    	</c-card>
 				    </c-tab>
