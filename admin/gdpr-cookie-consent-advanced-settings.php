@@ -17,7 +17,7 @@
 
                 <c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
                     <!-- Consent Settings Start -->
-                    <c-tab title="<?php esc_attr_e( 'Consent Settings', 'gdpr-cookie-consent' ); ?>" href="#advanced_settings#consent" id="gdpr-cookie-consent-complianz" >
+                    <c-tab class="consent-settings" title="<?php esc_attr_e( 'Consent Settings', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-consent-settings" >
                         <c-card class="consent_card">
                             <c-card-body>
                                 <!-- Consent  Forwarding -->
@@ -182,7 +182,7 @@
                     </c-tab> 
                     
                     <!-- Additional Settings Start -->
-                    <c-tab title="<?php esc_attr_e( 'Additional Settings', 'gdpr-cookie-consent' ); ?>" href="#advanced_settings#additional" id="gdpr-cookie-consent-complianz" >
+                    <c-tab class="additional-settings" title="<?php esc_attr_e( 'Additional Settings', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-additional-settings" >
                         <c-card class="additional_card">
                             <c-card-body>
                                 <!-- Extra Settings -->             
@@ -259,7 +259,7 @@
                     </c-tab> 
 
                     <!-- Export/Import Settings Start -->
-                    <c-tab title="<?php esc_attr_e( 'Cookie Settings Export/Import', 'gdpr-cookie-consent' ); ?>" href="#advanced_settings#export_import" id="gdpr-cookie-consent-complianz" >
+                    <c-tab class="export_import-settings" title="<?php esc_attr_e( 'Cookie Settings Export/Import', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-export-import-settings" >
                         <c-card class="export_import_card">
                             <c-card-body>
                                 <!-- Export Settings Label -->

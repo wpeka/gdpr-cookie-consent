@@ -129,7 +129,6 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 									<img src="<?php echo $is_user_connected ? esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/admin_my_account.svg' : esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/admin_login.svg'; ?>" alt="Login/Logout">
 								</a>
 							</div>
-							<?php error_log("DODODO is_user_connected: " . $is_user_connected); ?>
 							<div class="gdpr-cookie-consent-admin-login-text">
 								<a <?php if ( $is_user_connected ) {
 									echo 'href="https://app.wplegalpages.com/my-account" target="_blank"';
@@ -418,7 +417,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						</div>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10Sites' === $api_user_plan ) { ?>
+							<?php if ( '10Sites' === $api_user_plan || '10sites' === $api_user_plan ) { ?>
 								<div class="gdpr-remaining-scans-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -457,7 +456,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						</div>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10Sites' === $api_user_plan ) { ?>
+							<?php if ( '10Sites' === $api_user_plan || '10sites' === $api_user_plan ) { ?>
 								<div class="gdpr-pageviews-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -501,7 +500,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 								<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_pro_account.svg'; ?>" alt="Pro Account">
 							<?php } ?>
 							<span><?php echo esc_html( $api_user_plan ); ?></span></p>
-							<?php if( $api_user_plan !== '10Sites' ) { ?>
+							<?php if( $api_user_plan !== '10Sites' || '10sites' === $api_user_plan ) { ?>
 								<a class="wplp--scan-header-upgrade-plan" href="<?php echo esc_url( 'https://wplegalpages.com/pricing/' ); ?>" target="_blank"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_header_upgrade_icon.svg'; ?>" alt=""><?php echo esc_html('Upgrade', 'gdpr-cookie-consent'); ?></a>
 							<?php } else { ?>
 								<a class="wplp-scan-header-add-sites" href="<?php echo esc_url( 'https://wplegalpages.com/pricing/' ); ?>" target="_blank"><?php echo esc_html('Add More Sites', 'gdpr-cookie-consent'); ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_add_site.svg'; ?>" alt=""></a>

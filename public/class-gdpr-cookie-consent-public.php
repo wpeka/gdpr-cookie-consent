@@ -498,6 +498,7 @@ class Gdpr_Cookie_Consent_Public {
 	 * @since 1.0
 	 */
 	public function gdprcookieconsent_inject_gdpr_script() {
+
 		global $wpdb;
 		$chosenBanner = $this->chosenBanner;
 		$ab_options = get_option( 'wpl_ab_options' );
@@ -1240,6 +1241,7 @@ $selected_script_category = $wpdb->get_var(
 				'is_gcm_debug_on'							=> isset($the_options['is_gcm_debug_mode']) ? $the_options['is_gcm_debug_mode'] : 'false' 
 			);
 
+
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
 		}
 	}
@@ -1385,7 +1387,6 @@ $selected_script_category = $wpdb->get_var(
 	}
 
 	public function gdprcookieconsent_inject_sripts_on_consent(){
-		error_log("DADADA injecting scripts on consent");
 		$the_options = GDPR_Cookie_Consent::gdpr_get_settings();
 		$viewed_cookie = isset($_COOKIE['wpl_viewed_cookie']) ? sanitize_text_field(wp_unslash($_COOKIE['wpl_viewed_cookie'])) : '';
 		if($the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie){
