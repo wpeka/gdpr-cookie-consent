@@ -14289,7 +14289,6 @@ var adv = new Vue({
       let navLinks = j(".nav-link.active").map(function () {
         return this.getAttribute("class");
       });
-      console.log("DODODO navLinks: ", navLinks);
       if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
       for (let i = 0; i < navLinks.length; i++) {
         let re = new RegExp(navLinks[i]);

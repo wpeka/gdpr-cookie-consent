@@ -278,6 +278,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 					<?php endif; ?>
 					
 				<p  class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr';?>">
+					
 					<?php if ( $the_options['cookie_usage_for'] === 'gdpr'  || $the_options['cookie_usage_for'] === 'both' ) : ?>
 						<span><?php echo $the_options['is_iabtcf_on'] ? $cookie_data['dash_notify_message_iabtcf']: strip_tags(__( $cookie_data['dash_notify_message']), '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?></span>
 						<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>

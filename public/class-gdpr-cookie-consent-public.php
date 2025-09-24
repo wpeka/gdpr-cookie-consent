@@ -498,6 +498,7 @@ class Gdpr_Cookie_Consent_Public {
 	 * @since 1.0
 	 */
 	public function gdprcookieconsent_inject_gdpr_script() {
+
 		global $wpdb;
 		$chosenBanner = $this->chosenBanner;
 		$ab_options = get_option( 'wpl_ab_options' );
@@ -1239,6 +1240,7 @@ $selected_script_category = $wpdb->get_var(
 				'is_gcm_on'									=> $the_options['is_gcm_on'],
 				'is_gcm_debug_on'							=> isset($the_options['is_gcm_debug_mode']) ? $the_options['is_gcm_debug_mode'] : 'false' 
 			);
+
 
 			wp_localize_script( $this->plugin_name, 'gdpr_cookies_obj', $cookies_list_data );
 		}
