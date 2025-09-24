@@ -5938,6 +5938,12 @@ class Gdpr_Cookie_Consent_Admin {
 		$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
 				$translations      = wp_remote_get( $translations_file );
 
+				if ( is_wp_error( $translations ) ) {
+				    error_log("DODODO translations error: " . $translations->get_error_message());
+				} else {
+				    error_log("DODODO translations: " . print_r($translations, true));
+				}
+				
 				// Log the entire response
 				if ( is_wp_error( $translations ) ) {
 				} else {

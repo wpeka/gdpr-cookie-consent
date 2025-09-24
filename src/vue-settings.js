@@ -2879,7 +2879,6 @@ var gen = new Vue({
       this.data_reqs_switch_clicked = true;
     },
     onSwitchIabtcfEnable() {
-      console.log("DODODO onSwitchIabtcfEnable()");
       this.iabtcf_is_on = !this.iabtcf_is_on;
       if (this.iabtcf_is_on) {
         this.gdpr_message = `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`;
@@ -4816,7 +4815,6 @@ var gen = new Vue({
       }
     },
     async saveCookieSettings() {
-      console.log("Saving Cookie Settings.")
         this.save_loading = true;
         // When Pro is activated set the values in the aceeditor
         if (this.isGdprProActive) {
@@ -4828,7 +4826,6 @@ var gen = new Vue({
           this.gdpr_css_text = code;
           editor.setValue(this.gdpr_css_text);
         }
-        console.log("is_iab_changed: ", this.is_iabtcf_changed,  " iab_is_on: ", this.iabtcf_is_on);
         if(this.is_iabtcf_changed && this.iabtcf_is_on){
           try {
               await this.fetchIABData(); // now REALLY waits for ajax done
@@ -4915,7 +4912,6 @@ var gen = new Vue({
           });
       },
     async fetchIABData(){
-      console.log("Fetching IAB data.");
       var that = this;
       GVL.baseUrl = "https://appwplegalpages.b-cdn.net/";
       const gvl = new GVL();
@@ -14290,96 +14286,19 @@ var adv = new Vue({
         }
       }
 
-      // this.setActiveTab();
-
-      // this.setActiveTabFromURL();
+      let navLinks = j(".nav-link.active").map(function () {
+        return this.getAttribute("class");
+      });
+      console.log("DODODO navLinks: ", navLinks);
+      if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
+      for (let i = 0; i < navLinks.length; i++) {
+        let re = new RegExp(navLinks[i]);
+        if (window.location.href.match(re)) {
+          this.$refs.active_tab.activeTabIndex = i;
+          break;
+        }
+      }
     },
-//     setActiveTabFromURL() {
-//     this.$nextTick(() => {
-//     // Multiple attempts to ensure the tab component is ready
-//     let attempts = 0;
-//     const maxAttempts = 10;
-    
-//     const trySetTab = () => {
-//       attempts++;
-      
-//       if (this.$refs.active_tab) {
-//         const currentHash = window.location.hash;
-//         console.log("Current hash:", currentHash);
-        
-//         // Map the hash to the correct tab index (0-based)
-//         // Based on your template, the tabs are:
-//         // 0: Consent Settings (#advanced_settings#consent)
-//         // 1: Additional Settings (#advanced_settings#additional) 
-//         // 2: Export/Import Settings (#advanced_settings#export_import)
-        
-//         if (currentHash.includes('#consent')) {
-//           this.$refs.active_tab.activeTabIndex = 0;
-//           console.log("Set to consent tab (index 0)");
-//         } else if (currentHash.includes('#additional')) {
-//           this.$refs.active_tab.activeTabIndex = 1;
-//           console.log("Set to additional tab (index 1)");
-//         } else if (currentHash.includes('#export_import')) {
-//           this.$refs.active_tab.activeTabIndex = 2;
-//           console.log("Set to export/import tab (index 2)");
-//         } else if (currentHash.includes('#advanced_settings')) {
-//           // Default to first tab if just #advanced_settings
-//           this.$refs.active_tab.activeTabIndex = 0;
-//           console.log("Set to default consent tab (index 0)");
-//         }
-//       } else if (attempts < maxAttempts) {
-//         console.warn(`Tab ref not ready, attempt ${attempts}/${maxAttempts}`);
-//         setTimeout(trySetTab, 100 * attempts); // Increasing delay
-//       } else {
-//         console.error("Failed to set active tab after maximum attempts");
-//       }
-//     };
-    
-//     trySetTab();
-//   });
-// },
-
-    // setActiveTab() {
-    //   this.$nextTick(() => {
-    // let navLinks = j(".nav-link").map(function () {
-    //   return this.getAttribute("href");
-    // });
-    
-    // // Ensure refs are available
-    // if (!this.$refs.active_tab) {
-    //   console.warn("active_tab ref not available yet, retrying...");
-    //   // Retry after a short delay
-    //   setTimeout(() => this.setActiveTab(), 100);
-    //   return;
-    // }
-
-    // console.log("DODODO checking refs...");
-    // console.log("DODODO navLinks: ", navLinks);
-    
-    // // Define the advanced settings tab indices
-    // const advancedSettingsTabMap = {
-    //   '#advanced_settings#consent': 0,
-    //   '#advanced_settings#additional': 1,
-    //   '#advanced_settings#export_import': 2
-    // };
-    
-    // for (let i = 0; i < navLinks.length; i++) {
-    //   let href = navLinks[i];
-    //   console.log("DODODO " + i + " href: ", href);
-      
-    //   if (window.location.href.includes(href)) {
-    //     console.log("DODODO matched ", i, " href: ", href);
-        
-    //     // Check if this is an advanced settings tab
-    //     if (advancedSettingsTabMap.hasOwnProperty(href)) {
-    //       this.$refs.active_tab.activeTabIndex = advancedSettingsTabMap[href];
-    //       console.log("DODODO set activeTabIndex to: ", advancedSettingsTabMap[href]);
-    //     }
-    //     break;
-    //   }
-    // }
-  // });
-  //   },
     saveAdvancedCookieSettings() {
       this.save_loading = true;
       
@@ -15925,9 +15844,7 @@ var ckm = new Vue({
 
     },
     refreshCookieScannerData(html) {
-      console.log("DODODO refreshCookieScannerData()"); 
       this.cookie_scanner_data = html;
-      console.log("DODODO cookie_scanner_data: ", this.cookie_scanner_data);
       const container = document.querySelector('#cookie-scanner-container');
       this.$nextTick(() => {
                 new Vue({
