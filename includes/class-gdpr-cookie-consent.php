@@ -241,6 +241,8 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_ajax_ab_testing_enable', $plugin_admin, 'gdpr_cookie_consent_ab_testing_enable', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_auto_generated_banner', $plugin_admin, 'gdpr_cookie_consent_ajax_auto_generated_banner', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gcc_switch_preview_banner', $plugin_admin, 'gdpr_cookie_consent_ajax_switch_preview_banner', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gcc_get_preview_banner_state', $plugin_admin, 'gdpr_cookie_consent_ajax_get_preview_banner_state', 10, 1 );
 			// added ajax callback for wizard.
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
 			// added ajax for import settings.
