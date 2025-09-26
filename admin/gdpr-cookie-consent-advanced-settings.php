@@ -3,22 +3,16 @@
         <c-form id="gcc-save-advanced-settings-form" method="post" spellcheck="false" class="gdpr-cookie-consent-settings-form">
             <input type="hidden" name="gcc_settings_form_nonce_advanced" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-advanced' ) ); ?>"/>
             <div class="gdpr-cookie-consent-settings-content">
-                <div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>
-				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
+                <div id="gdpr-cookie-consent-save-settings-alert-adv">{{success_error_message}}</div>
+				<div id="gdpr-cookie-consent-updating-settings-alert-adv">Updating Setting</div>
 
-                <div class="gdpr-banner-preview-save-btn">
-                    <div></div>
-                    <div class="gdpr-preview-publish-btn">
+				<div class="gdpr-preview-publish-btn gdpr-preview-publish-btn-adv">
 						<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveAdvancedCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
-					</div>
-                </div>
-
-                <hr id="preview-btn-setting-nav-seperator">
-
+				</div> 
                 <c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
-                    <!-- Consent Settings Start -->
-                    <c-tab class="consent-settings" title="<?php esc_attr_e( 'Consent Settings', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-consent-settings" >
-                        <c-card class="consent_card">
+					<!-- Consent Settings Start -->
+                    <c-tab href="#advanced_settings#consent" class="consent-settings" title="<?php esc_attr_e( 'Consent Settings', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-consent-settings" >   
+						<c-card class="consent_card">
                             <c-card-body>
                                 <!-- Consent  Forwarding -->
 								<?php
@@ -182,7 +176,7 @@
                     </c-tab> 
                     
                     <!-- Additional Settings Start -->
-                    <c-tab class="additional-settings" title="<?php esc_attr_e( 'Additional Settings', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-additional-settings" >
+                    <c-tab href="#advanced_settings#additional" class="additional-settings" title="<?php esc_attr_e( 'Additional Settings', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-additional-settings" >
                         <c-card class="additional_card">
                             <c-card-body>
                                 <!-- Extra Settings -->             
@@ -259,7 +253,7 @@
                     </c-tab> 
 
                     <!-- Export/Import Settings Start -->
-                    <c-tab class="export_import-settings" title="<?php esc_attr_e( 'Cookie Settings Export/Import', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-export-import-settings" >
+                    <c-tab href="#advanced_settings#export_import" class="export_import" title="<?php esc_attr_e( 'Cookie Settings Export/Import', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-export-import-settings" >
                         <c-card class="export_import_card">
                             <c-card-body>
                                 <!-- Export Settings Label -->

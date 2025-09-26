@@ -365,8 +365,12 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	public function wpl_script_blocker_advanced_tab() {
 		?>
 		<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#script_blocker" id="gdpr-cookie-consent-script-blocker">
+			
+            <div class="gdpr-preview-publish-btn gdpr-preview-publish-btn-scb">
+				<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveScriptBlockerSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
+			</div>
+			
 			<c-card class="script-blocker-card">
-				
 				<c-card-body style="position:relative;">
 					<div :class="{ 'overlay-script-style': enable_safe}" v-show="enable_safe">
 						<div :class="{ 'overlay-script-message': enable_safe}">
@@ -433,7 +437,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 							<input type="hidden" name="gcc-script-dependency-on" v-model="is_script_dependency_on" :disabled="enable_safe">
 						</c-col>
 					</c-row>
-					<c-row v-show="is_script_dependency_on" style="margin-top: -30px;"><c-col class="col-sm-4"></c-col><c-col class="col-sm-8"><p style="color:gray; font-weight:400;"><?php echo esc_html__( 'Follow the guide ', 'gdpr-cookie-consent' ); ?><a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wp-cookie-consent/settings/gdpr-settings-script-blocker-pro/#h-script-dependency' ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'here', 'gdpr-cookie-consent' ); ?></a><?php echo esc_html__( ' to learn more about Script Dependency.', 'gdpr-cookie-consent' ); ?></p></c-col></c-row>
+					<c-row v-show="is_script_dependency_on"><c-col class="col-sm-4"></c-col><c-col class="col-sm-8"><p style="color:gray; font-weight:400;"><?php echo esc_html__( 'Follow the guide ', 'gdpr-cookie-consent' ); ?><a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wp-cookie-consent/settings/gdpr-settings-script-blocker-pro/#h-script-dependency' ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'here', 'gdpr-cookie-consent' ); ?></a><?php echo esc_html__( ' to learn more about Script Dependency.', 'gdpr-cookie-consent' ); ?></p></c-col></c-row>
 					<c-row v-show="is_script_dependency_on">
 						<c-col class="col-sm-4"></c-col>
 						<c-col class="col-sm-5">

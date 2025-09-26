@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
    <input type="hidden" name="action" value="gdpr_support_request">
 
       <div class="gdpr-cookie-consent-settings-content">
-         <div class="gdpr-cookie-consent-settings-nav">
+         <div class="gdpr-cookie-consent-settings-nav-help-page">
             <div class="">
                <div class="tab-content">
                   <main class="gdpr-cookie-consent-help-container">

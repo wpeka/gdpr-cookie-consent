@@ -93,7 +93,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 									<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.svg'; ?>" alt="WP Cookie Consent Help">
 								</a>
 							</div>
-							<div class="gdpr-cookie-consent-admin-help-text"><a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank">
+							<div class="gdpr-cookie-consent-admin-help-text"><a href="https://wplegalpages.com/docs/" target="_blank">
 								Help Guide</a>
 							</div>
 						</div>
@@ -173,7 +173,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						<?php
 						} ?>
 						<!-- Legal Pages Plugin tab  -->
-						<a href="?page=legal-pages" class="gdpr-admin-tab-link wplp-main-tab">
+						<a href="?page=legal-pages#settings" class="gdpr-admin-tab-link wplp-main-tab">
 							<div class="wplp-admin-tab-link-content">
 								<div class="wp-legalpages-admin-gdpr-main-tab wplp-admin-tab-link-left">
 									<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

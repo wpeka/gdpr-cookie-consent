@@ -205,7 +205,7 @@ if ( 200 === $response_status ) {
 				<p class="gdpr-section-content"><?php esc_html_e( 'Your complete compliance package for your website, from legal documents to cookie consent.','gdpr-cookie-consent'); ?> </p>
 			</div>
 			<div class="gdpr-video-section">
-				<iframe width="550" height="260" src="https://www.youtube.com/embed/Yxc5_otnHLc" title="Stay Compliant with WP Compliance Platform | Free All-in-One Solution" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+				<iframe width="450" height="260" src="https://www.youtube.com/embed/Yxc5_otnHLc" title="Stay Compliant with WP Compliance Platform | Free All-in-One Solution" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 			</div>
 		</div>
 		<c-card class="gdpr-progress-bar-card">
@@ -366,7 +366,7 @@ if ( 200 === $response_status ) {
 							</span>
 							<span class="gdpr-dashboard-legalpages-create-pages-tab" v-show="legal_pages_installed && is_legalpages_active && !is_legal_page_exist">
 								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
-								<a target="_blank" class="gdpr-progress-list-link" :href="create_legalpages_url"><?php esc_html_e( 'Create WP Legal Pages', 'gdpr-cookie-consent' ); ?></a>
+								<a target="_blank" class="gdpr-progress-list-link" :href="create_legalpages_url"><?php esc_html_e( 'Click here', 'gdpr-cookie-consent' ); ?></a>
 							</span>
 							<span class="gdpr-dashboard-legalpages-create-pages-tab" v-show="legal_pages_installed && is_legalpages_active && is_legal_page_exist">
 								<?php esc_html_e( 'Generated legal policy. ', 'gdpr-cookie-consent' ); ?>

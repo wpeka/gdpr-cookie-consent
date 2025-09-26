@@ -3173,7 +3173,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Advanced Settings Page
 	 * 
-	 * @since 9.2.11
+	 * @since 4.0.0
 	 */
 	public function gdpr_cookie_consent_advanced_settings() {
 		$is_user_connected = $this->settings->is_connected();
@@ -3242,7 +3242,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * AB Testing Page
 	 * 
-	 * @since 9.2.11
+	 * @since 4.0.0
 	 */
 	public function gdpr_cookie_consent_abtesting_settings() {
 		$is_user_connected = $this->settings->is_connected();
@@ -3286,7 +3286,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Script Blocker Page
 	 * 
-	 * @since 9.2.11
+	 * @since 4.0.0
 	 */
 	public function gdpr_cookie_consent_script_blocker_settings() {
 		$is_user_connected = $this->settings->is_connected();
@@ -3355,7 +3355,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/**
 	 * Cookie Manager Page
 	 * 
-	 * @since 9.2.11
+	 * @since 4.0.0
 	 */
 	public function gdpr_cookie_consent_cookie_manager_settings() {
 		$is_user_connected = $this->settings->is_connected();
@@ -3399,7 +3399,7 @@ class Gdpr_Cookie_Consent_Admin {
 		/**
 	 * Languages Page
 	 * 
-	 * @since 9.2.11
+	 * @since 4.0.0
 	 */
 	public function gdpr_cookie_consent_language_settings() {
 		$is_user_connected = $this->settings->is_connected();
@@ -5627,6 +5627,9 @@ class Gdpr_Cookie_Consent_Admin {
 				return;
 			}
 			
+			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
+
 			if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
 				// hide banner.
 				$selected_pages = array();
@@ -5634,9 +5637,6 @@ class Gdpr_Cookie_Consent_Admin {
 				// storing id of pages in database.
 				$the_options['select_pages'] = $selected_pages;
 			}
-
-			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
-			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
 
 			// DO NOT TRACK.
 			$the_options['do_not_track_on'] = isset( $_POST['gcc-do-not-track'] ) && ( true === $_POST['gcc-do-not-track'] || 'true' === $_POST['gcc-do-not-track'] ) ? 'true' : 'false';
@@ -5791,7 +5791,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
 
 			// language translation based on the selected language.
-			if ( $_POST['lang_changed'] == 'true' && isset( $_POST['select-banner-lan'] ) && in_array( $_POST['select-banner-lan'], $this->supported_languages ) ) {  //phpcs:ignore
+			if ( isset( $_POST['select-banner-lan'] ) && in_array( $_POST['select-banner-lan'], $this->supported_languages ) ) {  //phpcs:ignore
 				$the_options = $this->changeLanguage($the_options);				
 			}
 
@@ -5934,21 +5934,13 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Function to change the language
 	 */
 	public function changeLanguage($the_options){
-		$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
-				$translations      = wp_remote_get( $translations_file );
+		$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
 
-				
-
-				// Log the entire response
-				if ( is_wp_error( $translations ) ) {
-				} else {
-					$body = wp_remote_retrieve_body( $translations );
-
-					$translations = json_decode( $body, true );
-
-					if ( $translations === null ) {
-					}
+				if ( file_exists( $translations_file ) ) {
+				    $translations = file_get_contents( $translations_file );
+				    $translations = json_decode( $translations, true );
 				}
+
 				// Define an array of text keys to translate.
 				$text_keys_to_translate = array(
 					'dash_notify_message_eprivacy',
@@ -5981,12 +5973,12 @@ class Gdpr_Cookie_Consent_Admin {
 					'gdpr_cookie_category_name_unclassified',
 				);
 
-				// Determine the target language based on the POST value.
-				$target_language = $_POST['select-banner-lan'];   //phpcs:ignore
+				$target_language = isset( $the_options['lang_selected'] ) ? $the_options['lang_selected'] : 'en';   //phpcs:ignore
 				// Initialize arrays to store translated category descriptions and names.
 				$translated_category_descriptions = array();
 				$translated_category_names        = array();
 				// Loop through the text keys and translate them.
+
 				foreach ( $text_keys_to_translate as $text_key ) {
 					$translated_text                 = $this->translated_text( $text_key, $translations, $target_language );
 					$stripped_string                 = str_replace( 'dash_', '', $text_key );
