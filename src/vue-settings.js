@@ -2532,19 +2532,6 @@ var gen = new Vue({
     }
   },
   methods: {  
-    refreshABTestingData(html) {
-      this.ab_testing_data = html;
-      const container = document.querySelector('#ab-testing-container');
-      this.$nextTick(() => {
-                new Vue({
-                    el: container,
-                    data: this.$data, // Reuse the existing Vue instance data
-                    methods: this.$options.methods, // Reuse the existing methods
-                    mounted: this.$options.mounted, // Reuse the original mounted logic
-                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
-                });
-            });
-    },
     refreshGCMAdvertiserModeData(html) {
       this.gcm_adver_mode_data = html;
       const container = document.querySelector('#gcm-advertiser-mode-container');
@@ -2822,10 +2809,6 @@ var gen = new Vue({
       //changing the value of banner_preview_swicth_value enable/disable
       this.banner_preview_is_on = !this.banner_preview_is_on;
     },
-    onSwitchDntEnable() {
-      //changing the value of do_not_track_on enable/disable
-      this.do_not_track_on = !this.do_not_track_on;
-    },
     onSwitchDataReqsEnable() {
       //changing the value of data_reqs_on enable/disable
       this.data_reqs_on = !this.data_reqs_on;
@@ -3023,23 +3006,6 @@ var gen = new Vue({
     closeModal() {
       this.showModal = false;
     },
-    onEnablesafeSwitch() {
-      if (this.enable_safe === "true") {
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-      } else {
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-      }
-    },
     onSwitchRevokeConsentEnable() {
       this.is_revoke_consent_on = !this.is_revoke_consent_on;
     },
@@ -3048,12 +3014,6 @@ var gen = new Vue({
     },
     onSwitchRevokeConsentEnable2() {
       this.is_revoke_consent_on2 = !this.is_revoke_consent_on2;
-    },
-    onSwitchAutotick() {
-      this.autotick = !this.autotick;
-    },
-    onSwitchAutoHide() {
-      this.auto_hide = !this.auto_hide;
     },
     onSwitchAutoBannerInitialize() {
       this.auto_banner_initialize = !this.auto_banner_initialize;
@@ -3184,47 +3144,9 @@ var gen = new Vue({
       this.banner_preview_is_on = true;
       // }
     },
-
-    onSwitchAutoScroll() {
-      this.auto_scroll = !this.auto_scroll;
-    },
-    onSwitchAutoClick() {
-      this.auto_click = !this.auto_click;
-    },
-    onSwitchAutoScrollReload() {
-      this.auto_scroll_reload = !this.auto_scroll_reload;
-    },
-    onSwitchAcceptReload() {
-      this.accept_reload = !this.accept_reload;
-    },
-    onSwitchDeclineReload() {
-      this.decline_reload = !this.decline_reload;
-    },
-    onSwitchDeleteOnDeactivation() {
-      this.delete_on_deactivation = !this.delete_on_deactivation;
-    },
     //consent forward.
     onSwitchConsentForward() {
       this.consent_forward = !this.consent_forward;
-    },
-    onSwitchEnableSafe() {
-      this.onEnablesafeSwitch();
-      this.onSwitchReloadSafeMode();
-      this.enable_safe = !this.enable_safe;
-    },
-    onSwitchEnableUsageData() {
-      this.usage_data = !this.usage_data;
-    },
-    onSwitchReloadSafeMode() {
-      this.reload_onSafeMode = !this.reload_onSafeMode;
-      this.reload_onSafeMode = true;
-    },
-    onSwitchShowCredits() {
-      this.show_credits = !this.show_credits;
-    },
-    onSwitchLoggingOn() {
-      this.logging_on = !this.logging_on;
-      this.consent_log_switch_clicked = true;
     },
     onClickRenewConsent() {
       this.consent_version = Number(this.consent_version) + 1;
@@ -3571,9 +3493,6 @@ var gen = new Vue({
 
       this.is_template_changed = true;
     },
-    onLanguageChange() {
-      this.is_lang_changed = true;
-    },
     onSwitchButtonReadMoreIsOn() {
       this.button_readmore_is_on = !this.button_readmore_is_on;
     },
@@ -3614,13 +3533,6 @@ var gen = new Vue({
         dummy_array[i] = value[i];
       }
       this.select_pages = dummy_array;
-    },
-    onSiteSelect(value) {
-      let tmp_array = [];
-      for (let i = 0; i < value.length; i++) {
-        tmp_array[i] = value[i];
-      }
-      this.select_sites = tmp_array;
     },
     onSelectPrivacyPage(value) {
       this.button_readmore_page = value;
@@ -3858,154 +3770,6 @@ var gen = new Vue({
     showCustomCookieAddForm() {
       this.show_custom_form = true;
       this.show_add_custom_button = !this.show_add_custom_button;
-    },
-    onClickRestoreButton() {
-      let answer = confirm(
-        "Are you sure you want to reset to default settings?"
-      );
-      if (answer) {
-        this.restoreDefaultSettings();
-      }
-    },
-    updateFileName(event) {
-      this.selectedFile = event.target.files[0];
-      document.getElementById("importButton").disabled = false;
-      document.getElementById("importButton").classList.remove("disabled");
-      document
-        .getElementById("importButton")
-        .classList.remove("disable-import-button");
-      document.getElementById("importButton").add("#importButton");
-      document
-        .getElementById("importButton")
-        .classList.remove("disable-import-button");
-      document.getElementById("importButton").remove("#importButton");
-    },
-    removeFile() {
-      this.selectedFile = null;
-      document.getElementById("fileInput").value = "";
-      document.getElementById("importButton").disabled = true;
-      document
-        .getElementById("importButton")
-        .classList.add("disable-import-button");
-    },
-    exportsettings() {
-      const siteAddress = window.location.origin;
-
-      // Make an AJAX request to fetch data from the custom endpoint
-      fetch(siteAddress + "/wp-json/custom/v1/gdpr-data/")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // Process the fetched data
-
-          // Create a copy of the settings object
-          const settingsCopy = { ...data };
-
-          // Check if gdpr_text_css is not empty
-          if (settingsCopy.gdpr_text_css !== "") {
-            const text_css = settingsCopy.gdpr_css_text;
-
-            // Decode the gdpr_text_css property before exporting
-            const final_css = text_css.replace(/\\r\\n/g, "\n");
-            settingsCopy.gdpr_css_text = final_css;
-          }
-
-          // Convert the settings object to JSON with indentation
-          const settingsJSON = JSON.stringify(
-            JSON.stringify(settingsCopy, null, 2)
-          );
-
-          // Create a Blob containing the JSON data
-          const blob = new Blob([settingsJSON], { type: "application/json" });
-
-          // Create a download link for the Blob
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "wpeka-banner-settings.json";
-
-          // Trigger a click on the link to initiate the download
-          a.click();
-
-          // Release the object URL to free up resources
-          URL.revokeObjectURL(url);
-        })
-        .catch((error) => {
-          console.error("There was a problem with the fetch operation:", error);
-        });
-    },
-    importsettings() {
-      var that = this;
-      var fileInput = document.getElementById("fileInput");
-      var file = fileInput.files[0];
-
-      if (file) {
-        var reader = new FileReader();
-        document.getElementById("importButton").disabled = true;
-        document
-          .getElementById("importButton")
-          .classList.add("disable-import-button");
-        reader.onload = function (event) {
-          var jsonData = event.target.result;
-          try {
-            const parsedData = JSON.parse(JSON.parse(jsonData));
-            var data = {
-              action: "gcc_update_imported_settings",
-              security: settings_obj.import_settings_nonce,
-              settings: parsedData,
-            };
-            jQuery.ajax({
-              url: settings_obj.ajaxurl,
-              data: data,
-              dataType: "json",
-              type: "POST",
-              success: function (data) {
-                if (data.success === true) {
-                  setTimeout(function addsettings() {
-                    window.location.reload();
-                  }, 7000);
-
-                  that.success_error_message =
-                    "Your file has been imported successfully. Please click on the Save Changes button to make the changes.";
-                  j("#gdpr-cookie-consent-save-settings-alert").css(
-                    "background-color",
-                    "#72b85c"
-                  );
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeOut(7000);
-                } else {
-                  that.success_error_message = "Please try again.";
-                  j("#gdpr-cookie-consent-save-settings-alert").css(
-                    "background-color",
-                    "#72b85c"
-                  );
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-                }
-              },
-              error: function () {
-                that.success_error_message = "Please try again.";
-                j("#gdpr-cookie-consent-save-settings-alert").css(
-                  "background-color",
-                  "#72b85c"
-                );
-                j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-              },
-            });
-          } catch (e) {
-            console.error("Error parsing JSON data:", e);
-          }
-        };
-
-        reader.readAsText(file);
-      } else {
-        console.error("No file selected");
-      }
     },
     restoreDefaultSettings() {
       this.ab_testing_enabled = false;
@@ -4908,44 +4672,6 @@ var gen = new Vue({
       }
       this.edit_region = index + 1;
       this.add_region = true;
-    },
-    onSwitchABTestingEnable() {
-      j("#gdpr-cookie-consent-updating-settings-alert")
-        .fadeIn(200)
-        .fadeOut(2000);
-      this.ab_testing_enabled = !this.ab_testing_enabled;
-      this.cookie_on_frontend1 = true;
-      this.cookie_on_frontend2 = true;
-      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
-
-      var dataV = jQuery("#gcc-save-settings-form").serialize();
-      // Make the AJAX request to save the new state
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: {
-            action: "ab_testing_enable",
-            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
-          },
-        })
-        .done(function (data) {
-          window.location.reload();
-          // Show success message
-          that.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert")
-            .css("background-color", "#72b85c")
-            .fadeIn(400)
-            .fadeOut(2500, function () {
-              // Optionally reload the page or perform other actions
-            });
-        })
-        .fail(function (error) {
-          console.error("AJAX call failed:", error);
-          alert(
-            "An error occurred while saving the settings. Please try again."
-          );
-        });
     },
     onSwitchABTestingAuto() {
       this.ab_testing_auto = !this.ab_testing_auto;
@@ -7715,23 +7441,6 @@ var app = new Vue({
     onSwitchGacmEnable() {
       this.gacm_is_on = !this.gacm_is_on;
     },
-    onEnablesafeSwitch() {
-      if (this.enable_safe === "true") {
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-      } else {
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-      }
-    },
     onSwitchRevokeConsentEnable() {
       this.is_revoke_consent_on = !this.is_revoke_consent_on;
     },
@@ -7741,44 +7450,8 @@ var app = new Vue({
     onSwitchRevokeConsentEnable2() {
       this.is_revoke_consent_on2 = !this.is_revoke_consent_on2;
     },
-    onSwitchAutotick() {
-      this.autotick = !this.autotick;
-    },
-    onSwitchAutoHide() {
-      this.auto_hide = !this.auto_hide;
-    },
     onSwitchAutoBannerInitialize() {
       this.auto_banner_initialize = !this.auto_banner_initialize;
-    },
-    onSwitchAutoScroll() {
-      this.auto_scroll = !this.auto_scroll;
-    },
-    onSwitchAutoClick() {
-      this.auto_click = !this.auto_click;
-    },
-    onSwitchAutoScrollReload() {
-      this.auto_scroll_reload = !this.auto_scroll_reload;
-    },
-    onSwitchAcceptReload() {
-      this.accept_reload = !this.accept_reload;
-    },
-    onSwitchDeclineReload() {
-      this.decline_reload = !this.decline_reload;
-    },
-    onSwitchDeleteOnDeactivation() {
-      this.delete_on_deactivation = !this.delete_on_deactivation;
-    },
-    onSwitchEnableSafe() {
-      this.onEnablesafeSwitch();
-      this.onSwitchReloadSafeMode();
-      this.enable_safe = !this.enable_safe;
-    },
-    onSwitchReloadSafeMode() {
-      this.reload_onSafeMode = !this.reload_onSafeMode;
-      this.reload_onSafeMode = true;
-    },
-    onSwitchShowCredits() {
-      this.show_credits = !this.show_credits;
     },
     onSwitchLoggingOn() {
       this.logging_on = !this.logging_on;
@@ -8232,9 +7905,6 @@ var app = new Vue({
 
       this.is_template_changed = true;
     },
-    onLanguageChange() {
-      this.is_lang_changed = true;
-    },
     onSwitchButtonReadMoreIsOn() {
       this.button_readmore_is_on = !this.button_readmore_is_on;
     },
@@ -8384,134 +8054,6 @@ var app = new Vue({
     showCustomCookieAddForm() {
       this.show_custom_form = true;
       this.show_add_custom_button = !this.show_add_custom_button;
-    },
-    onClickRestoreButton() {
-      let answer = confirm(
-        "Are you sure you want to reset to default settings?"
-      );
-      if (answer) {
-        this.restoreDefaultSettings();
-      }
-    },
-    updateFileName(event) {
-      this.selectedFile = event.target.files[0];
-    },
-    removeFile() {
-      this.selectedFile = null;
-      document.getElementById("fileInput").value = "";
-    },
-    exportsettings() {
-      const siteAddress = window.location.origin;
-
-      // Make an AJAX request to fetch data from the custom endpoint
-      fetch(siteAddress + "/wp-json/custom/v1/gdpr-data/")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // Process the fetched data
-
-          // Create a copy of the settings object
-          const settingsCopy = { ...data };
-
-          // Check if gdpr_text_css is not empty
-          if (settingsCopy.gdpr_text_css !== "") {
-            const text_css = settingsCopy.gdpr_css_text;
-
-            // Decode the gdpr_text_css property before exporting
-            const final_css = text_css.replace(/\\r\\n/g, "\n");
-            settingsCopy.gdpr_css_text = final_css;
-          }
-
-          // Convert the settings object to JSON with indentation
-          const settingsJSON = JSON.stringify(
-            JSON.stringify(settingsCopy, null, 2)
-          );
-
-          // Create a Blob containing the JSON data
-          const blob = new Blob([settingsJSON], { type: "application/json" });
-
-          // Create a download link for the Blob
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "wpeka-banner-settings.json";
-
-          // Trigger a click on the link to initiate the download
-          a.click();
-
-          // Release the object URL to free up resources
-          URL.revokeObjectURL(url);
-        })
-        .catch((error) => {
-          console.error("There was a problem with the fetch operation:", error);
-        });
-    },
-    importsettings() {
-      var that = this;
-      var fileInput = document.getElementById("fileInput");
-      var file = fileInput.files[0];
-
-      if (file) {
-        var reader = new FileReader();
-
-        reader.onload = function (event) {
-          var jsonData = event.target.result;
-          try {
-            const parsedData = JSON.parse(JSON.parse(jsonData));
-            var data = {
-              action: "gcc_update_imported_settings",
-              security: settings_obj.import_settings_nonce,
-              settings: parsedData,
-            };
-            jQuery.ajax({
-              url: settings_obj.ajaxurl,
-              data: data,
-              dataType: "json",
-              type: "POST",
-              success: function (data) {
-                if (data.success === true) {
-                  that.success_error_message =
-                    "Settings imported successfully.";
-                  j("#gdpr-cookie-consent-save-settings-alert").css(
-                    "background-color",
-                    "#72b85c"
-                  );
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-                  window.location.reload();
-                } else {
-                  that.success_error_message = "Please try again.";
-                  j("#gdpr-cookie-consent-save-settings-alert").css(
-                    "background-color",
-                    "#72b85c"
-                  );
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-                }
-              },
-              error: function () {
-                that.success_error_message = "Please try again.";
-                j("#gdpr-cookie-consent-save-settings-alert").css(
-                  "background-color",
-                  "#72b85c"
-                );
-                j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-              },
-            });
-          } catch (e) {
-            console.error("Error parsing JSON data:", e);
-          }
-        };
-
-        reader.readAsText(file);
-      } else {
-        console.error("No file selected");
-      }
     },
     restoreDefaultSettings() {
       this.cookie_bar_color = "#ffffff";
