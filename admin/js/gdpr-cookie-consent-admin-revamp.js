@@ -376,7 +376,7 @@ jQuery(document).ready(function () {
             if (window.gen && typeof window.gen.refreshGCMAdvertiserModeData === 'function') {
                 window.gen.refreshGCMAdvertiserModeData(response.data.html);
             } else {
-                console.error('Vue instance not found or refreshCookieScannerData method missing.');
+                console.error('Vue instance not found or refreshGCMAdvertiserModeData method missing.');
             }
         },
         error: function () {
