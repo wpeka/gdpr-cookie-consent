@@ -1050,6 +1050,7 @@ circle.ep-circle--empty {
   position: relative;
   margin-bottom: 0; /* Space between steps */
   text-align: center;
+  display: flex;
 }
 #vertical-progressbar .container {
   margin-top: 0;
@@ -1231,7 +1232,7 @@ circle.ep-circle--empty {
   display: flex;
   justify-content: space-between;
   background: linear-gradient(180deg, #EDF6FB 47.73%, rgba(248, 252, 255, 0) 116.89%);
-  gap: 106px;
+  gap: 80px;
   padding: 6em;
 }
 .gdpr-welcome-section p{
@@ -1267,7 +1268,7 @@ p.gdpr-title-subheading {
   color: rgba(17, 92, 167, 1) !important;
 }
 
-@media ( max-width:1440px ) {
+@media ( max-width:1768px ) {
   .consent-insights-section {
     width: 85% !important;
   }
@@ -1280,4 +1281,13 @@ p.gdpr-title-subheading {
     flex-direction: column;
     align-items: center;
   }
+
+  .tasks-heading {
+    right: 10em;
+  }
+}
+
+.progress-bar-caption div {
+  display: flex;
+  align-items: center;
 }

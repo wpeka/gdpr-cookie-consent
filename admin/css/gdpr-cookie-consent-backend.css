@@ -540,7 +540,7 @@ a .export-btn:hover {
 .gdpr-green-progress {
   background-color: #f0fdf4;
   color: #166534;
-  height: 50px;
+  min-height: 50px;
   border-radius: 4px;
 }
 

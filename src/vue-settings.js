@@ -12581,6 +12581,8 @@ var ckm = new Vue({
         ? settings_obj.the_options["schedule_scan_when"]
         : "Not Scheduled", 
       progress_bar: require("../admin/images/progress_bar.svg"),
+      edit_discovered_cookie_on: false,
+      edit_discovered_cookie: {},
     }
   },
   methods: {
@@ -13923,6 +13925,13 @@ var ckm = new Vue({
           j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
         },
       });
+    },
+    editCookie(cookie) {
+      this.edit_discovered_cookie_on = true;
+      this.edit_discovered_cookie = { ...cookie };
+    },
+    hideCreateCookiePopup() {
+      this.edit_discovered_cookie_on = false;
     },
   },
   mounted() {
