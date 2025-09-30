@@ -1276,7 +1276,6 @@ input[type="radio"]:checked {
   margin-top: 12px;
   max-width: 250px;
   color: var(--gray-500);
-  height: 55px;
 }
 .gdpr-help-button {
   margin-top: 10px;

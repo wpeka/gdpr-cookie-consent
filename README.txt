@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.8.1
-Stable tag: 3.9.8
+Stable tag: 4.0.0
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -346,6 +346,14 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 11.Consent Log table
 
 == Change Log ==
+
+= 4.0.0 =
+* Major Update – Revamped Dashboard & Settings
+* Completely redesigned dashboard UI for a cleaner, more intuitive experience.
+* Restructured menu navigation to make key features easier to find.
+* Simplified and reorganized settings pages for faster configuration.
+* Improved layout consistency across all modules for better usability.
+* Bug fixes and improvements.
 
 = 3.9.8 =
 * Added option to display CCPA and GDPR banners separately: Now, site owners can configure banners to show individually based on user region, ensuring a smoother and more compliant user experience.
@@ -837,6 +845,14 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Initial version
 
 == Upgrade Notice ==
+
+= 4.0.0 =
+* Major Update – Revamped Dashboard & Settings
+* Completely redesigned dashboard UI for a cleaner, more intuitive experience.
+* Restructured menu navigation to make key features easier to find.
+* Simplified and reorganized settings pages for faster configuration.
+* Improved layout consistency across all modules for better usability.
+* Bug fixes and improvements.
 
 = 3.9.8 =
 * Added option to display CCPA and GDPR banners separately: Now, site owners can configure banners to show individually based on user region, ensuring a smoother and more compliant user experience.
