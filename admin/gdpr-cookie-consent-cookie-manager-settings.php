@@ -4,17 +4,8 @@
             <input type="hidden" name="gcc_settings_form_nonce_cookie_manager" value="<?php echo esc_attr( wp_create_nonce( 'gcc-settings-form-nonce-cookie-manager' ) ); ?>"/>
             
             <div class="gdpr-cookie-consent-settings-content">
-                <div id="gdpr-cookie-consent-save-settings-alert">{{success_error_message}}</div>
-				<div id="gdpr-cookie-consent-updating-settings-alert">Updating Setting</div>
-<!-- 
-                <div class="gdpr-banner-preview-save-btn">
-                    <div></div>
-                    <div class="gdpr-preview-publish-btn">
-						<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveCookieManagerSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
-					</div>
-                </div>
-
-                <hr id="preview-btn-setting-nav-seperator"> -->
+                <div id="gdpr-cookie-consent-save-settings-alert-ckm">{{success_error_message}}</div>
+				<div id="gdpr-cookie-consent-updating-settings-alert-ckm">Updating Setting</div>
 
                <c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
                     <c-tab title="<?php esc_attr_e( 'Cookie Manager', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" 	id="gdpr-cookie-consent-cookies-list" style="position: relative;">

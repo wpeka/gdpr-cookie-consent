@@ -2532,32 +2532,6 @@ var gen = new Vue({
     }
   },
   methods: {  
-    refreshCookieScannerData(html) {
-      this.cookie_scanner_data = html;
-      const container = document.querySelector('#cookie-scanner-container');
-      this.$nextTick(() => {
-                new Vue({
-                    el: container,
-                    data: this.$data, // Reuse the existing Vue instance data
-                    methods: this.$options.methods, // Reuse the existing methods
-                    mounted: this.$options.mounted, // Reuse the original mounted logic
-                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
-                });
-            });
-    },
-    refreshABTestingData(html) {
-      this.ab_testing_data = html;
-      const container = document.querySelector('#ab-testing-container');
-      this.$nextTick(() => {
-                new Vue({
-                    el: container,
-                    data: this.$data, // Reuse the existing Vue instance data
-                    methods: this.$options.methods, // Reuse the existing methods
-                    mounted: this.$options.mounted, // Reuse the original mounted logic
-                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
-                });
-            });
-    },
     refreshGCMAdvertiserModeData(html) {
       this.gcm_adver_mode_data = html;
       const container = document.querySelector('#gcm-advertiser-mode-container');
@@ -2772,40 +2746,6 @@ var gen = new Vue({
       require("brace/theme/monokai");
       require("brace/snippets/css"); //snippet
     },
-    setPostListValues() {
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        if (this.post_cookie_list[i]["type"] === "HTTP") {
-          this.post_cookie_list[i]["enable_duration"] = false;
-        } else {
-          this.post_cookie_list[i]["enable_duration"] = true;
-        }
-        for (let j = 0; j < this.custom_cookie_types.length; j++) {
-          if (
-            this.custom_cookie_types[j]["code"] ===
-            this.post_cookie_list[i]["type"]
-          ) {
-            this.post_cookie_list[i]["type_name"] =
-              this.custom_cookie_types[j].label;
-          }
-        }
-      }
-      this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
-      this.show_add_custom_button =
-        this.post_cookie_list_length > 0 ? true : false;
-    },
-    setScanListValues() {
-      for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        for (let j = 0; j < this.custom_cookie_types.length; j++) {
-          if (
-            this.custom_cookie_types[j]["code"] ===
-            this.scan_cookie_list[i]["type"]
-          ) {
-            this.scan_cookie_list[i]["type_name"] =
-              this.custom_cookie_types[j].label;
-          }
-        }
-      }
-    },
     onClickPreviewCookieDeclaration() {
       this.preview_cookie_declaration = true;
       this.preview_about_cookie = false;
@@ -2868,10 +2808,6 @@ var gen = new Vue({
       this.isVendorsActive = false;
       //changing the value of banner_preview_swicth_value enable/disable
       this.banner_preview_is_on = !this.banner_preview_is_on;
-    },
-    onSwitchDntEnable() {
-      //changing the value of do_not_track_on enable/disable
-      this.do_not_track_on = !this.do_not_track_on;
     },
     onSwitchDataReqsEnable() {
       //changing the value of data_reqs_on enable/disable
@@ -3070,23 +3006,6 @@ var gen = new Vue({
     closeModal() {
       this.showModal = false;
     },
-    onEnablesafeSwitch() {
-      if (this.enable_safe === "true") {
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-      } else {
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-      }
-    },
     onSwitchRevokeConsentEnable() {
       this.is_revoke_consent_on = !this.is_revoke_consent_on;
     },
@@ -3095,12 +3014,6 @@ var gen = new Vue({
     },
     onSwitchRevokeConsentEnable2() {
       this.is_revoke_consent_on2 = !this.is_revoke_consent_on2;
-    },
-    onSwitchAutotick() {
-      this.autotick = !this.autotick;
-    },
-    onSwitchAutoHide() {
-      this.auto_hide = !this.auto_hide;
     },
     onSwitchAutoBannerInitialize() {
       this.auto_banner_initialize = !this.auto_banner_initialize;
@@ -3231,47 +3144,9 @@ var gen = new Vue({
       this.banner_preview_is_on = true;
       // }
     },
-
-    onSwitchAutoScroll() {
-      this.auto_scroll = !this.auto_scroll;
-    },
-    onSwitchAutoClick() {
-      this.auto_click = !this.auto_click;
-    },
-    onSwitchAutoScrollReload() {
-      this.auto_scroll_reload = !this.auto_scroll_reload;
-    },
-    onSwitchAcceptReload() {
-      this.accept_reload = !this.accept_reload;
-    },
-    onSwitchDeclineReload() {
-      this.decline_reload = !this.decline_reload;
-    },
-    onSwitchDeleteOnDeactivation() {
-      this.delete_on_deactivation = !this.delete_on_deactivation;
-    },
     //consent forward.
     onSwitchConsentForward() {
       this.consent_forward = !this.consent_forward;
-    },
-    onSwitchEnableSafe() {
-      this.onEnablesafeSwitch();
-      this.onSwitchReloadSafeMode();
-      this.enable_safe = !this.enable_safe;
-    },
-    onSwitchEnableUsageData() {
-      this.usage_data = !this.usage_data;
-    },
-    onSwitchReloadSafeMode() {
-      this.reload_onSafeMode = !this.reload_onSafeMode;
-      this.reload_onSafeMode = true;
-    },
-    onSwitchShowCredits() {
-      this.show_credits = !this.show_credits;
-    },
-    onSwitchLoggingOn() {
-      this.logging_on = !this.logging_on;
-      this.consent_log_switch_clicked = true;
     },
     onClickRenewConsent() {
       this.consent_version = Number(this.consent_version) + 1;
@@ -3618,9 +3493,6 @@ var gen = new Vue({
 
       this.is_template_changed = true;
     },
-    onLanguageChange() {
-      this.is_lang_changed = true;
-    },
     onSwitchButtonReadMoreIsOn() {
       this.button_readmore_is_on = !this.button_readmore_is_on;
     },
@@ -3648,9 +3520,6 @@ var gen = new Vue({
     onSwitchButtonReadMoreNewWin2() {
       this.button_readmore_new_win2 = !this.button_readmore_new_win2;
     },
-    onSwitchingScriptBlocker() {
-      this.is_script_blocker_on = !this.is_script_blocker_on;
-    },
     onPostsSelect(value) {
       let temp_array = [];
       for (let i = 0; i < value.length; i++) {
@@ -3664,45 +3533,6 @@ var gen = new Vue({
         dummy_array[i] = value[i];
       }
       this.select_pages = dummy_array;
-    },
-    onSwitchingScriptDependency() {
-      this.is_script_dependency_on = !this.is_script_dependency_on;
-
-      if( this.is_script_dependency_on === false ){
-        this.header_dependency = null;
-        this.footer_dependency = null;
-      }
-    },
-    onHeaderDependencySelect(value) {
-      
-      this.header_dependency_map.body = false;
-      this.header_dependency_map.footer = false;
-
-      if (this.header_dependency) {
-        this.header_dependency_map[this.header_dependency] = true;
-        this.header_dependency = this.header_dependency;
-      } else {
-        this.header_dependency = '';
-      }
-    },
-    onFooterDependencySelect(value) {
-      
-      this.footer_dependency_map.header = false;
-      this.footer_dependency_map.body = false;
-
-      if (this.footer_dependency) {
-        this.footer_dependency_map[this.footer_dependency] = true;
-        this.footer_dependency = this.footer_dependency;
-      } else {
-        this.footer_dependency = '';
-      }
-    },
-    onSiteSelect(value) {
-      let tmp_array = [];
-      for (let i = 0; i < value.length; i++) {
-        tmp_array[i] = value[i];
-      }
-      this.select_sites = tmp_array;
     },
     onSelectPrivacyPage(value) {
       this.button_readmore_page = value;
@@ -3930,22 +3760,6 @@ var gen = new Vue({
     onSwitchCookieOnFrontend2() {
       this.cookie_on_frontend2 = !this.cookie_on_frontend2;
     },
-    showScriptBlockerForm() {
-      this.show_script_blocker = !this.show_script_blocker;
-    },
-    openCustomCookieTab() {
-      this.cookie_list_tab = true;
-      this.scan_history_list_tab = false;
-      this.showCreateCookiePopup();
-    },
-    openDiscoveredScanTab() {
-      this.discovered_cookies_list_tab = true;
-      this.scan_history_list_tab = false;
-      this.onClickStartScan();
-    },
-    showCreateCookiePopup() {
-      this.show_custom_cookie_popup = !this.show_custom_cookie_popup;
-    },
     editCookie(cookie) {
       this.edit_discovered_cookie_on = true;
       this.edit_discovered_cookie = { ...cookie };
@@ -3953,359 +3767,9 @@ var gen = new Vue({
     hideCreateCookiePopup() {
       this.edit_discovered_cookie_on = false;
     },
-    onSelectCustomCookieType(value) {
-      if (value !== "HTTP") {
-        this.is_custom_cookie_duration_disabled = true;
-        this.custom_cookie_duration = "Persistent";
-      } else {
-        this.is_custom_cookie_duration_disabled = false;
-        this.custom_cookie_duration = "";
-      }
-    },
     showCustomCookieAddForm() {
       this.show_custom_form = true;
       this.show_add_custom_button = !this.show_add_custom_button;
-    },
-    onUpdateScannedCookieCategory(value) {
-      const id = value.split(",")[1];
-      const cat = value.split(",")[0];
-      for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] == id) {
-          for (let j = 0; j < this.custom_cookie_categories.length; j++) {
-            if (
-              parseInt(this.custom_cookie_categories[j]["code"]) ==
-              parseInt(cat)
-            ) {
-              this.scan_cookie_list[i]["category_id"] =
-                this.custom_cookie_categories[j].code;
-              this.scan_cookie_list[i]["category"] =
-                this.custom_cookie_categories[j].label;
-              break;
-            }
-          }
-          break;
-        }
-      }
-    },
-    updateScannedCookies() {
-      var cookie_scan_arr = [];
-      const cookieIndex = this.scan_cookie_list.findIndex(
-        (cookie) =>
-          cookie.id_wpl_cookie_scan_cookies ===
-          this.edit_discovered_cookie.id_wpl_cookie_scan_cookies
-      );
-
-      if (cookieIndex !== -1) {
-        this.scan_cookie_list[cookieIndex].description =
-          this.edit_discovered_cookie.description;
-      }
-      for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        var cid = this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"];
-        var ccategory = this.scan_cookie_list[i]["category_id"];
-        var cdesc = this.scan_cookie_list[i]["description"];
-        var cookie_arr = {
-          cid: cid,
-          ccategory: ccategory,
-          cdesc: cdesc,
-        };
-        cookie_scan_arr.push(cookie_arr);
-      }
-      this.updateScanCookie(cookie_scan_arr);
-    },
-    scheduleScanShow() {
-      this.schedule_scan_show = true;
-    },
-    scheduleScanHide() {
-      this.schedule_scan_show = false;
-    },
-    scanTypeChange(value) {
-      this.schedule_scan_as = value;
-    },
-    scanTimeChange(value) {
-      this.schedule_scan_time_value = value;
-    },
-    scanDateChange(value) {
-      this.schedule_scan_date = value;
-    },
-    scanDayChange(value) {
-      this.schedule_scan_day = value;
-    },
-    updateScanCookie(cookie_arr) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "update_scan_cookie",
-        cookie_arr: cookie_arr,
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            that.hideCreateCookiePopup();
-            that.showScanCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    showScanCookieList() {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "get_scanned_cookies_list",
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response) {
-            that.scan_cookie_list_length = data.total;
-            that.scan_cookie_list = data.data;
-            that.setScanListValues();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    onSelectUpdateCookieCategory(value) {
-      const id = value.split(",")[1];
-      const cat = value.split(",")[0];
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        if (this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"] === id) {
-          for (let j = 0; i < this.custom_cookie_categories.length; j++) {
-            if (this.custom_cookie_categories[j]["code"] === parseInt(cat)) {
-              this.post_cookie_list[i]["category_id"] =
-                this.custom_cookie_categories[j].code;
-              this.post_cookie_list[i]["category"] =
-                this.custom_cookie_categories[j].label;
-              break;
-            }
-          }
-          break;
-        }
-      }
-    },
-    onSelectUpdateCookieType(value) {
-      const id = value.split(",")[1];
-      const type_id = value.split(",")[0];
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        if (this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"] === id) {
-          if (type_id !== "HTTP") {
-            this.post_cookie_list[i]["enable_duration"] = true;
-            this.post_cookie_list[i]["duration"] = "Persistent";
-          } else {
-            this.post_cookie_list[i]["enable_duration"] = false;
-            this.post_cookie_list[i]["duration"] = "";
-          }
-          for (let j = 0; i < this.custom_cookie_types.length; j++) {
-            if (this.custom_cookie_types[j]["code"] === type_id) {
-              this.post_cookie_list[i]["type"] =
-                this.custom_cookie_types[j].code;
-              this.post_cookie_list[i]["type_name"] =
-                this.custom_cookie_types[j].label;
-              break;
-            }
-          }
-          break;
-        }
-      }
-    },
-    onDeleteCustomCookie(cookie_id) {
-      this.deletePostCookie(cookie_id);
-    },
-    onClickRestoreButton() {
-      let answer = confirm(
-        "Are you sure you want to reset to default settings?"
-      );
-      if (answer) {
-        this.restoreDefaultSettings();
-      }
-    },
-    updateFileName(event) {
-      this.selectedFile = event.target.files[0];
-      document.getElementById("importButton").disabled = false;
-      document.getElementById("importButton").classList.remove("disabled");
-      document
-        .getElementById("importButton")
-        .classList.remove("disable-import-button");
-      document.getElementById("importButton").add("#importButton");
-      document
-        .getElementById("importButton")
-        .classList.remove("disable-import-button");
-      document.getElementById("importButton").remove("#importButton");
-    },
-    removeFile() {
-      this.selectedFile = null;
-      document.getElementById("fileInput").value = "";
-      document.getElementById("importButton").disabled = true;
-      document
-        .getElementById("importButton")
-        .classList.add("disable-import-button");
-    },
-    exportsettings() {
-      const siteAddress = window.location.origin;
-
-      // Make an AJAX request to fetch data from the custom endpoint
-      fetch(siteAddress + "/wp-json/custom/v1/gdpr-data/")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // Process the fetched data
-
-          // Create a copy of the settings object
-          const settingsCopy = { ...data };
-
-          // Check if gdpr_text_css is not empty
-          if (settingsCopy.gdpr_text_css !== "") {
-            const text_css = settingsCopy.gdpr_css_text;
-
-            // Decode the gdpr_text_css property before exporting
-            const final_css = text_css.replace(/\\r\\n/g, "\n");
-            settingsCopy.gdpr_css_text = final_css;
-          }
-
-          // Convert the settings object to JSON with indentation
-          const settingsJSON = JSON.stringify(
-            JSON.stringify(settingsCopy, null, 2)
-          );
-
-          // Create a Blob containing the JSON data
-          const blob = new Blob([settingsJSON], { type: "application/json" });
-
-          // Create a download link for the Blob
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "wpeka-banner-settings.json";
-
-          // Trigger a click on the link to initiate the download
-          a.click();
-
-          // Release the object URL to free up resources
-          URL.revokeObjectURL(url);
-        })
-        .catch((error) => {
-          console.error("There was a problem with the fetch operation:", error);
-        });
-    },
-    importsettings() {
-      var that = this;
-      var fileInput = document.getElementById("fileInput");
-      var file = fileInput.files[0];
-
-      if (file) {
-        var reader = new FileReader();
-        document.getElementById("importButton").disabled = true;
-        document
-          .getElementById("importButton")
-          .classList.add("disable-import-button");
-        reader.onload = function (event) {
-          var jsonData = event.target.result;
-          try {
-            const parsedData = JSON.parse(JSON.parse(jsonData));
-            var data = {
-              action: "gcc_update_imported_settings",
-              security: settings_obj.import_settings_nonce,
-              settings: parsedData,
-            };
-            jQuery.ajax({
-              url: settings_obj.ajaxurl,
-              data: data,
-              dataType: "json",
-              type: "POST",
-              success: function (data) {
-                if (data.success === true) {
-                  setTimeout(function addsettings() {
-                    window.location.reload();
-                  }, 7000);
-
-                  that.success_error_message =
-                    "Your file has been imported successfully. Please click on the Save Changes button to make the changes.";
-                  j("#gdpr-cookie-consent-save-settings-alert").css(
-                    "background-color",
-                    "#72b85c"
-                  );
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeOut(7000);
-                } else {
-                  that.success_error_message = "Please try again.";
-                  j("#gdpr-cookie-consent-save-settings-alert").css(
-                    "background-color",
-                    "#72b85c"
-                  );
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-                }
-              },
-              error: function () {
-                that.success_error_message = "Please try again.";
-                j("#gdpr-cookie-consent-save-settings-alert").css(
-                  "background-color",
-                  "#72b85c"
-                );
-                j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-              },
-            });
-          } catch (e) {
-            console.error("Error parsing JSON data:", e);
-          }
-        };
-
-        reader.readAsText(file);
-      } else {
-        console.error("No file selected");
-      }
     },
     restoreDefaultSettings() {
       this.ab_testing_enabled = false;
@@ -4759,61 +4223,6 @@ var gen = new Vue({
       }
       this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
     },
-    onChangeCookieListTab() {
-      this.cookie_list_tab = true;
-      this.discovered_cookies_list_tab = false;
-      this.scan_history_list_tab = false;
-      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-      const dropdownarrow = document.querySelector('.cookie_arrow')
-      dropdownarrow.classList.remove('up');
-      dropdownarrow.classList.add('down');
-      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
-        if (tabLink) {
-            tabLink.click();
-        }
-      window.location.hash = "#cookie_settings#cookie_list#custom_cookie";
-    },
-    onChangeDiscoveredListTab() {
-      this.cookie_list_tab = false;
-      this.discovered_cookies_list_tab = true;
-      this.scan_history_list_tab = false;
-      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-      const dropdownarrow = document.querySelector('.cookie_arrow')
-      dropdownarrow.classList.remove('up');
-      dropdownarrow.classList.add('down');
-      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
-        if (tabLink) {
-            tabLink.click();
-        }
-      window.location.hash = "#cookie_settings#cookie_list#discovered_cookies";
-    },
-    onChangeScanHistoryTab() {
-      this.cookie_list_tab = false;
-      this.discovered_cookies_list_tab = false;
-      this.scan_history_list_tab = true;
-      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-      const dropdownarrow = document.querySelector('.cookie_arrow')
-      dropdownarrow.classList.remove('up');
-      dropdownarrow.classList.add('down');
-      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
-        if (tabLink) {
-            tabLink.click();
-        }
-      window.location.hash = "#cookie_settings#cookie_list#scan_history";
-    },
-    activateTabFromHash() {
-      const hash = window.location.hash;
-      if (hash === "#cookie_settings#cookie_list#custom_cookie") {
-        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-        this.onChangeCookieListTab();
-      } else if (hash === "#cookie_settings#cookie_list#discovered_cookies") {
-        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-        this.onChangeDiscoveredListTab();
-      } else if (hash === "#cookie_settings#cookie_list#scan_history") {
-        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-        this.onChangeScanHistoryTab();
-      }
-    },
     async saveCookieSettings() {
         this.save_loading = true;
         // When Pro is activated set the values in the aceeditor
@@ -5152,1163 +4561,6 @@ var gen = new Vue({
       jQuery("#gdpr-cookie-bar-logo-url-holderML1").attr("value", "");
       this.is_logo_removedML1 = true;
     },
-    onSwitchScriptBlocker(script_id) {
-      j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
-      j("#gdpr-cookie-consent-updating-settings-alert").fadeOut(2000);
-      var that = this;
-      this.scripts_list_data[script_id - 1]["script_status"] =
-        !this.scripts_list_data[script_id - 1]["script_status"];
-      var status = "1";
-      if (this.scripts_list_data[script_id - 1]["script_status"]) {
-        status = "1";
-      } else {
-        status = "0";
-      }
-      var data = {
-        action: "wpl_script_blocker",
-        security:
-          settings_obj.script_blocker_settings.nonces.wpl_script_blocker,
-        wpl_script_action: "update_script_status",
-        status: status,
-        id: script_id,
-      };
-      jQuery.ajax({
-        url: settings_obj.script_blocker_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    onStartScheduleScan() {
-      this.schedule_scan_show = false; //make it false to close the popup
-
-      if (this.schedule_scan_as == "once") {
-        //execute schedule scan once
-        this.scheduleScanOnce();
-
-        //set value for the Next Scan Details when Once
-        const dateObject = new Date(this.schedule_scan_date);
-        const formattedDate = dateObject.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-        this.next_scan_is_when = formattedDate;
-      } else if (this.schedule_scan_as == "monthly") {
-        //execute scan schedule monthly
-        this.scanMonthly();
-
-        //set value for the Next Scan Details when Monthly
-
-        // Get the day of the month when the scan should run
-        const dayString = this.schedule_scan_day;
-        const dayNumber = parseInt(dayString.replace("Day ", ""), 10);
-        const targetDayOfMonth = dayNumber;
-
-        // Assuming this.schedule_scan_day contains the day of the month (1 to 31)
-        const dayOfMonth = parseInt(
-          this.schedule_scan_day.replace("Day ", ""),
-          10
-        );
-
-        if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31) {
-          console.error("Invalid day of the month:", dayOfMonth);
-        } else {
-          // Get the current date and day of the month
-          const currentDate = new Date();
-          const currentDayOfMonth = currentDate.getDate();
-
-          // Get the selected day of the month for scanning
-          const targetDayOfMonth = dayOfMonth;
-
-          // Get the number of days in the current month
-          const currentYear = currentDate.getFullYear();
-          const currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so we add 1
-          const daysInCurrentMonth = new Date(
-            currentYear,
-            currentMonth,
-            0
-          ).getDate();
-
-          // Calculate the next scan date based on the current date and the selected day of the month
-          let nextScanDate;
-          if (
-            dayOfMonth > daysInCurrentMonth ||
-            currentDayOfMonth > dayOfMonth
-          ) {
-            // If the selected day exceeds the number of days in the current month
-            // or if the current day is greater than the selected day,
-            // set the next scan date to the selected day of the month in the next month
-            nextScanDate = new Date(
-              currentYear,
-              currentMonth,
-              targetDayOfMonth
-            );
-          } else {
-            // If the current day of the month is less than or equal to the selected day of the month,
-            // set the next scan date to the selected day of the month in the current month
-            nextScanDate = new Date(
-              currentYear,
-              currentMonth - 1,
-              targetDayOfMonth
-            );
-          }
-
-          // Format the next scan date as needed (e.g., 'Mar 2, 2023')
-          const formattedDate = nextScanDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          });
-          this.next_scan_is_when = formattedDate;
-        }
-      } else if (this.schedule_scan_as == "never") {
-        this.next_scan_is_when = "Not Scheduled";
-      }
-    },
-    scheduleScanOnce() {
-      // Define the date and time when you want the function to execute
-      let targetDate = new Date(this.schedule_scan_date);
-
-      // Parse the time entered by the user and handle both 12-hour and 24-hour formats
-      const timeParts = this.schedule_scan_time_value.split(":");
-      let hours = parseInt(timeParts[0], 10);
-      const minutes = parseInt(timeParts[1], 10);
-
-      // Check if the time is in 12-hour format (e.g., "01:03 AM")
-      if (
-        this.schedule_scan_time_value.toUpperCase().includes("PM") &&
-        hours < 12
-      ) {
-        hours += 12;
-      } else if (
-        this.schedule_scan_time_value.toUpperCase().includes("AM") &&
-        hours === 12
-      ) {
-        hours = 0;
-      }
-
-      // Set the hours and minutes in the target date
-      targetDate.setHours(hours);
-      targetDate.setMinutes(minutes);
-
-      // Calculate the time difference between now and the target date
-      const timeUntilExecution = targetDate - new Date();
-
-      // Check if the target date is in the future
-      if (timeUntilExecution > 0) {
-        // Use setTimeout to delay the execution of scan
-        setTimeout(() => {
-          // start the scanning here
-          this.onClickStartScan();
-        }, timeUntilExecution);
-      } else {
-        // if the target date is in the past
-        alert("Selected date is in the past. Please select a vaild date.");
-        this.schedule_scan_show = true;
-      }
-    },
-    scanMonthly() {
-      // Get the day of the month when the scan should run
-      const dayString = this.schedule_scan_day;
-      const dayNumber = parseInt(dayString.replace("Day ", ""), 10);
-      const targetDayOfMonth = dayNumber;
-
-      if (
-        isNaN(targetDayOfMonth) ||
-        targetDayOfMonth <= 0 ||
-        targetDayOfMonth > 31
-      ) {
-        alert("Invalid day of the month:", this.schedule_scan_day);
-        return; // Exit if the day is invalid
-      }
-
-      // Define the time (hours and minutes)
-      const timeParts = this.schedule_scan_time_value.split(":");
-      let hours = parseInt(timeParts[0], 10);
-      const minutes = parseInt(timeParts[1], 10);
-
-      // Check if the time is in 12-hour format (e.g., "01:03 AM")
-      if (
-        this.schedule_scan_time_value.toUpperCase().includes("PM") &&
-        hours < 12
-      ) {
-        hours += 12;
-      } else if (
-        this.schedule_scan_time_value.toUpperCase().includes("AM") &&
-        hours === 12
-      ) {
-        hours = 0;
-      }
-      // Define a function to check and run the scan when the conditions are met
-      const checkAndRunScan = () => {
-        const currentDate = new Date();
-        const currentDayOfMonth = currentDate.getDate();
-        const currentHours = currentDate.getHours();
-        const currentMinutes = currentDate.getMinutes();
-
-        if (
-          currentDayOfMonth === targetDayOfMonth &&
-          currentHours === hours &&
-          currentMinutes === minutes
-        ) {
-          // The conditions are met; execute the scan
-          this.onClickStartScan();
-        }
-      };
-
-      // Set an interval to check if the conditions for running the scan are met
-      setInterval(checkAndRunScan, 60000);
-    },
-    onClickStartScan(singlePageScan = false) {
-      this.scan_in_progress = true;
-      this.continue_scan = 1;
-      this.doScan(singlePageScan);
-    },
-    doScan(singlePageScan = false) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "check_api",
-      };
-      var scanbar = j(".wpl_scanbar");
-      scanbar.html(
-        '<span style="float:left; height:40px; line-height:40px;">' +
-          settings_obj.cookie_scan_settings.labels.checking_api +
-          '</span> <img src="' +
-          settings_obj.cookie_scan_settings.loading_gif +
-          '" style="display:inline-block;" />'
-      );
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          scanbar.html("");
-          if (data.response === true) {
-            that.scanNow(singlePageScan);
-          } else {
-            that.serverUnavailable(scanbar, data.message);
-          }
-        },
-        error: function () {
-          scanbar.html("");
-          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-        },
-      });
-    },
-    scanNow(singlePageScan = false) {
-      var html = this.makeHtml();
-      var scanbar = j(".gdpr_scanbar");
-      scanbar.html(html);
-      j(".gdpr_scanbar_staypage").css({ display: "flex" }).show();
-      this.attachScanStop();
-      j(".gdpr_scanlog").css({ display: "block", opacity: 0 }).animate(
-        {
-          opacity: 1,
-          height: "auto",
-        },
-        1000
-      );
-      this.takePages(0, 0, 0, 0, singlePageScan);
-    },
-    animateProgressBar(offset, total, msg) {
-      var prgElm = j(".gdpr_progress_bar");
-      var w = prgElm.width();
-      var sp = 100 / total;
-      var sw = w / total;
-      var cw = sw * offset;
-      var cp = sp * offset;
-
-      cp = cp > 100 ? 100 : cp;
-      cp = Math.floor(cp < 1 ? 1 : cp);
-
-      cw = cw > w ? w : cw;
-      cw = Math.floor(cw < 1 ? 1 : cw);
-      j(".gdpr_progress_bar_inner")
-        .stop(true, true)
-        .animate({ width: cw + "px" }, 300, function () {
-          j(".gdpr_progress_action_main").html(msg);
-        })
-        .html(cp + "%");
-    },
-    appendLogAnimate(data, offset) {
-      var that = this;
-      if (data.length > offset) {
-        offset++;
-        var speed = 300 / data.length;
-        setTimeout(function () {
-          that.appendLogAnimate(data, offset);
-        }, speed);
-      }
-    },
-    takePages(offset, limit, total, scan_id, singlePageScan = false) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "get_pages",
-        offset: offset,
-      };
-      if (limit) {
-        data["limit"] = limit;
-      }
-      if (total) {
-        data["total"] = total;
-      }
-      if (scan_id) {
-        data["scan_id"] = scan_id;
-      }
-      // Fake progress.
-      this.animateProgressBar(
-        1,
-        100,
-        settings_obj.cookie_scan_settings.labels.finding
-      );
-      jQuery.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (that.isGdprProActive) {
-            that.scan_id =
-              typeof data.scan_id != "undefined" ? data.scan_id : 0;
-            if (that.continue_scan == 0) {
-              return false;
-            }
-            if (typeof data.response != "undefined" && data.response === true) {
-              that.appendLogAnimate(data.log, 0);
-              var new_offset = parseInt(data.offset) + parseInt(data.limit);
-              if (data.total - 1 > new_offset) {
-                // substract 1 from total because of home page.
-                that.takePages(
-                  new_offset,
-                  data.limit,
-                  data.total,
-                  data.scan_id
-                );
-              } else {
-                j(".wpl_progress_action_main").html(
-                  settings_obj.cookie_scan_settings.labels.scanning
-                );
-                that.scanPages(data.scan_id, 0, data.total);
-              }
-            } else {
-              that.showErrorScreen(
-                settings_obj.cookie_scan_settings.labels.error
-              );
-            }
-          } else {
-            const urlParams = new URLSearchParams(window.location.search);
-            const scanUrlParam = urlParams.get("scan_url");
-            var ndata = {
-              action: "wpl_cookie_scanner_view_capabilities",
-              security:
-                settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-              no_of_scan: singlePageScan == true ? 1 : data.log.length,
-              offset: offset,
-              scan_id: scan_id ? scan_id : 0,
-              total_pages: data.total,
-            };
-            jQuery
-              .ajax({
-                url: settings_obj.cookie_scan_settings.ajax_url,
-                data: ndata,
-                dataType: "json",
-                type: "POST",
-              })
-              .done(function (response) {
-                if (
-                  response.success &&
-                  response.data.connection_status === "active"
-                ) {
-                  that.scan_id = data.scan_id !== undefined ? data.scan_id : 0;
-                  if (that.continue_scan == 0) {
-                    return false;
-                  }
-                  if (data.response === true) {
-                    that.appendLogAnimate(data.log, 0);
-                    var new_offset =
-                      parseInt(data.offset) + parseInt(data.limit);
-                    if (data.total - 1 > new_offset) {
-                      // subtract 1 from total because of home page.
-                      that.takePages(
-                        new_offset,
-                        data.limit,
-                        data.total,
-                        data.scan_id
-                      );
-                    } else {
-                      jQuery(".wpl_progress_action_main").html(
-                        settings_obj.cookie_scan_settings.labels.scanning
-                      );
-                      that.scanPages(data.scan_id, 0, data.total);
-                    }
-                  } else {
-                    that.showErrorScreen(
-                      settings_obj.cookie_scan_settings.labels.error
-                    );
-                  }
-                } else {
-                  that.showScanNowPopup();
-                }
-              })
-              .fail(function () {
-                if (that.continue_scan == 0) {
-                  return false;
-                }
-                that.showErrorScreen(
-                  settings_obj.cookie_scan_settings.labels.error
-                );
-              });
-          }
-        },
-        error: function () {
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-        },
-      });
-    },
-
-    showScanNowPopup() {
-      this.$nextTick(() => {
-        const scanBtn = jQuery(".scan-now-btn");
-        const popup = jQuery("#popup-site-excausted");
-        const cancelButton = jQuery(".popup-image");
-        popup.fadeIn();
-        cancelButton.off("click").on("click", function (e) {
-          popup.fadeOut();
-          localStorage.setItem("auto_scan_process_started", "false");
-          window.location.reload();
-        });
-      });
-    },
-    scanPages(scan_id, offset, total) {
-      var that = this;
-      var scanbar = j(".gdpr_scanbar");
-      this.pollCount = 0;
-      var hash = Math.random().toString(36).replace("0.", "");
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "scan_pages",
-        offset: offset,
-        scan_id: scan_id,
-        total: total,
-        hash: hash,
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          that.scan_id = typeof data.scan_id != "undefined" ? data.scan_id : 0;
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          if (data.response == true) {
-            this.scan_in_progress = false;
-            const currentUrl = new URL(window.location);
-            currentUrl.searchParams.delete("auto_scan");
-            that.getScanCookies(scan_id, offset, total, hash);
-          } else {
-            scanbar.html("");
-            j(".wpl_scanbar_staypage").hide();
-            that.serverUnavailable(scanbar, data.message);
-          }
-        },
-        error: function () {
-          var current = that;
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          // error and retry function.
-
-          that.animateProgressBar(
-            offset,
-            total,
-            settings_obj.cookie_scan_settings.labels.retrying
-          );
-          setTimeout(function () {
-            current.scanPages(scan_id, offset, total);
-          }, 2000);
-        },
-      });
-    },
-    getScanCookies(scan_id, offset, total, hash) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "get_post_scan_cookies",
-        offset: offset,
-        scan_id: scan_id,
-        total: total,
-        hash: hash,
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response == true) {
-            var prg_offset = parseInt(offset) + parseInt(data.total_scanned);
-            var prg_msg =
-              settings_obj.cookie_scan_settings.labels.scanning + " ";
-            that.appendLogAnimate(data.log, 0);
-            if (data.continue === true) {
-              that.scanPages(data.scan_id, data.offset, data.total);
-            } else {
-              prg_msg = settings_obj.cookie_scan_settings.labels.finished;
-              prg_msg +=
-                " (" +
-                settings_obj.cookie_scan_settings.labels.total_cookies_found +
-                ": " +
-                data.total_cookies +
-                ")";
-              that.showSuccessScreen(prg_msg, scan_id, 1);
-            }
-            that.animateProgressBar(prg_offset, total, prg_msg);
-          } else {
-            var current = that;
-            if (that.pollCount < 10) {
-              that.pollCount++;
-              setTimeout(function () {
-                current.getScanCookies(
-                  data.scan_id,
-                  data.offset,
-                  data.total,
-                  data.hash
-                );
-              }, 10000);
-            } else {
-              that.showErrorScreen("Something went wrong, please scan again");
-            }
-          }
-        },
-        error: function () {
-          var current = that;
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          if (that.pollCount < 10) {
-            setTimeout(function () {
-              that.getScanCookies(offset, scan_id, total, hash);
-            }, 5000);
-          } else {
-            that.showErrorScreen("Something went wrong, please scan again");
-          }
-        },
-      });
-    },
-    makeHtml() {
-      return (
-        '<div class="gdpr_scanlog">' +
-        '<div class="gdpr_progress_bar">' +
-        '<span class="gdpr_progress_bar_inner gdpr_progress_bar_inner_restructured">' +
-        "</span>" +
-        "</div>" +
-        '<div class="gdpr_progress_action_main">' +
-        settings_obj.cookie_scan_settings.labels.finding +
-        "</div>" +
-        '<div class="gdpr_scanlog_bar"><button type="button" class="pull-right gdpr_stop_scan">' +
-        settings_obj.cookie_scan_settings.labels.stop +
-        "</button></div>" +
-        "</div>"
-      );
-    },
-    attachScanStop() {
-      var that = this;
-      j(".gdpr_stop_scan").click(function () {
-        that.stopScan();
-      });
-    },
-    stopScan() {
-      if (this.continue_scan == 0) {
-        return false;
-      }
-      if (confirm(settings_obj.cookie_scan_settings.labels.ru_sure)) {
-        this.continue_scan = 0;
-        this.stoppingScan(this.scan_id);
-      }
-    },
-    stoppingScan(scan_id) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "stop_scan",
-        scan_id: scan_id,
-      };
-      j(".gdpr_stop_scan")
-        .html(settings_obj.cookie_scan_settings.labels.stoping)
-        .css({ opacity: ".5" });
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          that.showSuccessScreen(
-            settings_obj.cookie_scan_settings.labels.scanning_stopped,
-            scan_id,
-            data.total
-          );
-        },
-        error: function () {
-          // error function.
-          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-        },
-      });
-    },
-    serverUnavailable: function (elm, msg) {
-      elm.html(
-        '<div style="background:#ffffff; border:solid 1px #cccccc; color:#333333; padding:5px;">' +
-          msg +
-          "</div>"
-      );
-    },
-    showErrorScreen: function (error_msg) {
-      var html =
-        '<button type="button" class="pull-right gdpr_scan_again" style="margin-left:5px;">' +
-        settings_obj.cookie_scan_settings.labels.scan_again +
-        "</button>";
-      j(".gdpr_scanlog_bar").html(html);
-      j(".gdpr_progress_action_main").html(error_msg);
-      this.success_error_message = error_msg;
-      j("#gdpr-cookie-consent-save-settings-alert").css(
-        "background-color",
-        "#e55353"
-      );
-      j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-      j(".gdpr_scanbar_staypage").hide();
-      this.scanAgain();
-    },
-    showSuccessScreen(success_msg, scan_id, total) {
-      var html =
-        '<button type="button" class="pull-right gdpr_scan_again" style="margin-left:5px;">' +
-        settings_obj.cookie_scan_settings.labels.scan_again +
-        "</button>";
-      html += '<span class="spinner" style="margin-top:5px"></span>';
-      j(".gdpr_scanlog_bar").html(html);
-      j(".gdpr_progress_action_main").html(success_msg);
-      this.success_error_message = success_msg;
-      j("#gdpr-cookie-consent-save-settings-alert").css(
-        "background-color",
-        "#72b85c"
-      );
-      j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-      j(".gdpr_scanbar_staypage").hide();
-      this.showScanCookieList();
-      this.scanAgain();
-      setTimeout(() => {
-        localStorage.setItem("auto_scan_process_started", "false");
-        window.location.reload();
-      }, 3000);
-    },
-    scanAgain() {
-      var that = this;
-      j(".gdpr_scan_again")
-        .unbind("click")
-        .click(function () {
-          that.continue_scan = 1;
-          that.scanNow();
-        });
-    },
-    onClickDeleteCookie() {
-      var that = this;
-      var data = {
-        action: "wpl_cookies_deletion",
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          that.showSuccessScreen("Cookies Cleared Successfully!");
-          window.location.reload();
-        },
-        error: function () {
-          // error function.
-          that.showErrorScreen("Some error occuered");
-        },
-      });
-    },
-    onScriptCategorySelect(values) {
-      if (!values) {
-        this.success_error_message = "You must select a category.";
-        j("#gdpr-cookie-consent-save-settings-alert").css(
-          "background-color",
-          "#e55353"
-        );
-        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        return false;
-      }
-      var that = this;
-      var category_code = values.split(",")[0];
-      var script_id = values.split(",")[1];
-      for (let i = 0; i < this.category_list_options.length; i++) {
-        if (this.category_list_options[i]["code"] === category_code) {
-          if (
-            this.scripts_list_data[script_id - 1]["script_category"] ===
-            category_code
-          ) {
-            this.success_error_message = "Category updated successfully";
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            return false;
-          } else {
-            this.scripts_list_data[script_id - 1]["script_category"] =
-              this.category_list_options[i].code;
-            this.scripts_list_data[script_id - 1]["script_category_label"] =
-              this.category_list_options[i].label;
-            break;
-          }
-        }
-      }
-      var data = {
-        action: "wpl_script_blocker",
-        security:
-          settings_obj.script_blocker_settings.nonces.wpl_script_blocker,
-        wpl_script_action: "update_script_category",
-        category: category_code,
-        id: script_id,
-      };
-      jQuery.ajax({
-        url: settings_obj.script_blocker_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    onSaveCustomCookie() {
-      var parent = j(".gdpr-custom-save-cookie").parents(
-        "div.gdpr-add-custom-cookie-form"
-      );
-      var gdpr_addcookie = parent.find('input[name="gdpr_addcookie"]').val();
-      if (gdpr_addcookie == 1) {
-        var pattern =
-          /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
-        var cname = this.custom_cookie_name;
-        var cdomain = this.custom_cookie_domain;
-        var cduration = this.custom_cookie_duration;
-        var ccategory = this.custom_cookie_category;
-        var ctype = this.custom_cookie_type;
-        var cdesc = this.custom_cookie_description;
-        if (!cname) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Name";
-          parent
-            .find('input[name="gdpr-cookie-consent-custom-cookie-name"]')
-            .focus();
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          return false;
-        }
-        if (!cdomain) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Domain";
-          parent
-            .find('input[name="gdpr-cookie-consent-custom-cookie-domain"]')
-            .focus();
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          return false;
-        } else {
-          if (!pattern.test(cdomain)) {
-            this.success_error_message = "Cookie domain is not valid.";
-            parent
-              .find('input[name="gdpr-cookie-consent-custom-cookie-domain"]')
-              .focus();
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            return false;
-          }
-        }
-        if (!cduration) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Duration";
-          parent
-            .find('input[name="gdpr-cookie-consent-custom-cookie-duration"]')
-            .focus();
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          return false;
-        }
-        if (!ctype) {
-          this.success_error_message = "Please select a Cookie Type";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          return false;
-        }
-        if (!ccategory) {
-          this.success_error_message = "Please select a Cookie Category";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          return false;
-        }
-        var cookie_arr = {
-          cname: cname,
-          cdomain: cdomain,
-          cduration: cduration,
-          ccategory: ccategory,
-          ctype: ctype,
-          cdesc: cdesc,
-        };
-        this.saveCustomPostCookies(cookie_arr);
-      }
-    },
-    saveCookieUpdateSettings() {
-      var cookie_post_arr = [];
-      var error = false;
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        var pattern =
-          /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
-        var cid = this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"];
-        var cname = this.post_cookie_list[i]["name"];
-        var cdomain = this.post_cookie_list[i]["domain"];
-        var cduration = this.post_cookie_list[i]["duration"];
-        var ccategory = this.post_cookie_list[i]["category_id"];
-        var ctype = this.post_cookie_list[i]["type"];
-        var cdesc = this.post_cookie_list[i]["description"];
-        if (!cname) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Name";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          error = true;
-        }
-        if (!cdomain) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Domain";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          error = true;
-        } else {
-          if (!pattern.test(cdomain)) {
-            this.success_error_message = "Cookie Domain is not valid.";
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            error = true;
-          }
-        }
-        if (!cduration) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Duration";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          error = true;
-        }
-        var cookie_arr = {
-          cid: cid,
-          cname: cname,
-          cdomain: cdomain,
-          cduration: cduration,
-          ccategory: ccategory,
-          ctype: ctype,
-          cdesc: cdesc,
-        };
-        cookie_post_arr.push(cookie_arr);
-      }
-      if (error) {
-        return false;
-      }
-      this.updatePostCookie(cookie_post_arr);
-    },
-    updatePostCookie: function (cookie_arr) {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "update_post_cookie",
-        cookie_arr: cookie_arr,
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            that.getPostCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    deletePostCookie(cookie_id) {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "delete_post_cookie",
-        cookie_id: cookie_id,
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            that.getPostCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    hideCookieForm() {
-      this.custom_cookie_name = "";
-      this.custom_cookie_domain = "";
-      this.custom_cookie_description = "";
-      this.custom_cookie_category = 1;
-      this.custom_cookie_type = "HTTP";
-      this.show_custom_form = false;
-      this.show_add_custom_button = true;
-      this.is_custom_cookie_duration_disabled = false;
-      this.custom_cookie_duration = "";
-      this.show_custom_cookie_popup = false;
-    },
-    saveCustomPostCookies(cookie_data) {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "save_post_cookie",
-        cookie_arr: cookie_data,
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            that.hideCookieForm();
-            that.getPostCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    getPostCookieList: function () {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "get_post_cookies_list",
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response) {
-            that.post_cookie_list_length = data.total;
-            that.post_cookie_list = data.post_list;
-            that.setPostListValues();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
     saveGCMDefault(){
       var that = this;
       var newObj = {
@@ -6421,44 +4673,6 @@ var gen = new Vue({
       this.edit_region = index + 1;
       this.add_region = true;
     },
-    onSwitchABTestingEnable() {
-      j("#gdpr-cookie-consent-updating-settings-alert")
-        .fadeIn(200)
-        .fadeOut(2000);
-      this.ab_testing_enabled = !this.ab_testing_enabled;
-      this.cookie_on_frontend1 = true;
-      this.cookie_on_frontend2 = true;
-      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
-
-      var dataV = jQuery("#gcc-save-settings-form").serialize();
-      // Make the AJAX request to save the new state
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: {
-            action: "ab_testing_enable",
-            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
-          },
-        })
-        .done(function (data) {
-          window.location.reload();
-          // Show success message
-          that.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert")
-            .css("background-color", "#72b85c")
-            .fadeIn(400)
-            .fadeOut(2500, function () {
-              // Optionally reload the page or perform other actions
-            });
-        })
-        .fail(function (error) {
-          console.error("AJAX call failed:", error);
-          alert(
-            "An error occurred while saving the settings. Please try again."
-          );
-        });
-    },
     onSwitchABTestingAuto() {
       this.ab_testing_auto = !this.ab_testing_auto;
     },
@@ -6510,18 +4724,9 @@ var gen = new Vue({
       if (performance.navigation.type !== 1) {
         const urlParams = new URLSearchParams(window.location.search);
         const scanUrlParam = urlParams.get("scan_url");
-        // Check if the 'scan' parameter is present and has the value '1'
-        if (scanUrlParam) {
-          // Run the onClickStartScan() method
-          const singlePageScan = true;
-          this.onClickStartScan(singlePageScan);
-        }
       }
     }
-    // restore the sub tab of the cookie list.
-    this.activateTabFromHash();
     this.setValues();
-    this.setPostListValues();
     j(".gdpr-cookie-consent-settings-nav .nav .nav-item .nav-link").on(
       "click",
       function () {
@@ -6534,9 +4739,6 @@ var gen = new Vue({
         }
       }
     );
-    if (this.scan_cookie_list_length > 0) {
-      this.setScanListValues();
-    }
     //Make AceEditor ReadOnly for the Free
     if (this.isPluginVersionLessOrEqual("2.5.2")) {
       if (!this.isGdprProActive) {
@@ -6690,7 +4892,6 @@ var gen = new Vue({
       localStorage.setItem("auto_scan_executed", "true");
       localStorage.setItem("auto_scan_process_started", "true");
       // Trigger the scan
-      this.onClickStartScan();
     }
 
     //For fixing quill js buttons accessibility issues
@@ -6802,6 +5003,7 @@ var app = new Vue({
       configure_image_url: require("../admin/images/configure-icon.png"),
       pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
       account_connection: require("../admin/images/account_connection.svg"),
+      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
       closeOnBackdrop: true,
       centered: true,
       accept_button_popup: false,
@@ -9094,40 +7296,6 @@ var app = new Vue({
       require("brace/theme/monokai");
       require("brace/snippets/css"); //snippet
     },
-    setPostListValues() {
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        if (this.post_cookie_list[i]["type"] === "HTTP") {
-          this.post_cookie_list[i]["enable_duration"] = false;
-        } else {
-          this.post_cookie_list[i]["enable_duration"] = true;
-        }
-        for (let j = 0; j < this.custom_cookie_types.length; j++) {
-          if (
-            this.custom_cookie_types[j]["code"] ===
-            this.post_cookie_list[i]["type"]
-          ) {
-            this.post_cookie_list[i]["type_name"] =
-              this.custom_cookie_types[j].label;
-          }
-        }
-      }
-      this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
-      this.show_add_custom_button =
-        this.post_cookie_list_length > 0 ? true : false;
-    },
-    setScanListValues() {
-      for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        for (let j = 0; j < this.custom_cookie_types.length; j++) {
-          if (
-            this.custom_cookie_types[j]["code"] ===
-            this.scan_cookie_list[i]["type"]
-          ) {
-            this.scan_cookie_list[i]["type_name"] =
-              this.custom_cookie_types[j].label;
-          }
-        }
-      }
-    },
     onSwitchCookieEnable() {
       this.cookie_is_on = !this.cookie_is_on;
     },
@@ -9273,23 +7441,6 @@ var app = new Vue({
     onSwitchGacmEnable() {
       this.gacm_is_on = !this.gacm_is_on;
     },
-    onEnablesafeSwitch() {
-      if (this.enable_safe === "true") {
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-      } else {
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-      }
-    },
     onSwitchRevokeConsentEnable() {
       this.is_revoke_consent_on = !this.is_revoke_consent_on;
     },
@@ -9299,44 +7450,8 @@ var app = new Vue({
     onSwitchRevokeConsentEnable2() {
       this.is_revoke_consent_on2 = !this.is_revoke_consent_on2;
     },
-    onSwitchAutotick() {
-      this.autotick = !this.autotick;
-    },
-    onSwitchAutoHide() {
-      this.auto_hide = !this.auto_hide;
-    },
     onSwitchAutoBannerInitialize() {
       this.auto_banner_initialize = !this.auto_banner_initialize;
-    },
-    onSwitchAutoScroll() {
-      this.auto_scroll = !this.auto_scroll;
-    },
-    onSwitchAutoClick() {
-      this.auto_click = !this.auto_click;
-    },
-    onSwitchAutoScrollReload() {
-      this.auto_scroll_reload = !this.auto_scroll_reload;
-    },
-    onSwitchAcceptReload() {
-      this.accept_reload = !this.accept_reload;
-    },
-    onSwitchDeclineReload() {
-      this.decline_reload = !this.decline_reload;
-    },
-    onSwitchDeleteOnDeactivation() {
-      this.delete_on_deactivation = !this.delete_on_deactivation;
-    },
-    onSwitchEnableSafe() {
-      this.onEnablesafeSwitch();
-      this.onSwitchReloadSafeMode();
-      this.enable_safe = !this.enable_safe;
-    },
-    onSwitchReloadSafeMode() {
-      this.reload_onSafeMode = !this.reload_onSafeMode;
-      this.reload_onSafeMode = true;
-    },
-    onSwitchShowCredits() {
-      this.show_credits = !this.show_credits;
     },
     onSwitchLoggingOn() {
       this.logging_on = !this.logging_on;
@@ -9790,9 +7905,6 @@ var app = new Vue({
 
       this.is_template_changed = true;
     },
-    onLanguageChange() {
-      this.is_lang_changed = true;
-    },
     onSwitchButtonReadMoreIsOn() {
       this.button_readmore_is_on = !this.button_readmore_is_on;
     },
@@ -9836,38 +7948,6 @@ var app = new Vue({
         dummy_array[i] = value[i];
       }
       this.select_pages = dummy_array;
-    },
-    onSwitchingScriptDependency() {
-      this.is_script_dependency_on = !this.is_script_dependency_on;
-
-      if( this.is_script_dependency_on === false ){
-        this.header_dependency = null;
-        this.footer_dependency = null;
-      }
-    },
-    onHeaderDependencySelect(value) {
-      
-      this.header_dependency_map.body = false;
-      this.header_dependency_map.footer = false;
-
-      if (this.header_dependency) {
-        this.header_dependency_map[this.header_dependency] = true;
-        this.header_dependency = this.header_dependency;
-      } else {
-        this.header_dependency = '';
-      }
-    },
-    onFooterDependencySelect(value) {
-      
-      this.footer_dependency_map.header = false;
-      this.footer_dependency_map.body = false;
-
-      if (this.footer_dependency) {
-        this.footer_dependency_map[this.footer_dependency] = true;
-        this.footer_dependency = this.footer_dependency;
-      } else {
-        this.footer_dependency = '';
-      }
     },
     onSelectPrivacyPage(value) {
       this.button_readmore_page = value;
@@ -9971,325 +8051,9 @@ var app = new Vue({
     showScriptBlockerForm() {
       this.show_script_blocker = !this.show_script_blocker;
     },
-    onSelectCustomCookieType(value) {
-      if (value !== "HTTP") {
-        this.is_custom_cookie_duration_disabled = true;
-        this.custom_cookie_duration = "Persistent";
-      } else {
-        this.is_custom_cookie_duration_disabled = false;
-        this.custom_cookie_duration = "";
-      }
-    },
     showCustomCookieAddForm() {
       this.show_custom_form = true;
       this.show_add_custom_button = !this.show_add_custom_button;
-    },
-    onUpdateScannedCookieCategory(value) {
-      const id = value.split(",")[1];
-      const cat = value.split(",")[0];
-      for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] === id) {
-          for (let j = 0; i < this.custom_cookie_categories.length; j++) {
-            if (this.custom_cookie_categories[j]["code"] === parseInt(cat)) {
-              this.scan_cookie_list[i]["category_id"] =
-                this.custom_cookie_categories[j].code;
-              this.scan_cookie_list[i]["category"] =
-                this.custom_cookie_categories[j].label;
-              break;
-            }
-          }
-          break;
-        }
-      }
-    },
-    updateScannedCookies() {
-      var cookie_scan_arr = [];
-      for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        var cid = this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"];
-        var ccategory = this.scan_cookie_list[i]["category_id"];
-        var cdesc = this.scan_cookie_list[i]["description"];
-        var cookie_arr = {
-          cid: cid,
-          ccategory: ccategory,
-          cdesc: cdesc,
-        };
-        cookie_scan_arr.push(cookie_arr);
-      }
-      this.updateScanCookie(cookie_scan_arr);
-    },
-    scheduleScanShow() {
-      this.schedule_scan_show = true;
-    },
-    scheduleScanHide() {
-      this.schedule_scan_show = false;
-    },
-    scanTypeChange(value) {
-      this.schedule_scan_as = value;
-    },
-    scanTimeChange(value) {
-      this.schedule_scan_time_value = value;
-    },
-    scanDateChange(value) {
-      this.schedule_scan_date = value;
-    },
-    scanDayChange(value) {
-      this.schedule_scan_day = value;
-    },
-    updateScanCookie(cookie_arr) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "update_scan_cookie",
-        cookie_arr: cookie_arr,
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            that.showScanCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    showScanCookieList() {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "get_scanned_cookies_list",
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response) {
-            that.scan_cookie_list_length = data.total;
-            that.scan_cookie_list = data.data;
-            that.setScanListValues();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    onSelectUpdateCookieCategory(value) {
-      const id = value.split(",")[1];
-      const cat = value.split(",")[0];
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        if (this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"] === id) {
-          for (let j = 0; i < this.custom_cookie_categories.length; j++) {
-            if (this.custom_cookie_categories[j]["code"] === parseInt(cat)) {
-              this.post_cookie_list[i]["category_id"] =
-                this.custom_cookie_categories[j].code;
-              this.post_cookie_list[i]["category"] =
-                this.custom_cookie_categories[j].label;
-              break;
-            }
-          }
-          break;
-        }
-      }
-    },
-    onSelectUpdateCookieType(value) {
-      const id = value.split(",")[1];
-      const type_id = value.split(",")[0];
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        if (this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"] === id) {
-          if (type_id !== "HTTP") {
-            this.post_cookie_list[i]["enable_duration"] = true;
-            this.post_cookie_list[i]["duration"] = "Persistent";
-          } else {
-            this.post_cookie_list[i]["enable_duration"] = false;
-            this.post_cookie_list[i]["duration"] = "";
-          }
-          for (let j = 0; i < this.custom_cookie_types.length; j++) {
-            if (this.custom_cookie_types[j]["code"] === type_id) {
-              this.post_cookie_list[i]["type"] =
-                this.custom_cookie_types[j].code;
-              this.post_cookie_list[i]["type_name"] =
-                this.custom_cookie_types[j].label;
-              break;
-            }
-          }
-          break;
-        }
-      }
-    },
-    onDeleteCustomCookie(cookie_id) {
-      this.deletePostCookie(cookie_id);
-    },
-    onClickRestoreButton() {
-      let answer = confirm(
-        "Are you sure you want to reset to default settings?"
-      );
-      if (answer) {
-        this.restoreDefaultSettings();
-      }
-    },
-    updateFileName(event) {
-      this.selectedFile = event.target.files[0];
-    },
-    removeFile() {
-      this.selectedFile = null;
-      document.getElementById("fileInput").value = "";
-    },
-    exportsettings() {
-      const siteAddress = window.location.origin;
-
-      // Make an AJAX request to fetch data from the custom endpoint
-      fetch(siteAddress + "/wp-json/custom/v1/gdpr-data/")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // Process the fetched data
-
-          // Create a copy of the settings object
-          const settingsCopy = { ...data };
-
-          // Check if gdpr_text_css is not empty
-          if (settingsCopy.gdpr_text_css !== "") {
-            const text_css = settingsCopy.gdpr_css_text;
-
-            // Decode the gdpr_text_css property before exporting
-            const final_css = text_css.replace(/\\r\\n/g, "\n");
-            settingsCopy.gdpr_css_text = final_css;
-          }
-
-          // Convert the settings object to JSON with indentation
-          const settingsJSON = JSON.stringify(
-            JSON.stringify(settingsCopy, null, 2)
-          );
-
-          // Create a Blob containing the JSON data
-          const blob = new Blob([settingsJSON], { type: "application/json" });
-
-          // Create a download link for the Blob
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "wpeka-banner-settings.json";
-
-          // Trigger a click on the link to initiate the download
-          a.click();
-
-          // Release the object URL to free up resources
-          URL.revokeObjectURL(url);
-        })
-        .catch((error) => {
-          console.error("There was a problem with the fetch operation:", error);
-        });
-    },
-    importsettings() {
-      var that = this;
-      var fileInput = document.getElementById("fileInput");
-      var file = fileInput.files[0];
-
-      if (file) {
-        var reader = new FileReader();
-
-        reader.onload = function (event) {
-          var jsonData = event.target.result;
-          try {
-            const parsedData = JSON.parse(JSON.parse(jsonData));
-            var data = {
-              action: "gcc_update_imported_settings",
-              security: settings_obj.import_settings_nonce,
-              settings: parsedData,
-            };
-            jQuery.ajax({
-              url: settings_obj.ajaxurl,
-              data: data,
-              dataType: "json",
-              type: "POST",
-              success: function (data) {
-                if (data.success === true) {
-                  that.success_error_message =
-                    "Settings imported successfully.";
-                  j("#gdpr-cookie-consent-save-settings-alert").css(
-                    "background-color",
-                    "#72b85c"
-                  );
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-                  window.location.reload();
-                } else {
-                  that.success_error_message = "Please try again.";
-                  j("#gdpr-cookie-consent-save-settings-alert").css(
-                    "background-color",
-                    "#72b85c"
-                  );
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-                }
-              },
-              error: function () {
-                that.success_error_message = "Please try again.";
-                j("#gdpr-cookie-consent-save-settings-alert").css(
-                  "background-color",
-                  "#72b85c"
-                );
-                j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-              },
-            });
-          } catch (e) {
-            console.error("Error parsing JSON data:", e);
-          }
-        };
-
-        reader.readAsText(file);
-      } else {
-        console.error("No file selected");
-      }
     },
     restoreDefaultSettings() {
       this.cookie_bar_color = "#ffffff";
@@ -10698,1027 +8462,10 @@ var app = new Vue({
           j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
         });
     },
-    onSwitchScriptBlocker(script_id) {
-      j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
-      j("#gdpr-cookie-consent-updating-settings-alert").fadeOut(2000);
-      var that = this;
-      this.scripts_list_data[script_id - 1]["script_status"] =
-        !this.scripts_list_data[script_id - 1]["script_status"];
-      var status = "1";
-      if (this.scripts_list_data[script_id - 1]["script_status"]) {
-        status = "1";
-      } else {
-        status = "0";
-      }
-      var data = {
-        action: "wpl_script_blocker",
-        security:
-          settings_obj.script_blocker_settings.nonces.wpl_script_blocker,
-        wpl_script_action: "update_script_status",
-        status: status,
-        id: script_id,
-      };
-      jQuery.ajax({
-        url: settings_obj.script_blocker_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    onStartScheduleScan() {
-      this.schedule_scan_show = false; //make it false to close the popup
-
-      if (this.schedule_scan_as == "once") {
-        //execute schedule scan once
-        this.scheduleScanOnce();
-
-        //set value for the Next Scan Details when Once
-        const dateObject = new Date(this.schedule_scan_date);
-        const formattedDate = dateObject.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-        this.next_scan_is_when = formattedDate;
-      } else if (this.schedule_scan_as == "monthly") {
-        //execute scan schedule monthly
-        this.scanMonthly();
-
-        //set value for the Next Scan Details when Monthly
-
-        // Get the day of the month when the scan should run
-        const dayString = this.schedule_scan_day;
-        const dayNumber = parseInt(dayString.replace("Day ", ""), 10);
-        const targetDayOfMonth = dayNumber;
-
-        // Assuming this.schedule_scan_day contains the day of the month (1 to 31)
-        const dayOfMonth = targetDayOfMonth;
-
-        if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31) {
-          console.error("Invalid day of the month:", dayOfMonth);
-        } else {
-          // Get the current date
-          const currentDate = new Date();
-
-          // Set the day of the month to the specified value
-          currentDate.setDate(dayOfMonth);
-
-          // Get the current year and month
-          const currentYear = currentDate.getFullYear();
-          const currentMonth = currentDate.getMonth();
-
-          // Create a new date with the same day of the month, current year, and month
-          const newDate = new Date(currentYear, currentMonth, dayOfMonth);
-
-          // Format the date as needed (e.g., 'Oct 10 2023')
-          const formattedDate = newDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          });
-          this.next_scan_is_when = formattedDate;
-        }
-      } else if (this.schedule_scan_as == "never") {
-        this.next_scan_is_when = "Not Scheduled";
-      }
-    },
-    scheduleScanOnce() {
-      // Define the date and time when you want the function to execute
-      let targetDate = new Date(this.schedule_scan_date);
-
-      // Parse the time entered by the user and handle both 12-hour and 24-hour formats
-      const timeParts = this.schedule_scan_time_value.split(":");
-      let hours = parseInt(timeParts[0], 10);
-      const minutes = parseInt(timeParts[1], 10);
-
-      // Check if the time is in 12-hour format (e.g., "01:03 AM")
-      if (
-        this.schedule_scan_time_value.toUpperCase().includes("PM") &&
-        hours < 12
-      ) {
-        hours += 12;
-      } else if (
-        this.schedule_scan_time_value.toUpperCase().includes("AM") &&
-        hours === 12
-      ) {
-        hours = 0;
-      }
-
-      // Set the hours and minutes in the target date
-      targetDate.setHours(hours);
-      targetDate.setMinutes(minutes);
-
-      // Calculate the time difference between now and the target date
-      const timeUntilExecution = targetDate - new Date();
-
-      // Check if the target date is in the future
-      if (timeUntilExecution > 0) {
-        // Use setTimeout to delay the execution of scan
-        setTimeout(() => {
-          // start the scanning here
-          this.onClickStartScan();
-        }, timeUntilExecution);
-      } else {
-        // if the target date is in the past
-        alert("Selected date is in the past. Please select a vaild date.");
-        this.schedule_scan_show = true;
-      }
-    },
-    scanMonthly() {
-      // Get the day of the month when the scan should run
-      const dayString = this.schedule_scan_day;
-      const dayNumber = parseInt(dayString.replace("Day ", ""), 10);
-      const targetDayOfMonth = dayNumber;
-
-      if (
-        isNaN(targetDayOfMonth) ||
-        targetDayOfMonth <= 0 ||
-        targetDayOfMonth > 31
-      ) {
-        alert("Invalid day of the month:", this.schedule_scan_day);
-        return; // Exit if the day is invalid
-      }
-
-      // Define the time (hours and minutes)
-      const timeParts = this.schedule_scan_time_value.split(":");
-      let hours = parseInt(timeParts[0], 10);
-      const minutes = parseInt(timeParts[1], 10);
-
-      // Check if the time is in 12-hour format (e.g., "01:03 AM")
-      if (
-        this.schedule_scan_time_value.toUpperCase().includes("PM") &&
-        hours < 12
-      ) {
-        hours += 12;
-      } else if (
-        this.schedule_scan_time_value.toUpperCase().includes("AM") &&
-        hours === 12
-      ) {
-        hours = 0;
-      }
-      // Define a function to check and run the scan when the conditions are met
-      const checkAndRunScan = () => {
-        const currentDate = new Date();
-        const currentDayOfMonth = currentDate.getDate();
-        const currentHours = currentDate.getHours();
-        const currentMinutes = currentDate.getMinutes();
-
-        if (
-          currentDayOfMonth === targetDayOfMonth &&
-          currentHours === hours &&
-          currentMinutes === minutes
-        ) {
-          // The conditions are met; execute the scan
-          this.onClickStartScan();
-        }
-      };
-
-      // Set an interval to check if the conditions for running the scan are met
-      setInterval(checkAndRunScan, 60000);
-    },
-    onClickStartScan() {
-      this.continue_scan = 1;
-      this.doScan();
-    },
-    doScan() {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "check_api",
-      };
-      var scanbar = j(".wpl_scanbar");
-      scanbar.html(
-        '<span style="float:left; height:40px; line-height:40px;">' +
-          settings_obj.cookie_scan_settings.labels.checking_api +
-          '</span> <img src="' +
-          settings_obj.cookie_scan_settings.loading_gif +
-          '" style="display:inline-block;" />'
-      );
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          scanbar.html("");
-          if (data.response === true) {
-            that.scanNow();
-          } else {
-            that.serverUnavailable(scanbar, data.message);
-          }
-        },
-        error: function () {
-          scanbar.html("");
-          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-        },
-      });
-    },
-    scanNow() {
-      var html = this.makeHtml();
-      var scanbar = j(".gdpr_scanbar");
-      scanbar.html(html);
-      j(".gdpr_scanbar_staypage").css({ display: "flex" }).show();
-      this.attachScanStop();
-      j(".gdpr_scanlog").css({ display: "block", opacity: 0 }).animate(
-        {
-          opacity: 1,
-          height: "auto",
-        },
-        1000
-      );
-      this.takePages(0);
-    },
-    animateProgressBar(offset, total, msg) {
-      var prgElm = j(".gdpr_progress_bar");
-      var w = prgElm.width();
-      var sp = 100 / total;
-      var sw = w / total;
-      var cw = sw * offset;
-      var cp = sp * offset;
-
-      cp = cp > 100 ? 100 : cp;
-      cp = Math.floor(cp < 1 ? 1 : cp);
-
-      cw = cw > w ? w : cw;
-      cw = Math.floor(cw < 1 ? 1 : cw);
-      j(".gdpr_progress_bar_inner")
-        .stop(true, true)
-        .animate({ width: cw + "px" }, 300, function () {
-          j(".gdpr_progress_action_main").html(msg);
-        })
-        .html(cp + "%");
-    },
-    appendLogAnimate(data, offset) {
-      var that = this;
-      if (data.length > offset) {
-        offset++;
-        var speed = 300 / data.length;
-        setTimeout(function () {
-          that.appendLogAnimate(data, offset);
-        }, speed);
-      }
-    },
-    takePages(offset, limit, total, scan_id) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "get_pages",
-        offset: offset,
-      };
-      if (limit) {
-        data["limit"] = limit;
-      }
-      if (total) {
-        data["total"] = total;
-      }
-      if (scan_id) {
-        data["scan_id"] = scan_id;
-      }
-      // fake progress.
-      this.animateProgressBar(
-        1,
-        100,
-        settings_obj.cookie_scan_settings.labels.finding
-      );
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          that.scan_id = typeof data.scan_id != "undefined" ? data.scan_id : 0;
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          if (typeof data.response != "undefined" && data.response === true) {
-            that.appendLogAnimate(data.log, 0);
-            var new_offset = parseInt(data.offset) + parseInt(data.limit);
-            if (data.total - 1 > new_offset) {
-              // substract 1 from total because of home page.
-              that.takePages(new_offset, data.limit, data.total, data.scan_id);
-            } else {
-              j(".wpl_progress_action_main").html(
-                settings_obj.cookie_scan_settings.labels.scanning
-              );
-              that.scanPages(data.scan_id, 0, data.total);
-            }
-          } else {
-            that.showErrorScreen(
-              settings_obj.cookie_scan_settings.labels.error
-            );
-          }
-        },
-        error: function () {
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-        },
-      });
-    },
-    scanPages(scan_id, offset, total) {
-      var that = this;
-      var scanbar = j(".gdpr_scanbar");
-      this.pollCount = 0;
-      var hash = Math.random().toString(36).replace("0.", "");
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "scan_pages",
-        offset: offset,
-        scan_id: scan_id,
-        total: total,
-        hash: hash,
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          that.scan_id = typeof data.scan_id != "undefined" ? data.scan_id : 0;
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          if (data.response == true) {
-            that.getScanCookies(scan_id, offset, total, hash);
-          } else {
-            scanbar.html("");
-            j(".wpl_scanbar_staypage").hide();
-            that.serverUnavailable(scanbar, data.message);
-          }
-        },
-        error: function () {
-          var current = that;
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          // error and retry function.
-
-          that.animateProgressBar(
-            offset,
-            total,
-            settings_obj.cookie_scan_settings.labels.retrying
-          );
-          setTimeout(function () {
-            current.scanPages(scan_id, offset, total);
-          }, 2000);
-        },
-      });
-    },
-    getScanCookies(scan_id, offset, total, hash) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "get_post_scan_cookies",
-        offset: offset,
-        scan_id: scan_id,
-        total: total,
-        hash: hash,
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response == true) {
-            var prg_offset = parseInt(offset) + parseInt(data.total_scanned);
-            var prg_msg =
-              settings_obj.cookie_scan_settings.labels.scanning + " ";
-            that.appendLogAnimate(data.log, 0);
-            if (data.continue === true) {
-              that.scanPages(data.scan_id, data.offset, data.total);
-            } else {
-              prg_msg = settings_obj.cookie_scan_settings.labels.finished;
-              prg_msg +=
-                " (" +
-                settings_obj.cookie_scan_settings.labels.total_cookies_found +
-                ": " +
-                data.total_cookies +
-                ")";
-              that.showSuccessScreen(prg_msg, scan_id, 1);
-            }
-            that.animateProgressBar(prg_offset, total, prg_msg);
-          } else {
-            var current = that;
-            if (that.pollCount < 10) {
-              that.pollCount++;
-              setTimeout(function () {
-                current.getScanCookies(
-                  data.scan_id,
-                  data.offset,
-                  data.total,
-                  data.hash
-                );
-              }, 10000);
-            } else {
-              that.showErrorScreen("Something went wrong, please scan again");
-            }
-          }
-        },
-        error: function () {
-          var current = that;
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          if (that.pollCount < 10) {
-            setTimeout(function () {
-              that.getScanCookies(offset, scan_id, total, hash);
-            }, 5000);
-          } else {
-            that.showErrorScreen("Something went wrong, please scan again");
-          }
-        },
-      });
-    },
-    makeHtml() {
-      return (
-        '<div class="gdpr_scanlog">' +
-        '<div class="gdpr_progress_bar">' +
-        '<span class="gdpr_progress_bar_inner gdpr_progress_bar_inner_restructured">' +
-        "</span>" +
-        "</div>" +
-        '<div class="gdpr_progress_action_main">' +
-        settings_obj.cookie_scan_settings.labels.finding +
-        "</div>" +
-        '<div class="gdpr_scanlog_bar"><button type="button" class="pull-right gdpr_stop_scan">' +
-        settings_obj.cookie_scan_settings.labels.stop +
-        "</button></div>" +
-        "</div>"
-      );
-    },
-    attachScanStop() {
-      var that = this;
-      j(".gdpr_stop_scan").click(function () {
-        that.stopScan();
-      });
-    },
-    stopScan() {
-      if (this.continue_scan == 0) {
-        return false;
-      }
-      if (confirm(settings_obj.cookie_scan_settings.labels.ru_sure)) {
-        this.continue_scan = 0;
-        this.stoppingScan(this.scan_id);
-      }
-    },
-    stoppingScan(scan_id) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "stop_scan",
-        scan_id: scan_id,
-      };
-      j(".gdpr_stop_scan")
-        .html(settings_obj.cookie_scan_settings.labels.stoping)
-        .css({ opacity: ".5" });
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          that.showSuccessScreen(
-            settings_obj.cookie_scan_settings.labels.scanning_stopped,
-            scan_id,
-            data.total
-          );
-        },
-        error: function () {
-          // error function.
-          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-        },
-      });
-    },
-    serverUnavailable: function (elm, msg) {
-      elm.html(
-        '<div style="background:#ffffff; border:solid 1px #cccccc; color:#333333; padding:5px;">' +
-          msg +
-          "</div>"
-      );
-    },
-    showErrorScreen: function (error_msg) {
-      var html =
-        '<button type="button" class="pull-right gdpr_scan_again" style="margin-left:5px;">' +
-        settings_obj.cookie_scan_settings.labels.scan_again +
-        "</button>";
-      j(".gdpr_scanlog_bar").html(html);
-      j(".gdpr_progress_action_main").html(error_msg);
-      this.success_error_message = error_msg;
-      j("#gdpr-cookie-consent-save-settings-alert").css(
-        "background-color",
-        "#e55353"
-      );
-      j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-      j(".gdpr_scanbar_staypage").hide();
-      this.scanAgain();
-    },
-    showSuccessScreen(success_msg, scan_id, total) {
-      var html =
-        '<button type="button" class="pull-right gdpr_scan_again" style="margin-left:5px;">' +
-        settings_obj.cookie_scan_settings.labels.scan_again +
-        "</button>";
-      html += '<span class="spinner" style="margin-top:5px"></span>';
-      j(".gdpr_scanlog_bar").html(html);
-      j(".gdpr_progress_action_main").html(success_msg);
-      this.success_error_message = success_msg;
-      j("#gdpr-cookie-consent-save-settings-alert").css(
-        "background-color",
-        "#72b85c"
-      );
-      j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-      j(".gdpr_scanbar_staypage").hide();
-      this.showScanCookieList();
-      this.scanAgain();
-    },
-    scanAgain() {
-      var that = this;
-      j(".gdpr_scan_again")
-        .unbind("click")
-        .click(function () {
-          that.continue_scan = 1;
-          that.scanNow();
-        });
-    },
-    onScriptCategorySelect(values) {
-      if (!values) {
-        this.success_error_message = "You must select a category.";
-        j("#gdpr-cookie-consent-save-settings-alert").css(
-          "background-color",
-          "#e55353"
-        );
-        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        return false;
-      }
-      var that = this;
-      var category_code = values.split(",")[0];
-      var script_id = values.split(",")[1];
-      for (let i = 0; i < this.category_list_options.length; i++) {
-        if (this.category_list_options[i]["code"] === category_code) {
-          if (
-            this.scripts_list_data[script_id - 1]["script_category"] ===
-            category_code
-          ) {
-            this.success_error_message = "Category updated successfully";
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            return false;
-          } else {
-            this.scripts_list_data[script_id - 1]["script_category"] =
-              this.category_list_options[i].code;
-            this.scripts_list_data[script_id - 1]["script_category_label"] =
-              this.category_list_options[i].label;
-            break;
-          }
-        }
-      }
-      var data = {
-        action: "wpl_script_blocker",
-        security:
-          settings_obj.script_blocker_settings.nonces.wpl_script_blocker,
-        wpl_script_action: "update_script_category",
-        category: category_code,
-        id: script_id,
-      };
-      jQuery.ajax({
-        url: settings_obj.script_blocker_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    onSaveCustomCookie() {
-      var parent = j(".gdpr-custom-save-cookie").parents(
-        "div.gdpr-add-custom-cookie-form"
-      );
-      var gdpr_addcookie = parent.find('input[name="gdpr_addcookie"]').val();
-      if (gdpr_addcookie == 1) {
-        var pattern =
-          /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
-        var cname = this.custom_cookie_name;
-        var cdomain = this.custom_cookie_domain;
-        var cduration = this.custom_cookie_duration;
-        var ccategory = this.custom_cookie_category;
-        var ctype = this.custom_cookie_type;
-        var cdesc = this.custom_cookie_description;
-        if (!cname) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Name";
-          parent
-            .find('input[name="gdpr-cookie-consent-custom-cookie-name"]')
-            .focus();
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          return false;
-        }
-        if (!cdomain) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Domain";
-          parent
-            .find('input[name="gdpr-cookie-consent-custom-cookie-domain"]')
-            .focus();
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          return false;
-        } else {
-          if (!pattern.test(cdomain)) {
-            this.success_error_message = "Cookie domain is not valid.";
-            parent
-              .find('input[name="gdpr-cookie-consent-custom-cookie-domain"]')
-              .focus();
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            return false;
-          }
-        }
-        if (!cduration) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Duration";
-          parent
-            .find('input[name="gdpr-cookie-consent-custom-cookie-duration"]')
-            .focus();
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          return false;
-        }
-        if (!ctype) {
-          this.success_error_message = "Please select a Cookie Type";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          return false;
-        }
-        if (!ccategory) {
-          this.success_error_message = "Please select a Cookie Category";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          return false;
-        }
-        var cookie_arr = {
-          cname: cname,
-          cdomain: cdomain,
-          cduration: cduration,
-          ccategory: ccategory,
-          ctype: ctype,
-          cdesc: cdesc,
-        };
-        this.saveCustomPostCookies(cookie_arr);
-      }
-    },
-    saveCookieUpdateSettings() {
-      var cookie_post_arr = [];
-      var error = false;
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        var pattern =
-          /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
-        var cid = this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"];
-        var cname = this.post_cookie_list[i]["name"];
-        var cdomain = this.post_cookie_list[i]["domain"];
-        var cduration = this.post_cookie_list[i]["duration"];
-        var ccategory = this.post_cookie_list[i]["category_id"];
-        var ctype = this.post_cookie_list[i]["type"];
-        var cdesc = this.post_cookie_list[i]["description"];
-        if (!cname) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Name";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          error = true;
-        }
-        if (!cdomain) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Domain";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          error = true;
-        } else {
-          if (!pattern.test(cdomain)) {
-            this.success_error_message = "Cookie Domain is not valid.";
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            error = true;
-          }
-        }
-        if (!cduration) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Duration";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          error = true;
-        }
-        var cookie_arr = {
-          cid: cid,
-          cname: cname,
-          cdomain: cdomain,
-          cduration: cduration,
-          ccategory: ccategory,
-          ctype: ctype,
-          cdesc: cdesc,
-        };
-        cookie_post_arr.push(cookie_arr);
-      }
-      if (error) {
-        return false;
-      }
-      this.updatePostCookie(cookie_post_arr);
-    },
-    updatePostCookie: function (cookie_arr) {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "update_post_cookie",
-        cookie_arr: cookie_arr,
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            that.getPostCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    deletePostCookie(cookie_id) {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "delete_post_cookie",
-        cookie_id: cookie_id,
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            that.getPostCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    hideCookieForm() {
-      this.custom_cookie_name = "";
-      this.custom_cookie_domain = "";
-      this.custom_cookie_description = "";
-      this.custom_cookie_category = 1;
-      this.custom_cookie_type = "HTTP";
-      this.show_custom_form = false;
-      this.show_add_custom_button = true;
-      this.is_custom_cookie_duration_disabled = false;
-      this.custom_cookie_duration = "";
-    },
-    saveCustomPostCookies(cookie_data) {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "save_post_cookie",
-        cookie_arr: cookie_data,
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            that.hideCookieForm();
-            that.getPostCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    getPostCookieList: function () {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "get_post_cookies_list",
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response) {
-            that.post_cookie_list_length = data.total;
-            that.post_cookie_list = data.post_list;
-            that.setPostListValues();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
   },
   mounted() {
     j("#gdpr-before-mount").css("display", "none");
     this.setValues();
-    this.setPostListValues();
-    if (this.scan_cookie_list_length > 0) {
-      this.setScanListValues();
-    }
   },
   computed: {
     computedBackgroundColor() {
@@ -13836,7 +10583,7 @@ var adv = new Vue({
         ? settings_obj.cookie_list_settings["cookie_list_types"]
         : [],
       custom_cookie_category: 1,
-      custom_cookie_type: "HTTP",
+      custom_cookie_type: "HTTP Cookie",
       custom_cookie_name: "",
       custom_cookie_domain: "",
       custom_cookie_duration: "",
@@ -14286,16 +11033,30 @@ var adv = new Vue({
         }
       }
 
-      let navLinks = j(".nav-link.active").map(function () {
-        return this.getAttribute("class");
+      let navLinks = j("#gcc-save-advanced-settings-form .nav-link").map(function () {
+          return this.getAttribute("href");
       });
-      if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
+
+      if (this.$refs.active_tab === undefined) this.$refs.active_tab = {};
+
       for (let i = 0; i < navLinks.length; i++) {
-        let re = new RegExp(navLinks[i]);
-        if (window.location.href.match(re)) {
-          this.$refs.active_tab.activeTabIndex = i;
-          break;
-        }
+          let link = navLinks[i]; // e.g. "#advanced_settings#consent"
+
+          // Split the link and URL by '#'
+          let linkParts = link.split('#').filter(Boolean);
+          let urlParts = window.location.hash.split('#').filter(Boolean);
+
+          // Check if the last part matches
+          if (linkParts[linkParts.length - 1] === urlParts[urlParts.length - 1]) {
+              // Remove only the last fragment from the URL
+              urlParts.pop();
+              let newHash = urlParts.length ? '#' + urlParts.join('#') : '';
+              window.history.replaceState(null, '', window.location.pathname + window.location.search + newHash);
+
+              // Set the active tab
+              this.$refs.active_tab.activeTabIndex = i;
+              break;
+          }
       }
     },
     saveAdvancedCookieSettings() {
@@ -14311,12 +11072,12 @@ var adv = new Vue({
         })
         .done(function (data) {
           that.success_error_message = "Settings Saved.";
-          j("#gdpr-cookie-consent-save-settings-alert").css({
+          j("#gdpr-cookie-consent-save-settings-alert-adv").css({
               "background-color": "#72b85c",
               "z-index": "10000",
           });
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
 
           if (that.consent_log_switch_clicked == true) {
             that.consent_log_switch_clicked = false;
@@ -14523,30 +11284,30 @@ var adv = new Vue({
 
                   that.success_error_message =
                     "Your file has been imported successfully. Please click on the Save Changes button to make the changes.";
-                  j("#gdpr-cookie-consent-save-settings-alert").css(
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").css(
                     "background-color",
                     "#72b85c"
                   );
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeOut(7000);
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(7000);
                 } else {
                   that.success_error_message = "Please try again.";
-                  j("#gdpr-cookie-consent-save-settings-alert").css(
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").css(
                     "background-color",
                     "#72b85c"
                   );
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
                 }
               },
               error: function () {
                 that.success_error_message = "Please try again.";
-                j("#gdpr-cookie-consent-save-settings-alert").css(
+                j("#gdpr-cookie-consent-save-settings-alert-adv").css(
                   "background-color",
                   "#72b85c"
                 );
-                j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-                j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+                j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
+                j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
               },
             });
           } catch (e) {
@@ -14958,31 +11719,31 @@ var adv = new Vue({
         success: function (data) {
           if (data.success === true) {
             that.success_error_message = "Settings reset to default";
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-adv").css(
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
             location.reload();
           } else {
             that.success_error_message = "Please try again.";
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-adv").css(
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
           }
         },
         error: function () {
           that.success_error_message = "Please try again.";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-adv").css(
             "background-color",
             "#72b85c"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
         },
       });
     },
@@ -14990,17 +11751,6 @@ var adv = new Vue({
   mounted() {
     j("#gdpr-before-mount").css("display", "none");
     this.setValues();
-
-    // this.$nextTick(function () {
-    //     setTimeout(function () {
-    //         var hash = window.location.hash;
-    //         // check if the hash starts with #advanced_settings#
-    //         if (hash.indexOf('#advanced_settings#') === 0) {
-    //             // redirect to main #advanced_settings
-    //             window.location.hash = '#advanced_settings';
-    //         }
-    //     }, 200);
-    // }.bind(this));
   }
 });
 
@@ -15018,6 +11768,7 @@ var abt = new Vue({
       ab_testing_data: '',
       account_connection: require("../admin/images/account_connection.svg"),
       pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
+      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
       gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
         ? settings_obj.the_options["cookie_usage_for"]
         : "gdpr",
@@ -15144,7 +11895,7 @@ var abt = new Vue({
             });
     },
     onSwitchABTestingEnable() {
-      j("#gdpr-cookie-consent-updating-settings-alert")
+      j("#gdpr-cookie-consent-updating-settings-alert-abt")
         .fadeIn(200)
         .fadeOut(2000);
       this.ab_testing_enabled = !this.ab_testing_enabled;
@@ -15167,7 +11918,7 @@ var abt = new Vue({
           window.location.reload();
           // Show success message
           this.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert")
+          j("#gdpr-cookie-consent-save-settings-alert-abt")
             .css("background-color", "#72b85c")
             .fadeIn(400)
             .fadeOut(2500, function () {
@@ -15209,12 +11960,12 @@ var abt = new Vue({
         })
         .done(function (data) {
           that.success_error_message = "Settings Saved.";
-          j("#gdpr-cookie-consent-save-settings-alert").css({
+          j("#gdpr-cookie-consent-save-settings-alert-abt").css({
               "background-color": "#72b85c",
               "z-index": "10000",
           });
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeOut(2500);
 
           that.save_loading = false;
         })
@@ -15335,6 +12086,7 @@ var scb = new Vue({
       },
       save_loading: false,
       success_error_message: "",
+      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
       gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
         ? settings_obj.the_options["cookie_usage_for"]
         : "gdpr",
@@ -15504,8 +12256,8 @@ var scb = new Vue({
       }
     },
     onSwitchScriptBlocker(script_id) {
-      j("#gdpr-cookie-consent-updating-settings-alert").fadeIn(200);
-      j("#gdpr-cookie-consent-updating-settings-alert").fadeOut(2000);
+      j("#gdpr-cookie-consent-updating-settings-alert-scb").fadeIn(200);
+      j("#gdpr-cookie-consent-updating-settings-alert-scb").fadeOut(2000);
       var that = this;
       this.scripts_list_data[script_id - 1]["script_status"] =
         !this.scripts_list_data[script_id - 1]["script_status"];
@@ -15531,42 +12283,42 @@ var scb = new Vue({
         success: function (data) {
           if (data.response === true) {
             that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
           } else {
             that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
               "background-color",
               "#e55353"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
           }
         },
         error: function () {
           that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-scb").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
         },
       });
     },
     onScriptCategorySelect(values) {
       if (!values) {
         this.success_error_message = "You must select a category.";
-        j("#gdpr-cookie-consent-save-settings-alert").css(
+        j("#gdpr-cookie-consent-save-settings-alert-scb").css(
           "background-color",
           "#e55353"
         );
-        j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-        j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+        j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+        j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
         return false;
       }
       var that = this;
@@ -15579,12 +12331,12 @@ var scb = new Vue({
             category_code
           ) {
             this.success_error_message = "Category updated successfully";
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
             return false;
           } else {
             this.scripts_list_data[script_id - 1]["script_category"] =
@@ -15611,30 +12363,30 @@ var scb = new Vue({
         success: function (data) {
           if (data.response === true) {
             that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
           } else {
             that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
               "background-color",
               "#e55353"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
           }
         },
         error: function () {
           that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-scb").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
         },
       });
     },
@@ -15651,12 +12403,12 @@ var scb = new Vue({
         })
         .done(function (data) {
           that.success_error_message = "Settings Saved.";
-          j("#gdpr-cookie-consent-save-settings-alert").css({
+          j("#gdpr-cookie-consent-save-settings-alert-scb").css({
               "background-color": "#72b85c",
               "z-index": "10000",
           });
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
 
           that.save_loading = false;
         })
@@ -15689,6 +12441,7 @@ var lang = new Vue({
       show_language_as_options: settings_obj.show_language_as_options,
       account_connection: require("../admin/images/account_connection.svg"),
       pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
+      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
     }
   },
   methods: {
@@ -15706,12 +12459,12 @@ var lang = new Vue({
         })
         .done(function(data) {
           that.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-lang").css(
             "background-color",
             "#72b85c"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-lang").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-lang").fadeOut(2500);
           
           if (that.is_lang_changed) {
             that.is_lang_changed = false;
@@ -15746,6 +12499,7 @@ var ckm = new Vue({
       show_custom_cookie_popup: false,
       account_connection: require("../admin/images/account_connection.svg"),
       pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
+      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
       custom_cookie_categories:
         settings_obj.cookie_list_settings.hasOwnProperty(
           "cookie_list_categories"
@@ -15758,7 +12512,7 @@ var ckm = new Vue({
         ? settings_obj.cookie_list_settings["cookie_list_types"]
         : [],
       custom_cookie_category: 1,
-      custom_cookie_type: "HTTP",
+      custom_cookie_type: "HTTP Cookie",
       custom_cookie_name: "",
       custom_cookie_domain: "",
       custom_cookie_duration: "",
@@ -15826,6 +12580,9 @@ var ckm = new Vue({
       )
         ? settings_obj.the_options["schedule_scan_when"]
         : "Not Scheduled", 
+      progress_bar: require("../admin/images/progress_bar.svg"),
+      edit_discovered_cookie_on: false,
+      edit_discovered_cookie: {},
     }
   },
   methods: {
@@ -15909,12 +12666,12 @@ var ckm = new Vue({
           parent
             .find('input[name="gdpr-cookie-consent-custom-cookie-name"]')
             .focus();
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
           return false;
         }
         if (!cdomain) {
@@ -15923,12 +12680,12 @@ var ckm = new Vue({
           parent
             .find('input[name="gdpr-cookie-consent-custom-cookie-domain"]')
             .focus();
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
           return false;
         } else {
           if (!pattern.test(cdomain)) {
@@ -15936,12 +12693,12 @@ var ckm = new Vue({
             parent
               .find('input[name="gdpr-cookie-consent-custom-cookie-domain"]')
               .focus();
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
               "background-color",
               "#e55353"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
             return false;
           }
         }
@@ -15951,32 +12708,32 @@ var ckm = new Vue({
           parent
             .find('input[name="gdpr-cookie-consent-custom-cookie-duration"]')
             .focus();
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
           return false;
         }
         if (!ctype) {
           this.success_error_message = "Please select a Cookie Type";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
           return false;
         }
         if (!ccategory) {
           this.success_error_message = "Please select a Cookie Category";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
           return false;
         }
         var cookie_arr = {
@@ -16006,45 +12763,45 @@ var ckm = new Vue({
         if (!cname) {
           this.success_error_message =
             "Please fill in these mandatory fields : Cookie Name";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
           error = true;
         }
         if (!cdomain) {
           this.success_error_message =
             "Please fill in these mandatory fields : Cookie Domain";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
           error = true;
         } else {
           if (!pattern.test(cdomain)) {
             this.success_error_message = "Cookie Domain is not valid.";
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
               "background-color",
               "#e55353"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
             error = true;
           }
         }
         if (!cduration) {
           this.success_error_message =
             "Please fill in these mandatory fields : Cookie Duration";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
           error = true;
         }
         var cookie_arr = {
@@ -16215,103 +12972,6 @@ var ckm = new Vue({
         this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
         this.onChangeScanHistoryTab();
       }
-    },
-    async saveCookieSettings() {
-        this.save_loading = true;
-        // When Pro is activated set the values in the aceeditor
-        if (this.isGdprProActive) {
-          //intializing the acecode editor
-          var editor = ace.edit("aceEditor");
-          //getting the value of editor
-          var code = editor.getValue();
-          //setting the value
-          this.gdpr_css_text = code;
-          editor.setValue(this.gdpr_css_text);
-        }
-        if(this.is_iabtcf_changed && this.iabtcf_is_on){
-          try {
-              await this.fetchIABData(); // now REALLY waits for ajax done
-          } catch (err) {
-              console.error("Failed to save IAB Data", err);
-          }
-        }
-        var that = this;
-        var dataV = jQuery("#gcc-save-settings-form").serialize();
-        jQuery
-          .ajax({
-            type: "POST",
-            url: settings_obj.ajaxurl,
-            data:
-              dataV +
-              "&action=gcc_save_admin_settings" +
-              "&lang_changed=" +
-              that.is_lang_changed +
-              "&logo_removed=" +
-              that.is_logo_removed +"&logo_removed1=" + that.is_logo_removed1 +"&logo_removed2="+ that.is_logo_removed2 +"&logo_removedML1=" + that.is_logo_removedML1 +
-              "&gdpr_css_text_field=" +
-              that.gdpr_css_text,
-          })
-          .done(function (data) {
-            that.success_error_message = "Settings Saved";
-            j("#gdpr-cookie-consent-save-settings-alert").css({
-              "background-color": "#72b85c",
-              "z-index": "10000",
-            });
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            if (that.is_template_changed) {
-              that.is_template_changed = false;
-              location.reload();
-            }
-            if (that.is_iabtcf_changed) {
-              that.is_iabtcf_changed = false;
-              location.reload();
-            }
-            if (that.is_lang_changed) {
-              that.is_lang_changed = false;
-              location.reload();
-            }
-            if (that.data_reqs_switch_clicked == true) {
-              that.data_reqs_switch_clicked = false;
-              location.reload();
-            }
-            if (that.consent_log_switch_clicked == true) {
-              that.consent_log_switch_clicked = false;
-              location.reload();
-            }
-            if (that.reload_onSelect_law == true) {
-              that.reload_onSelect_law = false;
-              location.reload();
-            }
-            if (that.reload_onSafeMode == true) {
-              that.reload_onSafeMode = false;
-              location.reload();
-            }
-            if (that.is_logo_removed == true) {
-              that.is_logo_removed = false;
-              location.reload();
-            }
-            if (that.is_logo_removed1 == true) {
-              that.is_logo_removed1 = false;
-              location.reload();
-            }
-            if (that.is_logo_removed2 == true) {
-              that.is_logo_removed2 = false;
-              location.reload();
-            }
-            if (that.is_logo_removedML1 == true) {
-              that.is_logo_removedML1 = false;
-              location.reload();
-            }
-            if (that.is_logo_added == true) {
-              that.is_logo_added = false;
-              location.reload();
-            }
-            that.save_loading = false;
-          })
-          .fail(function () {
-            that.save_loading = false;
-          });
     },
     onStartScheduleScan() {
       this.schedule_scan_show = false; //make it false to close the popup
@@ -16916,12 +13576,12 @@ var ckm = new Vue({
       j(".gdpr_scanlog_bar").html(html);
       j(".gdpr_progress_action_main").html(error_msg);
       this.success_error_message = error_msg;
-      j("#gdpr-cookie-consent-save-settings-alert").css(
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
         "background-color",
         "#e55353"
       );
-      j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
       j(".gdpr_scanbar_staypage").hide();
       this.scanAgain();
     },
@@ -16934,12 +13594,12 @@ var ckm = new Vue({
       j(".gdpr_scanlog_bar").html(html);
       j(".gdpr_progress_action_main").html(success_msg);
       this.success_error_message = success_msg;
-      j("#gdpr-cookie-consent-save-settings-alert").css(
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
         "background-color",
         "#72b85c"
       );
-      j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
       j(".gdpr_scanbar_staypage").hide();
       this.showScanCookieList();
       this.scanAgain();
@@ -16967,22 +13627,22 @@ var ckm = new Vue({
             that.setScanListValues();
           } else {
             that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
               "background-color",
               "#e55353"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
           }
         },
         error: function () {
           that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
         },
       });
     },
@@ -17031,13 +13691,60 @@ var ckm = new Vue({
         success: function (data) {
           if (data.response === true) {
             that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+            that.hideCookieForm();
+            that.getPostCookieList();
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+        },
+      });
+    },
+    onDeleteCustomCookie(cookie_id) {
+      this.deletePostCookie(cookie_id);
+    },
+    updatePostCookie: function (cookie_arr) {
+      var that = this;
+      var data = {
+        action: "gdpr_cookie_custom",
+        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+        gdpr_custom_action: "update_post_cookie",
+        cookie_arr: cookie_arr,
+      };
+      j.ajax({
+        url: settings_obj.cookie_list_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
             j("#gdpr-cookie-consent-save-settings-alert").css(
               "background-color",
               "#72b85c"
             );
             j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
             j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            that.hideCookieForm();
             that.getPostCookieList();
           } else {
             that.success_error_message = data.message;
@@ -17060,10 +13767,51 @@ var ckm = new Vue({
         },
       });
     },
-    onDeleteCustomCookie(cookie_id) {
-      this.deletePostCookie(cookie_id);
+    deletePostCookie(cookie_id) {
+      var that = this;
+      var data = {
+        action: "gdpr_cookie_custom",
+        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+        gdpr_custom_action: "delete_post_cookie",
+        cookie_id: cookie_id,
+      };
+      j.ajax({
+        url: settings_obj.cookie_list_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+            that.getPostCookieList();
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+        },
+      });
     },
-        updateScannedCookies() {
+    updateScannedCookies() {
       var cookie_scan_arr = [];
       for (let i = 0; i < this.scan_cookie_list_length; i++) {
         var cid = this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"];
@@ -17077,6 +13825,44 @@ var ckm = new Vue({
         cookie_scan_arr.push(cookie_arr);
       }
       this.updateScanCookie(cookie_scan_arr);
+    },
+    getPostCookieList: function () {
+      var that = this;
+      var data = {
+        action: "gdpr_cookie_custom",
+        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+        gdpr_custom_action: "get_post_cookies_list",
+      };
+      j.ajax({
+        url: settings_obj.cookie_list_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response) {
+            that.post_cookie_list_length = data.total;
+            that.post_cookie_list = data.post_list;
+            that.setPostListValues();
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+        },
+      });
     },
     scheduleScanShow() {
       this.schedule_scan_show = true;
@@ -17112,34 +13898,65 @@ var ckm = new Vue({
         success: function (data) {
           if (data.response === true) {
             that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
             that.showScanCookieList();
           } else {
             that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
               "background-color",
               "#e55353"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
           }
         },
         error: function () {
           that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
             "background-color",
             "#e55353"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
         },
       });
     },
-  }
+    editCookie(cookie) {
+      this.edit_discovered_cookie_on = true;
+      this.edit_discovered_cookie = { ...cookie };
+    },
+    hideCreateCookiePopup() {
+      this.edit_discovered_cookie_on = false;
+    },
+  },
+  mounted() {
+    j("#gdpr-before-mount").css("display", "none");
+
+    if (settings_obj.is_user_connected) {
+      if (performance.navigation.type !== 1) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const scanUrlParam = urlParams.get("scan_url");
+        // Check if the 'scan' parameter is present and has the value '1'
+        if (scanUrlParam) {
+          // Run the onClickStartScan() method
+          const singlePageScan = true;
+          this.onClickStartScan(singlePageScan);
+        }
+      }
+    }
+
+    this.setValues();
+    this.setPostListValues();
+    if (this.scan_cookie_list_length > 0) {
+      this.setScanListValues();
+    }
+
+    this.activateTabFromHash();
+  },
 });
 window.ckm = ckm;
