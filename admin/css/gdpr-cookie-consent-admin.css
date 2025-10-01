@@ -10911,3 +10911,23 @@ div#gdpr-scan-history {
 #scan-history-container .gdpr-blur-background {
   width: 100%;
 }
+
+@media (min-width: 1229px) {
+  .notice-container
+  .notice-content 
+  .notice-buttons-wrapper a{
+    text-wrap-mode: nowrap;
+  }
+
+  .template_selection_body
+  .cookie_notice_content
+  .cookie_notice_buttons a {
+    text-wrap-mode: nowrap;
+  }
+
+  .gdpr-template-field
+  .cookie_notice_content
+  .cookie_notice_buttons a {
+    text-wrap-mode: nowrap;
+  }
+}
