@@ -6801,6 +6801,7 @@ var gen = new Vue({
     });
 
     //PREVIEW BANNER STATE
+    var that = this;
       jQuery.ajax({
         url: settings_obj.ajaxurl,
         type: "POST",
@@ -6808,9 +6809,9 @@ var gen = new Vue({
         data: {
           action: "gcc_get_preview_banner_state"
         },
-        success: (response) => {
+        success: function(response){
           if (response.success) {
-            this.banner_preview_is_on = response.data === 'true';
+            that.banner_preview_is_on = response.data === 'true';
           }
         }
       });
