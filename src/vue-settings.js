@@ -3760,26 +3760,35 @@ var gen = new Vue({
     onSwitchCookieDeclineEnable1() {
       this.cookie_decline_on1 = !this.cookie_decline_on1;
     },
-    onSwitchCookieSettingsEnable() {
-      this.cookie_settings_on = !this.cookie_settings_on;
+    onSwitchCookieSettingsEnable(val) {
+      this.cookie_settings_on = val;
+      if (!val) {
+        this.cookie_on_frontend = false;
+      }
     },
-    onSwitchCookieSettingsEnable1() {
-      this.cookie_settings_on1 = !this.cookie_settings_on1;
+    onSwitchCookieSettingsEnable1(val) {
+      this.cookie_settings_on1 = val;
+      if (!val) {
+        this.cookie_on_frontend1 = false;
+      }
     },
-    onSwitchCookieOnFrontend() {
-      this.cookie_on_frontend = !this.cookie_on_frontend;
+    onSwitchCookieOnFrontend(val) {
+      this.cookie_on_frontend = val;
     },
-    onSwitchCookieOnFrontend1() {
-      this.cookie_on_frontend1 = !this.cookie_on_frontend1;
+    onSwitchCookieOnFrontend1(val) {
+        this.cookie_on_frontend1 = val;
     },
     onSwitchCookieDeclineEnable2() {
       this.cookie_decline_on2 = !this.cookie_decline_on2;
     },
-    onSwitchCookieSettingsEnable2() {
-      this.cookie_settings_on2 = !this.cookie_settings_on2;
+    onSwitchCookieSettingsEnable2(val) {
+      this.cookie_settings_on2 = val;
+      if (!val) {
+        this.cookie_on_frontend2 = false;
+      }
     },
-    onSwitchCookieOnFrontend2() {
-      this.cookie_on_frontend2 = !this.cookie_on_frontend2;
+    onSwitchCookieOnFrontend2(val) {
+      this.cookie_on_frontend2 = val;
     },
     editCookie(cookie) {
       this.edit_discovered_cookie_on = true;
