@@ -228,10 +228,7 @@ var gen = new Vue({
           ? true
           : false,
       banner_preview_is_on:
-        "true" == settings_obj.the_options["banner_preview_enable"] ||
-        1 === settings_obj.the_options["banner_preview_enable"]
-          ? true
-          : false,
+        false,
       policy_options: settings_obj.policies,
       gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
         ? settings_obj.the_options["cookie_usage_for"]
@@ -2808,6 +2805,21 @@ var gen = new Vue({
       this.isVendorsActive = false;
       //changing the value of banner_preview_swicth_value enable/disable
       this.banner_preview_is_on = !this.banner_preview_is_on;
+      //make AJAX call to show/hide the banner on front end
+      jQuery.ajax({
+          url: settings_obj.ajaxurl,
+          type: "POST",
+          dataType: "json",
+          data: {
+            action: "gcc_switch_preview_banner",
+            banner_preview_state: this.banner_preview_is_on,
+          },
+          success: function (response) {
+          },
+          error: function (error) {
+            console.error("Error:", error);
+          },
+      })
     },
     onSwitchDataReqsEnable() {
       //changing the value of data_reqs_on enable/disable
@@ -3243,6 +3255,15 @@ var gen = new Vue({
     },
     turnOffPreviewBanner() {
       this.banner_preview_is_on = false;
+      jQuery.ajax({
+        url: settings_obj.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "gcc_switch_preview_banner",
+            banner_preview_state: false
+        }
+    });
     },
     onTemplateChange(value) {
       this.template = value;
@@ -4979,6 +5000,23 @@ var gen = new Vue({
 
       setTimeout(() => clearInterval(timeInterval), 7000);
     });
+
+    //PREVIEW BANNER STATE
+    var that = this;
+      jQuery.ajax({
+        url: settings_obj.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+          action: "gcc_get_preview_banner_state"
+        },
+        success: function(response){
+          if (response.success) {
+            that.banner_preview_is_on = response.data === 'true';
+          }
+        }
+      });
+
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });

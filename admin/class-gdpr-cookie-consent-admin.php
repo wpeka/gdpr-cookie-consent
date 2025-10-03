@@ -7533,6 +7533,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$ab_options ['bypass2']   = 0;
 			update_option( 'wpl_ab_options', $ab_options );
 			delete_transient( 'gdpr_ab_testing_transient' );
+			// Reset the preview banner state to false
+			update_option('gdpr_preview_banner_state', 'false');
 			wp_send_json_success( array( 'restore_default_saved' => true ) );
 		}
 	}
@@ -7593,7 +7595,25 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options['is_banner_auto_generated'] = sanitize_text_field($_POST['is_auto_generated_banner_done']);
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 	}
-	
+	/**
+	 * Function to switch preview banner state
+	 */
+	public function gdpr_cookie_consent_ajax_switch_preview_banner(){
+		$banner_preview_state = sanitize_text_field($_POST['banner_preview_state']);
+		$banner_preview_state = ($banner_preview_state === 'true' || $banner_preview_state === true) ? 'true' : 'false';
+		
+    	update_option('gdpr_preview_banner_state', $banner_preview_state);
+		wp_send_json_success( $banner_preview_state );
+	}
+
+	/**
+	 * Function to get the preview banner state
+	 */
+
+	public function gdpr_cookie_consent_ajax_get_preview_banner_state(){
+		$state = get_option('gdpr_preview_banner_state', 'false');
+		wp_send_json_success($state);
+	}
 	/* Added endpoint to send dashboard data from plugin to the saas appwplp server */
 	public function gdpr_send_data_to_dashboard_appwplp_server(WP_REST_Request $request  ){		
 		$current_user = wp_get_current_user();
