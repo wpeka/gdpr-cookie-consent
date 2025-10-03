@@ -12644,6 +12644,7 @@ var ckm = new Vue({
       progress_bar: require("../admin/images/progress_bar.svg"),
       edit_discovered_cookie_on: false,
       edit_discovered_cookie: {},
+      close_round_img: require("../admin/images/Close_round.svg"),
     }
   },
   methods: {
