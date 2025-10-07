@@ -3152,14 +3152,28 @@ var gen = new Vue({
           },
           success: function (response) {
             that.auto_generated_banner = true;
+             jQuery.ajax({
+                url: settings_obj.ajaxurl,
+                type: "POST",
+                dataType: "json",
+                data: {
+                  action: "gcc_switch_preview_banner",
+                  banner_preview_state: true
+                },
+                success: function(previewResponse) {
+                  location.reload();
+                },
+                error: function(error) {
+                  console.error("Error enabling banner preview:", error);
+                  location.reload();
+                }
+              });
           },
           error: function (error) {
             console.error("Error:", error);
           },
         });
       };
-      this.banner_preview_is_on = true;
-      // }
     },
     //consent forward.
     onSwitchConsentForward() {
@@ -3267,6 +3281,18 @@ var gen = new Vue({
         data: {
             action: "gcc_switch_preview_banner",
             banner_preview_state: false
+        }
+    });
+    },
+    turnOnPreviewBanner() {
+      this.banner_preview_is_on = false;
+      jQuery.ajax({
+        url: settings_obj.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "gcc_switch_preview_banner",
+            banner_preview_state: true
         }
     });
     },
