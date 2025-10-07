@@ -167,21 +167,14 @@ if (GDPR_Cookie.exists("IABTCF_AddtlConsent")) {
   $(".vendor-all-switch-handler").each(function () {
     let flag = true;
     //venors which do no need consent and thier consent is not getting turned on when we turn on all vendors on swiitch
-    const invlaid_vendor_consents = [
-      46, 56, 63, 83, 126, 203, 205, 278, 279, 297, 308, 336, 415, 431, 466,
-      502, 509, 551, 572, 597, 612, 706, 729, 751, 762, 772, 801, 838, 845, 853,
-      872, 883, 892, 898, 911, 927, 925, 950, 953, 969, 1005, 1013, 1014, 1019,
-      1041, 1044, 1075, 1129, 1160, 1169, 1170, 1172, 1187, 1203, 1204, 1208,
-      1217, 1219, 1225, 1228, 1234, 1247, 1253, 1259, 1275, 1277, 1278, 1280,
-      1285, 1284, 1300, 1302, 1306, 1307, 1308, 1310, 1311, 1333,
-    ];
+    
     // Loop through each element in allVendors
     for (let i = 0; i < iabtcf.data.allvendors.length; i++) {
       const vendor = iabtcf.data.allvendors[i];
       // Check if the vendor exists in the consentArray
       if (
         !user_iab_consent.consent.includes(vendor) &&
-        !invlaid_vendor_consents.includes(vendor)
+        iabtcf.data.vendors[i].purposes.length != 0
       ) {
         flag = false;
         break;
