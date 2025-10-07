@@ -3284,18 +3284,6 @@ var gen = new Vue({
         }
     });
     },
-    turnOnPreviewBanner() {
-      this.banner_preview_is_on = false;
-      jQuery.ajax({
-        url: settings_obj.ajaxurl,
-        type: "POST",
-        dataType: "json",
-        data: {
-            action: "gcc_switch_preview_banner",
-            banner_preview_state: true
-        }
-    });
-    },
     onTemplateChange(value) {
       this.template = value;
       let selectedTemplate
