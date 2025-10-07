@@ -129,7 +129,6 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 									<img src="<?php echo $is_user_connected ? esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/admin_my_account.svg' : esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/admin_login.svg'; ?>" alt="Login/Logout">
 								</a>
 							</div>
-							<?php error_log("DODODO is_user_connected: " . $is_user_connected); ?>
 							<div class="gdpr-cookie-consent-admin-login-text">
 								<a <?php if ( $is_user_connected ) {
 									echo 'href="https://app.wplegalpages.com/my-account" target="_blank"';
