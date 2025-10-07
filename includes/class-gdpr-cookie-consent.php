@@ -224,6 +224,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu');
 			// Adding admin menu.
 			// $this->loader->add_action( 'current_screen', $plugin_admin, 'add_tabs', 15 );
+			$this->loader->add_filter( 'cron_schedules', $plugin_admin,'add_every_minute_cron_schedule');
 			$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'admin_footer_text', 10, 1 );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init', 5 );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_admin_init' );

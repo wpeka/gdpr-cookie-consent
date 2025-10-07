@@ -594,9 +594,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Check if ab-testing-period is completed and set default banner
 	 */
 	public function gdpr_ab_testing_complete() {
-		error_log("DADADA AB testing complete function called");
 		$ab_options = get_option( 'wpl_ab_options' );
-		error_log("DADADA AB testing complete function called with options: " . print_r($ab_options, true));
 		if ( $ab_options && isset( $ab_options['ab_testing_enabled'] ) && ($ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true') && false === get_transient( 'gdpr_ab_testing_transient' ) ) {
 			
 			$banner1_noChoice  = array_key_exists( 'noChoice1', $ab_options ) ? $ab_options['noChoice1'] : 0;
@@ -3404,7 +3402,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 9.2.11
 	 */
 	public function gdpr_cookie_consent_language_settings() {
-		error_log("DIDIDI inside language settings");
 		$is_user_connected = $this->settings->is_connected();
 		$api_user_plan = $this->settings->get_plan();
 
@@ -4633,6 +4630,16 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 
+	public function add_every_minute_cron_schedule( $schedules ) {
+        if ( ! isset( $schedules['every_minute'] ) ) {
+            $schedules['every_minute'] = array(
+                'interval' => 60,
+                'display'  => __( 'Every Minute' ),
+            );
+        }
+        return $schedules;
+    }
+
 	/**
 	 * Ajax callback for setting page.
 	 */
@@ -5699,7 +5706,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 * AB Testing callback to save settings.
 	 */
 	public function gdpr_cookie_consent_ajax_save_abtesting_settings() {
-		error_log("DADADA saving AB testing settings.");
 		if ( isset( $_POST['gcc_settings_form_nonce_abtesting'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_abtesting'] ) ), 'gcc-settings-form-nonce-abtesting' ) ) {
 				return;
@@ -5715,7 +5721,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Script Blocker callback to save settings.
 	 */
 	public function gdpr_cookie_consent_ajax_save_script_blocker_settings() {
-		error_log("DADADA saving Script Blocker settings.");
 		if ( isset( $_POST['gcc_settings_form_nonce_script_blocker'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_script_blocker'] ) ), 'gcc-settings-form-nonce-script-blocker' ) ) {
 				return;
@@ -5785,9 +5790,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Language callback to save settings.
 	 */
 	public function gdpr_cookie_consent_ajax_save_language_settings() {
-		error_log("DIDIDI saving Language settings. AJAX");
 		if ( isset( $_POST['gcc_settings_form_nonce_language'] ) ) {
-			error_log("DIDIDI inside nonce check");
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_language'] ) ), 'gcc-settings-form-nonce-language' ) ) {
 				return;
 			}
@@ -5795,7 +5798,6 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
 
-			error_log("DIDIDI post lang changed: " . $_POST['lang_changed']);
 			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
 
 			// language translation based on the selected language.
@@ -5807,16 +5809,13 @@ class Gdpr_Cookie_Consent_Admin {
 
 			wp_send_json_success( array( 'form_options_saved' => true ) );
 		}
-		error_log("DIDIDI end of function");
 	}
 
 	/**
 	 * Cookie Manager callback to save settings.
 	 */
 	public function gdpr_cookie_consent_ajax_save_cookie_manager_settings() {
-		error_log("DIDIDI saving Cookie Manager settings. AJAX");
 		if ( isset( $_POST['gcc_settings_form_nonce_cookie_manager'] ) ) {
-			error_log("DIDIDI inside nonce check");
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_cookie_manager'] ) ), 'gcc-settings-form-nonce-cookie-manager' ) ) {
 				return;
 			}
@@ -5830,7 +5829,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 			wp_send_json_success( array( 'form_options_saved' => true ) );
 		}
-		error_log("DIDIDI end of function");
 	}
 
 	/**
@@ -5893,7 +5891,6 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Ajax callback for A-B Testing value.
 	 */
 	public function gdpr_cookie_consent_ab_testing_enable(){
-		error_log("DODODO inside gdpr_cookie_consent_ab_testing_enable()");
 			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$ab_options     = get_option( 'wpl_ab_options' );
 			if ( ! $ab_options ) {
