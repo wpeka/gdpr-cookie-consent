@@ -365,15 +365,19 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	public function wpl_script_blocker_advanced_tab() {
 		?>
 		<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#script_blocker" id="gdpr-cookie-consent-script-blocker">
+			
+            <div class="gdpr-preview-publish-btn gdpr-preview-publish-btn-scb">
+				<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveScriptBlockerSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
+			</div>
+			
 			<c-card class="script-blocker-card">
-				
 				<c-card-body style="position:relative;">
 					<div :class="{ 'overlay-script-style': enable_safe}" v-show="enable_safe">
 						<div :class="{ 'overlay-script-message': enable_safe}">
 						<img id="safe-mode-activate-img"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/safe-mode-lock.png'; ?>" alt="WP Cookie Consent Logo">
 						<?php
 						esc_attr_e(
-							'Safe Mode enabled. Disable it in Compliance settings to configure Script Blocker settings.',
+							'Safe Mode enabled. Disable it in Advanced Settings > Additional Settings to configure Script Blocker settings.',
 							'gdpr-cookie-consent'
 						);
 						?>
@@ -433,7 +437,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 							<input type="hidden" name="gcc-script-dependency-on" v-model="is_script_dependency_on" :disabled="enable_safe">
 						</c-col>
 					</c-row>
-					<c-row v-show="is_script_dependency_on" style="margin-top: -30px;"><c-col class="col-sm-4"></c-col><c-col class="col-sm-8"><p style="color:gray; font-weight:400;"><?php echo esc_html__( 'Follow the guide ', 'gdpr-cookie-consent' ); ?><a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wp-cookie-consent/settings/gdpr-settings-script-blocker-pro/#h-script-dependency' ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'here', 'gdpr-cookie-consent' ); ?></a><?php echo esc_html__( ' to learn more about Script Dependency.', 'gdpr-cookie-consent' ); ?></p></c-col></c-row>
+					<c-row v-show="is_script_dependency_on"><c-col class="col-sm-4"></c-col><c-col class="col-sm-8"><p style="color:gray; font-weight:400;"><?php echo esc_html__( 'Follow the guide ', 'gdpr-cookie-consent' ); ?><a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wp-cookie-consent/settings/gdpr-settings-script-blocker-pro/#h-script-dependency' ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'here', 'gdpr-cookie-consent' ); ?></a><?php echo esc_html__( ' to learn more about Script Dependency.', 'gdpr-cookie-consent' ); ?></p></c-col></c-row>
 					<c-row v-show="is_script_dependency_on">
 						<c-col class="col-sm-4"></c-col>
 						<c-col class="col-sm-5">
@@ -450,7 +454,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						</c-col>
 						<c-col class="col-sm-3"><label><?php esc_attr_e( 'waits for: Footer Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
 					</c-row>
-					<v-modal :append-to="appendField" :based-on="show_script_blocker" @click="showScriptBlockerForm">
+					<v-modal v-model="show_script_blocker" @click="showScriptBlockerForm">
 						<div class="advanced-settings-wrapper">
 							<div class="advances-settings-tittle-bar">
 								<div class="advances-setting-tittle" slot="header"><?php esc_attr_e('Advanced Settings', 'gdpr-cookie-consent'); ?></div>
@@ -461,7 +465,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 								<table class="advanced-settings-table-container">
 								<thead>
 									<tr scope="col" class="gdpr-script-blocker-header">
-									<th class="gdpr-cookie-consent-script-left"style="text-align: center;"><?php esc_attr_e('Enabled', 'gdpr-cookie-consent'); ?></th>
+									<th class="gdpr-cookie-consent-script-left" style="text-align: center;"><?php esc_attr_e('Enabled', 'gdpr-cookie-consent'); ?></th>
 									<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Name', 'gdpr-cookie-consent'); ?></th>
 									<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Description', 'gdpr-cookie-consent'); ?></th>
 									<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Category', 'gdpr-cookie-consent'); ?></th>
@@ -511,7 +515,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						<img id="safe-mode-activate-img"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/safe-mode-lock.png'; ?>" alt="WP Cookie Consent Logo">
 							<?php
 							esc_attr_e(
-								'Safe Mode enabled. Disable it in Compliance settings to configure Whitelist Scripts settings.',
+								'Safe Mode enabled. Disable it in Advanced Settings > Additional Settings to configure Whitelist Scripts settings.',
 								'gdpr-cookie-consent'
 							);
 							?>

@@ -70,7 +70,6 @@ $script_blocker_sub_tab = apply_filters( 'gdprcookieconsent_script_blocker_sub_t
 				?>
 			</table>
 		</div>
-		<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
 	</div>
 	<?php
 	require 'admin-display-save-button.php';

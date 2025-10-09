@@ -17,6 +17,20 @@ jQuery(document).ready(function () {
     jQuery(".gdpr-cookie-consent-admin-tab").addClass("pro-is-activated");
   }
 
+  // Dashboard Revamp Collapsible Sidebar
+  jQuery(document).ready(function ($) {
+    const tabHeader = $(".wplp-compliance-cookie-consent-tab-admin");
+
+    tabHeader.addClass("open-tab");
+    tabHeader.closest(".gdpr-admin-tab-link").addClass("active-tab");
+
+    tabHeader.on("click", function (e) {
+      e.preventDefault();
+      $(this).toggleClass("open-tab");
+    })
+  });
+
+  
   // Hide all tab contents initially except the first one
   jQuery(".gdpr-cookie-consent-admin-tab-content").not(":first").hide();
   jQuery(".gdpr-cookie-consent-admin-cookie-banner-tab").addClass("active-tab");
@@ -362,7 +376,7 @@ jQuery(document).ready(function () {
             if (window.gen && typeof window.gen.refreshGCMAdvertiserModeData === 'function') {
                 window.gen.refreshGCMAdvertiserModeData(response.data.html);
             } else {
-                console.error('Vue instance not found or refreshCookieScannerData method missing.');
+                console.error('Vue instance not found or refreshGCMAdvertiserModeData method missing.');
             }
         },
         error: function () {

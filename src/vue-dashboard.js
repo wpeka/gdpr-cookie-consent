@@ -39,7 +39,7 @@ var gen = new Vue({
         // More data points...
       ],
       chartWidth:
-        window.innerWidth > 1750 ? 760 : window.innerWidth > 1600 ? 693 : 500,
+        window.innerWidth > 1750 ? 600 : window.innerWidth > 1600 ? 693 : 450,
       dateRange: [],
       flatpickrConfig: {
         mode: "range",
@@ -506,7 +506,7 @@ var gen = new Vue({
         document.documentElement.clientWidth
       );
       const newChartWidth =
-        viewportWidth > 1750 ? 760 : viewportWidth > 1600 ? 693 : 500;
+        viewportWidth > 1750 ? 600 : viewportWidth > 1600 ? 693 : 450;
 
       if (newChartWidth !== this.chartWidth) {
         this.chartWidth = newChartWidth;

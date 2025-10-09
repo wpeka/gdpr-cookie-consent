@@ -518,6 +518,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 
 		$current_month = date('M Y');
 		$monthly_views = $this->get_monthly_views($wpl_page_views, $current_month);
+		update_option('wpl_monthly_page_views', $monthly_views);
 		
 		$limits = [
 		  'free' => 20000,

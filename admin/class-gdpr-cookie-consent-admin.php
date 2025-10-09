@@ -131,6 +131,7 @@ class Gdpr_Cookie_Consent_Admin {
 			//option to store page views
 			if(get_option("wpl_page_views") === false) add_option("wpl_page_views", []);
 			if(get_option("page_view_notice_message") === false ) add_option( "page_view_notice_message", "");
+			if(get_option("wpl_monthly_page_views") === false ) add_option( "wpl_monthly_page_views", 0);
 			if(get_option("wpl_total_page_views") === false) add_option("wpl_total_page_views", 0);
 			add_action('wp_ajax_install_plugin', array($this, 'gdpr_wplp_install_plugin_ajax_handler'));
 			add_action('wp_ajax_gdpr_support_request', array($this, 'gdpr_support_request_handler'));
@@ -549,6 +550,7 @@ class Gdpr_Cookie_Consent_Admin {
 				delete_option( 'wpl_cl_decline' );
 				delete_option( 'wpl_page_views' );
 				delete_option( 'page_view_notice_message' );
+				delete_option( 'wpl_monthly_page_views' );
 				delete_option( 'wpl_cl_accept' );
 				delete_option( 'wpl_cl_partially_accept' );
 				delete_option( 'wpl_cl_bypass' );
@@ -3167,6 +3169,276 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_enqueue_script( $this->plugin_name . '-main' );
 		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-admin-settings.php';
 	}
+	
+	/**
+	 * Advanced Settings Page
+	 * 
+	 * @since 4.0.0
+	 */
+	public function gdpr_cookie_consent_advanced_settings() {
+		$is_user_connected = $this->settings->is_connected();
+		$api_user_plan = $this->settings->get_plan();
+
+		$is_pro_active            = get_option( 'wpl_pro_active', false );
+		if ( $is_pro_active ) {
+			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=support';
+		} else {
+			$support_url = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
+		}
+		wp_enqueue_style( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name . '-vue' );
+		wp_enqueue_script( $this->plugin_name . '-mascot' );
+		wp_enqueue_style( $this->plugin_name . '-select2' );
+		wp_enqueue_script( $this->plugin_name . '-select2' );
+
+		wp_localize_script(
+			$this->plugin_name . '-mascot',
+			'mascot_obj',
+			array(
+				'api_user_plan' => $api_user_plan,
+				'documentation_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/',
+				'faq_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/',
+				'support_url' => $support_url,
+				'upgrade_url' => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
+				'is_user_connected' => $is_user_connected,
+			)
+		);
+		// Lock out non-admins.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+		}
+		// Get options.
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		// Check if form has been set.
+		if ( isset( $_POST['update_admin_settings_form'] ) || ( isset( $_POST['gdpr_settings_ajax_update'] ) ) ) {
+			// Check nonce.
+			check_admin_referer( 'gdprcookieconsent-update-' . GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+			if ( 'update_admin_settings_form' === $_POST['gdpr_settings_ajax_update'] ) {
+				// module settings saving hook.
+				do_action( 'gdpr_module_save_settings' );
+				// setting manually default value for restrict posts field.
+				if ( ! isset( $_POST['restrict_posts_field'] ) ) {
+					$_POST['restrict_posts_field'] = array();
+				}
+				foreach ( $the_options as $key => $value ) {
+					if ( isset( $_POST[ $key . '_field' ] ) ) {
+						// Store sanitised values only.
+						$the_options[ $key ] = Gdpr_Cookie_Consent::gdpr_sanitise_settings( $key, wp_unslash( $_POST[ $key . '_field' ] ) ); // phpcs:ignore
+					}
+				}
+				$the_options = apply_filters( 'gdpr_module_after_save_settings', $the_options );
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+				echo '<div class="updated"><p><strong>' . esc_attr__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+			}
+		}
+		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) ) === 'xmlhttprequest' ) {
+			exit();
+		}
+
+		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-advanced-settings.php';
+	}
+
+	/**
+	 * AB Testing Page
+	 * 
+	 * @since 4.0.0
+	 */
+	public function gdpr_cookie_consent_abtesting_settings() {
+		$is_user_connected = $this->settings->is_connected();
+		$api_user_plan = $this->settings->get_plan();
+
+		$is_pro            = get_option( 'wpl_pro_active', false );
+		if ( $is_pro ) {
+			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=support';
+		} else {
+			$support_url = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
+		}
+		wp_enqueue_style( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name . '-vue' );
+		wp_enqueue_script( $this->plugin_name . '-mascot' );
+		wp_enqueue_style( $this->plugin_name . '-select2' );
+		wp_enqueue_script( $this->plugin_name . '-select2' );
+
+		wp_localize_script(
+			$this->plugin_name . '-mascot',
+			'mascot_obj',
+			array(
+				'api_user_plan' => $api_user_plan,
+				'documentation_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/',
+				'faq_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/',
+				'support_url' => $support_url,
+				'upgrade_url' => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
+				'is_user_connected' => $is_user_connected,
+			)
+		);
+		// Lock out non-admins.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+		}
+		// Get options.
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-abtesting-settings.php';
+	}
+
+	/**
+	 * Script Blocker Page
+	 * 
+	 * @since 4.0.0
+	 */
+	public function gdpr_cookie_consent_script_blocker_settings() {
+		$is_user_connected = $this->settings->is_connected();
+		$api_user_plan = $this->settings->get_plan();
+
+		$is_pro            = get_option( 'wpl_pro_active', false );
+		if ( $is_pro ) {
+			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=support';
+		} else {
+			$support_url = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
+		}
+		wp_enqueue_style( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name . '-vue' );
+		wp_enqueue_script( $this->plugin_name . '-mascot' );
+		wp_enqueue_style( $this->plugin_name . '-select2' );
+		wp_enqueue_script( $this->plugin_name . '-select2' );
+
+		wp_localize_script(
+			$this->plugin_name . '-mascot',
+			'mascot_obj',
+			array(
+				'api_user_plan' => $api_user_plan,
+				'documentation_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/',
+				'faq_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/',
+				'support_url' => $support_url,
+				'upgrade_url' => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
+				'is_user_connected' => $is_user_connected,
+			)
+		);
+		// Lock out non-admins.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+		}
+		// Get options.
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		// Check if form has been set.
+		if ( isset( $_POST['update_admin_settings_form'] ) || ( isset( $_POST['gdpr_settings_ajax_update'] ) ) ) {
+			// Check nonce.
+			check_admin_referer( 'gdprcookieconsent-update-' . GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+			if ( 'update_admin_settings_form' === $_POST['gdpr_settings_ajax_update'] ) {
+				// module settings saving hook.
+				do_action( 'gdpr_module_save_settings' );
+				// setting manually default value for restrict posts field.
+				if ( ! isset( $_POST['restrict_posts_field'] ) ) {
+					$_POST['restrict_posts_field'] = array();
+				}
+				foreach ( $the_options as $key => $value ) {
+					if ( isset( $_POST[ $key . '_field' ] ) ) {
+						// Store sanitised values only.
+						$the_options[ $key ] = Gdpr_Cookie_Consent::gdpr_sanitise_settings( $key, wp_unslash( $_POST[ $key . '_field' ] ) ); // phpcs:ignore
+					}
+				}
+				$the_options = apply_filters( 'gdpr_module_after_save_settings', $the_options );
+				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+				echo '<div class="updated"><p><strong>' . esc_attr__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+			}
+		}
+		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) ) === 'xmlhttprequest' ) {
+			exit();
+		}
+
+		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-script-blocker-settings.php';
+	}
+
+	/**
+	 * Cookie Manager Page
+	 * 
+	 * @since 4.0.0
+	 */
+	public function gdpr_cookie_consent_cookie_manager_settings() {
+		$is_user_connected = $this->settings->is_connected();
+		$api_user_plan = $this->settings->get_plan();
+
+		$is_pro            = get_option( 'wpl_pro_active', false );
+		if ( $is_pro ) {
+			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=support';
+		} else {
+			$support_url = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
+		}
+		wp_enqueue_style( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name . '-vue' );
+		wp_enqueue_script( $this->plugin_name . '-mascot' );
+		wp_enqueue_style( $this->plugin_name . '-select2' );
+		wp_enqueue_script( $this->plugin_name . '-select2' );
+
+		wp_localize_script(
+			$this->plugin_name . '-mascot',
+			'mascot_obj',
+			array(
+				'api_user_plan' => $api_user_plan,
+				'documentation_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/',
+				'faq_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/',
+				'support_url' => $support_url,
+				'upgrade_url' => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
+				'is_user_connected' => $is_user_connected,
+			)
+		);
+		// Lock out non-admins.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+		}
+		// Get options.
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		
+		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-cookie-manager-settings.php';
+	}
+
+		/**
+	 * Languages Page
+	 * 
+	 * @since 4.0.0
+	 */
+	public function gdpr_cookie_consent_language_settings() {
+		$is_user_connected = $this->settings->is_connected();
+		$api_user_plan = $this->settings->get_plan();
+
+		$is_pro            = get_option( 'wpl_pro_active', false );
+		if ( $is_pro ) {
+			$support_url = 'https://club.wpeka.com/my-account/orders/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot&utm_content=support';
+		} else {
+			$support_url = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
+		}
+		wp_enqueue_style( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_script( $this->plugin_name . '-vue' );
+		wp_enqueue_script( $this->plugin_name . '-mascot' );
+		wp_enqueue_style( $this->plugin_name . '-select2' );
+		wp_enqueue_script( $this->plugin_name . '-select2' );
+
+		wp_localize_script(
+			$this->plugin_name . '-mascot',
+			'mascot_obj',
+			array(
+				'api_user_plan' => $api_user_plan,
+				'documentation_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/',
+				'faq_url' => 'https://wplegalpages.com/docs/wp-cookie-consent/faqs/faq-2/',
+				'support_url' => $support_url,
+				'upgrade_url' => 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=help-mascot_&utm_content=upgrade-to-pro',
+				'is_user_connected' => $is_user_connected,
+			)
+		);
+		// Lock out non-admins.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+		}
+		// Get options.
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-language-settings.php';
+	}
 
 	/**
 	 * Register block.
@@ -3458,11 +3730,17 @@ class Gdpr_Cookie_Consent_Admin {
 			// revoke consent text color.
 			$the_options['button_accept_as_button']        	    = 'true';
 			$the_options['button_readmore_as_button']           = 'false';
+			$the_options['button_readmore_as_button1']          = 'false';
+			$the_options['button_readmore_as_button2']          = 'false';
 			$the_options['button_decline_as_button']            = 'true';
 			$the_options['button_settings_as_button']           = 'true';
 			$the_options['button_accept_all_as_button']         = 'true';
 			$the_options['button_revoke_consent_text_color']       = isset( $_POST['gcc-revoke-consent-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color'] ) ) : '';
 			$the_options['button_revoke_consent_background_color'] = isset( $_POST['gcc-revoke-consent-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color'] ) ) : '';
+			$the_options['button_revoke_consent_text_color1']       = isset( $_POST['gcc-revoke-consent-text-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) ) : '';
+			$the_options['button_revoke_consent_background_color1'] = isset( $_POST['gcc-revoke-consent-background-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) ) : '';
+			$the_options['button_revoke_consent_text_color2']       = isset( $_POST['gcc-revoke-consent-text-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) ) : '';
+			$the_options['button_revoke_consent_background_color2'] = isset( $_POST['gcc-revoke-consent-background-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) ) : '';
 			$the_options['notify_position_vertical']           = isset( $_POST['gcc-gdpr-cookie-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-position'] ) ) : 'bottom';
 			$the_options['notify_position_horizontal']         = isset( $_POST['gcc-gdpr-cookie-widget-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-widget-position'] ) ) : 'left';
 			$the_options['background']                         = isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
@@ -3559,13 +3837,14 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_button_border_width1']  = isset( $_POST['gdpr-cookie-accept-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-border-width'] ) ) : '0';
 			$the_options['button_accept_button_border_radius1'] = isset( $_POST['gdpr-cookie-accept-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-border-radius'] ) ) : '0';
 			$the_options['button_accept_link_color1']           = isset( $_POST['gdpr-cookie-accept-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-text-color'] ) ) : '#ffffff';
-			$the_options['button_readmore_link_color1']           = isset( $_POST['gcc-readmore-link-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-link-color'] ) ) : '#359bf5';
-			$the_options['button_readmore_button_color1']         = isset( $_POST['gcc-readmore-button-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-color'] ) ) : '#000000';
-			$the_options['button_readmore_button_opacity1']       = isset( $_POST['gcc-readmore-button-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-opacity'] ) ) : '1';
-			$the_options['button_readmore_button_border_style1']  = isset( $_POST['gcc-readmore-button-border-style'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-style'] ) ) : '1';
-			$the_options['button_readmore_button_border_width1']  = isset( $_POST['gcc-readmore-button-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-width'] ) ) : '0';
-			$the_options['button_readmore_button_border_color1']  = isset( $_POST['gcc-readmore-button-border-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-color'] ) ) : '#000000';
-			$the_options['button_readmore_button_border_radius1'] = isset( $_POST['gcc-readmore-button-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-radius'] ) ) : '0';
+			$the_options['button_readmore_link_color1']           = isset( $_POST['gcc-readmore-link-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-link-color1'] ) ) : '#359bf5';
+			$the_options['button_readmore_button_color1']         = isset( $_POST['gcc-readmore-button-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-color1'] ) ) : '#000000';
+			$the_options['button_readmore_button_opacity1']       = isset( $_POST['gcc-readmore-button-opacity1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-opacity1'] ) ) : '1';
+			$the_options['button_readmore_button_border_style1']  = isset( $_POST['gcc-readmore-button-border-style1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-style1'] ) ) : '1';
+			$the_options['button_readmore_button_border_width1']  = isset( $_POST['gcc-readmore-button-border-width1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-width1'] ) ) : '0';
+			$the_options['button_readmore_button_border_color1']  = isset( $_POST['gcc-readmore-button-border-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-color1'] ) ) : '#000000';
+			$the_options['button_readmore_button_border_radius1'] = isset( $_POST['gcc-readmore-button-border-radius1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-radius1'] ) ) : '0';
+			$the_options['button_readmore_button_size1']          = isset( $_POST['gcc-readmore-button-size1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-size1'] ) ) : 'medium';
 			$the_options['button_decline_button_opacity1']         = isset( $_POST['gdpr-cookie-decline-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-opacity'] ) ) : '1';
 			$the_options['button_decline_button_border_radius1']   = isset( $_POST['gdpr-cookie-decline-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-border-radius'] ) ) : '0';
 			$the_options['button_settings_button_opacity1']        = isset( $_POST['gdpr-cookie-settings-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-settings-opacity'] ) ) : '1';
@@ -3592,8 +3871,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_all_btn_opacity1']         = isset( $_POST['gdpr-cookie-accept-all-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-opacity'] ) ) : '1';
 			$the_options['button_accept_all_btn_border_width1']    = isset( $_POST['gdpr-cookie-accept-all-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-width'] ) ) : '0';
 			$the_options['button_accept_all_btn_border_radius1']   = isset( $_POST['gdpr-cookie-accept-all-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-radius'] ) ) : '0';
-			$the_options['button_revoke_consent_text_color1']       = isset( $_POST['gcc-revoke-consent-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color'] ) ) : '';
-			$the_options['button_revoke_consent_background_color1'] = isset( $_POST['gcc-revoke-consent-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color'] ) ) : '';
+			$the_options['button_revoke_consent_text_color1']       = isset( $_POST['gcc-revoke-consent-text-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) ) : '';
+			$the_options['button_revoke_consent_background_color1'] = isset( $_POST['gcc-revoke-consent-background-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) ) : '';
 
 			$the_options['button_accept_as_button2']        	    = 'true';
 			$the_options['button_decline_as_button2']            = 'true';
@@ -3628,13 +3907,14 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_button_border_width2']  = isset( $_POST['gdpr-cookie-accept-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-border-width'] ) ) : '0';
 			$the_options['button_accept_button_border_radius2'] = isset( $_POST['gdpr-cookie-accept-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-border-radius'] ) ) : '0';
 			$the_options['button_accept_link_color2']           = isset( $_POST['gdpr-cookie-accept-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-text-color'] ) ) : '#ffffff';
-			$the_options['button_readmore_link_color2']           = isset( $_POST['gcc-readmore-link-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-link-color'] ) ) : '#359bf5';
-			$the_options['button_readmore_button_color2']         = isset( $_POST['gcc-readmore-button-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-color'] ) ) : '#000000';
-			$the_options['button_readmore_button_opacity2']       = isset( $_POST['gcc-readmore-button-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-opacity'] ) ) : '1';
-			$the_options['button_readmore_button_border_style2']  = isset( $_POST['gcc-readmore-button-border-style'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-style'] ) ) : '1';
-			$the_options['button_readmore_button_border_width2']  = isset( $_POST['gcc-readmore-button-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-width'] ) ) : '0';
-			$the_options['button_readmore_button_border_color2']  = isset( $_POST['gcc-readmore-button-border-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-color'] ) ) : '#000000';
-			$the_options['button_readmore_button_border_radius2'] = isset( $_POST['gcc-readmore-button-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-radius'] ) ) : '0';
+			$the_options['button_readmore_link_color2']           = isset( $_POST['gcc-readmore-link-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-link-color2'] ) ) : '#359bf5';
+			$the_options['button_readmore_button_color2']         = isset( $_POST['gcc-readmore-button-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-color2'] ) ) : '#000000';
+			$the_options['button_readmore_button_opacity2']       = isset( $_POST['gcc-readmore-button-opacity2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-opacity2'] ) ) : '1';
+			$the_options['button_readmore_button_border_style2']  = isset( $_POST['gcc-readmore-button-border-style2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-style2'] ) ) : '1';
+			$the_options['button_readmore_button_border_width2']  = isset( $_POST['gcc-readmore-button-border-width2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-width2'] ) ) : '0';
+			$the_options['button_readmore_button_border_color2']  = isset( $_POST['gcc-readmore-button-border-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-color2'] ) ) : '#000000';
+			$the_options['button_readmore_button_border_radius2'] = isset( $_POST['gcc-readmore-button-border-radius2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-radius2'] ) ) : '0';
+			$the_options['button_readmore_button_size2']          = isset( $_POST['gcc-readmore-button-size2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-size'] ) ) : 'medium';
 			$the_options['button_decline_button_opacity2']         = isset( $_POST['gdpr-cookie-decline-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-opacity'] ) ) : '1';
 			$the_options['button_decline_button_border_radius2']   = isset( $_POST['gdpr-cookie-decline-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-border-radius'] ) ) : '0';
 			$the_options['button_settings_button_opacity2']        = isset( $_POST['gdpr-cookie-settings-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-settings-opacity'] ) ) : '1';
@@ -3661,8 +3941,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_all_btn_opacity2']         = isset( $_POST['gdpr-cookie-accept-all-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-opacity'] ) ) : '1';
 			$the_options['button_accept_all_btn_border_width2']    = isset( $_POST['gdpr-cookie-accept-all-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-width'] ) ) : '0';
 			$the_options['button_accept_all_btn_border_radius2']   = isset( $_POST['gdpr-cookie-accept-all-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-radius'] ) ) : '0';
-			$the_options['button_revoke_consent_text_color2']       = isset( $_POST['gcc-revoke-consent-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color'] ) ) : '';
-			$the_options['button_revoke_consent_background_color2'] = isset( $_POST['gcc-revoke-consent-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color'] ) ) : '';
+			$the_options['button_revoke_consent_text_color2']       = isset( $_POST['gcc-revoke-consent-text-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) ) : '';
+			$the_options['button_revoke_consent_background_color2'] = isset( $_POST['gcc-revoke-consent-background-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) ) : '';
 
 			$the_options['multiple_legislation_cookie_bar_color1'] =  isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
 			$the_options['multiple_legislation_cookie_bar_color2'] =  isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
@@ -4374,7 +4654,11 @@ class Gdpr_Cookie_Consent_Admin {
 
 			// Get the updated A/B testing period value
 			$updated_ab_testing_value = isset($ab_options['ab_testing_period']) ? $ab_options['ab_testing_period'] : '';
-
+			// Handle auto-generated banner reset when template is changed
+			$reset_auto_generated = isset($_POST['reset_auto_generated']) ? sanitize_text_field($_POST['reset_auto_generated']) : '0';
+			$is_template_changed = isset($_POST['is_template_changed']) ? sanitize_text_field($_POST['is_template_changed']) : '0';
+			$auto_generated_banner = isset($_POST['auto_generated_banner']) ? sanitize_text_field($_POST['auto_generated_banner']) : '0';
+			$template = isset($_POST['gdpr-template']) ? sanitize_text_field($_POST['gdpr-template']) : 'default';
 			// Check if the value of the A/B testing period has changed
 			if ($current_ab_testing_value !== $updated_ab_testing_value) {
 
@@ -4488,8 +4772,6 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['do_not_track_on'] = isset( $_POST['gcc-do-not-track'] ) && ( true === $_POST['gcc-do-not-track'] || 'true' === $_POST['gcc-do-not-track'] ) ? 'true' : 'false';
 			// Data Reqs.
 			$the_options['data_reqs_on'] = isset( $_POST['gcc-data_reqs'] ) && ( true === $_POST['gcc-data_reqs'] || 'true' === $_POST['gcc-data_reqs'] ) ? 'true' : 'false';
-			// Consent log
-			$the_options['logging_on'] = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 
 			if ( filter_var( $the_options['is_on'], FILTER_VALIDATE_BOOLEAN ) !==  filter_var( $_POST['gcc-cookie-enable'], FILTER_VALIDATE_BOOLEAN ) ) {
 				$cookie_banner_status = filter_var( $_POST['gcc-cookie-enable'], FILTER_VALIDATE_BOOLEAN ) ? 'Turned On' : 'Turned Off';
@@ -4545,7 +4827,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_url']                  = isset( $_POST['gdpr-cookie-accept-url'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-url'] ) ) : '#';
 			$the_options['button_accept_as_button']            = isset( $_POST['gdpr-cookie-accept-as'] ) && ( true === $_POST['gdpr-cookie-accept-as'] || 'true' === $_POST['gdpr-cookie-accept-as'] ) ? 'true' : 'false';
 			$the_options['button_accept_new_win']              = isset( $_POST['gdpr-cookie-url-new-window'] ) && ( true === $_POST['gdpr-cookie-url-new-window'] || 'true' === $_POST['gdpr-cookie-url-new-window'] ) ? 'true' : 'false';
-			if (!isset($the_options['auto_generated_background_color']) || $the_options['auto_generated_background_color'] == ""){
+			if($auto_generated_banner !== '1'){
 				$the_options['button_accept_button_color']         = isset( $_POST['gdpr-cookie-accept-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-background-color'] ) ) : '#18a300';
 				$the_options['button_accept_button_border_color']  = isset( $_POST['gdpr-cookie-accept-border-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-border-color'] ) ) : '#18a300';
 				$the_options['button_decline_link_color']             = isset( $_POST['gdpr-cookie-decline-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-decline-text-color'] ) ) : '#ffffff';
@@ -4792,9 +5074,17 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['optout_text']                          = isset( $_POST['notify_message_ccpa_optout_field'] ) ? sanitize_text_field( wp_unslash( $_POST['notify_message_ccpa_optout_field'] ) ) : 'Do you really wish to opt-out?';
 			$the_options['is_ccpa_iab_on']                       = isset( $_POST['gcc-iab-enable'] ) && ( true === $_POST['gcc-iab-enable'] || 'true' === $_POST['gcc-iab-enable'] ) ? 'true' : 'false';
 			$the_options['show_again']                           = isset( $_POST['gcc-revoke-consent-enable'] ) && ( true === $_POST['gcc-revoke-consent-enable'] || 'true' === $_POST['gcc-revoke-consent-enable'] ) ? 'true' : 'false';
+			$the_options['show_again1']                          = isset( $_POST['gcc-revoke-consent-enable1'] ) && ( true === $_POST['gcc-revoke-consent-enable1'] || 'true' === $_POST['gcc-revoke-consent-enable1'] ) ? 'true' : 'false';
+			$the_options['show_again2']                          = isset( $_POST['gcc-revoke-consent-enable2'] ) && ( true === $_POST['gcc-revoke-consent-enable2'] || 'true' === $_POST['gcc-revoke-consent-enable2'] ) ? 'true' : 'false';
 			$the_options['show_again_position']                  = isset( $_POST['gcc-tab-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-position'] ) ) : 'right';
+			$the_options['show_again_position1']                 = isset( $_POST['gcc-tab-position1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-position1'] ) ) : 'right';
+			$the_options['show_again_position2']                 = isset( $_POST['gcc-tab-position2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-position2'] ) ) : 'right';
 			$the_options['show_again_margin']                    = isset( $_POST['gcc-tab-margin'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-margin'] ) ) : '5';
+			$the_options['show_again_margin1']                   = isset( $_POST['gcc-tab-margin1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-margin1'] ) ) : '5';
+			$the_options['show_again_margin2']                   = isset( $_POST['gcc-tab-margin2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-tab-margin2'] ) ) : '5';
 			$the_options['show_again_text']                      = isset( $_POST['show_again_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['show_again_text_field'] ) ) : 'Cookie Settings';
+			$the_options['show_again_text1']                     = isset( $_POST['show_again_text_field1'] ) ? sanitize_text_field( wp_unslash( $_POST['show_again_text_field1'] ) ) : 'Cookie Settings';
+			$the_options['show_again_text2']                     = isset( $_POST['show_again_text_field2'] ) ? sanitize_text_field( wp_unslash( $_POST['show_again_text_field2'] ) ) : 'Cookie Settings';
 			$the_options['is_ticked']                            = isset( $_POST['gcc-autotick'] ) && ( true === $_POST['gcc-autotick'] || 'true' === $_POST['gcc-autotick'] ) ? 'true' : 'false';
 			$the_options['auto_hide']                            = isset( $_POST['gcc-auto-hide'] ) && ( true === $_POST['gcc-auto-hide'] || 'true' === $_POST['gcc-auto-hide'] ) ? 'true' : 'false';
 			$the_options['auto_hide_delay']                      = isset( $_POST['gcc-auto-hide-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-hide-delay'] ) ) : '10000';
@@ -4808,7 +5098,6 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['accept_reload']                        = isset( $_POST['gcc-accept-reload'] ) && ( true === $_POST['gcc-accept-reload'] || 'true' === $_POST['gcc-accept-reload'] ) ? 'true' : 'false';
 			$the_options['decline_reload']                       = isset( $_POST['gcc-decline-reload'] ) && ( true === $_POST['gcc-decline-reload'] || 'true' === $_POST['gcc-decline-reload'] ) ? 'true' : 'false';
 			$the_options['delete_on_deactivation']               = isset( $_POST['gcc-delete-on-deactivation'] ) && ( true === $_POST['gcc-delete-on-deactivation'] || 'true' === $_POST['gcc-delete-on-deactivation'] ) ? 'true' : 'false';
-			$the_options['show_credits']                         = isset( $_POST['gcc-show-credits'] ) && ( true === $_POST['gcc-show-credits'] || 'true' === $_POST['gcc-show-credits'] ) ? 'true' : 'false';
 			$the_options['cookie_expiry']                        = isset( $_POST['gcc-cookie-expiry'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-cookie-expiry'] ) ) : '365';
 			$the_options['button_readmore_is_on']                = isset( $_POST['gcc-readmore-is-on'] ) && ( true === $_POST['gcc-readmore-is-on'] || 'true' === $_POST['gcc-readmore-is-on'] ) ? 'true' : 'false';
 			$the_options['button_readmore_text']                 = isset( $_POST['button_readmore_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['button_readmore_text_field'] ) ) : 'Read More';
@@ -4825,6 +5114,42 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_readmore_button_border_width']  = isset( $_POST['gcc-readmore-button-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-width'] ) ) : '0';
 			$the_options['button_readmore_button_border_color']  = isset( $_POST['gcc-readmore-button-border-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-color'] ) ) : '#000000';
 			$the_options['button_readmore_button_border_radius'] = isset( $_POST['gcc-readmore-button-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-radius'] ) ) : '0';
+			$the_options['button_readmore_button_size']          = isset( $_POST['gcc-readmore-button-size'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-size'] ) ) : 'medium';
+
+			$the_options['button_readmore_is_on1']               = isset( $_POST['gcc-readmore-is-on1'] ) && ( true === $_POST['gcc-readmore-is-on1'] || 'true' === $_POST['gcc-readmore-is-on1'] ) ? 'true' : 'false';
+			$the_options['button_readmore_text1']                = isset( $_POST['button_readmore_text_field1'] ) ? sanitize_text_field( wp_unslash( $_POST['button_readmore_text_field1'] ) ) : 'Read More';
+			$the_options['button_readmore_link_color1']          = isset( $_POST['gcc-readmore-link-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-link-color1'] ) ) : '#359bf5';
+			$the_options['button_readmore_as_button1']           = isset( $_POST['gcc-readmore-as-button1'] ) && ( true === $_POST['gcc-readmore-as-button1'] || 'true' === $_POST['gcc-readmore-as-button1'] ) ? 'true' : 'false';
+			$the_options['button_readmore_url_type1']            = isset( $_POST['gcc-readmore-url-type1'] ) && ( false === $_POST['gcc-readmore-url-type1'] || 'false' === $_POST['gcc-readmore-url-type1'] ) ? 'false' : 'true';
+			$the_options['button_readmore_page1']                = isset( $_POST['gcc-readmore-page1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-page1'] ) ) : '0';
+			$the_options['button_readmore_wp_page1']             = isset( $_POST['gcc-readmore-wp-page1'] ) && ( true === $_POST['gcc-readmore-wp-page1'] || 'true' === $_POST['gcc-readmore-wp-page1'] ) ? 'true' : 'false';
+			$the_options['button_readmore_new_win1']             = isset( $_POST['gcc-readmore-new-win1'] ) && ( true === $_POST['gcc-readmore-new-win1'] || 'true' === $_POST['gcc-readmore-new-win1'] ) ? 'true' : 'false';
+			$the_options['button_readmore_url1']                 = isset( $_POST['gcc-readmore-url1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-url1'] ) ) : '#';
+			$the_options['button_readmore_button_color1']        = isset( $_POST['gcc-readmore-button-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-color1'] ) ) : '#000000';
+			$the_options['button_readmore_button_opacity1']      = isset( $_POST['gcc-readmore-button-opacity1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-opacity1'] ) ) : '1';
+			$the_options['button_readmore_button_border_style1'] = isset( $_POST['gcc-readmore-button-border-style1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-style1'] ) ) : '1';
+			$the_options['button_readmore_button_border_width1'] = isset( $_POST['gcc-readmore-button-border-width1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-width1'] ) ) : '0';
+			$the_options['button_readmore_button_border_color1'] = isset( $_POST['gcc-readmore-button-border-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-color1'] ) ) : '#000000';
+			$the_options['button_readmore_button_border_radius1']= isset( $_POST['gcc-readmore-button-border-radius1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-radius1'] ) ) : '0';
+			$the_options['button_readmore_button_size1']         = isset( $_POST['gcc-readmore-button-size1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-size1'] ) ) : 'medium';
+
+			$the_options['button_readmore_is_on2']               = isset( $_POST['gcc-readmore-is-on2'] ) && ( true === $_POST['gcc-readmore-is-on2'] || 'true' === $_POST['gcc-readmore-is-on2'] ) ? 'true' : 'false';
+			$the_options['button_readmore_text2']                = isset( $_POST['button_readmore_text_field2'] ) ? sanitize_text_field( wp_unslash( $_POST['button_readmore_text_field2'] ) ) : 'Read More';
+			$the_options['button_readmore_link_color2']          = isset( $_POST['gcc-readmore-link-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-link-color2'] ) ) : '#359bf5';
+			$the_options['button_readmore_as_button2']           = isset( $_POST['gcc-readmore-as-button2'] ) && ( true === $_POST['gcc-readmore-as-button2'] || 'true' === $_POST['gcc-readmore-as-button2'] ) ? 'true' : 'false';
+			$the_options['button_readmore_url_type2']            = isset( $_POST['gcc-readmore-url-type2'] ) && ( false === $_POST['gcc-readmore-url-type2'] || 'false' === $_POST['gcc-readmore-url-type2'] ) ? 'false' : 'true';
+			$the_options['button_readmore_page2']                = isset( $_POST['gcc-readmore-page2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-page2'] ) ) : '0';
+			$the_options['button_readmore_wp_page2']             = isset( $_POST['gcc-readmore-wp-page2'] ) && ( true === $_POST['gcc-readmore-wp-page2'] || 'true' === $_POST['gcc-readmore-wp-page2'] ) ? 'true' : 'false';
+			$the_options['button_readmore_new_win2']             = isset( $_POST['gcc-readmore-new-win2'] ) && ( true === $_POST['gcc-readmore-new-win2'] || 'true' === $_POST['gcc-readmore-new-win2'] ) ? 'true' : 'false';
+			$the_options['button_readmore_url2']                 = isset( $_POST['gcc-readmore-url2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-url2'] ) ) : '#';
+			$the_options['button_readmore_button_color2']        = isset( $_POST['gcc-readmore-button-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-color2'] ) ) : '#000000';
+			$the_options['button_readmore_button_opacity2']      = isset( $_POST['gcc-readmore-button-opacity2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-opacity2'] ) ) : '1';
+			$the_options['button_readmore_button_border_style2'] = isset( $_POST['gcc-readmore-button-border-style2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-style2'] ) ) : '1';
+			$the_options['button_readmore_button_border_width2'] = isset( $_POST['gcc-readmore-button-border-width2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-width2'] ) ) : '0';
+			$the_options['button_readmore_button_border_color2'] = isset( $_POST['gcc-readmore-button-border-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-color2'] ) ) : '#000000';
+			$the_options['button_readmore_button_border_radius2']= isset( $_POST['gcc-readmore-button-border-radius2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-border-radius2'] ) ) : '0';
+			$the_options['button_readmore_button_size2']         = isset( $_POST['gcc-readmore-button-size2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-size2'] ) ) : 'medium';
+
 			// The below phpcs ignore comments have been added after referring competitor wordpress.org plugins.
 			$the_options['header_scripts']                        = isset( $_POST['gcc-header-scripts'] ) ? wp_unslash( $_POST['gcc-header-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$the_options['body_scripts']                          = isset( $_POST['gcc-body-scripts'] ) ? wp_unslash( $_POST['gcc-body-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -4995,6 +5320,10 @@ class Gdpr_Cookie_Consent_Admin {
 			// revoke consent text color.
 			$the_options['button_revoke_consent_text_color']       = isset( $_POST['gcc-revoke-consent-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color'] ) ) : '';
 			$the_options['button_revoke_consent_background_color'] = isset( $_POST['gcc-revoke-consent-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color'] ) ) : '';
+			$the_options['button_revoke_consent_text_color1']       = isset( $_POST['gcc-revoke-consent-text-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) ) : '';
+			$the_options['button_revoke_consent_background_color1'] = isset( $_POST['gcc-revoke-consent-background-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) ) : '';
+			$the_options['button_revoke_consent_text_color2']       = isset( $_POST['gcc-revoke-consent-text-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) ) : '';
+			$the_options['button_revoke_consent_background_color2'] = isset( $_POST['gcc-revoke-consent-background-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) ) : '';
 			if ( ! $the_options['data_req_subject'] ) {
 				$the_options['data_req_subject'] = 'We have received your request';
 			}
@@ -5007,6 +5336,10 @@ class Gdpr_Cookie_Consent_Admin {
 			// revoke consent text color.
 			$the_options['button_revoke_consent_text_color']       = isset( $_POST['gcc-revoke-consent-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color'] ) ) : '';
 			$the_options['button_revoke_consent_background_color'] = isset( $_POST['gcc-revoke-consent-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color'] ) ) : '';
+			$the_options['button_revoke_consent_text_color1']       = isset( $_POST['gcc-revoke-consent-text-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) ) : '';
+			$the_options['button_revoke_consent_background_color1'] = isset( $_POST['gcc-revoke-consent-background-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) ) : '';
+			$the_options['button_revoke_consent_text_color2']       = isset( $_POST['gcc-revoke-consent-text-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) ) : '';
+			$the_options['button_revoke_consent_background_color2'] = isset( $_POST['gcc-revoke-consent-background-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) ) : '';
 
 			// pro features to free.
 			if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
@@ -5030,8 +5363,7 @@ class Gdpr_Cookie_Consent_Admin {
 					$is_usage_tracking_allowed = 'true';
 				}
 				update_option( 'gdpr_usage_tracking_allowed', $is_usage_tracking_allowed );
-				// consent log.
-				$the_options['logging_on'] = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
+
 				// consent forwarding.
 				$selected_sites                 = array();
 				$selected_sites                 = isset( $_POST['gcc-selected-sites'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-sites'] ) ) ) : '';
@@ -5190,7 +5522,6 @@ class Gdpr_Cookie_Consent_Admin {
 				$selected_sites                      = isset( $_POST['gcc-selected-sites'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-sites'] ) ) ) : '';
 				$the_options['is_eu_on']             = isset( $_POST['gcc-eu-enable'] ) && ( true === $_POST['gcc-eu-enable'] || 'true' === $_POST['gcc-eu-enable'] ) ? 'true' : 'false';
 				$the_options['is_ccpa_on']           = isset( $_POST['gcc-ccpa-enable'] ) && ( true === $_POST['gcc-ccpa-enable'] || 'true' === $_POST['gcc-ccpa-enable'] ) ? 'true' : 'false';
-				$the_options['logging_on']           = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
 				$the_options['enable_safe']          = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
 				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
 				//Script Dependency
@@ -5284,6 +5615,209 @@ class Gdpr_Cookie_Consent_Admin {
 			wp_send_json_success( array( 'form_options_saved' => true ) );
 		}
 		
+	}
+
+	/**
+	 * Ajax callback to save advanced settings.
+	 */
+	public function gdpr_cookie_consent_ajax_save_advanced_settings() {
+		if ( isset( $_POST['gcc_settings_form_nonce_advanced'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_advanced'] ) ), 'gcc-settings-form-nonce-advanced' ) ) {
+				return;
+			}
+			
+			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
+
+			if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
+				// hide banner.
+				$selected_pages = array();
+				$selected_pages = isset( $_POST['gcc-selected-pages'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-pages'] ) ) ) : '';
+				// storing id of pages in database.
+				$the_options['select_pages'] = $selected_pages;
+			}
+
+			// DO NOT TRACK.
+			$the_options['do_not_track_on'] = isset( $_POST['gcc-do-not-track'] ) && ( true === $_POST['gcc-do-not-track'] || 'true' === $_POST['gcc-do-not-track'] ) ? 'true' : 'false';
+			// Consent log
+			$the_options['logging_on'] = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
+
+			$the_options['is_ticked']                            = isset( $_POST['gcc-autotick'] ) && ( true === $_POST['gcc-autotick'] || 'true' === $_POST['gcc-autotick'] ) ? 'true' : 'false';
+			$the_options['auto_hide']                            = isset( $_POST['gcc-auto-hide'] ) && ( true === $_POST['gcc-auto-hide'] || 'true' === $_POST['gcc-auto-hide'] ) ? 'true' : 'false';
+			$the_options['auto_hide_delay']                      = isset( $_POST['gcc-auto-hide-delay'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-hide-delay'] ) ) : '10000';
+			$the_options['auto_scroll']                          = isset( $_POST['gcc-auto-scroll'] ) && ( true === $_POST['gcc-auto-scroll'] || 'true' === $_POST['gcc-auto-scroll'] ) ? 'true' : 'false';
+			$the_options['auto_click']                           = isset( $_POST['gcc-auto-click'] ) && ( true === $_POST['gcc-auto-click'] || 'true' === $_POST['gcc-auto-click'] ) ? 'true' : 'false';
+			$the_options['auto_scroll_offset']                   = isset( $_POST['gcc-auto-scroll-offset'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-auto-scroll-offset'] ) ) : '10';
+			$the_options['auto_scroll_reload']                   = isset( $_POST['gcc-auto-scroll-reload'] ) && ( true === $_POST['gcc-auto-scroll-reload'] || 'true' === $_POST['gcc-auto-scroll-reload'] ) ? 'true' : 'false';
+			$the_options['accept_reload']                        = isset( $_POST['gcc-accept-reload'] ) && ( true === $_POST['gcc-accept-reload'] || 'true' === $_POST['gcc-accept-reload'] ) ? 'true' : 'false';
+			$the_options['decline_reload']                       = isset( $_POST['gcc-decline-reload'] ) && ( true === $_POST['gcc-decline-reload'] || 'true' === $_POST['gcc-decline-reload'] ) ? 'true' : 'false';
+			$the_options['delete_on_deactivation']               = isset( $_POST['gcc-delete-on-deactivation'] ) && ( true === $_POST['gcc-delete-on-deactivation'] || 'true' === $_POST['gcc-delete-on-deactivation'] ) ? 'true' : 'false';
+			$the_options['show_credits']                         = isset( $_POST['gcc-show-credits'] ) && ( true === $_POST['gcc-show-credits'] || 'true' === $_POST['gcc-show-credits'] ) ? 'true' : 'false';
+			$the_options['cookie_expiry']                        = isset( $_POST['gcc-cookie-expiry'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-cookie-expiry'] ) ) : '365';
+			
+			if( !get_option( 'wpl_pro_active' )) {
+				// enable safe mode.
+				$the_options['enable_safe'] = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
+				$is_usage_tracking_allowed = 'false';
+				if ( isset( $_POST['gcc-usage-data'] ) && ( true === $_POST['gcc-usage-data'] || 'true' === $_POST['gcc-usage-data'] ) ) {
+					$is_usage_tracking_allowed = 'true';
+				}
+				update_option( 'gdpr_usage_tracking_allowed', $is_usage_tracking_allowed );
+				// consent log.
+				$the_options['logging_on'] = isset( $_POST['gcc-logging-on'] ) && ( true === $_POST['gcc-logging-on'] || 'true' === $_POST['gcc-logging-on'] ) ? 'true' : 'false';
+				// consent forwarding.
+				$selected_sites                 = array();
+				$selected_sites                 = isset( $_POST['gcc-selected-sites'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-sites'] ) ) ) : '';
+				$the_options['consent_forward'] = isset( $_POST['gcc-consent-forward'] ) && ( true === $_POST['gcc-consent-forward'] || 'true' === $_POST['gcc-consent-forward'] ) ? 'true' : 'false';
+				$the_options['select_sites']    = $selected_sites;
+				$selected_countries             = array();
+				$selected_countries             = isset( $_POST['gcc-selected-countries'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-countries'] ) ) ) : '';	
+			}
+
+			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
+				// consent forward .
+				$selected_sites                      = array();
+				$selected_sites                      = isset( $_POST['gcc-selected-sites'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['gcc-selected-sites'] ) ) ) : '';
+				
+				$the_options['restrict_posts']       = $restricted_posts;
+				// consent forward .
+				$the_options['consent_forward'] = isset( $_POST['gcc-consent-forward'] ) && ( true === $_POST['gcc-consent-forward'] || 'true' === $_POST['gcc-consent-forward'] ) ? 'true' : 'false';
+				$the_options['select_sites']    = $selected_sites;	
+			}
+
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
+			wp_send_json_success( array( 'form_options_saved' => true ) );
+		}
+	}
+
+	/**
+	 * AB Testing callback to save settings.
+	 */
+	public function gdpr_cookie_consent_ajax_save_abtesting_settings() {
+		if ( isset( $_POST['gcc_settings_form_nonce_abtesting'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_abtesting'] ) ), 'gcc-settings-form-nonce-abtesting' ) ) {
+				return;
+			}
+
+			$this->gdpr_ab_testing_complete();
+
+			wp_send_json_success( array( 'form_options_saved' => true ) );
+		}
+	}
+
+	/**
+	 * Script Blocker callback to save settings.
+	 */
+	public function gdpr_cookie_consent_ajax_save_script_blocker_settings() {
+		if ( isset( $_POST['gcc_settings_form_nonce_script_blocker'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_script_blocker'] ) ), 'gcc-settings-form-nonce-script-blocker' ) ) {
+				return;
+			}
+
+			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
+
+			$the_options['header_scripts']                        = isset( $_POST['gcc-header-scripts'] ) ? wp_unslash( $_POST['gcc-header-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$the_options['body_scripts']                          = isset( $_POST['gcc-body-scripts'] ) ? wp_unslash( $_POST['gcc-body-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$the_options['footer_scripts']                        = isset( $_POST['gcc-footer-scripts'] ) ? wp_unslash( $_POST['gcc-footer-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			
+			if ( ! get_option( 'wpl_pro_active' ) ) {
+				// script blocker.
+				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
+				//script dependency
+				$the_options['is_script_dependency_on'] = isset( $_POST['gcc-script-dependency-on'] ) && ( true === $_POST['gcc-script-dependency-on'] || 'true' === $_POST['gcc-script-dependency-on'] ) ? 'true' : 'false';
+				$the_options['header_dependency'] = isset( $_POST['gcc-header-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-header-dependency'] ) ): '';
+				$the_options['footer_dependency'] = isset( $_POST['gcc-footer-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-footer-dependency'] ) ): '';
+				// enable safe mode.
+				$the_options['enable_safe'] = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
+				
+				if ( isset( $the_options['cookie_usage_for'] ) ) {
+					switch ( $the_options['cookie_usage_for'] ) {
+						case 'both':
+						case 'gdpr':
+						case 'lgpd':
+						case 'eprivacy':
+							update_option( 'wpl_bypass_script_blocker', 0 );
+							break;
+						case 'ccpa':
+							update_option( 'wpl_bypass_script_blocker', 1 );
+							break;
+					}
+				}
+			}
+
+			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
+				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
+				//Script Dependency
+				$the_options['is_script_dependency_on'] = isset( $_POST['gcc-script-dependency-on'] ) && ( true === $_POST['gcc-script-dependency-on'] || 'true' === $_POST['gcc-script-dependency-on'] ) ? 'true' : 'false';
+				$the_options['header_dependency'] = isset( $_POST['gcc-header-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-header-dependency'] ) ): '';
+				$the_options['footer_dependency'] = isset( $_POST['gcc-footer-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-footer-dependency'] ) ): '';
+				
+				if ( isset( $the_options['cookie_usage_for'] ) ) {
+					switch ( $the_options['cookie_usage_for'] ) {
+						case 'both':
+						case 'gdpr':
+						case 'lgpd':
+						case 'eprivacy':
+							update_option( 'wpl_bypass_script_blocker', 0 );
+							break;
+						case 'ccpa':
+							update_option( 'wpl_bypass_script_blocker', 1 );
+							break;
+					}
+				}
+			}
+
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
+			wp_send_json_success( array( 'form_options_saved' => true ) );
+		}
+	}
+
+	/**
+	 * Language callback to save settings.
+	 */
+	public function gdpr_cookie_consent_ajax_save_language_settings() {
+		if ( isset( $_POST['gcc_settings_form_nonce_language'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_language'] ) ), 'gcc-settings-form-nonce-language' ) ) {
+				return;
+			}
+
+			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
+
+			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
+
+			// language translation based on the selected language.
+			if ( isset( $_POST['select-banner-lan'] ) && in_array( $_POST['select-banner-lan'], $this->supported_languages ) ) {  //phpcs:ignore
+				$the_options = $this->changeLanguage($the_options);				
+			}
+
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
+			wp_send_json_success( array( 'form_options_saved' => true ) );
+		}
+	}
+
+	/**
+	 * Cookie Manager callback to save settings.
+	 */
+	public function gdpr_cookie_consent_ajax_save_cookie_manager_settings() {
+		if ( isset( $_POST['gcc_settings_form_nonce_cookie_manager'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_cookie_manager'] ) ), 'gcc-settings-form-nonce-cookie-manager' ) ) {
+				return;
+			}
+
+			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
+
+			//update values here
+
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
+			wp_send_json_success( array( 'form_options_saved' => true ) );
+		}
 	}
 
 	/**
@@ -5399,19 +5933,13 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Function to change the language
 	 */
 	public function changeLanguage($the_options){
-		$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
-				$translations      = wp_remote_get( $translations_file );
+		$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
 
-				// Log the entire response
-				if ( is_wp_error( $translations ) ) {
-				} else {
-					$body = wp_remote_retrieve_body( $translations );
-
-					$translations = json_decode( $body, true );
-
-					if ( $translations === null ) {
-					}
+				if ( file_exists( $translations_file ) ) {
+				    $translations = file_get_contents( $translations_file );
+				    $translations = json_decode( $translations, true );
 				}
+
 				// Define an array of text keys to translate.
 				$text_keys_to_translate = array(
 					'dash_notify_message_eprivacy',
@@ -5444,12 +5972,12 @@ class Gdpr_Cookie_Consent_Admin {
 					'gdpr_cookie_category_name_unclassified',
 				);
 
-				// Determine the target language based on the POST value.
-				$target_language = $_POST['select-banner-lan'];   //phpcs:ignore
+				$target_language = isset( $the_options['lang_selected'] ) ? $the_options['lang_selected'] : 'en';   //phpcs:ignore
 				// Initialize arrays to store translated category descriptions and names.
 				$translated_category_descriptions = array();
 				$translated_category_names        = array();
 				// Loop through the text keys and translate them.
+
 				foreach ( $text_keys_to_translate as $text_key ) {
 					$translated_text                 = $this->translated_text( $text_key, $translations, $target_language );
 					$stripped_string                 = str_replace( 'dash_', '', $text_key );
@@ -7009,6 +7537,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$ab_options ['bypass2']   = 0;
 			update_option( 'wpl_ab_options', $ab_options );
 			delete_transient( 'gdpr_ab_testing_transient' );
+			// Reset the preview banner state to false
+			update_option('gdpr_preview_banner_state', 'false');
 			wp_send_json_success( array( 'restore_default_saved' => true ) );
 		}
 	}
@@ -7069,7 +7599,25 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options['is_banner_auto_generated'] = sanitize_text_field($_POST['is_auto_generated_banner_done']);
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 	}
-	
+	/**
+	 * Function to switch preview banner state
+	 */
+	public function gdpr_cookie_consent_ajax_switch_preview_banner(){
+		$banner_preview_state = sanitize_text_field($_POST['banner_preview_state']);
+		$banner_preview_state = ($banner_preview_state === 'true' || $banner_preview_state === true) ? 'true' : 'false';
+		
+    	update_option('gdpr_preview_banner_state', $banner_preview_state);
+		wp_send_json_success( $banner_preview_state );
+	}
+
+	/**
+	 * Function to get the preview banner state
+	 */
+
+	public function gdpr_cookie_consent_ajax_get_preview_banner_state(){
+		$state = get_option('gdpr_preview_banner_state', 'false');
+		wp_send_json_success($state);
+	}
 	/* Added endpoint to send dashboard data from plugin to the saas appwplp server */
 	public function gdpr_send_data_to_dashboard_appwplp_server(WP_REST_Request $request  ){		
 		$current_user = wp_get_current_user();
