@@ -102,7 +102,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 									<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.svg'; ?>" alt="WP Cookie Consent Help">
 								</a>
 							</div>
-							<div class="gdpr-cookie-consent-admin-help-text"><a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank">
+							<div class="gdpr-cookie-consent-admin-help-text"><a href="https://wplegalpages.com/docs/" target="_blank">
 								Help Guide</a>
 							</div>
 						</div>
@@ -186,7 +186,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 							} 
 						?>
 						<!-- Legal Pages Plugin tab  -->
-						<a href="?page=legal-pages" class="gdpr-admin-tab-link wplp-main-tab">
+						<a href="?page=legal-pages#settings" class="gdpr-admin-tab-link wplp-main-tab">
 							<div class="wplp-admin-tab-link-content">
 								<div class="wp-legalpages-admin-gdpr-main-tab wplp-admin-tab-link-left">
 									<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -232,10 +232,11 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 								</div>
 
 								<!-- Script Blocker tab  -->
-								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-script-blocker-settings-tab" data-tab="script_blocker">
-									<?php echo esc_html('Script&nbsp;Blocker','gdpr-cookie-consent'); ?>
-								</div>
-
+								<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) { ?>
+									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-script-blocker-settings-tab" data-tab="script_blocker">
+										<?php echo esc_html('Script&nbsp;Blocker','gdpr-cookie-consent'); ?>
+									</div>
+								<?php } ?>
 								<!-- AB Testing tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-abtesting-settings-tab" data-tab="ab_testing">
 									<?php echo esc_html('AB&nbsp;Testing','gdpr-cookie-consent'); ?>
@@ -417,7 +418,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						</div>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10Sites' === $api_user_plan ) { ?>
+							<?php if ( '10Sites' === $api_user_plan || '10sites' === $api_user_plan ) { ?>
 								<div class="gdpr-remaining-scans-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -456,7 +457,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						</div>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10Sites' === $api_user_plan ) { ?>
+							<?php if ( '10Sites' === $api_user_plan || '10sites' === $api_user_plan ) { ?>
 								<div class="gdpr-pageviews-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -500,10 +501,10 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 								<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_pro_account.svg'; ?>" alt="Pro Account">
 							<?php } ?>
 							<span><?php echo esc_html( $api_user_plan ); ?></span></p>
-							<?php if( $api_user_plan !== '10Sites' ) { ?>
-								<a class="wplp--scan-header-upgrade-plan" href="<?php echo esc_url( 'https://wplegalpages.com/pricing/' ); ?>" target="_blank"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_header_upgrade_icon.svg'; ?>" alt=""><?php echo esc_html('Upgrade', 'gdpr-cookie-consent'); ?></a>
+							<?php if( $api_user_plan === 'free' || $api_user_plan === 'Free' ) { ?>
+								<a class="wplp--scan-header-upgrade-plan gdpr-cookie-consent-admin-upgrade-button"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_header_upgrade_icon.svg'; ?>" alt=""><?php echo esc_html('Upgrade', 'gdpr-cookie-consent'); ?></a>
 							<?php } else { ?>
-								<a class="wplp-scan-header-add-sites" href="<?php echo esc_url( 'https://wplegalpages.com/pricing/' ); ?>" target="_blank"><?php echo esc_html('Add More Sites', 'gdpr-cookie-consent'); ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_add_site.svg'; ?>" alt=""></a>
+								<a class="wplp-scan-header-add-sites gdpr-cookie-consent-admin-upgrade-button"><?php echo esc_html('Add More Sites', 'gdpr-cookie-consent'); ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_add_site.svg'; ?>" alt=""></a>
 							<?php } ?>
 						</div>
 					</div>

@@ -6,7 +6,7 @@
  * This file is used to markup the language settings of the WP Cookie Consent plugin.
  *
  * @link       https://club.wpeka.com/
- * @since      9.2.11
+ * @since      4.0.0
  *
  * @package gdpr-cookie-consent
  */

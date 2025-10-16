@@ -103,10 +103,20 @@ table.gdpr_script_items tr:nth-child(odd) td {
 .c-switch-3d-success .c-switch-input:checked + .c-switch-slider {
   background-color: #0059b3 !important;
 }
-#gdpr-cookie-consent-save-settings-alert {
+#gdpr-cookie-consent-save-settings-alert,
+#gdpr-cookie-consent-save-settings-alert-scb,
+#gdpr-cookie-consent-save-settings-alert-abt,
+#gdpr-cookie-consent-save-settings-alert-lang,
+#gdpr-cookie-consent-save-settings-alert-ckm,
+#gdpr-cookie-consent-save-settings-alert-adv {
   background-color: #72b85c;
 }
-#gdpr-cookie-consent-updating-settings-alert {
+#gdpr-cookie-consent-updating-settings-alert,
+#gdpr-cookie-consent-updating-settings-alert-scb,
+#gdpr-cookie-consent-updating-settings-alert-abt,
+#gdpr-cookie-consent-updating-settings-alert-ckm,
+#gdpr-cookie-consent-updating-settings-alert-lang,
+#gdpr-cookie-consent-updating-settings-alert-adv {
   background-color: #3399ff;
 }
 #gdpr-cookie-consent-settings-app
@@ -530,7 +540,7 @@ a .export-btn:hover {
 .gdpr-green-progress {
   background-color: #f0fdf4;
   color: #166534;
-  height: 50px;
+  min-height: 50px;
   border-radius: 4px;
 }
 

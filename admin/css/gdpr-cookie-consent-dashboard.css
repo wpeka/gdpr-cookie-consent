@@ -280,11 +280,10 @@
 }
 
 .gdpr-dashboard-promotional-cards-insights {
-  display: grid;
-  grid-template-columns: auto;
+  display: flex;
   min-width: 100%;
   max-width: 100%;
-  grid-column-gap: 4%;
+  gap: 4%;
 }
 
 .gdpr-dashboard-promotional-card {
@@ -595,13 +594,13 @@ circle.ep-circle--empty {
 }
 
 .page-views-section {
-  width: 100%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 .consent-insights-section {
-  width: 80%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -664,11 +663,12 @@ circle.ep-circle--empty {
 .gdpr-dashboard-promotional-cards-insights #consent-insights-body-section {
   width: 100%;
   background-color: rgba(255, 255, 255, 1);
-  height: 357px;
+  height: 385px;
   border-radius: 10px;
   border: 1px solid #fafafa;
   box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
-
+  display: flex;
+  justify-content: center;
   margin-bottom: 60px;
   margin-top: 20px;
 }
@@ -1001,7 +1001,6 @@ circle.ep-circle--empty {
   margin-top: 12px;
   max-width: 250px;
   color: var(--gray-500);
-  height: 55px;
 }
 
 .gdpr-other-plugin-button {
@@ -1050,6 +1049,7 @@ circle.ep-circle--empty {
   position: relative;
   margin-bottom: 0; /* Space between steps */
   text-align: center;
+  display: flex;
 }
 #vertical-progressbar .container {
   margin-top: 0;
@@ -1179,10 +1179,9 @@ circle.ep-circle--empty {
   margin: 0;
 }
 #gdpr-cookie-consent-dashboard-page .gdpr-dashboard-quick-banner-section {
-  width: 47%;
+  width: 45%;
   max-width: inherit !important;
-  /* margin: 0 43px; */
-  margin-left: 28px;
+  margin-left: 34px;
   margin-bottom: 60px;
   display: inline-flex;
 }
@@ -1232,7 +1231,7 @@ circle.ep-circle--empty {
   display: flex;
   justify-content: space-between;
   background: linear-gradient(180deg, #EDF6FB 47.73%, rgba(248, 252, 255, 0) 116.89%);
-  gap: 106px;
+  gap: 80px;
   padding: 6em;
 }
 .gdpr-welcome-section p{
@@ -1266,4 +1265,28 @@ p.gdpr-title-subheading {
 }
 .gdpr-dashboard-legalpages-create-pages-tab a:hover{
   color: rgba(17, 92, 167, 1) !important;
+}
+
+@media ( max-width:1768px ) {
+  .consent-insights-section {
+    width: 85% !important;
+  }
+
+  .page-views-section {
+    width: 85% !important;
+  }
+
+  .consent-insights-page-views-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tasks-heading {
+    right: 10em;
+  }
+}
+
+.progress-bar-caption div {
+  display: flex;
+  align-items: center;
 }
