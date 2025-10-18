@@ -777,7 +777,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 								</c-row>
 								<c-row v-show="is_gdpr">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support IAB TCF v2.2', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support IAB TCF v2.2', 'gdpr-cookie-consent' ); ?>   <span class="probadge bg-badge"><?php esc_attr_e( 'Pro', 'gdpr-cookie-consent' ); ?></span></label></c-col>
 									<c-col class="col-sm-8">
 										<label for="gdpr-cookie-consent-iabtcf-on" class="screen-reader-text"><?php esc_attr_e( 'IAB On','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="iabtcf_is_on" id="gdpr-cookie-consent-iabtcf-on" variant="3d"  color="success" :checked="iabtcf_is_on" v-on:update:checked="onSwitchIabtcfEnable"></c-switch>
@@ -1068,7 +1068,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 								<!-- Visitors Condition -->
 								<c-row v-show=" gdpr_policy === 'gdpr' || gdpr_policy === 'both' || gdpr_policy === 'ccpa'">
-									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Banner Geo-Targeting', 'gdpr-cookie-consent' ); ?></div></c-col>
+									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Banner Geo-Targeting', 'gdpr-cookie-consent' ); ?>  <span class="probadge bg-badge"><?php esc_attr_e( 'Pro', 'gdpr-cookie-consent' ); ?></span>
+								</div></c-col>
 								</c-row>
 								<c-row v-show="gdpr_policy === 'both'" style="margin-bottom: 5px;">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'GDPR Banner', 'gdpr-cookie-consent' ); ?></label></c-col>

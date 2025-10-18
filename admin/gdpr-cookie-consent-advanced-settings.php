@@ -188,7 +188,7 @@
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show Credits', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If you are happy with the product and want to share credit with the developer, you can display credits under the Cookie Settings.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show Credits', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If you are happy with the product and want to share credit with the developer, you can display credits under the Cookie Settings.', 'gdpr-cookie-consent' ); ?>"></tooltip>  <span class="probadge bg-badge"><?php esc_attr_e( 'Pro', 'gdpr-cookie-consent' ); ?></span></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="show_credits" id="gdpr-cookie-consent-show-credits" variant="3d"  color="success" :checked="show_credits" v-on:update:checked="onSwitchShowCredits"></c-switch>
 										<input type="hidden" name="gcc-show-credits" v-model="show_credits">
@@ -260,7 +260,7 @@
 
 							    <c-row class="mb-3" >
 							    	<c-col class="col-sm-4">
-							    		<label class="mb-0"><?php esc_attr_e( 'Export Settings ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( ' You can use this to export your settings to another site. ', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+							    		<label class="mb-0"><?php esc_attr_e( 'Export Settings ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( ' You can use this to export your settings to another site. ', 'gdpr-cookie-consent' ); ?>"></tooltip>  <span class="probadge bg-badge"><?php esc_attr_e( 'Pro', 'gdpr-cookie-consent' ); ?></span></label>
 							    	</c-col>
 							    	<c-col class="col-sm-8">
 							    		<c-button id="export-settings-configuration" color="info" variant="outline" @click="exportsettings"><?php esc_html_e( 'Export', 'gdpr-cookie-consent' ); ?></c-button>
@@ -269,7 +269,7 @@
 							    <c-row class="mb-3 pb-3" >
 							    	<c-col class="col-sm-4" style="flex-direction:column;align-items:baseline;position: relative;">
 							    		<div style="display:flex" >
-							    			<label style="margin-bottom:0;cursor:pointer"><?php esc_attr_e( 'Import Settings', 'gdpr-cookie-consent' ); ?></label>
+							    			<label style="margin-bottom:0;cursor:pointer"><?php esc_attr_e( 'Import Settings', 'gdpr-cookie-consent' ); ?>  <span class="probadge bg-badge"><?php esc_attr_e( 'Pro', 'gdpr-cookie-consent' ); ?></span></label>
 							    			<?php
 							    			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
 							    			if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {

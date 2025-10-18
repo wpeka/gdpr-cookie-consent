@@ -10931,3 +10931,20 @@ div#gdpr-scan-history {
     text-wrap-mode: nowrap;
   }
 }
+
+.probadge{
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+}
+
+.bg-badge{
+  background-color: rgb(13,110,253);
+}
