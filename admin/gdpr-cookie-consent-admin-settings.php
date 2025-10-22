@@ -224,7 +224,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							  {{ this[`decline_text${active_test_banner_tab}`] }}
 							</a>
 
-							<a v-show="( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_settings_on${active_test_banner_tab} `] && !is_eprivacy"
+							<a v-show="( active_test_banner_tab == 1 || active_test_banner_tab == 2 ) && this[`cookie_settings_on${active_test_banner_tab}`] && !is_eprivacy"
 							  id="cookie_action_settings_preview"
 							  href="#"
 							  :style="{
