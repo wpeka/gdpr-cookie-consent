@@ -3197,9 +3197,14 @@ input[type="search"]:focus {
   z-index: 9000;
 }
 
-.schedule-popup-container.show-schedule-popup {
-  display: block;
+.schedule-popup-container {
+  display: none !important;
 }
+
+.schedule-popup-container.show-schedule-popup {
+  display: block !important;
+}
+
 .schedule-popup-content {
   background: var(--white-100);
   position: fixed;
@@ -9378,10 +9383,7 @@ div#gdpr-scan-history {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
 }
-.up {
-  transform: rotate(-135deg);
-  -webkit-transform: rotate(-135deg);
-}
+
 .cookie_arrow {
   border: solid black;
   border-width: 0 2px 2px 0;
@@ -10843,12 +10845,6 @@ div#gdpr-scan-history {
   text-decoration: none;
 }
 
-.gdpr-cookie-consent-settings-content
-  .gdpr-cookie-consent-settings-nav
-  .card
-  .schedule-popup-container {
-  display: none;
-}
 
 .cookie_scanner_card
   #cookie-scanner-container
