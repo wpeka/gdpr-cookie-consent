@@ -9,6 +9,7 @@ import "@kouts/vue-modal/dist/vue-modal.css";
 import AB_Testing_Chart from "./vue-components/AB_Testing_Chart";
 import Tooltip from "./vue-components/tooltip";
 import VueApexCharts from "vue-apexcharts";
+import vuejsDatepicker from "vuejs-datepicker";
 // Main JS (in UMD format)
 import VueTimepicker from "vue2-timepicker";
 import { TCModel, TCString, GVL } from "@iabtechlabtcf/core";
@@ -38,7 +39,7 @@ Vue.component("tooltip", Tooltip);
 Vue.component("vue-timepicker", VueTimepicker);
 Vue.component("aceeditor", AceEditor);
 Vue.component("ab-testing-chart", AB_Testing_Chart);
-
+Vue.component("datepicker", vuejsDatepicker);
 const j = jQuery.noConflict();
 var gen = new Vue({
   el: "#gdpr-cookie-consent-settings-app",
@@ -3152,14 +3153,28 @@ var gen = new Vue({
           },
           success: function (response) {
             that.auto_generated_banner = true;
+             jQuery.ajax({
+                url: settings_obj.ajaxurl,
+                type: "POST",
+                dataType: "json",
+                data: {
+                  action: "gcc_switch_preview_banner",
+                  banner_preview_state: true
+                },
+                success: function(previewResponse) {
+                  location.reload();
+                },
+                error: function(error) {
+                  console.error("Error enabling banner preview:", error);
+                  location.reload();
+                }
+              });
           },
           error: function (error) {
             console.error("Error:", error);
           },
         });
       };
-      this.banner_preview_is_on = true;
-      // }
     },
     //consent forward.
     onSwitchConsentForward() {

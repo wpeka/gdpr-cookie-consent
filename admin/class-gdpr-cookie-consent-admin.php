@@ -122,6 +122,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('gdpr_help_page_content', array($this, 'gdpr_help_page_content'));
 			add_action('refresh_gacm_vendor_list_event', array($this,'get_gacm_data'));
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
+			add_action('rest_api_init', array($this, 'wplp_gdpr_generate_api_secret'));
 			//For Import CSV option on Policy data page
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
 			add_action('admin_menu', array($this,'gdpr_reorder_admin_menu'), 999);
@@ -7736,6 +7737,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'user_email_id'					   => $user_email_id,
 				'location_status'				   => $locationStatus,
 				'client_site_name'				   => $client_site_name,
+				'api_secret' 					   => get_option('wplegalpages_api_secret'),
 			)
 		);
 	}
@@ -7824,13 +7826,23 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'disconnect_account_request'), // Function to handle the request
-				'permission_callback' => function() use ($is_user_connected) {
-					// Check if user is connected and the API plan is valid
-					if ($is_user_connected) {
-						return true; // Allow access
-					}
-					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
-				},
+				'permission_callback' => function() {
+        				    
+        		    if (current_user_can('manage_options')) {
+        		        return true;
+        		    }
+				
+        		    $stored_secret = get_option('wplegalpages_api_secret');
+        		    $header_secret = isset($_SERVER['HTTP_X_WPLP_SECRET'])
+        		                        ? sanitize_text_field($_SERVER['HTTP_X_WPLP_SECRET'])
+        		                        : '';
+				
+        		    if ($stored_secret && $header_secret && $stored_secret === $header_secret) {
+        		        return true;
+        		    }
+				
+        		    return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 403));
+        		},
 			)
 		);
 		register_rest_route(
@@ -7894,6 +7906,21 @@ class Gdpr_Cookie_Consent_Admin {
 				)
 			);
 		}
+	}
+
+	function wplp_gdpr_generate_api_secret() {
+	    // Check if secret already exists
+	    if ( get_option('wplegalpages_api_secret') ) {
+	        return get_option('wplegalpages_api_secret');
+	    }
+
+	    // Generate a 32-character alphanumeric secret
+	    $secret = wp_generate_password(32, false);
+	
+	    // Store it in WP options
+	    update_option('wplegalpages_api_secret', $secret);
+
+	    return $secret;
 	}
 
 	/**
