@@ -9,6 +9,7 @@ import "@kouts/vue-modal/dist/vue-modal.css";
 import AB_Testing_Chart from "./vue-components/AB_Testing_Chart";
 import Tooltip from "./vue-components/tooltip";
 import VueApexCharts from "vue-apexcharts";
+import vuejsDatepicker from "vuejs-datepicker";
 // Main JS (in UMD format)
 import VueTimepicker from "vue2-timepicker";
 import { TCModel, TCString, GVL } from "@iabtechlabtcf/core";
@@ -38,7 +39,7 @@ Vue.component("tooltip", Tooltip);
 Vue.component("vue-timepicker", VueTimepicker);
 Vue.component("aceeditor", AceEditor);
 Vue.component("ab-testing-chart", AB_Testing_Chart);
-
+Vue.component("datepicker", vuejsDatepicker);
 const j = jQuery.noConflict();
 var gen = new Vue({
   el: "#gdpr-cookie-consent-settings-app",
