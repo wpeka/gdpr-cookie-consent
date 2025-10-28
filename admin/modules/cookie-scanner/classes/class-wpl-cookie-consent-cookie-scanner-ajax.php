@@ -56,7 +56,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	}
 
 	public function ajax_check_gcm_status(){
-		$wpl_api_url = 'https://staging.app.wplegalpages.com/wp-json/wplcookies/v2/';
+		$wpl_api_url = 'https://appstaging.wplegalpages.com//wp-json/wplcookies/v2/';
 		$site_url      = site_url();
 		$response_url   = get_rest_url(null, 'gdpr/v2/update_gcm_status');
 		$response      = wp_remote_get( $wpl_api_url . 'get_gcm_status' . '?url=' . $site_url . '&response_url=' . $response_url );
@@ -192,7 +192,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		error_log("sending details: " . print_r($body, true));
 
 		$response = wp_remote_post(
-			'https://staging.app.wplegalpages.com/wp-json/wplcookies/v2/start_scan',
+			'https://appstaging.wplegalpages.com//wp-json/wplcookies/v2/start_scan',
 			array(
 				'method'      => 'POST',
 				'timeout'     => 20,
@@ -218,7 +218,14 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			update_option( 'gdpr_scanning_action_hash', $hash );
 			error_log("Stats: " . print_r(wp_next_scheduled('gdpr_check_scan_results_event'), true));
 			if ( ! wp_next_scheduled( 'gdpr_check_scan_results_event' ) ) {
-				wp_schedule_event( time() + 60, 'every_minute', 'gdpr_check_scan_results_event' );
+				add_filter( 'cron_schedules', function( $schedules ) {
+					$schedules['every_minute'] = array(
+						'interval' => 60,
+						'display'  => __( 'Every Minute' ),
+					);
+					return $schedules;
+				});
+				wp_schedule_event( time() + 60, 'every_minute', 'gdpr_check_scan_results_event', array( count($pages_array) )  );
 			}
 			wp_send_json_success( array(
 				'message' => 'Scan started successfully.',
@@ -251,7 +258,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 
 	}
 
-	function gdpr_check_scan_results() {
+	function gdpr_check_scan_results($total_pages) {
 		error_log("Getting result of scan");
 		$hash = get_option( 'gdpr_scanning_action_hash' );
 
@@ -259,7 +266,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			return; // Nothing to do
 		}
 
-		$response = wp_remote_get( 'https://staging.app.wplegalpages.com/wp-json/wplcookies/v2/get_post_cookie_details' . '?hash=' . $hash,
+		$response = wp_remote_get( 'https://appstaging.wplegalpages.com//wp-json/wplcookies/v2/get_post_cookie_details' . '?hash=' . $hash,
 				array(
 					'timeout' => 30, // timeout in seconds
 				) );

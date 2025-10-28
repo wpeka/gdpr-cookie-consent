@@ -13231,6 +13231,7 @@ var ckm = new Vue({
       setInterval(checkAndRunScan, 60000);
     },
     onClickStartScan(singlePageScan = false) {
+      console.log("New scanning started");
       var that = this;
       var hash = Math.random().toString( 36 ).replace( '0.', '' );
       var data = {
