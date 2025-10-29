@@ -7619,6 +7619,36 @@ class Gdpr_Cookie_Consent_Admin {
 		$state = get_option('gdpr_preview_banner_state', 'false');
 		wp_send_json_success($state);
 	}
+	/**
+	 * Function to save the scan schedule
+	 */
+	public function gdpr_cookie_consent_ajax_save_schedule_scan() {
+		$schedule_data = array(
+			'schedule_scan_as' => sanitize_text_field($_POST['schedule_scan_as']),
+			'schedule_scan_date' => sanitize_text_field($_POST['schedule_scan_date']),
+			'schedule_scan_time_value' => sanitize_text_field($_POST['schedule_scan_time_value']),
+			'schedule_scan_day' => sanitize_text_field($_POST['schedule_scan_day']),
+			'next_scan_is_when' => sanitize_text_field($_POST['next_scan_is_when']),
+		);
+		update_option('gdpr_scan_schedule_data', $schedule_data);
+		wp_send_json_success();
+	}
+
+	/**
+	 * Function to get the scan schedule
+	 */
+	public function gdpr_cookie_consent_ajax_get_schedule_scan() {
+		$data = get_option('gdpr_scan_schedule_data', array());
+		wp_send_json_success($data);
+	}
+	/**
+	 * Function to clear the scan schedule
+	 */
+	public function gdpr_cookie_consent_ajax_clear_schedule_scan() {
+		delete_option('gdpr_scan_schedule_data');
+		wp_send_json_success(array('message' => 'Schedule cleared'));
+	}
+
 	/* Added endpoint to send dashboard data from plugin to the saas appwplp server */
 	public function gdpr_send_data_to_dashboard_appwplp_server(WP_REST_Request $request  ){		
 		$current_user = wp_get_current_user();
