@@ -410,6 +410,68 @@ function rejectTCModel() {
     jQuery(".gacm-vendor-switch-handler").prop("checked", false);
     jQuery(".gacm-vendor-all-switch-handler").prop("checked", false);
     jQuery(".vendor-all-switch-handler").prop("checked", false);
+    jQuery(".purposes-all-switch-handler").prop("checked", false);
+    jQuery(".purposes-switch-handler").prop("checked", false);
+    jQuery(".special-features-all-switch-handler").prop("checked", false);
+    jQuery(".special-features-switch-handler").prop("checked", false);
+  } catch (error) {
+    console.error("Error updating TCModel:", error);
+  }
+}
+
+function selectAllUpdateTCModel() {
+  try {
+    tcModel.vendorConsents.forEach((value, vendorId) => {
+      tcModel.vendorConsents.set(vendorId);
+    });
+
+    tcModel.vendorLegitimateInterests.forEach((value, vendorId) => {
+      tcModel.vendorLegitimateInterests.set(vendorId);
+    });
+
+    tcModel.purposeConsents.forEach((value, purposeId) => {
+      tcModel.purposeConsents.set(purposeId);
+    });
+
+    tcModel.purposeLegitimateInterests.forEach((value, purposeId) => {
+      tcModel.purposeLegitimateInterests.set(purposeId);
+    });
+
+    tcModel.specialFeatureOptins.forEach((value, featureId) => {
+      tcModel.specialFeatureOptins.set(featureId);
+    });
+
+    //creating ac string for google additional consent mode
+
+    var specVersion = "2";
+
+    user_gacm_consent = [];
+
+    // Part 5: List of disclosed vendors (from gacm_data that are NOT in user_gacm_consent)
+    var disclosedVendors = iabtcf.gacm_data.map((vendor) => vendor[0]);
+    var disclosedIds = disclosedVendors.join(".");
+
+    // Create the AC string
+    acString = `${specVersion}~~dv.${disclosedIds}`;
+    tcModel.addtlConsent = acString;
+
+    // Encode the updated tcModel
+    encodedString = TCString.encode(tcModel);
+    user_iab_consent.tcString = encodedString;
+    tcModel.tcString = encodedString;
+    GDPR_Cookie.set("wpl_tc_string", encodedString, 365);
+    GDPR_Cookie.set("IABTCF_AddtlConsent", acString, 365);
+
+    // Update the CMP state with the new TC string so that validator, vendors know about update and can read it
+    cmpApi.update(encodedString, true);
+    jQuery(".vendor-switch-handler").prop("checked", true);
+    jQuery(".gacm-vendor-switch-handler").prop("checked", true);
+    jQuery(".gacm-vendor-all-switch-handler").prop("checked", true);
+    jQuery(".vendor-all-switch-handler").prop("checked", true);
+    jQuery(".purposes-all-switch-handler").prop("checked", true);
+    jQuery(".purposes-switch-handler").prop("checked", true);
+    jQuery(".special-features-all-switch-handler").prop("checked", true);
+    jQuery(".special-features-switch-handler").prop("checked", true);
   } catch (error) {
     console.error("Error updating TCModel:", error);
   }
@@ -428,6 +490,11 @@ function rejectTCModel() {
     if (button_action == "accept") {
       tcModel.gvl.readyPromise.then(() => {
         updateTCModel();
+      });
+    }
+    if (button_action == "accept_all") {
+      tcModel.gvl.readyPromise.then(() => {
+        selectAllUpdateTCModel();
       });
     }
     if (button_action == "reject") {
