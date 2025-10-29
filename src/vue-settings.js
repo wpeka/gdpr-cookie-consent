@@ -13231,7 +13231,7 @@ var ckm = new Vue({
       setInterval(checkAndRunScan, 60000);
     },
     onClickStartScan(singlePageScan = false) {
-      console.log("New scanning started");
+      console.log("New new scanning started");
       var that = this;
       var hash = Math.random().toString( 36 ).replace( '0.', '' );
       var data = {
@@ -13248,7 +13248,13 @@ var ckm = new Vue({
           console.log("helloe : ", data)
           if (!data.success) {
             // This is actually an "error"
-            if (data.data.server_response?.status === 'Pages limit reached') {
+            if (data.data?.message === 'Scanning already in progress'){
+              that.success_error_message = "A scanning is already in progress. Please wait for it to complete.";
+            }
+            else if (data.data?.message === 'Failed to contact scanner server'){
+              that.success_error_message = "Failed to contact the scanning server, please refresh and try. If the problem persists, please raise a support ticket."
+            }
+            else if (data.data.server_response?.status === 'Pages limit reached') {
               that.success_error_message = "You have exhausted your pages limit. Please upgrade your plan to continue scanning.";
             } else if (data.data.server_response?.status === 'Monthly scan limit reached') {
               that.success_error_message = "You have exhausted your monthly scan limit. Either wait for a month or upgrade your plan to continue scanning.";
@@ -13256,16 +13262,16 @@ var ckm = new Vue({
               that.success_error_message = data.data.message;
             }
 
-            j("#gdpr-cookie-consent-save-settings-alert").css("background-color", "#e55353");
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(4500);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css("background-color", "#e55353");
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(4500);
           } else {
             
             that.success_error_message = "Scanning has started. You will be notified via mail once scan is completed.";
 
-            j("#gdpr-cookie-consent-save-settings-alert").css("background-color", "#72b85c");
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(4500);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css("background-color", "#72b85c");
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(4500);
           }
         },
         error: function (e) {
