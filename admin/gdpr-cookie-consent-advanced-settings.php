@@ -151,7 +151,7 @@
 									if ( ! $is_pro_active ) :
 										?>
 								<c-row>
-									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
+									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?>  <tooltip text="<?php esc_html_e( 'Automatically deny cookies for users who have enabled DNT or GPC in their browser settings.', 'gdpr-cookie-consent'); ?>"></tooltip></label>
 										<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
 									</c-col>
 									<c-col class="col-sm-8">
@@ -163,7 +163,7 @@
 									do_action( 'gdpr_consent_settings_dnt' ); } else {
 									?>
 								<c-row>
-									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
+									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?>  <tooltip text="<?php esc_html_e( 'Automatically deny cookies for users who have enabled DNT or GPC in their browser settings.', 'gdpr-cookie-consent'); ?>"></tooltip></label>
 									</c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind= labelIcon v-model="do_not_track_on" id="gdpr-cookie-do-not-track" variant="3d" color="success" :checked="do_not_track_on" v-on:update:checked="onSwitchDntEnable"></c-switch>
