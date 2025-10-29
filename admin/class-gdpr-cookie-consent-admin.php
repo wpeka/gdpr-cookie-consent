@@ -7629,6 +7629,7 @@ class Gdpr_Cookie_Consent_Admin {
 			'schedule_scan_time_value' => sanitize_text_field($_POST['schedule_scan_time_value']),
 			'schedule_scan_day' => sanitize_text_field($_POST['schedule_scan_day']),
 			'next_scan_is_when' => sanitize_text_field($_POST['next_scan_is_when']),
+			'schedule_scan_when' => sanitize_text_field($_POST['next_scan_is_when']),
 		);
 		update_option('gdpr_scan_schedule_data', $schedule_data);
 		wp_send_json_success();
@@ -7748,7 +7749,9 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'success' => true,
 				'last_scan_time'             	   => $last_scan_time,
-				'schedule_scan_when'               => isset( $the_options['schedule_scan_when'] ) ? $the_options['schedule_scan_when'] : null,
+				$saved_schedule_data = get_option('gdpr_scan_schedule_data', array()),
+				$schedule_scan_when = isset($saved_schedule_data['schedule_scan_when']) ? $saved_schedule_data['schedule_scan_when'] : null,
+				'schedule_scan_when' => $schedule_scan_when,
 				'is_user_connected'                => $is_user_connected,
 				'total_no_of_found_cookies'        => $total_no_of_found_cookies,
 				'total_scanned_pages'              => $total_scanned_pages,
