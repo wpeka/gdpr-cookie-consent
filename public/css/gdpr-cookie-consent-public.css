@@ -61,7 +61,7 @@
   .cookie_notice_buttons
   .left_buttons{
     display: flex;
-    gap: 10px;
+    gap: 24px;
 }
 #gdpr-cookie-consent-bar .row_spaced{
   display: flex;
@@ -77,13 +77,13 @@
 #gdpr-cookie-consent-bar .side_column{
   display: flex;
   flex-direction: row;
-  gap: 10%;
+  gap: clamp(20px, 5vw, 90px); /* adaptive spacing */
   align-items: center;
   justify-content: space-between;
 }
 #gdpr-cookie-consent-bar .side_column-buttons{
   flex-direction: row;
-  gap: 20px;
+  gap: 24px;
   justify-content: center;
 }
 
