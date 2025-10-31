@@ -569,7 +569,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'If you need help understanding, using, or extending WP Cookie Consent Plugin.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/docs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
