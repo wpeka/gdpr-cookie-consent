@@ -218,7 +218,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 
 		error_log("Incoming data: " . print_r($data, true));
 		
-
+		if(isset($data['account_details'])){
+			update_option( 'wpeka_api_framework_app_settings', $data['account_details'] );
+		}
 		if ( isset($data['status']) && $data['status'] === 'scanning' ) {
 			update_option( 'gdpr_scanning_action_hash', $hash );
 			error_log("Stats: " . print_r(wp_next_scheduled('gdpr_check_scan_results_event'), true));
