@@ -29,23 +29,28 @@
 #gdpr-cookie-consent-bar h3{
   color: inherit;
   margin: 0;
-  font-weight: 500;
-  font-size: 22px;
+  font-weight: 700;
+  font-size: 24px;
 }
 #gdpr-cookie-consent-bar p{
     margin: 0;
     color: inherit;
     font-weight: var(--text-regular-font-weight);
-    font-size: 14px;
+    font-size: 18px;
     text-align: justify;
     text-wrap: auto;
 }
 #gdpr-cookie-consent-bar 
   .cookie_notice_buttons a{
     font-weight: var(--text-regular-font-weight);
-    font-size: 14px;
+    font-size: 20px;
 }
-
+@media (max-width: 728px) {
+  #gdpr-cookie-consent-bar p,
+  #gdpr-cookie-consent-bar .cookie_notice_buttons a {
+      font-size: 14px !important;
+  }
+}
 #gdpr-cookie-consent-bar 
   .cookie_notice_buttons{
     display: flex;
@@ -72,13 +77,13 @@
 #gdpr-cookie-consent-bar .side_column{
   display: flex;
   flex-direction: row;
-  gap: 25px;
+  gap: 10%;
   align-items: center;
   justify-content: space-between;
 }
 #gdpr-cookie-consent-bar .side_column-buttons{
-  flex-direction: column-reverse;
-  gap: 10px;
+  flex-direction: row;
+  gap: 20px;
   justify-content: center;
 }
 
@@ -323,10 +328,10 @@
     flex: auto;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 728px) {
   #gdpr-cookie-consent-bar 
   .cookie_notice_buttons a{
-    font-size: 12px;
+    font-size: 14px;
     padding: 12px 30px !important;
   }
   #gdpr-cookie-consent-bar.gdpr-popup, #gdpr-cookie-consent-bar.gdpr-widget{

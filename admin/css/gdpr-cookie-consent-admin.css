@@ -9576,8 +9576,9 @@ div#gdpr-scan-history {
 }
 
 #gdpr-cookie-consent-settings-app .notice-container .notice-content .notice-content-body .template-side_column-buttons {
-  flex-direction: column-reverse;
-  gap: 10px;
+  display:flex;
+  flex-direction: row;
+  gap: 20px;
   justify-content: center;
 }
 

@@ -338,6 +338,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 					if ( ! empty( $get_banner_img ) ) {
 					?>
+						<div style="display: flex; flex-direction: row; align-items:center; gap:10px;">
+						<p>AB TESTING OFFFFF</p>
 						<img class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>"
 						:style="{
 						  	'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
@@ -347,16 +349,29 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								'position': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['position'],
 								'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
 						  }"  >
+						  <div class="notice-heading-wrapper" v-if="(gdpr_message_heading.length>0 && is_gdpr) || (lgpd_message_heading.length>0 && is_lgpd) || template == 'blue_split'">
+									<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
+									<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
+									<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }" v-if="template == 'blue_split' && ((is_gdpr && gdpr_message_heading.length==0) || (lgpd_message_heading.length==0 && is_lgpd) || !is_ccpa)"><?php echo esc_html("We value your privacy"); ?></h3>
+						</div>
+						</div>
 					<?php
 					} else { ?>
-							<img v-if="(template === 'default' ? default_template_json : json_templates[template])?.logo?.src != ''" class ="gdpr_logo_image" alt="logo-placeholder" :src="pluginBasePath + ((template === 'default' ? default_template_json : json_templates[template])?.logo?.src || '')" :style="{
-						  	'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
-							'width': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['fit-content'],
-							'height': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['height'],
-							'transform': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['transform'],
-								'position': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['position'],
-								'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
-						  }">
+							<div style="display: flex; flex-direction: row; align-items:center; gap:10px;">
+								<img v-if="(template === 'default' ? default_template_json : json_templates[template])?.logo?.src != ''" class ="gdpr_logo_image" alt="logo-placeholder" :src="pluginBasePath + ((template === 'default' ? default_template_json : json_templates[template])?.logo?.src || '')" :style="{
+								'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
+								'width': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['fit-content'],
+								'height': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['height'],
+								'transform': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['transform'],
+									'position': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['position'],
+									'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
+								}">
+								<div class="notice-heading-wrapper" v-if="(gdpr_message_heading.length>0 && is_gdpr) || (lgpd_message_heading.length>0 && is_lgpd) || template == 'blue_split'">
+									<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
+									<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
+									<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }" v-if="template == 'blue_split' && ((is_gdpr && gdpr_message_heading.length==0) || (lgpd_message_heading.length==0 && is_lgpd) || !is_ccpa)"><?php echo esc_html("We value your privacy"); ?></h3>
+								</div>
+							</div>
 						<?php
 				}
 				?>
@@ -371,13 +386,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						  }"></div>
 					
 				<div class="notice-content-body" :class="'notice-template-name-' + (template == 'default' ? default_template_json : json_templates[template])?.name + ' template-' + (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['layout']">
-					<div style="display: flex; flex-direction: column; gap:10px;">
-						<div class="notice-heading-wrapper" v-if="(gdpr_message_heading.length>0 && is_gdpr) || (lgpd_message_heading.length>0 && is_lgpd) || template == 'blue_split'">
-							<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
-							<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
-							<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }" v-if="template == 'blue_split' && ((is_gdpr && gdpr_message_heading.length==0) || (lgpd_message_heading.length==0 && is_lgpd) || !is_ccpa)"><?php echo esc_html("We value your privacy"); ?></h3>
-						</div>
-						<p>	
+						<p style="width: 80%; line-height: 28px; max-width:600px">	
 							<span :style="{'font-family': cookie_font}" v-show="is_gdpr" v-html ="gdpr_message"></span>
 							<span :style="{'font-family': cookie_font}" v-show="is_lgpd" v-html ="lgpd_message"></span>
 							<span :style="{'font-family': cookie_font}" v-show="is_ccpa" v-html ="ccpa_message"></span>
@@ -396,13 +405,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								'margin-top': '5px',
 								'padding': (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.[`button_padding`]
 								} : { 'display': 'inline-block',
-								})
+								}),
+								
 							}" >
 								<span>{{ button_readmore_text }}</span>
 							</a>
 							<a id="cookie_action_opt_out_preview" v-if="is_ccpa" :style="{'font-family': cookie_font,'color': opt_out_text_color,'cursor':'pointer'}"><span>{{ opt_out_text }}</span></a>
 						</p>
-					</div>	
+					<!-- </div>	 -->
 				
 
 					<div v-show="!is_ccpa" class="notice-buttons-wrapper" :class="'template-' + (template == 'default' ? default_template_json : json_templates[template])?.['static-settings']?.['layout'] + '-buttons'">
