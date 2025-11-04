@@ -7712,7 +7712,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$active_plugins = $this->gdpr_cookie_consent_active_plugins();
 
 		$is_other_cookie_plugin_activated = $this->gdpr_ensure_no_other_cookie_plugins_activated( $active_plugins );
-
+		
 		return rest_ensure_response(
 			array(
 				'success' => true,
@@ -7741,6 +7741,118 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 
+	/* Added endpoint to send dashboard data from plugin to the saas appwplp React dashboard */
+	public function gdpr_send_data_to_dashboard_appwplp_react_app(WP_REST_Request $request  ){
+		ob_start();
+
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		//$cookie_scan_settings = apply_filters( 'gdpr_settings_cookie_scan_values', '' );
+		$cookie_scan_class = new Gdpr_Cookie_Consent_Cookie_Scanner(); 
+		$cookie_scan_settings = $cookie_scan_class->wpl_settings_cookie_scan_values();
+		
+		// Require the class file for gdpr cookie consent api framework settings.
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+		$api_user_plan     = $this->settings->get_plan();
+		$product_id = $this->settings->get( 'account', 'product_id' );
+
+		/**
+		 * Total No of scanned cookies.
+		 */
+		if ( ! empty( $cookie_scan_settings ) ) {
+			$total_no_of_found_cookies = $cookie_scan_settings['scan_cookie_list']['total'];
+		} else {
+			$total_no_of_found_cookies = 0;
+		}
+
+		/**
+		 * Total No of cookie categories.
+		 */
+		if ( ! empty( $cookie_scan_settings ) ) {
+			$scan_cookie_list = $cookie_scan_settings['scan_cookie_list'];
+
+			// Create an array to store unique category names.
+			$unique_categories = array();
+
+			// Loop through the 'data' sub-array.
+			foreach ( $scan_cookie_list['data'] as $cookie ) {
+				$category = $cookie['category'];
+
+				// Check if the category is not already in the $uniqueCategories array.
+				if ( ! in_array( $category, $unique_categories ) ) {
+					// If it's not in the array, add it.
+					$unique_categories[] = $category;
+				}
+			}
+
+			// Count the number of unique categories.
+			$number_of_categories = count( $unique_categories );
+		} else {
+			$number_of_categories = 0;
+		}
+
+		global $wpdb;
+
+
+		$total_scanned_pages = get_option('gdpr_last_scan') . " Pages";
+
+
+		// Get the current selected policy name
+		$cookie_usage_for = $the_options['cookie_usage_for'];
+		$gdpr_policy = '';
+		if($cookie_usage_for == 'eprivacy'){
+			$gdpr_policy = 'ePrivacy';
+		}elseif($cookie_usage_for == 'both'){
+			$gdpr_policy = 'GDPR & CCPA';
+		}else{
+			$gdpr_policy = strtoupper($cookie_usage_for);
+		}
+		
+		$last_scan_time = $cookie_scan_settings['last_scan']['created_at'];
+
+		$active_plugins = $this->gdpr_cookie_consent_active_plugins();
+
+		$is_other_cookie_plugin_activated = $this->gdpr_ensure_no_other_cookie_plugins_activated( $active_plugins );
+		
+		$monthly_scan = 1e7;
+		if( $api_user_plan == 'free' ) {
+			$monthly_scan = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
+			$monthly_scan = (int) $monthly_scan;
+		}
+
+		$gdpr_pages_scanned = get_option('gdpr_no_of_page_scan', 0);
+
+		$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
+
+		ob_end_clean();
+
+		return rest_ensure_response(
+			array(
+				'success' => true,
+				'user_plan'						   => $api_user_plan,
+				'product_id'                       => $product_id,
+				'last_scan_time'             	   => $last_scan_time,
+				'schedule_scan_time'               => isset( $the_options['schedule_scan_when'] ) ? $the_options['schedule_scan_when'] : null,
+				'total_cookies'                    => $total_no_of_found_cookies,
+				'total_scanned_pages'              => $total_scanned_pages,
+				'categories'          			   => $number_of_categories,
+				'wpl_cl_decline'                   => get_option( 'wpl_cl_decline' ),
+				'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
+				'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
+				'wpl_cl_bypass'                    => get_option( 'wpl_cl_bypass' ),
+				'wpl_page_views'				   => get_option( 'wpl_page_views' ),
+				'total_page_views'				   => get_option('wpl_total_page_views'),
+				'site_on'				           => $the_options['is_on'],
+				'other_cookie_plugin_activated'    => $is_other_cookie_plugin_activated,
+				'law_type'                         => $gdpr_policy,
+				'monthly_scan'					   => $monthly_scan,
+				'total_pages_scanned'		 	   => $gdpr_pages_scanned,
+				'monthly_page_views'			   => $gdpr_monthly_page_views,
+				'consent_log_data' 				   => get_option( 'consent_log_saas', array() ),
+			)
+		);
+	}
 
 	/**
 	 * Fucntion to disconnect account when site deleted from saas dashboard
@@ -7802,6 +7914,21 @@ class Gdpr_Cookie_Consent_Admin {
 		
 		$is_user_connected = $this->settings->is_connected();
 		
+		register_rest_route(
+			'wplp-react-gdpr/v1', //New namespace for React dashboard
+			'/get_dashboard-data',
+			array(
+				'methods'  => 'POST',
+				'callback' => array($this, 'gdpr_send_data_to_dashboard_appwplp_react_app'), // Function to handle the request
+				'permission_callback' => function() use ($is_user_connected) {
+					// Check if user is connected and the API plan is valid
+					if ($is_user_connected) {
+						return true; // Allow access
+					}
+					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
+				},
+			)
+		);
 
 		register_rest_route(
 			'gdpr/v2', // Namespace
