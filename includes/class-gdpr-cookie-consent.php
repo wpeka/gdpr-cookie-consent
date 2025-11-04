@@ -1272,6 +1272,7 @@ class Gdpr_Cookie_Consent {
 			}
 		}
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
+		$settings['scan_in_progress'] = get_option('gdpr_scanning_action_hash') ? true : false;
 		return $settings;
 	}
 

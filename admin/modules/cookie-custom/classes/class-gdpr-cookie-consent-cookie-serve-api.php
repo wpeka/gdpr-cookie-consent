@@ -27,7 +27,7 @@ if ( ! class_exists( 'Gdpr_Cookie_Consent_Cookie_Serve_Api' ) ) {
 		 * @access public
 		 * @var string $gdpr_api_url API Url.
 		 */
-		public $gdpr_api_url = 'https://appstaging.wplegalpages.com//wp-json/wplcookies/v2/';
+		public $gdpr_api_url = 'https://app.wplegalpages.com/wp-json/wplcookies/v2/';
 
 		/**
 		 * API Path to get category details.

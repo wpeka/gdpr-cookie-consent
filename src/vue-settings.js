@@ -115,7 +115,7 @@ var gen = new Vue({
       show_more_cookie_design_popup: false,
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
-      scan_in_progress: false,
+      scan_in_progress: settings_obj.the_options["scan_in_progress"],
 
       gcm_scan_result: settings_obj.ab_options.hasOwnProperty("wpl_gcm_latest_scan_result")
         ? settings_obj.ab_options["wpl_gcm_latest_scan_result"]
@@ -12630,7 +12630,7 @@ var ckm = new Vue({
       pollCount: 0,
       onPrg: 0,
       discovered_cookies_list_tab: true,
-      scan_in_progress: false,
+      scan_in_progress: settings_obj.the_options["scan_in_progress"],
       schedule_scan_show: false,
       schedule_scan_options: settings_obj.schedule_scan_options,
       schedule_scan_as: settings_obj.the_options.hasOwnProperty(
@@ -13231,7 +13231,6 @@ var ckm = new Vue({
       setInterval(checkAndRunScan, 60000);
     },
     onClickStartScan(singlePageScan = false) {
-      console.log("New new scanning started");
       var that = this;
       var hash = Math.random().toString( 36 ).replace( '0.', '' );
       var data = {
@@ -13245,7 +13244,6 @@ var ckm = new Vue({
         dataType: "json",
         type: "POST",
         success: function (data) {
-          console.log("helloe : ", data)
           if (!data.success) {
             // This is actually an "error"
             if (data.data?.message === 'Scanning already in progress'){
@@ -13268,7 +13266,7 @@ var ckm = new Vue({
           } else {
             
             that.success_error_message = "Scanning has started. You will be notified via mail once scan is completed.";
-
+            that.scan_in_progress = true;
             j("#gdpr-cookie-consent-save-settings-alert-ckm").css("background-color", "#72b85c");
             j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
             j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(4500);
