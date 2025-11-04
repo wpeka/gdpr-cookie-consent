@@ -9,6 +9,7 @@ import "@kouts/vue-modal/dist/vue-modal.css";
 import AB_Testing_Chart from "./vue-components/AB_Testing_Chart";
 import Tooltip from "./vue-components/tooltip";
 import VueApexCharts from "vue-apexcharts";
+import vuejsDatepicker from "vuejs-datepicker";
 // Main JS (in UMD format)
 import VueTimepicker from "vue2-timepicker";
 import { TCModel, TCString, GVL } from "@iabtechlabtcf/core";
@@ -38,7 +39,7 @@ Vue.component("tooltip", Tooltip);
 Vue.component("vue-timepicker", VueTimepicker);
 Vue.component("aceeditor", AceEditor);
 Vue.component("ab-testing-chart", AB_Testing_Chart);
-
+Vue.component("datepicker", vuejsDatepicker);
 const j = jQuery.noConflict();
 var gen = new Vue({
   el: "#gdpr-cookie-consent-settings-app",
@@ -13135,6 +13136,35 @@ var ckm = new Vue({
       } else if (this.schedule_scan_as == "never") {
         this.next_scan_is_when = "Not Scheduled";
       }
+      jQuery.ajax({
+        url: settings_obj.ajaxurl,
+        type: "POST",
+        data: {
+          action: "gcc_save_schedule_scan",
+          schedule_scan_as: this.schedule_scan_as,
+          schedule_scan_date: this.schedule_scan_date,
+          schedule_scan_time_value: this.schedule_scan_time_value,
+          schedule_scan_day: this.schedule_scan_day,
+          next_scan_is_when: this.next_scan_is_when,
+        },
+      });
+    },
+    clearScheduleAfterScan() {
+      var that = this;
+      jQuery.ajax({
+        url: settings_obj.ajaxurl,
+        type: "POST",
+        data: {
+          action: "gcc_clear_schedule_scan"
+        },
+        success: function(response) {
+          that.next_scan_is_when = "Not Scheduled";
+          that.schedule_scan_as = "never";
+          console.log("Schedule cleared after successful scan");
+        }, error: function() {
+          console.error("Error clearing schedule after scan");
+        }
+      });
     },
     scheduleScanOnce() {
       // Define the date and time when you want the function to execute
@@ -13171,6 +13201,10 @@ var ckm = new Vue({
         setTimeout(() => {
           // start the scanning here
           this.onClickStartScan();
+          // after the scan is completed successfully, clear the schedule
+          this.clearScheduleAfterScan();
+          this.next_scan_is_when = "Not Scheduled";
+          this.schedule_scan_as = "never";
         }, timeUntilExecution);
       } else {
         // if the target date is in the past
@@ -13224,6 +13258,31 @@ var ckm = new Vue({
         ) {
           // The conditions are met; execute the scan
           this.onClickStartScan();
+          const nextMonthDate = new Date(currentDate);
+          nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
+          nextMonthDate.setDate(targetDayOfMonth);
+
+          const formattedDate = nextMonthDate.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          });
+
+          jQuery.ajax({
+            url: settings_obj.ajaxurl,
+            type: "POST",
+            data: {
+              action: "gcc_save_schedule_scan",
+              schedule_scan_as: "monthly",
+              schedule_scan_date: formattedDate,
+              schedule_scan_time_value: this.schedule_scan_time_value,
+              schedule_scan_day: this.schedule_scan_day,
+              next_scan_is_when: formattedDate,
+            },
+            success: () => {
+              this.next_scan_is_when = formattedDate;
+            }
+          });
         }
       };
 
@@ -14075,6 +14134,47 @@ var ckm = new Vue({
     }
 
     this.activateTabFromHash();
+    //SAVE SCHEDULE SCAN SETTINGS
+    var that = this;
+    jQuery.ajax({
+      url: settings_obj.ajaxurl,
+      type: "POST",
+      data: {
+        action: "gcc_get_schedule_scan"
+      },
+      success: function(response) {
+        if (response.success && response.data) {
+          that.schedule_scan_as = response.data.schedule_scan_as || 'never';
+          that.schedule_scan_date = response.data.schedule_scan_date || '';
+          that.schedule_scan_time_value = response.data.schedule_scan_time_value || '';
+          that.schedule_scan_day = response.data.schedule_scan_day || '';
+          that.next_scan_is_when = response.data.next_scan_is_when || 'Not Scheduled';
+          // RESTART SCHEDULED SCANS AFTER PAGE LOAD
+          if (that.schedule_scan_as === 'once' && that.schedule_scan_date && that.schedule_scan_time_value) {
+
+            const targetDate = new Date(that.schedule_scan_date);
+            const timeParts = that.schedule_scan_time_value.split(':');
+            let hours = parseInt(timeParts[0], 10);
+            const minutes = parseInt(timeParts[1], 10);
+            if (that.schedule_scan_time_value.toUpperCase().includes('PM') && hours < 12) hours += 12;
+            if (that.schedule_scan_time_value.toUpperCase().includes('AM') && hours === 12) hours = 0;
+            targetDate.setHours(hours);
+            targetDate.setMinutes(minutes);
+
+            const now = new Date();
+
+            if (targetDate > now) {
+              that.scheduleScanOnce(); // schedule normally
+            } else {
+              that.clearScheduleAfterScan();
+            }
+          }
+          else if (that.schedule_scan_as === 'monthly') {
+                        that.scanMonthly();
+          }
+        }
+      }
+    });
   },
 });
 window.ckm = ckm;
