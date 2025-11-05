@@ -154,7 +154,9 @@ $response = wp_remote_post(
 	array(
 		'body' => array(
 			'cookie_scan_settings'             => $cookie_scan_settings,
-			'schedule_scan_when'               => isset( $the_options['schedule_scan_when'] ) ? $the_options['schedule_scan_when'] : null,
+			$saved_schedule_data = get_option('gdpr_scan_schedule_data', array()),
+			$schedule_scan_when = isset($saved_schedule_data['schedule_scan_when']) ? $saved_schedule_data['schedule_scan_when'] : null,
+			'schedule_scan_when' => $schedule_scan_when,
 			'pro_installed'                    => $pro_installed,
 			'pro_is_activated'                 => $pro_is_activated,
 			'api_key_activated'                => $api_key_activated,
@@ -567,7 +569,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'If you need help understanding, using, or extending WP Cookie Consent Plugin.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/docs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">

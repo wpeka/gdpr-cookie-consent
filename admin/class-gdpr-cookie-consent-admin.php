@@ -121,7 +121,9 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('gdpr_cookie_consent_new_admin_dashboard_screen', array($this, 'gdpr_cookie_consent_new_admin_dashboard_screen'));
 			add_action('gdpr_help_page_content', array($this, 'gdpr_help_page_content'));
 			add_action('refresh_gacm_vendor_list_event', array($this,'get_gacm_data'));
+			add_action( 'rest_api_init', array($this, 'allow_cors_for_react_app'));
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
+			add_action('rest_api_init', array($this, 'wplp_gdpr_generate_api_secret'));
 			//For Import CSV option on Policy data page
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
 			add_action('admin_menu', array($this,'gdpr_reorder_admin_menu'), 999);
@@ -4630,6 +4632,16 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 
+	public function add_every_minute_cron_schedule( $schedules ) {
+        if ( ! isset( $schedules['every_minute'] ) ) {
+            $schedules['every_minute'] = array(
+                'interval' => 60,
+                'display'  => __( 'Every Minute' ),
+            );
+        }
+        return $schedules;
+    }
+
 	/**
 	 * Ajax callback for setting page.
 	 */
@@ -7618,6 +7630,37 @@ class Gdpr_Cookie_Consent_Admin {
 		$state = get_option('gdpr_preview_banner_state', 'false');
 		wp_send_json_success($state);
 	}
+	/**
+	 * Function to save the scan schedule
+	 */
+	public function gdpr_cookie_consent_ajax_save_schedule_scan() {
+		$schedule_data = array(
+			'schedule_scan_as' => sanitize_text_field($_POST['schedule_scan_as']),
+			'schedule_scan_date' => sanitize_text_field($_POST['schedule_scan_date']),
+			'schedule_scan_time_value' => sanitize_text_field($_POST['schedule_scan_time_value']),
+			'schedule_scan_day' => sanitize_text_field($_POST['schedule_scan_day']),
+			'next_scan_is_when' => sanitize_text_field($_POST['next_scan_is_when']),
+			'schedule_scan_when' => sanitize_text_field($_POST['next_scan_is_when']),
+		);
+		update_option('gdpr_scan_schedule_data', $schedule_data);
+		wp_send_json_success();
+	}
+
+	/**
+	 * Function to get the scan schedule
+	 */
+	public function gdpr_cookie_consent_ajax_get_schedule_scan() {
+		$data = get_option('gdpr_scan_schedule_data', array());
+		wp_send_json_success($data);
+	}
+	/**
+	 * Function to clear the scan schedule
+	 */
+	public function gdpr_cookie_consent_ajax_clear_schedule_scan() {
+		delete_option('gdpr_scan_schedule_data');
+		wp_send_json_success(array('message' => 'Schedule cleared'));
+	}
+
 	/* Added endpoint to send dashboard data from plugin to the saas appwplp server */
 	public function gdpr_send_data_to_dashboard_appwplp_server(WP_REST_Request $request  ){		
 		$current_user = wp_get_current_user();
@@ -7717,7 +7760,9 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'success' => true,
 				'last_scan_time'             	   => $last_scan_time,
-				'schedule_scan_when'               => isset( $the_options['schedule_scan_when'] ) ? $the_options['schedule_scan_when'] : null,
+				$saved_schedule_data = get_option('gdpr_scan_schedule_data', array()),
+				$schedule_scan_when = isset($saved_schedule_data['schedule_scan_when']) ? $saved_schedule_data['schedule_scan_when'] : null,
+				'schedule_scan_when' => $schedule_scan_when,
 				'is_user_connected'                => $is_user_connected,
 				'total_no_of_found_cookies'        => $total_no_of_found_cookies,
 				'total_scanned_pages'              => $total_scanned_pages,
@@ -7736,6 +7781,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'user_email_id'					   => $user_email_id,
 				'location_status'				   => $locationStatus,
 				'client_site_name'				   => $client_site_name,
+				'api_secret' 					   => get_option('wplegalpages_api_secret'),
 			)
 		);
 	}
@@ -7908,6 +7954,29 @@ class Gdpr_Cookie_Consent_Admin {
 		return new WP_REST_Response(['status' => 'stored']);
 	}
 
+	/**
+	 * Fucntion to allow cors for react app
+	 */
+	public function allow_cors_for_react_app(){
+		remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
+
+		// Add our own permissive CORS headers
+		add_filter( 'rest_pre_serve_request', function( $value ) {
+			header( 'Access-Control-Allow-Origin: *' );
+			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
+			header( 'Access-Control-Allow-Credentials: true' );
+			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
+
+			// Handle preflight requests
+			if ( $_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) {
+				status_header( 200 );
+				exit;
+			}
+
+			return $value;
+		});
+	}
+
 	// Register the REST API route for data from plugin to the saas appwplp server 
 
 	public function register_gdpr_dashboard_route() {
@@ -7954,13 +8023,23 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'disconnect_account_request'), // Function to handle the request
-				'permission_callback' => function() use ($is_user_connected) {
-					// Check if user is connected and the API plan is valid
-					if ($is_user_connected) {
-						return true; // Allow access
-					}
-					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
-				},
+				'permission_callback' => function() {
+        				    
+        		    if (current_user_can('manage_options')) {
+        		        return true;
+        		    }
+				
+        		    $stored_secret = get_option('wplegalpages_api_secret');
+        		    $header_secret = isset($_SERVER['HTTP_X_WPLP_SECRET'])
+        		                        ? sanitize_text_field($_SERVER['HTTP_X_WPLP_SECRET'])
+        		                        : '';
+				
+        		    if ($stored_secret && $header_secret && $stored_secret === $header_secret) {
+        		        return true;
+        		    }
+				
+        		    return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 403));
+        		},
 			)
 		);
 		register_rest_route(
@@ -8024,6 +8103,21 @@ class Gdpr_Cookie_Consent_Admin {
 				)
 			);
 		}
+	}
+
+	function wplp_gdpr_generate_api_secret() {
+	    // Check if secret already exists
+	    if ( get_option('wplegalpages_api_secret') ) {
+	        return get_option('wplegalpages_api_secret');
+	    }
+
+	    // Generate a 32-character alphanumeric secret
+	    $secret = wp_generate_password(32, false);
+	
+	    // Store it in WP options
+	    update_option('wplegalpages_api_secret', $secret);
+
+	    return $secret;
 	}
 
 	/**

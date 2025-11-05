@@ -2460,6 +2460,9 @@ banner.style.display = "none";
             if (cookies && cookies.length != 0) {
               for (var c_key in cookies) {
                 var c_cookie = cookies[c_key];
+                if (c_cookie["name"] === "consent_version") {
+                  continue; // Skip the consent_version cookie as it is Unclassified
+                }
                 GDPR_Cookie.erase(c_cookie["name"]);
               }
             }

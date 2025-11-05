@@ -28,7 +28,7 @@ if ( ! class_exists( 'Gdpr_Cookie_Consent_Cookie_Serve_Api' ) ) {
 		 * @access public
 		 * @var string $wpl_api_url API Url.
 		 */
-		public $wpl_api_url = 'https://api.wpeka.com/wp-json/wplcookies/v2/';
+		public $wpl_api_url = 'https://app.wplegalpages.com/wp-json/wplcookies/v2/';
 		/**
 		 * API Path to get category details.
 		 *

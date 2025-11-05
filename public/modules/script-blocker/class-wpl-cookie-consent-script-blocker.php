@@ -389,7 +389,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						</c-col>
 					</c-row>
 					<c-row>
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' );?> <tooltip text="<?php esc_html_e( 'Automatically block scripts until user consent is given. Useful for GDPR, CCPA, and GCM compliance.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
 							<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="!enable_safe && is_script_blocker_on" v-on:update:checked="onSwitchingScriptBlocker" :disabled="enable_safe"></c-switch>
 							<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on" :disabled="enable_safe">
@@ -507,7 +507,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					</v-modal>
 				</c-card-body>
 					<c-row>
-						<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Whitelist Scripts', 'gdpr-cookie-consent' ); ?></div></c-col>
+						<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Whitelist Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Mark trusted scripts that don’t require blocking, even before consent is granted.', 'gdpr-cookie-consent' ); ?>"></tooltip></div></c-col>
 					</c-row>
 					<c-card-body  style="position:relative;">
 						<!-- Whitelist Scripts Card -->
