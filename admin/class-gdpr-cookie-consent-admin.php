@@ -7861,10 +7861,12 @@ class Gdpr_Cookie_Consent_Admin {
 
 		$is_other_cookie_plugin_activated = $this->gdpr_ensure_no_other_cookie_plugins_activated( $active_plugins );
 		
-		$monthly_scan = 1e7;
+		$monthly_scan = 0;
+		$monthly_scan_limit = 1e7;
 		if( $api_user_plan == 'free' ) {
 			$monthly_scan = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
 			$monthly_scan = (int) $monthly_scan;
+			$monthly_scan_limit = 5;
 		}
 
 		$gdpr_pages_scanned = get_option('gdpr_no_of_page_scan', 0);
@@ -7893,6 +7895,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'other_cookie_plugin_activated'    => $is_other_cookie_plugin_activated,
 				'law_type'                         => $gdpr_policy,
 				'monthly_scan'					   => $monthly_scan,
+				'monthly_scan_limit'			   => $monthly_scan_limit,
 				'total_pages_scanned'		 	   => $gdpr_pages_scanned,
 				'monthly_page_views'			   => $gdpr_monthly_page_views,
 				'consent_log_data' 				   => get_option( 'consent_log_saas', array() ),
