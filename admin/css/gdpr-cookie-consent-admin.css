@@ -4230,6 +4230,16 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   line-height: var(--text-sm-line-height-rem);
   text-transform: capitalize;
 }
+.gdpr-cookie-consent-admin-new-dashboard-btn a {
+  font-family: "Roboto", sans-serif;
+	font-size: 14px;
+	background-color: var(--white, #fff);
+	color: #084EA8;
+  border-radius: 6px;
+  padding: 10px;
+  font-weight: 600;
+	text-decoration: none;
+}
 .gdpr-cookie-consent-main-admin-header
   .gdpr-cookie-consent-admin-promotional-banner {
   margin: 20px;
