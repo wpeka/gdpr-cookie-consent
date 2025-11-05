@@ -167,21 +167,14 @@ if (GDPR_Cookie.exists("IABTCF_AddtlConsent")) {
   $(".vendor-all-switch-handler").each(function () {
     let flag = true;
     //venors which do no need consent and thier consent is not getting turned on when we turn on all vendors on swiitch
-    const invlaid_vendor_consents = [
-      46, 56, 63, 83, 126, 203, 205, 278, 279, 297, 308, 336, 415, 431, 466,
-      502, 509, 551, 572, 597, 612, 706, 729, 751, 762, 772, 801, 838, 845, 853,
-      872, 883, 892, 898, 911, 927, 925, 950, 953, 969, 1005, 1013, 1014, 1019,
-      1041, 1044, 1075, 1129, 1160, 1169, 1170, 1172, 1187, 1203, 1204, 1208,
-      1217, 1219, 1225, 1228, 1234, 1247, 1253, 1259, 1275, 1277, 1278, 1280,
-      1285, 1284, 1300, 1302, 1306, 1307, 1308, 1310, 1311, 1333,
-    ];
+    
     // Loop through each element in allVendors
     for (let i = 0; i < iabtcf.data.allvendors.length; i++) {
       const vendor = iabtcf.data.allvendors[i];
       // Check if the vendor exists in the consentArray
       if (
         !user_iab_consent.consent.includes(vendor) &&
-        !invlaid_vendor_consents.includes(vendor)
+        iabtcf.data.vendors[i].purposes.length != 0
       ) {
         flag = false;
         break;
@@ -417,6 +410,68 @@ function rejectTCModel() {
     jQuery(".gacm-vendor-switch-handler").prop("checked", false);
     jQuery(".gacm-vendor-all-switch-handler").prop("checked", false);
     jQuery(".vendor-all-switch-handler").prop("checked", false);
+    jQuery(".purposes-all-switch-handler").prop("checked", false);
+    jQuery(".purposes-switch-handler").prop("checked", false);
+    jQuery(".special-features-all-switch-handler").prop("checked", false);
+    jQuery(".special-features-switch-handler").prop("checked", false);
+  } catch (error) {
+    console.error("Error updating TCModel:", error);
+  }
+}
+
+function selectAllUpdateTCModel() {
+  try {
+    tcModel.vendorConsents.forEach((value, vendorId) => {
+      tcModel.vendorConsents.set(vendorId);
+    });
+
+    tcModel.vendorLegitimateInterests.forEach((value, vendorId) => {
+      tcModel.vendorLegitimateInterests.set(vendorId);
+    });
+
+    tcModel.purposeConsents.forEach((value, purposeId) => {
+      tcModel.purposeConsents.set(purposeId);
+    });
+
+    tcModel.purposeLegitimateInterests.forEach((value, purposeId) => {
+      tcModel.purposeLegitimateInterests.set(purposeId);
+    });
+
+    tcModel.specialFeatureOptins.forEach((value, featureId) => {
+      tcModel.specialFeatureOptins.set(featureId);
+    });
+
+    //creating ac string for google additional consent mode
+
+    var specVersion = "2";
+
+    user_gacm_consent = [];
+
+    // Part 5: List of disclosed vendors (from gacm_data that are NOT in user_gacm_consent)
+    var disclosedVendors = iabtcf.gacm_data.map((vendor) => vendor[0]);
+    var disclosedIds = disclosedVendors.join(".");
+
+    // Create the AC string
+    acString = `${specVersion}~~dv.${disclosedIds}`;
+    tcModel.addtlConsent = acString;
+
+    // Encode the updated tcModel
+    encodedString = TCString.encode(tcModel);
+    user_iab_consent.tcString = encodedString;
+    tcModel.tcString = encodedString;
+    GDPR_Cookie.set("wpl_tc_string", encodedString, 365);
+    GDPR_Cookie.set("IABTCF_AddtlConsent", acString, 365);
+
+    // Update the CMP state with the new TC string so that validator, vendors know about update and can read it
+    cmpApi.update(encodedString, true);
+    jQuery(".vendor-switch-handler").prop("checked", true);
+    jQuery(".gacm-vendor-switch-handler").prop("checked", true);
+    jQuery(".gacm-vendor-all-switch-handler").prop("checked", true);
+    jQuery(".vendor-all-switch-handler").prop("checked", true);
+    jQuery(".purposes-all-switch-handler").prop("checked", true);
+    jQuery(".purposes-switch-handler").prop("checked", true);
+    jQuery(".special-features-all-switch-handler").prop("checked", true);
+    jQuery(".special-features-switch-handler").prop("checked", true);
   } catch (error) {
     console.error("Error updating TCModel:", error);
   }
@@ -435,6 +490,11 @@ function rejectTCModel() {
     if (button_action == "accept") {
       tcModel.gvl.readyPromise.then(() => {
         updateTCModel();
+      });
+    }
+    if (button_action == "accept_all") {
+      tcModel.gvl.readyPromise.then(() => {
+        selectAllUpdateTCModel();
       });
     }
     if (button_action == "reject") {

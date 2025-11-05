@@ -82,7 +82,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '4.0.1';
+			$this->version = '4.0.2';
 		}
 		add_action(
 			'current_screen',
@@ -217,6 +217,8 @@ class Gdpr_Cookie_Consent {
 		 */
 		$plugin_admin->admin_modules();
 		$this->loader->add_action( 'init', $plugin_admin, 'gdpr_register_block_type' );
+		$this->loader->add_filter( 'cron_schedules', $plugin_admin,'add_every_minute_cron_schedule');
+		
 		if ( ! self::is_request( 'admin' ) ) {
 			$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'gdpr_quick_toolbar_menu', 999 );
 		}
@@ -243,6 +245,9 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_ajax_gcc_auto_generated_banner', $plugin_admin, 'gdpr_cookie_consent_ajax_auto_generated_banner', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_switch_preview_banner', $plugin_admin, 'gdpr_cookie_consent_ajax_switch_preview_banner', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_get_preview_banner_state', $plugin_admin, 'gdpr_cookie_consent_ajax_get_preview_banner_state', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gcc_save_schedule_scan', $plugin_admin, 'gdpr_cookie_consent_ajax_save_schedule_scan', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gcc_get_schedule_scan', $plugin_admin, 'gdpr_cookie_consent_ajax_get_schedule_scan', 10, 1);
+			$this->loader->add_action( 'wp_ajax_gcc_clear_schedule_scan', $plugin_admin, 'gdpr_cookie_consent_ajax_clear_schedule_scan',10,1 );
 			// added ajax callback for wizard.
 			$this->loader->add_action( 'wp_ajax_gcc_save_wizard_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_wizard_settings', 10, 1 );
 			// added ajax for import settings.
@@ -1270,6 +1275,7 @@ class Gdpr_Cookie_Consent {
 			}
 		}
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
+		$settings['scan_in_progress'] = get_option('gdpr_scanning_action_hash') ? true : false;
 		return $settings;
 	}
 

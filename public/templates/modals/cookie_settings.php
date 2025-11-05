@@ -270,81 +270,161 @@
 											<?php
 										}
 									} else {
-										if ( ( $the_options['button_settings_display_cookies'] === true || $the_options['button_settings_display_cookies'] === 'true' ) ) {
-											?>
-											<div class="category-cookies-list-container">
-												<?php
-												if ( $category['total'] >= '1' ) {
-													?>
-													<table class="table table-striped">
-													<thead class="thead-dark">
-													<tr>
-														<th><?php echo esc_html( $cookie_data['name'] ); ?></th>
-														<th><?php echo esc_html( $cookie_data['domain'] ); ?></th>
-														<th><?php echo esc_html( $cookie_data['purpose'] ); ?></th>
-														<th><?php echo esc_html( $cookie_data['expiry'] ); ?></th>
-														<th><?php echo esc_html( $cookie_data['type'] ); ?></th>
-													</tr>
-													</thead>
-													<tbody>
-														<?php
-														foreach ( $category['data'] as $cookie ) {
-															?>
-															<tr><td>
-																<?php
-																if ( $cookie['name'] ) {
-																	echo esc_html( $cookie['name'] );
-																} else {
-																	echo esc_html( '---' );
-																}
-																?>
-																</td>
-																<td>
-																<?php
-																if ( ! empty( $cookie['domain'] ) ) {
-																	echo esc_html( $cookie['domain'] );
-																} else {
-																	echo esc_html( '---' );
-																}
-																?>
-																</td>
-																<td>
-																<?php
-																if ( ! empty( $cookie['description'] ) ) {
-																	echo esc_html( $cookie['description'] );
-																} else {
-																	echo esc_html( '---' );
-																}
-																?>
-																</td>
-																<td>
-																<?php
-																if ( ! empty( $cookie['duration'] ) ) {
-																	echo esc_html( $cookie['duration'] );
-																} else {
-																	echo esc_html( '---' );
-																}
-																?>
-																</td>
-																<td>
-																<?php
-																if ( ! empty( $cookie['type'] ) ) {
-																	echo esc_html( $cookie['type'] );
-																} else {
-																	echo esc_html( '---' );
-																}
-																?>
-																</td></tr>
-															<?php
-														}
-														?>
-													</tbody>
-												</table>
-													<?php
-												}
+										//check if law is gdpr&ccpa (both)
+										if ( $the_options['cookie_usage_for'] === 'both'){
+											if ( ( $the_options['button_settings_display_cookies1'] === true || $the_options['button_settings_display_cookies1'] === 'true' ) ) {
 												?>
-										</div>
+												<div class="category-cookies-list-container">
+													<?php
+													if ( $category['total'] >= '1' ) {
+														?>
+														<table class="table table-striped">
+														<thead class="thead-dark">
+														<tr>
+															<th><?php echo esc_html( $cookie_data['name'] ); ?></th>
+															<th><?php echo esc_html( $cookie_data['domain'] ); ?></th>
+															<th><?php echo esc_html( $cookie_data['purpose'] ); ?></th>
+															<th><?php echo esc_html( $cookie_data['expiry'] ); ?></th>
+															<th><?php echo esc_html( $cookie_data['type'] ); ?></th>
+														</tr>
+														</thead>
+														<tbody>
+															<?php
+															foreach ( $category['data'] as $cookie ) {
+																?>
+																<tr><td>
+																	<?php
+																	if ( $cookie['name'] ) {
+																		echo esc_html( $cookie['name'] );
+																	} else {
+																		echo esc_html( '---' );
+																	}
+																	?>
+																	</td>
+																	<td>
+																	<?php
+																	if ( ! empty( $cookie['domain'] ) ) {
+																		echo esc_html( $cookie['domain'] );
+																	} else {
+																		echo esc_html( '---' );
+																	}
+																	?>
+																	</td>
+																	<td>
+																	<?php
+																	if ( ! empty( $cookie['description'] ) ) {
+																		echo esc_html( $cookie['description'] );
+																	} else {
+																		echo esc_html( '---' );
+																	}
+																	?>
+																	</td>
+																	<td>
+																	<?php
+																	if ( ! empty( $cookie['duration'] ) ) {
+																		echo esc_html( $cookie['duration'] );
+																	} else {
+																		echo esc_html( '---' );
+																	}
+																	?>
+																	</td>
+																	<td>
+																	<?php
+																	if ( ! empty( $cookie['type'] ) ) {
+																		echo esc_html( $cookie['type'] );
+																	} else {
+																		echo esc_html( '---' );
+																	}
+																	?>
+																	</td></tr>
+																<?php
+															}
+															?>
+														</tbody>
+													</table>
+														<?php
+													}
+													?>
+												</div>
 											<?php
+											}
+										}else{
+											if ( ( $the_options['button_settings_display_cookies'] === true || $the_options['button_settings_display_cookies'] === 'true' ) ) {
+												?>
+												<div class="category-cookies-list-container">
+													<?php
+													if ( $category['total'] >= '1' ) {
+														?>
+														<table class="table table-striped">
+														<thead class="thead-dark">
+														<tr>
+															<th><?php echo esc_html( $cookie_data['name'] ); ?></th>
+															<th><?php echo esc_html( $cookie_data['domain'] ); ?></th>
+															<th><?php echo esc_html( $cookie_data['purpose'] ); ?></th>
+															<th><?php echo esc_html( $cookie_data['expiry'] ); ?></th>
+															<th><?php echo esc_html( $cookie_data['type'] ); ?></th>
+														</tr>
+														</thead>
+														<tbody>
+															<?php
+															foreach ( $category['data'] as $cookie ) {
+																?>
+																<tr><td>
+																	<?php
+																	if ( $cookie['name'] ) {
+																		echo esc_html( $cookie['name'] );
+																	} else {
+																		echo esc_html( '---' );
+																	}
+																	?>
+																	</td>
+																	<td>
+																	<?php
+																	if ( ! empty( $cookie['domain'] ) ) {
+																		echo esc_html( $cookie['domain'] );
+																	} else {
+																		echo esc_html( '---' );
+																	}
+																	?>
+																	</td>
+																	<td>
+																	<?php
+																	if ( ! empty( $cookie['description'] ) ) {
+																		echo esc_html( $cookie['description'] );
+																	} else {
+																		echo esc_html( '---' );
+																	}
+																	?>
+																	</td>
+																	<td>
+																	<?php
+																	if ( ! empty( $cookie['duration'] ) ) {
+																		echo esc_html( $cookie['duration'] );
+																	} else {
+																		echo esc_html( '---' );
+																	}
+																	?>
+																	</td>
+																	<td>
+																	<?php
+																	if ( ! empty( $cookie['type'] ) ) {
+																		echo esc_html( $cookie['type'] );
+																	} else {
+																		echo esc_html( '---' );
+																	}
+																	?>
+																	</td></tr>
+																<?php
+															}
+															?>
+														</tbody>
+													</table>
+														<?php
+													}
+													?>
+											</div>
+												<?php
+											}
 										}
 									}
 									?>
