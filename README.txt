@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.8.1
-Stable tag: 4.0.2
+Stable tag: 4.0.3
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -215,6 +215,10 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 11.Consent Log table
 
 == Change Log ==
+
+= 4.0.3 =
+* Improved Cookie Scanner: The scanner now runs in the background and automatically emails you a detailed summary once the scan is complete, making cookie detection faster, hands-free, and more convenient.
+* Minor bug fixes and improvements.
 
 = 4.0.2 =
 * Minor bug fixes and improvements.
@@ -720,6 +724,10 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Initial version
 
 == Upgrade Notice ==
+
+= 4.0.3 =
+* Improved Cookie Scanner: The scanner now runs in the background and automatically emails you a detailed summary once the scan is complete, making cookie detection faster, hands-free, and more convenient.
+* Minor bug fixes and improvements.
 
 = 4.0.2 =
 * Minor bug fixes and improvements.
