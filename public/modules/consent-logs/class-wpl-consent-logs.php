@@ -429,6 +429,8 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$this->args = $args;
 
 		$requests = $this->get_requests( $args );
+
+		$consent_log_saas = array();
 		
 		if ( $requests ) {
 			foreach ( $requests as $request ) {
@@ -441,7 +443,30 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'wplconsentlogsforwarded' => $request['wplconsentlogsforwarded'] ?? null,
 					'wplconsentlogspdf'       => $request['wplconsentlogspdf'],
 				);
+
+				$consent_log_saas[] = array(
+					'ip'				=> $request['wplconsentlogsip'],
+					'country' 			=> $request['wplconsentlogscountry'],
+					'consent_status' 	=> wp_strip_all_tags( $request['wplconsentlogstatus'] ),
+					'date' 				=> $request['wplconsentlogsdates'],
+				);
 			}
+		}
+
+		// Sort the array by 'date' in descending order (newest first)
+		usort( $consent_log_saas, function( $a, $b ) {
+		    $dateA = strtotime( $a['date'] ?? '' );
+		    $dateB = strtotime( $b['date'] ?? '' );
+		    return $dateB <=> $dateA; // descending order
+		});
+	
+		// Keep only the 5 most recent entries
+		$consent_log_saas = array_slice( $consent_log_saas, 0, 5 );
+
+		if ( get_option( 'consent_log_saas' ) === false ) {
+		    add_option( 'consent_log_saas', $consent_log_saas );
+		} else {
+		    update_option( 'consent_log_saas', $consent_log_saas );
 		}
 
 		return apply_filters( 'wpl_datarequest_data', $data );
