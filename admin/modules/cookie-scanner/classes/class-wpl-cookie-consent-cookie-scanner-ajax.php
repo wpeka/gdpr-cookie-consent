@@ -56,7 +56,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	}
 
 	public function ajax_check_gcm_status(){
-		$wpl_api_url = 'https://appstaging.wplegalpages.com//wp-json/wplcookies/v2/';
+		$wpl_api_url = 'https://app.wplegalpages.com/wp-json/wplcookies/v2/';
 		$site_url      = site_url();
 		$response_url   = get_rest_url(null, 'gdpr/v2/update_gcm_status');
 		$response      = wp_remote_get( $wpl_api_url . 'get_gcm_status' . '?url=' . $site_url . '&response_url=' . $response_url );
@@ -145,7 +145,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 						)
 					);
 		unset( $post_types['attachment'] );
-		error_log("Post types: ". print_r($post_types, true));
 
 		$the_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$restrict_posts = $the_options['restrict_posts'];
@@ -167,7 +166,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			}
 		}
 		array_push($pages_array, get_home_url());
-		error_log("Pages array: " . print_r($pages_array, true));
 		$scan_limit     = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
 		$scan_limit_int = (int) $scan_limit; 
 		if(false === $scan_limit){
@@ -194,10 +192,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		);
 
 		
-		error_log("sending details: " . print_r($body, true));
 
 		$response = wp_remote_post(
-			'https://appstaging.wplegalpages.com//wp-json/wplcookies/v2/start_scan',
+			'https://app.wplegalpages.com/wp-json/wplcookies/v2/start_scan',
 			array(
 				'method'      => 'POST',
 				'timeout'     => 20,
@@ -216,12 +213,12 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 
 		$data = json_decode( wp_remote_retrieve_body( $response ), true );
 
-		error_log("Incoming data: " . print_r($data, true));
 		
-
+		if(isset($data['account_details'])){
+			update_option( 'wpeka_api_framework_app_settings', $data['account_details'] );
+		}
 		if ( isset($data['status']) && $data['status'] === 'scanning' ) {
 			update_option( 'gdpr_scanning_action_hash', $hash );
-			error_log("Stats: " . print_r(wp_next_scheduled('gdpr_check_scan_results_event'), true));
 			if ( ! wp_next_scheduled( 'gdpr_check_scan_results_event' ) ) {
 				add_filter( 'cron_schedules', function( $schedules ) {
 					$schedules['every_minute'] = array(
@@ -247,30 +244,26 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	}
 
 	function gdpr_check_scan_results($total_pages) {
-		error_log("Getting result of scan");
 		$hash = get_option( 'gdpr_scanning_action_hash' );
 
 		if ( empty( $hash ) ) {
 			return; // Nothing to do
 		}
 
-		$response = wp_remote_get( 'https://appstaging.wplegalpages.com//wp-json/wplcookies/v2/get_post_cookie_details' . '?hash=' . $hash,
+		$response = wp_remote_get( 'https://app.wplegalpages.com/wp-json/wplcookies/v2/get_post_cookie_details' . '?hash=' . $hash,
 				array(
 					'timeout' => 30, // timeout in seconds
 				) );
 
 		if ( is_wp_error( $response ) ) {
-			error_log( 'GDPR Scan: API error - ' . $response->get_error_message() );
 			return;
 		}
 
 		$data = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( empty( $data ) ) {
-			error_log( 'GDPR Scan: Empty API response' );
 			return;
 		}
-		error_log("SCAn results: " . print_r($data, true));
 
 		// If scanner is still running, just exit
 		if ( isset( $data['status'] ) && $data['status'] === 'scanning' ) {
@@ -281,7 +274,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		else {
 			delete_option( 'gdpr_scanning_action_hash' );
 			$data = json_decode($data, true);
-			error_log(" data decoded : " . print_r($data, true));
 			$policies_arr = isset( $data['policies'] ) ? $data['policies'] : '';
 			$cookies_arr = isset($data['cookies']) ? $data['cookies'] : '';
 			// add new policy data.
@@ -361,7 +353,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 					$domain   = isset( $cookie['domain'] ) ? sanitize_text_field( $cookie['domain'] ) : '';
 					$duration = isset( $cookie['duration'] ) ? sanitize_text_field( $cookie['duration'] ) : '';
 					$type     = isset( $cookie['type'] ) ? sanitize_text_field( $cookie['type'] ) : '';
-					$category = isset( $cookie['category'] ) ? sanitize_text_field( $cookie['category'] ) : 'Unclassified';
+					$category = isset( $cookie['category_slug'] ) ? sanitize_text_field( $cookie['category_slug'] ) : 'unclassified';
 
 					if ( empty( $name ) ) {
 						continue; // skip malformed cookie objects
@@ -384,7 +376,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 						$wpdb->prepare(
 							"SELECT id_gdpr_cookie_category 
 							FROM $category_table 
-							WHERE gdpr_cookie_category_name = %s 
+							WHERE gdpr_cookie_category_slug = %s 
 							LIMIT 1",
 							$category
 						)
@@ -393,7 +385,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 						$category_id = $wpdb->get_var(
 							"SELECT id_gdpr_cookie_category 
 							FROM $category_table 
-							WHERE gdpr_cookie_category_name = 'Unclassified' 
+							WHERE gdpr_cookie_category_slug = 'unclassified' 
 							LIMIT 1"
 						);
 					}
