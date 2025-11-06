@@ -265,6 +265,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 		$params = array(
 			'nonces'                 => array(
 				'gdpr_cookie_custom' => wp_create_nonce( 'gdpr_cookie_custom' ),
+				'gdpr_cookie_consent_cookie_deletion_nonce' => wp_create_nonce( 'gdpr_cookie_consent_cookie_deletion_nonce' ),
 			),
 			'ajax_url'               => admin_url( 'admin-ajax.php' ),
 			'loading_gif'            => plugin_dir_url( __FILE__ ) . 'assets/images/loading.gif',
