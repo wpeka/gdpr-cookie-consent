@@ -4266,7 +4266,20 @@ class Gdpr_Cookie_Consent_Admin {
 								</svg>
 							</span>
 
-								<?php if($template['logo']['src'] !== '') { ?><img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template['logo']['src']; ?>" >
+								<?php if($template['logo']['src'] !== '') { 
+									?>
+									<div style="display: flex; flex-direction: row; gap: 10px; align-items:center;">
+										<img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template['logo']['src']; ?>" >
+										<?php
+											if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+												<h3 style = "<?php echo esc_attr($heading_style_attr); ?> font-weight:700;" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
+											<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
+												<h3 style = "<?php echo esc_attr($heading_style_attr); ?> font-weight:700"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
+												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="lgpd_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
+											<?php elseif( $template['name'] === 'blue_split' ) : ?> <h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
+											<?php endif; ?>
+									</div>
 								<?php }else { ?>
 									<!-- <p style="height: 30px;"></p> -->
 								<?php } ?>
@@ -4278,16 +4291,8 @@ class Gdpr_Cookie_Consent_Admin {
 										
 								
 								<div class="<?php echo esc_attr($template['static-settings']['layout']);?>">
-									<div style="display: flex; flex-direction: column; gap: 10px;">
-										<?php
-											if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-												<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
-												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
-											<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-												<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
-												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="lgpd_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
-											<?php elseif( $template['name'] === 'blue_split' ) : ?> <h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
-											<?php endif; ?>
+									<!-- <div style="display: flex; flex-direction: column; gap: 10px;"> -->
+										
 										<p>
 											<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
 												<span v-html ="gdpr_message"></span>
@@ -4306,7 +4311,7 @@ class Gdpr_Cookie_Consent_Admin {
 												<?php endif; ?>
 											</a>
 										</p>
-									</div>
+									<!-- </div> -->
 									
 									<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) : ?>
 										<div class="cookie_notice_buttons <?php echo esc_attr($template['static-settings']['layout']) . '-buttons';?>">
@@ -4394,7 +4399,20 @@ class Gdpr_Cookie_Consent_Admin {
 							</span>
 
 
-								<?php if($template['logo']['src'] !== '') { ?><img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template['logo']['src']; ?>" > 
+								<?php if($template['logo']['src'] !== '') { 
+									?>
+								<div style="display: flex; flex-direction: row; gap: 10px; align-items:center <?php if($template['name'] === 'bold') echo "height: 100%;"; ?>">
+									<img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template['logo']['src']; ?>" >
+									<?php
+											if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
+												<h3 style = "<?php echo esc_attr($heading_style_attr); ?> font-weight:700;" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
+												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
+											<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
+												<h3 style = "<?php echo esc_attr($heading_style_attr); ?> font-weight:700;"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
+												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="lgpd_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
+											<?php elseif( $template['name'] === 'blue_split' ) : ?> <h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
+											<?php endif; ?>
+									</div>
 								<?php }else { ?>
 									<p style="height: 20px;"></p>
 								<?php } ?>
@@ -4407,16 +4425,8 @@ class Gdpr_Cookie_Consent_Admin {
 										
 								
 								<div class="<?php echo esc_attr($template['static-settings']['layout']);?>">
-									<div style="display: flex; flex-direction: column; gap: 5px; <?php if($template['name'] === 'bold') echo "height: 100%;"; ?>">
-										<?php
-											if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
-												<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length>0">{{gdpr_message_heading}}</h3>
-												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="gdpr_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
-											<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-												<h3 style = "<?php echo esc_attr($heading_style_attr); ?>"  v-if="lgpd_message_heading.length>0">{{lgpd_message_heading}}</h3>
-												<?php if( $template['name'] === 'blue_split' ){ ?><h3 style = "<?php echo esc_attr($heading_style_attr); ?>" v-if="lgpd_message_heading.length===0"><?php echo esc_html("We value your privacy"); ?></h3> <?php } ?>
-											<?php elseif( $template['name'] === 'blue_split' ) : ?> <h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
-											<?php endif; ?>
+									<!-- <div style="display: flex; flex-direction: column; gap: 5px; <?php if($template['name'] === 'bold') echo "height: 100%;"; ?>"> -->
+										
 										<p>
 											<?php if ( $the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) : ?>
 												<span v-html ="gdpr_message"></span>
@@ -4435,7 +4445,7 @@ class Gdpr_Cookie_Consent_Admin {
 												<?php endif; ?>
 											</a>
 										</p>
-									</div>
+									<!-- </div> -->
 									
 									<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) : ?>
 										<div class="cookie_notice_buttons <?php echo esc_attr($template['static-settings']['layout']) . '-buttons';?>">
@@ -4481,6 +4491,7 @@ class Gdpr_Cookie_Consent_Admin {
 		<?php	
 			$this->template_card($the_options,json_decode($the_options['selected_template_json'], true));
 			if(!$is_user_connected) : ?>
+				<p>hiiii</p>
 				<div class="template_loader_container">
 					<div :class=" 'template_loader loader-type-' + show_cookie_as ">
 						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/mock_banner_overlay.png'; ?>" class="mock_banner" />
@@ -4513,6 +4524,8 @@ class Gdpr_Cookie_Consent_Admin {
 					</div>
 				</div>
 			<?php else : ?>
+				<p>hiiii222</p>
+
 				<div class="more_templates_option_container">
 					<div class=" more_templates_option ">
 						<img src = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/banner_designs_templates.png'; ?>"/>
