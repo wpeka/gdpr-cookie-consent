@@ -7873,6 +7873,9 @@ class Gdpr_Cookie_Consent_Admin {
 
 		$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
 
+		$saved_schedule_data = get_option('gdpr_scan_schedule_data', array());
+		$schedule_scan_when = isset($saved_schedule_data['schedule_scan_when']) ? $saved_schedule_data['schedule_scan_when'] : null;
+
 		ob_end_clean();
 
 		return rest_ensure_response(
@@ -7881,7 +7884,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'user_plan'						   => $api_user_plan,
 				'product_id'                       => $product_id,
 				'last_scan_time'             	   => $last_scan_time,
-				'schedule_scan_time'               => isset( $the_options['schedule_scan_when'] ) ? $the_options['schedule_scan_when'] : null,
+				'schedule_scan_time'               => $schedule_scan_when,
 				'total_cookies'                    => $total_no_of_found_cookies,
 				'total_scanned_pages'              => $total_scanned_pages,
 				'categories'          			   => $number_of_categories,
