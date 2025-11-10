@@ -12275,9 +12275,8 @@ var scb = new Vue({
       }
 
       for (let i = 0; i < this.scripts_list_total; i++) {
-        this.scripts_list_data[i]["script_status"] = Boolean(
-          parseInt(this.scripts_list_data[i]["script_status"])
-        );
+        var rawStatus = this.scripts_list_data[i]["script_status"];
+        this.scripts_list_data[i]["script_status"] = rawStatus === true || rawStatus === "1" || rawStatus === 1;
         for (let j = 0; j < this.category_list_options.length; j++) {
           if (
             this.category_list_options[j].code ===
@@ -12332,6 +12331,7 @@ var scb = new Vue({
       }
     },
     onSwitchScriptBlocker(script_id) {
+      console.log("ID : " , script_id);
       j("#gdpr-cookie-consent-updating-settings-alert-scb").fadeIn(200);
       j("#gdpr-cookie-consent-updating-settings-alert-scb").fadeOut(2000);
       var that = this;
