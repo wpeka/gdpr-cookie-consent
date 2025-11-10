@@ -7691,6 +7691,12 @@ button.btn.gdpr-renew-now-btn.pro,
   color: #787878;
   font-weight: 400;
 }
+.ab-testing-doc-link{
+  margin-left: 0;
+  font-size: var(--text-2xs-font-size) !important;
+  text-decoration: underline;
+  font-weight: 400;
+}
 .ab_testing-card .ab_testing_analytics {
   width: 700px;
   padding: 20px 50px;

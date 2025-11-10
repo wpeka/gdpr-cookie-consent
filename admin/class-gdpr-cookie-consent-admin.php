@@ -1919,6 +1919,10 @@ class Gdpr_Cookie_Consent_Admin {
 							<?php $policy_data->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
 						</div>
 					</div>
+					<span>
+							<?php esc_html_e('Policy Data shows the third party 3rd Party cookie table.','gdpr-cookie-consent') ?>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/settings/policy-data/" target="_blank">Learn more here.</a>
+						</span>
 					<?php
 						// $policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 						$policy_data->display();
