@@ -12331,7 +12331,6 @@ var scb = new Vue({
       }
     },
     onSwitchScriptBlocker(script_id) {
-      console.log("ID : " , script_id);
       j("#gdpr-cookie-consent-updating-settings-alert-scb").fadeIn(200);
       j("#gdpr-cookie-consent-updating-settings-alert-scb").fadeOut(2000);
       var that = this;
