@@ -4631,6 +4631,16 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 
+	public function add_every_minute_cron_schedule( $schedules ) {
+        if ( ! isset( $schedules['every_minute'] ) ) {
+            $schedules['every_minute'] = array(
+                'interval' => 60,
+                'display'  => __( 'Every Minute' ),
+            );
+        }
+        return $schedules;
+    }
+
 	/**
 	 * Ajax callback for setting page.
 	 */

@@ -116,7 +116,7 @@ var gen = new Vue({
       show_more_cookie_design_popup: false,
       schedule_scan_show: false,
       show_custom_cookie_popup: false,
-      scan_in_progress: false,
+      scan_in_progress: settings_obj.the_options["scan_in_progress"],
 
       gcm_scan_result: settings_obj.ab_options.hasOwnProperty("wpl_gcm_latest_scan_result")
         ? settings_obj.ab_options["wpl_gcm_latest_scan_result"]
@@ -12631,7 +12631,7 @@ var ckm = new Vue({
       pollCount: 0,
       onPrg: 0,
       discovered_cookies_list_tab: true,
-      scan_in_progress: false,
+      scan_in_progress: settings_obj.the_options["scan_in_progress"],
       schedule_scan_show: false,
       schedule_scan_options: settings_obj.schedule_scan_options,
       schedule_scan_as: settings_obj.the_options.hasOwnProperty(
@@ -13290,9 +13290,51 @@ var ckm = new Vue({
       setInterval(checkAndRunScan, 60000);
     },
     onClickStartScan(singlePageScan = false) {
-      this.scan_in_progress = true;
-      this.continue_scan = 1;
-      this.doScan(singlePageScan);
+      var that = this;
+      var hash = Math.random().toString( 36 ).replace( '0.', '' );
+      var data = {
+        action: "wpl_cookie_start_scanning",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+        hash: hash,
+      };
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (!data.success) {
+            // This is actually an "error"
+            if (data.data?.message === 'Scanning already in progress'){
+              that.success_error_message = "A scanning is already in progress. Please wait for it to complete.";
+            }
+            else if (data.data?.message === 'Failed to contact scanner server'){
+              that.success_error_message = "Failed to contact the scanning server, please refresh and try. If the problem persists, please raise a support ticket."
+            }
+            else if (data.data.server_response?.status === 'Pages limit reached') {
+              that.success_error_message = "You have exhausted your pages limit. Please upgrade your plan to continue scanning.";
+            } else if (data.data.server_response?.status === 'Monthly scan limit reached') {
+              that.success_error_message = "You have exhausted your monthly scan limit. Either wait for a month or upgrade your plan to continue scanning.";
+            } else {
+              that.success_error_message = data.data.message;
+            }
+
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css("background-color", "#e55353");
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(4500);
+          } else {
+            
+            that.success_error_message = "Scanning has started. You will be notified via mail once scan is completed.";
+            that.scan_in_progress = true;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css("background-color", "#72b85c");
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(4500);
+          }
+        },
+        error: function (e) {
+          console.log("Error: ", e);
+        },
+      });
     },
     doScan(singlePageScan = false) {
       var that = this;
