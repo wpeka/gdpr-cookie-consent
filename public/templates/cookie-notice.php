@@ -212,7 +212,15 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 );
 			if (!empty($get_banner_img)) {
 				?>
-					<div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+					<!-- <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;"> -->
+						<div style="
+						display: flex;
+						align-items: <?php echo ($template_object['name'] === 'blue_split') ? '' : 'center'?>;
+						gap: 10px;
+						flex-wrap: wrap;
+						flex-direction: <?php echo ($template_object['name'] === 'blue_split') ? 'column' : 'row'; ?>;
+					">
+
 
 					<img style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 					<?php
@@ -233,7 +241,18 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 			}
 			else{
 				if($template_object['logo']['src'] !== '') { ?>
-				<div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+				<div 	class="<?php echo in_array($template_object['name'], ['bold', 'dark'], true) ? 'gdpr-flex-row' : 'gdpr-flex-column'; ?>"									
+				style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+					 
+				<!-- <div 
+				style="
+						display: flex;
+						align-items: <?php echo ($template_object['name'] === 'blue_split') ? '' : 'center'?>;
+						gap: 10px;
+						flex-wrap: wrap;
+						flex-direction: <?php echo ($template_object['name'] === 'blue_split') ? 'column' : 'row'; ?>;
+					"> -->
+
 				<img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template_object['logo']['src']; ?>" > 
 				<?php
 							if ( ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) && strlen($the_options['bar_heading_text']) > 0) : ?>
@@ -258,7 +277,15 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 			if (!empty($get_banner_img)) {
 				?>
-					<div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+					<!-- <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;"> -->
+						<div style="
+						display: flex;
+						align-items: <?php echo ($template_object['name'] === 'blue_split') ? '' : 'center'?>;
+						gap: 10px;
+						flex-wrap: wrap;
+						flex-direction: <?php echo ($template_object['name'] === 'blue_split') ? 'column' : 'row'; ?>;
+					">
+
 
 					<img style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img ); ?>" >
 					<?php
@@ -278,7 +305,16 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 			}
 			else{
 				if($template_object['logo']['src'] !== '') { ?>
-				<div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+				<!-- <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;"> -->
+					<!-- <div style="
+						display: flex;
+						align-items: <?php echo ($template_object['name'] !== 'bold') ? '' : 'center'?>;
+						gap: 10px;
+						flex-wrap: wrap;
+						flex-direction: <?php echo ($template_object['name'] !== 'bold') ? 'column' : 'row'; ?>;
+					"> -->
+					<div 	class="<?php echo in_array($template_object['name'], ['bold', 'dark'], true) ? 'gdpr-flex-row' : 'gdpr-flex-column'; ?>"									
+				style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
 
 				<img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template_object['logo']['src']; ?>" > 
 				<?php
@@ -316,7 +352,15 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 					$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
 					if (!empty($get_banner_img2)) {
 					?>
-						<div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+						<!-- <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;"> -->
+							<div style="
+						display: flex;
+						align-items: <?php echo ($template_object['name'] === 'blue_split') ? '' : 'center'?>;
+						gap: 10px;
+						flex-wrap: wrap;
+						flex-direction: <?php echo ($template_object['name'] === 'blue_split') ? 'column' : 'row'; ?>;
+					">
+
 						<img style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" alt="logo-image" src="<?php echo esc_url_raw( $get_banner_img2 ); ?>" >
 						<?php
 							if ( ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) && strlen($the_options['bar_heading_text']) > 0) : ?>
@@ -335,8 +379,19 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 				}
 				else{
 					if($template_object['logo']['src'] !== '') { ?>
-					<div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-					<img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template_object['logo']['src']; ?>" > <?php 
+					<!-- <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;"> -->
+					<div style="
+						display: flex;
+						align-items: <?php echo ($template_object['name'] === 'blue_split') ? '' : 'center'?>;
+						gap: 10px;
+						flex-wrap: wrap;
+						flex-direction: <?php echo ($template_object['name'] === 'blue_split') ? 'column' : 'row'; ?>;
+					">
+
+					<img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template_object['logo']['src']; ?>" >
+					
+					<?php 
+					
 					if ( ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) && strlen($the_options['bar_heading_text']) > 0) : ?>
 						<h3 class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr_heading';?>" style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html($the_options['bar_heading_text']); ?></h3>
 					<?php elseif ( ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) && strlen($the_options['bar_heading_text']) === 0 && $template_object['name'] === 'blue_split') : ?> 
