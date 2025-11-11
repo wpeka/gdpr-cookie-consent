@@ -13835,6 +13835,7 @@ var ckm = new Vue({
       var that = this;
       var data = {
         action: "wpl_cookies_deletion",
+        security: settings_obj.cookie_scan_settings.nonces.gdpr_cookie_consent_cookie_deletion_nonce,
       };
       j.ajax({
         url: settings_obj.cookie_scan_settings.ajax_url,
