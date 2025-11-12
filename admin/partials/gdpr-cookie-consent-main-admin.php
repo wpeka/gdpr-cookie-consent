@@ -186,7 +186,8 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 							} 
 						?>
 						<!-- Legal Pages Plugin tab  -->
-						<a href="?page=legal-pages#settings" class="gdpr-admin-tab-link wplp-main-tab">
+						<?php $lp_terms_accepted = get_option('lp_accept_terms');?>
+                        <a href="<?php echo $lp_terms_accepted === '1' ? '?page=legal-pages#settings' : '?page=legal-pages' ?>" class="gdpr-admin-tab-link wplp-main-tab">
 							<div class="wplp-admin-tab-link-content">
 								<div class="wp-legalpages-admin-gdpr-main-tab wplp-admin-tab-link-left">
 									<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
