@@ -21,74 +21,31 @@
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
-.gdpr-flex-row {
-  flex-direction: row;
-  align-items: center;
-  /* justify-content: center; */
-  /* text-align: left; */
-}
-
-.gdpr-flex-column {
-  flex-direction: column;
-  /* justify-content: center;
-  text-align: center; */
-}
-
 #gdpr-cookie-consent-bar.gdpr-popup, #gdpr-cookie-consent-bar.gdpr-widget{
-  width: 768px;
-  padding: 30px;
+  width: 700px;
+  padding: 40px;
   padding-top: 50px;
 }
-#gdpr-cookie-consent-bar.gdpr-popup .side_column,
-#gdpr-cookie-consent-bar.gdpr-widget .side_column {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(20px, 3vw, 40px); /* adaptive spacing */
-  align-items: center;
-  justify-content: space-between;
-}
-#gdpr-cookie-consent-bar.gdpr-popup .row_spaced,
-#gdpr-cookie-consent-bar.gdpr-widget .row_spaced {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(20px, 3vw, 40px); /* adaptive spacing */
-  /* align-items: center; */
-  justify-content: space-between;
-}
-
-#gdpr-cookie-consent-bar.gdpr-popup .side_column-buttons:has(.left_buttons > *:nth-child(2)):has(.right_buttons > *:nth-child(2)),
-#gdpr-cookie-consent-bar.gdpr-widget .side_column-buttons:has(.left_buttons > *:nth-child(2)):has(.right_buttons > *:nth-child(2))
-{
-    flex-direction: column;
-    flex-wrap: nowrap;
-}
-
-/* #gdpr-cookie-consent-bar.gdpr-popup .row_spaced-buttons:has(.left_buttons > *:nth-child(2)):has(.right_buttons > *:nth-child(2)),
-#gdpr-cookie-consent-bar.gdpr-widget .row_spaced-buttons:has(.left_buttons > *:nth-child(2)):has(.right_buttons > *:nth-child(2))
-{
-    flex-direction: column;
-    flex-wrap: nowrap;
-} */
-
 #gdpr-cookie-consent-bar h3{
   color: inherit;
   margin: 0;
-  font-weight: 700;
-  font-size: 24px;
+  font-weight: 500;
+  font-size: 22px;
 }
 #gdpr-cookie-consent-bar p{
     margin: 0;
     color: inherit;
     font-weight: var(--text-regular-font-weight);
-    font-size: 18px;
+    font-size: 14px;
     text-align: justify;
     text-wrap: auto;
 }
 #gdpr-cookie-consent-bar 
   .cookie_notice_buttons a{
     font-weight: var(--text-regular-font-weight);
-    font-size: 20px;
+    font-size: 14px;
 }
+
 #gdpr-cookie-consent-bar 
   .cookie_notice_buttons{
     display: flex;
@@ -99,16 +56,7 @@
   .cookie_notice_buttons
   .left_buttons{
     display: flex;
-    gap: 24px;
-}
-#gdpr-cookie-consent-bar.dark .cookie_notice_buttons
-  .right_buttons,
-  #gdpr-cookie-consent-bar.dark
-  .cookie_notice_buttons
-  .left_buttons{
-    display: flex;
-    /* gap: 10px; */
-    gap: 24px;
+    gap: 10px;
 }
 #gdpr-cookie-consent-bar .row_spaced{
   display: flex;
@@ -117,20 +65,20 @@
 }
 #gdpr-cookie-consent-bar .row_spaced-buttons{
   flex-direction: row;
-  gap: 24px;
+  gap: 10px;
   justify-content: space-between;
 }
 
 #gdpr-cookie-consent-bar .side_column{
   display: flex;
   flex-direction: row;
-  gap: clamp(20px, 5vw, 90px); /* adaptive spacing */
+  gap: 25px;
   align-items: center;
   justify-content: space-between;
 }
 #gdpr-cookie-consent-bar .side_column-buttons{
-  flex-direction: row;
-  gap: 24px;
+  flex-direction: column-reverse;
+  gap: 10px;
   justify-content: center;
 }
 
@@ -205,7 +153,7 @@
 #gdpr-cookie-consent-bar.gdpr-banner.bold{
   flex-direction: column !important;
   justify-content: center;
-  gap: 20px !important;
+  gap: 5px !important;
 }
 #gdpr-cookie-consent-bar.gdpr-banner.bold .powered-by-credits{
   position: absolute;
@@ -261,7 +209,7 @@
     top: 100px;
     width: calc(25% - 50px);
 }
-#gdpr-cookie-consent-bar.blue_split.gdpr-banner h3{
+#gdpr-cookie-consent-bar.blue_split.gdpr-banner .gdpr-notice-content-body h3{
     left: 120px;
     top: 82px;
     width: calc(25% - 130px);
@@ -356,7 +304,7 @@
   #gdpr-cookie-consent-bar .small_row_big_column {
     margin-left: calc(25% - 50px);
   }
-  #gdpr-cookie-consent-bar.blue_split.gdpr-banner h3{
+  #gdpr-cookie-consent-bar.blue_split.gdpr-banner .gdpr-notice-content-body h3{
     left: 56px;
     width: calc(25% - 66px);
   }
@@ -375,10 +323,10 @@
     flex: auto;
   }
 }
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   #gdpr-cookie-consent-bar 
   .cookie_notice_buttons a{
-    font-size: 14px;
+    font-size: 12px;
     padding: 12px 30px !important;
   }
   #gdpr-cookie-consent-bar.gdpr-popup, #gdpr-cookie-consent-bar.gdpr-widget{
@@ -388,22 +336,13 @@
     padding: 30px;
     padding-top: 50px;
   }
-    #gdpr-cookie-consent-bar.gdpr-popup.dark, #gdpr-cookie-consent-bar.gdpr-widget{
-    width: calc(100vw - 30px);
-    left:15px;
-    right: 15px;
-    padding: 30px;
-    padding-top: 50px;
-    align-items: center;
-  }
   #gdpr-cookie-consent-bar.gdpr-banner{
     padding: 20px;
-    padding-top:30px;
+    padding-top:50px;
     padding-bottom: 30px;
   }
   #gdpr-cookie-consent-bar.bold .side_column {
     flex-direction: column;
-    gap: 21px;
   }
 
   #gdpr-cookie-consent-bar .row_full-buttons{
@@ -431,7 +370,7 @@
   #gdpr-ccpa-gdprmodal .gdprmodal-content {
     height: 210px;
   }
-  #gdpr-cookie-consent-bar.blue_split.gdpr-banner h3{
+  #gdpr-cookie-consent-bar.blue_split.gdpr-banner .gdpr-notice-content-body h3{
     left: 20px;
     top: 95px;
     width: calc(25% - 30px);
@@ -441,100 +380,6 @@
     min-width: 120px !important;
     padding: 10px 20px !important;
   }
-  #gdpr-cookie-consent-bar p,
-  #gdpr-cookie-consent-bar .cookie_notice_buttons a {
-      font-size: 14px !important;
-      min-width: 163px !important; /*this is how it looks on 728px*/
-  }
-  /* #gdpr-cookie-consent-bar p{
-    margin-left: 40px;
-    margin-right: 40px;
-  } */
-   
-  #gdpr-cookie-consent-bar.gdpr-banner.bold{
-    flex-direction: column !important;
-    justify-content: center;
-    gap: 10px !important;
-    align-items: center;
-  }
-   #gdpr-cookie-consent-bar.gdpr-banner.dark{
-    flex-direction: column !important;
-    justify-content: center;
-    gap: 10px !important;
-    align-items: center;
-  }
-  #gdpr-cookie-consent-bar .side_column-buttons{
-    min-width: 170px !important;
-    flex-direction: row;
-    gap: 21px;
-    justify-content: center;
-    margin-left: 40px;
-    margin-right: 40px;
-  }
-   #gdpr-cookie-consent-bar.bold .side_column-buttons{
-    min-width: 170px !important;
-    flex-direction: column;
-    gap: 15px;
-    justify-content: center;
-    margin-left: 40px;
-    margin-right: 40px;
-  }
-  #gdpr-cookie-consent-bar .side_column{
-    display: flex;
-    flex-direction: column;
-    gap: clamp(20px, 5vw, 90px); /* adaptive spacing */
-    align-items: center;
-    justify-content: space-between;
-  }
-  /* #gdpr-cookie-consent-bar .row_spaced-buttons{
-    flex-direction: row;
-    gap: 15px;
-    justify-content: center;
-    margin-left: 40px;
-    margin-right: 40px;
-} */
-#gdpr-cookie-consent-bar.bold .row_spaced {
-    margin-left: 50px;
-    margin-right: 50px;
-  }
-#gdpr-cookie-consent-bar.dark .row_spaced {
-    align-items: center;
-    margin-left: 48px;
-    margin-right: 48px;
-  }
-  #gdpr-cookie-consent-bar.dark p{
-      /* margin-left: 48px;
-      margin-right: 48px; */
-    }
-  #gdpr-cookie-consent-bar.dark .row_spaced-buttons {
-      flex-direction: column;
-      gap: 15px;
-      justify-content: center;
-      margin-left:48px;
-      margin-right: 48px;
-    }
-  .cookie_notice_buttons .right_buttons, .cookie_notice_buttons .left_buttons {
-      gap: 15px;
-  }
-  #gdpr-cookie-consent-bar.dark .cookie_notice_buttons {
-      display: flex;
-      justify-content: space-between;
-      align-items: stretch;
-      width: 100%;
-    }
-  #gdpr-cookie-consent-bar.dark .cookie_notice_buttons .left_buttons,
-  #gdpr-cookie-consent-bar.dark .cookie_notice_buttons .right_buttons {
-    flex: 1 1 0;
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-  }
-   #gdpr-cookie-consent-bar.dark .cookie_notice_buttons a {
-    flex: 1 1 auto;
-    width: 100%;
-    /* min-width: 0 !important; */
-    text-align: center;
-  }
 }
 
 @media (max-width: 450px) {
@@ -542,50 +387,15 @@
     height: 240px;
   }
 }
-@media (max-width: 728px) {
-    /* #gdpr-cookie-consent-bar.dark .row_spaced-buttons {
-      flex-direction: column;
-      gap: 15px;
-      justify-content: space-between;
-      margin-left:48px;
-      margin-right: 48px;
-    } */
-    #gdpr-cookie-consent-bar.default .row_spaced-buttons{
-      flex-direction: column;
-      gap:10px;
-      /* justify-content: center; */
-      width: 100%;
-      align-items: center;
-    }
-}
 
-@media (max-width:550px) { /*looks better than breakpoint 428px*/
+@media (max-width:550px) {
 
-  /* #gdpr-cookie-consent-bar 
+  #gdpr-cookie-consent-bar 
   .cookie_notice_buttons a{
     width: 100%;
-    min-width: 152px !important;
-  } */
-    #gdpr-cookie-consent-bar.bold .side_column-buttons{
-    min-width: 170px !important;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-    margin-left: 40px;
-    margin-right: 40px;
+    min-width: 155px !important;
   }
-   #gdpr-cookie-consent-bar.gdpr-banner.dark{
-    padding: 10px;
-    padding-top: 10px;
-   }
-  #gdpr-cookie-consent-bar.gdpr-widget.dark, #gdpr-cookie-consent-bar.gdpr-popup.dark{
-    padding-left: 10px;
-    padding-right: 10px;
-    width: calc(100vw - 12px);
-  }
-  .cookie_notice_buttons .right_buttons, .cookie_notice_buttons .left_buttons {
-    gap: 12px;
-  }
+
   #gdpr-cookie-consent-bar .side_row-buttons .left_buttons, #gdpr-cookie-consent-bar .side_row-buttons .right_buttons{
     width: 100%;
   }
@@ -594,59 +404,18 @@
     width: auto;
     min-width: auto !important;
   }
-  #gdpr-cookie-consent-bar.dark p{
-    /* margin-left: 24px;
-    margin-right: 24px; */
-  }
-#gdpr-cookie-consent-bar p, #gdpr-cookie-consent-bar .cookie_notice_buttons a{
-  min-width: 140px !important;
-}
-  #gdpr-cookie-consent-bar.bold .row_spaced {
+
+
+  #gdpr-cookie-consent-bar .row_spaced {
     align-items: center;
-    margin-left: 35px;
-    margin-right: 35px;
   }
-  #gdpr-cookie-consent-bar.dark .row_spaced {
-    align-items: center;
-    margin-left: 24px;
-    margin-right: 24px;
-  }
-  #gdpr-cookie-consent-bar.bold .row_spaced-buttons {
-    flex-direction: column;
-    width: 100%;
-    /* margin-left: 35px;
-    margin-right: 35px; */
-    
-  }
-  #gdpr-cookie-consent-bar.dark .row_spaced-buttons {
-    flex-direction: column;
-    width: 100%;
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-  #gdpr-cookie-consent-bar.blue_center .row_spaced-buttons{
+  #gdpr-cookie-consent-bar .row_spaced-buttons {
     flex-direction: column;
     width: 100%;
   }
   #gdpr-cookie-consent-bar .side_column-buttons{
-    min-width: 152px !important;
-    flex-direction: column;
-    display: flex;
-    /* width: 100%; */
-    margin-bottom: 10px;
-    gap: 15px;
-    margin-left: 35px;
-    margin-right: 35px;
-  }
-   #gdpr-cookie-consent-bar.almond .side_column-buttons{
-    min-width: 152px !important;
-    flex-direction: column;
-    display: flex;
+    flex-direction: column-reverse;
     width: 100%;
-    margin-bottom: 10px;
-    gap: 15px;
-    margin-left: 35px;
-    margin-right: 35px;
   }
   #gdpr-cookie-consent-bar .column_center-buttons, #gdpr-cookie-consent-bar .column_center_reverse-buttons {
     width: 100%;
@@ -678,23 +447,7 @@
   #gdpr-cookie-consent-bar.blue_split.gdpr-widget .gdpr-notice-content-body h3, #gdpr-cookie-consent-bar.blue_split.gdpr-popup .gdpr-notice-content-body h3{
     left: 15px;
   }
-  .cookie_notice_buttons
-  .right_buttons,
-  .cookie_notice_buttons
-  .left_buttons{
-    display: flex;
-    gap: 10px;
-}
- #gdpr-cookie-consent-bar.bold p{
-    margin-left: 35px;
-    margin-right: 35px;
-  }
- #gdpr-cookie-consent-bar h3{
-  color: inherit;
-  margin: 0;
-  font-weight: 700;
-  font-size: 20px;
-}
+
 }
 
 @media (min-width: 1229px) {
@@ -708,15 +461,11 @@
   
 
 }
-#gdpr-cookie-consent-bar.dark #cookie-banner-cancle-img {
-    right: 25px !important;
-    color: #ffffff !important;
-  }
 @media (max-width: 768px) and (min-width: 551px) {
-  /* #gdpr-cookie-consent-bar 
+  #gdpr-cookie-consent-bar 
   .cookie_notice_buttons.row_spaced-buttons a{
     min-width: auto !important;
-  } */
+  }
   #gdpr-ccpa-gdprmodal .gdprmodal-content .gdprmodal-footer .gdprmodal-footer-buttons {
     flex-direction: column-reverse;
     margin-top: 20px;
