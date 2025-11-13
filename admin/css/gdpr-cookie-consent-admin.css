@@ -836,7 +836,7 @@ ul.gdpr_sub_tab li:first-child {
   }
  
   .gdpr-template-field .template-type-banner .cookie_notice_content{
-    padding: 40px 100px; /*change if wanted */
+    padding: 40px 120px;
   }
   .gdpr-template-field .template-type-widget .cookie_notice_content, .gdpr-template-field .template-type-popup .cookie_notice_content{
     padding: 40px;
@@ -896,19 +896,10 @@ ul.gdpr_sub_tab li:first-child {
   align-items: center;
 }
 .gdpr-template-field .cookie_notice_content .side_column-buttons{
-  flex-direction: row;
+  flex-direction: column-reverse;
   gap: 10px;
   justify-content: center;
-  /* align-items: center; */
 }
-.gdpr-template-field.gdpr-gray_pink .cookie_notice_content .side_column-buttons,
-.gdpr-template-field.gdpr-almond .cookie_notice_content .side_column-buttons{
-  flex-direction: column;
-  gap: 10px;
-  justify-content: center;
-  /* align-items: center; */
-}
-
 .gdpr-template-field .cookie_notice_content .small_row_big_column{
   display: flex;
   flex-direction: row;
@@ -1029,9 +1020,9 @@ ul.gdpr_sub_tab li:first-child {
   margin-left: 20%;
 }
 .gdpr-template-field.gdpr-blue_split .template-type-banner .cookie_notice_content .small_row_big_column h3{
-    left: 100px;
+    left: 120px;
     top: 85px;
-    width: calc(25% - 100px);
+    width: calc(25% - 120px);
 }
 .gdpr-template-field.gdpr-blue_split .template-type-widget .cookie_notice_content .small_row_big_column h3, .gdpr-template-field.gdpr-blue_split .template-type-popup .cookie_notice_content .small_row_big_column h3{
     left: 40px;
@@ -1133,13 +1124,7 @@ ul.gdpr_sub_tab li:first-child {
   align-items: center;
 }
 .gdpr-template-field-small .cookie_notice_content .side_column-buttons{
-  flex-direction: row;
-  gap: 5px;
-  justify-content: center;
-}
-.gdpr-template-field-small.gdpr-gray_pink .cookie_notice_content .side_column-buttons,
-.gdpr-template-field-small.gdpr-almond .cookie_notice_content .side_column-buttons{
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 5px;
   justify-content: center;
 }
@@ -6032,19 +6017,6 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .dark .gdpr-ad-purpose-details a {
   color: #4570dc;
 }
-.gdpr-flex-row {
-  flex-direction: row;
-  align-items: center;
-  /* justify-content: center; */
-  /* text-align: left; */
-}
-
-.gdpr-flex-column {
-  flex-direction: column;
-  /* justify-content: center;
-  text-align: center; */
-}
-
 .gdpr_messagebar_detail.layout-default .gdpr-ad-purpose-details {
   margin: 0;
 }
@@ -9502,7 +9474,7 @@ div#gdpr-scan-history {
 }
 
 #gdpr-cookie-consent-settings-app .notice-type-popup, #gdpr-cookie-consent-settings-app .notice-type-widget {
-  width:  728px;
+  width:  700px;
 }
 
 #gdpr-cookie-consent-settings-app .notice-container .notice-content {
@@ -9588,6 +9560,7 @@ div#gdpr-scan-history {
   display: flex;
   gap: 10px;
 }
+
 #gdpr-cookie-consent-settings-app .notice-container .notice-content .template-row_spaced {
   display: flex;
   flex-direction: column;
@@ -9602,54 +9575,17 @@ div#gdpr-scan-history {
 
 #gdpr-cookie-consent-settings-app .notice-container .notice-content .template-side_column {
   display: flex;
-  flex-direction: column;
-  /* gap: 25px; */
-   gap: clamp(20px, 5vw, 90px); /* adaptive spacing */
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-#gdpr-cookie-consent-settings-app .notice-container .notice-content.notice-template-gray_pink .template-side_column,
-#gdpr-cookie-consent-settings-app .notice-container .notice-content.notice-template-almond .template-side_column{
-  display: flex;
   flex-direction: row;
-  /* gap: 25px; */
-   gap: clamp(20px, 5vw, 90px); /* adaptive spacing */
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-#gdpr-cookie-consent-settings-app .notice-container .notice-content.notice-template-bold .template-side_column {
-  display: flex;
-  flex-direction: column;
   gap: 25px;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
 }
 
-
 #gdpr-cookie-consent-settings-app .notice-container .notice-content .notice-content-body .template-side_column-buttons {
-  display:flex;
   flex-direction: column-reverse;
   gap: 10px;
   justify-content: center;
 }
-/* #gdpr-cookie-consent-settings-app .notice-container .notice-content.notice-template-bold .notice-content-body .template-side_column-buttons {
-  display:flex;
-  flex-direction: row;
-  gap: 10px;
-  justify-content: center;
-} */
-
-#gdpr-cookie-consent-settings-app .notice-container .notice-content .notice-content-body{
-  gap: 24px;
-}
-/* #gdpr-cookie-consent-settings-app .notice-container .notice-content .notice-content-body .template-side_column-buttons:has(.notice-left-buttons > :nth-child(2)):has(.notice-right-buttons > :nth-child(2)){
-  display:flex;
-  flex-direction: column;
-  gap: 16px;
-} */
 
 #gdpr-cookie-consent-settings-app .notice-container .notice-content .notice-content-body .template-side_column-buttons .notice-left-buttons a,
 #gdpr-cookie-consent-settings-app .notice-container .notice-content .notice-content-body .template-side_column-buttons .notice-right-buttons a{
@@ -9934,7 +9870,7 @@ div#gdpr-scan-history {
 
 #gdpr-cookie-consent-settings-app .notice-container .notice-content.notice-template-bold {
     flex-direction: column;
-    gap: 15px;
+    gap: 5px;
 }
 
 #gdpr-cookie-consent-settings-app .notice-container .notice-content .template-side_row {
@@ -9976,12 +9912,12 @@ div#gdpr-scan-history {
       margin-left: 18%;
     }
   }
- #gdpr-cookie-consent-settings-app .notice-container.notice-type-popup .notice-content.notice-template-blue_split  h3,  #gdpr-cookie-consent-settings-app .notice-container.notice-type-widget .notice-content.notice-template-blue_split h3{
+ #gdpr-cookie-consent-settings-app .notice-container.notice-type-popup .notice-content.notice-template-blue_split .notice-content-body h3,  #gdpr-cookie-consent-settings-app .notice-container.notice-type-widget .notice-content.notice-template-blue_split .notice-content-body h3{
     left: 40px;
     top: 82px;
     width: calc(25% - 40px);
   }
-  #gdpr-cookie-consent-settings-app .notice-container.notice-type-banner .notice-content.notice-template-blue_split h3{
+  #gdpr-cookie-consent-settings-app .notice-container.notice-type-banner .notice-content.notice-template-blue_split .notice-content-body h3{
     left: 120px;
     top: 82px;
     width: calc(25% - 130px);
