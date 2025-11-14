@@ -491,6 +491,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 				);
 				$post_id   = post_exists( $gdpr_policies_data['post_title'] );
 				if ( $post_id ) {
+					$post_data['ID'] = $post_id; 
 					$post_id = wp_update_post( $post_data, true );
 				} else {
 					$post_id = wp_insert_post( $post_data, true );
