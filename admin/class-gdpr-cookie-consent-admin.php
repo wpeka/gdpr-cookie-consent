@@ -115,7 +115,7 @@ class Gdpr_Cookie_Consent_Admin {
 			});
 			add_action( 'wp_ajax_set_default_test_banner_1', array( $this, 'set_default_banner_1' ) );
 			add_action( 'wp_ajax_set_default_test_banner_2', array( $this, 'set_default_banner_2' ) );
-			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
+			add_action( 'add_data_request_content', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
 			add_action('gdpr_cookie_consent_new_admin_dashboard_screen', array($this, 'gdpr_cookie_consent_new_admin_dashboard_screen'));
@@ -1616,6 +1616,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Handle delete request.
 	 */
 	public function wpl_data_req_process_delete() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+		    wp_die( 'Unauthorized request.' );
+		}
+
 		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' )
 			&& isset( $_GET['action'] )
 			&& $_GET['action'] == 'delete'
@@ -1920,6 +1924,10 @@ class Gdpr_Cookie_Consent_Admin {
 							<?php $policy_data->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
 						</div>
 					</div>
+					<span>
+							<?php esc_html_e('Policy Data shows the third party 3rd Party cookie table.','gdpr-cookie-consent') ?>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/settings/policy-data/" target="_blank">Learn more here.</a>
+						</span>
 					<?php
 						// $policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 						$policy_data->display();

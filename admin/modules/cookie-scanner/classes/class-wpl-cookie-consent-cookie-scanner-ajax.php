@@ -447,6 +447,17 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 
 	public function ajax_cookies_deletion(){
 		global $wpdb;
+
+		if( !isset( $_REQUEST['security'] ) || ! wp_verify_nonce( wp_unslash( $_REQUEST['security'] ), 'gdpr_cookie_consent_cookie_deletion_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid security token.', 'gdpr-cookie-consent' ) ), 403 );
+        	wp_die();
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+    	    wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'gdpr-cookie-consent' ) ), 403 );
+    	    wp_die();
+    	}
+
 		$scan_table    = $wpdb->prefix . 'wpl_cookie_scan_cookies';
 		$result = $wpdb->query("TRUNCATE TABLE {$scan_table}");
 		if ( 'free' === $this->plan ) {
