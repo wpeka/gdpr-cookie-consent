@@ -115,7 +115,7 @@ class Gdpr_Cookie_Consent_Admin {
 			});
 			add_action( 'wp_ajax_set_default_test_banner_1', array( $this, 'set_default_banner_1' ) );
 			add_action( 'wp_ajax_set_default_test_banner_2', array( $this, 'set_default_banner_2' ) );
-			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
+			add_action( 'add_data_request_content', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
 			add_action('gdpr_cookie_consent_new_admin_dashboard_screen', array($this, 'gdpr_cookie_consent_new_admin_dashboard_screen'));
@@ -1616,6 +1616,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Handle delete request.
 	 */
 	public function wpl_data_req_process_delete() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+		    wp_die( 'Unauthorized request.' );
+		}
+
 		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' )
 			&& isset( $_GET['action'] )
 			&& $_GET['action'] == 'delete'
@@ -1920,6 +1924,10 @@ class Gdpr_Cookie_Consent_Admin {
 							<?php $policy_data->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
 						</div>
 					</div>
+					<span>
+							<?php esc_html_e('Policy Data shows the third party 3rd Party cookie table.','gdpr-cookie-consent') ?>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/settings/policy-data/" target="_blank">Learn more here.</a>
+						</span>
 					<?php
 						// $policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 						$policy_data->display();
@@ -7965,7 +7973,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: *' );
+			header( 'Access-Control-Allow-Origin: https://appstaging.wplegalpages.com' );
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -7986,6 +7994,8 @@ class Gdpr_Cookie_Consent_Admin {
 		
 		global $is_user_connected, $api_user_plan; // Make global variables accessible
 		$this->settings = new GDPR_Cookie_Consent_Settings();
+
+		$master_key = $this->settings->get('api','token');
 		
 		$is_user_connected = $this->settings->is_connected();
 		
@@ -7995,12 +8005,49 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'gdpr_send_data_to_dashboard_appwplp_react_app'), // Function to handle the request
-				'permission_callback' => function() use ($is_user_connected) {
-					// Check if user is connected and the API plan is valid
-					if ($is_user_connected) {
-						return true; // Allow access
+				'permission_callback' => function(WP_REST_Request $request) use ($master_key) {
+					
+
+					$auth_header = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+					if ( ! preg_match('/Bearer\s(\S+)/', $auth_header, $matches) ) {
+						return new WP_Error('no_token', 'Authorization token missing.', ['status' => 401]);
 					}
-					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
+					$token = sanitize_text_field($matches[1]);
+
+					// 2. Validate token with central WP site
+					$validate = wp_remote_post(
+						'https://appstaging.wplegalpages.com/wp-json/jwt-auth/v1/token/validate',
+						[
+							'headers' => [
+								'Authorization' => 'Bearer ' . $token,
+								'Content-Type'  => 'application/json'
+							],
+							'timeout' => 15
+						]
+					);
+
+					if ( is_wp_error($validate) ) {
+						return new WP_Error('token_validation_failed', $validate->get_error_message(), ['status' => 401]);
+					}
+
+					$code = wp_remote_retrieve_response_code($validate);
+					if ( $code !== 200 ) {
+						return new WP_Error('invalid_token', 'Token validation failed.', ['status' => 401]);
+					}
+
+					// 3. Extract master_key from the request body
+					$body = $request->get_json_params();
+					$incoming_key = isset($body['master_key']) ? sanitize_text_field($body['master_key']) : '';
+
+					if ( empty($incoming_key) ) {
+						return new WP_Error('master_key_missing', 'Master key not provided.', ['status' => 401]);
+					}
+
+					if ( $master_key !== $incoming_key ) {
+						return new WP_Error('invalid_master_key', 'Master key mismatch.', ['status' => 401]);
+					}
+
+					return true; // All good → allow callback
 				},
 			)
 		);

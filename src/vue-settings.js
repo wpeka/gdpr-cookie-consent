@@ -12275,9 +12275,8 @@ var scb = new Vue({
       }
 
       for (let i = 0; i < this.scripts_list_total; i++) {
-        this.scripts_list_data[i]["script_status"] = Boolean(
-          parseInt(this.scripts_list_data[i]["script_status"])
-        );
+        var rawStatus = this.scripts_list_data[i]["script_status"];
+        this.scripts_list_data[i]["script_status"] = rawStatus === true || rawStatus === "1" || rawStatus === 1;
         for (let j = 0; j < this.category_list_options.length; j++) {
           if (
             this.category_list_options[j].code ===
@@ -13836,6 +13835,7 @@ var ckm = new Vue({
       var that = this;
       var data = {
         action: "wpl_cookies_deletion",
+        security: settings_obj.cookie_scan_settings.nonces.gdpr_cookie_consent_cookie_deletion_nonce,
       };
       j.ajax({
         url: settings_obj.cookie_scan_settings.ajax_url,

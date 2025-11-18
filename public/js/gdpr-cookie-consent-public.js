@@ -2906,79 +2906,79 @@ banner.style.display = "none";
 
 
   // For adding placeholder for blocked Youtube scripts
- document.addEventListener("DOMContentLoaded", function () {
+//  document.addEventListener("DOMContentLoaded", function () {
 
-   var observer = new MutationObserver(function (mutations) {
-  mutations.forEach(function (mutation) {
-    mutation.addedNodes.forEach(function (node) {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        var iframes = (node.matches && node.matches("iframe"))
-          ? [node]
-          : (node.querySelectorAll ? node.querySelectorAll("iframe") : []);
+//    var observer = new MutationObserver(function (mutations) {
+//   mutations.forEach(function (mutation) {
+//     mutation.addedNodes.forEach(function (node) {
+//       if (node.nodeType === Node.ELEMENT_NODE) {
+//         var iframes = (node.matches && node.matches("iframe"))
+//           ? [node]
+//           : (node.querySelectorAll ? node.querySelectorAll("iframe") : []);
 
-        iframes.forEach(function (iframe) {
-          var src =
-            iframe.getAttribute("src") ||
-            iframe.getAttribute("data-src") ||
-            "";
+//         iframes.forEach(function (iframe) {
+//           var src =
+//             iframe.getAttribute("src") ||
+//             iframe.getAttribute("data-src") ||
+//             "";
 
-          if (
-            src.indexOf("youtube.com") !== -1 &&
-            !iframe.hasAttribute("data-wpl-placeholder")
-          ) {
-            // add replacement iframe with data-wpl-* attributes
-            var wrapper = document.createElement("div");
-            wrapper.style.display = "none"; // prevent flash
-            iframe.parentNode.insertBefore(wrapper, iframe);
-            iframe.parentNode.removeChild(iframe);
+//           if (
+//             src.indexOf("youtube.com") !== -1 &&
+//             !iframe.hasAttribute("data-wpl-placeholder")
+//           ) {
+//             // add replacement iframe with data-wpl-* attributes
+//             var wrapper = document.createElement("div");
+//             wrapper.style.display = "none"; // prevent flash
+//             iframe.parentNode.insertBefore(wrapper, iframe);
+//             iframe.parentNode.removeChild(iframe);
 
-            var placeholderIframe = document.createElement("iframe");
-            placeholderIframe.setAttribute(
-              "width",
-              iframe.getAttribute("width") || "625"
-            );
-            placeholderIframe.setAttribute(
-              "height",
-              iframe.getAttribute("height") || "300"
-            );
-            placeholderIframe.setAttribute(
-              "data-wpl-placeholder",
-              "Accept <a class='wpl_manage_current_consent'>" +
-                log_obj.selected_script_category +
-                "</a> cookies to view the content."
-            );
-            placeholderIframe.setAttribute("data-wpl-src", src);
-            placeholderIframe.setAttribute(
-              "data-wpl-class",
-              "wpl-blocker-script"
-            );
-            placeholderIframe.setAttribute(
-              "data-wpl-script-type",
-              "marketing"
-            );
+//             var placeholderIframe = document.createElement("iframe");
+//             placeholderIframe.setAttribute(
+//               "width",
+//               iframe.getAttribute("width") || "625"
+//             );
+//             placeholderIframe.setAttribute(
+//               "height",
+//               iframe.getAttribute("height") || "300"
+//             );
+//             placeholderIframe.setAttribute(
+//               "data-wpl-placeholder",
+//               "Accept <a class='wpl_manage_current_consent'>" +
+//                 log_obj.selected_script_category +
+//                 "</a> cookies to view the content."
+//             );
+//             placeholderIframe.setAttribute("data-wpl-src", src);
+//             placeholderIframe.setAttribute(
+//               "data-wpl-class",
+//               "wpl-blocker-script"
+//             );
+//             placeholderIframe.setAttribute(
+//               "data-wpl-script-type",
+//               "marketing"
+//             );
 
-            wrapper.appendChild(placeholderIframe);
-            wrapper.style.display = ""; // show again
+//             wrapper.appendChild(placeholderIframe);
+//             wrapper.style.display = ""; // show again
 
-            // Calling placeholder logic
-            if (
-              typeof GDPR !== "undefined" &&
-              typeof GDPR.addPlaceholder === "function"
-            ) {
-              GDPR.addPlaceholder(placeholderIframe);
-            }
-          }
-        });
-      }
-    });
-  });
-});
+//             // Calling placeholder logic
+//             if (
+//               typeof GDPR !== "undefined" &&
+//               typeof GDPR.addPlaceholder === "function"
+//             ) {
+//               GDPR.addPlaceholder(placeholderIframe);
+//             }
+//           }
+//         });
+//       }
+//     });
+//   });
+// });
 
 
-   observer.observe(document.body, {
-     childList: true,
-     subtree: true,
-   });
- });
+//    observer.observe(document.body, {
+//      childList: true,
+//      subtree: true,
+//    });
+//  });
   
 })(jQuery);
