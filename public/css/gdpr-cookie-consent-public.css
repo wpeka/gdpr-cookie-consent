@@ -2412,8 +2412,3 @@ Bootstrap CSS for frontend UI
   flex-direction: column;
   gap: 20px;
 }
-.elementor-widget-video .elementor-wrapper iframe, 
-.elementor-widget-video .elementor-wrapper video
-{
-  height: 300px;
-}

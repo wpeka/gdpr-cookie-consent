@@ -115,7 +115,7 @@ class Gdpr_Cookie_Consent_Admin {
 			});
 			add_action( 'wp_ajax_set_default_test_banner_1', array( $this, 'set_default_banner_1' ) );
 			add_action( 'wp_ajax_set_default_test_banner_2', array( $this, 'set_default_banner_2' ) );
-			add_action( 'admin_init', array( $this, 'wpl_data_req_process_delete' ) );
+			add_action( 'add_data_request_content', array( $this, 'wpl_data_req_process_delete' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
 			add_action('gdpr_cookie_consent_new_admin_dashboard_screen', array($this, 'gdpr_cookie_consent_new_admin_dashboard_screen'));
@@ -1616,6 +1616,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Handle delete request.
 	 */
 	public function wpl_data_req_process_delete() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+		    wp_die( 'Unauthorized request.' );
+		}
+
 		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' )
 			&& isset( $_GET['action'] )
 			&& $_GET['action'] == 'delete'
@@ -1913,13 +1917,17 @@ class Gdpr_Cookie_Consent_Admin {
 						<div class="policy-data-heading-export">
 							<h1 class="wp-heading"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?></h1>
 							<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export As CSV', 'gdpr-cookie-consent' ); ?></a>
-							<a href="<?php echo esc_url( admin_url( 'edit.php?page=gdpr-policies-import' )); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Import From CSV', 'gdpr-cookie-consent' ); ?></a>
+							<a href="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-policies-import' )); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Import From CSV', 'gdpr-cookie-consent' ); ?></a>
 							<a href="<?php echo esc_url_raw( admin_url( 'post-new.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Add New', 'gdpr-cookie-consent' ); ?></a>
 						</div>
 						<div class="policy-data-search-log"> 
 							<?php $policy_data->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
 						</div>
 					</div>
+					<span>
+							<?php esc_html_e('Policy Data shows the third party 3rd Party cookie table.','gdpr-cookie-consent') ?>
+							<a href="https://wplegalpages.com/docs/wp-cookie-consent/settings/policy-data/" target="_blank">Learn more here.</a>
+						</span>
 					<?php
 						// $policy_data->search_box( __( 'Search Policy Data', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' );
 						$policy_data->display();
@@ -8147,7 +8155,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: *' );
+			header( 'Access-Control-Allow-Origin: https://appstaging.wplegalpages.com' );
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -8168,6 +8176,8 @@ class Gdpr_Cookie_Consent_Admin {
 		
 		global $is_user_connected, $api_user_plan; // Make global variables accessible
 		$this->settings = new GDPR_Cookie_Consent_Settings();
+
+		$master_key = $this->settings->get('api','token');
 		
 		$is_user_connected = $this->settings->is_connected();
 
@@ -8222,12 +8232,145 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'gdpr_send_data_to_dashboard_appwplp_react_app'), // Function to handle the request
-				'permission_callback' => function() use ($is_user_connected) {
-					// Check if user is connected and the API plan is valid
-					if ($is_user_connected) {
-						return true; // Allow access
+				'permission_callback' => function(WP_REST_Request $request) use ($master_key) {
+					
+
+					$auth_header = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+					if ( ! preg_match('/Bearer\s(\S+)/', $auth_header, $matches) ) {
+						return new WP_Error('no_token', 'Authorization token missing.', ['status' => 401]);
 					}
-					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
+					$token = sanitize_text_field($matches[1]);
+
+					// 2. Validate token with central WP site
+					$validate = wp_remote_post(
+						'https://appstaging.wplegalpages.com/wp-json/jwt-auth/v1/token/validate',
+						[
+							'headers' => [
+								'Authorization' => 'Bearer ' . $token,
+								'Content-Type'  => 'application/json'
+							],
+							'timeout' => 15
+						]
+					);
+
+					if ( is_wp_error($validate) ) {
+						return new WP_Error('token_validation_failed', $validate->get_error_message(), ['status' => 401]);
+					}
+
+					$code = wp_remote_retrieve_response_code($validate);
+					if ( $code !== 200 ) {
+						return new WP_Error('invalid_token', 'Token validation failed.', ['status' => 401]);
+					}
+
+					// 3. Extract master_key from the request body
+					$body = $request->get_json_params();
+					$incoming_key = isset($body['master_key']) ? sanitize_text_field($body['master_key']) : '';
+
+					if ( empty($incoming_key) ) {
+						return new WP_Error('master_key_missing', 'Master key not provided.', ['status' => 401]);
+					}
+
+					if ( $master_key !== $incoming_key ) {
+						return new WP_Error('invalid_master_key', 'Master key mismatch.', ['status' => 401]);
+					}
+
+					return true; // All good → allow callback
+				},
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/get-policy-data',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_send_policy_data_to_saas' ),
+				'permission_callback' => function() use ( $is_user_connected ) {
+					// Check if user is connected and the API plan is valid
+					// if ( $is_user_connected ) {
+						return true; // Allow access
+					// }
+					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
+				},
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/delete-policy-data',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_delete_policy_data' ),
+				'permission_callback' => function() use ( $is_user_connected ) {
+					// Check if user is connected and the API plan is valid
+					// if ( $is_user_connected ) {
+						return true; // Allow access
+					// }
+					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
+				},
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/import-policy-data',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_import_policy_data' ),
+				'permission_callback' => function() use ( $is_user_connected ) {
+					// Check if user is connected and the API plan is valid
+					// if ( $is_user_connected ) {
+						return true; // Allow access
+					// }
+					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
+				},
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/export-policy-data',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_export_policy_data' ),
+				'permission_callback' => function() use ( $is_user_connected ) {
+					// Check if user is connected and the API plan is valid
+					// if ( $is_user_connected ) {
+						return true; // Allow access
+					// }
+					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
+				},
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/get-data-request-form-fields',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_get_data_request_form_fields' ),
+				'permission_callback' => function() use ( $is_user_connected ) {
+					// Check if user is connected and the API plan is valid
+					// if ( $is_user_connected ) {
+						return true; // Allow access
+					// }
+					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
+				},
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/update-data-request-form-fields',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_update_data_request_form_fields' ),
+				'permission_callback' => function() use ( $is_user_connected ) {
+					// Check if user is connected and the API plan is valid
+					// if ( $is_user_connected ) {
+						return true; // Allow access
+					// }
+					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
 				},
 			)
 		);
@@ -8822,6 +8965,250 @@ public function gdpr_support_request_handler() {
 			__( 'Do you really wish to opt-out?', 'gdpr-cookie-consent' );
 			__( 'Accept All', 'gdpr-cookie-consent' );
 		}
+	}
+
+	public function gdpr_send_policy_data_to_saas( WP_REST_Request $request ) {
+		$limit  = absint( $request->get_param( 'limit' ) ?? 10 );
+		$offset = absint( $request->get_param( 'offset' ) ?? 0 );
+		$search = sanitize_text_field( $request->get_param( 'search' ) ?? '' );
+
+		$args = array(
+			'post_type'      => 'gdprpolicies',
+			'post_status'    => array( 'publish', 'draft' ),
+			'posts_per_page' => $limit,
+			'offset'         => $offset,
+			'no_found_rows'  => false,
+		);
+
+		if ( ! empty( $search ) ) {
+			$args['s'] = $search;
+		}
+
+		$query = new WP_Query( $args );
+
+		if ( empty( $query->posts ) ) {
+			return rest_ensure_response( [] );
+		}
+
+		$data = array();
+
+		if ( $query->have_posts() ) {
+			foreach ($query->posts as $post) {
+				$post_id = $post->ID;
+
+				$domain = get_post_meta( $post_id, '_gdpr_policies_domain', true );
+        		$links  = get_post_meta( $post_id, '_gdpr_policies_links_editor', true );
+
+				$data[] = [
+					'id'             => $post_id,
+					'company_name'   => get_the_title($post_id),
+					'policy_purpose' => wp_trim_words( wp_strip_all_tags( $post->post_content ), 50 ),
+					'domain'         => $domain ?: '',
+					'links'          => $links ?: '',
+				];
+			}
+		}
+
+		return rest_ensure_response(
+			array(
+				'data' => $data,
+				'total' => (int) $query->found_posts,
+			)
+		);
+	}
+
+	public function gdpr_import_policy_data( WP_REST_Request $request ) {
+
+		$batch = $request->get_param( 'batch' );
+
+		if ( ! $batch ) {
+			return new WP_REST_Response( [ 'status' => 'error', 'message' => 'No CSV File Provided.' ], 400 );
+		}
+
+		$headers = array(
+			'post_title',
+			'post_content',
+			'post_status',
+			'_gdpr_policies_links_editor',
+			'_gdpr_policies_domain',
+		);
+
+		if ( ! function_exists( 'post_exists' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/post.php' );
+		}
+
+		foreach ( $batch as $index => $policy ) {
+
+			$allowed_headers = array_keys( $policy );
+			foreach ( $allowed_headers as $header ) {
+				if ( ! in_array( $header, $headers, true ) ) {
+					return new WP_REST_Response( [ 'status' => 'error', 'message' => 'Invalid CSV File.' ], 400 );
+				}
+			}
+
+			$post_title   = sanitize_text_field( $policy['post_title'] ?? '' );
+			$post_content = wp_kses_post( $policy['post_content'] ?? '' );
+			$post_status  = sanitize_text_field( $policy['post_status'] ?? '' );
+			$links        = wp_kses_post( $policy['_gdpr_policies_links_editor'] ?? '' );
+			$domain       = wp_kses_post( $policy['_gdpr_policies_domain'] ?? '' );
+
+			$post_data = array(
+				'post_author'   => 1,
+				'post_date'     => gmdate( 'Y-m-d H:i:s', strtotime( 'now' ) ),
+				'post_date_gmt' => gmdate( 'Y-m-d H:i:s', strtotime( 'now' ) ),
+				'post_content'  => $post_content,
+				'post_title'    => $post_title,
+				'post_name'     => sanitize_title( $post_title ),
+				'post_status'   => $post_status ? $post_status : 'publish',
+				'post_parent'   => 0,
+				'post_type'     => GDPR_POLICY_DATA_POST_TYPE,
+			);
+
+			$post_id = post_exists( $post_title );
+			if ( $post_id ) {
+				$post_data['ID'] = $post_id; 
+				$post_id = wp_update_post( $post_data, true );
+			} else {
+				$post_id = wp_insert_post( $post_data, true );
+			}
+
+			if ( is_wp_error( $post_id ) ) {
+				// $errors[ $rkey ] = $post_id;
+				return new WP_REST_Response( [ 'status' => 'error', 'message' => 'Issue Importing Post with title -> ' . $post_title ], 400 );
+			} else {
+				if ( $post_id ) {
+					$links  = maybe_unserialize( $links );
+					$domain = maybe_unserialize( $domain );
+					update_post_meta( $post_id, '_gdpr_policies_links_editor', $links );
+					update_post_meta( $post_id, '_gdpr_policies_domain', $domain );
+				}
+			}
+		}
+
+		return new WP_REST_Response( [ 'status' => true, 'message' => 'Policy Data Imported Successfully', 'batch' => $batch ], 200);
+	}
+
+	public function gdpr_delete_policy_data( WP_REST_Request $request ) {
+
+		$policy_ids = $request->get_param( 'policy_ids' );
+		
+		if ( ! is_array( $policy_ids ) ) {
+			return new WP_REST_Response( [ 'status' => 'error', 'message' => 'Incorrect Policy Provided.' ], 400 );
+		}
+
+		if ( ! $policy_ids ) {
+			return new WP_REST_Response( [ 'status' => 'error', 'message' => 'No Policy Provided.' ], 400 );
+		}
+
+		if ( count( $policy_ids ) === 1 )  {
+			$policy_id = absint( $policy_ids[0] );
+
+			$deleted = wp_delete_post( $policy_id, true );
+
+			if ( ! $deleted ) {
+				return new WP_REST_Response( [ 'status' => 'error', 'message' => 'Issue Deleting Policy Data.' ], 400 );
+			}
+		} else {
+
+			foreach ( $policy_ids as $policy_id ) {
+				$policy_id = absint( $policy_id );
+
+				$deleted = wp_delete_post( $policy_id, true );
+
+				if ( ! $deleted ) {
+					return new WP_REST_Response( [ 'status' => 'error', 'message' => 'Issue Deleting Policy Data.' ], 400 );
+				}
+			}
+		}
+
+		return new WP_REST_Response( [ 'status' => true, 'message' => 'Policy Data Deleted Successfully.', 'policy_id' => $policy_ids ], 200);
+	}
+
+	public function gdpr_export_policy_data( WP_REST_Request $request ) {
+
+		include_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php';
+
+		$policy_data_instance = new GDPR_Cookie_Consent_Policy_Data();
+
+		$upload_dir = wp_upload_dir();
+		$file_path = trailingslashit($upload_dir['basedir']) . 'gdpr_policies_export.csv';
+		$file_url  = trailingslashit($upload_dir['baseurl']) . 'gdpr_policies_export.csv';
+
+		// Open file for writing
+		$output = fopen($file_path, 'w');
+
+		// Header row
+		fputcsv($output, ['post_title', 'post_content', 'post_status', '_gdpr_policies_links_editor', '_gdpr_policies_domain']);
+
+		$limit = 3000;
+		$offset = 0;
+
+		while (true) {
+			$posts = get_posts([
+				'post_type'      => 'gdprpolicies',
+				'post_status'    => array( 'publish', 'draft' ),
+				'posts_per_page' => $limit,
+				'offset'         => $offset,
+				'fields'         => 'ids',
+			]);
+
+			if (empty($posts)) {
+				break;
+			}
+
+			foreach ($posts as $post_id) {
+				$row = [
+					$policy_data_instance::format_data( sanitize_text_field( get_the_title($post_id) ) ),
+					$policy_data_instance::format_data( wp_strip_all_tags( sanitize_textarea_field( get_post_field( 'post_content', $post_id ) ) ) ),
+					$policy_data_instance::format_data( get_post_status($post_id) ),
+					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_domain', true) ) ),
+					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_links_editor', true) ) ),
+				];
+				fputcsv($output, $row, ',', '"' );
+			}
+
+			$offset += $limit;
+		}
+
+		fclose($output);
+
+		return [
+			'success' => true,
+			'download_url' => $file_url
+		];
+	}
+
+	public function gdpr_get_data_request_form_fields( WP_REST_Request $request ) {
+
+		$the_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+		
+		return rest_ensure_response(
+			array(
+				'subject' => $the_options['data_req_subject'],
+				'message' => $the_options['data_req_editor_message'] ?? '',
+				'email'   => $the_options['data_req_email_address'] ?? '',
+				'status'  => $the_options['data_reqs_on'],
+			)
+		);
+	}
+
+	public function gdpr_update_data_request_form_fields( WP_REST_Request $request ) {
+
+		$subject = sanitize_text_field( $request->get_param( 'subject' ) );
+		$message = $request->get_param( 'message' );
+		if ( $message === '' || $message === null ) {
+			$message = htmlentities( $message );
+		} else {
+			$message = '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;';
+		}
+		$email = sanitize_email( $request->get_param( 'email' ) );
+		$status = $request->get_param( 'status' );
+
+		return rest_ensure_response(
+			array(
+				'status' => true,
+			)
+		);
 	}
 
 }
