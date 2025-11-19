@@ -7832,15 +7832,30 @@ button.btn.gdpr-renew-now-btn.pro,
 .gdpr-cookie-scanning-available-in-notice,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both,
-.gdpr-eu_visitors_message-both-ccpa {
+.gdpr-eu_visitors_message-both-ccpa,
+.gdpr-iab_message,
+.gdpr-show_credits_message,
+.gdpr-export-message,
+.gdpr-import-message {
   display: none;
 }
 .gdpr-cookie-scanning-wrapper:hover .gdpr-cookie-scanning-limit-exhaust-monthly-free-notice {
   display: block;
 }
-.gdpr-disabled-geo-integration {
+.gdpr-disabled-geo-integration,
+.gdpr-disabled-iab-integration,
+.gdpr-disabled-show-credits,
+.gdpr-disabled-export-settings,
+.gdpr-disabled-import-settings {
   position: relative;
 }
+.gdpr-disabled-iab-integration:hover .gdpr-iab_message,
+.gdpr-disabled-show-credits:hover .gdpr-show_credits_message,
+.gdpr-disabled-export-settings:hover .gdpr-export-message,
+.gdpr-disabled-import-settings:hover .gdpr-import-message{
+    display: block;
+}
+
 .gcm-slider:hover ~ .gdpr-gcm_message-gdpr{
 display: block !important;
 }
@@ -7867,7 +7882,11 @@ display: block !important;
 .gdpr-eu_visitors_message-gdpr,
 .gdpr-eu_visitors_message-ccpa,
 .gdpr-eu_visitors_message-both,
-.gdpr-eu_visitors_message-both-ccpa {
+.gdpr-eu_visitors_message-both-ccpa,
+.gdpr-iab_message,
+.gdpr-show_credits_message,
+.gdpr-export-message,
+.gdpr-import-message {
   position: absolute;
   text-wrap: nowrap;
   width: fit-content;
