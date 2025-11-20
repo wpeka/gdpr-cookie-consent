@@ -1355,8 +1355,7 @@ jQuery(document).ready(function () {
         exitOnEsc: true,
       });
 
-      const introSteps = introJs().setOptions({
-        steps: [
+      const allintroSteps = [
           {
             element: document.querySelector(
               ".gdpr-cookie-consent-admin-dashboard-tab"
@@ -1376,49 +1375,56 @@ jQuery(document).ready(function () {
               "#cookie_settings #gdpr-cookie-consent-complianz"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Compliance</h3><p>These settings will help ensure your website complies with privacy regulations. Here, you can adjust the banner's appearance, message, and button labels.</p>",
+              "<h3 class='introjs-tooltip-title'>General</h3><p>These settings will help ensure your website complies with privacy regulations. Here, you can adjust the banner's appearance, message, and button labels.</p>",
           },
           {
             element: document.querySelector(
               "#cookie_settings #gdpr-cookie-consent-configuration"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Configuration</h3><p>Here, you can adjust your cookie banner’s position, choose whether to display it as a banner or a popup, and even import or export your settings for easy configuration.</p>",
+              "<h3 class='introjs-tooltip-title'>Layout</h3><p>Here, you can adjust your cookie banner’s position, choose whether to display it as a banner or a popup, and even import or export your settings for easy configuration.</p>",
           },
           {
             element: document.querySelector(
               "#cookie_settings #gdpr-cookie-consent-design"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Design</h3><p>You can personalize your cookie banner. Select colors, fonts, and add your logo to create a banner that seamlessly blends with your website's design.</p>",
+              "<h3 class='introjs-tooltip-title'>Content and Design</h3><p>You can personalize your cookie banner. Select colors, fonts, and add your logo to create a banner that seamlessly blends with your website's design.</p>",
           },
-          {
+           {
             element: document.querySelector(
-              "#cookie_settings #gdpr-cookie-consent-cookies-list"
+              "#cookie_settings #gdpr-cookie-consent-custom-css"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Cookie List</h3><p>The Cookie Scanner is a valuable feature for maintaining control over your website's cookies. Here, you can add custom cookies, set up automated scans, and track your scan history.</p>",
+              "<h3 class='introjs-tooltip-title'>Custom CSS</h3><p>You can personalize your cookie banner by overwriting the CSS of the banner.</p>",
           },
           {
             element: document.querySelector(
-              "#cookie_settings #gdpr-cookie-consent-script-blocker"
+              "#cookie_settings #gdpr-cookie-consent-connection"
+            ),
+            intro:
+              "<h3 class='introjs-tooltip-title'>Advanced Settings</h3><p>Manage your connection</p>",
+          },
+          {
+            element: document.querySelector(
+              ".gdpr-cookie-consent-admin-cookie-manager-tab"
+            ),
+            intro:
+              "<h3 class='introjs-tooltip-title'>Cookie Manager</h3><p>The Cookie Scanner is a valuable feature for maintaining control over your website's cookies. Here, you can add custom cookies, set up automated scans, and track your scan history.</p>",
+          },
+          {
+            element: document.querySelector(
+              ".gdpr-cookie-consent-admin-script-blocker-settings-tab"
             ),
             intro:
               "<h3 class='introjs-tooltip-title'>Script Blocker</h3><p>Take control of your website's scripts with the Script Blocker. Block unwanted scripts and create whitelists for essential ones to ensure your site complies with privacy regulations.</p>",
           },
           {
             element: document.querySelector(
-              "#cookie_settings #gdpr-cookie-consent-ab-testing"
+              ".gdpr-cookie-consent-admin-abtesting-settings-tab"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>A/B Testing</h3><p>A/B testing is a powerful tool for improving cookie consent. Experiment with different banner designs, messages, and calls to action to find the most effective approach.</p>",
-          },
-          {
-            element: document.querySelector(
-              "#cookie_settings #gdpr-cookie-consent-language"
-            ),
-            intro:
-              "<h3 class='introjs-tooltip-title'>Language</h3><p>To provide a better user experience, here you can customize the language of your cookie banner.</p>",
+              "<h3 class='introjs-tooltip-title'>AB Testing</h3><p>AB testing is a powerful tool for improving cookie consent. Experiment with different banner designs, messages, and calls to action to find the most effective approach.</p>",
           },
           {
             element: document.querySelector(
@@ -1441,14 +1447,111 @@ jQuery(document).ready(function () {
             intro:
               "<h3 class='introjs-tooltip-title'>Policy Data</h3><p>Policy Data shows the third party companies, their purpose, and applicable privacy policy or cookie policy link in the form of a table.</p>",
           },
-        ],
+           {
+            element: document.querySelector(
+              ".gdpr-cookie-consent-admin-language-settings-tab"
+            ),
+            intro:
+              "<h3 class='introjs-tooltip-title'>Language</h3><p>To provide a better user experience, here you can customize the language of your cookie banner.</p>",
+          },
+           {
+            element: document.querySelector(
+              ".gdpr-cookie-consent-admin-advanced-settings-tab"
+            ),
+            intro:
+              "<h3 class='introjs-tooltip-title'>Advanced Settings</h3><p>Advanced settings for cookie banner, manage import/export of settings</p>",
+          },
+          {
+            element: document.querySelector(
+              "#advanced_settings #gdpr-cookie-consent-consent-settings"
+            ),
+            intro:
+              "<h3 class='introjs-tooltip-title'>Consent Settings</h3><p>Consent settings for cookie banner, manage consent forwarding, consent logging</p>",
+          },
+           {
+            element: document.querySelector(
+              "#advanced_settings #gdpr-cookie-consent-additional-settings"
+            ),
+            intro:
+              "<h3 class='introjs-tooltip-title'>Additional Settings</h3><p>Additional settings for cookie banner, reset to default setting, export and erase personal data</p>",
+          },
+          {
+            element: document.querySelector(
+              "#advanced_settings #gdpr-cookie-consent-export-import-settings"
+            ),
+            intro:
+              "<h3 class='introjs-tooltip-title'>Cookie Settings Export/Import</h3><p>Export/Import the cookie settings to apply directly to your plugin</p>",
+          },
+        ];
+      const filteredTourSteps = allintroSteps.filter(step => {
+       if (step.element === null) {
+          return false;
+        }
+
+        return true;
+      });
+    
+      const introSteps = introJs().setOptions({
+        steps: filteredTourSteps,
         prevLabel: "Previous", // Change "Back" button text
         doneLabel: "End Tour",
         showBullets: false, // Disable the dots
         showStepNumbers: true, // Ensures step numbers are displayed
         showButtons: true, // Initially show buttons
         exitOnOverlayClick: true,
-      });
+      })
+        introSteps.onbeforechange(function (targetElement) {
+          if (!targetElement) return;
+
+          if (
+            targetElement.closest &&
+            targetElement.closest("#advanced_settings")
+          ) {
+            // Update URL hash
+            history.pushState({}, "", "#advanced_settings");
+
+            jQuery(".gdpr-cookie-consent-admin-tab").removeClass("active-tab");
+            jQuery(".gdpr-cookie-consent-admin-tab-content").hide();
+
+            jQuery("#advanced_settings").show();
+            jQuery(".gdpr-cookie-consent-admin-advanced-settings-tab").addClass("active-tab");
+            return
+          }
+          // ---------------------------
+          if (targetElement.closest && targetElement.closest("#cookie_settings")) {
+
+            history.pushState({}, "", "#cookie_settings");
+
+            jQuery(".gdpr-cookie-consent-admin-tab").removeClass("active-tab");
+            jQuery(".gdpr-cookie-consent-admin-tab-content").hide();
+
+            jQuery("#cookie_settings").show();
+            jQuery(".gdpr-cookie-consent-admin-cookie-settings-tab").addClass("active-tab");
+            return;
+          }
+        }) 
+        //when the popup is closed
+        .oncomplete(function () {
+          history.pushState({}, "", "#cookie_settings");
+          // Switch back to Cookie Settings tab, switch to "#cookie_settings" URL
+          jQuery(".gdpr-cookie-consent-admin-tab").removeClass("active-tab");
+          jQuery(".gdpr-cookie-consent-admin-tab-content").hide();
+
+          jQuery("#cookie_settings").show();
+          jQuery(".gdpr-cookie-consent-admin-cookie-settings-tab").addClass("active-tab");
+
+        })
+        //when clicked on "End Tour" at the end, switch to "#cookie_settings" URL
+        .onexit(function () {
+          history.pushState({}, "", "#cookie_settings");
+          // Switch back to Cookie Settings tab
+          jQuery(".gdpr-cookie-consent-admin-tab").removeClass("active-tab");
+          jQuery(".gdpr-cookie-consent-admin-tab-content").hide();
+
+          jQuery("#cookie_settings").show();
+          jQuery(".gdpr-cookie-consent-admin-cookie-settings-tab").addClass("active-tab");
+
+        });
 
       // Start the first intro tour
       introWelcome.start();
