@@ -1517,7 +1517,6 @@ jQuery(document).ready(function () {
             jQuery(".gdpr-cookie-consent-admin-advanced-settings-tab").addClass("active-tab");
             return
           }
-          // ---------------------------
           if (targetElement.closest && targetElement.closest("#cookie_settings")) {
 
             history.pushState({}, "", "#cookie_settings");
@@ -1533,7 +1532,7 @@ jQuery(document).ready(function () {
         //when the popup is closed
         .oncomplete(function () {
           history.pushState({}, "", "#cookie_settings");
-          // Switch back to Cookie Settings tab, switch to "#cookie_settings" URL
+          // Switch back to Cookie Settings tab
           jQuery(".gdpr-cookie-consent-admin-tab").removeClass("active-tab");
           jQuery(".gdpr-cookie-consent-admin-tab-content").hide();
 
@@ -1541,7 +1540,7 @@ jQuery(document).ready(function () {
           jQuery(".gdpr-cookie-consent-admin-cookie-settings-tab").addClass("active-tab");
 
         })
-        //when clicked on "End Tour" at the end, switch to "#cookie_settings" URL
+        //when clicked on "End Tour" at the end
         .onexit(function () {
           history.pushState({}, "", "#cookie_settings");
           // Switch back to Cookie Settings tab
