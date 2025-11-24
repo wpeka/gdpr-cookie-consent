@@ -7917,7 +7917,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/* Send consent log data to React dashboard */
 	public function gdpr_send_consent_log_data_to_react_app( WP_REST_Request $request ) {
 
-	    $number  = intval($request->get_param('number')) ?: 10;
+	    $number  = intval($request->get_param('number')) ?: 50;
 	    $offset  = intval($request->get_param('offset')) ?: 0;
 	    $ip      = $request->get_param('ip') ?: '';
 	    $country = $request->get_param('country') ?: '';
@@ -8016,7 +8016,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 	/* Delete console logs callback for React app */
 	public function delete_console_logs_for_react_app( WP_REST_Request $request ) {
-
+		error_log("DODODO delete called");
 	    $ids = $request->get_param('id');
 
 	    if (!is_array($ids)) {
