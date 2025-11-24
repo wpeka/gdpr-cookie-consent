@@ -8096,6 +8096,78 @@ class Gdpr_Cookie_Consent_Admin {
     	);
 	}
 
+
+
+	public function gdpr_send_data_requests_to_react_app( WP_REST_Request $request){
+		$number  = intval($request->get_param('number')) ?: 10;
+	    $offset  = intval($request->get_param('offset')) ?: 0;
+	    $ip      = $request->get_param('ip') ?: '';
+	    $country = $request->get_param('country') ?: '';
+
+	    $meta_query = [];
+
+	    if ($ip !== '') {
+	        $meta_query[] = [
+	            'key'     => '_wplconsentlogs_ip',
+	            'value'   => $ip,
+	            'compare' => 'LIKE',
+	        ];
+	    }
+
+	    if ($country !== '') {
+	        $meta_query[] = [
+	            'key'     => '_wplconsentlogs_country',
+	            'value'   => $country,
+	            'compare' => 'LIKE',
+	        ];
+	    }
+
+	    // Main Query
+	    $args = [
+	        'post_type'      => 'wplconsentlogs',
+	        'post_status'    => 'publish',
+	        'posts_per_page' => $number,
+	        'offset'         => $offset,
+	        'meta_query'     => $meta_query,
+	    ];
+
+	    $query = new WP_Query($args);
+
+	    // Count Query (for correct pagination)
+	    $count_args = $args;
+	    $count_args['posts_per_page'] = -1;
+	    $count_args['offset'] = 0;
+	    $total_count = (new WP_Query($count_args))->found_posts;
+
+	    $posts = $query->posts;
+	    $data = [];
+
+	    foreach ($posts as $post) {
+	        $utc = $post->post_date_gmt;
+	        $timestamp = get_date_from_gmt($utc, 'U');
+	        $formatted_date = date('d/m/Y', $timestamp);
+
+	        $details = get_post_meta($post->ID, '_wplconsentlogs_details', true);
+	        $consent_status = $this->calculate_consent_status($details);
+
+			$scanner = new Gdpr_Cookie_Consent_Cookie_Scanner();
+			$scan_cookie_list = $scanner->get_scan_cookie_list();
+
+	        $data[] = [
+	            'ID'             		=> $post->ID,
+	            'ip'             		=> get_post_meta($post->ID, '_wplconsentlogs_ip', true),
+	            'country'        		=> get_post_meta($post->ID, '_wplconsentlogs_country', true),
+	            'consent_status' 		=> wp_strip_all_tags($consent_status),
+	            'date'           		=> $formatted_date,
+	        ];
+	    }
+
+	    return [
+	        'total_records' => $total_count,
+	        'logs'          => $data,
+	    ];
+	}
+
 	/**
 	 * Fucntion to disconnect account when site deleted from saas dashboard
 	 */
@@ -8374,6 +8446,23 @@ class Gdpr_Cookie_Consent_Admin {
 				},
 			)
 		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/get_data_requests',
+			array(
+				'methods' 	=> 'POST',
+				'callback' 	=> array($this, 'gdpr_send_data_requests_to_react_app'),
+				'permission_callback'	=> function() use ($is_user_connected) {
+					if ($is_user_connected) {
+						return true; // Allow access
+					}
+					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
+				}
+			)
+		);
+
+		
 
 		register_rest_route(
 			'gdpr/v2', // Namespace
