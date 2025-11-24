@@ -7973,7 +7973,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: https://appstaging.wplegalpages.com' );
+			header( 'Access-Control-Allow-Origin: *' );
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -8967,6 +8967,7 @@ public function gdpr_support_request_handler() {
 
 	public function gdpr_update_data_request_form_fields( WP_REST_Request $request ) {
 
+
 		$subject = sanitize_text_field( $request->get_param( 'subject' ) );
 		$message = $request->get_param( 'message' );
 		if ( $message === '' || $message === null ) {
@@ -8976,6 +8977,13 @@ public function gdpr_support_request_handler() {
 		}
 		$email = sanitize_email( $request->get_param( 'email' ) );
 		$status = $request->get_param( 'status' );
+		$the_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+
+		$the_options['data_req_subject'] = $subject;
+		$the_options['data_req_editor_message'] = $message;
+		$the_options['data_req_email_address'] = $email;
+		$the_options['data_reqs_on'] = $status;
+		update_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options);
 
 		return rest_ensure_response(
 			array(
