@@ -8101,70 +8101,41 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_send_data_requests_to_react_app( WP_REST_Request $request){
 		$number  = intval($request->get_param('number')) ?: 10;
 	    $offset  = intval($request->get_param('offset')) ?: 0;
-	    $ip      = $request->get_param('ip') ?: '';
-	    $country = $request->get_param('country') ?: '';
+	    $email      = $request->get_param('email') ?: '';
 
-	    $meta_query = [];
+		global $wpdb;
 
-	    if ($ip !== '') {
-	        $meta_query[] = [
-	            'key'     => '_wplconsentlogs_ip',
-	            'value'   => $ip,
-	            'compare' => 'LIKE',
-	        ];
-	    }
+		$table_name = $wpdb->prefix . 'wpl_data_req';
 
-	    if ($country !== '') {
-	        $meta_query[] = [
-	            'key'     => '_wplconsentlogs_country',
-	            'value'   => $country,
-	            'compare' => 'LIKE',
-	        ];
-	    }
+	    $query  = "SELECT * FROM $table_name";
+		$where_clause = "";
+		$params = [];
 
-	    // Main Query
-	    $args = [
-	        'post_type'      => 'wplconsentlogs',
-	        'post_status'    => 'publish',
-	        'posts_per_page' => $number,
-	        'offset'         => $offset,
-	        'meta_query'     => $meta_query,
-	    ];
+		// Optional email filter
+		if (!empty($email)) {
+			$where_clause = " WHERE email = %s";
+			$params[] = $email;
+		}
 
-	    $query = new WP_Query($args);
+		$count_query = "SELECT COUNT(*) FROM $table_name $where_clause";
+		$total_count = !empty($params)
+			? $wpdb->get_var($wpdb->prepare($count_query, $params))
+			: $wpdb->get_var($count_query);
 
-	    // Count Query (for correct pagination)
-	    $count_args = $args;
-	    $count_args['posts_per_page'] = -1;
-	    $count_args['offset'] = 0;
-	    $total_count = (new WP_Query($count_args))->found_posts;
+		// Pagination
+		$query .= " ORDER BY ID DESC LIMIT %d OFFSET %d";
+		$params[] = $number;
+		$params[] = $offset;
 
-	    $posts = $query->posts;
-	    $data = [];
+		// Prepare query safely
+		$prepared_query = $wpdb->prepare($query, $params);
 
-	    foreach ($posts as $post) {
-	        $utc = $post->post_date_gmt;
-	        $timestamp = get_date_from_gmt($utc, 'U');
-	        $formatted_date = date('d/m/Y', $timestamp);
-
-	        $details = get_post_meta($post->ID, '_wplconsentlogs_details', true);
-	        $consent_status = $this->calculate_consent_status($details);
-
-			$scanner = new Gdpr_Cookie_Consent_Cookie_Scanner();
-			$scan_cookie_list = $scanner->get_scan_cookie_list();
-
-	        $data[] = [
-	            'ID'             		=> $post->ID,
-	            'ip'             		=> get_post_meta($post->ID, '_wplconsentlogs_ip', true),
-	            'country'        		=> get_post_meta($post->ID, '_wplconsentlogs_country', true),
-	            'consent_status' 		=> wp_strip_all_tags($consent_status),
-	            'date'           		=> $formatted_date,
-	        ];
-	    }
+		// Run query
+		$results = $wpdb->get_results($prepared_query, ARRAY_A);
 
 	    return [
 	        'total_records' => $total_count,
-	        'logs'          => $data,
+	        'logs'          => $results,
 	    ];
 	}
 
