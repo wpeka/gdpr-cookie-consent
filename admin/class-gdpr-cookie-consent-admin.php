@@ -7917,7 +7917,7 @@ class Gdpr_Cookie_Consent_Admin {
 	/* Send consent log data to React dashboard */
 	public function gdpr_send_consent_log_data_to_react_app( WP_REST_Request $request ) {
 
-	    $number  = intval($request->get_param('number')) ?: 10;
+	    $number  = intval($request->get_param('number')) ?: 50;
 	    $offset  = intval($request->get_param('offset')) ?: 0;
 	    $ip      = $request->get_param('ip') ?: '';
 	    $country = $request->get_param('country') ?: '';
@@ -8016,7 +8016,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 	/* Delete console logs callback for React app */
 	public function delete_console_logs_for_react_app( WP_REST_Request $request ) {
-
+		error_log("DODODO delete called");
 	    $ids = $request->get_param('id');
 
 	    if (!is_array($ids)) {
@@ -8170,14 +8170,55 @@ class Gdpr_Cookie_Consent_Admin {
 		});
 	}
 
+	public function permission_callback_for_react_app(WP_REST_Request $request) {
+		error_log("DODODO permission_callback called");
+		error_log("DODODO request was: " . print_r($request, true));
+
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+
+		$master_key = $this->settings->get('api','token');		
+
+		$auth_header = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+		if ( ! preg_match('/Bearer\s(\S+)/', $auth_header, $matches) ) {
+			return new WP_Error('no_token', 'Authorization token missing.', ['status' => 401]);
+		}
+		$token = sanitize_text_field($matches[1]);
+		// 2. Validate token with central WP site
+		$validate = wp_remote_post(
+			'https://appstaging.wplegalpages.com/wp-json/jwt-auth/v1/token/validate',
+			[
+				'headers' => [
+					'Authorization' => 'Bearer ' . $token,
+					'Content-Type'  => 'application/json'
+				],
+				'timeout' => 15
+			]
+		);
+		if ( is_wp_error($validate) ) {
+			return new WP_Error('token_validation_failed', $validate->get_error_message(), ['status' => 401]);
+		}
+		$code = wp_remote_retrieve_response_code($validate);
+		if ( $code !== 200 ) {
+			return new WP_Error('invalid_token', 'Token validation failed.', ['status' => 401]);
+		}
+		// 3. Extract master_key from the request body
+		$body = $request->get_json_params();
+		$incoming_key = isset($body['master_key']) ? sanitize_text_field($body['master_key']) : '';
+		if ( empty($incoming_key) ) {
+			return new WP_Error('master_key_missing', 'Master key not provided.', ['status' => 401]);
+		}
+		if ( $master_key !== $incoming_key ) {
+			return new WP_Error('invalid_master_key', 'Master key mismatch.', ['status' => 401]);
+		}
+		return true; // All good → allow callback
+	}
+
 	// Register the REST API route for data from plugin to the saas appwplp server 
 
 	public function register_gdpr_dashboard_route() {
 		
 		global $is_user_connected, $api_user_plan; // Make global variables accessible
 		$this->settings = new GDPR_Cookie_Consent_Settings();
-
-		$master_key = $this->settings->get('api','token');
 		
 		$is_user_connected = $this->settings->is_connected();
 
@@ -8187,12 +8228,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'gdpr_send_consent_log_data_to_react_app'),
-				'permission_callback'	=> function() use ($is_user_connected) {
-					if ($is_user_connected) {
-						return true; // Allow access
-					}
-					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
-				}
+				'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8202,12 +8238,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'delete_console_logs_for_react_app'),
-				'permission_callback'	=> function() use ($is_user_connected) {
-					if ($is_user_connected) {
-						return true; // Allow access
-					}
-					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
-				}
+				'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8217,12 +8248,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'generate_consent_pdf_for_react_app'),
-				'permission_callback'	=> function() use ($is_user_connected) {
-					if ($is_user_connected) {
-						return true; // Allow access
-					}
-					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
-				}
+				'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
 			)
 		);
 		
@@ -8232,50 +8258,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'gdpr_send_data_to_dashboard_appwplp_react_app'), // Function to handle the request
-				'permission_callback' => function(WP_REST_Request $request) use ($master_key) {
-					
-
-					$auth_header = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
-					if ( ! preg_match('/Bearer\s(\S+)/', $auth_header, $matches) ) {
-						return new WP_Error('no_token', 'Authorization token missing.', ['status' => 401]);
-					}
-					$token = sanitize_text_field($matches[1]);
-
-					// 2. Validate token with central WP site
-					$validate = wp_remote_post(
-						'https://appstaging.wplegalpages.com/wp-json/jwt-auth/v1/token/validate',
-						[
-							'headers' => [
-								'Authorization' => 'Bearer ' . $token,
-								'Content-Type'  => 'application/json'
-							],
-							'timeout' => 15
-						]
-					);
-
-					if ( is_wp_error($validate) ) {
-						return new WP_Error('token_validation_failed', $validate->get_error_message(), ['status' => 401]);
-					}
-
-					$code = wp_remote_retrieve_response_code($validate);
-					if ( $code !== 200 ) {
-						return new WP_Error('invalid_token', 'Token validation failed.', ['status' => 401]);
-					}
-
-					// 3. Extract master_key from the request body
-					$body = $request->get_json_params();
-					$incoming_key = isset($body['master_key']) ? sanitize_text_field($body['master_key']) : '';
-
-					if ( empty($incoming_key) ) {
-						return new WP_Error('master_key_missing', 'Master key not provided.', ['status' => 401]);
-					}
-
-					if ( $master_key !== $incoming_key ) {
-						return new WP_Error('invalid_master_key', 'Master key mismatch.', ['status' => 401]);
-					}
-
-					return true; // All good → allow callback
-				},
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8285,13 +8268,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_send_policy_data_to_saas' ),
-				'permission_callback' => function() use ( $is_user_connected ) {
-					// Check if user is connected and the API plan is valid
-					// if ( $is_user_connected ) {
-						return true; // Allow access
-					// }
-					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
-				},
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8301,13 +8278,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_delete_policy_data' ),
-				'permission_callback' => function() use ( $is_user_connected ) {
-					// Check if user is connected and the API plan is valid
-					// if ( $is_user_connected ) {
-						return true; // Allow access
-					// }
-					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
-				},
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8317,13 +8288,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_import_policy_data' ),
-				'permission_callback' => function() use ( $is_user_connected ) {
-					// Check if user is connected and the API plan is valid
-					// if ( $is_user_connected ) {
-						return true; // Allow access
-					// }
-					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
-				},
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8333,13 +8298,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_export_policy_data' ),
-				'permission_callback' => function() use ( $is_user_connected ) {
-					// Check if user is connected and the API plan is valid
-					// if ( $is_user_connected ) {
-						return true; // Allow access
-					// }
-					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
-				},
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
