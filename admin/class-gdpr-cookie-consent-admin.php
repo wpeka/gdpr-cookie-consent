@@ -8099,7 +8099,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 
 	public function gdpr_send_data_requests_to_react_app( WP_REST_Request $request){
-		$number  = intval($request->get_param('number')) ?: 10;
+		$number  = 10;
 	    $offset  = intval($request->get_param('offset')) ?: 0;
 	    $email      = $request->get_param('email') ?: '';
 
@@ -8135,7 +8135,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 	    return [
 	        'total_records' => $total_count,
-	        'logs'          => $results,
+	        'data_requests' => $results,
 	    ];
 	}
 
@@ -8425,9 +8425,9 @@ class Gdpr_Cookie_Consent_Admin {
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'gdpr_send_data_requests_to_react_app'),
 				'permission_callback'	=> function() use ($is_user_connected) {
-					if ($is_user_connected) {
+					// if ($is_user_connected) {
 						return true; // Allow access
-					}
+					// }
 					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
 				}
 			)
