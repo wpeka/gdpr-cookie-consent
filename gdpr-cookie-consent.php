@@ -66,6 +66,21 @@ if ( ! defined( 'GDPR_API_URL' ) ) {
 }
 
 /**
+ * Temporay fix for a critical error
+ */
+add_action( 'plugins_loaded', function () {
+    $opt = get_option( 'gdpr_no_of_scans' );
+
+    if ( is_array( $opt ) ) {
+        // if array has exactly one element → get the value
+        $value = reset( $opt );  
+
+        // overwrite option with the value only
+        update_option( 'gdpr_no_of_scans', $value );
+    }
+}, 0 );
+
+/**
  * Clean variables using sanitize_text_field. Arrays are cleaned recursively.
  * Non-scalar values are ignored.
  *
