@@ -82,7 +82,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '4.0.4';
+			$this->version = '4.0.6';
 		}
 		add_action(
 			'current_screen',
@@ -1028,12 +1028,12 @@ class Gdpr_Cookie_Consent {
 			'show_again_margin'                      => '5',
 			'show_again_margin1'                      => '5',
 			'show_again_margin2'                      => '5',
-			'button_revoke_consent_text_color'       => '#176CAE',
-			'button_revoke_consent_background_color' => '#ffffff',
-			'button_revoke_consent_text_color1'       => '#176CAE',
-			'button_revoke_consent_background_color1' => '#ffffff',
-			'button_revoke_consent_text_color2'       => '#176CAE',
-			'button_revoke_consent_background_color2' => '#ffffff',
+			'button_revoke_consent_text_color'       => '#ffffff',
+			'button_revoke_consent_background_color' => '#176CAE',
+			'button_revoke_consent_text_color1'       => '#ffffff',
+			'button_revoke_consent_background_color1' => '#176CAE',
+			'button_revoke_consent_text_color2'       => '#ffffff',
+			'button_revoke_consent_background_color2' => '#176CAE',
 			'auto_hide_delay'                        => '10000',
 			'auto_banner_initialize_delay'           => '10000',
 			'auto_scroll_offset'                     => '10',

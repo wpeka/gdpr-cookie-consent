@@ -3747,10 +3747,18 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_all_as_button']         = 'true';
 			$the_options['button_revoke_consent_text_color']       = isset( $_POST['gcc-revoke-consent-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color'] ) ) : '';
 			$the_options['button_revoke_consent_background_color'] = isset( $_POST['gcc-revoke-consent-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color'] ) ) : '';
-			$the_options['button_revoke_consent_text_color1']       = isset( $_POST['gcc-revoke-consent-text-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) ) : '';
-			$the_options['button_revoke_consent_background_color1'] = isset( $_POST['gcc-revoke-consent-background-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) ) : '';
-			$the_options['button_revoke_consent_text_color2']       = isset( $_POST['gcc-revoke-consent-text-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) ) : '';
-			$the_options['button_revoke_consent_background_color2'] = isset( $_POST['gcc-revoke-consent-background-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) ) : '';
+			if ( isset( $_POST['gcc-revoke-consent-text-color1'] ) ) {
+				$the_options['button_revoke_consent_text_color1'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) );
+			}
+			if ( isset( $_POST['gcc-revoke-consent-background-color1'] ) ) {
+				$the_options['button_revoke_consent_background_color1'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) );
+			}
+			if ( isset( $_POST['gcc-revoke-consent-text-color2'] ) ) {
+				$the_options['button_revoke_consent_text_color2'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) );
+			}
+			if ( isset( $_POST['gcc-revoke-consent-background-color2'] ) ) {
+				$the_options['button_revoke_consent_background_color2'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) );
+			}
 			$the_options['notify_position_vertical']           = isset( $_POST['gcc-gdpr-cookie-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-position'] ) ) : 'bottom';
 			$the_options['notify_position_horizontal']         = isset( $_POST['gcc-gdpr-cookie-widget-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-widget-position'] ) ) : 'left';
 			$the_options['background']                         = isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
@@ -3881,9 +3889,12 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_all_btn_opacity1']         = isset( $_POST['gdpr-cookie-accept-all-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-opacity'] ) ) : '1';
 			$the_options['button_accept_all_btn_border_width1']    = isset( $_POST['gdpr-cookie-accept-all-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-width'] ) ) : '0';
 			$the_options['button_accept_all_btn_border_radius1']   = isset( $_POST['gdpr-cookie-accept-all-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-radius'] ) ) : '0';
-			$the_options['button_revoke_consent_text_color1']       = isset( $_POST['gcc-revoke-consent-text-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) ) : '';
-			$the_options['button_revoke_consent_background_color1'] = isset( $_POST['gcc-revoke-consent-background-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) ) : '';
-
+			 if ( isset( $_POST['gcc-revoke-consent-text-color1'] ) ) {
+				$the_options['button_revoke_consent_text_color1'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) );
+			}
+			if ( isset( $_POST['gcc-revoke-consent-background-color1'] ) ) {
+				$the_options['button_revoke_consent_background_color1'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) );
+			}
 			$the_options['button_accept_as_button2']        	    = 'true';
 			$the_options['button_decline_as_button2']            = 'true';
 			$the_options['button_settings_as_button2']           = 'true';
@@ -3951,9 +3962,12 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_all_btn_opacity2']         = isset( $_POST['gdpr-cookie-accept-all-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-opacity'] ) ) : '1';
 			$the_options['button_accept_all_btn_border_width2']    = isset( $_POST['gdpr-cookie-accept-all-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-width'] ) ) : '0';
 			$the_options['button_accept_all_btn_border_radius2']   = isset( $_POST['gdpr-cookie-accept-all-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-radius'] ) ) : '0';
-			$the_options['button_revoke_consent_text_color2']       = isset( $_POST['gcc-revoke-consent-text-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) ) : '';
-			$the_options['button_revoke_consent_background_color2'] = isset( $_POST['gcc-revoke-consent-background-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) ) : '';
-
+			if ( isset( $_POST['gcc-revoke-consent-text-color2'] ) ) {
+				$the_options['button_revoke_consent_text_color2'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) );
+			}
+			if ( isset( $_POST['gcc-revoke-consent-background-color2'] ) ) {
+				$the_options['button_revoke_consent_background_color2'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) );
+			}
 			$the_options['multiple_legislation_cookie_bar_color1'] =  isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
 			$the_options['multiple_legislation_cookie_bar_color2'] =  isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
 			$the_options['multiple_legislation_cookie_bar_opacity1'] = isset( $_POST['gdpr-cookie-bar-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-opacity'] ) ) : '1';
@@ -8096,6 +8110,143 @@ class Gdpr_Cookie_Consent_Admin {
     	);
 	}
 
+
+
+	public function gdpr_send_data_requests_to_react_app( WP_REST_Request $request){
+		$number  = 10;
+	    $offset  = intval($request->get_param('offset')) ?: 0;
+	    $email      = $request->get_param('email') ?: '';
+		$filter = $request->get_param('statusFilter') ?: '';
+
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'wpl_data_req';
+
+	    $query  = "SELECT * FROM $table_name";
+		$where_clauses = [];
+		$params = [];
+
+		// Optional email filter
+		if (!empty($email)) {
+			$where_clauses[] = "email LIKE %s";
+			$params[] = '%' . $wpdb->esc_like($email) . '%';
+		}
+
+		if ($filter === 'Resolved') {
+			$where_clauses[] = "resolved = %d";
+			$params[] = 1;
+		} elseif ($filter === 'Unresolved') {
+			$where_clauses[] = "resolved = %d";
+			$params[] = 0;
+		}
+
+		$where_sql = '';
+		if (!empty($where_clauses)) {
+			$where_sql = ' WHERE ' . implode(' AND ', $where_clauses);
+		}
+
+		$count_query = "SELECT COUNT(*) FROM $table_name $where_sql";
+		$total_count = !empty($params)
+			? $wpdb->get_var($wpdb->prepare($count_query, $params))
+			: $wpdb->get_var($count_query);
+
+		// Pagination
+		$query .= $where_sql . " ORDER BY ID DESC LIMIT %d OFFSET %d";
+		$params[] = $number;
+		$params[] = $offset;
+
+		// Prepare query safely
+		error_log($query . print_r($params, true));
+		$prepared_query = $wpdb->prepare($query, $params);
+
+		// Run query
+		$results = $wpdb->get_results($prepared_query, ARRAY_A);
+
+	    return [
+	        'total_records' => $total_count,
+	        'data_requests' => $results,
+	    ];
+	}
+
+	public function gdpr_mark_data_requests_as_resolved( WP_REST_Request $request ) {
+
+		$ids = $request->get_param('ids');
+
+		if ( empty($ids) || !is_array($ids) ) {
+			return new WP_Error(
+				'invalid_ids',
+				'Invalid IDs array',
+				['status' => 400]
+			);
+		}
+
+		$ids = array_map('intval', $ids);
+		$placeholders = implode(',', array_fill(0, count($ids), '%d'));
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wpl_data_req';
+
+		$query = "UPDATE $table_name SET resolved = 1 WHERE ID IN ($placeholders)";
+
+		$updated = $wpdb->query(
+			$wpdb->prepare($query, $ids)
+		);
+
+		if ( $updated === false ) {
+			return new WP_Error(
+				'db_update_failed',
+				'Failed to update records',
+				['status' => 500]
+			);
+		}
+
+		return [
+			'success'  => true,
+			'updated'  => $updated,
+			'ids'      => $ids,
+			'status'   => 'resolved'
+		];
+	}
+
+	public function gdpr_delete_data_request_entries( WP_REST_Request $request ) {
+
+		$ids = $request->get_param('ids');
+
+		if ( empty($ids) || !is_array($ids) ) {
+			return new WP_Error(
+				'invalid_ids',
+				'Invalid IDs array',
+				['status' => 400]
+			);
+		}
+
+		$ids = array_map('intval', $ids);
+		$placeholders = implode(',', array_fill(0, count($ids), '%d'));
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wpl_data_req';
+
+		$query = "DELETE FROM $table_name WHERE ID IN ($placeholders)";
+
+		$deleted = $wpdb->query(
+			$wpdb->prepare($query, $ids)
+		);
+
+		if ( $deleted === false ) {
+			return new WP_Error(
+				'db_delete_failed',
+				'Failed to delete records',
+				['status' => 500]
+			);
+		}
+
+		return [
+			'success' => true,
+			'deleted' => $deleted,
+			'ids'     => $ids
+		];
+	}
+
 	/**
 	 * Fucntion to disconnect account when site deleted from saas dashboard
 	 */
@@ -8155,7 +8306,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: https://appstaging.wplegalpages.com' );
+			header( 'Access-Control-Allow-Origin: https://app.wplegalpages.com' );
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -8333,6 +8484,53 @@ class Gdpr_Cookie_Consent_Admin {
 				},
 			)
 		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/get_data_requests',
+			array(
+				'methods' 	=> 'POST',
+				'callback' 	=> array($this, 'gdpr_send_data_requests_to_react_app'),
+				'permission_callback'	=> function() use ($is_user_connected) {
+					// if ($is_user_connected) {
+						return true; // Allow access
+					// }
+					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
+				}
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/resolve_data_request',
+			array(
+				'methods' 	=> 'POST',
+				'callback' 	=> array($this, 'gdpr_mark_data_requests_as_resolved'),
+				'permission_callback'	=> function() use ($is_user_connected) {
+					// if ($is_user_connected) {
+						return true; // Allow access
+					// }
+					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
+				}
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/delete_data_request',
+			array(
+				'methods' 	=> 'POST',
+				'callback' 	=> array($this, 'gdpr_delete_data_request_entries'),
+				'permission_callback'	=> function() use ($is_user_connected) {
+					// if ($is_user_connected) {
+						return true; // Allow access
+					// }
+					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
+				}
+			)
+		);
+
+		
 
 		register_rest_route(
 			'gdpr/v2', // Namespace
@@ -9153,6 +9351,7 @@ public function gdpr_support_request_handler() {
 
 	public function gdpr_update_data_request_form_fields( WP_REST_Request $request ) {
 
+
 		$subject = sanitize_text_field( $request->get_param( 'subject' ) );
 		$message = $request->get_param( 'message' );
 		if ( $message === '' || $message === null ) {
@@ -9162,6 +9361,13 @@ public function gdpr_support_request_handler() {
 		}
 		$email = sanitize_email( $request->get_param( 'email' ) );
 		$status = $request->get_param( 'status' );
+		$the_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+
+		$the_options['data_req_subject'] = $subject;
+		$the_options['data_req_editor_message'] = $message;
+		$the_options['data_req_email_address'] = $email;
+		$the_options['data_reqs_on'] = $status;
+		update_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options);
 
 		return rest_ensure_response(
 			array(

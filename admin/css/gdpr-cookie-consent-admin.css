@@ -4231,14 +4231,46 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   text-transform: capitalize;
 }
 .gdpr-cookie-consent-admin-new-dashboard-btn a {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+	font-size: 14px;
+	background-color: #074EA8;
+	color: var(--white, #fff);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-weight: 400;
+	text-decoration: none;
+  border: 1px solid var(--white, #fff);
+  gap: 8px;
+}
+.gdpr-cookie-consent-admin-new-dashboard-btn-beta-span {
+  font-family: "Roboto", sans-serif;
+  background-color: #3971B9;
+  border-radius: 4px;
+  padding: 6px;
+  font-size: 10px;
+  display: inline-block;
+  color: #E6EDF6;
+  line-height: 11px;
+  letter-spacing: 4%;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+.gdpr-cookie-consent-admin-new-dashboard-btn a:hover {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
   font-family: "Roboto", sans-serif;
 	font-size: 14px;
 	background-color: var(--white, #fff);
-	color: #084EA8;
-  border-radius: 6px;
-  padding: 10px;
-  font-weight: 600;
+	color: #074EA8;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-weight: 400;
 	text-decoration: none;
+  gap: 8px;
 }
 .gdpr-cookie-consent-main-admin-header
   .gdpr-cookie-consent-admin-promotional-banner {

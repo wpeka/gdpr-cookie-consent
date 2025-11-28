@@ -421,24 +421,21 @@ function rejectTCModel() {
 
 function selectAllUpdateTCModel() {
   try {
-    tcModel.vendorConsents.forEach((value, vendorId) => {
-      tcModel.vendorConsents.set(vendorId);
+    Object.keys(gvl.vendors).forEach(vendorId => {
+      const numVendorId = parseInt(vendorId);
+      tcModel.vendorConsents.set(numVendorId);
+      tcModel.vendorLegitimateInterests.set(numVendorId);
     });
 
-    tcModel.vendorLegitimateInterests.forEach((value, vendorId) => {
-      tcModel.vendorLegitimateInterests.set(vendorId);
+    Object.keys(gvl.purposes).forEach((purposeId) => {
+      const numPurposeId = parseInt(purposeId);
+      tcModel.purposeConsents.set(numPurposeId);
+      tcModel.purposeLegitimateInterests.set(numPurposeId);
     });
 
-    tcModel.purposeConsents.forEach((value, purposeId) => {
-      tcModel.purposeConsents.set(purposeId);
-    });
-
-    tcModel.purposeLegitimateInterests.forEach((value, purposeId) => {
-      tcModel.purposeLegitimateInterests.set(purposeId);
-    });
-
-    tcModel.specialFeatureOptins.forEach((value, featureId) => {
-      tcModel.specialFeatureOptins.set(featureId);
+    Object.keys(gvl.specialFeatures).forEach(featureId => {
+      const numFeatureId = parseInt(featureId);
+      tcModel.specialFeatureOptins.set(numFeatureId);
     });
 
     //creating ac string for google additional consent mode
