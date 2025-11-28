@@ -8102,32 +8102,47 @@ class Gdpr_Cookie_Consent_Admin {
 		$number  = 10;
 	    $offset  = intval($request->get_param('offset')) ?: 0;
 	    $email      = $request->get_param('email') ?: '';
+		$filter = $request->get_param('statusFilter') ?: '';
 
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'wpl_data_req';
 
 	    $query  = "SELECT * FROM $table_name";
-		$where_clause = "";
+		$where_clauses = [];
 		$params = [];
 
 		// Optional email filter
 		if (!empty($email)) {
-			$where_clause = " WHERE email = %s";
-			$params[] = $email;
+			$where_clauses[] = "email LIKE %s";
+			$params[] = '%' . $wpdb->esc_like($email) . '%';
 		}
 
-		$count_query = "SELECT COUNT(*) FROM $table_name $where_clause";
+		if ($filter === 'Resolved') {
+			$where_clauses[] = "resolved = %d";
+			$params[] = 1;
+		} elseif ($filter === 'Unresolved') {
+			$where_clauses[] = "resolved = %d";
+			$params[] = 0;
+		}
+
+		$where_sql = '';
+		if (!empty($where_clauses)) {
+			$where_sql = ' WHERE ' . implode(' AND ', $where_clauses);
+		}
+
+		$count_query = "SELECT COUNT(*) FROM $table_name $where_sql";
 		$total_count = !empty($params)
 			? $wpdb->get_var($wpdb->prepare($count_query, $params))
 			: $wpdb->get_var($count_query);
 
 		// Pagination
-		$query .= " ORDER BY ID DESC LIMIT %d OFFSET %d";
+		$query .= $where_sql . " ORDER BY ID DESC LIMIT %d OFFSET %d";
 		$params[] = $number;
 		$params[] = $offset;
 
 		// Prepare query safely
+		error_log($query . print_r($params, true));
 		$prepared_query = $wpdb->prepare($query, $params);
 
 		// Run query
@@ -8137,6 +8152,85 @@ class Gdpr_Cookie_Consent_Admin {
 	        'total_records' => $total_count,
 	        'data_requests' => $results,
 	    ];
+	}
+
+	public function gdpr_mark_data_requests_as_resolved( WP_REST_Request $request ) {
+
+		$ids = $request->get_param('ids');
+
+		if ( empty($ids) || !is_array($ids) ) {
+			return new WP_Error(
+				'invalid_ids',
+				'Invalid IDs array',
+				['status' => 400]
+			);
+		}
+
+		$ids = array_map('intval', $ids);
+		$placeholders = implode(',', array_fill(0, count($ids), '%d'));
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wpl_data_req';
+
+		$query = "UPDATE $table_name SET resolved = 1 WHERE ID IN ($placeholders)";
+
+		$updated = $wpdb->query(
+			$wpdb->prepare($query, $ids)
+		);
+
+		if ( $updated === false ) {
+			return new WP_Error(
+				'db_update_failed',
+				'Failed to update records',
+				['status' => 500]
+			);
+		}
+
+		return [
+			'success'  => true,
+			'updated'  => $updated,
+			'ids'      => $ids,
+			'status'   => 'resolved'
+		];
+	}
+
+	public function gdpr_delete_data_request_entries( WP_REST_Request $request ) {
+
+		$ids = $request->get_param('ids');
+
+		if ( empty($ids) || !is_array($ids) ) {
+			return new WP_Error(
+				'invalid_ids',
+				'Invalid IDs array',
+				['status' => 400]
+			);
+		}
+
+		$ids = array_map('intval', $ids);
+		$placeholders = implode(',', array_fill(0, count($ids), '%d'));
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wpl_data_req';
+
+		$query = "DELETE FROM $table_name WHERE ID IN ($placeholders)";
+
+		$deleted = $wpdb->query(
+			$wpdb->prepare($query, $ids)
+		);
+
+		if ( $deleted === false ) {
+			return new WP_Error(
+				'db_delete_failed',
+				'Failed to delete records',
+				['status' => 500]
+			);
+		}
+
+		return [
+			'success' => true,
+			'deleted' => $deleted,
+			'ids'     => $ids
+		];
 	}
 
 	/**
@@ -8424,6 +8518,36 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'gdpr_send_data_requests_to_react_app'),
+				'permission_callback'	=> function() use ($is_user_connected) {
+					// if ($is_user_connected) {
+						return true; // Allow access
+					// }
+					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
+				}
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/resolve_data_request',
+			array(
+				'methods' 	=> 'POST',
+				'callback' 	=> array($this, 'gdpr_mark_data_requests_as_resolved'),
+				'permission_callback'	=> function() use ($is_user_connected) {
+					// if ($is_user_connected) {
+						return true; // Allow access
+					// }
+					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
+				}
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/delete_data_request',
+			array(
+				'methods' 	=> 'POST',
+				'callback' 	=> array($this, 'gdpr_delete_data_request_entries'),
 				'permission_callback'	=> function() use ($is_user_connected) {
 					// if ($is_user_connected) {
 						return true; // Allow access
