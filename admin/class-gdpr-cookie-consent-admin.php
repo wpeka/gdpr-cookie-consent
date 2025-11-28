@@ -8112,26 +8112,27 @@ class Gdpr_Cookie_Consent_Admin {
 
 
 
-	public function gdpr_send_data_requests_to_react_app( WP_REST_Request $request){
+	public function gdpr_send_data_requests_to_react_app( WP_REST_Request $request ) {
 		$number  = 10;
-	    $offset  = intval($request->get_param('offset')) ?: 0;
-	    $email      = $request->get_param('email') ?: '';
-		$filter = $request->get_param('statusFilter') ?: '';
+		$offset  = intval($request->get_param('offset')) ?: 0;
+		$email   = $request->get_param('email') ?: '';
+		$filter  = $request->get_param('statusFilter') ?: '';
+		$all     = $request->get_param('all') ?: false;
 
 		global $wpdb;
-
 		$table_name = $wpdb->prefix . 'wpl_data_req';
 
-	    $query  = "SELECT * FROM $table_name";
+		$query  = "SELECT * FROM $table_name";
 		$where_clauses = [];
 		$params = [];
 
-		// Optional email filter
+		// Email filter
 		if (!empty($email)) {
 			$where_clauses[] = "email LIKE %s";
 			$params[] = '%' . $wpdb->esc_like($email) . '%';
 		}
 
+		// Status filter
 		if ($filter === 'Resolved') {
 			$where_clauses[] = "resolved = %d";
 			$params[] = 1;
@@ -8145,28 +8146,35 @@ class Gdpr_Cookie_Consent_Admin {
 			$where_sql = ' WHERE ' . implode(' AND ', $where_clauses);
 		}
 
+		// ✅ Total count
 		$count_query = "SELECT COUNT(*) FROM $table_name $where_sql";
 		$total_count = !empty($params)
 			? $wpdb->get_var($wpdb->prepare($count_query, $params))
 			: $wpdb->get_var($count_query);
 
-		// Pagination
-		$query .= $where_sql . " ORDER BY ID DESC LIMIT %d OFFSET %d";
-		$params[] = $number;
-		$params[] = $offset;
+		// ✅ If ALL is true → return EVERYTHING without pagination
+		if ($all) {
+			$query .= " ORDER BY ID DESC";
+			$prepared_query = !empty($params)
+				? $wpdb->prepare($query, $params)
+				: $query;
+		} 
+		// ✅ Otherwise apply pagination
+		else {
+			$query .= $where_sql . " ORDER BY ID DESC LIMIT %d OFFSET %d";
+			$params[] = $number;
+			$params[] = $offset;
+			$prepared_query = $wpdb->prepare($query, $params);
+		}
 
-		// Prepare query safely
-		error_log($query . print_r($params, true));
-		$prepared_query = $wpdb->prepare($query, $params);
-
-		// Run query
 		$results = $wpdb->get_results($prepared_query, ARRAY_A);
 
-	    return [
-	        'total_records' => $total_count,
-	        'data_requests' => $results,
-	    ];
+		return [
+			'total_records' => $total_count,
+			'data_requests' => $results,
+		];
 	}
+
 
 	public function gdpr_mark_data_requests_as_resolved( WP_REST_Request $request ) {
 
@@ -8306,7 +8314,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: https://app.wplegalpages.com' );
+			header( 'Access-Control-Allow-Origin: *' );
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -8322,8 +8330,6 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	public function permission_callback_for_react_app(WP_REST_Request $request) {
-		error_log("DODODO permission_callback called");
-		error_log("DODODO request was: " . print_r($request, true));
 
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 
@@ -8336,7 +8342,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$token = sanitize_text_field($matches[1]);
 		// 2. Validate token with central WP site
 		$validate = wp_remote_post(
-			'https://appstaging.wplegalpages.com/wp-json/jwt-auth/v1/token/validate',
+			'https://app.wplegalpages.com/wp-json/jwt-auth/v1/token/validate',
 			[
 				'headers' => [
 					'Authorization' => 'Bearer ' . $token,
@@ -8459,13 +8465,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_get_data_request_form_fields' ),
-				'permission_callback' => function() use ( $is_user_connected ) {
-					// Check if user is connected and the API plan is valid
-					// if ( $is_user_connected ) {
-						return true; // Allow access
-					// }
-					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
-				},
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8475,13 +8475,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_update_data_request_form_fields' ),
-				'permission_callback' => function() use ( $is_user_connected ) {
-					// Check if user is connected and the API plan is valid
-					// if ( $is_user_connected ) {
-						return true; // Allow access
-					// }
-					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
-				},
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8491,12 +8485,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'gdpr_send_data_requests_to_react_app'),
-				'permission_callback'	=> function() use ($is_user_connected) {
-					// if ($is_user_connected) {
-						return true; // Allow access
-					// }
-					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
-				}
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8506,12 +8495,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'gdpr_mark_data_requests_as_resolved'),
-				'permission_callback'	=> function() use ($is_user_connected) {
-					// if ($is_user_connected) {
-						return true; // Allow access
-					// }
-					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
-				}
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8521,12 +8505,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'gdpr_delete_data_request_entries'),
-				'permission_callback'	=> function() use ($is_user_connected) {
-					// if ($is_user_connected) {
-						return true; // Allow access
-					// }
-					return new WP_Error('rest_forbidden', 'Unauthorized Access', array('status' => 401));
-				}
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
