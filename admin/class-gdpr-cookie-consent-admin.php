@@ -106,7 +106,7 @@ class Gdpr_Cookie_Consent_Admin {
 				$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 			}
 
-			add_action( 'admin_init', array( $this, 'wpl_data_req_process_resolve' ) );
+			add_action( 'admin_post_gdpr_resolve', [ $this, 'wpl_data_req_process_resolve' ] );
 			add_action( 'admin_init', array( $this, 'gdpr_migrate_old_template_names_once') );
 			add_action('admin_init', function() {
 				if (!defined('DOING_AJAX') && !defined('REST_REQUEST')) {
@@ -1594,10 +1594,23 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function wpl_data_req_process_resolve() {
 
-		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' )
-		&& isset( $_GET['action'] )
-		&& $_GET['action'] == 'resolve'
-		&& isset( $_GET['id'] )
+    	// Must be logged in
+		if ( ! is_user_logged_in() ) {
+			wp_die( 'Unauthorized request.' );
+		}
+
+		// Only admin can resolve
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( 'Insufficient permissions.' );
+		}
+
+		// Validate request + nonce
+		if (isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' ) &&
+			isset( $_GET['action'] ) &&
+			$_GET['action'] === 'resolve' &&
+			isset( $_GET['_wpnonce'] ) &&
+			wp_verify_nonce( $_GET['_wpnonce'], 'wpl_resolve_request' ) &&
+			! empty( $_GET['id'] )
 		) {
 			global $wpdb;
 			$wpdb->update(
@@ -1608,10 +1621,11 @@ class Gdpr_Cookie_Consent_Admin {
 				array( 'ID' => intval( $_GET['id'] ) )
 			);
 			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
+			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request&' . $paged ) );
 			exit;
-		}
-	}
+    	}
+   	wp_die( 'Invalid request.' );
+}
 	/**
 	 * Handle delete request.
 	 */
