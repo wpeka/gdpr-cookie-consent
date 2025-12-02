@@ -8116,6 +8116,151 @@ class Gdpr_Cookie_Consent_Admin {
     	);
 	}
 
+
+
+	public function gdpr_send_data_requests_to_react_app( WP_REST_Request $request ) {
+		$number  = 10;
+		$offset  = intval($request->get_param('offset')) ?: 0;
+		$email   = $request->get_param('email') ?: '';
+		$filter  = $request->get_param('statusFilter') ?: '';
+		$all     = $request->get_param('all') ?: false;
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wpl_data_req';
+
+		$query  = "SELECT * FROM $table_name";
+		$where_clauses = [];
+		$params = [];
+
+		// Email filter
+		if (!empty($email)) {
+			$where_clauses[] = "email LIKE %s";
+			$params[] = '%' . $wpdb->esc_like($email) . '%';
+		}
+
+		// Status filter
+		if ($filter === 'Resolved') {
+			$where_clauses[] = "resolved = %d";
+			$params[] = 1;
+		} elseif ($filter === 'Unresolved') {
+			$where_clauses[] = "resolved = %d";
+			$params[] = 0;
+		}
+
+		$where_sql = '';
+		if (!empty($where_clauses)) {
+			$where_sql = ' WHERE ' . implode(' AND ', $where_clauses);
+		}
+
+		// ✅ Total count
+		$count_query = "SELECT COUNT(*) FROM $table_name $where_sql";
+		$total_count = !empty($params)
+			? $wpdb->get_var($wpdb->prepare($count_query, $params))
+			: $wpdb->get_var($count_query);
+
+		// ✅ If ALL is true → return EVERYTHING without pagination
+		if ($all) {
+			$query .= " ORDER BY ID DESC";
+			$prepared_query = !empty($params)
+				? $wpdb->prepare($query, $params)
+				: $query;
+		} 
+		// ✅ Otherwise apply pagination
+		else {
+			$query .= $where_sql . " ORDER BY ID DESC LIMIT %d OFFSET %d";
+			$params[] = $number;
+			$params[] = $offset;
+			$prepared_query = $wpdb->prepare($query, $params);
+		}
+
+		$results = $wpdb->get_results($prepared_query, ARRAY_A);
+
+		return [
+			'total_records' => $total_count,
+			'data_requests' => $results,
+		];
+	}
+
+
+	public function gdpr_mark_data_requests_as_resolved( WP_REST_Request $request ) {
+
+		$ids = $request->get_param('ids');
+
+		if ( empty($ids) || !is_array($ids) ) {
+			return new WP_Error(
+				'invalid_ids',
+				'Invalid IDs array',
+				['status' => 400]
+			);
+		}
+
+		$ids = array_map('intval', $ids);
+		$placeholders = implode(',', array_fill(0, count($ids), '%d'));
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wpl_data_req';
+
+		$query = "UPDATE $table_name SET resolved = 1 WHERE ID IN ($placeholders)";
+
+		$updated = $wpdb->query(
+			$wpdb->prepare($query, $ids)
+		);
+
+		if ( $updated === false ) {
+			return new WP_Error(
+				'db_update_failed',
+				'Failed to update records',
+				['status' => 500]
+			);
+		}
+
+		return [
+			'success'  => true,
+			'updated'  => $updated,
+			'ids'      => $ids,
+			'status'   => 'resolved'
+		];
+	}
+
+	public function gdpr_delete_data_request_entries( WP_REST_Request $request ) {
+
+		$ids = $request->get_param('ids');
+
+		if ( empty($ids) || !is_array($ids) ) {
+			return new WP_Error(
+				'invalid_ids',
+				'Invalid IDs array',
+				['status' => 400]
+			);
+		}
+
+		$ids = array_map('intval', $ids);
+		$placeholders = implode(',', array_fill(0, count($ids), '%d'));
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wpl_data_req';
+
+		$query = "DELETE FROM $table_name WHERE ID IN ($placeholders)";
+
+		$deleted = $wpdb->query(
+			$wpdb->prepare($query, $ids)
+		);
+
+		if ( $deleted === false ) {
+			return new WP_Error(
+				'db_delete_failed',
+				'Failed to delete records',
+				['status' => 500]
+			);
+		}
+
+		return [
+			'success' => true,
+			'deleted' => $deleted,
+			'ids'     => $ids
+		];
+	}
+
 	/**
 	 * Fucntion to disconnect account when site deleted from saas dashboard
 	 */
@@ -8175,7 +8320,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: https://app.wplegalpages.com' );
+			header( 'Access-Control-Allow-Origin: *' );
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -8325,13 +8470,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_get_data_request_form_fields' ),
-				'permission_callback' => function() use ( $is_user_connected ) {
-					// Check if user is connected and the API plan is valid
-					// if ( $is_user_connected ) {
-						return true; // Allow access
-					// }
-					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
-				},
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8341,15 +8480,41 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_update_data_request_form_fields' ),
-				'permission_callback' => function() use ( $is_user_connected ) {
-					// Check if user is connected and the API plan is valid
-					// if ( $is_user_connected ) {
-						return true; // Allow access
-					// }
-					return new WP_Error( 'rest_forbidden', 'Unauthorized Access', array( 'status' => 401 ) );
-				},
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/get_data_requests',
+			array(
+				'methods' 	=> 'POST',
+				'callback' 	=> array($this, 'gdpr_send_data_requests_to_react_app'),
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/resolve_data_request',
+			array(
+				'methods' 	=> 'POST',
+				'callback' 	=> array($this, 'gdpr_mark_data_requests_as_resolved'),
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/delete_data_request',
+			array(
+				'methods' 	=> 'POST',
+				'callback' 	=> array($this, 'gdpr_delete_data_request_entries'),
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		
 
 		register_rest_route(
 			'gdpr/v2', // Namespace
@@ -9170,6 +9335,7 @@ public function gdpr_support_request_handler() {
 
 	public function gdpr_update_data_request_form_fields( WP_REST_Request $request ) {
 
+
 		$subject = sanitize_text_field( $request->get_param( 'subject' ) );
 		$message = $request->get_param( 'message' );
 		if ( $message === '' || $message === null ) {
@@ -9179,6 +9345,13 @@ public function gdpr_support_request_handler() {
 		}
 		$email = sanitize_email( $request->get_param( 'email' ) );
 		$status = $request->get_param( 'status' );
+		$the_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+
+		$the_options['data_req_subject'] = $subject;
+		$the_options['data_req_editor_message'] = $message;
+		$the_options['data_req_email_address'] = $email;
+		$the_options['data_reqs_on'] = $status;
+		update_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options);
 
 		return rest_ensure_response(
 			array(
