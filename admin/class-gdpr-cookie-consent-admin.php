@@ -9333,7 +9333,7 @@ public function gdpr_support_request_handler() {
 
 		$subject = sanitize_text_field( $request->get_param( 'subject' ) );
 		$message = $request->get_param( 'message' );
-		if ( $message === '' || $message === null ) {
+		if ( $message !== '' && $message !== null ) {
 			$message = htmlentities( $message );
 		} else {
 			$message = '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;';
