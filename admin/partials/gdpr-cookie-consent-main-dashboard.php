@@ -85,7 +85,9 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						</div>
 					</div>
 					<div class="gdpr-cookie-consent-admin-help-and-support">
-						<div class="gdpr-cookie-consent-admin-new-dashboard-btn"><a style = "text-decoration: none;" href="<?php echo esc_url( 'https://appstaging.wplegalpages.com/app' ); ?>"><?php esc_html_e( 'Try New Dashboard', 'gdpr-cookie-consent' ); ?></a></div>
+						<?php if ( $is_user_connected ) : ?>
+						<div class="gdpr-cookie-consent-admin-new-dashboard-btn"><a style = "text-decoration: none;" target="_blank" href="<?php echo esc_url( 'https://app.wplegalpages.com/app' ); ?>"><?php esc_html_e( 'Try New Dashboard', 'gdpr-cookie-consent' ); ?><span class="gdpr-cookie-consent-admin-new-dashboard-btn-beta-span"><?php esc_html_e( 'BETA', 'gdpr-cookie-consent')?></span></a></div>
+						<?php endif; ?>
 						<div class="gdpr-cookie-consent-admin-help">
 							<div class="gdpr-cookie-consent-admin-help-icon">
 								<!-- //image  -->
