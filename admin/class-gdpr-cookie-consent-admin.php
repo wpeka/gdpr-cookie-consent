@@ -8320,7 +8320,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: https://app.wplegalpages.com' );
+			header( 'Access-Control-Allow-Origin: ' . GDPR_APP_URL);
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -8347,7 +8347,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$token = sanitize_text_field($matches[1]);
 		// 2. Validate token with central WP site
 		$validate = wp_remote_post(
-			'https://app.wplegalpages.com/wp-json/jwt-auth/v1/token/validate',
+			GDPR_APP_URL . '/wp-json/jwt-auth/v1/token/validate',
 			[
 				'headers' => [
 					'Authorization' => 'Bearer ' . $token,
