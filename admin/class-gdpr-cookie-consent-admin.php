@@ -8035,8 +8035,8 @@ class Gdpr_Cookie_Consent_Admin {
 	    }
 	}
 
-	/* Delete console logs callback for React app */
-	public function delete_console_logs_for_react_app( WP_REST_Request $request ) {
+	/* Delete consent logs callback for React app */
+	public function delete_consent_logs_for_react_app( WP_REST_Request $request ) {
 	    $ids = $request->get_param('id');
 
 	    if (!is_array($ids)) {
@@ -8386,7 +8386,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		register_rest_route(
 			'wplp-react-gdpr/v1',
-			'/get_console_logs',
+			'/get_consent_logs',
 			array(
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'gdpr_send_consent_log_data_to_react_app'),
@@ -8396,10 +8396,10 @@ class Gdpr_Cookie_Consent_Admin {
 
 		register_rest_route(
 			'wplp-react-gdpr/v1',
-			'delete_console_logs',
+			'delete_consent_logs',
 			array(
 				'methods' 	=> 'POST',
-				'callback' 	=> array($this, 'delete_console_logs_for_react_app'),
+				'callback' 	=> array($this, 'delete_consent_logs_for_react_app'),
 				'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
 			)
 		);
