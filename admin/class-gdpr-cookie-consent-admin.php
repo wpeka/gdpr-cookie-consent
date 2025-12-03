@@ -7898,6 +7898,13 @@ class Gdpr_Cookie_Consent_Admin {
 		$saved_schedule_data = get_option('gdpr_scan_schedule_data', array());
 		$schedule_scan_when = isset($saved_schedule_data['schedule_scan_when']) ? $saved_schedule_data['schedule_scan_when'] : null;
 
+		$req = new WP_REST_Request();
+		$req->set_param('number', 5);
+		$req->set_param('offset', 0);
+
+		// Call the function directly
+		$result = $this->gdpr_send_consent_log_data_to_react_app($req);
+
 		ob_end_clean();
 
 		return rest_ensure_response(
@@ -7923,7 +7930,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'monthly_scan_limit'			   => $monthly_scan_limit,
 				'total_pages_scanned'		 	   => $gdpr_pages_scanned,
 				'monthly_page_views'			   => $gdpr_monthly_page_views,
-				'consent_log_data' 				   => get_option( 'consent_log_saas', array() ),
+				'consent_log_data' 				   => $result['logs'],
 			)
 		);
 	}
@@ -8021,16 +8028,15 @@ class Gdpr_Cookie_Consent_Admin {
 	        return 'Bypassed';
 	    } elseif ($optout === 'yes' || $viewed === 'no') {
 	        return 'Rejected';
-	    } elseif ($is_all_yes) {
+	    } elseif ($is_all_yes || $optout === 'no') {
 	        return 'Approved';
 	    } else {
 	        return 'Partially Accepted';
 	    }
 	}
 
-	/* Delete console logs callback for React app */
-	public function delete_console_logs_for_react_app( WP_REST_Request $request ) {
-		error_log("DODODO delete called");
+	/* Delete consent logs callback for React app */
+	public function delete_consent_logs_for_react_app( WP_REST_Request $request ) {
 	    $ids = $request->get_param('id');
 
 	    if (!is_array($ids)) {
@@ -8330,7 +8336,6 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	public function permission_callback_for_react_app(WP_REST_Request $request) {
-
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 
 		$master_key = $this->settings->get('api','token');		
@@ -8381,7 +8386,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		register_rest_route(
 			'wplp-react-gdpr/v1',
-			'/get_console_logs',
+			'/get_consent_logs',
 			array(
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'gdpr_send_consent_log_data_to_react_app'),
@@ -8391,10 +8396,10 @@ class Gdpr_Cookie_Consent_Admin {
 
 		register_rest_route(
 			'wplp-react-gdpr/v1',
-			'delete_console_logs',
+			'delete_consent_logs',
 			array(
 				'methods' 	=> 'POST',
-				'callback' 	=> array($this, 'delete_console_logs_for_react_app'),
+				'callback' 	=> array($this, 'delete_consent_logs_for_react_app'),
 				'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
 			)
 		);
@@ -8454,7 +8459,7 @@ class Gdpr_Cookie_Consent_Admin {
 			'/export-policy-data',
 			array(
 				'methods'  => 'POST',
-				'callback' => array( $this, 'gdpr_export_policy_data' ),
+				'callback' => array( $this, 'wplp_export_policy_data' ),
 				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
@@ -9260,15 +9265,15 @@ public function gdpr_support_request_handler() {
 		return new WP_REST_Response( [ 'status' => true, 'message' => 'Policy Data Deleted Successfully.', 'policy_id' => $policy_ids ], 200);
 	}
 
-	public function gdpr_export_policy_data( WP_REST_Request $request ) {
+	public function wplp_export_policy_data( WP_REST_Request $request ) {
 
 		include_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php';
 
 		$policy_data_instance = new GDPR_Cookie_Consent_Policy_Data();
 
 		$upload_dir = wp_upload_dir();
-		$file_path = trailingslashit($upload_dir['basedir']) . 'gdpr_policies_export.csv';
-		$file_url  = trailingslashit($upload_dir['baseurl']) . 'gdpr_policies_export.csv';
+		$file_path = trailingslashit($upload_dir['basedir']) . 'wplp-policy-data-export.csv';
+		$file_url  = trailingslashit($upload_dir['baseurl']) . 'wplp-policy-data-export.csv';
 
 		// Open file for writing
 		$output = fopen($file_path, 'w');
@@ -9297,8 +9302,8 @@ public function gdpr_support_request_handler() {
 					$policy_data_instance::format_data( sanitize_text_field( get_the_title($post_id) ) ),
 					$policy_data_instance::format_data( wp_strip_all_tags( sanitize_textarea_field( get_post_field( 'post_content', $post_id ) ) ) ),
 					$policy_data_instance::format_data( get_post_status($post_id) ),
-					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_domain', true) ) ),
 					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_links_editor', true) ) ),
+					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_domain', true) ) ),
 				];
 				fputcsv($output, $row, ',', '"' );
 			}
