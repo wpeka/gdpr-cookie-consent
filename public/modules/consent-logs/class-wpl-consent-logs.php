@@ -429,8 +429,6 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$this->args = $args;
 
 		$requests = $this->get_requests( $args );
-
-		$consent_log_saas = array();
 		
 		if ( $requests ) {
 			foreach ( $requests as $request ) {
@@ -443,32 +441,8 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'wplconsentlogsforwarded' => $request['wplconsentlogsforwarded'] ?? null,
 					'wplconsentlogspdf'       => $request['wplconsentlogspdf'],
 				);
-
-				$consent_log_saas[] = array(
-					'ip'				=> $request['wplconsentlogsip'],
-					'country' 			=> $request['wplconsentlogscountry'],
-					'consent_status' 	=> wp_strip_all_tags( $request['wplconsentlogstatus'] ),
-					'date' 				=> $request['wplconsentlogsdates'],
-				);
 			}
 		}
-
-		// Sort the array by 'date' in descending order (newest first)
-		usort( $consent_log_saas, function( $a, $b ) {
-		    $dateA = strtotime( $a['date'] ?? '' );
-		    $dateB = strtotime( $b['date'] ?? '' );
-		    return $dateB <=> $dateA; // descending order
-		});
-	
-		// Keep only the 5 most recent entries
-		$consent_log_saas = array_slice( $consent_log_saas, 0, 5 );
-
-		if ( get_option( 'consent_log_saas' ) === false ) {
-		    add_option( 'consent_log_saas', $consent_log_saas );
-		} else {
-		    update_option( 'consent_log_saas', $consent_log_saas );
-		}
-
 		return apply_filters( 'wpl_datarequest_data', $data );
 	}
 
@@ -642,7 +616,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					}
 					else if ( $wpl_optout_cookie == 'yes' || $wpl_viewed_cookie == 'no' ) {
 						$wplconsentlogstatus = '<div style="color: #B42318;font-weight:500;">' . esc_html( 'Rejected', 'gdpr-cookie-consent' ) . '</div>';
-					} elseif ( $new_consent_status ) {
+					} elseif ( $new_consent_status || $wpl_optout_cookie == 'no' ) {
 						$wplconsentlogstatus = '<div style="color: #15803D;font-weight:500;">' . esc_html( 'Approved', 'gdpr-cookie-consent' ) . '</div>';
 					} else {
 						$wplconsentlogstatus = '<div style="color: #DB6200;font-weight:500;">' . esc_html( 'Partially Accepted', 'gdpr-cookie-consent' ) . '</div>';
@@ -701,7 +675,11 @@ class WPL_Consent_Logs extends WP_List_Table {
 					else if ( $optout_cookie == 'yes' || $viewed_cookie == 'no' ) {
 						$consent_status = 'Rejected';
 					} else {
-						$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
+						if ( $optout_cookie == 'no' ){
+							$consent_status = 'Approved';
+						} else {
+							$consent_status = $allYes ? 'Approved' : 'Partially Accepted';
+						}
 					}
 				}
 
