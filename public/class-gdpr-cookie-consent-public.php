@@ -568,7 +568,6 @@ $selected_script_category = $wpdb->get_var(
 				)
 			);
 			add_filter( 'clean_url', array( $this, 'gdprcookieconsent_clean_async_url' ) );
-			$timber           = new Timber\Timber();
 			$gdpr_message     = '';
 			$ccpa_message     = '';
 			$lgpd_message     = '';
