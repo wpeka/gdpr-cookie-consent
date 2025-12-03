@@ -7955,6 +7955,13 @@ class Gdpr_Cookie_Consent_Admin {
 			++$index;
 		}
 
+		$cookie_banner_created_once = false;
+		if ( !isset($the_options['cookie_banner_created_once']) ) {
+		    $the_options['cookie_banner_created_once'] = false;
+		} else {
+			$cookie_banner_created_once = $the_options['cookie_banner_created_once'];
+		}
+
 		ob_end_clean();
 
 		return rest_ensure_response(
@@ -7999,6 +8006,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'button_settings_text'				=> $the_options["button_settings_text"],
 				'button_accept_text'				=> $the_options["button_accept_text"],
 				'button_accept_all_text'			=> $the_options["button_accept_all_text"],
+				'cookie_banner_created_once'		=> $cookie_banner_created_once,
 			)
 		);
 	}
