@@ -8396,7 +8396,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: *' );
+			header( 'Access-Control-Allow-Origin: ' . GDPR_APP_URL);
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -8423,7 +8423,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$token = sanitize_text_field($matches[1]);
 		// 2. Validate token with central WP site
 		$validate = wp_remote_post(
-			'https://app.wplegalpages.com/wp-json/jwt-auth/v1/token/validate',
+			GDPR_APP_URL . '/wp-json/jwt-auth/v1/token/validate',
 			[
 				'headers' => [
 					'Authorization' => 'Bearer ' . $token,
@@ -9424,7 +9424,7 @@ public function gdpr_support_request_handler() {
 
 		$subject = sanitize_text_field( $request->get_param( 'subject' ) );
 		$message = $request->get_param( 'message' );
-		if ( $message === '' || $message === null ) {
+		if ( $message !== '' && $message !== null ) {
 			$message = htmlentities( $message );
 		} else {
 			$message = '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;';
