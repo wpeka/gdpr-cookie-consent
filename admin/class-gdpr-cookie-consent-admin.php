@@ -8025,7 +8025,7 @@ class Gdpr_Cookie_Consent_Admin {
 	        $meta_query[] = [
 	            'key'     => '_wplconsentlogs_ip',
 	            'value'   => $ip,
-	            'compare' => 'LIKE',
+        		'compare' => 'REGEXP',
 	        ];
 	    }
 
@@ -8033,7 +8033,7 @@ class Gdpr_Cookie_Consent_Admin {
 	        $meta_query[] = [
 	            'key'     => '_wplconsentlogs_country',
 	            'value'   => $country,
-	            'compare' => 'LIKE',
+	            'compare' => 'REGEXP',
 	        ];
 	    }
 
