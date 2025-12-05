@@ -9349,10 +9349,13 @@ public function gdpr_support_request_handler() {
 
 		$settings = $request->get_param( 'settings' );
 
+		$settings = json_decode( $settings, true );
+
+		update_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings);
+
 		return rest_ensure_response(
 			array(
 				'status' => true,
-				'data' => $settings,
 			)
 		);
 	}
