@@ -121,7 +121,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('gdpr_cookie_consent_new_admin_dashboard_screen', array($this, 'gdpr_cookie_consent_new_admin_dashboard_screen'));
 			add_action('gdpr_help_page_content', array($this, 'gdpr_help_page_content'));
 			add_action('refresh_gacm_vendor_list_event', array($this,'get_gacm_data'));
-			add_action( 'rest_api_init', array($this, 'allow_cors_for_react_app'));
+			// add_action( 'rest_api_init', array($this, 'allow_cors_for_react_app'));
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
 			add_action('rest_api_init', array($this, 'wplp_gdpr_generate_api_secret'));
 			//For Import CSV option on Policy data page
@@ -3747,10 +3747,18 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_all_as_button']         = 'true';
 			$the_options['button_revoke_consent_text_color']       = isset( $_POST['gcc-revoke-consent-text-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color'] ) ) : '';
 			$the_options['button_revoke_consent_background_color'] = isset( $_POST['gcc-revoke-consent-background-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color'] ) ) : '';
-			$the_options['button_revoke_consent_text_color1']       = isset( $_POST['gcc-revoke-consent-text-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) ) : '';
-			$the_options['button_revoke_consent_background_color1'] = isset( $_POST['gcc-revoke-consent-background-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) ) : '';
-			$the_options['button_revoke_consent_text_color2']       = isset( $_POST['gcc-revoke-consent-text-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) ) : '';
-			$the_options['button_revoke_consent_background_color2'] = isset( $_POST['gcc-revoke-consent-background-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) ) : '';
+			if ( isset( $_POST['gcc-revoke-consent-text-color1'] ) ) {
+				$the_options['button_revoke_consent_text_color1'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) );
+			}
+			if ( isset( $_POST['gcc-revoke-consent-background-color1'] ) ) {
+				$the_options['button_revoke_consent_background_color1'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) );
+			}
+			if ( isset( $_POST['gcc-revoke-consent-text-color2'] ) ) {
+				$the_options['button_revoke_consent_text_color2'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) );
+			}
+			if ( isset( $_POST['gcc-revoke-consent-background-color2'] ) ) {
+				$the_options['button_revoke_consent_background_color2'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) );
+			}
 			$the_options['notify_position_vertical']           = isset( $_POST['gcc-gdpr-cookie-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-position'] ) ) : 'bottom';
 			$the_options['notify_position_horizontal']         = isset( $_POST['gcc-gdpr-cookie-widget-position'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-gdpr-cookie-widget-position'] ) ) : 'left';
 			$the_options['background']                         = isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
@@ -3881,9 +3889,12 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_all_btn_opacity1']         = isset( $_POST['gdpr-cookie-accept-all-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-opacity'] ) ) : '1';
 			$the_options['button_accept_all_btn_border_width1']    = isset( $_POST['gdpr-cookie-accept-all-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-width'] ) ) : '0';
 			$the_options['button_accept_all_btn_border_radius1']   = isset( $_POST['gdpr-cookie-accept-all-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-radius'] ) ) : '0';
-			$the_options['button_revoke_consent_text_color1']       = isset( $_POST['gcc-revoke-consent-text-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) ) : '';
-			$the_options['button_revoke_consent_background_color1'] = isset( $_POST['gcc-revoke-consent-background-color1'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) ) : '';
-
+			 if ( isset( $_POST['gcc-revoke-consent-text-color1'] ) ) {
+				$the_options['button_revoke_consent_text_color1'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color1'] ) );
+			}
+			if ( isset( $_POST['gcc-revoke-consent-background-color1'] ) ) {
+				$the_options['button_revoke_consent_background_color1'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color1'] ) );
+			}
 			$the_options['button_accept_as_button2']        	    = 'true';
 			$the_options['button_decline_as_button2']            = 'true';
 			$the_options['button_settings_as_button2']           = 'true';
@@ -3951,9 +3962,12 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_accept_all_btn_opacity2']         = isset( $_POST['gdpr-cookie-accept-all-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-opacity'] ) ) : '1';
 			$the_options['button_accept_all_btn_border_width2']    = isset( $_POST['gdpr-cookie-accept-all-border-width'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-width'] ) ) : '0';
 			$the_options['button_accept_all_btn_border_radius2']   = isset( $_POST['gdpr-cookie-accept-all-border-radius'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-accept-all-border-radius'] ) ) : '0';
-			$the_options['button_revoke_consent_text_color2']       = isset( $_POST['gcc-revoke-consent-text-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) ) : '';
-			$the_options['button_revoke_consent_background_color2'] = isset( $_POST['gcc-revoke-consent-background-color2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) ) : '';
-
+			if ( isset( $_POST['gcc-revoke-consent-text-color2'] ) ) {
+				$the_options['button_revoke_consent_text_color2'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-text-color2'] ) );
+			}
+			if ( isset( $_POST['gcc-revoke-consent-background-color2'] ) ) {
+				$the_options['button_revoke_consent_background_color2'] = sanitize_text_field( wp_unslash( $_POST['gcc-revoke-consent-background-color2'] ) );
+			}
 			$the_options['multiple_legislation_cookie_bar_color1'] =  isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
 			$the_options['multiple_legislation_cookie_bar_color2'] =  isset( $_POST['gdpr-cookie-bar-color'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-color'] ) ) : '#ffffff';
 			$the_options['multiple_legislation_cookie_bar_opacity1'] = isset( $_POST['gdpr-cookie-bar-opacity'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-cookie-bar-opacity'] ) ) : '1';
@@ -8162,7 +8176,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: https://appstaging.wplegalpages.com' );
+			header( 'Access-Control-Allow-Origin: https://app.wplegalpages.com' );
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -8265,7 +8279,50 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'gdpr_send_data_to_dashboard_appwplp_react_app'), // Function to handle the request
-				'permission_callback' => array($this, 'permission_callback_for_react_app'),
+				'permission_callback' => function(WP_REST_Request $request) use ($master_key) {
+					
+
+					$auth_header = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+					if ( ! preg_match('/Bearer\s(\S+)/', $auth_header, $matches) ) {
+						return new WP_Error('no_token', 'Authorization token missing.', ['status' => 401]);
+					}
+					$token = sanitize_text_field($matches[1]);
+
+					// 2. Validate token with central WP site
+					$validate = wp_remote_post(
+						'https://app.wplegalpages.com/wp-json/jwt-auth/v1/token/validate',
+						[
+							'headers' => [
+								'Authorization' => 'Bearer ' . $token,
+								'Content-Type'  => 'application/json'
+							],
+							'timeout' => 15
+						]
+					);
+
+					if ( is_wp_error($validate) ) {
+						return new WP_Error('token_validation_failed', $validate->get_error_message(), ['status' => 401]);
+					}
+
+					$code = wp_remote_retrieve_response_code($validate);
+					if ( $code !== 200 ) {
+						return new WP_Error('invalid_token', 'Token validation failed.', ['status' => 401]);
+					}
+
+					// 3. Extract master_key from the request body
+					$body = $request->get_json_params();
+					$incoming_key = isset($body['master_key']) ? sanitize_text_field($body['master_key']) : '';
+
+					if ( empty($incoming_key) ) {
+						return new WP_Error('master_key_missing', 'Master key not provided.', ['status' => 401]);
+					}
+
+					if ( $master_key !== $incoming_key ) {
+						return new WP_Error('invalid_master_key', 'Master key mismatch.', ['status' => 401]);
+					}
+
+					return true; // All good → allow callback
+				},
 			)
 		);
 
