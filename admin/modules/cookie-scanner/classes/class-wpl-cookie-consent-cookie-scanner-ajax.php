@@ -43,6 +43,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_wpl_cookie_scanner', array( $this, 'ajax_cookie_scanner' ) );
+		add_action( 'wp_ajax_wpl_cookie_start_scanning', array( $this, 'start_cookie_scanning' ) );
+		add_action( 'gdpr_check_scan_results_event', array($this, 'gdpr_check_scan_results' ) );
 		add_action('wp_ajax_wpl_check_gcm_status', array($this, 'ajax_check_gcm_status'));
 		add_action('wp_ajax_wpl_get_gcm_status', array($this, 'ajax_get_gcm_status'));
 		add_action( 'wp_ajax_wpl_cookies_deletion', array( $this, 'ajax_cookies_deletion' ) );
@@ -54,7 +56,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	}
 
 	public function ajax_check_gcm_status(){
-		$wpl_api_url = 'https://api.wpeka.com/wp-json/wplcookies/v2/';
+		$wpl_api_url = 'https://app.wplegalpages.com/wp-json/wplcookies/v2/';
 		$site_url      = site_url();
 		$response_url   = get_rest_url(null, 'gdpr/v2/update_gcm_status');
 		$response      = wp_remote_get( $wpl_api_url . 'get_gcm_status' . '?url=' . $site_url . '&response_url=' . $response_url );
@@ -124,8 +126,338 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		exit();
 	}
 
+	public function start_cookie_scanning(){
+		check_ajax_referer( 'wpl_cookie_scanner', 'security' );
+		if ( ! current_user_can( 'manage_options' )){
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+		}
+		if(get_option('gdpr_scanning_action_hash')){
+			wp_send_json_error( array(
+				'message' => 'Scanning already in progress',
+			) );
+		}
+		global $wpdb;
+		$post_table = $wpdb->prefix . 'posts';
+		$post_types = get_post_types(
+						array(
+							'public'   => true,
+							'_builtin' => true,
+						)
+					);
+		unset( $post_types['attachment'] );
+
+		$the_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+		$restrict_posts = $the_options['restrict_posts'];
+
+		if (empty($restrict_posts) || implode( ',', $restrict_posts ) == "") {
+			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish'";
+		} else {
+			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish' AND ID NOT IN (" . implode(',', $restrict_posts) . ')';
+		}
+
+		$data = $wpdb->get_results( $sql, ARRAY_A );
+		$pages_array = [];
+		if ( ! empty( $data ) ) {
+			foreach ( $data as $value ) {
+				$permalink = get_permalink( $value['ID'] );
+				if ( $this->filter_url( $permalink ) ) {
+					array_push($pages_array, $permalink);
+				} 
+			}
+		}
+		array_push($pages_array, get_home_url());
+		$scan_limit     = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
+		$scan_limit_int = (int) $scan_limit; 
+		if(false === $scan_limit){
+			$scan_limit_int = 0;
+		}
+		$gdpr_pages_scanned 			 = get_option('gdpr_no_of_page_scan', 0);
+		$settings = new GDPR_Cookie_Consent_Settings();
+		$account_details = $this->settings->get();
+
+		global $wcam_lib_gdpr;
+
+		$instance_id      = $wcam_lib_gdpr->wc_am_instance_id;
+		$hash       = isset( $_POST['hash'] ) ? sanitize_text_field( wp_unslash( $_POST['hash'] ) ) : '';
+
+		$body = array(
+			'site_url'            => rawurlencode( get_site_url() ),
+			'user_email'          => $this->settings->get_email(), 
+			'pages'               => $pages_array,
+			'scan_limit'          => $scan_limit_int,
+			'gdpr_pages_scanned'  => $gdpr_pages_scanned,
+			'instance_id'         => $instance_id,
+			'account_details'     => $account_details,
+			'hash'				  => $hash
+		);
+
+		
+
+		$response = wp_remote_post(
+			'https://app.wplegalpages.com/wp-json/wplcookies/v2/start_scan',
+			array(
+				'method'      => 'POST',
+				'timeout'     => 20,
+				'headers'     => array(
+					'Content-Type' => 'application/json',
+				),
+				'body'        => wp_json_encode($body),
+			)
+		);
+		if ( is_wp_error( $response ) ) {
+			wp_send_json_error( array(
+				'message' => 'Failed to contact scanner server.',
+				'error'   => $response->get_error_message(),
+			) );
+		}
+
+		$data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		
+		if(isset($data['account_details'])){
+			update_option( 'wpeka_api_framework_app_settings', $data['account_details'] );
+		}
+		if ( isset($data['status']) && $data['status'] === 'scanning' ) {
+			update_option( 'gdpr_scanning_action_hash', $hash );
+			if ( ! wp_next_scheduled( 'gdpr_check_scan_results_event' ) ) {
+				add_filter( 'cron_schedules', function( $schedules ) {
+					$schedules['every_minute'] = array(
+						'interval' => 60,
+						'display'  => __( 'Every Minute' ),
+					);
+					return $schedules;
+				});
+				wp_schedule_event( time() + 60, 'every_minute', 'gdpr_check_scan_results_event', array( count($pages_array) )  );
+			}
+			wp_send_json_success( array(
+				'message' => 'Scan started successfully.',
+				'server_response' => $data,
+			) );
+			
+		} else {
+			wp_send_json_error( array(
+				'message' => 'Unexpected response from scanner server.',
+				'server_response' => $data,
+			) );
+		}
+
+	}
+
+	function gdpr_check_scan_results($total_pages) {
+		$hash = get_option( 'gdpr_scanning_action_hash' );
+
+		if ( empty( $hash ) ) {
+			return; // Nothing to do
+		}
+
+		$response = wp_remote_get( 'https://app.wplegalpages.com/wp-json/wplcookies/v2/get_post_cookie_details' . '?hash=' . $hash,
+				array(
+					'timeout' => 30, // timeout in seconds
+				) );
+
+		if ( is_wp_error( $response ) ) {
+			return;
+		}
+
+		$data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		if ( empty( $data ) ) {
+			return;
+		}
+
+		// If scanner is still running, just exit
+		if ( isset( $data['status'] ) && $data['status'] === 'scanning' ) {
+			return;
+		}
+
+		// If results are available, clean up and save
+		else {
+			delete_option( 'gdpr_scanning_action_hash' );
+			$data = json_decode($data, true);
+			$policies_arr = isset( $data['policies'] ) ? $data['policies'] : '';
+			$cookies_arr = isset($data['cookies']) ? $data['cookies'] : '';
+			// add new policy data.
+			if ( isset( $policies_arr ) && ! empty( $policies_arr ) ) {
+				foreach ( $policies_arr as $domain => $policy ) {
+					$p_data = array();
+					if ( ! empty( $policy ) ) {
+						$p_data['company'] = isset( $policy->company ) ? $policy->company : '';
+						$p_data['purpose'] = isset( $policy->purpose ) ? $policy->purpose : '';
+						$p_data['links']   = isset( $policy->links ) ? $policy->links : '';
+						$post_exists_id    = post_exists( $p_data['company'], '', '', GDPR_POLICY_DATA_POST_TYPE );
+						// update existing posts.
+						if ( $post_exists_id ) {
+							$post_data = get_post( $post_exists_id );
+							if ( isset( $post_data ) && ! empty( $post_data ) ) {
+								$post_data->post_title   = $p_data['company'];
+								$post_data->post_content = $p_data['purpose'];
+							}
+							$post_id = wp_update_post( $post_data );
+						} else {
+							$post_data = array(
+								'post_title'   => $p_data['company'],
+								'post_content' => $p_data['purpose'],
+								'post_status'  => 'publish',
+								'post_parent'  => 0,
+								'post_type'    => GDPR_POLICY_DATA_POST_TYPE,
+							);
+							$post_id   = wp_insert_post( $post_data, true );
+						}
+
+						if ( $post_id ) {
+							update_post_meta( $post_id, '_gdpr_policies_links_editor', $p_data['links'] );
+							update_post_meta( $post_id, '_gdpr_policies_domain', $domain );
+						}
+					}
+				}
+			}
+			$unique_categories = array();
+		
+			// Loop through the 'data' sub-array.
+			foreach ( $cookies_arr as $cookie ) {
+				$category = $cookie['category'];
+		
+				// Check if the category is not already in the $uniqueCategories array.
+				if ( ! in_array( $category, $unique_categories ) ) {
+					// If it's not in the array, add it.
+					$unique_categories[] = $category;
+				}
+			}
+		
+			// Count the number of unique categories.
+			$categories = count( $unique_categories );
+			global $wpdb;
+			$scan_table = $wpdb->prefix . 'wpl_cookie_scan';
+			$data_arr   = array(
+				'created_at'    => time(),
+				'total_url'     => $total_pages,
+				'total_cookies' => count($cookies_arr),
+				'total_category'=> $categories,
+				'status'        => 2,
+			);
+			$scan_id = 1;
+			if ( $wpdb->insert( $scan_table, $data_arr ) ) {
+				$scan_id = $wpdb->insert_id;
+			}
+			$cookie_table_name = $wpdb->prefix . 'wpl_cookie_scan_cookies';
+			$category_table     = $wpdb->prefix . 'gdpr_cookie_scan_categories';
+
+			if ( isset( $cookies_arr ) && is_array( $cookies_arr ) ) {
+
+				
+				$id_wpl_cookie_scan_url = 1; // or dynamic, based on which URL was scanned
+
+				foreach ( $cookies_arr as $cookie ) {
+
+					$name     = isset( $cookie['name'] ) ? sanitize_text_field( $cookie['name'] ) : '';
+					$domain   = isset( $cookie['domain'] ) ? sanitize_text_field( $cookie['domain'] ) : '';
+					$duration = isset( $cookie['duration'] ) ? sanitize_text_field( $cookie['duration'] ) : '';
+					$type     = isset( $cookie['type'] ) ? sanitize_text_field( $cookie['type'] ) : '';
+					$category = isset( $cookie['category_slug'] ) ? sanitize_text_field( $cookie['category_slug'] ) : 'unclassified';
+
+					if ( empty( $name ) ) {
+						continue; // skip malformed cookie objects
+					}
+
+					$exists = $wpdb->get_var(
+						$wpdb->prepare(
+							"SELECT COUNT(*) FROM $cookie_table_name 
+							WHERE name = %s AND domain = %s",
+							$name,
+							$domain
+						)
+					);
+
+					if ( $exists > 0 ) {
+						continue; // Skip this cookie — already stored
+					}
+
+					$category_id = $wpdb->get_var(
+						$wpdb->prepare(
+							"SELECT id_gdpr_cookie_category 
+							FROM $category_table 
+							WHERE gdpr_cookie_category_slug = %s 
+							LIMIT 1",
+							$category
+						)
+					);
+					if ( empty( $category_id ) ) {
+						$category_id = $wpdb->get_var(
+							"SELECT id_gdpr_cookie_category 
+							FROM $category_table 
+							WHERE gdpr_cookie_category_slug = 'unclassified' 
+							LIMIT 1"
+						);
+					}
+
+					// Use REPLACE to avoid duplicate (based on UNIQUE constraint)
+					$wpdb->replace(
+						$cookie_table_name,
+						[
+							'id_wpl_cookie_scan'     => $scan_id,
+							'id_wpl_cookie_scan_url' => $id_wpl_cookie_scan_url,
+							'name'                   => $name,
+							'domain'                 => $domain,
+							'duration'               => $duration,
+							'type'                   => $type,
+							'category'               => $category,
+							'category_id'            => $category_id,
+						],
+						[
+							'%d', '%d', '%s', '%s', '%s', '%s', '%s'
+						]
+					);
+				}
+			}
+			wp_clear_scheduled_hook( 'gdpr_check_scan_results_event', [ $total_pages ]  );
+			delete_option( 'gdpr_scanning_action_hash' );
+
+			$scan_limit     = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
+			if ( false === $scan_limit ) {
+				set_transient( 'gdpr_monthly_scan_limit_exhausted', 1, MONTH_IN_SECONDS );
+			} else {
+				global $wpdb;
+				$wpdb->query(
+					$wpdb->prepare(
+						"UPDATE {$wpdb->options}
+						SET option_value = option_value + 1
+						WHERE option_name = %s
+						AND option_value REGEXP '^[0-9]+$'",
+						'_transient_gdpr_monthly_scan_limit_exhausted'
+					)
+				);
+			}
+			$gdpr_pages_scanned 			 = get_option('gdpr_no_of_page_scan', 0);
+			update_option('gdpr_no_of_page_scan', $gdpr_pages_scanned + $total_pages);
+			$api_user_email         = $this->settings->get_email();
+			$response_gcm_status_mail = wp_remote_post(
+				GDPR_API_URL . 'send_scanning_completion_mail',
+				array(
+					'body' => array(
+						'site_address'			  => get_home_url(),
+						'site_admin_mail'		  => $api_user_email,
+						'cookies_found'			  => count($cookies_arr)
+					),
+					'timeout' => 60,
+				)
+			);
+		}
+	}
+
+
 	public function ajax_cookies_deletion(){
 		global $wpdb;
+
+		if( !isset( $_REQUEST['security'] ) || ! wp_verify_nonce( wp_unslash( $_REQUEST['security'] ), 'gdpr_cookie_consent_cookie_deletion_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid security token.', 'gdpr-cookie-consent' ) ), 403 );
+        	wp_die();
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+    	    wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'gdpr-cookie-consent' ) ), 403 );
+    	    wp_die();
+    	}
+
 		$scan_table    = $wpdb->prefix . 'wpl_cookie_scan_cookies';
 		$result = $wpdb->query("TRUNCATE TABLE {$scan_table}");
 		if ( 'free' === $this->plan ) {

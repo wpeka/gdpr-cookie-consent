@@ -26,10 +26,10 @@ function generatePDF(
 
   event.preventDefault();
   
-  function filterCookiesByCategory(cookieArray, category) {
-    return cookieArray
-      .filter(cookie => cookie.category === category)
-      .map(cookie => [cookie.name, cookie.duration, cookie.description]);
+  function filterCookiesByCategory(arr, category) {
+    return arr
+      .filter(c => c.category?.toLowerCase() === category.toLowerCase())
+      .map(c => [c.name, c.duration, c.description]);
   }
 
 

@@ -251,6 +251,10 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 */
 	public function process_bulk_action() {
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+		    wp_die( 'Unauthorized request.' );
+		}
+
 		$ids = isset( $_GET['user_id'] ) ? $_GET['user_id'] : false;
 		$action = $this->current_action();
 		if ( ! $action ) {

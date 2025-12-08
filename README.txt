@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.8.1
-Stable tag: 4.0.1
+Stable tag: 4.0.7
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -215,6 +215,31 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 11.Consent Log table
 
 == Change Log ==
+
+= 4.0.7 =
+* Improved SaaS App Experience: We’ve upgraded the SaaS platform for better performance, faster loading, and a cleaner interface. Managing your compliance setup is now simpler and more organized.
+* DSAR Management Added to SaaS: You can now view and manage Data Subject Access Requests directly from the SaaS dashboard. No need to jump between tools - everything is in one place.
+* Consent Log Access in SaaS: Consent records are now available inside the SaaS app. You can view user consent details and stay audit-ready without relying only on WordPress.
+* Privacy Policy Data in SaaS: Your privacy policy details are now synced with the SaaS platform, making it easier to review, manage, and update critical data.
+
+= 4.0.6 =
+* Fixed issue with Revoke content button color
+* Fixed minor issue with IAB
+
+= 4.0.5 =
+* Improvements: Integrated updates to support the saas dashboard experience.
+
+= 4.0.4 =
+* Security Improvements: We’ve fixed a reported vulnerability to make sure your site stays secure and protected.
+* Helpful Docs Added:  A few settings now have quick documentation links - so you can get guidance right where you need it, without hunting around.
+* Bug Fixes & Tweaks: We squashed some bugs and made a few behind-the-scenes improvements to keep things running smoothly.
+
+= 4.0.3 =
+* Improved Cookie Scanner: The scanner now runs in the background and automatically emails you a detailed summary once the scan is complete, making cookie detection faster, hands-free, and more convenient.
+* Minor bug fixes and improvements.
+
+= 4.0.2 =
+* Minor bug fixes and improvements.
 
 = 4.0.1 =
 * Bug fixes and improvements.
@@ -717,6 +742,32 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Initial version
 
 == Upgrade Notice ==
+
+= 4.0.7 =
+* Improved SaaS App Experience: We’ve upgraded the SaaS platform for better performance, faster loading, and a cleaner interface. Managing your compliance setup is now simpler and more organized.
+* DSAR Management Added to SaaS: You can now view and manage Data Subject Access Requests directly from the SaaS dashboard. No need to jump between tools - everything is in one place.
+* Consent Log Access in SaaS: Consent records are now available inside the SaaS app. You can view user consent details and stay audit-ready without relying only on WordPress.
+* Privacy Policy Data in SaaS: Your privacy policy details are now synced with the SaaS platform, making it easier to review, manage, and update critical data.
+
+
+= 4.0.6 =
+* Fixed issue with Revoke content button color
+* Fixed minor issue with IAB
+
+= 4.0.5 =
+* Improvements: Integrated updates to support the saas dashboard experience.
+
+= 4.0.4 =
+* Security Improvements: We’ve fixed a reported vulnerability to make sure your site stays secure and protected.
+* Helpful Docs Added:  A few settings now have quick documentation links - so you can get guidance right where you need it, without hunting around.
+* Bug Fixes & Tweaks: We squashed some bugs and made a few behind-the-scenes improvements to keep things running smoothly.
+
+= 4.0.3 =
+* Improved Cookie Scanner: The scanner now runs in the background and automatically emails you a detailed summary once the scan is complete, making cookie detection faster, hands-free, and more convenient.
+* Minor bug fixes and improvements.
+
+= 4.0.2 =
+* Minor bug fixes and improvements.
 
 = 4.0.1 =
 * Bug fixes and improvements.

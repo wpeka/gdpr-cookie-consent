@@ -37,7 +37,7 @@ $legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=insta
 $legalpages_activation_url = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_name . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin_name );
 $help_page_tab_url = admin_url() . 'admin.php?page=wplp-dashboard#help-page';
 $all_legal_pages_url = admin_url() . 'admin.php?page=legal-pages#all_legal_pages';
-
+$create_legalpages_url = admin_url() . 'admin.php?page=wplegal-wizard#/';
 
 // Require the class file for gdpr cookie consent api framework settings.
 require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
@@ -154,7 +154,9 @@ $response = wp_remote_post(
 	array(
 		'body' => array(
 			'cookie_scan_settings'             => $cookie_scan_settings,
-			'schedule_scan_when'               => isset( $the_options['schedule_scan_when'] ) ? $the_options['schedule_scan_when'] : null,
+			$saved_schedule_data = get_option('gdpr_scan_schedule_data', array()),
+			$schedule_scan_when = isset($saved_schedule_data['schedule_scan_when']) ? $saved_schedule_data['schedule_scan_when'] : null,
+			'schedule_scan_when' => $schedule_scan_when,
 			'pro_installed'                    => $pro_installed,
 			'pro_is_activated'                 => $pro_is_activated,
 			'api_key_activated'                => $api_key_activated,
@@ -366,8 +368,7 @@ if ( 200 === $response_status ) {
 							</span>
 							<span class="gdpr-dashboard-legalpages-create-pages-tab" v-show="legal_pages_installed && is_legalpages_active && !is_legal_page_exist">
 								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
-								<a target="_blank" class="gdpr-progress-list-link" :href="create_legalpages_url"><?php esc_html_e( 'Click here', 'gdpr-cookie-consent' ); ?></a>
-							</span>
+								<a target="_blank" class="gdpr-progress-list-link" :href="'<?php echo esc_url( $create_legalpages_url ); ?>'"><?php esc_html_e( 'Click here', 'gdpr-cookie-consent' ); ?></a>							</span>
 							<span class="gdpr-dashboard-legalpages-create-pages-tab" v-show="legal_pages_installed && is_legalpages_active && is_legal_page_exist">
 								<?php esc_html_e( 'Generated legal policy. ', 'gdpr-cookie-consent' ); ?>
 								<a target="_blank" class="gdpr-progress-list-link" :href="all_legal_pages_url"><?php esc_html_e( 'View All Legal Pages', 'gdpr-cookie-consent' ); ?></a>
@@ -567,7 +568,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'If you need help understanding, using, or extending WP Cookie Consent Plugin.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="https://wplegalpages.com/docs/wp-cookie-consent/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="https://wplegalpages.com/docs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">

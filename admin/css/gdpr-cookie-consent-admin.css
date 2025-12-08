@@ -3197,9 +3197,14 @@ input[type="search"]:focus {
   z-index: 9000;
 }
 
-.schedule-popup-container.show-schedule-popup {
-  display: block;
+.schedule-popup-container {
+  display: none !important;
 }
+
+.schedule-popup-container.show-schedule-popup {
+  display: block !important;
+}
+
 .schedule-popup-content {
   background: var(--white-100);
   position: fixed;
@@ -4224,6 +4229,48 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
   font-weight: var(--text-semi-bold-font-weight);
   line-height: var(--text-sm-line-height-rem);
   text-transform: capitalize;
+}
+.gdpr-cookie-consent-admin-new-dashboard-btn a {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+	font-size: 14px;
+	background-color: #074EA8;
+	color: var(--white, #fff);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-weight: 400;
+	text-decoration: none;
+  border: 1px solid var(--white, #fff);
+  gap: 8px;
+}
+.gdpr-cookie-consent-admin-new-dashboard-btn-beta-span {
+  font-family: "Roboto", sans-serif;
+  background-color: #3971B9;
+  border-radius: 4px;
+  padding: 6px;
+  font-size: 10px;
+  display: inline-block;
+  color: #E6EDF6;
+  line-height: 11px;
+  letter-spacing: 4%;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+.gdpr-cookie-consent-admin-new-dashboard-btn a:hover {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+	font-size: 14px;
+	background-color: var(--white, #fff);
+	color: #074EA8;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-weight: 400;
+	text-decoration: none;
+  gap: 8px;
 }
 .gdpr-cookie-consent-main-admin-header
   .gdpr-cookie-consent-admin-promotional-banner {
@@ -7686,6 +7733,12 @@ button.btn.gdpr-renew-now-btn.pro,
   color: #787878;
   font-weight: 400;
 }
+.ab-testing-doc-link{
+  margin-left: 0;
+  font-size: var(--text-2xs-font-size) !important;
+  text-decoration: underline;
+  font-weight: 400;
+}
 .ab_testing-card .ab_testing_analytics {
   width: 700px;
   padding: 20px 50px;
@@ -9378,10 +9431,7 @@ div#gdpr-scan-history {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
 }
-.up {
-  transform: rotate(-135deg);
-  -webkit-transform: rotate(-135deg);
-}
+
 .cookie_arrow {
   border: solid black;
   border-width: 0 2px 2px 0;
@@ -10843,12 +10893,6 @@ div#gdpr-scan-history {
   text-decoration: none;
 }
 
-.gdpr-cookie-consent-settings-content
-  .gdpr-cookie-consent-settings-nav
-  .card
-  .schedule-popup-container {
-  display: none;
-}
 
 .cookie_scanner_card
   #cookie-scanner-container
@@ -10930,4 +10974,21 @@ div#gdpr-scan-history {
   .cookie_notice_buttons a {
     text-wrap-mode: nowrap;
   }
+}
+
+.probadge{
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+}
+
+.bg-badge{
+  background-color: rgb(13,110,253);
 }

@@ -89,7 +89,7 @@ class Gdpr_Cookie_Consent_Public {
 		if($randomNumber < 0.5) $this->chosenBanner = 2;
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		if($the_options['is_gcm_on'] === 'true' || $the_options['is_gcm_on'] === true || $the_options['is_gcm_on'] === 1){
-			add_action('wp_enqueue_scripts', array( $this,'insert_custom_consent_script'), 1);
+			add_action('wp_head', array( $this,'insert_custom_consent_script'), -9999);
 		}
 		add_action( 'wp_ajax_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
@@ -568,7 +568,6 @@ $selected_script_category = $wpdb->get_var(
 				)
 			);
 			add_filter( 'clean_url', array( $this, 'gdprcookieconsent_clean_async_url' ) );
-			$timber           = new Timber\Timber();
 			$gdpr_message     = '';
 			$ccpa_message     = '';
 			$lgpd_message     = '';

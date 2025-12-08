@@ -84,7 +84,10 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						</div>
 					</div>
 					<div class="gdpr-cookie-consent-admin-help-and-support">
-					<div class="gdpr-cookie-consent-admin-product-tour">
+						<?php if ( $is_user_connected ) : ?>
+						<div class="gdpr-cookie-consent-admin-new-dashboard-btn"><a style="text-decoration: none;" target="_blank" href="<?php echo esc_url( 'https://app.wplegalpages.com/app' ); ?>"><?php esc_html_e( 'Try New Dashboard', 'gdpr-cookie-consent' ); ?><span class="gdpr-cookie-consent-admin-new-dashboard-btn-beta-span"><?php esc_html_e( 'BETA', 'gdpr-cookie-consent')?></span></a></div>
+						<?php endif; ?>
+						<div class="gdpr-cookie-consent-admin-product-tour">
 							<div class="gdpr-cookie-consent-admin-product-tour-icon">
 								<!-- //image  -->
 								<a href="https://club.wpeka.com/docs/wp-cookie-consent/" target="_blank">
@@ -186,7 +189,8 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 							} 
 						?>
 						<!-- Legal Pages Plugin tab  -->
-						<a href="?page=legal-pages#settings" class="gdpr-admin-tab-link wplp-main-tab">
+						<?php $lp_terms_accepted = get_option('lp_accept_terms');?>
+                        <a href="<?php echo $lp_terms_accepted === '1' ? '?page=legal-pages#settings' : '?page=legal-pages' ?>" class="gdpr-admin-tab-link wplp-main-tab">
 							<div class="wplp-admin-tab-link-content">
 								<div class="wp-legalpages-admin-gdpr-main-tab wplp-admin-tab-link-left">
 									<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
