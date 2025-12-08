@@ -1621,7 +1621,7 @@ class Gdpr_Cookie_Consent_Admin {
 				array( 'ID' => intval( $_GET['id'] ) )
 			);
 			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request&' . $paged ) );
+			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
 			exit;
     	}
    	wp_die( 'Invalid request.' );
