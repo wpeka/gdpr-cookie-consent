@@ -27,6 +27,15 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	public function __construct() {
 		add_action( 'init', array( $this, 'gdpr_register_custom_post_type' ) );
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
+			
+			add_action( 'admin_head', function() {
+			    global $typenow;
+
+			    // Apply only to your CPT
+			    if ( $typenow === 'gdprpolicies' ) {
+			        remove_action( 'media_buttons', 'media_buttons' );
+			    }
+			});
 			add_action( 'add_meta_boxes', array( $this, 'gdpr_add_meta_box' ) );
 			add_action( 'save_post', array( $this, 'gdpr_save_custom_metabox' ) );
 			add_action( 'manage_edit-gdprpolicies_columns', array( $this, 'gdpr_manage_edit_columns' ) );
@@ -35,6 +44,16 @@ class Gdpr_Cookie_Consent_Policy_Data {
 			add_action( 'admin_head-edit.php', array( $this, 'gdpr_add_policies_export_button' ) );
 			add_action( 'admin_post_gdpr_policies_export.csv', array( $this, 'gdpr_process_csv_export_policies' ) );
 			add_action( 'admin_init', array( $this, 'gdpr_process_csv_policies' ) );
+
+			add_filter( 'wp_editor_settings', function( $settings, $editor_id ) {
+			    global $post;
+						
+			    if ( isset( $post->post_type ) && $post->post_type === 'gdprpolicies' ) {
+			        $settings['media_buttons'] = false;
+			    }
+			
+			    return $settings;
+			}, 10, 2 );
 		}
 	}
 
