@@ -8266,14 +8266,30 @@ class Gdpr_Cookie_Consent_Admin {
 		$save_object = array_map('sanitize_text_field', $save_object);
 		$geo_target_object = $request->get_param('geo_target_object') ?: null;
 		$geo_target_object = array_map('sanitize_text_field', $geo_target_object);
+		$share_usage_data = $request->get_param('share_usage_data') ?: null;
+		$cookie_banner_created_once = $request->get_param('cookie_banner_created_once') ?: null;
 
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 		if(!empty($save_object) && is_array($save_object)){
 			$the_options = array_merge($the_options, $save_object);
+
+			if ( isset( $the_options['cookie_usage_for'] ) ) {
+				switch ( $the_options['cookie_usage_for'] ) {
+					case 'both':
+					case 'gdpr':
+					case 'lgpd':
+					case 'eprivacy':
+						update_option( 'wpl_bypass_script_blocker', 0 );
+						break;
+					case 'ccpa':
+						update_option( 'wpl_bypass_script_blocker', 1 );
+						break;
+				}
+			}
 		}
 		
-		if(!empty($save_object) && is_array($save_object)){
+		if(!empty($geo_target_object) && is_array($geo_target_object)){
 			$the_options['select_countries'] = isset( $geo_target_object['gcc-selected-countries'] ) ? $geo_target_object['gcc-selected-countries'] : '';
 			$the_options['select_countries_ccpa'] = isset( $geo_target_object['gcc-selected-countries-ccpa'] ) ? $geo_target_object['gcc-selected-countries-ccpa'] : '';
 
@@ -8363,6 +8379,14 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
+		if(!empty($share_usage_data)){
+			$is_usage_tracking_allowed = $share_usage_data ? 'true' : 'false';
+			update_option( 'gdpr_usage_tracking_allowed', $is_usage_tracking_allowed );
+		}
+		if(!empty($cookie_banner_created_once)){
+			update_option('cookie_banner_created_once', $cookie_banner_created_once);
+		}
 		
 		return [
 			'success' => true,
