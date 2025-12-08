@@ -7909,7 +7909,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		return rest_ensure_response(
 			array(
-				'success' => true,
+				'success' 						   => true,
 				'user_plan'						   => $api_user_plan,
 				'product_id'                       => $product_id,
 				'last_scan_time'             	   => $last_scan_time,
@@ -7949,7 +7949,7 @@ class Gdpr_Cookie_Consent_Admin {
 	        $meta_query[] = [
 	            'key'     => '_wplconsentlogs_ip',
 	            'value'   => $ip,
-	            'compare' => 'LIKE',
+        		'compare' => 'REGEXP',
 	        ];
 	    }
 
@@ -7957,7 +7957,7 @@ class Gdpr_Cookie_Consent_Admin {
 	        $meta_query[] = [
 	            'key'     => '_wplconsentlogs_country',
 	            'value'   => $country,
-	            'compare' => 'LIKE',
+	            'compare' => 'REGEXP',
 	        ];
 	    }
 
