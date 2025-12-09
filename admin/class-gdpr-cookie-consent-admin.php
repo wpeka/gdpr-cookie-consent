@@ -8349,20 +8349,23 @@ class Gdpr_Cookie_Consent_Admin {
 
 	public function gdpr_save_changes( WP_REST_Request $request){
 		$save_object = $request->get_param('save_object') ?: null;
-		// $save_object = array_map('sanitize_text_field', $save_object);
-
-
+		
 		$geo_target_object = $request->get_param('geo_target_object') ?: null;
-		// $geo_target_object = array_map('sanitize_text_field', $geo_target_object);
-
-
+		
 		$share_usage_data = $request->get_param('share_usage_data') ?: null;
 		$cookie_banner_created_once = $request->get_param('cookie_banner_created_once') ?: null;
 
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 		if(!empty($save_object) && is_array($save_object)){
+
+			// $save_object = array_map('sanitize_text_field', $save_object);
+
+			error_log( 'GCC Save Object: ' . print_r( $save_object, true ) );
+			
 			$the_options = array_merge($the_options, $save_object);
+
+			error_log( 'After Merge: ' . print_r( $the_options, true ) );
 
 			if ( isset( $the_options['cookie_usage_for'] ) ) {
 				switch ( $the_options['cookie_usage_for'] ) {
@@ -8380,8 +8383,9 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 		
 		if(!empty($geo_target_object) && is_array($geo_target_object)){
-			$the_options['select_countries'] = isset( $geo_target_object['is_gdpr_selected_countries'] ) ? $geo_target_object['is_gdpr_selected_countries'] : '';
-			$the_options['select_countries_ccpa'] = isset( $geo_target_object['is_ccpa_selected_countries'] ) ? $geo_target_object['is_ccpa_selected_countries'] : '';
+			$geo_target_object = array_map('sanitize_text_field', $geo_target_object);
+			$the_options['select_countries'] = isset( $geo_target_object['gcc-selected-countries'] ) ? $geo_target_object['gcc-selected-countries'] : '';
+			$the_options['select_countries_ccpa'] = isset( $geo_target_object['gcc-selected-countries-ccpa'] ) ? $geo_target_object['gcc-selected-countries-ccpa'] : '';
 
 			if ( isset( $geo_target_object['is_gdpr_worldwide_on'] ) && ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both') ) {
 				if ( filter_var( $the_options['is_worldwide_on'], FILTER_VALIDATE_BOOLEAN ) !==  filter_var( $geo_target_object['is_gdpr_worldwide_on'], FILTER_VALIDATE_BOOLEAN ) ) {
@@ -8756,7 +8760,45 @@ class Gdpr_Cookie_Consent_Admin {
 			)
 		);
 
-		
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/get-advanced-settings',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_fetch_advanced_settings' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/restore-settings',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_restore_plugin_settings' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/export-settings',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_export_plugin_settings' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/import-settings',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_import_plugin_settings' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
 
 		register_rest_route(
 			'gdpr/v2', // Namespace
@@ -9608,6 +9650,7 @@ public function gdpr_support_request_handler() {
 
 		return rest_ensure_response(
 			array(
+				'plan'                   => $this->settings->get_plan(),
 				'is_multisite'           => is_multisite(),
 				'consent_forward'        => $the_options['consent_forward'],
 				'logging_on'             => $the_options['logging_on'],
