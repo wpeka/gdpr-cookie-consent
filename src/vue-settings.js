@@ -2247,6 +2247,7 @@ var gen = new Vue({
       //Do not track
       do_not_track_on:
         "true" == settings_obj.the_options["do_not_track_on"] ||
+        true == settings_obj.the_options["do_not_track_on"] ||
         1 === settings_obj.the_options["do_not_track_on"]
           ? true
           : false,
@@ -7028,6 +7029,7 @@ var app = new Vue({
       //Do not track
       do_not_track_on:
         "true" == settings_obj.the_options["do_not_track_on"] ||
+        true == settings_obj.the_options["do_not_track_on"] ||
         1 === settings_obj.the_options["do_not_track_on"]
           ? true
           : false,
@@ -10789,6 +10791,7 @@ var adv = new Vue({
       //Do not track
       do_not_track_on:
         "true" == settings_obj.the_options["do_not_track_on"] ||
+        true == settings_obj.the_options["do_not_track_on"] ||
         1 === settings_obj.the_options["do_not_track_on"]
           ? true
           : false,
