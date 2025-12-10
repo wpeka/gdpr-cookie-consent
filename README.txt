@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.8.1
-Stable tag: 4.0.6
+Stable tag: 4.0.7
 Requires PHP: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -215,6 +215,12 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 11.Consent Log table
 
 == Change Log ==
+
+= 4.0.7 =
+* Improved SaaS App Experience: We’ve upgraded the SaaS platform for better performance, faster loading, and a cleaner interface. Managing your compliance setup is now simpler and more organized.
+* DSAR Management Added to SaaS: You can now view and manage Data Subject Access Requests directly from the SaaS dashboard. No need to jump between tools - everything is in one place.
+* Consent Log Access in SaaS: Consent records are now available inside the SaaS app. You can view user consent details and stay audit-ready without relying only on WordPress.
+* Privacy Policy Data in SaaS: Your privacy policy details are now synced with the SaaS platform, making it easier to review, manage, and update critical data.
 
 = 4.0.6 =
 * Fixed issue with Revoke content button color
@@ -736,6 +742,13 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Initial version
 
 == Upgrade Notice ==
+
+= 4.0.7 =
+* Improved SaaS App Experience: We’ve upgraded the SaaS platform for better performance, faster loading, and a cleaner interface. Managing your compliance setup is now simpler and more organized.
+* DSAR Management Added to SaaS: You can now view and manage Data Subject Access Requests directly from the SaaS dashboard. No need to jump between tools - everything is in one place.
+* Consent Log Access in SaaS: Consent records are now available inside the SaaS app. You can view user consent details and stay audit-ready without relying only on WordPress.
+* Privacy Policy Data in SaaS: Your privacy policy details are now synced with the SaaS platform, making it easier to review, manage, and update critical data.
+
 
 = 4.0.6 =
 * Fixed issue with Revoke content button color
