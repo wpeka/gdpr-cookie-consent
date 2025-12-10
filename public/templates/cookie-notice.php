@@ -266,15 +266,15 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 			<div style="display: flex; flex-direction: column; gap: 10px;">
 				<?php
 					if ( ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) && strlen($the_options['bar_heading_text']) > 0) : ?>
-						<h3 class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr_heading';?>" style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html($the_options['bar_heading_text']); ?></h3>
+						<h3 class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr_heading';?>" style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__($the_options['bar_heading_text']); ?></h3>
 					<?php elseif ( ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) && strlen($the_options['bar_heading_text']) === 0 && $template_object['name'] === 'blue_split') : ?> 
-						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__("We value your privacy"); ?></h3>
 					<?php elseif (( $the_options['cookie_usage_for'] === 'lgpd' ) && strlen($the_options['bar_heading_lgpd_text']) > 0) : ?>
-						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html($the_options['bar_heading_lgpd_text']); ?></h3>
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__($the_options['bar_heading_lgpd_text']); ?></h3>
 					<?php elseif ( ($the_options['cookie_usage_for'] === 'lgpd') && strlen($the_options['bar_heading_lgpd_text']) === 0 && $template_object['name'] === 'blue_split') : ?> 
-						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__("We value your privacy"); ?></h3>
 					<?php elseif( $template_object['name'] === 'blue_split' ) : ?> 
-						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html("We value your privacy"); ?></h3>
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__("We value your privacy"); ?></h3>
 					<?php endif; ?>
 					
 				<p  class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr';?>">
