@@ -175,7 +175,7 @@
 														id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
 														class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 														<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
-															<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+															<span class="label-text"><?php echo esc_html__( $category['gdpr_cookie_category_name'] ); ?></span>
 														</label>
 														<!-- DYNAMICALLY GENERATE Input ID  -->
 													</div>
@@ -202,11 +202,11 @@
 													<table class="table table-striped">
 													<thead class="thead-dark">
 													<tr>
-														<th><?php echo esc_html( $cookie_data['name'] ); ?></th>
-														<th><?php echo esc_html( $cookie_data['domain'] ); ?></th>
-														<th><?php echo esc_html( $cookie_data['purpose'] ); ?></th>
-														<th><?php echo esc_html( $cookie_data['expiry'] ); ?></th>
-														<th><?php echo esc_html( $cookie_data['type'] ); ?></th>
+														<th><?php echo esc_html__( $cookie_data['name'] ); ?></th>
+														<th><?php echo esc_html__( $cookie_data['domain'] ); ?></th>
+														<th><?php echo esc_html__( $cookie_data['purpose'] ); ?></th>
+														<th><?php echo esc_html__( $cookie_data['expiry'] ); ?></th>
+														<th><?php echo esc_html__( $cookie_data['type'] ); ?></th>
 													</tr>
 													</thead>
 													<tbody>
@@ -234,7 +234,7 @@
 																<td>
 																<?php
 																if ( ! empty( $cookie['description'] ) ) {
-																	echo esc_html( $cookie['description'] );
+																	echo esc_html__( $cookie['description'] );
 																} else {
 																	echo esc_html( '---' );
 																}
@@ -281,11 +281,11 @@
 														<table class="table table-striped">
 														<thead class="thead-dark">
 														<tr>
-															<th><?php echo esc_html( $cookie_data['name'] ); ?></th>
-															<th><?php echo esc_html( $cookie_data['domain'] ); ?></th>
-															<th><?php echo esc_html( $cookie_data['purpose'] ); ?></th>
-															<th><?php echo esc_html( $cookie_data['expiry'] ); ?></th>
-															<th><?php echo esc_html( $cookie_data['type'] ); ?></th>
+															<th><?php echo esc_html__( $cookie_data['name'] ); ?></th>
+															<th><?php echo esc_html__( $cookie_data['domain'] ); ?></th>
+															<th><?php echo esc_html__( $cookie_data['purpose'] ); ?></th>
+															<th><?php echo esc_html__( $cookie_data['expiry'] ); ?></th>
+															<th><?php echo esc_html__( $cookie_data['type'] ); ?></th>
 														</tr>
 														</thead>
 														<tbody>
@@ -313,7 +313,7 @@
 																	<td>
 																	<?php
 																	if ( ! empty( $cookie['description'] ) ) {
-																		echo esc_html( $cookie['description'] );
+																		echo esc_html__( $cookie['description'] );
 																	} else {
 																		echo esc_html( '---' );
 																	}
@@ -358,11 +358,11 @@
 														<table class="table table-striped">
 														<thead class="thead-dark">
 														<tr>
-															<th><?php echo esc_html( $cookie_data['name'] ); ?></th>
-															<th><?php echo esc_html( $cookie_data['domain'] ); ?></th>
-															<th><?php echo esc_html( $cookie_data['purpose'] ); ?></th>
-															<th><?php echo esc_html( $cookie_data['expiry'] ); ?></th>
-															<th><?php echo esc_html( $cookie_data['type'] ); ?></th>
+															<th><?php echo esc_html__( $cookie_data['name'] ); ?></th>
+															<th><?php echo esc_html__( $cookie_data['domain'] ); ?></th>
+															<th><?php echo esc_html__( $cookie_data['purpose'] ); ?></th>
+															<th><?php echo esc_html__( $cookie_data['expiry'] ); ?></th>
+															<th><?php echo esc_html__( $cookie_data['type'] ); ?></th>
 														</tr>
 														</thead>
 														<tbody>
@@ -390,7 +390,7 @@
 																	<td>
 																	<?php
 																	if ( ! empty( $cookie['description'] ) ) {
-																		echo esc_html( $cookie['description'] );
+																		echo esc_html__( $cookie['description'] );
 																	} else {
 																		echo esc_html( '---' );
 																	}
