@@ -121,7 +121,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('gdpr_cookie_consent_new_admin_dashboard_screen', array($this, 'gdpr_cookie_consent_new_admin_dashboard_screen'));
 			add_action('gdpr_help_page_content', array($this, 'gdpr_help_page_content'));
 			add_action('refresh_gacm_vendor_list_event', array($this,'get_gacm_data'));
-			// add_action( 'rest_api_init', array($this, 'allow_cors_for_react_app'));
+			add_action( 'rest_api_init', array($this, 'allow_cors_for_react_app'));
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
 			add_action('rest_api_init', array($this, 'wplp_gdpr_generate_api_secret'));
 			//For Import CSV option on Policy data page
@@ -8358,14 +8358,8 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 		if(!empty($save_object) && is_array($save_object)){
-
-			// $save_object = array_map('sanitize_text_field', $save_object);
-
-			error_log( 'GCC Save Object: ' . print_r( $save_object, true ) );
 			
 			$the_options = array_merge($the_options, $save_object);
-
-			error_log( 'After Merge: ' . print_r( $the_options, true ) );
 
 			if ( isset( $the_options['cookie_usage_for'] ) ) {
 				switch ( $the_options['cookie_usage_for'] ) {
@@ -8383,7 +8377,7 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 		
 		if(!empty($geo_target_object) && is_array($geo_target_object)){
-			$geo_target_object = array_map('sanitize_text_field', $geo_target_object);
+
 			$the_options['select_countries'] = isset( $geo_target_object['gcc-selected-countries'] ) ? $geo_target_object['gcc-selected-countries'] : '';
 			$the_options['select_countries_ccpa'] = isset( $geo_target_object['gcc-selected-countries-ccpa'] ) ? $geo_target_object['gcc-selected-countries-ccpa'] : '';
 
@@ -9498,7 +9492,6 @@ public function gdpr_support_request_handler() {
 			}
 
 			if ( is_wp_error( $post_id ) ) {
-				// $errors[ $rkey ] = $post_id;
 				return new WP_REST_Response( [ 'status' => 'error', 'message' => 'Issue Importing Post with title -> ' . $post_title ], 400 );
 			} else {
 				if ( $post_id ) {
@@ -9650,6 +9643,7 @@ public function gdpr_support_request_handler() {
 
 		return rest_ensure_response(
 			array(
+				'cookie_usage_for'       => $the_options['cookie_usage_for'],
 				'plan'                   => $this->settings->get_plan(),
 				'is_multisite'           => is_multisite(),
 				'consent_forward'        => $the_options['consent_forward'],
