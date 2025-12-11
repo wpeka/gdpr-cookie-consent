@@ -8378,8 +8378,8 @@ class Gdpr_Cookie_Consent_Admin {
 		
 		if(!empty($geo_target_object) && is_array($geo_target_object)){
 
-			$the_options['select_countries'] = isset( $geo_target_object['gcc-selected-countries'] ) ? $geo_target_object['gcc-selected-countries'] : '';
-			$the_options['select_countries_ccpa'] = isset( $geo_target_object['gcc-selected-countries-ccpa'] ) ? $geo_target_object['gcc-selected-countries-ccpa'] : '';
+			$the_options['select_countries'] = isset( $geo_target_object['is_gdpr_selected_countries'] ) ? $geo_target_object['is_gdpr_selected_countries'] : '';
+			$the_options['select_countries_ccpa'] = isset( $geo_target_object['is_ccpa_selected_countries'] ) ? $geo_target_object['is_ccpa_selected_countries'] : '';
 
 			if ( isset( $geo_target_object['is_gdpr_worldwide_on'] ) && ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both') ) {
 				if ( filter_var( $the_options['is_worldwide_on'], FILTER_VALIDATE_BOOLEAN ) !==  filter_var( $geo_target_object['is_gdpr_worldwide_on'], FILTER_VALIDATE_BOOLEAN ) ) {
@@ -8611,7 +8611,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'	=> 'POST',
 				'callback'	=> array($this, 'wplp_send_wizard_data_to_react_app'),
-				// 'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
+				'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8750,7 +8750,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods' 	=> 'POST',
 				'callback' 	=> array($this, 'gdpr_save_changes'),
-				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8760,7 +8760,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_fetch_advanced_settings' ),
-				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8770,7 +8770,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_restore_plugin_settings' ),
-				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8780,7 +8780,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_export_plugin_settings' ),
-				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -8790,7 +8790,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_import_plugin_settings' ),
-				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
