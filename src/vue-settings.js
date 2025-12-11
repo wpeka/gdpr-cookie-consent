@@ -2284,7 +2284,9 @@ var gen = new Vue({
       enable_safe:
         settings_obj.the_options.hasOwnProperty("enable_safe") &&
         ("true" === settings_obj.the_options["enable_safe"] ||
-          1 === settings_obj.the_options["enable_safe"])
+          true === settings_obj.the_options["enable_safe"] ||
+          1 === settings_obj.the_options["enable_safe"] ||
+          '1' === settings_obj.the_options["enable_safe"])
           ? true
           : false,
       usage_data: settings_obj.hasOwnProperty("is_usage_tracking_allowed")
@@ -7066,6 +7068,8 @@ var app = new Vue({
       enable_safe:
         settings_obj.the_options.hasOwnProperty("enable_safe") &&
         ("true" === settings_obj.the_options["enable_safe"] ||
+          true === settings_obj.the_options["enable_safe"] ||
+          '1' === settings_obj.the_options["enable_safe"] ||
           1 === settings_obj.the_options["enable_safe"])
           ? true
           : false,
@@ -10828,6 +10832,8 @@ var adv = new Vue({
       enable_safe:
         settings_obj.the_options.hasOwnProperty("enable_safe") &&
         ("true" === settings_obj.the_options["enable_safe"] ||
+          true === settings_obj.the_options["enable_safe"] ||
+          '1' === settings_obj.the_options["enable_safe"] ||
           1 === settings_obj.the_options["enable_safe"])
           ? true
           : false,
@@ -12174,6 +12180,8 @@ var scb = new Vue({
       enable_safe:
         settings_obj.the_options.hasOwnProperty("enable_safe") &&
         ("true" === settings_obj.the_options["enable_safe"] ||
+          true === settings_obj.the_options["enable_safe"] ||
+          '1' === settings_obj.the_options["enable_safe"] ||
           1 === settings_obj.the_options["enable_safe"])
           ? true
           : false,
