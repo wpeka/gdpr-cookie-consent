@@ -8075,7 +8075,7 @@ class Gdpr_Cookie_Consent_Admin {
     	}
 	
     	$post = get_post($post_id);
-    	if (!$post) {
+    	if (!$post || $post->post_type !== 'wplconsentlogs') {
     	    return new WP_Error('not_found', 'Record not found', array('status'=>404));
     	}
 	
@@ -9241,24 +9241,18 @@ public function gdpr_support_request_handler() {
 			return new WP_REST_Response( [ 'status' => 'error', 'message' => 'No Policy Provided.' ], 400 );
 		}
 
-		if ( count( $policy_ids ) === 1 )  {
-			$policy_id = absint( $policy_ids[0] );
+
+		foreach ( $policy_ids as $policy_id ) {
+			$policy_id = absint( $policy_id );
+			$post = get_post( $policy_id );
+			
+			if ( ! $post || $post->post_type !== 'gdprpolicies' ) {
+				continue; // Skip non-policy posts
+			}
 
 			$deleted = wp_delete_post( $policy_id, true );
-
 			if ( ! $deleted ) {
 				return new WP_REST_Response( [ 'status' => 'error', 'message' => 'Issue Deleting Policy Data.' ], 400 );
-			}
-		} else {
-
-			foreach ( $policy_ids as $policy_id ) {
-				$policy_id = absint( $policy_id );
-
-				$deleted = wp_delete_post( $policy_id, true );
-
-				if ( ! $deleted ) {
-					return new WP_REST_Response( [ 'status' => 'error', 'message' => 'Issue Deleting Policy Data.' ], 400 );
-				}
 			}
 		}
 
