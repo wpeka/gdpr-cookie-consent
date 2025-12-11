@@ -9640,11 +9640,12 @@ public function gdpr_support_request_handler() {
 	public function gdpr_fetch_advanced_settings( WP_REST_Request $request ) {
 		$the_options         = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$is_tracking_allowed = get_option( 'gdpr_usage_tracking_allowed' );
+		$plan                = $this->settings->get_plan();
 
 		return rest_ensure_response(
 			array(
 				'cookie_usage_for'       => $the_options['cookie_usage_for'],
-				'plan'                   => $this->settings->get_plan(),
+				'plan'                   => $plan,
 				'is_multisite'           => is_multisite(),
 				'consent_forward'        => $the_options['consent_forward'],
 				'logging_on'             => $the_options['logging_on'],
@@ -9659,7 +9660,7 @@ public function gdpr_support_request_handler() {
 				'decline_reload'         => $the_options['decline_reload'],
 				'do_not_track_on'        => $the_options['do_not_track_on'],
 				'delete_on_deactivation' => $the_options['delete_on_deactivation'],
-				'show_credits'           => $the_options['show_credits'],
+				'show_credits'           => $plan === 'free' ? true : $the_options['show_credits'],
 				'cookie_expiry'          => $the_options['cookie_expiry'],
 				'enable_safe'            => $the_options['enable_safe'],
 				'is_tracking_allowed'    => $is_tracking_allowed,
