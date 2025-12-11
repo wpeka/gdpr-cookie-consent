@@ -244,6 +244,11 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	}
 
 	function gdpr_check_scan_results($total_pages) {
+
+		if ( ! function_exists( 'post_exists' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/post.php' );
+		}
+
 		$hash = get_option( 'gdpr_scanning_action_hash' );
 
 		if ( empty( $hash ) ) {
