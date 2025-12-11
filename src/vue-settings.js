@@ -13834,21 +13834,22 @@ var ckm = new Vue({
     onClickDeleteCookie() {
       var that = this;
       var data = {
-        action: "wpl_cookies_deletion",
-        security: settings_obj.cookie_scan_settings.nonces.gdpr_cookie_consent_cookie_deletion_nonce,
+        
       };
       j.ajax({
         url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
         type: "POST",
-        success: function (data) {
+        data: {
+          action: "wpl_cookies_deletion",
+          security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,  
+        },
+        success: function (response) {
           that.showSuccessScreen("Cookies Cleared Successfully!");
           window.location.reload();
         },
         error: function () {
           // error function.
-          that.showErrorScreen("Some error occuered");
+          that.showErrorScreen("Some error occurred");
         },
       });
     },

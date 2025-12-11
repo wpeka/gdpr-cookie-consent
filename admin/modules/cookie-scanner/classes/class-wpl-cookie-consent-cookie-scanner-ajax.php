@@ -452,8 +452,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 
 	public function ajax_cookies_deletion(){
 		global $wpdb;
-
-		if( !isset( $_REQUEST['security'] ) || ! wp_verify_nonce( wp_unslash( $_REQUEST['security'] ), 'gdpr_cookie_consent_cookie_deletion_nonce' ) ) {
+		
+		if( !isset( $_REQUEST['security'] ) || ! wp_verify_nonce( wp_unslash( $_REQUEST['security'] ), 'gdpr_cookie_custom' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid security token.', 'gdpr-cookie-consent' ) ), 403 );
         	wp_die();
 		}
