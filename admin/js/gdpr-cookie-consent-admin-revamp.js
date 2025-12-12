@@ -1345,7 +1345,7 @@ jQuery(document).ready(function () {
         steps: [
           {
             intro:
-              "<h3 class='introjs-tooltip-title'>Welcome to Cookie Consent</h3><p>Welcome to the WP Cookie Consent plugin tour! This guided walkthrough will help you get started and make the most of our plugin.</p><button id='start-main-tour' class='introjs-start-btn'>Start Tour</button>",
+              "<h3 class='introjs-tooltip-title'>Welcome to WPLP Compliance Platform</h3><p>This quick tour will show you how to set up your cookie banner, manage consent, and get your site compliant in minutes.</p><button id='start-main-tour' class='introjs-start-btn'>Start Tour</button>",
           },
         ],
         showStepNumbers: false, // Hide step numbers in the welcome step
@@ -1361,35 +1361,35 @@ jQuery(document).ready(function () {
               ".gdpr-cookie-consent-admin-dashboard-tab"
             ), // Replace with your actual element selectors
             intro:
-              "<h3 class='introjs-tooltip-title'>Dashboard</h3><p>The Dashboard is your central hub for managing cookie consent. You'll find cookie insights, a summary of your settings, and quick access to documentation.</p>",
+              "<h3 class='introjs-tooltip-title'>Dashboard</h3><p>Your home base for everything compliance. Track cookie activity, review your setup at a glance, see which legal pages are active, and access guides whenever you need them.</p>",
           },
           {
             element: document.querySelector(
               ".gdpr-cookie-consent-admin-cookie-banner-tab"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Wizard</h3><p>This guided wizard will walk you through the process of setting up your cookie banner and managing your cookie categories.</p>",
+              "<h3 class='introjs-tooltip-title'>Cookie Banner Setup</h3><p>This guided wizard helps you create your cookie banner step by step and choose how your cookie categories should behave.</p>",
           },
           {
             element: document.querySelector(
               "#cookie_settings #gdpr-cookie-consent-complianz"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>General</h3><p>These settings will help ensure your website complies with privacy regulations. Here, you can adjust the banner's appearance, message, and button labels.</p>",
+              "<h3 class='introjs-tooltip-title'>General Settings</h3><p>Manage everything that keeps your cookie banner compliant. Adjust visibility, choose the right privacy laws, enable IAB TCF, turn on Google Consent Mode, set geo-targeting rules, and more.</p>",
           },
           {
             element: document.querySelector(
               "#cookie_settings #gdpr-cookie-consent-configuration"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Layout</h3><p>Here, you can adjust your cookie banner’s position, choose whether to display it as a banner or a popup, and even import or export your settings for easy configuration.</p>",
+              "<h3 class='introjs-tooltip-title'>Layout</h3><p>Control how your cookie banner appears on your site. Choose its position, switch between banner, widget or popup, set show/hide behavior or animations, and select a banner design from the ready-made templates.</p>",
           },
           {
             element: document.querySelector(
               "#cookie_settings #gdpr-cookie-consent-design"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Content and Design</h3><p>You can personalize your cookie banner. Select colors, fonts, and add your logo to create a banner that seamlessly blends with your website's design.</p>",
+              "<h3 class='introjs-tooltip-title'>Content & Design</h3><p>Customize your cookie banner to match your site. Adjust heading, colors, fonts, buttons and add your logo so everything feels on-brand.</p>",
           },
            {
             element: document.querySelector(
@@ -1400,87 +1400,73 @@ jQuery(document).ready(function () {
           },
           {
             element: document.querySelector(
-              "#cookie_settings #gdpr-cookie-consent-connection"
-            ),
-            intro:
-              "<h3 class='introjs-tooltip-title'>Advanced Settings</h3><p>Manage your connection</p>",
-          },
-          {
-            element: document.querySelector(
               ".gdpr-cookie-consent-admin-cookie-manager-tab"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Cookie Manager</h3><p>The Cookie Scanner is a valuable feature for maintaining control over your website's cookies. Here, you can add custom cookies, set up automated scans, and track your scan history.</p>",
+              "<h3 class='introjs-tooltip-title'>Cookie Manager</h3><p>Manage everything related to your site’s cookies in one place - add custom cookies, run automated scans, and review your scan history.</p>",
           },
           {
             element: document.querySelector(
               ".gdpr-cookie-consent-admin-script-blocker-settings-tab"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Script Blocker</h3><p>Take control of your website's scripts with the Script Blocker. Block unwanted scripts and create whitelists for essential ones to ensure your site complies with privacy regulations.</p>",
+              "<h3 class='introjs-tooltip-title'>Script Blocker</h3><p>Take charge of what loads on your site. Automatically stop tracking scripts until a visitor gives consent, and whitelist the ones you trust. Keeps you compliant without breaking your site.</p>",
           },
           {
             element: document.querySelector(
               ".gdpr-cookie-consent-admin-abtesting-settings-tab"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>AB Testing</h3><p>AB testing is a powerful tool for improving cookie consent. Experiment with different banner designs, messages, and calls to action to find the most effective approach.</p>",
+              "<h3 class='introjs-tooltip-title'>Cookie Banner A/B Testing</h3><p>Test different banner layouts, messages, and buttons to see what gets more users to take action. Use real data to improve consent rates.</p>",
           },
           {
             element: document.querySelector(
               ".gdpr-cookie-consent-admin-consent-logs-tab"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Consent Logs</h3><p>This consent log table shows you a complete history of user interactions with your cookie banner, including their consent choices and timestamps.</p>",
+              "<h3 class='introjs-tooltip-title'>Consent Logs</h3><p>This table gives you a full record of how visitors interacted with your cookie banner - including what they agreed to and when.</p>",
           },
           {
             element: document.querySelector(
               ".gdpr-cookie-consent-admin-data-request-tab"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Data requests</h3><p>The Data Request Table is where you'll handle data subject access requests. You can review and respond to requests from your website users.</p>",
+              "<h3 class='introjs-tooltip-title'>DSAR</h3><p>Manage all Data Subject Access Requests here. Review submissions from your users and respond to them in one place.</p>",
           },
           {
             element: document.querySelector(
               ".gdpr-cookie-consent-admin-policy-data-tab"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Policy Data</h3><p>Policy Data shows the third party companies, their purpose, and applicable privacy policy or cookie policy link in the form of a table.</p>",
+              "<h3 class='introjs-tooltip-title'>Policy Data</h3><p>See all third-party services active on your site, why they’re used, and their linked privacy or cookie policies - all in one simple table.</p>",
           },
            {
             element: document.querySelector(
               ".gdpr-cookie-consent-admin-language-settings-tab"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Language</h3><p>To provide a better user experience, here you can customize the language of your cookie banner.</p>",
-          },
-           {
-            element: document.querySelector(
-              ".gdpr-cookie-consent-admin-advanced-settings-tab"
-            ),
-            intro:
-              "<h3 class='introjs-tooltip-title'>Advanced Settings</h3><p>Advanced settings for cookie banner, manage import/export of settings</p>",
+              "<h3 class='introjs-tooltip-title'>Language</h3><p>Make your banner easier to understand by selecting the language your users prefer.</p>",
           },
           {
             element: document.querySelector(
               "#advanced_settings #gdpr-cookie-consent-consent-settings"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Consent Settings</h3><p>Consent settings for cookie banner, manage consent forwarding, consent logging</p>",
+              "<h3 class='introjs-tooltip-title'>Consent Settings</h3><p>Manage how your banner collects consent - including Consent Forwarding, auto-accept actions (scroll, click, inactivity), auto-hide, page reload after consent, Do Not Track support, etc. These options help you control the user experience while staying compliant.</p>",
           },
            {
             element: document.querySelector(
               "#advanced_settings #gdpr-cookie-consent-additional-settings"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Additional Settings</h3><p>Additional settings for cookie banner, reset to default setting, export and erase personal data</p>",
+              "<h3 class='introjs-tooltip-title'>Additional Settings</h3><p>This section includes extra controls like resetting your setup, managing privacy options, exporting or deleting personal data, choosing cookie expiry, enabling safe mode, and more.</p>",
           },
           {
             element: document.querySelector(
               "#advanced_settings #gdpr-cookie-consent-export-import-settings"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Cookie Settings Export/Import</h3><p>Export/Import the cookie settings to apply directly to your plugin</p>",
+              "<h3 class='introjs-tooltip-title'>Cookie Settings Export/Import</h3><p>Quickly duplicate your cookie banner settings across multiple WordPress installs.</p>",
           },
         ];
       const filteredTourSteps = allintroSteps.filter(step => {
@@ -1531,6 +1517,7 @@ jQuery(document).ready(function () {
         }) 
         //when the popup is closed
         .oncomplete(function () {
+          jQuery("html, body").css("overflow", ""); // Restore scroll
           history.pushState({}, "", "#cookie_settings");
           // Switch back to Cookie Settings tab
           jQuery(".gdpr-cookie-consent-admin-tab").removeClass("active-tab");
@@ -1542,6 +1529,7 @@ jQuery(document).ready(function () {
         })
         //when clicked on "End Tour" at the end
         .onexit(function () {
+          jQuery("html, body").css("overflow", ""); // Restore scroll
           history.pushState({}, "", "#cookie_settings");
           // Switch back to Cookie Settings tab
           jQuery(".gdpr-cookie-consent-admin-tab").removeClass("active-tab");
@@ -1554,6 +1542,7 @@ jQuery(document).ready(function () {
 
       // Start the first intro tour
       introWelcome.start();
+      jQuery("html, body").css("overflow", "hidden");
       // Add an event listener for the custom "Start Full Tour" button
       jQuery(document).on("click", "#start-main-tour", function () {
         introWelcome.exit(); // Exit the first intro
