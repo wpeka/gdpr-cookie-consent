@@ -4762,31 +4762,6 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 
 
-			if (isset($_POST['gcc-ab-testing-enable']) 
-			&& ($_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable'] === 'true') 
-			&& (!isset($ab_options['ab_testing_enabled']) 
-				|| $ab_options['ab_testing_enabled'] === 'false' 
-				|| $ab_options['ab_testing_enabled'] === false)) {
-				$ab_options ['noChoice1']   = 0;
-				$ab_options ['noChoice2']   = 0;
-				$ab_options ['accept1']   = 0;
-				$ab_options ['accept2']   = 0;
-				$ab_options ['acceptAll1']   = 0;
-				$ab_options ['acceptAll2']   = 0;
-				$ab_options ['reject1']   = 0;
-				$ab_options ['reject2']   = 0;
-				$ab_options ['bypass1']   = 0;
-				$ab_options ['bypass2']   = 0;
-				$ab_transient_creation_time = time();
-				set_transient(
-					'gdpr_ab_testing_transient',
-					array(
-						'value'         => 'A/B Testing Period',
-						'creation_time' => $ab_transient_creation_time,
-					),
-					(int) $ab_options['ab_testing_period'] * 24 * 60 * 60
-				);
-			}
 
 			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
 			//check if new consent version number is greater than the one in db, if yes, update the time stamp.
@@ -5607,17 +5582,6 @@ class Gdpr_Cookie_Consent_Admin {
 				$the_options = $this->changeLanguage($the_options);				
 			}
 			
-			if (isset($_POST['gcc-ab-testing-enable']) 
-				&& ($_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false) 
-				&& isset($ab_options['ab_testing_enabled']) 
-				&& ($ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true)) {
-				$ab_options['ab_testing_period'] = '30';
-				delete_transient( 'gdpr_ab_testing_transient' );
-				$the_options = $this->wpl_set_default_ab_testing_banner( $the_options, $the_options['default_cookie_bar'] === true || $the_options['default_cookie_bar'] === 'true' ? '1' : '2' );
-			}
-			
-			$ab_options['ab_testing_enabled'] = isset( $_POST['gcc-ab-testing-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-ab-testing-enable'] ) ) : 'false';
-			update_option( 'wpl_ab_options', $ab_options );
 			if ( isset( $_POST['logo_removed'] ) && 'true' == $_POST['logo_removed'] ) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' );
 			}
