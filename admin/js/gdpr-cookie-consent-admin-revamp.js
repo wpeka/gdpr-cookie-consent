@@ -1459,14 +1459,14 @@ jQuery(document).ready(function () {
               "#advanced_settings #gdpr-cookie-consent-additional-settings"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Additional Settings</h3><p>Additional settings for cookie banner, reset to default setting, export and erase personal data</p>",
+              "<h3 class='introjs-tooltip-title'>Additional Settings</h3><p>This section includes extra controls like resetting your setup, managing privacy options, exporting or deleting personal data, choosing cookie expiry, enabling safe mode, and more.</p>",
           },
           {
             element: document.querySelector(
               "#advanced_settings #gdpr-cookie-consent-export-import-settings"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Cookie Settings Export/Import</h3><p>Export/Import the cookie settings to apply directly to your plugin</p>",
+              "<h3 class='introjs-tooltip-title'>Cookie Settings Export/Import</h3><p>Quickly duplicate your cookie banner settings across multiple WordPress installs.</p>",
           },
         ];
       const filteredTourSteps = allintroSteps.filter(step => {
