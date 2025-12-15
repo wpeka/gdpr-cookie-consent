@@ -136,7 +136,15 @@ class GDPR_Cookie_Consent_App_Auth {
 		$instance_id      = $wcam_lib_gdpr->wc_am_instance_id;
 		$object           = $wcam_lib_gdpr->wc_am_domain;
 		$software_version = $wcam_lib_gdpr->wc_am_software_version;
-		$api_auth_url     = $this->get_api_url( 'pricing' );
+
+		$is_user_connected = $settings->is_connected();
+		$api_user_plan = $settings->get_plan();
+		
+		if ( ! $is_user_connected || $api_user_plan === 'free' ) {
+			$api_auth_url     = $this->get_api_url( 'pricing' );
+		}else{
+			$api_auth_url     = $this->get_api_url( 'product/wplp-compliance-platform-membership-plan/' );
+		}
 
 		$auth_url = add_query_arg(
 			array(
