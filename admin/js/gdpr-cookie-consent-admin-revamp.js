@@ -1469,7 +1469,7 @@ jQuery(document).ready(function () {
               "<h3 class='introjs-tooltip-title'>Cookie Settings Export/Import</h3><p>Quickly duplicate your cookie banner settings across multiple WordPress installs.</p>",
           },
         ];
-      const filteredTourSteps = allintroSteps.filter(step => {
+      const filteredTourSteps = allintroSteps.filter(function(step){
        if (step.element === null) {
           return false;
         }
