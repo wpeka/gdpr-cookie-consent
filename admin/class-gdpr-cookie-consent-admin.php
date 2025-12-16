@@ -9773,22 +9773,25 @@ public function gdpr_support_request_handler() {
 	}
 
 	public function convert_boolean( $value ) {
-		switch ( $value ) {
-			case "0":
-			case 0:
-			case false:
-			case "false":
-			case null:
-			case "":
-				return false;
-			case "1":
-			case 1:
-			case true:
-			case "true":
-				return true;
-			default:
-				return false;
+		if ( is_bool( $value ) ) {
+			return $value;
 		}
+
+		if ( is_null( $value ) ) {
+			return false;
+		}
+
+		$value = strtolower( trim( ( string ) $value ) );
+
+		if ( in_array( $value, array( '1', 'true' ), true) ) {
+			return true;
+		}
+
+		if ( in_array( $value, array( '0', 'false', '' ), true ) ) {
+			return false;
+		}
+
+		return false;
 	}
 
 	public function gdpr_fetch_general_settings( WP_REST_Request $request ) {
@@ -9812,12 +9815,12 @@ public function gdpr_support_request_handler() {
 				'is_worldwide_on_ccpa'         => $this->convert_boolean( $the_options['is_worldwide_on_ccpa'] ),
 				'is_ccpa_on'                   => $this->convert_boolean( $the_options['is_ccpa_on'] ),
 				'is_selectedCountry_on_ccpa'   => $this->convert_boolean( $the_options['is_selectedCountry_on_ccpa'] ),
-				'select_countries_ccpa'        => $the_options['select_countries_ccpa'],
+				'select_countries_ccpa'        => count( $the_options['select_countries_ccpa'] ) === 1 && $the_options['select_countries_ccpa'][0] === '' ? array() : $the_options['select_countries_ccpa'],
 				'data_reqs_on'                 => $this->convert_boolean( $the_options['data_reqs_on'] ),
 				'data_req_email_address'       => $the_options['data_req_email_address'],
 				'data_req_subject'             => $the_options['data_req_subject'],
 				'data_req_editor_message'      => $the_options['data_req_editor_message'],
-				'restrict_posts'               => $the_options['restrict_posts'],
+				'restrict_posts'               => count( $the_options['restrict_posts'] ) === 1 && $the_options['restrict_posts'][0] === '' ? array() : $the_options['restrict_posts'],
 				'auto_banner_initialize'       => $this->convert_boolean( $the_options['auto_banner_initialize'] ),
 				'auto_banner_initialize_delay' => absint( $the_options['auto_banner_initialize_delay'] ),
 				'last_renewed'                 => get_option( 'wpl_consent_timestamp' ) ? esc_attr( gmdate( 'F j, Y g:i a T', get_option( 'wpl_consent_timestamp' ) ) ) : '',          
