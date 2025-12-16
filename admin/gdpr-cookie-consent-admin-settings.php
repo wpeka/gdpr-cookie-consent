@@ -172,7 +172,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_lgpd" v-html ="lgpd_message"></span>
 							<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_ccpa" v-html ="ccpa_message"></span>
 							<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_eprivacy" v-html ="eprivacy_message"></span>
-							<a  v-if="!is_ccpa" :style="{ 
+							<a  v-if="!is_ccpa && this[`button_readmore_is_on${active_test_banner_tab}`]" :style="{ 
 								'font-family': this[`cookie_font${active_test_banner_tab}`],
 								'color':button_readmore_link_color,
 								'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
@@ -382,7 +382,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<span :style="{'font-family': cookie_font}" v-show="is_lgpd" v-html ="lgpd_message"></span>
 							<span :style="{'font-family': cookie_font}" v-show="is_ccpa" v-html ="ccpa_message"></span>
 							<span :style="{'font-family': cookie_font}" v-show="is_eprivacy" v-html ="eprivacy_message"></span>
-							<a v-if="!is_ccpa" :style="{ 
+							<a v-if="!is_ccpa && button_readmore_is_on" :style="{ 
 								'font-family': cookie_font,
 								'color':button_readmore_link_color,
 								'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
@@ -578,7 +578,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<p>	
 							<span :style="{'font-family': multiple_legislation_cookie_font1}" v-show="active_default_multiple_legislation === 'gdpr'" v-html ="gdpr_message"></span>
 							<span :style="{'font-family': multiple_legislation_cookie_font2}" v-show="active_default_multiple_legislation === 'ccpa'" v-html ="ccpa_message"></span>
-							<a v-if="active_default_multiple_legislation === 'gdpr'" :style="{ 
+							<a v-if="active_default_multiple_legislation === 'gdpr' && button_readmore_is_on" :style="{ 
 								'font-family': multiple_legislation_cookie_font1,
 								'color':button_readmore_link_color,
 								'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
