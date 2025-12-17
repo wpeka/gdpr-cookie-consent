@@ -143,7 +143,7 @@ class GDPR_Cookie_Consent_App_Auth {
 		if ( ! $is_user_connected || $api_user_plan === 'free' ) {
 			$api_auth_url     = $this->get_api_url( 'pricing' );
 		}else{
-			$api_auth_url     = $this->get_api_url( 'product/wplp-compliance-platform-membership-plan/' );
+			$api_auth_url     = $this->get_api_url( 'my-account/active-plans/' );
 		}
 
 		$auth_url = add_query_arg(
