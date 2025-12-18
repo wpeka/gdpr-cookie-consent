@@ -7957,6 +7957,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$geo_countries     = json_decode( $json_data, true );
 		$list_of_countries = array();
 		$index             = 0;
+		$plan                = $this->settings->get_plan();
 		foreach ( $geo_countries as $code => $country ) {
 			$list_of_countries[ $index ] = array(
 				'label' => $country['name'],
@@ -7979,6 +7980,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'success'							=> true,
 				'cookie_usage_for'					=> $the_options['cookie_usage_for'],
 				'enable_safe' 						=> $the_options['enable_safe'],
+				'plan'								=> $plan,
 				
 				// Geo-targetting GDPR
 				'is_worldwide_on'					=> $the_options['is_worldwide_on'],
@@ -8611,7 +8613,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'	=> 'POST',
 				'callback'	=> array($this, 'wplp_send_wizard_data_to_react_app'),
-				'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
+				// 'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
