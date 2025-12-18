@@ -13177,6 +13177,10 @@ var ckm = new Vue({
       });
     },
     scheduleScanOnce() {
+      if (this.schedule_scan_as !== "once") {
+          return;
+        }
+
       // Define the date and time when you want the function to execute
       let targetDate = new Date(this.schedule_scan_date);
 
@@ -13204,18 +13208,31 @@ var ckm = new Vue({
 
       // Calculate the time difference between now and the target date
       const timeUntilExecution = targetDate - new Date();
-
+      // Extract date components
+      const targetYear = targetDate.getFullYear();
+      const targetMonth = targetDate.getMonth();
+      const targetDay = targetDate.getDate();
+      const targetHour = targetDate.getHours();
+      const targetMinute = targetDate.getMinutes();
+        
       // Check if the target date is in the future
-      if (timeUntilExecution > 0) {
-        // Use setTimeout to delay the execution of scan
-        setTimeout(() => {
-          // start the scanning here
-          this.onClickStartScan();
+       if (timeUntilExecution > 0) {
+          setInterval(() => {
+            // Use setInterval to delay the execution of scan
+            const now = new Date();
+            // Check ALL date components
+            if (now.getFullYear() === targetYear &&
+                now.getMonth() === targetMonth &&
+                now.getDate() === targetDay &&
+                now.getHours() === targetHour &&
+                now.getMinutes() === targetMinute) {      
           // after the scan is completed successfully, clear the schedule
+          this.onClickStartScan();
           this.clearScheduleAfterScan();
           this.next_scan_is_when = "Not Scheduled";
           this.schedule_scan_as = "never";
-        }, timeUntilExecution);
+          }
+        }, 60000); // Check every minute
       } else {
         // if the target date is in the past
         alert("Selected date is in the past. Please select a vaild date.");
@@ -13845,21 +13862,22 @@ var ckm = new Vue({
     onClickDeleteCookie() {
       var that = this;
       var data = {
-        action: "wpl_cookies_deletion",
-        security: settings_obj.cookie_scan_settings.nonces.gdpr_cookie_consent_cookie_deletion_nonce,
+        
       };
       j.ajax({
         url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
         type: "POST",
-        success: function (data) {
+        data: {
+          action: "wpl_cookies_deletion",
+          security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,  
+        },
+        success: function (response) {
           that.showSuccessScreen("Cookies Cleared Successfully!");
           window.location.reload();
         },
         error: function () {
           // error function.
-          that.showErrorScreen("Some error occuered");
+          that.showErrorScreen("Some error occurred");
         },
       });
     },

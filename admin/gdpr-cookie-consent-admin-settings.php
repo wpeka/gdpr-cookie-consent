@@ -172,7 +172,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_lgpd" v-html ="lgpd_message"></span>
 							<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_ccpa" v-html ="ccpa_message"></span>
 							<span :style= "{'font-family': this[`cookie_font${active_test_banner_tab}`]}" v-show="is_eprivacy" v-html ="eprivacy_message"></span>
-							<a  v-if="!is_ccpa" :style="{ 
+							<a  v-if="!is_ccpa && this[`button_readmore_is_on${active_test_banner_tab}`]" :style="{ 
 								'font-family': this[`cookie_font${active_test_banner_tab}`],
 								'color':button_readmore_link_color,
 								'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
@@ -375,14 +375,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<div class="notice-heading-wrapper" v-if="(gdpr_message_heading.length>0 && is_gdpr) || (lgpd_message_heading.length>0 && is_lgpd) || template == 'blue_split'">
 							<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }" v-if="gdpr_message_heading.length>0 && is_gdpr">{{gdpr_message_heading}}</h3>
 							<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }"  v-if="lgpd_message_heading.length>0 && is_lgpd">{{lgpd_message_heading}}</h3>
-							<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }" v-if="template == 'blue_split' && ((is_gdpr && gdpr_message_heading.length==0) || (lgpd_message_heading.length==0 && is_lgpd) || !is_ccpa)"><?php echo esc_html("We value your privacy"); ?></h3>
+							<h3 :style = "{ 'text-align': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['text-align'], 'position': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['position'], 'color': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['color'], 'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['heading']?.['z-index'] }" v-if="template == 'blue_split' && ((is_gdpr && gdpr_message_heading.length==0) || (lgpd_message_heading.length==0 && is_lgpd))"><?php echo esc_html("We value your privacy"); ?></h3>
 						</div>
 						<p>	
 							<span :style="{'font-family': cookie_font}" v-show="is_gdpr" v-html ="gdpr_message"></span>
 							<span :style="{'font-family': cookie_font}" v-show="is_lgpd" v-html ="lgpd_message"></span>
 							<span :style="{'font-family': cookie_font}" v-show="is_ccpa" v-html ="ccpa_message"></span>
 							<span :style="{'font-family': cookie_font}" v-show="is_eprivacy" v-html ="eprivacy_message"></span>
-							<a v-if="!is_ccpa" :style="{ 
+							<a v-if="!is_ccpa && button_readmore_is_on" :style="{ 
 								'font-family': cookie_font,
 								'color':button_readmore_link_color,
 								'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
@@ -578,7 +578,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<p>	
 							<span :style="{'font-family': multiple_legislation_cookie_font1}" v-show="active_default_multiple_legislation === 'gdpr'" v-html ="gdpr_message"></span>
 							<span :style="{'font-family': multiple_legislation_cookie_font2}" v-show="active_default_multiple_legislation === 'ccpa'" v-html ="ccpa_message"></span>
-							<a v-if="active_default_multiple_legislation === 'gdpr'" :style="{ 
+							<a v-if="active_default_multiple_legislation === 'gdpr' && button_readmore_is_on" :style="{ 
 								'font-family': multiple_legislation_cookie_font1,
 								'color':button_readmore_link_color,
 								'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
