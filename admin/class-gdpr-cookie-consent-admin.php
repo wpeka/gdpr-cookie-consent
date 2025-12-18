@@ -106,7 +106,7 @@ class Gdpr_Cookie_Consent_Admin {
 				$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 			}
 
-			add_action( 'admin_init', array( $this, 'wpl_data_req_process_resolve' ) );
+			add_action( 'admin_post_gdpr_resolve', [ $this, 'wpl_data_req_process_resolve' ] );
 			add_action( 'admin_init', array( $this, 'gdpr_migrate_old_template_names_once') );
 			add_action('admin_init', function() {
 				if (!defined('DOING_AJAX') && !defined('REST_REQUEST')) {
@@ -1594,10 +1594,23 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function wpl_data_req_process_resolve() {
 
-		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' )
-		&& isset( $_GET['action'] )
-		&& $_GET['action'] == 'resolve'
-		&& isset( $_GET['id'] )
+    	// Must be logged in
+		if ( ! is_user_logged_in() ) {
+			wp_die( 'Unauthorized request.' );
+		}
+
+		// Only admin can resolve
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( 'Insufficient permissions.' );
+		}
+
+		// Validate request + nonce
+		if (isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' ) &&
+			isset( $_GET['action'] ) &&
+			$_GET['action'] === 'resolve' &&
+			isset( $_GET['_wpnonce'] ) &&
+			wp_verify_nonce( $_GET['_wpnonce'], 'wpl_resolve_request' ) &&
+			! empty( $_GET['id'] )
 		) {
 			global $wpdb;
 			$wpdb->update(
@@ -1610,8 +1623,9 @@ class Gdpr_Cookie_Consent_Admin {
 			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
 			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
 			exit;
-		}
-	}
+    	}
+   	wp_die( 'Invalid request.' );
+}
 	/**
 	 * Handle delete request.
 	 */
@@ -4753,31 +4767,6 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 
 
-			if (isset($_POST['gcc-ab-testing-enable']) 
-			&& ($_POST['gcc-ab-testing-enable'] === true || $_POST['gcc-ab-testing-enable'] === 'true') 
-			&& (!isset($ab_options['ab_testing_enabled']) 
-				|| $ab_options['ab_testing_enabled'] === 'false' 
-				|| $ab_options['ab_testing_enabled'] === false)) {
-				$ab_options ['noChoice1']   = 0;
-				$ab_options ['noChoice2']   = 0;
-				$ab_options ['accept1']   = 0;
-				$ab_options ['accept2']   = 0;
-				$ab_options ['acceptAll1']   = 0;
-				$ab_options ['acceptAll2']   = 0;
-				$ab_options ['reject1']   = 0;
-				$ab_options ['reject2']   = 0;
-				$ab_options ['bypass1']   = 0;
-				$ab_options ['bypass2']   = 0;
-				$ab_transient_creation_time = time();
-				set_transient(
-					'gdpr_ab_testing_transient',
-					array(
-						'value'         => 'A/B Testing Period',
-						'creation_time' => $ab_transient_creation_time,
-					),
-					(int) $ab_options['ab_testing_period'] * 24 * 60 * 60
-				);
-			}
 
 			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
 			//check if new consent version number is greater than the one in db, if yes, update the time stamp.
@@ -5596,17 +5585,6 @@ class Gdpr_Cookie_Consent_Admin {
 				$the_options = $this->changeLanguage($the_options);				
 			}
 			
-			if (isset($_POST['gcc-ab-testing-enable']) 
-				&& ($_POST['gcc-ab-testing-enable'] === 'false' || $_POST['gcc-ab-testing-enable'] === false) 
-				&& isset($ab_options['ab_testing_enabled']) 
-				&& ($ab_options['ab_testing_enabled'] === 'true' || $ab_options['ab_testing_enabled'] === true)) {
-				$ab_options['ab_testing_period'] = '30';
-				delete_transient( 'gdpr_ab_testing_transient' );
-				$the_options = $this->wpl_set_default_ab_testing_banner( $the_options, $the_options['default_cookie_bar'] === true || $the_options['default_cookie_bar'] === 'true' ? '1' : '2' );
-			}
-			
-			$ab_options['ab_testing_enabled'] = isset( $_POST['gcc-ab-testing-enable'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-ab-testing-enable'] ) ) : 'false';
-			update_option( 'wpl_ab_options', $ab_options );
 			if ( isset( $_POST['logo_removed'] ) && 'true' == $_POST['logo_removed'] ) {
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' );
 			}
@@ -7958,6 +7936,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$geo_countries     = json_decode( $json_data, true );
 		$list_of_countries = array();
 		$index             = 0;
+		$plan                = $this->settings->get_plan();
 		foreach ( $geo_countries as $code => $country ) {
 			$list_of_countries[ $index ] = array(
 				'label' => $country['name'],
@@ -7980,6 +7959,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'success'							=> true,
 				'cookie_usage_for'					=> $the_options['cookie_usage_for'],
 				'enable_safe' 						=> $the_options['enable_safe'],
+				'plan'								=> $plan,
 				
 				// Geo-targetting GDPR
 				'is_worldwide_on'					=> $the_options['is_worldwide_on'],
@@ -8162,7 +8142,7 @@ class Gdpr_Cookie_Consent_Admin {
     	}
 	
     	$post = get_post($post_id);
-    	if (!$post) {
+    	if (!$post || $post->post_type !== 'wplconsentlogs') {
     	    return new WP_Error('not_found', 'Record not found', array('status'=>404));
     	}
 	
@@ -8612,7 +8592,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'	=> 'POST',
 				'callback'	=> array($this, 'wplp_send_wizard_data_to_react_app'),
-				'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
+				// 'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -9519,24 +9499,18 @@ public function gdpr_support_request_handler() {
 			return new WP_REST_Response( [ 'status' => 'error', 'message' => 'No Policy Provided.' ], 400 );
 		}
 
-		if ( count( $policy_ids ) === 1 )  {
-			$policy_id = absint( $policy_ids[0] );
+
+		foreach ( $policy_ids as $policy_id ) {
+			$policy_id = absint( $policy_id );
+			$post = get_post( $policy_id );
+			
+			if ( ! $post || $post->post_type !== 'gdprpolicies' ) {
+				continue; // Skip non-policy posts
+			}
 
 			$deleted = wp_delete_post( $policy_id, true );
-
 			if ( ! $deleted ) {
 				return new WP_REST_Response( [ 'status' => 'error', 'message' => 'Issue Deleting Policy Data.' ], 400 );
-			}
-		} else {
-
-			foreach ( $policy_ids as $policy_id ) {
-				$policy_id = absint( $policy_id );
-
-				$deleted = wp_delete_post( $policy_id, true );
-
-				if ( ! $deleted ) {
-					return new WP_REST_Response( [ 'status' => 'error', 'message' => 'Issue Deleting Policy Data.' ], 400 );
-				}
 			}
 		}
 
