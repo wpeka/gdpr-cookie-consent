@@ -7919,6 +7919,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'total_pages_scanned'		 	   => $gdpr_pages_scanned,
 				'monthly_page_views'			   => $gdpr_monthly_page_views,
 				'consent_log_data' 				   => $result['logs'],
+				'cookie_banner_created_once'       => get_option('wplp_cookie_banner_created_once'),
 			)
 		);
 	}
@@ -7944,10 +7945,10 @@ class Gdpr_Cookie_Consent_Admin {
 			++$index;
 		}
 
-		$cookie_banner_created_once = get_option('cookie_banner_created_once');
+		$cookie_banner_created_once = get_option('wplp_cookie_banner_created_once');
 
 		if ( $cookie_banner_created_once === false ) {
-		    add_option('cookie_banner_created_once', "false");
+		    add_option('wplp_cookie_banner_created_once', "false");
 		    $cookie_banner_created_once = "false";
 		}
 
@@ -8453,7 +8454,7 @@ class Gdpr_Cookie_Consent_Admin {
 			update_option( 'gdpr_usage_tracking_allowed', $is_usage_tracking_allowed );
 		}
 		if(!empty($cookie_banner_created_once)){
-			update_option('cookie_banner_created_once', $cookie_banner_created_once);
+			update_option('wplp_cookie_banner_created_once', $cookie_banner_created_once);
 		}
 		
 		return [
@@ -8591,7 +8592,7 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'	=> 'POST',
 				'callback'	=> array($this, 'wplp_send_wizard_data_to_react_app'),
-				// 'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
+				'permission_callback'	=> array($this, 'permission_callback_for_react_app'),
 			)
 		);
 
