@@ -8349,9 +8349,10 @@ class Gdpr_Cookie_Consent_Admin {
 		$share_usage_data = $request->get_param('share_usage_data') ?: null;
 		$cookie_banner_created_once = $request->get_param('cookie_banner_created_once') ?: null;
 
-		$banner_image  = $request->get_param( 'banner_image' );
-		$banner_image1 = $request->get_param( 'banner_image1' );
-		$banner_image2 = $request->get_param( 'banner_image2' );
+		$banner_image    = $request->get_param( 'banner_image' );
+		$banner_image1   = $request->get_param( 'banner_image1' );
+		$banner_image2   = $request->get_param( 'banner_image2' );
+		$banner_image_ml = $request->get_param( 'banner_image_ml' );
 
 		$custom_css = $request->get_param( 'gdpr_css_text' );
 
@@ -8392,6 +8393,10 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'value'  => $banner_image2,
 				'option' => GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2,
+			),
+			array(
+				'value'  => $banner_image_ml,
+				'option' => GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1,
 			),
 		);
 
