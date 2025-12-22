@@ -105,7 +105,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 									<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.svg'; ?>" alt="WP Cookie Consent Help">
 								</a>
 							</div>
-							<div class="gdpr-cookie-consent-admin-help-text"><a href="https://wplegalpages.com/docs/" target="_blank">
+							<div class="gdpr-cookie-consent-admin-help-text"><a href="https://wplegalpages.com/docs/wplp-docs/" target="_blank">
 								Help Guide</a>
 							</div>
 						</div>

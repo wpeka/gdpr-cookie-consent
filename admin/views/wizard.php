@@ -694,7 +694,7 @@ function print_template_boxes( ) {
 							<span class="gdpr-help-description">
 								<?php esc_html_e( 'Find answers to some of the most commonly asked questions.', 'gdpr-cookie-consent' ); ?>
 							</span>
-							<a href="https://wplegalpages.com/docs/wp-cookie-consent/faqs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" alt="WPCS right arrow icon"></a>
+							<a href="https://wplegalpages.com/docs/wplp-docs/guides/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Find Out', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" alt="WPCS right arrow icon"></a>
 							</div>
 						</div>
 					</div>
