@@ -10152,8 +10152,60 @@ public function gdpr_support_request_handler() {
 				'button_settings_display_cookies'      => $the_options['button_settings_display_cookies'],
 				'gdpr_css_text'                        => $the_options['gdpr_css_text'] ?? '',
 
+				// CCPA.
+				'button_confirm_text'       => $the_options['button_confirm_text'] ?? 'Confirm',
+				'button_confirm_link_color' => $the_options['button_confirm_link_color'] ?? '#ffffff',
+				'button_confirm_button_color' => $the_options['button_confirm_button_color'] ?? '#18a300',
+				'button_confirm_button_border_style' => $the_options['button_confirm_button_border_style'] ?? 'none',
+				'button_confirm_button_border_color' => $the_options['button_confirm_button_border_color'] ?? '#18a300',
+				'button_confirm_button_opacity'      => $the_options['button_confirm_button_opacity'] ?? '1',
+				'button_confirm_button_border_width' => $the_options['button_confirm_button_border_width'] ?? '0',
+				'button_confirm_button_border_radius' => $the_options['button_confirm_button_border_radius'] ?? '0',
 
-				// CCPA is remaining.
+				'button_cancel_text' => $the_options['button_cancel_text'] ?? 'Cancel',
+				'button_cancel_link_color' => $the_options['button_cancel_link_color'] ?? '#ffffff',
+				'button_cancel_button_color' => $the_options['button_cancel_button_color'] ?? '#333333',
+				'button_cancel_button_border_style' => $the_options['button_cancel_button_border_style'] ?? 'none',
+				'button_cancel_button_border_color' => $the_options['button_cancel_button_border_color'] ?? '#333333',
+				'button_cancel_button_opacity'      => $the_options['button_cancel_button_opacity'] ?? '1',
+				'button_cancel_button_border_width' => $the_options['button_cancel_button_border_width'] ?? '0',
+				'button_cancel_button_border_radius' => $the_options['button_cancel_button_border_radius'] ?? '0',
+
+				'button_donotsell_text' => $the_options['button_donotsell_text'] ?? 'Do Not Sell My Personal Information',
+				'button_donotsell_link_color' => $the_options['button_donotsell_link_color'] ?? '#359bf5',
+
+				// GDPR and CCPA (multiple legislation).
+				// GDPR:
+				'multiple_legislation_cookie_bar_color1'         => $the_options['multiple_legislation_cookie_bar_color1'] ?? '#ffffff',
+				'multiple_legislation_cookie_bar_opacity1'       => $the_options['multiple_legislation_cookie_bar_opacity1'] ?? '1',
+				'multiple_legislation_cookie_text_color1'        => $the_options['multiple_legislation_cookie_text_color1'] ?? '#000000',
+				'multiple_legislation_border_style1'             => $the_options['multiple_legislation_border_style1'] ?? 'none',
+				'multiple_legislation_cookie_bar_border_width1'  => $the_options['multiple_legislation_cookie_bar_border_width1'] ?? '0',
+				'multiple_legislation_cookie_border_color1'      => $the_options['multiple_legislation_cookie_border_color1'] ?? '#ffffff',
+				'multiple_legislation_cookie_bar_border_radius1' => $the_options['multiple_legislation_cookie_bar_border_radius1'] ?? '0',
+				'multiple_legislation_cookie_font1'              => $the_options['multiple_legislation_cookie_font1'] ?? 'inherit',
+				'banner_image_ml'                                => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 ),
+
+				// CCPA:
+				'button_confirm_text1' => $the_options['button_confirm_text1'] ?? 'Confirm',
+				'button_confirm_link_color1' => $the_options['button_confirm_link_color1'] ?? '#ffffff',
+				'button_confirm_button_color1' => $the_options['button_confirm_button_color1'] ?? '#18a300',
+				'button_confirm_button_border_style1' => $the_options['button_confirm_button_border_style1'] ?? 'none',
+				'button_confirm_button_border_color1' => $the_options['button_confirm_button_border_color1'] ?? '#18a300',
+				'button_confirm_button_opacity1'      => $the_options['button_confirm_button_opacity1'] ?? '1',
+				'button_confirm_button_border_width1' => $the_options['button_confirm_button_border_width1'] ?? '0',
+				'button_confirm_button_border_radius1' => $the_options['button_confirm_button_border_radius1'] ?? '0',
+
+				'button_cancel_text1' => $the_options['button_cancel_text1'] ?? 'Cancel',
+				'button_cancel_link_color1' => $the_options['button_cancel_link_color1'] ?? '#ffffff',
+				'button_cancel_button_color1' => $the_options['button_cancel_button_color1'] ?? '#333333',
+				'button_cancel_button_border_style1' => $the_options['button_cancel_button_border_style1'] ?? 'none',
+				'button_cancel_button_border_color1' => $the_options['button_cancel_button_border_color1'] ?? '#333333',
+				'button_cancel_button_opacity1' => $the_options['button_cancel_button_opacity1'] ?? '1',
+				'gdpr-cookie-cancel-border-width1' => $the_options['gdpr-cookie-cancel-border-width1'] ?? '0',
+				'button_cancel_button_border_radius1' => $the_options['button_cancel_button_border_radius1'] ?? '0',
+				'button_donotsell_text1'              => $the_options['button_donotsell_text1'] ?? 'Do Not Sell My Personal Information',
+				'button_donotsell_link_color1'        => $the_options['button_donotsell_link_color1'] ?? '#359bf5',
 			)
 		);
 	}
