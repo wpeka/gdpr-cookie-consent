@@ -9660,7 +9660,7 @@ div#gdpr-scan-history {
 #gdpr-cookie-consent-settings-app .notice-container.notice-type-banner .notice-content .notice-content-body .template-small_row_big_column-buttons {
   flex-direction: column-reverse;
   min-width: 280px;
-    width: fit-content;
+  width: fit-content;
 }
 #gdpr-cookie-consent-settings-app .notice-container.notice-type-banner .notice-content .notice-content-body .template-small_row_big_column-buttons a{
   min-width: auto;

@@ -82,7 +82,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '4.0.8';
+			$this->version = '4.0.9';
 		}
 		add_action(
 			'current_screen',

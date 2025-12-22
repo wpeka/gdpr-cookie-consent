@@ -8334,6 +8334,13 @@ class Gdpr_Cookie_Consent_Admin {
 		$geo_target_object = $request->get_param('geo_target_object') ?: null;
 		
 		$share_usage_data = $request->get_param('share_usage_data') ?: null;
+
+		if ( $save_object['data_req_editor_message'] !== '' && $save_object['data_req_editor_message'] !== null ) {
+			$save_object['data_req_editor_message'] = htmlentities( $save_object['data_req_editor_message'] );
+		} else {
+			$save_object['data_req_editor_message'] = '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;';
+		}
+
 		$cookie_banner_created_once = $request->get_param('cookie_banner_created_once') ?: null;
 
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
