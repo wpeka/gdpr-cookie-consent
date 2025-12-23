@@ -12598,12 +12598,12 @@ var ckm = new Vue({
         ? settings_obj.cookie_list_settings["cookie_list_types"]
         : [],
       custom_cookie_category: 1,
-      custom_cookie_type: "HTTP Cookie",
+      custom_cookie_type: "HTTP",
       custom_cookie_name: "",
       custom_cookie_domain: "",
       custom_cookie_duration: "",
       custom_cookie_description: "",
-      is_custom_cookie_duration_disabled: this.custom_cookie_type === "HTTP Cookie" ? false : true,
+      is_custom_cookie_duration_disabled: this.custom_cookie_type === "HTTP" ? false : true,
       custom_cookie_duration_placeholder: "Duration(days/session)",
       scan_history_list_tab: true,
       post_cookie_list_length: settings_obj.cookie_list_settings.hasOwnProperty(
