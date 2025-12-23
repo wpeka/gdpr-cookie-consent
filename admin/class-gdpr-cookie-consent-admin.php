@@ -8917,6 +8917,16 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 
 		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/custom-cookie',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_custom_cookie' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
 			'gdpr/v2', // Namespace
 			'/get_user_dashboard_data', 
 			array(
@@ -9865,6 +9875,17 @@ public function gdpr_support_request_handler() {
 			$select_countries_ccpa = $the_options['select_countries_ccpa'];
 		}
 
+		$get_categories = Gdpr_Cookie_Consent_Cookie_Custom::get_categories();
+
+		$cookies_categories = array_map(
+			fn ( $label, $value ) => [
+				'value' => $value,
+				'label' => $label,
+			],
+			$get_categories,
+			array_keys( $get_categories )
+		);
+
 		global $wpdb;
 		$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'gdpr_cookie_post_cookies ORDER BY id_gdpr_cookie_post_cookies DESC LIMIT %d, %d', array( 0, 100 ) ), ARRAY_A ); // db call ok; no-cache ok.
 
@@ -10216,6 +10237,7 @@ public function gdpr_support_request_handler() {
 				'button_donotsell_link_color1'             => $the_options['button_donotsell_link_color1'] ?? '#359bf5',
 
 				'custom_cookies_list'                      => $data_arr,
+				'cookies_categories'                       => $cookies_categories,
 			)
 		);
 	}
@@ -10279,5 +10301,155 @@ public function gdpr_support_request_handler() {
 		set_transient( 'wpl_gcm_check_is_scanning', true );
 
 		return new WP_REST_Response( [ 'status' => 'success', 'message' => 'Scanning Started' ], 200 );
+	}
+
+	public function gdpr_custom_cookie( WP_REST_Request $request ) {
+		$custom_cookie = (array) $request->get_param( 'custom_cookie' );
+
+		$allowed_actions = array( 'insert', 'update', 'delete' );
+
+		$action = $custom_cookie['action'] ?? '';
+
+		if ( ! in_array( $action, $allowed_actions, true ) ) {
+			return new WP_REST_Response(
+				array(
+		            'status'  => 'error',
+		            'message' => __( 'This action is not allowed', 'gdpr-cookie-consent' ),
+				),
+		        500
+			);
+		}
+
+		$action = 'gdpr_' . $action . '_custom_cookie';
+
+		$response = $this->{$action}( $custom_cookie );
+
+		return new WP_REST_Response(
+			array(
+				'status'  => $response['status'],
+				'message' => $response['message'],
+			),
+			$response['code']
+		);
+	}
+
+	public function gdpr_insert_custom_cookie( $params ) {
+		
+		$cookies_array = $this->gdpr_sanitize_custom_cookie_params( $params );
+
+		if ( isset( $cookies_array['code'] ) ) {
+			return $cookies_array;
+		}
+		
+		global $wpdb;
+		$post_cookies_table = $wpdb->prefix . 'gdpr_cookie_post_cookies';
+
+		$inserted = $wpdb->insert( $post_cookies_table, $cookies_array );
+
+		if ( ! $inserted ) {
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Failed to add cookie.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
+			);
+		}
+
+		return array(
+			'status'  => 'success',
+			'message' => __( 'Cookie Saved Successfully!!!', 'gdpr-cookie-consent' ),
+			'code'    => 201,
+		);
+	}
+
+	public function gdpr_sanitize_custom_cookie_params( $params ) {
+		$name        = sanitize_text_field( $params['name'] ?? '' );
+		$category    = sanitize_text_field( $params['category'] ?? '' );
+		$category_id = absint( $params['category_id'] ?? 0 );
+		$description = sanitize_text_field( $params['description'] ?? '' );
+		$duration    = sanitize_text_field( $params['duration'] ?? '' );
+		$type        = sanitize_text_field( $params['type'] ?? '' );
+			
+		$domain = '';
+		if ( ! empty( $params['domain'] ) ) {
+			$parsed = wp_parse_url( esc_url_raw( $params['domain'] ) );
+			$domain = $parsed['host'] ?? $parsed['path'] ?? '';
+		}
+
+		if ( ! $name || ! $domain || ! $category || ! $category_id || ! $duration || ! $type ) {
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Please fill all the required fields.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
+			);
+		}
+
+		return array(
+			'name'        => $name,
+			'domain'      => $domain,
+			'category'    => $category,
+			'category_id' => $category_id,
+			'type'        => $type,
+			'description' => $description,
+			'duration'    => $duration,
+		);
+	}
+
+	public function gdpr_update_custom_cookie( $params ) {
+		$cookies_array = $this->gdpr_sanitize_custom_cookie_params( $params );
+
+		$id = absint( $params['id'] );
+
+		if ( isset( $cookies_array['code'] ) ) {
+			return $cookies_array;
+		}
+		
+		global $wpdb;
+		$post_cookies_table = $wpdb->prefix . 'gdpr_cookie_post_cookies';
+
+		$where = array(
+			'id_gdpr_cookie_post_cookies' => $id,
+		);
+
+		$updated = $wpdb->update( $post_cookies_table, $cookies_array, $where );
+
+		if ( ! $updated ) {
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Failed to update cookie.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
+			);
+		}
+
+		return array(
+			'status'  => 'success',
+			'message' => __( 'Cookie Updated Successfully!!!', 'gdpr-cookie-consent' ),
+			'code'    => 200,
+		);
+	}
+
+	public function gdpr_delete_custom_cookie( $params ) {
+		$id = absint( $params['id'] );
+		global $wpdb;
+		$post_cookies_table = $wpdb->prefix . 'gdpr_cookie_post_cookies';
+
+		$where = array(
+			'id_gdpr_cookie_post_cookies' => $id,
+		);
+
+		$deleted = $wpdb->delete( $post_cookies_table, $where );
+
+		if ( ! $deleted ) {
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Failed to delete cookie.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
+			);
+		}
+
+		return array(
+			'status'  => 'success',
+			'message' => __( 'Cookie Deleted Successfully!!!', 'gdpr-cookie-consent' ),
+			'code'    => 200,
+		);
 	}
 }
