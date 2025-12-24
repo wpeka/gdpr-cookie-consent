@@ -8927,6 +8927,16 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 
 		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/cookie-data',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_cookie_data' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
 			'gdpr/v2', // Namespace
 			'/get_user_dashboard_data', 
 			array(
@@ -10406,7 +10416,15 @@ public function gdpr_support_request_handler() {
 	public function gdpr_update_custom_cookie( $params ) {
 		$cookies_array = $this->gdpr_sanitize_custom_cookie_params( $params );
 
-		$id = absint( $params['id'] );
+		$id = absint( $params['id'] ?? 0 );
+
+		if ( $id === 0 ) {
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Invalid ID Provided.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
+			);
+		}
 
 		if ( isset( $cookies_array['code'] ) ) {
 			return $cookies_array;
@@ -10437,7 +10455,16 @@ public function gdpr_support_request_handler() {
 	}
 
 	public function gdpr_delete_custom_cookie( $params ) {
-		$id = absint( $params['id'] );
+		$id = absint( $params['id'] ?? 0 );
+
+		if ( $id === 0 ) {
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Invalid ID Provided.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
+			);
+		}
+
 		global $wpdb;
 		$post_cookies_table = $wpdb->prefix . 'gdpr_cookie_post_cookies';
 
@@ -10458,6 +10485,102 @@ public function gdpr_support_request_handler() {
 		return array(
 			'status'  => 'success',
 			'message' => __( 'Cookie Deleted Successfully!!!', 'gdpr-cookie-consent' ),
+			'code'    => 200,
+		);
+	}
+
+	public function gdpr_cookie_data( WP_REST_Request $request ) {
+
+		$custom_cookie = (array) $request->get_param( 'cookie_data' );
+
+		$allowed_actions = array( 'edit', 'clear' );
+
+		$action = $custom_cookie['action'] ?? '';
+
+		if ( ! in_array( $action, $allowed_actions, true ) ) {
+			return new WP_REST_Response(
+				array(
+		            'status'  => 'error',
+		            'message' => __( 'This action is not allowed', 'gdpr-cookie-consent' ),
+				),
+		        500
+			);
+		}	
+
+		$action = 'gdpr_' . $action . '_cookie';
+
+		$response = $this->{$action}( $custom_cookie );
+
+		return new WP_REST_Response(
+			array(
+				'status'  => $response['status'],
+				'message' => $response['message'],
+			),
+			$response['code']
+		);
+	}
+
+	public function gdpr_edit_cookie( $params ) {
+		$id          = absint( $params['id'] ?? 0 );
+		$category    = sanitize_text_field( $params['category'] ?? '' );
+		$category_id = absint( $params['category_id'] ?? 0 );
+		$description = sanitize_text_field( $params['description'] ?? '' );
+
+		if ( ! $category || ! $category_id ) {
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Please fill all the required fields.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
+			);
+		}
+
+		global $wpdb;
+		$post_cookies_table = $wpdb->prefix . 'wpl_cookie_scan_cookies';
+
+		$where = array(
+			'id_wpl_cookie_scan_cookies' => $id,
+		);
+
+		$cookies_array = array(
+			'category'    => $category,
+			'category_id' => $category_id,
+			'description' => $description,
+		);
+
+		$updated = $wpdb->update( $post_cookies_table, $cookies_array, $where );
+
+		if ( ! $updated ) {
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Failed to update cookie.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
+			);
+		}
+
+		return array(
+			'status'  => 'success',
+			'message' => __( 'Cookie Updated Successfully!!!', 'gdpr-cookie-consent' ),
+			'code'    => 200,
+		);
+	}
+
+	public function gdpr_clear_cookie() {
+		global $wpdb;
+		$post_cookies_table = $wpdb->prefix . 'wpl_cookie_scan_cookies';
+
+		$cleared = $wpdb->query( "TRUNCATE TABLE {$post_cookies_table}" );
+
+		if ( ! $cleared ) {
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Failed to clear cookies.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
+			);
+		}
+
+		return array(
+			'status'  => 'success',
+			'message' => __( 'Cookie Cleared Successfully!!!', 'gdpr-cookie-consent' ),
 			'code'    => 200,
 		);
 	}
