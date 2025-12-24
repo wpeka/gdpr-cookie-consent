@@ -8937,6 +8937,16 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 
 		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/auto-generate-banner',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_auto_generate_banner' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
 			'gdpr/v2', // Namespace
 			'/get_user_dashboard_data', 
 			array(
@@ -10582,6 +10592,76 @@ public function gdpr_support_request_handler() {
 			'status'  => 'success',
 			'message' => __( 'Cookie Cleared Successfully!!!', 'gdpr-cookie-consent' ),
 			'code'    => 200,
+		);
+	}
+
+	function gdpr_auto_generate_banner( WP_REST_Request $request ) {
+		$background_color = sanitize_text_field( $request->get_param( 'color' ) ?? '' );
+		if ( empty( $background_color ) ) {
+			return new WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => 'Empty color received',
+				),
+				400
+			);
+		}
+		$the_options                                        = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$the_options['auto_generated_background_color']     = $background_color;
+		$the_options['button_accept_button_color']          = $the_options['auto_generated_background_color'];
+		$the_options['button_accept_button_border_color']   = $the_options['auto_generated_background_color'];
+		$the_options['button_decline_link_color']           = $the_options['auto_generated_background_color'];
+		$the_options['button_decline_button_border_color']  = $the_options['auto_generated_background_color'];
+		$the_options['button_settings_link_color']          = $the_options['auto_generated_background_color'];
+		$the_options['button_settings_button_border_color'] = $the_options['auto_generated_background_color'];
+		$the_options['button_decline_button_color']         = '#ffffff';
+		$the_options['button_settings_button_color']        = '#ffffff';
+		$the_options['button_decline_button_border_style']  = 'solid';
+		$the_options['button_decline_button_border_width']  = '1';
+		$the_options['button_settings_button_border_style'] = 'solid';
+		$the_options['button_settings_button_border_width'] = '1';
+		// Ab testing values.
+		// Banner 1.
+		$the_options['button_accept_button_color1']          = $the_options['auto_generated_background_color'];
+		$the_options['button_accept_button_border_color1']   = $the_options['auto_generated_background_color'];
+		$the_options['button_decline_link_color1']           = $the_options['auto_generated_background_color'];
+		$the_options['button_decline_button_border_color1']  = $the_options['auto_generated_background_color'];
+		$the_options['button_settings_link_color1']          = $the_options['auto_generated_background_color'];
+		$the_options['button_settings_button_border_color1'] = $the_options['auto_generated_background_color'];
+		$the_options['button_decline_button_color1']         = '#ffffff';
+		$the_options['button_settings_button_color1']        = '#ffffff';
+		$the_options['button_decline_button_border_style1']  = 'solid';
+		$the_options['button_decline_button_border_width1']  = '1';
+		$the_options['button_settings_button_border_style1'] = 'solid';
+		$the_options['button_settings_button_border_width1'] = '1';
+
+		// Banner 2.
+		$the_options['button_accept_button_color2']          = $the_options['auto_generated_background_color'];
+		$the_options['button_accept_button_border_color2']   = $the_options['auto_generated_background_color'];
+		$the_options['button_decline_link_color2']           = $the_options['auto_generated_background_color'];
+		$the_options['button_decline_button_border_color2']  = $the_options['auto_generated_background_color'];
+		$the_options['button_settings_link_color2']          = $the_options['auto_generated_background_color'];
+		$the_options['button_settings_button_border_color2'] = $the_options['auto_generated_background_color'];
+		$the_options['button_decline_button_color2']         = '#ffffff';
+		$the_options['button_settings_button_color2']        = '#ffffff';
+		$the_options['button_decline_button_border_style2']  = 'solid';
+		$the_options['button_decline_button_border_width2']  = '1';
+		$the_options['button_settings_button_border_style2'] = 'solid';
+		$the_options['button_settings_button_border_width2'] = '1';
+
+		$the_options['is_banner_auto_generated'] = 'true';
+
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
+		update_option( 'gdpr_preview_banner_state', 'true' );
+
+		return new WP_REST_Response(
+			array(
+				'status'  => 'success',
+				'message' => 'Banner Generated Successfully!!!',
+				'color'   => $background_color,
+			),
+			200
 		);
 	}
 }
