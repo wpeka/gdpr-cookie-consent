@@ -9887,7 +9887,14 @@ public function gdpr_support_request_handler() {
 		);
 
 		global $wpdb;
-		$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'gdpr_cookie_post_cookies ORDER BY id_gdpr_cookie_post_cookies DESC LIMIT %d, %d', array( 0, 100 ) ), ARRAY_A ); // db call ok; no-cache ok.
+		$custom_cookies_list = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'gdpr_cookie_post_cookies ORDER BY id_gdpr_cookie_post_cookies DESC'), ARRAY_A );
+
+		$cookies_table = $wpdb->prefix . 'wpl_cookie_scan_cookies';
+		$cookie_scan   = $wpdb->prefix . 'wpl_cookie_scan';
+
+		$scanned_cookies = $wpdb->get_results( $wpdb->prepare( 'SELECT id_wpl_cookie_scan_cookies, name, domain, duration, type, category, category_id, description FROM ' . $cookies_table . ' ORDER BY id_wpl_cookie_scan_cookies DESC' ), ARRAY_A );
+
+		$cookie_scan_list = $wpdb->get_results( $wpdb->prepare( 'SELECT id_wpl_cookie_scan, created_at, status, total_url, total_category, total_cookies FROM ' . $cookie_scan . ' ORDER BY id_wpl_cookie_scan DESC' ), ARRAY_A );
 
 		return rest_ensure_response(
 			array(
@@ -10236,8 +10243,10 @@ public function gdpr_support_request_handler() {
 				'button_donotsell_text1'                   => $the_options['button_donotsell_text1'] ?? 'Do Not Sell My Personal Information',
 				'button_donotsell_link_color1'             => $the_options['button_donotsell_link_color1'] ?? '#359bf5',
 
-				'custom_cookies_list'                      => $data_arr,
+				'custom_cookies_list'                      => $custom_cookies_list,
 				'cookies_categories'                       => $cookies_categories,
+				'scanned_cookies'                          => $scanned_cookies,
+				'cookie_scan_list'                         => $cookie_scan_list,
 			)
 		);
 	}
