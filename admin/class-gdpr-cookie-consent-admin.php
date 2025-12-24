@@ -7299,15 +7299,15 @@ class Gdpr_Cookie_Consent_Admin {
 		$show_cookie_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#compliances';
 		$language_url        = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#language';
 		$maxmind_url         = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations';
-		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies';
+		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_manager';
 		$plugin_page_url     = $admin_url . 'plugins.php';
 		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
 		$legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wplegalpages' ), 'install-plugin_wplegalpages' );
 		$create_legalpages_url = $admin_url . 'admin.php?page=legal-pages';
 		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
 		$cookie_design_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
-		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#configuration';
-		$script_blocker_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#script_blocker';
+		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#layout';
+		$script_blocker_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#script_blocker';
 		$third_party_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#policy_data';
 		$documentation_url   = 'https://wplegalpages.com/docs/wp-cookie-consent/';
 		$gdpr_pro_url        = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=quick-links&utm_content=upgrade-to-pro';

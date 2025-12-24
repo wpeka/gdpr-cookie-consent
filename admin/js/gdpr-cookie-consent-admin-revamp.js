@@ -263,7 +263,6 @@ jQuery(document).ready(function () {
     var linkUrl = jQuery(".gdpr-quick-link-item.scan_cookies a").attr("href");
 
     window.location.assign(linkUrl);
-    location.reload();
   });
   jQuery(".gdpr-quick-link-item.geo_targeting").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.geo_targeting a").attr("href");
