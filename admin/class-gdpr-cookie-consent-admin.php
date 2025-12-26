@@ -8947,6 +8947,16 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 
 		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/schedule-scan',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_schedule_scan' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
 			'gdpr/v2', // Namespace
 			'/get_user_dashboard_data', 
 			array(
@@ -10277,7 +10287,47 @@ public function gdpr_support_request_handler() {
 				'cookies_categories'                       => $cookies_categories,
 				'scanned_cookies'                          => $scanned_cookies,
 				'cookie_scan_list'                         => $cookie_scan_list,
+				'scan_schedule_data'                       => get_option( 'gdpr_scan_schedule_data' ),
 			)
+		);
+	}
+
+	public function gdpr_schedule_scan( WP_REST_Request $request ) {
+		$schedule_scan = $request->get_param( 'schedule_scan' );
+		if ( empty( $schedule_scan ) ) {
+			return new WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => 'Schedule scan data is empty',
+				),
+				400
+			);
+		}
+
+		$scan_as           = sanitize_text_field( $schedule_scan['schedule_scan_as'] ?? '' );
+		$scan_date         = sanitize_text_field( $schedule_scan['schedule_scan_date'] ?? '' );
+		$scan_time_value   = sanitize_text_field( $schedule_scan['schedule_scan_time_value'] ?? '' );
+		$scan_day          = sanitize_text_field( $schedule_scan['schedule_scan_day'] ?? '' );
+		$next_scan_is_when = sanitize_text_field( $schedule_scan['next_scan_is_when'] ?? '' );
+		$scan_when         = sanitize_text_field( $schedule_scan['schedule_scan_when'] ?? '' );
+
+		$schedule_scan_data = array(
+			'schedule_scan_as'  => $scan_as,
+			'scan_date'         => $scan_date,
+			'scan_time_value'   => $scan_time_value,
+			'scan_day'          => $scan_day,
+			'next_scan_is_when' => $next_scan_is_when,
+			'scan_when'         => $scan_when,
+		);
+
+		update_option( 'gdpr_scan_schedule_data', $schedule_scan_data );
+
+		return new WP_REST_Response(
+			array(
+				'status'  => 'success',
+				'message' => __( 'Scan Scheduled Successfully!!!', 'gdpr-cookie-consent' ),
+			),
+			200
 		);
 	}
 
