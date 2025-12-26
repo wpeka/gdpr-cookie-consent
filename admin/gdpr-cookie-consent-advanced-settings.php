@@ -70,7 +70,7 @@
                                 <?php if ( ! $is_pro_active ) : ?>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to log user’s consent.', 'gdpr-cookie-consent' ); ?>"></tooltip><div class="consent-log-readmore-container">
-											<a class="consent-log-readmore" href="https://wplegalpages.com/docs/wp-cookie-consent/settings/consent-logging/" target="_blank">
+											<a class="consent-log-readmore" href="https://wplegalpages.com/docs/wplp-docs/features-walkthrough/cookie-consent/#h-consent-logs" target="_blank">
 												<?php esc_attr_e( 'Learn more about consent logging', 'gdpr-cookie-consent' ); ?>
 											</a>
 											</div></label></c-col>											

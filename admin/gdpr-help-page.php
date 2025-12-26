@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <h3><?php esc_html_e( 'Documentation', 'gdpr-cookie-consent' ); ?></h3>
                         <p><?php esc_html_e( 'Browse our step-by-step guides and articles to help you get started and troubleshoot with ease.', 'gdpr-cookie-consent' ); ?></p>
-                        <a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wp-cookie-consent/', 'gdpr-cookie-consent' ); ?>" target="_blank"><?php esc_html_e( "Read Documentation" ); ?><img class="gdpr-other-plugin-arrow" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/dashboard-icons/right-arrow.svg' ); ?>"></a>
+                        <a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wplp-docs/', 'gdpr-cookie-consent' ); ?>" target="_blank"><?php esc_html_e( "Read Documentation" ); ?><img class="gdpr-other-plugin-arrow" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/dashboard-icons/right-arrow.svg' ); ?>"></a>
                       </div>
 
                       <div class="gdpr-cookie-consent-help-card">
