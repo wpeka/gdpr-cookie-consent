@@ -9883,18 +9883,25 @@ public function gdpr_support_request_handler() {
 		$language    = $the_options['lang_selected'] ?? 'en';
 
 		if ( empty( $the_options['gcm_defaults'] ) ) {
-			$the_options['gcm_defaults'] = array(
+			$the_options['gcm_defaults'] = json_encode(
 				array(
-					'region'                  => 'All',
-					'ad_storage'              => 'denied',
-					'analytics_storage'       => 'denied',
-					'ad_user_data'            => 'denied',
-					'ad_personalization'      => 'denied',
-					'functionality_storage'   => 'granted',
-					'personalization_storage' => 'denied',
-					'security_storage'        => 'granted',
-				),
+					array(
+						'region'                  => 'All',
+						'ad_storage'              => 'denied',
+						'analytics_storage'       => 'denied',
+						'ad_user_data'            => 'denied',
+						'ad_personalization'      => 'denied',
+						'functionality_storage'   => 'granted',
+						'personalization_storage' => 'denied',
+						'security_storage'        => 'granted',
+					),
+				)
 			);
+		}
+
+		$select_countries = array();
+		if ( ! empty( $the_options['select_countries'] ) && count( $the_options['select_countries'] ) > 0 && $the_options['select_countries'][0] !== '' ) {
+			$select_countries = $the_options['select_countries'];
 		}
 
 		$select_countries_ccpa = array();
@@ -9923,6 +9930,8 @@ public function gdpr_support_request_handler() {
 
 		$cookie_scan_list = $wpdb->get_results( $wpdb->prepare( 'SELECT id_wpl_cookie_scan, created_at, status, total_url, total_category, total_cookies FROM ' . $cookie_scan . ' ORDER BY id_wpl_cookie_scan DESC' ), ARRAY_A );
 
+		$posts = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type IN ('post', 'page') AND post_status = 'publish'" ), ARRAY_A );
+
 		return rest_ensure_response(
 			array(
 				'is_on'                                    => $this->convert_boolean( $the_options['is_on'] ),
@@ -9937,13 +9946,14 @@ public function gdpr_support_request_handler() {
 				'is_gcm_advertiser_mode'                   => $this->convert_boolean( $the_options['is_gcm_advertiser_mode'] ),
 				'cookie_usage_for'                         => $the_options['cookie_usage_for'],
 				'is_worldwide_on_ccpa'                     => $this->convert_boolean( $the_options['is_worldwide_on_ccpa'] ),
+				'is_worldwide_on'                          => $this->convert_boolean( $the_options['is_worldwide_on'] ),
+				'is_eu_on'                                 => $this->convert_boolean( $the_options['is_eu_on'] ),
 				'is_ccpa_on'                               => $this->convert_boolean( $the_options['is_ccpa_on'] ),
+				'is_selectedCountry_on'                    => $this->convert_boolean( $the_options['is_selectedCountry_on'] ),
 				'is_selectedCountry_on_ccpa'               => $this->convert_boolean( $the_options['is_selectedCountry_on_ccpa'] ),
+				'select_countries'                         => $select_countries,
 				'select_countries_ccpa'                    => $select_countries_ccpa,
-				'data_reqs_on'                             => $this->convert_boolean( $the_options['data_reqs_on'] ),
-				'data_req_email_address'                   => $the_options['data_req_email_address'] ?? '',
-				'data_req_subject'                         => $the_options['data_req_subject'],
-				'data_req_editor_message'                  => $the_options['data_req_editor_message'],
+				'posts'                                    => $posts,
 				'restrict_posts'                           => count( $the_options['restrict_posts'] ) === 1 && $the_options['restrict_posts'][0] === '' ? array() : $the_options['restrict_posts'],
 				'auto_banner_initialize'                   => $this->convert_boolean( $the_options['auto_banner_initialize'] ),
 				'auto_banner_initialize_delay'             => absint( $the_options['auto_banner_initialize_delay'] ),
