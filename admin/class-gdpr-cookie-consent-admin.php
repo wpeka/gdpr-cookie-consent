@@ -8957,6 +8957,16 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 
 		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/cookie_scan',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_start_cookie_scan' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
 			'gdpr/v2', // Namespace
 			'/get_user_dashboard_data', 
 			array(
@@ -10288,6 +10298,7 @@ public function gdpr_support_request_handler() {
 				'scanned_cookies'                          => $scanned_cookies,
 				'cookie_scan_list'                         => $cookie_scan_list,
 				'scan_schedule_data'                       => get_option( 'gdpr_scan_schedule_data' ),
+				'scan_in_progress'                         => get_option( 'gdpr_scanning_action_hash' ) ? true : false,
 			)
 		);
 	}
@@ -10722,6 +10733,32 @@ public function gdpr_support_request_handler() {
 				'color'   => $background_color,
 			),
 			200
+		);
+	}
+
+	public function gdpr_start_cookie_scan( WP_REST_Request $request ) {
+		require_once plugin_dir_path( __DIR__ ) . 'admin/modules/cookie-scanner/classes/class-wpl-cookie-consent-cookie-scanner-ajax.php';
+		$cookies_scan = new Gdpr_Cookie_Consent_Cookie_Scanner_Ajax();
+
+		$response = $cookies_scan->gdpr_start_cookie_scanning();
+
+		$out = array(
+			'status'  => 'error',
+			'message' => __( 'Scanning already in progress.', 'gdpr-cookie-consent' ),
+			'code'    => 400,
+		);
+
+		if ( isset( $response['error'] ) ) {
+			$out['data']['error'] = $response['error'];
+		}
+
+		if ( isset( $response['server_response'] ) ) {
+			$out['data']['server_response'] = $response['server_response'];
+		}
+
+		return new WP_REST_Response(
+			$out,
+			$response['code']
 		);
 	}
 }
