@@ -10743,9 +10743,11 @@ public function gdpr_support_request_handler() {
 		$response = $cookies_scan->gdpr_start_cookie_scanning();
 
 		$out = array(
-			'status'  => 'error',
-			'message' => __( 'Scanning already in progress.', 'gdpr-cookie-consent' ),
-			'code'    => 400,
+			'success' => $response['status'] === 'success' ? true : false,
+			'data'    => array(
+				'status'  => $response['status'],
+				'message' => $response['message'],
+			),
 		);
 
 		if ( isset( $response['error'] ) ) {
