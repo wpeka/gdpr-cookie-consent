@@ -175,6 +175,16 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<a  v-if="!is_ccpa && this[`button_readmore_is_on${active_test_banner_tab}`]" :style="{ 
 								'font-family': this[`cookie_font${active_test_banner_tab}`],
 								'color':button_readmore_link_color,
+								'textDecoration':
+									(template === 'blue_full' ||
+									template === 'blue_center' ||
+									template === 'blue_center_column' ||
+									template === 'blue_split' ||
+									template === 'gray' ||
+									template === 'bold' ||
+									template === 'dark' )
+										? 'underline'
+										: 'none',
 								'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
 								'border-width': button_readmore_as_button ? button_readmore_button_border_width + 'px':'0', 
 								'border-color': button_readmore_as_button ? button_readmore_button_border_color : 'transparent', 
@@ -385,6 +395,16 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<a v-if="!is_ccpa && button_readmore_is_on" :style="{ 
 								'font-family': cookie_font,
 								'color':button_readmore_link_color,
+								'textDecoration':
+									(template === 'blue_full' ||
+									template === 'blue_center' ||
+									template === 'blue_center_column' ||
+									template === 'blue_split' ||
+									template === 'gray' ||
+									template === 'bold' ||
+									 template === 'dark' )
+										? 'underline'
+										: 'none',
 								'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
 								'border-width': button_readmore_as_button ? button_readmore_button_border_width + 'px':'0', 
 								'border-color': button_readmore_as_button ? button_readmore_button_border_color : 'transparent', 
@@ -581,6 +601,16 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<a v-if="active_default_multiple_legislation === 'gdpr' && button_readmore_is_on" :style="{ 
 								'font-family': multiple_legislation_cookie_font1,
 								'color':button_readmore_link_color,
+								'textDecoration':
+									(template === 'blue_full' ||
+									template === 'blue_center' ||
+									template === 'blue_center_column' ||
+									template === 'blue_split' ||
+									template === 'gray' ||
+									template === 'bold' || 
+									template === 'dark' )
+										? 'underline'
+										: 'none',
 								'border-style': button_readmore_as_button ? button_readmore_button_border_style : 'none', 
 								'border-width': button_readmore_as_button ? button_readmore_button_border_width + 'px':'0', 
 								'border-color': button_readmore_as_button ? button_readmore_button_border_color : 'transparent', 
