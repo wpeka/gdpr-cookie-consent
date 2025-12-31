@@ -216,7 +216,7 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 
 == Change Log ==
 
-= 4.1.0
+= 4.1.0 =
 * Bug fixes and Improvements.
 
 = 4.0.9 =
@@ -754,7 +754,7 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 
 == Upgrade Notice ==
 
-= 4.1.0
+= 4.1.0 =
 * Bug fixes and Improvements.
 
 = 4.0.9 =
