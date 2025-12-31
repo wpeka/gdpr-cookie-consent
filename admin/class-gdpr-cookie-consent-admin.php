@@ -8356,6 +8356,10 @@ class Gdpr_Cookie_Consent_Admin {
 
 		$custom_css = $request->get_param( 'gdpr_css_text' );
 
+		$advanced_scripts = $request->get_param( 'advanced_scripts' );
+
+		$whitelist_scripts = $request->get_param( 'whitelist_scripts' );
+
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 		if(!empty($save_object) && is_array($save_object)){
@@ -8440,6 +8444,33 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['gdpr_css_text'] = $encode_css;
 		}
 
+		global $wpdb;
+		if ( ! empty( $advanced_scripts ) ) {
+			foreach ( $advanced_scripts as $row ) {
+				$wpdb->update(
+					$advanced_scripts_table,
+					array(
+						'script_category' => $row['script_category'],
+						'script_status'   => $row['script_status'],
+					),
+					array( 'id' => $row['id'] ),
+					array(
+						'%d', // script_category
+						'%d', // script_status
+					),
+					array( '%d' )
+				);
+			}
+		}
+
+		if ( ! empty( $whitelist_scripts ) ) {
+
+			$whitelist_scripts = array(
+				'whitelist_script' => $whitelist_scripts,
+			);
+
+			update_option( 'wpl_options_custom-scripts', $whitelist_scripts );
+		}
 		
 		if(!empty($geo_target_object) && is_array($geo_target_object)){
 
@@ -9936,14 +9967,17 @@ public function gdpr_support_request_handler() {
 		global $wpdb;
 		$custom_cookies_list = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'gdpr_cookie_post_cookies ORDER BY id_gdpr_cookie_post_cookies DESC'), ARRAY_A );
 
-		$cookies_table = $wpdb->prefix . 'wpl_cookie_scan_cookies';
-		$cookie_scan   = $wpdb->prefix . 'wpl_cookie_scan';
+		$cookies_table          = $wpdb->prefix . 'wpl_cookie_scan_cookies';
+		$cookie_scan            = $wpdb->prefix . 'wpl_cookie_scan';
+		$advanced_scripts_table = $wpdb->prefix . 'wpl_cookie_scripts';
 
 		$scanned_cookies = $wpdb->get_results( $wpdb->prepare( 'SELECT id_wpl_cookie_scan_cookies, name, domain, duration, type, category, category_id, description FROM ' . $cookies_table . ' ORDER BY id_wpl_cookie_scan_cookies DESC' ), ARRAY_A );
 
 		$cookie_scan_list = $wpdb->get_results( $wpdb->prepare( 'SELECT id_wpl_cookie_scan, created_at, status, total_url, total_category, total_cookies FROM ' . $cookie_scan . ' ORDER BY id_wpl_cookie_scan DESC' ), ARRAY_A );
 
 		$posts = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type IN ('post', 'page') AND post_status = 'publish'" ), ARRAY_A );
+
+		$advanced_scripts = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$advanced_scripts_table}" ), ARRAY_A );
 
 		return rest_ensure_response(
 			array(
@@ -10292,13 +10326,23 @@ public function gdpr_support_request_handler() {
 				'button_cancel_button_border_radius1'      => $the_options['button_cancel_button_border_radius1'] ?? '0',
 				'button_donotsell_text1'                   => $the_options['button_donotsell_text1'] ?? 'Do Not Sell My Personal Information',
 				'button_donotsell_link_color1'             => $the_options['button_donotsell_link_color1'] ?? '#359bf5',
-
+				// Cookie Manager.
 				'custom_cookies_list'                      => $custom_cookies_list,
 				'cookies_categories'                       => $cookies_categories,
 				'scanned_cookies'                          => $scanned_cookies,
 				'cookie_scan_list'                         => $cookie_scan_list,
 				'scan_schedule_data'                       => get_option( 'gdpr_scan_schedule_data' ),
 				'scan_in_progress'                         => get_option( 'gdpr_scanning_action_hash' ) ? true : false,
+				// Script Blocker.
+				'is_script_blocker_on'                     => $the_options['is_script_blocker_on'],
+				'header_scripts'                           => $the_options['header_scripts'] ?? '',
+				'body_scripts'                             => $the_options['body_scripts'] ?? '',
+				'footer_scripts'                           => $the_options['footer_scripts'] ?? '',
+				'advanced_scripts'                         => $advanced_scripts,
+				'is_script_dependency_on'                  => $the_options['is_script_dependency_on'],
+				'header_dependency'                        => $the_options['header_dependency'] ?? '',
+				'footer_dependency'                        => $the_options['footer_dependency'] ?? '',
+				'whitelist_scripts'                        => get_option( 'wpl_options_custom-scripts' )['whitelist_script'],
 			)
 		);
 	}
