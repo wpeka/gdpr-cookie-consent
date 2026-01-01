@@ -105,7 +105,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 									<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/wp_cookie_help.svg'; ?>" alt="WP Cookie Consent Help">
 								</a>
 							</div>
-							<div class="gdpr-cookie-consent-admin-help-text"><a href="https://wplegalpages.com/docs/" target="_blank">
+							<div class="gdpr-cookie-consent-admin-help-text"><a href="https://wplegalpages.com/docs/wplp-docs/" target="_blank">
 								Help Guide</a>
 							</div>
 						</div>
@@ -422,7 +422,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						</div>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10Sites' === $api_user_plan || '10sites' === $api_user_plan ) { ?>
+							<?php if ( '10Sites' === $api_user_plan || '25Sites' === $api_user_plan || '50Sites' === $api_user_plan || '100Sites' === $api_user_plan || '10sites' === $api_user_plan || '25sites' === $api_user_plan || '50sites' === $api_user_plan || '100sites' === $api_user_plan) { ?>
 								<div class="gdpr-remaining-scans-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -461,7 +461,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 						</div>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10Sites' === $api_user_plan || '10sites' === $api_user_plan ) { ?>
+							<?php if ( '10Sites' === $api_user_plan || '10sites' === $api_user_plan || '25Sites' === $api_user_plan || '25sites' === $api_user_plan || '50Sites' === $api_user_plan || '50sites' === $api_user_plan || '100Sites' === $api_user_plan || '100sites' === $api_user_plan) { ?>
 								<div class="gdpr-pageviews-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),

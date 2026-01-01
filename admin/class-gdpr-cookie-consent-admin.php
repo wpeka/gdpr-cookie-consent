@@ -7312,15 +7312,15 @@ class Gdpr_Cookie_Consent_Admin {
 		$show_cookie_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#compliances';
 		$language_url        = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#language';
 		$maxmind_url         = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#integrations';
-		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#cookie_list#discovered_cookies';
+		$cookie_scan_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_manager';
 		$plugin_page_url     = $admin_url . 'plugins.php';
 		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
 		$legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wplegalpages' ), 'install-plugin_wplegalpages' );
 		$create_legalpages_url = $admin_url . 'admin.php?page=legal-pages';
 		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
 		$cookie_design_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
-		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#configuration';
-		$script_blocker_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#script_blocker';
+		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#layout';
+		$script_blocker_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#script_blocker';
 		$third_party_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#policy_data';
 		$documentation_url   = 'https://wplegalpages.com/docs/wp-cookie-consent/';
 		$gdpr_pro_url        = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=quick-links&utm_content=upgrade-to-pro';
@@ -8347,6 +8347,13 @@ class Gdpr_Cookie_Consent_Admin {
 		$geo_target_object = $request->get_param('geo_target_object') ?: null;
 		
 		$share_usage_data = $request->get_param('share_usage_data') ?: null;
+
+		if ( $save_object['data_req_editor_message'] !== '' && $save_object['data_req_editor_message'] !== null ) {
+			$save_object['data_req_editor_message'] = htmlentities( $save_object['data_req_editor_message'] );
+		} else {
+			$save_object['data_req_editor_message'] = '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;';
+		}
+
 		$cookie_banner_created_once = $request->get_param('cookie_banner_created_once') ?: null;
 
 		$banner_image    = $request->get_param( 'banner_image' );
@@ -8654,7 +8661,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: *');
+			header( 'Access-Control-Allow-Origin: ' . GDPR_APP_URL);
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
