@@ -8661,7 +8661,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: ' . GDPR_APP_URL);
+			header( 'Access-Control-Allow-Origin: *');
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -10238,8 +10238,9 @@ public function gdpr_support_request_handler() {
 				'button_readmore_page'                     => $the_options['button_readmore_page'] ?? '0',
 				'button_readmore_wp_page'                  => $the_options['button_readmore_wp_page'],
 				'button_readmore_new_win'                  => $the_options['button_readmore_new_win'],
-				'button_readmore_button_color'             => $the_options['button_readmore_button_color'] ?? '#000000',
-				'button_readmore_button_border_style'      => $the_options['button_readmore_button_border_style'] ?? 'solid',
+				'button_readmore_url'                      => $the_options['button_readmore_url'] ?? '#',
+				'button_readmore_button_color'			   => $the_options['button_readmore_button_color'] ?? '#ffffff',
+				'button_readmore_button_border_style'	   => $the_options['button_readmore_button_border_style'] ?? '1',
 				'button_readmore_button_border_color'      => $the_options['button_readmore_button_border_color'] ?? '#000000',
 				'button_readmore_button_opacity'           => $the_options['button_readmore_button_opacity'] ?? '1',
 				'button_readmore_button_border_width'      => $the_options['button_readmore_button_border_width'] ?? '0',
@@ -10741,6 +10742,7 @@ public function gdpr_support_request_handler() {
 	}
 
 	function gdpr_auto_generate_banner( WP_REST_Request $request ) {
+		error_log("DODODO auto generate called");
 		$background_color = sanitize_text_field( $request->get_param( 'color' ) ?? '' );
 		if ( empty( $background_color ) ) {
 			return new WP_REST_Response(
