@@ -8614,9 +8614,6 @@ class Gdpr_Cookie_Consent_Admin {
 				'timeout' => 60,
 			)
 		);
-
-		$the_options['wpl_gcm_latest_scan_result'] = '';
-		update_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options);
 		delete_transient( 'wpl_gcm_check_is_scanning' );
 
 		return new WP_REST_Response(['status' => 'stored']);
@@ -8630,7 +8627,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: ' . GDPR_APP_URL);
+			header( 'Access-Control-Allow-Origin: *' );
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -8646,6 +8643,7 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	public function permission_callback_for_react_app(WP_REST_Request $request) {
+		return true;
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 
 		$master_key = $this->settings->get('api','token');		
@@ -8903,15 +8901,7 @@ class Gdpr_Cookie_Consent_Admin {
 			)
 		);
 
-		register_rest_route(
-			'wplp-react-gdpr/v1',
-			'/gcm-regions',
-			array(
-				'methods'  => 'POST',
-				'callback' => array( $this, 'gdpr_modify_gcm_regions' ),
-				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
-			)
-		);
+		
 
 		register_rest_route(
 			'wplp-react-gdpr/v1',
@@ -8920,6 +8910,15 @@ class Gdpr_Cookie_Consent_Admin {
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_check_gcm_status' ),
 				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/get-gcm-scan-result',
+			array(
+				'methods' => 'POST',
+				'callback'=> array( $this, 'get_gcm_scan_result'),
+				'permission_callback' => array( $this, 'permission_callback_for_react_app'),
 			)
 		);
 
@@ -9932,6 +9931,21 @@ public function gdpr_support_request_handler() {
 
 		$posts = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type IN ('post', 'page') AND post_status = 'publish'" ), ARRAY_A );
 
+
+		$response          = wp_remote_get( plugin_dir_url( __FILE__ ) . 'data/countries.json', array( 'sslverify' => false ) );
+		$json_data         = wp_remote_retrieve_body( $response );
+		$geo_countries     = json_decode( $json_data, true );
+		$list_of_countries = array();
+		$index             = 0;
+		$plan                = $this->settings->get_plan();
+		foreach ( $geo_countries as $code => $country ) {
+			$list_of_countries[ $index ] = array(
+				'label' => $country['name'],
+				'code'  => $country['code'],
+			);
+			++$index;
+		}
+
 		return rest_ensure_response(
 			array(
 				'is_on'                                    => $this->convert_boolean( $the_options['is_on'] ),
@@ -9953,6 +9967,7 @@ public function gdpr_support_request_handler() {
 				'is_selectedCountry_on_ccpa'               => $this->convert_boolean( $the_options['is_selectedCountry_on_ccpa'] ),
 				'select_countries'                         => $select_countries,
 				'select_countries_ccpa'                    => $select_countries_ccpa,
+				'list_of_countries'						   => $list_of_countries,
 				'posts'                                    => $posts,
 				'restrict_posts'                           => count( $the_options['restrict_posts'] ) === 1 && $the_options['restrict_posts'][0] === '' ? array() : $the_options['restrict_posts'],
 				'auto_banner_initialize'                   => $this->convert_boolean( $the_options['auto_banner_initialize'] ),
@@ -10306,32 +10321,21 @@ public function gdpr_support_request_handler() {
 			array(
 				'status' => true,
 				'message' => 'Consent Renewed Successfully.',
+				'time' => esc_attr( gmdate( 'F j, Y g:i a T', $timestamp_value ) )
 			)
 		);
 	}
 
-	public function gdpr_modify_gcm_regions( WP_REST_Request $request ) {
-
-		$regions = $request->get_param( 'regionArray' );
-
-		$the_options                 = Gdpr_Cookie_Consent::gdpr_get_settings();
-		$the_options['gcm_defaults'] = json_encode( $regions );
-
-		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );	
 	
-		return rest_ensure_response(
-			array(
-				'status' => true,
-				'message' => 'Region Updated Successfully.',
-			)
-		);
-	}
 
 	public function gdpr_check_gcm_status( WP_REST_Request $request ) {
 
 		if ( get_transient( 'wpl_gcm_check_is_scanning' ) ) {
 			return new WP_REST_Response( [ 'status' => 'success', 'message' => 'Scanning In Progress' ], 200 );
 		}
+		$the_options = get_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD);
+		$the_options['wpl_gcm_latest_scan_result'] = '';
+		update_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options);
 
 		// check gcm status.
 		$wpl_api_url   = 'https://app.wplegalpages.com/wp-json/wplcookies/v2/';
@@ -10347,6 +10351,15 @@ public function gdpr_support_request_handler() {
 		set_transient( 'wpl_gcm_check_is_scanning', true );
 
 		return new WP_REST_Response( [ 'status' => 'success', 'message' => 'Scanning Started' ], 200 );
+	}
+
+	public function get_gcm_scan_result( WP_REST_Request $request ) {
+		if ( get_transient( 'wpl_gcm_check_is_scanning' ) ) {
+			return new WP_REST_Response( [ 'status' => 'success', 'message' => 'Scanning In Progress' ], 200 );
+		}
+		$the_options = get_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD);
+		$scan_result = $the_options['wpl_gcm_latest_scan_result'];
+		return new WP_REST_Response( [ 'status' => 'success', 'message' => 'Scanning Complete', 'result' => $scan_result ], 200 );
 	}
 
 	public function gdpr_custom_cookie( WP_REST_Request $request ) {
