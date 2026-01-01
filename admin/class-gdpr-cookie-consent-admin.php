@@ -9986,6 +9986,10 @@ public function gdpr_support_request_handler() {
 
 		$advanced_scripts = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$advanced_scripts_table}" ), ARRAY_A );
 
+		$select_pages = is_array( $the_options['select_pages'] ?? null )
+    		? $the_options['select_pages']
+    		: [];
+
 		return rest_ensure_response(
 			array(
 				'is_on'                                    => $this->convert_boolean( $the_options['is_on'] ),
@@ -10047,7 +10051,7 @@ public function gdpr_support_request_handler() {
 				'notify_animate_hide'                      => $this->convert_boolean( $the_options['notify_animate_hide'] ),
 				'notify_animate_show'                      => $this->convert_boolean( $the_options['notify_animate_show'] ),
 				'is_dynamic_lang_on'                       => empty( $the_options['is_dynamic_lang_on'] ) ? false : $this->convert_boolean( $the_options['is_dynamic_lang_on'] ),
-				'select_pages'                             => count( $the_options['select_pages'] ) === 1 && $the_options['select_pages'][0] === '' ? array() : $the_options['select_pages'],
+				'select_pages'                             => $select_pages,
 				'selected_template_json'                   => $the_options['selected_template_json'],
 
 				// Test Banner A.
@@ -10356,6 +10360,7 @@ public function gdpr_support_request_handler() {
 				'cookies_categories'                       => $cookies_categories,
 				'scanned_cookies'                          => $scanned_cookies,
 				'cookie_scan_list'                         => $cookie_scan_list,
+				'template'								   => $the_options['template'] ?? 'default',
 				'scan_schedule_data'                       => get_option( 'gdpr_scan_schedule_data' ),
 				'scan_in_progress'                         => get_option( 'gdpr_scanning_action_hash' ) ? true : false,
 				// Script Blocker.

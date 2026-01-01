@@ -159,10 +159,9 @@ class Gdpr_Cookie_Consent_Public {
 		$this->register_script_with_defer( $this->plugin_name.'-tcf', plugin_dir_url( __FILE__ ) . '../admin/js/vue/gdpr-cookie-consent-admin-tcstring.js', array( 'jquery' ), $this->version, true );
 		$this->register_script_with_defer( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap/bootstrap.bundle.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name . '-scan-color', plugin_dir_url( __FILE__ ) . 'js/scan-color.js', array( 'jquery' ), $this->version, false );
-		wp_localize_script($this->plugin_name . '-scan-color', 'SAAS_COLOR_SYNC', [
-			'allowedOrigin' => 'http://localhost:5173'
-		]);
-
+        wp_localize_script($this->plugin_name . '-scan-color', 'SAAS_COLOR_SYNC', [
+            'allowedOrigin' => GDPR_APP_URL
+        ]);
 	}
 
 	public function insert_custom_consent_script() {
