@@ -10004,8 +10004,11 @@ public function gdpr_support_request_handler() {
     		? $the_options['select_pages']
     		: [];
 
+		$plan                = $this->settings->get_plan();
+
 		return rest_ensure_response(
 			array(
+				'plan'									   => $plan,
 				'is_on'                                    => $this->convert_boolean( $the_options['is_on'] ),
 				'is_iabtcf_on'                             => $this->convert_boolean( $the_options['is_iabtcf_on'] ),
 				'is_gacm_on'                               => $this->convert_boolean( $the_options['is_gacm_on'] ),
