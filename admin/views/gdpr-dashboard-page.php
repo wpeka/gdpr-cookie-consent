@@ -412,8 +412,8 @@ if ( 200 === $response_status ) {
 					</a>
 					<p class="install-plugin-status"></p>
 					<?php } else{ ?>
-					<a href=<?php echo admin_url( 'index.php?page=wplegal-wizard#/' ); ?> class="wplegal-create-legal-page-button gdpr-wplp-install-btn">
-						<span><?php esc_attr_e( 'Create Page', 'wplegalpages' ); ?></span>
+					<a href="<?php echo esc_url( admin_url( 'index.php?page=wplegal-wizard#/' ) ); ?>" class="wplegal-create-legal-page-button gdpr-wplp-install-btn">
+						<span><?php esc_attr_e( 'Create Page', 'gdpr-cookie-consent' ); ?></span>
 						<img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/right_arrow.svg'; ?>" alt="right arrow">
 					</a>
 					<?php } ?>
@@ -556,7 +556,7 @@ if ( 200 === $response_status ) {
 						<span class="gdpr-help-description">
 							<?php esc_html_e( 'Read the documentation to find answers to your questions.', 'gdpr-cookie-consent' ); ?>
 						</span>
-						<a href="<?php esc_html_e($help_page_tab_url); ?>" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
+						<a href="<?php echo esc_url( $help_page_tab_url ); ?>" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Learn More', 'gdpr-cookie-consent' ); ?><img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>
 					</div>
 					<div class="gdpr-help-item">
@@ -654,7 +654,7 @@ if ( 200 === $response_status ) {
 <script>
 
 jQuery(document).ready(function () {
-	var plugin_url = "<?php echo GDPR_COOKIE_CONSENT_PLUGIN_URL; ?>";
+	var plugin_url = "<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ); ?>";
 
 	// Step 1
 	if (jQuery(".vstep1").hasClass("gdpr-green-progress")) {
