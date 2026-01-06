@@ -8,7 +8,9 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/includes
  */
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * Register all actions and filters for the plugin.
  *

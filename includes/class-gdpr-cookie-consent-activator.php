@@ -33,11 +33,20 @@ class Gdpr_Cookie_Consent_Activator {
 		$uploads_dir = wp_upload_dir();
 		$file_base   = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads';
 		if ( wp_mkdir_p( $file_base ) && ! file_exists( trailingslashit( $file_base ) . '.htaccess' ) ) {
-			// The below phpcs ignore comments have been added after referring woocommerce plugin.
-			$file_handle = @fopen( trailingslashit( $file_base ) . '.htaccess', 'w' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fopen
-			if ( $file_handle ) {
-				fwrite( $file_handle, 'deny fron all' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
-				fclose( $file_handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+			}
+
+			WP_Filesystem();
+			global $wp_filesystem;
+
+			$htaccess_file = trailingslashit( $file_base ) . '.htaccess';
+			$htaccess_content = 'deny from all';
+
+			if ( $wp_filesystem->put_contents( $htaccess_file, $htaccess_content, FS_CHMOD_FILE ) ) {
+				// File created successfully
+			} else {
+				// Failed to write file
 			}
 		}
 

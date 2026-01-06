@@ -26,6 +26,9 @@
  * @subpackage Gdpr_Cookie_Consent/includes
  * @author     wpeka <https://club.wpeka.com>
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 class Gdpr_Cookie_Consent {
 
 	/**
@@ -180,7 +183,7 @@ class Gdpr_Cookie_Consent {
 
 		$plugin_i18n = new Gdpr_Cookie_Consent_I18n(GDPR_COOKIE_CONSENT_PLUGIN_FILENAME);
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'init' );
 	}
 
 	/**

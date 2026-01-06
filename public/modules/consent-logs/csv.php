@@ -8,17 +8,21 @@
  * @package    Gdpr_Cookie_Consent
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // No need for the template engine.
-define( 'WP_USE_THEMES', false );
+// define( 'WP_USE_THEMES', false );
 
 // find the base path.
-define( 'BASE_PATH', find_wordpress_base_path() . '/' );
+// define( 'BASE_PATH', find_wordpress_base_path() . '/' );
 
 // Load WordPress Core.
-if ( ! file_exists( BASE_PATH . 'wp-load.php' ) ) {
-	die( 'WordPress not installed here' );
-}
-require_once BASE_PATH . 'wp-load.php';
+// if ( ! file_exists( BASE_PATH . 'wp-load.php' ) ) {
+// 	die( 'WordPress not installed here' );
+// }
+// require_once BASE_PATH . 'wp-load.php';
 require_once ABSPATH . 'wp-includes/class-phpass.php';
 require_once ABSPATH . 'wp-admin/includes/image.php';
 
@@ -237,34 +241,34 @@ function export_array() {
  *
  * @return string|false The path to the WordPress installation or false if not found.
  */
-function find_wordpress_base_path() {
-	$path = __DIR__;
+// function find_wordpress_base_path() {
+// 	$path = __DIR__;
 
-	do {
-		// it is possible to check for other files here.
-		if ( file_exists( $path . '/wp-config.php' ) ) {
-			// check if the wp-load.php file exists here. If not, we assume it's in a subdir.
-			if ( file_exists( $path . '/wp-load.php' ) ) {
-				return $path;
-			} else {
-				// wp not in this directory. Look in each folder to see if it's there.
-				if ( file_exists( $path ) && $handle = opendir( $path ) ) {
-					while ( false !== ( $file = readdir( $handle ) ) ) {
-						if ( $file != '.' && $file != '..' ) {
-							$file = $path . '/' . $file;
-							if ( is_dir( $file ) && file_exists( $file . '/wp-load.php' ) ) {
-								$path = $file;
-								break;
-							}
-						}
-					}
-					closedir( $handle );
-				}
-			}
+// 	do {
+// 		// it is possible to check for other files here.
+// 		if ( file_exists( $path . '/wp-config.php' ) ) {
+// 			// check if the wp-load.php file exists here. If not, we assume it's in a subdir.
+// 			if ( file_exists( $path . '/wp-load.php' ) ) {
+// 				return $path;
+// 			} else {
+// 				// wp not in this directory. Look in each folder to see if it's there.
+// 				if ( file_exists( $path ) && $handle = opendir( $path ) ) {
+// 					while ( false !== ( $file = readdir( $handle ) ) ) {
+// 						if ( $file != '.' && $file != '..' ) {
+// 							$file = $path . '/' . $file;
+// 							if ( is_dir( $file ) && file_exists( $file . '/wp-load.php' ) ) {
+// 								$path = $file;
+// 								break;
+// 							}
+// 						}
+// 					}
+// 					closedir( $handle );
+// 				}
+// 			}
 
-			return $path;
-		}
-	} while ( $path = realpath( "$path/.." ) );
+// 			return $path;
+// 		}
+// 	} while ( $path = realpath( "$path/.." ) );
 
-	return false;
-}
+// 	return false;
+// }

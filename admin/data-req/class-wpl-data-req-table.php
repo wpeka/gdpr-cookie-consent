@@ -113,7 +113,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		</script>
 					<?php
 
-			echo $this->resolved_select();
+			$this->resolved_select();
 
 			?>
 		<?php

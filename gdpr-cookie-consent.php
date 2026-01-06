@@ -13,8 +13,8 @@
  * Version:           4.1.0
  * Author:            WP Legal Pages
  * Author URI:        https://wplegalpages.com
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           GPLv2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       gdpr-cookie-consent
  * Domain Path:       /languages
  */

@@ -7,7 +7,9 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/public
  */
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( 'popup' === $the_options['cookie_bar_as'] ) {
@@ -216,7 +218,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 					<?php
 			}
 			else{
-				if($template_object['logo']['src'] !== '') { ?><img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template_object['logo']['src']; ?>" > <?php }
+				if($template_object['logo']['src'] !== '') { ?><img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ); ?>" > <?php }
 			}
 		}else{
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
@@ -226,7 +228,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 					<?php
 			}
 			else{
-				if($template_object['logo']['src'] !== '') { ?><img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template_object['logo']['src']; ?>" > <?php }
+				if($template_object['logo']['src'] !== '') { ?><img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ); ?>" > <?php }
 			}
 		}
 	}
@@ -240,7 +242,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 						<?php
 				}
 				else{
-					if($template_object['logo']['src'] !== '') { ?><img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template_object['logo']['src']; ?>" > <?php }
+					if($template_object['logo']['src'] !== '') { ?><img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ); ?>" > <?php }
 				}
 			}elseif($chosenBanner == 2){
 					$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
@@ -250,7 +252,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 						<?php
 				}
 				else{
-					if($template_object['logo']['src'] !== '') { ?><img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template_object['logo']['src']; ?>" > <?php }
+					if($template_object['logo']['src'] !== '') { ?><img alt="Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ); ?>" > <?php }
 				}
 			}
 		}
@@ -266,31 +268,130 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 			<div style="display: flex; flex-direction: column; gap: 10px;">
 				<?php
 					if ( ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) && strlen($the_options['bar_heading_text']) > 0) : ?>
-						<h3 class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr_heading';?>" style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__($the_options['bar_heading_text']); ?></h3>
+						<h3 class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr_heading';?>" style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html($the_options['bar_heading_text'] ?? ''); ?></h3>
 					<?php elseif ( ($the_options['cookie_usage_for'] === 'gdpr' || $the_options['cookie_usage_for'] === 'both' ) && strlen($the_options['bar_heading_text']) === 0 && $template_object['name'] === 'blue_split') : ?> 
-						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__("We value your privacy"); ?></h3>
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__("We value your privacy", 'gdpr-cookie-consent'); ?></h3>
 					<?php elseif (( $the_options['cookie_usage_for'] === 'lgpd' ) && strlen($the_options['bar_heading_lgpd_text']) > 0) : ?>
-						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__($the_options['bar_heading_lgpd_text']); ?></h3>
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html($the_options['bar_heading_lgpd_text'] ?? ''); ?></h3>
 					<?php elseif ( ($the_options['cookie_usage_for'] === 'lgpd') && strlen($the_options['bar_heading_lgpd_text']) === 0 && $template_object['name'] === 'blue_split') : ?> 
-						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__("We value your privacy"); ?></h3>
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__("We value your privacy", 'gdpr-cookie-consent'); ?></h3>
 					<?php elseif( $template_object['name'] === 'blue_split' ) : ?> 
-						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__("We value your privacy"); ?></h3>
+						<h3 style = "<?php echo esc_attr($heading_style_attr); ?>" ><?php echo esc_html__("We value your privacy", 'gdpr-cookie-consent'); ?></h3>
 					<?php endif; ?>
 					
 				<p  class = "<?php if($the_options['cookie_usage_for'] === 'both') echo 'gdpr';?>">
 					<?php if ( $the_options['cookie_usage_for'] === 'gdpr'  || $the_options['cookie_usage_for'] === 'both' ) : ?>
-						<span><?php echo $the_options['is_iabtcf_on'] ? $cookie_data['dash_notify_message_iabtcf']: strip_tags(__( $cookie_data['dash_notify_message']), '<a><br><em><strong><span><p><i><img><b><div><label>' ); ?></span>
+						<span>
+							<?php
+							echo wp_kses(
+								$the_options['is_iabtcf_on'] 
+									? ($cookie_data['dash_notify_message_iabtcf'] ?? '')
+									: ($cookie_data['dash_notify_message'] ?? ''),
+								[
+									'a' => [
+										'href'   => [],
+										'title' => [],
+										'target'=> [],
+										'rel'   => [],
+									],
+									'br'     => [],
+									'em'     => [],
+									'strong' => [],
+									'span'   => [],
+									'p'      => [],
+									'i'      => [],
+									'img'    => [
+										'src'   => [],
+										'alt'   => [],
+										'title'=> [],
+									],
+									'b'      => [],
+									'div'    => [],
+									'label'  => [],
+								]
+							);
+							?>
+						</span>
 						<?php elseif ( $the_options['cookie_usage_for'] === 'lgpd' ) : ?>
-						<span><?php echo strip_tags(__(  $cookie_data['dash_notify_message_lgpd']), '<a><br><em><strong><span><p><i><img><b><div><label>' );?></span>
+						<span>
+							<?php
+							echo wp_kses(
+								$cookie_data['dash_notify_message_lgpd'] ?? '',
+								[
+									'a'      => [],
+									'br'     => [],
+									'em'     => [],
+									'strong' => [],
+									'span'   => [],
+									'p'      => [],
+									'i'      => [],
+									'img'    => [
+										'src'   => [],
+										'alt'   => [],
+										'title'=> [],
+									],
+									'b'      => [],
+									'div'    => [],
+									'label'  => [],
+								]
+							);
+							?>
+						</span>
 						<?php elseif ( $the_options['cookie_usage_for'] === 'ccpa' ) : ?>
-						<span><?php echo strip_tags(__(  $cookie_data['dash_notify_message_ccpa']), '<a><br><em><strong><span><p><i><img><b><div><label>' );?></span>
+						<span>
+							<?php
+							echo wp_kses(
+								$cookie_data['dash_notify_message_ccpa'] ?? '',
+								[
+									'a'      => [],
+									'br'     => [],
+									'em'     => [],
+									'strong' => [],
+									'span'   => [],
+									'p'      => [],
+									'i'      => [],
+									'img'    => [
+										'src'   => [],
+										'alt'   => [],
+										'title'=> [],
+									],
+									'b'      => [],
+									'div'    => [],
+									'label'  => [],
+								]
+							);
+							?>
+						</span>
 						<?php elseif ( $the_options['cookie_usage_for'] === 'eprivacy' ) : ?>
-						<span><?php echo strip_tags(__(  $cookie_data['dash_notify_message_eprivacy']), '<a><br><em><strong><span><p><i><img><b><div><label>' );?></span>
+						<span>
+							<?php
+							echo wp_kses(
+								$cookie_data['dash_notify_message_eprivacy'] ?? '',
+								[
+									'a'      => [],
+									'br'     => [],
+									'em'     => [],
+									'strong' => [],
+									'span'   => [],
+									'p'      => [],
+									'i'      => [],
+									'img'    => [
+										'src'   => [],
+										'alt'   => [],
+										'title'=> [],
+									],
+									'b'      => [],
+									'div'    => [],
+									'label'  => [],
+								]
+							);
+							?>
+						</span>
 					<?php endif; ?>
 					<?php if ( $the_options['cookie_usage_for'] === 'ccpa') : ?>
 						<a style="<?php echo esc_attr($opt_out_style_attr); ?>" data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
 						>	
-							<?php echo esc_html__($cookie_data['dash_button_donotsell_text'], 'gdpr-cookie-consent' ); ?>
+							<?php echo esc_html($cookie_data['dash_button_donotsell_text'], 'gdpr-cookie-consent' ); ?>
 						</a>
 							
 					<?php elseif( $the_options['cookie_usage_for'] !== 'ccpa' &&  ! empty( $the_options['button_readmore_is_on'] ) ) : ?>
@@ -299,7 +400,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 							target="_blank"
 						<?php } ?>
 						>
-							<?php echo esc_html__( $cookie_data['dash_button_readmore_text'], 'gdpr-cookie-consent' ); ?>
+							<?php echo esc_html( $cookie_data['dash_button_readmore_text'], 'gdpr-cookie-consent' ); ?>
 						</a>
 					<?php endif; ?>
 				</p>
@@ -307,12 +408,35 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 		
 		<?php if($the_options['cookie_usage_for'] === 'both') : ?>
 			<p class = "ccpa">
-				<span><?php echo strip_tags(__(  $cookie_data['dash_notify_message_ccpa']), '<a><br><em><strong><span><p><i><img><b><div><label>' );?></span>
+				<span>
+					<?php
+					echo wp_kses(
+						$cookie_data['dash_notify_message_ccpa'] ?? '',
+						[
+							'a'      => [],
+							'br'     => [],
+							'em'     => [],
+							'strong' => [],
+							'span'   => [],
+							'p'      => [],
+							'i'      => [],
+							'img'    => [
+								'src'   => [],
+								'alt'   => [],
+								'title'=> [],
+							],
+							'b'      => [],
+							'div'    => [],
+							'label'  => [],
+						]
+					);
+					?>
+				</span>
 				<a style="<?php echo esc_attr($opt_out_style_attr); ?>" data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
 				>	
 					<?php echo isset($the_options["is_dynamic_lang_on"]) && $the_options["is_dynamic_lang_on"] === "true"
-						? $cookie_data['dash_button_donotsell_text']
-						: esc_html__( $the_options['button_donotsell_text1'] ?? '', 'gdpr-cookie-consent' ); 
+						? esc_html( $cookie_data['dash_button_donotsell_text'] )
+						: esc_html( $the_options['button_donotsell_text1'] ?? '', 'gdpr-cookie-consent' ); 
 					?>
 				</a>
 			</p>
@@ -341,8 +465,8 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 							?>
 							data-gdpr_action="reject"  style="<?php echo esc_attr($decline_style_attr); ?>" >
 								<?php echo isset($the_options["is_dynamic_lang_on"]) && $the_options["is_dynamic_lang_on"] === "true"
-										? $cookie_data['dash_button_decline_text']
-										: esc_html__( $the_options['button_decline_text'. $suffix] ?? '', 'gdpr-cookie-consent' ); 
+										? esc_html( $cookie_data['dash_button_decline_text'] )
+										: esc_html( $the_options['button_decline_text'. $suffix] ?? '', 'gdpr-cookie-consent' ); 
 								?>
 						</a>
 					<?php endif;
@@ -350,8 +474,8 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 						<a id="cookie_action_settings" class="<?php echo esc_html( $the_options['button_settings_classes'] ); ?>" tabindex="0" aria-label="Cookie Settings" href="#"
 							data-gdpr_action="settings" data-toggle="gdprmodal" data-target="#gdpr-gdprmodal" style="<?php echo esc_attr($settings_style_attr); ?>">
 							<?php echo isset($the_options["is_dynamic_lang_on"]) && $the_options["is_dynamic_lang_on"] === "true"
-										? $cookie_data['dash_button_settings_text']
-										: esc_html__( $the_options['button_settings_text'. $suffix] ?? '', 'gdpr-cookie-consent' ); 
+										? esc_html( $cookie_data['dash_button_settings_text'] )
+										: esc_html( $the_options['button_settings_text'. $suffix] ?? '', 'gdpr-cookie-consent' ); 
 							?>
 						</a>
 					<?php endif;
@@ -377,8 +501,8 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 							?>
 							data-gdpr_action="accept" style="<?php echo esc_attr($accept_style_attr); ?>" >
 								<?php echo isset($the_options["is_dynamic_lang_on"]) && $the_options["is_dynamic_lang_on"] === "true"
-										? $cookie_data['dash_button_accept_text']
-										: esc_html__( $the_options['button_accept_text'. $suffix] ?? '', 'gdpr-cookie-consent' ); 
+										? esc_html( $cookie_data['dash_button_accept_text'] )
+										: esc_html( $the_options['button_accept_text'. $suffix] ?? '', 'gdpr-cookie-consent' ); 
 								?>
 						</a>
 					<?php endif;
@@ -401,9 +525,9 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 							}
 							?>
 							data-gdpr_action="accept_all" style="<?php echo esc_attr($accept_all_style_attr); ?>" >
-								<?php echo isset($the_options["is_dynamic_lang_on"]) && $the_options["is_dynamic_lang_on"] === "true"
-										? $cookie_data['dash_button_accept_all_text']
-										: esc_html__( $the_options['button_accept_all_text'. $suffix] ?? '', 'gdpr-cookie-consent' ); 
+								<?php echo ( isset( $the_options['is_dynamic_lang_on'] ) && $the_options['is_dynamic_lang_on'] === 'true' )
+										? esc_html( $cookie_data['dash_button_accept_all_text'] )
+										: esc_html( $the_options['button_accept_all_text' . $suffix] ?? '' );
 								?>
 						</a>	
 					<?php endif;

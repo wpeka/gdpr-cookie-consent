@@ -1,13 +1,13 @@
-=== Cookie Banner, Cookie Consent, Consent Log, Cookie Scanner, Script Blocker (for GDPR, CCPA & ePrivacy) : WP Cookie Consent ===
+=== Cookie Banner for GDPR / CCPA - WPLP Cookie Consent  ===
 Contributors: wplegalpages
 Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
-Tested up to: 6.8.1
+Tested up to: 6.9
 Stable tag: 4.1.0
 Requires PHP: 7.0
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 The only WordPress plugin that helps you comply with the EU GDPR's cookie consent and CCPA's "Do Not Sell" Opt-Out regulations.
 
