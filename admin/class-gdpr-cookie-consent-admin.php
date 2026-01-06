@@ -10415,12 +10415,12 @@ public function gdpr_support_request_handler() {
 		$scan_when         = sanitize_text_field( $schedule_scan['schedule_scan_when'] ?? '' );
 
 		$schedule_scan_data = array(
-			'schedule_scan_as'  => $scan_as,
-			'scan_date'         => $scan_date,
-			'scan_time_value'   => $scan_time_value,
-			'scan_day'          => $scan_day,
-			'next_scan_is_when' => $next_scan_is_when,
-			'scan_when'         => $scan_when,
+			'schedule_scan_as'        => $scan_as,
+			'schedule_scan_date'      => $scan_date,
+			'schedule_scan_time_value'=> $scan_time_value,
+			'schedule_scan_day'       => $scan_day,
+			'next_scan_is_when'       => $next_scan_is_when,
+			'schedule_scan_when'      => $scan_when,
 		);
 
 		update_option( 'gdpr_scan_schedule_data', $schedule_scan_data );
