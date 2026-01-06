@@ -1,4 +1,9 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -779,11 +784,11 @@ class Gdpr_Cookie_Consent_Admin {
 						',
 						esc_url( 'https://wordpress.org/support/plugin/gdpr-cookie-consent/reviews/' ),
 						esc_url( get_admin_url() . '?already_done=1' ),
-						esc_html__( 'Hey, we hope you are enjoying managing cookies with ', 'gdpr' ),
-						esc_html__( ' Could you please write us a review and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation.', 'gdpr' ),
-						esc_html__( 'Dismiss', 'gdpr' ),
-						esc_html__( 'Rate Us', 'gdpr' ),
-						esc_html__( 'I already did', 'gdpr' )
+						esc_html__( 'Hey, we hope you are enjoying managing cookies with ', 'gdpr-cookie-consent' ),
+						esc_html__( ' Could you please write us a review and give it a 5-star rating on WordPress? Just to help us spread the word and boost our motivation.', 'gdpr-cookie-consent' ),
+						esc_html__( 'Dismiss', 'gdpr-cookie-consent' ),
+						esc_html__( 'Rate Us', 'gdpr-cookie-consent' ),
+						esc_html__( 'I already did', 'gdpr-cookie-consent' )
 					);
 				}
 				break;
@@ -1704,8 +1709,8 @@ class Gdpr_Cookie_Consent_Admin {
 		 if (empty($GLOBALS['admin_page_hooks']['wp-legal-pages'])) {
 			global $admin_page_hooks;
 			add_menu_page(
-				__( 'WP Legal Pages', 'wp-legal-pages' ), // Page title
-				__( 'WP Legal Pages', 'wp-legal-pages' ), // Menu title
+				__( 'WP Legal Pages', 'gdpr-cookie-consent' ), // Page title
+				__( 'WP Legal Pages', 'gdpr-cookie-consent' ), // Menu title
 				'manage_options',                        // Capability
 				'wp-legal-pages',                        // Menu slug
 				$callback_function,            // Icon URL (choose an icon from the WordPress Dashicons library)
@@ -1810,7 +1815,7 @@ class Gdpr_Cookie_Consent_Admin {
         jQuery(document).ready(function($) {
             // Add or remove the GIF dynamically based on localStorage
             function updateScanGif() {
-                var logoUrl = "<?php echo plugin_dir_url(__FILE__) . 'images/auto_scan_loader.gif'; ?>";
+				var logoUrl = "<?php echo esc_url( plugin_dir_url(__FILE__) . 'images/auto_scan_loader.gif' ); ?>";
                 var menuItem = $('#toplevel_page_wp-legal-pages .wp-submenu li a[href="admin.php?page=gdpr-cookie-consent"]');
 
                 // Check the localStorage value
@@ -4302,13 +4307,13 @@ class Gdpr_Cookie_Consent_Admin {
 				?>
 				<div :class=" 'gdpr-right-field template-type-' + show_cookie_as ">
 						<div style = "<?php echo esc_attr($styles_attr); ?>" class="cookie_notice_content">
-							<span style="display: inline-flex; align-items: center; justify-content: center; position: absolute; top:20px; right: 20px; height: 20px; width: 20px; border-radius: 50%;color: <?php echo $template['accept_button']['background-color'] ?>; background-color: transparent">
+							<span style="display: inline-flex; align-items: center; justify-content: center; position: absolute; top:20px; right: 20px; height: 20px; width: 20px; border-radius: 50%; color: <?php echo esc_attr( $template['accept_button']['background-color'] ); ?>; background-color: transparent">
 								<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 								</svg>
 							</span>
 
-								<?php if($template['logo']['src'] !== '') { ?><img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template['logo']['src']; ?>" >
+								<?php if ( $template['logo']['src'] !== '' ) { ?><img alt="WPCC Logo image" style="<?php echo esc_attr( $logo_style_attr ); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'includes/templates/logo_images/' . esc_attr( $template['logo']['src'] ) ); ?>" >
 								<?php }else { ?>
 									<!-- <p style="height: 30px;"></p> -->
 								<?php } ?>
@@ -4429,14 +4434,14 @@ class Gdpr_Cookie_Consent_Admin {
 				?>
 				<div :class=" 'gdpr-right-field template-type-' + show_cookie_as ">
 						<div style = "<?php echo esc_attr($styles_attr); ?>" class="cookie_notice_content">
-							<span style="display: inline-flex; align-items: center; justify-content: center; position: absolute; top:20px; right: 20px; height: 20px; width: 20px; border-radius: 50%;color: <?php echo $template['accept_button']['background-color'] ?>; background-color: transparent">
+							<span style="display: inline-flex; align-items: center; justify-content: center; position: absolute; top:20px; right: 20px; height: 20px; width: 20px; border-radius: 50%; color: <?php echo esc_attr( $template['accept_button']['background-color'] ); ?>; background-color: transparent">
 								<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 								</svg>
 							</span>
 
 
-								<?php if($template['logo']['src'] !== '') { ?><img alt="WPCC Logo image" style = "<?php echo esc_attr($logo_style_attr); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'includes/templates/logo_images/' . $template['logo']['src']; ?>" > 
+								<?php if ( $template['logo']['src'] !== '' ) { ?><img alt="WPCC Logo image" style="<?php echo esc_attr( $logo_style_attr ); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'includes/templates/logo_images/' . esc_attr( $template['logo']['src'] ) ); ?>" >
 								<?php }else { ?>
 									<p style="height: 20px;"></p>
 								<?php } ?>
@@ -4677,7 +4682,7 @@ class Gdpr_Cookie_Consent_Admin {
         if ( ! isset( $schedules['every_minute'] ) ) {
             $schedules['every_minute'] = array(
                 'interval' => 60,
-                'display'  => __( 'Every Minute' ),
+                'display'  => __( 'Every Minute','gdpr-cookie-consent' ),
             );
         }
         return $schedules;
@@ -4722,10 +4727,10 @@ class Gdpr_Cookie_Consent_Admin {
 				// Check if the transient exists (the value is retrieved)
 				if ($expiration_time) {
 					// Convert the expiration time to a human-readable format
-					$expiration_time = date('Y-m-d H:i:s', $expiration_time);
+					$expiration_time = gmdate('Y-m-d H:i:s', $expiration_time);
 					
 					// Get the current date and time
-					$current_date_time = date('Y-m-d H:i:s');
+					$current_date_time = gmdate('Y-m-d H:i:s');
 
 					// Calculate the difference in time between the current time and the expiration time
 					$current_time_unix = strtotime($current_date_time);
@@ -6091,7 +6096,7 @@ class Gdpr_Cookie_Consent_Admin {
 						if ( -1 != $category_i_d ) {
 							// First, ensure the table has the correct character set and collation (utf8mb4).
 							
-							$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
+							$table_name = esc_sql( $wpdb->prefix . 'gdpr_cookie_scan_categories' );
 							
 							// Check if the table exists and get the current collation.
 							$charset_check = $wpdb->get_row( "SHOW TABLE STATUS LIKE '$table_name'" );
@@ -6100,6 +6105,8 @@ class Gdpr_Cookie_Consent_Admin {
 							if ( isset( $charset_check->Collation ) && $charset_check->Collation !== 'utf8mb4_unicode_ci' ) {
 								$alter_table_sql = "ALTER TABLE `$table_name`
 													CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
+
+								// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name is safely escaped
 								$wpdb->query( $alter_table_sql );
 							}
 							$sanitized_category_descriptions = addslashes( $translated_category_descriptions[ $category_i_d ] );
@@ -6108,10 +6115,10 @@ class Gdpr_Cookie_Consent_Admin {
 							// Update the table with the translated values.
 							$wpdb->query(
 								$wpdb->prepare(
-									'UPDATE `' . $wpdb->prefix . 'gdpr_cookie_scan_categories`
+									"UPDATE `$table_name`
 									SET `gdpr_cookie_category_description` = %s,
 										`gdpr_cookie_category_name` = %s
-									WHERE `id_gdpr_cookie_category` = %d',
+									WHERE `id_gdpr_cookie_category` = %d",
 									$sanitized_category_descriptions,
 									$sanitized_category_names,
 									$category_i_d
@@ -8051,7 +8058,7 @@ class Gdpr_Cookie_Consent_Admin {
 	    foreach ($posts as $post) {
 	        $utc = $post->post_date_gmt;
 	        $timestamp = get_date_from_gmt($utc, 'U');
-	        $formatted_date = date('d/m/Y', $timestamp);
+	        $formatted_date = gmdate('d/m/Y', $timestamp);
 
 	        $details = get_post_meta($post->ID, '_wplconsentlogs_details', true);
 	        $consent_status = $this->calculate_consent_status($details);
@@ -8193,7 +8200,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$all     = $request->get_param('all') ?: false;
 
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'wpl_data_req';
+		$table_name = esc_sql($wpdb->prefix . 'wpl_data_req');
 
 		$query  = "SELECT * FROM $table_name";
 		$where_clauses = [];
@@ -8221,6 +8228,8 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// ✅ Total count
 		$count_query = "SELECT COUNT(*) FROM $table_name $where_sql";
+
+		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
 		$total_count = !empty($params)
 			? $wpdb->get_var($wpdb->prepare($count_query, $params))
 			: $wpdb->get_var($count_query);
@@ -8228,6 +8237,8 @@ class Gdpr_Cookie_Consent_Admin {
 		// ✅ If ALL is true → return EVERYTHING without pagination
 		if ($all) {
 			$query .= " ORDER BY ID DESC";
+
+			/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
 			$prepared_query = !empty($params)
 				? $wpdb->prepare($query, $params)
 				: $query;
@@ -8237,9 +8248,12 @@ class Gdpr_Cookie_Consent_Admin {
 			$query .= $where_sql . " ORDER BY ID DESC LIMIT %d OFFSET %d";
 			$params[] = $number;
 			$params[] = $offset;
+
+			/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
 			$prepared_query = $wpdb->prepare($query, $params);
 		}
 
+		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
 		$results = $wpdb->get_results($prepared_query, ARRAY_A);
 
 		return [
@@ -8265,10 +8279,11 @@ class Gdpr_Cookie_Consent_Admin {
 		$placeholders = implode(',', array_fill(0, count($ids), '%d'));
 
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'wpl_data_req';
+		$table_name = esc_sql($wpdb->prefix . 'wpl_data_req');
 
 		$query = "UPDATE $table_name SET resolved = 1 WHERE ID IN ($placeholders)";
 
+		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
 		$updated = $wpdb->query(
 			$wpdb->prepare($query, $ids)
 		);
@@ -8305,10 +8320,11 @@ class Gdpr_Cookie_Consent_Admin {
 		$placeholders = implode(',', array_fill(0, count($ids), '%d'));
 
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'wpl_data_req';
+		$table_name = esc_sql( $wpdb->prefix . 'wpl_data_req' );
 
 		$query = "DELETE FROM $table_name WHERE ID IN ($placeholders)";
 
+		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
 		$deleted = $wpdb->query(
 			$wpdb->prepare($query, $ids)
 		);
@@ -9535,11 +9551,18 @@ public function gdpr_support_request_handler() {
 		$file_url  = trailingslashit($upload_dir['baseurl']) . 'wplp-policy-data-export.csv';
 
 		// Open file for writing
-		$output = fopen($file_path, 'w');
+		global $wp_filesystem;
+
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+		WP_Filesystem();
+
+		// Open file for writing using WP Filesystem
+		$csv_content = '';
 
 		// Header row
-		fputcsv($output, ['post_title', 'post_content', 'post_status', '_gdpr_policies_links_editor', '_gdpr_policies_domain']);
-
+		$csv_data  = "post_title,post_content,post_status,_gdpr_policies_links_editor,_gdpr_policies_domain\n";
 		$limit = 3000;
 		$offset = 0;
 
@@ -9564,13 +9587,15 @@ public function gdpr_support_request_handler() {
 					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_links_editor', true) ) ),
 					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_domain', true) ) ),
 				];
-				fputcsv($output, $row, ',', '"' );
+				$csv_data .= '"' . implode( '","', array_map( function($item) {
+					return str_replace('"', '""', $item);
+				}, $row ) ) . '"' . "\n";
 			}
 
 			$offset += $limit;
 		}
 
-		fclose($output);
+		$wp_filesystem->put_contents( $file_path, $csv_data, FS_CHMOD_FILE );
 
 		return [
 			'success' => true,
