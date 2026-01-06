@@ -87,16 +87,21 @@ class Gdpr_Cookie_Consent_Public {
 		if ( ! shortcode_exists( 'wpl_cookie_details' ) ) {
 			add_shortcode( 'wpl_cookie_details', array( $this, 'gdprcookieconsent_shortcode_cookie_details' ) );         // a shortcode [wpl_cookie_details].
 		}
-		$min = 0;
-		$max = 1;
-		$randomNumber = wp_rand($min, $max);
-		if($randomNumber < 0.5) $this->chosenBanner = 2;
+
+		add_action( 'init', array( $this, 'init_random_banner' ) );
+		
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		if($the_options['is_gcm_on'] === 'true' || $the_options['is_gcm_on'] === true || $the_options['is_gcm_on'] === 1){
 			add_action('wp_head', array( $this,'insert_custom_consent_script'), -9999);
 		}
 		add_action( 'wp_ajax_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
+	}
+
+	public function init_random_banner() {
+		if ( wp_rand( 0, 1 ) === 0 ) {
+			$this->chosenBanner = 2;
+		}
 	}
 	/* Add defer attribute to scripts */
 	public function register_script_with_defer( $handle, $src, $deps = array(), $ver = false, $in_footer = true ) {
