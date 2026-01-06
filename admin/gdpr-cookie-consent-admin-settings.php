@@ -2177,7 +2177,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row>
 								<c-col class="col-sm-6">
-									<label for="button_accept_all_text_field" class="screen-reader-text"><?php esc_attr_e('button accept all text field'); ?></label>
+									<label for="button_accept_all_text_field" class="screen-reader-text"><?php esc_attr_e('button accept all text field','gdpr-cookie-consent'); ?></label>
 									<c-input id="button_accept_all_text_field" name="button_accept_all_text_field" v-model="accept_all_text"></c-input>
 								</c-col>
 								<c-col class="col-sm-6 gdpr-color-pick">
@@ -2403,7 +2403,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 									<c-col class="col-sm-6  gdpr-color-pick">
 										<c-input class="gdpr-color-input" type="text" v-model="decline_border_color" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
-										<label for="gdpr-cookie-decline-border-color" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline border color'); ?></label>
+										<label for="gdpr-cookie-decline-border-color" class="screen-reader-text"><?php esc_attr_e('gdpr cookie decline border color','gdpr-cookie-consent'); ?></label>
 										<c-input class="gdpr-color-select" id="gdpr-cookie-decline-border-color" type="color" name="gdpr-cookie-decline-border-color" v-model="decline_border_color"></c-input>
 									</c-col>
 								</c-row>

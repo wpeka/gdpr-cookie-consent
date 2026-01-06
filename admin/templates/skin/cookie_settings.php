@@ -548,19 +548,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                                              <p class="gdpr-ad-purpose-vendor-count-wrapper" :style="{'color': cookie_text_color}">
                                                 <?php
                                                    if(!$legInt){ 
-                                                      printf(
-                                                         esc_html__( 'Number of vendors seeking consent: %d', 'gdpr-cookie-consent' ),
-                                                         (int) $count[ $key ]
-                                                         );
+                                                      /* translators: %d: number of vendors */
+                                                      printf(esc_html__( 'Number of vendors seeking consent: %d', 'gdpr-cookie-consent' ),(int) $count[ $key ]);
                                                    }
                                                    else {
-                                                      printf(
-                                                         esc_html__(
-                                                            'Number of Vendors seeking consent or relying on legitimate interest: %d',
-                                                            'gdpr-cookie-consent'
-                                                         ),
-                                                         (int) $count[ $key ] + (int) $legintcount[ $key ]
-                                                      );
+                                                      /* translators: %d: total number of vendors */
+                                                      printf(esc_html__('Number of Vendors seeking consent or relying on legitimate interest: %d', 'gdpr-cookie-consent'), (int) $count[ $key ] + (int) $legintcount[ $key ]);
                                                    }
                                                    ?>
                                              </p>
@@ -702,7 +695,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                    <a href="<?php echo isset( $vendor->urls[0]->legIntClaim ) ? esc_url( $vendor->urls[0]->legIntClaim ) : '#'; ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'Legitimate Interest Claim', 'gdpr-cookie-consent' ); ?>"><?php echo isset($vendor->urls[0]->legIntClaim)? esc_html( $vendor->urls[0]->legIntClaim ) : esc_html__( 'Not Available', 'gdpr-cookie-consent' );?></a>
 																					</p>
 																					<p class="gdpr-vendor-data-retention-section">
-																						<span class="gdpr-vendor-data-retention-value"><?php printf(esc_html__( 'Data Retention Period: %s Days', 'gdpr-cookie-consent' ),isset( $vendor->dataRetention->stdRetention )? esc_html( $vendor->dataRetention->stdRetention ): esc_html__( 'Not Available', 'gdpr-cookie-consent' ));?></span>
+																						<span class="gdpr-vendor-data-retention-value">
+                                                                     <?php 
+                                                                         /* translators: %s: number of days for data retention */
+                                                                        printf(esc_html__( 'Data Retention Period: %s Days', 'gdpr-cookie-consent' ),isset( $vendor->dataRetention->stdRetention )? esc_html( $vendor->dataRetention->stdRetention ): esc_html__( 'Not Available', 'gdpr-cookie-consent' ));
+                                                                     ?>
+                                                                  </span>
                                                 </p>
                                                 <div class="gdpr-vendor-purposes-section">
                                                    <p class="gdpr-vendor-purposes-title"><?php echo esc_html("Purposes (Consent) ", "gdpr-cookie-consent");?></p>

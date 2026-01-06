@@ -668,15 +668,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 																	<p class="gdpr-ad-purpose-vendor-count-wrapper">
 																		<?php
 																			if ( ! $legInt ) {
-																				printf(
-																					esc_html__( 'Number of vendors seeking consent: %d', 'gdpr-cookie-consent' ),
-																					(int) $count[ $key ]
-																				);
+																				/* translators: %d: number of vendors */
+																				printf(esc_html__( 'Number of vendors seeking consent: %d', 'gdpr-cookie-consent' ), (int) $count[ $key ]);
 																			} else {
-																				printf(
-																					esc_html__( 'Number of vendors seeking consent or relying on legitimate interest: %d', 'gdpr-cookie-consent' ),
-																					(int) ( $count[ $key ] + $legintcount[ $key ] )
-																				);
+																				/* translators: %d: number of vendors */
+																				printf(esc_html__( 'Number of vendors seeking consent or relying on legitimate interest: %d', 'gdpr-cookie-consent' ), (int) ( $count[ $key ] + $legintcount[ $key ] ));
 																			}
 																		?>
 																	</p>	
@@ -913,20 +909,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 																								} elseif ( $vendor->usesNonCookieAccess ) {
 																									$tracking_method = __( 'Others', 'gdpr-cookie-consent' );
 																								}
-
-																								echo esc_html(
-																									sprintf(
-																										__( 'Tracking method: %s', 'gdpr-cookie-consent' ),
-																										$tracking_method
-																									)
-																								);
+																							/* translators: %s: tracking method name */
+																							echo esc_html( sprintf(__( 'Tracking method: %s', 'gdpr-cookie-consent' ), $tracking_method));
 																							?>
-																							<li><?php echo esc_html(
-																									sprintf(
-																										__( 'Maximum duration of Cookies: %d days', 'gdpr-cookie-consent' ),
-																										intval( $vendor->cookieMaxAgeSeconds / ( 60 * 60 * 24 ) )
-																									)
-																								);?>
+																							<li><?php 
+																								/* translators: %d: maximum cookie duration in days */
+																								echo esc_html(sprintf(__( 'Maximum duration of Cookies: %d days', 'gdpr-cookie-consent' ), intval( $vendor->cookieMaxAgeSeconds / ( 60 * 60 * 24 ) )));?>
 																							</li>	
 																							<li><?php echo $vendor->cookieRefresh ? esc_html__( "Cookie lifetime is being refreshed", 'gdpr-cookie-consent' ) : esc_html__( "Cookie lifetime is not refreshed", 'gdpr-cookie-consent' );  ?></li>	
 																						</ul>

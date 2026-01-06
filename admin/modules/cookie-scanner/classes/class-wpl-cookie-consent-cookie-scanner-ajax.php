@@ -164,7 +164,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 				...$restrict_posts
 			);
 		}
-
+		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
 		$data = $wpdb->get_results( $sql, ARRAY_A );
 		$pages_array = [];
 		if ( ! empty( $data ) ) {
