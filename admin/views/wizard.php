@@ -185,7 +185,7 @@ function print_template_boxes( ) {
 			
 			<div class="gdpr-wizard-header-section">
 				<div class="gdpr-general-wizard-logo-container"><img class="gdpr-general-wizard-logo" src="<?php echo esc_url( $image_path ) . 'CookieConsent.png'; ?>" alt="WP Cookie Consent General Wizard Logo">
-					<span class="gdpr-general-wizard-main-heading">Welcome to WP Cookie Consent</span>
+					<span class="gdpr-general-wizard-main-heading">Welcome to WPLP Cookie Consent</span>
 					<p class="gdpr-general-wizard-sub-heading">Follow the guided wizard to get started</p>
 				</div>
 				<div class="gdpr-wizard-progress-bar">
@@ -680,7 +680,7 @@ function print_template_boxes( ) {
 								<?php esc_html_e( 'Video Guides', 'gdpr-cookie-consent' ); ?>
 							</span>
 							<span class="gdpr-help-description">
-								<?php esc_html_e( 'Explore video tutorials for insights on WP Cookie Consent functionality.', 'gdpr-cookie-consent' ); ?>
+								<?php esc_html_e( 'Explore video tutorials for insights on WPLP Cookie Consent functionality.', 'gdpr-cookie-consent' ); ?>
 							</span>
 							<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default" alt="WPCS right arrow icon"></a>
 							</div>

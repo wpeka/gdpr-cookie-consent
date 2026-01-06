@@ -566,7 +566,7 @@ if ( 200 === $response_status ) {
 							<?php esc_html_e( 'Documentation', 'gdpr-cookie-consent' ); ?>
 						</span>
 						<span class="gdpr-help-description">
-							<?php esc_html_e( 'If you need help understanding, using, or extending WP Cookie Consent Plugin.', 'gdpr-cookie-consent' ); ?>
+							<?php esc_html_e( 'If you need help understanding, using, or extending WPLP Cookie Consent Plugin.', 'gdpr-cookie-consent' ); ?>
 						</span>
 						<a href="https://wplegalpages.com/docs/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Read Documents', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>
@@ -578,7 +578,7 @@ if ( 200 === $response_status ) {
 							<?php esc_html_e( 'Video Guides', 'gdpr-cookie-consent' ); ?>
 						</span>
 						<span class="gdpr-help-description">
-							<?php esc_html_e( 'Explore video tutorials for insights on WP Cookie Consent functionality.', 'gdpr-cookie-consent' ); ?>
+							<?php esc_html_e( 'Explore video tutorials for insights on WPLP Cookie Consent functionality.', 'gdpr-cookie-consent' ); ?>
 						</span>
 						<a href="https://wplegalpages.com/docs/wp-cookie-consent/video-guides/video-resources/" target="_blank" class="gdpr-help-button"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>
@@ -626,7 +626,7 @@ if ( 200 === $response_status ) {
 							<?php esc_html_e( 'Found Bug ?', 'gdpr-cookie-consent' ); ?>
 						</span>
 						<span class="gdpr-help-description">
-							<?php esc_html_e( 'Report bugs in the WP Cookie Consent plugin by creating a helpdesk ticket.', 'gdpr-cookie-consent' ); ?>
+							<?php esc_html_e( 'Report bugs in the WPLP Cookie Consent plugin by creating a helpdesk ticket.', 'gdpr-cookie-consent' ); ?>
 						</span>
 						<a href="https://wplegalpages.com/contact-us/" target="__blank" class="gdpr-help-button"><?php esc_html_e( 'Go To Help Desk', 'gdpr-cookie-consent' ); ?> <img class="gdpr-other-plugin-arrow" :src="right_arrow.default"></a>
 						</div>

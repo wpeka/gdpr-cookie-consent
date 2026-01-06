@@ -1,161 +1,141 @@
-=== Cookie Banner, Cookie Consent, Consent Log, Cookie Scanner, Script Blocker (for GDPR, CCPA & ePrivacy) : WP Cookie Consent ===
+=== Cookie Banner for GDPR / CCPA - WPLP Cookie Consent  ===
 Contributors: wplegalpages
 Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
-Tested up to: 6.8.1
+Tested up to: 6.9
 Stable tag: 4.1.0
 Requires PHP: 7.0
 License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
-
-The only WordPress plugin that helps you comply with the EU GDPR's cookie consent and CCPA's "Do Not Sell" Opt-Out regulations.
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 == Description ==
-= WP Cookie Consent: Simplify GDPR, CCPA, and Cookie Compliance =
-WP Cookie Consent is a robust, user-friendly WordPress plugin designed to help website owners comply with **global privacy laws** including **GDPR, CCPA/CPRA, LGPD, ePrivacy Directive, POPIA, PIPEDA**, and more. 
+[WPLP Cookie Consent](https://wplegalpages.com) helps WordPress website owners display cookie consent banners, manage user preferences, and control third-party scripts in line with major privacy regulations such as GDPR, CCPA/CPRA, ePrivacy, LGPD, POPIA, PIPEDA, and similar frameworks.
 
-As part of the **WPLP Compliance Platform**, it provides a centralized solution for managing cookies, consent, and legal compliance across your WordPress website - ensuring both legal safety and a smooth user experience.
+The plugin is designed to be easy to configure while offering the controls needed to understand and manage cookies used on your website.
 
 [youtube https://www.youtube.com/watch?v=93LIh4ARMN8]
 
-== 🔑 Key Features & Benefits ==
+== Customizable Cookie Consent Banner ==
 
-= 🍪 Cookie Consent Management =
+You can configure the cookie banner to match your website’s design and consent requirements.
+Available options include:
 
-- **Region-Specific Cookie Notices:** Display banners tailored for the EU, US, UK, Brazil, Canada, South Africa, or globally.
+- Multiple banner layouts and positions
 
-- **Conditional Consent Options:** Offer consent per category or per service (e.g., Marketing, Analytics, Social Media).
+- Customizable text, colors, and button labels
 
-- **Customizable Templates & CSS:** Professionally designed banners that match your brand style, fully WCAG 2.1 AA and ADA compliant.
+- Category-based consent for analytics, marketing, and functional cookies
 
-- **Consent Interaction Control:** Accept/Dismiss banners, auto-dismiss on scroll or time on page, or require explicit user action.
+- Optional explicit accept or reject actions
 
-- **Geo-Targeting 🌐:** Show different consent banners based on visitor location.
-
-= ⚖️ Compliance & Legal Tools =
-
-- **Global Privacy Law Support:** GDPR, ePrivacy, DSGVO, TTDSG, LGPD, POPIA, APA, RGPD, CCPA/CPRA, PIPEDA.
-
-- **Explicit Consent Logging📝:** Proof of consent stored securely for audits.
-
-- **Automated Data Requests:** Manage Data Subject Access Requests (DSARs) and CCPA opt-out requests.
-
-- **Dynamic Cookie Policy📄:** Generate up-to-date, legally vetted Cookie Policy pages integrated with your consent setup.
-
-= 🚀 Advanced Functionality =
-
-- **Third-Party Script Blocking:** Automatically blocks scripts like Google Analytics, Facebook Pixel, Instagram, YouTube, and more until consent is given.
-
-- **Iframe & Social Embed Control:** Show placeholders for blocked videos or social content until consent is granted.
-
-- **Cookie Scanning & Detection🔍:** Regular scans detect new cookies or third-party scripts with detailed categorized reports.
-
-- **Google Consent Mode v2:** Automatically adjusts Google Ads, Analytics, and other tag behavior based on user consent.
-
-= 🛠️ User-Friendly Setup =
-
-- **Guided Setup Wizard:** Step-by-step configuration for quick compliance.
-
-- **No Coding Required💡:** Works with any WordPress theme or page builder like Gutenberg, Elementor, Divi, or WPBakery.
-
-- **Pre-Built Banner Templates🎨:** Select from multiple designs that suit your brand.
-
-- **Multilingual & Translation Ready🌎:** Supports WPML, QTranslate, WP Multilang; pre-translated in French, Spanish, German, Dutch, Italian.
+- Display banners based on visitor location where applicable
 
 
-= 📊 Analytics & Reporting =
+[🔗Learn More About WPLP Cookie Consent](https://wplegalpages.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=link)
 
-- **Consent Dashboard:** Monitor trends in user consent and banner performance.
+== Cookie Scanning and Detection ==
 
-- **Detailed Consent Logs:** Download logs for GDPR/CCPA compliance audits.
+WPLP Cookie Consent includes a built-in cookie scanner that detects cookies and third-party services used on your website.
+The scanner helps you:
 
-- **User Interaction Tracking👥:** Visualize which cookies users accept or reject.
+- Identify cookies and scripts added by common service
 
-= 🔗 Seamless Integration =
+- Group cookies by category for clearer disclosure
 
-- **Plugin & Platform Integration:** Integrates with WooCommerce, Google Tag Manager, Elementor, WP Legal Pages, caching plugins, and popular WordPress plugins.
+- Keep cookie information updated as your site changes
 
-- **Dynamic Content Support:** Works with dynamic content, forms, and embedded media for consistent compliance.
+Detected cookie details can be used to inform your cookie policy and consent configuration.
 
-- **Advanced Consent Control:** Compatible with global tag management solutions and script centers for advanced consent control.
+== Automatic Script and Content Blocking ==
 
-[🔗Learn More About WP Cookie Consent](https://wplegalpages.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=link)
+The plugin can prevent certain third-party scripts from loading until user consent is provided.
+This includes commonly used services such as:
 
-== ⭐ Premium Features (WPLP Compliance Platform Pro) ==
+- Analytics tools
 
-- **Automated Cookie Scanning:** Automated cookie scanning across large websites (up to 20,000 pages).
+- Advertising and marketing scripts
 
-- **IAB TCF v2 Integration:** Integration with IAB TCF v2 for advertising compliance.
+- Embedded media and social content
 
-- **A/B Testing 📈:** A/B testing for cookie banners to optimize consent rates.
+Script blocking works with scripts added directly, through plugins, or via tag managers. Support for Google Consent Mode v2 is included, allowing Google services to adjust behavior based on consent signals.
 
-- **Regional & Multi-Law Support:** Regional customization and multi-law support (GDPR, CCPA, LGPD, POPIA, PIPEDA, UK GDPR).
+== Smart Embed Control ==
 
-- **Advanced Analytics & Reports:** Advanced analytics and visual reports for audit-ready insights.
+Third-party content such as videos, maps, or social embeds can be blocked until consent is given.
+When content is blocked:
 
-- **Enhanced Legal Documentation:** Enhanced legal documentation including privacy statements, cookie policy, and CCPA opt-out forms.
+- Placeholders are displayed instead of loading external resources
 
-- **Unlimited Usage:**
-Unlimited banner pageviews and cookie scans/month.
+- Visitors can choose to enable content by providing consent
 
-[🔗Learn More About WPLP Compliance Platform Pro](https://wplegalpages.com/pricing/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=link)
+- Placeholder behavior can be configured from the admin area
 
-== 📑 WP Legal Pages Integration ==
+== Consent Records ==
 
-For full legal compliance, WP Cookie Consent works seamlessly with WP Legal Pages to generate all required legal documents, including:
+The plugin can store consent-related information such as:
 
-- Privacy Policies for GDPR, CCPA, LGPD, and more.
+- Consent status by category
 
-- Cookie Policies automatically linked to your consent banners.
+- Date and time of interaction
 
-- Terms & Conditions templates and disclaimers.
+These records are stored on your website and can be used for reference or internal review purposes.
 
-- Data Request Forms for DSAR and opt-out requests.
+== Supported Privacy Regulations ==
 
-Using WP Legal Pages alongside WP Cookie Consent ensures your website is fully compliant while maintaining a consistent and professional user experience.
+WPLP Cookie Consent is built to support a wide range of privacy and data protection regulations, including:
 
-[🔗Learn More About WP Cookie Consent](https://wplegalpages.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=link)
+- GDPR and ePrivacy Directive (European Union)
 
-== 💬 Support & Documentation ==
+- CCPA and CPRA (United States)
 
-- **Comprehensive [Documentation](https://wplegalpages.com/docs/):** Step-by-step guides, tutorials, and FAQs for plugin setup and configuration.
+- LGPD (Brazil)
 
-- **Dedicated Support🛎️:** Access support directly via [WordPress.org](https://wordpress.org/support/plugin/gdpr-cookie-consent/) forums or our dedicated [helpdesk](https://wplegalpages.com/contact-us/).
+- POPIA (South Africa)
 
-- **Regular Updates 🔄:** Stay informed with plugin updates, new features, and multilingual support.
+- PIPEDA (Canada)
+
+- UK GDPR and related frameworks
+
+== Setup and Compatibility ==
+
+- Guided setup to help configure basic consent settings
+
+- Compatible with popular themes and page builders
+
+- Works with WooCommerce, Google Tag Manager, and commonly used plugins
+
+- Translation-ready and compatible with multilingual plugins
+
+== Support & Documentation ==
+
+[Documentation](https://wplegalpages.com/docs/) and setup guides are available to help configure the plugin.
+For questions related to features or compatibility, you can [contact the WPLP Legal Pages support team](https://wplegalpages.com/contact-us/).
 
 
-== 🚀 Why WP Cookie Consent + WPLP Compliance Platform ==
+== Part of the WPLP Compliance Platform ==
 
-WP Cookie Consent is more than a plugin - it’s part of the **WPLP Compliance Platform**, a unified solution for:
+WPLP Cookie Consent integrates with the WPLP Compliance Platform to support broader privacy management workflows, including cookie policy generation and legal page management.
 
-- **Global Privacy Compliance 🌍:** GDPR, CCPA, LGPD, ePrivacy, POPIA, PIPEDA.
+Additional features are available in premium plans. Details about available plans and features can be found on the [pricing page](https://wplegalpages.com/pricing/).
 
-- **Cookie & Consent Management:** Automated tools, conditional banners, and tracking.
+== Disclaimer ==
 
-- **Legal Documentation:** Privacy policies, cookie policies, data request management.
-
-- **User Trust❤️:** Transparent data handling builds credibility with visitors.
-
-With WP Cookie Consent under the WPLP Compliance Platform, you get a **complete WordPress privacy solution** to protect your business, satisfy regulations, and create a better browsing experience for users worldwide.
-
-[🔗Explore WPLP Compliance Platform Pro](https://wplegalpages.com/pricing/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=link)
-
+This plugin provides tools to help manage cookie consent and related settings. It does not guarantee compliance with any specific law or regulation. Website owners are responsible for ensuring their sites meet applicable legal requirements.
 
 == Frequently Asked Questions ==
 
-= Where can I find documentation for WP Cookie Consent? =
-You can find the official documentation for WP Cookie Consent here: [WP Cookie Consent Documentation](https://wplegalpages.com/docs/wp-cookie-consent/).
+= Where can I find documentation for WPLP Cookie Consent? =
+You can find the official documentation for WPLP Cookie Consent here: [WPLP Cookie Consent Documentation](https://wplegalpages.com/docs/wp-cookie-consent/).
 
 This comprehensive guide covers everything from installation and setup to advanced features, ensuring you can easily configure the plugin to meet your compliance needs. 🚀
 
-= What features are included in the free version of WP Cookie Consent? =
+= What features are included in the free version of WPLP Cookie Consent? =
 The free version allows you to scan your website for cookies, generate a basic cookie consent banner, and display it with unlimited pageviews. 
 
 It’s an excellent choice for websites with minimal cookie usage and straightforward compliance needs.
 
-= How does WP Cookie Consent ensure GDPR and CCPA compliance? =
+= How does WPLP Cookie Consent ensure GDPR and CCPA compliance? =
 The plugin simplifies cookie consent management by helping you obtain and record user consent, ensuring compliance with GDPR, CCPA, and other privacy regulations. This helps you avoid potential legal risks and fines.
 
 = What happens after a cookie scan is completed? =
@@ -197,7 +177,7 @@ The plugin has been designed to help with the following cookie law, privacy regu
 = Does it block 3rd party resources loaded via iFrames (such as YouTube)?
 Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unless they give the consent. Users can choose which category of cookies they want to allow.
 
-= Is WP Cookie Consent compatible with multilingual websites? =
+= Is WPLP Cookie Consent compatible with multilingual websites? =
 Yes, the plugin supports multiple languages, ensuring that your cookie consent banner is displayed in the visitor’s preferred language for better accessibility and compliance across different regions.
 
 == Screenshots ==

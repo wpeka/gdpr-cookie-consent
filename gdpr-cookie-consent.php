@@ -2,19 +2,19 @@
 /**
  * The plugin bootstrap file
  *
- * @link              https://club.wpeka.com
+ * @link              https://wplegalpages.com
  * @since             1.0
  * @package           Gdpr_Cookie_Consent
  *
  * @wordpress-plugin
- * Plugin Name:       WP Cookie Consent
- * Plugin URI:        https://club.wpeka.com/
+ * Plugin Name:       Cookie Banner for GDPR / CCPA - WPLP Cookie Consent
+ * Plugin URI:        https://wplegalpages.com/
  * Description:       Cookie Consent will help you put up a subtle banner in the footer of your website to showcase compliance status regarding the EU Cookie law.
  * Version:           4.1.0
- * Author:            WP Legal Pages
+ * Author:            WPLP Compliance Platform
  * Author URI:        https://wplegalpages.com
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           GPLv3
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       gdpr-cookie-consent
  * Domain Path:       /languages
  */
