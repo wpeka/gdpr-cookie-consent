@@ -9,6 +9,10 @@
  * @subpackage Gdpr_Cookie_Consent/public
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * The public-facing functionality of the plugin.
  *
@@ -83,16 +87,21 @@ class Gdpr_Cookie_Consent_Public {
 		if ( ! shortcode_exists( 'wpl_cookie_details' ) ) {
 			add_shortcode( 'wpl_cookie_details', array( $this, 'gdprcookieconsent_shortcode_cookie_details' ) );         // a shortcode [wpl_cookie_details].
 		}
-		$min = 0;
-		$max = 1;
-		$randomNumber = mt_rand($min, $max);
-		if($randomNumber < 0.5) $this->chosenBanner = 2;
+
+		add_action( 'init', array( $this, 'init_random_banner' ) );
+		
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		if($the_options['is_gcm_on'] === 'true' || $the_options['is_gcm_on'] === true || $the_options['is_gcm_on'] === 1){
 			add_action('wp_head', array( $this,'insert_custom_consent_script'), -9999);
 		}
 		add_action( 'wp_ajax_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
+	}
+
+	public function init_random_banner() {
+		if ( wp_rand( 0, 1 ) === 0 ) {
+			$this->chosenBanner = 2;
+		}
 	}
 	/* Add defer attribute to scripts */
 	public function register_script_with_defer( $handle, $src, $deps = array(), $ver = false, $in_footer = true ) {
@@ -176,18 +185,18 @@ class Gdpr_Cookie_Consent_Public {
             dataLayer.push(arguments);
         }
         gtag("consent", "default", {
-			<?php echo $regionParam; ?>
-            ad_storage: "<?php echo $config->ad_storage; ?>",
-            ad_user_data: "<?php echo $config->ad_user_data; ?>",
-            ad_personalization: "<?php echo $config->ad_personalization; ?>",
-            analytics_storage: "<?php echo $config->analytics_storage; ?>",
-            functionality_storage: "<?php echo $config->functionality_storage; ?>",
-            personalization_storage: "<?php echo $config->personalization_storage; ?>",
-            security_storage: "<?php echo $config->security_storage; ?>",
-            wait_for_update: <?php echo $wait_for_update; ?>,
-        });
-        gtag("set", "ads_data_redaction", <?php echo $ads_data_redact; ?>);
-        gtag("set", "url_passthrough", <?php echo $url_pass; ?>);
+			<?php echo wp_json_encode( $regionParam ); ?>,
+			ad_storage: "<?php echo esc_js( $config->ad_storage ); ?>",
+			ad_user_data: "<?php echo esc_js( $config->ad_user_data ); ?>",
+			ad_personalization: "<?php echo esc_js( $config->ad_personalization ); ?>",
+			analytics_storage: "<?php echo esc_js( $config->analytics_storage ); ?>",
+			functionality_storage: "<?php echo esc_js( $config->functionality_storage ); ?>",
+			personalization_storage: "<?php echo esc_js( $config->personalization_storage ); ?>",
+			security_storage: "<?php echo esc_js( $config->security_storage ); ?>",
+			wait_for_update: <?php echo wp_json_encode( $wait_for_update ); ?>,
+		});
+		gtag("set", "ads_data_redaction", <?php echo wp_json_encode( $ads_data_redact ); ?>);
+		gtag("set", "url_passthrough", <?php echo wp_json_encode( $url_pass ); ?>);
 		gtag("set", "developer_id.dZDM3Yj", true);
     </script>
     <?php

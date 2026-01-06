@@ -253,7 +253,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		$actions     = array(
 			'delete' => __( 'Move to Trash', 'gdpr-cookie-consent' ),
 		);
-		echo $this->resolved_select();
+		$this->resolved_select();
 		return $actions;
 	}
 

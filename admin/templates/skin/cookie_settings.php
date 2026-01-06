@@ -708,7 +708,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                    <p class="gdpr-vendor-purposes-title"><?php echo esc_html("Purposes (Consent) ", "gdpr-cookie-consent");?></p>
                                                    <ul class="gdpr-vendor-purposes-list">
                                                       <?php foreach ( $vendor->purposes as $key => $value ) {?>
-                                                      <li><?php echo esc_html__( $data->purposes[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
+                                                      <li><?php echo esc_html( $data->purposes[$value-1]->name );  ?></li>
                                                       <?php } ?>
                                                    </ul>
                                                 </div>
@@ -716,7 +716,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                    <p class="gdpr-vendor-special-purposes-title"><?php echo esc_html("Special Purposes ", "gdpr-cookie-consent");?></p>
                                                    <ul class="gdpr-vendor-special-purposes-list">
                                                       <?php foreach ( $vendor->specialPurposes as $key => $value ) {?>
-                                                      <li><?php echo esc_html__( $data->specialPurposes[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
+                                                      <li><?php echo esc_html( $data->specialPurposes[$value-1]->name );  ?></li>
                                                       <?php } ?>
                                                    </ul>
                                                 </div>
@@ -724,7 +724,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                    <p class="gdpr-vendor-features-title"><?php echo esc_html("Features ", "gdpr-cookie-consent");?></p>
                                                    <ul class="gdpr-vendor-features-list">
                                                       <?php foreach ( $vendor->features as $key => $value ) {?>
-                                                      <li><?php echo esc_html__( $data->features[$value-1]->name, 'gdpr-cookie-consent' );  ?></li>
+                                                      <li><?php echo esc_html( $data->features[$value-1]->name );  ?></li>
                                                       <?php } ?>
                                                    </ul>
                                                 </div>
@@ -837,7 +837,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																					<div class="gdpr-vendor-wrapper">
 																						<p class="gdpr-vendor-privacy-link">
 																							<span class="gdpr-vendor-privacy-link-title"><?php echo esc_html("Privacy Policy: ", "gdpr-cookie-consent");?></span>
-																							<a href=<?php echo $vendor[2];?> target="_blank" rel="noopener noreferrer" aria-label="Privacy Policy"><?php echo $vendor[2];?></a>
+																							<a href="<?php echo esc_url($vendor[2]);?>" target="_blank" rel="noopener noreferrer" aria-label="Privacy Policy"><?php echo esc_html($vendor[2]);?></a>
 																						</p>
 																						
 																						<div class="gdpr-vendor-storage-overview-section"></div>
