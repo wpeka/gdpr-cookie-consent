@@ -145,7 +145,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 						)
 					);
 		unset( $post_types['attachment'] );
-		$post_types = array_map( 'sanitize_text_field', $post_types );
+		$post_types = array_values( array_map( 'sanitize_text_field', $post_types ) );
+
 		$the_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$restrict_posts = isset( $the_options['restrict_posts'] ) ? array_map( 'absint', $the_options['restrict_posts'] ) : [];
 
@@ -164,7 +165,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 				...$restrict_posts
 			);
 		}
-
+		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
 		$data = $wpdb->get_results( $sql, ARRAY_A );
 		$pages_array = [];
 		if ( ! empty( $data ) ) {

@@ -275,14 +275,8 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 					?>
                     <div class="notice notice-error">
                         <p><?php
-							printf(
-								wp_kses_post(
-									__( '<b>Warning!</b> You\'re blocking external requests which means you won\'t be able to get %1$s updates. Please add %2$s to %3$s.', 'gdpr-cookie-consent' )
-								),
-								esc_html( $this->software_title ),
-								'<strong>' . esc_html( $host ) . '</strong>',
-								'<code>WP_ACCESSIBLE_HOSTS</code>'
-							);
+							// translators: %1$s: Software title, %2$s: host name, %3$s: constant name WP_ACCESSIBLE_HOSTS
+							printf(wp_kses_post(__( '<b>Warning!</b> You\'re blocking external requests which means you won\'t be able to get %1$s updates. Please add %2$s to %3$s.', 'gdpr-cookie-consent' )), esc_html( $this->software_title ),'<strong>' . esc_html( $host ) . '</strong>','<code>WP_ACCESSIBLE_HOSTS</code>');
 						?></p>
                     </div>
 					<?php

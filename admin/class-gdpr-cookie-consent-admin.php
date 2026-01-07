@@ -8227,21 +8227,18 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 
 		// ✅ Total count
+		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
 		$count_query = "SELECT COUNT(*) FROM $table_name $where_sql";
 
 		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
-		$total_count = !empty($params)
-			? $wpdb->get_var($wpdb->prepare($count_query, $params))
-			: $wpdb->get_var($count_query);
+		$total_count = !empty($params)? $wpdb->get_var($wpdb->prepare($count_query, $params)): $wpdb->get_var($count_query);
 
 		// ✅ If ALL is true → return EVERYTHING without pagination
 		if ($all) {
 			$query .= " ORDER BY ID DESC";
 
 			/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
-			$prepared_query = !empty($params)
-				? $wpdb->prepare($query, $params)
-				: $query;
+			$prepared_query = !empty($params)? $wpdb->prepare($query, $params): $query;
 		} 
 		// ✅ Otherwise apply pagination
 		else {
@@ -8284,9 +8281,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$query = "UPDATE $table_name SET resolved = 1 WHERE ID IN ($placeholders)";
 
 		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
-		$updated = $wpdb->query(
-			$wpdb->prepare($query, $ids)
-		);
+		$updated = $wpdb->query($wpdb->prepare($query, $ids));
 
 		if ( $updated === false ) {
 			return new WP_Error(
@@ -8325,9 +8320,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$query = "DELETE FROM $table_name WHERE ID IN ($placeholders)";
 
 		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
-		$deleted = $wpdb->query(
-			$wpdb->prepare($query, $ids)
-		);
+		$deleted = $wpdb->query($wpdb->prepare($query, $ids));
 
 		if ( $deleted === false ) {
 			return new WP_Error(
