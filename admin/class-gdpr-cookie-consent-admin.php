@@ -1599,7 +1599,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function wpl_data_req_process_resolve() {
 
-    	// Must be logged in
+        // Must be logged in
 		if ( ! is_user_logged_in() ) {
 			wp_die( 'Unauthorized request.' );
 		}
@@ -1608,15 +1608,13 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( 'Insufficient permissions.' );
 		}
+		check_admin_referer( 'wpl_resolve_request' );
 
-		// Validate request + nonce
-		if (isset( $_GET['page'] ) && ( $_GET['page'] == 'gdpr-cookie-consent' ) &&
-			isset( $_GET['action'] ) &&
-			$_GET['action'] === 'resolve' &&
-			isset( $_GET['_wpnonce'] ) &&
-			wp_verify_nonce( $_GET['_wpnonce'], 'wpl_resolve_request' ) &&
-			! empty( $_GET['id'] )
-		) {
+		$id = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
+		if ( ! $id ) {
+			wp_die( 'Invalid request.' );
+		}
+
 			global $wpdb;
 			$wpdb->update(
 				$wpdb->prefix . 'wpl_data_req',
@@ -1628,7 +1626,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
 			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
 			exit;
-    	}
+			
    	wp_die( 'Invalid request.' );
 }
 	/**
