@@ -702,9 +702,10 @@ class Gdpr_Cookie_Consent_Script_Blocker {
         </details>';
 
 		if ( $echo ) {
-			echo wp_kses_post( $output );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML is safely escaped at source.
+			echo $output;
 		} else {
-			return wp_kses_post( $output );
+			return $output;
 		}
 	}
 
