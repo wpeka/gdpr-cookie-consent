@@ -1704,8 +1704,8 @@ class Gdpr_Cookie_Consent_Admin {
 		 if (empty($GLOBALS['admin_page_hooks']['wp-legal-pages'])) {
 			global $admin_page_hooks;
 			add_menu_page(
-				__( 'WP Legal Pages', 'wp-legal-pages' ), // Page title
-				__( 'WP Legal Pages', 'wp-legal-pages' ), // Menu title
+				__( 'WPLP Compliance', 'wp-legal-pages' ), // Page title
+				__( 'WPLP Compliance', 'wp-legal-pages' ), // Menu title
 				'manage_options',                        // Capability
 				'wp-legal-pages',                        // Menu slug
 				$callback_function,            // Icon URL (choose an icon from the WordPress Dashicons library)
