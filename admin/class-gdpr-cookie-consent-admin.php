@@ -876,6 +876,7 @@ class Gdpr_Cookie_Consent_Admin {
 							$args            = array(
 								'source'     => 'gdpr-cookie-consent',
 								'plugin_dir' => plugins_url(),
+								'export_url' => esc_url( admin_url( 'admin-post.php?action=gdpr_export_consent_logs_csv' ) ),
 								'nonce'      => wp_create_nonce( 'wpl_csv_nonce' ),  
 							);
 							$request_url     = add_query_arg( $args, $url );
@@ -1475,7 +1476,7 @@ class Gdpr_Cookie_Consent_Admin {
 				<div class="wpl-heading-export-datarequest">
 					<div class="data-request-heading-export">
 						<h1 class="wp-heading"><?php esc_html_e( 'Data Requests', 'gdpr-cookie-consent' ); ?></h1>
-						<a href="<?php echo esc_url_raw( plugins_url( 'admin/data-req/csv.php', __DIR__ ) . '?nonce=' . wp_create_nonce( 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
+						<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=gdpr_export_data_req_csv' ), 'wpl_csv_nonce' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export as CSV', 'gdpr-cookie-consent' ); ?></a>
 					</div>
 					<div class="data-request-search-log"> 
 						<?php $datarequests->search_box( __( 'Search Logs', 'gdpr-cookie-consent' ), 'gdpr-cookie-consent' ); ?> 
@@ -7057,7 +7058,7 @@ class Gdpr_Cookie_Consent_Admin {
 			<img id="gdpr-install-activate-img"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/legal-pages-install-banner.jpg'; ?>" alt="WPLP Cookie Consent Logo">
 			<div class="gdpr-popup-container">
 			<p class="gdpr-plugin-install-activation-text">
-			<?php esc_html_e( 'WP Legal Pages is currently inactive. Please install and activate the plugin to start generating your legal documents.', 'gdpr-cookie-consent' ); ?>
+			<?php esc_html_e( 'WPLP Legal Pages is currently inactive. Please install and activate the plugin to start generating your legal documents.', 'gdpr-cookie-consent' ); ?>
 			</p>
 								<?php 
 				if(!$is_legalpages_installed) { ?>

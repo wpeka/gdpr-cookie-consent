@@ -360,11 +360,11 @@ if ( 200 === $response_status ) {
 						<c-row :class="['gdpr-progress-list-item','vstep5', (legal_pages_installed && is_legalpages_active && is_legal_page_exist) ? 'gdpr-green-progress' : 'gdpr-gray-progress']">
 							<span class="gdpr-dashboard-legalpages-install-tab" v-show="!legal_pages_installed">
 								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
-								<span class="gdpr-progress-list-link step-install-wplp-plugin" :href="legalpages_install_url"><?php esc_html_e( 'Install WP Legal Pages', 'gdpr-cookie-consent' ); ?></span>
+								<span class="gdpr-progress-list-link step-install-wplp-plugin" :href="legalpages_install_url"><?php esc_html_e( 'Install WPLP Legal Pages', 'gdpr-cookie-consent' ); ?></span>
 							</span>
 							<span class="gdpr-dashboard-legalpages-install-tab" v-show="legal_pages_installed && !is_legalpages_active">
 								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
-								<span class="gdpr-progress-list-link step-install-wplp-plugin step-activate-wplp-plugin" :href="legalpages_install_url"><?php esc_html_e( 'Activate WP Legal Pages', 'gdpr-cookie-consent' ); ?></span>
+								<span class="gdpr-progress-list-link step-install-wplp-plugin step-activate-wplp-plugin" :href="legalpages_install_url"><?php esc_html_e( 'Activate WPLP Legal Pages', 'gdpr-cookie-consent' ); ?></span>
 							</span>
 							<span class="gdpr-dashboard-legalpages-create-pages-tab" v-show="legal_pages_installed && is_legalpages_active && !is_legal_page_exist">
 								<?php esc_html_e( 'Generate legal policies. ', 'gdpr-cookie-consent' ); ?>
@@ -391,7 +391,7 @@ if ( 200 === $response_status ) {
 							<span id="gdpr-banner-preview-cookie-banner-title">
 								
 								<?php if(!$is_legalpages_active){ 
-									esc_html_e( 'Install WP Legal Pages', 'gdpr-cookie-consent' ); 
+									esc_html_e( 'Install WPLP Legal Pages', 'gdpr-cookie-consent' ); 
 								}
 								else{
 									esc_html_e( 'Create Your Legal Page', 'gdpr-cookie-consent' ); 
