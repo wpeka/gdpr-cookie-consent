@@ -243,7 +243,7 @@ function gdpr_display_user_mirgation_notice() {
 	$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
 	if($pro_installed){
 		echo '<div class="notice notice-error notice-alt">';
-		echo '<p>' . esc_html__('Action Required: Switch to the New WP Legal Pages Compliance Platform! The new platform no longer requires Pro plugins.', 'gdpr-cookie-consent') . 
+		echo '<p>' . esc_html__('Action Required: Switch to the New WPLP Compliance Platform! The new platform no longer requires Pro plugins.', 'gdpr-cookie-consent') . 
 		' <a href="https://wplegalpages.com/docs/migration-from-wpeka/migration/seamless-migration-to-the-new-wp-legal-pages-compliance-platform/" target="_blank" rel="noopener noreferrer" previewlistener="true">' . 
 		esc_html__('Follow this guide to migrate now.', 'gdpr-cookie-consent') . '</a></p>';
 		echo '</div>';
