@@ -173,7 +173,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 */
 	public function column_actions_resolve_delete( $item ) {
 		$resolve_url = wp_nonce_url(
-			admin_url( 'admin-post.php?action=resolve&id=' . $item['ID'] ),
+			admin_url( 'admin-post.php?action=gdpr_resolve&id=' . $item['ID'] ),
 			'wpl_resolve_request'
 		);
 		$actions = array(
