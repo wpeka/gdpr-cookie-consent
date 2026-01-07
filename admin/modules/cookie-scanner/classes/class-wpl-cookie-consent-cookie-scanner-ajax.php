@@ -145,16 +145,27 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 						)
 					);
 		unset( $post_types['attachment'] );
+		$post_types = array_values( array_map( 'sanitize_text_field', $post_types ) );
 
 		$the_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
-		$restrict_posts = $the_options['restrict_posts'];
+		$restrict_posts = isset( $the_options['restrict_posts'] ) ? array_map( 'absint', $the_options['restrict_posts'] ) : [];
 
-		if (empty($restrict_posts) || implode( ',', $restrict_posts ) == "") {
-			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish'";
+		if (empty($restrict_posts) ) {
+			$placeholders = implode( ',', array_fill( 0, count( $post_types ), '%s' ) );
+			$sql = $wpdb->prepare(
+				"SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ($placeholders) AND post_status = 'publish'",
+				...$post_types
+			);
 		} else {
-			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish' AND ID NOT IN (" . implode(',', $restrict_posts) . ')';
+			$post_type_placeholders = implode( ',', array_fill( 0, count( $post_types ), '%s' ) );
+			$restrict_placeholders  = implode( ',', array_fill( 0, count( $restrict_posts ), '%d' ) );
+			$sql = $wpdb->prepare(
+				"SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ($post_type_placeholders) AND post_status = 'publish' AND ID NOT IN ($restrict_placeholders)",
+				...$post_types,
+				...$restrict_posts
+			);
 		}
-
+		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
 		$data = $wpdb->get_results( $sql, ARRAY_A );
 		$pages_array = [];
 		if ( ! empty( $data ) ) {
@@ -223,7 +234,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 				add_filter( 'cron_schedules', function( $schedules ) {
 					$schedules['every_minute'] = array(
 						'interval' => 60,
-						'display'  => __( 'Every Minute' ),
+						'display'  => __( 'Every Minute', 'gdpr-cookie-consent' ),
 					);
 					return $schedules;
 				});
@@ -345,7 +356,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 				$scan_id = $wpdb->insert_id;
 			}
 			$cookie_table_name = $wpdb->prefix . 'wpl_cookie_scan_cookies';
-			$category_table     = $wpdb->prefix . 'gdpr_cookie_scan_categories';
+			$category_table     =  esc_sql( $wpdb->prefix . 'gdpr_cookie_scan_categories' );
 
 			if ( isset( $cookies_arr ) && is_array( $cookies_arr ) ) {
 
@@ -366,7 +377,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 
 					$exists = $wpdb->get_var(
 						$wpdb->prepare(
-							"SELECT COUNT(*) FROM $cookie_table_name 
+							"SELECT COUNT(*) FROM {$cookie_table_name} 
 							WHERE name = %s AND domain = %s",
 							$name,
 							$domain
@@ -380,7 +391,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 					$category_id = $wpdb->get_var(
 						$wpdb->prepare(
 							"SELECT id_gdpr_cookie_category 
-							FROM $category_table 
+							FROM {$category_table} 
 							WHERE gdpr_cookie_category_slug = %s 
 							LIMIT 1",
 							$category
@@ -388,10 +399,11 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 					);
 					if ( empty( $category_id ) ) {
 						$category_id = $wpdb->get_var(
-							"SELECT id_gdpr_cookie_category 
-							FROM $category_table 
-							WHERE gdpr_cookie_category_slug = 'unclassified' 
-							LIMIT 1"
+							$wpdb->prepare(
+								"SELECT id_gdpr_cookie_category 
+								FROM {$category_table} 
+								WHERE gdpr_cookie_category_slug = %s LIMIT 1",'unclassified'
+							)
 						);
 					}
 

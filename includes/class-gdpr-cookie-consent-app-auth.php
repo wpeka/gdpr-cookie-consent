@@ -340,9 +340,9 @@ class GDPR_Cookie_Consent_App_Auth {
 		}
 
 		// Get data from POST request.
-		$data        = sanitize_text_field( wp_unslash( $_POST['response'] ) );
+		$data        = $_POST['response'];
 		$origin      = ! empty( $_POST['origin'] ) ? esc_url_raw( wp_unslash( $_POST['origin'] ) ) : false;
-		$no_of_scans = sanitize_text_field( wp_unslash( $_POST['no_of_scans'] ) );
+		$no_of_scans = $_POST['no_of_scans'];
 		// Verify data and origin.
 		if ( empty( $data ) || GDPR_APP_URL !== $origin ) {
 			ob_end_clean();
@@ -355,8 +355,7 @@ class GDPR_Cookie_Consent_App_Auth {
 		update_option( 'wpeka_api_framework_app_settings', $data );
 		global $wcam_lib_gdpr;
 
-		$wcam_lib_gdpr->product_id = isset( $_POST['response']['account']['product_id'] ) ? sanitize_text_field( wp_unslash( $_POST['response']['account']['product_id'] ) ) : '';
-
+		$wcam_lib_gdpr->product_id = isset( $_POST['response']['account']['product_id'] ) ? $_POST['response']['account']['product_id'] : '';
 		require_once plugin_dir_path( __DIR__ ) . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 		$settings = new GDPR_Cookie_Consent_Settings();
 
