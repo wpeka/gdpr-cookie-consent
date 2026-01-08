@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.9
-Stable tag: 4.1.0
+Stable tag: 4.1.1
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -196,12 +196,15 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 
 == Change Log ==
 
+= 4.1.1 =
+* Modified code as per org guidelines.
+
 = 4.1.0 =
 * Bug fixes and Improvements.
 
 = 4.0.9 =
 * Added more cookie consent settings to the WPLP SaaS dashboard, giving you better control without switching back to WordPress
-* Improved sync and stability between the WP Cookie Consent plugin and the WPLP Compliance Platform
+* Improved sync and stability between the WPLP Cookie Consent plugin and the WPLP Compliance Platform
 * Fixed minor bugs and made overall performance and reliability improvements
 
 = 4.0.8 =
@@ -336,7 +339,7 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Improvement - Optimized codebase for faster loading times and smoother operation.
 
 = 3.7.0 = 
-* Feature  - Introduced a Unified Dashboard for managing WP Cookie Consent and WP Legal Pages, providing a seamless interface, improved navigation and enhanced user experience.
+* Feature  - Introduced a Unified Dashboard for managing WPLP Cookie Consent and WP Legal Pages, providing a seamless interface, improved navigation and enhanced user experience.
 
 = 3.6.8 = 
 * New Feature: Added an option to auto-generate cookie banner colors based on your website's color scheme, ensuring a seamless look and feel.
@@ -387,7 +390,7 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Feature: IAB TCF Support: The plugin now supports the Interactive Advertising Bureau Transparency & Consent Framework (IAB TCF), allowing website owners to comply with strict data privacy regulations.
 
 = 3.4.4 = 
-* Feature: Unified Dashboard: The "WP Legal Pages" menu item now serves as a central hub for managing both WP Legal Pages and WP Cookie Consent, streamlining the user experience.
+* Feature: Unified Dashboard: The "WP Legal Pages" menu item now serves as a central hub for managing both WP Legal Pages and WPLP Cookie Consent, streamlining the user experience.
 
 = 3.4.3 =
 * Update: Refactored CSS architecture for better modularity and maintainability.
@@ -438,7 +441,7 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 
 = 3.0.0 =
 * New: With this update, we've added Pro features like script blocker, premium cookie banners, consent log, and more. Update now to unlock them!
-* New: Now you can also connect your site to WP Cookie Consent for cookie scanning, geo-targeting, and an advanced dashboard.
+* New: Now you can also connect your site to WPLP Cookie Consent for cookie scanning, geo-targeting, and an advanced dashboard.
 * Fix: Minor bugs fixed within plugin.
 
 = 2.6.1 =
@@ -734,12 +737,15 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 
 == Upgrade Notice ==
 
+= 4.1.1 =
+* Modified code as per org guidelines.
+
 = 4.1.0 =
 * Bug fixes and Improvements.
 
 = 4.0.9 =
 * Added more cookie consent settings to the WPLP SaaS dashboard, giving you better control without switching back to WordPress
-* Improved sync and stability between the WP Cookie Consent plugin and the WPLP Compliance Platform
+* Improved sync and stability between the WPLP Cookie Consent plugin and the WPLP Compliance Platform
 * Fixed minor bugs and made overall performance and reliability improvements
 
 = 4.0.8 =
@@ -875,7 +881,7 @@ Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode
 * Improvement - Optimized codebase for faster loading times and smoother operation.
 
 = 3.7.0 = 
-* Feature  - Introduced a Unified Dashboard for managing WP Cookie Consent and WP Legal Pages, providing a seamless interface, improved navigation and enhanced user experience.
+* Feature  - Introduced a Unified Dashboard for managing WPLP Cookie Consent and WP Legal Pages, providing a seamless interface, improved navigation and enhanced user experience.
 
 = 3.6.8 = 
 * New Feature: Added an option to auto-generate cookie banner colors based on your website's color scheme, ensuring a seamless look and feel.
@@ -926,7 +932,7 @@ Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode
 * Feature: IAB TCF Support: The plugin now supports the Interactive Advertising Bureau Transparency & Consent Framework (IAB TCF), allowing website owners to comply with strict data privacy regulations.
 
 = 3.4.4 = 
-* Feature: Unified Dashboard: The "WP Legal Pages" menu item now serves as a central hub for managing both WP Legal Pages and WP Cookie Consent, streamlining the user experience.
+* Feature: Unified Dashboard: The "WP Legal Pages" menu item now serves as a central hub for managing both WP Legal Pages and WPLP Cookie Consent, streamlining the user experience.
 
 = 3.4.3 =
 * Update: Refactored CSS architecture for better modularity and maintainability.
@@ -978,7 +984,7 @@ Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode
 
 = 3.0.0 =
 * New: With this update, we've added Pro features like script blocker, premium cookie banners, consent log, and more. Update now to unlock them!
-* New: Now you can also connect your site to WP Cookie Consent for cookie scanning, geo-targeting, and an advanced dashboard.
+* New: Now you can also connect your site to WPLP Cookie Consent for cookie scanning, geo-targeting, and an advanced dashboard.
 * Fix: Minor bugs fixed within plugin.
 
 = 2.6.1 =
