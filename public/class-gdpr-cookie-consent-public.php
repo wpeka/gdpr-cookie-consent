@@ -185,7 +185,7 @@ class Gdpr_Cookie_Consent_Public {
             dataLayer.push(arguments);
         }
         gtag("consent", "default", {
-			<?php echo $regionParam !== '' ? $regionParam . ',' : ''; ?>
+			<?php echo $regionParam !== '' ? esc_js( $regionParam ) . ',' : ''; ?>
 			ad_storage: "<?php echo esc_js( $config->ad_storage ); ?>",
 			ad_user_data: "<?php echo esc_js( $config->ad_user_data ); ?>",
 			ad_personalization: "<?php echo esc_js( $config->ad_personalization ); ?>",
