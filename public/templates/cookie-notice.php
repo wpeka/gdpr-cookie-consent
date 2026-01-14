@@ -218,7 +218,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 					<?php
 			}
 			else{
-				if ( $template_object['logo']['src'] !== '' ) { ?><img alt="Logo image" style="<?php echo esc_attr( $logo_style_attr ); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ) ); ?>"><?php }
+				if ( isset( $template_object['logo']['src'] ) && is_string( $template_object['logo']['src'] ) && $template_object['logo']['src'] !== '' ) { ?><img alt="Logo image" style="<?php echo esc_attr( $logo_style_attr ); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ) ); ?>"><?php }
 			}
 		}else{
 			$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
@@ -228,7 +228,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 					<?php
 			}
 			else{
-				if ( $template_object['logo']['src'] !== '' ) { ?><img alt="Logo image" style="<?php echo esc_attr( $logo_style_attr ); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ) ); ?>"><?php }
+				if ( isset( $template_object['logo']['src'] ) && is_string( $template_object['logo']['src'] ) && $template_object['logo']['src'] !== '' ) { ?><img alt="Logo image" style="<?php echo esc_attr( $logo_style_attr ); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ) ); ?>"><?php }
 			}
 		}
 	}
@@ -242,7 +242,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 						<?php
 				}
 				else{
-					if ( $template_object['logo']['src'] !== '' ) { ?><img alt="Logo image" style="<?php echo esc_attr( $logo_style_attr ); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ) ); ?>"><?php }
+					if ( isset( $template_object['logo']['src'] ) && is_string( $template_object['logo']['src'] ) && $template_object['logo']['src'] !== '' ) { ?><img alt="Logo image" style="<?php echo esc_attr( $logo_style_attr ); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ) ); ?>"><?php }
 				}
 			}elseif($chosenBanner == 2){
 					$get_banner_img2 = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
@@ -252,7 +252,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 						<?php
 				}
 				else{
-					if ( $template_object['logo']['src'] !== '' ) { ?><img alt="Logo image" style="<?php echo esc_attr( $logo_style_attr ); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ) ); ?>"><?php }
+					if ( isset( $template_object['logo']['src'] ) && is_string( $template_object['logo']['src'] ) && $template_object['logo']['src'] !== '' ) { ?><img alt="Logo image" style="<?php echo esc_attr( $logo_style_attr ); ?>" class="gdpr_logo_image" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'includes/templates/logo_images/' . sanitize_file_name( $template_object['logo']['src'] ) ); ?>"><?php }
 				}
 			}
 		}
