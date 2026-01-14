@@ -443,4 +443,6 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 		return $cookies_array;
 	}
 }
-new Gdpr_Cookie_Consent_Cookie_Custom();
+add_action( 'init', function() {
+    new Gdpr_Cookie_Consent_Cookie_Custom();
+}, 1 ); 

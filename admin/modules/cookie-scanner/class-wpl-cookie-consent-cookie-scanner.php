@@ -1060,7 +1060,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			$latest_scan_id = $wpdb->get_var("SELECT id_wpl_cookie_scan FROM $scan_table WHERE status = '2' ORDER BY created_at DESC LIMIT 1");
 		
 			if ($latest_scan_id) {
-				$count_sql     = $wpdb->prepare("SELECT COUNT(id_wpl_cookie_scan_cookies) AS ttnum FROM $cookies_table");
+				$count_sql     = "SELECT COUNT(id_wpl_cookie_scan_cookies) AS ttnum FROM $cookies_table";
 				$count_arr     = $wpdb->get_row($count_sql, ARRAY_A);
 				if ( $count_arr ) {
 					$out['total'] = $count_arr['ttnum'];
@@ -1099,4 +1099,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	}
 
 }
-new Gdpr_Cookie_Consent_Cookie_Scanner();
+add_action( 'init', function() {
+    new Gdpr_Cookie_Consent_Cookie_Scanner();
+}, 1 ); 
