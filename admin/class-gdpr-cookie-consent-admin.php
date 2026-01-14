@@ -5177,9 +5177,6 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['button_readmore_button_size2']         = isset( $_POST['gcc-readmore-button-size2'] ) ? sanitize_text_field( wp_unslash( $_POST['gcc-readmore-button-size2'] ) ) : 'medium';
 
 			// The below phpcs ignore comments have been added after referring competitor wordpress.org plugins.
-			$the_options['header_scripts']                        = isset( $_POST['gcc-header-scripts'] ) ? wp_unslash( $_POST['gcc-header-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$the_options['body_scripts']                          = isset( $_POST['gcc-body-scripts'] ) ? wp_unslash( $_POST['gcc-body-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$the_options['footer_scripts']                        = isset( $_POST['gcc-footer-scripts'] ) ? wp_unslash( $_POST['gcc-footer-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$the_options['button_decline_is_on']                  = isset( $_POST['gcc-cookie-decline-enable'] ) && ( true === $_POST['gcc-cookie-decline-enable'] || 'true' === $_POST['gcc-cookie-decline-enable'] ) ? 'true' : 'false';
 			$the_options['button_decline_text']                   = isset( $_POST['button_decline_text_field'] ) ? sanitize_text_field( wp_unslash( $_POST['button_decline_text_field'] ) ) : 'Decline';
 			$the_options['button_decline_as_button']              = isset( $_POST['gdpr-cookie-decline-as'] ) && ( true === $_POST['gdpr-cookie-decline-as'] || 'true' === $_POST['gdpr-cookie-decline-as'] ) ? 'true' : 'false';
@@ -5377,11 +5374,6 @@ class Gdpr_Cookie_Consent_Admin {
 			}
 			if ( ! get_option( 'wpl_pro_active' ) ) {
 				// script blocker.
-				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
-				//script dependency
-				$the_options['is_script_dependency_on'] = isset( $_POST['gcc-script-dependency-on'] ) && ( true === $_POST['gcc-script-dependency-on'] || 'true' === $_POST['gcc-script-dependency-on'] ) ? 'true' : 'false';
-				$the_options['header_dependency'] = isset( $_POST['gcc-header-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-header-dependency'] ) ): '';
-				$the_options['footer_dependency'] = isset( $_POST['gcc-footer-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-footer-dependency'] ) ): '';
 				// enable safe mode.
 				$the_options['enable_safe'] = isset( $_POST['gcc-enable-safe'] ) && ( true === $_POST['gcc-enable-safe'] || 'true' === $_POST['gcc-enable-safe'] ) ? 'true' : 'false';
 				$is_usage_tracking_allowed = 'false';
@@ -10374,6 +10366,7 @@ public function gdpr_support_request_handler() {
 				'button_donotsell_text1'                   => $the_options['button_donotsell_text1'] ?? 'Do Not Sell My Personal Information',
 				'button_donotsell_link_color1'             => $the_options['button_donotsell_link_color1'] ?? '#359bf5',
 				// Cookie Manager.
+				'enable_safe'            				   => $the_options['enable_safe'],
 				'custom_cookies_list'                      => $custom_cookies_list,
 				'cookies_categories'                       => $cookies_categories,
 				'scanned_cookies'                          => $scanned_cookies,
@@ -10514,6 +10507,17 @@ public function gdpr_support_request_handler() {
 
 		$response = $this->{$action}( $custom_cookie );
 
+		if($action == 'gdpr_insert_custom_cookie' && $response['status'] == 'success'){
+			return new WP_REST_Response(
+				array(
+					'status'  => $response['status'],
+					'message' => $response['message'],
+					'cookie_id' => $response['cookie_id'],
+				),
+				$response['code']
+			);
+		}
+
 		return new WP_REST_Response(
 			array(
 				'status'  => $response['status'],
@@ -10535,7 +10539,6 @@ public function gdpr_support_request_handler() {
 		$post_cookies_table = $wpdb->prefix . 'gdpr_cookie_post_cookies';
 
 		$inserted = $wpdb->insert( $post_cookies_table, $cookies_array );
-
 		if ( ! $inserted ) {
 			return array(
 				'status'  => 'error',
@@ -10547,6 +10550,7 @@ public function gdpr_support_request_handler() {
 		return array(
 			'status'  => 'success',
 			'message' => __( 'Cookie Saved Successfully!!!', 'gdpr-cookie-consent' ),
+			'cookie_id'=> $wpdb -> insert_id,
 			'code'    => 201,
 		);
 	}
@@ -10738,10 +10742,12 @@ public function gdpr_support_request_handler() {
 	public function gdpr_clear_cookie() {
 		global $wpdb;
 		$post_cookies_table = $wpdb->prefix . 'wpl_cookie_scan_cookies';
+		$post_custom_cookies_table = $wpdb->prefix . 'gdpr_cookie_post_cookies';
 
 		$cleared = $wpdb->query( "TRUNCATE TABLE {$post_cookies_table}" );
+		$cleared_custom = $wpdb->query( "TRUNCATE TABLE {$post_custom_cookies_table}" );
 
-		if ( ! $cleared ) {
+		if ( ! $cleared || !$cleared_custom) {
 			return array(
 				'status'  => 'error',
 				'message' => __( 'Failed to clear cookies.', 'gdpr-cookie-consent' ),
@@ -10751,7 +10757,7 @@ public function gdpr_support_request_handler() {
 
 		return array(
 			'status'  => 'success',
-			'message' => __( 'Cookie Cleared Successfully!!!', 'gdpr-cookie-consent' ),
+			'message' => __( 'Cookies Cleared Successfully!!!', 'gdpr-cookie-consent' ),
 			'code'    => 200,
 		);
 	}

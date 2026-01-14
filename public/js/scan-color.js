@@ -1,12 +1,12 @@
 (function () {
   'use strict';
 
-  const ALLOWED_ORIGIN = SAAS_COLOR_SYNC.allowedOrigin;
+  var ALLOWED_ORIGIN = SAAS_COLOR_SYNC.allowedOrigin;
 
   function isValidBg(color) {
     if (!color) return false;
 
-    const invalid = [
+    var invalid = [
       'transparent',
       'inherit',
       'initial',
@@ -16,74 +16,90 @@
       'rgb(255, 255, 255)'
     ];
 
-    return !invalid.includes(color);
+    return invalid.indexOf(color) === -1;
   }
 
   function rgbToHex(rgb) {
-    const match = rgb.match(/\d+/g);
+    var match = rgb.match(/\d+/g);
     if (!match || match.length < 3) return null;
 
-    const [r, g, b] = match.map(v =>
-      parseInt(v, 10).toString(16).padStart(2, '0')
-    );
+    var r = ('0' + parseInt(match[0], 10).toString(16)).slice(-2);
+    var g = ('0' + parseInt(match[1], 10).toString(16)).slice(-2);
+    var b = ('0' + parseInt(match[2], 10).toString(16)).slice(-2);
 
-    return `#${r}${g}${b}`.toUpperCase();
+    return ('#' + r + g + b).toUpperCase();
   }
 
   function collectButtonColors() {
-    const elements = document.querySelectorAll(
+    var elements = document.querySelectorAll(
       'button, a, [class*="button"]'
     );
 
-    const colorMap = {};
+    var colorMap = {};
+    var i, j;
 
-    elements.forEach(el => {
+    for (i = 0; i < elements.length; i++) {
+      var el = elements[i];
+
       // Skip GDPR / cookie buttons
-      if ([...el.classList].some(cls => cls.startsWith('gdpr_'))) return;
+      var classList = el.classList;
+      var skip = false;
 
-      const styles = getComputedStyle(el);
+      for (j = 0; j < classList.length; j++) {
+        if (classList[j].indexOf('gdpr_') === 0) {
+          skip = true;
+          break;
+        }
+      }
 
-      // Prefer background-image fallback
-      const bg =
-        styles.backgroundColor !== 'rgba(0, 0, 0, 0)'
-          ? styles.backgroundColor
-          : styles.backgroundImage !== 'none'
-            ? styles.backgroundImage
-            : null;
+      if (skip) continue;
 
-      if (!isValidBg(bg)) return;
+      var styles = window.getComputedStyle(el);
+
+      var bg = null;
+      if (styles.backgroundColor !== 'rgba(0, 0, 0, 0)') {
+        bg = styles.backgroundColor;
+      } else if (styles.backgroundImage !== 'none') {
+        bg = styles.backgroundImage;
+      }
+
+      if (!isValidBg(bg)) continue;
 
       colorMap[bg] = (colorMap[bg] || 0) + 1;
-    });
+    }
 
     return colorMap;
   }
 
   function getMostUsedColor(colorMap) {
-    let max = 0;
-    let selected = null;
+    var max = 0;
+    var selected = null;
 
-    for (const [color, count] of Object.entries(colorMap)) {
-      if (count > max) {
-        max = count;
-        selected = color;
+    for (var color in colorMap) {
+      if (colorMap.hasOwnProperty(color)) {
+        if (colorMap[color] > max) {
+          max = colorMap[color];
+          selected = color;
+        }
       }
     }
 
     return selected;
   }
 
-  window.addEventListener('message', (event) => {
-    console.log('TYPE -> ', event.data?.type);
-    console.log('Event Origin -> ', event.origin)
-    console.log('Allowed Origin -> ', ALLOWED_ORIGIN)
+  window.addEventListener('message', function (event) {
+    var data = event.data || {};
+
+    console.log('TYPE -> ', data.type);
+    console.log('Event Origin -> ', event.origin);
+    console.log('Allowed Origin -> ', ALLOWED_ORIGIN);
+
     if (event.origin !== ALLOWED_ORIGIN) return;
-    if (event.data?.type !== 'GET_SITE_COLORS') return;
+    if (data.type !== 'GET_SITE_COLORS') return;
 
-    const colorMap = collectButtonColors();
-    const dominantColor = getMostUsedColor(colorMap);
-    const hexColor = dominantColor ? rgbToHex(dominantColor) : null;
-
+    var colorMap = collectButtonColors();
+    var dominantColor = getMostUsedColor(colorMap);
+    var hexColor = dominantColor ? rgbToHex(dominantColor) : null;
 
     window.parent.postMessage({
       type: 'SITE_COLORS',
