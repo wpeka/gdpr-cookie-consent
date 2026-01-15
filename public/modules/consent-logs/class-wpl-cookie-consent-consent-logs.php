@@ -74,10 +74,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		// Js file for creating the dynamic pdf for consent log.
 		wp_enqueue_script( 'custom-admin-script', plugin_dir_url( __FILE__ ) . '/wpl-consentlog-script.js', array(), '1.0.0', true );
 		// jspdf library used for generating pdf.
-		wp_enqueue_script( 'jspdf', 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', array(), '2.5.1', true );
-		wp_enqueue_script( 'html2canvas', 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', array(), '1.4.1', true );
+		wp_enqueue_script( 'jspdf', GDPR_COOKIE_CONSENT_PLUGIN_URL . 'public/js/pdf/jspdf.umd.min.js', array(), '2.5.1', true );
+		wp_enqueue_script( 'html2canvas', GDPR_COOKIE_CONSENT_PLUGIN_URL . 'public/js/pdf/html2canvas.min.js', array(), '1.4.1', true );
 		// jspdf autotable library for creating tables in pdf.
-		wp_enqueue_script( 'jspdf-autotable', 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.6.0/jspdf.plugin.autotable.min.js', array(), '3.6.0', true );
+		wp_enqueue_script( 'jspdf-autotable', GDPR_COOKIE_CONSENT_PLUGIN_URL . 'public/js/pdf/jspdf.plugin.autotable.min.js', array(), '3.6.0', true );
 		wp_script_add_data( 'jspdf-autotable', 'integrity', 'sha512-DgV2mIRy66quVbkj4yS6FN7cccMH/iPXhDOi/ckWIAANbOL78RuoaA6MAu9BAdYEyAdIuIm63LzsaFmHGd7L8w==' );
 		wp_script_add_data( 'jspdf-autotable', 'crossorigin', 'anonymous' );
 	}
@@ -495,7 +495,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 * @since 6.3.5
 	 */
 	public function wplcl_increase_page_view(){
-		$key = date('M d, Y');
+		$key = gmdate('M d, Y');
 		$wpl_page_views = get_option('wpl_page_views');
 		if($wpl_page_views === false){
 			add_option("wpl_page_views", []);
@@ -516,7 +516,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		}
 		$wpl_total_page_views++;
 
-		$current_month = date('M Y');
+		$current_month = gmdate('M Y');
 		$monthly_views = $this->get_monthly_views($wpl_page_views, $current_month);
 		update_option('wpl_monthly_page_views', $monthly_views);
 		

@@ -236,9 +236,13 @@ GDPR_CCPA_COOKIE_EXPIRE =
   }
    // Run this check when the DOM is ready and when debug mode is on.
    if(is_gcm_debug_on == 'true'){
-     document.addEventListener("DOMContentLoaded", function() {
-       setTimeout(debugConsentState, 1000);
-     });
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+          setTimeout(debugConsentState, 1000);
+        });
+      } else {
+        setTimeout(debugConsentState, 1000);
+      }
    }
   var GDPR = {
     allowed_categories: [],
@@ -290,7 +294,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
       });
 
       // hide banner.
-      window.addEventListener("load", function () {
+      // window.addEventListener("load", function () {
         for (var id = 0; id < gdpr_select_pages.length; id++) {
           var pageToHideBanner = gdpr_select_pages[id];
           if (document.body.classList.contains("page-id-" + pageToHideBanner)) {
@@ -308,14 +312,16 @@ GDPR_CCPA_COOKIE_EXPIRE =
               );
               if (GDPR.settings.cookie_bar_as == "popup") {
                 $("#gdpr-popup").gdprmodal("hide");
+                $(".gdprmodal").remove(); // remove the whole modal
               }
               if (banner || insidebanner) {
                 banner.style.display = "none";
+                $("#gdpr-cookie-consent-show-again").addClass("hide_show_again");
                 insidebanner.style.display = "none";
               }
             } else if (GDPR.settings.cookie_usage_for == "ccpa") {
               if (GDPR.settings.cookie_bar_as == "popup") {
-                $("#gdpr-popup").gdprmodal("hide");
+                $("#gdpr-popup").gdprmodal("hide");  // remove the whole modal
               }
               var insidebanner = document.getElementById(
                 "gdpr-cookie-consent-bar"
@@ -326,7 +332,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
             }
           }
         }
-      });
+      // });
       // if DNT request is true then hide the banner and auto decline the consent
 
       if ((gdpr_do_not_track == "true" && browser_dnt_value ) || (gdpr_do_not_track == "true" && browser_gpc_value)) {

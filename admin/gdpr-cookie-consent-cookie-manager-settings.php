@@ -1,3 +1,8 @@
+<?php 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-cookie_manager-settings">
     <c-container class="gdpr-cookie-consent-settings-container gdpr-cookie-consent-cookie-manager-container">
         <c-form id="gcc-save-cookie-manager-settings-form" method="post" spellcheck="false" class="gdpr-cookie-consent-settings-form">

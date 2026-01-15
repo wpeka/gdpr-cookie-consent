@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <h3><?php esc_html_e( 'Documentation', 'gdpr-cookie-consent' ); ?></h3>
                         <p><?php esc_html_e( 'Browse our step-by-step guides and articles to help you get started and troubleshoot with ease.', 'gdpr-cookie-consent' ); ?></p>
-                        <a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wp-cookie-consent/', 'gdpr-cookie-consent' ); ?>" target="_blank"><?php esc_html_e( "Read Documentation" ); ?><img class="gdpr-other-plugin-arrow" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/dashboard-icons/right-arrow.svg' ); ?>"></a>
+                        <a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wplp-docs/' ); ?>" target="_blank"><?php esc_html_e( 'Read Documentation', 'gdpr-cookie-consent' ); ?><img class="gdpr-other-plugin-arrow" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/dashboard-icons/right-arrow.svg' ); ?>"></a>
                       </div>
 
                       <div class="gdpr-cookie-consent-help-card">
@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <h3><?php esc_html_e( 'Video Tutorials', 'gdpr-cookie-consent' ); ?></h3>
                         <p><?php esc_html_e( 'Prefer learning by watching? Explore our tutorials to see the plugin in action and learn how to use it effectively.', 'gdpr-cookie-consent' ); ?></p>
-                        <a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wp-cookie-consent/video-guides/video-resources/','gdpr-cookie-consent' ); ?>" target="_blank"><?php esc_html_e( "Watch Now" ); ?><img class="gdpr-other-plugin-arrow" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/dashboard-icons/right-arrow.svg' ); ?>"></a>
+                        <a href="<?php echo esc_url( 'https://wplegalpages.com/docs/wp-cookie-consent/video-guides/video-resources/' ); ?>" target="_blank"><?php esc_html_e( 'Watch Now', 'gdpr-cookie-consent' ); ?><img class="gdpr-other-plugin-arrow" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/dashboard-icons/right-arrow.svg' ); ?>"></a>
                       </div>
 
                       <div class="gdpr-cookie-consent-help-card">
@@ -62,7 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                         <h3><?php esc_html_e( 'Request a Feature', 'gdpr-cookie-consent' ); ?></h3>
                         <p><?php esc_html_e( 'Got an idea that could make the plugin better? We’d love to hear from you.', 'gdpr-cookie-consent' ); ?></p>
-                        <a href="<?php echo esc_url( 'https://wplegalpages.com/contact-us/', 'gdpr-cookie-consent' ); ?>" target="_blank"><?php esc_html_e( "Request Now" ); ?><img class="gdpr-other-plugin-arrow" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/dashboard-icons/right-arrow.svg' ); ?>"></a>
+                        <a href="<?php echo esc_url( 'https://wplegalpages.com/contact-us/' ); ?>" target="_blank"><?php esc_html_e( 'Request Now', 'gdpr-cookie-consent' ); ?><img class="gdpr-other-plugin-arrow" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/dashboard-icons/right-arrow.svg' ); ?>"></a>
                       </div>
                     </section>
 

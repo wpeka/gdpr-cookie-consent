@@ -10,6 +10,9 @@
  *
  * @package gdpr-cookie-consent
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 ?>

@@ -7,6 +7,9 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/public
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 ?>
 <div>

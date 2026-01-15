@@ -2353,6 +2353,9 @@ Bootstrap CSS for frontend UI
 .hide_show_again_dnt {
   display: none !important;
 }
+.hide_show_again {
+  display: none !important;
+}
 @media (max-width: 990px) {
   .gdprmodal-content {
     width: 75vw !important;

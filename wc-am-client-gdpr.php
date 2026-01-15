@@ -124,10 +124,10 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 				$this->wc_am_deactivate_checkbox_key     = $this->data_key . '_deactivate_checkbox';
 				$this->wc_am_activation_tab_key          = $this->data_key . '_dashboard';
 				$this->wc_am_deactivation_tab_key        = $this->data_key . '_deactivation';
-				$this->wc_am_settings_menu_title         = $this->software_title . esc_html__( ' Activation', $this->text_domain );
-				$this->wc_am_settings_title              = $this->software_title . esc_html__( ' API Key Activation', $this->text_domain );
-				$this->wc_am_menu_tab_activation_title   = esc_html__( 'API Key Activation', $this->text_domain );
-				$this->wc_am_menu_tab_deactivation_title = esc_html__( 'API Key Deactivation', $this->text_domain );
+				$this->wc_am_settings_menu_title         = $this->software_title . esc_html__( ' Activation', 'gdpr-cookie-consent'  );
+				$this->wc_am_settings_title              = $this->software_title . esc_html__( ' API Key Activation', 'gdpr-cookie-consent'  );
+				$this->wc_am_menu_tab_activation_title   = esc_html__( 'API Key Activation', 'gdpr-cookie-consent'  );
+				$this->wc_am_menu_tab_deactivation_title = esc_html__( 'API Key Deactivation', 'gdpr-cookie-consent'  );
 
 				/**
 				 * Set all software update data here
@@ -154,10 +154,7 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 				$this->wc_am_domain           = str_ireplace( array( 'http://', 'https://' ), '', home_url() ); // blog domain name
 				$this->wc_am_software_version = $this->software_version; // The software version
 
-				/**
-				 * Check for software updates
-				 */
-				$this->check_for_update();
+				
 			}
 
 			/**
@@ -269,12 +266,15 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 			// show notice if external requests are blocked through the WP_HTTP_BLOCK_EXTERNAL constant
 			if ( defined( 'WP_HTTP_BLOCK_EXTERNAL' ) && WP_HTTP_BLOCK_EXTERNAL === true ) {
 				// check if our API endpoint is in the allowed hosts
-				$host = parse_url( $this->api_url, PHP_URL_HOST );
+				$host = wp_parse_url( $this->api_url, PHP_URL_HOST );
 
 				if ( ! defined( 'WP_ACCESSIBLE_HOSTS' ) || stristr( WP_ACCESSIBLE_HOSTS, $host ) === false ) {
 					?>
                     <div class="notice notice-error">
-                        <p><?php printf( __( '<b>Warning!</b> You\'re blocking external requests which means you won\'t be able to get %s updates. Please add %s to %s.', $this->text_domain ), $this->software_title, '<strong>' . $host . '</strong>', '<code>WP_ACCESSIBLE_HOSTS</code>' ); ?></p>
+                        <p><?php
+							// translators: %1$s: Software title, %2$s: host name, %3$s: constant name WP_ACCESSIBLE_HOSTS
+							printf(wp_kses_post(__( '<b>Warning!</b> You\'re blocking external requests which means you won\'t be able to get %1$s updates. Please add %2$s to %3$s.', 'gdpr-cookie-consent' )), esc_html( $this->software_title ),'<strong>' . esc_html( $host ) . '</strong>','<code>WP_ACCESSIBLE_HOSTS</code>');
+						?></p>
                     </div>
 					<?php
 				}
@@ -381,180 +381,5 @@ if ( ! class_exists( 'WC_AM_Client_2_7_WPGDPR' ) ) {
 			return $defaults;
 		}
 
-		/**
-		 * Check for software updates.
-		 */
-		public function check_for_update() {
-			$this->plugin_name = $this->wc_am_plugin_name;
-
-			// Slug should be the same as the plugin/theme directory name
-			if ( strpos( $this->plugin_name, '.php' ) !== 0 ) {
-				$this->slug = dirname( $this->plugin_name );
-			} else {
-				$this->slug = $this->plugin_name;
-			}
-
-			/*********************************************************************
-			 * The plugin and theme filters should not be active at the same time
-			 *********************************************************************/ /**
-			 * More info:
-			 * function set_site_transient moved from wp-includes/functions.php
-			 * to wp-includes/option.php in WordPress 3.4
-			 *
-			 * set_site_transient() contains the pre_set_site_transient_{$transient} filter
-			 * {$transient} is either update_plugins or update_themes
-			 *
-			 * Transient data for plugins and themes exist in the Options table:
-			 * _site_transient_update_themes
-			 * _site_transient_update_plugins
-			 */
-
-			// uses the flag above to determine if this is a plugin or a theme update request
-			if ( $this->plugin_or_theme == 'plugin' ) {
-				/**
-				 * Plugin Updates
-				 */
-				add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'update_check' ) );
-				// Check For Plugin Information to display on the update details page
-				add_filter( 'plugins_api', array( $this, 'information_request' ), 10, 3 );
-			} elseif ( $this->plugin_or_theme == 'theme' ) {
-				/**
-				 * Theme Updates
-				 */
-				add_filter( 'pre_set_site_transient_update_themes', array( $this, 'update_check' ) );
-
-				// Check For Theme Information to display on the update details page
-				//add_filter( 'themes_api', array( $this, 'information_request' ), 10, 3 );
-
-			}
-		}
-
-		/**
-		 * Sends and receives data to and from the server API
-		 *
-		 * @since  2.0
-		 *
-		 * @param array $args
-		 *
-		 * @return bool|string $response
-		 */
-		public function send_query( $args ) {
-			$target_url = esc_url_raw( add_query_arg( 'wc-api', 'wc-am-api', $this->api_url ) . '&' . http_build_query( $args ) );
-			$request    = wp_safe_remote_post( $target_url, array( 'timeout' => 15 ) );
-
-			if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
-				return false;
-			}
-
-			$response = wp_remote_retrieve_body( $request );
-
-			return ! empty( $response ) ? $response : false;
-		}
-
-		/**
-		 * Check for updates against the remote server.
-		 *
-		 * @since  2.0
-		 *
-		 * @param object $transient
-		 *
-		 * @return object $transient
-		 */
-		public function update_check( $transient ) {
-			if ( empty( $transient->checked ) ) {
-				return $transient;
-			}
-
-			$args = array(
-				'wc_am_action'     => 'update',
-				'slug'        => $this->slug,
-				'plugin_name' => $this->plugin_name,
-				'version'     => $this->wc_am_software_version,
-				'product_id'  => $this->product_id,
-				'api_key'     =>  (is_array($this->data) && isset($this->data[$this->wc_am_api_key_key])) ? $this->data[$this->wc_am_api_key_key] : '',
-				'instance'    => $this->wc_am_instance_id,
-			);
-
-			// Check for a plugin update.
-			$response = json_decode( $this->send_query( $args ), true );
-
-			if ( isset( $response['data']['error_code'] ) ) {
-				add_settings_error( 'wc_am_client_error_text', 'wc_am_client_error', "{$response['data']['error']}", 'error' );
-			}
-
-			if (  is_array( $response ) && isset( $response['success'] ) && false !== $response && true === $response['success'] ) {
-				// New plugin version from the API.
-				$new_ver = (string) $response['data']['package']['new_version'];
-				// Current installed plugin version.
-				$curr_ver = (string) $this->wc_am_software_version;
-
-				$package = array(
-					'id'             => $response['data']['package']['id'],
-					'slug'           => $response['data']['package']['slug'],
-					'plugin'         => $response['data']['package']['plugin'],
-					'new_version'    => $response['data']['package']['new_version'],
-					'url'            => $response['data']['package']['url'],
-					'tested'         => $response['data']['package']['tested'],
-					'package'        => $response['data']['package']['package'],
-					'upgrade_notice' => $response['data']['package']['upgrade_notice'],
-				);
-
-				if ( isset( $new_ver ) && isset( $curr_ver ) ) {
-					if ( $response !== false && version_compare( $new_ver, $curr_ver, '>' ) ) {
-						if ( 'plugin' === $this->plugin_or_theme ) {
-							$transient->response[ $this->plugin_name ] = (object) $package;
-							unset( $transient->no_update[ $this->plugin_name ] );
-						} elseif ( 'theme' === $this->plugin_or_theme ) {
-							$transient->response[ $this->plugin_name ]['new_version'] = $response['data']['package']['new_version'];
-							$transient->response[ $this->plugin_name ]['url']         = $response['data']['package']['url'];
-							$transient->response[ $this->plugin_name ]['package']     = $response['data']['package']['package'];
-						}
-					}
-				}
-			}
-
-			return $transient;
-		}
-
-		/**
-		 * API request for informatin.
-		 *
-		 * If `$action` is 'query_plugins' or 'plugin_information', an object MUST be passed.
-		 * If `$action` is 'hot_tags` or 'hot_categories', an array should be passed.
-		 *
-		 * @param false|object|array $result The result object or array. Default false.
-		 * @param string             $action The type of information being requested from the Plugin Install API.
-		 * @param object             $args
-		 *
-		 * @return object
-		 */
-		public function information_request( $result, $action, $args ) {
-			// Check if this plugins API is about this plugin
-			if ( isset( $args->slug ) ) {
-				if ( $args->slug != $this->slug ) {
-					return $result;
-				}
-			} else {
-				return $result;
-			}
-
-			$args = array(
-				'wc_am_action'     => 'plugininformation',
-				'plugin_name' => $this->plugin_name,
-				'version'     => $this->wc_am_software_version,
-				'product_id'  => $this->product_id,
-				'api_key'     => $this->data[ $this->wc_am_api_key_key ],
-				'instance'    => $this->wc_am_instance_id,
-				'object'      => $this->wc_am_domain,
-			);
-
-			$response = unserialize( $this->send_query( $args ) );
-
-			if ( isset( $response ) && is_object( $response ) && $response !== false ) {
-				return $response;
-			}
-
-			return $result;
-		}
 	}
 }
