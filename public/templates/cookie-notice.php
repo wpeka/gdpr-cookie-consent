@@ -91,6 +91,20 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 	}  
 	$readmore_style_attr = "";
 	$readmore_style_attr .= " color: {$the_options['button_readmore_link_color']};";
+	if (
+		$template_object['name'] === 'blue_full' ||
+		$template_object['name'] === 'blue_center' ||
+		$template_object['name'] === 'blue_center_column' ||
+		$template_object['name'] === 'blue_split' ||
+		$template_object['name'] === 'gray' ||
+		$template_object['name'] === 'bold' ||
+		$template_object['name'] === 'dark'
+	) {
+		$readmore_style_attr .= "text-decoration: underline;";
+	} else {
+		$readmore_style_attr .= "text-decoration: none;";
+	}
+
 	if ($the_options['button_readmore_as_button'] === 'true' || $the_options['button_readmore_as_button'] === true || $the_options['button_readmore_as_button'] === 1) {
 		$padding_key = 'button_padding';
 		$padding_value = $template_object['static-settings'][$padding_key] ?? '';

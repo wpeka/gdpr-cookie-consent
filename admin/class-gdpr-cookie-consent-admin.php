@@ -4293,7 +4293,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 					$readmore_style_attr = '';
 					foreach ($template['readmore_button'] as $key => $value) {
-						if($key == 'color') $readmore_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+						if (in_array($key, ['color', 'text-decoration'], true)) $readmore_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
 					$heading_style_attr = "";
 					foreach ($template['heading'] as $key => $value) {
@@ -4420,7 +4420,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 					$readmore_style_attr = '';
 					foreach ($template['readmore_button'] as $key => $value) {
-						if($key == 'color') $readmore_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
+						if (in_array($key, ['color', 'text-decoration'], true))  $readmore_style_attr .= esc_attr($key) . ':' . esc_attr($value) . ';';
 					}  
 					$heading_style_attr = "";
 					foreach ($template['heading'] as $key => $value) {
