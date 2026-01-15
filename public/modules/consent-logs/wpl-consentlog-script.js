@@ -126,12 +126,16 @@ function generatePDF(
 
     doc.setFont(undefined, "normal"); // Reset font type to normal
     doc.setFontSize(fontSizeText);
-    if (preferences) {
       
       
       // Check and display status for Necessary
       if (typeof preferences === "string") {
-        preferences = JSON.parse(preferences);
+        try {
+            preferences = JSON.parse(preferences);
+        } catch(e) {
+            // If parsing fails (empty string for CCPA), set to empty object
+            preferences = {};
+        }
       }
       if (preferences.necessary === "yes") {
         doc.setFont(undefined, "bold");
@@ -350,7 +354,7 @@ function generatePDF(
         margin: { left: 10, top: 0 }, // Align with the previous content
       });
       startY = doc.previousAutoTable.finalY + 10;
-    }
+      
      // Adjust position to fit text inside box
     if (tcString.length != 0) {
       doc.addPage(); // Add a new page
