@@ -622,9 +622,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 				if ( ! empty( $ccategory ) ) {
 					$data_arr['category_id'] = $ccategory;
 				}
-				if ( ! empty( $cdesc ) ) {
-					$data_arr['description'] = $cdesc;
-				}
+				$data_arr['description'] = $cdesc; // can be empty string
 				$update_status = $wpdb->update( $cookies_table, $data_arr, array( 'id_wpl_cookie_scan_cookies' => $cid ) ); // db call ok; no-cache ok.
 				if ( $update_status >= 1 ) {
 					$flag            = 1;
