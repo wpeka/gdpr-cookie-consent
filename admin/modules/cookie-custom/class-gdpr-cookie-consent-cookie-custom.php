@@ -53,12 +53,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	public function __construct() {
 		// Creating necessary tables for cookie custom.
 		register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'gdpr_activator' ) );
-		$this->status_labels = array(
-			0 => '',
-			1 => __( 'Incomplete', 'gdpr-cookie-consent' ),
-			2 => __( 'Completed', 'gdpr-cookie-consent' ),
-			3 => __( 'Stopped', 'gdpr-cookie-consent' ),
-		);
+		add_action('admin_init',  array($this, 'set_status_labels'));
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_filter( 'gdpr_module_settings_tabhead', array( __CLASS__, 'settings_tabhead' ) );
 			add_filter( 'gdpr_settings_cookie_list_values', array( $this, 'gdpr_settings_cookie_list_values' ) );
@@ -67,6 +62,14 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 		}
 	}
 
+	public function set_status_labels(){
+		$this->status_labels = array(
+			0 => '',
+			1 => __( 'Incomplete', 'gdpr-cookie-consent' ),
+			2 => __( 'Completed', 'gdpr-cookie-consent' ),
+			3 => __( 'Stopped', 'gdpr-cookie-consent' ),
+		);
+	}
 	/**
 	 * Settings for Cookies About message under General Tab.
 	 *
@@ -443,6 +446,4 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 		return $cookies_array;
 	}
 }
-add_action( 'init', function() {
-    new Gdpr_Cookie_Consent_Cookie_Custom();
-}, 1 ); 
+new Gdpr_Cookie_Consent_Cookie_Custom();

@@ -121,12 +121,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	public function __construct() {
 		// Creating necessary tables for cookie scanner.
 		register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'wpl_activator' ) );
-		$this->status_labels = array(
-			0 => '',
-			1 => __( 'Incomplete', 'gdpr-cookie-consent' ),
-			2 => __( 'Completed', 'gdpr-cookie-consent' ),
-			3 => __( 'Stopped', 'gdpr-cookie-consent' ),
-		);
+		add_action('admin_init',  array($this, 'set_status_labels'));
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_filter( 'gdprcookieconsent_cookie_sub_tabs', array( $this, 'wpl_cookie_sub_tabs' ), 10, 1 );
 			add_action( 'gdpr_module_settings_cookielist', array( $this, 'wpl_cookie_scanned_cookies' ), 10 );
@@ -150,6 +145,14 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		$this->class_for_blur_content = $this->is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes
 		$this->class_for_card_body_blur_content = $this->is_user_connected ? '' : 'gdpr-body-blur-background'; // Add a class for styling purposes
 
+	}
+	public function set_status_labels(){
+		$this->status_labels = array(
+			0 => '',
+			1 => __( 'Incomplete', 'gdpr-cookie-consent' ),
+			2 => __( 'Completed', 'gdpr-cookie-consent' ),
+			3 => __( 'Stopped', 'gdpr-cookie-consent' ),
+		);
 	}
 	public function register_cookie_scanner_script(){
 		//getting scan data 
@@ -1099,6 +1102,4 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	}
 
 }
-add_action( 'init', function() {
-    new Gdpr_Cookie_Consent_Cookie_Scanner();
-}, 1 ); 
+new Gdpr_Cookie_Consent_Cookie_Scanner();
