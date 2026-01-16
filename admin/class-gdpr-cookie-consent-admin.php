@@ -9045,6 +9045,16 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 
 		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/upload-logo',
+			array(
+				'methods' => 'POST',
+				'callback' => array( $this, 'saas_upload_logo' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
 			'gdpr/v2', // Namespace
 			'/get_user_dashboard_data', 
 			array(
@@ -10056,8 +10066,9 @@ public function gdpr_support_request_handler() {
 			$remaining_time = ($creation_time + (int)$ab_options['ab_testing_period']*24*60*60) - $current_time;
 			if ($remaining_time > 0) {
 				// Time remaining
-				$remaining_days = floor($remaining_time / 86400);
-				$remaining_hours = floor(($remaining_time % 86400) / 3600);
+				$remaining_days    = floor($remaining_time / DAY_IN_SECONDS);
+				$remaining_hours   = floor(($remaining_time % DAY_IN_SECONDS) / HOUR_IN_SECONDS);
+				$remaining_minutes = floor(($remaining_time % HOUR_IN_SECONDS) / MINUTE_IN_SECONDS);
 			} 
 		}
 
@@ -10675,6 +10686,40 @@ public function gdpr_support_request_handler() {
 				'remaining_hours'							=> 0,
 			)
 		);
+	}
+
+	public function saas_upload_logo( WP_REST_Request $request ) {
+		error_log("DODODO uploading saas logo.....");
+
+		 $image_base64 = $request->get_param('image_base64');
+    	$file_name    = sanitize_file_name($request->get_param('file_name'));
+		
+    	$upload_dir = wp_upload_dir();
+    	$file_path = $upload_dir['path'] . '/' . $file_name;
+		
+    	$image_data = base64_decode($image_base64);
+    	file_put_contents($file_path, $image_data);
+		
+    	$filetype = wp_check_filetype($file_name);
+		
+    	$attachment = [
+    	    'post_mime_type' => $filetype['type'],
+    	    'post_title'     => pathinfo($file_name, PATHINFO_FILENAME),
+    	    'post_status'    => 'inherit'
+    	];
+	
+    	$attach_id = wp_insert_attachment($attachment, $file_path);
+    	require_once ABSPATH . 'wp-admin/includes/image.php';
+	
+    	wp_update_attachment_metadata(
+    	    $attach_id,
+    	    wp_generate_attachment_metadata($attach_id, $file_path)
+    	);
+	
+    	return [
+    	    'attachment_id' => $attach_id,
+    	    'url' => wp_get_attachment_url($attach_id)
+    	];
 	}
 
 	public function gdpr_schedule_scan( WP_REST_Request $request ) {
