@@ -645,6 +645,30 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options['background_border_color']              = $the_options[ 'cookie_border_color' . $banner_choice ];
 		$the_options['background_border_radius']             = $the_options[ 'cookie_bar_border_radius' . $banner_choice ];
 		$the_options['font_family']                          = $the_options[ 'cookie_font' . $banner_choice ];
+
+		$the_options['button_readmore_is_on']                = $the_options['button_readmore_is_on' . $banner_choice];
+		$the_options['button_readmore_text']                 = $the_options['button_readmore_text' . $banner_choice];
+		$the_options['button_readmore_link_color']			 = $the_options['button_readmore_link_color' . $banner_choice];
+		$the_options['button_readmore_as_button']            = $the_options['button_readmore_as_button' . $banner_choice];
+		$the_options['button_readmore_url_type']             = $the_options['button_readmore_url_type' . $banner_choice];
+		$the_options['button_readmore_page']                 = $the_options['button_readmore_page' . $banner_choice];
+		$the_options['button_readmore_wp_page']              = $the_options['button_readmore_wp_page'] . $banner_choice;
+		$the_options['button_readmore_new_win']              = $the_options['button_readmore_new_win' . $banner_choice];
+		$the_options['button_readmore_url']                  = $the_options['button_readmore_url' . $banner_choice];
+		$the_options['button_readmore_button_color']	     = $the_options['button_readmore_button_color' . $banner_choice];
+		$the_options['button_readmore_button_border_style']	 = $the_options['button_readmore_button_border_style' . $banner_choice];
+		$the_options['button_readmore_button_border_color']  = $the_options['button_readmore_button_border_color' . $banner_choice];
+		$the_options['button_readmore_button_opacity']       = $the_options['button_readmore_button_opacity' . $banner_choice];
+		$the_options['button_readmore_button_border_width']  = $the_options['button_readmore_button_border_width' . $banner_choice];
+		$the_options['button_readmore_button_border_radius'] = $the_options['button_readmore_button_border_radius' . $banner_choice];
+
+		$the_options['show_again']                               = $the_options['show_again' . $banner_choice];
+		$the_options['show_again_text']                          = $the_options['show_again_text' . $banner_choice];
+		$the_options['button_revoke_consent_text_color']         = $the_options['button_revoke_consent_text_color' . $banner_choice];
+		$the_options['button_revoke_consent_background_color']   = $the_options['button_revoke_consent_background_color' . $banner_choice];
+		$the_options['show_again_position']                      = $the_options['show_again_position' . $banner_choice];
+		$the_options['show_again_margin']                        = $the_options['show_again_margin' . $banner_choice];
+
 		$the_options['button_accept_is_on']                  = $the_options[ 'button_accept_is_on' . $banner_choice ];
 		$the_options['button_accept_text']                   = $the_options[ 'button_accept_text' . $banner_choice ];
 		$the_options['button_accept_action']                 = $the_options[ 'button_accept_action' . $banner_choice ];
@@ -658,6 +682,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options['button_accept_button_border_width']    = $the_options[ 'button_accept_button_border_width' . $banner_choice ];
 		$the_options['button_accept_button_border_radius']   = $the_options[ 'button_accept_button_border_radius' . $banner_choice ];
 		$the_options['button_accept_link_color']             = $the_options[ 'button_accept_link_color' . $banner_choice ];
+		
 		$the_options['button_decline_is_on']                 = $the_options[ 'button_decline_is_on' . $banner_choice ];
 		$the_options['button_decline_text']                  = $the_options[ 'button_decline_text' . $banner_choice ];
 		$the_options['button_decline_link_color']            = $the_options[ 'button_decline_link_color' . $banner_choice ];
@@ -671,6 +696,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options['button_decline_action']                = $the_options[ 'button_decline_action' . $banner_choice ];
 		$the_options['button_decline_url']                   = $the_options[ 'button_decline_url' . $banner_choice ];
 		$the_options['button_decline_new_win']               = $the_options[ 'button_decline_new_win' . $banner_choice ];
+		
 		$the_options['button_settings_is_on']                = $the_options[ 'button_settings_is_on' . $banner_choice ];
 		$the_options['button_settings_as_popup']             = $the_options[ 'button_settings_as_popup' . $banner_choice ];
 		$the_options['button_settings_text']                 = $the_options[ 'button_settings_text' . $banner_choice ];
@@ -683,6 +709,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options['button_settings_button_border_width']  = $the_options[ 'button_settings_button_border_width' . $banner_choice ];
 		$the_options['button_settings_button_border_radius'] = $the_options[ 'button_settings_button_border_radius' . $banner_choice ];
 		$the_options['button_settings_display_cookies']      = $the_options[ 'button_settings_display_cookies' . $banner_choice ];
+		
 		$the_options['button_confirm_text']                  = $the_options[ 'button_confirm_text' . $banner_choice ];
 		$the_options['button_confirm_link_color']            = $the_options[ 'button_confirm_link_color' . $banner_choice ];
 		$the_options['button_confirm_button_color']          = $the_options[ 'button_confirm_button_color' . $banner_choice ];
@@ -691,6 +718,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options['button_confirm_button_border_color']   = $the_options[ 'button_confirm_button_border_color' . $banner_choice ];
 		$the_options['button_confirm_button_border_width']   = $the_options[ 'button_confirm_button_border_width' . $banner_choice ];
 		$the_options['button_confirm_button_border_radius']  = $the_options[ 'button_confirm_button_border_radius' . $banner_choice ];
+		
 		$the_options['button_cancel_text']                   = $the_options[ 'button_cancel_text' . $banner_choice ];
 		$the_options['button_cancel_link_color']             = $the_options[ 'button_cancel_link_color' . $banner_choice ];
 		$the_options['button_cancel_button_color']           = $the_options[ 'button_cancel_button_color' . $banner_choice ];
@@ -699,8 +727,10 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options['button_cancel_button_border_color']    = $the_options[ 'button_cancel_button_border_color' . $banner_choice ];
 		$the_options['button_cancel_button_border_width']    = $the_options[ 'button_cancel_button_border_width' . $banner_choice ];
 		$the_options['button_cancel_button_border_radius']   = $the_options[ 'button_cancel_button_border_radius' . $banner_choice ];
+		
 		$the_options['button_donotsell_text']                = $the_options[ 'button_donotsell_text' . $banner_choice ];
 		$the_options['button_donotsell_link_color']          = $the_options[ 'button_donotsell_link_color' . $banner_choice ];
+		
 		$the_options['button_accept_all_is_on']              = $the_options[ 'button_accept_all_is_on' . $banner_choice ];
 		$the_options['button_accept_all_text']               = $the_options[ 'button_accept_all_text' . $banner_choice ];
 		$the_options['button_accept_all_link_color']         = $the_options[ 'button_accept_all_link_color' . $banner_choice ];
@@ -8661,7 +8691,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Add our own permissive CORS headers
 		add_filter( 'rest_pre_serve_request', function( $value ) {
-			header( 'Access-Control-Allow-Origin: ' . GDPR_APP_URL);
+			header( 'Access-Control-Allow-Origin: *');
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
@@ -8916,10 +8946,20 @@ class Gdpr_Cookie_Consent_Admin {
 
 		register_rest_route(
 			'wplp-react-gdpr/v1',
-			'/get-general-settings',
+			'/fetch_cookie_settings_data',
 			array(
 				'methods'  => 'POST',
-				'callback' => array( $this, 'gdpr_fetch_general_settings' ),
+				'callback' => array( $this, 'wplp_fetch_cookie_settings_data_for_react_app' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+		
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/set_default_ab_banner',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'wplp_set_default_ab_banner_for_react_app' ),
 				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
@@ -9000,6 +9040,16 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_start_cookie_scan' ),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
+
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/upload-logo',
+			array(
+				'methods' => 'POST',
+				'callback' => array( $this, 'saas_upload_logo' ),
 				// 'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
@@ -9928,7 +9978,7 @@ public function gdpr_support_request_handler() {
 		return false;
 	}
 
-	public function gdpr_fetch_general_settings( WP_REST_Request $request ) {
+	public function wplp_fetch_cookie_settings_data_for_react_app( WP_REST_Request $request ) {
 
 		$the_options = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$language    = $the_options['lang_selected'] ?? 'en';
@@ -9989,6 +10039,38 @@ public function gdpr_support_request_handler() {
 		$select_pages = is_array( $the_options['select_pages'] ?? null )
     		? $the_options['select_pages']
     		: [];
+
+		// AB testing data
+		$ab_options = get_option( 'wpl_ab_options' );			
+		$banner1_noChoice  = array_key_exists( 'noChoice1', $ab_options ) ? $ab_options['noChoice1'] : 0;
+		$banner2_noChoice  = array_key_exists( 'noChoice2', $ab_options ) ? $ab_options['noChoice2'] : 0;
+		$banner1_accept  = array_key_exists( 'accept1', $ab_options ) ? $ab_options['accept1'] : 0;
+		$banner2_accept  = array_key_exists( 'accept2', $ab_options ) ? $ab_options['accept2'] : 0;
+		$banner1_acceptAll  = array_key_exists( 'acceptAll1', $ab_options ) ? $ab_options['acceptAll1'] : 0;
+		$banner2_acceptAll  = array_key_exists( 'acceptAll2', $ab_options ) ? $ab_options['acceptAll2'] : 0;
+		$banner1_reject  = array_key_exists( 'reject1', $ab_options ) ? $ab_options['reject1'] : 0;
+		$banner2_reject  = array_key_exists( 'reject2', $ab_options ) ? $ab_options['reject2'] : 0;
+		$banner1_bypass  = array_key_exists( 'bypass1', $ab_options ) ? $ab_options['bypass1'] : 0;
+		$banner2_bypass  = array_key_exists( 'bypass2', $ab_options ) ? $ab_options['bypass2'] : 0;
+		$positive_percentage1 = ($banner1_accept + $banner1_acceptAll) / (($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) > 0 ? ($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) : 1);
+		$positive_percentage2 = ($banner2_accept + $banner2_acceptAll) / (($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) > 0 ? ($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) : 1);
+		$negative_percentage1 = ($banner1_reject + $banner1_bypass + $banner1_noChoice) / (($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) > 0 ? ($banner1_accept + $banner1_reject + $banner1_bypass + $banner1_acceptAll + $banner1_noChoice) : 1);
+		$negative_percentage2 = ($banner2_reject + $banner2_bypass + $banner2_noChoice) / (($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) > 0 ? ($banner2_accept + $banner2_reject + $banner2_bypass + $banner2_acceptAll + $banner2_noChoice) : 1);
+		$banner1_performance = $positive_percentage1 - $negative_percentage1;
+		$banner2_performance = $positive_percentage2 - $negative_percentage2;
+		
+		$ab_testing_transient = get_transient('gdpr_ab_testing_transient');
+		if ($ab_testing_transient !== false) {
+			$current_time = time();
+			$creation_time = $ab_testing_transient['creation_time'];
+			$remaining_time = ($creation_time + (int)$ab_options['ab_testing_period']*24*60*60) - $current_time;
+			if ($remaining_time > 0) {
+				// Time remaining
+				$remaining_days    = floor($remaining_time / DAY_IN_SECONDS);
+				$remaining_hours   = floor(($remaining_time % DAY_IN_SECONDS) / HOUR_IN_SECONDS);
+				$remaining_minutes = floor(($remaining_time % HOUR_IN_SECONDS) / MINUTE_IN_SECONDS);
+			} 
+		}
 
 		return rest_ensure_response(
 			array(
@@ -10070,9 +10152,10 @@ public function gdpr_support_request_handler() {
 				'button_readmore_is_on1'                   => $the_options['button_readmore_is_on1'],
 				'button_readmore_text1'                    => $the_options['button_readmore_text1'] ?? 'Read More',
 				'button_readmore_link_color1'              => $the_options['button_readmore_link_color1'] ?? '#359bf5',
-				'button_readmore_as_button1'               => $the_options['button_readmore_as_button1'],
+				'button_readmore_as_button1'               => $the_options['button_readmore_as_button1'] ?? 'true',
 				'button_readmore_url_type1'                => $the_options['button_readmore_url_type1'],
 				'button_readmore_page1'                    => $the_options['button_readmore_page1'] ?? '0',
+				'button_readmore_url1'                      => $the_options['button_readmore_url1'] ?? '#',
 				'button_readmore_wp_page1'                 => $the_options['button_readmore_wp_page1'],
 				'button_readmore_new_win1'                 => $the_options['button_readmore_new_win1'],
 				'button_readmore_button_color1'            => $the_options['button_readmore_button_color1'] ?? '#000000',
@@ -10092,11 +10175,13 @@ public function gdpr_support_request_handler() {
 				'button_accept_is_on1'                     => $the_options['button_accept_is_on1'],
 				'button_accept_text1'                      => $the_options['button_accept_text1'] ?? 'Accept',
 				'button_accept_link_color1'                => $the_options['button_accept_link_color1'] ?? '#ffffff',
-				'button_accept_as_button1'                 => $the_options['button_accept_as_button1'],
+				'button_accept_as_button1'                 => $the_options['button_accept_as_button1'] ?? 'true',
 				'button_accept_action1'                    => $the_options['button_accept_action1'] ?? '#cookie_action_close_header',
-				'button_accept_button_color1'              => $the_options['button_accept_button_color1'] ?? '#18a300',
-				'button_accept_button_border_style1'       => $the_options['button_accept_button_border_style1'] ?? 'none',
-				'button_accept_button_border_color1'       => $the_options['button_accept_button_border_color1'] ?? '#18a300',
+				'button_accept_url1'					   => $the_options['button_accept_url1'] ?? '#',
+				'button_accept_new_win1'				   => $the_options['button_accept_new_win1'] ?? 'false',
+				'button_accept_button_color1'              => $the_options['button_accept_button_color1'] ?? '#176CAE',
+				'button_accept_button_border_style1'       => $the_options['button_accept_button_border_style1'] ?? 'solid',
+				'button_accept_button_border_color1'       => $the_options['button_accept_button_border_color1'] ?? '#176CAE',
 				'button_accept_button_opacity1'            => $the_options['button_accept_button_opacity1'] ?? '1',
 				'button_accept_button_border_width1'       => $the_options['button_accept_button_border_width1'] ?? '0',
 				'button_accept_button_border_radius1'      => $the_options['button_accept_button_border_radius1'] ?? '0',
@@ -10104,34 +10189,38 @@ public function gdpr_support_request_handler() {
 				'button_accept_all_is_on1'                 => $the_options['button_accept_all_is_on1'],
 				'button_accept_all_text1'                  => $the_options['button_accept_all_text1'] ?? 'Accept All',
 				'button_accept_all_link_color1'            => $the_options['button_accept_all_link_color1'] ?? '#ffffff',
-				'button_accept_all_as_button1'             => $the_options['button_accept_all_as_button1'],
+				'button_accept_all_as_button1'             => $the_options['button_accept_all_as_button1'] ?? 'true',
 				'button_accept_all_action1'                => $the_options['button_accept_all_action1'] ?? '#cookie_action_close_header' ?? '#cookie_action_close_header',
-				'button_accept_all_button_color1'          => $the_options['button_accept_all_button_color1'] ?? '#18a300',
-				'button_accept_all_btn_border_style1'      => $the_options['button_accept_all_btn_border_style1'] ?? 'none',
-				'button_accept_all_btn_border_color1'      => $the_options['button_accept_all_btn_border_color1'] ?? '#18a300',
+				'button_accept_all_url1'				   => $the_options['button_accept_all_url1'] ?? '#',
+				'button_accept_all_new_win1'			   => $the_options['button_accept_all_new_win1'] ?? 'false',
+				'button_accept_all_button_color1'          => $the_options['button_accept_all_button_color1'] ?? '#176CAE',
+				'button_accept_all_btn_border_style1'      => $the_options['button_accept_all_btn_border_style1'] ?? 'solid',
+				'button_accept_all_btn_border_color1'      => $the_options['button_accept_all_btn_border_color1'] ?? '#176CAE',
 				'button_accept_all_btn_opacity1'           => $the_options['button_accept_all_btn_opacity1'] ?? '1',
 				'button_accept_all_btn_border_width1'      => $the_options['button_accept_all_btn_border_width1'] ?? '0',
 				'button_accept_all_btn_border_radius1'     => $the_options['button_accept_all_btn_border_radius1'] ?? '0',
 
 				'button_decline_is_on1'                    => $the_options['button_decline_is_on1'],
 				'button_decline_text1'                     => $the_options['button_decline_text1'] ?? 'Decline',
-				'button_decline_link_color1'               => $the_options['button_decline_link_color1'] ?? '#ffffff',
-				'button_decline_as_button1'                => $the_options['button_decline_as_button1'],
+				'button_decline_link_color1'               => $the_options['button_decline_link_color1'] ?? '#176CAE',
+				'button_decline_as_button1'                => $the_options['button_decline_as_button1'] ?? 'true',
 				'button_decline_action1'                   => $the_options['button_decline_action1'] ?? '#cookie_action_close_header_reject',
-				'button_decline_button_color1'             => $the_options['button_decline_button_color1'] ?? '#333333',
-				'button_decline_button_border_style1'      => $the_options['button_decline_button_border_style1'] ?? 'none',
-				'button_decline_button_border_color1'      => $the_options['button_decline_button_border_color1'] ?? '#333333',
+				'button_decline_url1'					   => $the_options['button_decline_url1'] ?? '#',
+				'button_decline_new_win1'				   => $the_options['button_decline_new_win1'] ?? 'false',
+				'button_decline_button_color1'             => $the_options['button_decline_button_color1'] ?? '#FFFFFF',
+				'button_decline_button_border_style1'      => $the_options['button_decline_button_border_style1'] ?? 'solid',
+				'button_decline_button_border_color1'      => $the_options['button_decline_button_border_color1'] ?? '#176CAE',
 				'button_decline_button_opacity1'           => $the_options['button_decline_button_opacity1'] ?? '1',
 				'button_decline_button_border_width1'      => $the_options['button_decline_button_border_width1'] ?? '0',
 				'button_decline_button_border_radius1'     => $the_options['button_decline_button_border_radius1'] ?? '0',
 
 				'button_settings_is_on1'                   => $the_options['button_settings_is_on1'],
 				'button_settings_text1'                    => $the_options['button_settings_text1'],
-				'button_settings_link_color1'              => $the_options['button_settings_link_color1'] ?? '#ffffff',
-				'button_settings_as_button1'               => $the_options['button_settings_as_button1'],
-				'button_settings_button_color1'            => $the_options['button_settings_button_color1'] ?? '#333333',
-				'button_settings_button_border_style1'     => $the_options['button_settings_button_border_style1'] ?? 'none',
-				'button_settings_button_border_color1'     => $the_options['button_settings_button_border_color1'] ?? '#333333',
+				'button_settings_link_color1'              => $the_options['button_settings_link_color1'] ?? '#176CAE',
+				'button_settings_as_button1'               => $the_options['button_settings_as_button1'] ?? 'true',
+				'button_settings_button_color1'            => $the_options['button_settings_button_color1'] ?? '#FFFFFF',
+				'button_settings_button_border_style1'     => $the_options['button_settings_button_border_style1'] ?? 'solid',
+				'button_settings_button_border_color1'     => $the_options['button_settings_button_border_color1'] ?? '#176CAE',
 				'button_settings_button_opacity1'          => $the_options['button_settings_button_opacity1'] ?? '1',
 				'button_settings_button_border_width1'     => $the_options['button_settings_button_border_width1'] ?? '0',
 				'button_settings_button_border_radius1'    => $the_options['button_settings_button_border_radius1'] ?? '0',
@@ -10147,14 +10236,15 @@ public function gdpr_support_request_handler() {
 				'cookie_border_color2'                     => $the_options['cookie_border_color2'] ?? '#ffffff',
 				'cookie_bar_border_radius2'                => $the_options['cookie_bar_border_radius2'] ?? '0',
 				'cookie_font2'                             => $the_options['cookie_font2'] ?? 'inherit',
-				'banner_image2'                            => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 ),
+				'banner_image2'                            => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 ),
 
 				'button_readmore_is_on2'                   => $the_options['button_readmore_is_on2'],
 				'button_readmore_text2'                    => $the_options['button_readmore_text2'] ?? 'Read More',
 				'button_readmore_link_color2'              => $the_options['button_readmore_link_color2'] ?? '#359bf5',
-				'button_readmore_as_button2'               => $the_options['button_readmore_as_button2'],
+				'button_readmore_as_button2'               => $the_options['button_readmore_as_button2'] ?? 'true',
 				'button_readmore_url_type2'                => $the_options['button_readmore_url_type2'],
 				'button_readmore_page2'                    => $the_options['button_readmore_page2'] ?? '0',
+				'button_readmore_url2'                      => $the_options['button_readmore_url2'] ?? '#',
 				'button_readmore_wp_page2'                 => $the_options['button_readmore_wp_page2'],
 				'button_readmore_new_win2'                 => $the_options['button_readmore_new_win2'],
 				'button_readmore_button_color2'            => $the_options['button_readmore_button_color2'] ?? '#000000',
@@ -10174,11 +10264,13 @@ public function gdpr_support_request_handler() {
 				'button_accept_is_on2'                     => $the_options['button_accept_is_on2'],
 				'button_accept_text2'                      => $the_options['button_accept_text2'] ?? 'Accept',
 				'button_accept_link_color2'                => $the_options['button_accept_link_color2'] ?? '#ffffff',
-				'button_accept_as_button2'                 => $the_options['button_accept_as_button2'],
+				'button_accept_as_button2'                 => $the_options['button_accept_as_button2'] ?? 'true',
 				'button_accept_action2'                    => $the_options['button_accept_action2'] ?? '#cookie_action_close_header',
-				'button_accept_button_color2'              => $the_options['button_accept_button_color2'] ?? '#18a300',
-				'button_accept_button_border_style2'       => $the_options['button_accept_button_border_style2'] ?? 'none',
-				'button_accept_button_border_color2'       => $the_options['button_accept_button_border_color2'] ?? '#18a300',
+				'button_accept_url2'					   => $the_options['button_accept_url2'] ?? '#',
+				'button_accept_new_win2'				   => $the_options['button_accept_new_win2'] ?? 'false',
+				'button_accept_button_color2'              => $the_options['button_accept_button_color2'] ?? '#176CAE',
+				'button_accept_button_border_style2'       => $the_options['button_accept_button_border_style2'] ?? 'solid',
+				'button_accept_button_border_color2'       => $the_options['button_accept_button_border_color2'] ?? '#176CAE',
 				'button_accept_button_opacity2'            => $the_options['button_accept_button_opacity2'] ?? '1',
 				'button_accept_button_border_width2'       => $the_options['button_accept_button_border_width2'] ?? '0',
 				'button_accept_button_border_radius2'      => $the_options['button_accept_button_border_radius2'] ?? '0',
@@ -10186,34 +10278,38 @@ public function gdpr_support_request_handler() {
 				'button_accept_all_is_on2'                 => $the_options['button_accept_all_is_on2'],
 				'button_accept_all_text2'                  => $the_options['button_accept_all_text2'] ?? 'Accept All',
 				'button_accept_all_link_color2'            => $the_options['button_accept_all_link_color2'] ?? '#ffffff',
-				'button_accept_all_as_button2'             => $the_options['button_accept_all_as_button2'],
+				'button_accept_all_as_button2'             => $the_options['button_accept_all_as_button2'] ?? 'true',
 				'button_accept_all_action2'                => $the_options['button_accept_all_action2'] ?? '#cookie_action_close_header' ?? '#cookie_action_close_header',
-				'button_accept_all_button_color2'          => $the_options['button_accept_all_button_color2'] ?? '#18a300',
-				'button_accept_all_btn_border_style2'      => $the_options['button_accept_all_btn_border_style2'] ?? 'none',
-				'button_accept_all_btn_border_color2'      => $the_options['button_accept_all_btn_border_color2'] ?? '#18a300',
+				'button_accept_all_url2'				   => $the_options['button_accept_all_url2'] ?? '#',
+				'button_accept_all_new_win2'			   => $the_options['button_accept_all_new_win2'] ?? 'false',
+				'button_accept_all_button_color2'          => $the_options['button_accept_all_button_color2'] ?? '#176CAE',
+				'button_accept_all_btn_border_style2'      => $the_options['button_accept_all_btn_border_style2'] ?? 'solid',
+				'button_accept_all_btn_border_color2'      => $the_options['button_accept_all_btn_border_color2'] ?? '#176CAE',
 				'button_accept_all_btn_opacity2'           => $the_options['button_accept_all_btn_opacity2'] ?? '1',
 				'button_accept_all_btn_border_width2'      => $the_options['button_accept_all_btn_border_width2'] ?? '0',
 				'button_accept_all_btn_border_radius2'     => $the_options['button_accept_all_btn_border_radius2'] ?? '0',
 
 				'button_decline_is_on2'                    => $the_options['button_decline_is_on2'],
 				'button_decline_text2'                     => $the_options['button_decline_text2'] ?? 'Decline',
-				'button_decline_link_color2'               => $the_options['button_decline_link_color2'] ?? '#ffffff',
-				'button_decline_as_button2'                => $the_options['button_decline_as_button2'],
+				'button_decline_link_color2'               => $the_options['button_decline_link_color2'] ?? '#176CAE',
+				'button_decline_as_button2'                => $the_options['button_decline_as_button2'] ?? 'true',
 				'button_decline_action2'                   => $the_options['button_decline_action2'] ?? '#cookie_action_close_header_reject',
-				'button_decline_button_color2'             => $the_options['button_decline_button_color2'] ?? '#333333',
-				'button_decline_button_border_style2'      => $the_options['button_decline_button_border_style2'] ?? 'none',
-				'button_decline_button_border_color2'      => $the_options['button_decline_button_border_color2'] ?? '#333333',
+				'button_decline_url2'					   => $the_options['button_decline_url2'] ?? '#',
+				'button_decline_new_win2'				   => $the_options['button_decline_new_win2'] ?? 'false',
+				'button_decline_button_color2'             => $the_options['button_decline_button_color2'] ?? '#FFFFFF',
+				'button_decline_button_border_style2'      => $the_options['button_decline_button_border_style2'] ?? 'solid',
+				'button_decline_button_border_color2'      => $the_options['button_decline_button_border_color2'] ?? '#176CAE',
 				'button_decline_button_opacity2'           => $the_options['button_decline_button_opacity2'] ?? '1',
 				'button_decline_button_border_width2'      => $the_options['button_decline_button_border_width2'] ?? '0',
 				'button_decline_button_border_radius2'     => $the_options['button_decline_button_border_radius2'] ?? '0',
 
 				'button_settings_is_on2'                   => $the_options['button_settings_is_on2'],
 				'button_settings_text2'                    => $the_options['button_settings_text2'],
-				'button_settings_link_color2'              => $the_options['button_settings_link_color2'] ?? '#ffffff',
-				'button_settings_as_button2'               => $the_options['button_settings_as_button2'],
-				'button_settings_button_color2'            => $the_options['button_settings_button_color2'] ?? '#333333',
-				'button_settings_button_border_style2'     => $the_options['button_settings_button_border_style2'] ?? 'none',
-				'button_settings_button_border_color2'     => $the_options['button_settings_button_border_color2'] ?? '#333333',
+				'button_settings_link_color2'              => $the_options['button_settings_link_color2'] ?? '#176CAE',
+				'button_settings_as_button2'               => $the_options['button_settings_as_button2'] ?? 'true',
+				'button_settings_button_color2'            => $the_options['button_settings_button_color2'] ?? '#FFFFFF',
+				'button_settings_button_border_style2'     => $the_options['button_settings_button_border_style2'] ?? 'solid',
+				'button_settings_button_border_color2'     => $the_options['button_settings_button_border_color2'] ?? '#176CAE',
 				'button_settings_button_opacity2'          => $the_options['button_settings_button_opacity2'] ?? '1',
 				'button_settings_button_border_width2'     => $the_options['button_settings_button_border_width2'] ?? '0',
 				'button_settings_button_border_radius2'    => $the_options['button_settings_button_border_radius2'] ?? '0',
@@ -10233,13 +10329,14 @@ public function gdpr_support_request_handler() {
 				'button_readmore_is_on'                    => $the_options['button_readmore_is_on'],
 				'button_readmore_text'                     => $the_options['button_readmore_text'] ?? 'Read More',
 				'button_readmore_link_color'               => $the_options['button_readmore_link_color'] ?? '#359bf5',
-				'button_readmore_as_button'                => $the_options['button_readmore_as_button'],
+				'button_readmore_as_button'                => $the_options['button_readmore_as_button'] ?? 'true',
 				'button_readmore_url_type'                 => $the_options['button_readmore_url_type'],
 				'button_readmore_page'                     => $the_options['button_readmore_page'] ?? '0',
 				'button_readmore_wp_page'                  => $the_options['button_readmore_wp_page'],
 				'button_readmore_new_win'                  => $the_options['button_readmore_new_win'],
-				'button_readmore_button_color'             => $the_options['button_readmore_button_color'] ?? '#000000',
-				'button_readmore_button_border_style'      => $the_options['button_readmore_button_border_style'] ?? 'solid',
+				'button_readmore_url'                      => $the_options['button_readmore_url'] ?? '#',
+				'button_readmore_button_color'			   => $the_options['button_readmore_button_color'] ?? '#ffffff',
+				'button_readmore_button_border_style'	   => $the_options['button_readmore_button_border_style'] ?? 'solid',
 				'button_readmore_button_border_color'      => $the_options['button_readmore_button_border_color'] ?? '#000000',
 				'button_readmore_button_opacity'           => $the_options['button_readmore_button_opacity'] ?? '1',
 				'button_readmore_button_border_width'      => $the_options['button_readmore_button_border_width'] ?? '0',
@@ -10255,11 +10352,13 @@ public function gdpr_support_request_handler() {
 				'button_accept_is_on'                      => $the_options['button_accept_is_on'],
 				'button_accept_text'                       => $the_options['button_accept_text'] ?? 'Accept',
 				'button_accept_link_color'                 => $the_options['button_accept_link_color'] ?? '#ffffff',
-				'button_accept_as_button'                  => $the_options['button_accept_as_button'],
+				'button_accept_as_button'                  => $the_options['button_accept_as_button'] ?? 'true',
 				'button_accept_action'                     => $the_options['button_accept_action'] ?? '#cookie_action_close_header',
-				'button_accept_button_color'               => $the_options['button_accept_button_color'] ?? '#18a300',
-				'button_accept_button_border_style'        => $the_options['button_accept_button_border_style'] ?? 'none',
-				'button_accept_button_border_color'        => $the_options['button_accept_button_border_color'] ?? '#18a300',
+				'button_accept_url'						   => $the_options['button_accept_url'] ?? '#',
+				'button_accept_new_win'					   => $the_options['button_accept_new_win'] ?? 'false',
+				'button_accept_button_color'               => $the_options['button_accept_button_color'] ?? '#176CAE',
+				'button_accept_button_border_style'        => $the_options['button_accept_button_border_style'] ?? 'solid',
+				'button_accept_button_border_color'        => $the_options['button_accept_button_border_color'] ?? '#176CAE',
 				'button_accept_button_opacity'             => $the_options['button_accept_button_opacity'] ?? '1',
 				'button_accept_button_border_width'        => $the_options['button_accept_button_border_width'] ?? '0',
 				'button_accept_button_border_radius'       => $the_options['button_accept_button_border_radius'] ?? '0',
@@ -10267,34 +10366,38 @@ public function gdpr_support_request_handler() {
 				'button_accept_all_is_on'                  => $the_options['button_accept_all_is_on'],
 				'button_accept_all_text'                   => $the_options['button_accept_all_text'] ?? 'Accept All',
 				'button_accept_all_link_color'             => $the_options['button_accept_all_link_color'] ?? '#ffffff',
-				'button_accept_all_as_button'              => $the_options['button_accept_all_as_button'],
+				'button_accept_all_as_button'              => $the_options['button_accept_all_as_button'] ?? 'true',
 				'button_accept_all_action'                 => $the_options['button_accept_all_action'] ?? '#cookie_action_close_header' ?? '#cookie_action_close_header',
-				'button_accept_all_button_color'           => $the_options['button_accept_all_button_color'] ?? '#18a300',
-				'button_accept_all_btn_border_style'       => $the_options['button_accept_all_btn_border_style'] ?? 'none',
-				'button_accept_all_btn_border_color'       => $the_options['button_accept_all_btn_border_color'] ?? '#18a300',
+				'button_accept_all_button_color'           => $the_options['button_accept_all_button_color'] ?? '#176CAE',
+				'button_accept_all_url'					   => $the_options['button_accept_all_url'] ?? '#',
+				'button_accept_all_new_win'				   => $the_options['button_accept_all_new_win'] ?? 'false',
+				'button_accept_all_btn_border_style'       => $the_options['button_accept_all_btn_border_style'] ?? 'solid',
+				'button_accept_all_btn_border_color'       => $the_options['button_accept_all_btn_border_color'] ?? '#176CAE',
 				'button_accept_all_btn_opacity'            => $the_options['button_accept_all_btn_opacity'] ?? '1',
 				'button_accept_all_btn_border_width'       => $the_options['button_accept_all_btn_border_width'] ?? '0',
 				'button_accept_all_btn_border_radius'      => $the_options['button_accept_all_btn_border_radius'] ?? '0',
 
 				'button_decline_is_on'                     => $the_options['button_decline_is_on'],
 				'button_decline_text'                      => $the_options['button_decline_text'] ?? 'Decline',
-				'button_decline_link_color'                => $the_options['button_decline_link_color'] ?? '#ffffff',
-				'button_decline_as_button'                 => $the_options['button_decline_as_button'],
+				'button_decline_link_color'                => $the_options['button_decline_link_color'] ?? '#176CAE',
+				'button_decline_as_button'                 => $the_options['button_decline_as_button'] ?? 'true',
 				'button_decline_action'                    => $the_options['button_decline_action'] ?? '#cookie_action_close_header_reject',
-				'button_decline_button_color'              => $the_options['button_decline_button_color'] ?? '#333333',
-				'button_decline_button_border_style'       => $the_options['button_decline_button_border_style'] ?? 'none',
-				'button_decline_button_border_color'       => $the_options['button_decline_button_border_color'] ?? '#333333',
+				'button_decline_url'					   => $the_options['button_decline_url'] ?? '#',
+				'button_decline_new_win'				   => $the_options['button_decline_new_win'] ?? 'false',
+				'button_decline_button_color'              => $the_options['button_decline_button_color'] ?? '#FFFFFF',
+				'button_decline_button_border_style'       => $the_options['button_decline_button_border_style'] ?? 'solid',
+				'button_decline_button_border_color'       => $the_options['button_decline_button_border_color'] ?? '#176CAE',
 				'button_decline_button_opacity'            => $the_options['button_decline_button_opacity'] ?? '1',
 				'button_decline_button_border_width'       => $the_options['button_decline_button_border_width'] ?? '0',
 				'button_decline_button_border_radius'      => $the_options['button_decline_button_border_radius'] ?? '0',
 
 				'button_settings_is_on'                    => $the_options['button_settings_is_on'],
 				'button_settings_text'                     => $the_options['button_settings_text'],
-				'button_settings_link_color'               => $the_options['button_settings_link_color'] ?? '#ffffff',
-				'button_settings_as_button'                => $the_options['button_settings_as_button'],
-				'button_settings_button_color'             => $the_options['button_settings_button_color'] ?? '#333333',
-				'button_settings_button_border_style'      => $the_options['button_settings_button_border_style'] ?? 'none',
-				'button_settings_button_border_color'      => $the_options['button_settings_button_border_color'] ?? '#333333',
+				'button_settings_link_color'               => $the_options['button_settings_link_color'] ?? '#176CAE',
+				'button_settings_as_button'                => $the_options['button_settings_as_button'] ?? 'true',
+				'button_settings_button_color'             => $the_options['button_settings_button_color'] ?? '#FFFFFF',
+				'button_settings_button_border_style'      => $the_options['button_settings_button_border_style'] ?? 'solid',
+				'button_settings_button_border_color'      => $the_options['button_settings_button_border_color'] ?? '#176CAE',
 				'button_settings_button_opacity'           => $the_options['button_settings_button_opacity'] ?? '1',
 				'button_settings_button_border_width'      => $the_options['button_settings_button_border_width'] ?? '0',
 				'button_settings_button_border_radius'     => $the_options['button_settings_button_border_radius'] ?? '0',
@@ -10303,25 +10406,25 @@ public function gdpr_support_request_handler() {
 
 				// CCPA.
 				'button_confirm_text'                      => $the_options['button_confirm_text'] ?? 'Confirm',
-				'button_confirm_link_color'                => $the_options['button_confirm_link_color'] ?? '#ffffff',
-				'button_confirm_button_color'              => $the_options['button_confirm_button_color'] ?? '#18a300',
-				'button_confirm_button_border_style'       => $the_options['button_confirm_button_border_style'] ?? 'none',
-				'button_confirm_button_border_color'       => $the_options['button_confirm_button_border_color'] ?? '#18a300',
+				'button_confirm_link_color'                => $the_options['button_confirm_link_color'] ?? '#176CAE',
+				'button_confirm_button_color'              => $the_options['button_confirm_button_color'] ?? '#FFFFFF',
+				'button_confirm_button_border_style'       => $the_options['button_confirm_button_border_style'] ?? 'solid',
+				'button_confirm_button_border_color'       => $the_options['button_confirm_button_border_color'] ?? '#176CAE',
 				'button_confirm_button_opacity'            => $the_options['button_confirm_button_opacity'] ?? '1',
 				'button_confirm_button_border_width'       => $the_options['button_confirm_button_border_width'] ?? '0',
 				'button_confirm_button_border_radius'      => $the_options['button_confirm_button_border_radius'] ?? '0',
 
 				'button_cancel_text'                       => $the_options['button_cancel_text'] ?? 'Cancel',
-				'button_cancel_link_color'                 => $the_options['button_cancel_link_color'] ?? '#ffffff',
-				'button_cancel_button_color'               => $the_options['button_cancel_button_color'] ?? '#333333',
-				'button_cancel_button_border_style'        => $the_options['button_cancel_button_border_style'] ?? 'none',
-				'button_cancel_button_border_color'        => $the_options['button_cancel_button_border_color'] ?? '#333333',
+				'button_cancel_link_color'                 => $the_options['button_cancel_link_color'] ?? '#176CAE',
+				'button_cancel_button_color'               => $the_options['button_cancel_button_color'] ?? '#FFFFFF',
+				'button_cancel_button_border_style'        => $the_options['button_cancel_button_border_style'] ?? 'solid',
+				'button_cancel_button_border_color'        => $the_options['button_cancel_button_border_color'] ?? '#176CAE',
 				'button_cancel_button_opacity'             => $the_options['button_cancel_button_opacity'] ?? '1',
 				'button_cancel_button_border_width'        => $the_options['button_cancel_button_border_width'] ?? '0',
 				'button_cancel_button_border_radius'       => $the_options['button_cancel_button_border_radius'] ?? '0',
 
 				'button_donotsell_text'                    => $the_options['button_donotsell_text'] ?? 'Do Not Sell My Personal Information',
-				'button_donotsell_link_color'              => $the_options['button_donotsell_link_color'] ?? '#359bf5',
+				'button_donotsell_link_color'              => $the_options['button_donotsell_link_color'] ?? '#176CAE',
 
 				// GDPR and CCPA (multiple legislation).
 				// GDPR:
@@ -10336,14 +10439,31 @@ public function gdpr_support_request_handler() {
 				'banner_image_ml'                          => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1 ),
 
 				// CCPA:
+				'multiple_legislation_cookie_bar_color2'   => $the_options['multiple_legislation_cookie_bar_color2'] ?? '#ffffff',
+				'multiple_legislation_cookie_bar_opacity2' => $the_options['multiple_legislation_cookie_bar_opacity2'] ?? '1',
+				'multiple_legislation_cookie_text_color2'  => $the_options['multiple_legislation_cookie_text_color2'] ?? '#000000',
+				'multiple_legislation_border_style2'       => $the_options['multiple_legislation_border_style2'] ?? 'none',
+				'multiple_legislation_cookie_bar_border_width2' => $the_options['multiple_legislation_cookie_bar_border_width2'] ?? '0',
+				'multiple_legislation_cookie_border_color2' => $the_options['multiple_legislation_cookie_border_color2'] ?? '#ffffff',
+				'multiple_legislation_cookie_bar_border_radius2' => $the_options['multiple_legislation_cookie_bar_border_radius2'] ?? '0',
+				'multiple_legislation_cookie_font2'        => $the_options['multiple_legislation_cookie_font2'] ?? 'inherit',
 				'button_confirm_text1'                     => $the_options['button_confirm_text1'] ?? 'Confirm',
 				'button_confirm_link_color1'               => $the_options['button_confirm_link_color1'] ?? '#ffffff',
-				'button_confirm_button_color1'             => $the_options['button_confirm_button_color1'] ?? '#18a300',
+				'button_confirm_button_color1'             => $the_options['button_confirm_button_color1'] ?? '#176CAE',
 				'button_confirm_button_border_style1'      => $the_options['button_confirm_button_border_style1'] ?? 'none',
-				'button_confirm_button_border_color1'      => $the_options['button_confirm_button_border_color1'] ?? '#18a300',
+				'button_confirm_button_border_color1'      => $the_options['button_confirm_button_border_color1'] ?? '#176CAE',
 				'button_confirm_button_opacity1'           => $the_options['button_confirm_button_opacity1'] ?? '1',
 				'button_confirm_button_border_width1'      => $the_options['button_confirm_button_border_width1'] ?? '0',
 				'button_confirm_button_border_radius1'     => $the_options['button_confirm_button_border_radius1'] ?? '0',
+
+				'button_confirm_text2'                     => $the_options['button_confirm_text2'] ?? 'Confirm',
+				'button_confirm_link_color2'               => $the_options['button_confirm_link_color2'] ?? '#ffffff',
+				'button_confirm_button_color2'             => $the_options['button_confirm_button_color2'] ?? '#176CAE',
+				'button_confirm_button_border_style2'      => $the_options['button_confirm_button_border_style2'] ?? 'none',
+				'button_confirm_button_border_color2'      => $the_options['button_confirm_button_border_color2'] ?? '#176CAE',
+				'button_confirm_button_opacity2'           => $the_options['button_confirm_button_opacity2'] ?? '1',
+				'button_confirm_button_border_width2'      => $the_options['button_confirm_button_border_width2'] ?? '0',
+				'button_confirm_button_border_radius2'     => $the_options['button_confirm_button_border_radius2'] ?? '0',
 
 				'button_cancel_text1'                      => $the_options['button_cancel_text1'] ?? 'Cancel',
 				'button_cancel_link_color1'                => $the_options['button_cancel_link_color1'] ?? '#ffffff',
@@ -10351,10 +10471,23 @@ public function gdpr_support_request_handler() {
 				'button_cancel_button_border_style1'       => $the_options['button_cancel_button_border_style1'] ?? 'none',
 				'button_cancel_button_border_color1'       => $the_options['button_cancel_button_border_color1'] ?? '#333333',
 				'button_cancel_button_opacity1'            => $the_options['button_cancel_button_opacity1'] ?? '1',
-				'gdpr-cookie-cancel-border-width1'         => $the_options['gdpr-cookie-cancel-border-width1'] ?? '0',
+				'button_cancel_button_border_width1'       => $the_options['button_cancel_button_border_width1'] ?? '0',
 				'button_cancel_button_border_radius1'      => $the_options['button_cancel_button_border_radius1'] ?? '0',
+
+				'button_cancel_text2'                      => $the_options['button_cancel_text2'] ?? 'Cancel',
+				'button_cancel_link_color2'                => $the_options['button_cancel_link_color2'] ?? '#ffffff',
+				'button_cancel_button_color2'              => $the_options['button_cancel_button_color2'] ?? '#333333',
+				'button_cancel_button_border_style2'       => $the_options['button_cancel_button_border_style2'] ?? 'none',
+				'button_cancel_button_border_color2'       => $the_options['button_cancel_button_border_color2'] ?? '#333333',
+				'button_cancel_button_opacity2'            => $the_options['button_cancel_button_opacity2'] ?? '1',
+				'button_cancel_button_border_width2'       => $the_options['button_cancel_button_border_width2'] ?? '0',
+				'button_cancel_button_border_radius2'      => $the_options['button_cancel_button_border_radius2'] ?? '0',
+				
 				'button_donotsell_text1'                   => $the_options['button_donotsell_text1'] ?? 'Do Not Sell My Personal Information',
-				'button_donotsell_link_color1'             => $the_options['button_donotsell_link_color1'] ?? '#359bf5',
+				'button_donotsell_link_color1'             => $the_options['button_donotsell_link_color1'] ?? '#176CAE',
+
+				'button_donotsell_text2'                   => $the_options['button_donotsell_text2'] ?? 'Do Not Sell My Personal Information',
+				'button_donotsell_link_color2'             => $the_options['button_donotsell_link_color2'] ?? '#176CAE',
 				// Cookie Manager.
 				'custom_cookies_list'                      => $custom_cookies_list,
 				'cookies_categories'                       => $cookies_categories,
@@ -10373,8 +10506,220 @@ public function gdpr_support_request_handler() {
 				'header_dependency'                        => $the_options['header_dependency'] ?? '',
 				'footer_dependency'                        => $the_options['footer_dependency'] ?? '',
 				'whitelist_scripts'                        => get_option( 'wpl_options_custom-scripts' )['whitelist_script'],
+
+				// AB Testing
+				'ab_testing_enabled'						=> array_key_exists( 'ab_testing_enabled', $ab_options ) ? $ab_options['ab_testing_enabled'] : false,
+				'ab_testing_period'							=> array_key_exists( 'ab_testing_period', $ab_options ) ? $ab_options['ab_testing_period'] : 30,
+				'ab_testing_auto'							=> array_key_exists( 'ab_testing_auto', $ab_options ) ? $ab_options['ab_testing_auto'] : false,
+				'positive_percentage1'						=> $positive_percentage1,
+				'positive_percentage2'						=> $positive_percentage2,
+				'negative_percentage1'						=> $negative_percentage1,
+				'negative_percentage2'						=> $negative_percentage2,
+				'banner_performance1'						=> $banner1_performance,
+				'banner_performance2'						=> $banner2_performance,
+				'remaining_days'							=> isset($remaining_days) ? $remaining_days : 0,
+				'remaining_hours'							=> isset($remaining_hours) ? $remaining_hours : 0,
 			)
 		);
+	}
+
+	public function wplp_set_default_ab_banner_for_react_app( WP_REST_Request $request ) {
+		error_log("DODODO setting up default AB banner");
+
+		$bannerChoice = $request->get_param( 'bannerChoice' );
+		if ( empty( $bannerChoice ) ) {
+			return new WP_REST_Response(
+				array(
+					'status'	=> 'error',
+					'message'	=> 'Banner Choice not found',
+				),
+				400
+			);
+		}
+
+		if ( $bannerChoice === 1 || $bannerChoice === "1" )
+			$this->set_default_banner_1();
+		else if ( $bannerChoice === 2 || $bannerChoice === "2" )
+			$this->set_default_banner_2();
+		else {
+			return new WP_REST_Response(
+				array(
+					'status'	=> 'error',
+					'message'	=> 'Invalid Banner Choice',
+				),
+				400
+			);
+		}
+
+		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
+		return rest_ensure_response(
+			array(
+				// Cookie Bar
+				'background'                               => $the_options['background'],
+				'opacity'                                  => $the_options['opacity'],
+				'text'                                     => $the_options['text'],
+				'background_border_style'                  => $the_options['background_border_style'],
+				'background_border_width'                  => $the_options['background_border_width'],
+				'background_border_color'                  => $the_options['background_border_color'],
+				'background_border_radius'                 => $the_options['background_border_radius'],
+				'font_family'                              => $the_options['font_family'],
+				'banner_image'                             => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD ),
+
+				// Read More
+				'button_readmore_is_on'                    => $the_options['button_readmore_is_on'],
+				'button_readmore_text'                     => $the_options['button_readmore_text'] ?? 'Read More',
+				'button_readmore_link_color'               => $the_options['button_readmore_link_color'] ?? '#359bf5',
+				'button_readmore_as_button'                => $the_options['button_readmore_as_button'] ?? 'true',
+				'button_readmore_url_type'                 => $the_options['button_readmore_url_type'],
+				'button_readmore_page'                     => $the_options['button_readmore_page'] ?? '0',
+				'button_readmore_wp_page'                  => $the_options['button_readmore_wp_page'],
+				'button_readmore_new_win'                  => $the_options['button_readmore_new_win'],
+				'button_readmore_url'                      => $the_options['button_readmore_url'] ?? '#',
+				'button_readmore_button_color'			   => $the_options['button_readmore_button_color'] ?? '#ffffff',
+				'button_readmore_button_border_style'	   => $the_options['button_readmore_button_border_style'] ?? 'solid',
+				'button_readmore_button_border_color'      => $the_options['button_readmore_button_border_color'] ?? '#000000',
+				'button_readmore_button_opacity'           => $the_options['button_readmore_button_opacity'] ?? '1',
+				'button_readmore_button_border_width'      => $the_options['button_readmore_button_border_width'] ?? '0',
+				'button_readmore_button_border_radius'     => $the_options['button_readmore_button_border_radius'] ?? '0',
+
+				// Revoke Consent
+				'show_again'                               => $the_options['show_again'],
+				'show_again_text'                          => $the_options['show_again_text'] ?? 'Cookie Settings',
+				'button_revoke_consent_text_color'         => $the_options['button_revoke_consent_text_color'] ?? '',
+				'button_revoke_consent_background_color'   => $the_options['button_revoke_consent_background_color'] ?? '',
+				'show_again_position'                      => $the_options['show_again_position'] ?? 'right',
+				'show_again_margin'                        => $the_options['show_again_margin'] ?? '5',
+
+				// Accept
+				'button_accept_is_on'                      => $the_options['button_accept_is_on'],
+				'button_accept_text'                       => $the_options['button_accept_text'] ?? 'Accept',
+				'button_accept_link_color'                 => $the_options['button_accept_link_color'] ?? '#ffffff',
+				'button_accept_as_button'                  => $the_options['button_accept_as_button'] ?? 'true',
+				'button_accept_action'                     => $the_options['button_accept_action'] ?? '#cookie_action_close_header',
+				'button_accept_url'						   => $the_options['button_accept_url'] ?? '#',
+				'button_accept_new_win'					   => $the_options['button_accept_new_win'] ?? 'false',
+				'button_accept_button_color'               => $the_options['button_accept_button_color'] ?? '#176CAE',
+				'button_accept_button_border_style'        => $the_options['button_accept_button_border_style'] ?? 'solid',
+				'button_accept_button_border_color'        => $the_options['button_accept_button_border_color'] ?? '#176CAE',
+				'button_accept_button_opacity'             => $the_options['button_accept_button_opacity'] ?? '1',
+				'button_accept_button_border_width'        => $the_options['button_accept_button_border_width'] ?? '0',
+				'button_accept_button_border_radius'       => $the_options['button_accept_button_border_radius'] ?? '0',
+
+				// Decline
+				'button_decline_is_on'                     => $the_options['button_decline_is_on'],
+				'button_decline_text'                      => $the_options['button_decline_text'] ?? 'Decline',
+				'button_decline_link_color'                => $the_options['button_decline_link_color'] ?? '#176CAE',
+				'button_decline_as_button'                 => $the_options['button_decline_as_button'] ?? 'true',
+				'button_decline_action'                    => $the_options['button_decline_action'] ?? '#cookie_action_close_header_reject',
+				'button_decline_url'					   => $the_options['button_decline_url'] ?? '#',
+				'button_decline_new_win'				   => $the_options['button_decline_new_win'] ?? 'false',
+				'button_decline_button_color'              => $the_options['button_decline_button_color'] ?? '#FFFFFF',
+				'button_decline_button_border_style'       => $the_options['button_decline_button_border_style'] ?? 'solid',
+				'button_decline_button_border_color'       => $the_options['button_decline_button_border_color'] ?? '#176CAE',
+				'button_decline_button_opacity'            => $the_options['button_decline_button_opacity'] ?? '1',
+				'button_decline_button_border_width'       => $the_options['button_decline_button_border_width'] ?? '0',
+				'button_decline_button_border_radius'      => $the_options['button_decline_button_border_radius'] ?? '0',
+
+				// Settings
+				'button_settings_is_on'                    => $the_options['button_settings_is_on'],
+				'button_settings_text'                     => $the_options['button_settings_text'],
+				'button_settings_link_color'               => $the_options['button_settings_link_color'] ?? '#176CAE',
+				'button_settings_as_button'                => $the_options['button_settings_as_button'] ?? 'true',
+				'button_settings_button_color'             => $the_options['button_settings_button_color'] ?? '#FFFFFF',
+				'button_settings_button_border_style'      => $the_options['button_settings_button_border_style'] ?? 'solid',
+				'button_settings_button_border_color'      => $the_options['button_settings_button_border_color'] ?? '#176CAE',
+				'button_settings_button_opacity'           => $the_options['button_settings_button_opacity'] ?? '1',
+				'button_settings_button_border_width'      => $the_options['button_settings_button_border_width'] ?? '0',
+				'button_settings_button_border_radius'     => $the_options['button_settings_button_border_radius'] ?? '0',
+				'button_settings_display_cookies'          => $the_options['button_settings_display_cookies'],
+				
+				// Confirm
+				'button_confirm_text'                      => $the_options['button_confirm_text'] ?? 'Confirm',
+				'button_confirm_link_color'                => $the_options['button_confirm_link_color'] ?? '#176CAE',
+				'button_confirm_button_color'              => $the_options['button_confirm_button_color'] ?? '#FFFFFF',
+				'button_confirm_button_border_style'       => $the_options['button_confirm_button_border_style'] ?? 'solid',
+				'button_confirm_button_border_color'       => $the_options['button_confirm_button_border_color'] ?? '#176CAE',
+				'button_confirm_button_opacity'            => $the_options['button_confirm_button_opacity'] ?? '1',
+				'button_confirm_button_border_width'       => $the_options['button_confirm_button_border_width'] ?? '0',
+				'button_confirm_button_border_radius'      => $the_options['button_confirm_button_border_radius'] ?? '0',
+
+				// Cancel
+				'button_cancel_text'                       => $the_options['button_cancel_text'] ?? 'Cancel',
+				'button_cancel_link_color'                 => $the_options['button_cancel_link_color'] ?? '#176CAE',
+				'button_cancel_button_color'               => $the_options['button_cancel_button_color'] ?? '#FFFFFF',
+				'button_cancel_button_border_style'        => $the_options['button_cancel_button_border_style'] ?? 'solid',
+				'button_cancel_button_border_color'        => $the_options['button_cancel_button_border_color'] ?? '#176CAE',
+				'button_cancel_button_opacity'             => $the_options['button_cancel_button_opacity'] ?? '1',
+				'button_cancel_button_border_width'        => $the_options['button_cancel_button_border_width'] ?? '0',
+				'button_cancel_button_border_radius'       => $the_options['button_cancel_button_border_radius'] ?? '0',
+
+				// Opt-out
+				'button_donotsell_text'                    => $the_options['button_donotsell_text'] ?? 'Do Not Sell My Personal Information',
+				'button_donotsell_link_color'              => $the_options['button_donotsell_link_color'] ?? '#176CAE',
+
+				// Accept All
+				'button_accept_all_is_on'                  => $the_options['button_accept_all_is_on'],
+				'button_accept_all_text'                   => $the_options['button_accept_all_text'] ?? 'Accept All',
+				'button_accept_all_link_color'             => $the_options['button_accept_all_link_color'] ?? '#ffffff',
+				'button_accept_all_as_button'              => $the_options['button_accept_all_as_button'] ?? 'true',
+				'button_accept_all_action'                 => $the_options['button_accept_all_action'] ?? '#cookie_action_close_header' ?? '#cookie_action_close_header',
+				'button_accept_all_button_color'           => $the_options['button_accept_all_button_color'] ?? '#176CAE',
+				'button_accept_all_url'					   => $the_options['button_accept_all_url'] ?? '#',
+				'button_accept_all_new_win'				   => $the_options['button_accept_all_new_win'] ?? 'false',
+				'button_accept_all_btn_border_style'       => $the_options['button_accept_all_btn_border_style'] ?? 'solid',
+				'button_accept_all_btn_border_color'       => $the_options['button_accept_all_btn_border_color'] ?? '#176CAE',
+				'button_accept_all_btn_opacity'            => $the_options['button_accept_all_btn_opacity'] ?? '1',
+				'button_accept_all_btn_border_width'       => $the_options['button_accept_all_btn_border_width'] ?? '0',
+				'button_accept_all_btn_border_radius'      => $the_options['button_accept_all_btn_border_radius'] ?? '0',
+
+				// AB Testing
+				'ab_testing_enabled'						=> false,
+				'ab_testing_period'							=> 30,
+				'ab_testing_auto'							=> false,
+				'positive_percentage1'						=> 0,
+				'positive_percentage2'						=> 0,
+				'negative_percentage1'						=> 0,
+				'negative_percentage2'						=> 0,
+				'banner_performance1'						=> 0,
+				'banner_performance2'						=> 0,
+				'remaining_days'							=> 0,
+				'remaining_hours'							=> 0,
+			)
+		);
+	}
+
+	public function saas_upload_logo( WP_REST_Request $request ) {
+		error_log("DODODO uploading saas logo.....");
+
+		 $image_base64 = $request->get_param('image_base64');
+    	$file_name    = sanitize_file_name($request->get_param('file_name'));
+		
+    	$upload_dir = wp_upload_dir();
+    	$file_path = $upload_dir['path'] . '/' . $file_name;
+		
+    	$image_data = base64_decode($image_base64);
+    	file_put_contents($file_path, $image_data);
+		
+    	$filetype = wp_check_filetype($file_name);
+		
+    	$attachment = [
+    	    'post_mime_type' => $filetype['type'],
+    	    'post_title'     => pathinfo($file_name, PATHINFO_FILENAME),
+    	    'post_status'    => 'inherit'
+    	];
+	
+    	$attach_id = wp_insert_attachment($attachment, $file_path);
+    	require_once ABSPATH . 'wp-admin/includes/image.php';
+	
+    	wp_update_attachment_metadata(
+    	    $attach_id,
+    	    wp_generate_attachment_metadata($attach_id, $file_path)
+    	);
+	
+    	return [
+    	    'attachment_id' => $attach_id,
+    	    'url' => wp_get_attachment_url($attach_id)
+    	];
 	}
 
 	public function gdpr_schedule_scan( WP_REST_Request $request ) {
