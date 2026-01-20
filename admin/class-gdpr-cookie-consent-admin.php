@@ -8996,6 +8996,16 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 
 		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/translate_text',
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this, 'gdpr_translate_text'),
+				// 'permission_callback' => array($this, 'permission_callback_for_react_app),
+			)
+		);
+
+		register_rest_route(
 			'gdpr/v2', // Namespace
 			'/get_user_dashboard_data', 
 			array(
@@ -9997,6 +10007,437 @@ public function gdpr_support_request_handler() {
     		: [];
 
 		$plan                = $this->settings->get_plan();
+		$show_language_as_options = array(
+			array(
+				'label' => 'Abkhazian',
+				'value'  => 'ab',
+			),
+			array(
+				'label' => 'Afar',
+				'value'  => 'aa',
+			),
+			array(
+				'label' => 'Afrikaans',
+				'value'  => 'af',
+			),
+			array(
+				'label' => 'Albanian',
+				'value'  => 'sq',
+			),
+			array(
+				'label' => 'Amharic',
+				'value'  => 'am',
+			),
+			array(
+				'label' => 'Arabic',
+				'value'  => 'ar',
+			),
+			array(
+				'label' => 'Armenian',
+				'value'  => 'hy',
+			),
+			array(
+				'label' => 'Azerbaijani',
+				'value'  => 'az',
+			),
+			array(
+				'label' => 'Basque',
+				'value'  => 'eu',
+			),
+			array(
+				'label' => 'Belarusian',
+				'value'  => 'be',
+			),
+			array(
+				'label' => 'Bengali',
+				'value'  => 'bn',
+			),
+			array(
+				'label' => 'Bosnian',
+				'value'  => 'bs',
+			),
+			array(
+				'label' => 'Bulgarian',
+				'value'  => 'bg',
+			),
+			array(
+				'label' => 'Catalan',
+				'value'  => 'ca',
+			),
+			array(
+				'label' => 'Corsican',
+				'value'  => 'co',
+			),
+			array(
+				'label' => 'Croatian',
+				'value'  => 'hr',
+			),
+			array(
+				'label' => 'Czech',
+				'value'  => 'cs',
+			),
+			array(
+				'label' => 'Danish',
+				'value'  => 'da',
+			),
+			array(
+				'label' => 'Dutch',
+				'value'  => 'nl',
+			),
+			array(
+				'label' => 'English',
+				'value'  => 'en',
+			),
+			array(
+				'label' => 'Esperanto',
+				'value'  => 'eo',
+			),
+			array(
+				'label' => 'Finnish',
+				'value'  => 'fi',
+			),
+			array(
+				'label' => 'French',
+				'value'  => 'fr',
+			),
+			array(
+				'label' => 'Frisian',
+				'value'  => 'fy',
+			),
+			array(
+				'label' => 'Galician',
+				'value'  => 'gl',
+			),
+			array(
+				'label' => 'Georgian',
+				'value'  => 'ka',
+			),
+			array(
+				'label' => 'German',
+				'value'  => 'de',
+			),
+			array(
+				'label' => 'Greek',
+				'value'  => 'gr',
+			),
+			array(
+				'label' => 'Gujarati',
+				'value'  => 'gu',
+			),
+			array(
+				'label' => 'Hausa',
+				'value'  => 'ha',
+			),
+			array(
+				'label' => 'Hebrew',
+				'value'  => 'he',
+			),
+			array(
+				'label' => 'Hindi',
+				'value'  => 'hi',
+			),
+			array(
+				'label' => 'Hungarian',
+				'value'  => 'hu',
+			),
+			array(
+				'label' => 'Icelandic',
+				'value'  => 'is',
+			),
+			array(
+				'label' => 'Igbo',
+				'value'  => 'ig',
+			),
+			array(
+				'label' => 'Indonesian',
+				'value'  => 'id',
+			),
+			array(
+				'label' => 'Irish',
+				'value'  => 'ga',
+			),
+			array(
+				'label' => 'Italian',
+				'value'  => 'it',
+			),
+			array(
+				'label' => 'Japanese',
+				'value'  => 'ja',
+			),
+			array(
+				'label' => 'Kannada',
+				'value'  => 'kn',
+			),
+			array(
+				'label' => 'Kazakh',
+				'value'  => 'kk',
+			),
+			array(
+				'label' => 'Kirghiz',
+				'value'  => 'ky',
+			),
+			array(
+				'label' => 'Korean',
+				'value'  => 'ko',
+			),
+			array(
+				'label' => 'Kurdish',
+				'value'  => 'ku',
+			),
+			array(
+				'label' => 'Laothian',
+				'value'  => 'lo',
+			),
+			array(
+				'label' => 'Latvian',
+				'value'  => 'lv',
+			),
+			array(
+				'label' => 'Luxembourgish',
+				'value'  => 'lb',
+			),
+			array(
+				'label' => 'Macedonian',
+				'value'  => 'mk',
+			),
+			array(
+				'label' => 'Malagasy',
+				'value'  => 'mg',
+			),
+			array(
+				'label' => 'Malay',
+				'value'  => 'ms',
+			),
+			array(
+				'label' => 'Malayalam',
+				'value'  => 'ml',
+			),
+			array(
+				'label' => 'Maltese',
+				'value'  => 'mt',
+			),
+			array(
+				'label' => 'Maori',
+				'value'  => 'mi',
+			),
+			array(
+				'label' => 'Marathi',
+				'value'  => 'mr',
+			),
+			array(
+				'label' => 'Mongolian',
+				'value'  => 'mn',
+			),
+			array(
+				'label' => 'Nepali',
+				'value'  => 'ne',
+			),
+			array(
+				'label' => 'Norwegian',
+				'value'  => 'no',
+			),
+			array(
+				'label' => 'Oriya',
+				'value'  => 'or',
+			),
+			array(
+				'label' => 'Pashto',
+				'value'  => 'ps',
+			),
+			array(
+				'label' => 'Persian',
+				'value'  => 'fa',
+			),
+			array(
+				'label' => 'Polish',
+				'value'  => 'po',
+			),
+			array(
+				'label' => 'Portuguese',
+				'value'  => 'pt',
+			),
+			array(
+				'label' => 'Punjabi',
+				'value'  => 'pa',
+			),
+			array(
+				'label' => 'Romanian',
+				'value'  => 'ro',
+			),
+			array(
+				'label' => 'Russian',
+				'value'  => 'ru',
+			),
+			array(
+				'label' => 'Samoan',
+				'value'  => 'sm',
+			),
+			array(
+				'label' => 'Scots Gaelic',
+				'value'  => 'gd',
+			),
+			array(
+				'label' => 'Sesotho',
+				'value'  => 'st',
+			),
+			array(
+				'label' => 'Shona',
+				'value'  => 'sn',
+			),
+			array(
+				'label' => 'Sindhi',
+				'value'  => 'sd',
+			),
+			array(
+				'label' => 'Singhalese',
+				'value'  => 'si',
+			),
+			array(
+				'label' => 'Slovak',
+				'value'  => 'sk',
+			),
+			array(
+				'label' => 'Slovenian',
+				'value'  => 'sl',
+			),
+			array(
+				'label' => 'Somali',
+				'value'  => 'so',
+			),
+			array(
+				'label' => 'Spanish',
+				'value'  => 'es',
+			),
+			array(
+				'label' => 'Sudanese',
+				'value'  => 'su',
+			),
+			array(
+				'label' => 'Swahili',
+				'value'  => 'sw',
+			),
+			array(
+				'label' => 'Swedish',
+				'value'  => 'sv',
+			),
+			array(
+				'label' => 'Tagalog',
+				'value'  => 'tl',
+			),
+			array(
+				'label' => 'Tajik',
+				'value'  => 'tg',
+			),
+			array(
+				'label' => 'Tamil',
+				'value'  => 'ta',
+			),
+			array(
+				'label' => 'Telugu',
+				'value'  => 'te',
+			),
+			array(
+				'label' => 'Thai',
+				'value'  => 'th',
+			),
+			array(
+				'label' => 'Turkish',
+				'value'  => 'tr',
+			),
+			array(
+				'label' => 'Ukrainian',
+				'value'  => 'uk',
+			),
+			array(
+				'label' => 'Urdu',
+				'value'  => 'ur',
+			),
+			array(
+				'label' => 'Uzbek',
+				'value'  => 'uz',
+			),
+			array(
+				'label' => 'Vietnamese',
+				'value'  => 'vi',
+			),
+			array(
+				'label' => 'Welsh',
+				'value'  => 'cy',
+			),
+			array(
+				'label' => 'Xhosa',
+				'value'  => 'xh',
+			),
+			array(
+				'label' => 'Yiddish',
+				'value'  => 'yi',
+			),
+			array(
+				'label' => 'Yoruba',
+				'value'  => 'yo',
+			),
+			array(
+				'label' => 'Zulu',
+				'value'  => 'zu',
+			),
+			array(
+				'label' => 'Cebuano',
+				'value'  => 'ceb',
+			),
+			array(
+				'label' => 'Chinese (Simplified)',
+				'value'  => 'zh-cn',
+			),
+			array(
+				'label' => 'Chinese (Traditional)',
+				'value'  => 'zh-tw',
+			),
+			array(
+				'label' => 'Estonian',
+				'value'  => 'et',
+			),
+			array(
+				'label' => 'Haitian Creole',
+				'value'  => 'ht',
+			),
+			array(
+				'label' => 'Hawaiian',
+				'value'  => 'haw',
+			),
+			array(
+				'label' => 'Hmong',
+				'value'  => 'hmn',
+			),
+			array(
+				'label' => 'Javanese',
+				'value'  => 'jw',
+			),
+			array(
+				'label' => 'Khmer',
+				'value'  => 'km',
+			),
+			array(
+				'label' => 'Latin',
+				'value'  => 'la',
+			),
+			array(
+				'label' => 'Lithuanian',
+				'value'  => 'lt',
+			),
+			array(
+				'label' => 'Myanmar (Burmese)',
+				'value'  => 'my',
+			),
+			array(
+				'label' => 'Serbian',
+				'value'  => 'sr',
+			),
+			array(
+				'label' => 'Uyghur',
+				'value'  => 'ug',
+			),
+
+		);
 
 		return rest_ensure_response(
 			array(
@@ -10384,6 +10825,9 @@ public function gdpr_support_request_handler() {
 				'header_dependency'                        => $the_options['header_dependency'] ?? '',
 				'footer_dependency'                        => $the_options['footer_dependency'] ?? '',
 				'whitelist_scripts'                        => get_option( 'wpl_options_custom-scripts' )['whitelist_script'],
+
+				'show_language_as_options'				   => $show_language_as_options,
+				'lang_selected'							   => $the_options['lang_selected'],
 			)
 		);
 	}
@@ -10827,6 +11271,150 @@ public function gdpr_support_request_handler() {
 				'status'  => 'success',
 				'message' => 'Banner Generated Successfully!!!',
 				'color'   => $background_color,
+			),
+			200
+		);
+	}
+
+	public function gdpr_translate_text( WP_REST_Request $request ){
+
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
+
+		if ( file_exists( $translations_file ) ) {
+		    $translations = file_get_contents( $translations_file );
+		    $translations = json_decode( $translations, true );
+		}
+
+		// Define an array of text keys to translate.
+		$text_keys_to_translate = array(
+			'dash_notify_message_eprivacy',
+			'dash_notify_message_lgpd',
+			'dash_button_readmore_text',
+			'dash_button_accept_text',
+			'dash_button_accept_all_text',
+			'dash_button_decline_text',
+			'dash_about_message',
+			'dash_about_message_iabtcf',
+			'dash_about_message_lgpd',
+			'dash_notify_message',
+			'dash_notify_message_iabtcf',
+			'dash_button_settings_text',
+			'dash_notify_message_ccpa',
+			'dash_button_donotsell_text',
+			'dash_button_confirm_text',
+			'dash_button_cancel_text',
+			'dash_show_again_text',
+			'dash_optout_text',
+			'gdpr_cookie_category_description_necessary',
+			'gdpr_cookie_category_name_necessary',
+			'gdpr_cookie_category_description_analytics',
+			'gdpr_cookie_category_name_analytics',
+			'gdpr_cookie_category_description_marketing',
+			'gdpr_cookie_category_description_preference',
+			'gdpr_cookie_category_description_unclassified',
+			'gdpr_cookie_category_name_marketing',
+			'gdpr_cookie_category_name_preference',
+			'gdpr_cookie_category_name_unclassified',
+		);
+		$target_language = sanitize_text_field( $request->get_param( 'selected_lang' ) ?? 'en' );   
+		$new_options = [];
+		// Initialize arrays to store translated category descriptions and names.
+		$translated_category_descriptions = array();
+		$translated_category_names        = array();
+		// Loop through the text keys and translate them.
+
+		foreach ( $text_keys_to_translate as $text_key ) {
+			$translated_text                 = $this->translated_text( $text_key, $translations, $target_language );
+			$stripped_string                 = str_replace( 'dash_', '', $text_key );
+			if($text_key === 'dash_button_accept_text' || $text_key === 'dash_button_accept_all_text' || $text_key === 'dash_button_decline_text' || $text_key === 'dash_button_settings_text' || $text_key === 'dash_button_donotsell_text' || $text_key === 'dash_button_confirm_text' || $text_key === 'dash_button_cancel_text' || $text_key === 'dash_show_again_text'){
+				$new_options[ $stripped_string ] = $translated_text;
+			}
+			else if($text_key !== 'dash_about_message_iabtcf' && $text_key !== 'dash_notify_message_iabtcf' && $text_key !== 'dash_about_message' && $text_key !== 'dash_notify_message'){
+			
+				$new_options[ $stripped_string ] = $translated_text;
+			}
+
+			// Check if the current text key is for category description or category name.
+			if ( 'gdpr_cookie_category_description_necessary' === $text_key ) {
+				$translated_category_description_necessary = $translated_text;
+			} elseif ( 'gdpr_cookie_category_description_analytics' === $text_key ) {
+				$translated_category_description_analytics = $translated_text;
+			} elseif ( 'gdpr_cookie_category_description_marketing' === $text_key ) {
+				$translated_category_description_marketing = $translated_text;
+			} elseif ( 'gdpr_cookie_category_description_preference' === $text_key ) {
+				$translated_category_description_preferences = $translated_text;
+			} elseif ( 'gdpr_cookie_category_description_unclassified' === $text_key ) {
+				$translated_category_description_unclassified = $translated_text;
+			} elseif ( 'gdpr_cookie_category_name_analytics' === $text_key ) {
+				$translated_category_name_analytics = $translated_text;
+			} elseif ( 'gdpr_cookie_category_name_marketing' === $text_key ) {
+				$translated_category_name_marketing = $translated_text;
+			} elseif ( 'gdpr_cookie_category_name_necessary' === $text_key ) {
+				$translated_category_name_necessary = $translated_text;
+			} elseif ( 'gdpr_cookie_category_name_preference' === $text_key ) {
+				$translated_category_name_preferences = $translated_text;
+			} elseif ( 'gdpr_cookie_category_name_unclassified' === $text_key ) {
+				$translated_category_name_unclassified = $translated_text;
+			}
+		}
+
+		// non dynaminc text for the cookie settings.
+		global $wpdb;
+
+		$translated_category_names = array(
+			array(
+				'value' => 1,
+				'label' => $translated_category_name_analytics,
+			),
+			array(
+				'value' => 2,
+				'label' => $translated_category_name_marketing,
+			),
+			array(
+				'value' => 3,
+				'label' => $translated_category_name_necessary,
+			),
+			array(
+				'value' => 4,
+				'label' => $translated_category_name_preferences,
+			),
+			array(
+				'value' => 5,
+				'label' => $translated_category_name_unclassified,
+			),
+		);
+		return new WP_REST_Response(
+			array(
+				'status'  => 'success',
+				'message' => 'Translation Successful',
+				'data'	  => array(
+					'notify_message_eprivacy'				=> $new_options['notify_message_eprivacy'],
+					'notify_message_lgpd'					=> $new_options['notify_message_lgpd'],
+					'button_readmore_text'					=> $new_options['button_readmore_text'],
+					'button_accept_text'					=> $new_options['button_accept_text'],
+					'button_accept_all_text'				=> $new_options['button_accept_all_text'],
+					'button_decline_text'					=> $new_options['button_decline_text'],
+					'about_message_lgpd'					=> $new_options['about_message_lgpd'],
+					'button_settings_text'					=> $new_options['button_settings_text'],
+					'notify_message_ccpa'					=> $new_options['notify_message_ccpa'],
+					'button_donotsell_text'					=> $new_options['button_donotsell_text'],
+					'button_confirm_text'					=> $new_options['button_confirm_text'],
+					'button_cancel_text'					=> $new_options['button_cancel_text'],
+					'show_again_text'						=> $new_options['show_again_text'],
+					'optout_text'							=> $new_options['optout_text'],
+					'cookies_categories'                    => $translated_category_names,
+					'buffer_messages'                       => array(
+																	'iab'     => array(
+																		'notify_message' => $this->change_option_language( 'dash_notify_message_iabtcf', $target_language ),
+																		'about_message'  => $this->change_option_language( 'dash_about_message_iabtcf', $target_language ),
+																	),
+																	'non_iab' => array(
+																		'notify_message' => $this->change_option_language( 'dash_notify_message', $target_language ),
+																		'about_message'  => $this->change_option_language( 'dash_about_message', $target_language ),
+																	),
+																),
+				)
 			),
 			200
 		);
