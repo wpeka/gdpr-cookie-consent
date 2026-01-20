@@ -1267,17 +1267,17 @@ class Gdpr_Cookie_Consent_Admin {
 			'request_for_access'        => array(
 				'short' => __( 'Request for access', 'gdpr-cookie-consent' ),
 				'long'  => __( 'Submit a request for access to the data we process about you.', 'gdpr-cookie-consent' ),
-				'slug'  => 'docs/wp-cookie-consent/how-to-guides/what-is-the-right-to-access/',
+				'slug'  => 'docs/wplp-docs/guides/what-is-the-right-to-access/',
 			),
 			'right_to_be_forgotten'     => array(
 				'short' => __( 'Right to be forgotten', 'gdpr-cookie-consent' ),
 				'long'  => __( 'Submit a request for deletion of the data if it is no longer relevant.', 'gdpr-cookie-consent' ),
-				'slug'  => 'docs/wp-cookie-consent/how-to-guides/right-to-be-forgotten/',
+				'slug'  => 'docs/wplp-docs/guides/what-is-the-right-to-be-forgotten/',
 			),
 			'right_to_data_portability' => array(
 				'short' => __( 'Right to data portability', 'gdpr-cookie-consent' ),
 				'long'  => __( 'Submit a request to receive an export file of the data we process about you.', 'gdpr-cookie-consent' ),
-				'slug'  => 'docs/wp-cookie-consent/how-to-guides/right-to-data-portability/',
+				'slug'  => 'docs/wplp-docs/guides/what-is-the-right-to-data-portability/',
 			),
 		);
 		return $options;
