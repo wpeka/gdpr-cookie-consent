@@ -230,6 +230,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		}
 		if ( isset($data['status']) && $data['status'] === 'scanning' ) {
 			update_option( 'gdpr_scanning_action_hash', $hash );
+			set_transient( 'gdpr_scan_in_progress_ttl', 1, 60 * 60 ); //set transient expiry for 60 minutes
 			if ( ! wp_next_scheduled( 'gdpr_check_scan_results_event' ) ) {
 				add_filter( 'cron_schedules', function( $schedules ) {
 					$schedules['every_minute'] = array(
@@ -255,6 +256,26 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	}
 
 	function gdpr_check_scan_results($total_pages) {
+		// Scan timed out - force stop
+		if ( false === get_transient( 'gdpr_scan_in_progress_ttl' ) ) {
+
+			// not completed status in the table --> status => 1
+			global $wpdb;
+			$scan_table = $wpdb->prefix . 'wpl_cookie_scan';
+			$data_arr   = array(
+				'created_at'    => time(),
+				'total_url'     => $total_pages,
+				'total_cookies' => 0,
+				'total_category'=> 0,
+				'status'        => 1,
+			);
+			$wpdb->insert( $scan_table, $data_arr );
+			
+			delete_option( 'gdpr_scanning_action_hash' );
+			wp_clear_scheduled_hook( 'gdpr_check_scan_results_event', [ $total_pages ]);
+
+			return;
+		}
 
 		if ( ! function_exists( 'post_exists' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/post.php' );
@@ -428,6 +449,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			}
 			wp_clear_scheduled_hook( 'gdpr_check_scan_results_event', [ $total_pages ]  );
 			delete_option( 'gdpr_scanning_action_hash' );
+			delete_transient( 'gdpr_scan_in_progress_ttl' );
 
 			$scan_limit     = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
 			if ( false === $scan_limit ) {
