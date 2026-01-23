@@ -8786,6 +8786,15 @@ class Gdpr_Cookie_Consent_Admin {
 				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
+		register_rest_route(
+			'wplp-react-gdpr/v1',
+			'/resync-sites', 
+			array(
+				'methods'  => 'POST',
+				'callback' => array( $this,'wplp_resync_all_sites'),
+				'permission_callback' => array($this, 'permission_callback_for_react_app'),
+			)
+		);
 
 		register_rest_route(
 			'gdpr/v2', // Namespace
@@ -9680,6 +9689,55 @@ public function gdpr_support_request_handler() {
 				'success' => true,
 				'data' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD )
 			)
+		);
+	}
+
+	function wplp_resync_all_sites( WP_REST_Request $request ) {
+		
+		$payload = $request->get_json_params();
+		if (
+			empty( $payload['response'] ) ||
+			empty( $payload['response']['account'] ) ||
+			empty( $payload['response']['account']['product_id'] )
+		) {
+			return new WP_REST_Response(
+				[ 'error' => 'Invalid payload' ],
+				400
+			);
+		}
+
+		
+		global $wcam_lib_gdpr;
+
+		$data        = $payload['response'];
+		$no_of_scans = $payload['no_of_scans'] ?? '';
+
+		if ( $no_of_scans !== '' ) {
+			update_option( 'gdpr_no_of_page_scan', $no_of_scans );
+		}
+		//get option first
+		$existing_data = get_option( 'wpeka_api_framework_app_settings', [] );
+		$data = array_replace_recursive( $existing_data, $data ); //overwrite only the changed data 
+		//update option
+		update_option( 'wpeka_api_framework_app_settings', $data );
+
+		$wcam_lib_gdpr->product_id = $data['account']['product_id'] ?? '';
+
+		require_once plugin_dir_path( __DIR__ ) . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+		if ( isset( $payload['update_options'] ) ) {
+
+			if ( $payload['update_options'] === 'success' ) {
+				update_option( $wcam_lib_gdpr->wc_am_activated_key, 'Activated' );
+				update_option( $wcam_lib_gdpr->wc_am_deactivate_checkbox_key, 'off' );
+			}
+		} else {
+			update_option( $wcam_lib_gdpr->wc_am_activated_key, 'Activated' );
+		}
+
+		return new WP_REST_Response(
+			[ 'status' => 'connected', 'plan_synced' => true ],
+			200
 		);
 	}
 
