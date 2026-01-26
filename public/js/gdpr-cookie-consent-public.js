@@ -236,9 +236,13 @@ GDPR_CCPA_COOKIE_EXPIRE =
   }
    // Run this check when the DOM is ready and when debug mode is on.
    if(is_gcm_debug_on == 'true'){
-     document.addEventListener("DOMContentLoaded", function() {
-       setTimeout(debugConsentState, 1000);
-     });
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+          setTimeout(debugConsentState, 1000);
+        });
+      } else {
+        setTimeout(debugConsentState, 1000);
+      }
    }
   var GDPR = {
     allowed_categories: [],

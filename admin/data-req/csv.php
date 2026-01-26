@@ -1,6 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 // No need for the template engine
-define( 'WP_USE_THEMES', false );
+// define( 'WP_USE_THEMES', false );
 
 // find the base path
 define( 'BASE_PATH', find_wordpress_base_path() . '/' );
@@ -13,14 +17,7 @@ require_once BASE_PATH . 'wp-load.php';
 require_once ABSPATH . 'wp-includes/class-phpass.php';
 require_once ABSPATH . 'wp-admin/includes/image.php';
 
-if ( isset( $_GET['nonce'] ) ) {
-	$nonce = $_GET['nonce'];
-	if ( ! wp_verify_nonce( $nonce, 'wpl_csv_nonce' ) ) {
-		die( '1 invalid command' );
-	}
-} else {
-	die( '2 invalid command' );
-}
+
 
 // if ( ! wpl_user_can_manage() ) {
 // die( "no permission here, invalid command" );

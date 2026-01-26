@@ -113,7 +113,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		</script>
 					<?php
 
-			echo $this->resolved_select();
+			$this->resolved_select();
 
 			?>
 		<?php
@@ -173,7 +173,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 */
 	public function column_actions_resolve_delete( $item ) {
 		$resolve_url = wp_nonce_url(
-			admin_url( 'admin-post.php?action=resolve&id=' . $item['ID'] ),
+			admin_url( 'admin-post.php?action=gdpr_resolve&id=' . $item['ID'] ),
 			'wpl_resolve_request'
 		);
 		$actions = array(
@@ -399,7 +399,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				$options = Gdpr_Cookie_Consent_Admin::wpl_data_reqs_options();
 				foreach ( $options as $fieldname => $label ) {
 					if ( $request->{$fieldname} == 1 ) {
-						$datarequest = '<a href="https://club.wpeka.com/' . $label['slug'] . '" target="_blank">' . $label['short'] . '</a>';
+						$datarequest = '<a href="https://wplegalpages.com/' . $label['slug'] . '" target="_blank">' . $label['short'] . '</a>';
 					}
 				}
 				$time = gmdate( get_option( 'time_format' ), $request->request_date );

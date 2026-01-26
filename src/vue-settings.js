@@ -12911,6 +12911,7 @@ var ckm = new Vue({
     onUpdateScannedCookieCategory(value) {
       const id = value.split(",")[1];
       const cat = value.split(",")[0];
+      this.edit_discovered_cookie.category_id = parseInt(cat);
       for (let i = 0; i < this.scan_cookie_list_length; i++) {
         if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] == id) {
           for (let j = 0; j < this.custom_cookie_categories.length; j++) {
@@ -14019,6 +14020,16 @@ var ckm = new Vue({
       });
     },
     updateScannedCookies() {
+      // Update the specific cookie in scan_cookie_list with the edited values
+      for (let i = 0; i < this.scan_cookie_list.length; i++) {
+        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] === this.edit_discovered_cookie["id_wpl_cookie_scan_cookies"]) {
+          // Update the cookie in the list with the edited values
+          this.scan_cookie_list[i]["description"] = this.edit_discovered_cookie["description"];
+          this.scan_cookie_list[i]["category_id"] = this.edit_discovered_cookie["category_id"];
+          this.scan_cookie_list[i]["category"] = this.edit_discovered_cookie["category"];
+          break;
+        }
+      }
       var cookie_scan_arr = [];
       for (let i = 0; i < this.scan_cookie_list_length; i++) {
         var cid = this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"];

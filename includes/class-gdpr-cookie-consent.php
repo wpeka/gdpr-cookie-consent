@@ -26,6 +26,9 @@
  * @subpackage Gdpr_Cookie_Consent/includes
  * @author     wpeka <https://club.wpeka.com>
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 class Gdpr_Cookie_Consent {
 
 	/**
@@ -82,7 +85,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '4.1.0';
+			$this->version = '4.1.3';
 		}
 		add_action(
 			'current_screen',
@@ -180,7 +183,7 @@ class Gdpr_Cookie_Consent {
 
 		$plugin_i18n = new Gdpr_Cookie_Consent_I18n(GDPR_COOKIE_CONSENT_PLUGIN_FILENAME);
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'init' );
 	}
 
 	/**
@@ -413,18 +416,18 @@ class Gdpr_Cookie_Consent {
 			<div class="gdpr-deactivate-popup-form-wrapper">
 				<form class="gdpr-deactivate-popup-form">
 					<div>
-					<p class="gdpr-deactivate-popup-form-title">Deactivate WP Cookie Consent :</p>
+					<p class="gdpr-deactivate-popup-form-title">Deactivate WPLP Cookie Consent :</p>
 					<div class="gdpr-deactivate-popup-form-description">
-					<p class="gdpr-deactivate-popup-form-description-content">You are about to deactivate WP Cookie Consent. Would you like to delete its data or keep it in place?</p>
+					<p class="gdpr-deactivate-popup-form-description-content">You are about to deactivate WPLP Cookie Consent. Would you like to delete its data or keep it in place?</p>
 					</div>
 					<div class="gdpr-deactivate-popup-inputs">
 						<div class="gdpr-deactivate-input-choices">
 						<input type="radio" id="gdpr-plugin-deactivate-without-data" name="reason" value="gdpr-plugin-deactivate-without-data">
-					<label for="gdpr-plugin-deactivate-without-data">Keep all WP Cookie Consent tables and data</label><br>
+					<label for="gdpr-plugin-deactivate-without-data">Keep all WPLP Cookie Consent tables and data</label><br>
 						</div>
 						<div class="gdpr-deactivate-input-choices">
 						<input type="radio" id="gdpr-plugin-deactivate-with-data" name="reason" value="gdpr-plugin-deactivate-with-data">
-					<label for="gdpr-plugin-deactivate-with-data">Delete all WP Cookie Consent tables and data</label><br>
+					<label for="gdpr-plugin-deactivate-with-data">Delete all WPLP Cookie Consent tables and data</label><br>
 						</div>
 					</div>
 					</div>
