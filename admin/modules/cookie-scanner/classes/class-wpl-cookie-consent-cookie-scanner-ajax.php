@@ -128,13 +128,44 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 
 	public function start_cookie_scanning(){
 		check_ajax_referer( 'wpl_cookie_scanner', 'security' );
-		if ( ! current_user_can( 'manage_options' )){
+		if ( ! current_user_can( 'manage_options' )) {
 			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
+
+		$response = $this->gdpr_start_cookie_scanning();
+
+		$out = array(
+			'success' => $response['status'] === 'success' ? true : false,
+			'data'    => array(
+				'status'  => $response['status'],
+				'message' => $response['message'],
+			),
+		);
+
+		if ( isset( $response['error'] ) ) {
+			$out['data']['error'] = $response['error'];
+		}
+
+		if ( isset( $response['server_response'] ) ) {
+			$out['data']['server_response'] = $response['server_response'];
+		}
+
+		wp_send_json(
+			$out,
+			$response['code']
+		);
+	}
+
+	public function gdpr_start_cookie_scanning( ) {
 		if(get_option('gdpr_scanning_action_hash')){
-			wp_send_json_error( array(
-				'message' => 'Scanning already in progress',
-			) );
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Scanning already in progress.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
+			);
+			// wp_send_json_error( array(
+			// 	'message' => 'Scanning already in progress',
+			// ) );
 		}
 		global $wpdb;
 		$post_table = $wpdb->prefix . 'posts';
@@ -186,10 +217,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		$settings = new GDPR_Cookie_Consent_Settings();
 		$account_details = $this->settings->get();
 
-		global $wcam_lib_gdpr;
-
-		$instance_id      = $wcam_lib_gdpr->wc_am_instance_id;
-		$hash       = isset( $_POST['hash'] ) ? sanitize_text_field( wp_unslash( $_POST['hash'] ) ) : '';
+		$instance_id = get_option( 'wc_am_client_gdpr_cookie_consent_instance' );
+		$hash        = isset( $_POST['hash'] ) ? sanitize_text_field( wp_unslash( $_POST['hash'] ) ) : substr( strtolower( base_convert( mt_rand(), 10, 36 ) ), 0, 10 );
 
 		$body = array(
 			'site_url'            => rawurlencode( get_site_url() ),
@@ -216,10 +245,16 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			)
 		);
 		if ( is_wp_error( $response ) ) {
-			wp_send_json_error( array(
-				'message' => 'Failed to contact scanner server.',
+			return array(
+				'status'  => 'error',
+				'message' => __( 'Failed to contact scanner server.', 'gdpr-cookie-consent' ),
+				'code'    => 400,
 				'error'   => $response->get_error_message(),
-			) );
+			);
+			// wp_send_json_error( array(
+			// 	'message' => 'Failed to contact scanner server.',
+			// 	'error'   => $response->get_error_message(),
+			// ) );
 		}
 
 		$data = json_decode( wp_remote_retrieve_body( $response ), true );
@@ -241,16 +276,28 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 				});
 				wp_schedule_event( time() + 60, 'every_minute', 'gdpr_check_scan_results_event', array( count($pages_array) )  );
 			}
-			wp_send_json_success( array(
-				'message' => 'Scan started successfully.',
+			return array(
+				'status'          => 'success',
+				'message'         => __( 'Scan started successfully.', 'gdpr-cookie-consent' ),
+				'code'            => 200,
 				'server_response' => $data,
-			) );
+			);
+			// wp_send_json_success( array(
+			// 	'message' => 'Scan started successfully.',
+			// 	'server_response' => $data,
+			// ) );
 			
 		} else {
-			wp_send_json_error( array(
-				'message' => 'Unexpected response from scanner server.',
+			return array(
+				'status'          => 'error',
+				'message'         => __( 'Unexpected response from scanner server.', 'gdpr-cookie-consent' ),
+				'code'            => 400,
 				'server_response' => $data,
-			) );
+			);
+			// wp_send_json_error( array(
+			// 	'message' => 'Unexpected response from scanner server.',
+			// 	'server_response' => $data,
+			// ) );
 		}
 
 	}

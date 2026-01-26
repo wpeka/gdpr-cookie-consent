@@ -1056,7 +1056,7 @@ class Gdpr_Cookie_Consent {
 			'use_color_picker'                       => true,
 			'bar_heading_text'                       => '',
 			'bar_heading_lgpd_text'                  => '',
-			'cookie_bar_as'                          => 'banner', // banner | popup | widget.
+			'cookie_bar_as'                          => 'widget', // banner | popup | widget.
 			'cookie_usage_for'                       => 'gdpr',
 			'popup_overlay'                          => true,
 			'about_message'                          => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
