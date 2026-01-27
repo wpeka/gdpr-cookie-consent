@@ -62,9 +62,21 @@ class GDPR_Cookie_Consent_Api extends WP_REST_Controller {
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public function get_items( $request ) {
+		$token = $request->get_param( 'token' );
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
-		$object = new GDPR_Cookie_Consent_Settings();
-		$data   = $object->get();
+		$settings = new GDPR_Cookie_Consent_Settings();
+		$stored_token = $settings->get_token();
+
+		// Double-check token validation in callback
+		if ( empty( $stored_token ) || ! hash_equals( $stored_token, $token ) ) {
+			return new WP_Error(
+				'rest_forbidden',
+				esc_html__( 'Invalid Authorization.', 'gdpr-cookie-consent' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		$data = $settings->get();
 		return rest_ensure_response( $data );
 	}
 
@@ -76,17 +88,51 @@ class GDPR_Cookie_Consent_Api extends WP_REST_Controller {
 	 */
 	public function create_items_permissions_check( $request ) {
 
-		$permission_check = false;
 		$token            = $request->get_param( 'token' );
 		$request_platform = $request->get_param( 'platform' );
 
-		if ( isset( $token ) && 'wordpress' === $request_platform ) {
-			return true;
-		} else {
-			return new WP_Error( 'rest_forbidden', esc_html__( 'Invalid Authorization.', 'gdpr-cookie-consent' ), array( 'status' => rest_authorization_required_code() ) );
+		// Validate platform
+		if ( 'wordpress' !== $request_platform ) {
+			return new WP_Error(
+				'rest_forbidden',
+				esc_html__( 'Invalid platform.', 'gdpr-cookie-consent' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
 		}
 
-		return $permission_check;
+		// Token must be provided
+		if ( empty( $token ) ) {
+
+			return new WP_Error(
+				'rest_forbidden',
+				esc_html__( 'Token missing.', 'gdpr-cookie-consent' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		// Get stored token from settings
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+		$settings = new GDPR_Cookie_Consent_Settings();
+		$stored_token = $settings->get_token();
+
+		// If no token stored → deny
+		if ( empty( $stored_token ) ) {
+			return new WP_Error(
+				'rest_forbidden',
+				esc_html__( 'No token configured.', 'gdpr-cookie-consent' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		// Constant-time secure comparison
+		if ( ! hash_equals( $stored_token, $token ) ) {
+			return new WP_Error(
+				'rest_forbidden',
+				esc_html__( 'Invalid authorization token.', 'gdpr-cookie-consent' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+		return true;
 	}
 
 }

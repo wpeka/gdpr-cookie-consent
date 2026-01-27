@@ -702,6 +702,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
         </details>';
 
 		if ( $echo ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML is safely escaped at source.
 			echo $output;
 		} else {
 			return $output;

@@ -4,6 +4,9 @@
  *
  * @package Gdpr_Cookie_Consent
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class GDPR_Cookie_Consent_App_Auth.
@@ -221,7 +224,7 @@ class GDPR_Cookie_Consent_App_Auth {
 				array(
 					'id'                  => $settings->get_user_id(),
 					'platform'            => 'wordpress',
-					'no_of_scan'          => $_POST['no_of_scan'],
+					'no_of_scan'          => sanitize_text_field( wp_unslash( $_POST['no_of_scan'] ) ),
 					'status_args'         => $status_args,
 					'activate_args'       => $activate_args,
 					'wc_am_activated_key' => $wcam_lib_gdpr->data,
@@ -242,7 +245,7 @@ class GDPR_Cookie_Consent_App_Auth {
 		if ( ! $response_body->allow_scan ) {
 			wp_send_json_error(
 				array(
-					'message' => 'Please check your connection with Wplegalpages Domain',
+					'message' => __( 'Please check your connection with Wplegalpages Domain', 'gdpr-cookie-consent' ),
 					'error'   => true,
 				),
 			);
@@ -353,7 +356,6 @@ class GDPR_Cookie_Consent_App_Auth {
 		global $wcam_lib_gdpr;
 
 		$wcam_lib_gdpr->product_id = isset( $_POST['response']['account']['product_id'] ) ? $_POST['response']['account']['product_id'] : '';
-
 		require_once plugin_dir_path( __DIR__ ) . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 		$settings = new GDPR_Cookie_Consent_Settings();
 

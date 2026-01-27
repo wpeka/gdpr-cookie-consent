@@ -7,6 +7,10 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/admin
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 
 ?>
 

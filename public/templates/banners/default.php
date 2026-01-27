@@ -7,6 +7,9 @@
  * @package    Gdpr_Cookie_Consent
  * @subpackage Gdpr_Cookie_Consent/public
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 ?>
 <div>
@@ -107,11 +110,11 @@
 										<table id="gdpr_messagebar_detail_table_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_detail_body_content_cookie_type_table">
 									<thead>
 									<tr>
-										<th scope="col"><?php echo esc_html__( $cookie_data['name'] ); ?></th>
-										<th scope="col"><?php echo esc_html__( $cookie_data['domain'] ); ?></th>
-										<th scope="col"><?php echo esc_html__( $cookie_data['purpose'] ); ?></th>
-										<th scope="col"><?php echo esc_html__( $cookie_data['expiry'] ); ?></th>
-										<th scope="col"><?php echo esc_html__( $cookie_data['type'] ); ?></th>
+										<th scope="col"><?php echo esc_html( $cookie_data['name'] ); ?></th>
+										<th scope="col"><?php echo esc_html( $cookie_data['domain'] ); ?></th>
+										<th scope="col"><?php echo esc_html( $cookie_data['purpose'] ); ?></th>
+										<th scope="col"><?php echo esc_html( $cookie_data['expiry'] ); ?></th>
+										<th scope="col"><?php echo esc_html( $cookie_data['type'] ); ?></th>
 									</tr>
 									</thead>
 									<tbody>
@@ -140,7 +143,7 @@
 											<td title="
 											<?php
 											if ( ! empty( $cookie_data['description'] ) ) {
-												echo esc_html__( $cookie_data['description'] );
+												echo esc_html( $cookie_data['description'] );
 											}
 											?>
 											">

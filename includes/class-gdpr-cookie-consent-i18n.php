@@ -30,18 +30,7 @@ class Gdpr_Cookie_Consent_I18n {
 		$this->plugin_file = $plugin_file;
 	}
 
-	/**
-	 * Load the plugin text domain for translation.
-	 *
-	 * @since    1.0
-	 */
-	public function load_plugin_textdomain() {
-		
-		load_plugin_textdomain(
-			'gdpr-cookie-consent',
-			false,
-			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
-
-		);
-	}
+	public function init() {
+        // No action needed for WordPress >= 4.6
+    }
 }
