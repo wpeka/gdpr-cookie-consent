@@ -10206,7 +10206,6 @@ public function gdpr_support_request_handler() {
 				// Time remaining
 				$remaining_days    = floor($remaining_time / DAY_IN_SECONDS);
 				$remaining_hours   = floor(($remaining_time % DAY_IN_SECONDS) / HOUR_IN_SECONDS);
-				$remaining_minutes = floor(($remaining_time % HOUR_IN_SECONDS) / MINUTE_IN_SECONDS);
 			} 
 		}
 
@@ -11095,8 +11094,8 @@ public function gdpr_support_request_handler() {
 				'negative_percentage2'						=> $negative_percentage2,
 				'banner_performance1'						=> $banner1_performance,
 				'banner_performance2'						=> $banner2_performance,
-				'remaining_days'							=> isset($remaining_days) ? $remaining_days : 0,
-				'remaining_hours'							=> isset($remaining_hours) ? $remaining_hours : 0,
+				'remaining_days'							=> isset($remaining_days) ? $remaining_days : 29,
+				'remaining_hours'							=> isset($remaining_hours) ? $remaining_hours : 23,
 			)
 		);
 	}
@@ -11271,29 +11270,29 @@ public function gdpr_support_request_handler() {
 
 		 $image_base64 = $request->get_param('image_base64');
     	$file_name    = sanitize_file_name($request->get_param('file_name'));
-		
+
     	$upload_dir = wp_upload_dir();
     	$file_path = $upload_dir['path'] . '/' . $file_name;
-		
+
     	$image_data = base64_decode($image_base64);
     	file_put_contents($file_path, $image_data);
-		
+
     	$filetype = wp_check_filetype($file_name);
-		
+
     	$attachment = [
     	    'post_mime_type' => $filetype['type'],
     	    'post_title'     => pathinfo($file_name, PATHINFO_FILENAME),
     	    'post_status'    => 'inherit'
     	];
-	
+
     	$attach_id = wp_insert_attachment($attachment, $file_path);
     	require_once ABSPATH . 'wp-admin/includes/image.php';
-	
+
     	wp_update_attachment_metadata(
     	    $attach_id,
     	    wp_generate_attachment_metadata($attach_id, $file_path)
     	);
-	
+
     	return [
     	    'attachment_id' => $attach_id,
     	    'url' => wp_get_attachment_url($attach_id)
