@@ -72,7 +72,8 @@ $gdpr_plan_warning = false;
 if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit === 100 || $gdpr_monthly_scan_percent === 100 ) {
 	$gdpr_plan_warning = true;
 }
-
+$site_url = get_site_url();
+$site_domain = parse_url($site_url, PHP_URL_HOST);
 ?>
 
 <div id="gdpr-cookie-consent-main-admin-structure" class="gdpr-cookie-consent-main-admin-structure">
@@ -88,7 +89,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 					</div>
 					<div class="gdpr-cookie-consent-admin-help-and-support">
 						<?php if ( $is_user_connected ) : ?>
-						<div class="gdpr-cookie-consent-admin-new-dashboard-btn"><a style = "text-decoration: none;" target="_blank" href="<?php echo esc_url( GDPR_APP_URL . '/app' ); ?>"><?php esc_html_e( 'Try New Dashboard', 'gdpr-cookie-consent' ); ?><span class="gdpr-cookie-consent-admin-new-dashboard-btn-beta-span"><?php esc_html_e( 'BETA', 'gdpr-cookie-consent')?></span></a></div>
+						<div class="gdpr-cookie-consent-admin-new-dashboard-btn"><a style="text-decoration: none;" target="_blank" href="<?php echo esc_url( GDPR_APP_URL . '/app?site=' . $site_domain ); ?>"><?php esc_html_e( 'Try New Dashboard', 'gdpr-cookie-consent' ); ?><span class="gdpr-cookie-consent-admin-new-dashboard-btn-beta-span"><?php esc_html_e( 'BETA', 'gdpr-cookie-consent')?></span></a></div>
 						<?php endif; ?>
 						<div class="gdpr-cookie-consent-admin-help">
 							<div class="gdpr-cookie-consent-admin-help-icon">

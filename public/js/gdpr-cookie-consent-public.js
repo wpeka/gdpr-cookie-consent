@@ -235,7 +235,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
     browser_gpc_value = false;
   }
    // Run this check when the DOM is ready and when debug mode is on.
-   if(is_gcm_debug_on == 'true'){
+   if(is_gcm_debug_on == 'true' || is_gcm_debug_on == true){
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
           setTimeout(debugConsentState, 1000);
@@ -920,7 +920,7 @@ banner.style.display = "none";
               wp_set_consent('functional', 'allow' );
           }
           
-          if(is_gcm_on == 'true'){
+          if(is_gcm_on == 'true' || is_gcm_on == true){
             gtag('consent', 'update', {
               'ad_user_data': marketing_consent ? 'granted' : 'denied',
               'ad_personalization': marketing_consent ? 'granted' : 'denied',
@@ -939,7 +939,7 @@ banner.style.display = "none";
             callback(consent);
           });
           
-          if(is_gcm_debug_on == 'true'){debugUpdateConsentState();}
+          if(is_gcm_debug_on == 'true' || is_gcm_debug_on == true){debugUpdateConsentState();}
 
           // Update the user preference cookie
           gdpr_user_preference_val = JSON.stringify(gdpr_user_preference_arr);
@@ -1053,7 +1053,7 @@ banner.style.display = "none";
             wp_set_consent('functional', 'allow' );
           }
 
-          if(is_gcm_on == 'true'){
+          if(is_gcm_on == 'true' || is_gcm_on == true){
             gtag('consent', 'update', {
               'ad_user_data': 'granted',
               'ad_personalization': 'granted',
@@ -1072,7 +1072,7 @@ banner.style.display = "none";
             callback(consent);
           });
 
-          if(is_gcm_debug_on == 'true'){debugUpdateConsentState();}
+          if(is_gcm_debug_on == 'true' || is_gcm_debug_on == true){debugUpdateConsentState();}
 
           var cookie_data = {
             necessary: "yes",
@@ -1175,7 +1175,7 @@ banner.style.display = "none";
             wp_set_consent('statistics-anonymous', 'deny' ) ;
             wp_set_consent('preferences', 'deny' ) ;
           }
-          if(is_gcm_on == 'true'){
+          if(is_gcm_on == 'true' || is_gcm_on == true){
               gtag('consent', 'update', {
                 'ad_user_data': 'denied',
                 'ad_personalization': 'denied',
@@ -1194,7 +1194,7 @@ banner.style.display = "none";
               callback(consent);
             });
 
-            if(is_gcm_debug_on == 'true'){debugUpdateConsentState();}
+            if(is_gcm_debug_on == 'true' || is_gcm_debug_on == true){debugUpdateConsentState();}
 
 
           GDPR.reject_close();

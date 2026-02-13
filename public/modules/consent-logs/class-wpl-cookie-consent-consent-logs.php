@@ -610,7 +610,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									
 								}
 								if ( strpos( $key, 'IABTCF_AddtlConsent' ) !== false) {
-									if($settings['is_gacm_on'] === "true" || $settings['is_gacm_on'] === true || $settings['is_gacm_on'] === 1){
+									if($settings['is_gacm_on'] === "true" || $settings['is_gacm_on'] === true || $settings['is_gacm_on'] === 1 || $settings['is_gacm_on'] === "1"){
 										$wpl_cookie_details['Additional_Consent_String'] = $val;
 									}
 									else{

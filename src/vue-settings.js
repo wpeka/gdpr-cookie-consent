@@ -157,7 +157,8 @@ var gen = new Vue({
         settings_obj.the_options.hasOwnProperty("is_gacm_on") &&
         (true === settings_obj.the_options["is_gacm_on"] ||
           1 === settings_obj.the_options["is_gacm_on"] ||
-          "true" === settings_obj.the_options["is_gacm_on"])
+          "true" === settings_obj.the_options["is_gacm_on"] ||
+          "1" === settings_obj.the_options["is_gacm_on"])
           ? true
           : false,
       gacm_key: settings_obj.ab_options.hasOwnProperty("gacm_key")
@@ -167,7 +168,8 @@ var gen = new Vue({
       gcm_is_on: settings_obj.the_options.hasOwnProperty("is_gcm_on") && 
         (true === settings_obj.the_options["is_gcm_on"] || 
           "true" === settings_obj.the_options["is_gcm_on"] ||
-          1 === settings_obj.the_options["is_gcm_on"])
+          1 === settings_obj.the_options["is_gcm_on"]||
+          "1" === settings_obj.the_options["is_gcm_on"])
           ? true
           : false,
       gcm_wait_for_update_duration: settings_obj.the_options.hasOwnProperty(
@@ -178,25 +180,29 @@ var gen = new Vue({
       gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
         (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
           "true" === settings_obj.the_options["is_gcm_url_passthrough"] ||
-          1 === settings_obj.the_options["is_gcm_url_passthrough"])
+          1 === settings_obj.the_options["is_gcm_url_passthrough"] ||
+          "1" === settings_obj.the_options["is_gcm_url_passthrough"])
           ? true
           : false,
       gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
         (true === settings_obj.the_options["is_gcm_ads_redact"] ||
           "true" === settings_obj.the_options["is_gcm_ads_redact"] ||
-          1 === settings_obj.the_options["is_gcm_ads_redact"])
+          1 === settings_obj.the_options["is_gcm_ads_redact"] ||
+          "1" === settings_obj.the_options["is_gcm_ads_redact"])
           ? true
           : false,
       gcm_debug_mode: settings_obj.the_options.hasOwnProperty("is_gcm_debug_mode") && 
         (true === settings_obj.the_options["is_gcm_debug_mode"] ||
           "true" === settings_obj.the_options["is_gcm_debug_mode"] ||
-          1 === settings_obj.the_options["is_gcm_debug_mode"])
+          1 === settings_obj.the_options["is_gcm_debug_mode"] ||
+          "1" === settings_obj.the_options["is_gcm_debug_mode"])
           ? true
           : false,
       gcm_advertiser_mode: settings_obj.the_options.hasOwnProperty("is_gcm_advertiser_mode") && 
         (true === settings_obj.the_options["is_gcm_advertiser_mode"] ||
           "true" === settings_obj.the_options["is_gcm_advertiser_mode"] ||
-          1 === settings_obj.the_options["is_gcm_advertiser_mode"])
+          1 === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          "1" === settings_obj.the_options["is_gcm_advertiser_mode"])
           ? true
           : false,
       regions: settings_obj.the_options.hasOwnProperty('gcm_defaults') ? JSON.parse(settings_obj.the_options["gcm_defaults"]) : [
@@ -225,7 +231,8 @@ var gen = new Vue({
         settings_obj.the_options.hasOwnProperty("is_dynamic_lang_on") &&
         (true === settings_obj.the_options["is_dynamic_lang_on"] ||
           1 === settings_obj.the_options["is_dynamic_lang_on"] ||
-          "true" === settings_obj.the_options["is_dynamic_lang_on"])
+          "true" === settings_obj.the_options["is_dynamic_lang_on"] ||
+          "1" === settings_obj.the_options["is_dynamic_lang_on"])
           ? true
           : false,
       banner_preview_is_on:
@@ -3290,6 +3297,7 @@ var gen = new Vue({
     },
     onTemplateChange(value) {
       this.template = value;
+      console.log("Selected template:", value);
       let selectedTemplate
       if(value == "default"){
         selectedTemplate = this.default_template_json;
@@ -5129,13 +5137,17 @@ var app = new Vue({
       gacm_is_on:
         settings_obj.the_options.hasOwnProperty("is_gacm_on") &&
         (true === settings_obj.the_options["is_gacm_on"] ||
-          1 === settings_obj.the_options["is_gacm_on"])
+          1 === settings_obj.the_options["is_gacm_on"]||
+          "1" === settings_obj.the_options["is_gacm_on"]||
+          "true" === settings_obj.the_options["is_gacm_on"])
           ? true
           : false,
       iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Consent Preferences” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
       gcm_is_on: settings_obj.the_options.hasOwnProperty("is_gcm_on") && 
         (true === settings_obj.the_options["is_gcm_on"] ||
-          1 === settings_obj.the_options["is_gcm_on"])
+          1 === settings_obj.the_options["is_gcm_on"]||
+          "1" === settings_obj.the_options["is_gcm_on"]||
+          "true" === settings_obj.the_options["is_gcm_on"])
           ? true
           : false,
       gcm_wait_for_update_duration: settings_obj.the_options.hasOwnProperty(
@@ -5145,24 +5157,28 @@ var app = new Vue({
         : "500",
       gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
         (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
-          1 === settings_obj.the_options["is_gcm_url_passthrough"])
+          1 === settings_obj.the_options["is_gcm_url_passthrough"] ||
+          "1" === settings_obj.the_options["is_gcm_url_passthrough"])
           ? true
           : false,
       gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
         (true === settings_obj.the_options["is_gcm_ads_redact"] ||
-          1 === settings_obj.the_options["is_gcm_ads_redact"])
+          1 === settings_obj.the_options["is_gcm_ads_redact"] ||
+          "1" === settings_obj.the_options["is_gcm_ads_redact"])
           ? true
           : false,
       gcm_debug_mode: settings_obj.the_options.hasOwnProperty("is_gcm_debug_mode") && 
         (true === settings_obj.the_options["is_gcm_debug_mode"] ||
           "true" === settings_obj.the_options["is_gcm_debug_mode"] ||
-          1 === settings_obj.the_options["is_gcm_debug_mode"])
+          1 === settings_obj.the_options["is_gcm_debug_mode"] ||
+          "1" === settings_obj.the_options["is_gcm_debug_mode"])
           ? true
           : false,
       gcm_advertiser_mode: settings_obj.the_options.hasOwnProperty("is_gcm_advertiser_mode") && 
         (true === settings_obj.the_options["is_gcm_advertiser_mode"] ||
           "true" === settings_obj.the_options["is_gcm_advertiser_mode"] ||
-          1 === settings_obj.the_options["is_gcm_advertiser_mode"])
+          1 === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          "1" === settings_obj.the_options["is_gcm_advertiser_mode"])
           ? true
           : false,
       banner_preview_is_on:
@@ -8702,7 +8718,8 @@ var adv = new Vue({
         settings_obj.the_options.hasOwnProperty("is_gacm_on") &&
         (true === settings_obj.the_options["is_gacm_on"] ||
           1 === settings_obj.the_options["is_gacm_on"] ||
-          "true" === settings_obj.the_options["is_gacm_on"])
+          "true" === settings_obj.the_options["is_gacm_on"]||
+          "1" === settings_obj.the_options["is_gacm_on"])
           ? true
           : false,
       gacm_key: settings_obj.ab_options.hasOwnProperty("gacm_key")
@@ -8712,7 +8729,8 @@ var adv = new Vue({
       gcm_is_on: settings_obj.the_options.hasOwnProperty("is_gcm_on") && 
         (true === settings_obj.the_options["is_gcm_on"] || 
           "true" === settings_obj.the_options["is_gcm_on"] ||
-          1 === settings_obj.the_options["is_gcm_on"])
+          1 === settings_obj.the_options["is_gcm_on"]||
+          "1" === settings_obj.the_options["is_gcm_on"])
           ? true
           : false,
       gcm_wait_for_update_duration: settings_obj.the_options.hasOwnProperty(
@@ -8723,25 +8741,29 @@ var adv = new Vue({
       gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
         (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
           "true" === settings_obj.the_options["is_gcm_url_passthrough"] ||
-          1 === settings_obj.the_options["is_gcm_url_passthrough"])
+          1 === settings_obj.the_options["is_gcm_url_passthrough"] ||
+          "1" === settings_obj.the_options["is_gcm_url_passthrough"])
           ? true
           : false,
       gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
         (true === settings_obj.the_options["is_gcm_ads_redact"] ||
           "true" === settings_obj.the_options["is_gcm_ads_redact"] ||
-          1 === settings_obj.the_options["is_gcm_ads_redact"])
+          1 === settings_obj.the_options["is_gcm_ads_redact"] ||
+          "1" === settings_obj.the_options["is_gcm_ads_redact"])
           ? true
           : false,
       gcm_debug_mode: settings_obj.the_options.hasOwnProperty("is_gcm_debug_mode") && 
         (true === settings_obj.the_options["is_gcm_debug_mode"] ||
           "true" === settings_obj.the_options["is_gcm_debug_mode"] ||
-          1 === settings_obj.the_options["is_gcm_debug_mode"])
+          1 === settings_obj.the_options["is_gcm_debug_mode"] ||
+          "1" === settings_obj.the_options["is_gcm_debug_mode"])
           ? true
           : false,
       gcm_advertiser_mode: settings_obj.the_options.hasOwnProperty("is_gcm_advertiser_mode") && 
         (true === settings_obj.the_options["is_gcm_advertiser_mode"] ||
           "true" === settings_obj.the_options["is_gcm_advertiser_mode"] ||
-          1 === settings_obj.the_options["is_gcm_advertiser_mode"])
+          1 === settings_obj.the_options["is_gcm_advertiser_mode"] ||
+          "1" === settings_obj.the_options["is_gcm_advertiser_mode"])
           ? true
           : false,
       regions: settings_obj.the_options.hasOwnProperty('gcm_defaults') ? JSON.parse(settings_obj.the_options["gcm_defaults"]) : [
@@ -8770,7 +8792,8 @@ var adv = new Vue({
         settings_obj.the_options.hasOwnProperty("is_dynamic_lang_on") &&
         (true === settings_obj.the_options["is_dynamic_lang_on"] ||
           1 === settings_obj.the_options["is_dynamic_lang_on"] ||
-          "true" === settings_obj.the_options["is_dynamic_lang_on"])
+          "true" === settings_obj.the_options["is_dynamic_lang_on"] ||
+          "1" === settings_obj.the_options["is_dynamic_lang_on"] )
           ? true
           : false,
       banner_preview_is_on:
@@ -12598,12 +12621,12 @@ var ckm = new Vue({
         ? settings_obj.cookie_list_settings["cookie_list_types"]
         : [],
       custom_cookie_category: 1,
-      custom_cookie_type: "HTTP Cookie",
+      custom_cookie_type: "HTTP",
       custom_cookie_name: "",
       custom_cookie_domain: "",
       custom_cookie_duration: "",
       custom_cookie_description: "",
-      is_custom_cookie_duration_disabled: this.custom_cookie_type === "HTTP Cookie" ? false : true,
+      is_custom_cookie_duration_disabled: this.custom_cookie_type === "HTTP" ? false : true,
       custom_cookie_duration_placeholder: "Duration(days/session)",
       scan_history_list_tab: true,
       post_cookie_list_length: settings_obj.cookie_list_settings.hasOwnProperty(
@@ -12910,6 +12933,7 @@ var ckm = new Vue({
     onUpdateScannedCookieCategory(value) {
       const id = value.split(",")[1];
       const cat = value.split(",")[0];
+      this.edit_discovered_cookie.category_id = parseInt(cat);
       for (let i = 0; i < this.scan_cookie_list_length; i++) {
         if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] == id) {
           for (let j = 0; j < this.custom_cookie_categories.length; j++) {
@@ -14018,6 +14042,16 @@ var ckm = new Vue({
       });
     },
     updateScannedCookies() {
+      // Update the specific cookie in scan_cookie_list with the edited values
+      for (let i = 0; i < this.scan_cookie_list.length; i++) {
+        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] === this.edit_discovered_cookie["id_wpl_cookie_scan_cookies"]) {
+          // Update the cookie in the list with the edited values
+          this.scan_cookie_list[i]["description"] = this.edit_discovered_cookie["description"];
+          this.scan_cookie_list[i]["category_id"] = this.edit_discovered_cookie["category_id"];
+          this.scan_cookie_list[i]["category"] = this.edit_discovered_cookie["category"];
+          break;
+        }
+      }
       var cookie_scan_arr = [];
       for (let i = 0; i < this.scan_cookie_list_length; i++) {
         var cid = this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"];

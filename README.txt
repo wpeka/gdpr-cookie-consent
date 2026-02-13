@@ -4,13 +4,13 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.9
-Stable tag: 4.1.2
+Stable tag: 4.2.0
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 == Description ==
-[WPLP Cookie Consent](https://wplegalpages.com) helps WordPress website owners display cookie consent banners, manage user preferences, and control third-party scripts in line with major privacy regulations such as GDPR, CCPA/CPRA, ePrivacy, LGPD, POPIA, PIPEDA, and similar frameworks.
+[WPLP Cookie Consent](https://wplegalpages.com/?utm_source=wordpress.org&utm_medium=wpcookieconsentplugin&utm_campaign=readme) helps WordPress website owners display cookie consent banners, manage user preferences, and control third-party scripts in line with major privacy regulations such as GDPR, CCPA/CPRA, ePrivacy, LGPD, POPIA, PIPEDA, and similar frameworks.
 
 The plugin is designed to be easy to configure while offering the controls needed to understand and manage cookies used on your website.
 
@@ -109,15 +109,15 @@ WPLP Cookie Consent is built to support a wide range of privacy and data protect
 
 == Support & Documentation ==
 
-[Documentation](https://wplegalpages.com/docs/) and setup guides are available to help configure the plugin.
-For questions related to features or compatibility, you can [contact the WPLP Legal Pages support team](https://wplegalpages.com/contact-us/).
+[Documentation](https://wplegalpages.com/docs/?utm_source=wordpress.org&utm_medium=wpcookieconsentplugin&utm_campaign=readme) and setup guides are available to help configure the plugin.
+For questions related to features or compatibility, you can [contact the WPLP Legal Pages support team](https://wplegalpages.com/contact-us/?utm_source=wordpress.org&utm_medium=wpcookieconsentplugin&utm_campaign=readme).
 
 
 == Part of the WPLP Compliance Platform ==
 
 WPLP Cookie Consent integrates with the WPLP Compliance Platform to support broader privacy management workflows, including cookie policy generation and legal page management.
 
-Additional features are available in premium plans. Details about available plans and features can be found on the [pricing page](https://wplegalpages.com/pricing/).
+Additional features are available in premium plans. Details about available plans and features can be found on the [pricing page](https://wplegalpages.com/pricing/?utm_source=wordpress.org&utm_medium=wpcookieconsentplugin&utm_campaign=readme).
 
 == Disclaimer ==
 
@@ -195,6 +195,12 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 11.Consent Log table
 
 == Change Log ==
+
+= 4.2.0 =
+* Enhanced App Dashboard: Added Cookie Settings, allowing you to choose the banner template, layout, and design directly from the WPLP SaaS dashboard.
+
+= 4.1.3 =
+* Bug fixes and Improvements.
 
 = 4.1.2 =
 * Bug fixes and Improvements.
@@ -739,6 +745,12 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Initial version
 
 == Upgrade Notice ==
+
+= 4.2.0 =
+* Enhanced App Dashboard: Added Cookie Settings, allowing you to choose the banner template, layout, and design directly from the WPLP SaaS dashboard.
+
+= 4.1.3 =
+* Bug fixes and Improvements.
 
 = 4.1.2 =
 * Bug fixes and Improvements.

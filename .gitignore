@@ -9,6 +9,8 @@ vendor/
 node_modules/
 admin/css/*.min.css
 admin/js/*.min.js
+admin/js/vue/gdpr-cookie-consent-admin-main.js
+admin/js/vue/gdpr-cookie-consent-tcstring.js
 admin/modules/cookie-custom/assets/js/*.min.js
 public/css/*.min.css
 public/js/gdpr-cookie-consent-public.min.js

@@ -81,8 +81,8 @@ const tcModel = new TCModel();
 var encodedString = "default tc string...";
 var acString = "";
 const eventListeners = [];
-var is_gacm_on = iabtcf.is_gacm_on == true || iabtcf.is_gacm_on == "true" ? 'true' : 'false' ;
-var is_gcm_advertiser_mode = iabtcf.is_gcm_advertiser_mode == true || iabtcf.is_gcm_advertiser_mode == "true" ? 'true' : 'false';
+var is_gacm_on = iabtcf.is_gacm_on == true || iabtcf.is_gacm_on == "true" || iabtcf.is_gacm_on == "1" ? 'true' : 'false' ;
+var is_gcm_advertiser_mode = iabtcf.is_gcm_advertiser_mode == true || iabtcf.is_gcm_advertiser_mode == "true"  || iabtcf.is_gcm_advertiser_mode == "1" ? 'true' : 'false';
 //initializaation of cmp api instance that is used to read tcString by vendors and validator
 let cmpApi;
 
