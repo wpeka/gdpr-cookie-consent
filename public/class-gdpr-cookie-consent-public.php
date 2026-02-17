@@ -516,7 +516,15 @@ class Gdpr_Cookie_Consent_Public {
 	public function gdpr_get_settings_new( $data ) {
 		// Your logic to get GDPR settings.
 		$gdpr_data = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
-
+		// Get logo images from separate options
+		$logo_options = array(
+			'gdpr_cookie_bar_logo' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' ),
+			'gdpr_cookie_bar_logo1' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1, '' ),
+			'gdpr_cookie_bar_logo2' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2, '' ),
+			'gdpr_cookie_bar_logo_ml' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1, '' )
+		);
+		// Merge logo options into the main data
+		$gdpr_data = array_merge( $gdpr_data, $logo_options );
 		// Return the data.
 		return rest_ensure_response( $gdpr_data );
 	}

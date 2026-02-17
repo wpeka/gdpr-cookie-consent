@@ -218,7 +218,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		$account_details = $this->settings->get();
 
 		$instance_id = get_option( 'wc_am_client_gdpr_cookie_consent_instance' );
-		$hash        = isset( $_POST['hash'] ) ? sanitize_text_field( wp_unslash( $_POST['hash'] ) ) : substr( strtolower( base_convert( mt_rand(), 10, 36 ) ), 0, 10 );
+		$hash        = isset( $_POST['hash'] ) ? sanitize_text_field( wp_unslash( $_POST['hash'] ) ) : substr( strtolower( base_convert( wp_rand(), 10, 36 ) ), 0, 10 );
 
 		$body = array(
 			'site_url'            => rawurlencode( get_site_url() ),
@@ -425,6 +425,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			}
 			$cookie_table_name = $wpdb->prefix . 'wpl_cookie_scan_cookies';
 			$category_table     =  esc_sql( $wpdb->prefix . 'gdpr_cookie_scan_categories' );
+			$scan_date = $data_arr['created_at'];
 
 			if ( isset( $cookies_arr ) && is_array( $cookies_arr ) ) {
 
@@ -522,7 +523,10 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 					'body' => array(
 						'site_address'			  => get_home_url(),
 						'site_admin_mail'		  => $api_user_email,
-						'cookies_found'			  => count($cookies_arr)
+						'cookies_found'			  => count($cookies_arr),
+						'total_urls'       		  => $total_pages,
+						'total_categories'		  => $categories,
+						'scan_date'                => $scan_date,
 					),
 					'timeout' => 60,
 				)

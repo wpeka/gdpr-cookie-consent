@@ -72,7 +72,7 @@ if( $gdpr_monthly_page_views_percent === 100 || $remaining_percentage_scan_limit
 	$gdpr_plan_warning = true;
 }
 $site_url = get_site_url();
-$site_domain = parse_url($site_url, PHP_URL_HOST);
+$site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 ?>
 
 <div id="gdpr-cookie-consent-main-admin-structure" class="gdpr-cookie-consent-main-admin-structure">
@@ -485,8 +485,8 @@ $site_domain = parse_url($site_url, PHP_URL_HOST);
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
     									conic-gradient( <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_html( $gdpr_monthly_page_views_percent ); ?>%, <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_html('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_html('#fef7c3', 'gdpr-cookie-consent') : esc_html('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
 								>
-									<span style="color: <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_attr( ceil( $gdpr_monthly_page_views_percent ) ); ?>%</span>
-  									<progress value="<?php echo esc_attr( ceil( $gdpr_monthly_page_views_percent ) ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
+									<span style="color: <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_attr( floor( $gdpr_monthly_page_views_percent ) ); ?>%</span>
+  									<progress value="<?php echo esc_attr( floor( $gdpr_monthly_page_views_percent ) ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
 								</div>
 
 								<div class="gdpr-progress-content">

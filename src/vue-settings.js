@@ -11320,29 +11320,63 @@ var adv = new Vue({
           }
           return response.json();
         })
-        .then((data) => {
+        .then(async (data) => { // Make async
           // Process the fetched data
-
-          // Create a copy of the settings object
           const settingsCopy = { ...data };
 
           // Check if gdpr_text_css is not empty
           if (settingsCopy.gdpr_text_css !== "") {
             const text_css = settingsCopy.gdpr_css_text;
-
-            // Decode the gdpr_text_css property before exporting
             const final_css = text_css.replace(/\\r\\n/g, "\n");
             settingsCopy.gdpr_css_text = final_css;
           }
 
-          // Convert the settings object to JSON with indentation
-          const settingsJSON = JSON.stringify(
-            JSON.stringify(settingsCopy, null, 2)
-          );
+            // Prepare logo URLs to fetch and convert to base64
+            const logoUrls = [
+                { key: 'gdpr_cookie_bar_logo', url: data.gdpr_cookie_bar_logo },
+                { key: 'gdpr_cookie_bar_logo1', url: data.gdpr_cookie_bar_logo1 },
+                { key: 'gdpr_cookie_bar_logo2', url: data.gdpr_cookie_bar_logo2 },
+                { key: 'gdpr_cookie_bar_logo_ml', url: data.gdpr_cookie_bar_logo_ml }
+            ];
 
+            // Create an object to store base64 image data
+            const logoImages = {};
+
+            // Fetch and convert each logo to base64
+            for (const logo of logoUrls) {
+                if (logo.url && logo.url.trim() !== '') {
+                    try {
+                        const response = await fetch(logo.url);
+                        const blob = await response.blob();
+                        const base64 = await new Promise((resolve) => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => resolve(reader.result);
+                            reader.readAsDataURL(blob);
+                        });
+                        
+                        // Extract filename from URL
+                        const filename = logo.url.split('/').pop();
+                        
+                        logoImages[logo.key] = {
+                            image: base64,
+                            name: filename
+                        };
+                    } catch (error) {
+                        console.error(`Error fetching logo ${logo.url}:`, error);
+                    }
+                }
+            }
+
+            // Create the export data structure
+            const exportData = {
+                settings: settingsCopy,  // Main settings
+                logo_images: logoImages   // Base64 logo images
+            };
+
+          // Convert the data object to JSON with indentation
+          const settingsJSON = JSON.stringify(exportData, null, 2);
           // Create a Blob containing the JSON data
           const blob = new Blob([settingsJSON], { type: "application/json" });
-
           // Create a download link for the Blob
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
@@ -11373,11 +11407,20 @@ var adv = new Vue({
         reader.onload = function (event) {
           var jsonData = event.target.result;
           try {
-            const parsedData = JSON.parse(JSON.parse(jsonData));
+            const parsedData = JSON.parse(jsonData);
+            // Extract data from the imported file
+            const settings = parsedData.settings;
+            const logoImages = parsedData.logo_images || {};
+            
+            // Prepare the data object with base64 images
             var data = {
               action: "gcc_update_imported_settings",
               security: settings_obj.import_settings_nonce,
-              settings: parsedData,
+              settings: JSON.stringify(settings),
+              banner_image: logoImages.gdpr_cookie_bar_logo ? JSON.stringify(logoImages.gdpr_cookie_bar_logo) : '',
+              banner_image1: logoImages.gdpr_cookie_bar_logo1 ? JSON.stringify(logoImages.gdpr_cookie_bar_logo1) : '',
+              banner_image2: logoImages.gdpr_cookie_bar_logo2 ? JSON.stringify(logoImages.gdpr_cookie_bar_logo2) : '',
+              banner_image_ml: logoImages.gdpr_cookie_bar_logo_ml ? JSON.stringify(logoImages.gdpr_cookie_bar_logo_ml) : ''
             };
             jQuery.ajax({
               url: settings_obj.ajaxurl,

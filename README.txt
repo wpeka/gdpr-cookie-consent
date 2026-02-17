@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.9
-Stable tag: 4.2.0
+Stable tag: 4.2.1
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -195,6 +195,23 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 11.Consent Log table
 
 == Change Log ==
+
+= 4.2.1 =
+* Bug Fixes
+    * Fixed incorrect statistical percentage calculations in the GDPR module.
+    * Resolved issue where Cookie Consent import/export feature was not working properly.
+    * Fixed Safe Mode and Script Blocker settings not saving their state.
+    * Fixed issue where selecting a cookie banner template with a logo did not provide an option to remove the logo.
+    * Resolved JSON validation issue that was breaking the Advanced Settings page and causing console errors.
+
+* Improvements
+    * Improved Cookie Scanning Email Report:
+    * Updated design to better match order completion-style email layout.
+    * Added cookie scanning summary details including:
+        * Scan date
+        * Scanned URLs
+        * Categories
+        * Cookies
 
 = 4.2.0 =
 * Enhanced App Dashboard: Added Cookie Settings, allowing you to choose the banner template, layout, and design directly from the WPLP SaaS dashboard.
@@ -745,6 +762,23 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Initial version
 
 == Upgrade Notice ==
+
+= 4.2.1 =
+* Bug Fixes
+    * Fixed incorrect statistical percentage calculations in the GDPR module.
+    * Resolved issue where Cookie Consent import/export feature was not working properly.
+    * Fixed Safe Mode and Script Blocker settings not saving their state.
+    * Fixed issue where selecting a cookie banner template with a logo did not provide an option to remove the logo.
+    * Resolved JSON validation issue that was breaking the Advanced Settings page and causing console errors.
+
+* Improvements
+    * Improved Cookie Scanning Email Report:
+    * Updated design to better match order completion-style email layout.
+    * Added cookie scanning summary details including:
+        * Scan date
+        * Scanned URLs
+        * Categories
+        * Cookies
 
 = 4.2.0 =
 * Enhanced App Dashboard: Added Cookie Settings, allowing you to choose the banner template, layout, and design directly from the WPLP SaaS dashboard.

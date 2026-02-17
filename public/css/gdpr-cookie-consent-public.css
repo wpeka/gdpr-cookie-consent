@@ -184,6 +184,35 @@
   flex-direction: row !important;
 
 }
+
+/* WITH LOGO banner*/
+#gdpr-cookie-consent-bar.blue_split.gdpr-banner:has(.gdpr_logo_image) 
+.small_row_big_column {
+    margin-left: calc(25% - 60px);
+}
+
+/* WITHOUT LOGO banner*/
+#gdpr-cookie-consent-bar.blue_split.gdpr-banner:not(:has(.gdpr_logo_image)) 
+.small_row_big_column {
+    margin-left: calc(25% - 30px);
+}
+
+/* WITH LOGO widget and popup*/
+#gdpr-cookie-consent-bar.blue_split.gdpr-popup:has(.gdpr_logo_image) 
+.small_row_big_column,
+#gdpr-cookie-consent-bar.blue_split.gdpr-widget:has(.gdpr_logo_image) 
+.small_row_big_column {
+    margin-left: calc(25% - 50px);
+}
+
+/* WITHOUT LOGO widget and popup*/
+#gdpr-cookie-consent-bar.blue_split.gdpr-popup:not(:has(.gdpr_logo_image)) 
+.small_row_big_column,
+#gdpr-cookie-consent-bar.blue_split.gdpr-widget:not(:has(.gdpr_logo_image))
+.small_row_big_column  {
+    margin-left: calc(30% - 20px);
+}
+
 #gdpr-cookie-consent-bar .small_row_big_column {
   display: flex;
   flex-direction: row;
@@ -194,7 +223,7 @@
   position: unset;
 }
 #gdpr-cookie-consent-bar.gdpr-widget .small_row_big_column, #gdpr-cookie-consent-bar.gdpr-popup .small_row_big_column {
-  margin-left: calc(25% - 50px);
+  margin-left: calc(30% - 40px);
   flex-direction: column;
 }
 #gdpr-cookie-consent-bar.gdpr-widget .small_row_big_column .small_row_big_column-buttons, #gdpr-cookie-consent-bar.gdpr-popup .small_row_big_column .small_row_big_column-buttons{
@@ -311,6 +340,12 @@
   #gdpr-cookie-consent-bar .small_row_big_column{
     flex-direction: column;
   }
+
+  /* WITHOUT LOGO banner*/
+  #gdpr-cookie-consent-bar.blue_split.gdpr-banner:not(:has(.gdpr_logo_image)) 
+  .small_row_big_column {
+      margin-left: calc(28% - 30px);
+  }
   #gdpr-cookie-consent-bar .small_row_big_column .small_row_big_column-buttons a{
     min-width: 160px;
   }
@@ -324,6 +359,9 @@
   }
 }
 @media (max-width: 768px) {
+  #gdpr-cookie-consent-bar.blue_split.gdpr-banner:not(:has(.gdpr_logo_image))  .small_row_big_column{
+    margin-left: calc(30% - 24px) !important;
+  }
   #gdpr-cookie-consent-bar 
   .cookie_notice_buttons a{
     font-size: 12px;

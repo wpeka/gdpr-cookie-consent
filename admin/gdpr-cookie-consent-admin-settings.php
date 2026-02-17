@@ -108,16 +108,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
 							  }" >
 						<?php
-						} else { ?>
-							<img v-if="(template === 'default' ? default_template_json : json_templates[template])?.logo?.src != ''" class ="gdpr_logo_image" alt="logo-placeholder" :src="pluginBasePath + ((template === 'default' ? default_template_json : json_templates[template])?.logo?.src || '')" :style="{
-						  	'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
-							'width': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['fit-content'],
-							'height': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['height'],
-							'transform': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['transform'],
-								'position': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['position'],
-								'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
-						  }">
-						<?php }
+						}
 					?>
 					</div>
 					<div v-if="active_test_banner_tab == 2">
@@ -135,17 +126,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
 							  }"  >
 						<?php
-						} else { ?>
-							<img v-if="(template === 'default' ? default_template_json : json_templates[template])?.logo?.src != ''" class ="gdpr_logo_image" alt="logo-placeholder" :src="pluginBasePath + ((template === 'default' ? default_template_json : json_templates[template])?.logo?.src || '')" :style="{
-						  	'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
-							'width': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['fit-content'],
-							'height': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['height'],
-							'transform': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['transform'],
-								'position': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['position'],
-								'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
-						  }">
-						<?php
-					}
+						}
 					?>
 					</div>
 				</div>
@@ -358,16 +339,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
 						  }"  >
 					<?php
-					} else { ?>
-							<img v-if="(template === 'default' ? default_template_json : json_templates[template])?.logo?.src != ''" class ="gdpr_logo_image" alt="logo-placeholder" :src="pluginBasePath + ((template === 'default' ? default_template_json : json_templates[template])?.logo?.src || '')" :style="{
-						  	'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
-							'width': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['fit-content'],
-							'height': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['height'],
-							'transform': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['transform'],
-								'position': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['position'],
-								'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
-						  }">
-						<?php
 				}
 				?>
 				</div>	
@@ -568,16 +539,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
 						  }"  >
 					<?php
-					} else { ?>
-							<img v-if="(template === 'default' ? default_template_json : json_templates[template])?.logo?.src != ''" class ="gdpr_logo_image" alt="logo-placeholder" :src="pluginBasePath + ((template === 'default' ? default_template_json : json_templates[template])?.logo?.src || '')" :style="{
-						  	'margin-left': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['margin-left'],
-							'width': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['fit-content'],
-							'height': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['height'],
-							'transform': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['transform'],
-								'position': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['position'],
-								'z-index': (template == 'default' ? default_template_json : json_templates[template])?.['logo']?.['z-index']
-						  }">
-						<?php
 					}
 					?>
 				</div>	
