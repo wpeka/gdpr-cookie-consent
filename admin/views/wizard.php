@@ -21,7 +21,7 @@ $this->settings = new GDPR_Cookie_Consent_Settings();
 
 // Call the methods from the instantiated object to get user parameters.
 $is_user_connected      = $this->settings->is_connected();
-
+$api_user_plan		  = $this->settings->get_plan();
 /**
  *  Cookie Template card for Pro version.
  *
@@ -263,13 +263,13 @@ function print_template_boxes( ) {
 							<div>
 									<?php
 									$geo_options = get_option( 'wpl_geo_options' );
-									 if ( !$is_user_connected || empty($is_user_connected) ) : ?>
+									 if ( !$is_user_connected || empty($is_user_connected) || $api_user_plan === 'free' ) : ?>
 										<div class="gdpr-disabled-geo-integration">
 											<input id="gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled>
 											<label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
 										</div>
 										<p class="gdpr-eu_visitors_message-gdpr">
-											<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+											<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 										</p>
 									<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
 										<div class="gdpr-disabled-geo-integration">
@@ -290,11 +290,11 @@ function print_template_boxes( ) {
 							<div>
 								<?php
 									$geo_options = get_option( 'wpl_geo_options' );
-								if ( !$is_user_connected || empty($is_user_connected)) :
+								if ( !$is_user_connected || empty($is_user_connected) || $api_user_plan === 'free') :
 									?>
 									<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 									<p class="gdpr-eu_visitors_message-both">
-									<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+									<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 									</p>
 								<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
 									<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>

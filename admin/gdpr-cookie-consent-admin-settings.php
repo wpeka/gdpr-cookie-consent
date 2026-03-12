@@ -770,9 +770,19 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row v-show="is_gdpr">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support IAB TCF v2.2', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to show a consent banner that complies with IAB Europe’s Transparency and Consent Framework v2.2 for ad personalization and tracking.', 'gdpr-cookie-consent'  ); ?>"></tooltip>  <span class="probadge bg-badge"><?php esc_attr_e( 'Pro', 'gdpr-cookie-consent' ); ?></span></label></c-col>
 									<c-col class="col-sm-8">
+										<?php 
+											$is_disabled = (!$is_user_connected || $api_user_plan === 'free');
+										?>
 										<label for="gdpr-cookie-consent-iabtcf-on" class="screen-reader-text"><?php esc_attr_e( 'IAB On','gdpr-cookie-consent'); ?></label>
-										<c-switch v-bind="labelIcon" v-model="iabtcf_is_on" id="gdpr-cookie-consent-iabtcf-on" variant="3d"  color="success" :checked="iabtcf_is_on" v-on:update:checked="onSwitchIabtcfEnable"></c-switch>
+										<div class="gdpr-disabled-iab-integration">
+										<c-switch v-bind="labelIcon" v-model="iabtcf_is_on" id="gdpr-cookie-consent-iabtcf-on" variant="3d"  color="success" :checked="<?php echo $is_disabled ? 'false' : 'iabtcf_is_on'; ?>" v-on:update:checked="onSwitchIabtcfEnable"  <?php echo $is_disabled ? 'disabled' : ''; ?>></c-switch>
 										<input type="hidden" name="gcc-iabtcf-enable" v-model="iabtcf_is_on">
+										<?php if (!$is_user_connected): ?>
+											<p class="gdpr-iab_message">
+												<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
+											</p>
+										<?php endif; ?>
+										</div>
 									</c-col>
 								</c-row>
 								<c-row v-show="is_gdpr && iabtcf_is_on">
@@ -1135,13 +1145,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<div>
 											<?php
 											$geo_options = get_option( 'wpl_geo_options' );
-											 if ( !$is_user_connected || empty($is_user_connected) ) : ?>
+											 if ( !$is_user_connected || empty($is_user_connected) || $api_user_plan === 'free') : ?>
 												<div class="gdpr-disabled-geo-integration">
 													<input id="gdpr-visitors-condition-radio-btn-disabled-gdpr" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled>
 													<label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
 												</div>
 												<p class="gdpr-eu_visitors_message-gdpr">
-													<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+													<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 												</p>
 											<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
 												<div class="gdpr-disabled-geo-integration">
@@ -1162,11 +1172,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<div>
 										<?php
 											$geo_options = get_option( 'wpl_geo_options' );
-										if ( !$is_user_connected || empty($is_user_connected)) :
+										if ( !$is_user_connected || empty($is_user_connected) || $api_user_plan === 'free') :
 											?>
 											<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 											<p class="gdpr-eu_visitors_message-both">
-											<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+											<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
 											<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
@@ -1196,11 +1206,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<div>
 										<?php
 											$geo_options = get_option( 'wpl_geo_options' );
-										if ( !$is_user_connected || empty($is_user_connected) ) :
+										if ( !$is_user_connected || empty($is_user_connected) || $api_user_plan === 'free') :
 											?>
 											<div class="gdpr-disabled-geo-integration"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 											<p class="gdpr-eu_visitors_message-ccpa">
-											<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+											<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
 											<div class="gdpr-disabled-geo-integration"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
@@ -1215,11 +1225,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<div>
 										<?php
 											$geo_options = get_option( 'wpl_geo_options' );
-										if ( !$is_user_connected || empty($is_user_connected)) :
+										if ( !$is_user_connected || empty($is_user_connected) || $api_user_plan === 'free') :
 											?>
 											<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-ccpa" type="checkbox" name="gcc-select-countries-enable-ccpa" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 											<p class="gdpr-eu_visitors_message-both-ccpa">
-											<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+											<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
 											<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-ccpa" type="checkbox" name="gcc-select-countries-enable-ccpa" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>

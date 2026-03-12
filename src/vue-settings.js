@@ -4786,6 +4786,8 @@ var gen = new Vue({
     },
   },
   mounted() {
+    var that = this;
+    
     if (window.vueMounted) return; // Prevent duplicate execution
     window.vueMounted = true; // Mark as mounted
     j("#gdpr-before-mount").css("display", "none");
@@ -12607,7 +12609,9 @@ var lang = new Vue({
           type: "POST",
           url: settings_obj.ajaxurl,
           data:
-            dataV + "&action=gcc_save_language_settings"
+            dataV + "&action=gcc_save_language_settings" + 
+            "&lang_changed=" +
+            that.is_lang_changed
         })
         .done(function(data) {
           that.success_error_message = "Settings Saved";

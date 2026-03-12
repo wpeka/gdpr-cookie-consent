@@ -172,15 +172,23 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_actions_resolve_delete( $item ) {
-		$resolve_url = wp_nonce_url(
-			admin_url( 'admin-post.php?action=gdpr_resolve&id=' . $item['ID'] ),
-			'wpl_resolve_request'
-		);
-		$actions = array(
-			'resolve' => '<a href="' . $resolve_url . '">' . __( 'Resolve', 'gdpr-cookie-consent' ) . '</a>',
-			'delete'  => '<a href="' . admin_url( 'admin.php?page=gdpr-cookie-consent&action=delete&id=' . $item['ID'] ) . '">' . __( 'Delete', 'gdpr-cookie-consent' ) . '</a>',
-		);
+		$actions = array();
 
+		// Show Resolve action if not resolved
+		if ( empty( $item['resolved'] ) || intval( $item['resolved'] ) === 0 ) {
+			$resolve_url = wp_nonce_url(
+				admin_url( 'admin-post.php?action=gdpr_resolve&id=' . $item['ID'] ),
+				'wpl_resolve_request'
+			);
+			$actions['resolve'] = '<a href="' . esc_url( $resolve_url ) . '">' .
+				__( 'Resolve', 'gdpr-cookie-consent' ) .
+			'</a>';
+		}
+		$delete_url = wp_nonce_url(
+			admin_url( 'admin-post.php?action=gdpr_delete&id=' . $item['ID'] ),
+			'wpl_delete_request'
+		);
+		$actions['delete'] = '<a href="' . esc_url( $delete_url ) . '">' . __( 'Delete', 'gdpr-cookie-consent' ) . '</a>';
 		return $this->row_actions( $actions );
 	}
 	/**

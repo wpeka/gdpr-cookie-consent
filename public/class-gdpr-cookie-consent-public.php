@@ -561,7 +561,8 @@ class Gdpr_Cookie_Consent_Public {
 					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
 					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
 					'is_gacm_on'			=> $the_options['is_gacm_on'],
-					'is_gcm_advertiser_mode'=> $the_options['is_gcm_advertiser_mode']
+					'is_gcm_advertiser_mode'=> $the_options['is_gcm_advertiser_mode'],
+					'is_iabtcf_on'			=> $the_options['is_iabtcf_on'],
 				)
 			);
 			wp_enqueue_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-admin-tcf.js', array( 'jquery' ), $this->version, false );

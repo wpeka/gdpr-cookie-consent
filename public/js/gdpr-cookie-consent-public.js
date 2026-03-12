@@ -1229,6 +1229,54 @@ banner.style.display = "none";
           }
           GDPR.show_again_elm.slideUp(GDPR.settings.animate_speed_hide);
         } else if (button_action == "close") {
+            var law = GDPR.settings.cookie_usage_for;
+
+            var hasGDPR  = GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME);
+            var hasCCPA  = GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME) ||
+                          GDPR_Cookie.exists(US_PRIVACY_COOKIE_NAME);
+
+            if (law === "gdpr" || law === "lgpd" || law === "eprivacy") {
+
+                if (hasGDPR) {
+                    // Consent already given
+                    GDPR.bar_elm.hide();
+                    GDPR.show_again_elm.slideDown(GDPR.settings.animate_speed_show);
+                } else {
+                    // No consent yet show banner
+                    GDPR.displayHeader();
+                }
+
+            } else if (law === "ccpa") {
+
+                if (hasCCPA) {
+                    GDPR.bar_elm.hide();
+                    GDPR.show_again_elm.slideDown(GDPR.settings.animate_speed_show);
+                } else {
+                    GDPR.displayHeader();
+                }
+
+            }
+            else if (law === "both") {
+
+                if (hasGDPR && hasCCPA) {
+                    // Both accepted
+                    GDPR.bar_elm.hide();
+                    GDPR.show_again_elm.slideDown(GDPR.settings.animate_speed_show);
+
+                } else if (!hasGDPR) {
+                    // GDPR missing
+                    multiple_legislation_current_banner = "gdpr";
+                    GDPR.displayHeader();
+
+                } else if (!hasCCPA) {
+                    // CCPA missing
+                    multiple_legislation_current_banner = "ccpa";
+                    GDPR.displayHeader(true, false);
+                    GDPR.show_again_elm.slideDown(GDPR.settings.animate_speed_show);
+                }
+            }
+
+          else {
           GDPR.displayHeader();
           if (
             GDPR.settings.cookie_bar_as === "popup" &&
@@ -1236,6 +1284,7 @@ banner.style.display = "none";
           ) {
             $("#gdpr-cookie-consent-bar").css("display", "none");
             $("#gdpr-cookie-consent-bar").slideDown(500);
+          }
           }
         } else if (button_action == "show_settings") {
           GDPR.show_details();
