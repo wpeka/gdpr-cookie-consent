@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
 Requires at least: 3.3.1
 Tested up to: 6.9
-Stable tag: 4.3.3
+Stable tag: 4.3.5
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -196,8 +196,17 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 
 == Change Log ==
 
+= 4.3.5 =
+* Introduced an AI-Powered Compliance Setup Wizard that helps users configure legal pages and cookie compliance settings based on their business type, website purpose, visitor locations, and applicable privacy laws.
+* AI now provides personalized compliance recommendations and automatically assists with setting up legal policies and cookie consent requirements for regulations such as GDPR and CCPA.
+
+= 4.3.4 =
+* Minor bugfixes and improvements
+
 = 4.3.3 =
 * **New:** Added an option in the WPLP SaaS dashboard to directly connect and manage your WordPress website with WP Cookie Consent.
+* Fixed an issue where Cookie Banner text translations were not applied when Google Consent Mode (GCM) was enabled.
+* Minor improvement to banner preview visibility on SaaS settings.
 
 = 4.3.2 =
 * What's New
@@ -829,8 +838,17 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 
 == Upgrade Notice ==
 
+= 4.3.5 =
+* Introduced an AI-Powered Compliance Setup Wizard that helps users configure legal pages and cookie compliance settings based on their business type, website purpose, visitor locations, and applicable privacy laws.
+* AI now provides personalized compliance recommendations and automatically assists with setting up legal policies and cookie consent requirements for regulations such as GDPR and CCPA.
+
+= 4.3.4 =
+* Minor bugfixes and improvements
+
 = 4.3.3 =
 * **New:** Added an option in the WPLP SaaS dashboard to directly connect and manage your WordPress website with WP Cookie Consent.
+* Fixed an issue where Cookie Banner text translations were not applied when Google Consent Mode (GCM) was enabled.
+* Minor improvement to banner preview visibility on SaaS settings.
 
 = 4.3.2 =
 * What's New

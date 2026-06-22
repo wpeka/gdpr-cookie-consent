@@ -66,7 +66,7 @@ class GDPR_Cookie_Consent_App_Auth {
 			add_action( 'wp_ajax_gdpr_cookie_consent_app_store_auth', array( $this, 'store_auth_key' ) );
 			add_action( 'wp_ajax_gdpr_cookie_consent_app_delete_auth', array( $this, 'delete_app_auth' ) );
 			add_action( 'wp_ajax_wpl_cookie_scanner_view_capabilities', array( $this, 'wpl_cookie_scanner_view_capabilities' ) );
-
+			add_action( 'wp_ajax_gdpr_save_free_trial_data', array( $this, 'save_free_trial_data' ) );
 		}
 	}
 
@@ -394,6 +394,44 @@ class GDPR_Cookie_Consent_App_Auth {
 				'text'  => __( 'Reloading page, please wait.', 'gdpr-cookie-consent' ),
 			)
 		);
+	}
+
+	/**
+	 * AJAX handler to save free trial data
+	 */
+	public function save_free_trial_data() {		
+
+		$raw = wp_unslash( $_POST['free_trial'] ?? '' );
+
+		$free_trial = json_decode( $raw, true );
+
+		if ( JSON_ERROR_NONE !== json_last_error() || ! is_array( $free_trial ) ) {
+			wp_send_json_error( 'Invalid free trial data' );
+		}
+
+		$free_trial_data = [
+			'isTrialActive' => ! empty( $free_trial['isTrialActive'] ),
+			'trialStartDate' => sanitize_text_field( $free_trial['trialStartDate'] ?? '' ),
+			'trialEndDate'   => sanitize_text_field( $free_trial['trialEndDate'] ?? '' ),
+			'trialEndsIn'    => absint( $free_trial['trialEndsIn'] ?? 0 ),
+			'localExpiry'    => (int) ( $free_trial['localExpiry'] ?? 0 ),
+		];
+
+		if ( ! empty( $free_trial_data['isTrialActive'] ) && $free_trial_data['isTrialActive'] === true ) {
+			// Store with a local expiry so the plugin can self-expire it
+			$expiry = strtotime( $free_trial_data['trialEndDate'] );
+
+			$free_trial_data['localExpiry'] = $expiry !== false
+				? $expiry
+				: ( time() + 7 * DAY_IN_SECONDS );
+
+			update_option( 'wplp_free_trial_data', $free_trial_data );
+		} else {
+			// isTrialActive false means user has an active paid sub — clear it
+			delete_option( 'wplp_free_trial_data' );
+		}
+
+		wp_send_json_success();
 	}
 
 	/**

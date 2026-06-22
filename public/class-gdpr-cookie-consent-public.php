@@ -195,7 +195,7 @@ class Gdpr_Cookie_Consent_Public {
 		$ads_data_redact = ( $this->convert_boolean($the_options['is_gcm_ads_redact']) === true ) ? "true" : "false";
 		$url_pass = ( $this->convert_boolean($the_options['is_gcm_url_passthrough']) === true ) ? "true" : "false";
 		$wait_for_update = (int) $the_options['gcm_wait_for_update_duration'];
-		$gcm_defaults = json_decode($the_options['gcm_defaults']) ?? [];
+		$gcm_defaults = json_decode($the_options['gcm_defaults'] ?? '[]') ?? [];
 		foreach ($gcm_defaults as $config) :
 			$regions = array_map('trim', explode(',', $config->region));
 			$regionParam = ($config->region === 'All') ? '' : 'region: ["' . implode('","', $regions) . '"]';

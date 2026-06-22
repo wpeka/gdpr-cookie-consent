@@ -32,6 +32,16 @@ $this->settings = new GDPR_Cookie_Consent_Settings();
 // Call the is_connected() method from the instantiated object to check if the user is connected.
 $is_user_connected = $this->settings->is_connected();
 $api_user_plan     = $this->settings->get_plan();
+
+
+$free_trial_data = get_option( 'wplp_free_trial_data', [] );
+
+$local_expiry = (int) ( $free_trial_data['localExpiry'] ?? 0 );
+
+$is_free_trial_active = ! empty( $free_trial_data['isTrialActive'] ) && time() < $local_expiry;
+$trialEndsIn          = $is_free_trial_active ? ceil( ( $local_expiry - time() ) / DAY_IN_SECONDS ) : 0;
+$trialStartDate       = $free_trial_data['trialStartDate'] ?? '';
+$trialEndDate         = $free_trial_data['trialEndDate'] ?? '';
 /*
 * Number of scans on the basis of user's plan
 */
@@ -379,6 +389,31 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 							<?php } ?>			
 					</div>
 
+					<?php if($is_user_connected == true && $is_free_trial_active == true) { ?>
+						<div class="wplp-trial-widget <?php echo ($trialEndsIn > 0) ? 'wplp-trial-widget-active' : 'wplp-trial-widget-ended'; ?>">
+							<div class="wplp-trial-widget-header">
+								<h5 class="wplp-trial-widget-title <?php echo ($trialEndsIn > 0) ? 'wplp-trial-widget-title-active' : 'wplp-trial-widget-title-ended'; ?>">Free Trial</h5>
+								<span class="wplp-trial-widget-badge <?php echo ($trialEndsIn > 0) ? 'wplp-trial-widget-badge-active' : 'wplp-trial-widget-badge-ended'; ?>">
+									<?php echo ($trialEndsIn > 0) ? 'Active' : 'Ended'; ?>
+								</span>
+							</div>
+
+							<div class="wplp-trial-widget-body">
+								<div class="wplp-trial-widget-status">
+									<h6 class="wplp-trial-widget-remaining <?php echo ($trialEndsIn > 0) ? 'wplp-trial-widget-remaining-active' : 'wplp-trial-widget-remaining-ended'; ?>">
+										<?php echo ($trialEndsIn > 0) ? esc_html($trialEndsIn) . ' days remaining' : 'Trial period ended'; ?>
+									</h6>
+									<p class="wplp-trial-widget-dates <?php echo ($trialEndsIn > 0) ? 'wplp-trial-widget-dates-active' : 'wplp-trial-widget-dates-ended'; ?>">
+										<?php echo esc_html($trialStartDate); ?> - <?php echo esc_html($trialEndDate); ?>
+									</p>
+								</div>
+
+								<div class="wplp-trial-widget-progress-track">
+									<div class="wplp-trial-widget-progress-fill" style="width: <?php echo esc_attr(((7 - $trialEndsIn) / 7) * 100); ?>%;"></div>
+								</div>
+							</div>
+						</div>
+					<?php } ?>
 				</div>
 
 				<!-- tab content  -->

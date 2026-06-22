@@ -872,12 +872,29 @@ jQuery(document).ready(function () {
 
         // Construct the full URL
         var fullUrl = baseUrl + relativePath + tabHash;
-
-        //reload the window after settimeout.
-        setTimeout(function () {
-          window.location.href = fullUrl;
-          location.reload();
-        }, 100);
+          // Save free trial first, then reload
+            if (data.response && data.response.freeTrial) {
+              jQuery.ajax({
+                  url: gdpr_localize_data.ajaxurl,
+                  type: "POST",
+                  data: {
+                      action: "gdpr_save_free_trial_data",
+                      free_trial: JSON.stringify(data.response.freeTrial),
+                  },
+                  complete: function () {
+                      // Reload only after trial data is saved
+                      setTimeout(function () {
+                          window.location.href = fullUrl;
+                          location.reload();
+                      }, 100);
+                  }
+              });
+          } else {
+              setTimeout(function () {
+                  window.location.href = fullUrl;
+                  location.reload();
+              }, 100);
+          }
       },
       error: function (jqXHR, textStatus, errorThrown) {
         // Handle error response
