@@ -4763,6 +4763,37 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
+	 * Read and decode admin translations.json from disk.
+	 *
+	 * The bundled file is ~1 MB. Fetching it with wp_remote_get() against the
+	 * site's own URL sends it through the web server and back, which wastes
+	 * bandwidth and fails outright when the site is behind basic auth, a
+	 * self-signed certificate, or blocked loopback requests. Read the local file
+	 * and decode it only once per request.
+	 *
+	 * @return array Decoded translations, or an empty array if unreadable.
+	 */
+	public function gdpr_get_admin_translations() {
+		static $translations = null;
+
+		if ( null !== $translations ) {
+			return $translations;
+		}
+
+		$translations      = array();
+		$translations_file = plugin_dir_path( __FILE__ ) . 'translations/translations.json';
+
+		if ( is_readable( $translations_file ) ) {
+			$decoded = json_decode( file_get_contents( $translations_file ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local bundled file, not a remote request.
+			if ( is_array( $decoded ) ) {
+				$translations = $decoded;
+			}
+		}
+
+		return $translations;
+	}
+
+	/**
 	 * Return categories.
 	 *
 	 * @since 1.0
@@ -8979,9 +9010,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_cookie_consent_restore_default_settings() {
 		// restore translation of public facing side text.
 		// Load and decode translations from JSON file.
-		$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
-		$translations      = wp_remote_get( $translations_file );
-		$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
+		$translations = $this->gdpr_get_admin_translations();
 
 		// Define an array of text keys to translate.
 		$text_keys_to_translate = array(
@@ -13868,9 +13897,7 @@ public function gdpr_support_request_handler() {
 	public function gdpr_translate_cookie_categories($target_language) {
 		// restore translation of public facing side text.
 		// Load and decode translations from JSON file.
-		$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
-		$translations      = wp_remote_get( $translations_file );
-		$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
+		$translations = $this->gdpr_get_admin_translations();
 
 		// Define an array of text keys to translate.
 		$text_keys_to_translate = array(

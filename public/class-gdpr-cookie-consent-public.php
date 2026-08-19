@@ -695,6 +695,38 @@ class Gdpr_Cookie_Consent_Public {
 			return $text;
 		}
 	}
+
+	/**
+	 * Read and decode public-translations.json from disk.
+	 *
+	 * The bundled file is ~1 MB, and the banner needs it on every front-end
+	 * render. It must never be fetched over HTTP: a wp_remote_get() against the
+	 * site's own URL turns each page view into a 1 MB request/response pair
+	 * through the web server, which burns hosting bandwidth (tens of GB a month
+	 * on a busy site) and adds a full round trip to page render. Read the local
+	 * file instead, and decode it only once per request.
+	 *
+	 * @return array Decoded translations, or an empty array if unreadable.
+	 */
+	public function gdpr_get_public_translations() {
+		static $translations = null;
+
+		if ( null !== $translations ) {
+			return $translations;
+		}
+
+		$translations      = array();
+		$translations_file = plugin_dir_path( __FILE__ ) . 'translations/public-translations.json';
+
+		if ( is_readable( $translations_file ) ) {
+			$decoded = json_decode( file_get_contents( $translations_file ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local bundled file, not a remote request.
+			if ( is_array( $decoded ) ) {
+				$translations = $decoded;
+			}
+		}
+
+		return $translations;
+	}
 	/**
 	 * Registered rest end point to get the current banner options form database.
 	 */
@@ -1249,10 +1281,8 @@ class Gdpr_Cookie_Consent_Public {
 				// language translation based on the selected language for the public facing.
 				if ( isset( $the_options['lang_selected'] )  && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {
 
-					// Load and decode translations from JSON file.
-					$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/public/translations/public-translations.json';
-					$translations      = wp_remote_get( $translations_file );
-					$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
+					// Load and decode translations from the local JSON file.
+					$translations = $this->gdpr_get_public_translations();
 					// Define an array of text keys to translate.
 					$text_keys_to_translate = array(
 							'about',
@@ -1278,9 +1308,18 @@ class Gdpr_Cookie_Consent_Public {
 						$cookie_data[ $text_key ] = $translated_text;
 					}
 
+					$previous_cookie_data = isset( $the_options['cookie_data'] ) ? $the_options['cookie_data'] : null;
+					$previous_language    = isset( $the_options['gdpr_current_language'] ) ? $the_options['gdpr_current_language'] : null;
+
 					$the_options['cookie_data'] = $cookie_data;
 					$the_options['gdpr_current_language'] = $the_options['lang_selected'];
-					update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+
+					// Only persist when something actually changed. This runs on
+					// wp_footer for every front-end view, so an unconditional write
+					// meant one options-table write per page view.
+					if ( $previous_cookie_data !== $cookie_data || $previous_language !== $the_options['lang_selected'] ) {
+						update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+					}
 				}
 			}
 
@@ -1355,8 +1394,7 @@ class Gdpr_Cookie_Consent_Public {
 						if (strpos($supported_language, $value) !== false) {
 							$flag = true;
 
-							$translations_file = plugin_dir_path(__FILE__) . 'translations/public-translations.json';
-							$translations = json_decode(file_get_contents($translations_file), true);
+							$translations = $this->gdpr_get_public_translations();
 
 							// Define an array of text keys to translate.
 							$text_keys_to_translate = array(
