@@ -12711,3 +12711,34 @@ div#gdpr-scan-history {
 .gdpr-cookie-consent-admin-cookie-settings-tab.subnav-expanded .gdpr-subnav-chevron {
 	transform: rotate(0deg);
 }
+.gdpr-compliance-records-subnav {
+	display: none;
+	flex-direction: column;
+	padding-left: 20px;
+}
+
+.gdpr-compliance-records-subnav .gdpr-cookie-consent-admin-tab {
+	border-left: 1px solid #E4E4E7;
+	padding: 10px 20px;
+	font-weight: 500;
+	font-size: 14px;
+  color:#2D2D32;
+  border-radius: 0 !important;
+  height: auto !important
+}
+
+.gdpr-compliance-records-subnav .gdpr-cookie-consent-admin-tab.sub-tab.active-tab {
+	border-left: 2px solid #074EA8 !important;
+  border-radius: 0 !important;
+	color: #074EA8 !important;
+  background: none !important;
+}
+
+.gdpr-compliance-records-chevron {
+	transition: transform 0.2s ease;
+	transform: rotate(180deg);
+}
+
+.gdpr-cookie-consent-admin-compliance-records-tab.subnav-expanded .gdpr-compliance-records-chevron {
+	transform: rotate(0deg);
+}

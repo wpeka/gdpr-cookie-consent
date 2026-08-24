@@ -277,68 +277,65 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 										<?php echo esc_html('Script&nbsp;Blocker','gdpr-cookie-consent'); ?>
 									</div>
 								<?php } ?>
-								<!-- AB Testing tab  -->
-								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-abtesting-settings-tab" data-tab="ab_testing">
-									<?php echo esc_html('AB&nbsp;Testing','gdpr-cookie-consent'); ?>
+
+								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-compliance-records-tab" data-tab="compliance_records">
+									<div style="display:flex; justify-content:space-between;gap:45px">
+										<?php echo esc_html( 'Compliance&nbsp;Records', 'gdpr-cookie-consent' ); ?>
+										<svg class="gdpr-subnav-chevron gdpr-compliance-records-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M15 12.5L10 7.5L5 12.5" stroke="#074EA8"/>
+										</svg>
+									</div>
 								</div>
 
-								<?php
-								if ( $is_consent_log_on && ! $pro_is_activated ) {
-									?>
-										<!-- consent log tab  -->
-											<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-												<?php echo esc_html('Consent&nbsp;Logs','gdpr-cookie-consent'); ?>
-											</div>
+								<!-- NEW: nested sub-items, hidden/shown together -->
+								<div class="gdpr-compliance-records-subnav">
+
+									<!-- AB Testing tab  -->
+									<div class="sub-tab gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-abtesting-settings-tab" data-tab="ab_testing">
+										<?php echo esc_html( 'AB&nbsp;Testing', 'gdpr-cookie-consent' ); ?>
+									</div>
+
 									<?php
-								}
-								if ( $pro_is_activated ) {
-									if ( $is_consent_log_on ) {
+									if ( $is_consent_log_on && ! $pro_is_activated ) {
 										?>
-													<!-- consent log tab  -->
-													<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-														<?php echo esc_html('Consent&nbsp;Logs','gdpr-cookie-consent'); ?>
-													</div>
-												<?php
+										<div class="sub-tab gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
+											<?php echo esc_html( 'Consent&nbsp;Logs', 'gdpr-cookie-consent' ); ?>
+										</div>
+										<?php
 									}
-								}
-								if ( $is_data_req_on && ! $pro_is_activated ) {
-								
-									?>
-												<!-- data req tab  -->
-												<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-												<?php echo esc_html('Data&nbsp;Request','gdpr-cookie-consent'); ?>
-												</div>
-								
-												<?php
-
-								}
-							
-								if ( $pro_is_activated ) {
-								
-									?>
-
+									if ( $pro_is_activated ) {
+										if ( $is_consent_log_on ) {
+											?>
+											<div class="sub-tab gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
+												<?php echo esc_html( 'Consent&nbsp;Logs', 'gdpr-cookie-consent' ); ?>
+											</div>
 											<?php
+										}
+									}
+									if ( $is_data_req_on && ! $pro_is_activated ) {
+										?>
+										<div class="sub-tab gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
+											<?php echo esc_html( 'Data&nbsp;Request', 'gdpr-cookie-consent' ); ?>
+										</div>
+										<?php
+									}
+									if ( $pro_is_activated ) {
+										if ( $is_data_req_on ) {
+											?>
+											<div class="sub-tab gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
+												<?php echo esc_html( 'Data&nbsp;Request', 'gdpr-cookie-consent' ); ?>
+											</div>
+											<?php
+										}
+									}
+									?>
 
-											if ( $is_data_req_on ) {
-											
-												?>
-											<!-- data req tab  -->
-											<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-												<?php echo esc_html('Data&nbsp;Request','gdpr-cookie-consent'); ?>
-												</div>
-												<?php
+									<!-- Policy data tab  -->
+									<div class="sub-tab gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-policy-data-tab" data-tab="policy_data">
+										<?php echo esc_html( 'Policy&nbsp;Data', 'gdpr-cookie-consent' ); ?>
+									</div>
 
-											}
-								}
-							
-								?>
-
-								<!-- Policy data tab  -->
-								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-policy-data-tab" data-tab="policy_data">
-								<?php echo esc_html('Policy&nbsp;Data','gdpr-cookie-consent'); ?>
 								</div>
-							
-								
 							
 								<!-- Advanced Tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-advanced-settings-tab" data-tab="advanced_settings">
@@ -692,7 +689,13 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 								<div class="gdpr-cookie-consent-admin-cookie-settings-content gdpr-cookie-consent-admin-tab-content" id="cookie_settings">
 									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-settings-tab-template.php'; ?>
 								</div>
-
+								
+								<!-- data req data content  -->
+								<div class="gdpr-cookie-consent-admin-data-request-data-content gdpr-cookie-consent-admin-tab-content" id="data_request">
+									<?php do_action( 'add_data_request_content' ); ?>
+									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-data-request-tab-template.php'; ?>
+								</div>
+								
 								<!-- Advanced Settings content  -->
 								<div class="gdpr-cookie-consent-admin-advanced-settings-content gdpr-cookie-consent-admin-tab-content" id="advanced_settings">
 									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-advanced-settings-tab-template.php'; ?>
@@ -725,11 +728,7 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 							<?php do_action( 'add_consent_log_content' ); ?>
 							<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-consent-logs-tab-template.php'; ?>
 							</div>
-							<!-- data req data content  -->
-							<div class="gdpr-cookie-consent-admin-data-request-data-content gdpr-cookie-consent-admin-tab-content" id="data_request">
-								<?php do_action( 'add_data_request_content' ); ?>
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-data-request-tab-template.php'; ?>
-							</div>
+							
 							<!-- activation key content  -->
 							<div class="gdpr-cookie-consent-admin-data-request-activation-key gdpr-cookie-consent-admin-tab-content" id="activation_key">
 								<?php do_action( 'add_activation_key_content' ); ?>

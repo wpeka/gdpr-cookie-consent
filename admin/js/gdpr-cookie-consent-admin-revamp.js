@@ -47,16 +47,24 @@ jQuery(document).ready(function () {
 		activateBannerSettingsGeneral();
 	}
 
-	function activateBannerSettingsGeneral() {
+	function activateBannerSettingsGeneral(retries) {
+		retries = retries === undefined ? 10 : retries;
+
 		var bannerSettingsTab = document.querySelector('.gdpr-cookie-consent-admin-cookie-settings-tab');
 		var subNav = document.querySelector('.gdpr-banner-settings-subnav');
 
-		if (!bannerSettingsTab || !subNav) return;
+		if (!bannerSettingsTab || !subNav) {
+			if (retries > 0) {
+				setTimeout(function () { activateBannerSettingsGeneral(retries - 1); }, 200);
+			}
+			return;
+		}
 
-		// Only force General if we're not already inside cookie_settings
-		var alreadyOnBannerSettings = window.location.hash.indexOf('#cookie_settings') === 0;
+		
+		var currentHash = window.location.hash;
+		var invalidHash = currentHash === '' || currentHash === '#';
 
-		if (!alreadyOnBannerSettings) {
+		if (invalidHash) {
 			bannerSettingsTab.classList.add('subnav-expanded');
 			subNav.style.setProperty('display', 'flex', 'important');
 
@@ -67,6 +75,64 @@ jQuery(document).ready(function () {
 		}
 	}
 });
+function initComplianceRecords() {
+	var complianceRecordsTab = document.querySelector('.gdpr-cookie-consent-admin-compliance-records-tab');
+	var complianceSubnav = document.querySelector('.gdpr-compliance-records-subnav');
+	var bannerSettingsTab = document.querySelector('.gdpr-cookie-consent-admin-cookie-settings-tab');
+	var bannerSubnav = document.querySelector('.gdpr-banner-settings-subnav');
+
+	if (!complianceRecordsTab || !complianceSubnav) return;
+
+	complianceRecordsTab.addEventListener('click', function () {
+		var isExpanded = complianceRecordsTab.classList.toggle('subnav-expanded');
+		complianceSubnav.style.display = isExpanded ? 'flex' : 'none';
+
+		// Close Banner Settings if it's open
+		if (bannerSettingsTab && bannerSubnav) {
+			bannerSettingsTab.classList.remove('subnav-expanded');
+			bannerSubnav.style.setProperty('display', 'none', 'important');
+		}
+
+		if (isExpanded) {
+			var currentHash = window.location.hash;
+			var alreadyInsideComplianceRecords =
+				currentHash.indexOf('#ab_testing') === 0 ||
+				currentHash.indexOf('#consent_logs') === 0 ||
+				currentHash.indexOf('#data_request') === 0 ||
+				currentHash.indexOf('#policy_data') === 0;
+
+			if (!alreadyInsideComplianceRecords) {
+				var firstTab = complianceSubnav.querySelector('.gdpr-cookie-consent-admin-tab');
+				if (firstTab) {
+					firstTab.click();
+				}
+			}
+		}
+	});
+
+	// Close Compliance Records when any OTHER top-level tab is clicked
+	var allTopLevelTabs = document.querySelectorAll('.gdpr-sub-tabs > .gdpr-cookie-consent-admin-tab');
+	allTopLevelTabs.forEach(function (tab) {
+		if (tab === complianceRecordsTab) return;
+
+		tab.addEventListener('click', function () {
+			complianceRecordsTab.classList.remove('subnav-expanded');
+			complianceSubnav.style.display = 'none';
+		});
+	});
+
+	var activeInside = complianceSubnav.querySelector('.gdpr-cookie-consent-admin-tab.active-tab');
+	if (activeInside) {
+		complianceRecordsTab.classList.add('subnav-expanded');
+		complianceSubnav.style.display = 'flex';
+	}
+}
+
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', initComplianceRecords);
+} else {
+	initComplianceRecords();
+}
   jQuery(function ($) {
     $(document).on('click', '.gdpr-vendor-details-toggle', function (event) {
       event.preventDefault();
