@@ -19,17 +19,6 @@ jQuery(document).ready(function () {
 
   // Dashboard Revamp Collapsible Sidebar
   jQuery(document).ready(function ($) {
-    const tabHeader = $(".wplp-compliance-cookie-consent-tab-admin");
-
-    tabHeader.addClass("open-tab");
-    tabHeader.closest(".gdpr-admin-tab-link").addClass("active-tab");
-
-    tabHeader.on("click", function (e) {
-      e.preventDefault();
-      $(this).toggleClass("open-tab");
-    })
-  });
-  jQuery(document).ready(function ($) {
 	const tabHeader = $(".wplp-compliance-cookie-consent-tab-admin");
 
 	tabHeader.addClass("open-tab");
@@ -41,39 +30,10 @@ jQuery(document).ready(function () {
 
 		// whenever Cookie Consent becomes the active top-level tab,
 		// default into Banner Settings > General
-		activateBannerSettingsGeneral();
+		if (window.gdprSidebarSubnav) {
+			window.gdprSidebarSubnav.open("cookie_settings");
+		}
 	});
-	if (tabHeader.closest(".gdpr-admin-tab-link").hasClass("active-tab")) {
-		activateBannerSettingsGeneral();
-	}
-
-	function activateBannerSettingsGeneral(retries) {
-		retries = retries === undefined ? 10 : retries;
-
-		var bannerSettingsTab = document.querySelector('.gdpr-cookie-consent-admin-cookie-settings-tab');
-		var subNav = document.querySelector('.gdpr-banner-settings-subnav');
-
-		if (!bannerSettingsTab || !subNav) {
-			if (retries > 0) {
-				setTimeout(function () { activateBannerSettingsGeneral(retries - 1); }, 200);
-			}
-			return;
-		}
-
-		
-		var currentHash = window.location.hash;
-		var invalidHash = currentHash === '' || currentHash === '#';
-
-		if (invalidHash) {
-			bannerSettingsTab.classList.add('subnav-expanded');
-			subNav.style.setProperty('display', 'flex', 'important');
-
-			var firstLink = subNav.querySelector('.nav-link');
-			if (firstLink) {
-				firstLink.click();
-			}
-		}
-	}
 });
 function initComplianceRecords() {
 	var complianceRecordsTab = document.querySelector('.gdpr-cookie-consent-admin-compliance-records-tab');
@@ -305,13 +265,7 @@ if (document.readyState === 'loading') {
   var hash = window.location.hash;
 
   if (hash) {
-    var tabId = hash.substring(1); // Remove '#' from the hash
-
-    const substr = "cookie_settings#";
-
-    if (tabId.includes(substr)) {
-      tabId = "cookie_settings";
-    }
+    var tabId = hash.substring(1).split("#")[0];
     // Remove active class from all tabs
     jQuery(".gdpr-cookie-consent-admin-tab").removeClass("active-tab");
 
@@ -437,12 +391,6 @@ if (document.readyState === 'loading') {
   });
   jQuery(".gdpr-quick-link-item.script_blocker").on("click", function (e) {
     var linkUrl = jQuery(".gdpr-quick-link-item.script_blocker a").attr("href");
-
-    window.location.assign(linkUrl);
-    
-  });
-  jQuery(".gdpr-quick-link-item.policy_data").on("click", function (e) {
-    var linkUrl = jQuery(".gdpr-quick-link-item.policy_data a").attr("href");
 
     window.location.assign(linkUrl);
     
@@ -1800,72 +1748,114 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-	function trySetup(retries) {
-		var subNav = document.querySelector('.gdpr-cookie-consent-settings-nav .nav.nav-pills');
-		var sidebarBannerSettings = document.querySelector('.gdpr-cookie-consent-admin-cookie-settings-tab');
+	var SECTIONS = [
+		{
+			contentId: 'cookie_settings',
+			tabClass: 'gdpr-cookie-consent-admin-cookie-settings-tab',
+			navClass: 'gdpr-banner-settings-subnav'
+		},
+		{
+			contentId: 'advanced_settings',
+			tabClass: 'gdpr-cookie-consent-admin-advanced-settings-tab',
+			navClass: 'gdpr-advanced-settings-subnav'
+		}
+	];
 
-		if (!subNav || !sidebarBannerSettings) {
-			if (retries > 0) {
-				setTimeout(function () { trySetup(retries - 1); }, 200);
+	var mounted = [];
+
+	function isCurrent(section) {
+		return window.location.hash.indexOf('#' + section.contentId) === 0;
+	}
+
+	function setExpanded(section, expanded) {
+		section.tab.classList.toggle('subnav-expanded', expanded);
+		section.nav.style.setProperty('display', expanded ? 'flex' : 'none', 'important');
+	}
+
+	function collapseAll(except) {
+		mounted.forEach(function (section) {
+			if (section !== except) {
+				setExpanded(section, false);
 			}
-			return;
-		}
-
-		if (!subNav.classList.contains('gdpr-banner-settings-subnav')) {
-			sidebarBannerSettings.insertAdjacentElement('afterend', subNav);
-			subNav.classList.add('gdpr-banner-settings-subnav');
-			subNav.style.setProperty('display', 'none', 'important');
-      
-		}
-    if (window.location.hash.indexOf('#cookie_settings') === 0) {
-			sidebarBannerSettings.classList.add('subnav-expanded');
-			subNav.style.setProperty('display', 'flex', 'important');
-		}
-		sidebarBannerSettings.addEventListener('click', function () {
-			var isExpanded = sidebarBannerSettings.classList.toggle('subnav-expanded');
-			subNav.style.setProperty('display', isExpanded ? 'flex' : 'none', 'important');
-
-			if (isExpanded) {
-        var alreadyOnBannerSettings = window.location.hash.indexOf('#cookie_settings') === 0;
-        		if (!alreadyOnBannerSettings) {
-              var firstLink = subNav.querySelector('.nav-link');
-              if (firstLink) {
-                firstLink.click();
-              }
-            }
-			}
-		});
-
-		var allTopLevelTabs = document.querySelectorAll('.gdpr-sub-tabs > .gdpr-cookie-consent-admin-tab');
-		allTopLevelTabs.forEach(function (tab) {
-			if (tab === sidebarBannerSettings) return;
-
-			tab.addEventListener('click', function () {
-				sidebarBannerSettings.classList.remove('subnav-expanded');
-				subNav.style.setProperty('display', 'none', 'important');
-			});
 		});
 	}
 
-	trySetup(10);
-});
-document.addEventListener('DOMContentLoaded', function () {
-	var allTopLevelTabs = document.querySelectorAll('.gdpr-sub-tabs > .gdpr-cookie-consent-admin-tab');
+	function open(section) {
+		collapseAll(section);
+		setExpanded(section, true);
 
-	allTopLevelTabs.forEach(function (tab) {
+		if (!isCurrent(section)) {
+			var firstLink = section.nav.querySelector('.nav-link');
+			if (firstLink) {
+				firstLink.click();
+			}
+		}
+	}
+
+	function mount(section) {
+		var nav = document.querySelector('#' + section.contentId + ' .gdpr-cookie-consent-settings-nav .nav.nav-pills');
+		var tab = document.querySelector('.' + section.tabClass);
+
+		if (!nav || !tab) {
+			return false;
+		}
+
+		section.nav = nav;
+		section.tab = tab;
+
+		tab.insertAdjacentElement('afterend', nav);
+		nav.classList.add(section.navClass);
+		mounted.push(section);
+
+		setExpanded(section, isCurrent(section));
+
 		tab.addEventListener('click', function () {
-			// If this click is NOT on Banner Settings itself, collapse its sub-nav
-			if (!tab.classList.contains('gdpr-cookie-consent-admin-cookie-settings-tab')) {
-				var bannerSettingsTab = document.querySelector('.gdpr-cookie-consent-admin-cookie-settings-tab');
-				var subNav = document.querySelector('.gdpr-banner-settings-subnav');
-
-				if (bannerSettingsTab && subNav) {
-					bannerSettingsTab.classList.remove('subnav-expanded');
-					subNav.style.setProperty('display', 'none', 'important');
-				}
+			if (tab.classList.contains('subnav-expanded')) {
+				setExpanded(section, false);
+			} else {
+				open(section);
 			}
 		});
-	});
+
+		return true;
+	}
+
+	function bindPlainTabs() {
+		document.querySelectorAll('.gdpr-sub-tabs > .gdpr-cookie-consent-admin-tab').forEach(function (tab) {
+			var ownsSubnav = mounted.some(function (section) {
+				return section.tab === tab;
+			});
+
+			if (!ownsSubnav) {
+				tab.addEventListener('click', function () {
+					collapseAll();
+				});
+			}
+		});
+	}
+
+	(function trySetup(retries) {
+		var pending = SECTIONS.filter(function (section) {
+			return mounted.indexOf(section) === -1 && !mount(section);
+		});
+
+		if (pending.length && retries > 0) {
+			setTimeout(function () { trySetup(retries - 1); }, 200);
+			return;
+		}
+
+		bindPlainTabs();
+	})(10);
+
+	window.gdprSidebarSubnav = {
+		open: function (contentId) {
+			mounted.forEach(function (section) {
+				if (section.contentId === contentId) {
+					open(section);
+				}
+			});
+		}
+	};
 });
 document.addEventListener('DOMContentLoaded', function () {
 		var toggleBtn = document.getElementById('compliance-setup-chevron');

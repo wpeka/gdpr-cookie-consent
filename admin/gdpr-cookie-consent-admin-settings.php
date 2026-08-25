@@ -11615,28 +11615,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 				
 
-				<!-- Connection Tab  -->
-				<?php if ( $is_user_connected && ! $pro_is_activated ) : ?>
-				<c-tab title="<?php esc_attr_e( 'Connection', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#connection" id="gdpr-cookie-consent-connection">
-					<c-card class="gdpr-cookie-consent-settings-cookie-notice-top">
-							<c-card-body class="gdpr-connection-card-body" >
-								<div class="gdpr-connect-information">
-									<div class="gdpr-connection-success-tick">
-										<div class="gdpr-connection-success-img"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/check_ring.svg'; ?>" alt="API Connection Success Mark"></div>
-										<div class="gdpr-connection-success-descreption"><?php esc_html_e( 'Your website is connected to WPLP Cookie Consent', 'gdpr-cookie-consent' ); ?></div>
-									</div>
-									<div class="gdpr-connect-information-section">
-										<p class="gpdr-email-info"><span class="gdpr-info-title" ><?php esc_html_e( 'Email : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_email ); ?>  </p>
-										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Site Key : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_site_key ); ?>  </p>
-										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Plan : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_plan ); ?>  </p>
-										<!-- API Disconnect Button  -->
-										<div class="api-connection-disconnect-btn" ><?php esc_attr_e( 'Disconnect', 'gdpr-cookie-consent' ); ?></div>
-									</div>
-								</div>
-							</c-card-body>
-						</c-card>
-				</c-tab>
-				<?php endif; ?>
 			</c-tabs>
 			</div>
 		</c-form>

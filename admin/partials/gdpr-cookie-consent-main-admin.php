@@ -258,7 +258,7 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 								</div> -->
 								<!-- Cookie Settings tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-settings-tab" data-tab="cookie_settings">
-									<div style="display:flex; justify-content:space-between;gap:45px">
+									<div style="display:flex; justify-content:space-between;gap:45px;width:100%;padding-right:10px;">
 										<?php echo esc_html('Banner&nbsp;Settings','gdpr-cookie-consent'); ?>
 										<svg class="gdpr-subnav-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path d="M15 12.5L10 7.5L5 12.5" stroke="#074EA8"/>
@@ -339,7 +339,12 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 							
 								<!-- Advanced Tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-advanced-settings-tab" data-tab="advanced_settings">
-									<?php echo esc_html('Advanced','gdpr-cookie-consent'); ?>
+									<div style="display:flex; justify-content:space-between;gap:45px;width:100%;padding-right:10px;">
+										<?php echo esc_html('Advanced','gdpr-cookie-consent'); ?>
+										<svg class="gdpr-subnav-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M15 12.5L10 7.5L5 12.5" stroke="#074EA8"/>
+										</svg>
+									</div>
 								</div>
 								<?php
 								if ( $pro_is_activated ) {
