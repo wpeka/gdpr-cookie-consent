@@ -3044,6 +3044,83 @@ var gen = new Vue({
                 });
             });
     },
+    refreshABTestingData(html) {
+      this.ab_testing_data = html;
+      const container = document.querySelector('#ab-testing-container');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    template: html,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                });
+            });
+    },
+    onSwitchABTestingEnable() {
+      j("#gdpr-cookie-consent-updating-settings-alert-abt")
+        .fadeIn(200)
+        .fadeOut(2000);
+      this.ab_testing_enabled = !this.ab_testing_enabled;
+      this.cookie_on_frontend1 = true;
+      this.cookie_on_frontend2 = true;
+      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
+
+      var dataV = jQuery("#gcc-save-settings-form").serialize();
+      // Make the AJAX request to save the new state
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: {
+            action: "ab_testing_enable",
+            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
+          },
+        })
+        .done(function (data) {
+          window.location.reload();
+          // Show success message
+          this.success_error_message = "Settings Saved";
+          j("#gdpr-cookie-consent-save-settings-alert-abt")
+            .css("background-color", "#72b85c")
+            .fadeIn(400)
+            .fadeOut(2500, function () {
+              // Optionally reload the page or perform other actions
+            });
+        })
+        .fail(function (error) {
+          console.error("AJAX call failed:", error);
+          alert(
+            "An error occurred while saving the settings. Please try again."
+          );
+        });
+    },
+    saveABTestingSettings() {
+      this.save_loading = true;
+
+      var that = this;
+      var dataV = jQuery("#gcc-save-abtesting-settings-form").serialize();
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: dataV + "&action=gcc_save_abtesting_settings",
+        })
+        .done(function (data) {
+          that.success_error_message = "Settings Saved.";
+          j("#gdpr-cookie-consent-save-settings-alert-abt").css({
+              "background-color": "#72b85c",
+              "z-index": "10000",
+          });
+          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeOut(2500);
+
+          that.save_loading = false;
+        })
+        .fail(function () {
+          that.save_loading = false;
+        });
+    },
     openConfigurationPanel(panelName) {
       const panels = [
         'cookie_bar_settings_open',
@@ -9813,327 +9890,7 @@ var app = new Vue({
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });
 
-var abt = new Vue({
-  el: "#gdpr-cookie-consent-abtesting-settings",
-  data() {
-    return {
-      labelIcon: {},
-      labelIconNew: {
-        labelOn: "\u2713",
-        labelOff: "\uD83D\uDD12",
-      },
-      save_loading: false,
-      success_error_message: "",
-      ab_testing_data: '',
-      account_connection: require("../admin/images/account_connection.svg"),
-      account_connection_new: require("../admin/images/account_connection_new.svg"),
-      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
-      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
-      gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
-        ? settings_obj.the_options["cookie_usage_for"]
-        : "gdpr",
-      is_gdpr:
-        this.gdpr_policy === "gdpr" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_us_state_laws:
-        this.gdpr_policy === "ccpa" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_lgpd: this.gdpr_policy === "lgpd" ? true : false,
-      is_eprivacy: this.gdpr_policy === "eprivacy" ? true : false,
-      show_revoke_card: this.is_gdpr || this.is_eprivacy,
-      show_visitor_conditions:
-        this.is_us_state_laws || (this.is_gdpr && "1" === settings_obj.is_pro_active)
-          ? true
-          : false,
-      ab_testing_enabled:
-        settings_obj.ab_options.hasOwnProperty("ab_testing_enabled") &&
-        (true === settings_obj.ab_options["ab_testing_enabled"] ||
-          "true" === settings_obj.ab_options["ab_testing_enabled"])
-          ? true
-          : false,
-      cookie_on_frontend1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies1"
-        ) &&
-        (true ===
-          settings_obj.the_options["button_settings_display_cookies1"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies1"] ||
-          "true" ===
-            settings_obj.the_options["button_settings_display_cookies1"])
-          ? true
-          : false,
-      cookie_on_frontend2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies2"
-        ) &&
-        (true ===
-          settings_obj.the_options["button_settings_display_cookies2"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies2"] ||
-          "true" ===
-            settings_obj.the_options["button_settings_display_cookies2"])
-          ? true
-          : false,
-      active_test_banner_tab:
-        settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
-        (true == settings_obj.the_options["default_cookie_bar"] ||
-          "true" == settings_obj.the_options["default_cookie_bar"] ||
-          1 == settings_obj.the_options["default_cookie_bar"])
-          ? 1
-          : 2,
-      ab_testing_period: settings_obj.ab_options.hasOwnProperty(
-        "ab_testing_period"
-      )
-        ? settings_obj.ab_options["ab_testing_period"]
-        : "30",
-      ab_testing_auto:
-        settings_obj.ab_options.hasOwnProperty("ab_testing_auto") &&
-        (true === settings_obj.ab_options["ab_testing_auto"] ||
-          "true" === settings_obj.ab_options["ab_testing_auto"])
-          ? true
-          : false,
-      default_cookie_bar:
-        settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
-        (true == settings_obj.the_options["default_cookie_bar"] ||
-          "true" == settings_obj.the_options["default_cookie_bar"] ||
-          1 == settings_obj.the_options["default_cookie_bar"])
-          ? true
-          : false,
-    }
-  },
-  methods: {
-    setValues() {
-      if (this.gdpr_policy === "both") {
-        this.is_us_state_laws = true;
-        this.is_gdpr = true;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = true;
-      } else if (this.gdpr_policy === "ccpa") {
-        this.is_us_state_laws = true;
-        this.is_eprivacy = false;
-        this.is_gdpr = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = false;
-      } else if (this.gdpr_policy === "gdpr") {
-        this.is_gdpr = true;
-        this.is_us_state_laws = false;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = true;
-      } else if (this.gdpr_policy === "lgpd") {
-        this.is_gdpr = false;
-        this.is_us_state_laws = false;
-        this.is_lgpd = true;
-        this.is_eprivacy = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = false;
-      } else {
-        this.is_eprivacy = true;
-        this.is_gdpr = false;
-        this.is_us_state_laws = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = false;
-        this.show_revoke_card = true;
-      }
-    },
-    refreshABTestingData(html) {
-      this.ab_testing_data = html;
-      const container = document.querySelector('#ab-testing-container');
-      this.$nextTick(() => {
-                new Vue({
-                    el: container,
-                    template: html,
-                    data: this.$data, // Reuse the existing Vue instance data
-                    methods: this.$options.methods, // Reuse the existing methods
-                    mounted: this.$options.mounted, // Reuse the original mounted logic
-                });
-            });
-    },
-    onSwitchABTestingEnable() {
-      j("#gdpr-cookie-consent-updating-settings-alert-abt")
-        .fadeIn(200)
-        .fadeOut(2000);
-      this.ab_testing_enabled = !this.ab_testing_enabled;
-      this.cookie_on_frontend1 = true;
-      this.cookie_on_frontend2 = true;
-      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
 
-      var dataV = jQuery("#gcc-save-settings-form").serialize();
-      // Make the AJAX request to save the new state
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: {
-            action: "ab_testing_enable",
-            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
-          },
-        })
-        .done(function (data) {
-          window.location.reload();
-          // Show success message
-          this.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert-abt")
-            .css("background-color", "#72b85c")
-            .fadeIn(400)
-            .fadeOut(2500, function () {
-              // Optionally reload the page or perform other actions
-            });
-        })
-        .fail(function (error) {
-          console.error("AJAX call failed:", error);
-          alert(
-            "An error occurred while saving the settings. Please try again."
-          );
-        });
-    },
-    onSwitchCookieOnFrontend1() {
-      this.cookie_on_frontend1 = !this.cookie_on_frontend1;
-    },
-    onSwitchCookieOnFrontend2() {
-      this.cookie_on_frontend2 = !this.cookie_on_frontend2;
-    },
-    changeActiveTestBannerTabTo1() {
-      if (this.active_test_banner_tab === 2) this.active_test_banner_tab = 1;
-    },
-    changeActiveTestBannerTabTo2() {
-      if (this.active_test_banner_tab === 1) this.active_test_banner_tab = 2;
-    },
-    onSwitchABTestingAuto() {
-      this.ab_testing_auto = !this.ab_testing_auto;
-    },
-    saveABTestingSettings() {
-      this.save_loading = true;
-
-      var that = this;
-      var dataV = jQuery("#gcc-save-abtesting-settings-form").serialize();
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: dataV + "&action=gcc_save_abtesting_settings",
-        })
-        .done(function (data) {
-          that.success_error_message = "Settings Saved.";
-          j("#gdpr-cookie-consent-save-settings-alert-abt").css({
-              "background-color": "#72b85c",
-              "z-index": "10000",
-          });
-          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeOut(2500);
-
-          that.save_loading = false;
-        })
-        .fail(function () {
-          that.save_loading = false;
-        });
-    },
-    restoreDefaultSettings() {
-      this.ab_testing_enabled = false;
-      this.cookie_on_frontend1 = true;
-      this.cookie_on_frontend2 = true;
-      this.gdpr_policy = "gdpr";
-      this.ab_testing_period = "30";
-      this.ab_testing_auto = false;
-    }
-  },
-  mounted() {
-    j("#gdpr-before-mount").css("display", "none");
-    this.setValues();
-
-    //For fixing quill js buttons accessibility issues
-    this.$nextTick(() => {
-      const quillLabels = {
-        "ql-bold": "Bold",
-        "ql-italic": "Italic",
-        "ql-underline": "Underline",
-        "ql-code-block": "Code Block",
-        "ql-strike": "Strikethrough",
-        "ql-link": "Insert Link",
-        "ql-image": "Insert Image",
-        "ql-list": "List",
-        "ql-clean": "Remove Formatting",
-        "ql-align": "Align Text",
-        "ql-blockquote": "Blockquote",
-        "ql-indent": "Indent Text",
-        "ql-video": "Insert Video",
-        "ql-header": "Header",
-        "ql-color": "Text Color",
-        "ql-background": "Background Color",
-        "ql-preview": "Preview",
-      };
-
-      Object.entries(quillLabels).forEach(([className, label]) => {
-        const buttons = document.querySelectorAll(`.ql-toolbar .${className}`);
-        buttons.forEach((button) => {
-          button.setAttribute("aria-label", label);
-          button.setAttribute("title", label);
-        });
-      });
-
-      // Fix for Ace Editor’s textarea
-      const observer = new MutationObserver(() => {
-        const aceInput = document.querySelector(".ace_text-input");
-        if (aceInput) {
-          aceInput.setAttribute("aria-hidden", "true");
-          aceInput.setAttribute("tabindex", "-1");
-          aceInput.setAttribute("role", "presentation");
-          aceInput.removeAttribute("aria-label"); // optional, but removes confusion
-          aceInput.removeAttribute("title"); // in case any tooltips are there
-
-          observer.disconnect();
-        }
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true });
-      setTimeout(() => observer.disconnect(), 10000);
-
-      // First: For ab_testing_period_text_field
-      const abInterval = setInterval(() => {
-        const inputs = document.querySelectorAll(
-          'input[name="ab_testing_period_text_field"]'
-        );
-
-        inputs.forEach((input) => {
-          if (
-            !input.hasAttribute("aria-label") &&
-            !input.hasAttribute("aria-labelledby")
-          ) {
-            input.setAttribute("aria-label", "A/B Testing Period");
-          }
-        });
-
-        if (inputs.length) clearInterval(abInterval);
-      }, 300);
-
-      setTimeout(() => clearInterval(abInterval), 7000); // safety timeout
-
-      // Second: For display-time inputs
-      const timeInterval = setInterval(() => {
-        const timeInputs = document.querySelectorAll("input.display-time");
-
-        timeInputs.forEach((input) => {
-          if (
-            !input.hasAttribute("aria-label") &&
-            !input.hasAttribute("aria-labelledby")
-          ) {
-            input.setAttribute("aria-label", "Choose time");
-          }
-        });
-
-        if (timeInputs.length) clearInterval(timeInterval);
-      }, 300);
-
-      setTimeout(() => clearInterval(timeInterval), 7000);
-    });
-  },
-});
-window.abt = abt;
 
 var scb = new Vue({
   el: "#gdpr-cookie-consent-script_blocker-settings",
