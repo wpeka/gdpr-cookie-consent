@@ -82,7 +82,6 @@ if ( ! defined( 'APPWPLP_SECRET_KEY_OPTION' ) ) {
 if ( ! defined( 'APPWPLP_SECRET_KEY_STATUS_OPTION' ) ) {
 	define( 'APPWPLP_SECRET_KEY_STATUS_OPTION', 'appwplp_shared_secret_key_status' );
 }
-add_action('admin_init', 'appwplp_maybe_retry_secret_key_registration');
 
 /**
  * Temporay fix for a critical error
@@ -160,43 +159,61 @@ function appwplp_generate_secret_key() {
 function appwplp_maybe_generate_secret_key() {
 	$existing_key    = get_option( APPWPLP_SECRET_KEY_OPTION );
 	$existing_status = get_option( APPWPLP_SECRET_KEY_STATUS_OPTION );
-
+	/*
+     * Already confirmed- Stop retrying.
+     */
 	if ( ! empty( $existing_key ) && 'confirmed' === $existing_status ) {
-		// Already confirmed - nothing to do.
+		$timestamp = wp_next_scheduled( 'appwplp_secret_key_retry_event' );
+		if ( $timestamp ) {
+			wp_clear_scheduled_hook( 'appwplp_secret_key_retry_event' );
+		}
 		return;
 	}
 
+	/*
+     * Key already exists but registration is not confirmed.
+     * Retry using the SAME key.
+     */
 	if ( ! empty( $existing_key ) ) {
 		update_option( APPWPLP_SECRET_KEY_STATUS_OPTION, 'pending', false );
 		do_action( 'appwplp_secret_key_generated', $existing_key );
-		return;
+	} else {
+		 /*
+         * First installation - generate the key.
+         */
+		$new_key = appwplp_generate_secret_key();
+
+		update_option( APPWPLP_SECRET_KEY_OPTION, $new_key, false );
+		update_option( APPWPLP_SECRET_KEY_STATUS_OPTION, 'pending', false );
+
+		do_action( 'appwplp_secret_key_generated', $new_key );
 	}
-
-	// No key - first-time generation.
-	$new_key = appwplp_generate_secret_key();
-
-	update_option( APPWPLP_SECRET_KEY_OPTION, $new_key, false );
-	update_option( APPWPLP_SECRET_KEY_STATUS_OPTION, 'pending', false );
-
-	do_action( 'appwplp_secret_key_generated', $new_key );
+	 /*
+     * Registration is still pending.
+     * retry is scheduled.
+     */
+	if ( ! wp_next_scheduled( 'appwplp_secret_key_retry_event' ) ) {
+		wp_schedule_event( time() + ( 15 * MINUTE_IN_SECONDS ), 'appwplp_fifteen_minutes', 'appwplp_secret_key_retry_event' );
+	}
 }
 
-function appwplp_maybe_retry_secret_key_registration() {
-	$existing_status = get_option( APPWPLP_SECRET_KEY_STATUS_OPTION );
+add_filter( 'cron_schedules', function ( $schedules ) {
+	$schedules['appwplp_fifteen_minutes'] = array(
+		'interval' => 15 * MINUTE_IN_SECONDS,
+		'display'  => 'Every 15 Minutes',
+	);
+	return $schedules;
+} );
 
-	if ( 'confirmed' === $existing_status || empty( get_option( APPWPLP_SECRET_KEY_OPTION ) ) ) {
-		return;
+add_action( 'appwplp_secret_key_retry_event', 'appwplp_maybe_generate_secret_key' );
+
+register_deactivation_hook( __FILE__, function () {
+	$timestamp = wp_next_scheduled( 'appwplp_secret_key_retry_event' );
+	if ( $timestamp ) {
+		wp_clear_scheduled_hook('appwplp_secret_key_retry_event' );
 	}
+} );
 
-	$last_attempt = get_option( 'appwplp_secret_key_last_retry', 0 );
-	if ( ( time() - (int) $last_attempt ) < 15 * MINUTE_IN_SECONDS ) {
-		return; 
-	}
-
-	update_option( 'appwplp_secret_key_last_retry', time(), false );
-
-	appwplp_maybe_generate_secret_key();
-}
 
 /**
  * Redirecting to the wizard page on plguin activation.
