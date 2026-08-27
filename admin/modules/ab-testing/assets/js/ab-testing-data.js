@@ -8,8 +8,8 @@ jQuery(document).ready(function ($) {
         },
         success: function (response) {
             $('.ab_test_data_wait_loader_container').css("display","none");
-            if (window.abt && typeof window.abt.refreshABTestingData === 'function') {
-                window.abt.refreshABTestingData(response.data.html);
+            if (window.gen && typeof window.gen.refreshABTestingData === 'function') {
+                window.gen.refreshABTestingData(response.data.html);
             } else {
                 console.error('Vue instance not found or refreshABTestingData method missing.');
             }
