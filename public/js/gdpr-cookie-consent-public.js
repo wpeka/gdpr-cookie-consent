@@ -2292,6 +2292,15 @@ banner.style.display = "none";
               GDPR.bar_elm.hide();
               GDPR.show_again_elm.hide();
                 
+              jQuery.ajax({
+                url: log_obj.ajax_url,
+                type: "POST",
+                data: {
+                    action: "gdpr_increase_page_view",
+                    security: log_obj.consent_logging_nonce,
+                },
+                success: function (response) {}
+              });
               // GDPR & CCPA
               if (GDPR.settings.cookie_usage_for === "both") {
                   jQuery(GDPR.settings.notify_div_id).find("p.gdpr").show();

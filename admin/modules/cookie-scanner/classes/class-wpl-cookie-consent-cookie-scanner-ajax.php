@@ -543,6 +543,19 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 					'timeout' => 60,
 				)
 			);
+			$current_monthly_views = get_option('wpl_monthly_page_views', 0);
+			$corrected_monthly_views = max(0, $current_monthly_views - $total_pages);
+			update_option('wpl_monthly_page_views', $corrected_monthly_views);
+
+			$wpl_page_views = get_option('wpl_page_views', []);
+			$today_key = gmdate('M d, Y');
+			if (isset($wpl_page_views[$today_key])) {
+				$wpl_page_views[$today_key] = max(0, $wpl_page_views[$today_key] - $total_pages);
+				update_option('wpl_page_views', $wpl_page_views);
+			}
+
+			$wpl_total_page_views = get_option('wpl_total_page_views', 0);
+			update_option('wpl_total_page_views', max(0, $wpl_total_page_views - $total_pages));
 		}
 	}
 
