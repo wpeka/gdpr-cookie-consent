@@ -802,7 +802,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													<label for="gdpr-visitors-condition-radio-btn-disabled-gdpr">{{ region_label }}</label>
 												</div>
 												<p class="gdpr-law_region_visitors_message-gdpr">
-													<?php esc_attr_e( 'Safe Mode enabled. Disable it in Compliance settings to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+													<?php esc_attr_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 												</p>
 											<?php else : ?>
 												<div v-show="is_auto_mode ? false : !!region_label">
@@ -825,7 +825,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
 											<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_attr_e( 'Show to specific countries', 'gdpr-cookie-consent' ); ?></label></div>
 											<p class="gdpr-eu_visitors_message-both">
-												<?php esc_attr_e( 'Safe Mode enabled. Disable it in Compliance settings to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+												<?php esc_attr_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php else : ?>
 											<div><input id="gdpr-select-countries" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label for="gdpr-select-countries"><?php esc_attr_e( 'Show to specific countries', 'gdpr-cookie-consent' ); ?></label></div>
@@ -1106,7 +1106,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													<div class="optout-setting-tittle"><?php esc_attr_e( 'New Region', 'gdpr-cookie-consent' ); ?></div>
 													<img @click="close_region_popup" class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Add new entry logo">
 													</div>
-													<div class="optout-settings-main-container">
+													<div class="optout-settings-main-container" style="margin-top:20px">
 											<c-row class="gdpr-label-row">
 												<c-col class="col-sm-6">
 													<label><?php esc_attr_e( 'Advertisment', 'gdpr-cookie-consent' ); ?></label>
@@ -1189,7 +1189,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												
 											</c-modal>
 										</div>
-										<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Wait for update', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-4" style="align-items:start; margin-top: -35px;"><label><?php esc_attr_e( 'Wait for update', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8" style="margin-top: 20px;">
 											<label for="gcm_wait_for_update_duration_field" class="screen-reader-text"><?php esc_attr_e('GCM wait for update', 'gdpr-cookie-consent' ); ?></label>
 											<c-input id="gcm_wait_for_update_duration_field" name="gcm_wait_for_update_duration_field" v-model="gcm_wait_for_update_duration"></c-input>
@@ -1213,7 +1213,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												?>
 											</p>
 										</c-col>
-										<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Pass ad click information through URLs', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-4" style="align-items:start; margin-top: -50px;"><label><?php esc_attr_e( 'Pass ad click information through URLs', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8" style="margin-top: 20px;">
 											<label for="gdpr-cookie-consent-gcm-url-passthrough" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-url-passthrough','gdpr-cookie-consent'); ?></label>
 											<c-switch v-bind="labelIcon" v-model="gcm_url_passthrough" id="gdpr-cookie-consent-gcm-url-passthrough" variant="3d"  color="success" :checked="gcm_url_passthrough" v-on:update:checked="onSwitchGCMUrlPass"></c-switch>
@@ -1238,7 +1238,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													?>
 											</p>
 										</c-col>
-										<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Redact ads data', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-4" style="align-items:start; margin-top: -75px;"><label><?php esc_attr_e( 'Redact ads data', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8" style="margin-top: 20px;">
 											<label for="gdpr-cookie-consent-gcm-ads-redact" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-ads-redact','gdpr-cookie-consent'); ?></label>
 											<c-switch v-bind="labelIcon" v-model="gcm_ads_redact" id="gdpr-cookie-consent-gcm-ads-redact" variant="3d"  color="success" :checked="gcm_ads_redact" v-on:update:checked="onSwitchGCMAdsRedact"></c-switch>
@@ -1260,7 +1260,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</p>
 										</c-col>
 
-									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Enable debug mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4" style="align-items:start; margin-top: -75px;"><label><?php esc_attr_e( 'Enable debug mode', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8" style="margin-top: 20px;">
 										<label for="gdpr-cookie-consent-gcm-debug_mode" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-debug_mode','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gcm_debug_mode" id="gdpr-cookie-consent-gcm-debug_mode" variant="3d"  color="success" :checked="gcm_debug_mode" v-on:update:checked="onSwitchGCMDebugMode"></c-switch>
@@ -1286,7 +1286,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											?>
 										</p>
 									</c-col>
-									<c-col class="col-sm-4" style="align-items:start; margin-top: 20px;"><label><?php esc_attr_e( 'Check GCM Status', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4" style="align-items:start; margin-top: 10px;"><label><?php esc_attr_e( 'Check GCM Status', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8" style="margin-top: 10px; margin-bottom: 20px;">
 										<c-button v-show="gcm_scan_flag === false" id="checkGcmStatusButton" class="btn btn-info" variant="outline" @click="checkGCMStatus">{{ 'Check' }}</c-button>
 										<c-button v-show="gcm_scan_flag === true" id="checkGcmStatusLoadingButton" class="btn btn-info" variant="outline" disabled><span class="checkGCMloader"></span>{{ 'Checking Now' }}</c-button>
@@ -1363,12 +1363,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row style="margin-top:-28px;" v-show="show_cookie_as === 'widget'">
 							<!-- notify_position_horizontal -->
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
-								<div @click="cookiewidgetPositionChange('left')" style="display: inline-block; cursor: pointer;">
-										<div>
-										<span id="widget-position-left-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'left' }"></span>
-										</div>
+							<div style="display: flex; align-items: flex-start; gap: 18px;">
+
+									<div @click="cookiewidgetPositionChange('left')" style="position: relative; cursor: pointer;">
+										<span id="widget-position-left-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'left' }" style="position: absolute; top: 0; left: 0; z-index: 1;">
+										</span>
 										<img
 										id="widget-position-left-id"
 										:class="{ 'widget-position-top': cookie_widget_position === 'left' }"
@@ -1377,10 +1378,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										>
 									</div>
 
-									<div @click="cookiewidgetPositionChange('right')" style="display: inline-block; cursor: pointer; padding-left: 18px;">
-										<div>
-										<span id="widget-position-right-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'right' }"></span>
-										</div>
+									<div @click="cookiewidgetPositionChange('right')" style="position: relative; cursor: pointer;">
+										<span id="widget-position-right-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'right' }" style="position: absolute; top: 0; left: 0; z-index: 1;"></span>
 										<img
 										id="widget-position-right-id"
 										:class="{ 'widget-position-top': cookie_widget_position === 'right' }"
@@ -1389,10 +1388,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										>
 									</div>
 
-									<div @click="cookiewidgetPositionChange('top_left')" style="display: inline-block; cursor: pointer; padding-left: 18px;">
-										<div>
-										<span id="widget-position-top_left-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'top_left' }"></span>
-										</div>
+									<div @click="cookiewidgetPositionChange('top_left')" style="position: relative; cursor: pointer;">
+										<span id="widget-position-top_left-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'top_left' }" style="position: absolute; top: 0; left: 0; z-index: 1;"></span>
 										<img
 										id="widget-position-top_left-id"
 										:class="{ 'widget-position-top': cookie_widget_position === 'top_left' }"
@@ -1401,10 +1398,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										>
 									</div>
 
-									<div @click="cookiewidgetPositionChange('top_right')" style="display: inline-block; cursor: pointer; padding-left: 18px;">
-										<div>
-										<span id="widget-position-top_right-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'top_right' }"></span>
-										</div>
+									<div @click="cookiewidgetPositionChange('top_right')" style="position: relative; cursor: pointer;">
+										<span id="widget-position-top_right-icon" :class="{ 'dashicons dashicons-saved': cookie_widget_position === 'top_right' }" style="position: absolute; top: 0; left: 0; z-index: 1;"></span>
 										<img
 										id="widget-position-top_right-id"
 										:class="{ 'widget-position-top': cookie_widget_position === 'top_right' }"
@@ -1412,6 +1407,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										alt="Top_right"
 										>
 									</div>
+								</div>
 								<input type="hidden" name="gcc-gdpr-cookie-widget-position" v-model="cookie_widget_position">
 								</c-col>
 							</c-row>
@@ -1565,8 +1561,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-col>
 						</c-row>
 						<div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+							<p class="design-settings-text"><?php esc_html_e("Design Settings", "gdpr-cookie-banner")?></p>
 						<c-button class="gdpr-cookie-bar-settings-icon" :style="(cookie_bar_settings_open) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}"  @click="openConfigurationPanel('cookie_bar_settings_open')">
-							<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<g clip-path="url(#clip0_4634_794)">
 								<path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/>
 								</g>
@@ -1602,7 +1599,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-col>
 							<c-col class="col-sm-1">
 									<c-button :disabled="!button_readmore_is_on" class="gdpr-configure-button" :style="(button_readmore_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('button_readmore_popup')">
-											<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+											<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 									</c-button>
 								</c-col>
 						</c-row>
@@ -1622,7 +1619,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-col>
 							<c-col class="col-sm-1">
 								<c-button :disabled="!is_revoke_consent_on" class="gdpr-configure-button" :style="(revoke_consent_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('revoke_consent_popup')">
-									<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+									<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 								</c-button>
 							</c-col>
 						</c-row>
@@ -1655,7 +1652,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-col>
 							<c-col class="col-sm-1" v-show="is_auto_mode || is_gdpr || is_eprivacy || is_lgpd || is_uk_gdpr || is_sa_pdpl">
 								<c-button :disabled="!cookie_accept_on" class="gdpr-configure-button" :style="(accept_button_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}"  @click="openConfigurationPanel('accept_button_popup')">
-									<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+									<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 								</c-button>
 							</c-col>
 						</c-row>
@@ -1686,7 +1683,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1"  v-show="is_auto_mode || is_gdpr || is_eprivacy || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
 									<c-button :disabled="!cookie_accept_all_on" class="gdpr-configure-button" :style="(accept_all_button_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}"  @click="openConfigurationPanel('accept_all_button_popup')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 									</c-button>
 								</c-col>
 							</c-row>
@@ -1717,7 +1714,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1" v-show="is_auto_mode || is_gdpr || is_eprivacy || is_lgpd || is_uk_gdpr || is_sa_pdpl">
 									<c-button :disabled="!cookie_decline_on" class="gdpr-configure-button" :style="(decline_button_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('decline_button_popup')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 									</c-button>
 								</c-col>
 							</c-row>
@@ -1745,7 +1742,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1" v-show="is_auto_mode || is_gdpr || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
 									<c-button :disabled="!cookie_settings_on" class="gdpr-configure-button" :style="(settings_button_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('settings_button_popup')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 									</c-button>
 								</c-col>
 									<c-col class="col-sm-4">
@@ -1783,7 +1780,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									></c-input>
 								</c-col>
 								<c-col class="col-sm-1" v-show="is_auto_mode || is_us_state_laws">
-									<c-button class="gdpr-configure-button" :style="(confirm_button_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('confirm_button_popup')"><svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+									<c-button class="gdpr-configure-button" :style="(confirm_button_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('confirm_button_popup')"><svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 									</c-button>
 								</c-col>
 							</c-row>
@@ -1806,7 +1803,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1" v-show="is_auto_mode || is_us_state_laws">
 									<c-button class="gdpr-configure-button" :style="(cancel_button_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('cancel_button_popup')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -1833,7 +1830,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1" v-show="is_auto_mode || is_us_state_laws">
 									<c-button class="gdpr-configure-button"  :style="(opt_out_link_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('opt_out_link_popup')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -1874,7 +1871,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button :disabled="!is_ccpa_revoke_consent_on" class="gdpr-configure-button" :style="(ccpa_revoke_consent_popup) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('ccpa_revoke_consent_popup')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -2012,7 +2009,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<img @click="button_readmore_popup=false" class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Add new entry logo">
 						</div>
 
-						<div class="optout-settings-main-container">
+						<div class="optout-settings-main-container" >
 							<div v-show="(is_auto_mode || show_revoke_card || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl) && button_readmore_is_on">
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
@@ -10462,58 +10459,96 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				<c-card>
 					<c-card-body v-show="ab_testing_enabled">
 						<!-- NEWLY ADDED -->
+						<!-- Message Heading -->
 						<c-row>
 							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-configure-cookie-bar-top"><?php esc_html_e( 'Banner Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
 						</c-row>
-						<c-row v-show="is_gdpr">
+						<c-row >
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
-								<c-textarea name="bar_heading_text_field" v-model="gdpr_message_heading"></c-textarea>
+								<c-textarea name="bar_heading_text_field" v-model="gdpr_message_heading"  @input="onHeadingInput"></c-textarea>
 							</c-col>
 						</c-row>
-						<c-row v-show="is_eprivacy">
+						<!-- ePrivacy -->
+						<c-row v-show="(!is_auto_mode && is_eprivacy) || (is_auto_mode && banner_edit_law === 'eprivacy')">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'ePrivacy Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as ePrivacy notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_eprivacy_field" v-model="eprivacy_message"></c-textarea>
 							</c-col>
 						</c-row>
-						<c-row v-show="is_gdpr">
+						<!-- GDPR, UK-GDPR, PDPL PIPEDA, APP -->
+						<c-row v-show="(!is_auto_mode && is_gdpr) || (is_auto_mode && banner_edit_law === 'gdpr')">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_field" v-model="gdpr_message" :readonly="iabtcf_is_on"></c-textarea>
 							</c-col>
 						</c-row>
-						<c-row v-show="is_auto_mode || is_us_state_laws">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-row v-show="(!is_auto_mode && is_uk_gdpr) || (is_auto_mode && banner_edit_law === 'uk_gdpr')">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'UK GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
-								<c-textarea name="notify_message_ccpa_field" v-model="ccpa_message"></c-textarea>
+								<c-textarea name="notify_message_uk_gdpr_field" v-model="uk_gdpr_message"></c-textarea>
 							</c-col>
 						</c-row>
-						<c-row v-show="is_auto_mode || is_us_state_laws">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-row v-show="(!is_auto_mode && is_sa_pdpl) || (is_auto_mode && banner_edit_law === 'sa_pdpl')">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Saudi Arabia PDPL Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
-								<c-textarea name="notify_message_ccpa_optout_field" v-model="ccpa_optout_message"></c-textarea>
+								<c-textarea name="notify_message_pdpl_field" v-model="pdpl_message"></c-textarea>
 							</c-col>
 						</c-row>
-						<c-row v-show="is_gdpr">
+						<c-row v-show="(!is_auto_mode && is_pipeda) || (is_auto_mode && banner_edit_law === 'pipeda')">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'PIPEDA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_pipeda_field" v-model="pipeda_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="(!is_auto_mode && is_au_app) || (is_auto_mode && banner_edit_law === 'au_app')">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Australia(APP) Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_app_field" v-model="app_message"></c-textarea>
+							</c-col>
+						</c-row>
+
+						<c-row v-show="(!is_auto_mode && (is_gdpr || is_au_app || is_pipeda || is_sa_pdpl || is_uk_gdpr)) || (is_auto_mode && (banner_edit_law === 'gdpr' || banner_edit_law === 'uk_gdpr' || banner_edit_law === 'sa_pdpl' || banner_edit_law === 'pipeda' || banner_edit_law === 'au_app'))">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Preferences" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea :rows="6" name="about_message_field" v-model="gdpr_about_cookie_message" :readonly="iabtcf_is_on"></c-textarea>
 							</c-col>
 						</c-row>
-						<c-row v-show="is_lgpd">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+
+						<!-- US State Laws -->
+						<c-row v-show="(!is_auto_mode && is_us_state_laws && us_state_laws_edit_law === 'ccpa') || (is_auto_mode && banner_edit_law === 'us_state_laws' && us_state_laws_edit_law === 'ccpa')">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
-								<c-textarea name="bar_heading_text_lgpd_field" v-model="lgpd_message_heading"></c-textarea>
+								<c-textarea name="notify_message_ccpa_field" v-model="ccpa_message"></c-textarea>
 							</c-col>
 						</c-row>
-						<c-row v-show="is_lgpd">
+						<c-row v-show="(!is_auto_mode && is_us_state_laws && us_state_laws_edit_law === 'default_opt_out') || (is_auto_mode && banner_edit_law === 'us_state_laws' && us_state_laws_edit_law === 'default_opt_out')">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as banner notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_ccpa_field" v-model="default_opt_out_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="(!is_auto_mode && is_us_state_laws && us_state_laws_edit_law === 'pure_opt_out') || (is_auto_mode && banner_edit_law === 'us_state_laws' && us_state_laws_edit_law === 'pure_opt_out')">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as banner notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_ccpa_field" v-model="pure_opt_out_message"></c-textarea>
+							</c-col>
+						</c-row>
+						<c-row v-show="(!is_auto_mode && is_us_state_laws) || (is_auto_mode && banner_edit_law === 'us_state_laws')">
+							<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-8">
+								<c-textarea name="notify_message_ccpa_optout_field" v-model="ccpa_optout_message"></c-textarea>
+							</c-col>
+						</c-row>
+						
+						<!-- LGPD -->
+						<c-row v-show="(!is_auto_mode && is_lgpd) || (is_auto_mode && banner_edit_law === 'lgpd')">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'LGPD Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_lgpd_field" v-model="lgpd_message"></c-textarea>
 							</c-col>
 						</c-row>
-						<c-row v-show="is_lgpd">
+						<c-row v-show="(!is_auto_mode && is_lgpd) || (is_auto_mode && banner_edit_law === 'lgpd')">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Preferences" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea :rows="6" name="about_message_lgpd_field" v-model="lgpd_about_cookie_message"></c-textarea>
@@ -10561,7 +10596,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 									<c-col class="col-sm-1">
 											<c-button :disabled="!button_readmore_is_on1" class="gdpr-configure-button" :style="(button_readmore_popup2 || button_readmore_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('button_readmore_popup1')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 											</c-button>
 										</c-col>
@@ -10589,7 +10624,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 									<c-col class="col-sm-1">
 										<c-button :disabled="!is_revoke_consent_on1" class="gdpr-configure-button" :style="(revoke_consent_popup2 || revoke_consent_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('revoke_consent_popup1')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 										</c-button>
 									</c-col>
@@ -10623,7 +10658,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button :disabled="!cookie_accept_on1" class="gdpr-configure-button" :style="(accept_button_popup2 || accept_button_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('accept_button_popup1')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -10649,7 +10684,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button :disabled="!cookie_accept_all_on1" class="gdpr-configure-button" :style="(accept_all_button_popup2 || accept_all_button_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('accept_all_button_popup1')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -10675,7 +10710,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button :disabled="!cookie_decline_on1" class="gdpr-configure-button" :style="(decline_button_popup2 || decline_button_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('decline_button_popup1')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -10701,7 +10736,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button :disabled="!cookie_settings_on1" class="gdpr-configure-button" :style="(settings_button_popup1 || settings_button_popup2) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('settings_button_popup1')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -10736,7 +10771,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 								<c-col class="col-sm-1">
 									<c-button class="gdpr-configure-button" :style="(confirm_button_popup1 || confirm_button_popup2) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('confirm_button_popup1')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -10757,7 +10792,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button class="gdpr-configure-button" :style="(cancel_button_popup1 || cancel_button_popup2) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('cancel_button_popup1')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -10778,7 +10813,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button class="gdpr-configure-button" :style="(opt_out_link_popup1 || opt_out_link_popup2) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}"  @click="openConfigurationPanel('opt_out_link_popup1')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -10820,7 +10855,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-col>
 							<c-col class="col-sm-1">
 								<c-button :disabled="!is_ccpa_revoke_consent_on1" class="gdpr-configure-button" :style="(ccpa_revoke_consent_popup2 || ccpa_revoke_consent_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('ccpa_revoke_consent_popup1')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 								</c-button>
 							</c-col>
@@ -10854,7 +10889,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</c-col>
 										<c-col class="col-sm-1">
 												<c-button :disabled="!button_readmore_is_on2" class="gdpr-configure-button" :style="(button_readmore_popup1 || button_readmore_popup2) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('button_readmore_popup2')">
-													<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+													<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 												</c-button>
 											</c-col>
@@ -10881,7 +10916,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</c-col>
 										<c-col class="col-sm-1">
 											<c-button :disabled="!is_revoke_consent_on2" class="gdpr-configure-button" :style="(revoke_consent_popup2 || revoke_consent_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('revoke_consent_popup2')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 											</c-button>
 										</c-col>
@@ -10909,7 +10944,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button :disabled="!cookie_accept_on2" class="gdpr-configure-button" :style="(accept_button_popup2 || accept_button_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('accept_button_popup2')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -10935,7 +10970,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button :disabled="!cookie_accept_all_on2" class="gdpr-configure-button" :style="(accept_all_button_popup2 || accept_all_button_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('accept_all_button_popup2')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -10968,7 +11003,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button :disabled="!cookie_decline_on2" class="gdpr-configure-button" :style="(decline_button_popup2 || decline_button_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}"  @click="openConfigurationPanel('decline_button_popup2')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -11001,7 +11036,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button :disabled="!cookie_settings_on2" class="gdpr-configure-button" :style="(settings_button_popup2 || settings_button_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('settings_button_popup2')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -11044,7 +11079,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button class="gdpr-configure-button" :style="(confirm_button_popup2 || confirm_button_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('confirm_button_popup2')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -11073,7 +11108,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button :style="(cancel_button_popup2 || cancel_button_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" class="gdpr-configure-button" @click="openConfigurationPanel('cancel_button_popup2')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -11101,7 +11136,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 								<c-col class="col-sm-1">
 									<c-button class="gdpr-configure-button" :style="(opt_out_link_popup2 || opt_out_link_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('opt_out_link_popup2')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 
 									</c-button>
 								</c-col>
@@ -11142,7 +11177,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-col>
 							<c-col class="col-sm-1">
 								<c-button :disabled="!is_ccpa_revoke_consent_on2" class="gdpr-configure-button" :style="(ccpa_revoke_consent_popup2 || ccpa_revoke_consent_popup1) ? { backgroundColor: '#EAF4FF !important', color: '#2F80ED !important' } : {}" @click="openConfigurationPanel('ccpa_revoke_consent_popup2')">
-										<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
+										<svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4634_793)"><path d="M14.1462 30.3445C11.8737 32.5765 13.7937 34.8685 10.7757 38.263C9.41368 39.7975 16.3827 39.3295 19.8342 35.9365C21.2997 34.495 20.8857 32.398 19.3152 30.853C17.7447 29.311 15.6102 28.903 14.1462 30.3445ZM39.3102 10.9885C38.1462 9.84253 25.2417 20.182 21.4017 23.9575C19.4952 25.8325 18.8592 26.8375 18.2757 27.5875C18.0207 27.916 18.3582 28.015 18.5067 28.0915C19.2627 28.4785 19.7907 28.8355 20.4732 29.506C21.1572 30.1765 21.5217 30.6955 21.9117 31.4395C21.9912 31.5865 22.0932 31.9165 22.4247 31.6675C23.1897 31.093 24.2112 30.466 26.1177 28.594C29.9592 24.82 40.4772 12.133 39.3102 10.9885Z" fill="currentColor"/></g><defs><clipPath id="clip0_4634_793"><rect width="30" height="30" fill="white" transform="translate(10 10)"/></clipPath></defs></svg>
 								</c-button>
 							</c-col>
 						</c-row>
