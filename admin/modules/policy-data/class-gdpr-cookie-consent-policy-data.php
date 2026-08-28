@@ -304,6 +304,19 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 */
 	public function gdpr_process_csv_export_policies() {
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die(
+				esc_html__( 'You are not allowed to export policies.', 'gdpr-cookie-consent' ),
+				esc_html__( 'Unauthorized', 'gdpr-cookie-consent' ),
+				array( 'response' => 403 )
+			);
+		}
+
+		check_admin_referer(
+			'gdpr_policies_export_csv',
+			'_wpnonce'
+		);
+
 		global $wpdb;
 
 		$wpdb->hide_errors();

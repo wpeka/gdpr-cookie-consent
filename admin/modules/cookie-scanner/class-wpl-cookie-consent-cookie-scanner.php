@@ -913,8 +913,31 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 							break;
 					}
 			$out[]       = '&nbsp;&nbsp;&nbsp;' . $name;
-			$sql_arr[]   = "('$scan_id','$url_id','$name','$duration','$domain','$type','$category','$category_id','$description')";
-			$sql         = $sql . implode( ',', $sql_arr );
+			$sql = $wpdb->prepare(
+				"INSERT IGNORE INTO `$url_table`
+				(
+					`id_wpl_cookie_scan`,
+					`id_wpl_cookie_scan_url`,
+					`name`,
+					`duration`,
+					`domain`,
+					`type`,
+					`category`,
+					`category_id`,
+					`description`
+				)
+				VALUES (%d, %d, %s, %s, %s, %s, %s, %d, %s)",
+				$scan_id,
+				$url_id,
+				$name,
+				$duration,
+				$domain,
+				$type,
+				$category,
+				$category_id,
+				$description
+			);
+
 			$wpdb->query( $sql );
 		}
 		return $out;
@@ -928,8 +951,27 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 */
 	protected function update_url( $url_id_arr ) {
 		global $wpdb;
+
+		if ( empty( $url_id_arr ) ) {
+			return;
+		}
+
 		$url_table = $wpdb->prefix . $this->url_table;
-		$sql       = "UPDATE `$url_table` SET `scanned`=1 WHERE id_wpl_cookie_scan_url IN(" . implode( ',', $url_id_arr ) . ')';
+
+		$url_id_arr = array_map( 'absint', $url_id_arr );
+
+		$placeholders = implode(
+			',',
+			array_fill( 0, count( $url_id_arr ), '%d' )
+		);
+
+		$sql = $wpdb->prepare(
+			"UPDATE `$url_table`
+			SET `scanned` = 1
+			WHERE `id_wpl_cookie_scan_url` IN ($placeholders)",
+			$url_id_arr
+		);
+
 		$wpdb->query( $sql );
 	}
 

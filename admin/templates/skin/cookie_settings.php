@@ -477,7 +477,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                            <div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
                               <div class="gdpr-columns">
                                  <span class="dashicons dashicons-arrow-down-alt2"></span>
-                                 <a href="#" class="btn category-header" tabindex="0"><?php echo esc_html__( $value, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+                                 <a href="#" class="btn category-header" tabindex="0"><?php echo esc_html( $value ); // phpcs:ignore ?></a>
                               </div>
                            </div>
                            <div class="description-container hide">
@@ -510,7 +510,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                          }
                                                          ?>
                                                       id="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_html($value->id); ?>" 
-                                                      class="purposes-switch-handler <?php echo esc_html("legint-switch", "gdpr-cookie-consent");?> <?php echo esc_html($value->id);?>"  
+                                                      class="purposes-switch-handler <?php echo esc_html("legint-switch");?> <?php echo esc_html($value->id);?>"  
                                                       type="checkbox" 
                                                       name="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_html($value->id); ?>" 
                                                       value=<?php echo esc_html( $value->id ); ?>>
@@ -536,7 +536,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                          } 
                                                          ?>
                                                       id="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
-                                                      class="<?php echo esc_html($classnames)?>-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($value->id);?>"
+                                                      class="<?php echo esc_html($classnames)?>-switch-handler <?php echo esc_html("consent-switch");?> <?php echo esc_html($value->id);?>"
                                                       type="checkbox" 
                                                       name="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
                                                       value=<?php echo esc_html( $value->id ); ?> >
@@ -555,7 +555,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <div class="inner-gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
                                        <div class="inner-gdpr-columns">
                                           <span class="dashicons dashicons-arrow-down-alt2"></span>
-                                          <a href="#" class="btn category-header <?php echo esc_html($classnames)?>" tabindex="0"><?php echo esc_html__( $value->name, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+                                          <a href="#" class="btn category-header <?php echo esc_html($classnames)?>" tabindex="0"><?php echo esc_html( $value->name ); // phpcs:ignore ?></a>
                                        </div>
                                     </div>
                                     <div class="inner-description-container hide">
@@ -635,7 +635,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                            <div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
                               <div class="gdpr-columns">
                                  <span class="dashicons dashicons-arrow-down-alt2"></span>
-                                 <a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html__( $vendor, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+                                 <a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html( $vendor ); // phpcs:ignore ?></a>
                               </div>
                            </div>
                            <div class="description-container hide">
@@ -708,7 +708,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <div class="inner-gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
                                        <div class="inner-gdpr-columns">
                                           <span class="dashicons dashicons-arrow-down-alt2"></span>
-                                          <a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html__( $vendor->name, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+                                          <a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html( $vendor->name ); // phpcs:ignore ?></a>
                                        </div>
                                     </div>
                                     <?php
@@ -839,7 +839,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												<div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
 													<div class="gdpr-columns">
 														<span class="dashicons dashicons-arrow-down-alt2"></span>
-														<a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html__( $vendor, 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+														<a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html( $vendor ); // phpcs:ignore ?></a>
 													</div>
 												</div>
 												<div class="description-container hide">
@@ -883,7 +883,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																		<div class="inner-gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
 																			<div class="inner-gdpr-columns">
 																				<span class="dashicons dashicons-arrow-down-alt2"></span>
-																				<a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html__( $vendor[1], 'gdpr-cookie-consent' ); // phpcs:ignore ?></a>
+																				<a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html( $vendor[1] ); // phpcs:ignore ?></a>
 																			</div>
 																		</div>
 																		<div class="inner-description-container hide">

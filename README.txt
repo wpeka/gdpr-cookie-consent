@@ -2,10 +2,10 @@
 Contributors: wplegalpages
 Donate link: https://wplegalpages.com/
 Tags: cookie consent, cookie banner, consent management, cookie scanner, script blocking
-Requires at least: 3.3.1
-Tested up to: 7.0.2
+Requires at least: 5.3
+Tested up to: 7.1
 Stable tag: 4.4.1
-Requires PHP: 7.0
+Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -36,8 +36,6 @@ The plugin is built to be easy to configure out of the box, while still giving y
 - Drag & drop banner builder – match your brand with custom colors, layouts, fonts, and button text, no CSS required
 
 - Free tier includes real compliance tools – cookie scanning and script blocking aren't locked behind a paywall
-
-- No visitor-based limits – no traffic caps, pageview limits, or per-visitor pricing
 
 - WP Consent API support – shares visitor consent state with compatible WordPress plugins
 

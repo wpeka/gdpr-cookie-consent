@@ -417,9 +417,10 @@ $total_steps = 2;
 											<span>
 												<?php
 														printf(
+															/* translators: %1$d: completed steps, %2$d: total steps. */
 															esc_html__( '%1$d of %2$d steps completed', 'gdpr-cookie-consent' ),
-															$completed_steps,
-															$total_steps
+															absint( $completed_steps ),
+															absint( $total_steps )
 														);
 												?>
 											</span>
@@ -500,7 +501,7 @@ $total_steps = 2;
 
 																	<div style="display:flex;flex:1;width:100%;flex-direction:column">
 																		<div style="display:flex;justify-content:space-between;">
-																			<h3><?php esc_html_e("Current Status", "wplegalpages")?></h3>
+																			<h3><?php esc_html_e("Current Status", "gdpr-cookie-consent")?></h3>
 																			<strong>
 																				<a
 																					href="<?php echo esc_url( get_site_url() ); ?>"
@@ -519,19 +520,19 @@ $total_steps = 2;
 																			</strong>
 																			
 																		</div>
-																		<p style="color:#026C3C;font-weight:500;font-size:16px;"><?php esc_html_e("Account connected", "wplegalpages")?></p>
-																		<p style="padding-top:8px"><?php esc_html_e("Your WPLP account is now connected.", "wplegalpages")?></p>
+																		<p style="color:#026C3C;font-weight:500;font-size:16px;"><?php esc_html_e("Account connected", "gdpr-cookie-consent")?></p>
+																		<p style="padding-top:8px"><?php esc_html_e("Your WPLP account is now connected.", "gdpr-cookie-consent")?></p>
 																	</div>
 																</div>
 																<div class="gdpr-feature-list">
-																	<p><strong><?php esc_html_e("Why do you need it?", "wplegalpages")?></strong></p>
+																	<p><strong><?php esc_html_e("Why do you need it?", "gdpr-cookie-consent")?></strong></p>
 																	<p>
 																		<span>
 																			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																				<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																				<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																			</svg>
-																			<?php esc_html_e("Display a GDPR/CCPA compliant cookie banner", "wplegalpages")?>
+																			<?php esc_html_e("Display a GDPR/CCPA compliant cookie banner", "gdpr-cookie-consent")?>
 																		</span>
 																	</p>
 																	<p>
@@ -540,7 +541,7 @@ $total_steps = 2;
 																				<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																				<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																			</svg>
-																			<?php esc_html_e("Collected visitor consent", "wplegalpages")?>
+																			<?php esc_html_e("Collected visitor consent", "gdpr-cookie-consent")?>
 																		</span>
 																	</p>
 																	<p>
@@ -549,7 +550,7 @@ $total_steps = 2;
 																				<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																				<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																			</svg>
-																			<?php esc_html_e("Connect your website to unlock cookie scanning, consent logs and compliance reports", "wplegalpages")?>
+																			<?php esc_html_e("Connect your website to unlock cookie scanning, consent logs and compliance reports", "gdpr-cookie-consent")?>
 																		</span>
 																	</p>
 															</div>
@@ -609,7 +610,7 @@ $total_steps = 2;
 														</div>
 													</div>
 													<?php else: ?>
-											<div class="<?= $is_banner_active ? 'compliance-banner-active-card' : 'compliance-banner-active-card-inactive'; ?>">
+											<div class="<?php echo esc_attr($is_banner_active ? 'compliance-banner-active-card' : 'compliance-banner-active-card-inactive'); ?>">
 												<div class="compliance-card-header">
 													<?php if ( $is_banner_active ) : ?>
 														<div style="display:flex;gap:14px">
@@ -666,9 +667,9 @@ $total_steps = 2;
 														</svg>
 
 														<div>
-															<h3><?php esc_html_e("Current Status", "wplegalpages")?></h3>
-															<p style="color:#026C3C;font-weight:500;font-size:16px;"><?php esc_html_e("Cookie Banner is Active", "wplegalpages")?></p>
-															<p style="padding-top:8px"><?php esc_html_e("Your website is protected with a GDPR compliant cookie banner", "wplegalpages")?></p>
+															<h3><?php esc_html_e("Current Status", "gdpr-cookie-consent")?></h3>
+															<p style="color:#026C3C;font-weight:500;font-size:16px;"><?php esc_html_e("Cookie Banner is Active", "gdpr-cookie-consent")?></p>
+															<p style="padding-top:8px"><?php esc_html_e("Your website is protected with a GDPR compliant cookie banner", "gdpr-cookie-consent")?></p>
 														</div>
 													</div>
 													
@@ -682,19 +683,19 @@ $total_steps = 2;
 															</svg>
 
 															<div>
-																<p style="color:#3A3A41;font-weight:500;font-size:16px;padding-top:0"><?php esc_html_e("Cookie Banner is currently inactive", "wplegalpages")?></p>
-																<p style="padding-top:8px"><?php esc_html_e("Your website doesn't have an active cookie banner. Activate it to start collecting user consent and stay compliant.", "wplegalpages")?></p>
+																<p style="color:#3A3A41;font-weight:500;font-size:16px;padding-top:0"><?php esc_html_e("Cookie Banner is currently inactive", "gdpr-cookie-consent")?></p>
+																<p style="padding-top:8px"><?php esc_html_e("Your website doesn't have an active cookie banner. Activate it to start collecting user consent and stay compliant.", "gdpr-cookie-consent")?></p>
 															</div>
 														</div>
 														<div class="gdpr-feature-list" style="margin-top:0">
-																<p><strong><?php esc_html_e("Why activate it?", "wplegalpages")?></strong></p>
+																<p><strong><?php esc_html_e("Why activate it?", "gdpr-cookie-consent")?></strong></p>
 																<p>
 																	<span>
 																		<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																			<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																			<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																		</svg>
-																		<?php esc_html_e("Collect valid consent from visitors", "wplegalpages")?>
+																		<?php esc_html_e("Collect valid consent from visitors", "gdpr-cookie-consent")?>
 																	</span>
 																</p>
 																<p>
@@ -703,7 +704,7 @@ $total_steps = 2;
 																			<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																			<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																		</svg>
-																		<?php esc_html_e("Stay compliant with GDPR, CCPA and ePrivacy", "wplegalpages")?>
+																		<?php esc_html_e("Stay compliant with GDPR, CCPA and ePrivacy", "gdpr-cookie-consent")?>
 																	</span>
 																</p>
 																<p>
@@ -712,7 +713,7 @@ $total_steps = 2;
 																			<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																			<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																		</svg>
-																		<?php esc_html_e("Avoid compliance risks and potential penalties", "wplegalpages")?>
+																		<?php esc_html_e("Avoid compliance risks and potential penalties", "gdpr-cookie-consent")?>
 																	</span>
 																</p>
 														</div>
@@ -844,19 +845,19 @@ $total_steps = 2;
 															</svg>
 
 															<div>
-																<p style="color:#3A3A41;font-weight:500;font-size:16px;padding-top:0"><?php esc_html_e("Cookie Banner is currently inactive", "wplegalpages")?></p>
-																<p style="padding-top:8px"><?php esc_html_e("Your website doesn't have an active cookie banner. Activate it to start collecting user consent and stay compliant.", "wplegalpages")?></p>
+																<p style="color:#3A3A41;font-weight:500;font-size:16px;padding-top:0"><?php esc_html_e("Cookie Banner is currently inactive", "gdpr-cookie-consent")?></p>
+																<p style="padding-top:8px"><?php esc_html_e("Your website doesn't have an active cookie banner. Activate it to start collecting user consent and stay compliant.", "gdpr-cookie-consent")?></p>
 															</div>
 														</div>
 														<div class="gdpr-feature-list" style="margin-top:0">
-																<p><strong><?php esc_html_e("Why activate it?", "wplegalpages")?></strong></p>
+																<p><strong><?php esc_html_e("Why activate it?", "gdpr-cookie-consent")?></strong></p>
 																<p>
 																	<span>
 																		<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																			<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																			<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																		</svg>
-																		<?php esc_html_e("Collect valid consent from visitors", "wplegalpages")?>
+																		<?php esc_html_e("Collect valid consent from visitors", "gdpr-cookie-consent")?>
 																	</span>
 																</p>
 																<p>
@@ -865,7 +866,7 @@ $total_steps = 2;
 																			<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																			<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																		</svg>
-																		<?php esc_html_e("Stay compliant with GDPR, CCPA and ePrivacy", "wplegalpages")?>
+																		<?php esc_html_e("Stay compliant with GDPR, CCPA and ePrivacy", "gdpr-cookie-consent")?>
 																	</span>
 																</p>
 																<p>
@@ -874,7 +875,7 @@ $total_steps = 2;
 																			<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																			<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																		</svg>
-																		<?php esc_html_e("Avoid compliance risks and potential penalties", "wplegalpages")?>
+																		<?php esc_html_e("Avoid compliance risks and potential penalties", "gdpr-cookie-consent")?>
 																	</span>
 																</p>
 														</div>
@@ -917,7 +918,7 @@ $total_steps = 2;
 
 																	<div style="display:flex;flex:1;width:100%;flex-direction:column">
 																		<div style="display:flex;justify-content:space-between;">
-																			<h3><?php esc_html_e("Current Status", "wplegalpages")?></h3>
+																			<h3><?php esc_html_e("Current Status", "gdpr-cookie-consent")?></h3>
 																			<strong>
 																				<a
 																					href="<?php echo esc_url( get_site_url() ); ?>"
@@ -936,19 +937,19 @@ $total_steps = 2;
 																			</strong>
 																			
 																		</div>
-																		<p style="color:#026C3C;font-weight:500;font-size:16px;"><?php esc_html_e("Account connected", "wplegalpages")?></p>
-																		<p style="padding-top:8px"><?php esc_html_e("Your WPLP account is now connected.", "wplegalpages")?></p>
+																		<p style="color:#026C3C;font-weight:500;font-size:16px;"><?php esc_html_e("Account connected", "gdpr-cookie-consent")?></p>
+																		<p style="padding-top:8px"><?php esc_html_e("Your WPLP account is now connected.", "gdpr-cookie-consent")?></p>
 																	</div>
 																</div>
 																<div class="gdpr-feature-list">
-																	<p><strong><?php esc_html_e("Why do you need it?", "wplegalpages")?></strong></p>
+																	<p><strong><?php esc_html_e("Why do you need it?", "gdpr-cookie-consent")?></strong></p>
 																	<p>
 																		<span>
 																			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																				<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																				<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																			</svg>
-																			<?php esc_html_e("Display a GDPR/CCPA compliant cookie banner", "wplegalpages")?>
+																			<?php esc_html_e("Display a GDPR/CCPA compliant cookie banner", "gdpr-cookie-consent")?>
 																		</span>
 																	</p>
 																	<p>
@@ -957,7 +958,7 @@ $total_steps = 2;
 																				<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																				<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																			</svg>
-																			<?php esc_html_e("Collected visitor consent", "wplegalpages")?>
+																			<?php esc_html_e("Collected visitor consent", "gdpr-cookie-consent")?>
 																		</span>
 																	</p>
 																	<p>
@@ -966,7 +967,7 @@ $total_steps = 2;
 																				<circle cx="12" cy="12" r="9" stroke="#074EA8"/>
 																				<path d="M8 12L11 15L16 9" stroke="#074EA8"/>
 																			</svg>
-																			<?php esc_html_e("Connect your website to unlock cookie scanning, consent logs and compliance reports", "wplegalpages")?>
+																			<?php esc_html_e("Connect your website to unlock cookie scanning, consent logs and compliance reports", "gdpr-cookie-consent")?>
 																		</span>
 																	</p>
 															</div>

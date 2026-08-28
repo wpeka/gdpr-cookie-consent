@@ -70,6 +70,23 @@ if ( ! defined( 'GDPR_API_URL' ) ) {
 	define( 'GDPR_API_URL', 'https://app.wplegalpages.com/wp-json/gdpr/v2/' );
 }
 
+ 
+if ( ! defined( 'APPWPLP_SECRET_KEY_FEATURE_VERSION' ) ) {
+	define( 'APPWPLP_SECRET_KEY_FEATURE_VERSION', '4.4.1' );
+}
+
+if ( ! defined( 'APPWPLP_SECRET_KEY_OPTION' ) ) {
+	define( 'APPWPLP_SECRET_KEY_OPTION', 'appwplp_shared_secret_key' );
+}
+ 
+if ( ! defined( 'APPWPLP_SECRET_KEY_STATUS_OPTION' ) ) {
+	define( 'APPWPLP_SECRET_KEY_STATUS_OPTION', 'appwplp_shared_secret_key_status' );
+}
+
+if ( ! defined( 'APPWPLP_SECRET_KEY_VERSION_OPTION' ) ) {
+	define( 'APPWPLP_SECRET_KEY_VERSION_OPTION', 'appwplp_secret_key_feature_version' );
+}
+
 /**
  * Temporay fix for a critical error
  */
@@ -128,6 +145,94 @@ function activate_gdpr_cookie_consent() {
 	// Get redirect URL.
 	add_option( 'redirect_after_activation_option', true );
 }
+/**
+ * Generates a cryptographically strong 32-character secret key.
+ *
+ * @return string
+ */
+function appwplp_generate_secret_key() {
+	// random_bytes(16) -> 32 hex characters. Cryptographically secure.
+	return bin2hex( random_bytes( 16 ) );
+}
+/**
+ * Generates and stores a local secret key for this site, if one doesn't
+ * already exist. Does NOT register it with the server - that happens in
+ * step 3, triggered separately after this runs.
+ */
+
+function appwplp_maybe_generate_secret_key() {
+	$existing_key    = get_option( APPWPLP_SECRET_KEY_OPTION );
+	$existing_status = get_option( APPWPLP_SECRET_KEY_STATUS_OPTION );
+
+	if ( ! empty( $existing_key ) && 'confirmed' === $existing_status ) {
+		$timestamp = wp_next_scheduled( 'appwplp_secret_key_retry_event' );
+		if ( $timestamp ) {
+			wp_clear_scheduled_hook( 'appwplp_secret_key_retry_event' );
+		}
+		return;
+	}
+
+	if ( ! empty( $existing_key ) ) {
+		update_option( APPWPLP_SECRET_KEY_STATUS_OPTION, 'pending', false );
+		do_action( 'appwplp_secret_key_generated', $existing_key );
+	} else {
+		 /*
+         * First installation - generate the key.
+         */
+		$new_key = appwplp_generate_secret_key();
+		update_option( APPWPLP_SECRET_KEY_OPTION, $new_key, false );
+		update_option( APPWPLP_SECRET_KEY_STATUS_OPTION, 'pending', false );
+
+		do_action( 'appwplp_secret_key_generated', $new_key );
+		
+	}
+	if ( ! wp_next_scheduled( 'appwplp_secret_key_retry_event' ) ) {
+		wp_schedule_event( time() + ( 15 * MINUTE_IN_SECONDS ), 'appwplp_fifteen_minutes', 'appwplp_secret_key_retry_event' );
+	}
+}
+
+add_filter( 'cron_schedules', function ( $schedules ) {
+	$schedules['appwplp_fifteen_minutes'] = array(
+		'interval' => 15 * MINUTE_IN_SECONDS,
+		'display'  => 'Every 15 Minutes',
+	);
+	return $schedules;
+} );
+
+add_action( 'appwplp_secret_key_retry_event', 'appwplp_maybe_generate_secret_key' );
+
+/**
+ * Runs the secret key routine once on existing installs.
+ *
+ * register_activation_hook() does not fire when WordPress updates a plugin
+ * in place, so sites upgrading from a version without this feature would
+ * never get a key. A stored feature version is compared against the current
+ * one so this runs exactly once per site after the update.
+ *
+ * @return void
+ */
+function appwplp_secret_key_version_check() {
+	if ( APPWPLP_SECRET_KEY_FEATURE_VERSION === get_option( APPWPLP_SECRET_KEY_VERSION_OPTION ) ) {
+		return;
+	}
+
+	appwplp_maybe_generate_secret_key();
+
+	update_option( APPWPLP_SECRET_KEY_VERSION_OPTION, APPWPLP_SECRET_KEY_FEATURE_VERSION, false );
+}
+add_action( 'admin_init', 'appwplp_secret_key_version_check' );
+
+/**
+ * Generates the secret key on activation and stamps the feature version so
+ * the upgrade check above does not repeat the work on the next admin load.
+ *
+ * @return void
+ */
+function appwplp_secret_key_activate() {
+	appwplp_maybe_generate_secret_key();
+	update_option( APPWPLP_SECRET_KEY_VERSION_OPTION, APPWPLP_SECRET_KEY_FEATURE_VERSION, false );
+}
+
 
 /**
  * Redirecting to the wizard page on plguin activation.
@@ -158,6 +263,7 @@ function deactivate_gdpr_cookie_consent() {
 }
 
 register_activation_hook( __FILE__, 'activate_gdpr_cookie_consent' );
+register_activation_hook( __FILE__, 'appwplp_secret_key_activate' );
 register_deactivation_hook( __FILE__, 'deactivate_gdpr_cookie_consent' );
 
 require plugin_dir_path( __FILE__ ) . 'includes/class-gdpr-cookies-read-csv.php';

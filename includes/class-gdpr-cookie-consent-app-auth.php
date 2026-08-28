@@ -400,7 +400,14 @@ class GDPR_Cookie_Consent_App_Auth {
 	/**
 	 * AJAX handler to save free trial data
 	 */
-	public function save_free_trial_data() {		
+	public function save_free_trial_data() {	
+		
+		check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
+
+		// Check user capabilities.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permissions to connect WP Cookie Consent.', 'gdpr-cookie-consent' ) );
+		}
 
 		$raw = wp_unslash( $_POST['free_trial'] ?? '' );
 
@@ -444,6 +451,10 @@ class GDPR_Cookie_Consent_App_Auth {
 
 		// Verify AJAX nonce.
 		check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permissions to connect WP Cookie Consent.', 'gdpr-cookie-consent' ) );
+		}
 
 		$result = $this->perform_disconnect();
 

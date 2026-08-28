@@ -122,8 +122,8 @@ class Gdpr_Cookie_Consent_Admin {
 					$this->gdpr_initialise();
 				}
 			});
-			add_action( 'wp_ajax_set_default_test_banner_1', array( $this, 'set_default_banner_1' ) );
-			add_action( 'wp_ajax_set_default_test_banner_2', array( $this, 'set_default_banner_2' ) );
+			add_action( 'wp_ajax_set_default_test_banner_1', array( $this, 'ajax_set_default_banner_1' ) );
+			add_action( 'wp_ajax_set_default_test_banner_2', array( $this, 'ajax_set_default_banner_2' ) );
 			add_action( 'add_data_request_content', array( $this, 'wpl_data_requests_overview' ) );
 			add_action('gdpr_cookie_consent_admin_screen', array($this, 'gdpr_cookie_consent_new_admin_screen'));
 			add_action('gdpr_cookie_consent_new_admin_dashboard_screen', array($this, 'gdpr_cookie_consent_new_admin_dashboard_screen'));
@@ -131,7 +131,6 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('refresh_gacm_vendor_list_event', array($this,'get_gacm_data'));
 			add_action( 'rest_api_init', array($this, 'allow_cors_for_react_app'));
 			add_action('rest_api_init', array($this, 'register_gdpr_dashboard_route'));
-			add_action('rest_api_init', array($this, 'wplp_gdpr_generate_api_secret'));
 			//For Import CSV option on Policy data page
 			add_action( 'admin_menu', array($this,'register_gdpr_policies_import_page') );
 			add_action('admin_menu', array($this,'gdpr_reorder_admin_menu'), 999);
@@ -146,7 +145,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('wp_ajax_install_plugin', array($this, 'gdpr_wplp_install_plugin_ajax_handler'));
 			add_action('wp_ajax_gdpr_support_request', array($this, 'gdpr_support_request_handler'));
 			add_action('wp_ajax_nopriv_gdpr_support_request', array($this, 'gdpr_support_request_handler'));
-				
+			add_action( 'appwplp_secret_key_generated', array($this, 'appwplp_register_secret_key_with_server'));
 
 		}
 		
@@ -496,7 +495,52 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 	}
 
+	public function ajax_set_default_banner_1(){
+		check_ajax_referer(
+			'set_default_test_banner_1',
+			'_ajax_nonce'
+		);
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => 'You are not allowed to perform this action.',
+				),
+				403
+			);
+		}
+
+		$this->set_default_banner_1();
+
+		wp_send_json_success(
+			array(
+				'message' => 'Default banner updated.',
+			)
+		);
+	}
+	public function ajax_set_default_banner_2(){
+		check_ajax_referer(
+			'set_default_test_banner_2',
+			'_ajax_nonce'
+		);
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => 'You are not allowed to perform this action.',
+				),
+				403
+			);
+		}
+
+		$this->set_default_banner_2();
+
+		wp_send_json_success(
+			array(
+				'message' => 'Default banner updated.',
+			)
+		);
+	}
 
 	public function set_default_banner_1(){
 		$the_options         = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -523,11 +567,9 @@ class Gdpr_Cookie_Consent_Admin {
 
 	
 	public function get_country_codes() {
-		$options = json_decode(
-			wp_remote_retrieve_body(
-				wp_remote_get( plugin_dir_url( __FILE__ ) . 'data/countries.json', array( 'sslverify' => false ) )
-			),
-			true
+		$options = wp_json_file_decode(
+			plugin_dir_path( __FILE__ ) . 'data/countries.json',
+			array( 'associative' => true )
 		);
 		if ( isset( $options ) && is_array( $options ) ) {
 			foreach ( $options as $option ) {
@@ -1223,17 +1265,17 @@ class Gdpr_Cookie_Consent_Admin {
 			return false;
 		}
 
-		if ( strpos( $file, '.php' ) !== false ) {
-			ob_start();
-			require $file;
-			$contents = ob_get_clean();
-		} else {
-			$contents = wp_remote_get( $file );
-		}
+		ob_start();
+		require $file;
+		$contents = ob_get_clean();
 
 		if ( ! empty( $args ) && is_array( $args ) ) {
 			foreach ( $args as $fieldname => $value ) {
-				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
+				$contents = str_replace(
+					'{' . $fieldname . '}',
+					$value,
+					$contents
+				);
 			}
 		}
 		return $contents;
@@ -2298,13 +2340,18 @@ class Gdpr_Cookie_Consent_Admin {
 
 			$policy_data = new GDPR_Policy_Data_Table();
 			$policy_data->prepare_items();
+			$export_url = wp_nonce_url(
+				admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ),
+				'gdpr_policies_export_csv',
+				'_wpnonce'
+			);
 		?>
 			<div class="wpl-consentlogs">
 				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#compliance_records' ) ); ?>">
 					<div class="wpl-heading-export-consentlogs">
 						<div class="policy-data-heading-export">
 							<h1 class="wp-heading"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?></h1>
-							<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=gdpr_policies_export.csv' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export As CSV', 'gdpr-cookie-consent' ); ?></a>
+							<a href="<?php echo esc_url( $export_url ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Export As CSV', 'gdpr-cookie-consent' ); ?></a>
 							<a href="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-policies-import' )); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Import From CSV', 'gdpr-cookie-consent' ); ?></a>
 							<a href="<?php echo esc_url_raw( admin_url( 'post-new.php?post_type=gdprpolicies' ) ); ?>" target="_blank" class="data-req-export-button"><?php esc_html_e( 'Add New', 'gdpr-cookie-consent' ); ?></a>
 						</div>
@@ -2349,17 +2396,17 @@ class Gdpr_Cookie_Consent_Admin {
 			return false;
 		}
 
-		if ( strpos( $file, '.php' ) !== false ) {
-			ob_start();
-			require $file;
-			$contents = ob_get_clean();
-		} else {
-			$contents = wp_remote_get( $file );
-		}
+		ob_start();
+		require $file;
+		$contents = ob_get_clean();
 
 		if ( ! empty( $args ) && is_array( $args ) ) {
 			foreach ( $args as $fieldname => $value ) {
-				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
+				$contents = str_replace(
+					'{' . $fieldname . '}',
+					$value,
+					$contents
+				);
 			}
 		}
 
@@ -2381,17 +2428,17 @@ class Gdpr_Cookie_Consent_Admin {
 			return false;
 		}
 
-		if ( strpos( $file, '.php' ) !== false ) {
-			ob_start();
-			require $file;
-			$contents = ob_get_clean();
-		} else {
-			$contents = wp_remote_get( $file );
-		}
+		ob_start();
+		require $file;
+		$contents = ob_get_clean();
 
 		if ( ! empty( $args ) && is_array( $args ) ) {
 			foreach ( $args as $fieldname => $value ) {
-				$contents = str_replace( '{' . $fieldname . '}', $value, $contents );
+				$contents = str_replace(
+					'{' . $fieldname . '}',
+					$value,
+					$contents
+				);
 			}
 		}
 
@@ -3327,9 +3374,13 @@ class Gdpr_Cookie_Consent_Admin {
 			++$index;
 		}
 		$geo_countries     = isset( $geo_countries ) ? $geo_countries : array();
-		$response          = wp_remote_get( plugin_dir_url( __FILE__ ) . 'data/countries.json', array( 'sslverify' => false ) );
-		$json_data         = wp_remote_retrieve_body( $response );
-		$geo_countries     = json_decode( $json_data, true );
+		$geo_countries = wp_json_file_decode(
+			plugin_dir_path( __FILE__ ) . 'data/countries.json',
+			array( 'associative' => true )
+		);
+		if ( ! is_array( $geo_countries ) ) {
+			$geo_countries = array();
+		}
 		$list_of_countries = array();
 		$index             = 0;
 		foreach ( $geo_countries as $code => $country ) {
@@ -3552,6 +3603,8 @@ class Gdpr_Cookie_Consent_Admin {
 			'settings_obj',
 			array(
 				'nonce'   						   => wp_create_nonce( 'wpl_save_script_nonce' ), // Generate nonce
+				'rest_nonce'					   => wp_create_nonce( 'wp_rest' ), // REST API cookie-auth nonce (X-WP-Nonce).
+				'gcc_enable_iab_nonce'			   => wp_create_nonce( 'gcc_enable_iab' ),
 				'the_options'                      => $settings,
 				'templates'     				   => $this -> templates_json,
 				'default_template_json'			   => get_option('gdpr_default_template_object'),
@@ -4305,6 +4358,15 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Ajax callback for wizard settings page
 	 */
 	public function gdpr_cookie_consent_ajax_save_wizard_settings() {
+
+		if ( ! check_ajax_referer( 'wpl_save_script_nonce', '_wpnonce', false ) ) {
+			wp_send_json_error( array( 'message' => 'Security Check Failed, Unauthorized access' ), 403 );
+		}
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		$is_pro = get_option( 'wpl_pro_active', false );
 		if ( isset( $_POST['gcc_settings_form_nonce_wizard'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_wizard'] ) ), 'gcc-settings-form-nonce-wizard' ) ) {
@@ -5179,7 +5241,7 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 
 		$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
-		$the_options['gcm_defaults'] = json_encode(json_decode(stripslashes($_POST['regionArray'])));
+		$the_options['gcm_defaults'] = json_encode(json_decode(wp_unslash($_POST['regionArray'])));
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 	}
 
@@ -5198,6 +5260,12 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Ajax callback for setting page.
 	 */
 	public function gdpr_cookie_consent_ajax_save_settings() {
+		
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		if ( isset( $_POST['gcc_settings_form_nonce'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce'] ) ), 'gcc-settings-form-nonce' ) ) {
 				return;
@@ -7076,6 +7144,11 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Ajax callback to save advanced settings.
 	 */
 	public function gdpr_cookie_consent_ajax_save_advanced_settings() {
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		if ( isset( $_POST['gcc_settings_form_nonce_advanced'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_advanced'] ) ), 'gcc-settings-form-nonce-advanced' ) ) {
 				return;
@@ -7165,6 +7238,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Script Blocker callback to save settings.
 	 */
 	public function gdpr_cookie_consent_ajax_save_script_blocker_settings() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		if ( isset( $_POST['gcc_settings_form_nonce_script_blocker'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_script_blocker'] ) ), 'gcc-settings-form-nonce-script-blocker' ) ) {
 				return;
@@ -7238,6 +7315,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Language callback to save settings.
 	 */
 	public function gdpr_cookie_consent_ajax_save_language_settings() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		if ( isset( $_POST['gcc_settings_form_nonce_language'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_language'] ) ), 'gcc-settings-form-nonce-language' ) ) {
 				return;
@@ -7258,6 +7339,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Cookie Manager callback to save settings.
 	 */
 	public function gdpr_cookie_consent_ajax_save_cookie_manager_settings() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		if ( isset( $_POST['gcc_settings_form_nonce_cookie_manager'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_cookie_manager'] ) ), 'gcc-settings-form-nonce-cookie-manager' ) ) {
 				return;
@@ -7278,8 +7363,83 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Function to enable IAB and download vendor list
 	 */
 	public function gdpr_cookie_consent_ajax_enable_iab(){
-		$received_data = json_decode(stripslashes($_POST['data']));
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'You do not have permission to perform this action.', 'gdpr-cookie-consent' ),
+				),
+				403
+			);
+		}
+		if ( ! check_ajax_referer( 'gcc_enable_iab', 'security', false ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Security check failed.', 'gdpr-cookie-consent' ),
+				),
+				403
+			);
+		}
+		if ( ! isset( $_POST['data'] ) || ! is_string( $_POST['data'] ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Invalid vendor data.', 'gdpr-cookie-consent' ),
+				),
+				400
+			);
+		}
+		$raw_data = wp_unslash( $_POST['data'] );
+		$received_data = json_decode( $raw_data );
+
+		if (
+			JSON_ERROR_NONE !== json_last_error() ||
+			! is_object( $received_data )
+		) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Invalid vendor data.', 'gdpr-cookie-consent' ),
+				),
+				400
+			);
+		}
+		$required_properties = array(
+			'vendors',
+			'allvendors',
+			'allLegintVendors',
+			'features',
+			'featureVendorCount',
+			'dataCategories',
+			'purposes',
+			'allPurposes',
+			'purposeVendorCount',
+			'allLegintPurposes',
+			'legintPurposeVendorCount',
+			'specialFeatures',
+			'allSpecialFeatures',
+			'specialFeatureVendorCount',
+			'specialPurposes',
+			'specialPurposeVendorCount',
+			'purposeVendorMap',
+		);
+
+		foreach ( $required_properties as $property ) {
+			if ( ! property_exists( $received_data, $property ) ) {
+				wp_send_json_error(
+					array(
+						'message' => __( 'Invalid vendor data structure.', 'gdpr-cookie-consent' ),
+					),
+					400
+				);
+			}
+		}
+		$received_data = json_decode(wp_unslash($_POST['data']));
 		update_option(GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $received_data);
+
+		wp_send_json_success(
+			array(
+				'message' => __( 'IAB vendor data updated successfully.', 'gdpr-cookie-consent' ),
+			)
+		);
 	}
 
 	/**
@@ -7334,6 +7494,14 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Ajax callback for A-B Testing value.
 	 */
 	public function gdpr_cookie_consent_ab_testing_enable(){
+		if ( ! check_ajax_referer( 'wpl_save_script_nonce', '_wpnonce', false ) ) {
+			wp_send_json_error( array( 'message' => 'Security Check Failed, Unauthorized access' ), 403 );
+		}
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
 			$ab_options     = get_option( 'wpl_ab_options' );
 			if ( ! $ab_options ) {
@@ -8433,6 +8601,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$this->plugin_name . '-main',
 			'settings_obj',
 			array(
+				'rest_nonce'                       => wp_create_nonce( 'wp_rest' ), // REST API cookie-auth nonce (X-WP-Nonce).
 				'the_options'                      => $settings,
 				'templates'     				   => $this -> templates_json,
 				'ajaxurl'                          => admin_url( 'admin-ajax.php' ),
@@ -8489,6 +8658,7 @@ class Gdpr_Cookie_Consent_Admin {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['security'] ) ), 'import_settings' ) ) {
 				return;
 			}
+			if( ! current_user_can( 'manage_options' ) ) return;
 			if ( isset( $_POST['settings'] ) ) {
 				$the_options = json_decode( wp_unslash( $_POST['settings'] ), true ); //phpcs:ignore
 				if ( is_array( $the_options ) ) {
@@ -8947,6 +9117,11 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @since 2.1.0
 	 */
 	public function gdpr_cookie_consent_ajax_restore_default_settings() {
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		if ( isset( $_POST['security'] ) ) {
 			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['security'] ) ), 'restore_default_settings' ) ) {
 				return;
@@ -8962,9 +9137,16 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_cookie_consent_restore_default_settings() {
 		// restore translation of public facing side text.
 		// Load and decode translations from JSON file.
-		$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
-		$translations      = wp_remote_get( $translations_file );
-		$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
+		$translations_file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/translations/translations.json';
+
+		$translations = wp_json_file_decode(
+			$translations_file,
+			array( 'associative' => true )
+		);
+
+		if ( ! is_array( $translations ) ) {
+			$translations = array();
+		}
 
 		// Define an array of text keys to translate.
 		$text_keys_to_translate = array(
@@ -9122,66 +9304,19 @@ class Gdpr_Cookie_Consent_Admin {
 		update_option('gdpr_preview_banner_state', 'false');
 	}
 
-	public function gdpr_cookie_consent_ajax_auto_generated_banner() {
-		// Log to check if the function is being called
-		$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
-		// Retrieve the data from the AJAX POST request
-		if (isset($_POST['background_color'])) {
-			$background_color = sanitize_text_field($_POST['background_color']);
-			
-			$the_options['auto_generated_background_color'] = $background_color;
-			$the_options['button_accept_button_color'] = $the_options['auto_generated_background_color'];
-			$the_options['button_accept_button_border_color'] = $the_options['auto_generated_background_color'];
-			$the_options['button_decline_link_color'] = $the_options['auto_generated_background_color'];
-			$the_options['button_decline_button_border_color'] = $the_options['auto_generated_background_color'];
-			$the_options['button_settings_link_color']  = $the_options['auto_generated_background_color'];
-			$the_options['button_settings_button_border_color']  = $the_options['auto_generated_background_color'];
-			$the_options['button_decline_button_color']   = '#ffffff';
-			$the_options['button_settings_button_color']   = '#ffffff';
-			$the_options['button_decline_button_border_style'] = 'solid';
-			$the_options['button_decline_button_border_width'] = '1';
-			$the_options['button_settings_button_border_style'] = 'solid';
-			$the_options['button_settings_button_border_width'] = '1';
-			// Ab testing values.
-			// Banner 1
-			$the_options['button_accept_button_color1'] = $the_options['auto_generated_background_color'];
-			$the_options['button_accept_button_border_color1'] = $the_options['auto_generated_background_color'];
-			$the_options['button_decline_link_color1'] = $the_options['auto_generated_background_color'];
-			$the_options['button_decline_button_border_color1'] = $the_options['auto_generated_background_color'];
-			$the_options['button_settings_link_color1']  = $the_options['auto_generated_background_color'];
-			$the_options['button_settings_button_border_color1']  = $the_options['auto_generated_background_color'];
-			$the_options['button_decline_button_color1']   = '#ffffff';
-			$the_options['button_settings_button_color1']   = '#ffffff';
-			$the_options['button_decline_button_border_style1'] = 'solid';
-			$the_options['button_decline_button_border_width1'] = '1';
-			$the_options['button_settings_button_border_style1'] = 'solid';
-			$the_options['button_settings_button_border_width1'] = '1';
-
-			// Banner 2
-			$the_options['button_accept_button_color2'] = $the_options['auto_generated_background_color'];
-			$the_options['button_accept_button_border_color2'] = $the_options['auto_generated_background_color'];
-			$the_options['button_decline_link_color2'] = $the_options['auto_generated_background_color'];
-			$the_options['button_decline_button_border_color2'] = $the_options['auto_generated_background_color'];
-			$the_options['button_settings_link_color2']  = $the_options['auto_generated_background_color'];
-			$the_options['button_settings_button_border_color2']  = $the_options['auto_generated_background_color'];
-			$the_options['button_decline_button_color2']   = '#ffffff';
-			$the_options['button_settings_button_color2']   = '#ffffff';
-			$the_options['button_decline_button_border_style2'] = 'solid';
-			$the_options['button_decline_button_border_width2'] = '1';
-			$the_options['button_settings_button_border_style2'] = 'solid';
-			$the_options['button_settings_button_border_width2'] = '1';
-			// Log the received background color for debugging
-		}else{
-			$the_options['auto_generated_background_color'] = "";
-		}
-
-		$the_options['is_banner_auto_generated'] = sanitize_text_field($_POST['is_auto_generated_banner_done']);
-		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
-	}
+	
 	/**
 	 * Function to switch preview banner state
 	 */
 	public function gdpr_cookie_consent_ajax_switch_preview_banner(){
+		if ( ! check_ajax_referer( 'wpl_save_script_nonce', '_wpnonce', false ) ) {
+			wp_send_json_error( array( 'message' => 'Security Check Failed, Unauthorized access' ), 403 );
+		}
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		$banner_preview_state = sanitize_text_field($_POST['banner_preview_state']);
 		$banner_preview_state = ($banner_preview_state === 'true' || $banner_preview_state === true) ? 'true' : 'false';
 		
@@ -9194,6 +9329,14 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 
 	public function gdpr_cookie_consent_ajax_get_preview_banner_state(){
+		if ( ! check_ajax_referer( 'wpl_save_script_nonce', '_wpnonce', false ) ) {
+			wp_send_json_error( array( 'message' => 'Security Check Failed, Unauthorized access' ), 403 );
+		}
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		$state = get_option('gdpr_preview_banner_state', 'false');
 		wp_send_json_success($state);
 	}
@@ -9229,6 +9372,14 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Function to get the scan schedule
 	 */
 	public function gdpr_cookie_consent_ajax_get_schedule_scan() {
+		if ( ! check_ajax_referer( 'wpl_save_script_nonce', '_wpnonce', false ) ) {
+			wp_send_json_error( array( 'message' => 'Security Check Failed, Unauthorized access' ), 403 );
+		}
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		$data = get_option('gdpr_scan_schedule_data', array());
 		wp_send_json_success($data);
 	}
@@ -9236,6 +9387,14 @@ class Gdpr_Cookie_Consent_Admin {
 	 * Function to clear the scan schedule
 	 */
 	public function gdpr_cookie_consent_ajax_clear_schedule_scan() {
+		if ( ! check_ajax_referer( 'wpl_save_script_nonce', '_wpnonce', false ) ) {
+			wp_send_json_error( array( 'message' => 'Security Check Failed, Unauthorized access' ), 403 );
+		}
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
 		delete_option('gdpr_scan_schedule_data');
 		wp_send_json_success(array('message' => 'Schedule cleared'));
 	}
@@ -9360,7 +9519,6 @@ class Gdpr_Cookie_Consent_Admin {
 				'user_email_id'					   => $user_email_id,
 				'location_status'				   => $locationStatus,
 				'client_site_name'				   => $client_site_name,
-				'api_secret' 					   => get_option('wplegalpages_api_secret'),
 			)
 		);
 	}
@@ -9505,9 +9663,13 @@ class Gdpr_Cookie_Consent_Admin {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 		$geo_countries     = isset( $geo_countries ) ? $geo_countries : array();
-		$response          = wp_remote_get( plugin_dir_url( __FILE__ ) . 'data/countries.json', array( 'sslverify' => false ) );
-		$json_data         = wp_remote_retrieve_body( $response );
-		$geo_countries     = json_decode( $json_data, true );
+		$geo_countries = wp_json_file_decode(
+			plugin_dir_path( __FILE__ ) . 'data/countries.json',
+			array( 'associative' => true )
+		);
+		if ( ! is_array( $geo_countries ) ) {
+			$geo_countries = array();
+		}
 		$list_of_countries = array();
 		$index             = 0;
 		$plan                = $this->settings->get_plan();
@@ -10450,7 +10612,7 @@ class Gdpr_Cookie_Consent_Admin {
 			header( 'Access-Control-Allow-Origin: ' . esc_url_raw($origin));
 			header( 'Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS' );
 			header( 'Access-Control-Allow-Credentials: true' );
-			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept' );
+			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Origin, X-Requested-With, Accept, X-WPLP-Timestamp, X-WPLP-Signature' );
 
 			// Handle preflight requests
 			if ( $_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) {
@@ -10463,6 +10625,62 @@ class Gdpr_Cookie_Consent_Admin {
 		}, 10, 4);
 	}
 
+	/**
+	 * PHASE 2: Shared HMAC signature verification helper.
+	 *
+	 * Called from all three permission callbacks. Verifies the incoming
+	 * request carries a valid X-WPLP-Timestamp + X-WPLP-Signature pair,
+	 * proving the caller holds this site's confirmed secret key - without
+	 * the key itself ever being transmitted.
+	 *
+	 * Returns true on success, or a WP_Error describing the failure.
+	 */
+	public function appwplp_verify_hmac_signature( WP_REST_Request $request ) {
+		$secret_key = get_option( APPWPLP_SECRET_KEY_OPTION );
+		$key_status = get_option( APPWPLP_SECRET_KEY_STATUS_OPTION );
+		if ( empty( $secret_key ) ) {
+			// This site hasn't completed phase-1 registration yet.
+			return new WP_Error(
+				'secret_key_not_configured',
+				'Secret key not configured on this site.',
+				array( 'status' => 401 )
+			);
+		}
+
+		$timestamp = $request->get_header( 'X-WPLP-Timestamp' );
+		$signature = $request->get_header( 'X-WPLP-Signature' );
+		if ( empty( $timestamp ) || empty( $signature ) ) {
+			return new WP_Error(
+				'missing_signature',
+				'Signature missing.',
+				array( 'status' => 401 )
+			);
+		}
+
+		// Replay protection: reject requests older than 5 minutes.
+		if ( abs( time() - (int) $timestamp ) > 300 ) {
+			return new WP_Error(
+				'stale_request',
+				'Request expired.',
+				array( 'status' => 401 )
+			);
+		}
+
+		$expected_signature = hash_hmac(
+			'sha256',
+			'wplc-req-v1|' . $timestamp . '|' . $request->get_body(),
+			$secret_key
+		);
+		if ( ! hash_equals( $expected_signature, $signature ) ) {
+			return new WP_Error(
+				'invalid_signature',
+				'Signature mismatch.',
+				array( 'status' => 401 )
+			);
+		}
+
+		return true;
+	}
 	public function permission_callback_for_wplp_connect_site(WP_REST_Request $request) {
 		$auth_header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 
@@ -10505,13 +10723,13 @@ class Gdpr_Cookie_Consent_Admin {
     	    );
     	}
 
-		$username = sanitize_text_field( $request->get_param( 'username' ) );
+		$username = sanitize_email( $request->get_param( 'username' ) );
+
+		if ( ! is_email( $username ) ) {
+			return new WP_Error( 'invalid_email', 'A valid email address is required.', [ 'status' => 400 ] );
+		}
 
     	$user = get_user_by( 'email', $username );
-
-    	if ( ! $user ) {
-    	    $user = get_user_by( 'login', $username );
-    	}
 
     	if ( ! $user ) {
     	    return new WP_Error(
@@ -10528,7 +10746,11 @@ class Gdpr_Cookie_Consent_Admin {
     	        [ 'status' => 403 ]
     	    );
     	}
-
+		// NEW: secret key signature check.
+		$signature_check = $this->appwplp_verify_hmac_signature( $request );
+		if ( is_wp_error( $signature_check ) ) {
+			return $signature_check;
+		}
     	return true;
 	}
 
@@ -10560,15 +10782,41 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( $code !== 200 ) {
 			return new WP_Error('invalid_token', 'Token validation failed.', ['status' => 401]);
 		}
+		$parts = explode( '.', $token );
+		if ( count( $parts ) !== 3 ) {
+			return new WP_Error( 'malformed_token', 'Unauthorized.', [ 'status' => 401 ] );
+		}
+
+		$payload = json_decode(
+			base64_decode( strtr( $parts[1], '-_', '+/' ) )
+		);
+
+		if ( ! $payload ) {
+			return new WP_Error( 'malformed_token', 'Unauthorized.', [ 'status' => 401 ] );
+		}
+
+		// Tmeister's plugin nests it here
+		$saas_user_id = $payload->data->user->id ?? 0;
+		$stored_user_id = $this->settings->get( 'account', 'id' );
+		if($saas_user_id !== $stored_user_id){
+			return new WP_Error('token_validation_failed', 'Not the owner of the website!', ['status' => 401]);
+		}
 		// 3. Extract master_key from the request body
 		$body = $request->get_json_params();
 		$incoming_key = isset($body['master_key']) ? sanitize_text_field($body['master_key']) : '';
 		if ( empty($incoming_key) ) {
 			return new WP_Error('master_key_missing', 'Master key not provided.', ['status' => 401]);
 		}
-		if ( $master_key !== $incoming_key ) {
+		if ( !hash_equals( $master_key, $incoming_key ) ) {
 			return new WP_Error('invalid_master_key', 'Master key mismatch.', ['status' => 401]);
 		}
+
+		// NEW: secret key signature check.
+		$signature_check = $this->appwplp_verify_hmac_signature( $request );
+		if ( is_wp_error( $signature_check ) ) {
+			return $signature_check;
+		}
+
 		return true; // All good → allow callback
 	}
 
@@ -10582,10 +10830,14 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( empty($incoming_key) ) {
 			return new WP_Error('master_key_missing', 'Master key not provided.', ['status' => 401]);
 		}
-		if ( $master_key !== $incoming_key ) {
+		if ( !hash_equals( $master_key, $incoming_key )) {
 			return new WP_Error('invalid_master_key', 'Master key mismatch.', ['status' => 401]);
 		}
-
+		// NEW: secret key signature check.
+		$signature_check = $this->appwplp_verify_hmac_signature( $request );
+		if ( is_wp_error( $signature_check ) ) {
+			return $signature_check;
+		}
 		return true; // All good → allow callback
 	}
 	// Register the REST API route for data from plugin to the saas appwplp server 
@@ -10596,6 +10848,20 @@ class Gdpr_Cookie_Consent_Admin {
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 		
 		$is_user_connected = $this->settings->is_connected();
+
+
+		register_rest_route(
+			'custom/v1',
+			'/gdpr-data',
+			array(
+				'methods'  => 'GET',
+				'callback' => array( $this, 'gdpr_get_settings_new' ),
+				'permission_callback' => function () {
+					// return true;
+					return current_user_can('manage_options');
+				}
+			)
+		);
 
 		register_rest_route(
 			'wplp-react-gdpr/v1',
@@ -11051,6 +11317,26 @@ class Gdpr_Cookie_Consent_Admin {
 				)
 			);
 		}
+		register_rest_route(
+			$appwplp_namespace, 
+			'/verify_connection', 
+			array(
+				'methods'             => 'GET',
+				'callback'            => array($this, 'appwplp_verify_connection'),
+				'permission_callback' => '__return_true', 
+				) 
+		);
+	}
+
+	function appwplp_verify_connection( WP_REST_Request $request ) {
+		$challenge = $request->get_param( 'challenge' );
+		$secret    = get_option( APPWPLP_SECRET_KEY_OPTION );
+		if ( empty( $challenge ) || empty( $secret ) ) {
+			return new WP_Error( 'invalid_request', 'Missing parameters.', array( 'status' => 400 ) );
+		}
+	
+		$response_hash = hash_hmac( 'sha256', 'wplc-pair-v1|' . $challenge, $secret );
+		return rest_ensure_response( array( 'response' => $response_hash ) );
 	}
 
 	function wplp_gdpr_generate_api_secret() {
@@ -11067,6 +11353,9 @@ class Gdpr_Cookie_Consent_Admin {
 
 	    return $secret;
 	}
+	
+
+	
 
 	/**
 	 * REST API callback to update and store the subscription payment status.
@@ -11238,7 +11527,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_wplp_install_plugin_ajax_handler() {
     // Check nonce for security
 	check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
-
+	if(! current_user_can( 'install_plugins' ) ) return;
 
     // Load necessary WordPress plugin installer classes
     if ( ! class_exists( 'Plugin_Upgrader' ) ) {
@@ -11273,6 +11562,7 @@ class Gdpr_Cookie_Consent_Admin {
         wp_send_json_error( array( 'message' => $result->get_error_message() ) );
     }
 
+	if(! current_user_can( 'activate_plugins' ) ) return;
     // Activate the plugin
     $activate = activate_plugin( $plugin_slug . '/' . $plugin_slug . '.php' );
     if ( is_wp_error( $activate ) ) {
@@ -12132,9 +12422,13 @@ public function gdpr_support_request_handler() {
 		$posts = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type IN ('post', 'page') AND post_status = 'publish'" ), ARRAY_A );
 
 
-		$response          = wp_remote_get( plugin_dir_url( __FILE__ ) . 'data/countries.json', array( 'sslverify' => false ) );
-		$json_data         = wp_remote_retrieve_body( $response );
-		$geo_countries     = json_decode( $json_data, true );
+		$geo_countries = wp_json_file_decode(
+			plugin_dir_path( __FILE__ ) . 'data/countries.json',
+			array( 'associative' => true )
+		);
+		if ( ! is_array( $geo_countries ) ) {
+			$geo_countries = array();
+		}
 		$list_of_countries = array();
 		$index             = 0;
 		$plan                = $this->settings->get_plan();
@@ -13338,37 +13632,136 @@ public function gdpr_support_request_handler() {
 		);
 	}
 
+	/**
+	 * Mime types accepted for a logo upload.
+	 *
+	 * SVG is deliberately excluded - it can carry script and is served back
+	 * from the uploads directory.
+	 *
+	 * @return array Extension pattern => mime type.
+	 */
+	private function saas_logo_allowed_mimes() {
+		return array(
+			'jpg|jpeg|jpe' => 'image/jpeg',
+			'png'          => 'image/png',
+			'gif'          => 'image/gif',
+			'webp'         => 'image/webp',
+		);
+	}
+
 	public function saas_upload_logo( WP_REST_Request $request ) {
 
-		 $image_base64 = $request->get_param('image_base64');
-    	$file_name    = sanitize_file_name($request->get_param('file_name'));
+		$image_base64 = $request->get_param( 'image_base64' );
+		$file_name    = $request->get_param( 'file_name' );
 
-    	$upload_dir = wp_upload_dir();
-    	$file_path = $upload_dir['path'] . '/' . $file_name;
+		if ( ! is_string( $image_base64 ) || '' === trim( $image_base64 ) || ! is_string( $file_name ) ) {
+			return new WP_Error( 'invalid_upload', 'Image data and file name are required.', array( 'status' => 400 ) );
+		}
 
-    	$image_data = base64_decode($image_base64);
-    	file_put_contents($file_path, $image_data);
+		$allowed_mimes = $this->saas_logo_allowed_mimes();
 
-    	$filetype = wp_check_filetype($file_name);
+		// Accept a data URI wrapper, but only when it declares a mime we allow.
+		if ( 0 === strpos( $image_base64, 'data:' ) ) {
+			if ( ! preg_match( '#^data:([a-z0-9.+/-]+);base64,#i', $image_base64, $uri_parts ) ) {
+				return new WP_Error( 'invalid_upload', 'Malformed image data.', array( 'status' => 400 ) );
+			}
+			if ( ! in_array( strtolower( $uri_parts[1] ), $allowed_mimes, true ) ) {
+				return new WP_Error( 'invalid_upload', 'Unsupported image type.', array( 'status' => 400 ) );
+			}
+			$image_base64 = substr( $image_base64, strlen( $uri_parts[0] ) );
+		}
 
-    	$attachment = [
-    	    'post_mime_type' => $filetype['type'],
-    	    'post_title'     => pathinfo($file_name, PATHINFO_FILENAME),
-    	    'post_status'    => 'inherit'
-    	];
+		// Strict decode, so anything that is not clean base64 is rejected outright.
+		$image_data = base64_decode( $image_base64, true );
+		if ( false === $image_data || '' === $image_data ) {
+			return new WP_Error( 'invalid_upload', 'Image data could not be decoded.', array( 'status' => 400 ) );
+		}
 
-    	$attach_id = wp_insert_attachment($attachment, $file_path);
-    	require_once ABSPATH . 'wp-admin/includes/image.php';
+		if ( strlen( $image_data ) > ( 2 * MB_IN_BYTES ) ) {
+			return new WP_Error( 'invalid_upload', 'Image exceeds the 2 MB limit.', array( 'status' => 400 ) );
+		}
 
-    	wp_update_attachment_metadata(
-    	    $attach_id,
-    	    wp_generate_attachment_metadata($attach_id, $file_path)
-    	);
+		// Reduce to a bare file name and hold the extension to the allow list.
+		$file_name = sanitize_file_name( basename( $file_name ) );
+		if ( '' === $file_name ) {
+			return new WP_Error( 'invalid_upload', 'Invalid file name.', array( 'status' => 400 ) );
+		}
 
-    	return [
-    	    'attachment_id' => $attach_id,
-    	    'url' => wp_get_attachment_url($attach_id)
-    	];
+		$filetype = wp_check_filetype( $file_name, $allowed_mimes );
+		if ( empty( $filetype['ext'] ) || empty( $filetype['type'] ) ) {
+			return new WP_Error( 'invalid_upload', 'Only JPG, PNG, GIF and WebP logos are allowed.', array( 'status' => 400 ) );
+		}
+
+		// Rebuild the name from a single validated extension. This collapses any
+		// inner extension, so "shell.php.jpg" can never reach the disk intact.
+		$base_name = str_replace( '.', '-', pathinfo( $file_name, PATHINFO_FILENAME ) );
+		$base_name = trim( sanitize_file_name( $base_name ), '-' );
+		if ( '' === $base_name ) {
+			$base_name = 'logo';
+		}
+		$safe_name = $base_name . '.' . $filetype['ext'];
+
+		// The bytes themselves must be the image the extension claims.
+		$image_info = @getimagesizefromstring( $image_data ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		if ( ! is_array( $image_info ) || empty( $image_info['mime'] ) ) {
+			return new WP_Error( 'invalid_upload', 'File is not a valid image.', array( 'status' => 400 ) );
+		}
+		if ( strtolower( $image_info['mime'] ) !== $filetype['type'] ) {
+			return new WP_Error( 'invalid_upload', 'Image contents do not match the file extension.', array( 'status' => 400 ) );
+		}
+
+		// wp_upload_bits() re-checks the type against the site allow list and
+		// picks a unique name, so an existing file is never overwritten.
+		$upload = wp_upload_bits( $safe_name, null, $image_data );
+		if ( ! empty( $upload['error'] ) || empty( $upload['file'] ) ) {
+			$message = ! empty( $upload['error'] ) ? $upload['error'] : 'Could not write the file.';
+			return new WP_Error( 'upload_failed', $message, array( 'status' => 500 ) );
+		}
+
+		$attachment = array(
+			'post_mime_type' => $filetype['type'],
+			'post_title'     => sanitize_text_field( pathinfo( $upload['file'], PATHINFO_FILENAME ) ),
+			'post_status'    => 'inherit',
+		);
+
+		$attach_id = wp_insert_attachment( $attachment, $upload['file'] );
+		if ( is_wp_error( $attach_id ) || ! $attach_id ) {
+			wp_delete_file( $upload['file'] );
+			return new WP_Error( 'upload_failed', 'Could not create the attachment.', array( 'status' => 500 ) );
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		wp_update_attachment_metadata(
+			$attach_id,
+			wp_generate_attachment_metadata( $attach_id, $upload['file'] )
+		);
+
+		return array(
+			'attachment_id' => $attach_id,
+			'url'           => wp_get_attachment_url( $attach_id ),
+		);
+	}
+	
+	/**
+	 * Fetch Settings from database.
+	 *
+	 *  @param array $data Data.
+	 */
+	public function gdpr_get_settings_new( $data ) {
+		// Your logic to get GDPR settings.
+		$gdpr_data = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+		// Get logo images from separate options
+		$logo_options = array(
+			'gdpr_cookie_bar_logo' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' ),
+			'gdpr_cookie_bar_logo1' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1, '' ),
+			'gdpr_cookie_bar_logo2' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2, '' ),
+			'gdpr_cookie_bar_logo_ml' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1, '' )
+		);
+		// Merge logo options into the main data
+		$gdpr_data = array_merge( $gdpr_data, $logo_options );
+		// Return the data.
+		return rest_ensure_response( $gdpr_data );
 	}
 
 	public function gdpr_schedule_scan( WP_REST_Request $request ) {
@@ -13462,12 +13855,10 @@ public function gdpr_support_request_handler() {
 	}
 
 	public function wplp_connect_plugin_to_wplp_compliance( WP_REST_Request $request ) {
-		
 		global $wcam_lib_gdpr;
 
 		$data_key = $wcam_lib_gdpr->data_key;
 		$instance_key = $data_key . '_instance';
-    
     	$instance_id      = get_option( $instance_key );
     	$object           = str_ireplace( array( 'http://', 'https://' ), '', home_url() );
     	$software_version = $wcam_lib_gdpr->software_version;
@@ -13480,12 +13871,10 @@ public function gdpr_support_request_handler() {
 			'software_version'	=> rawurldecode( $software_version ),
 		);
 
-
 		return rest_ensure_response( $response );
 	}
 
 	public function rest_store_auth_key( WP_REST_Request $request ) {		
-		
 		$data			= $request->get_param( 'response' );
     	$origin			= $request->get_param( 'origin' ) ? esc_url_raw( $request->get_param( 'origin' ) ) : false;
     	$no_of_scans	= $request->get_param( 'no_of_scans' );
@@ -13562,6 +13951,30 @@ public function gdpr_support_request_handler() {
 
 		return new WP_REST_Response( [ 'status' => 'success', 'message' => 'Scanning Started' ], 200 );
 	}
+	
+	function appwplp_register_secret_key_with_server( $site_key ) {
+		$site_url = site_url();
+		$response = wp_remote_post(
+			GDPR_APP_URL . '/wp-json/appwplp/v1/register_secret_key',
+			array(
+				'timeout' => 15,
+				'headers' => array(
+					'Content-Type' => 'application/json'
+				),
+				'body'    => wp_json_encode( array(
+					'site_key' => $site_key,
+					'site_url' => $site_url,
+				) ),
+			)
+		);
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			update_option( APPWPLP_SECRET_KEY_STATUS_OPTION, 'registration_failed', false );
+			return;
+		}
+	
+		update_option( APPWPLP_SECRET_KEY_STATUS_OPTION, 'confirmed', false );
+	}
+
 
 	public function get_gcm_scan_result( WP_REST_Request $request ) {
 		if ( get_transient( 'wpl_gcm_check_is_scanning' ) ) {
@@ -13851,9 +14264,16 @@ public function gdpr_support_request_handler() {
 	public function gdpr_translate_cookie_categories($target_language) {
 		// restore translation of public facing side text.
 		// Load and decode translations from JSON file.
-		$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/admin/translations/translations.json';
-		$translations      = wp_remote_get( $translations_file );
-		$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
+		$$translations_file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/translations/translations.json';
+
+		$translations = wp_json_file_decode(
+			$translations_file,
+			array( 'associative' => true )
+		);
+
+		if ( ! is_array( $translations ) ) {
+			$translations = array();
+		}
 
 		// Define an array of text keys to translate.
 		$text_keys_to_translate = array(

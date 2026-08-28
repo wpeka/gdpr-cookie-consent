@@ -62,6 +62,11 @@ class Gdpr_Cookie_Consent_Deactivator {
 		$the_options['is_ccpa_on'] = 'false';
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 
+		$timestamp = wp_next_scheduled( 'appwplp_secret_key_retry_event' );
+		if ( $timestamp ) {
+			wp_clear_scheduled_hook('appwplp_secret_key_retry_event' );
+		}
+
 		update_option( 'gdpr_no_of_page_scan', 0 );
 	}
 }

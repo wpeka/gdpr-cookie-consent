@@ -498,7 +498,39 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 		return $count;
 	}
+	/**
+	 * Decode a stored wpl_user_preference value into a clean {key:"yes"|"no"} JSON string.
+	 * Strips anything not on the allowlist.
+	 *
+	 * @param string $raw Stored preference value.
+	 * @return string JSON object string, e.g. {"necessary":"yes"} or {}.
+	 */
+	private function wplcl_clean_preferences( $raw ) {
+		$raw = (string) $raw;
 
+		// Fully decode HTML entities (handles single- and double-encoding).
+		$prev = null;
+		while ( $raw !== $prev ) {
+			$prev = $raw;
+			$raw  = html_entity_decode( $raw, ENT_QUOTES );
+		}
+
+		$arr = json_decode( $raw, true );
+		if ( ! is_array( $arr ) ) {
+			$arr = array();
+		}
+
+		// Allowlist + normalize to yes/no only.
+		$allowed = array( 'necessary', 'analytics', 'marketing', 'preferences', 'unclassified' );
+		$clean   = array();
+		foreach ( $allowed as $key ) {
+			if ( isset( $arr[ $key ] ) ) {
+				$clean[ $key ] = ( 'yes' === $arr[ $key ] ) ? 'yes' : 'no';
+			}
+		}
+
+		return wp_json_encode( (object) $clean ); // Always valid JSON, never empty-string.
+	}
 	/**
 	 * Get users.
 	 *
@@ -655,13 +687,12 @@ class WPL_Consent_Logs extends WP_List_Table {
 					$tcString      = isset($cookies['wpl_tc_string']) ?  $cookies['wpl_tc_string'] : '';
 					$acString	   = isset($cookies['Additional_Consent_String']) ?  $cookies['Additional_Consent_String'] : '';
 					$consent_status            = 'Unknown';
-					$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
-					$wpl_user_preference_array = array();
-					if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
-						$preferencesDecoded = wp_json_encode( $wpl_user_preference );
-						// convert the std obj to a PHP array.
-						$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
-						$wpl_user_preference_array = json_decode( $decodedText, true );
+					// Decode HTML entities BEFORE json_decode — json_decode fails on &quot; etc.
+					$raw_preference            = isset( $cookies['wpl_user_preference'] ) ? (string) $cookies['wpl_user_preference'] : '';					
+					$preferencesDecoded = $this->wplcl_clean_preferences($raw_preference);
+					$wpl_user_preference_array = json_decode( $preferencesDecoded, true );
+					if ( ! is_array( $wpl_user_preference_array ) ) {
+						$wpl_user_preference_array = array();
 					}
 					
 
@@ -699,10 +730,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 					'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 					'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip'][0] ) : 'Unknown' ); ?>',
 					'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
-					'<?php echo esc_attr( $consent_status ); ?>',
-					'<?php echo esc_attr( $tcString ); ?>',
-					'<?php echo esc_attr( $acString ); ?>',
-					'<?php echo esc_attr( $siteaddress ); ?>',
+					'<?php echo esc_js( $consent_status ); ?>',
+					'<?php echo esc_js( $tcString ); ?>',
+					'<?php echo esc_js( $acString ); ?>',
+					'<?php echo esc_js( $siteaddress ); ?>',
 					'<?php echo esc_js( $preferencesDecoded ); ?>',
 					'<?php echo esc_js( wp_json_encode( $scan_cookie_list ) ); ?>'
 					)">Download</a>
@@ -834,12 +865,12 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 						$consent_status            = 'Unknown';
 						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
-						$wpl_user_preference_array = array();
-						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
-							$preferencesDecoded = wp_json_encode( $wpl_user_preference );
-							// convert the std obj to a PHP array.
-							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
-							$wpl_user_preference_array = json_decode( $decodedText, true );
+						// Decode HTML entities BEFORE json_decode — json_decode fails on &quot; etc.
+						$raw_preference            = isset( $cookies['wpl_user_preference'] ) ? (string) $cookies['wpl_user_preference'] : '';					
+						$preferencesDecoded = $this->wplcl_clean_preferences($raw_preference);
+						$wpl_user_preference_array = json_decode( $preferencesDecoded, true );
+						if ( ! is_array( $wpl_user_preference_array ) ) {
+							$wpl_user_preference_array = array();
 						}
 
 						$allYes = true; // Initialize a flag variable.
@@ -872,11 +903,11 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 							'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip'][0] ) : 'Unknown' ); ?>',
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
-							'<?php echo esc_attr( $consent_status ); ?>',
-							'<?php echo esc_attr( $tcString ); ?>',
-							'<?php echo esc_attr( $acString ); ?>',
-							'<?php echo esc_attr( $siteaddress ); ?>',
-							'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
+							'<?php echo esc_js( $consent_status ); ?>',
+							'<?php echo esc_js( $tcString ); ?>',
+							'<?php echo esc_js( $acString ); ?>',
+							'<?php echo esc_js( $siteaddress ); ?>',
+							'<?php echo esc_js( $preferencesDecoded ); ?>',
 							)">Download</a>
 					</div>
 					<?php
@@ -992,12 +1023,12 @@ class WPL_Consent_Logs extends WP_List_Table {
 
 						$consent_status            = 'Unknown';
 						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
-						$wpl_user_preference_array = array();
-						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
-							$preferencesDecoded = wp_json_encode( $wpl_user_preference );
-							// convert the std obj to a PHP array.
-							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
-							$wpl_user_preference_array = json_decode( $decodedText, true );
+						// Decode HTML entities BEFORE json_decode — json_decode fails on &quot; etc.
+						$raw_preference            = isset( $cookies['wpl_user_preference'] ) ? (string) $cookies['wpl_user_preference'] : '';					
+						$preferencesDecoded = $this->wplcl_clean_preferences($raw_preference);
+						$wpl_user_preference_array = json_decode( $preferencesDecoded, true );
+						if ( ! is_array( $wpl_user_preference_array ) ) {
+							$wpl_user_preference_array = array();
 						}
 
 						$allYes = true; // Initialize a flag variable.
@@ -1030,11 +1061,11 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 						'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
-						'<?php echo esc_attr( $consent_status ); ?>',
-						'<?php echo esc_attr( $tcString ); ?>',
-						'<?php echo esc_attr( $acString ); ?>',
-						'<?php echo esc_attr( $siteaddress ); ?>',
-						'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
+						'<?php echo esc_js( $consent_status ); ?>',
+						'<?php echo esc_js( $tcString ); ?>',
+						'<?php echo esc_js( $acString ); ?>',
+						'<?php echo esc_js( $siteaddress ); ?>',
+						'<?php echo esc_js( $preferencesDecoded ); ?>',
 						)">Download</a>
 					</div>
 					<?php
@@ -1149,13 +1180,12 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
 						$consent_status            = 'Unknown';
-						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
-						$wpl_user_preference_array = array();
-						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
-							$preferencesDecoded = wp_json_encode( $wpl_user_preference );
-							// convert the std obj to a PHP array.
-							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
-							$wpl_user_preference_array = json_decode( $decodedText, true );
+						// Decode HTML entities BEFORE json_decode — json_decode fails on &quot; etc.
+						$raw_preference            = isset( $cookies['wpl_user_preference'] ) ? (string) $cookies['wpl_user_preference'] : '';					
+						$preferencesDecoded = $this->wplcl_clean_preferences($raw_preference);
+						$wpl_user_preference_array = json_decode( $preferencesDecoded, true );
+						if ( ! is_array( $wpl_user_preference_array ) ) {
+							$wpl_user_preference_array = array();
 						}
 
 						$allYes = true; // Initialize a flag variable.
@@ -1188,11 +1218,11 @@ class WPL_Consent_Logs extends WP_List_Table {
 							'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 							'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
-							'<?php echo esc_attr( $consent_status ); ?>',
-							'<?php echo esc_attr( $tcString ); ?>',
-							'<?php echo esc_attr( $acString ); ?>',
-							'<?php echo esc_attr( $siteaddress ); ?>',
-							'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
+							'<?php echo esc_js( $consent_status ); ?>',
+							'<?php echo esc_js( $tcString ); ?>',
+							'<?php echo esc_js( $acString ); ?>',
+							'<?php echo esc_js( $siteaddress ); ?>',
+							'<?php echo esc_js( $preferencesDecoded ); ?>',
 							)">Download</a>
 					</div>
 					<?php
@@ -1307,13 +1337,12 @@ class WPL_Consent_Logs extends WP_List_Table {
 						$optout_cookie = isset( $cookies['wpl_optout_cookie'] ) ? $cookies['wpl_optout_cookie'] : '';
 
 						$consent_status            = 'Unknown';
-						$preferencesDecoded        = ''; // Initialize with an empty string or an appropriate default value.
-						$wpl_user_preference_array = array();
-						if ( isset( $wpl_user_preference ) && isset( $cookies['wpl_user_preference'] ) ) {
-							$preferencesDecoded = wp_json_encode( $wpl_user_preference );
-							// convert the std obj to a PHP array.
-							$decodedText               = html_entity_decode( $cookies['wpl_user_preference'] );
-							$wpl_user_preference_array = json_decode( $decodedText, true );
+						// Decode HTML entities BEFORE json_decode — json_decode fails on &quot; etc.
+						$raw_preference            = isset( $cookies['wpl_user_preference'] ) ? (string) $cookies['wpl_user_preference'] : '';					
+						$preferencesDecoded = $this->wplcl_clean_preferences($raw_preference);
+						$wpl_user_preference_array = json_decode( $preferencesDecoded, true );
+						if ( ! is_array( $wpl_user_preference_array ) ) {
+							$wpl_user_preference_array = array();
 						}
 
 						$allYes = true; // Initialize a flag variable.
@@ -1346,11 +1375,11 @@ class WPL_Consent_Logs extends WP_List_Table {
 						'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 						'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
-						'<?php echo esc_attr( $consent_status ); ?>',
-						'<?php echo esc_attr( $tcString ); ?>',
-						'<?php echo esc_attr( $acString ); ?>',
-						'<?php echo esc_attr( $siteaddress ); ?>',
-						'<?php echo esc_html( $preferencesDecoded, ENT_QUOTES, 'UTF-8' ); ?>',
+						'<?php echo esc_js( $consent_status ); ?>',
+						'<?php echo esc_js( $tcString ); ?>',
+						'<?php echo esc_js( $acString ); ?>',
+						'<?php echo esc_js( $siteaddress ); ?>',
+						'<?php echo esc_js( $preferencesDecoded ); ?>',
 						)">Download</a>
 					</div>
 					<?php

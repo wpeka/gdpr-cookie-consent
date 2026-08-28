@@ -95,8 +95,6 @@ class Gdpr_Cookie_Consent_Public {
 			add_action('wp_head', array( $this,'insert_custom_consent_script'), -9999);
 			add_action('wp_body_open',  array( $this,'insert_custom_consent_script_body'), -9999);
 		}
-		add_action( 'wp_ajax_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
-		add_action( 'wp_ajax_nopriv_gdpr_fetch_user_iab_consent', array( $this, 'wplcl_collect_user_iab_consent' ) );
 		add_action( 'template_redirect', array( $this, 'gdprcookieconsent_set_auto_mode_cache_flag' ) );
 	}
 
@@ -242,7 +240,9 @@ class Gdpr_Cookie_Consent_Public {
             dataLayer.push(arguments);
         }
         gtag("consent", "default", {
-			<?php echo $regionParam !== '' ? $regionParam . ',' : ''; ?>
+			<?php if ( $config->region !== 'All' ) : ?>
+				region: <?php echo wp_json_encode( $regions ); ?>,
+			<?php endif; ?>
 			ad_storage: "<?php echo esc_js( $config->ad_storage ); ?>",
 			ad_user_data: "<?php echo esc_js( $config->ad_user_data ); ?>",
 			ad_personalization: "<?php echo esc_js( $config->ad_personalization ); ?>",
@@ -351,10 +351,6 @@ class Gdpr_Cookie_Consent_Public {
 	}
 
 
-	public function wplcl_collect_user_iab_consent(){
-		// check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
-		$this->user_iab_consent = json_decode(stripslashes($_POST['user_iab_consent']),true);
-	}
 
 	/**
 	 * Returns the list of country codes that constitute the "home region" for a law.
@@ -526,7 +522,6 @@ class Gdpr_Cookie_Consent_Public {
 	 */
 	//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 	public function show_cookie_consent_bar() {
-		update_option( 'gdpr_settings_enabled', 0 );
 		
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		$law         = $this->gdpr_get_effective_law( $the_options );
@@ -695,40 +690,7 @@ class Gdpr_Cookie_Consent_Public {
 			return $text;
 		}
 	}
-	/**
-	 * Registered rest end point to get the current banner options form database.
-	 */
-	public function gdpr_cookie_data_endpoint() {
-		register_rest_route(
-			'custom/v1',
-			'/gdpr-data/',
-			array(
-				'methods'  => 'GET',
-				'callback' => array( $this, 'gdpr_get_settings_new' ),
-			)
-		);
-	}
-
-	/**
-	 * Fetch Settings from database.
-	 *
-	 *  @param array $data Data.
-	 */
-	public function gdpr_get_settings_new( $data ) {
-		// Your logic to get GDPR settings.
-		$gdpr_data = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
-		// Get logo images from separate options
-		$logo_options = array(
-			'gdpr_cookie_bar_logo' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD, '' ),
-			'gdpr_cookie_bar_logo1' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1, '' ),
-			'gdpr_cookie_bar_logo2' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2, '' ),
-			'gdpr_cookie_bar_logo_ml' => get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELDML1, '' )
-		);
-		// Merge logo options into the main data
-		$gdpr_data = array_merge( $gdpr_data, $logo_options );
-		// Return the data.
-		return rest_ensure_response( $gdpr_data );
-	}
+	
 
 	/**
 	 * Outputs the cookie control script in the footer.
@@ -1250,9 +1212,16 @@ class Gdpr_Cookie_Consent_Public {
 				if ( isset( $the_options['lang_selected'] )  && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {
 
 					// Load and decode translations from JSON file.
-					$translations_file = get_site_url() . '/wp-content/plugins/gdpr-cookie-consent/public/translations/public-translations.json';
-					$translations      = wp_remote_get( $translations_file );
-					$translations      = json_decode( wp_remote_retrieve_body( $translations ), true );
+					$translations_file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/translations/translations.json';
+
+					$translations = wp_json_file_decode(
+						$translations_file,
+						array( 'associative' => true )
+					);
+
+					if ( ! is_array( $translations ) ) {
+						$translations = array();
+					}
 					// Define an array of text keys to translate.
 					$text_keys_to_translate = array(
 							'about',

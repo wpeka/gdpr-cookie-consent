@@ -714,6 +714,15 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	 */
 	public function wpl_ajax_script_add() {
 
+		if ( ! check_ajax_referer( 'wpl_save_script_nonce', '_wpnonce', false ) ) {
+			wp_send_json_error( array( 'message' => 'Security Check Failed, Unauthorized access' ), 403 );
+		}
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
+
 		$html  = '';
 		$error = false;
 
@@ -799,7 +808,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 			$id      = intval( $_POST['id'] );
 			$type    = sanitize_text_field( $_POST['type'] );
 			$action  = sanitize_title( $_POST['button_action'] );
-			$data    = json_decode( stripslashes( $_POST['data'] ), true );
+			$data    = json_decode( wp_unslash( $_POST['data'] ), true );
 			$scripts = get_option( 'wpl_options_custom-scripts', array() );
 			if ( ! $error ) {
 				if ( $action === 'remove' ) {
