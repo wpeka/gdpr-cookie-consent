@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-    const $abTestingContainer = $('#ab-testing-container');
+    const $abTestingContainer = $('#ab-testing-container-crd');
     $.ajax({
         url: ab_testing_ajax.ajax_url,
         method: 'POST',

@@ -1351,11 +1351,7 @@ $total_steps = 2;
 							<div class="gdpr-cookie-consent-admin-cookie-settings-content gdpr-cookie-consent-admin-tab-content" id="cookie_settings">
 								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-settings-tab-template.php'; ?>
 							</div>
-							<!-- policy data content  -->
-							<div class="gdpr-cookie-consent-admin-policy-data-content gdpr-cookie-consent-admin-tab-content" id="policy_data">
-								<?php do_action( 'add_policy_data_content' ); ?>
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-policy-data-tab-template.php'; ?>
-							</div>
+							<?php // Policy Data has been retired: no tab renders it, and firing add_policy_data_content here only cost a list-table query. ?>
 							<!-- consent log data content  -->
 							<div class="gdpr-cookie-consent-admin-consent-logs-data-content gdpr-cookie-consent-admin-tab-content" id="consent_logs">
 							<?php do_action( 'add_consent_log_content' ); ?>
