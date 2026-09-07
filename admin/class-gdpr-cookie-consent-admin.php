@@ -2329,8 +2329,11 @@ class Gdpr_Cookie_Consent_Admin {
 		global $wpdb;
 		if ( ! get_option( 'gdpr_version_number' ) ) {
 			update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
+			$this->wplp_cleanup_policy_data_exports();
 		} elseif ( get_option( 'gdpr_version_number' ) !== GDPR_COOKIE_CONSENT_VERSION ) {
 				update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
+				// Drop the legacy world-readable policy export left by older versions.
+				$this->wplp_cleanup_policy_data_exports();
 		}
 		// Check if the key exists in the options table
 		if ( get_option( 'gdpr_no_of_page_scan' ) == false ) {
@@ -8750,36 +8753,26 @@ class Gdpr_Cookie_Consent_Admin {
 				continue;
 			}
 			
-			$image_base64 = $image['value']['image'];
-			$file_name    = $image['value']['name'];
-
-			// Check if the base64 string has the data:image prefix and remove it
-			if ( strpos( $image_base64, 'data:image' ) === 0 ) {
-				// Remove the data:image/*;base64, prefix
-				$image_base64 = substr( $image_base64, strpos( $image_base64, ',' ) + 1 );
-			}
-			
-			$image_data = base64_decode( $image_base64 );
-			
-			if ( ! $image_data ) {
-				continue;
+			// Reuse the shared validator: basename + allow-listed extension,
+			// strict base64, size cap and image-content/mime match.
+			$validated = $this->gdpr_validate_uploaded_image( $image['value']['image'], $image['value']['name'] );
+			if ( is_wp_error( $validated ) ) {
+				continue; // Skip this image, don't fail the whole import.
 			}
 
 			$upload_dir = wp_upload_dir();
-			$file_path = $upload_dir['path'] . '/' . $file_name;
+			$file_path  = $upload_dir['path'] . '/' . $validated['safe_name'];
 
-			file_put_contents( $file_path, $image_data );
+			file_put_contents( $file_path, $validated['data'] );
 
-			$filetype = wp_check_filetype( $file_name, null );
-
-			$attachment = [
-				'post_mime_type' => $filetype['type'],
-				'post_title'     => pathinfo( $file_name, PATHINFO_FILENAME ),
-				'post_status'    => 'inherit'
-			];
+			$attachment = array(
+				'post_mime_type' => $validated['mime'],
+				'post_title'     => sanitize_text_field( pathinfo( $validated['safe_name'], PATHINFO_FILENAME ) ),
+				'post_status'    => 'inherit',
+			);
 
 			$attach_id = wp_insert_attachment( $attachment, $file_path );
-			
+
 			// Regenerate attachment metadata
 			$attach_data = wp_generate_attachment_metadata( $attach_id, $file_path );
 			wp_update_attachment_metadata( $attach_id, $attach_data );
@@ -11105,16 +11098,6 @@ class Gdpr_Cookie_Consent_Admin {
 
 		register_rest_route(
 			'wplp-react-gdpr/v1',
-			'/export-policy-data',
-			array(
-				'methods'  => 'POST',
-				'callback' => array( $this, 'wplp_export_policy_data' ),
-				'permission_callback' => array($this, 'permission_callback_for_react_app'),
-			)
-		);
-
-		register_rest_route(
-			'wplp-react-gdpr/v1',
 			'/get-data-request-form-fields',
 			array(
 				'methods'  => 'POST',
@@ -12143,67 +12126,28 @@ public function gdpr_support_request_handler() {
 		return new WP_REST_Response( [ 'status' => true, 'message' => 'Policy Data Deleted Successfully.', 'policy_id' => $policy_ids ], 200);
 	}
 
-	public function wplp_export_policy_data( WP_REST_Request $request ) {
-
-		include_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php';
-
-		$policy_data_instance = new GDPR_Cookie_Consent_Policy_Data();
-
+	/**
+	 * Delete the legacy policy export left in the uploads root.
+	 *
+	 * Versions up to 4.4.3 wrote published and draft policy data to the fixed,
+	 * world-readable path wp-content/uploads/wplp-policy-data-export.csv and never
+	 * removed it. Nothing writes that file any more, but installs that ran an
+	 * export still have it on disk, so it is deleted on upgrade.
+	 *
+	 * @since 4.4.3
+	 *
+	 * @return void
+	 */
+	public function wplp_cleanup_policy_data_exports() {
 		$upload_dir = wp_upload_dir();
-		$file_path = trailingslashit($upload_dir['basedir']) . 'wplp-policy-data-export.csv';
-		$file_url  = trailingslashit($upload_dir['baseurl']) . 'wplp-policy-data-export.csv';
-
-		// Open file for writing
-		global $wp_filesystem;
-
-		if ( ! function_exists( 'WP_Filesystem' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-		}
-		WP_Filesystem();
-
-		// Open file for writing using WP Filesystem
-		$csv_content = '';
-
-		// Header row
-		$csv_data  = "post_title,post_content,post_status,_gdpr_policies_links_editor,_gdpr_policies_domain\n";
-		$limit = 3000;
-		$offset = 0;
-
-		while (true) {
-			$posts = get_posts([
-				'post_type'      => 'gdprpolicies',
-				'post_status'    => array( 'publish', 'draft' ),
-				'posts_per_page' => $limit,
-				'offset'         => $offset,
-				'fields'         => 'ids',
-			]);
-
-			if (empty($posts)) {
-				break;
-			}
-
-			foreach ($posts as $post_id) {
-				$row = [
-					$policy_data_instance::format_data( sanitize_text_field( get_the_title($post_id) ) ),
-					$policy_data_instance::format_data( wp_strip_all_tags( sanitize_textarea_field( get_post_field( 'post_content', $post_id ) ) ) ),
-					$policy_data_instance::format_data( get_post_status($post_id) ),
-					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_links_editor', true) ) ),
-					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_domain', true) ) ),
-				];
-				$csv_data .= '"' . implode( '","', array_map( function($item) {
-					return str_replace('"', '""', $item);
-				}, $row ) ) . '"' . "\n";
-			}
-
-			$offset += $limit;
+		if ( empty( $upload_dir['basedir'] ) ) {
+			return;
 		}
 
-		$wp_filesystem->put_contents( $file_path, $csv_data, FS_CHMOD_FILE );
-
-		return [
-			'success' => true,
-			'download_url' => $file_url
-		];
+		$legacy_export = trailingslashit( $upload_dir['basedir'] ) . 'wplp-policy-data-export.csv';
+		if ( file_exists( $legacy_export ) ) {
+			wp_delete_file( $legacy_export );
+		}
 	}
 
 	public function gdpr_get_data_request_form_fields( WP_REST_Request $request ) {

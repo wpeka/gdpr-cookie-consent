@@ -582,21 +582,30 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 */
 	public function wplcl_log_consent_action() {
 		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
-		$settings      = Gdpr_Cookie_Consent::gdpr_get_settings();
-		$selectedsites = $settings['select_sites'];
+		$settings = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 		if ( ! empty( $_POST ) && $settings['logging_on'] ) {
 			$js_cookie_list     = array();
 			$wpl_cookie_details = array();
-			if ( isset( $_POST['subSiteId'] ) ) {
-				$subSiteId = sanitize_text_field( wp_unslash( $_POST['subSiteId'] ) );
+
+			// Consent forwarding is decided by the stored settings, never by the request.
+			$forward_enabled = ( true === $settings['consent_forward'] );
+
+			// Only forward to a blog the administrator has allow-listed in `select_sites`.
+			$subSiteId = null;
+			if ( is_multisite() && $forward_enabled && isset( $_POST['subSiteId'] ) ) {
+				$requested_site_id = absint( wp_unslash( $_POST['subSiteId'] ) );
+				if ( ! $this->wplcl_is_forwarding_allowed( $requested_site_id, $settings['select_sites'] ) ) {
+					wp_send_json_error( array( 'message' => __( 'Invalid site.', 'gdpr-cookie-consent' ) ), 403 );
+				}
+				$subSiteId = $requested_site_id;
 			}
-			if ( isset( $_POST['currentSite'] ) ) {
-				$SiteURL = esc_url( $_POST['currentSite'] );
-			}
-			if ( isset( $_POST['consent_forward'] ) ) {
-				$consent_forward = $_POST['consent_forward'];
-			}
+
+			// Mirrors the value the bundled script sends, so stored meta keeps its historical shape.
+			$consent_forward = $forward_enabled ? 'true' : 'false';
+
+			$posted_site_url = isset( $_POST['currentSite'] ) ? esc_url_raw( wp_unslash( $_POST['currentSite'] ) ) : '';
+			$SiteURL         = $this->wplcl_get_origin_site_url( $posted_site_url );
 			if ( isset( $_POST['gdpr_user_action'] ) ) {
 				$gdpr_user_action = sanitize_text_field( wp_unslash( $_POST['gdpr_user_action'] ) );
 				if ( isset( $_POST['cookie_list'] ) && is_array( $_POST['cookie_list'] ) ) {
@@ -647,9 +656,8 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 
 			$args['consent_details'] = $wpl_cookie_details;
-			$subSiteId               = $subSiteId ?? null;
 
-			if ( ( is_multisite() && $consent_forward && $this->wpl_insert_consent_log( $args, $subSiteId, $SiteURL, $consent_forward ) ) || ( is_multisite() && isset( $subSiteId ) && $this->wpl_insert_consent_log( $args, $subSiteId, $SiteURL, $consent_forward ) ) || ( ! is_multisite() && $this->wpl_insert_consent_log( $args, null, $SiteURL, $consent_forward ) ) ) {
+			if ( $this->wpl_insert_consent_log( $args, $subSiteId, $SiteURL, $consent_forward ) ) {
 				$data = array( 'message' => __( 'Consent Logged Successfully.', 'gdpr-cookie-consent' ) );
 			} else {
 				$data = array( 'message' => __( 'Error.', 'gdpr-cookie-consent' ) );
@@ -657,8 +665,72 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			wp_send_json_success( $data );
 		} else {
 			$data = array( 'message' => __( 'Consent Logging is not enabled.', 'gdpr-cookie-consent' ) );
-			wp_send_json_success( $settings );
+			wp_send_json_success( $data );
 		}
+	}
+
+	/**
+	 * Check whether consent may be forwarded to the given blog.
+	 *
+	 * The current blog is always permitted because the bundled script posts it
+	 * alongside the allow-listed sites. Every other blog must appear in the
+	 * administrator-configured `select_sites` list, which is historically stored
+	 * as an array of numeric strings, e.g. array( '2' ).
+	 *
+	 * @since 4.4.3
+	 *
+	 * @param int   $site_id      Requested blog ID.
+	 * @param mixed $select_sites Stored `select_sites` setting.
+	 *
+	 * @return bool
+	 */
+	private function wplcl_is_forwarding_allowed( $site_id, $select_sites ) {
+		if ( $site_id <= 0 ) {
+			return false;
+		}
+		if ( get_current_blog_id() === $site_id ) {
+			return true;
+		}
+		$allowed_sites = is_array( $select_sites ) ? array_map( 'absint', $select_sites ) : array();
+		if ( ! in_array( $site_id, $allowed_sites, true ) ) {
+			return false;
+		}
+		return (bool) get_site( $site_id );
+	}
+
+	/**
+	 * Resolve the URL the consent was given on.
+	 *
+	 * The page URL is supplied by the browser, so it is only kept when it points at
+	 * the current site. Anything else falls back to the site's own home URL rather
+	 * than failing, so logging keeps working on unusual host configurations.
+	 *
+	 * @since 4.4.3
+	 *
+	 * @param string $raw_url Sanitized URL posted by the browser.
+	 *
+	 * @return string
+	 */
+	private function wplcl_get_origin_site_url( $raw_url ) {
+		$fallback = trailingslashit( home_url() );
+		if ( ! is_string( $raw_url ) || '' === $raw_url ) {
+			return $fallback;
+		}
+		$url  = esc_url( $raw_url );
+		$host = $url ? wp_parse_url( $url, PHP_URL_HOST ) : '';
+		if ( empty( $host ) ) {
+			return $fallback;
+		}
+
+		$allowed_hosts = array();
+		foreach ( array( home_url(), site_url() ) as $known_url ) {
+			$known_host = wp_parse_url( $known_url, PHP_URL_HOST );
+			if ( ! empty( $known_host ) ) {
+				$allowed_hosts[] = strtolower( $known_host );
+			}
+		}
+
+		return in_array( strtolower( $host ), $allowed_hosts, true ) ? $url : $fallback;
 	}
 	/**
 	 * Save consent log into custom post type.
@@ -1715,9 +1787,9 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						'<?php echo esc_js(addslashes($local_time)) ?>',
 						'<?php echo esc_js(isset($custom['_wplconsentlogs_ip'][0]) ? esc_attr($custom['_wplconsentlogs_ip'][0]) : 'Unknown'); ?>',
 						'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
-						'<?php echo esc_attr($consent_status); ?>',
-						'<?php echo esc_attr( $tcString ); ?>',
-					<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
+						'<?php echo esc_js( $consent_status ); ?>',
+						'<?php echo esc_js( $tcString ); ?>',
+					'<?php echo esc_js( $preferencesDecoded ); ?>',
 						)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<g clip-path="url(#clip0_103_5501)">
 									<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -1841,7 +1913,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if ($siteurl == $forwarded_site_url1) {
 							echo '<div style="text-align:center"> Self-Consent ' . '</div>';
 						} else {
-							echo '<div style="color:blue;text-align:center">' . $forwarded_site_url1 . '</div>';
+							echo '<div style=\"color:blue;text-align:center\">' . esc_html( $forwarded_site_url1 ) . '</div>';
 						}
 						break;
 					case 'wplconsentlogspdf':
@@ -1915,10 +1987,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								'<?php echo esc_js(addslashes($local_time)) ?>',
 								'<?php echo esc_js(isset($custom['_wplconsentlogs_ip'][0]) ? esc_attr($custom['_wplconsentlogs_ip'][0]) : 'Unknown'); ?>',
 								'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
-								'<?php echo esc_attr($consent_status); ?>',
-								'<?php echo esc_attr( $tcString ); ?>',
-								'<?php echo esc_attr($siteaddress); ?>',
-						'<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
+								'<?php echo esc_js( $consent_status ); ?>',
+								'<?php echo esc_js( $tcString ); ?>',
+								'<?php echo esc_js( $siteaddress ); ?>',
+						'<?php echo esc_js( $preferencesDecoded ); ?>',
 								)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -2035,7 +2107,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if ($siteurl == $forwarded_site_url) {
 							echo '<div style="text-align:center"> Self-Consent ' . '</div>';
 						} else {
-							echo '<div style="color:blue;text-align:center">' . $forwarded_site_url . '</div>';
+							echo '<div style=\"color:blue;text-align:center\">' . esc_html( $forwarded_site_url ) . '</div>';
 						}
 
 						break;
@@ -2110,10 +2182,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									'<?php echo esc_js(addslashes($local_time)) ?>',
 									'<?php echo esc_js(isset($custom['_wplconsentlogs_ip_cf'][0]) ? esc_attr($custom['_wplconsentlogs_ip_cf'][0]) : 'Unknown'); ?>',
 									'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
-									'<?php echo esc_attr($consent_status); ?>',
-									'<?php echo esc_attr( $tcString ); ?>',
-									'<?php echo esc_attr($siteaddress); ?>',
-						'<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
+									'<?php echo esc_js( $consent_status ); ?>',
+									'<?php echo esc_js( $tcString ); ?>',
+									'<?php echo esc_js( $siteaddress ); ?>',
+						'<?php echo esc_js( $preferencesDecoded ); ?>',
 									)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -2230,7 +2302,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if ($siteurl == $forwarded_site_url) {
 							echo '<div style="text-align:center"> Self-Consent ' . '</div>';
 						} else {
-							echo '<div style="color:blue;text-align:center">' . $forwarded_site_url . '</div>';
+							echo '<div style=\"color:blue;text-align:center\">' . esc_html( $forwarded_site_url ) . '</div>';
 						}
 
 						break;
@@ -2305,10 +2377,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 										'<?php echo esc_js(addslashes($local_time)) ?>',
 										'<?php echo esc_js(isset($custom['_wplconsentlogs_ip_cf'][0]) ? esc_attr($custom['_wplconsentlogs_ip_cf'][0]) : 'Unknown'); ?>',
 										'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
-										'<?php echo esc_attr($consent_status); ?>',
-										'<?php echo esc_attr( $tcString ); ?>',
-										'<?php echo esc_attr($siteaddress); ?>',
-						'<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
+										'<?php echo esc_js( $consent_status ); ?>',
+										'<?php echo esc_js( $tcString ); ?>',
+										'<?php echo esc_js( $siteaddress ); ?>',
+						'<?php echo esc_js( $preferencesDecoded ); ?>',
 										)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -2426,7 +2498,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if ($siteurl == $forwarded_site_url) {
 							echo '<div style="text-align:center"> Self-Consent ' . '</div>';
 						} else {
-							echo '<div style="color:blue;text-align:center">' . $forwarded_site_url . '</div>';
+							echo '<div style=\"color:blue;text-align:center\">' . esc_html( $forwarded_site_url ) . '</div>';
 						}
 
 						break;
@@ -2502,10 +2574,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									'<?php echo esc_js(addslashes($local_time)) ?>',
 									'<?php echo esc_js(isset($custom['_wplconsentlogs_ip_cf'][0]) ? esc_attr($custom['_wplconsentlogs_ip_cf'][0]) : 'Unknown'); ?>',
 									'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
-									'<?php echo esc_attr($consent_status); ?>',
-									'<?php echo esc_attr( $tcString ); ?>',
-									'<?php echo esc_attr($siteaddress); ?>',
-					                '<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
+									'<?php echo esc_js( $consent_status ); ?>',
+									'<?php echo esc_js( $tcString ); ?>',
+									'<?php echo esc_js( $siteaddress ); ?>',
+					                '<?php echo esc_js( $preferencesDecoded ); ?>',
 									)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
