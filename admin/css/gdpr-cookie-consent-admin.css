@@ -11647,6 +11647,7 @@ div#gdpr-scan-history {
   position: relative;
   top: 50px;
   z-index: 1;
+  padding-right: 16px;
 }
 
 #gdpr-cookie-consent-script-blocker,
