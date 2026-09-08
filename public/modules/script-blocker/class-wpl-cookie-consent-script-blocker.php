@@ -377,7 +377,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						<img id="safe-mode-activate-img"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/safe-mode-lock.png'; ?>" alt="WP Cookie Consent Logo">
 						<?php
 						esc_attr_e(
-							'Safe Mode enabled. Disable it in Advanced Settings > Additional Settings to configure Script Blocker settings.',
+							'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Script Blocker settings.',
 							'gdpr-cookie-consent'
 						);
 						?>
@@ -515,7 +515,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						<img id="safe-mode-activate-img"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/safe-mode-lock.png'; ?>" alt="WP Cookie Consent Logo">
 							<?php
 							esc_attr_e(
-								'Safe Mode enabled. Disable it in Advanced Settings > Additional Settings to configure Whitelist Scripts settings.',
+								'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Whitelist Scripts settings.',
 								'gdpr-cookie-consent'
 							);
 							?>
