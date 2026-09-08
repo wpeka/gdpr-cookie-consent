@@ -1706,11 +1706,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</c-row>
 						<c-row class="privacy-policy-row" v-show="is_auto_mode || show_revoke_card || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-							<c-col class="col-sm-1">
+							<c-col class="col-sm-2">
 								<c-switch v-bind="labelIcon" v-model="button_readmore_is_on" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on" v-on:update:checked="onSwitchButtonReadMoreIsOn"></c-switch>
 								<input type="hidden" name="gcc-readmore-is-on" v-model="button_readmore_is_on">
 							</c-col>
-							<c-col class="col-sm-6">
+							<c-col class="col-sm-5">
 								<c-input :disabled="!button_readmore_is_on" name="button_readmore_text_field" v-model="button_readmore_text" placeholder="<?php esc_attr_e( 'Enter link text', 'gdpr-cookie-consent' ); ?>"></c-input>
 							</c-col>
 							<c-col class="col-sm-1">
@@ -1726,11 +1726,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</c-row>
 						<c-row  class="privacy-policy-row" v-show="is_auto_mode || show_revoke_card || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-							<c-col class="col-sm-1">
+							<c-col class="col-sm-2">
 								<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on" v-on:update:checked="onSwitchRevokeConsentEnable"></c-switch>
 								<input type="hidden" name="gcc-revoke-consent-enable" v-model="is_revoke_consent_on">
 							</c-col>
-							<c-col class="col-sm-6 gdpr-input-col">
+							<c-col class="col-sm-5 gdpr-input-col">
 								<c-input :disabled="!is_revoke_consent_on" name="show_again_text_field" v-model="tab_text"></c-input>
 							</c-col>
 							<c-col class="col-sm-1">
@@ -1747,11 +1747,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						</c-row>
 						<c-row  class="privacy-policy-row" v-show="is_auto_mode || is_gdpr || is_eprivacy || is_lgpd || is_uk_gdpr || is_sa_pdpl">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-							<c-col class="col-sm-1">
+							<c-col class="col-sm-2">
 								<c-switch v-bind="labelIcon" v-model="cookie_accept_on" id="gdpr-cookie-consent-cookie" variant="3d"  color="success" :checked="cookie_accept_on" v-on:update:checked="onSwitchCookieAcceptEnable"></c-switch>
 								<input type="hidden" name="gcc-cookie-accept-enable" v-model="cookie_accept_on">
 							</c-col>
-							<c-col class="col-sm-6">
+							<c-col class="col-sm-5">
 								<label
 									for="button_accept_text_field"
 									class="screen-reader-text"
@@ -1778,11 +1778,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row class="privacy-policy-row" v-show="is_auto_mode || is_gdpr || is_eprivacy || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-1">
+								<c-col class="col-sm-2">
 									<c-switch v-bind="labelIcon" v-model="cookie_accept_all_on" id="gdpr-cookie-consent-cookie-acceptall-on" variant="3d"  color="success" :checked="cookie_accept_all_on" v-on:update:checked="onSwitchCookieAcceptAllEnable"></c-switch>
 									<input type="hidden" name="gcc-cookie-accept-all-enable" v-model="cookie_accept_all_on">
 								</c-col>
-								<c-col class="col-sm-6">
+								<c-col class="col-sm-5">
 									<label
 										for="button_accept_all_text_field"
 										class="screen-reader-text"
@@ -1809,11 +1809,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row class="privacy-policy-row" v-show="is_auto_mode || is_gdpr || is_eprivacy || is_lgpd || is_uk_gdpr || is_sa_pdpl"> 
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-1">
+								<c-col class="col-sm-2">
 									<c-switch v-bind="labelIcon" v-model="cookie_decline_on" id="gdpr-cookie-consent-decline-on" variant="3d"  color="success" :checked="cookie_decline_on" v-on:update:checked="onSwitchCookieDeclineEnable"></c-switch>
 									<input type="hidden" name="gcc-cookie-decline-enable" v-model="cookie_decline_on">
 								</c-col>
-								<c-col class="col-sm-6">
+								<c-col class="col-sm-5">
 									<label
 										for="button_decline_text_field"
 										class="screen-reader-text"
@@ -1840,11 +1840,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row class="privacy-policy-row" v-show="is_auto_mode || is_gdpr || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-1">
+								<c-col class="col-sm-2">
 									<c-switch v-bind="labelIcon" v-model="cookie_settings_on" id="gdpr-cookie-consent-settings-on" variant="3d"  color="success" :checked="cookie_settings_on" v-on:update:checked="onSwitchCookieSettingsEnable"></c-switch>
 									<input type="hidden" name="gcc-cookie-settings-enable" v-model="cookie_settings_on">
 								</c-col>
-								<c-col class="col-sm-6">
+								<c-col class="col-sm-5">
 									<label for="button_settings_text_field" class="screen-reader-text">
 										<?php esc_attr_e( 'button settings text field', 'gdpr-cookie-consent' ); ?>
 									</label>
@@ -5958,11 +5958,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<c-row class="privacy-policy-row" v-show="show_revoke_card || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-1">
+									<c-col class="col-sm-2">
 										<c-switch v-bind="labelIcon" v-model="button_readmore_is_on1" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on1" v-on:update:checked="onSwitchButtonReadMoreIsOn1"></c-switch>
 										<input type="hidden" name="gcc-readmore-is-on1" v-model="button_readmore_is_on1">
 									</c-col>
-									<c-col class="col-sm-6">
+									<c-col class="col-sm-5">
 										<c-input
 											:disabled = "!button_readmore_is_on1"
 											name="button_readmore_text_field1"
@@ -5985,12 +5985,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<c-row class="privacy-policy-row" v-show="show_revoke_card || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-1">
+									<c-col class="col-sm-2">
 										<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on1" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on1" v-on:update:checked="onSwitchRevokeConsentEnable1"></c-switch>
 										<input type="hidden" name="gcc-revoke-consent-enable1" v-model="is_revoke_consent_on1">
 									</c-col>
 									
-									<c-col class="col-sm-6">
+									<c-col class="col-sm-5">
 										<c-input
 											:disabled = "!is_revoke_consent_on1"
 											name="show_again_text_field1"
@@ -6012,11 +6012,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<c-card-body>
 							<c-row class="privacy-policy-row">
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-1">
+								<c-col class="col-sm-2">
 									<c-switch v-bind="labelIcon" v-model="cookie_accept_on1" id="gdpr-cookie-consent-cookie1" variant="3d"  color="success" :checked="cookie_accept_on1" v-on:update:checked="onSwitchCookieAcceptEnable1"></c-switch>
 									<input type="hidden" name="gcc-cookie-accept-enable1" v-model="cookie_accept_on1">
 								</c-col>
-								<c-col class="col-sm-6">
+								<c-col class="col-sm-5">
 									<label
 										for="button_accept_text_fieldvar1"
 										class="screen-reader-text"
@@ -6045,11 +6045,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<c-card-body>
 							<c-row  class="privacy-policy-row">
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-1">
+								<c-col class="col-sm-2">
 									<c-switch v-bind="labelIcon" v-model="cookie_accept_all_on1" id="gdpr-cookie-consent-cookie-acceptall-on1" variant="3d"  color="success" :checked="cookie_accept_all_on1" v-on:update:checked="onSwitchCookieAcceptAllEnable1"></c-switch>
 									<input type="hidden" name="gcc-cookie-accept-all-enable1" v-model="cookie_accept_all_on1">
 								</c-col>
-								<c-col class="col-sm-6">
+								<c-col class="col-sm-5">
 									<c-input
 										:disabled = "!cookie_accept_all_on1"
 										name="button_accept_all_text_field1"
@@ -6071,11 +6071,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<c-card-body>
 							<c-row  class="privacy-policy-row">
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-1">
+								<c-col class="col-sm-2">
 									<c-switch v-bind="labelIcon" v-model="cookie_decline_on1" id="gdpr-cookie-consent-decline-on1" variant="3d"  color="success" :checked="cookie_decline_on1" v-on:update:checked="onSwitchCookieDeclineEnable1"></c-switch>
 									<input type="hidden" name="gcc-cookie-decline-enable1" v-model="cookie_decline_on1">
 								</c-col>
-								<c-col class="col-sm-6">
+								<c-col class="col-sm-5">
 									<c-input
 										:disabled = "!cookie_decline_on1"
 										name="button_decline_text_field1"
@@ -6097,11 +6097,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<c-card-body>
 							<c-row class="privacy-policy-row">
 								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-1">
+								<c-col class="col-sm-2">
 									<c-switch v-bind="labelIcon" v-model="cookie_settings_on1" id="gdpr-cookie-consent-settings-on1" variant="3d"  color="success" :checked="cookie_settings_on1" v-on:update:checked="onSwitchCookieSettingsEnable1"></c-switch>
 									<input type="hidden" name="gcc-cookie-settings-enable1" v-model="cookie_settings_on1">
 								</c-col>
-								<c-col class="col-sm-6">
+								<c-col class="col-sm-5">
 									<c-input
 										:disabled = "!cookie_settings_on1"
 										name="button_settings_text_field1"
@@ -6251,11 +6251,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<c-row class="privacy-policy-row" v-show="show_revoke_card || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-1">
+									<c-col class="col-sm-2">
 										<c-switch v-bind="labelIcon" v-model="button_readmore_is_on2" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on2" v-on:update:checked="onSwitchButtonReadMoreIsOn2"></c-switch>
 										<input type="hidden" name="gcc-readmore-is-on2" v-model="button_readmore_is_on2">
 									</c-col>
-									<c-col class="col-sm-6">
+									<c-col class="col-sm-5">
 										<c-input
 											:disabled="!button_readmore_is_on2"
 											name="button_readmore_text_field2"
@@ -6278,11 +6278,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<c-row class="privacy-policy-row" v-show="show_revoke_card || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
 									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-									<c-col class="col-sm-1">
+									<c-col class="col-sm-2">
 										<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on2" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on2" v-on:update:checked="onSwitchRevokeConsentEnable2"></c-switch>
 										<input type="hidden" name="gcc-revoke-consent-enable2" v-model="is_revoke_consent_on2">
 									</c-col>
-									<c-col class="col-sm-6">
+									<c-col class="col-sm-5">
 										<c-input
 											:disabled="!is_revoke_consent_on2"
 											name="show_again_text_field2"
@@ -6304,12 +6304,12 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<c-card-body>
 						<c-row class="privacy-policy-row">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-							<c-col class="col-sm-1">
+							<c-col class="col-sm-2">
 								<c-switch v-bind="labelIcon" v-model="cookie_accept_on2" id="gdpr-cookie-consent-cookie2" variant="3d"  color="success" :checked="cookie_accept_on2" v-on:update:checked="onSwitchCookieAcceptEnable2"></c-switch>
 								<input type="hidden" name="gcc-cookie-accept-enable2" v-model="cookie_accept_on2">
 							</c-col>
 
-							<c-col class="col-sm-6">
+							<c-col class="col-sm-5">
 								<c-input
 									:disabled="!cookie_accept_on2"
 									name="button_accept_text_field2"
@@ -6331,11 +6331,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<c-card-body>
 						<c-row class="privacy-policy-row">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-							<c-col class="col-sm-1">
+							<c-col class="col-sm-2">
 								<c-switch v-bind="labelIcon" v-model="cookie_accept_all_on2" id="gdpr-cookie-consent-cookie-acceptall-on2" variant="3d"  color="success" :checked="cookie_accept_all_on2" v-on:update:checked="onSwitchCookieAcceptAllEnable2"></c-switch>
 								<input type="hidden" name="gcc-cookie-accept-all-enable2" v-model="cookie_accept_all_on2">
 							</c-col>
-							<c-col class="col-sm-6">
+							<c-col class="col-sm-5">
 								<c-input
 									:disabled="!cookie_accept_all_on2"
 									name="button_accept_all_text_field2"
@@ -6357,11 +6357,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<c-card-body>
 						<c-row class="privacy-policy-row">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-							<c-col class="col-sm-1">
+							<c-col class="col-sm-2">
 								<c-switch v-bind="labelIcon" v-model="cookie_decline_on2" id="gdpr-cookie-consent-decline-on2" variant="3d"  color="success" :checked="cookie_decline_on2" v-on:update:checked="onSwitchCookieDeclineEnable2"></c-switch>
 								<input type="hidden" name="gcc-cookie-decline-enable2" v-model="cookie_decline_on2">
 							</c-col>
-							<c-col class="col-sm-6">
+							<c-col class="col-sm-5">
 								<label
 									for="button_decline_text_field2"
 									class="screen-reader-text"
@@ -6390,11 +6390,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					<c-card-body>
 						<c-row class="privacy-policy-row">
 							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
-							<c-col class="col-sm-1">
+							<c-col class="col-sm-2">
 								<c-switch v-bind="labelIcon" v-model="cookie_settings_on2" id="gdpr-cookie-consent-settings-on2" variant="3d"  color="success" :checked="cookie_settings_on2" v-on:update:checked="onSwitchCookieSettingsEnable2"></c-switch>
 								<input type="hidden" name="gcc-cookie-settings-enable2" v-model="cookie_settings_on2">
 							</c-col>
-							<c-col class="col-sm-6">
+							<c-col class="col-sm-5">
 								<label
 									for="button_settings_text_field2"
 									class="screen-reader-text"
