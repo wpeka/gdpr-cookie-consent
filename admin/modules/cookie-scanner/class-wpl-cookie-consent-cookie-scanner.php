@@ -159,7 +159,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		wp_enqueue_script('cookie_scanner_ajax', plugin_dir_url(__FILE__) . 'assets/js/cookie-scanner-data.js', array('jquery', 'gdpr-cookie-consent-admin-revamp'), '1.0', true);
 
 		wp_localize_script('cookie_scanner_ajax', 'cookie_scanner_ajax', array(
-			'ajax_url'         => admin_url( 'admin-ajax.php' )
+			'ajax_url'         => admin_url( 'admin-ajax.php' ),
+			'security'         => wp_create_nonce( 'wpl_cookie_scanner' )
 		));
 	}
 
@@ -280,6 +281,10 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * Add a card for scanning cookies.
 	 */
 		public function wpl_cookie_scanner_card() {
+			check_ajax_referer( 'wpl_cookie_scanner', 'security' );
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( array( 'message' => __( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) ), 403 );
+			}
 			// check if pro is activated or installed.
 			$installed_plugins = get_plugins();
 			$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
@@ -879,15 +884,13 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		$url_table = $wpdb->prefix . $this->cookies_table;
 		$cat_table = $wpdb->prefix . $this->category_table;
 		if ( ! empty( $cookie_data ) ) {
-			$sql         = "INSERT IGNORE INTO `$url_table` (`id_wpl_cookie_scan`,`id_wpl_cookie_scan_url`,`name`,`duration`,`domain`,`type`,`category`,`category_id`,`description`) VALUES ";
-			$sql_arr     = array();
 			$out[]       = $url;
 			$name        = trim( $cookie_data->name );
 			$duration    = trim( $cookie_data->duration );
 			$type        = $cookie_data->type;
 			$domain      = $cookie_data->domain;
 			$category    = isset( $cookie_data->category ) ? $cookie_data->category : 'Unclassified';
-			$description = addslashes( $cookie_data->description );
+			$description = $cookie_data->description;
 			$category_id = -1;
 					switch ( $category ) {
 						case 'Analytics':
@@ -907,8 +910,31 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 							break;
 					}
 			$out[]       = '&nbsp;&nbsp;&nbsp;' . $name;
-			$sql_arr[]   = "('$scan_id','$url_id','$name','$duration','$domain','$type','$category','$category_id','$description')";
-			$sql         = $sql . implode( ',', $sql_arr );
+			$sql = $wpdb->prepare(
+				"INSERT IGNORE INTO `$url_table`
+				(
+					`id_wpl_cookie_scan`,
+					`id_wpl_cookie_scan_url`,
+					`name`,
+					`duration`,
+					`domain`,
+					`type`,
+					`category`,
+					`category_id`,
+					`description`
+				)
+				VALUES (%d, %d, %s, %s, %s, %s, %s, %d, %s)",
+				$scan_id,
+				$url_id,
+				$name,
+				$duration,
+				$domain,
+				$type,
+				$category,
+				$category_id,
+				$description
+			);
+
 			$wpdb->query( $sql );
 		}
 		return $out;
@@ -922,8 +948,27 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 */
 	protected function update_url( $url_id_arr ) {
 		global $wpdb;
+
+		if ( empty( $url_id_arr ) ) {
+			return;
+		}
+
 		$url_table = $wpdb->prefix . $this->url_table;
-		$sql       = "UPDATE `$url_table` SET `scanned`=1 WHERE id_wpl_cookie_scan_url IN(" . implode( ',', $url_id_arr ) . ')';
+
+		$url_id_arr = array_map( 'absint', $url_id_arr );
+
+		$placeholders = implode(
+			',',
+			array_fill( 0, count( $url_id_arr ), '%d' )
+		);
+
+		$sql = $wpdb->prepare(
+			"UPDATE `$url_table`
+			SET `scanned` = 1
+			WHERE `id_wpl_cookie_scan_url` IN ($placeholders)",
+			$url_id_arr
+		);
+
 		$wpdb->query( $sql );
 	}
 
@@ -957,13 +1002,19 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			'data'  => array(),
 		);
 		$url_table = $wpdb->prefix . $this->url_table;
-		$count_sql = "SELECT COUNT(id_wpl_cookie_scan_url) AS ttnum FROM $url_table WHERE id_wpl_cookie_scan='$scan_id'";
+		$count_sql = $wpdb->prepare(
+			"SELECT COUNT(id_wpl_cookie_scan_url) AS ttnum FROM $url_table WHERE id_wpl_cookie_scan = %d",
+			$scan_id
+		);
 		$count_arr = $wpdb->get_row( $count_sql, ARRAY_A );
 		if ( $count_arr ) {
 			$out['total'] = $count_arr['ttnum'];
 		}
 
-		$sql = "SELECT * FROM $url_table WHERE id_wpl_cookie_scan='$scan_id' ORDER BY id_wpl_cookie_scan_url ASC LIMIT $offset,$limit";
+		$sql = $wpdb->prepare(
+			"SELECT * FROM $url_table WHERE id_wpl_cookie_scan = %d ORDER BY id_wpl_cookie_scan_url ASC LIMIT %d, %d",
+			array( $scan_id, $offset, $limit )
+		);
 
 		$data_arr = $wpdb->get_results( $sql, ARRAY_A );
 		if ( $data_arr ) {

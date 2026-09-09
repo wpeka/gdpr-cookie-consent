@@ -2,10 +2,10 @@
 Contributors: wplegalpages
 Donate link: https://wplegalpages.com/
 Tags: cookie consent, cookie banner, consent management, cookie scanner, script blocking
-Requires at least: 3.3.1
-Tested up to: 7.0.2
-Stable tag: 4.4.1
-Requires PHP: 7.0
+Requires at least: 5.9
+Tested up to: 7.1
+Stable tag: 4.4.4
+Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -36,8 +36,6 @@ The plugin is built to be easy to configure out of the box, while still giving y
 - Drag & drop banner builder – match your brand with custom colors, layouts, fonts, and button text, no CSS required
 
 - Free tier includes real compliance tools – cookie scanning and script blocking aren't locked behind a paywall
-
-- No visitor-based limits – no traffic caps, pageview limits, or per-visitor pricing
 
 - WP Consent API support – shares visitor consent state with compatible WordPress plugins
 
@@ -216,6 +214,27 @@ Yes. The plugin is translation-ready and works with popular multilingual plugins
 11. Consent Log table
 
 == Change Log ==
+
+= 4.4.4 =
+** UI Improvements:** Reorganized and refined Banner Settings and Advanced Cookie Settings for a cleaner, easier experience.
+** Better Usability:** Improved the layout and grouping of settings for easier configuration.
+** Security Fixes:** Addressed vulnerabilities and made security improvements for a safer plugin.
+
+= 4.4.3 =
+**Improvements**
+    * General stability and compatibility improvements.
+
+**Bug Fixes**
+    * Minor bug fixes and improvements.
+
+= 4.4.2 =
+**Improvements**
+    * Strengthened the codebase with improved security and validation across the plugin.
+    * Improved data handling and export reliability.
+    * General performance, stability and compatibility improvements.
+
+**Bug Fixes**
+    * Minor bug fixes and improvements.
 
 = 4.4.1 =
 * **New**
@@ -911,6 +930,27 @@ Yes. The plugin is translation-ready and works with popular multilingual plugins
 * Initial version
 
 == Upgrade Notice ==
+
+= 4.4.4 =
+** UI Improvements:** Reorganized and refined Banner Settings and Advanced Cookie Settings for a cleaner, easier experience.
+** Better Usability:** Improved the layout and grouping of settings for easier configuration.
+** Security Fixes:** Addressed vulnerabilities and made security improvements for a safer plugin.
+
+= 4.4.3 =
+**Improvements**
+    * General stability and compatibility improvements.
+
+**Bug Fixes**
+    * Minor bug fixes and improvements.
+
+= 4.4.2 =
+**Improvements**
+    * Strengthened the codebase with improved security and validation across the plugin.
+    * Improved data handling and export reliability.
+    * General performance, stability and compatibility improvements.
+
+**Bug Fixes**
+    * Minor bug fixes and improvements.
 
 = 4.4.1 =
 * **New**

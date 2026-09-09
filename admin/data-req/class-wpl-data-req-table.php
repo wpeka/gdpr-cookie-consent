@@ -159,8 +159,8 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_name( $item ) {
-		$name  = '#' . $item['ID'] . ' ';
-		$name .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
+		$name  = '#' . esc_html( $item['ID'] ) . ' ';
+		$name .= ! empty( $item['name'] ) ? esc_html( $item['name'] ) : '<em>' . esc_html__( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
 		return $name;
 	}
 

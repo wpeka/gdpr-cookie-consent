@@ -920,6 +920,7 @@ jQuery(document).ready(function () {
                   data: {
                       action: "gdpr_save_free_trial_data",
                       free_trial: JSON.stringify(data.response.freeTrial),
+                      _ajax_nonce: gdpr_localize_data._ajax_nonce,
                   },
                   complete: function () {
                       // Reload only after trial data is saved
@@ -1379,7 +1380,10 @@ jQuery(document).ready(function () {
     if (first_time_installed) {
       startPluginTour();
       // Clear the first-time flag
-      $.post(ajaxurl, { action: "gdpr_complete_tour" });
+      $.post(ajaxurl, {
+        action: "gdpr_complete_tour",
+        _ajax_nonce: gdpr_localize_data._ajax_nonce,
+      });
     }
 
     // Event handler for manual tour start

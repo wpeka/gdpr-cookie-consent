@@ -42,7 +42,8 @@ class Gdpr_Cookie_Consent_AB_Testing {
 		wp_enqueue_script('ab_testing_ajax', plugin_dir_url(__FILE__) . 'assets/js/ab-testing-data.js', array('jquery', 'gdpr-cookie-consent-admin-revamp'), '1.0', true);
 
 		wp_localize_script('ab_testing_ajax', 'ab_testing_ajax', array(
-			'ajax_url'         => admin_url( 'admin-ajax.php' )
+			'ajax_url'         => admin_url( 'admin-ajax.php' ),
+			'security'         => wp_create_nonce( 'wpl_ab_testing' )
 		));
 	}
 	/**
@@ -51,6 +52,10 @@ class Gdpr_Cookie_Consent_AB_Testing {
 	 * @since 3.0.2
 	 */
 	public function wp_settings_ab_testing_tab() {
+				check_ajax_referer( 'wpl_ab_testing', 'security' );
+				if ( ! current_user_can( 'manage_options' ) ) {
+					wp_send_json_error( array( 'message' => __( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) ), 403 );
+				}
 				$pro_is_activated  = get_option( 'wpl_pro_active', false );
 				$installed_plugins = get_plugins();
 				$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;

@@ -2207,7 +2207,6 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
 #gdpr-cookie-consent-cookie_manager-settings .gdpr-cookie-consent-settings-container .row {
   margin-bottom: 1.5rem;
   align-items: center;
-  padding-right: 10px;
 }
 #gdpr-cookie-consent-save-settings-alert,
 #gdpr-cookie-consent-save-settings-alert-scb,
@@ -4692,7 +4691,7 @@ body.toplevel_page_gdpr-cookie-consent #wpcontent {
 #gdpr-cookie-consent-advanced-settings
   .gdpr-cookie-consent-settings-nav
   .nav.nav-pills {
-  display: flex;
+  display: none !important;
   width: 60%;
   flex-wrap: nowrap;
 }
@@ -7667,8 +7666,8 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   position: sticky;
   top: 88px;
   border-radius: 6px;
-  z-index: 9;
   padding: 16px;
+  z-index: 11;
 }
 .gdpr-banner-preview-logo-text {
   display: flex;
@@ -7714,6 +7713,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   position: relative;
   padding-top: 15px;
   color: #2D2D32;
+  background-color: #FFF;
 }
 .gdpr_ad_tech_heading #gdpr-cookie-consent-settings-cookie-notice-top{
   padding-bottom: 30px !important;
@@ -7956,9 +7956,7 @@ button.btn.gdpr-renew-now-btn.pro,
     right: 38px; */
   border-left: none;
 }
-.gdpr-color-input input {
-  border-right: none;
-}
+
 #image-upload-button,#image-upload-button1,#image-upload-button2 {
   height: 44px;
   width: 160px;
@@ -8019,6 +8017,9 @@ button.btn.gdpr-renew-now-btn.pro,
 }
 .opt-out-link-container .optout-settings-main-container {
   padding-top: 20px;
+}
+.optout-settings-main-container{
+  margin-top:20px;
 }
 .gdpr-privacy-policy-settings-panel, 
 .gdpr-revoke-consent-settings-panel, 
@@ -8316,7 +8317,7 @@ display: block !important;
   color: var(--orange-50);
 }
 #gdpr-install-activate-img {
-  max-width: 100%;
+  width: 100%;
   position: relative;
   right: 19px;
 }
@@ -11646,6 +11647,7 @@ div#gdpr-scan-history {
   position: relative;
   top: 50px;
   z-index: 1;
+  padding-right: 16px;
 }
 
 
@@ -12759,4 +12761,18 @@ div#gdpr-scan-history {
 .gdpr-cookie-consent-admin-cookie-settings-tab.subnav-expanded .gdpr-subnav-chevron,
 .gdpr-cookie-consent-admin-advanced-settings-tab.subnav-expanded .gdpr-subnav-chevron {
 	transform: rotate(0deg);
+}
+.design-settings-text{
+  margin-bottom: 0;
+  align-items: center;
+  display: flex;
+  font-weight: 500;
+  font-size: 14px;
+  padding-right: 10px;
+  color: #52525b;
+}
+.gdpr-color-pick {
+	display: flex;
+	align-items: center;
+	gap: 12px;
 }

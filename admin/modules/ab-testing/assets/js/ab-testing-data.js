@@ -5,6 +5,7 @@ jQuery(document).ready(function ($) {
         method: 'POST',
         data: {
             action: 'wpl_ab_testing_tab',
+            security: ab_testing_ajax.security,
         },
         success: function (response) {
             $('.ab_test_data_wait_loader_container').css("display","none");

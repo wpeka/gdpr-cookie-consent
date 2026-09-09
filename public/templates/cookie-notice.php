@@ -272,7 +272,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 						<?php
 						echo isset( $the_options['is_dynamic_lang_on'] ) && ( $the_options['is_dynamic_lang_on'] === 'true' || $the_options['is_dynamic_lang_on'] === true || $the_options['is_dynamic_lang_on'] === '1' )
 							? esc_html( $cookie_data['dash_button_decline_text'] )
-							: esc_html( $the_options['button_decline_text' . $suffix] ?? '', 'gdpr-cookie-consent' );
+							: esc_html( $the_options['button_decline_text' . $suffix] ?? '' );
 						?>
 					</a>
 				<?php endif;
@@ -285,7 +285,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 						<?php
 						echo isset( $the_options['is_dynamic_lang_on'] ) && ( $the_options['is_dynamic_lang_on'] === 'true' || $the_options['is_dynamic_lang_on'] === true || $the_options['is_dynamic_lang_on'] === '1' )
 							? esc_html( $cookie_data['dash_button_settings_text'] )
-							: esc_html( $the_options['button_settings_text' . $suffix] ?? '', 'gdpr-cookie-consent' );
+							: esc_html( $the_options['button_settings_text' . $suffix] ?? '' );
 						?>
 					</a>
 				<?php endif;
@@ -314,7 +314,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 						<?php
 						echo isset( $the_options['is_dynamic_lang_on'] ) && ( $the_options['is_dynamic_lang_on'] === 'true' || $the_options['is_dynamic_lang_on'] === true || $the_options['is_dynamic_lang_on'] === '1' )
 							? esc_html( $cookie_data['dash_button_accept_text'] )
-							: esc_html( $the_options['button_accept_text' . $suffix] ?? '', 'gdpr-cookie-consent' );
+							: esc_html( $the_options['button_accept_text' . $suffix] ?? '' );
 						?>
 					</a>
 				<?php endif;
@@ -355,13 +355,13 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 
 <div id="<?php echo esc_html( $the_options['container_id'] ); ?>" class="<?php echo esc_html( $the_options['container_class'] ); ?> <?php echo esc_html( $the_options['theme_class'] ); ?>"  style="<?php echo esc_attr($notice_container_styles); ?>; --vendor-link-color: <?php echo esc_attr($vendor_link_color); ?>;">	
 	<?php if(filter_var( $the_options['bypass_button_is_on' . $suffix] ?? false, FILTER_VALIDATE_BOOLEAN )) { ?>
-	<span id="cookie-banner-cancle-img" style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; position: absolute; top:5px; right: <?php echo 5 + ((int)$the_options[($ab_testing_enabled === "true" ? 'cookie_bar_spacing' . $chosenBanner : 'cookie_bar_spacing')]) / 2 + ((int)$the_options[($ab_testing_enabled === "true" ? 'cookie_bar_border_radius' . $chosenBanner : 'background_border_radius')]) / 2;?>px; height: 20px; width: 20px; border-radius: 50%; color: <?php echo esc_html($the_options['bypass_button_text_color' . $suffix]);?>; scale: <?php echo esc_html($the_options['bypass_button_size'. $suffix]) == 'lg' ? '115%' : (esc_html($the_options['bypass_button_size'. $suffix]) == 'sm' ? '85%' : '100%'); ?>;">
+	<span id="cookie-banner-cancle-img" style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; position: absolute; top:5px; right: <?php echo esc_attr( 5 + ( (int) $the_options[ ( $ab_testing_enabled === "true" ? 'cookie_bar_spacing' . $chosenBanner : 'cookie_bar_spacing' ) ] ) / 2 + ( (int) $the_options[ ( $ab_testing_enabled === "true" ? 'cookie_bar_border_radius' . $chosenBanner : 'background_border_radius' ) ] ) / 2 ); ?>px; height: 20px; width: 20px; border-radius: 50%; color: <?php echo esc_html($the_options['bypass_button_text_color' . $suffix]);?>; scale: <?php echo esc_html($the_options['bypass_button_size'. $suffix]) == 'lg' ? '115%' : (esc_html($the_options['bypass_button_size'. $suffix]) == 'sm' ? '85%' : '100%'); ?>;">
 		<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 			<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 		</svg>
 	</span>
 	<?php } ?>
-	<div class="gdpr_notice_header" style="flex-direction: <?php echo esc_attr($banner_layouts['c1']['direction'] ?? 'row') == 'col' ? ($banner_structure['c1'][0] === 'logo' ? 'column' : 'column-reverse') : ($banner_structure['c1'][0] === 'logo' ? 'row' : 'row-reverse'); ?>; <?php echo $banner_layouts['c1']['direction'] === 'row' ? 'align-items: center; justify-content: ' . ($banner_layouts['c1']['justify'] ===  'between' ? 'space-between' : ($banner_layouts['c1']['justify'] ?? '')) : 'align-items: ' . ($banner_layouts['c1']['justify'] ?? '') ?>">
+	<div class="gdpr_notice_header" style="flex-direction: <?php echo esc_attr($banner_layouts['c1']['direction'] ?? 'row') == 'col' ? ($banner_structure['c1'][0] === 'logo' ? 'column' : 'column-reverse') : ($banner_structure['c1'][0] === 'logo' ? 'row' : 'row-reverse'); ?>; <?php echo $banner_layouts['c1']['direction'] === 'row' ? 'align-items: center; justify-content: ' . ($banner_layouts['c1']['justify'] ===  'between' ? 'space-between' : esc_attr($banner_layouts['c1']['justify'] ?? '')) : 'align-items: ' . esc_attr($banner_layouts['c1']['justify'] ?? '') ?>">
 		<?php
 		if($ab_options['ab_testing_enabled'] === "false" || $ab_options['ab_testing_enabled'] === false){
 			if(filter_var( $the_options['logo_is_on'] ?? false, FILTER_VALIDATE_BOOLEAN )) {
@@ -415,7 +415,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 
 	
 
-	<div class=" gdpr_main_body"  style="display: flex; flex-direction: <?php echo esc_attr($banner_layouts['c2']['direction'] ?? 'row') == 'col' ? ($banner_structure['c2'][0] === 'bannerText' ? 'column' : 'column-reverse') : ($banner_structure['c2'][0] === 'bannerText' ? 'row' : 'row-reverse'); ?>; <?php echo "gap: " . ($ab_testing_enabled === "true" ? $the_options['cookie_bar_spacing' . $chosenBanner] : $the_options["cookie_bar_spacing"]) . "px;"; echo $banner_layouts['c2']['direction'] == 'row' ? 'align-items:center;' : '' ;?>" >
+	<div class=" gdpr_main_body"  style="display: flex; flex-direction: <?php echo esc_attr($banner_layouts['c2']['direction'] ?? 'row') == 'col' ? ($banner_structure['c2'][0] === 'bannerText' ? 'column' : 'column-reverse') : ($banner_structure['c2'][0] === 'bannerText' ? 'row' : 'row-reverse'); ?>; <?php echo esc_attr("gap: " . ($ab_testing_enabled === "true" ? $the_options['cookie_bar_spacing' . $chosenBanner] : $the_options["cookie_bar_spacing"]) . "px;"); echo esc_attr($banner_layouts['c2']['direction'] == 'row' ? 'align-items:center;' : '');?>" >
 		<div class="gdpr-notice-content-body">
 			<div style="display: flex; flex-direction: column; gap: 10px;">
 				
@@ -720,15 +720,15 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 		<?php endif; ?>
 		</div>
 		<?php if ( ! in_array( $the_options['cookie_usage_for'], array( 'ccpa', 'us_state_laws' ), true ) ) : ?>
-			<div class="gdpr group-description-buttons cookie_notice_buttons" style="margin-top: <?php echo esc_attr($banner_layouts['c2']['direction'] ?? 'row') == 'col' ? '5px' : '0px'; ?>; display: flex; flex-direction: <?php echo esc_attr($banner_layouts['c4']['direction'] ?? 'row') == 'col' ? 'column' : 'row'; ?>; <?php echo "gap: " . ($ab_testing_enabled === "true" ? $the_options['cookie_bar_spacing' . $chosenBanner] * ($the_options['template'] === 'default' ? 0.75 : 2) : $the_options["cookie_bar_spacing"] * ($the_options['template'] === 'default' ? 0.75 : 2)) . "px;"; echo $banner_layouts['c2']['direction'] == 'row' ? 'width: 40%' : '' ;?>">
-				<div class="left_buttons" style="display: <?php echo count($visible_c5_items) > 0 ? 'flex' : 'none'; ?>; flex-direction: <?php echo esc_attr($banner_layouts['c5']['direction'] ?? 'row') == 'col' ? 'column' : 'row'; ?>; <?php echo "gap: " . ($ab_testing_enabled === "true" ? $the_options['cookie_bar_spacing' . $chosenBanner] : $the_options["cookie_bar_spacing"]) * ($the_options['template'] === 'default' ? 0.75 : 2) . "px;"; ?> <?php echo $banner_layouts['c5']['direction'] === 'row' ? 'align-items: center; justify-content: ' . ($banner_layouts['c5']['justify'] ===  'between' ? 'space-between' : ($banner_layouts['c5']['justify'] ?? '')) : 'align-items: ' . ($banner_layouts['c5']['justify'] ?? '') ?>">
+			<div class="gdpr group-description-buttons cookie_notice_buttons" style="margin-top: <?php echo esc_attr($banner_layouts['c2']['direction'] ?? 'row') == 'col' ? '5px' : '0px'; ?>; display: flex; flex-direction: <?php echo esc_attr($banner_layouts['c4']['direction'] ?? 'row') == 'col' ? 'column' : 'row'; ?>; <?php echo esc_attr("gap: " . ($ab_testing_enabled === "true" ? $the_options['cookie_bar_spacing' . $chosenBanner] * ($the_options['template'] === 'default' ? 0.75 : 2) : $the_options["cookie_bar_spacing"] * ($the_options['template'] === 'default' ? 0.75 : 2)) . "px;"); echo esc_attr($banner_layouts['c2']['direction'] == 'row' ? 'width: 40%' : '');?>">
+				<div class="left_buttons" style="display: <?php echo count($visible_c5_items) > 0 ? 'flex' : 'none'; ?>; flex-direction: <?php echo esc_attr($banner_layouts['c5']['direction'] ?? 'row') == 'col' ? 'column' : 'row'; ?>; <?php echo esc_attr("gap: " . ($ab_testing_enabled === "true" ? $the_options['cookie_bar_spacing' . $chosenBanner] : $the_options["cookie_bar_spacing"]) * ($the_options['template'] === 'default' ? 0.75 : 2) . "px;"); ?> <?php echo esc_attr($banner_layouts['c5']['direction'] === 'row' ? 'align-items: center; justify-content: ' . ($banner_layouts['c5']['justify'] ===  'between' ? 'space-between' : ($banner_layouts['c5']['justify'] ?? '')) : 'align-items: ' . ($banner_layouts['c5']['justify'] ?? '')) ?>">
 					<?php 
 					foreach ( $c5_buttons as $button ) {
 						$render_cookie_button( $button );
 					}
 					?>
 				</div>
-				<div class="right_buttons" style="display: <?php echo count($visible_c6_items) > 0 ? 'flex' : 'none'; ?>;  flex-direction: <?php echo esc_attr($banner_layouts['c6']['direction'] ?? 'row') == 'col' ? 'column' : 'row'; ?>; <?php echo "gap: " . ($ab_testing_enabled === "true" ? $the_options['cookie_bar_spacing' . $chosenBanner] : $the_options["cookie_bar_spacing"]) * ($the_options['template'] === 'default' ? 0.75 : 2) . "px;"; ?> <?php echo $banner_layouts['c6']['direction'] === 'row' ? 'align-items: center; justify-content: ' . ($banner_layouts['c6']['justify'] ===  'between' ? 'space-between' : ($banner_layouts['c6']['justify'] ?? '')) : 'align-items: ' . ($banner_layouts['c6']['justify'] ?? '') ?>">
+				<div class="right_buttons" style="display: <?php echo count($visible_c6_items) > 0 ? 'flex' : 'none'; ?>;  flex-direction: <?php echo esc_attr($banner_layouts['c6']['direction'] ?? 'row') == 'col' ? 'column' : 'row'; ?>; <?php echo esc_attr("gap: " . ($ab_testing_enabled === "true" ? $the_options['cookie_bar_spacing' . $chosenBanner] : $the_options["cookie_bar_spacing"]) * ($the_options['template'] === 'default' ? 0.75 : 2) . "px;"); ?> <?php echo esc_attr($banner_layouts['c6']['direction'] === 'row' ? 'align-items: center; justify-content: ' . ($banner_layouts['c6']['justify'] ===  'between' ? 'space-between' : ($banner_layouts['c6']['justify'] ?? '')) : 'align-items: ' . ($banner_layouts['c6']['justify'] ?? '')) ?>">
 					<?php  
 					foreach ( $c6_buttons as $button ) {
 						$render_cookie_button( $button );
@@ -742,7 +742,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 	<?php
     if ( ! empty( $cookie_data['show_credits'] ) ) {
     ?>
-    	<div class="powered-by-credits"  style="--popup_accent_color: <?php echo esc_html( '#' . ltrim($badging_color, '#') ); ?>; text-align:center; font-size: 10px; margin-top:<?php echo -1 * ($ab_testing_enabled === "true" ? $the_options['cookie_bar_spacing' . $chosenBanner] : $the_options["cookie_bar_spacing"]) + 5?>px;">
+    	<div class="powered-by-credits"  style="--popup_accent_color: <?php echo esc_attr( '#' . ltrim($badging_color, '#') ); ?>; text-align:center; font-size: 10px; margin-top:<?php echo esc_attr(-1 * ($ab_testing_enabled === "true" ? $the_options['cookie_bar_spacing' . $chosenBanner] : $the_options["cookie_bar_spacing"]) + 5); ?>px;">
 			<svg width="152" height="18" viewBox="0 0 152 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path d="M4.13672 9.49805H1.85742V8.57812H4.13672C4.57812 8.57812 4.93555 8.50781 5.20898 8.36719C5.48242 8.22656 5.68164 8.03125 5.80664 7.78125C5.93555 7.53125 6 7.24609 6 6.92578C6 6.63281 5.93555 6.35742 5.80664 6.09961C5.68164 5.8418 5.48242 5.63477 5.20898 5.47852C4.93555 5.31836 4.57812 5.23828 4.13672 5.23828H2.12109V12.8438H0.990234V4.3125H4.13672C4.78125 4.3125 5.32617 4.42383 5.77148 4.64648C6.2168 4.86914 6.55469 5.17773 6.78516 5.57227C7.01562 5.96289 7.13086 6.41016 7.13086 6.91406C7.13086 7.46094 7.01562 7.92773 6.78516 8.31445C6.55469 8.70117 6.2168 8.99609 5.77148 9.19922C5.32617 9.39844 4.78125 9.49805 4.13672 9.49805ZM8.03906 9.74414V9.60938C8.03906 9.15234 8.10547 8.72852 8.23828 8.33789C8.37109 7.94336 8.5625 7.60156 8.8125 7.3125C9.0625 7.01953 9.36523 6.79297 9.7207 6.63281C10.0762 6.46875 10.4746 6.38672 10.916 6.38672C11.3613 6.38672 11.7617 6.46875 12.1172 6.63281C12.4766 6.79297 12.7812 7.01953 13.0312 7.3125C13.2852 7.60156 13.4785 7.94336 13.6113 8.33789C13.7441 8.72852 13.8105 9.15234 13.8105 9.60938V9.74414C13.8105 10.2012 13.7441 10.625 13.6113 11.0156C13.4785 11.4062 13.2852 11.748 13.0312 12.041C12.7812 12.3301 12.4785 12.5566 12.123 12.7207C11.7715 12.8809 11.373 12.9609 10.9277 12.9609C10.4824 12.9609 10.082 12.8809 9.72656 12.7207C9.37109 12.5566 9.06641 12.3301 8.8125 12.041C8.5625 11.748 8.37109 11.4062 8.23828 11.0156C8.10547 10.625 8.03906 10.2012 8.03906 9.74414ZM9.12305 9.60938V9.74414C9.12305 10.0605 9.16016 10.3594 9.23438 10.6406C9.30859 10.918 9.41992 11.1641 9.56836 11.3789C9.7207 11.5938 9.91016 11.7637 10.1367 11.8887C10.3633 12.0098 10.627 12.0703 10.9277 12.0703C11.2246 12.0703 11.4844 12.0098 11.707 11.8887C11.9336 11.7637 12.1211 11.5938 12.2695 11.3789C12.418 11.1641 12.5293 10.918 12.6035 10.6406C12.6816 10.3594 12.7207 10.0605 12.7207 9.74414V9.60938C12.7207 9.29688 12.6816 9.00195 12.6035 8.72461C12.5293 8.44336 12.416 8.19531 12.2637 7.98047C12.1152 7.76172 11.9277 7.58984 11.7012 7.46484C11.4785 7.33984 11.2168 7.27734 10.916 7.27734C10.6191 7.27734 10.3574 7.33984 10.1309 7.46484C9.9082 7.58984 9.7207 7.76172 9.56836 7.98047C9.41992 8.19531 9.30859 8.44336 9.23438 8.72461C9.16016 9.00195 9.12305 9.29688 9.12305 9.60938ZM16.7754 11.7188L18.4043 6.50391H19.1191L18.9785 7.54102L17.3203 12.8438H16.623L16.7754 11.7188ZM15.6797 6.50391L17.0684 11.7773L17.168 12.8438H16.4355L14.5957 6.50391H15.6797ZM20.6777 11.7363L22.002 6.50391H23.0801L21.2402 12.8438H20.5137L20.6777 11.7363ZM19.2773 6.50391L20.8711 11.6309L21.0527 12.8438H20.3613L18.6562 7.5293L18.5156 6.50391H19.2773ZM26.8242 12.9609C26.3828 12.9609 25.9824 12.8867 25.623 12.7383C25.2676 12.5859 24.9609 12.373 24.7031 12.0996C24.4492 11.8262 24.2539 11.502 24.1172 11.127C23.9805 10.752 23.9121 10.3418 23.9121 9.89648V9.65039C23.9121 9.13477 23.9883 8.67578 24.1406 8.27344C24.293 7.86719 24.5 7.52344 24.7617 7.24219C25.0234 6.96094 25.3203 6.74805 25.6523 6.60352C25.9844 6.45898 26.3281 6.38672 26.6836 6.38672C27.1367 6.38672 27.5273 6.46484 27.8555 6.62109C28.1875 6.77734 28.459 6.99609 28.6699 7.27734C28.8809 7.55469 29.0371 7.88281 29.1387 8.26172C29.2402 8.63672 29.291 9.04688 29.291 9.49219V9.97852H24.5566V9.09375H28.207V9.01172C28.1914 8.73047 28.1328 8.45703 28.0312 8.19141C27.9336 7.92578 27.7773 7.70703 27.5625 7.53516C27.3477 7.36328 27.0547 7.27734 26.6836 7.27734C26.4375 7.27734 26.2109 7.33008 26.0039 7.43555C25.7969 7.53711 25.6191 7.68945 25.4707 7.89258C25.3223 8.0957 25.207 8.34375 25.125 8.63672C25.043 8.92969 25.002 9.26758 25.002 9.65039V9.89648C25.002 10.1973 25.043 10.4805 25.125 10.7461C25.2109 11.0078 25.334 11.2383 25.4941 11.4375C25.6582 11.6367 25.8555 11.793 26.0859 11.9062C26.3203 12.0195 26.5859 12.0762 26.8828 12.0762C27.2656 12.0762 27.5898 11.998 27.8555 11.8418C28.1211 11.6855 28.3535 11.4766 28.5527 11.2148L29.209 11.7363C29.0723 11.9434 28.8984 12.1406 28.6875 12.3281C28.4766 12.5156 28.2168 12.668 27.9082 12.7852C27.6035 12.9023 27.2422 12.9609 26.8242 12.9609ZM31.6406 7.5V12.8438H30.5566V6.50391H31.6113L31.6406 7.5ZM33.6211 6.46875L33.6152 7.47656C33.5254 7.45703 33.4395 7.44531 33.3574 7.44141C33.2793 7.43359 33.1895 7.42969 33.0879 7.42969C32.8379 7.42969 32.6172 7.46875 32.4258 7.54688C32.2344 7.625 32.0723 7.73438 31.9395 7.875C31.8066 8.01562 31.7012 8.18359 31.623 8.37891C31.5488 8.57031 31.5 8.78125 31.4766 9.01172L31.1719 9.1875C31.1719 8.80469 31.209 8.44531 31.2832 8.10938C31.3613 7.77344 31.4805 7.47656 31.6406 7.21875C31.8008 6.95703 32.0039 6.75391 32.25 6.60938C32.5 6.46094 32.7969 6.38672 33.1406 6.38672C33.2188 6.38672 33.3086 6.39648 33.4102 6.41602C33.5117 6.43164 33.582 6.44922 33.6211 6.46875ZM37.1484 12.9609C36.707 12.9609 36.3066 12.8867 35.9473 12.7383C35.5918 12.5859 35.2852 12.373 35.0273 12.0996C34.7734 11.8262 34.5781 11.502 34.4414 11.127C34.3047 10.752 34.2363 10.3418 34.2363 9.89648V9.65039C34.2363 9.13477 34.3125 8.67578 34.4648 8.27344C34.6172 7.86719 34.8242 7.52344 35.0859 7.24219C35.3477 6.96094 35.6445 6.74805 35.9766 6.60352C36.3086 6.45898 36.6523 6.38672 37.0078 6.38672C37.4609 6.38672 37.8516 6.46484 38.1797 6.62109C38.5117 6.77734 38.7832 6.99609 38.9941 7.27734C39.2051 7.55469 39.3613 7.88281 39.4629 8.26172C39.5645 8.63672 39.6152 9.04688 39.6152 9.49219V9.97852H34.8809V9.09375H38.5312V9.01172C38.5156 8.73047 38.457 8.45703 38.3555 8.19141C38.2578 7.92578 38.1016 7.70703 37.8867 7.53516C37.6719 7.36328 37.3789 7.27734 37.0078 7.27734C36.7617 7.27734 36.5352 7.33008 36.3281 7.43555C36.1211 7.53711 35.9434 7.68945 35.7949 7.89258C35.6465 8.0957 35.5312 8.34375 35.4492 8.63672C35.3672 8.92969 35.3262 9.26758 35.3262 9.65039V9.89648C35.3262 10.1973 35.3672 10.4805 35.4492 10.7461C35.5352 11.0078 35.6582 11.2383 35.8184 11.4375C35.9824 11.6367 36.1797 11.793 36.4102 11.9062C36.6445 12.0195 36.9102 12.0762 37.207 12.0762C37.5898 12.0762 37.9141 11.998 38.1797 11.8418C38.4453 11.6855 38.6777 11.4766 38.877 11.2148L39.5332 11.7363C39.3965 11.9434 39.2227 12.1406 39.0117 12.3281C38.8008 12.5156 38.541 12.668 38.2324 12.7852C37.9277 12.9023 37.5664 12.9609 37.1484 12.9609ZM44.877 11.6133V3.84375H45.9668V12.8438H44.9707L44.877 11.6133ZM40.6113 9.74414V9.62109C40.6113 9.13672 40.6699 8.69727 40.7871 8.30273C40.9082 7.9043 41.0781 7.5625 41.2969 7.27734C41.5195 6.99219 41.7832 6.77344 42.0879 6.62109C42.3965 6.46484 42.7402 6.38672 43.1191 6.38672C43.5176 6.38672 43.8652 6.45703 44.1621 6.59766C44.4629 6.73438 44.7168 6.93555 44.9238 7.20117C45.1348 7.46289 45.3008 7.7793 45.4219 8.15039C45.543 8.52148 45.627 8.94141 45.6738 9.41016V9.94922C45.6309 10.4141 45.5469 10.832 45.4219 11.2031C45.3008 11.5742 45.1348 11.8906 44.9238 12.1523C44.7168 12.4141 44.4629 12.6152 44.1621 12.7559C43.8613 12.8926 43.5098 12.9609 43.1074 12.9609C42.7363 12.9609 42.3965 12.8809 42.0879 12.7207C41.7832 12.5605 41.5195 12.3359 41.2969 12.0469C41.0781 11.7578 40.9082 11.418 40.7871 11.0273C40.6699 10.6328 40.6113 10.2051 40.6113 9.74414ZM41.7012 9.62109V9.74414C41.7012 10.0605 41.7324 10.3574 41.7949 10.6348C41.8613 10.9121 41.9629 11.1562 42.0996 11.3672C42.2363 11.5781 42.4102 11.7441 42.6211 11.8652C42.832 11.9824 43.084 12.041 43.377 12.041C43.7363 12.041 44.0312 11.9648 44.2617 11.8125C44.4961 11.6602 44.6836 11.459 44.8242 11.209C44.9648 10.959 45.0742 10.6875 45.1523 10.3945V8.98242C45.1055 8.76758 45.0371 8.56055 44.9473 8.36133C44.8613 8.1582 44.748 7.97852 44.6074 7.82227C44.4707 7.66211 44.3008 7.53516 44.0977 7.44141C43.8984 7.34766 43.6621 7.30078 43.3887 7.30078C43.0918 7.30078 42.8359 7.36328 42.6211 7.48828C42.4102 7.60938 42.2363 7.77734 42.0996 7.99219C41.9629 8.20312 41.8613 8.44922 41.7949 8.73047C41.7324 9.00781 41.7012 9.30469 41.7012 9.62109ZM50.625 3.84375H51.7148V11.6133L51.6211 12.8438H50.625V3.84375ZM55.998 9.62109V9.74414C55.998 10.2051 55.9434 10.6328 55.834 11.0273C55.7246 11.418 55.5645 11.7578 55.3535 12.0469C55.1426 12.3359 54.8848 12.5605 54.5801 12.7207C54.2754 12.8809 53.9258 12.9609 53.5312 12.9609C53.1289 12.9609 52.7754 12.8926 52.4707 12.7559C52.1699 12.6152 51.916 12.4141 51.709 12.1523C51.502 11.8906 51.3359 11.5742 51.2109 11.2031C51.0898 10.832 51.0059 10.4141 50.959 9.94922V9.41016C51.0059 8.94141 51.0898 8.52148 51.2109 8.15039C51.3359 7.7793 51.502 7.46289 51.709 7.20117C51.916 6.93555 52.1699 6.73438 52.4707 6.59766C52.7715 6.45703 53.1211 6.38672 53.5195 6.38672C53.918 6.38672 54.2715 6.46484 54.5801 6.62109C54.8887 6.77344 55.1465 6.99219 55.3535 7.27734C55.5645 7.5625 55.7246 7.9043 55.834 8.30273C55.9434 8.69727 55.998 9.13672 55.998 9.62109ZM54.9082 9.74414V9.62109C54.9082 9.30469 54.8789 9.00781 54.8203 8.73047C54.7617 8.44922 54.668 8.20312 54.5391 7.99219C54.4102 7.77734 54.2402 7.60938 54.0293 7.48828C53.8184 7.36328 53.5586 7.30078 53.25 7.30078C52.9766 7.30078 52.7383 7.34766 52.5352 7.44141C52.3359 7.53516 52.166 7.66211 52.0254 7.82227C51.8848 7.97852 51.7695 8.1582 51.6797 8.36133C51.5938 8.56055 51.5293 8.76758 51.4863 8.98242V10.3945C51.5488 10.668 51.6504 10.9316 51.791 11.1855C51.9355 11.4355 52.127 11.6406 52.3652 11.8008C52.6074 11.9609 52.9062 12.041 53.2617 12.041C53.5547 12.041 53.8047 11.9824 54.0117 11.8652C54.2227 11.7441 54.3926 11.5781 54.5215 11.3672C54.6543 11.1562 54.752 10.9121 54.8145 10.6348C54.877 10.3574 54.9082 10.0605 54.9082 9.74414ZM59.0918 12.1875L60.8555 6.50391H62.0156L59.4727 13.8223C59.4141 13.9785 59.3359 14.1465 59.2383 14.3262C59.1445 14.5098 59.0234 14.6836 58.875 14.8477C58.7266 15.0117 58.5469 15.1445 58.3359 15.2461C58.1289 15.3516 57.8809 15.4043 57.5918 15.4043C57.5059 15.4043 57.3965 15.3926 57.2637 15.3691C57.1309 15.3457 57.0371 15.3262 56.9824 15.3105L56.9766 14.4316C57.0078 14.4355 57.0566 14.4395 57.123 14.4434C57.1934 14.4512 57.2422 14.4551 57.2695 14.4551C57.5156 14.4551 57.7246 14.4219 57.8965 14.3555C58.0684 14.293 58.2129 14.1855 58.3301 14.0332C58.4512 13.8848 58.5547 13.6797 58.6406 13.418L59.0918 12.1875ZM57.7969 6.50391L59.4434 11.4258L59.7246 12.5684L58.9453 12.9668L56.6133 6.50391H57.7969Z" fill="#71717A"/>
 			<path d="M88.7969 16.1569V11.1736H90.5713C90.9586 11.1736 91.2794 11.2442 91.5338 11.3853C91.7883 11.5264 91.9787 11.7195 92.1051 11.9644C92.2314 12.2077 92.2946 12.4819 92.2946 12.7869C92.2946 13.0934 92.2306 13.3692 92.1026 13.6142C91.9762 13.8575 91.785 14.0505 91.529 14.1933C91.2746 14.3344 90.9545 14.405 90.5689 14.405H89.3486V13.7675H90.5008C90.7455 13.7675 90.944 13.7253 91.0963 13.6409C91.2486 13.555 91.3604 13.4382 91.4317 13.2905C91.503 13.1429 91.5387 12.975 91.5387 12.7869C91.5387 12.5987 91.503 12.4316 91.4317 12.2856C91.3604 12.1396 91.2478 12.0252 91.0939 11.9425C90.9416 11.8598 90.7406 11.8184 90.4911 11.8184H89.548V16.1569H88.7969Z" fill="#71717A"/>
@@ -796,7 +796,7 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 		?>
 		<?php if ( $the_options['show_again_as' . $suffix] === "text" ) { ?>
 			<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
-				<span><?php echo esc_html__( $cookie_data['dash_show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
+				<span><?php echo esc_html( $cookie_data['dash_show_again_text'] ); //phpcs:ignore ?></span>
 			</div>
 			<?php } elseif ( $the_options['show_again_as' . $suffix] === "icon" ) { ?>			
 				<?php if ( $the_options['show_again_icon' . $suffix] === "cookie" ) { ?>
@@ -874,6 +874,8 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 							position: fixed; 
 							display:none; 
 							bottom: 10px;  
+							height: 50px;
+							width: 50px;
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
 								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
@@ -881,9 +883,11 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 							padding:0 !important;"
 					>
 						<img 
+							width="50"
+							height="50"
 							style="
-								height: 50px;
-								width: auto;
+								height: 100%;
+								width: 100%;
 								object-fit: contain;
 							" 
 							alt="revoke-icon" 
@@ -929,7 +933,7 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 		?>
 		<?php if ( $the_options['show_again_as' . $suffix] === "text" ) { ?>
 			<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
-				<span><?php echo esc_html__( $cookie_data['dash_show_again_text'], 'gdpr-cookie-consent' ); //phpcs:ignore ?></span>
+				<span><?php echo esc_html( $cookie_data['dash_show_again_text'] ); //phpcs:ignore ?></span>
 			</div>
 		<?php } elseif ( $the_options['show_again_as' . $suffix] === "icon" ) { ?>
 				<?php if ( $the_options['show_again_icon' . $suffix] === "cookie" ) { ?>
@@ -1007,6 +1011,8 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 							position: fixed; 
 							display:none; 
 							bottom: 10px;  
+							height: 50px;
+							width: 50px;
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
 								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
@@ -1014,9 +1020,11 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 							padding:0 !important"
 					>
 						<img 
+							width="50"
+							height="50"
 							style="
-								height: 50px;
-								width: auto;
+								height: 100%;
+								width: 100%;
 								object-fit: contain;
 							" 
 							alt="revoke-icon" 
@@ -1055,7 +1063,7 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 		?>
 		<?php if ( $the_options['show_again_as' . $suffix] === "text" ) { ?>
 			<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
-				<span><?php echo esc_html__( $cookie_data['dash_show_again_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></span>
+				<span><?php echo esc_html( $cookie_data['dash_show_again_text'] );//phpcs:ignore ?></span>
 			</div>
 		<?php } elseif ( $the_options['show_again_as' . $suffix] === "icon" ) {?>
 				<?php if ( $the_options['show_again_icon' . $suffix] === "cookie" ) { ?>
@@ -1137,12 +1145,16 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
 								echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+							height: 50px;
+							width: 50px;
 							padding:0 !important;"
 					>
 						<img 
+							width="50"
+							height="50"
 							style="
-								height: 50px;
-								width: auto;
+								height: 100%;
+								width: 100%;
 								object-fit: contain;
 							" 
 							alt="revoke-icon" 
@@ -1190,7 +1202,7 @@ if ( ! empty( $the_options['ccpa_notify'] ) ) {
 		<div id="<?php echo esc_html( $the_options['ccpa_show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['ccpa_button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['ccpa_button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['ccpa_show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['ccpa_show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['ccpa_show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
 			<?php
 		?>
-			<span><?php echo esc_html__( $cookie_data['ccpa_dash_show_again_text'], 'gdpr-cookie-consent' );//phpcs:ignore ?></span>
+			<span><?php echo esc_html( $cookie_data['ccpa_dash_show_again_text'] );//phpcs:ignore ?></span>
 		</div>
 		<?php
 	}
