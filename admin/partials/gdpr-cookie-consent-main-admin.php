@@ -268,15 +268,23 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 
 								<!-- Cookie Manager tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-manager-tab" data-tab="cookie_manager">
+									<div style="display:flex; justify-content:space-between;gap:45px;width:100%;padding-right:10px;">
 									<?php echo esc_html('Cookie&nbsp;Manager','gdpr-cookie-consent'); ?>
+										<svg class="gdpr-subnav-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M15 12.5L10 7.5L5 12.5" stroke="#074EA8"/>
+										</svg>
+									</div>
 								</div>
 
 								<!-- Script Blocker tab  -->
-								<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) { ?>
+								<!-- <?php $law_selection_mode =get_option( 'gdpr_law_selection_mode', 'manual' ) ;
+									error_log("law ..............." . print_r($law_selection_mode, true));
+								?> -->
+								<!-- <?php if ( 'is_us_state_laws' !== $the_options['cookie_usage_for'] || 'auto' === get_option( 'gdpr_law_selection_mode', 'manual' ) ) {?>
 									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-script-blocker-settings-tab" data-tab="script_blocker">
 										<?php echo esc_html('Script&nbsp;Blocker','gdpr-cookie-consent'); ?>
 									</div>
-								<?php } ?>
+								<?php } ?> -->
 								<!-- AB Testing tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-abtesting-settings-tab" data-tab="ab_testing">
 									<?php echo esc_html('AB&nbsp;Testing','gdpr-cookie-consent'); ?>
@@ -697,21 +705,19 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 								<div class="gdpr-cookie-consent-admin-cookie-settings-content gdpr-cookie-consent-admin-tab-content" id="cookie_settings">
 									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-settings-tab-template.php'; ?>
 								</div>
-
+									
+								<!-- cookie manager content -->
+								<div class="gdpr-cookie-consent-admin-cookie-manager-content gdpr-cookie-consent-admin-tab-content" id="cookie_manager">
+									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-manager-tab-template.php'; ?>
+								</div>
+								<!-- Script Blocker content  -->
+								<div class="gdpr-cookie-consent-admin-script-blocker-settings-content gdpr-cookie-consent-admin-tab-content" id="script_blocker">
+									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-script-blocker-tab-template.php'; ?>
+								</div>
 								<!-- Advanced Settings content  -->
 								<div class="gdpr-cookie-consent-admin-advanced-settings-content gdpr-cookie-consent-admin-tab-content" id="advanced_settings">
 									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-advanced-settings-tab-template.php'; ?>
 								</div>
-							</div>
-
-							<!-- cookie manager content -->
-							<div class="gdpr-cookie-consent-admin-cookie-manager-content gdpr-cookie-consent-admin-tab-content" id="cookie_manager">
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-manager-tab-template.php'; ?>
-							</div>
-
-							<!-- Script Blocker content  -->
-							<div class="gdpr-cookie-consent-admin-script-blocker-settings-content gdpr-cookie-consent-admin-tab-content" id="script_blocker">
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-script-blocker-tab-template.php'; ?>
 							</div>
 
 							<!-- AB Testing content  -->

@@ -2,6 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+$law_selection_mode = get_option( 'gdpr_law_selection_mode', 'manual' );
 ?>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-cookie_manager-settings">
     <c-container class="gdpr-cookie-consent-settings-container gdpr-cookie-consent-cookie-manager-container">
@@ -13,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<div id="gdpr-cookie-consent-updating-settings-alert-ckm">Updating Setting</div>
 
                <c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
-                    <c-tab title="<?php esc_attr_e( 'Cookie Manager', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" 	id="gdpr-cookie-consent-cookies-list" style="position: relative;">
+                    <c-tab title="<?php esc_attr_e( 'Cookie Categories', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" 	id="gdpr-cookie-consent-cookies-list" style="position: relative;">
 						<c-card class="gdpr-cookie-list-tabs-container" v-show="cookie_list_tab == true">
 							<c-card-body>
 								<c-row>
@@ -107,6 +108,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 							</c-card-body>
 				    	</c-card>
 				    </c-tab>
+					<?php if ( $the_options['cookie_usage_for'] !== 'us_state_laws' || 'auto' === $law_selection_mode ) :?>
+						<div class="gdpr-cookie-consent-settings-content">
+							<div id="gdpr-cookie-consent-save-settings-alert-scb">{{success_error_message}}</div>
+							<div id="gdpr-cookie-consent-updating-settings-alert-scb">Updating Setting</div>
+
+							<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
+						</div>
+				<?php endif; ?>
                </c-tabs>
             </div>
         </c-form>
