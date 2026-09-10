@@ -8914,7 +8914,7 @@ class Gdpr_Cookie_Consent_Admin {
 		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
 		$cookie_design_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
 		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#layout';
-		$script_blocker_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#script_blocker';
+		$script_blocker_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_manager#script_blocker';
 		$third_party_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#policy_data';
 		$documentation_url   = 'https://wplegalpages.com/docs/wp-cookie-consent/';
 		$gdpr_pro_url        = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=quick-links&utm_content=upgrade-to-pro';

@@ -3449,17 +3449,6 @@ var gen = new Vue({
           }
         }
       }
-      let navLinks = j(".nav-link").map(function () {
-        return this.getAttribute("href");
-      });
-      if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
-      for (let i = 0; i < navLinks.length; i++) {
-        let re = new RegExp(navLinks[i]);
-        if (window.location.href.match(re)) {
-          this.$refs.active_tab.activeTabIndex = i;
-          break;
-        }
-      }
 
       let advNavLinks = j("#gcc-save-advanced-settings-form .nav-link").map(function () {
         return this.getAttribute("href");
@@ -6094,11 +6083,11 @@ var gen = new Vue({
       const dropdownarrow = document.querySelector('.cookie_arrow')
       dropdownarrow.classList.remove('up');
       dropdownarrow.classList.add('down');
-      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
+      const tabLink = document.querySelector("a[href='#cookie_manager#cookie_list']");
         if (tabLink) {
             tabLink.click();
         }
-      window.location.hash = "#cookie_settings#cookie_list#custom_cookie";
+      window.location.hash = "#cookie_manager#cookie_list#custom_cookie";
     },
     onChangeDiscoveredListTab() {
       this.cookie_list_tab = false;
@@ -6108,11 +6097,11 @@ var gen = new Vue({
       const dropdownarrow = document.querySelector('.cookie_arrow')
       dropdownarrow.classList.remove('up');
       dropdownarrow.classList.add('down');
-      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
+      const tabLink = document.querySelector("a[href='#cookie_manager#cookie_list']");
         if (tabLink) {
             tabLink.click();
         }
-      window.location.hash = "#cookie_settings#cookie_list#discovered_cookies";
+      window.location.hash = "#cookie_manager#cookie_list#discovered_cookies";
     },
     onChangeScanHistoryTab() {
       this.cookie_list_tab = false;
@@ -6122,21 +6111,21 @@ var gen = new Vue({
       const dropdownarrow = document.querySelector('.cookie_arrow')
       dropdownarrow.classList.remove('up');
       dropdownarrow.classList.add('down');
-      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
+      const tabLink = document.querySelector("a[href='#cookie_manager#cookie_list']");
         if (tabLink) {
             tabLink.click();
         }
-      window.location.hash = "#cookie_settings#cookie_list#scan_history";
+      window.location.hash = "#cookie_manager#cookie_list#scan_history";
     },
     activateTabFromHash() {
       const hash = window.location.hash;
-      if (hash === "#cookie_settings#cookie_list#custom_cookie") {
+      if (hash === "#cookie_manager#cookie_list#custom_cookie") {
         this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
         this.onChangeCookieListTab();
-      } else if (hash === "#cookie_settings#cookie_list#discovered_cookies") {
+      } else if (hash === "#cookie_manager#cookie_list#discovered_cookies") {
         this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
         this.onChangeDiscoveredListTab();
-      } else if (hash === "#cookie_settings#cookie_list#scan_history") {
+      } else if (hash === "#cookie_manager#cookie_list#scan_history") {
         this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
         this.onChangeScanHistoryTab();
       }
@@ -7446,6 +7435,17 @@ var gen = new Vue({
     if (this.scan_cookie_list_length > 0) {
       this.setScanListValues();
     }
+    that.$nextTick(function () {
+      var parts = window.location.hash.split('#').filter(Boolean);
+      if (parts.length < 2) return;
+
+      var target = '#' + parts[0] + '#' + parts[1];
+      var link = j('.nav-link').filter(function () {
+        return this.getAttribute('href') === target;
+      }).first();
+
+      if (link.length) link[0].click();
+    });
     this.activateTabFromHash();
     
     j(".gdpr-cookie-consent-settings-nav .nav .nav-item .nav-link").on(

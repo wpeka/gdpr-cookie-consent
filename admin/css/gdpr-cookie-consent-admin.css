@@ -1652,10 +1652,16 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
   background-color: var(--white-100);
   font-family: "Roboto", sans-serif;
   font-weight: 400;
-  font-size: var(--text-sm-font-size);
+  font-size: var(--text-sm-font-size) !important;
   line-height: var(--text-sm-line-height);
   min-height: 750px;
   color: var(--blue-903);
+}
+.script-blocker-card.card{
+  margin-top:0 !important;
+}
+.script-blocker-card.card .card-body{
+  padding: 0 !important;
 }
 #gdpr-cookie-consent-settings-app.gdpr-cookie-consent-app-container:has(#gdpr-cookie-consent-design.active) {
     background-color: transparent;
@@ -4124,7 +4130,7 @@ a .export-btn:hover {
   .tab-content
   .card
   .overlay-script-style,
-#gdpr-cookie-consent-script_blocker-settings
+#gdpr-cookie-consent-cookie_manager-settings
   .gdpr-cookie-consent-settings-container
   .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
@@ -4152,13 +4158,6 @@ a .export-btn:hover {
   .card
   .overlay-script-style
   .overlay-script-message,
-#gdpr-cookie-consent-script_blocker-settings
-  .gdpr-cookie-consent-settings-container
-  .gdpr-cookie-consent-settings-content
-  .gdpr-cookie-consent-settings-nav
-  .tab-content
-  .card
-  .overlay-script-style
   .overlay-script-message {
   position: absolute;
   width: calc(100% - 43px);
@@ -4169,6 +4168,7 @@ a .export-btn:hover {
   color: #fff;
   font-size: 16px;
 }
+.overlay-script-style,
 .overlay-whitelistscript-style {
   z-index: 9;
   display: flex;
@@ -7742,6 +7742,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   font-weight: var(--text-medium-font-weight);
   line-height: var(--text-sm-line-height);
   padding-bottom: 14px;
+  padding-top: 14px;
   border-bottom: 1px solid var(--gray-100);
 }
 .gdpr-cookie-consent-settings-nav
@@ -7764,8 +7765,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
 .configuration_card .card-body,
 .desgin_card .card-body,
 .cookie_list_card .card-body,
-.language-card .card-body,
-.script-blocker-card .card-body {
+.language-card .card-body{
   width: 100%;
   max-width: 1051px;
   padding-top: 28px;
@@ -11353,9 +11353,6 @@ div#gdpr-scan-history {
 
 .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
-  .script-blocker-card,
-.gdpr-cookie-consent-settings-content
-  .gdpr-cookie-consent-settings-nav
   .ab_testing-card,
 .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
@@ -11386,10 +11383,6 @@ div#gdpr-scan-history {
   gap: 20px;
 }
 
-.gdpr-cookie-consent-settings-content
-  .gdpr-cookie-consent-settings-nav
-  .script-blocker-card
-  .card-body,
 .gdpr-cookie-consent-settings-content
   .gdpr-cookie-consent-settings-nav
   .ab_testing-card
