@@ -277,9 +277,6 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 								</div>
 
 								<!-- Script Blocker tab  -->
-								<!-- <?php $law_selection_mode =get_option( 'gdpr_law_selection_mode', 'manual' ) ;
-									error_log("law ..............." . print_r($law_selection_mode, true));
-								?> -->
 								<!-- <?php if ( 'is_us_state_laws' !== $the_options['cookie_usage_for'] || 'auto' === get_option( 'gdpr_law_selection_mode', 'manual' ) ) {?>
 									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-script-blocker-settings-tab" data-tab="script_blocker">
 										<?php echo esc_html('Script&nbsp;Blocker','gdpr-cookie-consent'); ?>
