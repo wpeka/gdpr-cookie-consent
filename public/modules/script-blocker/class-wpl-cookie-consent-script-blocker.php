@@ -367,7 +367,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#script_blocker" id="gdpr-cookie-consent-script-blocker">
 			
             <div class="gdpr-preview-publish-btn gdpr-preview-publish-btn-scb">
-				<c-button :disabled="save_loading || enable_safe" class="gdpr-publish-btn" @click="saveScriptBlockerSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
+				<c-button :disabled="save_loading || enable_safe" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
 			</div>
 			
 			<c-card class="script-blocker-card">
