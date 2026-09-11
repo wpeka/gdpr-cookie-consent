@@ -276,12 +276,6 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 									</div>
 								</div>
 
-								<!-- Script Blocker tab  -->
-								<!-- <?php if ( 'is_us_state_laws' !== $the_options['cookie_usage_for'] || 'auto' === get_option( 'gdpr_law_selection_mode', 'manual' ) ) {?>
-									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-script-blocker-settings-tab" data-tab="script_blocker">
-										<?php echo esc_html('Script&nbsp;Blocker','gdpr-cookie-consent'); ?>
-									</div>
-								<?php } ?> -->
 								<!-- AB Testing tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-abtesting-settings-tab" data-tab="ab_testing">
 									<?php echo esc_html('AB&nbsp;Testing','gdpr-cookie-consent'); ?>
