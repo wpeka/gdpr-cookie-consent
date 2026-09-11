@@ -6514,6 +6514,11 @@ class Gdpr_Cookie_Consent_Admin {
 					$the_options['is_eu_on']              = 'false';
 					$the_options['is_ccpa_on']            = 'false';
 				}
+			}
+				$the_options['header_scripts']                        = isset( $_POST['gcc-header-scripts'] ) ? wp_unslash( $_POST['gcc-header-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$the_options['body_scripts']                          = isset( $_POST['gcc-body-scripts'] ) ? wp_unslash( $_POST['gcc-body-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$the_options['footer_scripts']                        = isset( $_POST['gcc-footer-scripts'] ) ? wp_unslash( $_POST['gcc-footer-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			
 				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
 				//Script Dependency
 				$the_options['is_script_dependency_on'] = isset( $_POST['gcc-script-dependency-on'] ) && ( true === $_POST['gcc-script-dependency-on'] || 'true' === $_POST['gcc-script-dependency-on'] ) ? 'true' : 'false';
@@ -6872,7 +6877,7 @@ class Gdpr_Cookie_Consent_Admin {
 					$the_options['banner_layouts']   = wp_json_encode( $banner_layouts );
 					$the_options['banner_structure'] = wp_json_encode( $banner_structure );
 				}
-			}
+			
 			$the_options['lang_selected'] = isset( $_POST['select-banner-lan'] ) ? sanitize_text_field( wp_unslash( $_POST['select-banner-lan'] ) ) : 'en';
 
 			// language translation based on the selected language.
@@ -7124,82 +7129,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 	}
 
-	/**
-	 * Script Blocker callback to save settings.
-	 */
-	public function gdpr_cookie_consent_ajax_save_script_blocker_settings() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
-			exit;
-		}
-		if ( isset( $_POST['gcc_settings_form_nonce_script_blocker'] ) ) {
-			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_script_blocker'] ) ), 'gcc-settings-form-nonce-script-blocker' ) ) {
-				return;
-			}
-
-			$the_options    = Gdpr_Cookie_Consent::gdpr_get_settings();
-			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' );
-
-			$the_options['header_scripts']                        = isset( $_POST['gcc-header-scripts'] ) ? wp_unslash( $_POST['gcc-header-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$the_options['body_scripts']                          = isset( $_POST['gcc-body-scripts'] ) ? wp_unslash( $_POST['gcc-body-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$the_options['footer_scripts']                        = isset( $_POST['gcc-footer-scripts'] ) ? wp_unslash( $_POST['gcc-footer-scripts'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			
-			if ( ! get_option( 'wpl_pro_active' ) ) {
-				// script blocker.
-				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
-				//script dependency
-				$the_options['is_script_dependency_on'] = isset( $_POST['gcc-script-dependency-on'] ) && ( true === $_POST['gcc-script-dependency-on'] || 'true' === $_POST['gcc-script-dependency-on'] ) ? 'true' : 'false';
-				$the_options['header_dependency'] = isset( $_POST['gcc-header-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-header-dependency'] ) ): '';
-				$the_options['footer_dependency'] = isset( $_POST['gcc-footer-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-footer-dependency'] ) ): '';
-				
-				$the_options['cookie_usage_for'] = $this->migrate_legacy_law_code( $the_options['cookie_usage_for'] );
-
-				if ( isset( $the_options['cookie_usage_for'] ) ) {
-					switch ( $the_options['cookie_usage_for'] ) {
-						case 'both':
-						case 'gdpr':
-						case 'lgpd':
-						case 'eprivacy':
-							update_option( 'wpl_bypass_script_blocker', 0 );
-							break;
-						case 'ccpa':
-						case 'us_state_laws':
-							update_option( 'wpl_bypass_script_blocker', 1 );
-							break;
-					}
-				}
-			}
-
-			if ( get_option( 'wpl_pro_active' ) && get_option( 'wc_am_client_wpl_cookie_consent_activated' ) && 'Activated' === get_option( 'wc_am_client_wpl_cookie_consent_activated' ) ) {
-				$the_options['is_script_blocker_on'] = isset( $_POST['gcc-script-blocker-on'] ) && ( true === $_POST['gcc-script-blocker-on'] || 'true' === $_POST['gcc-script-blocker-on'] ) ? 'true' : 'false';
-				//Script Dependency
-				$the_options['is_script_dependency_on'] = isset( $_POST['gcc-script-dependency-on'] ) && ( true === $_POST['gcc-script-dependency-on'] || 'true' === $_POST['gcc-script-dependency-on'] ) ? 'true' : 'false';
-				$the_options['header_dependency'] = isset( $_POST['gcc-header-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-header-dependency'] ) ): '';
-				$the_options['footer_dependency'] = isset( $_POST['gcc-footer-dependency'] )? sanitize_text_field( wp_unslash( $_POST['gcc-footer-dependency'] ) ): '';
-				
-				$the_options['cookie_usage_for'] = $this->migrate_legacy_law_code( $the_options['cookie_usage_for'] );
-
-				if ( isset( $the_options['cookie_usage_for'] ) ) {
-					switch ( $the_options['cookie_usage_for'] ) {
-						case 'both':
-						case 'gdpr':
-						case 'lgpd':
-						case 'eprivacy':
-							update_option( 'wpl_bypass_script_blocker', 0 );
-							break;
-						case 'ccpa':
-						case 'us_state_laws':
-							update_option( 'wpl_bypass_script_blocker', 1 );
-							break;
-					}
-				}
-			}
-
-			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
-
-			wp_send_json_success( array( 'form_options_saved' => true ) );
-		}
-	}
+	
 
 	/**
 	 * Language callback to save settings.
