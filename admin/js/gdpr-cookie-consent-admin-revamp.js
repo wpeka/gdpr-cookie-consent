@@ -1378,7 +1378,10 @@ jQuery(document).ready(function () {
     if (first_time_installed) {
       startPluginTour();
       // Clear the first-time flag
-      $.post(ajaxurl, { action: "gdpr_complete_tour" });
+      $.post(ajaxurl, {
+        action: "gdpr_complete_tour",
+        _ajax_nonce: gdpr_localize_data._ajax_nonce,
+      });
     }
 
     // Event handler for manual tour start

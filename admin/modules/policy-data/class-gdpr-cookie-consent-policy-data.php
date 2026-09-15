@@ -406,11 +406,12 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 * @return string
 	 */
 	public static function format_data( $data ) {
+		$data = (string) $data;
 		$enc  = mb_detect_encoding( $data, 'UTF-8, ISO-8859-1', true );
 		$data = ( 'UTF-8' === $enc ) ? $data : $data;
 
-		// Check if the data starts with =, +, -, or @, indicating a potential formula.
-		if ( preg_match( '/^([=\+\-@].*)/', $data ) ) {
+		// Check if the data starts with =, +, -, @, tab or carriage return, indicating a potential formula.
+		if ( preg_match( '/^[=+\-@\t\r]/', $data ) ) {
 			// If a potential formula is detected, prepend the data with a single quote.
 			$data = "'" . $data;
 		}

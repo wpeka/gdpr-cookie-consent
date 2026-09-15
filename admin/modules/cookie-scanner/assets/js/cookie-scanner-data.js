@@ -5,6 +5,7 @@ jQuery(document).ready(function ($) {
         method: 'POST',
         data: {
             action: 'wpl_cookie_scanner_card',
+            security: cookie_scanner_ajax.security,
         },
         success: function (response) {
             $('.data_wait_loader_container').css("display","none");

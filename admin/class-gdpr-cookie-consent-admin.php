@@ -2507,8 +2507,11 @@ class Gdpr_Cookie_Consent_Admin {
 		global $wpdb;
 		if ( ! get_option( 'gdpr_version_number' ) ) {
 			update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
+			$this->wplp_cleanup_policy_data_exports();
 		} elseif ( get_option( 'gdpr_version_number' ) !== GDPR_COOKIE_CONSENT_VERSION ) {
 				update_option( 'gdpr_version_number', GDPR_COOKIE_CONSENT_VERSION );
+				// Drop the legacy world-readable policy export left by older versions.
+				$this->wplp_cleanup_policy_data_exports();
 		}
 		// Check if the key exists in the options table
 		if ( get_option( 'gdpr_no_of_page_scan' ) == false ) {
@@ -8728,36 +8731,26 @@ class Gdpr_Cookie_Consent_Admin {
 				continue;
 			}
 			
-			$image_base64 = $image['value']['image'];
-			$file_name    = $image['value']['name'];
-
-			// Check if the base64 string has the data:image prefix and remove it
-			if ( strpos( $image_base64, 'data:image' ) === 0 ) {
-				// Remove the data:image/*;base64, prefix
-				$image_base64 = substr( $image_base64, strpos( $image_base64, ',' ) + 1 );
-			}
-			
-			$image_data = base64_decode( $image_base64 );
-			
-			if ( ! $image_data ) {
-				continue;
+			// Reuse the shared validator: basename + allow-listed extension,
+			// strict base64, size cap and image-content/mime match.
+			$validated = $this->gdpr_validate_uploaded_image( $image['value']['image'], $image['value']['name'] );
+			if ( is_wp_error( $validated ) ) {
+				continue; // Skip this image, don't fail the whole import.
 			}
 
 			$upload_dir = wp_upload_dir();
-			$file_path = $upload_dir['path'] . '/' . $file_name;
+			$file_path  = $upload_dir['path'] . '/' . $validated['safe_name'];
 
-			file_put_contents( $file_path, $image_data );
+			file_put_contents( $file_path, $validated['data'] );
 
-			$filetype = wp_check_filetype( $file_name, null );
-
-			$attachment = [
-				'post_mime_type' => $filetype['type'],
-				'post_title'     => pathinfo( $file_name, PATHINFO_FILENAME ),
-				'post_status'    => 'inherit'
-			];
+			$attachment = array(
+				'post_mime_type' => $validated['mime'],
+				'post_title'     => sanitize_text_field( pathinfo( $validated['safe_name'], PATHINFO_FILENAME ) ),
+				'post_status'    => 'inherit',
+			);
 
 			$attach_id = wp_insert_attachment( $attachment, $file_path );
-			
+
 			// Regenerate attachment metadata
 			$attach_data = wp_generate_attachment_metadata( $attach_id, $file_path );
 			wp_update_attachment_metadata( $attach_id, $attach_data );
@@ -10067,6 +10060,76 @@ class Gdpr_Cookie_Consent_Admin {
 			'ids'     => $ids
 		];
 	}
+	/**
+	 * Shared validation helper - reused for both banner logos and revoke icons.
+	 *
+	 * @param string $image_base64 Raw or data-URI-wrapped base64 image data.
+	 * @param string $file_name    Requested file name.
+	 * @return array|WP_Error ['data' => decoded bytes, 'safe_name' => validated filename, 'mime' => mime type] or WP_Error on failure.
+	 */
+	private function gdpr_validate_uploaded_image( $image_base64, $file_name ) {
+		if ( ! is_string( $image_base64 ) || '' === trim( $image_base64 ) || ! is_string( $file_name ) ) {
+			return new WP_Error( 'invalid_upload', 'Image data and file name are required.' );
+		}
+
+		$allowed_mimes = $this->saas_logo_allowed_mimes();
+
+		// Accept a data URI wrapper, but only when it declares a mime we allow.
+		if ( 0 === strpos( $image_base64, 'data:' ) ) {
+			if ( ! preg_match( '#^data:([a-z0-9.+/-]+);base64,#i', $image_base64, $uri_parts ) ) {
+				return new WP_Error( 'invalid_upload', 'Malformed image data.' );
+			}
+			if ( ! in_array( strtolower( $uri_parts[1] ), $allowed_mimes, true ) ) {
+				return new WP_Error( 'invalid_upload', 'Unsupported image type.' );
+			}
+			$image_base64 = substr( $image_base64, strlen( $uri_parts[0] ) );
+		}
+
+		// Strict decode, so anything that is not clean base64 is rejected outright.
+		$image_data = base64_decode( $image_base64, true );
+		if ( false === $image_data || '' === $image_data ) {
+			return new WP_Error( 'invalid_upload', 'Image data could not be decoded.' );
+		}
+
+		if ( strlen( $image_data ) > ( 2 * MB_IN_BYTES ) ) {
+			return new WP_Error( 'invalid_upload', 'Image exceeds the 2 MB limit.' );
+		}
+
+		// Reduce to a bare file name and hold the extension to the allow list.
+		$file_name = sanitize_file_name( basename( $file_name ) );
+		if ( '' === $file_name ) {
+			return new WP_Error( 'invalid_upload', 'Invalid file name.' );
+		}
+
+		$filetype = wp_check_filetype( $file_name, $allowed_mimes );
+		if ( empty( $filetype['ext'] ) || empty( $filetype['type'] ) ) {
+			return new WP_Error( 'invalid_upload', 'Only JPG, PNG, GIF and WebP logos are allowed.' );
+		}
+
+		// Rebuild the name from a single validated extension. This collapses any
+		// inner extension, so "shell.php.jpg" can never reach the disk intact.
+		$base_name = str_replace( '.', '-', pathinfo( $file_name, PATHINFO_FILENAME ) );
+		$base_name = trim( sanitize_file_name( $base_name ), '-' );
+		if ( '' === $base_name ) {
+			$base_name = 'logo';
+		}
+		$safe_name = $base_name . '.' . $filetype['ext'];
+
+		// The bytes themselves must be the image the extension claims.
+		$image_info = @getimagesizefromstring( $image_data ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		if ( ! is_array( $image_info ) || empty( $image_info['mime'] ) ) {
+			return new WP_Error( 'invalid_upload', 'File is not a valid image.' );
+		}
+		if ( strtolower( $image_info['mime'] ) !== $filetype['type'] ) {
+			return new WP_Error( 'invalid_upload', 'Image contents do not match the file extension.' );
+		}
+
+		return array(
+			'data'      => $image_data,
+			'safe_name' => $safe_name,
+			'mime'      => $filetype['type'],
+		);
+	}
 
 	public function gdpr_save_changes( WP_REST_Request $request){
 		$save_object = $request->get_param('save_object') ?: null;
@@ -10199,24 +10262,23 @@ class Gdpr_Cookie_Consent_Admin {
 				delete_option( $image['option']);
 			}
 			if(!isset($image['value']['image'])) continue;
-			$image_base64 = $image['value']['image'];
-			$file_name    = $image['value']['name'];
+			$validated = $this->gdpr_validate_uploaded_image( $image['value']['image'], $image['value']['name'] );
+			if ( is_wp_error( $validated ) ) {
+				continue; // skip this image, don't fail the whole save;
+			}
 
 			$upload_dir = wp_upload_dir();
-			$file_path = $upload_dir['path'] . '/' . $file_name;
+			$file_path = $upload_dir['path'] . '/' . $validated['safe_name'];
 
-			$image_data = base64_decode($image_base64);
-			file_put_contents($file_path, $image_data);
+			file_put_contents( $file_path, $validated['data'] );
 
-			$filetype = wp_check_filetype($file_name);
+			$attachment = array(
+				'post_mime_type' => $validated['mime'],
+				'post_title'     => sanitize_text_field( pathinfo( $validated['safe_name'], PATHINFO_FILENAME ) ),
+				'post_status'    => 'inherit',
+			);
 
-			$attachment = [
-				'post_mime_type' => $filetype['type'],
-				'post_title'     => pathinfo($file_name, PATHINFO_FILENAME),
-				'post_status'    => 'inherit'
-			];
-
-			$attach_id = wp_insert_attachment($attachment, $file_path);
+			$attach_id = wp_insert_attachment( $attachment, $file_path );
 			require_once ABSPATH . 'wp-admin/includes/image.php';
 
 			wp_update_attachment_metadata(
@@ -10247,30 +10309,29 @@ class Gdpr_Cookie_Consent_Admin {
 		
     		if ( !isset( $value['image'] ) ) continue;
 
-			$icon_base64 = $value['image'];
-			$file_name = $value['name'];
+			$validated = $this->gdpr_validate_uploaded_image( $value['image'], $value['name'] );
+			if ( is_wp_error( $validated ) ) {
+				continue; // skip this icon, don't fail the whole save
+			}
 
 			$upload_dir = wp_upload_dir();
 
 			$revoke_dir = $upload_dir['path'] . '/revoke/';
-			$file_path  = $revoke_dir . $file_name;
+			$file_path  = $revoke_dir . $validated['safe_name'];
 
 			if ( ! file_exists( $revoke_dir ) ) {
 			    wp_mkdir_p( $revoke_dir );
 			}
 
-			$icon_data = base64_decode( $icon_base64 );
-			file_put_contents( $file_path, $icon_data );
+			file_put_contents( $file_path, $validated['data'] );
 
-			$filetype = wp_check_filetype($file_name);
+			$attachment = array(
+				'post_mime_type' => $validated['mime'],
+				'post_title'     => sanitize_text_field( pathinfo( $validated['safe_name'], PATHINFO_FILENAME ) ),
+				'post_status'    => 'inherit',
+			);
 
-			$attachment = [
-				'post_mime_type' => $filetype['type'],
-				'post_title'     => pathinfo($file_name, PATHINFO_FILENAME),
-				'post_status'    => 'inherit'
-			];
-
-			$attach_id = wp_insert_attachment($attachment, $file_path);
+			$attach_id = wp_insert_attachment( $attachment, $file_path );
 			require_once ABSPATH . 'wp-admin/includes/image.php';
 
 			wp_update_attachment_metadata(
@@ -10681,47 +10742,141 @@ class Gdpr_Cookie_Consent_Admin {
 
 		return true;
 	}
+	/**
+	 * PHASE 2: Validates a bearer token with the app, caching the verdict.
+	 * The entry is capped by the token's own `exp` claim, so a cached verdict
+	 * can never outlive the token it was issued for.
+	 *
+	 * @param string $token Raw bearer token.
+	 * @return int|string|WP_Error App user id the token belongs to, or WP_Error.
+	 */
+	public function appwplp_validate_bearer_token( $token ) {
+		$cache_key = 'appwplp_jwt_' . hash( 'sha256', $token );
+
+		$cached_user_id = get_transient( $cache_key );
+		if ( false !== $cached_user_id ) {
+			return $cached_user_id;
+		}
+		$validate = wp_remote_post(
+			GDPR_APP_URL . '/wp-json/jwt-auth/v1/token/validate',
+			array(
+				'headers' => array(
+					'Authorization' => 'Bearer ' . $token,
+					'Content-Type'  => 'application/json',
+				),
+				'timeout' => 15,
+			)
+		);
+
+		if ( is_wp_error( $validate ) ) {
+			return new WP_Error( 'token_validation_failed', $validate->get_error_message(), array( 'status' => 401 ) );
+		}
+
+		if ( 200 !== wp_remote_retrieve_response_code( $validate ) ) {
+			return new WP_Error( 'invalid_token', 'Token validation failed.', array( 'status' => 401 ) );
+		}
+
+		/*
+		 * Only now that the app has vouched for the token is its payload worth
+		 * reading - nothing in here verifies the signature locally.
+		 */
+		$parts = explode( '.', $token );
+		if ( 3 !== count( $parts ) ) {
+			return new WP_Error( 'malformed_token', 'Unauthorized.', array( 'status' => 401 ) );
+		}
+
+		$payload = json_decode( base64_decode( strtr( $parts[1], '-_', '+/' ) ) );
+		if ( ! $payload ) {
+			return new WP_Error( 'malformed_token', 'Unauthorized.', array( 'status' => 401 ) );
+		}
+
+		// Tmeister's plugin nests it here.
+		$saas_user_id = $payload->data->user->id ?? 0;
+		if ( ! is_scalar( $saas_user_id ) || '' === (string) $saas_user_id || 0 === (int) $saas_user_id ) {
+			return new WP_Error( 'malformed_token', 'Unauthorized.', array( 'status' => 401 ) );
+		}
+
+		$ttl = APPWPLP_JWT_CACHE_TTL;
+		if ( ! empty( $payload->exp ) ) {
+			$ttl = min( $ttl, (int) $payload->exp - time() );
+		}
+		if ( $ttl > 0 ) {
+			set_transient( $cache_key, $saas_user_id, $ttl );
+		}
+
+		return $saas_user_id;
+	}
+
+	/**
+	 * PHASE 2: Confirms a validated token belongs to the account connected here.
+	 *
+	 * Read against the account id as it stands right now, so disconnecting or
+	 * reconnecting to a different account invalidates cached verdicts for free.
+	 *
+	 * @param int|string $saas_user_id      Id the token belongs to.
+	 * @param bool       $allow_unconnected Skip the comparison when no account is
+	 *                                      connected yet - only the connect route.
+	 * @return true|WP_Error
+	 */
+	public function appwplp_verify_token_owner( $saas_user_id, $allow_unconnected = false ) {
+		$stored_user_id = $this->settings->get( 'account', 'id' );
+
+		// get() hands back an empty array, not a string, when the key is unset.
+		if ( ! is_scalar( $stored_user_id ) ) {
+			$stored_user_id = '';
+		}
+
+		if ( '' === (string) $stored_user_id ) {
+			/*
+			 * Nothing connected yet: the connect route has no owner to compare
+			 * against, every other route requires one.
+			 */
+			return $allow_unconnected
+				? true
+				: new WP_Error( 'token_validation_failed', 'Not the owner of the website!', array( 'status' => 401 ) );
+		}
+
+		if ( ! hash_equals( (string) $stored_user_id, (string) $saas_user_id ) ) {
+			return new WP_Error( 'token_validation_failed', 'Not the owner of the website!', array( 'status' => 401 ) );
+		}
+
+		return true;
+	}
 	public function permission_callback_for_wplp_connect_site(WP_REST_Request $request) {
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+
+		/*
+		 * Signature first. It is local, and it is the check an unauthenticated
+		 * caller cannot get past, so nothing expensive - least of all an
+		 * outbound request to the app - runs ahead of it.
+		 */
+		$signature_check = $this->appwplp_verify_hmac_signature( $request );
+		if ( is_wp_error( $signature_check ) ) {
+			return $signature_check;
+		}
+
 		$auth_header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 
-    	if ( ! preg_match( '/Bearer\s(\S+)/', $auth_header, $matches ) ) {
-    	    return new WP_Error(
-    	        'no_token',
-    	        'Authorization token missing.',
-    	        [ 'status' => 401 ]
-    	    );
-    	}
+		if ( ! preg_match( '/Bearer\s(\S+)/', $auth_header, $matches ) ) {
+			return new WP_Error(
+				'no_token',
+				'Authorization token missing.',
+				[ 'status' => 401 ]
+			);
+		}
 
-    	$token = sanitize_text_field( $matches[1] );
+		$token = sanitize_text_field( $matches[1] );
 
-    	$validate = wp_remote_post(
-    	    GDPR_APP_URL . '/wp-json/jwt-auth/v1/token/validate',
-    	    [
-    	        'headers' => [
-    	            'Authorization' => 'Bearer ' . $token,
-    	            'Content-Type'  => 'application/json',
-    	        ],
-    	        'timeout' => 15,
-    	    ]
-    	);
+		$saas_user_id = $this->appwplp_validate_bearer_token( $token );
+		if ( is_wp_error( $saas_user_id ) ) {
+			return $saas_user_id;
+		}
 
-    	if ( is_wp_error( $validate ) ) {
-    	    return new WP_Error(
-    	        'token_validation_failed',
-    	        $validate->get_error_message(),
-    	        [ 'status' => 401 ]
-    	    );
-    	}
-		
-		$code = wp_remote_retrieve_response_code( $validate );
-
-    	if ( $code !== 200 ) {
-    	    return new WP_Error(
-    	        'invalid_token',
-    	        'Token validation failed.',
-    	        [ 'status' => 401 ]
-    	    );
-    	}
+		// A site connecting for the first time has no owner on record yet.
+		$owner_check = $this->appwplp_verify_token_owner( $saas_user_id, true );
+		if ( is_wp_error( $owner_check ) ) {
+			return $owner_check;
+		}
 
 		$username = sanitize_email( $request->get_param( 'username' ) );
 
@@ -10729,92 +10884,62 @@ class Gdpr_Cookie_Consent_Admin {
 			return new WP_Error( 'invalid_email', 'A valid email address is required.', [ 'status' => 400 ] );
 		}
 
-    	$user = get_user_by( 'email', $username );
+		$user = get_user_by( 'email', $username );
 
-    	if ( ! $user ) {
-    	    return new WP_Error(
-    	        'invalid_user',
-    	        'User does not exist.',
-    	        [ 'status' => 401 ]
-    	    );
-    	}
-
-    	if ( ! user_can( $user, 'manage_options' ) ) {
-    	    return new WP_Error(
-    	        'invalid_user',
-    	        'User is not an administrator.',
-    	        [ 'status' => 403 ]
-    	    );
-    	}
-		// NEW: secret key signature check.
-		$signature_check = $this->appwplp_verify_hmac_signature( $request );
-		if ( is_wp_error( $signature_check ) ) {
-			return $signature_check;
+		if ( ! $user ) {
+			return new WP_Error(
+				'invalid_user',
+				'User does not exist.',
+				[ 'status' => 401 ]
+			);
 		}
-    	return true;
+
+		if ( ! user_can( $user, 'manage_options' ) ) {
+			return new WP_Error(
+				'invalid_user',
+				'User is not an administrator.',
+				[ 'status' => 403 ]
+			);
+		}
+
+		return true;
 	}
 
 	public function permission_callback_for_react_app(WP_REST_Request $request) {
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 
-		$master_key = $this->settings->get('api','token');		
+		// Signature first - see permission_callback_for_wplp_connect_site.
+		$signature_check = $this->appwplp_verify_hmac_signature( $request );
+		if ( is_wp_error( $signature_check ) ) {
+			return $signature_check;
+		}
+
+		$master_key = $this->settings->get('api','token');
+
+		// Master key next: also local, also cheap.
+		$body = $request->get_json_params();
+		$incoming_key = isset($body['master_key']) ? sanitize_text_field($body['master_key']) : '';
+		if ( empty($incoming_key) ) {
+			return new WP_Error('master_key_missing', 'Master key not provided.', ['status' => 401]);
+		}
+		if ( ! is_scalar( $master_key ) || ! hash_equals( (string) $master_key, $incoming_key ) ) {
+			return new WP_Error('invalid_master_key', 'Master key mismatch.', ['status' => 401]);
+		}
 
 		$auth_header = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
 		if ( ! preg_match('/Bearer\s(\S+)/', $auth_header, $matches) ) {
 			return new WP_Error('no_token', 'Authorization token missing.', ['status' => 401]);
 		}
 		$token = sanitize_text_field($matches[1]);
-		// 2. Validate token with central WP site
-		$validate = wp_remote_post(
-			GDPR_APP_URL . '/wp-json/jwt-auth/v1/token/validate',
-			[
-				'headers' => [
-					'Authorization' => 'Bearer ' . $token,
-					'Content-Type'  => 'application/json'
-				],
-				'timeout' => 15
-			]
-		);
-		if ( is_wp_error($validate) ) {
-			return new WP_Error('token_validation_failed', $validate->get_error_message(), ['status' => 401]);
-		}
-		$code = wp_remote_retrieve_response_code($validate);
-		if ( $code !== 200 ) {
-			return new WP_Error('invalid_token', 'Token validation failed.', ['status' => 401]);
-		}
-		$parts = explode( '.', $token );
-		if ( count( $parts ) !== 3 ) {
-			return new WP_Error( 'malformed_token', 'Unauthorized.', [ 'status' => 401 ] );
+
+		$saas_user_id = $this->appwplp_validate_bearer_token( $token );
+		if ( is_wp_error( $saas_user_id ) ) {
+			return $saas_user_id;
 		}
 
-		$payload = json_decode(
-			base64_decode( strtr( $parts[1], '-_', '+/' ) )
-		);
-
-		if ( ! $payload ) {
-			return new WP_Error( 'malformed_token', 'Unauthorized.', [ 'status' => 401 ] );
-		}
-
-		// Tmeister's plugin nests it here
-		$saas_user_id = $payload->data->user->id ?? 0;
-		$stored_user_id = $this->settings->get( 'account', 'id' );
-		if($saas_user_id !== $stored_user_id){
-			return new WP_Error('token_validation_failed', 'Not the owner of the website!', ['status' => 401]);
-		}
-		// 3. Extract master_key from the request body
-		$body = $request->get_json_params();
-		$incoming_key = isset($body['master_key']) ? sanitize_text_field($body['master_key']) : '';
-		if ( empty($incoming_key) ) {
-			return new WP_Error('master_key_missing', 'Master key not provided.', ['status' => 401]);
-		}
-		if ( !hash_equals( $master_key, $incoming_key ) ) {
-			return new WP_Error('invalid_master_key', 'Master key mismatch.', ['status' => 401]);
-		}
-
-		// NEW: secret key signature check.
-		$signature_check = $this->appwplp_verify_hmac_signature( $request );
-		if ( is_wp_error( $signature_check ) ) {
-			return $signature_check;
+		$owner_check = $this->appwplp_verify_token_owner( $saas_user_id );
+		if ( is_wp_error( $owner_check ) ) {
+			return $owner_check;
 		}
 
 		return true; // All good → allow callback
@@ -10822,22 +10947,28 @@ class Gdpr_Cookie_Consent_Admin {
 
 	/** new permission callback function for auto disconnection of connected sites from plugin */
 	public function permission_callback_for_delete_activation( WP_REST_Request $request ) {
-		$this->settings  = new GDPR_Cookie_Consent_Settings();
-		$master_key      = $this->settings->get( 'api', 'token' );
-		// 1.Extract master_key from the request body
+		/*
+		 * No bearer token on this route - the app calls it directly - so there
+		 * is no token owner to check. The signature and the master key are the
+		 * whole gate, and the signature goes first.
+		 */
+		$signature_check = $this->appwplp_verify_hmac_signature( $request );
+		if ( is_wp_error( $signature_check ) ) {
+			return $signature_check;
+		}
+
+		$this->settings = new GDPR_Cookie_Consent_Settings();
+		$master_key     = $this->settings->get( 'api', 'token' );
+
 		$body = $request->get_json_params();
 		$incoming_key = isset($body['master_key']) ? sanitize_text_field($body['master_key']) : '';
 		if ( empty($incoming_key) ) {
 			return new WP_Error('master_key_missing', 'Master key not provided.', ['status' => 401]);
 		}
-		if ( !hash_equals( $master_key, $incoming_key )) {
+		if ( ! is_scalar( $master_key ) || ! hash_equals( (string) $master_key, $incoming_key ) ) {
 			return new WP_Error('invalid_master_key', 'Master key mismatch.', ['status' => 401]);
 		}
-		// NEW: secret key signature check.
-		$signature_check = $this->appwplp_verify_hmac_signature( $request );
-		if ( is_wp_error( $signature_check ) ) {
-			return $signature_check;
-		}
+
 		return true; // All good → allow callback
 	}
 	// Register the REST API route for data from plugin to the saas appwplp server 
@@ -10939,16 +11070,6 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_import_policy_data' ),
-				'permission_callback' => array($this, 'permission_callback_for_react_app'),
-			)
-		);
-
-		register_rest_route(
-			'wplp-react-gdpr/v1',
-			'/export-policy-data',
-			array(
-				'methods'  => 'POST',
-				'callback' => array( $this, 'wplp_export_policy_data' ),
 				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
@@ -11207,16 +11328,6 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'gdpr_translate_text'),
-				'permission_callback' => array($this, 'permission_callback_for_react_app'),
-			)
-		);
-
-		register_rest_route(
-			'wplp-react-gdpr/v1',
-			'/upload-logo',
-			array(
-				'methods' => 'POST',
-				'callback' => array( $this, 'saas_upload_logo' ),
 				'permission_callback' => array($this, 'permission_callback_for_react_app'),
 			)
 		);
@@ -11993,67 +12104,28 @@ public function gdpr_support_request_handler() {
 		return new WP_REST_Response( [ 'status' => true, 'message' => 'Policy Data Deleted Successfully.', 'policy_id' => $policy_ids ], 200);
 	}
 
-	public function wplp_export_policy_data( WP_REST_Request $request ) {
-
-		include_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/policy-data/class-gdpr-cookie-consent-policy-data.php';
-
-		$policy_data_instance = new GDPR_Cookie_Consent_Policy_Data();
-
+	/**
+	 * Delete the legacy policy export left in the uploads root.
+	 *
+	 * Versions up to 4.4.3 wrote published and draft policy data to the fixed,
+	 * world-readable path wp-content/uploads/wplp-policy-data-export.csv and never
+	 * removed it. Nothing writes that file any more, but installs that ran an
+	 * export still have it on disk, so it is deleted on upgrade.
+	 *
+	 * @since 4.4.3
+	 *
+	 * @return void
+	 */
+	public function wplp_cleanup_policy_data_exports() {
 		$upload_dir = wp_upload_dir();
-		$file_path = trailingslashit($upload_dir['basedir']) . 'wplp-policy-data-export.csv';
-		$file_url  = trailingslashit($upload_dir['baseurl']) . 'wplp-policy-data-export.csv';
-
-		// Open file for writing
-		global $wp_filesystem;
-
-		if ( ! function_exists( 'WP_Filesystem' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-		}
-		WP_Filesystem();
-
-		// Open file for writing using WP Filesystem
-		$csv_content = '';
-
-		// Header row
-		$csv_data  = "post_title,post_content,post_status,_gdpr_policies_links_editor,_gdpr_policies_domain\n";
-		$limit = 3000;
-		$offset = 0;
-
-		while (true) {
-			$posts = get_posts([
-				'post_type'      => 'gdprpolicies',
-				'post_status'    => array( 'publish', 'draft' ),
-				'posts_per_page' => $limit,
-				'offset'         => $offset,
-				'fields'         => 'ids',
-			]);
-
-			if (empty($posts)) {
-				break;
-			}
-
-			foreach ($posts as $post_id) {
-				$row = [
-					$policy_data_instance::format_data( sanitize_text_field( get_the_title($post_id) ) ),
-					$policy_data_instance::format_data( wp_strip_all_tags( sanitize_textarea_field( get_post_field( 'post_content', $post_id ) ) ) ),
-					$policy_data_instance::format_data( get_post_status($post_id) ),
-					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_links_editor', true) ) ),
-					$policy_data_instance::format_data( sanitize_text_field( get_post_meta($post_id, '_gdpr_policies_domain', true) ) ),
-				];
-				$csv_data .= '"' . implode( '","', array_map( function($item) {
-					return str_replace('"', '""', $item);
-				}, $row ) ) . '"' . "\n";
-			}
-
-			$offset += $limit;
+		if ( empty( $upload_dir['basedir'] ) ) {
+			return;
 		}
 
-		$wp_filesystem->put_contents( $file_path, $csv_data, FS_CHMOD_FILE );
-
-		return [
-			'success' => true,
-			'download_url' => $file_url
-		];
+		$legacy_export = trailingslashit( $upload_dir['basedir'] ) . 'wplp-policy-data-export.csv';
+		if ( file_exists( $legacy_export ) ) {
+			wp_delete_file( $legacy_export );
+		}
 	}
 
 	public function gdpr_get_data_request_form_fields( WP_REST_Request $request ) {
@@ -13649,99 +13721,6 @@ public function gdpr_support_request_handler() {
 		);
 	}
 
-	public function saas_upload_logo( WP_REST_Request $request ) {
-
-		$image_base64 = $request->get_param( 'image_base64' );
-		$file_name    = $request->get_param( 'file_name' );
-
-		if ( ! is_string( $image_base64 ) || '' === trim( $image_base64 ) || ! is_string( $file_name ) ) {
-			return new WP_Error( 'invalid_upload', 'Image data and file name are required.', array( 'status' => 400 ) );
-		}
-
-		$allowed_mimes = $this->saas_logo_allowed_mimes();
-
-		// Accept a data URI wrapper, but only when it declares a mime we allow.
-		if ( 0 === strpos( $image_base64, 'data:' ) ) {
-			if ( ! preg_match( '#^data:([a-z0-9.+/-]+);base64,#i', $image_base64, $uri_parts ) ) {
-				return new WP_Error( 'invalid_upload', 'Malformed image data.', array( 'status' => 400 ) );
-			}
-			if ( ! in_array( strtolower( $uri_parts[1] ), $allowed_mimes, true ) ) {
-				return new WP_Error( 'invalid_upload', 'Unsupported image type.', array( 'status' => 400 ) );
-			}
-			$image_base64 = substr( $image_base64, strlen( $uri_parts[0] ) );
-		}
-
-		// Strict decode, so anything that is not clean base64 is rejected outright.
-		$image_data = base64_decode( $image_base64, true );
-		if ( false === $image_data || '' === $image_data ) {
-			return new WP_Error( 'invalid_upload', 'Image data could not be decoded.', array( 'status' => 400 ) );
-		}
-
-		if ( strlen( $image_data ) > ( 2 * MB_IN_BYTES ) ) {
-			return new WP_Error( 'invalid_upload', 'Image exceeds the 2 MB limit.', array( 'status' => 400 ) );
-		}
-
-		// Reduce to a bare file name and hold the extension to the allow list.
-		$file_name = sanitize_file_name( basename( $file_name ) );
-		if ( '' === $file_name ) {
-			return new WP_Error( 'invalid_upload', 'Invalid file name.', array( 'status' => 400 ) );
-		}
-
-		$filetype = wp_check_filetype( $file_name, $allowed_mimes );
-		if ( empty( $filetype['ext'] ) || empty( $filetype['type'] ) ) {
-			return new WP_Error( 'invalid_upload', 'Only JPG, PNG, GIF and WebP logos are allowed.', array( 'status' => 400 ) );
-		}
-
-		// Rebuild the name from a single validated extension. This collapses any
-		// inner extension, so "shell.php.jpg" can never reach the disk intact.
-		$base_name = str_replace( '.', '-', pathinfo( $file_name, PATHINFO_FILENAME ) );
-		$base_name = trim( sanitize_file_name( $base_name ), '-' );
-		if ( '' === $base_name ) {
-			$base_name = 'logo';
-		}
-		$safe_name = $base_name . '.' . $filetype['ext'];
-
-		// The bytes themselves must be the image the extension claims.
-		$image_info = @getimagesizefromstring( $image_data ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
-		if ( ! is_array( $image_info ) || empty( $image_info['mime'] ) ) {
-			return new WP_Error( 'invalid_upload', 'File is not a valid image.', array( 'status' => 400 ) );
-		}
-		if ( strtolower( $image_info['mime'] ) !== $filetype['type'] ) {
-			return new WP_Error( 'invalid_upload', 'Image contents do not match the file extension.', array( 'status' => 400 ) );
-		}
-
-		// wp_upload_bits() re-checks the type against the site allow list and
-		// picks a unique name, so an existing file is never overwritten.
-		$upload = wp_upload_bits( $safe_name, null, $image_data );
-		if ( ! empty( $upload['error'] ) || empty( $upload['file'] ) ) {
-			$message = ! empty( $upload['error'] ) ? $upload['error'] : 'Could not write the file.';
-			return new WP_Error( 'upload_failed', $message, array( 'status' => 500 ) );
-		}
-
-		$attachment = array(
-			'post_mime_type' => $filetype['type'],
-			'post_title'     => sanitize_text_field( pathinfo( $upload['file'], PATHINFO_FILENAME ) ),
-			'post_status'    => 'inherit',
-		);
-
-		$attach_id = wp_insert_attachment( $attachment, $upload['file'] );
-		if ( is_wp_error( $attach_id ) || ! $attach_id ) {
-			wp_delete_file( $upload['file'] );
-			return new WP_Error( 'upload_failed', 'Could not create the attachment.', array( 'status' => 500 ) );
-		}
-
-		require_once ABSPATH . 'wp-admin/includes/image.php';
-
-		wp_update_attachment_metadata(
-			$attach_id,
-			wp_generate_attachment_metadata( $attach_id, $upload['file'] )
-		);
-
-		return array(
-			'attachment_id' => $attach_id,
-			'url'           => wp_get_attachment_url( $attach_id ),
-		);
-	}
 	
 	/**
 	 * Fetch Settings from database.
@@ -13953,9 +13932,34 @@ public function gdpr_support_request_handler() {
 	}
 	
 	function appwplp_register_secret_key_with_server( $site_key ) {
+
+		/*
+		 * WP Cookie Consent and WPLegalPages both hook this action and post the
+		 * same key to the same endpoint. Whichever plugin gets here first owns
+		 * the attempt; the other one stands down until the retry cron is due.
+		 */
+		if ( function_exists( 'appwplp_claim_secret_key_registration' ) && ! appwplp_claim_secret_key_registration() ) {
+			return;
+		}
+
+		/*
+		 * Spend an attempt. Counted here rather than in the caller so the plugin
+		 * that stood down on the claim above does not burn one, and counted
+		 * before the post rather than after so a request that dies inside the 15
+		 * second timeout still spends it - otherwise a site that always dies
+		 * there would never exhaust the cap.
+		 */
+		if ( defined( 'APPWPLP_SECRET_KEY_ATTEMPTS_OPTION' ) ) {
+			update_option(
+				APPWPLP_SECRET_KEY_ATTEMPTS_OPTION,
+				(int) get_option( APPWPLP_SECRET_KEY_ATTEMPTS_OPTION, 0 ) + 1,
+				false
+			);
+		}
+
 		$site_url = site_url();
 		$response = wp_remote_post(
-			GDPR_APP_URL . '/wp-json/appwplp/v1/register_secret_key',
+			GDPR_APP_URL . '/wp-json/appwplp/v1/signed_key_registration',
 			array(
 				'timeout' => 15,
 				'headers' => array(
@@ -13971,7 +13975,6 @@ public function gdpr_support_request_handler() {
 			update_option( APPWPLP_SECRET_KEY_STATUS_OPTION, 'registration_failed', false );
 			return;
 		}
-	
 		update_option( APPWPLP_SECRET_KEY_STATUS_OPTION, 'confirmed', false );
 	}
 

@@ -7672,6 +7672,7 @@ fieldset:disabled #gdpr-cookie-consent-bar a.btn {
   top: 88px;
   border-radius: 6px;
   padding: 16px;
+  z-index: 11;
 }
 .gdpr-banner-preview-logo-text {
   display: flex;
@@ -11719,6 +11720,7 @@ div#gdpr-scan-history {
   position: relative;
   top: 50px;
   z-index: 1;
+  padding-right: 16px;
 }
 
 #gdpr-cookie-consent-script-blocker,

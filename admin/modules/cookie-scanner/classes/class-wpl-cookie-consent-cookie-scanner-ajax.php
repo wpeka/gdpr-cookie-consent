@@ -75,6 +75,10 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	}
 
 	public function ajax_get_gcm_status() {
+		check_ajax_referer( 'wpl_cookie_scanner', 'security' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+		}
 		$data = get_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD);
 		if ( isset($data['wpl_gcm_latest_scan_result']) && $data['wpl_gcm_latest_scan_result'] !== '' ) {
 			$getting_data = json_decode($data['wpl_gcm_latest_scan_result']);
@@ -577,9 +581,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		check_ajax_referer( 'wpl_cookie_scanner', 'security' );
 		$out_log    = array();
 		$mxdata     = $this->scan_page_maxdata;
-		$offset     = (int) isset( $_POST['offset'] ) ? sanitize_text_field( wp_unslash( $_POST['offset'] ) ) : 0;
-		$scan_id    = (int) isset( $_POST['scan_id'] ) ? sanitize_text_field( wp_unslash( $_POST['scan_id'] ) ) : 0;
-		$total      = (int) isset( $_POST['total'] ) ? sanitize_text_field( wp_unslash( $_POST['total'] ) ) : 0;
+		$offset     = isset( $_POST['offset'] ) ? absint( wp_unslash( $_POST['offset'] ) ) : 0;
+		$scan_id    = isset( $_POST['scan_id'] ) ? absint( wp_unslash( $_POST['scan_id'] ) ) : 0;
+		$total      = isset( $_POST['total'] ) ? absint( wp_unslash( $_POST['total'] ) ) : 0;
 		$hash       = isset( $_POST['hash'] ) ? sanitize_text_field( wp_unslash( $_POST['hash'] ) ) : '';
 		$new_offset = $offset + $mxdata;
 		$out        = array(
@@ -887,7 +891,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	 *
 	 * @since 3.0.0
 	 * @return array
-     * @phpcs:disable
 	 */
 	public function get_pages() {
 		global $wpdb;
@@ -895,9 +898,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		$post_table = $wpdb->prefix . 'posts';
 		$mxdata     = $this->fetch_page_maxdata;
 		// Taking query params.
-		$offset  = (int) isset( $_POST['offset'] ) ? sanitize_text_field( wp_unslash( $_POST['offset'] ) ) : 0;
-		$scan_id = (int) isset( $_POST['scan_id'] ) ? sanitize_text_field( wp_unslash( $_POST['scan_id'] ) ) : 0;
-		$total   = (int) isset( $_POST['total'] ) ? sanitize_text_field( wp_unslash( $_POST['total'] ) ) : 0;
+		$offset  = isset( $_POST['offset'] ) ? absint( wp_unslash( $_POST['offset'] ) ) : 0;
+		$scan_id = isset( $_POST['scan_id'] ) ? absint( wp_unslash( $_POST['scan_id'] ) ) : 0;
+		$total   = isset( $_POST['total'] ) ? absint( wp_unslash( $_POST['total'] ) ) : 0;
 		$out     = array(
 			'log'      => array(),
 			'total'    => $total,
@@ -914,25 +917,38 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			)
 		);
 		unset( $post_types['attachment'] );
-		$the_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
-		$restrict_posts = $the_options['restrict_posts'];
-			
+		$post_types = array_values( array_map( 'sanitize_text_field', $post_types ) );
 
-		if (empty($restrict_posts) || implode( ',', $restrict_posts ) == "") {
-			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish'";
-		} else {
-			$sql = "SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ('" . implode("','", $post_types) . "') AND post_status = 'publish' AND ID NOT IN (" . implode(',', $restrict_posts) . ')';
+		$the_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
+		$restrict_posts = isset( $the_options['restrict_posts'] ) ? array_map( 'absint', (array) $the_options['restrict_posts'] ) : array();
+
+		if ( empty( $post_types ) ) {
+			return $out;
 		}
+
+		$post_type_placeholders = implode( ',', array_fill( 0, count( $post_types ), '%s' ) );
+		$restrict_placeholders  = empty( $restrict_posts ) ? '' : implode( ',', array_fill( 0, count( $restrict_posts ), '%d' ) );
 
 		if ( 0 === $total ) {
-			$restrict_posts_in_clause = implode( ',', $restrict_posts );
-			if(empty($restrict_posts_in_clause)){
-				$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' LIMIT $offset, $mxdata) AS T";
-			}else{
-			$sql1 = "SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN('" . implode( "','", $post_types ) . "') AND post_status='publish' AND ID NOT IN ($restrict_posts_in_clause) LIMIT $offset, $mxdata) AS T";
-	
-		}
-			$total_rows   = $wpdb->get_row( $sql1, ARRAY_A );
+			if ( empty( $restrict_posts ) ) {
+				$total_rows = $wpdb->get_row(
+					$wpdb->prepare(
+						// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name and placeholder list are generated internally, all values are bound.
+						"SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN ($post_type_placeholders) AND post_status = 'publish' LIMIT %d, %d ) AS T",
+						...array_merge( $post_types, array( $offset, $mxdata ) )
+					),
+					ARRAY_A
+				); // db call ok; no-cache ok.
+			} else {
+				$total_rows = $wpdb->get_row(
+					$wpdb->prepare(
+						// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name and placeholder lists are generated internally, all values are bound.
+						"SELECT COUNT(*) as ttnum FROM ( SELECT 1 FROM $post_table WHERE post_type IN ($post_type_placeholders) AND post_status = 'publish' AND ID NOT IN ($restrict_placeholders) LIMIT %d, %d ) AS T",
+						...array_merge( $post_types, $restrict_posts, array( $offset, $mxdata ) )
+					),
+					ARRAY_A
+				); // db call ok; no-cache ok.
+			}
 			$total        = $total_rows ? $total_rows['ttnum'] + 1 : 1; // always add 1 because home url is there.
 			$out['total'] = $total;
 		}
@@ -944,19 +960,25 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		}
 
 		// Creating sql for fetching data.
-		// Initialize an empty string to store the additional SQL query
-		$additionalSql = '';
-
-		// Check if the $sql variable is not empty
-		if (!empty($sql)) {
-			// If $sql is not empty, concatenate it with the additional SQL query
-			$additionalSql = ' ' . $sql;
+		if ( empty( $restrict_posts ) ) {
+			$data = $wpdb->get_results(
+				$wpdb->prepare(
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name and placeholder list are generated internally, all values are bound.
+					"SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ($post_type_placeholders) AND post_status = 'publish'",
+					...$post_types
+				),
+				ARRAY_A
+			); // db call ok; no-cache ok.
+		} else {
+			$data = $wpdb->get_results(
+				$wpdb->prepare(
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name and placeholder lists are generated internally, all values are bound.
+					"SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ($post_type_placeholders) AND post_status = 'publish' AND ID NOT IN ($restrict_placeholders)",
+					...array_merge( $post_types, $restrict_posts )
+				),
+				ARRAY_A
+			); // db call ok; no-cache ok.
 		}
-
-		// Construct the complete SQL query
-		$sqlQuery = 'SELECT post_name, post_title, post_type, ID' . $additionalSql . ' ORDER BY post_type=\'page\' ASC LIMIT ' . $offset . ', ' . $mxdata;
-
-		$data = $wpdb->get_results( $sql, ARRAY_A );
 		if ( ! empty( $data ) ) {
 			foreach ( $data as $value ) {
 				$permalink = get_permalink( $value['ID'] );
@@ -978,7 +1000,6 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	 * @param string $permalink URL.
 	 *
 	 * @return bool
-	 * @phpcs:enable
 	 */
 	private function filter_url( $permalink ) {
 		$url_arr = explode( '/', $permalink );
