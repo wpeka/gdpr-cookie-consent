@@ -238,7 +238,7 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gdpr_enable_banner', $plugin_admin, 'gdpr_enable_banner', 10, 1);
 			$this->loader->add_action( 'wp_ajax_gcc_save_advanced_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_advanced_settings', 10, 1 );
-			$this->loader->add_action( 'wp_ajax_gcc_save_script_blocker_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_script_blocker_settings', 10, 1 );
+			
 			$this->loader->add_action( 'wp_ajax_gcc_save_language_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_language_settings', 10, 1);
 			$this->loader->add_action( 'wp_ajax_gcc_save_cookie_manager_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_cookie_manager_settings', 10, 1);
 			$this->loader->add_action( 'wp_ajax_gcc_enable_iab', $plugin_admin, 'gdpr_cookie_consent_ajax_enable_iab', 10, 1 );

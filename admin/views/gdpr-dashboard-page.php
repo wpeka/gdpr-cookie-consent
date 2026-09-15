@@ -38,7 +38,7 @@ $legalpages_activation_url = wp_nonce_url( 'plugins.php?action=activate&amp;plug
 $help_page_tab_url = admin_url() . 'admin.php?page=wplp-dashboard#help-page';
 $all_legal_pages_url = admin_url() . 'admin.php?page=legal-pages#all_legal_pages';
 $create_legalpages_url = admin_url() . 'admin.php?page=wplegal-wizard#/';
-$script_blocker_url = admin_url() . 'admin.php?page=gdpr-cookie-consent#script_blocker';
+$script_blocker_url = admin_url() . 'admin.php?page=gdpr-cookie-consent#cookie_manager#script_blocker';
 // Require the class file for gdpr cookie consent api framework settings.
 require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 

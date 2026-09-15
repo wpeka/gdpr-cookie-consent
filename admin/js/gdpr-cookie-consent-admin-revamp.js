@@ -906,7 +906,7 @@ jQuery(document).ready(function () {
         localStorage.removeItem("gdprDisconnect");
         var baseUrl = window.location.origin;
         var relativePath = "/wp-admin/admin.php?page=gdpr-cookie-consent";
-        var tabHash = "#cookie_settings#cookie_list"; // Adjust this to your specific hash
+        var tabHash = "#cookie_manager"; // Adjust this to your specific hash
 
         // Construct the full URL
         var fullUrl = baseUrl + relativePath + tabHash;
@@ -1668,6 +1668,11 @@ document.addEventListener('DOMContentLoaded', function () {
 			tabClass: 'gdpr-cookie-consent-admin-cookie-settings-tab',
 			navClass: 'gdpr-banner-settings-subnav'
 		},
+    {
+        contentId: 'cookie_manager',
+        tabClass: 'gdpr-cookie-consent-admin-cookie-manager-tab',
+        navClass: 'gdpr-cookie-manager-subnav'
+    },
 		{
 			contentId: 'compliance_records',
 			tabClass: 'gdpr-cookie-consent-admin-compliance-records-tab',
