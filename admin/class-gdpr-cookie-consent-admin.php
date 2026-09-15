@@ -7618,16 +7618,16 @@ class Gdpr_Cookie_Consent_Admin {
 								'body' => array(
 									'action' => 'download_maxmind_db'
 								),
-								'timeout' => 60
+								'timeout'  => 60,
+								'stream'   => true,
+								'filename' => $database_path,
 							)
 					);
 					if (is_wp_error($response)) {
 					} else {
 						$status_code = wp_remote_retrieve_response_code($response);
-						if (200 === $status_code) {
-							$file_data = wp_remote_retrieve_body($response);
-							if(file_exists($database_path)) wp_delete_file($database_path);
-							file_put_contents($database_path, $file_data);
+						if (200 !== $status_code) {
+							error_log('MaxMind DB download failed with status: ' . $status_code);
 						}
 					}
 				} catch (Exception $e) {
@@ -7643,24 +7643,23 @@ class Gdpr_Cookie_Consent_Admin {
 								'body' => array(
 									'action' => 'download_maxmind_db'
 								),
-								'timeout' => 60
+								'timeout'  => 60,
+								'stream'   => true,
+								'filename' => $database_path,
 							)
 					);
 					if (is_wp_error($response)) {
 						error_log('Error in response: ' . $response->get_error_message());
 					} else {
 						$status_code = wp_remote_retrieve_response_code($response);
-						if (200 === $status_code) {
-							$file_data = wp_remote_retrieve_body($response);
-							if(file_exists($database_path)) wp_delete_file($database_path);
-							file_put_contents($database_path, $file_data);
+						if (200 !== $status_code) {
+							error_log('MaxMind DB download failed with status: ' . $status_code);
 						}
 					}
 				} catch (Exception $e) {
 					error_log('Error: ' . $e->getMessage());
 				}
 		}
-		
 	}
 
 	/**
