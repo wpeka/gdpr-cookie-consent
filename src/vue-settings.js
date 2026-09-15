@@ -3074,6 +3074,7 @@ var gen = new Vue({
           url: settings_obj.ajaxurl,
           data: {
             action: "ab_testing_enable",
+            _wpnonce: settings_obj.nonce,
             "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
           },
         })
@@ -4274,6 +4275,7 @@ var gen = new Vue({
                 dataType: "json",
                 data: {
                   action: "gcc_switch_preview_banner",
+                  _wpnonce: settings_obj.nonce,
                   banner_preview_state: true
                 },
                 success: function(previewResponse) {
@@ -4396,6 +4398,7 @@ var gen = new Vue({
         dataType: "json",
         data: {
             action: "gcc_switch_preview_banner",
+            _wpnonce: settings_obj.nonce,
             banner_preview_state: false
         }
     });
