@@ -1658,7 +1658,7 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
   color: var(--blue-903);
 }
 .script-blocker-card.card{
-  margin-top:0 !important;
+  margin-top:-45px !important;
 }
 .script-blocker-card.card .card-body{
   padding: 0 !important;
@@ -11642,8 +11642,16 @@ div#gdpr-scan-history {
   z-index: 1;
   padding-right: 16px;
 }
-
-
+.gdpr-preview-publish-btn-scb{
+  padding-right: 25px;
+}
+.gdpr-preview-publish-btn-scb{
+  top: 25px;
+}
+.gdpr-preview-publish-btn-scb button{
+  font-weight: 400 !important;
+  font-size: 12px !important;
+}
 #gdpr-cookie-consent-ab-testing,
 #gdpr-cookie-consent-language {
   margin-top: -40px;
