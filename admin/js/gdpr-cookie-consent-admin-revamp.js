@@ -67,64 +67,6 @@ jQuery(document).ready(function () {
 		}
 	}
 });
-function initComplianceRecords() {
-	var complianceRecordsTab = document.querySelector('.gdpr-cookie-consent-admin-compliance-records-tab');
-	var complianceSubnav = document.querySelector('.gdpr-compliance-records-subnav');
-	var bannerSettingsTab = document.querySelector('.gdpr-cookie-consent-admin-cookie-settings-tab');
-	var bannerSubnav = document.querySelector('.gdpr-banner-settings-subnav');
-
-	if (!complianceRecordsTab || !complianceSubnav) return;
-
-	complianceRecordsTab.addEventListener('click', function () {
-		var isExpanded = complianceRecordsTab.classList.toggle('subnav-expanded');
-		complianceSubnav.style.display = isExpanded ? 'flex' : 'none';
-
-		// Close Banner Settings if it's open
-		if (bannerSettingsTab && bannerSubnav) {
-			bannerSettingsTab.classList.remove('subnav-expanded');
-			bannerSubnav.style.setProperty('display', 'none', 'important');
-		}
-
-		if (isExpanded) {
-			var currentHash = window.location.hash;
-			var alreadyInsideComplianceRecords =
-				currentHash.indexOf('#ab_testing') === 0 ||
-				currentHash.indexOf('#consent_logs') === 0 ||
-				currentHash.indexOf('#data_request') === 0 ||
-				currentHash.indexOf('#policy_data') === 0;
-
-			if (!alreadyInsideComplianceRecords) {
-				var firstTab = complianceSubnav.querySelector('.gdpr-cookie-consent-admin-tab');
-				if (firstTab) {
-					firstTab.click();
-				}
-			}
-		}
-	});
-
-	// Close Compliance Records when any OTHER top-level tab is clicked
-	var allTopLevelTabs = document.querySelectorAll('.gdpr-sub-tabs > .gdpr-cookie-consent-admin-tab');
-	allTopLevelTabs.forEach(function (tab) {
-		if (tab === complianceRecordsTab) return;
-
-		tab.addEventListener('click', function () {
-			complianceRecordsTab.classList.remove('subnav-expanded');
-			complianceSubnav.style.display = 'none';
-		});
-	});
-
-	var activeInside = complianceSubnav.querySelector('.gdpr-cookie-consent-admin-tab.active-tab');
-	if (activeInside) {
-		complianceRecordsTab.classList.add('subnav-expanded');
-		complianceSubnav.style.display = 'flex';
-	}
-}
-
-if (document.readyState === 'loading') {
-	document.addEventListener('DOMContentLoaded', initComplianceRecords);
-} else {
-	initComplianceRecords();
-}
   jQuery(function ($) {
     $(document).on('click', '.gdpr-vendor-details-toggle', function (event) {
       event.preventDefault();
@@ -211,7 +153,6 @@ if (document.readyState === 'loading') {
       jQuery('.gdpr-cookie-consent-admin-data-request-activation-key').hide();
       jQuery('.gdpr-cookie-consent-admin-data-request-data-content').hide();
       jQuery('.gdpr-cookie-consent-admin-consent-logs-data-content').hide();
-      jQuery('.gdpr-cookie-consent-admin-policy-data-content').hide();
       jQuery('.gdpr-cookie-consent-admin-cookie-settings-content').hide();
       jQuery('.gdpr-cookie-consent-admin-create-cookie-content').hide();
       jQuery('.gdpr-cookie-consent-admin-dashboard-content').hide();
@@ -295,6 +236,15 @@ if (document.readyState === 'loading') {
 
   // Retrieve the active tab from URL hash on page load
   var hash = window.location.hash;
+
+  var legacySubTabs = ["consent_logs", "data_request", "ab_testing"];
+  if (hash && jQuery(".gdpr-cookie-consent-admin-compliance-records-tab").length) {
+    var legacyTabId = hash.substring(1).split("#")[0];
+    if (legacySubTabs.indexOf(legacyTabId) !== -1) {
+      hash = "#compliance_records#" + legacyTabId;
+      history.replaceState({}, "", hash);
+    }
+  }
 
   if (hash) {
     var tabId = hash.substring(1).split("#")[0];
@@ -440,34 +390,24 @@ if (document.readyState === 'loading') {
     
   });
 
-  //check if data req is on, then show data req tab.
-  if (gdpr_localize_data.is_data_req_on == "false") {
-    jQuery(".gdpr-cookie-consent-admin-data-request-tab").hide();
-  }
-
-  //check if consent log is on, then show consent log tab.
-  if (gdpr_localize_data.is_consent_log_on == "false") {
-    jQuery(".gdpr-cookie-consent-admin-consent-logs-tab").hide();
-  }
+  var onCookieConsentPage =
+    new URLSearchParams(window.location.search).get("page") ===
+    "gdpr-cookie-consent";
+  var tabHash = function (ownHash) {
+    return onCookieConsentPage ? "#compliance_records" + ownHash : ownHash;
+  };
   //jquery for paginations for consent log tab
   jQuery("#consentLogDataTabContainer .pagination-links a").each(function () {
     var href = jQuery(this).attr("href");
-    href += "#consent_logs";
+    href += tabHash("#consent_logs");
     jQuery(this).attr("href", href);
   });
   //jquery for paginations for data-req tab
   jQuery("#dataRequestContainer .pagination-links a").each(function () {
     var href = jQuery(this).attr("href");
-    href += "#data_request";
+    href += tabHash("#data_request");
     jQuery(this).attr("href", href);
   });
-  //jquery for paginations for policy data tab
-  jQuery("#policyDataTabContainer .pagination-links a").each(function () {
-    var href = jQuery(this).attr("href");
-    href += "#policy_data";
-    jQuery(this).attr("href", href);
-  });
-
   /* Added for optimising revamp banners code - start */
   if (jQuery(".banner-almond_column_preview").is(":visible")) {
   if (jQuery("#cookie_action_reject_preview").is(":hidden")) {
@@ -791,11 +731,11 @@ if (document.readyState === 'loading') {
    * Clicked on connect to exiting account.
    */
 
-  jQuery('.gdpr-not-pro-tooltip').on('mouseenter', function () {
+  jQuery(document).on('mouseenter', '.gdpr-not-pro-tooltip', function () {
     jQuery(this).siblings('.gdpr-not-pro-tooltip-text').stop(true, true).fadeIn(200);
   });
-  
-  jQuery('.gdpr-not-pro-tooltip, .gdpr-not-pro-tooltip-text').on('mouseleave', function () {
+
+  jQuery(document).on('mouseleave', '.gdpr-not-pro-tooltip, .gdpr-not-pro-tooltip-text', function () {
     const $tooltip = jQuery(this).siblings('.gdpr-not-pro-tooltip-text').length
       ? jQuery(this).siblings('.gdpr-not-pro-tooltip-text')
       : jQuery(this);
@@ -1572,31 +1512,10 @@ if (document.readyState === 'loading') {
           },
           {
             element: document.querySelector(
-              ".gdpr-cookie-consent-admin-abtesting-settings-tab"
+              ".gdpr-cookie-consent-admin-compliance-records-tab"
             ),
             intro:
-              "<h3 class='introjs-tooltip-title'>Cookie Banner A/B Testing</h3><p>Test different banner layouts, messages, and buttons to see what gets more users to take action. Use real data to improve consent rates.</p>",
-          },
-          {
-            element: document.querySelector(
-              ".gdpr-cookie-consent-admin-consent-logs-tab"
-            ),
-            intro:
-              "<h3 class='introjs-tooltip-title'>Consent Logs</h3><p>This table gives you a full record of how visitors interacted with your cookie banner - including what they agreed to and when.</p>",
-          },
-          {
-            element: document.querySelector(
-              ".gdpr-cookie-consent-admin-data-request-tab"
-            ),
-            intro:
-              "<h3 class='introjs-tooltip-title'>DSAR</h3><p>Manage all Data Subject Access Requests here. Review submissions from your users and respond to them in one place.</p>",
-          },
-          {
-            element: document.querySelector(
-              ".gdpr-cookie-consent-admin-policy-data-tab"
-            ),
-            intro:
-              "<h3 class='introjs-tooltip-title'>Policy Data</h3><p>See all third-party services active on your site, why they’re used, and their linked privacy or cookie policies - all in one simple table.</p>",
+              "<h3 class='introjs-tooltip-title'>Compliance Records</h3><p>Your audit trail in one place - consent logs showing what visitors agreed to and when, Data Subject Access Requests to review and respond to, and A/B testing to compare banner variants on real data.</p>",
           },
            {
             element: document.querySelector(
@@ -1724,17 +1643,13 @@ if (document.readyState === 'loading') {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  jQuery('#data_request input[id="current-page-selector"]').attr(
+  jQuery('#dataRequestContainer input[id="current-page-selector"]').attr(
     "id",
     "current-page-selector-data-request"
   );
-  jQuery('#consent_logs input[id="current-page-selector"]').attr(
+  jQuery('#consentLogDataTabContainer input[id="current-page-selector"]').attr(
     "id",
     "current-page-selector-consent_logs"
-  );
-  jQuery('#policy_data input[id="current-page-selector"]').attr(
-    "id",
-    "current-page-selector-policy-data"
   );
   jQuery('#wpl-dnsmpd-filter-datarequest input[id="_wpnonce"]').attr(
     "id",
@@ -1744,16 +1659,11 @@ document.addEventListener("DOMContentLoaded", function () {
     "id",
     "wpnonce-wpl-dnsmpd-filter-consent-log"
   );
-  jQuery('#wpl-dnsmpd-filter input[id="_wpnonce"]').attr(
-    "id",
-    "wpnonce-wpl-dnsmpd-filter-policy-data"
-  );
   jQuery(
     '#wp-admin-bar-nexcess-mapps-delete-expired-transients input[id="nonce"]'
   ).attr("id", "nonce-delete-expired-transients");
 
   //For fixing accessibility issues
-  jQuery("#current-page-selector-policy-data").attr("aria-label", "Current page number");
   jQuery("#current-page-selector-consent_logs").attr(
     "aria-label",
     "Current page number"
@@ -1795,6 +1705,11 @@ document.addEventListener('DOMContentLoaded', function () {
         tabClass: 'gdpr-cookie-consent-admin-cookie-manager-tab',
         navClass: 'gdpr-cookie-manager-subnav'
     },
+		{
+			contentId: 'compliance_records',
+			tabClass: 'gdpr-cookie-consent-admin-compliance-records-tab',
+			navClass: 'gdpr-compliance-records-subnav'
+		},
 		{
 			contentId: 'advanced_settings',
 			tabClass: 'gdpr-cookie-consent-admin-advanced-settings-tab',

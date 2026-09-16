@@ -21,6 +21,8 @@ require plugin_dir_path( __FILE__ ) . 'classes/class-wpl-cookie-consent-cookie-s
  * @author     wpeka <https://club.wpeka.com>
  */
 class Gdpr_Cookie_Consent_Cookie_Scanner {
+	
+	private static $hooks_registered = false;
 	/**
 	 * @var
 	 */
@@ -119,19 +121,23 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * Gdpr_Cookie_Consent_Cookie_Scanner constructor.
 	 */
 	public function __construct() {
-		// Creating necessary tables for cookie scanner.
-		register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'wpl_activator' ) );
-		add_action('admin_init',  array($this, 'set_status_labels'));
-		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
-			add_filter( 'gdprcookieconsent_cookie_sub_tabs', array( $this, 'wpl_cookie_sub_tabs' ), 10, 1 );
-			add_action( 'gdpr_module_settings_cookielist', array( $this, 'wpl_cookie_scanned_cookies' ), 10 );
-			add_action('admin_enqueue_scripts', array($this, 'register_cookie_scanner_script'));
-			add_action( 'wp_ajax_wpl_cookie_scanner_card', array($this, 'wpl_cookie_scanner_card'));
-			add_action( 'gdpr_cookie_scanned_history', array( $this, 'wpl_cookie_scanned_history_card' ), 10 );
-			add_filter( 'gdpr_settings_cookie_scan_values', array( $this, 'wpl_settings_cookie_scan_values' ), 10, 1 );
-			add_action( 'gdpr_scan_history_table', array( $this, 'wpl_scan_history_table' ), 5 );
+		if ( ! self::$hooks_registered ) {
+			self::$hooks_registered = true;
+
+			// Creating necessary tables for cookie scanner.
+			register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'wpl_activator' ) );
+			add_action('admin_init',  array($this, 'set_status_labels'));
+			if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
+				add_filter( 'gdprcookieconsent_cookie_sub_tabs', array( $this, 'wpl_cookie_sub_tabs' ), 10, 1 );
+				add_action( 'gdpr_module_settings_cookielist', array( $this, 'wpl_cookie_scanned_cookies' ), 10 );
+				add_action('admin_enqueue_scripts', array($this, 'register_cookie_scanner_script'));
+				add_action( 'wp_ajax_wpl_cookie_scanner_card', array($this, 'wpl_cookie_scanner_card'));
+				add_action( 'gdpr_cookie_scanned_history', array( $this, 'wpl_cookie_scanned_history_card' ), 10 );
+				add_filter( 'gdpr_settings_cookie_scan_values', array( $this, 'wpl_settings_cookie_scan_values' ), 10, 1 );
+				add_action( 'gdpr_scan_history_table', array( $this, 'wpl_scan_history_table' ), 5 );
+			}
+			add_filter( 'gdprcookieconsent_cookies', array( $this, 'wpl_get_scan_cookies' ), 10, 1 );
 		}
-		add_filter( 'gdprcookieconsent_cookies', array( $this, 'wpl_get_scan_cookies' ), 10, 1 );
 
 
 		// Require the class file for gdpr cookie consent api framework settings.

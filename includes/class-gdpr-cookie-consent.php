@@ -238,7 +238,6 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gdpr_enable_banner', $plugin_admin, 'gdpr_enable_banner', 10, 1);
 			$this->loader->add_action( 'wp_ajax_gcc_save_advanced_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_advanced_settings', 10, 1 );
-			$this->loader->add_action( 'wp_ajax_gcc_save_abtesting_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_abtesting_settings', 10, 1 );
 			
 			$this->loader->add_action( 'wp_ajax_gcc_save_language_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_language_settings', 10, 1);
 			$this->loader->add_action( 'wp_ajax_gcc_save_cookie_manager_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_cookie_manager_settings', 10, 1);
@@ -256,7 +255,6 @@ class Gdpr_Cookie_Consent {
 			// added ajax for import settings.
 			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
 
-			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview' );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete' );
 			$this->loader->add_filter( 'gdpr_get_maxmind_integrated', $plugin_admin, 'wpl_get_maxmind_integrated' );
 			$this->loader->add_action( 'wp_ajax_wpl_cookie_consent_integrations_settings', $plugin_admin, 'wpl_cookie_consent_integrations_settings' );

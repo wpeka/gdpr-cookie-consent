@@ -3044,6 +3044,110 @@ var gen = new Vue({
                 });
             });
     },
+    refreshABTestingData(html) {
+      this.ab_testing_data = html;
+      const container = document.querySelector('#ab-testing-container-crd');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    template: html,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                });
+            });
+    },
+    onSwitchABTestingEnable() {
+      j("#gdpr-cookie-consent-updating-settings-alert-crd")
+        .fadeIn(200)
+        .fadeOut(2000);
+      this.ab_testing_enabled = !this.ab_testing_enabled;
+      this.cookie_on_frontend1 = true;
+      this.cookie_on_frontend2 = true;
+      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
+
+      var dataV = jQuery("#gcc-save-settings-form").serialize();
+      // Make the AJAX request to save the new state
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: {
+            action: "ab_testing_enable",
+            _wpnonce: settings_obj.nonce,
+            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
+          },
+        })
+        .done(function (data) {
+          window.location.reload();
+          // Show success message
+          this.success_error_message = "Settings Saved";
+          j("#gdpr-cookie-consent-save-settings-alert-crd")
+            .css("background-color", "#72b85c")
+            .fadeIn(400)
+            .fadeOut(2500, function () {
+              // Optionally reload the page or perform other actions
+            });
+        })
+        .fail(function (error) {
+          console.error("AJAX call failed:", error);
+          alert(
+            "An error occurred while saving the settings. Please try again."
+          );
+        });
+    },
+    refreshABTestingData(html) {
+      this.ab_testing_data = html;
+      const container = document.querySelector('#ab-testing-container-crd');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    template: html,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                });
+            });
+    },
+    onSwitchABTestingEnable() {
+      j("#gdpr-cookie-consent-updating-settings-alert-crd")
+        .fadeIn(200)
+        .fadeOut(2000);
+      this.ab_testing_enabled = !this.ab_testing_enabled;
+      this.cookie_on_frontend1 = true;
+      this.cookie_on_frontend2 = true;
+      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
+
+      var dataV = jQuery("#gcc-save-settings-form").serialize();
+      // Make the AJAX request to save the new state
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: {
+            action: "ab_testing_enable",
+            _wpnonce: settings_obj.nonce,
+            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
+          },
+        })
+        .done(function (data) {
+          window.location.reload();
+          // Show success message
+          this.success_error_message = "Settings Saved";
+          j("#gdpr-cookie-consent-save-settings-alert-crd")
+            .css("background-color", "#72b85c")
+            .fadeIn(400)
+            .fadeOut(2500, function () {
+              // Optionally reload the page or perform other actions
+            });
+        })
+        .fail(function (error) {
+          console.error("AJAX call failed:", error);
+          alert(
+            "An error occurred while saving the settings. Please try again."
+          );
+        });
+    },
     openConfigurationPanel(panelName) {
       const panels = [
         'cookie_bar_settings_open',
@@ -3449,6 +3553,17 @@ var gen = new Vue({
           }
         }
       }
+      let navLinks = j("#gcc-save-settings-form .nav-link").map(function () {
+        return this.getAttribute("href");
+      });
+      if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
+      for (let i = 0; i < navLinks.length; i++) {
+        let re = new RegExp(navLinks[i]);
+        if (window.location.href.match(re)) {
+          this.$refs.active_tab.activeTabIndex = i;
+          break;
+        }
+      }
 
       let advNavLinks = j("#gcc-save-advanced-settings-form .nav-link").map(function () {
         return this.getAttribute("href");
@@ -3472,6 +3587,34 @@ var gen = new Vue({
 
           // Set the active tab
           this.$refs.active_tab_adv.activeTabIndex = i;
+          break;
+        }
+      }
+
+      let crdNavLinks = j("#gdpr-cookie-consent-compliance-record-settings .nav-link").map(
+        function () {
+          return this.getAttribute("href");
+        }
+      );
+
+      if (this.$refs.active_tab_crd === undefined) this.$refs.active_tab_crd = {};
+
+      for (let i = 0; i < crdNavLinks.length; i++) {
+        let link = crdNavLinks[i]; // e.g. "#compliance_records#consent_logs"
+
+        // Split the link and URL by '#'
+        let linkParts = link.split('#').filter(Boolean);
+        let urlParts = window.location.hash.split('#').filter(Boolean);
+
+        // Check if the last part matches
+        if (linkParts[linkParts.length - 1] === urlParts[urlParts.length - 1]) {
+          // Remove only the last fragment from the URL
+          urlParts.pop();
+          let newHash = urlParts.length ? '#' + urlParts.join('#') : '';
+          window.history.replaceState(null, '', window.location.pathname + window.location.search + newHash);
+
+          // Set the active tab
+          this.$refs.active_tab_crd.activeTabIndex = i;
           break;
         }
       }
@@ -3696,12 +3839,12 @@ var gen = new Vue({
           console.error(e);
           that.gcm_scan_flag = false;
           that.success_error_message = "Some error occured";
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").css({
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").css({
             "background-color": "#72b85c",
             "z-index": "10000",
           });
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
         }
       });
     },
@@ -4047,7 +4190,152 @@ var gen = new Vue({
         console.error("No file selected");
       }
     },
-    
+    onSwitchAutoGeneratedBanner() {
+      this.processof_auto_template_generated = true;
+      this.is_auto_template_generated = true;
+      // var data = !this.auto_generated_banner;
+      // this.auto_generated_banner = !this.auto_generated_banner;
+
+      // // Check if the auto_generated_banner is being switched on
+      // if (data) {
+      this.is_template_changed = false;
+      // Open a new tab
+      let newTab = window.open(window.location.origin, "_blank");
+      var that = this;
+      // Wait for the new tab to load and fetch the required data
+      newTab.onload = function () {
+        // Array to store elements with a background color
+        const elementsWithButton = [];
+
+        // Get all elements in the new tab
+        const allElements = newTab.document.querySelectorAll("*");
+
+        // Loop through each element
+        allElements.forEach((element) => {
+          // Check if the element is a button, an anchor tag, or has a class containing "button"
+          if (
+            element.tagName.toLowerCase() === "button" ||
+            element.tagName.toLowerCase() === "a" ||
+            Array.from(element.classList).some((className) =>
+              className.toLowerCase().includes("button")
+            )
+          ) {
+            // Ignore elements where any class name starts with "gdpr_"
+            const hasGdprClass = Array.from(element.classList).some(
+              (className) => className.startsWith("gdpr_")
+            );
+            if (hasGdprClass) return; // Skip this element if it has a "gdpr_" class
+
+            // Get computed styles for the element
+            const computedStyles = getComputedStyle(element);
+
+            // Check if a background color is applied
+            const backgroundColor = computedStyles.backgroundColor;
+
+            if (
+              backgroundColor &&
+              backgroundColor !== "rgba(0, 0, 0, 0)" &&
+              backgroundColor !== "rgb(255, 255, 255)" &&
+              backgroundColor !== "rgba(255, 255, 255, 1)" &&
+              backgroundColor !== "transparent"
+            ) {
+              elementsWithButton.push({
+                tag: element.tagName.toLowerCase(), // The tag name (button, a, etc.)
+                classes: Array.from(element.classList), // The classes applied to the element
+                backgroundColor: backgroundColor, // The computed background color
+              });
+            }
+          }
+        });
+
+        // Function to convert RGB(A) to Hex
+        const rgbToHex = (rgb) => {
+          const rgba = rgb.match(/\d+/g); // Extract the numeric values
+          const r = parseInt(rgba[0], 10).toString(16).padStart(2, "0");
+          const g = parseInt(rgba[1], 10).toString(16).padStart(2, "0");
+          const b = parseInt(rgba[2], 10).toString(16).padStart(2, "0");
+          return `#${r}${g}${b}`.toUpperCase(); // Return as hex code in uppercase
+        };
+
+        // Function to find the most used background color
+        const getMostUsedBackgroundColor = (elements) => {
+          const colorCounts = {};
+
+          // Count occurrences of each background color
+          elements.forEach((item) => {
+            const color = item.backgroundColor;
+            if (color) {
+              colorCounts[color] = (colorCounts[color] || 0) + 1;
+            }
+          });
+
+          // Find the color with the highest count
+          let mostUsedColor = null;
+          let maxCount = 0;
+          let isTie = false;
+
+          for (const [color, count] of Object.entries(colorCounts)) {
+            if (count > maxCount) {
+              mostUsedColor = color;
+              maxCount = count;
+              isTie = false; // Reset tie flag when a higher count is found
+            } else if (count === maxCount) {
+              isTie = true; // A tie exists if another color has the same count
+            }
+          }
+
+          // Handle ties: If all counts are the same or a tie exists, pick any one color
+          if (isTie) {
+            mostUsedColor = Object.keys(colorCounts)[0]; // Pick the first color
+          }
+
+          return mostUsedColor;
+        };
+
+        // Find the most used background color
+        let mostUsedColor = getMostUsedBackgroundColor(elementsWithButton);
+
+        // Convert the most used color to hex
+        const hexColor = rgbToHex(mostUsedColor);
+
+        // Close the new tab after getting the data
+        newTab.close();
+        // Send the hex color via AJAX
+        jQuery.ajax({
+          url: settings_obj.ajaxurl,
+          type: "POST",
+          dataType: "json",
+          data: {
+            action: "gcc_auto_generated_banner",
+            background_color: hexColor,
+            is_auto_generated_banner_done: true, // Send the hex color
+          },
+          success: function (response) {
+            that.auto_generated_banner = true;
+             jQuery.ajax({
+                url: settings_obj.ajaxurl,
+                type: "POST",
+                dataType: "json",
+                data: {
+                  action: "gcc_switch_preview_banner",
+                  _wpnonce: settings_obj.nonce,
+                  banner_preview_state: true
+                },
+                success: function(previewResponse) {
+                  location.reload();
+                },
+                error: function(error) {
+                  console.error("Error enabling banner preview:", error);
+                  location.reload();
+                }
+              });
+          },
+          error: function (error) {
+            console.error("Error:", error);
+          },
+        });
+      };
+    },
     //consent forward.
     onSwitchConsentForward() {
       this.consent_forward = !this.consent_forward;
@@ -4153,6 +4441,7 @@ var gen = new Vue({
         dataType: "json",
         data: {
             action: "gcc_switch_preview_banner",
+            _wpnonce: settings_obj.nonce,
             banner_preview_state: false
         }
     });
@@ -5195,12 +5484,12 @@ var gen = new Vue({
         success: function (data) {
           if (data.success === true) {
             that.success_error_message = "Settings reset to default";
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").css(
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").css(
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
             location.reload();
           } else {
             that.success_error_message = "Please try again.";
@@ -5208,18 +5497,18 @@ var gen = new Vue({
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
           }
         },
         error: function () {
           that.success_error_message = "Please try again.";
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").css(
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").css(
             "background-color",
             "#72b85c"
           );
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
         },
       });
     },
@@ -5270,7 +5559,7 @@ var gen = new Vue({
           }
         }
         var that = this;
-        var dataV = jQuery("#gcc-save-settings-form, #gcc-save-advanced-settings-form, #gcc-save-script-blocker-settings-form").serialize();
+        var dataV = jQuery("#gcc-save-settings-form, #gcc-save-advanced-settings-form, #gcc-save-compliance-record-settings-form, #gcc-save-abtesting-settings-form, #gcc-save-script-blocker-settings-form").serialize();
         const shouldResetAutoGenerated = (that.is_template_changed && that.auto_generated_banner);
         jQuery
           .ajax({
@@ -5294,12 +5583,12 @@ var gen = new Vue({
           })
           .done(function (data) {
             that.success_error_message = "Settings Saved";
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-scb").css({
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd, #gdpr-cookie-consent-save-settings-alert-scb").css({
               "background-color": "#72b85c",
               "z-index": "10000",
             });
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd, #gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd, #gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
             if (that.is_template_changed) {
               that.is_template_changed = false;
                if (that.auto_generated_banner) {
@@ -9780,32 +10069,6 @@ var app = new Vue({
       selectedFile: "",
       //Consent Log
       consent_log_switch_clicked: false,
-      // Data Request
-      data_reqs_on:
-        "true" == settings_obj.the_options["data_reqs_on"] ||
-        1 === settings_obj.the_options["data_reqs_on"] ||
-        "1" == settings_obj.the_options["data_reqs_on"]
-          ? true
-          : false,
-      shortcode_copied: false,
-      data_reqs_switch_clicked: false,
-      data_req_email_address: settings_obj.the_options.hasOwnProperty(
-        "data_req_email_address"
-      )
-        ? settings_obj.the_options["data_req_email_address"]
-        : "",
-      data_req_subject: settings_obj.the_options.hasOwnProperty(
-        "data_req_subject"
-      )
-        ? settings_obj.the_options["data_req_subject"]
-        : "We have received your request",
-      data_req_editor_message: settings_obj.the_options.hasOwnProperty(
-        "data_req_editor_message"
-      )
-        ? this.decodeHTMLString(
-            settings_obj.the_options["data_req_editor_message"]
-          )
-        : "",
       enable_safe:
         settings_obj.the_options.hasOwnProperty("enable_safe") &&
         ("true" === settings_obj.the_options["enable_safe"] ||
@@ -9954,19 +10217,6 @@ var app = new Vue({
   methods: {
     stripSlashes(value) {
       return value.replace(/\\(.)/gm, "$1");
-    },
-    copyTextToClipboard() {
-      const textToCopy = "[wpl_data_request]";
-      const textArea = document.createElement("textarea");
-      textArea.value = textToCopy;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      this.shortcode_copied = true;
-      setTimeout(() => {
-        this.shortcode_copied = false;
-      }, 1500);
     },
     decodeHTMLString(encodedString) {
       var doc = new DOMParser().parseFromString(encodedString, "text/html");
@@ -10133,11 +10383,6 @@ var app = new Vue({
       //changing the value of do_not_track_on enable/disable
       this.do_not_track_on = !this.do_not_track_on;
     },
-    onSwitchDataReqsEnable() {
-      //changing the value of data_reqs_on enable/disable
-      this.data_reqs_on = !this.data_reqs_on;
-      this.data_reqs_switch_clicked = true;
-    },
     onSwitchCookieAcceptEnable() {
       this.cookie_accept_on = !this.cookie_accept_on;
     },
@@ -10279,47 +10524,6 @@ var app = new Vue({
     onSwitchLoggingOn() {
       this.logging_on = !this.logging_on;
       this.consent_log_switch_clicked = true;
-    },
-    onClickAddMedia() {
-      // Get the button element
-      jQuery(document).ready(function ($) {
-        var frame = wp.media({
-          title: "Select or Upload Media",
-          button: {
-            text: "Use this media",
-          },
-          multiple: false, // Set to false if selecting only one file
-        });
-
-        frame.open();
-
-        frame.on("select", function () {
-          var selection = frame.state().get("selection");
-
-          selection.map(function (attachment) {
-            var attachmentURL = attachment.attributes.url;
-            var attachmentType = attachment.attributes.type;
-            var attachmentFileName = attachment.attributes.filename;
-
-            var editor = $("#quill-container .ql-editor")[0];
-            var quillInstance = editor.__quill || editor.parentNode.__quill;
-
-            if (attachmentType === "application" || attachmentType === "text") {
-              var link = $("<a>")
-                .attr("href", attachmentURL)
-                .text(attachmentFileName);
-              quillInstance.root.appendChild(link[0]);
-              quillInstance.root.appendChild($("<br>")[0]);
-            } else {
-              quillInstance.insertEmbed(
-                quillInstance.getLength(),
-                "image",
-                attachmentURL
-              );
-            }
-          });
-        });
-      });
     },
     cookieAcceptChange(value) {
       if (value === "#cookie_action_close_header") {
@@ -11127,9 +11331,6 @@ var app = new Vue({
       this.gdpr_css_text = "";
       this.gdpr_css_text_free = "/*Your CSS here*/";
       this.do_not_track_on = false;
-      this.data_reqs_on = true;
-      this.data_req_email_address = "";
-      this.data_req_subject = "We have received your request";
       // Script Dependency
       this.is_script_dependency_on = false;
       this.header_dependency = '';
@@ -11370,328 +11571,3 @@ var app = new Vue({
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });
-
-var abt = new Vue({
-  el: "#gdpr-cookie-consent-abtesting-settings",
-  data() {
-    return {
-      labelIcon: {},
-      labelIconNew: {
-        labelOn: "\u2713",
-        labelOff: "\uD83D\uDD12",
-      },
-      save_loading: false,
-      success_error_message: "",
-      ab_testing_data: '',
-      account_connection: require("../admin/images/account_connection.svg"),
-      account_connection_new: require("../admin/images/account_connection_new.svg"),
-      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
-      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
-      gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
-        ? settings_obj.the_options["cookie_usage_for"]
-        : "gdpr",
-      is_gdpr:
-        this.gdpr_policy === "gdpr" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_us_state_laws:
-        this.gdpr_policy === "ccpa" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_lgpd: this.gdpr_policy === "lgpd" ? true : false,
-      is_eprivacy: this.gdpr_policy === "eprivacy" ? true : false,
-      show_revoke_card: this.is_gdpr || this.is_eprivacy,
-      show_visitor_conditions:
-        this.is_us_state_laws || (this.is_gdpr && "1" === settings_obj.is_pro_active)
-          ? true
-          : false,
-      ab_testing_enabled:
-        settings_obj.ab_options.hasOwnProperty("ab_testing_enabled") &&
-        (true === settings_obj.ab_options["ab_testing_enabled"] ||
-          "true" === settings_obj.ab_options["ab_testing_enabled"])
-          ? true
-          : false,
-      cookie_on_frontend1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies1"
-        ) &&
-        (true ===
-          settings_obj.the_options["button_settings_display_cookies1"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies1"] ||
-          "true" ===
-            settings_obj.the_options["button_settings_display_cookies1"])
-          ? true
-          : false,
-      cookie_on_frontend2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies2"
-        ) &&
-        (true ===
-          settings_obj.the_options["button_settings_display_cookies2"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies2"] ||
-          "true" ===
-            settings_obj.the_options["button_settings_display_cookies2"])
-          ? true
-          : false,
-      active_test_banner_tab:
-        settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
-        (true == settings_obj.the_options["default_cookie_bar"] ||
-          "true" == settings_obj.the_options["default_cookie_bar"] ||
-          1 == settings_obj.the_options["default_cookie_bar"])
-          ? 1
-          : 2,
-      ab_testing_period: settings_obj.ab_options.hasOwnProperty(
-        "ab_testing_period"
-      )
-        ? settings_obj.ab_options["ab_testing_period"]
-        : "30",
-      ab_testing_auto:
-        settings_obj.ab_options.hasOwnProperty("ab_testing_auto") &&
-        (true === settings_obj.ab_options["ab_testing_auto"] ||
-          "true" === settings_obj.ab_options["ab_testing_auto"])
-          ? true
-          : false,
-      default_cookie_bar:
-        settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
-        (true == settings_obj.the_options["default_cookie_bar"] ||
-          "true" == settings_obj.the_options["default_cookie_bar"] ||
-          1 == settings_obj.the_options["default_cookie_bar"])
-          ? true
-          : false,
-    }
-  },
-  methods: {
-    setValues() {
-      if (this.gdpr_policy === "both") {
-        this.is_us_state_laws = true;
-        this.is_gdpr = true;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = true;
-      } else if (this.gdpr_policy === "ccpa") {
-        this.is_us_state_laws = true;
-        this.is_eprivacy = false;
-        this.is_gdpr = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = false;
-      } else if (this.gdpr_policy === "gdpr") {
-        this.is_gdpr = true;
-        this.is_us_state_laws = false;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = true;
-      } else if (this.gdpr_policy === "lgpd") {
-        this.is_gdpr = false;
-        this.is_us_state_laws = false;
-        this.is_lgpd = true;
-        this.is_eprivacy = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = false;
-      } else {
-        this.is_eprivacy = true;
-        this.is_gdpr = false;
-        this.is_us_state_laws = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = false;
-        this.show_revoke_card = true;
-      }
-    },
-    refreshABTestingData(html) {
-      this.ab_testing_data = html;
-      const container = document.querySelector('#ab-testing-container');
-      this.$nextTick(() => {
-                new Vue({
-                    el: container,
-                    template: html,
-                    data: this.$data, // Reuse the existing Vue instance data
-                    methods: this.$options.methods, // Reuse the existing methods
-                    mounted: this.$options.mounted, // Reuse the original mounted logic
-                });
-            });
-    },
-    onSwitchABTestingEnable() {
-      j("#gdpr-cookie-consent-updating-settings-alert-abt")
-        .fadeIn(200)
-        .fadeOut(2000);
-      this.ab_testing_enabled = !this.ab_testing_enabled;
-      this.cookie_on_frontend1 = true;
-      this.cookie_on_frontend2 = true;
-      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
-
-      var dataV = jQuery("#gcc-save-settings-form").serialize();
-      // Make the AJAX request to save the new state
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: {
-            action: "ab_testing_enable",
-            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
-            _wpnonce: settings_obj.nonce,
-          },
-        })
-        .done(function (data) {
-          window.location.reload();
-          // Show success message
-          this.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert-abt")
-            .css("background-color", "#72b85c")
-            .fadeIn(400)
-            .fadeOut(2500, function () {
-              // Optionally reload the page or perform other actions
-            });
-        })
-        .fail(function (error) {
-          console.error("AJAX call failed:", error);
-          alert(
-            "An error occurred while saving the settings. Please try again."
-          );
-        });
-    },
-    onSwitchCookieOnFrontend1() {
-      this.cookie_on_frontend1 = !this.cookie_on_frontend1;
-    },
-    onSwitchCookieOnFrontend2() {
-      this.cookie_on_frontend2 = !this.cookie_on_frontend2;
-    },
-    changeActiveTestBannerTabTo1() {
-      if (this.active_test_banner_tab === 2) this.active_test_banner_tab = 1;
-    },
-    changeActiveTestBannerTabTo2() {
-      if (this.active_test_banner_tab === 1) this.active_test_banner_tab = 2;
-    },
-    onSwitchABTestingAuto() {
-      this.ab_testing_auto = !this.ab_testing_auto;
-    },
-    saveABTestingSettings() {
-      this.save_loading = true;
-
-      var that = this;
-      var dataV = jQuery("#gcc-save-abtesting-settings-form").serialize();
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: dataV + "&action=gcc_save_abtesting_settings",
-        })
-        .done(function (data) {
-          that.success_error_message = "Settings Saved.";
-          j("#gdpr-cookie-consent-save-settings-alert-abt").css({
-              "background-color": "#72b85c",
-              "z-index": "10000",
-          });
-          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeOut(2500);
-
-          that.save_loading = false;
-        })
-        .fail(function () {
-          that.save_loading = false;
-        });
-    },
-    restoreDefaultSettings() {
-      this.ab_testing_enabled = false;
-      this.cookie_on_frontend1 = true;
-      this.cookie_on_frontend2 = true;
-      this.gdpr_policy = "gdpr";
-      this.ab_testing_period = "30";
-      this.ab_testing_auto = false;
-    }
-  },
-  mounted() {
-    j("#gdpr-before-mount").css("display", "none");
-    this.setValues();
-
-    //For fixing quill js buttons accessibility issues
-    this.$nextTick(() => {
-      const quillLabels = {
-        "ql-bold": "Bold",
-        "ql-italic": "Italic",
-        "ql-underline": "Underline",
-        "ql-code-block": "Code Block",
-        "ql-strike": "Strikethrough",
-        "ql-link": "Insert Link",
-        "ql-image": "Insert Image",
-        "ql-list": "List",
-        "ql-clean": "Remove Formatting",
-        "ql-align": "Align Text",
-        "ql-blockquote": "Blockquote",
-        "ql-indent": "Indent Text",
-        "ql-video": "Insert Video",
-        "ql-header": "Header",
-        "ql-color": "Text Color",
-        "ql-background": "Background Color",
-        "ql-preview": "Preview",
-      };
-
-      Object.entries(quillLabels).forEach(([className, label]) => {
-        const buttons = document.querySelectorAll(`.ql-toolbar .${className}`);
-        buttons.forEach((button) => {
-          button.setAttribute("aria-label", label);
-          button.setAttribute("title", label);
-        });
-      });
-
-      // Fix for Ace Editor’s textarea
-      const observer = new MutationObserver(() => {
-        const aceInput = document.querySelector(".ace_text-input");
-        if (aceInput) {
-          aceInput.setAttribute("aria-hidden", "true");
-          aceInput.setAttribute("tabindex", "-1");
-          aceInput.setAttribute("role", "presentation");
-          aceInput.removeAttribute("aria-label"); // optional, but removes confusion
-          aceInput.removeAttribute("title"); // in case any tooltips are there
-
-          observer.disconnect();
-        }
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true });
-      setTimeout(() => observer.disconnect(), 10000);
-
-      // First: For ab_testing_period_text_field
-      const abInterval = setInterval(() => {
-        const inputs = document.querySelectorAll(
-          'input[name="ab_testing_period_text_field"]'
-        );
-
-        inputs.forEach((input) => {
-          if (
-            !input.hasAttribute("aria-label") &&
-            !input.hasAttribute("aria-labelledby")
-          ) {
-            input.setAttribute("aria-label", "A/B Testing Period");
-          }
-        });
-
-        if (inputs.length) clearInterval(abInterval);
-      }, 300);
-
-      setTimeout(() => clearInterval(abInterval), 7000); // safety timeout
-
-      // Second: For display-time inputs
-      const timeInterval = setInterval(() => {
-        const timeInputs = document.querySelectorAll("input.display-time");
-
-        timeInputs.forEach((input) => {
-          if (
-            !input.hasAttribute("aria-label") &&
-            !input.hasAttribute("aria-labelledby")
-          ) {
-            input.setAttribute("aria-label", "Choose time");
-          }
-        });
-
-        if (timeInputs.length) clearInterval(timeInterval);
-      }, 300);
-
-      setTimeout(() => clearInterval(timeInterval), 7000);
-    });
-  },
-});
-window.abt = abt;
-
-

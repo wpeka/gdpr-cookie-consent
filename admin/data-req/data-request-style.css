@@ -81,6 +81,7 @@
 }
 .search-and-export-container {
   display: flex;
+  gap: 16px;
   margin-bottom: 40px;
 }
 .policy-data-search-log .search-and-export-container {
@@ -88,7 +89,25 @@
 }
 .search-and-export-container .search-box {
   float: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 0 10px;
 }
+
+.wpl-datarequests {
+  margin-top: 16px;
+  padding-top: 20px;
+  border-top: 1px solid lightgray;
+}
+
+.consent-log-search-log .search-and-export-container .search-box input[type="search"] {
+	border: none !important;
+  width: 280px;
+}
+
 #wpl-dnsmpd-filter-datarequest .search-box #gdpr-cookie-consent-search-input-data-request {
   height: 36px;
   width: 349px;

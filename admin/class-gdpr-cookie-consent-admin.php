@@ -1085,16 +1085,17 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function wpl_consent_log_overview() {
 		ob_start();
-		include GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-consent-logs.php';
+		include_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-consent-logs.php';
 		// Style for consent log report.
 		wp_register_style( 'wplcookieconsent_data_reqs_style', plugin_dir_url( __FILE__ ) . 'data-req/data-request-style' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
 		wp_enqueue_style( 'wplcookieconsent_data_reqs_style' );
+		wp_enqueue_style( 'gdpr_policy_data_tab_style' );
 
 		$consent_logs = new WPL_Consent_Logs();
 		$consent_logs->prepare_items();
 		?>
 		<div class="wpl-consentlogs">
-			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ) ); ?>">
+			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#compliance_records#consent_logs' ) ); ?>">
 				<div class="wpl-heading-export-consentlogs">
 					<div class="consent-log-heading-export">
 						<h1 class="wp-heading"><?php esc_html_e( 'Consent Logs', 'gdpr-cookie-consent' ); ?></h1>
@@ -1697,134 +1698,142 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function wpl_data_requests_overview() {
 		ob_start();
-		include __DIR__ . '/data-req/class-wpl-data-req-table.php';
+		include_once __DIR__ . '/data-req/class-wpl-data-req-table.php';
 		// Style for data request report.
 		wp_register_style( 'wplcookieconsent_data_reqs_style', plugin_dir_url( __FILE__ ) . 'data-req/data-request-style' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
 		wp_enqueue_style( 'wplcookieconsent_data_reqs_style' );
+		wp_enqueue_style( 'gdpr_policy_data_tab_style' );
 
 		$datarequests = new WPL_Data_Req_Table();
 		$datarequests->prepare_items();
+		$is_pro_active = get_option( 'wpl_pro_active', false );
 		?>
-		<div class="wpl-datarequests-settings">
-			<?php if ( ! $is_pro_active ) { ?>
-								<c-row>
-									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Data Request Form', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr_data_req_tooltip" text="<?php esc_html_e( 'Enable to add data request form to your Privacy Statement.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-									</c-col>
-									<c-col class="col-sm-8">
-										<c-switch v-bind="labelIcon " v-model="data_reqs_on" id="gdpr-cookie-data-reqs" variant="3d" color="success" :checked="data_reqs_on" v-on:update:checked="onSwitchDataReqsEnable"></c-switch>
-										<input type="hidden" name="gcc-data_reqs" v-model="data_reqs_on">
-									</c-col>
-								</c-row>
-								<!-- clipboard for shortcode to copy  -->
-								<c-row v-show="data_reqs_on">
-									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
-									</c-col>
-									<c-col class="col-sm-8">
-										<c-button id="data-request-btn" class="btn btn-info" variant="outline" @click="copyTextToClipboard">{{ shortcode_copied ? 'Shortcode Copied!' : 'Click to Copy' }}</c-button>
-									</c-col>
-								</c-row>
+		<c-form id="gcc-save-compliance-record-settings-form" method="post" spellcheck="false" class="gdpr-cookie-consent-settings-form">
+			<div class="wpl-datarequests-settings">
+				<c-row>
+					<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-data-request-top"><?php esc_html_e( 'Data Request Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
+				</c-row>
+				<?php if ( ! $is_pro_active ) { ?>
+				<c-row>
+					<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Data Request Form', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr_data_req_tooltip" text="<?php esc_html_e( 'Enable to add data request form to your Privacy Statement.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+					</c-col>
+					<c-col class="col-sm-8">
+						<c-switch v-bind="labelIcon " v-model="data_reqs_on" id="gdpr-cookie-data-reqs" variant="3d" color="success" :checked="data_reqs_on" v-on:update:checked="onSwitchDataReqsEnable"></c-switch>
+						<input type="hidden" name="gcc-data_reqs" v-model="data_reqs_on">
+					</c-col>
+				</c-row>
+				<!-- clipboard for shortcode to copy  -->
+				<c-row v-show="data_reqs_on">
+					<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+					</c-col>
+					<c-col class="col-sm-8">
+						<c-button id="data-request-btn" class="btn btn-info" variant="outline" @click="copyTextToClipboard">{{ shortcode_copied ? 'Shortcode Copied!' : 'Click to Copy' }}</c-button>
+					</c-col>
+				</c-row>
 
-								<!-- email box  -->
-								<c-row v-show="data_reqs_on" id="gdpr-data-req-admin-container" >
-									<div class="gdpr-data-req-main-container">
+				<!-- email box  -->
+				<c-row v-show="data_reqs_on" id="gdpr-data-req-admin-container" >
+					<div class="gdpr-data-req-main-container">
 
-										<div class="gdpr-data-req-email-container">
-											<!-- notification sender email  -->
-											<div class="gdpr-data-req-sender-email">
-												<c-col class="col-sm-12">
-													<span>Notification Sender Email Address</span>
-												</c-col>
-												<!-- notification sender email text box  -->
-												<c-col class="col-sm-12 gdpr-data-req-sender-email-input">
-													<div id="validation-icon">
-														<!-- Default state with the right tick -->
-														<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15" >
-															<path fill="#00CF21"d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
-														</svg>
-													</div>
-													<c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
-
-												</c-col>
-												<!-- email validation script -->
-												<script>
-													document.addEventListener('DOMContentLoaded', function () {
-														// Get the input element and the validation icon element
-														var emailInput = document.getElementById('email-input');
-														var validationIcon = document.getElementById('validation-icon');
-
-														// Add an event listener on input change
-														if(emailInput !== null)emailInput.addEventListener('input', function () {
-															// Validate the email format using a regular expression
-															var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-															var isValidEmail = emailPattern.test(emailInput.value);
-
-															// Update the validation icon based on validity
-															validationIcon.innerHTML = isValidEmail
-																? '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15"><path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path></svg>'
-																: '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" height="15" width="15"><path fill="red" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg>';
-
-															// Adjust the padding-right property based on the presence of the icon
-															emailInput.style.paddingRight = isValidEmail ? '30px' : '0';
-														});
-													});
-												</script>
-											</div>
-
-											<div class="gdpr-data-req-email-subject">
-												<!-- notification email subject  -->
-												<c-col class="col-sm-12">
-													<span>Notification Email Subject</span>
-												</c-col>
-												<!-- notification email subject text box  -->
-												<c-col class="col-sm-12 gdpr-data-req-subject-input">
-													<div id="validation-icon-subject">
-														<!-- Default state with the right tick -->
-														<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15" >
-															<path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
-														</svg>
-													</div>
-													<c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
-												</c-col>
-											</div>
-
-											<div class="gdpr-data-req-email-content">
-												<!-- notification email content  -->
-												<c-col class="col-sm-12">
-													<span>Notification Email Content</span>
-												</c-col>
-											</div>
-
-											<div class="gdpr-data-req-email-editor">
-												<c-col class="col-sm-12">
-													<div class="gdpr-add-media-link-icon">
-														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-														<path d="M14 10L10 14" stroke="#3399FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-														<path d="M16 13L18 11C19.3807 9.61929 19.3807 7.38071 18 6V6C16.6193 4.61929 14.3807 4.61929 13 6L11 8M8 11L6 13C4.61929 14.3807 4.61929 16.6193 6 18V18C7.38071 19.3807 9.61929 19.3807 11 18L13 16" stroke="#3399FF" stroke-width="1.5" stroke-linecap="round"/>
-														</svg>
-													</div>
-													<c-button id="add-media-button" class="gdpr-renew-now-btn pro" variant="outline" @click="onClickAddMedia"><span><?php esc_html_e( 'Add Media', 'gdpr-cookie-consent' ); ?></span></c-button>
-
-												</c-col>
-												<!-- notification text box  -->
-												<c-col class="col-sm-12">
-													<vue-editor name="data_req_mail_content_text_field" v-model="data_req_editor_message"></vue-editor>
-													<input type="hidden" name="data_req_mail_content_text_field" v-model="data_req_editor_message">
-												</c-col>
-											</div>
-										</div>
-
+						<div class="gdpr-data-req-email-container">
+							<!-- notification sender email  -->
+							<div class="gdpr-data-req-sender-email">
+								<c-col class="col-sm-12">
+									<span>Notification Sender Email Address</span>
+								</c-col>
+								<!-- notification sender email text box  -->
+								<c-col class="col-sm-12 gdpr-data-req-sender-email-input">
+									<div id="validation-icon">
+										<!-- Default state with the right tick -->
+										<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15" >
+											<path fill="#00CF21"d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
+										</svg>
 									</div>
+									<c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
+
+								</c-col>
+								<!-- email validation script -->
+								<script>
+									document.addEventListener('DOMContentLoaded', function () {
+										// Get the input element and the validation icon element
+										var emailInput = document.getElementById('email-input');
+										var validationIcon = document.getElementById('validation-icon');
+
+										// Add an event listener on input change
+										if(emailInput !== null)emailInput.addEventListener('input', function () {
+											// Validate the email format using a regular expression
+											var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+											var isValidEmail = emailPattern.test(emailInput.value);
+
+											// Update the validation icon based on validity
+											validationIcon.innerHTML = isValidEmail
+												? '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15"><path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path></svg>'
+												: '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" height="15" width="15"><path fill="red" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg>';
+
+											// Adjust the padding-right property based on the presence of the icon
+											emailInput.style.paddingRight = isValidEmail ? '30px' : '0';
+										});
+									});
+								</script>
+							</div>
+
+							<div class="gdpr-data-req-email-subject">
+								<!-- notification email subject  -->
+								<c-col class="col-sm-12">
+									<span>Notification Email Subject</span>
+								</c-col>
+								<!-- notification email subject text box  -->
+								<c-col class="col-sm-12 gdpr-data-req-subject-input">
+									<div id="validation-icon-subject">
+										<!-- Default state with the right tick -->
+										<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15" >
+											<path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
+										</svg>
+									</div>
+									<c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
+								</c-col>
+							</div>
+
+							<div class="gdpr-data-req-email-content">
+								<!-- notification email content  -->
+								<c-col class="col-sm-12">
+									<span>Notification Email Content</span>
+								</c-col>
+							</div>
+
+							<div class="gdpr-data-req-email-editor">
+								<c-col class="col-sm-12">
+									<div class="gdpr-add-media-link-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+										<path d="M14 10L10 14" stroke="#3399FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+										<path d="M16 13L18 11C19.3807 9.61929 19.3807 7.38071 18 6V6C16.6193 4.61929 14.3807 4.61929 13 6L11 8M8 11L6 13C4.61929 14.3807 4.61929 16.6193 6 18V18C7.38071 19.3807 9.61929 19.3807 11 18L13 16" stroke="#3399FF" stroke-width="1.5" stroke-linecap="round"/>
+										</svg>
+									</div>
+									<c-button id="add-media-button" class="gdpr-renew-now-btn pro" variant="outline" @click="onClickAddMedia"><span><?php esc_html_e( 'Add Media', 'gdpr-cookie-consent' ); ?></span></c-button>
+
+								</c-col>
+								<!-- notification text box  -->
+								<c-col class="col-sm-12">
+									<vue-editor name="data_req_mail_content_text_field" v-model="data_req_editor_message"></vue-editor>
+									<input type="hidden" name="data_req_mail_content_text_field" v-model="data_req_editor_message">
+								</c-col>
+							</div>
+						</div>
+
+					</div>
 
 
-								</c-row>
+				</c-row>
 
-								<?php } ?>
+				<?php } ?>
 
-								<?php do_action( 'gdpr_consent_settings_data_reqs' ); ?>
-												</div>
+				<?php do_action( 'gdpr_consent_settings_data_reqs' ); ?>
+			</div>
+		</c-form>
+		
 		<div class="wpl-datarequests">
 			
-			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ) ); ?>">
+			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#compliance_records#data_request' ) ); ?>">
 				<div class="wpl-heading-export-datarequest">
 					<div class="data-request-heading-export">
 						<h1 class="wp-heading"><?php esc_html_e( 'Data Requests', 'gdpr-cookie-consent' ); ?></h1>
@@ -1944,7 +1953,17 @@ class Gdpr_Cookie_Consent_Admin {
 				),
 				'rect'   => array(),
 			);
-			$allowed_data_req_html['c-row']    = array( 'class' => array() );
+			$allowed_data_req_html['c-form'] = array(
+				'id'         => array(),
+				'class'      => array(),
+				'method'     => array(),
+				'spellcheck' => array(),
+			);
+			$allowed_data_req_html['c-row']    = array(
+				'class'  => array(),
+				'id'     => array(),
+				'v-show' => array(),
+			);
 			$allowed_data_req_html['c-col']    = array( 'class' => array() );
 			$allowed_data_req_html['c-switch'] = array(
 				'v-bind'          => array(),
@@ -2018,7 +2037,7 @@ class Gdpr_Cookie_Consent_Admin {
 				array( 'ID' => intval( $_GET['id'] ) )
 			);
 			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
+			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent' . ( $paged ? '&' . $paged : '' ) . '#compliance_records#data_request' ) );
 			exit;
 			
    	wp_die( 'Invalid request.' );
@@ -2039,7 +2058,7 @@ class Gdpr_Cookie_Consent_Admin {
 		global $wpdb;
 		$wpdb->delete( $wpdb->prefix . 'wpl_data_req', array( 'ID' => intval( $_GET['id'] ) ) );
 		$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-		wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
+		wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent' . ( $paged ? '&' . $paged : '' ) . '#compliance_records#data_request' ) );
 		exit;
 	}
 
@@ -2315,7 +2334,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_policy_data_overview() {
 			ob_start();
 
-			include GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/policy-data/class-gdpr-policy-data.php';
+			include_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/policy-data/class-gdpr-policy-data.php';
 			// Style for consent log report.
 			wp_enqueue_style( 'gdpr_policy_data_tab_style' );
 
@@ -2328,7 +2347,7 @@ class Gdpr_Cookie_Consent_Admin {
 			);
 		?>
 			<div class="wpl-consentlogs">
-				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ) ); ?>">
+				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#compliance_records' ) ); ?>">
 					<div class="wpl-heading-export-consentlogs">
 						<div class="policy-data-heading-export">
 							<h1 class="wp-heading"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?></h1>
@@ -2444,7 +2463,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 				// Redirect back to the admin page
 				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-				wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' . $paged ) );
+				wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent' . ( $paged ? '&' . $paged : '' ) . '#compliance_records' ) );
 				exit; // Always exit after a wp_redirect()
 			}
 		}
@@ -3812,11 +3831,10 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
-	 * AB Testing Page
+	 * Compliance Records Page
 	 * 
-	 * @since 4.0.0
 	 */
-	public function gdpr_cookie_consent_abtesting_settings() {
+	public function gdpr_cookie_consent_compliance_record_settings() {
 		$is_user_connected = $this->settings->is_connected();
 		$api_user_plan = $this->settings->get_plan();
 
@@ -3852,7 +3870,7 @@ class Gdpr_Cookie_Consent_Admin {
 		// Get options.
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
-		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-abtesting-settings.php';
+		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-compliance-record-settings.php';
 	}
 
 	/**
@@ -5262,15 +5280,23 @@ class Gdpr_Cookie_Consent_Admin {
 				$ab_options = array();
 			}
 			
-			// Get the current A/B testing period value
-			$current_ab_testing_value = isset($ab_options['ab_testing_period']) ? $ab_options['ab_testing_period'] : '';
+			$current_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? absint( $ab_options['ab_testing_period'] ) : 0;
 
 			// Set the new A/B testing period value from POST
-			$ab_options['ab_testing_period'] = isset($_POST['ab_testing_period_text_field']) ? sanitize_text_field(wp_unslash($_POST['ab_testing_period_text_field'])) : '';
-			$ab_options['ab_testing_auto'] = isset( $_POST['gcc-ab-testing-auto'] ) ? ($_POST['gcc-ab-testing-auto'] === true || $_POST['gcc-ab-testing-auto']==='true' || $_POST['gcc-ab-testing-auto'] === 1 ? 'true' :'false')  : 'false';
+			if ( isset( $_POST['ab_testing_period_text_field'] ) ) {
+				$ab_testing_period_key = 'ab_testing_period_text_field';
+			} elseif ( isset( $_POST['ab_testing_period'] ) ) {
+				$ab_testing_period_key = 'ab_testing_period';
+			}
+			if ( null !== $ab_testing_period_key ) {
+				$ab_options['ab_testing_period'] = absint( wp_unslash( $_POST[ $ab_testing_period_key ] ) );
+			}
+			if ( isset( $_POST['gcc-ab-testing-auto'] ) ) {
+				$ab_options['ab_testing_auto'] = in_array( wp_unslash( $_POST['gcc-ab-testing-auto'] ), array( 'true', '1', 1, true ), true ) ? 'true' : 'false';
+			}
 
 			// Get the updated A/B testing period value
-			$updated_ab_testing_value = isset($ab_options['ab_testing_period']) ? $ab_options['ab_testing_period'] : '';
+			$updated_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? absint( $ab_options['ab_testing_period'] ) : 0;
 			// Handle auto-generated banner reset when template is changed
 			$reset_auto_generated = isset($_POST['reset_auto_generated']) ? sanitize_text_field($_POST['reset_auto_generated']) : '0';
 			$is_template_changed = isset($_POST['is_template_changed']) ? sanitize_text_field($_POST['is_template_changed']) : '0';
@@ -5329,6 +5355,8 @@ class Gdpr_Cookie_Consent_Admin {
 					);
 				}
 			}
+
+			update_option( 'wpl_ab_options', $ab_options );
 
 			$law_selection_mode = isset( $_POST['gcc-law-selection-mode'] )
 				? sanitize_text_field( wp_unslash( $_POST['gcc-law-selection-mode'] ) )
@@ -7213,81 +7241,6 @@ class Gdpr_Cookie_Consent_Admin {
 			wp_send_json_success( array( 'form_options_saved' => true ) );
 		}
 	}
-
-	/**
-	 * AB Testing callback to save settings.
-	 */
-	public function gdpr_cookie_consent_ajax_save_abtesting_settings() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
-			exit;
-		}
-		if ( isset( $_POST['gcc_settings_form_nonce_abtesting'] ) ) {
-			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_abtesting'] ) ), 'gcc-settings-form-nonce-abtesting' ) ) {
-				return;
-			}
-		
-
-		$ab_options = get_option( 'wpl_ab_options' );
-		if ( ! $ab_options ) {
-			$ab_options = array();
-		}
-
-		$current_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? $ab_options['ab_testing_period'] : '';
-
-		$ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period'] ) ? absint( $_POST['ab_testing_period'] ) : '';
-		$ab_options['ab_testing_auto'] = isset( $_POST['gcc-ab-testing-auto'] ) && in_array( wp_unslash( $_POST['gcc-ab-testing-auto'] ), array( 'true', '1', 1, true ), true) ? 'true' : 'false';
-
-		$updated_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? $ab_options['ab_testing_period'] : '';
-
-		if ( $current_ab_testing_value !== $updated_ab_testing_value ) {
-
-			$transient_name   = '_transient_timeout_gdpr_ab_testing_transient';
-			$expiration_time  = get_option( $transient_name );
-
-			if ( $expiration_time ) {
-
-				$expiration_time          = gmdate( 'Y-m-d H:i:s', $expiration_time );
-				$current_date_time        = gmdate( 'Y-m-d H:i:s' );
-				$current_time_unix        = strtotime( $current_date_time );
-				$expiration_time_unix     = strtotime( $expiration_time );
-				$remaining_time_seconds   = $expiration_time_unix - $current_time_unix;
-				$remaining_days           = ceil( $remaining_time_seconds / ( 60 * 60 * 24 ) );
-				$new_expiration_time_seconds = ( (int) $updated_ab_testing_value * 24 * 60 * 60 );
-
-				if ( $remaining_days != $updated_ab_testing_value ) {
-
-					set_transient(
-						'gdpr_ab_testing_transient',
-						array(
-							'value'         => 'A/B Testing Period',
-							'creation_time' => time(),
-						),
-						$new_expiration_time_seconds
-					);
-				}
-
-			} else {
-
-				$new_expiration_time_seconds = ( (int) $updated_ab_testing_value * 24 * 60 * 60 );
-
-				set_transient(
-					'gdpr_ab_testing_transient',
-					array(
-						'value'         => 'A/B Testing Period',
-						'creation_time' => time(),
-					),
-					$new_expiration_time_seconds
-				);
-			}
-		}
-
-		update_option( 'wpl_ab_options', $ab_options );
-		wp_send_json_success( array( 'form_options_saved' => true ) );
-		}
-
-	}
-
 	
 
 	/**
@@ -8999,11 +8952,11 @@ class Gdpr_Cookie_Consent_Admin {
 		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
 		$legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wplegalpages' ), 'install-plugin_wplegalpages' );
 		$create_legalpages_url = $admin_url . 'admin.php?page=legal-pages';
-		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
+		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#compliance_records';
 		$cookie_design_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
 		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#layout';
 		$script_blocker_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_manager#script_blocker';
-		$third_party_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#policy_data';
+		$third_party_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#compliance_records';
 		$documentation_url   = 'https://wplegalpages.com/docs/wp-cookie-consent/';
 		$gdpr_pro_url        = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=quick-links&utm_content=upgrade-to-pro';
 		$free_support_url    = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
