@@ -116,8 +116,14 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 			</div>
 		</div>
 		<script type="text/javascript">
-			document.getElementById('search-logo-policy-data').addEventListener('click', function() {
-				document.getElementById('search-submit-policy-data').click();
+			document.addEventListener('click', function (event) {
+				if (!event.target.closest || !event.target.closest('#search-logo-policy-data')) {
+					return;
+				}
+				var submitButton = document.getElementById('search-submit-policy-data');
+				if (submitButton) {
+					submitButton.click();
+				}
 			});
 		</script>
 		<?php
@@ -266,18 +272,33 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 */
 	public function process_bulk_action() {
 
-		$ids = isset( $_GET['user_id'] ) ? $_GET['user_id'] : false;
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( 'Unauthorized request.' );
+		}
 
-		if ( ! $ids ) {
+		$ids    = isset( $_GET['user_id'] ) ? $_GET['user_id'] : false;
+		$action = $this->current_action();
+		if ( ! $action ) {
+			// If no action was found, check for action2 (bottom dropdown)
+			$action = isset( $_GET['action2'] ) && $_GET['action2'] != '-1' ? $_GET['action2'] : false;
+		}
+		if ( ! $action || ! $ids ) {
 			return;
 		}
+		check_admin_referer( 'bulk-' . $this->_args['plural'] );
 
 		if ( ! is_array( $ids ) ) {
 			$ids = array( $ids );
 		}
 
 		foreach ( $ids as $id ) {
-			if ( 'delete' === $this->current_action() ) {
+			if ( 'delete' === $action ) {
+				$id = absint( $id );
+
+				// Never touch anything outside this table's own post type.
+				if ( ! $id || 'gdprpolicies' !== get_post_type( $id ) ) {
+					continue;
+				}
 
 				wp_delete_post( $id, true );
 

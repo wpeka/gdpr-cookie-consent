@@ -364,10 +364,11 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	 */
 	public function wpl_script_blocker_advanced_tab() {
 		?>
-		<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#script_blocker" id="gdpr-cookie-consent-script-blocker">
-			
+		<c-tab v-show="show_revoke_card" title="<?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?>" href="#cookie_manager#script_blocker" id="gdpr-cookie-consent-script-blocker">
+			<div id="gdpr-cookie-consent-save-settings-alert-scb">{{success_error_message}}</div>
+			<div id="gdpr-cookie-consent-updating-settings-alert-scb">Updating Setting</div>
             <div class="gdpr-preview-publish-btn gdpr-preview-publish-btn-scb">
-				<c-button :disabled="save_loading || enable_safe" class="gdpr-publish-btn" @click="saveScriptBlockerSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
+				<c-button :disabled="save_loading || enable_safe" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
 			</div>
 			
 			<c-card class="script-blocker-card">
@@ -377,7 +378,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						<img id="safe-mode-activate-img"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/safe-mode-lock.png'; ?>" alt="WP Cookie Consent Logo">
 						<?php
 						esc_attr_e(
-							'Safe Mode enabled. Disable it in Advanced Settings > Additional Settings to configure Script Blocker settings.',
+							'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Script Blocker settings.',
 							'gdpr-cookie-consent'
 						);
 						?>
@@ -515,7 +516,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						<img id="safe-mode-activate-img"src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/safe-mode-lock.png'; ?>" alt="WP Cookie Consent Logo">
 							<?php
 							esc_attr_e(
-								'Safe Mode enabled. Disable it in Advanced Settings > Additional Settings to configure Whitelist Scripts settings.',
+								'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Whitelist Scripts settings.',
 								'gdpr-cookie-consent'
 							);
 							?>
@@ -714,6 +715,15 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	 */
 	public function wpl_ajax_script_add() {
 
+		if ( ! check_ajax_referer( 'wpl_save_script_nonce', '_wpnonce', false ) ) {
+			wp_send_json_error( array( 'message' => 'Security Check Failed, Unauthorized access' ), 403 );
+		}
+		// Capability check
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
+			exit;
+		}
+
 		$html  = '';
 		$error = false;
 
@@ -799,7 +809,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 			$id      = intval( $_POST['id'] );
 			$type    = sanitize_text_field( $_POST['type'] );
 			$action  = sanitize_title( $_POST['button_action'] );
-			$data    = json_decode( stripslashes( $_POST['data'] ), true );
+			$data    = json_decode( wp_unslash( $_POST['data'] ), true );
 			$scripts = get_option( 'wpl_options_custom-scripts', array() );
 			if ( ! $error ) {
 				if ( $action === 'remove' ) {

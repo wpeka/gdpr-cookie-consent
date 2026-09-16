@@ -21,6 +21,8 @@ require plugin_dir_path( __FILE__ ) . 'classes/class-wpl-cookie-consent-cookie-s
  * @author     wpeka <https://club.wpeka.com>
  */
 class Gdpr_Cookie_Consent_Cookie_Scanner {
+	
+	private static $hooks_registered = false;
 	/**
 	 * @var
 	 */
@@ -119,19 +121,23 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * Gdpr_Cookie_Consent_Cookie_Scanner constructor.
 	 */
 	public function __construct() {
-		// Creating necessary tables for cookie scanner.
-		register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'wpl_activator' ) );
-		add_action('admin_init',  array($this, 'set_status_labels'));
-		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
-			add_filter( 'gdprcookieconsent_cookie_sub_tabs', array( $this, 'wpl_cookie_sub_tabs' ), 10, 1 );
-			add_action( 'gdpr_module_settings_cookielist', array( $this, 'wpl_cookie_scanned_cookies' ), 10 );
-			add_action('admin_enqueue_scripts', array($this, 'register_cookie_scanner_script'));
-			add_action( 'wp_ajax_wpl_cookie_scanner_card', array($this, 'wpl_cookie_scanner_card'));
-			add_action( 'gdpr_cookie_scanned_history', array( $this, 'wpl_cookie_scanned_history_card' ), 10 );
-			add_filter( 'gdpr_settings_cookie_scan_values', array( $this, 'wpl_settings_cookie_scan_values' ), 10, 1 );
-			add_action( 'gdpr_scan_history_table', array( $this, 'wpl_scan_history_table' ), 5 );
+		if ( ! self::$hooks_registered ) {
+			self::$hooks_registered = true;
+
+			// Creating necessary tables for cookie scanner.
+			register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'wpl_activator' ) );
+			add_action('admin_init',  array($this, 'set_status_labels'));
+			if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
+				add_filter( 'gdprcookieconsent_cookie_sub_tabs', array( $this, 'wpl_cookie_sub_tabs' ), 10, 1 );
+				add_action( 'gdpr_module_settings_cookielist', array( $this, 'wpl_cookie_scanned_cookies' ), 10 );
+				add_action('admin_enqueue_scripts', array($this, 'register_cookie_scanner_script'));
+				add_action( 'wp_ajax_wpl_cookie_scanner_card', array($this, 'wpl_cookie_scanner_card'));
+				add_action( 'gdpr_cookie_scanned_history', array( $this, 'wpl_cookie_scanned_history_card' ), 10 );
+				add_filter( 'gdpr_settings_cookie_scan_values', array( $this, 'wpl_settings_cookie_scan_values' ), 10, 1 );
+				add_action( 'gdpr_scan_history_table', array( $this, 'wpl_scan_history_table' ), 5 );
+			}
+			add_filter( 'gdprcookieconsent_cookies', array( $this, 'wpl_get_scan_cookies' ), 10, 1 );
 		}
-		add_filter( 'gdprcookieconsent_cookies', array( $this, 'wpl_get_scan_cookies' ), 10, 1 );
 
 
 		// Require the class file for gdpr cookie consent api framework settings.
@@ -159,7 +165,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		wp_enqueue_script('cookie_scanner_ajax', plugin_dir_url(__FILE__) . 'assets/js/cookie-scanner-data.js', array('jquery', 'gdpr-cookie-consent-admin-revamp'), '1.0', true);
 
 		wp_localize_script('cookie_scanner_ajax', 'cookie_scanner_ajax', array(
-			'ajax_url'         => admin_url( 'admin-ajax.php' )
+			'ajax_url'         => admin_url( 'admin-ajax.php' ),
+			'security'         => wp_create_nonce( 'wpl_cookie_scanner' )
 		));
 	}
 
@@ -280,6 +287,10 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * Add a card for scanning cookies.
 	 */
 		public function wpl_cookie_scanner_card() {
+			check_ajax_referer( 'wpl_cookie_scanner', 'security' );
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( array( 'message' => __( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) ), 403 );
+			}
 			// check if pro is activated or installed.
 			$installed_plugins = get_plugins();
 			$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
@@ -879,15 +890,13 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 		$url_table = $wpdb->prefix . $this->cookies_table;
 		$cat_table = $wpdb->prefix . $this->category_table;
 		if ( ! empty( $cookie_data ) ) {
-			$sql         = "INSERT IGNORE INTO `$url_table` (`id_wpl_cookie_scan`,`id_wpl_cookie_scan_url`,`name`,`duration`,`domain`,`type`,`category`,`category_id`,`description`) VALUES ";
-			$sql_arr     = array();
 			$out[]       = $url;
 			$name        = trim( $cookie_data->name );
 			$duration    = trim( $cookie_data->duration );
 			$type        = $cookie_data->type;
 			$domain      = $cookie_data->domain;
 			$category    = isset( $cookie_data->category ) ? $cookie_data->category : 'Unclassified';
-			$description = addslashes( $cookie_data->description );
+			$description = $cookie_data->description;
 			$category_id = -1;
 					switch ( $category ) {
 						case 'Analytics':
@@ -907,8 +916,31 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 							break;
 					}
 			$out[]       = '&nbsp;&nbsp;&nbsp;' . $name;
-			$sql_arr[]   = "('$scan_id','$url_id','$name','$duration','$domain','$type','$category','$category_id','$description')";
-			$sql         = $sql . implode( ',', $sql_arr );
+			$sql = $wpdb->prepare(
+				"INSERT IGNORE INTO `$url_table`
+				(
+					`id_wpl_cookie_scan`,
+					`id_wpl_cookie_scan_url`,
+					`name`,
+					`duration`,
+					`domain`,
+					`type`,
+					`category`,
+					`category_id`,
+					`description`
+				)
+				VALUES (%d, %d, %s, %s, %s, %s, %s, %d, %s)",
+				$scan_id,
+				$url_id,
+				$name,
+				$duration,
+				$domain,
+				$type,
+				$category,
+				$category_id,
+				$description
+			);
+
 			$wpdb->query( $sql );
 		}
 		return $out;
@@ -922,8 +954,27 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 */
 	protected function update_url( $url_id_arr ) {
 		global $wpdb;
+
+		if ( empty( $url_id_arr ) ) {
+			return;
+		}
+
 		$url_table = $wpdb->prefix . $this->url_table;
-		$sql       = "UPDATE `$url_table` SET `scanned`=1 WHERE id_wpl_cookie_scan_url IN(" . implode( ',', $url_id_arr ) . ')';
+
+		$url_id_arr = array_map( 'absint', $url_id_arr );
+
+		$placeholders = implode(
+			',',
+			array_fill( 0, count( $url_id_arr ), '%d' )
+		);
+
+		$sql = $wpdb->prepare(
+			"UPDATE `$url_table`
+			SET `scanned` = 1
+			WHERE `id_wpl_cookie_scan_url` IN ($placeholders)",
+			$url_id_arr
+		);
+
 		$wpdb->query( $sql );
 	}
 
@@ -957,13 +1008,19 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			'data'  => array(),
 		);
 		$url_table = $wpdb->prefix . $this->url_table;
-		$count_sql = "SELECT COUNT(id_wpl_cookie_scan_url) AS ttnum FROM $url_table WHERE id_wpl_cookie_scan='$scan_id'";
+		$count_sql = $wpdb->prepare(
+			"SELECT COUNT(id_wpl_cookie_scan_url) AS ttnum FROM $url_table WHERE id_wpl_cookie_scan = %d",
+			$scan_id
+		);
 		$count_arr = $wpdb->get_row( $count_sql, ARRAY_A );
 		if ( $count_arr ) {
 			$out['total'] = $count_arr['ttnum'];
 		}
 
-		$sql = "SELECT * FROM $url_table WHERE id_wpl_cookie_scan='$scan_id' ORDER BY id_wpl_cookie_scan_url ASC LIMIT $offset,$limit";
+		$sql = $wpdb->prepare(
+			"SELECT * FROM $url_table WHERE id_wpl_cookie_scan = %d ORDER BY id_wpl_cookie_scan_url ASC LIMIT %d, %d",
+			array( $scan_id, $offset, $limit )
+		);
 
 		$data_arr = $wpdb->get_results( $sql, ARRAY_A );
 		if ( $data_arr ) {

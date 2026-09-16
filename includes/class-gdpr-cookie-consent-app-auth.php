@@ -188,10 +188,10 @@ class GDPR_Cookie_Consent_App_Auth {
 		require_once plugin_dir_path( __DIR__ ) . 'admin/modules/cookie-scanner/classes/class-wpl-cookie-consent-cookie-scanner-ajax.php';
 		$cookies_scan = new Gdpr_Cookie_Consent_Cookie_Scanner_Ajax();
 		global $wcam_lib_gdpr;
-		$offset  = (int) isset( $_POST['offset'] ) ? sanitize_text_field( wp_unslash( $_POST['offset'] ) ) : 0;
-		$scan_id = (int) isset( $_POST['scan_id'] ) ? sanitize_text_field( wp_unslash( $_POST['scan_id'] ) ) : 0;
+		$offset  = isset( $_POST['offset'] ) ? absint( wp_unslash( $_POST['offset'] ) ) : 0;
+		$scan_id = isset( $_POST['scan_id'] ) ? absint( wp_unslash( $_POST['scan_id'] ) ) : 0;
 		// total_pages
-		$total_pages = (int) isset( $_POST['total_pages'] ) ? sanitize_text_field( wp_unslash( $_POST['total_pages'] ) ) : 0;
+		$total_pages = isset( $_POST['total_pages'] ) ? absint( wp_unslash( $_POST['total_pages'] ) ) : 0;
 
 		$api_key    = $settings->get( 'api', 'token' );
 		$product_id = $settings->get( 'account', 'product_id' );
@@ -224,7 +224,7 @@ class GDPR_Cookie_Consent_App_Auth {
 				array(
 					'id'                  => $settings->get_user_id(),
 					'platform'            => 'wordpress',
-					'no_of_scan'          => sanitize_text_field( wp_unslash( $_POST['no_of_scan'] ) ),
+					'no_of_scan'          => isset( $_POST['no_of_scan'] ) ? absint( wp_unslash( $_POST['no_of_scan'] ) ) : 0,
 					'status_args'         => $status_args,
 					'activate_args'       => $activate_args,
 					'wc_am_activated_key' => $wcam_lib_gdpr->data,
@@ -400,7 +400,14 @@ class GDPR_Cookie_Consent_App_Auth {
 	/**
 	 * AJAX handler to save free trial data
 	 */
-	public function save_free_trial_data() {		
+	public function save_free_trial_data() {	
+		
+		check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
+
+		// Check user capabilities.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permissions to connect WP Cookie Consent.', 'gdpr-cookie-consent' ) );
+		}
 
 		$raw = wp_unslash( $_POST['free_trial'] ?? '' );
 
@@ -444,6 +451,10 @@ class GDPR_Cookie_Consent_App_Auth {
 
 		// Verify AJAX nonce.
 		check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permissions to connect WP Cookie Consent.', 'gdpr-cookie-consent' ) );
+		}
 
 		$result = $this->perform_disconnect();
 

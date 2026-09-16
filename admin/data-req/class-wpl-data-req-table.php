@@ -95,7 +95,8 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				</label>
 				<input placeholder="Search Requests" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
 				<img id="search-logo-data-request" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
-				<?php
+			</div>
+			<?php
 				submit_button(
 					$text,
 					'button',
@@ -103,12 +104,17 @@ class WPL_Data_Req_Table extends WP_List_Table {
 					false,
 					array( 'ID' => 'search-submit-data-request' )
 				);
-				?>
-			</div>
+			?>
 		</div>
 		<script type="text/javascript">
-			document.getElementById('search-logo-data-request').addEventListener('click', function() {
-				document.getElementById('search-submit-data-request').click();
+			document.addEventListener('click', function (event) {
+				if (!event.target.closest || !event.target.closest('#search-logo-data-request')) {
+					return;
+				}
+				var submitButton = document.getElementById('search-submit-data-request');
+				if (submitButton) {
+					submitButton.click();
+				}
 			});
 		</script>
 					<?php
@@ -159,8 +165,8 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_name( $item ) {
-		$name  = '#' . $item['ID'] . ' ';
-		$name .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
+		$name  = '#' . esc_html( $item['ID'] ) . ' ';
+		$name .= ! empty( $item['name'] ) ? esc_html( $item['name'] ) : '<em>' . esc_html__( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
 		return $name;
 	}
 

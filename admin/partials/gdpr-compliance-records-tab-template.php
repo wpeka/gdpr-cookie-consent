@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Provide a AB Testing tab area view for the WP Cookie Consent plugin
+ * Provide a compliance records settings tab area view for the WP Cookie Consent plugin
  *
  * This file is used to markup the advanced settings of the WP Cookie Consent plugin.
  *
@@ -20,5 +20,5 @@ if ( isset( $_SERVER['PHP_SELF'] ) ) {
 }
 
 if ( class_exists( 'Gdpr_Cookie_Consent_Admin' ) ) {
-	Gdpr_Cookie_Consent_Admin::gdpr_cookie_consent_abtesting_settings();
+	Gdpr_Cookie_Consent_Admin::gdpr_cookie_consent_compliance_record_settings();
 }
