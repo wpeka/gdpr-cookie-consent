@@ -596,9 +596,6 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$custom_posts     = get_posts( $post_args );
 		$all_consent_data = array(); // Initialize the $data array.
 
-		$scanner          = new Gdpr_Cookie_Consent_Cookie_Scanner();
-		$scan_cookie_list = $scanner->get_scan_cookie_list();
-
 		// consent forwarding.
 
 		if ( ! is_multisite() ) {
@@ -731,6 +728,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 					}
 				}
+
+				$scanner          = new Gdpr_Cookie_Consent_Cookie_Scanner();
+				$scan_cookie_list = $scanner->get_scan_cookie_list();
 
 				ob_start();
 				?>

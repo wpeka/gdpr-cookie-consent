@@ -1231,7 +1231,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'svg'    => array(
 					'width'   => array(),
 					'height'  => array(),
-					'viewBox' => array(),
+					'viewbox' => array(),
 					'fill'    => array(),
 					'xmlns'   => array(),
 				),
@@ -1751,30 +1751,7 @@ class Gdpr_Cookie_Consent_Admin {
 									</div>
 									<c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
 
-								</c-col>
-								<!-- email validation script -->
-								<script>
-									document.addEventListener('DOMContentLoaded', function () {
-										// Get the input element and the validation icon element
-										var emailInput = document.getElementById('email-input');
-										var validationIcon = document.getElementById('validation-icon');
-
-										// Add an event listener on input change
-										if(emailInput !== null)emailInput.addEventListener('input', function () {
-											// Validate the email format using a regular expression
-											var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-											var isValidEmail = emailPattern.test(emailInput.value);
-
-											// Update the validation icon based on validity
-											validationIcon.innerHTML = isValidEmail
-												? '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15"><path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path></svg>'
-												: '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" height="15" width="15"><path fill="red" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg>';
-
-											// Adjust the padding-right property based on the presence of the icon
-											emailInput.style.paddingRight = isValidEmail ? '30px' : '0';
-										});
-									});
-								</script>
+								</c-col>								
 							</div>
 
 							<div class="gdpr-data-req-email-subject">
@@ -1937,7 +1914,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'svg'    => array(
 					'width'   => array(),
 					'height'  => array(),
-					'viewBox' => array(),
+					'viewbox' => array(),
 					'fill'    => array(),
 					'xmlns'   => array(),
 				),
@@ -5280,59 +5257,30 @@ class Gdpr_Cookie_Consent_Admin {
 				$ab_options = array();
 			}
 			
-			$current_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? absint( $ab_options['ab_testing_period'] ) : 0;
+			$current_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? $ab_options['ab_testing_period'] : '';
 
-			// Set the new A/B testing period value from POST
-			if ( isset( $_POST['ab_testing_period_text_field'] ) ) {
-				$ab_testing_period_key = 'ab_testing_period_text_field';
-			} elseif ( isset( $_POST['ab_testing_period'] ) ) {
-				$ab_testing_period_key = 'ab_testing_period';
-			}
-			if ( null !== $ab_testing_period_key ) {
-				$ab_options['ab_testing_period'] = absint( wp_unslash( $_POST[ $ab_testing_period_key ] ) );
-			}
-			if ( isset( $_POST['gcc-ab-testing-auto'] ) ) {
-				$ab_options['ab_testing_auto'] = in_array( wp_unslash( $_POST['gcc-ab-testing-auto'] ), array( 'true', '1', 1, true ), true ) ? 'true' : 'false';
-			}
+			$ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period'] ) ? absint( $_POST['ab_testing_period'] ) : '';
+			$ab_options['ab_testing_auto'] = isset( $_POST['gcc-ab-testing-auto'] ) && in_array( wp_unslash( $_POST['gcc-ab-testing-auto'] ), array( 'true', '1', 1, true ), true) ? 'true' : 'false';
 
-			// Get the updated A/B testing period value
-			$updated_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? absint( $ab_options['ab_testing_period'] ) : 0;
-			// Handle auto-generated banner reset when template is changed
-			$reset_auto_generated = isset($_POST['reset_auto_generated']) ? sanitize_text_field($_POST['reset_auto_generated']) : '0';
-			$is_template_changed = isset($_POST['is_template_changed']) ? sanitize_text_field($_POST['is_template_changed']) : '0';
-			$auto_generated_banner = isset($_POST['auto_generated_banner']) ? sanitize_text_field($_POST['auto_generated_banner']) : '0';
-			$template = isset($_POST['gdpr-template']) ? sanitize_text_field($_POST['gdpr-template']) : 'new_default';
-			// Check if the value of the A/B testing period has changed
-			if ($current_ab_testing_value !== $updated_ab_testing_value) {
+			$updated_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? $ab_options['ab_testing_period'] : '';
 
-				// Get the transient expiration time if the transient already exists
-				$transient_name = '_transient_timeout_gdpr_ab_testing_transient';
-				$expiration_time = get_option($transient_name);
-				
-				// Check if the transient exists (the value is retrieved)
-				if ($expiration_time) {
-					// Convert the expiration time to a human-readable format
-					$expiration_time = gmdate('Y-m-d H:i:s', $expiration_time);
-					
-					// Get the current date and time
-					$current_date_time = gmdate('Y-m-d H:i:s');
+			if ( $current_ab_testing_value !== $updated_ab_testing_value ) {
 
-					// Calculate the difference in time between the current time and the expiration time
-					$current_time_unix = strtotime($current_date_time);
-					$expiration_time_unix = strtotime($expiration_time);
-					
-					// Calculate the remaining time in seconds
-					$remaining_time_seconds = $expiration_time_unix - $current_time_unix;
+				$transient_name   = '_transient_timeout_gdpr_ab_testing_transient';
+				$expiration_time  = get_option( $transient_name );
 
-					// Calculate the remaining days
-					$remaining_days = ceil($remaining_time_seconds / (60 * 60 * 24));
+				if ( $expiration_time ) {
 
-					// If the user changes the days value, update the transient expiration time
-					$new_expiration_time_seconds = ((int) $updated_ab_testing_value * 24 * 60 * 60); // New expiration time in seconds
-					
-					// If the new expiration time is longer or shorter, update the transient accordingly
-					if ($remaining_days != $updated_ab_testing_value) {
-						$new_expiration_timestamp = $current_time_unix + $new_expiration_time_seconds;
+					$expiration_time          = gmdate( 'Y-m-d H:i:s', $expiration_time );
+					$current_date_time        = gmdate( 'Y-m-d H:i:s' );
+					$current_time_unix        = strtotime( $current_date_time );
+					$expiration_time_unix     = strtotime( $expiration_time );
+					$remaining_time_seconds   = $expiration_time_unix - $current_time_unix;
+					$remaining_days           = ceil( $remaining_time_seconds / ( 60 * 60 * 24 ) );
+					$new_expiration_time_seconds = ( (int) $updated_ab_testing_value * 24 * 60 * 60 );
+
+					if ( $remaining_days != $updated_ab_testing_value ) {
+
 						set_transient(
 							'gdpr_ab_testing_transient',
 							array(
@@ -5342,9 +5290,11 @@ class Gdpr_Cookie_Consent_Admin {
 							$new_expiration_time_seconds
 						);
 					}
+
 				} else {
-					// If the transient doesn't exist, create it with the new expiration time
-					$new_expiration_time_seconds = ((int) $updated_ab_testing_value * 24 * 60 * 60);
+
+					$new_expiration_time_seconds = ( (int) $updated_ab_testing_value * 24 * 60 * 60 );
+
 					set_transient(
 						'gdpr_ab_testing_transient',
 						array(
