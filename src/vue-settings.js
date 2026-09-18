@@ -3031,6 +3031,13 @@ var gen = new Vue({
     },
   },
   methods: { 
+    submitDataRequestSearch(event) {
+      const container = event.target.closest('.search-and-export-container');
+      const submitButton = container && container.querySelector('#search-submit-data-request');
+      if (submitButton) {
+        submitButton.click();
+      }
+    },
     submitConsentLogSearch(event) {
       const container = event.target.closest('.search-and-export-container');
       const submitButton = container && container.querySelector('#search-submit-consent-log');
