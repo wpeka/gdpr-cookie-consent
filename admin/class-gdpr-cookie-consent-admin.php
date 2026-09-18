@@ -1165,10 +1165,11 @@ class Gdpr_Cookie_Consent_Admin {
 					'action' => array(),
 				),
 				'img'    => array(
-					'class' => array(),
-					'src'   => array(),
-					'alt'   => array(),
-					'id'    => array(),
+					'class'      => array(),
+					'src'        => array(),
+					'alt'        => array(),
+					'id'         => array(),
+					'v-on:click' => array(),
 				),
 				'p'      => array(
 					'class' => array(),

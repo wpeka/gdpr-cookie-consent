@@ -3031,6 +3031,13 @@ var gen = new Vue({
     },
   },
   methods: { 
+    submitConsentLogSearch(event) {
+      const container = event.target.closest('.search-and-export-container');
+      const submitButton = container && container.querySelector('#search-submit-consent-log');
+      if (submitButton) {
+        submitButton.click();
+      }
+    },
     refreshGCMAdvertiserModeData(html) {
       this.gcm_adver_mode_data = html;
       const container = document.querySelector('#gcm-advertiser-mode-container');
