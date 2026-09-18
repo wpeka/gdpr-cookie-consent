@@ -112,7 +112,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					<?php echo esc_html( $text ); ?>:
 				</label>
 				<input placeholder="Search Consent Logs using IP address" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
-				<img id="search-logo-consent-log" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
+				<img id="search-logo-consent-log" v-on:click="submitConsentLogSearch" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 			</div>
 			<?php
 				submit_button(
@@ -124,17 +124,6 @@ class WPL_Consent_Logs extends WP_List_Table {
 				);
 			?>
 		</div>
-		<script type="text/javascript">
-			document.addEventListener('click', function (event) {
-				if (!event.target.closest || !event.target.closest('#search-logo-consent-log')) {
-					return;
-				}
-				var submitButton = document.getElementById('search-submit-consent-log');
-				if (submitButton) {
-					submitButton.click();
-				}
-			});
-		</script>
 		<?php
 	}
 
@@ -596,9 +585,6 @@ class WPL_Consent_Logs extends WP_List_Table {
 		$custom_posts     = get_posts( $post_args );
 		$all_consent_data = array(); // Initialize the $data array.
 
-		$scanner          = new Gdpr_Cookie_Consent_Cookie_Scanner();
-		$scan_cookie_list = $scanner->get_scan_cookie_list();
-
 		// consent forwarding.
 
 		if ( ! is_multisite() ) {
@@ -731,6 +717,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 					}
 				}
+
+				$scanner          = new Gdpr_Cookie_Consent_Cookie_Scanner();
+				$scan_cookie_list = $scanner->get_scan_cookie_list();
 
 				ob_start();
 				?>
