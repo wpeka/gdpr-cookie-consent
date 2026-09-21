@@ -38,7 +38,11 @@ class Gdpr_Cookie_Consent_AB_Testing {
 		}
 	}
 	public function register_ab_testing_script(){
-		//getting scan data 
+		// Only load on the plugin screens that render the admin revamp app.
+		if ( ! Gdpr_Cookie_Consent::is_revamp_admin_screen() ) {
+			return;
+		}
+		//getting scan data
 		wp_enqueue_script('ab_testing_ajax', plugin_dir_url(__FILE__) . 'assets/js/ab-testing-data.js', array('jquery', 'gdpr-cookie-consent-admin-revamp'), '1.0', true);
 
 		wp_localize_script('ab_testing_ajax', 'ab_testing_ajax', array(
