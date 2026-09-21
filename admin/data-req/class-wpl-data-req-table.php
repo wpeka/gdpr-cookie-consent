@@ -94,7 +94,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 					<?php echo esc_html( $text ); ?>:
 				</label>
 				<input placeholder="Search Requests" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
-				<img id="search-logo-data-request" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
+				<img id="search-logo-data-request" v-on:click="submitDataRequestSearch" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 			</div>
 			<?php
 				submit_button(
@@ -106,17 +106,6 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				);
 			?>
 		</div>
-		<script type="text/javascript">
-			document.addEventListener('click', function (event) {
-				if (!event.target.closest || !event.target.closest('#search-logo-data-request')) {
-					return;
-				}
-				var submitButton = document.getElementById('search-submit-data-request');
-				if (submitButton) {
-					submitButton.click();
-				}
-			});
-		</script>
 					<?php
 
 			$this->resolved_select();
