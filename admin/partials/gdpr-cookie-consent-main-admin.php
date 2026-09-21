@@ -276,12 +276,6 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 									</div>
 								</div>
 
-								<!-- Script Blocker tab  -->
-								<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) { ?>
-									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-script-blocker-settings-tab" data-tab="script_blocker">
-										<?php echo esc_html('Script&nbsp;Blocker','gdpr-cookie-consent'); ?>
-									</div>
-								<?php } ?>
 
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-compliance-records-tab" data-tab="compliance_records">
 									<div style="display:flex; justify-content:space-between;gap:45px;width:100%;padding-right:10px;">

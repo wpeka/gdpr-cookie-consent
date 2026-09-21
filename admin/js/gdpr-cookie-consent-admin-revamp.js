@@ -48,42 +48,10 @@ jQuery(document).ready(function () {
 
 		// whenever Cookie Consent becomes the active top-level tab,
 		// default into Banner Settings > General
-		activateBannerSettingsGeneral();
     if (window.gdprSidebarSubnav) {
 			window.gdprSidebarSubnav.open("cookie_settings");
 		}
 	});
-	if (tabHeader.closest(".gdpr-admin-tab-link").hasClass("active-tab")) {
-		activateBannerSettingsGeneral();
-	}
-
-	function activateBannerSettingsGeneral(retries) {
-		retries = retries === undefined ? 10 : retries;
-
-		var bannerSettingsTab = document.querySelector('.gdpr-cookie-consent-admin-cookie-settings-tab');
-		var subNav = document.querySelector('.gdpr-banner-settings-subnav');
-
-		if (!bannerSettingsTab || !subNav) {
-			if (retries > 0) {
-				setTimeout(function () { activateBannerSettingsGeneral(retries - 1); }, 200);
-			}
-			return;
-		}
-
-		
-		var currentHash = window.location.hash;
-		var invalidHash = currentHash === '' || currentHash === '#';
-
-		if (invalidHash) {
-			bannerSettingsTab.classList.add('subnav-expanded');
-			subNav.style.setProperty('display', 'flex', 'important');
-
-			var firstLink = subNav.querySelector('.nav-link');
-			if (firstLink) {
-				firstLink.click();
-			}
-		}
-	}
 });
   jQuery(function ($) {
     $(document).on('click', '.gdpr-vendor-details-toggle', function (event) {
