@@ -206,6 +206,24 @@ class Gdpr_Cookie_Consent {
 	}
 
 	/**
+	 * Is the current request one of the admin screens that render the admin revamp app?
+	 *
+	 * Module scripts that depend on the 'gdpr-cookie-consent-admin-revamp' handle must
+	 * only be enqueued on these screens, as that handle is enqueued by their callbacks.
+	 *
+	 * @since 4.4.5
+	 *
+	 * @return bool
+	 */
+	public static function is_revamp_admin_screen() {
+		if ( ! isset( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return false;
+		}
+		$page = sanitize_text_field( wp_unslash( $_GET['page'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return in_array( $page, array( 'wplp-dashboard', 'gdpr-cookie-consent', 'wp-legal-pages' ), true );
+	}
+
+	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *

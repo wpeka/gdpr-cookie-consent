@@ -48,7 +48,7 @@ jQuery(document).ready(function () {
 
 		// whenever Cookie Consent becomes the active top-level tab,
 		// default into Banner Settings > General
-		if (window.gdprSidebarSubnav) {
+    if (window.gdprSidebarSubnav) {
 			window.gdprSidebarSubnav.open("cookie_settings");
 		}
 	});

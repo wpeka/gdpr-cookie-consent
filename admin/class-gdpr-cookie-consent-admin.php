@@ -221,6 +221,8 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name . '-main', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-main.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-dashboard', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-dashboard.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'js/vue/wpl-cookie-consent-admin-integrations.js', array( 'jquery' ), $this->version, false );
+		// Registered here so module scripts can declare it as a dependency on admin_enqueue_scripts; the screen callbacks enqueue and localize it.
+		wp_register_script( 'gdpr-cookie-consent-admin-revamp', GDPR_URL . 'admin/js/gdpr-cookie-consent-admin-revamp.js', array( 'jquery' ), GDPR_COOKIE_CONSENT_VERSION, true );
 		wp_enqueue_script($this->plugin_name . 'introjs-js', plugin_dir_url( __FILE__ ) . 'js/intro.min.js', array('jquery'), $this->version, false);
 	}
 
