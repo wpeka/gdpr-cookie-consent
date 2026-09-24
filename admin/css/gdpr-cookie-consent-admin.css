@@ -3365,7 +3365,8 @@ input[type="search"]:focus {
 .scan-frequency-content .scan-frequency-type,
 .scan-frequency-content .scan-frequency-date,
 .scan-frequency-content .scan-frequency-time,
-.scan-frequency-content .scan-frequency-day {
+.scan-frequency-content .scan-frequency-day,
+.scan-frequency-content .scan-frequency-weekday {
   width: 240px;
 }
 .schedule-scan-options {
@@ -3474,7 +3475,8 @@ textarea[readonly] {
 .scan-frequency-type .vs__open-indicator {
   fill: var(--blue-904);
 }
-.scan-frequency-day .vs__open-indicator {
+.scan-frequency-day .vs__open-indicator,
+.scan-frequency-weekday .vs__open-indicator {
   fill: var(--blue-904);
 }
 

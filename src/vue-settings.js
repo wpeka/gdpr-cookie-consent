@@ -701,6 +701,12 @@ var gen = new Vue({
       schedule_scan_day: settings_obj.the_options.hasOwnProperty("scan_day")
         ? settings_obj.the_options["scan_day"]
         : "Day 1", //scan day
+      schedule_scan_weekday_options: settings_obj.schedule_scan_weekday_options,
+      schedule_scan_weekday: settings_obj.the_options.hasOwnProperty(
+        "scan_weekday"
+      )
+        ? settings_obj.the_options["scan_weekday"]
+        : "Monday", //scan weekday, used when the frequency is weekly
       schedule_scan_time_value: settings_obj.the_options.hasOwnProperty(
         "scan_time"
       )
@@ -6133,89 +6139,43 @@ var gen = new Vue({
     onStartScheduleScan() {
       this.schedule_scan_show = false; //make it false to close the popup
 
+      //optimistic value for the Next Scan Details; the server returns the
+      //authoritative one once the cron event is armed
       if (this.schedule_scan_as == "once") {
-        //execute schedule scan once
-        this.scheduleScanOnce();
+        const targetDate = this.getOnceScanDate();
 
-        //set value for the Next Scan Details when Once
-        const dateObject = new Date(this.schedule_scan_date);
-        const formattedDate = dateObject.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-        this.next_scan_is_when = formattedDate;
-      } else if (this.schedule_scan_as == "monthly") {
-        //execute scan schedule monthly
-        this.scanMonthly();
-
-        //set value for the Next Scan Details when Monthly
-
-        // Get the day of the month when the scan should run
-        const dayString = this.schedule_scan_day;
-        const dayNumber = parseInt(dayString.replace("Day ", ""), 10);
-        const targetDayOfMonth = dayNumber;
-
-        // Assuming this.schedule_scan_day contains the day of the month (1 to 31)
-        const dayOfMonth = parseInt(
-          this.schedule_scan_day.replace("Day ", ""),
-          10
-        );
-
-        if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31) {
-          console.error("Invalid day of the month:", dayOfMonth);
-        } else {
-          // Get the current date and day of the month
-          const currentDate = new Date();
-          const currentDayOfMonth = currentDate.getDate();
-
-          // Get the selected day of the month for scanning
-          const targetDayOfMonth = dayOfMonth;
-
-          // Get the number of days in the current month
-          const currentYear = currentDate.getFullYear();
-          const currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so we add 1
-          const daysInCurrentMonth = new Date(
-            currentYear,
-            currentMonth,
-            0
-          ).getDate();
-
-          // Calculate the next scan date based on the current date and the selected day of the month
-          let nextScanDate;
-          if (
-            dayOfMonth > daysInCurrentMonth ||
-            currentDayOfMonth > dayOfMonth
-          ) {
-            // If the selected day exceeds the number of days in the current month
-            // or if the current day is greater than the selected day,
-            // set the next scan date to the selected day of the month in the next month
-            nextScanDate = new Date(
-              currentYear,
-              currentMonth,
-              targetDayOfMonth
-            );
-          } else {
-            // If the current day of the month is less than or equal to the selected day of the month,
-            // set the next scan date to the selected day of the month in the current month
-            nextScanDate = new Date(
-              currentYear,
-              currentMonth - 1,
-              targetDayOfMonth
-            );
-          }
-
-          // Format the next scan date as needed (e.g., 'Mar 2, 2023')
-          const formattedDate = nextScanDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          });
-          this.next_scan_is_when = formattedDate;
+        if (!targetDate || targetDate.getTime() <= Date.now()) {
+          alert("Selected date is in the past. Please select a vaild date.");
+          this.schedule_scan_show = true;
+          return;
         }
+
+        this.next_scan_is_when = this.formatScanDate(targetDate);
+      } else if (this.schedule_scan_as == "weekly") {
+        const nextWeeklyScanDate = this.getNextWeeklyScanDate();
+
+        if (!nextWeeklyScanDate) {
+          alert("Invalid day of the week: " + this.schedule_scan_weekday);
+          this.schedule_scan_show = true;
+          return;
+        }
+
+        this.next_scan_is_when = this.formatScanDate(nextWeeklyScanDate);
+      } else if (this.schedule_scan_as == "monthly") {
+        const nextMonthlyScanDate = this.getNextMonthlyScanDate();
+
+        if (!nextMonthlyScanDate) {
+          alert("Invalid day of the month: " + this.schedule_scan_day);
+          this.schedule_scan_show = true;
+          return;
+        }
+
+        this.next_scan_is_when = this.formatScanDate(nextMonthlyScanDate);
       } else if (this.schedule_scan_as == "never") {
         this.next_scan_is_when = "Not Scheduled";
       }
+
+      var that = this;
       jQuery.ajax({
         url: settings_obj.ajaxurl,
         type: "POST",
@@ -6226,111 +6186,43 @@ var gen = new Vue({
           schedule_scan_date: this.schedule_scan_date,
           schedule_scan_time_value: this.schedule_scan_time_value,
           schedule_scan_day: this.schedule_scan_day,
+          schedule_scan_weekday: this.schedule_scan_weekday,
           next_scan_is_when: this.next_scan_is_when,
         },
-      });
-    },
-    clearScheduleAfterScan() {
-      var that = this;
-      jQuery.ajax({
-        url: settings_obj.ajaxurl,
-        type: "POST",
-        data: {
-          action: "gcc_clear_schedule_scan"
-        },
-        success: function(response) {
-          that.next_scan_is_when = "Not Scheduled";
-          that.schedule_scan_as = "never";
-          console.log("Schedule cleared after successful scan");
-        }, error: function() {
-          console.error("Error clearing schedule after scan");
-        }
-      });
-    },
-    scheduleScanOnce() {
-      if (this.schedule_scan_as !== "once") {
-          return;
-        }
-
-      // Define the date and time when you want the function to execute
-      let targetDate = new Date(this.schedule_scan_date);
-
-      // Parse the time entered by the user and handle both 12-hour and 24-hour formats
-      const timeParts = this.schedule_scan_time_value.split(":");
-      let hours = parseInt(timeParts[0], 10);
-      const minutes = parseInt(timeParts[1], 10);
-
-      // Check if the time is in 12-hour format (e.g., "01:03 AM")
-      if (
-        this.schedule_scan_time_value.toUpperCase().includes("PM") &&
-        hours < 12
-      ) {
-        hours += 12;
-      } else if (
-        this.schedule_scan_time_value.toUpperCase().includes("AM") &&
-        hours === 12
-      ) {
-        hours = 0;
-      }
-
-      // Set the hours and minutes in the target date
-      targetDate.setHours(hours);
-      targetDate.setMinutes(minutes);
-
-      // Calculate the time difference between now and the target date
-      const timeUntilExecution = targetDate - new Date();
-      // Extract date components
-      const targetYear = targetDate.getFullYear();
-      const targetMonth = targetDate.getMonth();
-      const targetDay = targetDate.getDate();
-      const targetHour = targetDate.getHours();
-      const targetMinute = targetDate.getMinutes();
-        
-      // Check if the target date is in the future
-       if (timeUntilExecution > 0) {
-          setInterval(() => {
-            // Use setInterval to delay the execution of scan
-            const now = new Date();
-            // Check ALL date components
-            if (now.getFullYear() === targetYear &&
-                now.getMonth() === targetMonth &&
-                now.getDate() === targetDay &&
-                now.getHours() === targetHour &&
-                now.getMinutes() === targetMinute) {      
-          // after the scan is completed successfully, clear the schedule
-          this.onClickStartScan();
-          this.clearScheduleAfterScan();
-          this.next_scan_is_when = "Not Scheduled";
-          this.schedule_scan_as = "never";
+        success: function (response) {
+          // WP-Cron owns the schedule now, so show what actually got armed.
+          if (response && response.data && response.data.next_scan_is_when) {
+            that.next_scan_is_when = response.data.next_scan_is_when;
           }
-        }, 60000); // Check every minute
-      } else {
-        // if the target date is in the past
-        alert("Selected date is in the past. Please select a vaild date.");
-        this.schedule_scan_show = true;
-      }
+        },
+        error: function (jqXHR) {
+          const message =
+            jqXHR.responseJSON &&
+            jqXHR.responseJSON.data &&
+            jqXHR.responseJSON.data.message;
+
+          alert(message || "Could not schedule the scan. Please try again.");
+          that.schedule_scan_show = true;
+        },
+      });
     },
-    scanMonthly() {
-      // Get the day of the month when the scan should run
-      const dayString = this.schedule_scan_day;
-      const dayNumber = parseInt(dayString.replace("Day ", ""), 10);
-      const targetDayOfMonth = dayNumber;
-
-      if (
-        isNaN(targetDayOfMonth) ||
-        targetDayOfMonth <= 0 ||
-        targetDayOfMonth > 31
-      ) {
-        alert("Invalid day of the month:", this.schedule_scan_day);
-        return; // Exit if the day is invalid
-      }
-
-      // Define the time (hours and minutes)
-      const timeParts = this.schedule_scan_time_value.split(":");
+    formatScanDate(date) {
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    },
+    // Parse the time picker value, handling both 12-hour and 24-hour formats.
+    parseScanTime() {
+      const timeParts = String(this.schedule_scan_time_value).split(":");
       let hours = parseInt(timeParts[0], 10);
       const minutes = parseInt(timeParts[1], 10);
 
-      // Check if the time is in 12-hour format (e.g., "01:03 AM")
+      if (isNaN(hours) || isNaN(minutes)) {
+        return null;
+      }
+
       if (
         this.schedule_scan_time_value.toUpperCase().includes("PM") &&
         hours < 12
@@ -6342,51 +6234,91 @@ var gen = new Vue({
       ) {
         hours = 0;
       }
-      // Define a function to check and run the scan when the conditions are met
-      const checkAndRunScan = () => {
-        const currentDate = new Date();
-        const currentDayOfMonth = currentDate.getDate();
-        const currentHours = currentDate.getHours();
-        const currentMinutes = currentDate.getMinutes();
 
-        if (
-          currentDayOfMonth === targetDayOfMonth &&
-          currentHours === hours &&
-          currentMinutes === minutes
-        ) {
-          // The conditions are met; execute the scan
-          this.onClickStartScan();
-          const nextMonthDate = new Date(currentDate);
-          nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
-          nextMonthDate.setDate(targetDayOfMonth);
+      return { hours: hours, minutes: minutes };
+    },
+    // Date and time picked for a one-off scan.
+    getOnceScanDate() {
+      const targetDate = new Date(this.schedule_scan_date);
 
-          const formattedDate = nextMonthDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          });
+      if (isNaN(targetDate.getTime())) {
+        return null;
+      }
 
-          jQuery.ajax({
-            url: settings_obj.ajaxurl,
-            type: "POST",
-            data: {
-              action: "gcc_save_schedule_scan",
-              _wpnonce: settings_obj.nonce,
-              schedule_scan_as: "monthly",
-              schedule_scan_date: formattedDate,
-              schedule_scan_time_value: this.schedule_scan_time_value,
-              schedule_scan_day: this.schedule_scan_day,
-              next_scan_is_when: formattedDate,
-            },
-            success: () => {
-              this.next_scan_is_when = formattedDate;
-            }
-          });
-        }
+      const time = this.parseScanTime();
+      if (time) {
+        targetDate.setHours(time.hours, time.minutes, 0, 0);
+      }
+
+      return targetDate;
+    },
+    // Next occurrence of the selected weekday at the selected time.
+    getNextWeeklyScanDate() {
+      const weekdays = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      const selected = String(this.schedule_scan_weekday || "")
+        .trim()
+        .toLowerCase();
+      const targetDayOfWeek = weekdays.findIndex(
+        (weekday) => weekday.toLowerCase() === selected
+      );
+      const time = this.parseScanTime();
+
+      if (targetDayOfWeek === -1 || !time) {
+        return null;
+      }
+
+      const nextScanDate = new Date();
+      nextScanDate.setHours(time.hours, time.minutes, 0, 0);
+
+      let daysAhead = (targetDayOfWeek - nextScanDate.getDay() + 7) % 7;
+      if (daysAhead === 0 && nextScanDate.getTime() <= Date.now()) {
+        daysAhead = 7;
+      }
+      nextScanDate.setDate(nextScanDate.getDate() + daysAhead);
+
+      return nextScanDate;
+    },
+    // Next occurrence of the selected day of the month at the selected time.
+    getNextMonthlyScanDate() {
+      const dayOfMonth = parseInt(
+        String(this.schedule_scan_day).replace("Day ", ""),
+        10
+      );
+      const time = this.parseScanTime();
+
+      if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31 || !time) {
+        return null;
+      }
+
+      // Clamp to the length of the month so 'Day 31' does not spill into the next one.
+      const setDayOfMonth = (date) => {
+        const daysInMonth = new Date(
+          date.getFullYear(),
+          date.getMonth() + 1,
+          0
+        ).getDate();
+        date.setDate(Math.min(dayOfMonth, daysInMonth));
+        return date;
       };
 
-      // Set an interval to check if the conditions for running the scan are met
-      setInterval(checkAndRunScan, 60000);
+      const nextScanDate = setDayOfMonth(new Date());
+      nextScanDate.setHours(time.hours, time.minutes, 0, 0);
+
+      if (nextScanDate.getTime() <= Date.now()) {
+        nextScanDate.setDate(1);
+        nextScanDate.setMonth(nextScanDate.getMonth() + 1);
+        setDayOfMonth(nextScanDate);
+      }
+
+      return nextScanDate;
     },
     onClickStartScan(singlePageScan = false) {
       var that = this;
@@ -7167,6 +7099,9 @@ var gen = new Vue({
     scanDayChange(value) {
       this.schedule_scan_day = value;
     },
+    scanWeekdayChange(value) {
+      this.schedule_scan_weekday = value;
+    },
     updateScanCookie(cookie_arr) {
       var that = this;
       var data = {
@@ -7723,7 +7658,8 @@ var gen = new Vue({
       url: settings_obj.ajaxurl,
       type: "POST",
       data: {
-        action: "gcc_get_schedule_scan"
+        action: "gcc_get_schedule_scan",
+        _wpnonce: settings_obj.nonce,
       },
       success: function(response) {
         if (response.success && response.data) {
@@ -7731,30 +7667,9 @@ var gen = new Vue({
           that.schedule_scan_date = response.data.schedule_scan_date || '';
           that.schedule_scan_time_value = response.data.schedule_scan_time_value || '';
           that.schedule_scan_day = response.data.schedule_scan_day || '';
+          that.schedule_scan_weekday = response.data.schedule_scan_weekday || 'Monday';
           that.next_scan_is_when = response.data.next_scan_is_when || 'Not Scheduled';
-          // RESTART SCHEDULED SCANS AFTER PAGE LOAD
-          if (that.schedule_scan_as === 'once' && that.schedule_scan_date && that.schedule_scan_time_value) {
-
-            const targetDate = new Date(that.schedule_scan_date);
-            const timeParts = that.schedule_scan_time_value.split(':');
-            let hours = parseInt(timeParts[0], 10);
-            const minutes = parseInt(timeParts[1], 10);
-            if (that.schedule_scan_time_value.toUpperCase().includes('PM') && hours < 12) hours += 12;
-            if (that.schedule_scan_time_value.toUpperCase().includes('AM') && hours === 12) hours = 0;
-            targetDate.setHours(hours);
-            targetDate.setMinutes(minutes);
-
-            const now = new Date();
-
-            if (targetDate > now) {
-              that.scheduleScanOnce(); // schedule normally
-            } else {
-              that.clearScheduleAfterScan();
-            }
-          }
-          else if (that.schedule_scan_as === 'monthly') {
-                        that.scanMonthly();
-          }
+          // No restart needed: the schedule lives in WP-Cron, not in this page.
         }
       }
     });

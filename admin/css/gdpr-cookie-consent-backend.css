@@ -237,7 +237,8 @@ table.gdpr_script_items tr:nth-child(odd) td {
 .scan-frequency-type .vs__dropdown-toggle {
   border-color: #e3e6e9;
 }
-.scan-frequency-day .vs__dropdown-toggle {
+.scan-frequency-day .vs__dropdown-toggle,
+.scan-frequency-weekday .vs__dropdown-toggle {
   border-color: #e3e6e9;
 }
 a .export-btn {
@@ -774,7 +775,8 @@ a .export-btn:hover {
   position: relative;
   left: -7px;
 }
-.scan-frequency-day {
+.scan-frequency-day,
+.scan-frequency-weekday {
   position: relative;
   left: 7px;
 }

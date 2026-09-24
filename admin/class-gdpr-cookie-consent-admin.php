@@ -151,6 +151,7 @@ class Gdpr_Cookie_Consent_Admin {
 		
 		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
 		add_action( 'gdpr_run_scheduled_cookie_scan', array( $this, 'gdpr_cron_run_scan' ) );
+		add_action( 'gdpr_cookie_consent_app_plan_connected', array( $this, 'gdpr_activate_weekly_scan_for_plan' ) );
 	}
 
 	
@@ -3137,6 +3138,10 @@ class Gdpr_Cookie_Consent_Admin {
 			'code'  => 'once',
 		);
 		$schedule_scan_options[2] = array(
+			'label' => 'Weekly',
+			'code'  => 'weekly',
+		);
+		$schedule_scan_options[3] = array(
 			'label' => 'Monthly',
 			'code'  => 'monthly',
 		);
@@ -3150,6 +3155,16 @@ class Gdpr_Cookie_Consent_Admin {
 			$schedule_scan_day_options[] = array(
 				'label' => $label,
 				'code'  => $code,
+			);
+		}
+
+		// dropdown option for schedule scan weekday (used when the frequency is weekly).
+		$schedule_scan_weekday_options = array();
+
+		foreach ( array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ) as $weekday ) {
+			$schedule_scan_weekday_options[] = array(
+				'label' => $weekday,
+				'code'  => $weekday,
 			);
 		}
 
@@ -3443,6 +3458,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'show_language_as_options'         => $show_language_as_options,
 				'schedule_scan_options'            => $schedule_scan_options,
 				'schedule_scan_day_options'        => $schedule_scan_day_options,
+				'schedule_scan_weekday_options'    => $schedule_scan_weekday_options,
 				'on_hide_options'                  => $on_hide_options,
 				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
@@ -5221,6 +5237,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['scan_date'] = isset( $_POST['gdpr-schedule-scan-date'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-date'] ) ) : 'Oct 10 2023';
 			// scan day.
 			$the_options['scan_day'] = isset( $_POST['gdpr-schedule-scan-day'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-day'] ) ) : 'Day 1';
+			// scan weekday.
+			$the_options['scan_weekday'] = isset( $_POST['gdpr-schedule-scan-weekday'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-weekday'] ) ) : 'Monday';
 			// scan time.
 			$the_options['scan_time']             = isset( $_POST['gdpr-schedule-scan-time'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-time'] ) ) : '8:00 PM';
 			$the_options['banner_preview_enable'] = isset( $_POST['gcc-banner-preview-enable'] ) && ( true === $_POST['gcc-banner-preview-enable'] || 'true' === $_POST['gcc-banner-preview-enable'] ) ? 'true' : 'false';
@@ -8228,6 +8246,10 @@ class Gdpr_Cookie_Consent_Admin {
 			'code'  => 'once',
 		);
 		$schedule_scan_options[2] = array(
+			'label' => 'Weekly',
+			'code'  => 'weekly',
+		);
+		$schedule_scan_options[3] = array(
 			'label' => 'Monthly',
 			'code'  => 'monthly',
 		);
@@ -8241,6 +8263,16 @@ class Gdpr_Cookie_Consent_Admin {
 			$schedule_scan_day_options[] = array(
 				'label' => $label,
 				'code'  => $code,
+			);
+		}
+
+		// dropdown option for schedule scan weekday (used when the frequency is weekly).
+		$schedule_scan_weekday_options = array();
+
+		foreach ( array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ) as $weekday ) {
+			$schedule_scan_weekday_options[] = array(
+				'label' => $weekday,
+				'code'  => $weekday,
 			);
 		}
 		$on_hide_options         = array();
@@ -8430,6 +8462,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'show_language_as_options'         => $show_language_as_options,
 				'schedule_scan_options'            => $schedule_scan_options,
 				'schedule_scan_day_options'        => $schedule_scan_day_options,
+				'schedule_scan_weekday_options'    => $schedule_scan_weekday_options,
 				'on_hide_options'                  => $on_hide_options,
 				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
@@ -9170,11 +9203,26 @@ class Gdpr_Cookie_Consent_Admin {
 			'schedule_scan_date' => sanitize_text_field($_POST['schedule_scan_date']),
 			'schedule_scan_time_value' => sanitize_text_field($_POST['schedule_scan_time_value']),
 			'schedule_scan_day' => sanitize_text_field($_POST['schedule_scan_day']),
+			'schedule_scan_weekday' => isset( $_POST['schedule_scan_weekday'] ) ? sanitize_text_field($_POST['schedule_scan_weekday']) : '',
 			'next_scan_is_when' => sanitize_text_field($_POST['next_scan_is_when']),
 			'schedule_scan_when' => sanitize_text_field($_POST['next_scan_is_when']),
 		);
 		update_option('gdpr_scan_schedule_data', $schedule_data);
-		wp_send_json_success();
+
+		$scheduled = $this->gdpr_apply_scan_schedule( $schedule_data );
+
+		if ( is_wp_error( $scheduled ) ) {
+			wp_send_json_error( array( 'message' => $scheduled->get_error_message() ), 400 );
+		}
+
+		// The cron helpers rewrite next_scan_is_when, so hand back what was actually armed.
+		$schedule_data = get_option( 'gdpr_scan_schedule_data', $schedule_data );
+
+		wp_send_json_success(
+			array(
+				'next_scan_is_when' => $schedule_data['next_scan_is_when'] ?? '',
+			)
+		);
 	}
 
 	/**
@@ -9205,6 +9253,7 @@ class Gdpr_Cookie_Consent_Admin {
 			exit;
 		}
 		delete_option('gdpr_scan_schedule_data');
+		$this->gdpr_clear_scheduled_scan();
 		wp_send_json_success(array('message' => 'Schedule cleared'));
 	}
 
@@ -13575,45 +13624,43 @@ public function gdpr_support_request_handler() {
 		$scan_date         = sanitize_text_field( $schedule_scan['schedule_scan_date'] ?? '' );
 		$scan_time_value   = sanitize_text_field( $schedule_scan['schedule_scan_time_value'] ?? '' );
 		$scan_day          = sanitize_text_field( $schedule_scan['schedule_scan_day'] ?? '' );
+		$scan_weekday      = sanitize_text_field( $schedule_scan['schedule_scan_weekday'] ?? '' );
 		$next_scan_is_when = sanitize_text_field( $schedule_scan['next_scan_is_when'] ?? '' );
 		$scan_when         = sanitize_text_field( $schedule_scan['schedule_scan_when'] ?? '' );
+
+		// Weekly schedules may send the weekday through the shared day dropdown.
+		if ( '' === $scan_weekday && 'weekly' === $scan_as ) {
+			$scan_weekday = $scan_day;
+		}
 
 		$schedule_scan_data = array(
 			'schedule_scan_as'        => $scan_as,
 			'schedule_scan_date'      => $scan_date,
 			'schedule_scan_time_value'=> $scan_time_value,
 			'schedule_scan_day'       => $scan_day,
+			'schedule_scan_weekday'   => $scan_weekday,
 			'next_scan_is_when'       => $next_scan_is_when,
 			'schedule_scan_when'      => $scan_when,
 		);
 
 		update_option( 'gdpr_scan_schedule_data', $schedule_scan_data );
 
-		// Clear any existing scheduled scan first
-    	$this->gdpr_clear_scheduled_scan();
+		$scheduled = $this->gdpr_apply_scan_schedule( $schedule_scan_data );
 
-    	if ( $scan_as === 'once' ) {
-    	    $timestamp = $this->gdpr_parse_scan_datetime( $scan_date, $scan_time_value );
+		if ( is_wp_error( $scheduled ) ) {
+			return new WP_REST_Response(
+				array( 'status' => 'error', 'message' => $scheduled->get_error_message() ),
+				400
+			);
+		}
 
-    	    if ( ! $timestamp || $timestamp <= time() ) {
-    	        return new WP_REST_Response(
-    	            array( 'status' => 'error', 'message' => 'Selected date/time is in the past.' ),
-    	            400
-    	        );
-    	    }
-    	    wp_schedule_single_event( $timestamp, 'gdpr_run_scheduled_cookie_scan' );
-
-    	} elseif ( $scan_as === 'monthly' ) {
-    	    $this->gdpr_schedule_monthly_cron( $schedule_scan_data );
-
-    	} elseif ( $scan_as === 'never' ) {
-    	    // Already cleared above, nothing to do
-    	}
+		$schedule_scan_data = get_option( 'gdpr_scan_schedule_data', $schedule_scan_data );
 
 		return new WP_REST_Response(
 			array(
-				'status'  => 'success',
-				'message' => __( 'Scan Scheduled Successfully!!!', 'gdpr-cookie-consent' ),
+				'status'            => 'success',
+				'message'           => __( 'Scan Scheduled Successfully!!!', 'gdpr-cookie-consent' ),
+				'next_scan_is_when' => $schedule_scan_data['next_scan_is_when'] ?? '',
 			),
 			200
 		);
@@ -13711,6 +13758,9 @@ public function gdpr_support_request_handler() {
     	} else {
     	    update_option( $wcam_lib_gdpr->wc_am_activated_key, 'Activated' );
     	}
+
+		// Paid plans get the weekly scan schedule switched on.
+		do_action( 'gdpr_cookie_consent_app_plan_connected', $data['account']['plan'] ?? '' );
 
 		return new WP_REST_Response(
     	    array(
@@ -14890,84 +14940,365 @@ public function gdpr_support_request_handler() {
 	public function gdpr_cron_run_scan() {
 	    require_once plugin_dir_path( __DIR__ ) . 'admin/modules/cookie-scanner/classes/class-wpl-cookie-consent-cookie-scanner-ajax.php';
 	    $cookies_scan = new Gdpr_Cookie_Consent_Cookie_Scanner_Ajax();
-	    $cookies_scan->gdpr_start_cookie_scanning(-1);
+	    $cookies_scan->gdpr_start_cookie_scanning( -1, true );
 		
 	
 	    $schedule_data = get_option( 'gdpr_scan_schedule_data', [] );
 
     	if ( ( $schedule_data['schedule_scan_as'] ?? '' ) === 'monthly' ) {
-    	    $clean     = preg_replace( '/\(.*?\)/', '', trim( $schedule_data['schedule_scan_date'] ) );
-    	    $source_dt = new DateTime( trim( $clean ) );
-    	    $source_dt->modify( '+1 month' );
+    	    $clean = preg_replace( '/\(.*?\)/', '', trim( $schedule_data['schedule_scan_date'] ?? '' ) );
 
-    	    $schedule_data['schedule_scan_date']  = $source_dt->format( 'D M d Y H:i:s \G\M\TO' );
-    	    $schedule_data['next_scan_is_when']   = $source_dt->format( 'M j, Y' );
-    	    $schedule_data['schedule_scan_when']  = $source_dt->format( 'M j, Y' );
+    	    // Keep the stored date moving with the schedule; gdpr_schedule_monthly_cron()
+    	    // rolls it forward anyway if this fails.
+    	    try {
+    	        $source_dt = new DateTime( trim( $clean ) );
+    	        $source_dt->modify( '+1 month' );
 
-    	    update_option( 'gdpr_scan_schedule_data', $schedule_data );
+    	        $schedule_data['schedule_scan_date'] = $source_dt->format( 'D M d Y H:i:s \G\M\TO' );
+
+    	        update_option( 'gdpr_scan_schedule_data', $schedule_data );
+    	    } catch ( Exception $e ) {
+    	        // Leave the stored date as is.
+    	    }
 
     	    $this->gdpr_schedule_monthly_cron( $schedule_data );
+    	} elseif ( ( $schedule_data['schedule_scan_as'] ?? '' ) === 'weekly' ) {
+    	    $clean = preg_replace( '/\(.*?\)/', '', trim( $schedule_data['schedule_scan_date'] ?? '' ) );
+
+    	    // Keep the stored date moving with the schedule; gdpr_schedule_weekly_cron()
+    	    // rolls it forward anyway if this fails.
+    	    try {
+    	        $source_dt = new DateTime( trim( $clean ) );
+    	        $source_dt->modify( '+1 week' );
+
+    	        $schedule_data['schedule_scan_date'] = $source_dt->format( 'D M d Y H:i:s \G\M\TO' );
+
+    	        update_option( 'gdpr_scan_schedule_data', $schedule_data );
+    	    } catch ( Exception $e ) {
+    	        // Leave the stored date as is.
+    	    }
+
+    	    $this->gdpr_schedule_weekly_cron( $schedule_data );
     	} else {
     	    delete_option( 'gdpr_scan_schedule_data' );
     	}
 	}
 
+	/**
+	 * Schedule the next weekly cookie scan.
+	 *
+	 * The weekday comes from the weekly dropdown ( Monday ... Sunday ) and the time
+	 * of day from the time picker, falling back to the time carried by
+	 * schedule_scan_date, so the scan lands on the next matching weekday at the
+	 * selected clock time.
+	 *
+	 * @param array $schedule_data Saved schedule data.
+	 * @return bool Whether an event could be scheduled.
+	 */
+	private function gdpr_schedule_weekly_cron( $schedule_data ) {
+		$weekday = $this->gdpr_normalize_weekday(
+			$schedule_data['schedule_scan_weekday'] ?? ( $schedule_data['schedule_scan_day'] ?? '' )
+		);
+
+		if ( ! $weekday ) {
+			return false;
+		}
+
+		$clean = preg_replace( '/\(.*?\)/', '', trim( $schedule_data['schedule_scan_date'] ?? '' ) );
+
+		try {
+			$base_dt = new DateTimeImmutable( trim( $clean ) );
+		} catch ( Exception $e ) {
+			return false;
+		}
+
+		$time   = $this->gdpr_parse_scan_time( $schedule_data['schedule_scan_time_value'] ?? '' );
+		$hour   = $time ? $time['hour'] : (int) $base_dt->format( 'H' );
+		$minute = $time ? $time['minute'] : (int) $base_dt->format( 'i' );
+
+		// Move to the selected weekday, keeping the selected clock time, then roll
+		// forward a week at a time until the occurrence is in the future.
+		$next_dt = $base_dt;
+		if ( 0 !== strcasecmp( $base_dt->format( 'l' ), $weekday ) ) {
+			$next_dt = $base_dt->modify( 'next ' . $weekday );
+		}
+		$next_dt = $next_dt->setTime( $hour, $minute, 0 );
+
+		while ( $next_dt->getTimestamp() <= time() ) {
+			$next_dt = $next_dt->modify( '+1 week' )->setTime( $hour, $minute, 0 );
+		}
+
+		wp_schedule_single_event( $next_dt->getTimestamp(), 'gdpr_run_scheduled_cookie_scan' );
+
+		$schedule_data['schedule_scan_weekday'] = $weekday;
+		$schedule_data['next_scan_is_when']     = $next_dt->format( 'M j, Y h:i A' );
+		$schedule_data['schedule_scan_when']    = $next_dt->format( 'M j, Y h:i A' );
+		update_option( 'gdpr_scan_schedule_data', $schedule_data );
+
+		return true;
+	}
+
+	/**
+	 * Resolve a weekday label coming from the schedule dropdown to its canonical name.
+	 *
+	 * @param string $weekday Weekday label, e.g. 'Monday' or 'Mon'.
+	 * @return string|false Canonical weekday name, or false when unrecognised.
+	 */
+	private function gdpr_normalize_weekday( $weekday ) {
+		$weekday = trim( (string) $weekday );
+
+		if ( '' === $weekday ) {
+			return false;
+		}
+
+		$weekdays = array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' );
+
+		foreach ( $weekdays as $name ) {
+			if ( 0 === strcasecmp( $name, $weekday ) || 0 === strcasecmp( substr( $name, 0, 3 ), $weekday ) ) {
+				return $name;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Schedule the next monthly cookie scan.
+	 *
+	 * The day of the month comes from the monthly dropdown and the time of day
+	 * from the time picker, falling back to the time carried by schedule_scan_date.
+	 *
+	 * @param array $schedule_data Saved schedule data.
+	 * @return bool Whether an event could be scheduled.
+	 */
 	private function gdpr_schedule_monthly_cron( $schedule_data ) {
-		$day_string  = $schedule_data['schedule_scan_day'] ?? '';
-		$date_string = $schedule_data['schedule_scan_date'] ?? '';
-		$day_number  = (int) filter_var( $day_string, FILTER_SANITIZE_NUMBER_INT );
+		$day_number = (int) filter_var( $schedule_data['schedule_scan_day'] ?? '', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( $day_number < 1 || $day_number > 31 ) {
+			return false;
+		}
+
+		$clean = preg_replace( '/\(.*?\)/', '', trim( $schedule_data['schedule_scan_date'] ?? '' ) );
+
+		try {
+			$base_dt = new DateTimeImmutable( trim( $clean ) );
+		} catch ( Exception $e ) {
+			return false;
+		}
+
+		$time   = $this->gdpr_parse_scan_time( $schedule_data['schedule_scan_time_value'] ?? '' );
+		$hour   = $time ? $time['hour'] : (int) $base_dt->format( 'H' );
+		$minute = $time ? $time['minute'] : (int) $base_dt->format( 'i' );
+
+		// Land on the selected day of the month, then roll forward a month at a
+		// time until the occurrence is in the future.
+		$next_dt = $this->gdpr_set_day_of_month( $base_dt, $day_number )->setTime( $hour, $minute, 0 );
+
+		while ( $next_dt->getTimestamp() <= time() ) {
+			$next_dt = $this->gdpr_set_day_of_month(
+				$next_dt->modify( 'first day of next month' ),
+				$day_number
+			)->setTime( $hour, $minute, 0 );
+		}
+
+		wp_schedule_single_event( $next_dt->getTimestamp(), 'gdpr_run_scheduled_cookie_scan' );
+
+		$schedule_data['next_scan_is_when']  = $next_dt->format( 'M j, Y h:i A' );
+		$schedule_data['schedule_scan_when'] = $next_dt->format( 'M j, Y h:i A' );
+		update_option( 'gdpr_scan_schedule_data', $schedule_data );
+
+		return true;
+	}
+
+	/**
+	 * Set the day of the month, clamped to the length of that month.
+	 *
+	 * Keeps 'Day 31' meaningful in a 28, 29 or 30 day month instead of
+	 * overflowing into the following one.
+	 *
+	 * @param DateTimeImmutable $date       Date to adjust.
+	 * @param int               $day_number Day of the month, 1 to 31.
+	 * @return DateTimeImmutable
+	 */
+	private function gdpr_set_day_of_month( $date, $day_number ) {
+		$days_in_month = (int) $date->format( 't' );
+
+		return $date->setDate(
+			(int) $date->format( 'Y' ),
+			(int) $date->format( 'm' ),
+			min( $day_number, $days_in_month )
+		);
+	}
+
+	/**
+	 * Arm the WP-Cron event for a saved scan schedule.
+	 *
+	 * Shared by the REST endpoint and the admin ajax handler so both UIs schedule
+	 * scans the same way, server side, rather than relying on the admin page
+	 * staying open.
+	 *
+	 * @param array $schedule_data Saved schedule data.
+	 * @return true|WP_Error True once scheduled, or the reason it could not be.
+	 */
+	private function gdpr_apply_scan_schedule( $schedule_data ) {
+		$scan_as = $schedule_data['schedule_scan_as'] ?? '';
+
+		// Clear any existing scheduled scan first.
+		$this->gdpr_clear_scheduled_scan();
+
+		if ( 'once' === $scan_as ) {
+			$timestamp = $this->gdpr_parse_scan_datetime(
+				$schedule_data['schedule_scan_date'] ?? '',
+				$schedule_data['schedule_scan_time_value'] ?? ''
+			);
+
+			if ( ! $timestamp || $timestamp <= time() ) {
+				return new WP_Error(
+					'gdpr_scan_schedule_past',
+					__( 'Selected date/time is in the past.', 'gdpr-cookie-consent' )
+				);
+			}
+
+			wp_schedule_single_event( $timestamp, 'gdpr_run_scheduled_cookie_scan' );
+
+		} elseif ( 'weekly' === $scan_as ) {
+			if ( ! $this->gdpr_schedule_weekly_cron( $schedule_data ) ) {
+				return new WP_Error(
+					'gdpr_scan_schedule_weekday',
+					__( 'Please select a valid day of the week.', 'gdpr-cookie-consent' )
+				);
+			}
+		} elseif ( 'monthly' === $scan_as ) {
+			if ( ! $this->gdpr_schedule_monthly_cron( $schedule_data ) ) {
+				return new WP_Error(
+					'gdpr_scan_schedule_day',
+					__( 'Please select a valid day of the month.', 'gdpr-cookie-consent' )
+				);
+			}
+		}
+
+		// 'never' needs nothing beyond the clear above.
+		return true;
+	}
+
+	/**
+	 * Turn on the weekly scan schedule once the site is connected to a paid plan.
+	 *
+	 * Runs after the plan from the SaaS app has been saved. Lite (free) plans get
+	 * nothing, and a scan that is already armed is left alone so connecting again
+	 * never overrides a schedule the user picked.
+	 *
+	 * @param string $plan Plan saved for the connected account.
+	 * @return void
+	 */
+	public function gdpr_activate_weekly_scan_for_plan( $plan ) {
+		$plan = strtolower( trim( (string) $plan ) );
+
+		if ( '' === $plan || in_array( $plan, array( 'free', 'lite' ), true ) ) {
 			return;
 		}
 
-		$clean = preg_replace( '/\(.*?\)/', '', trim( $date_string ) );
-
-		$ist_dt = new DateTimeImmutable( trim( $clean ) );
-
-		$utc_dt = $ist_dt->setTimezone( new DateTimeZone('UTC') );
-
-		$utc = new DateTimeZone('UTC');
-		$now = new DateTime('now', $utc);
-
-		$next = new DateTime('now', $utc);
-		$next->setDate(
-			$now->format('Y'),
-			$now->format('m'),
-			$day_number
-		);
-
-		$next->setTime(
-			(int) $utc_dt->format('H'),
-			(int) $utc_dt->format('i'),
-			0
-		);
-
-		if ( $next->getTimestamp() <= time() ) {
-			$next->modify('+1 month');
+		if ( wp_next_scheduled( 'gdpr_run_scheduled_cookie_scan' ) ) {
+			return;
 		}
 
-		wp_schedule_single_event( $next->getTimestamp(), 'gdpr_run_scheduled_cookie_scan' );
+		$now = new DateTimeImmutable( 'now', wp_timezone() );
 
-		$schedule_data['next_scan_is_when'] = $ist_dt->format( 'M j, Y h:i A' );
+		// Today's weekday at the current time: that slot has just passed, so the
+		// weekly cron rolls it forward to exactly one week from now.
+		$schedule_data = array(
+			'schedule_scan_as'         => 'weekly',
+			'schedule_scan_date'       => $now->format( 'D M d Y H:i:s \G\M\TO' ),
+			// Zero padded to match the timepicker's hh:mm A format, or it renders blank.
+			'schedule_scan_time_value' => $now->format( 'h:i A' ),
+			'schedule_scan_day'        => 'Day 1',
+			'schedule_scan_weekday'    => $now->format( 'l' ),
+			'next_scan_is_when'        => '',
+			'schedule_scan_when'       => '',
+		);
+
 		update_option( 'gdpr_scan_schedule_data', $schedule_data );
+
+		// Fills in next_scan_is_when / schedule_scan_when once the event is armed.
+		if ( true !== $this->gdpr_apply_scan_schedule( $schedule_data ) ) {
+			return;
+		}
+
+		$schedule_data = get_option( 'gdpr_scan_schedule_data', $schedule_data );
+
+		// The settings card seeds its first render from these, so keep them in step.
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+		$the_options['schedule_scan_type'] = 'weekly';
+		$the_options['schedule_scan_when'] = $schedule_data['schedule_scan_when'] ?? 'Not Scheduled';
+		$the_options['scan_date']          = $schedule_data['schedule_scan_date'];
+		$the_options['scan_weekday']       = $schedule_data['schedule_scan_weekday'];
+		$the_options['scan_time']          = $schedule_data['schedule_scan_time_value'];
+
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 	}
 
 	private function gdpr_clear_scheduled_scan() {
-	    $timestamp = wp_next_scheduled( 'gdpr_run_scheduled_cookie_scan' );
-	    if ( $timestamp ) {
-	        wp_unschedule_event( $timestamp, 'gdpr_run_scheduled_cookie_scan' );
-	    }
+	    wp_clear_scheduled_hook( 'gdpr_run_scheduled_cookie_scan' );
 	}
 
-	private function gdpr_parse_scan_datetime( $date_string ) {
+	/**
+	 * Parse the datetime for a one-off scan.
+	 *
+	 * The datepicker only carries a date, so the time picked alongside it is
+	 * applied on top when it can be parsed.
+	 *
+	 * @param string $date_string Date as sent by the datepicker.
+	 * @param string $time_string Time as sent by the time picker.
+	 * @return int|false Timestamp, or false when the date is unparseable.
+	 */
+	private function gdpr_parse_scan_datetime( $date_string, $time_string = '' ) {
     	$clean = preg_replace( '/\(.*?\)/', '', trim( $date_string ) );
 
     	try {
     	    $dt = new DateTimeImmutable( trim( $clean ) );
+
+    	    $time = $this->gdpr_parse_scan_time( $time_string );
+    	    if ( $time ) {
+    	        $dt = $dt->setTime( $time['hour'], $time['minute'], 0 );
+    	    }
+
     	    return $dt->getTimestamp();
     	} catch ( Exception $e ) {
     	    return false;
     	}
+	}
+
+	/**
+	 * Parse a value from the schedule time picker, e.g. '08:30 PM' or '20:30'.
+	 *
+	 * @param string $time_string Time as sent by the time picker.
+	 * @return array|false Hour and minute, or false when unparseable.
+	 */
+	private function gdpr_parse_scan_time( $time_string ) {
+		$time_string = trim( (string) $time_string );
+
+		if ( ! preg_match( '/^(\d{1,2}):(\d{2})\s*([AaPp][Mm])?/', $time_string, $matches ) ) {
+			return false;
+		}
+
+		$hour     = (int) $matches[1];
+		$minute   = (int) $matches[2];
+		$meridiem = isset( $matches[3] ) ? strtoupper( $matches[3] ) : '';
+
+		if ( 'PM' === $meridiem && $hour < 12 ) {
+			$hour += 12;
+		} elseif ( 'AM' === $meridiem && 12 === $hour ) {
+			$hour = 0;
+		}
+
+		if ( $hour > 23 || $minute > 59 ) {
+			return false;
+		}
+
+		return array(
+			'hour'   => $hour,
+			'minute' => $minute,
+		);
 	}
 }

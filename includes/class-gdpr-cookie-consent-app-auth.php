@@ -387,6 +387,9 @@ class GDPR_Cookie_Consent_App_Auth {
 
 		$this->auth_data = $data;
 
+		// Paid plans get the weekly scan schedule switched on.
+		do_action( 'gdpr_cookie_consent_app_plan_connected', $data['account']['plan'] ?? '' );
+
 		ob_end_clean();
 		// Send success response.
 		wp_send_json_success(
