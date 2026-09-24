@@ -112,8 +112,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 					<?php echo esc_html( $text ); ?>:
 				</label>
 				<input placeholder="Search Consent Logs using IP address" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
-				<img id="search-logo-consent-log" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
-				<?php
+				<img id="search-logo-consent-log" v-on:click="submitConsentLogSearch" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
+			</div>
+			<?php
 				submit_button(
 					$text,
 					'button',
@@ -121,14 +122,8 @@ class WPL_Consent_Logs extends WP_List_Table {
 					false,
 					array( 'ID' => 'search-submit-consent-log' )
 				);
-				?>
-			</div>
+			?>
 		</div>
-		<script type="text/javascript">
-			document.getElementById('search-logo-consent-log').addEventListener('click', function() {
-				document.getElementById('search-submit-consent-log').click();
-			});
-		</script>
 		<?php
 	}
 
@@ -723,13 +718,13 @@ class WPL_Consent_Logs extends WP_List_Table {
 					}
 				}
 
-				$scanner = new Gdpr_Cookie_Consent_Cookie_Scanner();
+				$scanner          = new Gdpr_Cookie_Consent_Cookie_Scanner();
 				$scan_cookie_list = $scanner->get_scan_cookie_list();
-				
+
 				ob_start();
 				?>
 				<div class="download-pdf-button">
-					<a href="#consent_logs" onclick="generatePDF(
+					<a href="#compliance_records#consent_logs" onclick="generatePDF(
 					'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 					'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip'][0] ) : 'Unknown' ); ?>',
 					'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
@@ -902,7 +897,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					ob_start();
 					?>
 					<div class="download-pdf-button">
-						<a href="#consent_logs" onclick="generatePDF(
+						<a href="#compliance_records#consent_logs" onclick="generatePDF(
 							'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 							'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip'][0] ) : 'Unknown' ); ?>',
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
@@ -1060,7 +1055,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					ob_start();
 					?>
 					<div class="download-pdf-button">
-						<a href="#consent_logs" onclick="generatePDF(
+						<a href="#compliance_records#consent_logs" onclick="generatePDF(
 						'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 						'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
@@ -1217,7 +1212,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					ob_start();
 					?>
 					<div class="download-pdf-button">
-						<a href="#consent_logs" onclick="generatePDF(
+						<a href="#compliance_records#consent_logs" onclick="generatePDF(
 							'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 							'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 							'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',
@@ -1374,7 +1369,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 					ob_start();
 					?>
 					<div class="download-pdf-button" >
-						<a href="#consent_logs" onclick="generatePDF(
+						<a href="#compliance_records#consent_logs" onclick="generatePDF(
 						'<?php echo esc_js( addslashes( $local_time ) ); ?>',
 						'<?php echo esc_js( isset( $custom['_wplconsentlogs_ip_cf'][0] ) ? esc_attr( $custom['_wplconsentlogs_ip_cf'][0] ) : 'Unknown' ); ?>',
 						'<?php echo esc_js( isset( $wplconsentlogs_country ) ? esc_attr( $wplconsentlogs_country ) : 'Unknown' ); ?>',

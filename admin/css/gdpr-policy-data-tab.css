@@ -2,6 +2,9 @@
 .wpl-content-area{
 	background-color: var(--white-100);
 	padding: 30px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 .wpl-heading-export-consentlogs{
     display: flex;
@@ -9,7 +12,9 @@
 	margin-bottom: 20px;
 }
 .wpl-heading-export-datarequest {
-	margin-bottom: 40px;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
 }
 .wp-heading{
   color: var(--black-50);
@@ -37,7 +42,9 @@
 .data-req-export-button.gdpr-not-pro-tooltip:hover {
 	color: var(--gray-400);
 }
-.consent-log-heading-export .gdpr-not-pro-tooltip-text {
+.consent-log-heading-export .gdpr-not-pro-tooltip-text,
+.data-request-heading-export .gdpr-not-pro-tooltip-text,
+.policy-data-heading-export .gdpr-not-pro-tooltip-text {
 	position: absolute;
 	padding: 5px 10px;
 	background: var(--gray-700);
@@ -48,7 +55,9 @@
 	width: 150px;
 	display: none;
 }
-.consent-log-heading-export .gdpr-not-pro-tooltip-text a {
+.consent-log-heading-export .gdpr-not-pro-tooltip-text a,
+.data-request-heading-export .gdpr-not-pro-tooltip-text a,
+.policy-data-heading-export .gdpr-not-pro-tooltip-text a {
 	color: var(--orange-50);
 }
 .data-req-export-button:hover{
@@ -580,11 +589,6 @@ input[type=checkbox]:checked::before {
 .search-box{
 	position: relative;
 	border-bottom: 1px solid var(--gray-300);
-}
-#search-logo-consent-log , #search-logo-data-request ,#search-logo-policy-data{
-	position: relative;
-	top:6px;
-	right:15px;
 }
 .search-box input[name="s"]{
 	margin: 0 25px 0px 0px;
