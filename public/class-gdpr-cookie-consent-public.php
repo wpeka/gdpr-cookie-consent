@@ -88,6 +88,10 @@ class Gdpr_Cookie_Consent_Public {
 			add_shortcode( 'wpl_cookie_details', array( $this, 'gdprcookieconsent_shortcode_cookie_details' ) );         // a shortcode [wpl_cookie_details].
 		}
 
+		if ( ! shortcode_exists( 'wpl_cookie_list' ) ) {
+			add_shortcode( 'wpl_cookie_list', array( $this, 'gdprcookieconsent_shortcode_cookie_list' ) );            // a shortcode [wpl_cookie_list].
+		}
+
 		add_action( 'init', array( $this, 'init_random_banner' ) );
 		
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -1747,6 +1751,135 @@ class Gdpr_Cookie_Consent_Public {
 			$content .= '</tbody></table></div>';
 		}
 		return $content;
+	}
+
+	public function gdprcookieconsent_shortcode_cookie_list($atts = array())
+	{
+		global $wpdb;
+
+		$atts = shortcode_atts(
+			array(
+				'category' => '',
+			),
+			$atts,
+			'wpl_cookie_list'
+		);
+
+		$cookies_table = $wpdb->prefix . 'wpl_cookie_scan_cookies';
+		if (!$this->gdpr_scan_table_exists($cookies_table)) {
+			return '';
+		}
+
+		$categories = $this->gdpr_get_cookie_scan_categories();
+		$filter     = $this->gdpr_resolve_cookie_categories($atts['category'], $categories);
+		$filtered   = !empty($filter);
+
+		$sql = "SELECT name, domain, duration, category FROM `$cookies_table`";
+		if ($filtered) {
+			$placeholders = implode(',', array_fill(0, count($filter), '%s'));
+			$sql         .= " WHERE LOWER(category) IN ($placeholders)";
+		}
+		$sql .= ' ORDER BY id_wpl_cookie_scan_cookies DESC';
+
+		if ($filtered) {
+			$cookies = $wpdb->get_results($wpdb->prepare($sql, $filter), ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		} else {
+			$cookies = $wpdb->get_results($sql, ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		}
+
+		if (empty($cookies)) {
+			if ($filtered) {
+				return '<p>' . esc_html__('No cookies found for the requested category.', 'gdpr-cookie-consent') . '</p>';
+			}
+			return '<p>' . esc_html__('No cookies detected yet. Run a cookie scan to populate this table.', 'gdpr-cookie-consent') . '</p>';
+		}
+
+		$styles  = 'border: 1px solid #767676; padding: 2px 4px;';
+		$content = "<div class='wp_legalpolicy' style='overflow-x:scroll;overflow:auto;'>";
+		$content .= '<table style="width:100%;margin:0 auto;border-collapse:collapse;">';
+		$content .= '<thead>';
+		$content .= "<th style='{$styles}'>" . esc_html__('Cookie Name', 'gdpr-cookie-consent') . '</th>';
+		$content .= "<th style='{$styles}'>" . esc_html__('Duration', 'gdpr-cookie-consent') . '</th>';
+		$content .= "<th style='{$styles}'>" . esc_html__('Category', 'gdpr-cookie-consent') . '</th>';
+		$content .= "<th style='{$styles}'>" . esc_html__('Domain', 'gdpr-cookie-consent') . '</th>';
+		$content .= '</thead>';
+		$content .= '<tbody>';
+		foreach ($cookies as $cookie) {
+			$stored   = strtolower((string) $cookie['category']);
+			$category = isset($categories[$stored]) ? $categories[$stored]['name'] : (string) $cookie['category'];
+			$content .= '<tr>';
+			$content .= "<td style='{$styles}'>" . esc_html((string) $cookie['name']) . '</td>';
+			$content .= "<td style='{$styles}'>" . esc_html((string) $cookie['duration']) . '</td>';
+			$content .= "<td style='{$styles}'>" . esc_html($category) . '</td>';
+			$content .= "<td style='{$styles}'>" . esc_html((string) $cookie['domain']) . '</td>';
+			$content .= '</tr>';
+		}
+		$content .= '</tbody></table></div>';
+
+		return $content;
+	}
+
+	/**
+	 * Returns the cookie scan categories keyed by lower-cased slug and by lower-cased
+	 * name, so a category stored in either form resolves to the same entry.
+	 *
+	 * @since 4.4.6
+	 * @return array Map of lookup key => array( 'name' => string, 'slug' => string ).
+	 */
+	private function gdpr_get_cookie_scan_categories()
+	{
+		global $wpdb;
+
+		$map            = array();
+		$category_table = $wpdb->prefix . 'gdpr_cookie_scan_categories';
+		if (!$this->gdpr_scan_table_exists($category_table)) {
+			return $map;
+		}
+
+		$rows = $wpdb->get_results("SELECT gdpr_cookie_category_name, gdpr_cookie_category_slug FROM `$category_table`", ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		if (!is_array($rows)) {
+			return $map;
+		}
+		foreach ($rows as $row) {
+			$name  = isset($row['gdpr_cookie_category_name']) ? $row['gdpr_cookie_category_name'] : '';
+			$slug  = isset($row['gdpr_cookie_category_slug']) ? $row['gdpr_cookie_category_slug'] : '';
+			$entry = array(
+				'name' => '' !== $name ? $name : $slug,
+				'slug' => '' !== $slug ? $slug : $name,
+			);
+			if ('' !== $slug) {
+				$map[strtolower($slug)] = $entry;
+			}
+			if ('' !== $name) {
+				$map[strtolower($name)] = $entry;
+			}
+		}
+		return $map;
+	}
+
+	private function gdpr_resolve_cookie_categories($category, $categories)
+	{
+		$values = array();
+		$tokens = array_map('trim', explode(',', (string) $category));
+		foreach ($tokens as $token) {
+			$token = strtolower(sanitize_text_field($token));
+			if ('' === $token) {
+				continue;
+			}
+			$values[] = $token;
+			if (isset($categories[$token])) {
+				$values[] = strtolower($categories[$token]['name']);
+				$values[] = strtolower($categories[$token]['slug']);
+			}
+		}
+		return array_values(array_unique($values));
+	}
+
+	private function gdpr_scan_table_exists($table)
+	{
+		global $wpdb;
+
+		return (bool) $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table)));
 	}
 
 	/**
