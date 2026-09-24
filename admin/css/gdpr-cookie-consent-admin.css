@@ -1686,6 +1686,14 @@ body.toplevel_page_gdpr-cookie-consent-settings-page #wpbody-content {
   font-size: 12px;
   line-height: var(--text-sm-line-height);
 }
+
+#gdpr-cookie-consent-compliance-record-settings.gdpr-cookie-consent-app-container a.next-page,
+#gdpr-cookie-consent-compliance-record-settings.gdpr-cookie-consent-app-container a.last-page,
+#gdpr-cookie-consent-compliance-record-settings.gdpr-cookie-consent-app-container a.prev-page,
+#gdpr-cookie-consent-compliance-record-settings.gdpr-cookie-consent-app-container a.first-page {
+  font-size: 16px;
+}
+
 /* #gdpr-cookie-consent-settings-app.gdpr-cookie-consent-app-container span{
 	color: var(--blue-903);
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
