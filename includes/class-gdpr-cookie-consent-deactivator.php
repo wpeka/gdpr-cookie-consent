@@ -61,6 +61,9 @@ class Gdpr_Cookie_Consent_Deactivator {
 		$the_options['is_selectedCountry_on'] = 'false';
 		$the_options['is_eu_on'] = 'false';
 		$the_options['is_ccpa_on'] = 'false';
+		// The scan schedule is dropped below, so reset what the settings card seeds from.
+		$the_options['schedule_scan_type'] = 'never';
+		$the_options['schedule_scan_when'] = 'Not Scheduled';
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 		$wplp_plugin_name = 'wplegalpages/wplegalpages.php';
 		if ( ! is_plugin_active( $wplp_plugin_name ) ) {
@@ -69,6 +72,11 @@ class Gdpr_Cookie_Consent_Deactivator {
 				wp_clear_scheduled_hook('appwplp_secret_key_retry_event' );
 			}
 		}
+
+		// Stop scheduled cookie scans from firing while the plugin is inactive, and
+		// drop the saved schedule so the card doesn't show a scan that won't run.
+		wp_clear_scheduled_hook( 'gdpr_run_scheduled_cookie_scan' );
+		delete_option( 'gdpr_scan_schedule_data' );
 
 		update_option( 'gdpr_no_of_page_scan', 0 );
 	}
