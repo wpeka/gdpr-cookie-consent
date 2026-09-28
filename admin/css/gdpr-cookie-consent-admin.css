@@ -3752,12 +3752,11 @@ a .export-btn:hover {
   background-color: var(--white-100);
 }
 #add-media-button span {
-  color: var(--blue-904);
-  font-size: var(--text-lg-font-size);
+  color: var(--blue-901);
+  font-size: var(--text-sm-font-size);
   font-style: normal;
   font-weight: var(--text-regular-font-weight);
   line-height: var(--text-sm-line-height-rem);
-  padding-left: 25px;
 }
 .gdpr-data-req-email-editor .ql-image {
   display: none !important;
@@ -11500,7 +11499,7 @@ div#gdpr-scan-history {
   .card-body
   #gcc-save-abtesting-settings-form {
   position: relative;
-  top: -85px;
+  top: -100px;
 }
 
 .gdpr-cookie-consent-settings-content
