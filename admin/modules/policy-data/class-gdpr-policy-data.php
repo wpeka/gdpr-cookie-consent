@@ -116,8 +116,14 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 			</div>
 		</div>
 		<script type="text/javascript">
-			document.getElementById('search-logo-policy-data').addEventListener('click', function() {
-				document.getElementById('search-submit-policy-data').click();
+			document.addEventListener('click', function (event) {
+				if (!event.target.closest || !event.target.closest('#search-logo-policy-data')) {
+					return;
+				}
+				var submitButton = document.getElementById('search-submit-policy-data');
+				if (submitButton) {
+					submitButton.click();
+				}
 			});
 		</script>
 		<?php

@@ -172,7 +172,15 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		);
 	}
 
-	public function gdpr_start_cookie_scanning( $maxLen ) {
+	/**
+	 * Start a cookie scan on the scanner server.
+	 *
+	 * @param int  $maxLen       Maximum number of pages to scan, -1 for all.
+	 * @param bool $is_scheduled Whether the scan was started by the scan schedule
+	 *                           rather than by the user clicking Scan Now.
+	 * @return array
+	 */
+	public function gdpr_start_cookie_scanning( $maxLen, $is_scheduled = false ) {
 		if(get_option('gdpr_scanning_action_hash')){
 			return array(
 				'status'  => 'error',
@@ -281,6 +289,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		}
 		if ( isset($data['status']) && $data['status'] === 'scanning' ) {
 			update_option( 'gdpr_scanning_action_hash', $hash );
+			// Read back by gdpr_check_scan_results() to pick the completion mail.
+			update_option( 'gdpr_scanning_is_scheduled', $is_scheduled ? 1 : 0 );
 			set_transient( 'gdpr_scan_in_progress_ttl', 1, 60 * 60 ); //set transient expiry for 60 minutes
 			if ( ! wp_next_scheduled( 'gdpr_check_scan_results_event' ) ) {
 				add_filter( 'cron_schedules', function( $schedules ) {
@@ -335,6 +345,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			$wpdb->insert( $scan_table, $data_arr );
 			
 			delete_option( 'gdpr_scanning_action_hash' );
+			delete_option( 'gdpr_scanning_is_scheduled' );
 			wp_clear_scheduled_hook( 'gdpr_check_scan_results_event', [ $total_pages ]);
 
 			return;
@@ -442,6 +453,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			$cookie_table_name = $wpdb->prefix . 'wpl_cookie_scan_cookies';
 			$category_table     =  esc_sql( $wpdb->prefix . 'gdpr_cookie_scan_categories' );
 			$scan_date = $data_arr['created_at'];
+			// Cookies not stored by any earlier scan.
+			$new_cookies_count = 0;
 
 			if ( isset( $cookies_arr ) && is_array( $cookies_arr ) ) {
 
@@ -509,6 +522,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 							'%d', '%d', '%s', '%s', '%s', '%s', '%s'
 						]
 					);
+					$new_cookies_count++;
 				}
 			}
 			wp_clear_scheduled_hook( 'gdpr_check_scan_results_event', [ $total_pages ]  );
@@ -533,6 +547,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			$gdpr_pages_scanned 			 = get_option('gdpr_no_of_page_scan', 0);
 			update_option('gdpr_no_of_page_scan', $gdpr_pages_scanned + $total_pages);
 			$api_user_email         = $this->settings->get_email();
+			$is_scheduled_scan      = (int) get_option( 'gdpr_scanning_is_scheduled', 0 );
+			delete_option( 'gdpr_scanning_is_scheduled' );
 			$response_gcm_status_mail = wp_remote_post(
 				GDPR_API_URL . 'send_scanning_completion_mail',
 				array(
@@ -543,6 +559,9 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 						'total_urls'       		  => $total_pages,
 						'total_categories'		  => $categories,
 						'scan_date'                => $scan_date,
+						// Scheduled scans only mail when new cookies turned up.
+						'is_scheduled_scan'        => $is_scheduled_scan,
+						'new_cookies_found'        => $new_cookies_count,
 					),
 					'timeout' => 60,
 				)

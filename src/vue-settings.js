@@ -701,6 +701,12 @@ var gen = new Vue({
       schedule_scan_day: settings_obj.the_options.hasOwnProperty("scan_day")
         ? settings_obj.the_options["scan_day"]
         : "Day 1", //scan day
+      schedule_scan_weekday_options: settings_obj.schedule_scan_weekday_options,
+      schedule_scan_weekday: settings_obj.the_options.hasOwnProperty(
+        "scan_weekday"
+      )
+        ? settings_obj.the_options["scan_weekday"]
+        : "Monday", //scan weekday, used when the frequency is weekly
       schedule_scan_time_value: settings_obj.the_options.hasOwnProperty(
         "scan_time"
       )
@@ -3031,6 +3037,20 @@ var gen = new Vue({
     },
   },
   methods: { 
+    submitDataRequestSearch(event) {
+      const container = event.target.closest('.search-and-export-container');
+      const submitButton = container && container.querySelector('#search-submit-data-request');
+      if (submitButton) {
+        submitButton.click();
+      }
+    },
+    submitConsentLogSearch(event) {
+      const container = event.target.closest('.search-and-export-container');
+      const submitButton = container && container.querySelector('#search-submit-consent-log');
+      if (submitButton) {
+        submitButton.click();
+      }
+    },
     refreshGCMAdvertiserModeData(html) {
       this.gcm_adver_mode_data = html;
       const container = document.querySelector('#gcm-advertiser-mode-container');
@@ -3043,6 +3063,110 @@ var gen = new Vue({
                     icons: this.$options.icons, // Optionally reuse created lifecycle hook
                 });
             });
+    },
+    refreshABTestingData(html) {
+      this.ab_testing_data = html;
+      const container = document.querySelector('#ab-testing-container-crd');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    template: html,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                });
+            });
+    },
+    onSwitchABTestingEnable() {
+      j("#gdpr-cookie-consent-updating-settings-alert-crd")
+        .fadeIn(200)
+        .fadeOut(2000);
+      this.ab_testing_enabled = !this.ab_testing_enabled;
+      this.cookie_on_frontend1 = true;
+      this.cookie_on_frontend2 = true;
+      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
+
+      var dataV = jQuery("#gcc-save-settings-form").serialize();
+      // Make the AJAX request to save the new state
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: {
+            action: "ab_testing_enable",
+            _wpnonce: settings_obj.nonce,
+            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
+          },
+        })
+        .done(function (data) {
+          window.location.reload();
+          // Show success message
+          this.success_error_message = "Settings Saved";
+          j("#gdpr-cookie-consent-save-settings-alert-crd")
+            .css("background-color", "#72b85c")
+            .fadeIn(400)
+            .fadeOut(2500, function () {
+              // Optionally reload the page or perform other actions
+            });
+        })
+        .fail(function (error) {
+          console.error("AJAX call failed:", error);
+          alert(
+            "An error occurred while saving the settings. Please try again."
+          );
+        });
+    },
+    refreshABTestingData(html) {
+      this.ab_testing_data = html;
+      const container = document.querySelector('#ab-testing-container-crd');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    template: html,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                });
+            });
+    },
+    onSwitchABTestingEnable() {
+      j("#gdpr-cookie-consent-updating-settings-alert-crd")
+        .fadeIn(200)
+        .fadeOut(2000);
+      this.ab_testing_enabled = !this.ab_testing_enabled;
+      this.cookie_on_frontend1 = true;
+      this.cookie_on_frontend2 = true;
+      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
+
+      var dataV = jQuery("#gcc-save-settings-form").serialize();
+      // Make the AJAX request to save the new state
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: {
+            action: "ab_testing_enable",
+            _wpnonce: settings_obj.nonce,
+            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
+          },
+        })
+        .done(function (data) {
+          window.location.reload();
+          // Show success message
+          this.success_error_message = "Settings Saved";
+          j("#gdpr-cookie-consent-save-settings-alert-crd")
+            .css("background-color", "#72b85c")
+            .fadeIn(400)
+            .fadeOut(2500, function () {
+              // Optionally reload the page or perform other actions
+            });
+        })
+        .fail(function (error) {
+          console.error("AJAX call failed:", error);
+          alert(
+            "An error occurred while saving the settings. Please try again."
+          );
+        });
     },
     openConfigurationPanel(panelName) {
       const panels = [
@@ -3449,6 +3573,17 @@ var gen = new Vue({
           }
         }
       }
+      let navLinks = j("#gcc-save-settings-form .nav-link").map(function () {
+        return this.getAttribute("href");
+      });
+      if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
+      for (let i = 0; i < navLinks.length; i++) {
+        let re = new RegExp(navLinks[i]);
+        if (window.location.href.match(re)) {
+          this.$refs.active_tab.activeTabIndex = i;
+          break;
+        }
+      }
 
       let advNavLinks = j("#gcc-save-advanced-settings-form .nav-link").map(function () {
         return this.getAttribute("href");
@@ -3472,6 +3607,34 @@ var gen = new Vue({
 
           // Set the active tab
           this.$refs.active_tab_adv.activeTabIndex = i;
+          break;
+        }
+      }
+
+      let crdNavLinks = j("#gdpr-cookie-consent-compliance-record-settings .nav-link").map(
+        function () {
+          return this.getAttribute("href");
+        }
+      );
+
+      if (this.$refs.active_tab_crd === undefined) this.$refs.active_tab_crd = {};
+
+      for (let i = 0; i < crdNavLinks.length; i++) {
+        let link = crdNavLinks[i]; // e.g. "#compliance_records#consent_logs"
+
+        // Split the link and URL by '#'
+        let linkParts = link.split('#').filter(Boolean);
+        let urlParts = window.location.hash.split('#').filter(Boolean);
+
+        // Check if the last part matches
+        if (linkParts[linkParts.length - 1] === urlParts[urlParts.length - 1]) {
+          // Remove only the last fragment from the URL
+          urlParts.pop();
+          let newHash = urlParts.length ? '#' + urlParts.join('#') : '';
+          window.history.replaceState(null, '', window.location.pathname + window.location.search + newHash);
+
+          // Set the active tab
+          this.$refs.active_tab_crd.activeTabIndex = i;
           break;
         }
       }
@@ -3696,12 +3859,12 @@ var gen = new Vue({
           console.error(e);
           that.gcm_scan_flag = false;
           that.success_error_message = "Some error occured";
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").css({
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").css({
             "background-color": "#72b85c",
             "z-index": "10000",
           });
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
         }
       });
     },
@@ -4047,7 +4210,6 @@ var gen = new Vue({
         console.error("No file selected");
       }
     },
-    
     //consent forward.
     onSwitchConsentForward() {
       this.consent_forward = !this.consent_forward;
@@ -4153,6 +4315,7 @@ var gen = new Vue({
         dataType: "json",
         data: {
             action: "gcc_switch_preview_banner",
+            _wpnonce: settings_obj.nonce,
             banner_preview_state: false
         }
     });
@@ -5195,12 +5358,12 @@ var gen = new Vue({
         success: function (data) {
           if (data.success === true) {
             that.success_error_message = "Settings reset to default";
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").css(
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").css(
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
             location.reload();
           } else {
             that.success_error_message = "Please try again.";
@@ -5208,18 +5371,18 @@ var gen = new Vue({
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
           }
         },
         error: function () {
           that.success_error_message = "Please try again.";
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").css(
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").css(
             "background-color",
             "#72b85c"
           );
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
         },
       });
     },
@@ -5270,7 +5433,7 @@ var gen = new Vue({
           }
         }
         var that = this;
-        var dataV = jQuery("#gcc-save-settings-form, #gcc-save-advanced-settings-form, #gcc-save-script-blocker-settings-form").serialize();
+        var dataV = jQuery("#gcc-save-settings-form, #gcc-save-advanced-settings-form, #gcc-save-compliance-record-settings-form, #gcc-save-abtesting-settings-form, #gcc-save-script-blocker-settings-form").serialize();
         const shouldResetAutoGenerated = (that.is_template_changed && that.auto_generated_banner);
         jQuery
           .ajax({
@@ -5294,12 +5457,12 @@ var gen = new Vue({
           })
           .done(function (data) {
             that.success_error_message = "Settings Saved";
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-scb").css({
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd, #gdpr-cookie-consent-save-settings-alert-scb").css({
               "background-color": "#72b85c",
               "z-index": "10000",
             });
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd, #gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd, #gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
             if (that.is_template_changed) {
               that.is_template_changed = false;
                if (that.auto_generated_banner) {
@@ -6133,89 +6296,43 @@ var gen = new Vue({
     onStartScheduleScan() {
       this.schedule_scan_show = false; //make it false to close the popup
 
+      //optimistic value for the Next Scan Details; the server returns the
+      //authoritative one once the cron event is armed
       if (this.schedule_scan_as == "once") {
-        //execute schedule scan once
-        this.scheduleScanOnce();
+        const targetDate = this.getOnceScanDate();
 
-        //set value for the Next Scan Details when Once
-        const dateObject = new Date(this.schedule_scan_date);
-        const formattedDate = dateObject.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-        this.next_scan_is_when = formattedDate;
-      } else if (this.schedule_scan_as == "monthly") {
-        //execute scan schedule monthly
-        this.scanMonthly();
-
-        //set value for the Next Scan Details when Monthly
-
-        // Get the day of the month when the scan should run
-        const dayString = this.schedule_scan_day;
-        const dayNumber = parseInt(dayString.replace("Day ", ""), 10);
-        const targetDayOfMonth = dayNumber;
-
-        // Assuming this.schedule_scan_day contains the day of the month (1 to 31)
-        const dayOfMonth = parseInt(
-          this.schedule_scan_day.replace("Day ", ""),
-          10
-        );
-
-        if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31) {
-          console.error("Invalid day of the month:", dayOfMonth);
-        } else {
-          // Get the current date and day of the month
-          const currentDate = new Date();
-          const currentDayOfMonth = currentDate.getDate();
-
-          // Get the selected day of the month for scanning
-          const targetDayOfMonth = dayOfMonth;
-
-          // Get the number of days in the current month
-          const currentYear = currentDate.getFullYear();
-          const currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so we add 1
-          const daysInCurrentMonth = new Date(
-            currentYear,
-            currentMonth,
-            0
-          ).getDate();
-
-          // Calculate the next scan date based on the current date and the selected day of the month
-          let nextScanDate;
-          if (
-            dayOfMonth > daysInCurrentMonth ||
-            currentDayOfMonth > dayOfMonth
-          ) {
-            // If the selected day exceeds the number of days in the current month
-            // or if the current day is greater than the selected day,
-            // set the next scan date to the selected day of the month in the next month
-            nextScanDate = new Date(
-              currentYear,
-              currentMonth,
-              targetDayOfMonth
-            );
-          } else {
-            // If the current day of the month is less than or equal to the selected day of the month,
-            // set the next scan date to the selected day of the month in the current month
-            nextScanDate = new Date(
-              currentYear,
-              currentMonth - 1,
-              targetDayOfMonth
-            );
-          }
-
-          // Format the next scan date as needed (e.g., 'Mar 2, 2023')
-          const formattedDate = nextScanDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          });
-          this.next_scan_is_when = formattedDate;
+        if (!targetDate || targetDate.getTime() <= Date.now()) {
+          alert("Selected date is in the past. Please select a vaild date.");
+          this.schedule_scan_show = true;
+          return;
         }
+
+        this.next_scan_is_when = this.formatScanDate(targetDate);
+      } else if (this.schedule_scan_as == "weekly") {
+        const nextWeeklyScanDate = this.getNextWeeklyScanDate();
+
+        if (!nextWeeklyScanDate) {
+          alert("Invalid day of the week: " + this.schedule_scan_weekday);
+          this.schedule_scan_show = true;
+          return;
+        }
+
+        this.next_scan_is_when = this.formatScanDate(nextWeeklyScanDate);
+      } else if (this.schedule_scan_as == "monthly") {
+        const nextMonthlyScanDate = this.getNextMonthlyScanDate();
+
+        if (!nextMonthlyScanDate) {
+          alert("Invalid day of the month: " + this.schedule_scan_day);
+          this.schedule_scan_show = true;
+          return;
+        }
+
+        this.next_scan_is_when = this.formatScanDate(nextMonthlyScanDate);
       } else if (this.schedule_scan_as == "never") {
         this.next_scan_is_when = "Not Scheduled";
       }
+
+      var that = this;
       jQuery.ajax({
         url: settings_obj.ajaxurl,
         type: "POST",
@@ -6226,111 +6343,43 @@ var gen = new Vue({
           schedule_scan_date: this.schedule_scan_date,
           schedule_scan_time_value: this.schedule_scan_time_value,
           schedule_scan_day: this.schedule_scan_day,
+          schedule_scan_weekday: this.schedule_scan_weekday,
           next_scan_is_when: this.next_scan_is_when,
         },
-      });
-    },
-    clearScheduleAfterScan() {
-      var that = this;
-      jQuery.ajax({
-        url: settings_obj.ajaxurl,
-        type: "POST",
-        data: {
-          action: "gcc_clear_schedule_scan"
-        },
-        success: function(response) {
-          that.next_scan_is_when = "Not Scheduled";
-          that.schedule_scan_as = "never";
-          console.log("Schedule cleared after successful scan");
-        }, error: function() {
-          console.error("Error clearing schedule after scan");
-        }
-      });
-    },
-    scheduleScanOnce() {
-      if (this.schedule_scan_as !== "once") {
-          return;
-        }
-
-      // Define the date and time when you want the function to execute
-      let targetDate = new Date(this.schedule_scan_date);
-
-      // Parse the time entered by the user and handle both 12-hour and 24-hour formats
-      const timeParts = this.schedule_scan_time_value.split(":");
-      let hours = parseInt(timeParts[0], 10);
-      const minutes = parseInt(timeParts[1], 10);
-
-      // Check if the time is in 12-hour format (e.g., "01:03 AM")
-      if (
-        this.schedule_scan_time_value.toUpperCase().includes("PM") &&
-        hours < 12
-      ) {
-        hours += 12;
-      } else if (
-        this.schedule_scan_time_value.toUpperCase().includes("AM") &&
-        hours === 12
-      ) {
-        hours = 0;
-      }
-
-      // Set the hours and minutes in the target date
-      targetDate.setHours(hours);
-      targetDate.setMinutes(minutes);
-
-      // Calculate the time difference between now and the target date
-      const timeUntilExecution = targetDate - new Date();
-      // Extract date components
-      const targetYear = targetDate.getFullYear();
-      const targetMonth = targetDate.getMonth();
-      const targetDay = targetDate.getDate();
-      const targetHour = targetDate.getHours();
-      const targetMinute = targetDate.getMinutes();
-        
-      // Check if the target date is in the future
-       if (timeUntilExecution > 0) {
-          setInterval(() => {
-            // Use setInterval to delay the execution of scan
-            const now = new Date();
-            // Check ALL date components
-            if (now.getFullYear() === targetYear &&
-                now.getMonth() === targetMonth &&
-                now.getDate() === targetDay &&
-                now.getHours() === targetHour &&
-                now.getMinutes() === targetMinute) {      
-          // after the scan is completed successfully, clear the schedule
-          this.onClickStartScan();
-          this.clearScheduleAfterScan();
-          this.next_scan_is_when = "Not Scheduled";
-          this.schedule_scan_as = "never";
+        success: function (response) {
+          // WP-Cron owns the schedule now, so show what actually got armed.
+          if (response && response.data && response.data.next_scan_is_when) {
+            that.next_scan_is_when = response.data.next_scan_is_when;
           }
-        }, 60000); // Check every minute
-      } else {
-        // if the target date is in the past
-        alert("Selected date is in the past. Please select a vaild date.");
-        this.schedule_scan_show = true;
-      }
+        },
+        error: function (jqXHR) {
+          const message =
+            jqXHR.responseJSON &&
+            jqXHR.responseJSON.data &&
+            jqXHR.responseJSON.data.message;
+
+          alert(message || "Could not schedule the scan. Please try again.");
+          that.schedule_scan_show = true;
+        },
+      });
     },
-    scanMonthly() {
-      // Get the day of the month when the scan should run
-      const dayString = this.schedule_scan_day;
-      const dayNumber = parseInt(dayString.replace("Day ", ""), 10);
-      const targetDayOfMonth = dayNumber;
-
-      if (
-        isNaN(targetDayOfMonth) ||
-        targetDayOfMonth <= 0 ||
-        targetDayOfMonth > 31
-      ) {
-        alert("Invalid day of the month:", this.schedule_scan_day);
-        return; // Exit if the day is invalid
-      }
-
-      // Define the time (hours and minutes)
-      const timeParts = this.schedule_scan_time_value.split(":");
+    formatScanDate(date) {
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    },
+    // Parse the time picker value, handling both 12-hour and 24-hour formats.
+    parseScanTime() {
+      const timeParts = String(this.schedule_scan_time_value).split(":");
       let hours = parseInt(timeParts[0], 10);
       const minutes = parseInt(timeParts[1], 10);
 
-      // Check if the time is in 12-hour format (e.g., "01:03 AM")
+      if (isNaN(hours) || isNaN(minutes)) {
+        return null;
+      }
+
       if (
         this.schedule_scan_time_value.toUpperCase().includes("PM") &&
         hours < 12
@@ -6342,51 +6391,91 @@ var gen = new Vue({
       ) {
         hours = 0;
       }
-      // Define a function to check and run the scan when the conditions are met
-      const checkAndRunScan = () => {
-        const currentDate = new Date();
-        const currentDayOfMonth = currentDate.getDate();
-        const currentHours = currentDate.getHours();
-        const currentMinutes = currentDate.getMinutes();
 
-        if (
-          currentDayOfMonth === targetDayOfMonth &&
-          currentHours === hours &&
-          currentMinutes === minutes
-        ) {
-          // The conditions are met; execute the scan
-          this.onClickStartScan();
-          const nextMonthDate = new Date(currentDate);
-          nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
-          nextMonthDate.setDate(targetDayOfMonth);
+      return { hours: hours, minutes: minutes };
+    },
+    // Date and time picked for a one-off scan.
+    getOnceScanDate() {
+      const targetDate = new Date(this.schedule_scan_date);
 
-          const formattedDate = nextMonthDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          });
+      if (isNaN(targetDate.getTime())) {
+        return null;
+      }
 
-          jQuery.ajax({
-            url: settings_obj.ajaxurl,
-            type: "POST",
-            data: {
-              action: "gcc_save_schedule_scan",
-              _wpnonce: settings_obj.nonce,
-              schedule_scan_as: "monthly",
-              schedule_scan_date: formattedDate,
-              schedule_scan_time_value: this.schedule_scan_time_value,
-              schedule_scan_day: this.schedule_scan_day,
-              next_scan_is_when: formattedDate,
-            },
-            success: () => {
-              this.next_scan_is_when = formattedDate;
-            }
-          });
-        }
+      const time = this.parseScanTime();
+      if (time) {
+        targetDate.setHours(time.hours, time.minutes, 0, 0);
+      }
+
+      return targetDate;
+    },
+    // Next occurrence of the selected weekday at the selected time.
+    getNextWeeklyScanDate() {
+      const weekdays = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      const selected = String(this.schedule_scan_weekday || "")
+        .trim()
+        .toLowerCase();
+      const targetDayOfWeek = weekdays.findIndex(
+        (weekday) => weekday.toLowerCase() === selected
+      );
+      const time = this.parseScanTime();
+
+      if (targetDayOfWeek === -1 || !time) {
+        return null;
+      }
+
+      const nextScanDate = new Date();
+      nextScanDate.setHours(time.hours, time.minutes, 0, 0);
+
+      let daysAhead = (targetDayOfWeek - nextScanDate.getDay() + 7) % 7;
+      if (daysAhead === 0 && nextScanDate.getTime() <= Date.now()) {
+        daysAhead = 7;
+      }
+      nextScanDate.setDate(nextScanDate.getDate() + daysAhead);
+
+      return nextScanDate;
+    },
+    // Next occurrence of the selected day of the month at the selected time.
+    getNextMonthlyScanDate() {
+      const dayOfMonth = parseInt(
+        String(this.schedule_scan_day).replace("Day ", ""),
+        10
+      );
+      const time = this.parseScanTime();
+
+      if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31 || !time) {
+        return null;
+      }
+
+      // Clamp to the length of the month so 'Day 31' does not spill into the next one.
+      const setDayOfMonth = (date) => {
+        const daysInMonth = new Date(
+          date.getFullYear(),
+          date.getMonth() + 1,
+          0
+        ).getDate();
+        date.setDate(Math.min(dayOfMonth, daysInMonth));
+        return date;
       };
 
-      // Set an interval to check if the conditions for running the scan are met
-      setInterval(checkAndRunScan, 60000);
+      const nextScanDate = setDayOfMonth(new Date());
+      nextScanDate.setHours(time.hours, time.minutes, 0, 0);
+
+      if (nextScanDate.getTime() <= Date.now()) {
+        nextScanDate.setDate(1);
+        nextScanDate.setMonth(nextScanDate.getMonth() + 1);
+        setDayOfMonth(nextScanDate);
+      }
+
+      return nextScanDate;
     },
     onClickStartScan(singlePageScan = false) {
       var that = this;
@@ -7167,6 +7256,9 @@ var gen = new Vue({
     scanDayChange(value) {
       this.schedule_scan_day = value;
     },
+    scanWeekdayChange(value) {
+      this.schedule_scan_weekday = value;
+    },
     updateScanCookie(cookie_arr) {
       var that = this;
       var data = {
@@ -7723,7 +7815,8 @@ var gen = new Vue({
       url: settings_obj.ajaxurl,
       type: "POST",
       data: {
-        action: "gcc_get_schedule_scan"
+        action: "gcc_get_schedule_scan",
+        _wpnonce: settings_obj.nonce,
       },
       success: function(response) {
         if (response.success && response.data) {
@@ -7731,30 +7824,9 @@ var gen = new Vue({
           that.schedule_scan_date = response.data.schedule_scan_date || '';
           that.schedule_scan_time_value = response.data.schedule_scan_time_value || '';
           that.schedule_scan_day = response.data.schedule_scan_day || '';
+          that.schedule_scan_weekday = response.data.schedule_scan_weekday || 'Monday';
           that.next_scan_is_when = response.data.next_scan_is_when || 'Not Scheduled';
-          // RESTART SCHEDULED SCANS AFTER PAGE LOAD
-          if (that.schedule_scan_as === 'once' && that.schedule_scan_date && that.schedule_scan_time_value) {
-
-            const targetDate = new Date(that.schedule_scan_date);
-            const timeParts = that.schedule_scan_time_value.split(':');
-            let hours = parseInt(timeParts[0], 10);
-            const minutes = parseInt(timeParts[1], 10);
-            if (that.schedule_scan_time_value.toUpperCase().includes('PM') && hours < 12) hours += 12;
-            if (that.schedule_scan_time_value.toUpperCase().includes('AM') && hours === 12) hours = 0;
-            targetDate.setHours(hours);
-            targetDate.setMinutes(minutes);
-
-            const now = new Date();
-
-            if (targetDate > now) {
-              that.scheduleScanOnce(); // schedule normally
-            } else {
-              that.clearScheduleAfterScan();
-            }
-          }
-          else if (that.schedule_scan_as === 'monthly') {
-                        that.scanMonthly();
-          }
+          // No restart needed: the schedule lives in WP-Cron, not in this page.
         }
       }
     });
@@ -9780,32 +9852,6 @@ var app = new Vue({
       selectedFile: "",
       //Consent Log
       consent_log_switch_clicked: false,
-      // Data Request
-      data_reqs_on:
-        "true" == settings_obj.the_options["data_reqs_on"] ||
-        1 === settings_obj.the_options["data_reqs_on"] ||
-        "1" == settings_obj.the_options["data_reqs_on"]
-          ? true
-          : false,
-      shortcode_copied: false,
-      data_reqs_switch_clicked: false,
-      data_req_email_address: settings_obj.the_options.hasOwnProperty(
-        "data_req_email_address"
-      )
-        ? settings_obj.the_options["data_req_email_address"]
-        : "",
-      data_req_subject: settings_obj.the_options.hasOwnProperty(
-        "data_req_subject"
-      )
-        ? settings_obj.the_options["data_req_subject"]
-        : "We have received your request",
-      data_req_editor_message: settings_obj.the_options.hasOwnProperty(
-        "data_req_editor_message"
-      )
-        ? this.decodeHTMLString(
-            settings_obj.the_options["data_req_editor_message"]
-          )
-        : "",
       enable_safe:
         settings_obj.the_options.hasOwnProperty("enable_safe") &&
         ("true" === settings_obj.the_options["enable_safe"] ||
@@ -9954,19 +10000,6 @@ var app = new Vue({
   methods: {
     stripSlashes(value) {
       return value.replace(/\\(.)/gm, "$1");
-    },
-    copyTextToClipboard() {
-      const textToCopy = "[wpl_data_request]";
-      const textArea = document.createElement("textarea");
-      textArea.value = textToCopy;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      this.shortcode_copied = true;
-      setTimeout(() => {
-        this.shortcode_copied = false;
-      }, 1500);
     },
     decodeHTMLString(encodedString) {
       var doc = new DOMParser().parseFromString(encodedString, "text/html");
@@ -10133,11 +10166,6 @@ var app = new Vue({
       //changing the value of do_not_track_on enable/disable
       this.do_not_track_on = !this.do_not_track_on;
     },
-    onSwitchDataReqsEnable() {
-      //changing the value of data_reqs_on enable/disable
-      this.data_reqs_on = !this.data_reqs_on;
-      this.data_reqs_switch_clicked = true;
-    },
     onSwitchCookieAcceptEnable() {
       this.cookie_accept_on = !this.cookie_accept_on;
     },
@@ -10279,47 +10307,6 @@ var app = new Vue({
     onSwitchLoggingOn() {
       this.logging_on = !this.logging_on;
       this.consent_log_switch_clicked = true;
-    },
-    onClickAddMedia() {
-      // Get the button element
-      jQuery(document).ready(function ($) {
-        var frame = wp.media({
-          title: "Select or Upload Media",
-          button: {
-            text: "Use this media",
-          },
-          multiple: false, // Set to false if selecting only one file
-        });
-
-        frame.open();
-
-        frame.on("select", function () {
-          var selection = frame.state().get("selection");
-
-          selection.map(function (attachment) {
-            var attachmentURL = attachment.attributes.url;
-            var attachmentType = attachment.attributes.type;
-            var attachmentFileName = attachment.attributes.filename;
-
-            var editor = $("#quill-container .ql-editor")[0];
-            var quillInstance = editor.__quill || editor.parentNode.__quill;
-
-            if (attachmentType === "application" || attachmentType === "text") {
-              var link = $("<a>")
-                .attr("href", attachmentURL)
-                .text(attachmentFileName);
-              quillInstance.root.appendChild(link[0]);
-              quillInstance.root.appendChild($("<br>")[0]);
-            } else {
-              quillInstance.insertEmbed(
-                quillInstance.getLength(),
-                "image",
-                attachmentURL
-              );
-            }
-          });
-        });
-      });
     },
     cookieAcceptChange(value) {
       if (value === "#cookie_action_close_header") {
@@ -11127,9 +11114,6 @@ var app = new Vue({
       this.gdpr_css_text = "";
       this.gdpr_css_text_free = "/*Your CSS here*/";
       this.do_not_track_on = false;
-      this.data_reqs_on = true;
-      this.data_req_email_address = "";
-      this.data_req_subject = "We have received your request";
       // Script Dependency
       this.is_script_dependency_on = false;
       this.header_dependency = '';
@@ -11370,328 +11354,3 @@ var app = new Vue({
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });
-
-var abt = new Vue({
-  el: "#gdpr-cookie-consent-abtesting-settings",
-  data() {
-    return {
-      labelIcon: {},
-      labelIconNew: {
-        labelOn: "\u2713",
-        labelOff: "\uD83D\uDD12",
-      },
-      save_loading: false,
-      success_error_message: "",
-      ab_testing_data: '',
-      account_connection: require("../admin/images/account_connection.svg"),
-      account_connection_new: require("../admin/images/account_connection_new.svg"),
-      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
-      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
-      gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
-        ? settings_obj.the_options["cookie_usage_for"]
-        : "gdpr",
-      is_gdpr:
-        this.gdpr_policy === "gdpr" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_us_state_laws:
-        this.gdpr_policy === "ccpa" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_lgpd: this.gdpr_policy === "lgpd" ? true : false,
-      is_eprivacy: this.gdpr_policy === "eprivacy" ? true : false,
-      show_revoke_card: this.is_gdpr || this.is_eprivacy,
-      show_visitor_conditions:
-        this.is_us_state_laws || (this.is_gdpr && "1" === settings_obj.is_pro_active)
-          ? true
-          : false,
-      ab_testing_enabled:
-        settings_obj.ab_options.hasOwnProperty("ab_testing_enabled") &&
-        (true === settings_obj.ab_options["ab_testing_enabled"] ||
-          "true" === settings_obj.ab_options["ab_testing_enabled"])
-          ? true
-          : false,
-      cookie_on_frontend1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies1"
-        ) &&
-        (true ===
-          settings_obj.the_options["button_settings_display_cookies1"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies1"] ||
-          "true" ===
-            settings_obj.the_options["button_settings_display_cookies1"])
-          ? true
-          : false,
-      cookie_on_frontend2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies2"
-        ) &&
-        (true ===
-          settings_obj.the_options["button_settings_display_cookies2"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies2"] ||
-          "true" ===
-            settings_obj.the_options["button_settings_display_cookies2"])
-          ? true
-          : false,
-      active_test_banner_tab:
-        settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
-        (true == settings_obj.the_options["default_cookie_bar"] ||
-          "true" == settings_obj.the_options["default_cookie_bar"] ||
-          1 == settings_obj.the_options["default_cookie_bar"])
-          ? 1
-          : 2,
-      ab_testing_period: settings_obj.ab_options.hasOwnProperty(
-        "ab_testing_period"
-      )
-        ? settings_obj.ab_options["ab_testing_period"]
-        : "30",
-      ab_testing_auto:
-        settings_obj.ab_options.hasOwnProperty("ab_testing_auto") &&
-        (true === settings_obj.ab_options["ab_testing_auto"] ||
-          "true" === settings_obj.ab_options["ab_testing_auto"])
-          ? true
-          : false,
-      default_cookie_bar:
-        settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
-        (true == settings_obj.the_options["default_cookie_bar"] ||
-          "true" == settings_obj.the_options["default_cookie_bar"] ||
-          1 == settings_obj.the_options["default_cookie_bar"])
-          ? true
-          : false,
-    }
-  },
-  methods: {
-    setValues() {
-      if (this.gdpr_policy === "both") {
-        this.is_us_state_laws = true;
-        this.is_gdpr = true;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = true;
-      } else if (this.gdpr_policy === "ccpa") {
-        this.is_us_state_laws = true;
-        this.is_eprivacy = false;
-        this.is_gdpr = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = false;
-      } else if (this.gdpr_policy === "gdpr") {
-        this.is_gdpr = true;
-        this.is_us_state_laws = false;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = true;
-      } else if (this.gdpr_policy === "lgpd") {
-        this.is_gdpr = false;
-        this.is_us_state_laws = false;
-        this.is_lgpd = true;
-        this.is_eprivacy = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = false;
-      } else {
-        this.is_eprivacy = true;
-        this.is_gdpr = false;
-        this.is_us_state_laws = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = false;
-        this.show_revoke_card = true;
-      }
-    },
-    refreshABTestingData(html) {
-      this.ab_testing_data = html;
-      const container = document.querySelector('#ab-testing-container');
-      this.$nextTick(() => {
-                new Vue({
-                    el: container,
-                    template: html,
-                    data: this.$data, // Reuse the existing Vue instance data
-                    methods: this.$options.methods, // Reuse the existing methods
-                    mounted: this.$options.mounted, // Reuse the original mounted logic
-                });
-            });
-    },
-    onSwitchABTestingEnable() {
-      j("#gdpr-cookie-consent-updating-settings-alert-abt")
-        .fadeIn(200)
-        .fadeOut(2000);
-      this.ab_testing_enabled = !this.ab_testing_enabled;
-      this.cookie_on_frontend1 = true;
-      this.cookie_on_frontend2 = true;
-      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
-
-      var dataV = jQuery("#gcc-save-settings-form").serialize();
-      // Make the AJAX request to save the new state
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: {
-            action: "ab_testing_enable",
-            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
-            _wpnonce: settings_obj.nonce,
-          },
-        })
-        .done(function (data) {
-          window.location.reload();
-          // Show success message
-          this.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert-abt")
-            .css("background-color", "#72b85c")
-            .fadeIn(400)
-            .fadeOut(2500, function () {
-              // Optionally reload the page or perform other actions
-            });
-        })
-        .fail(function (error) {
-          console.error("AJAX call failed:", error);
-          alert(
-            "An error occurred while saving the settings. Please try again."
-          );
-        });
-    },
-    onSwitchCookieOnFrontend1() {
-      this.cookie_on_frontend1 = !this.cookie_on_frontend1;
-    },
-    onSwitchCookieOnFrontend2() {
-      this.cookie_on_frontend2 = !this.cookie_on_frontend2;
-    },
-    changeActiveTestBannerTabTo1() {
-      if (this.active_test_banner_tab === 2) this.active_test_banner_tab = 1;
-    },
-    changeActiveTestBannerTabTo2() {
-      if (this.active_test_banner_tab === 1) this.active_test_banner_tab = 2;
-    },
-    onSwitchABTestingAuto() {
-      this.ab_testing_auto = !this.ab_testing_auto;
-    },
-    saveABTestingSettings() {
-      this.save_loading = true;
-
-      var that = this;
-      var dataV = jQuery("#gcc-save-abtesting-settings-form").serialize();
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: dataV + "&action=gcc_save_abtesting_settings",
-        })
-        .done(function (data) {
-          that.success_error_message = "Settings Saved.";
-          j("#gdpr-cookie-consent-save-settings-alert-abt").css({
-              "background-color": "#72b85c",
-              "z-index": "10000",
-          });
-          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeOut(2500);
-
-          that.save_loading = false;
-        })
-        .fail(function () {
-          that.save_loading = false;
-        });
-    },
-    restoreDefaultSettings() {
-      this.ab_testing_enabled = false;
-      this.cookie_on_frontend1 = true;
-      this.cookie_on_frontend2 = true;
-      this.gdpr_policy = "gdpr";
-      this.ab_testing_period = "30";
-      this.ab_testing_auto = false;
-    }
-  },
-  mounted() {
-    j("#gdpr-before-mount").css("display", "none");
-    this.setValues();
-
-    //For fixing quill js buttons accessibility issues
-    this.$nextTick(() => {
-      const quillLabels = {
-        "ql-bold": "Bold",
-        "ql-italic": "Italic",
-        "ql-underline": "Underline",
-        "ql-code-block": "Code Block",
-        "ql-strike": "Strikethrough",
-        "ql-link": "Insert Link",
-        "ql-image": "Insert Image",
-        "ql-list": "List",
-        "ql-clean": "Remove Formatting",
-        "ql-align": "Align Text",
-        "ql-blockquote": "Blockquote",
-        "ql-indent": "Indent Text",
-        "ql-video": "Insert Video",
-        "ql-header": "Header",
-        "ql-color": "Text Color",
-        "ql-background": "Background Color",
-        "ql-preview": "Preview",
-      };
-
-      Object.entries(quillLabels).forEach(([className, label]) => {
-        const buttons = document.querySelectorAll(`.ql-toolbar .${className}`);
-        buttons.forEach((button) => {
-          button.setAttribute("aria-label", label);
-          button.setAttribute("title", label);
-        });
-      });
-
-      // Fix for Ace Editor’s textarea
-      const observer = new MutationObserver(() => {
-        const aceInput = document.querySelector(".ace_text-input");
-        if (aceInput) {
-          aceInput.setAttribute("aria-hidden", "true");
-          aceInput.setAttribute("tabindex", "-1");
-          aceInput.setAttribute("role", "presentation");
-          aceInput.removeAttribute("aria-label"); // optional, but removes confusion
-          aceInput.removeAttribute("title"); // in case any tooltips are there
-
-          observer.disconnect();
-        }
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true });
-      setTimeout(() => observer.disconnect(), 10000);
-
-      // First: For ab_testing_period_text_field
-      const abInterval = setInterval(() => {
-        const inputs = document.querySelectorAll(
-          'input[name="ab_testing_period_text_field"]'
-        );
-
-        inputs.forEach((input) => {
-          if (
-            !input.hasAttribute("aria-label") &&
-            !input.hasAttribute("aria-labelledby")
-          ) {
-            input.setAttribute("aria-label", "A/B Testing Period");
-          }
-        });
-
-        if (inputs.length) clearInterval(abInterval);
-      }, 300);
-
-      setTimeout(() => clearInterval(abInterval), 7000); // safety timeout
-
-      // Second: For display-time inputs
-      const timeInterval = setInterval(() => {
-        const timeInputs = document.querySelectorAll("input.display-time");
-
-        timeInputs.forEach((input) => {
-          if (
-            !input.hasAttribute("aria-label") &&
-            !input.hasAttribute("aria-labelledby")
-          ) {
-            input.setAttribute("aria-label", "Choose time");
-          }
-        });
-
-        if (timeInputs.length) clearInterval(timeInterval);
-      }, 300);
-
-      setTimeout(() => clearInterval(timeInterval), 7000);
-    });
-  },
-});
-window.abt = abt;
-
-

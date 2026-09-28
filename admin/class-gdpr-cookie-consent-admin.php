@@ -151,6 +151,7 @@ class Gdpr_Cookie_Consent_Admin {
 		
 		add_action( 'update_maxmind_db_event', array($this,'download_maxminddb' ));
 		add_action( 'gdpr_run_scheduled_cookie_scan', array( $this, 'gdpr_cron_run_scan' ) );
+		add_action( 'gdpr_cookie_consent_app_plan_connected', array( $this, 'gdpr_activate_weekly_scan_for_plan' ) );
 	}
 
 	
@@ -221,6 +222,8 @@ class Gdpr_Cookie_Consent_Admin {
 		wp_register_script( $this->plugin_name . '-main', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-main.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-dashboard', plugin_dir_url( __FILE__ ) . 'js/vue/gdpr-cookie-consent-admin-dashboard.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( $this->plugin_name . '-integrations', plugin_dir_url( __FILE__ ) . 'js/vue/wpl-cookie-consent-admin-integrations.js', array( 'jquery' ), $this->version, false );
+		// Registered here so module scripts can declare it as a dependency on admin_enqueue_scripts; the screen callbacks enqueue and localize it.
+		wp_register_script( 'gdpr-cookie-consent-admin-revamp', GDPR_URL . 'admin/js/gdpr-cookie-consent-admin-revamp.js', array( 'jquery' ), GDPR_COOKIE_CONSENT_VERSION, true );
 		wp_enqueue_script($this->plugin_name . 'introjs-js', plugin_dir_url( __FILE__ ) . 'js/intro.min.js', array('jquery'), $this->version, false);
 	}
 
@@ -1085,16 +1088,17 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function wpl_consent_log_overview() {
 		ob_start();
-		include GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-consent-logs.php';
+		include_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-consent-logs.php';
 		// Style for consent log report.
 		wp_register_style( 'wplcookieconsent_data_reqs_style', plugin_dir_url( __FILE__ ) . 'data-req/data-request-style' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
 		wp_enqueue_style( 'wplcookieconsent_data_reqs_style' );
+		wp_enqueue_style( 'gdpr_policy_data_tab_style' );
 
 		$consent_logs = new WPL_Consent_Logs();
 		$consent_logs->prepare_items();
 		?>
 		<div class="wpl-consentlogs">
-			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#consent_logs' ) ); ?>">
+			<form id="wpl-dnsmpd-filter-consent-log" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#compliance_records#consent_logs' ) ); ?>">
 				<div class="wpl-heading-export-consentlogs">
 					<div class="consent-log-heading-export">
 						<h1 class="wp-heading"><?php esc_html_e( 'Consent Logs', 'gdpr-cookie-consent' ); ?></h1>
@@ -1164,10 +1168,11 @@ class Gdpr_Cookie_Consent_Admin {
 					'action' => array(),
 				),
 				'img'    => array(
-					'class' => array(),
-					'src'   => array(),
-					'alt'   => array(),
-					'id'    => array(),
+					'class'      => array(),
+					'src'        => array(),
+					'alt'        => array(),
+					'id'         => array(),
+					'v-on:click' => array(),
 				),
 				'p'      => array(
 					'class' => array(),
@@ -1230,7 +1235,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'svg'    => array(
 					'width'   => array(),
 					'height'  => array(),
-					'viewBox' => array(),
+					'viewbox' => array(),
 					'fill'    => array(),
 					'xmlns'   => array(),
 				),
@@ -1697,16 +1702,119 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function wpl_data_requests_overview() {
 		ob_start();
-		include __DIR__ . '/data-req/class-wpl-data-req-table.php';
+		include_once __DIR__ . '/data-req/class-wpl-data-req-table.php';
 		// Style for data request report.
 		wp_register_style( 'wplcookieconsent_data_reqs_style', plugin_dir_url( __FILE__ ) . 'data-req/data-request-style' . GDPR_CC_SUFFIX . '.css', array( 'dashicons' ), $this->version, 'all' );
 		wp_enqueue_style( 'wplcookieconsent_data_reqs_style' );
+		wp_enqueue_style( 'gdpr_policy_data_tab_style' );
 
 		$datarequests = new WPL_Data_Req_Table();
 		$datarequests->prepare_items();
+		$is_pro_active = get_option( 'wpl_pro_active', false );
 		?>
+		<c-form id="gcc-save-compliance-record-settings-form" method="post" spellcheck="false" class="gdpr-cookie-consent-settings-form">
+			<div class="wpl-datarequests-settings">
+				<c-row>
+					<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-data-request-top"><?php esc_html_e( 'Data Request Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
+				</c-row>
+				<?php if ( ! $is_pro_active ) { ?>
+				<c-row>
+					<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Data Request Form', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr_data_req_tooltip" text="<?php esc_html_e( 'Enable to add data request form to your Privacy Statement.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+					</c-col>
+					<c-col class="col-sm-8">
+						<c-switch v-bind="labelIcon " v-model="data_reqs_on" id="gdpr-cookie-data-reqs" variant="3d" color="success" :checked="data_reqs_on" v-on:update:checked="onSwitchDataReqsEnable"></c-switch>
+						<input type="hidden" name="gcc-data_reqs" v-model="data_reqs_on">
+					</c-col>
+				</c-row>
+				<!-- clipboard for shortcode to copy  -->
+				<c-row v-show="data_reqs_on">
+					<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+					</c-col>
+					<c-col class="col-sm-8">
+						<c-button id="data-request-btn" class="btn btn-info" variant="outline" @click="copyTextToClipboard">{{ shortcode_copied ? 'Shortcode Copied!' : 'Click to Copy' }}</c-button>
+					</c-col>
+				</c-row>
+
+				<!-- email box  -->
+				<c-row v-show="data_reqs_on" id="gdpr-data-req-admin-container" >
+					<div class="gdpr-data-req-main-container">
+
+						<div class="gdpr-data-req-email-container">
+							<!-- notification sender email  -->
+							<div class="gdpr-data-req-sender-email">
+								<c-col class="col-sm-12">
+									<span>Notification Sender Email Address</span>
+								</c-col>
+								<!-- notification sender email text box  -->
+								<c-col class="col-sm-12 gdpr-data-req-sender-email-input">
+									<div id="validation-icon">
+										<!-- Default state with the right tick -->
+										<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15" >
+											<path fill="#00CF21"d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
+										</svg>
+									</div>
+									<c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
+
+								</c-col>								
+							</div>
+
+							<div class="gdpr-data-req-email-subject">
+								<!-- notification email subject  -->
+								<c-col class="col-sm-12">
+									<span>Notification Email Subject</span>
+								</c-col>
+								<!-- notification email subject text box  -->
+								<c-col class="col-sm-12 gdpr-data-req-subject-input">
+									<div id="validation-icon-subject">
+										<!-- Default state with the right tick -->
+										<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="15" width="15" >
+											<path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
+										</svg>
+									</div>
+									<c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
+								</c-col>
+							</div>
+
+							<div class="gdpr-data-req-email-content">
+								<!-- notification email content  -->
+								<c-col class="col-sm-12">
+									<span>Notification Email Content</span>
+								</c-col>
+							</div>
+
+							<div class="gdpr-data-req-email-editor">
+								<c-col class="col-sm-12">
+									<div class="gdpr-add-media-link-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+										<path d="M14 10L10 14" stroke="#3399FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+										<path d="M16 13L18 11C19.3807 9.61929 19.3807 7.38071 18 6V6C16.6193 4.61929 14.3807 4.61929 13 6L11 8M8 11L6 13C4.61929 14.3807 4.61929 16.6193 6 18V18C7.38071 19.3807 9.61929 19.3807 11 18L13 16" stroke="#3399FF" stroke-width="1.5" stroke-linecap="round"/>
+										</svg>
+									</div>
+									<c-button id="add-media-button" class="gdpr-renew-now-btn pro" variant="outline" @click="onClickAddMedia"><span><?php esc_html_e( 'Add Media', 'gdpr-cookie-consent' ); ?></span></c-button>
+
+								</c-col>
+								<!-- notification text box  -->
+								<c-col class="col-sm-12">
+									<vue-editor name="data_req_mail_content_text_field" v-model="data_req_editor_message"></vue-editor>
+									<input type="hidden" name="data_req_mail_content_text_field" v-model="data_req_editor_message">
+								</c-col>
+							</div>
+						</div>
+
+					</div>
+
+
+				</c-row>
+
+				<?php } ?>
+
+				<?php do_action( 'gdpr_consent_settings_data_reqs' ); ?>
+			</div>
+		</c-form>
+		
 		<div class="wpl-datarequests">
-			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' ) ); ?>">
+			
+			<form id="wpl-dnsmpd-filter-datarequest" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#compliance_records#data_request' ) ); ?>">
 				<div class="wpl-heading-export-datarequest">
 					<div class="data-request-heading-export">
 						<h1 class="wp-heading"><?php esc_html_e( 'Data Requests', 'gdpr-cookie-consent' ); ?></h1>
@@ -1744,10 +1852,11 @@ class Gdpr_Cookie_Consent_Admin {
 					'action' => array(),
 				),
 				'img'    => array(
-					'class' => array(),
-					'src'   => array(),
-					'alt'   => array(),
-					'id'    => array(),
+					'class'      => array(),
+					'src'        => array(),
+					'alt'        => array(),
+					'id'         => array(),
+					'v-on:click' => array(),
 				),
 				'p'      => array(
 					'class' => array(),
@@ -1810,7 +1919,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'svg'    => array(
 					'width'   => array(),
 					'height'  => array(),
-					'viewBox' => array(),
+					'viewbox' => array(),
 					'fill'    => array(),
 					'xmlns'   => array(),
 				),
@@ -1826,6 +1935,57 @@ class Gdpr_Cookie_Consent_Admin {
 				),
 				'rect'   => array(),
 			);
+			$allowed_data_req_html['c-form'] = array(
+				'id'         => array(),
+				'class'      => array(),
+				'method'     => array(),
+				'spellcheck' => array(),
+			);
+			$allowed_data_req_html['c-row']    = array(
+				'class'  => array(),
+				'id'     => array(),
+				'v-show' => array(),
+			);
+			$allowed_data_req_html['c-col']    = array( 'class' => array() );
+			$allowed_data_req_html['c-switch'] = array(
+				'v-bind'          => array(),
+				'v-model'         => array(),
+				'id'              => array(),
+				'variant'         => array(),
+				'color'           => array(),
+				':checked'        => array(),
+				'v-on:update:checked' => array(),
+				'disabled'        => array(),
+			);
+			$allowed_data_req_html['c-input'] = array(
+				'type'        => array(),
+				'min'         => array(),
+				'max'         => array(),
+				'step'        => array(),
+				'name'        => array(),
+				'v-model'     => array(),
+				'id'          => array(),
+				'placeholder' => array(),
+				'aria-label'  => array(),
+				':disabled'   => array(),
+			);
+			$allowed_data_req_html['c-button'] = array(
+				'id'      => array(),
+				'class'   => array(),
+				'variant' => array(),
+				'@click'  => array(),
+			);
+			$allowed_data_req_html['tooltip'] = array(
+				'text'  => array(),
+				'class' => array(),
+				'v-if'  => array(),
+			);
+			$allowed_data_req_html['vue-editor'] = array(
+				'name'    => array(),
+				'v-model' => array(),
+			);
+			$allowed_data_req_html['input']['v-model'] = array();
+			$allowed_data_req_html['label']['v-model'] = array();
 			echo wp_kses( $this->wpl_get_template_data_request( 'gdpr-data-request-tab-template.php', $args ), $allowed_data_req_html );
 	}
 
@@ -1859,7 +2019,7 @@ class Gdpr_Cookie_Consent_Admin {
 				array( 'ID' => intval( $_GET['id'] ) )
 			);
 			$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
+			wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent' . ( $paged ? '&' . $paged : '' ) . '#compliance_records#data_request' ) );
 			exit;
 			
    	wp_die( 'Invalid request.' );
@@ -1880,7 +2040,7 @@ class Gdpr_Cookie_Consent_Admin {
 		global $wpdb;
 		$wpdb->delete( $wpdb->prefix . 'wpl_data_req', array( 'ID' => intval( $_GET['id'] ) ) );
 		$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-		wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#data_request' . $paged ) );
+		wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent' . ( $paged ? '&' . $paged : '' ) . '#compliance_records#data_request' ) );
 		exit;
 	}
 
@@ -2156,7 +2316,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_policy_data_overview() {
 			ob_start();
 
-			include GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/policy-data/class-gdpr-policy-data.php';
+			include_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/policy-data/class-gdpr-policy-data.php';
 			// Style for consent log report.
 			wp_enqueue_style( 'gdpr_policy_data_tab_style' );
 
@@ -2169,7 +2329,7 @@ class Gdpr_Cookie_Consent_Admin {
 			);
 		?>
 			<div class="wpl-consentlogs">
-				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' ) ); ?>">
+				<form id="wpl-dnsmpd-filter" method="get" action="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent#compliance_records' ) ); ?>">
 					<div class="wpl-heading-export-consentlogs">
 						<div class="policy-data-heading-export">
 							<h1 class="wp-heading"><?php esc_html_e( 'Policy Data', 'gdpr-cookie-consent' ); ?></h1>
@@ -2285,7 +2445,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 				// Redirect back to the admin page
 				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-				wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent#policy_data' . $paged ) );
+				wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent' . ( $paged ? '&' . $paged : '' ) . '#compliance_records' ) );
 				exit; // Always exit after a wp_redirect()
 			}
 		}
@@ -3137,6 +3297,10 @@ class Gdpr_Cookie_Consent_Admin {
 			'code'  => 'once',
 		);
 		$schedule_scan_options[2] = array(
+			'label' => 'Weekly',
+			'code'  => 'weekly',
+		);
+		$schedule_scan_options[3] = array(
 			'label' => 'Monthly',
 			'code'  => 'monthly',
 		);
@@ -3150,6 +3314,16 @@ class Gdpr_Cookie_Consent_Admin {
 			$schedule_scan_day_options[] = array(
 				'label' => $label,
 				'code'  => $code,
+			);
+		}
+
+		// dropdown option for schedule scan weekday (used when the frequency is weekly).
+		$schedule_scan_weekday_options = array();
+
+		foreach ( array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ) as $weekday ) {
+			$schedule_scan_weekday_options[] = array(
+				'label' => $weekday,
+				'code'  => $weekday,
 			);
 		}
 
@@ -3443,6 +3617,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'show_language_as_options'         => $show_language_as_options,
 				'schedule_scan_options'            => $schedule_scan_options,
 				'schedule_scan_day_options'        => $schedule_scan_day_options,
+				'schedule_scan_weekday_options'    => $schedule_scan_weekday_options,
 				'on_hide_options'                  => $on_hide_options,
 				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
@@ -3653,11 +3828,10 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 
 	/**
-	 * AB Testing Page
+	 * Compliance Records Page
 	 * 
-	 * @since 4.0.0
 	 */
-	public function gdpr_cookie_consent_abtesting_settings() {
+	public function gdpr_cookie_consent_compliance_record_settings() {
 		$is_user_connected = $this->settings->is_connected();
 		$api_user_plan = $this->settings->get_plan();
 
@@ -3693,7 +3867,7 @@ class Gdpr_Cookie_Consent_Admin {
 		// Get options.
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 
-		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-abtesting-settings.php';
+		require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-consent-compliance-record-settings.php';
 	}
 
 	/**
@@ -5103,51 +5277,30 @@ class Gdpr_Cookie_Consent_Admin {
 				$ab_options = array();
 			}
 			
-			// Get the current A/B testing period value
-			$current_ab_testing_value = isset($ab_options['ab_testing_period']) ? $ab_options['ab_testing_period'] : '';
+			$current_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? $ab_options['ab_testing_period'] : '';
 
-			// Set the new A/B testing period value from POST
-			$ab_options['ab_testing_period'] = isset($_POST['ab_testing_period_text_field']) ? sanitize_text_field(wp_unslash($_POST['ab_testing_period_text_field'])) : '';
-			$ab_options['ab_testing_auto'] = isset( $_POST['gcc-ab-testing-auto'] ) ? ($_POST['gcc-ab-testing-auto'] === true || $_POST['gcc-ab-testing-auto']==='true' || $_POST['gcc-ab-testing-auto'] === 1 ? 'true' :'false')  : 'false';
+			$ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period'] ) ? absint( $_POST['ab_testing_period'] ) : '';
+			$ab_options['ab_testing_auto'] = isset( $_POST['gcc-ab-testing-auto'] ) && in_array( wp_unslash( $_POST['gcc-ab-testing-auto'] ), array( 'true', '1', 1, true ), true) ? 'true' : 'false';
 
-			// Get the updated A/B testing period value
-			$updated_ab_testing_value = isset($ab_options['ab_testing_period']) ? $ab_options['ab_testing_period'] : '';
-			// Handle auto-generated banner reset when template is changed
-			$reset_auto_generated = isset($_POST['reset_auto_generated']) ? sanitize_text_field($_POST['reset_auto_generated']) : '0';
-			$is_template_changed = isset($_POST['is_template_changed']) ? sanitize_text_field($_POST['is_template_changed']) : '0';
-			$auto_generated_banner = isset($_POST['auto_generated_banner']) ? sanitize_text_field($_POST['auto_generated_banner']) : '0';
-			$template = isset($_POST['gdpr-template']) ? sanitize_text_field($_POST['gdpr-template']) : 'new_default';
-			// Check if the value of the A/B testing period has changed
-			if ($current_ab_testing_value !== $updated_ab_testing_value) {
+			$updated_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? $ab_options['ab_testing_period'] : '';
 
-				// Get the transient expiration time if the transient already exists
-				$transient_name = '_transient_timeout_gdpr_ab_testing_transient';
-				$expiration_time = get_option($transient_name);
-				
-				// Check if the transient exists (the value is retrieved)
-				if ($expiration_time) {
-					// Convert the expiration time to a human-readable format
-					$expiration_time = gmdate('Y-m-d H:i:s', $expiration_time);
-					
-					// Get the current date and time
-					$current_date_time = gmdate('Y-m-d H:i:s');
+			if ( $current_ab_testing_value !== $updated_ab_testing_value ) {
 
-					// Calculate the difference in time between the current time and the expiration time
-					$current_time_unix = strtotime($current_date_time);
-					$expiration_time_unix = strtotime($expiration_time);
-					
-					// Calculate the remaining time in seconds
-					$remaining_time_seconds = $expiration_time_unix - $current_time_unix;
+				$transient_name   = '_transient_timeout_gdpr_ab_testing_transient';
+				$expiration_time  = get_option( $transient_name );
 
-					// Calculate the remaining days
-					$remaining_days = ceil($remaining_time_seconds / (60 * 60 * 24));
+				if ( $expiration_time ) {
 
-					// If the user changes the days value, update the transient expiration time
-					$new_expiration_time_seconds = ((int) $updated_ab_testing_value * 24 * 60 * 60); // New expiration time in seconds
-					
-					// If the new expiration time is longer or shorter, update the transient accordingly
-					if ($remaining_days != $updated_ab_testing_value) {
-						$new_expiration_timestamp = $current_time_unix + $new_expiration_time_seconds;
+					$expiration_time          = gmdate( 'Y-m-d H:i:s', $expiration_time );
+					$current_date_time        = gmdate( 'Y-m-d H:i:s' );
+					$current_time_unix        = strtotime( $current_date_time );
+					$expiration_time_unix     = strtotime( $expiration_time );
+					$remaining_time_seconds   = $expiration_time_unix - $current_time_unix;
+					$remaining_days           = ceil( $remaining_time_seconds / ( 60 * 60 * 24 ) );
+					$new_expiration_time_seconds = ( (int) $updated_ab_testing_value * 24 * 60 * 60 );
+
+					if ( $remaining_days != $updated_ab_testing_value ) {
+
 						set_transient(
 							'gdpr_ab_testing_transient',
 							array(
@@ -5157,9 +5310,11 @@ class Gdpr_Cookie_Consent_Admin {
 							$new_expiration_time_seconds
 						);
 					}
+
 				} else {
-					// If the transient doesn't exist, create it with the new expiration time
-					$new_expiration_time_seconds = ((int) $updated_ab_testing_value * 24 * 60 * 60);
+
+					$new_expiration_time_seconds = ( (int) $updated_ab_testing_value * 24 * 60 * 60 );
+
 					set_transient(
 						'gdpr_ab_testing_transient',
 						array(
@@ -5170,6 +5325,8 @@ class Gdpr_Cookie_Consent_Admin {
 					);
 				}
 			}
+
+			update_option( 'wpl_ab_options', $ab_options );
 
 			$law_selection_mode = isset( $_POST['gcc-law-selection-mode'] )
 				? sanitize_text_field( wp_unslash( $_POST['gcc-law-selection-mode'] ) )
@@ -5221,6 +5378,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$the_options['scan_date'] = isset( $_POST['gdpr-schedule-scan-date'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-date'] ) ) : 'Oct 10 2023';
 			// scan day.
 			$the_options['scan_day'] = isset( $_POST['gdpr-schedule-scan-day'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-day'] ) ) : 'Day 1';
+			// scan weekday.
+			$the_options['scan_weekday'] = isset( $_POST['gdpr-schedule-scan-weekday'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-weekday'] ) ) : 'Monday';
 			// scan time.
 			$the_options['scan_time']             = isset( $_POST['gdpr-schedule-scan-time'] ) ? sanitize_text_field( wp_unslash( $_POST['gdpr-schedule-scan-time'] ) ) : '8:00 PM';
 			$the_options['banner_preview_enable'] = isset( $_POST['gcc-banner-preview-enable'] ) && ( true === $_POST['gcc-banner-preview-enable'] || 'true' === $_POST['gcc-banner-preview-enable'] ) ? 'true' : 'false';
@@ -7054,81 +7213,6 @@ class Gdpr_Cookie_Consent_Admin {
 			wp_send_json_success( array( 'form_options_saved' => true ) );
 		}
 	}
-
-	/**
-	 * AB Testing callback to save settings.
-	 */
-	public function gdpr_cookie_consent_ajax_save_abtesting_settings() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
-			exit;
-		}
-		if ( isset( $_POST['gcc_settings_form_nonce_abtesting'] ) ) {
-			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gcc_settings_form_nonce_abtesting'] ) ), 'gcc-settings-form-nonce-abtesting' ) ) {
-				return;
-			}
-		
-
-		$ab_options = get_option( 'wpl_ab_options' );
-		if ( ! $ab_options ) {
-			$ab_options = array();
-		}
-
-		$current_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? $ab_options['ab_testing_period'] : '';
-
-		$ab_options['ab_testing_period'] = isset( $_POST['ab_testing_period'] ) ? absint( $_POST['ab_testing_period'] ) : '';
-		$ab_options['ab_testing_auto'] = isset( $_POST['gcc-ab-testing-auto'] ) && in_array( wp_unslash( $_POST['gcc-ab-testing-auto'] ), array( 'true', '1', 1, true ), true) ? 'true' : 'false';
-
-		$updated_ab_testing_value = isset( $ab_options['ab_testing_period'] ) ? $ab_options['ab_testing_period'] : '';
-
-		if ( $current_ab_testing_value !== $updated_ab_testing_value ) {
-
-			$transient_name   = '_transient_timeout_gdpr_ab_testing_transient';
-			$expiration_time  = get_option( $transient_name );
-
-			if ( $expiration_time ) {
-
-				$expiration_time          = gmdate( 'Y-m-d H:i:s', $expiration_time );
-				$current_date_time        = gmdate( 'Y-m-d H:i:s' );
-				$current_time_unix        = strtotime( $current_date_time );
-				$expiration_time_unix     = strtotime( $expiration_time );
-				$remaining_time_seconds   = $expiration_time_unix - $current_time_unix;
-				$remaining_days           = ceil( $remaining_time_seconds / ( 60 * 60 * 24 ) );
-				$new_expiration_time_seconds = ( (int) $updated_ab_testing_value * 24 * 60 * 60 );
-
-				if ( $remaining_days != $updated_ab_testing_value ) {
-
-					set_transient(
-						'gdpr_ab_testing_transient',
-						array(
-							'value'         => 'A/B Testing Period',
-							'creation_time' => time(),
-						),
-						$new_expiration_time_seconds
-					);
-				}
-
-			} else {
-
-				$new_expiration_time_seconds = ( (int) $updated_ab_testing_value * 24 * 60 * 60 );
-
-				set_transient(
-					'gdpr_ab_testing_transient',
-					array(
-						'value'         => 'A/B Testing Period',
-						'creation_time' => time(),
-					),
-					$new_expiration_time_seconds
-				);
-			}
-		}
-
-		update_option( 'wpl_ab_options', $ab_options );
-		wp_send_json_success( array( 'form_options_saved' => true ) );
-		}
-
-	}
-
 	
 
 	/**
@@ -8228,6 +8312,10 @@ class Gdpr_Cookie_Consent_Admin {
 			'code'  => 'once',
 		);
 		$schedule_scan_options[2] = array(
+			'label' => 'Weekly',
+			'code'  => 'weekly',
+		);
+		$schedule_scan_options[3] = array(
 			'label' => 'Monthly',
 			'code'  => 'monthly',
 		);
@@ -8241,6 +8329,16 @@ class Gdpr_Cookie_Consent_Admin {
 			$schedule_scan_day_options[] = array(
 				'label' => $label,
 				'code'  => $code,
+			);
+		}
+
+		// dropdown option for schedule scan weekday (used when the frequency is weekly).
+		$schedule_scan_weekday_options = array();
+
+		foreach ( array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ) as $weekday ) {
+			$schedule_scan_weekday_options[] = array(
+				'label' => $weekday,
+				'code'  => $weekday,
 			);
 		}
 		$on_hide_options         = array();
@@ -8430,6 +8528,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'show_language_as_options'         => $show_language_as_options,
 				'schedule_scan_options'            => $schedule_scan_options,
 				'schedule_scan_day_options'        => $schedule_scan_day_options,
+				'schedule_scan_weekday_options'    => $schedule_scan_weekday_options,
 				'on_hide_options'                  => $on_hide_options,
 				'on_load_options'                  => $on_load_options,
 				'is_pro_active'                    => $is_pro_active,
@@ -8840,11 +8939,11 @@ class Gdpr_Cookie_Consent_Admin {
 		$key_activate_url    = $admin_url . 'admin.php?page=gdpr-cookie-consent#activation_key';
 		$legalpages_install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wplegalpages' ), 'install-plugin_wplegalpages' );
 		$create_legalpages_url = $admin_url . 'admin.php?page=legal-pages';
-		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#consent_logs';
+		$consent_log_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#compliance_records';
 		$cookie_design_url   = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#gdpr_design';
 		$cookie_template_url = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_settings#layout';
 		$script_blocker_url  = $admin_url . 'admin.php?page=gdpr-cookie-consent#cookie_manager#script_blocker';
-		$third_party_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#policy_data';
+		$third_party_url     = $admin_url . 'admin.php?page=gdpr-cookie-consent#compliance_records';
 		$documentation_url   = 'https://wplegalpages.com/docs/wp-cookie-consent/';
 		$gdpr_pro_url        = 'https://club.wpeka.com/product/wp-gdpr-cookie-consent/?utm_source=plugin&utm_medium=gdpr&utm_campaign=quick-links&utm_content=upgrade-to-pro';
 		$free_support_url    = 'https://wordpress.org/support/plugin/gdpr-cookie-consent/';
@@ -9170,11 +9269,26 @@ class Gdpr_Cookie_Consent_Admin {
 			'schedule_scan_date' => sanitize_text_field($_POST['schedule_scan_date']),
 			'schedule_scan_time_value' => sanitize_text_field($_POST['schedule_scan_time_value']),
 			'schedule_scan_day' => sanitize_text_field($_POST['schedule_scan_day']),
+			'schedule_scan_weekday' => isset( $_POST['schedule_scan_weekday'] ) ? sanitize_text_field($_POST['schedule_scan_weekday']) : '',
 			'next_scan_is_when' => sanitize_text_field($_POST['next_scan_is_when']),
 			'schedule_scan_when' => sanitize_text_field($_POST['next_scan_is_when']),
 		);
 		update_option('gdpr_scan_schedule_data', $schedule_data);
-		wp_send_json_success();
+
+		$scheduled = $this->gdpr_apply_scan_schedule( $schedule_data );
+
+		if ( is_wp_error( $scheduled ) ) {
+			wp_send_json_error( array( 'message' => $scheduled->get_error_message() ), 400 );
+		}
+
+		// The cron helpers rewrite next_scan_is_when, so hand back what was actually armed.
+		$schedule_data = get_option( 'gdpr_scan_schedule_data', $schedule_data );
+
+		wp_send_json_success(
+			array(
+				'next_scan_is_when' => $schedule_data['next_scan_is_when'] ?? '',
+			)
+		);
 	}
 
 	/**
@@ -9205,6 +9319,7 @@ class Gdpr_Cookie_Consent_Admin {
 			exit;
 		}
 		delete_option('gdpr_scan_schedule_data');
+		$this->gdpr_clear_scheduled_scan();
 		wp_send_json_success(array('message' => 'Schedule cleared'));
 	}
 
@@ -13575,45 +13690,43 @@ public function gdpr_support_request_handler() {
 		$scan_date         = sanitize_text_field( $schedule_scan['schedule_scan_date'] ?? '' );
 		$scan_time_value   = sanitize_text_field( $schedule_scan['schedule_scan_time_value'] ?? '' );
 		$scan_day          = sanitize_text_field( $schedule_scan['schedule_scan_day'] ?? '' );
+		$scan_weekday      = sanitize_text_field( $schedule_scan['schedule_scan_weekday'] ?? '' );
 		$next_scan_is_when = sanitize_text_field( $schedule_scan['next_scan_is_when'] ?? '' );
 		$scan_when         = sanitize_text_field( $schedule_scan['schedule_scan_when'] ?? '' );
+
+		// Weekly schedules may send the weekday through the shared day dropdown.
+		if ( '' === $scan_weekday && 'weekly' === $scan_as ) {
+			$scan_weekday = $scan_day;
+		}
 
 		$schedule_scan_data = array(
 			'schedule_scan_as'        => $scan_as,
 			'schedule_scan_date'      => $scan_date,
 			'schedule_scan_time_value'=> $scan_time_value,
 			'schedule_scan_day'       => $scan_day,
+			'schedule_scan_weekday'   => $scan_weekday,
 			'next_scan_is_when'       => $next_scan_is_when,
 			'schedule_scan_when'      => $scan_when,
 		);
 
 		update_option( 'gdpr_scan_schedule_data', $schedule_scan_data );
 
-		// Clear any existing scheduled scan first
-    	$this->gdpr_clear_scheduled_scan();
+		$scheduled = $this->gdpr_apply_scan_schedule( $schedule_scan_data );
 
-    	if ( $scan_as === 'once' ) {
-    	    $timestamp = $this->gdpr_parse_scan_datetime( $scan_date, $scan_time_value );
+		if ( is_wp_error( $scheduled ) ) {
+			return new WP_REST_Response(
+				array( 'status' => 'error', 'message' => $scheduled->get_error_message() ),
+				400
+			);
+		}
 
-    	    if ( ! $timestamp || $timestamp <= time() ) {
-    	        return new WP_REST_Response(
-    	            array( 'status' => 'error', 'message' => 'Selected date/time is in the past.' ),
-    	            400
-    	        );
-    	    }
-    	    wp_schedule_single_event( $timestamp, 'gdpr_run_scheduled_cookie_scan' );
-
-    	} elseif ( $scan_as === 'monthly' ) {
-    	    $this->gdpr_schedule_monthly_cron( $schedule_scan_data );
-
-    	} elseif ( $scan_as === 'never' ) {
-    	    // Already cleared above, nothing to do
-    	}
+		$schedule_scan_data = get_option( 'gdpr_scan_schedule_data', $schedule_scan_data );
 
 		return new WP_REST_Response(
 			array(
-				'status'  => 'success',
-				'message' => __( 'Scan Scheduled Successfully!!!', 'gdpr-cookie-consent' ),
+				'status'            => 'success',
+				'message'           => __( 'Scan Scheduled Successfully!!!', 'gdpr-cookie-consent' ),
+				'next_scan_is_when' => $schedule_scan_data['next_scan_is_when'] ?? '',
 			),
 			200
 		);
@@ -13711,6 +13824,9 @@ public function gdpr_support_request_handler() {
     	} else {
     	    update_option( $wcam_lib_gdpr->wc_am_activated_key, 'Activated' );
     	}
+
+		// Paid plans get the weekly scan schedule switched on.
+		do_action( 'gdpr_cookie_consent_app_plan_connected', $data['account']['plan'] ?? '' );
 
 		return new WP_REST_Response(
     	    array(
@@ -14890,84 +15006,365 @@ public function gdpr_support_request_handler() {
 	public function gdpr_cron_run_scan() {
 	    require_once plugin_dir_path( __DIR__ ) . 'admin/modules/cookie-scanner/classes/class-wpl-cookie-consent-cookie-scanner-ajax.php';
 	    $cookies_scan = new Gdpr_Cookie_Consent_Cookie_Scanner_Ajax();
-	    $cookies_scan->gdpr_start_cookie_scanning(-1);
+	    $cookies_scan->gdpr_start_cookie_scanning( -1, true );
 		
 	
 	    $schedule_data = get_option( 'gdpr_scan_schedule_data', [] );
 
     	if ( ( $schedule_data['schedule_scan_as'] ?? '' ) === 'monthly' ) {
-    	    $clean     = preg_replace( '/\(.*?\)/', '', trim( $schedule_data['schedule_scan_date'] ) );
-    	    $source_dt = new DateTime( trim( $clean ) );
-    	    $source_dt->modify( '+1 month' );
+    	    $clean = preg_replace( '/\(.*?\)/', '', trim( $schedule_data['schedule_scan_date'] ?? '' ) );
 
-    	    $schedule_data['schedule_scan_date']  = $source_dt->format( 'D M d Y H:i:s \G\M\TO' );
-    	    $schedule_data['next_scan_is_when']   = $source_dt->format( 'M j, Y' );
-    	    $schedule_data['schedule_scan_when']  = $source_dt->format( 'M j, Y' );
+    	    // Keep the stored date moving with the schedule; gdpr_schedule_monthly_cron()
+    	    // rolls it forward anyway if this fails.
+    	    try {
+    	        $source_dt = new DateTime( trim( $clean ) );
+    	        $source_dt->modify( '+1 month' );
 
-    	    update_option( 'gdpr_scan_schedule_data', $schedule_data );
+    	        $schedule_data['schedule_scan_date'] = $source_dt->format( 'D M d Y H:i:s \G\M\TO' );
+
+    	        update_option( 'gdpr_scan_schedule_data', $schedule_data );
+    	    } catch ( Exception $e ) {
+    	        // Leave the stored date as is.
+    	    }
 
     	    $this->gdpr_schedule_monthly_cron( $schedule_data );
+    	} elseif ( ( $schedule_data['schedule_scan_as'] ?? '' ) === 'weekly' ) {
+    	    $clean = preg_replace( '/\(.*?\)/', '', trim( $schedule_data['schedule_scan_date'] ?? '' ) );
+
+    	    // Keep the stored date moving with the schedule; gdpr_schedule_weekly_cron()
+    	    // rolls it forward anyway if this fails.
+    	    try {
+    	        $source_dt = new DateTime( trim( $clean ) );
+    	        $source_dt->modify( '+1 week' );
+
+    	        $schedule_data['schedule_scan_date'] = $source_dt->format( 'D M d Y H:i:s \G\M\TO' );
+
+    	        update_option( 'gdpr_scan_schedule_data', $schedule_data );
+    	    } catch ( Exception $e ) {
+    	        // Leave the stored date as is.
+    	    }
+
+    	    $this->gdpr_schedule_weekly_cron( $schedule_data );
     	} else {
     	    delete_option( 'gdpr_scan_schedule_data' );
     	}
 	}
 
+	/**
+	 * Schedule the next weekly cookie scan.
+	 *
+	 * The weekday comes from the weekly dropdown ( Monday ... Sunday ) and the time
+	 * of day from the time picker, falling back to the time carried by
+	 * schedule_scan_date, so the scan lands on the next matching weekday at the
+	 * selected clock time.
+	 *
+	 * @param array $schedule_data Saved schedule data.
+	 * @return bool Whether an event could be scheduled.
+	 */
+	private function gdpr_schedule_weekly_cron( $schedule_data ) {
+		$weekday = $this->gdpr_normalize_weekday(
+			$schedule_data['schedule_scan_weekday'] ?? ( $schedule_data['schedule_scan_day'] ?? '' )
+		);
+
+		if ( ! $weekday ) {
+			return false;
+		}
+
+		$clean = preg_replace( '/\(.*?\)/', '', trim( $schedule_data['schedule_scan_date'] ?? '' ) );
+
+		try {
+			$base_dt = new DateTimeImmutable( trim( $clean ) );
+		} catch ( Exception $e ) {
+			return false;
+		}
+
+		$time   = $this->gdpr_parse_scan_time( $schedule_data['schedule_scan_time_value'] ?? '' );
+		$hour   = $time ? $time['hour'] : (int) $base_dt->format( 'H' );
+		$minute = $time ? $time['minute'] : (int) $base_dt->format( 'i' );
+
+		// Move to the selected weekday, keeping the selected clock time, then roll
+		// forward a week at a time until the occurrence is in the future.
+		$next_dt = $base_dt;
+		if ( 0 !== strcasecmp( $base_dt->format( 'l' ), $weekday ) ) {
+			$next_dt = $base_dt->modify( 'next ' . $weekday );
+		}
+		$next_dt = $next_dt->setTime( $hour, $minute, 0 );
+
+		while ( $next_dt->getTimestamp() <= time() ) {
+			$next_dt = $next_dt->modify( '+1 week' )->setTime( $hour, $minute, 0 );
+		}
+
+		wp_schedule_single_event( $next_dt->getTimestamp(), 'gdpr_run_scheduled_cookie_scan' );
+
+		$schedule_data['schedule_scan_weekday'] = $weekday;
+		$schedule_data['next_scan_is_when']     = $next_dt->format( 'M j, Y h:i A' );
+		$schedule_data['schedule_scan_when']    = $next_dt->format( 'M j, Y h:i A' );
+		update_option( 'gdpr_scan_schedule_data', $schedule_data );
+
+		return true;
+	}
+
+	/**
+	 * Resolve a weekday label coming from the schedule dropdown to its canonical name.
+	 *
+	 * @param string $weekday Weekday label, e.g. 'Monday' or 'Mon'.
+	 * @return string|false Canonical weekday name, or false when unrecognised.
+	 */
+	private function gdpr_normalize_weekday( $weekday ) {
+		$weekday = trim( (string) $weekday );
+
+		if ( '' === $weekday ) {
+			return false;
+		}
+
+		$weekdays = array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' );
+
+		foreach ( $weekdays as $name ) {
+			if ( 0 === strcasecmp( $name, $weekday ) || 0 === strcasecmp( substr( $name, 0, 3 ), $weekday ) ) {
+				return $name;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Schedule the next monthly cookie scan.
+	 *
+	 * The day of the month comes from the monthly dropdown and the time of day
+	 * from the time picker, falling back to the time carried by schedule_scan_date.
+	 *
+	 * @param array $schedule_data Saved schedule data.
+	 * @return bool Whether an event could be scheduled.
+	 */
 	private function gdpr_schedule_monthly_cron( $schedule_data ) {
-		$day_string  = $schedule_data['schedule_scan_day'] ?? '';
-		$date_string = $schedule_data['schedule_scan_date'] ?? '';
-		$day_number  = (int) filter_var( $day_string, FILTER_SANITIZE_NUMBER_INT );
+		$day_number = (int) filter_var( $schedule_data['schedule_scan_day'] ?? '', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( $day_number < 1 || $day_number > 31 ) {
+			return false;
+		}
+
+		$clean = preg_replace( '/\(.*?\)/', '', trim( $schedule_data['schedule_scan_date'] ?? '' ) );
+
+		try {
+			$base_dt = new DateTimeImmutable( trim( $clean ) );
+		} catch ( Exception $e ) {
+			return false;
+		}
+
+		$time   = $this->gdpr_parse_scan_time( $schedule_data['schedule_scan_time_value'] ?? '' );
+		$hour   = $time ? $time['hour'] : (int) $base_dt->format( 'H' );
+		$minute = $time ? $time['minute'] : (int) $base_dt->format( 'i' );
+
+		// Land on the selected day of the month, then roll forward a month at a
+		// time until the occurrence is in the future.
+		$next_dt = $this->gdpr_set_day_of_month( $base_dt, $day_number )->setTime( $hour, $minute, 0 );
+
+		while ( $next_dt->getTimestamp() <= time() ) {
+			$next_dt = $this->gdpr_set_day_of_month(
+				$next_dt->modify( 'first day of next month' ),
+				$day_number
+			)->setTime( $hour, $minute, 0 );
+		}
+
+		wp_schedule_single_event( $next_dt->getTimestamp(), 'gdpr_run_scheduled_cookie_scan' );
+
+		$schedule_data['next_scan_is_when']  = $next_dt->format( 'M j, Y h:i A' );
+		$schedule_data['schedule_scan_when'] = $next_dt->format( 'M j, Y h:i A' );
+		update_option( 'gdpr_scan_schedule_data', $schedule_data );
+
+		return true;
+	}
+
+	/**
+	 * Set the day of the month, clamped to the length of that month.
+	 *
+	 * Keeps 'Day 31' meaningful in a 28, 29 or 30 day month instead of
+	 * overflowing into the following one.
+	 *
+	 * @param DateTimeImmutable $date       Date to adjust.
+	 * @param int               $day_number Day of the month, 1 to 31.
+	 * @return DateTimeImmutable
+	 */
+	private function gdpr_set_day_of_month( $date, $day_number ) {
+		$days_in_month = (int) $date->format( 't' );
+
+		return $date->setDate(
+			(int) $date->format( 'Y' ),
+			(int) $date->format( 'm' ),
+			min( $day_number, $days_in_month )
+		);
+	}
+
+	/**
+	 * Arm the WP-Cron event for a saved scan schedule.
+	 *
+	 * Shared by the REST endpoint and the admin ajax handler so both UIs schedule
+	 * scans the same way, server side, rather than relying on the admin page
+	 * staying open.
+	 *
+	 * @param array $schedule_data Saved schedule data.
+	 * @return true|WP_Error True once scheduled, or the reason it could not be.
+	 */
+	private function gdpr_apply_scan_schedule( $schedule_data ) {
+		$scan_as = $schedule_data['schedule_scan_as'] ?? '';
+
+		// Clear any existing scheduled scan first.
+		$this->gdpr_clear_scheduled_scan();
+
+		if ( 'once' === $scan_as ) {
+			$timestamp = $this->gdpr_parse_scan_datetime(
+				$schedule_data['schedule_scan_date'] ?? '',
+				$schedule_data['schedule_scan_time_value'] ?? ''
+			);
+
+			if ( ! $timestamp || $timestamp <= time() ) {
+				return new WP_Error(
+					'gdpr_scan_schedule_past',
+					__( 'Selected date/time is in the past.', 'gdpr-cookie-consent' )
+				);
+			}
+
+			wp_schedule_single_event( $timestamp, 'gdpr_run_scheduled_cookie_scan' );
+
+		} elseif ( 'weekly' === $scan_as ) {
+			if ( ! $this->gdpr_schedule_weekly_cron( $schedule_data ) ) {
+				return new WP_Error(
+					'gdpr_scan_schedule_weekday',
+					__( 'Please select a valid day of the week.', 'gdpr-cookie-consent' )
+				);
+			}
+		} elseif ( 'monthly' === $scan_as ) {
+			if ( ! $this->gdpr_schedule_monthly_cron( $schedule_data ) ) {
+				return new WP_Error(
+					'gdpr_scan_schedule_day',
+					__( 'Please select a valid day of the month.', 'gdpr-cookie-consent' )
+				);
+			}
+		}
+
+		// 'never' needs nothing beyond the clear above.
+		return true;
+	}
+
+	/**
+	 * Turn on the weekly scan schedule once the site is connected to a paid plan.
+	 *
+	 * Runs after the plan from the SaaS app has been saved. Lite (free) plans get
+	 * nothing, and a scan that is already armed is left alone so connecting again
+	 * never overrides a schedule the user picked.
+	 *
+	 * @param string $plan Plan saved for the connected account.
+	 * @return void
+	 */
+	public function gdpr_activate_weekly_scan_for_plan( $plan ) {
+		$plan = strtolower( trim( (string) $plan ) );
+
+		if ( '' === $plan || in_array( $plan, array( 'free', 'lite' ), true ) ) {
 			return;
 		}
 
-		$clean = preg_replace( '/\(.*?\)/', '', trim( $date_string ) );
-
-		$ist_dt = new DateTimeImmutable( trim( $clean ) );
-
-		$utc_dt = $ist_dt->setTimezone( new DateTimeZone('UTC') );
-
-		$utc = new DateTimeZone('UTC');
-		$now = new DateTime('now', $utc);
-
-		$next = new DateTime('now', $utc);
-		$next->setDate(
-			$now->format('Y'),
-			$now->format('m'),
-			$day_number
-		);
-
-		$next->setTime(
-			(int) $utc_dt->format('H'),
-			(int) $utc_dt->format('i'),
-			0
-		);
-
-		if ( $next->getTimestamp() <= time() ) {
-			$next->modify('+1 month');
+		if ( wp_next_scheduled( 'gdpr_run_scheduled_cookie_scan' ) ) {
+			return;
 		}
 
-		wp_schedule_single_event( $next->getTimestamp(), 'gdpr_run_scheduled_cookie_scan' );
+		$now = new DateTimeImmutable( 'now', wp_timezone() );
 
-		$schedule_data['next_scan_is_when'] = $ist_dt->format( 'M j, Y h:i A' );
+		// Today's weekday at the current time: that slot has just passed, so the
+		// weekly cron rolls it forward to exactly one week from now.
+		$schedule_data = array(
+			'schedule_scan_as'         => 'weekly',
+			'schedule_scan_date'       => $now->format( 'D M d Y H:i:s \G\M\TO' ),
+			// Zero padded to match the timepicker's hh:mm A format, or it renders blank.
+			'schedule_scan_time_value' => $now->format( 'h:i A' ),
+			'schedule_scan_day'        => 'Day 1',
+			'schedule_scan_weekday'    => $now->format( 'l' ),
+			'next_scan_is_when'        => '',
+			'schedule_scan_when'       => '',
+		);
+
 		update_option( 'gdpr_scan_schedule_data', $schedule_data );
+
+		// Fills in next_scan_is_when / schedule_scan_when once the event is armed.
+		if ( true !== $this->gdpr_apply_scan_schedule( $schedule_data ) ) {
+			return;
+		}
+
+		$schedule_data = get_option( 'gdpr_scan_schedule_data', $schedule_data );
+
+		// The settings card seeds its first render from these, so keep them in step.
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+		$the_options['schedule_scan_type'] = 'weekly';
+		$the_options['schedule_scan_when'] = $schedule_data['schedule_scan_when'] ?? 'Not Scheduled';
+		$the_options['scan_date']          = $schedule_data['schedule_scan_date'];
+		$the_options['scan_weekday']       = $schedule_data['schedule_scan_weekday'];
+		$the_options['scan_time']          = $schedule_data['schedule_scan_time_value'];
+
+		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 	}
 
 	private function gdpr_clear_scheduled_scan() {
-	    $timestamp = wp_next_scheduled( 'gdpr_run_scheduled_cookie_scan' );
-	    if ( $timestamp ) {
-	        wp_unschedule_event( $timestamp, 'gdpr_run_scheduled_cookie_scan' );
-	    }
+	    wp_clear_scheduled_hook( 'gdpr_run_scheduled_cookie_scan' );
 	}
 
-	private function gdpr_parse_scan_datetime( $date_string ) {
+	/**
+	 * Parse the datetime for a one-off scan.
+	 *
+	 * The datepicker only carries a date, so the time picked alongside it is
+	 * applied on top when it can be parsed.
+	 *
+	 * @param string $date_string Date as sent by the datepicker.
+	 * @param string $time_string Time as sent by the time picker.
+	 * @return int|false Timestamp, or false when the date is unparseable.
+	 */
+	private function gdpr_parse_scan_datetime( $date_string, $time_string = '' ) {
     	$clean = preg_replace( '/\(.*?\)/', '', trim( $date_string ) );
 
     	try {
     	    $dt = new DateTimeImmutable( trim( $clean ) );
+
+    	    $time = $this->gdpr_parse_scan_time( $time_string );
+    	    if ( $time ) {
+    	        $dt = $dt->setTime( $time['hour'], $time['minute'], 0 );
+    	    }
+
     	    return $dt->getTimestamp();
     	} catch ( Exception $e ) {
     	    return false;
     	}
+	}
+
+	/**
+	 * Parse a value from the schedule time picker, e.g. '08:30 PM' or '20:30'.
+	 *
+	 * @param string $time_string Time as sent by the time picker.
+	 * @return array|false Hour and minute, or false when unparseable.
+	 */
+	private function gdpr_parse_scan_time( $time_string ) {
+		$time_string = trim( (string) $time_string );
+
+		if ( ! preg_match( '/^(\d{1,2}):(\d{2})\s*([AaPp][Mm])?/', $time_string, $matches ) ) {
+			return false;
+		}
+
+		$hour     = (int) $matches[1];
+		$minute   = (int) $matches[2];
+		$meridiem = isset( $matches[3] ) ? strtoupper( $matches[3] ) : '';
+
+		if ( 'PM' === $meridiem && $hour < 12 ) {
+			$hour += 12;
+		} elseif ( 'AM' === $meridiem && 12 === $hour ) {
+			$hour = 0;
+		}
+
+		if ( $hour > 23 || $minute > 59 ) {
+			return false;
+		}
+
+		return array(
+			'hour'   => $hour,
+			'minute' => $minute,
+		);
 	}
 }

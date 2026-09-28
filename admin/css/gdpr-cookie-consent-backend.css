@@ -108,7 +108,8 @@ table.gdpr_script_items tr:nth-child(odd) td {
 #gdpr-cookie-consent-save-settings-alert-abt,
 #gdpr-cookie-consent-save-settings-alert-lang,
 #gdpr-cookie-consent-save-settings-alert-ckm,
-#gdpr-cookie-consent-save-settings-alert-adv {
+#gdpr-cookie-consent-save-settings-alert-adv,
+#gdpr-cookie-consent-save-settings-alert-crd {
   background-color: #72b85c;
 }
 #gdpr-cookie-consent-updating-settings-alert,
@@ -116,7 +117,8 @@ table.gdpr_script_items tr:nth-child(odd) td {
 #gdpr-cookie-consent-updating-settings-alert-abt,
 #gdpr-cookie-consent-updating-settings-alert-ckm,
 #gdpr-cookie-consent-updating-settings-alert-lang,
-#gdpr-cookie-consent-updating-settings-alert-adv {
+#gdpr-cookie-consent-updating-settings-alert-adv,
+#gdpr-cookie-consent-updating-settings-alert-crd {
   background-color: #3399ff;
 }
 #gdpr-cookie-consent-settings-app
@@ -237,7 +239,8 @@ table.gdpr_script_items tr:nth-child(odd) td {
 .scan-frequency-type .vs__dropdown-toggle {
   border-color: #e3e6e9;
 }
-.scan-frequency-day .vs__dropdown-toggle {
+.scan-frequency-day .vs__dropdown-toggle,
+.scan-frequency-weekday .vs__dropdown-toggle {
   border-color: #e3e6e9;
 }
 a .export-btn {
@@ -774,7 +777,8 @@ a .export-btn:hover {
   position: relative;
   left: -7px;
 }
-.scan-frequency-day {
+.scan-frequency-day,
+.scan-frequency-weekday {
   position: relative;
   left: 7px;
 }
