@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie consent, cookie banner, consent management, cookie scanner, script blocking
 Requires at least: 5.9
 Tested up to: 7.1
-Stable tag: 4.4.5
+Stable tag: 4.4.6
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -214,6 +214,10 @@ Yes. The plugin is translation-ready and works with popular multilingual plugins
 11. Consent Log table
 
 == Change Log ==
+
+= 4.4.6 =
+* **Reorganized Compliance Settings:** Manage DSAR records, Consent Logs, and A/B testing from a more organized settings structure.
+* **Weekly Cookie Scans for Pro:** Pro users now get a weekly cookie scan enabled by default to help keep their cookie records up to date.
 
 = 4.4.5 =
 * **Improved Cookie Manager:** Reorganized settings for a cleaner, more intuitive, and user-friendly experience.
@@ -934,6 +938,10 @@ Yes. The plugin is translation-ready and works with popular multilingual plugins
 * Initial version
 
 == Upgrade Notice ==
+
+= 4.4.6 =
+* **Reorganized Compliance Settings:** Manage DSAR records, Consent Logs, and A/B testing from a more organized settings structure.
+* **Weekly Cookie Scans for Pro:** Pro users now get a weekly cookie scan enabled by default to help keep their cookie records up to date.
 
 = 4.4.5 =
 * **Improved Cookie Manager:** Reorganized settings for a cleaner, more intuitive, and user-friendly experience.
