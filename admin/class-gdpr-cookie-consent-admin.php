@@ -115,6 +115,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action( 'admin_post_gdpr_delete', [ $this, 'wpl_data_req_process_delete' ] );
 			add_action( 'admin_init', array( $this, 'gcc_migrate_geo_targeting_options') );
 			add_action( 'admin_notices', array( $this, 'gdpr_both_law_retired_notice') );
+			add_action( 'admin_notices', array( $this, 'gdpr_iab_vendor_refresh_notice') );
 			add_action( 'admin_init', array( $this, 'gdpr_migrate_old_template_names_once') );
 			add_action( 'admin_init', array( $this, 'gdpr_add_banner_builder_settings_once')                                                                             );
 			add_action('admin_init', function() {
@@ -3604,6 +3605,7 @@ class Gdpr_Cookie_Consent_Admin {
 				'nonce'   						   => wp_create_nonce( 'wpl_save_script_nonce' ), // Generate nonce
 				'rest_nonce'					   => wp_create_nonce( 'wp_rest' ), // REST API cookie-auth nonce (X-WP-Nonce).
 				'gcc_enable_iab_nonce'			   => wp_create_nonce( 'gcc_enable_iab' ),
+				'iab_vendor_refresh_needed'		   => $this->gdpr_iab_vendor_refresh_needed(),
 				'the_options'                      => $settings,
 				'templates'     				   => $this -> templates_json,
 				'default_template_json'			   => get_option('gdpr_default_template_object'),
@@ -3756,6 +3758,34 @@ class Gdpr_Cookie_Consent_Admin {
 		</div>
 		<?php
 		delete_option( 'gdpr_both_law_retired_notice' );
+	}
+
+	/**
+	 * Whether the stored IAB vendor data was built for an older vendor JSON and needs rebuilding.
+	 *
+	 * @return bool
+	 */
+	public function gdpr_iab_vendor_refresh_needed() {
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$is_iab_on   = isset( $the_options['is_iabtcf_on'] ) && ( true === $the_options['is_iabtcf_on'] || 'true' === $the_options['is_iabtcf_on'] || 1 === $the_options['is_iabtcf_on'] );
+		return $is_iab_on && get_option( 'gdpr_iab_vendor_data_version' ) !== GDPR_COOKIE_CONSENT_IAB_VENDOR_DATA_VERSION;
+	}
+
+	/**
+	 * Ask the admin to open the settings page so the stored IAB vendor data gets rebuilt.
+	 */
+	public function gdpr_iab_vendor_refresh_notice() {
+		if ( ! current_user_can( 'manage_options' ) || ! $this->gdpr_iab_vendor_refresh_needed() ) {
+			return;
+		}
+		?>
+		<div class="notice notice-warning">
+			<p>
+				<?php esc_html_e( 'WP Cookie Consent: the IAB TCF vendor list has been updated. Open the Cookie Consent settings page to refresh your stored vendor data.', 'gdpr-cookie-consent' ); ?>
+				<a href="<?php echo esc_url( admin_url( 'admin.php?page=gdpr-cookie-consent' ) ); ?>"><?php esc_html_e( 'Open settings', 'gdpr-cookie-consent' ); ?></a>
+			</p>
+		</div>
+		<?php
 	}
 	
 	/**
@@ -7338,6 +7368,7 @@ class Gdpr_Cookie_Consent_Admin {
 		}
 		$received_data = json_decode(wp_unslash($_POST['data']));
 		update_option(GDPR_COOKIE_CONSENT_SETTINGS_VENDOR, $received_data);
+		update_option( 'gdpr_iab_vendor_data_version', GDPR_COOKIE_CONSENT_IAB_VENDOR_DATA_VERSION );
 
 		wp_send_json_success(
 			array(
