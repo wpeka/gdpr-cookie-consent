@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	$gacm_consent_data = isset( $iabtcf_consent_data["gacm_consent"]) ? $iabtcf_consent_data["gacm_consent"] : [];
 	$allGacmVendorsFlag = false;
 	$consent_data = isset( $iabtcf_consent_data["consent"] ) ? $iabtcf_consent_data["consent"] : [];
+	$features_text = $data->featureStandardText;
 	$legint_data = isset( $iabtcf_consent_data["legint"] ) ? $iabtcf_consent_data["legint"] : [];
 	$purpose_consent_data = isset( $iabtcf_consent_data["purpose_consent"] ) ? $iabtcf_consent_data["purpose_consent"] : [];
 	$purpose_legint_data = isset( $iabtcf_consent_data["purpose_legint"] ) ? $iabtcf_consent_data["purpose_legint"] : [];
@@ -417,8 +418,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											}
 										}
 										break;
-								}				
-												
+								}						
 								?>
 								<li class="category-item">
 									
@@ -464,8 +464,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 											
 										
 										</div>
+										
 									</div>
 									<div class="description-container iab-description hide" style=" border-color: <?php echo esc_attr( $border_color ); ?>;">
+													<?php if($value === 'Features') { ?>
+														<span class="gdpr_features_text"  style="background: <?php echo esc_attr($overlay_color); ?>;"><?php echo esc_html($features_text); ?></span>
+													<?php } ?>
 													<ul class="category-group feature-group tabContainer">
 													<?php 
 													
