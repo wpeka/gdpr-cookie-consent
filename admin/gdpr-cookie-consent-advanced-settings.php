@@ -270,10 +270,6 @@ $api_user_plan          = $this->settings->get_plan();
                     <!-- Export/Import Settings Start -->
                     <c-tab href="#advanced_settings#export_import" class="export_import" title="<?php esc_attr_e( 'Import/Export', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-export-import-settings" >
                         <c-card class="export_import_card">
-							<div class="gdpr-preview-publish-btn gdpr-preview-publish-btn-adv">
-								<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
-							</div>
-
                             <c-card-body>
                                 <!-- Export Settings Label -->
 								<c-row>
