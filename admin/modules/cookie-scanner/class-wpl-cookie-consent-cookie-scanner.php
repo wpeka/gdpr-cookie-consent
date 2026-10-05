@@ -255,36 +255,73 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * @phpcs:disable
 	 */
 	public function wplscan_get_user_ip() {
-		if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) && false === strpos( $_SERVER['HTTP_CLIENT_IP'], '127.0.0.1' ) ) {
-            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif( isset($_SERVER['HTTP_CF_CONNECTING_IP']) && false === strpos( $_SERVER['HTTP_CF_CONNECTING_IP'], '127.0.0.1' ) ) {
-            $ipaddress = $_SERVER['HTTP_CF_CONNECTING_IP'];
-        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) )) > 0 && false === strpos( $_SERVER['HTTP_X_FORWARDED_FOR'], '127.0.0.1' ) ) {
-            $xForwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			$ipList = array_map('trim', explode(',', $xForwardedFor));
+		$ipaddress = '127.0.0.1';
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED'] ) )) > 0 && false === strpos( $_SERVER['HTTP_X_FORWARDED'], '127.0.0.1' ) ) {
-            $xForwarded = $_SERVER['HTTP_X_FORWARDED'];
-			$ipList = array_map('trim', explode(',', $xForwarded));
+		if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			$remote = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-        } elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED_FOR'] ) )) > 0 && false === strpos( $_SERVER['HTTP_FORWARDED_FOR'], '127.0.0.1' ) ) {
-			$forwardedFor = $_SERVER['HTTP_FORWARDED_FOR'];
-			$ipList = array_map('trim', explode(',', $forwardedFor));
+			if ( $remote ) {
+				$ipaddress = $remote;
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-        } elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED'] ) )) > 0 && false === strpos( $_SERVER['HTTP_FORWARDED'], '127.0.0.1' ) ) {
-			$forwarded = $_SERVER['HTTP_FORWARDED'];
-			$ipList = array_map('trim', explode(',', $forwarded));
+				$trusted_proxies = (array) apply_filters( 'gdpr_cookie_consent_trusted_proxies', array() );
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-		} elseif ( isset( $_SERVER['REMOTE_ADDR'] )  && false === strpos( $_SERVER['REMOTE_ADDR'], '127.0.0.1' ) ) {
-            $ipaddress = $_SERVER['REMOTE_ADDR'];
-        } else {
-            $ipaddress = '127.0.0.1';
-        }
-        return $ipaddress;
+				if (
+					! empty( $trusted_proxies )
+					&& isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
+					&& $this->wplscan_ip_matches( $remote, $trusted_proxies )
+				) {
+					$ip_list = array_reverse( array_map( 'trim', explode( ',', wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) );
+
+					foreach ( $ip_list as $candidate ) {
+						$candidate = filter_var( $candidate, FILTER_VALIDATE_IP );
+						if ( ! $candidate ) {
+							break;
+						}
+						$ipaddress = $candidate;
+						if ( ! $this->wplscan_ip_matches( $candidate, $trusted_proxies ) ) {
+							break;
+						}
+					}
+				}
+			}
+		}
+
+	return $ipaddress;
+	}
+
+	private function wplscan_ip_matches( $ip, array $list ) {
+		$ip_bin = inet_pton( $ip );
+		if ( false === $ip_bin ) {
+			return false;
+		}
+		foreach ( $list as $entry ) {
+			$parts = explode( '/', trim( (string) $entry ), 2 );
+			if ( ! filter_var( $parts[0], FILTER_VALIDATE_IP ) ) {
+				continue;
+			}
+			$net   = inet_pton( $parts[0] );
+			if ( false === $net || strlen( $net ) !== strlen( $ip_bin ) ) {
+				continue;
+			}
+			$max_bits = strlen( $net ) * 8;
+			$bits     = isset( $parts[1] ) ? (int) $parts[1] : $max_bits;
+			if ( $bits < 0 || $bits > $max_bits ) {
+				continue;
+			}
+			$bytes = intdiv( $bits, 8 );
+			if ( substr( $ip_bin, 0, $bytes ) !== substr( $net, 0, $bytes ) ) {
+				continue;
+			}
+			$rem = $bits % 8;
+			if ( 0 === $rem ) {
+				return true;
+			}
+			$mask = ( 0xFF << ( 8 - $rem ) ) & 0xFF;
+			if ( ( ord( $ip_bin[ $bytes ] ) & $mask ) === ( ord( $net[ $bytes ] ) & $mask ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
