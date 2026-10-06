@@ -1449,6 +1449,10 @@ Bootstrap CSS for frontend UI
 #gdpr-ccpa-gdprmodal gdprmodal-dialog .gdprmodal-footer {
   justify-content: center;
 }
+.gdpr_features_text{
+    display: block;
+    padding: 18px;
+}
 /* Navbar for IAB TCF */
 .gdpr_messagebar_detail .gdpr-iab-navbar {
   list-style: none;

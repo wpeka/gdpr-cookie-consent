@@ -50,6 +50,8 @@ define( 'GDPR_COOKIE_CONSENT_SETTINGS_REVOKE_ICON2', GDPR_COOKIE_CONSENT_DB_KEY_
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_VENDOR', 'vendordata' );
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_GACM_VENDOR', 'gacmvendordata' );
 define( 'GDPR_COOKIE_CONSENT_SETTINGS_VENDOR_CONSENT', 'iabtcfConsent' );
+// Bump this whenever a release changes the IAB vendor JSON, so sites with IAB on rebuild their stored vendor data.
+define( 'GDPR_COOKIE_CONSENT_IAB_VENDOR_DATA_VERSION', '1' );
 define( 'GDPR_COOKIE_CONSENT_PLUGIN_FILENAME', __FILE__ );
 define( 'GDPR_POLICY_DATA_POST_TYPE', 'gdprpolicies' );
 define( 'GDPR_CSV_DELIMITER', ',' );

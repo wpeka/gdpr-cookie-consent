@@ -56,7 +56,11 @@ class Gdpr_Cookie_Consent_Deactivator {
 		delete_option( 'gdpr_review_pending');
 		delete_option( 'wplp_compliance_wizard_completed' );
 		delete_option( APPWPLP_SECRET_KEY_ATTEMPTS_OPTION );
-		
+		// Registration never completed - let the version check run again on the next admin load after reactivation.
+		if ( 'confirmed' !== get_option( APPWPLP_SECRET_KEY_STATUS_OPTION ) ) {
+			delete_option( APPWPLP_SECRET_KEY_VERSION_OPTION );
+		}
+
 		$the_options['is_worldwide_on'] = 'true';
 		$the_options['is_selectedCountry_on'] = 'false';
 		$the_options['is_eu_on'] = 'false';

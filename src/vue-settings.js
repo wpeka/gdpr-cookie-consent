@@ -5531,13 +5531,18 @@ var gen = new Vue({
     async fetchIABData(){
       var that = this;
       GVL.baseUrl = "https://appwplegalpages.b-cdn.net/";
-      const gvl = new GVL();
-      return gvl.readyPromise.then(() => {
+      // GVL.populate() drops keys it doesn't know (e.g. standardTexts),
+      // so fetch the raw JSON ourselves and build the GVL from it.
+      const rawGvl = await fetch(GVL.baseUrl + GVL.latestFilename).then((res) => res.json());
       
+      const gvl = new GVL(rawGvl);
+      return gvl.readyPromise.then(() => {
+
         let data = {};
         let vendorMap = gvl.vendors;
         let purposeMap = gvl.purposes;
         let featureMap = gvl.features;
+        let featureStandardText = rawGvl.standardTexts?.features ?? "";
         let dataCategoriesMap = gvl.dataCategories;
         let specialPurposeMap = gvl.specialPurposes;
         let specialFeatureMap = gvl.specialFeatures;
@@ -5568,6 +5573,7 @@ var gen = new Vue({
           if (vendorMap[key].legIntPurposes.length)
             vendor_legint_id_array.push(vendorMap[key].id);
         });
+        data.featureStandardText = featureStandardText;
         data.vendors = vendor_array;
         data.allvendors = vendor_id_array;
         data.allLegintVendors = vendor_legint_id_array;
@@ -7517,6 +7523,11 @@ var gen = new Vue({
     if (window.vueMounted) return; // Prevent duplicate execution
     window.vueMounted = true; // Mark as mounted
     j("#gdpr-before-mount").css("display", "none");
+
+    // A plugin update shipped new IAB vendor JSON: rebuild the stored vendor data.
+    if (settings_obj.iab_vendor_refresh_needed && this.iabtcf_is_on) {
+      this.fetchIABData().catch((err) => console.error("Failed to refresh IAB Data", err));
+    }
 
     if (settings_obj.is_user_connected) {
       if (performance.navigation.type !== 1) {
