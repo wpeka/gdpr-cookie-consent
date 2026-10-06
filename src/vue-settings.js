@@ -5634,7 +5634,6 @@ var gen = new Vue({
         );
         data.purposeVendorMap = purpose_vendor_array;
         data.secret_key = "sending_vendor_data";
-        console.log("data: " , data);
         return new Promise(function (resolve, reject) {
           jQuery
             .ajax({
