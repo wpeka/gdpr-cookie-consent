@@ -433,7 +433,7 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 									radial-gradient(closest-side, white 90%, transparent 80% 100%), 
 									conic-gradient( <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_html( $gdpr_monthly_scan_percent ); ?>%, <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_html('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_html('#fef7c3', 'gdpr-cookie-consent') : esc_html('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
 							>
-								<?php if ( 'free' === $api_user_plan || '3sites' === strtolower( $api_user_plan ) ) { ?>
+								<?php if ( 'free' === $api_user_plan ) { ?>
 									<span style="color: <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_attr( ceil( $gdpr_monthly_scan_percent ) ); ?>%</span>
   									<progress value="<?php echo esc_attr( ceil( $gdpr_monthly_scan_percent ) ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
 								<?php } else { ?>
@@ -449,11 +449,8 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 									$plan = strtolower( $api_user_plan );
 
 									$limit = 5;
-									if ( '3sites' === $plan ) {
-									    $limit = 50;
-									}
 								?>
-								<?php if ( in_array( $plan, [ 'free', '3sites' ], true ) ) { ?>
+								<?php if ( in_array( $plan, [ 'free' ], true ) ) { ?>
 										<p><?php echo esc_html( $scan_limit_int . ' / ' . $limit, 'gdpr-cookie-consent' ) ?>
 											<span>
 												<?php if ( $gdpr_monthly_scan_percent >= 75 ) {
@@ -468,7 +465,7 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 						</div>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10Sites' === $api_user_plan || '25Sites' === $api_user_plan || '50Sites' === $api_user_plan || '100Sites' === $api_user_plan || '10sites' === $api_user_plan || '25sites' === $api_user_plan || '50sites' === $api_user_plan || '100sites' === $api_user_plan) { ?>
+							<?php if ( '3Sites' === $api_user_plan || '10Sites' === $api_user_plan || '25Sites' === $api_user_plan || '50Sites' === $api_user_plan || '100Sites' === $api_user_plan || '3sites' === $api_user_plan || '10sites' === $api_user_plan || '25sites' === $api_user_plan || '50sites' === $api_user_plan || '100sites' === $api_user_plan) { ?>
 								<div class="gdpr-remaining-scans-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -509,7 +506,7 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 						<?php } ?>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10Sites' === $api_user_plan || '10sites' === $api_user_plan || '25Sites' === $api_user_plan || '25sites' === $api_user_plan || '50Sites' === $api_user_plan || '50sites' === $api_user_plan || '100Sites' === $api_user_plan || '100sites' === $api_user_plan) { ?>
+							<?php if ( '3Sites' === $api_user_plan || '3sites' === $api_user_plan || '10Sites' === $api_user_plan || '10sites' === $api_user_plan || '25Sites' === $api_user_plan || '25sites' === $api_user_plan || '50Sites' === $api_user_plan || '50sites' === $api_user_plan || '100Sites' === $api_user_plan || '100sites' === $api_user_plan) { ?>
 								<div class="gdpr-pageviews-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
