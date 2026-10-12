@@ -231,8 +231,13 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	?>
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
-				var s = jQuery('#post-search-input').val();
-				jQuery("<a  href='<?php echo admin_url('admin-post.php?action=export.csv'); ?>&s=" + s + "' id='export_consent_logs' class='add-new-h2'><?php echo $scan_export_menu; ?></a>").insertAfter(".wrap h1");
+				var s = jQuery('#post-search-input').val() || '';
+				jQuery('<a>', {
+					href: <?php echo wp_json_encode( esc_url_raw( add_query_arg( '_wpnonce', wp_create_nonce( 'wplcl_export_csv' ), admin_url( 'admin-post.php?action=export.csv' ) ) ) ); ?> + '&s=' + encodeURIComponent(s),
+					id: 'export_consent_logs',
+					'class': 'add-new-h2',
+					text: <?php echo wp_json_encode( $scan_export_menu ); ?>
+				}).insertAfter(".wrap h1");
 			});
 		</script>
 		<?php
@@ -250,6 +255,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		if ( ! current_user_can( 'manage_options' ) ) {
     	    wp_die( __( 'Unauthorized', 'gdpr-cookie-consent' ), 403 );
     	}
+		check_admin_referer( 'wplcl_export_csv' );
 
 		global $wpdb;
 
@@ -293,8 +299,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			)
 		);
 		if (isset($_GET['s']) && !empty($_GET['s'])) {
-			$search                   = $_GET['s'];
-			$search                   = trim($search);
+			$search                   = sanitize_text_field( wp_unslash( $_GET['s'] ) );
 			$wplcl_args['meta_query'] = array(
 				'relation' => 'OR',
 				array(
@@ -626,7 +631,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								}
 								if ( strpos( $key, 'wpl_tc_string' ) !== false) {
 									if($settings['is_iabtcf_on'] === "true" || $settings['is_iabtcf_on'] === true || $settings['is_iabtcf_on'] === 1){
-										$wpl_cookie_details['wpl_tc_string'] = $val;
+										$wpl_cookie_details['wpl_tc_string'] = preg_match( '/^[A-Za-z0-9_\-.]*$/', $val ) ? $val : '';
 									}
 									else{
 										$wpl_cookie_details['wpl_tc_string'] = "";
@@ -635,7 +640,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								}
 								if ( strpos( $key, 'IABTCF_AddtlConsent' ) !== false) {
 									if($settings['is_gacm_on'] === "true" || $settings['is_gacm_on'] === true || $settings['is_gacm_on'] === 1 || $settings['is_gacm_on'] === "1"){
-										$wpl_cookie_details['Additional_Consent_String'] = $val;
+										$wpl_cookie_details['Additional_Consent_String'] = preg_match( '/^[0-9]+~[A-Za-z0-9.~]*$/', $val ) ? $val : '';
 									}
 									else{
 										$wpl_cookie_details['Additional_Consent_String'] = "";

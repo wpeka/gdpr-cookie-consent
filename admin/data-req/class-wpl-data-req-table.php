@@ -139,8 +139,12 @@ class WPL_Data_Req_Table extends WP_List_Table {
 			case 'resolved':
 				$value = $item['resolved'] ? __( 'Resolved', 'gdpr-cookie-consent' ) : __( 'Open', 'gdpr-cookie-consent' );
 				break;
-			default:
+			case 'datarequest':
+				// Built from the fixed request-type list, contains a link.
 				$value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : null;
+				break;
+			default:
+				$value = isset( $item[ $column_name ] ) ? esc_html( $item[ $column_name ] ) : null;
 				break;
 		}
 		return apply_filters( 'wpl_dnsmpd_column_' . $column_name, $value, $item['ID'] );

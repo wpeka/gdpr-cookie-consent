@@ -152,6 +152,11 @@ class WPL_Consent_Logs extends WP_List_Table {
 			case 'resolved':
 				$value = $item['resolved'] ? __( 'Resolved', 'gdpr-cookie-consent' ) : __( 'Open', 'gdpr-cookie-consent' );
 				break;
+			case 'wplconsentlogsip':
+			case 'wplconsentlogsdates':
+			case 'wplconsentlogscountry':
+				$value = isset( $item[ $column_name ] ) ? esc_html( $item[ $column_name ] ) : null;
+				break;
 			default:
 				$value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : null;
 				break;
@@ -309,7 +314,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 	 * @since 3.0.0
 	 */
 	public function get_search() {
-		return ! empty( $_GET['s'] ) ? urldecode( trim( $_GET['s'] ) ) : false;
+		return ! empty( $_GET['s'] ) ? sanitize_text_field( urldecode( wp_unslash( $_GET['s'] ) ) ) : false;
 	}
 
 	/**
@@ -830,9 +835,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 					}
 					if ( $siteurl == $forwarded_site_url1 ) {
-						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . $siteurl . '</div>';
+						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . esc_html( $siteurl ) . '</div>';
 					} else {
-						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . $forwarded_site_url1 . '</div>';
+						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . esc_html( $forwarded_site_url1 ) . '</div>';
 					}
 					if ( $siteurl !== $forwarded_site_url1 ) {
 						$siteaddress = $forwarded_site_url1;
@@ -988,9 +993,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 					}
 					if ( $siteurl == $forwarded_site_url ) {
-						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;">' . $siteurl . '</div>';
+						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . esc_html( $siteurl ) . '</div>';
 					} else {
-						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;">' . $forwarded_site_url . '</div>';
+						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . esc_html( $forwarded_site_url ) . '</div>';
 					}
 					if ( $siteurl !== $forwarded_site_url ) {
 						$siteaddress = $forwarded_site_url;
@@ -1146,9 +1151,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 					}
 					if ( $siteurl == $forwarded_site_url ) {
-						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;"> ' . $siteurl . '</div>';
+						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . esc_html( $siteurl ) . '</div>';
 					} else {
-						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;">' . $forwarded_site_url . '</div>';
+						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . esc_html( $forwarded_site_url ) . '</div>';
 					}
 					if ( $siteurl !== $forwarded_site_url ) {
 						$siteaddress = $forwarded_site_url;
@@ -1303,9 +1308,9 @@ class WPL_Consent_Logs extends WP_List_Table {
 						}
 					}
 					if ( $siteurl == $forwarded_site_url ) {
-						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;"> ' . $siteurl . '</div>';
+						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . esc_html( $siteurl ) . '</div>';
 					} else {
-						$wplconsentlogsforwarded = '<div style="style="color:#0073AA;">' . $forwarded_site_url . '</div>';
+						$wplconsentlogsforwarded = '<div style="color:#0073AA;">' . esc_html( $forwarded_site_url ) . '</div>';
 					}
 					if ( $siteurl !== $forwarded_site_url ) {
 						$siteaddress = $forwarded_site_url;

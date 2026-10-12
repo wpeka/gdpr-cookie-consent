@@ -1336,6 +1336,10 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @return void
 	 */
 	public function wp_settings_gcm_advertiser_mode() {
+			check_ajax_referer( 'gdpr-cookie-consent', '_ajax_nonce' );
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( array( 'message' => __( 'Unauthorized', 'gdpr-cookie-consent' ) ), 403 );
+			}
 			$pro_is_activated  = get_option( 'wpl_pro_active', false );
 			$installed_plugins = get_plugins();
 			$pro_installed     = isset( $installed_plugins['wpl-cookie-consent/wpl-cookie-consent.php'] ) ? true : false;
@@ -2161,8 +2165,15 @@ class Gdpr_Cookie_Consent_Admin {
 			);
 		}
 
-		// Check if $_GET['scan_url'] is set
-		$scan_url_value = isset( $_GET['scan_url'] ) ? $_GET['scan_url'] : '';
+		// Only accept a scan URL coming from the signed "Scan this Page" admin bar link.
+		$scan_url_value = '';
+		if (
+			isset( $_GET['scan_url'], $_GET['scan_url_nonce'] )
+			&& current_user_can( 'manage_options' )
+			&& wp_verify_nonce( sanitize_key( wp_unslash( $_GET['scan_url_nonce'] ) ), 'gdpr_single_page_scan' )
+		) {
+			$scan_url_value = esc_url_raw( wp_unslash( $_GET['scan_url'] ) );
+		}
 
 		// Check if the key exists in the options table
 		if ( get_option( 'gdpr_single_page_scan_url' ) !== false ) {
@@ -2270,7 +2281,14 @@ class Gdpr_Cookie_Consent_Admin {
 			'id'     => 'gdpr-quick-menu-item-1',
 			'title'  => 'Scan this Page',
 			'parent' => 'gdpr-quick-menu',
-			'href'   => admin_url( 'admin.php?page=gdpr-cookie-consent&scan_url=' ) . get_permalink() . '#cookie_manager',
+			'href'   => add_query_arg(
+				array(
+					'page'           => 'gdpr-cookie-consent',
+					'scan_url'       => rawurlencode( get_permalink() ),
+					'scan_url_nonce' => wp_create_nonce( 'gdpr_single_page_scan' ),
+				),
+				admin_url( 'admin.php' )
+			) . '#cookie_manager',
 		);
 
 		$wp_admin_bar->add_node( $args );

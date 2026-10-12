@@ -2534,6 +2534,36 @@ banner.style.display = "none";
       return result;
     },
 
+    /**
+     * Turn a placeholder string into safe nodes. The string can come from page
+     * content (data-wpl-placeholder), so it is parsed in an inert document and
+     * only text plus the "manage consent" link are kept.
+     */
+    buildPlaceholderContent: function (html) {
+      var nodes = [];
+      if (html === null || html === undefined || html === "") {
+        return nodes;
+      }
+      var parsed = new DOMParser().parseFromString(String(html), "text/html");
+      jQuery.each(parsed.body.childNodes, function (i, child) {
+        if (
+          child.nodeType === 1 &&
+          child.tagName === "A" &&
+          jQuery(child).hasClass("wpl_manage_current_consent")
+        ) {
+          nodes.push(
+            jQuery("<a>", {
+              "class": "wpl_manage_current_consent",
+              text: child.textContent,
+            })[0]
+          );
+        } else {
+          nodes.push(document.createTextNode(child.textContent));
+        }
+      });
+      return nodes;
+    },
+
     toggleBar: function (force_display_bar, force_display_show_again) {
       if (gdpr_follows_gdpr_branch(this.settings.cookie_usage_for)) {
         if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
@@ -3625,14 +3655,16 @@ banner.style.display = "none";
             htmlElemHeight = pixelPattern.test(htmlElemHeight)
               ? htmlElemHeight
               : htmlElemHeight + "px";
-            var addPlaceholder =
-              '<div style="width:' +
-              htmlElemWidth +
-              "; height:" +
-              htmlElemHeight +
-              ';" class="wpl-iframe-placeholder"><div class="wpl-inner-text">' +
-              htmlElemType +
-              "</div></div>";
+            // Build with DOM APIs: these attribute values come from page content.
+            var addPlaceholder = jQuery("<div>", {
+              "class": "wpl-iframe-placeholder",
+            })
+              .css({ width: htmlElemWidth, height: htmlElemHeight })
+              .append(
+                jQuery("<div>", { "class": "wpl-inner-text" }).append(
+                  GDPR.buildPlaceholderContent(htmlElemType)
+                )
+              );
             if (htmlElm.tagName !== "IMG") {
               jQuery(addPlaceholder).insertBefore(htmlElm);
             }
@@ -3661,7 +3693,7 @@ banner.style.display = "none";
       var youtubeCategory = ytData.slug || 'preferences';
       var youtubeName     = ytData.name || 'Preferences';
       var placeholderHtml = 'Accept <a class="wpl_manage_current_consent">'
-                            + youtubeName +
+                            + jQuery( '<div>' ).text( youtubeName ).html() +
                             '</a> cookies to view this video.';
 
       var observer = new MutationObserver( function ( mutations ) {
@@ -3694,9 +3726,11 @@ banner.style.display = "none";
                           node.setAttribute( 'data-wpl-placeholder', placeholderHtml );
                           node.removeAttribute( 'src' );
                           node.style.display = 'none';
-                          jQuery( '<div style="width:560px;height:315px;" class="wpl-iframe-placeholder"><div class="wpl-inner-text">'
-                              + placeholderHtml +
-                          '</div></div>' ).insertBefore( node );
+                          jQuery( '<div style="width:560px;height:315px;" class="wpl-iframe-placeholder"><div class="wpl-inner-text"></div></div>' )
+                              .find( '.wpl-inner-text' )
+                              .append( GDPR.buildPlaceholderContent( placeholderHtml ) )
+                              .end()
+                              .insertBefore( node );
                       }
                   }
               });

@@ -324,7 +324,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * @since 2.16.0
 	 */
 	public function get_search() {
-		return ! empty( $_GET['s'] ) ? urldecode( trim( $_GET['s'] ) ) : false;
+		return ! empty( $_GET['s'] ) ? sanitize_text_field( urldecode( wp_unslash( $_GET['s'] ) ) ) : false;
 	}
 
 
