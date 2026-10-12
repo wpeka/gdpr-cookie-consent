@@ -426,6 +426,7 @@ jQuery(document).ready(function () {
         method: 'POST',
         data: {
             action: 'wpl_gcm_advertiser_mode_data',
+            _ajax_nonce: gdpr_localize_data._ajax_nonce,
         },
         success: function (response) {
           jQuery('#gcm-advertiser-mode-container-loader').css("display", "none");

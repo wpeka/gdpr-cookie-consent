@@ -47,7 +47,7 @@ $gdpr_admin_view_path = plugin_dir_path( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME ) .
 		<form method="post" action="
 		<?php
 		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
-			echo esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );}
+			echo esc_url( wp_unslash( $_SERVER['REQUEST_URI'] ) );}
 		?>
 		" id="gdpr_settings_form">
 			<input type="hidden" name="gdpr_update_action" value="" id="gdpr_update_action" />

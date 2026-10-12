@@ -1785,10 +1785,10 @@ class Gdpr_Cookie_Consent_Public {
 			$content .= '<tbody>';
 			foreach ($wp_legalpolicy_data as $policypost) {
 				$content .= '<tr>';
-				$content .= '<td>' . $policypost->post_title . '</td>';
-				$content .= '<td>' . $policypost->post_content . '</td>';
+				$content .= '<td>' . esc_html( $policypost->post_title ) . '</td>';
+				$content .= '<td>' . wp_kses_post( $policypost->post_content ) . '</td>';
 				$links    = get_post_meta($policypost->ID, '_gdpr_policies_links_editor');
-				$content .= '<td>' . $links[0] . '</td>';
+				$content .= '<td>' . ( isset( $links[0] ) ? wp_kses_post( $links[0] ) : '' ) . '</td>';
 				$content .= '</tr>';
 			}
 			$content .= '</tbody></table></div>';

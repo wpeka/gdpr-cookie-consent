@@ -29,6 +29,16 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	public $buffer_type = '1';
 
 	/**
+	 * Placeholder tokens used while script bodies are encoded.
+	 *
+	 * Generated per request so content echoed into the page (search terms,
+	 * comments, etc.) cannot contain a token that later decodes into markup.
+	 *
+	 * @var array
+	 */
+	private $automate_tokens = array();
+
+	/**
 	 * Gdpr_Cookie_Consent_Script_Blocker_Frontend constructor.
 	 */
 	public function __construct() {
@@ -226,11 +236,7 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 		$regex_patterns                 = $this->wpl_get_regex_patterns();
 		$_regex_pattern_script_tag_open = $regex_patterns['_regexScriptTagOpen'];
 		$changed                        = false;
-		$replace_pairs                  = array(
-			"\r\n" => '_RNL_',
-			"\n"   => '_NL_',
-			'<'    => '_LT_',
-		);
+		$replace_pairs                  = $this->wpl_get_automate_tokens();
 
 		foreach ( $replace_pairs as $needle => $replace ) {
 			foreach ( $text_arr as $i => $html ) {
@@ -260,7 +266,25 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 	 * @return mixed
 	 */
 	public function wpl_after_automate( $buffer ) {
-		return str_replace( array( '_RNL_', '_NL_', '_LT_' ), array( "\r\n", "\n", '<' ), $buffer );
+		$tokens = $this->wpl_get_automate_tokens();
+		return str_replace( array_values( $tokens ), array_keys( $tokens ), $buffer );
+	}
+
+	/**
+	 * Get the per-request placeholder tokens, keyed by the string they replace.
+	 *
+	 * @return array
+	 */
+	private function wpl_get_automate_tokens() {
+		if ( empty( $this->automate_tokens ) ) {
+			$nonce                 = bin2hex( random_bytes( 8 ) );
+			$this->automate_tokens = array(
+				"\r\n" => '_RNL' . $nonce . '_',
+				"\n"   => '_NL' . $nonce . '_',
+				'<'    => '_LT' . $nonce . '_',
+			);
+		}
+		return $this->automate_tokens;
 	}
 
 	/**
