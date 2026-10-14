@@ -390,7 +390,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 						</c-col>
 					</c-row>
 					<c-row>
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' );?> <tooltip text="<?php esc_html_e( 'Automatically block scripts until user consent is given. Useful for GDPR, CCPA, and GCM compliance.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_html_e( 'Script Blocker', 'gdpr-cookie-consent' );?> <tooltip text="<?php esc_attr_e( 'Automatically block scripts until user consent is given. Useful for GDPR, CCPA, and GCM compliance.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
 							<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker-on" variant="3d"  color="success" :checked="!enable_safe && is_script_blocker_on" v-on:update:checked="onSwitchingScriptBlocker" :disabled="enable_safe"></c-switch>
 							<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on" :disabled="enable_safe">
@@ -398,41 +398,41 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					</c-row>
 					<!-- Added Header,Body,Footer ScriptSection -->
 					<c-row>
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Custom Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter non functional cookies javascript code here to be used after the consent is accepted.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_html_e( 'Custom Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter non functional cookies javascript code here to be used after the consent is accepted.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
 							<div role="group" class="form-group">
-							<span class="gdpr-cookie-consent-description"><?php esc_attr_e( 'Enter non functional cookies javascript code here (for e.g. Google Analytics) to be used after the consent is accepted.', 'gdpr-cookie-consent' ); ?></span>
+							<span class="gdpr-cookie-consent-description"><?php esc_html_e( 'Enter non functional cookies javascript code here (for e.g. Google Analytics) to be used after the consent is accepted.', 'gdpr-cookie-consent' ); ?></span>
 							</div>
 						</c-col>
 					</c-row>
 					<c-row>
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Header Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Add scripts in the header location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_html_e( 'Header Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Add scripts in the header location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
 							<c-textarea :rows="4" name="gcc-header-scripts" v-model="header_scripts" :disabled="enable_safe" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-textarea>
 						</c-col>
 					</c-row>
 					<c-row>
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Body Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Add scripts in the body location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_html_e( 'Body Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Add scripts in the body location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
-							<label for="gcc-body-scripts" class="screen-reader-text"><?php esc_attr_e('gcc body scripts',  'gdpr-cookie-consent'); ?></label>
+							<label for="gcc-body-scripts" class="screen-reader-text"><?php esc_html_e('gcc body scripts',  'gdpr-cookie-consent'); ?></label>
 							<c-textarea id="gcc-body-scripts" :rows="4" name="gcc-body-scripts" v-model="body_scripts" :disabled="enable_safe"></c-textarea>
 						</c-col>
 					</c-row>
 					<c-row>
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Footer Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Add scripts in the footer location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_html_e( 'Footer Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Add scripts in the footer location. Upon acceptance these scripts will run in the visitor\'s browser.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
 							<c-textarea :rows="4" name="gcc-footer-scripts" v-model="footer_scripts" :disabled="enable_safe" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-textarea>
 						</c-col>
 					</c-row>
 					<c-row v-show="is_gdpr">
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Click here to manually select the cookie categories', 'gdpr-cookie-consent' ); ?></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_html_e( 'Click here to manually select the cookie categories', 'gdpr-cookie-consent' ); ?></label></c-col>
 						<c-col class="col-sm-8">
 							<c-button id="script-blocker-advanced-settings-btn" @click="showScriptBlockerForm" :disabled="enable_safe"><span>Advanced Settings</span></c-button>
 						</c-col>
 					</c-row>
 					<!-- Script Dependency -->
 					<c-row>
-						<c-col class="col-sm-4"><label><?php esc_attr_e( 'Script Dependency', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use this to load your script only after another script it depends on has been accepted and loaded. Ensures proper functionality and prevents errors.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_html_e( 'Script Dependency', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use this to load your script only after another script it depends on has been accepted and loaded. Ensures proper functionality and prevents errors.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
 							<c-switch v-bind="labelIcon" v-model="is_script_dependency_on" id="gdpr-cookie-consent-script-dependency-on" variant="3d"  color="success" :checked="!enable_safe && is_script_dependency_on" v-on:update:checked="onSwitchingScriptDependency" :disabled="enable_safe"></c-switch>
 							<input type="hidden" name="gcc-script-dependency-on" v-model="is_script_dependency_on" :disabled="enable_safe">
@@ -445,7 +445,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 							<v-select id="gdpr-cookie-consent-set-dependency" placeholder="Select an option" :options="header_dependency_list" v-model="header_dependency" @input="onHeaderDependencySelect"></v-select>
 							<input type="hidden" name="gcc-header-dependency" :value="header_dependency">
 						</c-col>
-						<c-col class="col-sm-3"><label><?php esc_attr_e( 'waits for: Header Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
+						<c-col class="col-sm-3"><label><?php esc_html_e( 'waits for: Header Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
 					</c-row>
 					<c-row v-show="is_script_dependency_on">
 						<c-col class="col-sm-4"></c-col>
@@ -453,12 +453,12 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 							<v-select id="gdpr-cookie-consent-set-dependency" placeholder="Select an option" :options="footer_dependency_list" v-model="footer_dependency" @input="onFooterDependencySelect"></v-select>
 							<input type="hidden" name="gcc-footer-dependency" :value="footer_dependency">
 						</c-col>
-						<c-col class="col-sm-3"><label><?php esc_attr_e( 'waits for: Footer Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
+						<c-col class="col-sm-3"><label><?php esc_html_e( 'waits for: Footer Scripts', 'gdpr-cookie-consent' ); ?></label></c-col>
 					</c-row>
 					<v-modal v-model="show_script_blocker" @click="showScriptBlockerForm">
 						<div class="advanced-settings-wrapper">
 							<div class="advances-settings-tittle-bar">
-								<div class="advances-setting-tittle" slot="header"><?php esc_attr_e('Advanced Settings', 'gdpr-cookie-consent'); ?></div>
+								<div class="advances-setting-tittle" slot="header"><?php esc_html_e('Advanced Settings', 'gdpr-cookie-consent'); ?></div>
 								<img  @click="showScriptBlockerForm" class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Add new entry logo">
 							</div>
 							<c-card>
@@ -466,10 +466,10 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 								<table class="advanced-settings-table-container">
 								<thead>
 									<tr scope="col" class="gdpr-script-blocker-header">
-									<th class="gdpr-cookie-consent-script-left" style="text-align: center;"><?php esc_attr_e('Enabled', 'gdpr-cookie-consent'); ?></th>
-									<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Name', 'gdpr-cookie-consent'); ?></th>
-									<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Description', 'gdpr-cookie-consent'); ?></th>
-									<th class="gdpr-cookie-consent-script-left"><?php esc_attr_e('Category', 'gdpr-cookie-consent'); ?></th>
+									<th class="gdpr-cookie-consent-script-left" style="text-align: center;"><?php esc_html_e('Enabled', 'gdpr-cookie-consent'); ?></th>
+									<th class="gdpr-cookie-consent-script-left"><?php esc_html_e('Name', 'gdpr-cookie-consent'); ?></th>
+									<th class="gdpr-cookie-consent-script-left"><?php esc_html_e('Description', 'gdpr-cookie-consent'); ?></th>
+									<th class="gdpr-cookie-consent-script-left"><?php esc_html_e('Category', 'gdpr-cookie-consent'); ?></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -508,7 +508,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					</v-modal>
 				</c-card-body>
 					<c-row>
-						<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Whitelist Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Mark trusted scripts that don’t require blocking, even before consent is granted.', 'gdpr-cookie-consent' ); ?>"></tooltip></div></c-col>
+						<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Whitelist Scripts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Mark trusted scripts that don’t require blocking, even before consent is granted.', 'gdpr-cookie-consent' ); ?>"></tooltip></div></c-col>
 					</c-row>
 					<c-card-body  style="position:relative;">
 						<!-- Whitelist Scripts Card -->
@@ -555,7 +555,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 
 		?>
 		<div class="wpl-whitelist-add-new-container">
-			<button id="wpl-whitelist-add-new" type="button" class="button wpl_script_add" data-type="whitelist_script"><?php esc_attr_e( 'Add New Entry', 'gdpr-cookie-consent' ); ?><img class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/add_new_entry.svg'; ?>" alt="Add new entry logo"></button>
+			<button id="wpl-whitelist-add-new" type="button" class="button wpl_script_add" data-type="whitelist_script"><?php esc_html_e( 'Add New Entry', 'gdpr-cookie-consent' ); ?><img class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/add_new_entry.svg'; ?>" alt="Add new entry logo"></button>
 		</div>
 		<?php
 	}
@@ -592,7 +592,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
                     		data-name="name"
                            class="wpl_name wpl-whitelist-name-field"
                            name="wpl_whitelist_script[' . $i . '][name]"
-                           value="' . esc_html( $value['name'] ) . '">
+                           value="' . esc_attr( $value['name'] ) . '">
                 </div>
                 <div>
                     <label>' . __( 'URLs that should be whitelisted.', 'gdpr-cookie-consent' ) . '' . '</label>
@@ -623,7 +623,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 							id="whitelist_url_' . $i . '_' . $counter . '"
 							class="wpl-whitelist-plus-script-field"
 							name="wpl_whitelist_script[' . $i . '][urls][]"
-							value="' . esc_html( $url ) . '">';
+							value="' . esc_attr( $url ) . '">';
 				if ( $counter == 1 ) {
 					$html .= '<button type="button" class="wpl_add_url" aria-label="add url">' . '<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
 							height="' . $size . '" >
@@ -809,7 +809,8 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 			$id      = intval( $_POST['id'] );
 			$type    = sanitize_text_field( $_POST['type'] );
 			$action  = sanitize_title( $_POST['button_action'] );
-			$data    = json_decode( wp_unslash( $_POST['data'] ), true );
+			$data = json_decode( isset( $_POST['data'] ) ? wp_unslash( $_POST['data'] ) : '', true );
+			$data = is_array( $data ) ? map_deep( $data, 'sanitize_text_field' ) : array();
 			$scripts = get_option( 'wpl_options_custom-scripts', array() );
 			if ( ! $error ) {
 				if ( $action === 'remove' ) {
@@ -931,7 +932,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	public function get_categories() {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+		if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE '%s'", $wpdb->esc_like( $table_name ) ) ) == $table_name ) {
 			$data_arr = $wpdb->get_results( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM `' . $wpdb->prefix . 'gdpr_cookie_scan_categories`' );
 		} // db call ok; no-cache ok.
 		return $data_arr;
@@ -948,7 +949,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		global $wpdb;
 		$data_arr   = array();
 		$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+		if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE '%s'", $wpdb->esc_like( $table_name ) ) ) == $table_name ) {
 			if ( isset( $id ) && ! empty( $id ) ) {
 				$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM `' . $wpdb->prefix . 'gdpr_cookie_scan_categories` WHERE id_gdpr_cookie_category = %d', array( $id ) ) );  // db call ok; no-cache ok.
 			}
@@ -967,7 +968,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		global $wpdb;
 		$data_arr   = array();
 		$table_name = $wpdb->prefix . 'gdpr_cookie_scan_categories';
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+		if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE '%s'", $wpdb->esc_like( $table_name ) ) ) == $table_name ) {
 			if ( isset( $slug ) && ! empty( $slug ) ) {
 				$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT `id_gdpr_cookie_category`, `gdpr_cookie_category_slug`, `gdpr_cookie_category_name` FROM `' . $wpdb->prefix . 'gdpr_cookie_scan_categories` WHERE gdpr_cookie_category_slug = %s', array( $slug ) ) );  // db call ok; no-cache ok.
 			}

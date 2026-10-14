@@ -92,10 +92,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		}
 		?>
 		<tr valign="top">
-			<th scope="row"><label for="logging_on_field"><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></th>
+			<th scope="row"><label for="logging_on_field"><?php esc_html_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></th>
 			<td>
-				<input type="radio" id="logging_on_field_yes" name="logging_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['logging_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
-				<input type="radio" id="logging_on_field_no" name="logging_on_field" class="styled" value="false" <?php echo ( false === $the_options['logging_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="logging_on_field_yes" name="logging_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['logging_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_html_e( 'On', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="logging_on_field_no" name="logging_on_field" class="styled" value="false" <?php echo ( false === $the_options['logging_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_html_e( 'Off', 'gdpr-cookie-consent' ); ?>
 			</td>
 		</tr>
 		<?php
@@ -445,8 +445,8 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
 		$ab_option = get_option('wpl_ab_options');
 		if($ab_option['ab_testing_enabled'] == false || $ab_option['ab_testing_enabled'] == "false") return;  //do not collect data if a/b testing is disabled.
-		$chosenBanner = $_POST['chosenBanner'];
-		$user_preference = $_POST['user_preference'];
+		$chosenBanner    = isset( $_POST['chosenBanner'] ) ? absint( $_POST['chosenBanner'] ) : 0;
+		$user_preference = isset( $_POST['user_preference'] ) ? map_deep( wp_unslash( $_POST['user_preference'] ), 'sanitize_text_field' ) : '';
 		if($chosenBanner == 1){
 			if($user_preference == "no choice"){
 				$ab_option["noChoice1"]++;

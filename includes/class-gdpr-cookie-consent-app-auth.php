@@ -341,9 +341,9 @@ class GDPR_Cookie_Consent_App_Auth {
 		}
 
 		// Get data from POST request.
-		$data        = $_POST['response'];
+		$data = isset( $_POST['response'] ) ? map_deep( wp_unslash( $_POST['response'] ), 'sanitize_text_field' ) : array();
 		$origin      = ! empty( $_POST['origin'] ) ? esc_url_raw( wp_unslash( $_POST['origin'] ) ) : false;
-		$no_of_scans = $_POST['no_of_scans'];
+		$no_of_scans = isset( $_POST['no_of_scans'] ) ? absint( $_POST['no_of_scans'] ) : '';
 
 		if ( get_option('app_wplp_subscription_status_pending_cancel') === 1 || get_option('app_wplp_subscription_status_pending_cancel') === '1' || get_option('app_wplp_subscription_status_pending_cancel') === true ) {
 			if (!empty($data['account']['plan']) && strtolower($data['account']['plan']) !== 'free' ) {
@@ -363,22 +363,20 @@ class GDPR_Cookie_Consent_App_Auth {
 		update_option( 'wpeka_api_framework_app_settings', $data );
 		global $wcam_lib_gdpr;
 
-		$wcam_lib_gdpr->product_id = isset( $_POST['response']['account']['product_id'] ) ? $_POST['response']['account']['product_id'] : '';
+		$wcam_lib_gdpr->product_id = isset( $_POST['response']['account']['product_id'] ) ? absint( $_POST['response']['account']['product_id'] ) : '';
 		require_once plugin_dir_path( __DIR__ ) . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 		$settings = new GDPR_Cookie_Consent_Settings();
 
-		if ( isset( $_POST['update_options'] ) ) {
-			if ( 'success' === $_POST['update_options'] ) {
-				update_option( $wcam_lib_gdpr->wc_am_activated_key, $_POST['activated_key'] );
-				update_option( $wcam_lib_gdpr->wc_am_deactivate_checkbox_key, $_POST['deactivate_checkbox_key'] );
-			} elseif ( 'fail_1' === $_POST['update_options'] ) {
-				if ( isset( $wcam_lib_gdpr->data[ $wcam_lib_gdpr->wc_am_activated_key ] ) ) {
-					update_option( $wcam_lib_gdpr->data[ $wcam_lib_gdpr->wc_am_activated_key ], $_POST['activated_key'] );
-				}
-			} elseif ( 'fail_2' === $_POST['update_options'] ) {
-				if ( isset( $wcam_lib_gdpr->data[ $wcam_lib_gdpr->wc_am_activated_key ] ) ) {
-					update_option( $wcam_lib_gdpr->data[ $wcam_lib_gdpr->wc_am_activated_key ], $_POST['activated_key'] );
-				}
+		$update_options          = isset( $_POST['update_options'] ) ? sanitize_key( wp_unslash( $_POST['update_options'] ) ) : '';
+		$activated_key           = isset( $_POST['activated_key'] ) ? sanitize_text_field( wp_unslash( $_POST['activated_key'] ) ) : '';
+		$deactivate_checkbox_key = isset( $_POST['deactivate_checkbox_key'] ) ? sanitize_text_field( wp_unslash( $_POST['deactivate_checkbox_key'] ) ) : '';
+
+		if ( 'success' === $update_options ) {
+			update_option( $wcam_lib_gdpr->wc_am_activated_key, $activated_key );
+			update_option( $wcam_lib_gdpr->wc_am_deactivate_checkbox_key, $deactivate_checkbox_key );
+		} elseif ( in_array( $update_options, array( 'fail_1', 'fail_2' ), true ) ) {
+			if ( isset( $wcam_lib_gdpr->data[ $wcam_lib_gdpr->wc_am_activated_key ] ) ) {
+				update_option( $wcam_lib_gdpr->data[ $wcam_lib_gdpr->wc_am_activated_key ], $activated_key );
 			}
 		}
 		else{
@@ -412,7 +410,7 @@ class GDPR_Cookie_Consent_App_Auth {
 			wp_send_json_error( esc_html__( 'You do not have permissions to connect WP Cookie Consent.', 'gdpr-cookie-consent' ) );
 		}
 
-		$raw = wp_unslash( $_POST['free_trial'] ?? '' );
+		$raw = isset( $_POST['free_trial'] ) ? sanitize_text_field( wp_unslash( $_POST['free_trial'] ) ) : '';
 
 		$free_trial = json_decode( $raw, true );
 

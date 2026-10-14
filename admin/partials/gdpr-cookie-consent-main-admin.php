@@ -431,10 +431,10 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 							<div class="gdpr-monthly-scans-progress" style="
 								background: 
 									radial-gradient(closest-side, white 90%, transparent 80% 100%), 
-									conic-gradient( <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_html( $gdpr_monthly_scan_percent ); ?>%, <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_html('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_html('#fef7c3', 'gdpr-cookie-consent') : esc_html('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
+									conic-gradient( <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_attr( $gdpr_monthly_scan_percent ); ?>%, <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#fef7c3', 'gdpr-cookie-consent') : esc_attr('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
 							>
 								<?php if ( 'free' === $api_user_plan ) { ?>
-									<span style="color: <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_attr( ceil( $gdpr_monthly_scan_percent ) ); ?>%</span>
+									<span style="color: <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_html( ceil( $gdpr_monthly_scan_percent ) ); ?>%</span>
   									<progress value="<?php echo esc_attr( ceil( $gdpr_monthly_scan_percent ) ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
 								<?php } else { ?>
 									<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/Unlimited_scan.svg'; ?>" alt="Unlimited Monthly Scans"></span>
@@ -483,9 +483,9 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 								<div class="gdpr-remaining-scans-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
-    									conic-gradient( <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_html( $remaining_percentage_scan_limit ); ?>%, <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_html('#e6f5ee', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_html('#fef7c3', 'gdpr-cookie-consent') : esc_html('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
+    									conic-gradient( <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_attr( $remaining_percentage_scan_limit ); ?>%, <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_attr('#e6f5ee', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_attr('#fef7c3', 'gdpr-cookie-consent') : esc_attr('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
 								>
-									<span style="color: <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_attr( ceil( $remaining_percentage_scan_limit ) ); ?>%</span>
+									<span style="color: <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_html( ceil( $remaining_percentage_scan_limit ) ); ?>%</span>
   									<progress value="<?php echo esc_attr( ceil( $remaining_percentage_scan_limit ) ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
 								</div>
 
@@ -524,9 +524,9 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 								<div class="gdpr-remaining-scans-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
-    									conic-gradient( <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_html( $gdpr_monthly_page_views_percent ); ?>%, <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_html('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_html('#fef7c3', 'gdpr-cookie-consent') : esc_html('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
+    									conic-gradient( <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_attr( $gdpr_monthly_page_views_percent ); ?>%, <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_attr('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_attr('#fef7c3', 'gdpr-cookie-consent') : esc_attr('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
 								>
-									<span style="color: <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_attr( floor( $gdpr_monthly_page_views_percent ) ); ?>%</span>
+									<span style="color: <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_html( floor( $gdpr_monthly_page_views_percent ) ); ?>%</span>
   									<progress value="<?php echo esc_attr( floor( $gdpr_monthly_page_views_percent ) ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
 								</div>
 

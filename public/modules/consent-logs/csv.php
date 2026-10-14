@@ -48,6 +48,8 @@ function array_to_csv_download(
 	echo "\xEF\xBB\xBF"; // UTF-8 BOM.
 	// open the "output" stream.
 	// see http://www.php.net/manual/en/wrappers.php.php#refsect2-wrappers.php-unknown-unknown-unknown-descriptioq.
+
+	// phpcs:disable WordPress.WP.AlternativeFunctions -- Streams to php://output, not the filesystem.
 	$f = fopen( 'php://output', 'w' );
 
 	foreach ( $array as $line ) {
@@ -99,11 +101,11 @@ function get_requests( $args ) {
 	$all_consent_data = array(); // Initialize the $data array.
 
 	if ( ! is_multisite() ) {
-		foreach ( $custom_posts as $post ) {
+		foreach ( $custom_posts as $custom_post ) {
 
-			setup_postdata( $post ); // Setup post data for each post.
+			setup_postdata( $custom_post ); // Setup post data for each post.
 
-			$post_id = $post->ID;
+			$post_id = $custom_post->ID;
 
 			// Fetch specific values from post meta using keys.
 			$wplconsentlogs_ip = get_post_meta( $post_id, '_wplconsentlogs_ip', true );
@@ -145,11 +147,11 @@ function get_requests( $args ) {
 			);
 		}
 	} else {
-		foreach ( $custom_posts as $post ) {
+		foreach ( $custom_posts as $custom_post ) {
 
-			setup_postdata( $post ); // Setup post data for each post.
+			setup_postdata( $custom_post ); // Setup post data for each post.
 
-			$post_id = $post->ID;
+			$post_id = $custom_post->ID;
 
 			// Fetch specific values from post meta using keys.
 			$wplconsentlogs_ip = get_post_meta( $post_id, '_wplconsentlogs_ip_cf', true );

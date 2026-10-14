@@ -23,11 +23,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			if ( 'necessary' === $category['gdpr_cookie_category_slug'] ) {
 				?>
-				<input type="checkbox" id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_body_button gdpr_messagebar_body_button_disabled" disabled="disabled" checked="checked" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+				<input type="checkbox" id="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_body_button gdpr_messagebar_body_button_disabled" disabled="disabled" checked="checked" value="<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
 				<?php
 			} else {
 				?>
-				<input type="checkbox" id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_body_button" tabindex="0"
+				<input type="checkbox" id="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_body_button" tabindex="0"
 				<?php
 				if ( ! empty( $the_options['is_ticked'] ) && ! $the_options['viewed_cookie'] ) {
 					?>
@@ -39,11 +39,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 				}
 				?>
-				value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+				value="<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
 				<?php
 			}
 			?>
-			<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); //phpcs:ignore?></label>
+			<label for="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>"><?php echo esc_attr( $category['gdpr_cookie_category_name'] ); //phpcs:ignore?></label>
 		</div>
 		<?php
 	}
@@ -51,8 +51,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 <div id="gdpr_messagebar_detail_body">
 	<div id="gdpr_messagebar_detail_body_content_tabs">
-		<a id="gdpr_messagebar_detail_body_content_tabs_overview" class="gdpr_messagebar_detail_body_content_tab gdpr_messagebar_detail_body_content_tab_item_selected" tabindex="0" href="#"><?php echo esc_html( $cookie_data['declaration'] ); ?></a>
-		<a id="gdpr_messagebar_detail_body_content_tabs_about" class="gdpr_messagebar_detail_body_content_tab" tabindex="0" href="#"><?php echo esc_html( $cookie_data['about'] ); ?></a>
+		<a id="gdpr_messagebar_detail_body_content_tabs_overview" class="gdpr_messagebar_detail_body_content_tab gdpr_messagebar_detail_body_content_tab_item_selected" tabindex="0" href="#"><?php echo esc_attr( $cookie_data['declaration'] ); ?></a>
+		<a id="gdpr_messagebar_detail_body_content_tabs_about" class="gdpr_messagebar_detail_body_content_tab" tabindex="0" href="#"><?php echo esc_attr( $cookie_data['about'] ); ?></a>
 	</div>
 	<div id="gdpr_messagebar_detail_body_content">
 		<div id="gdpr_messagebar_detail_body_content_overview" style="display:block;">
@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 					foreach ( $cookie_data['categories'] as $category ) {
 						?>
-						<a data-target="gdpr_messagebar_detail_body_content_cookie_tabs_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" id="gdpr_messagebar_detail_body_content_overview_cookie_container_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_detail_body_content_overview_cookie_container_types
+						<a data-target="gdpr_messagebar_detail_body_content_cookie_tabs_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" id="gdpr_messagebar_detail_body_content_overview_cookie_container_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_detail_body_content_overview_cookie_container_types
 						<?php
 						if ( 'necessary' === $category['gdpr_cookie_category_slug'] ) {
 							?>
@@ -122,7 +122,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										foreach ( $category['data'] as $cookie ) {
 											?>
 											<tr>
-											<td title="<?php echo esc_html( $cookie_data['name'] ); ?>">
+											<td title="<?php echo esc_attr( $cookie_data['name'] ); ?>">
 											<?php
 											if ( ! empty( $cookie['name'] ) ) {
 												echo esc_html( $cookie['name'] );
@@ -131,7 +131,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											}
 											?>
 											</td>
-											<td title="<?php echo esc_html( $cookie_data['domain'] ); ?>">
+											<td title="<?php echo esc_attr( $cookie_data['domain'] ); ?>">
 											<?php
 											if ( ! empty( $cookie['domain'] ) ) {
 												echo esc_html( $cookie['domain'] );
@@ -170,7 +170,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											}
 											?>
 											</td>
-											<td title="<?php echo esc_html( $cookie_data['type'] ); ?>">
+											<td title="<?php echo esc_attr( $cookie_data['type'] ); ?>">
 											<?php
 											if ( ! empty( $cookie['type'] ) ) {
 												echo esc_html( $cookie['type'] );
