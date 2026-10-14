@@ -30,8 +30,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	if(!function_exists('gdpr_is_gpc_honored')){
 		function gdpr_is_gpc_honored( $the_options ) {
-			$gpc_header = isset( $_SERVER['HTTP_SEC_GPC'] ) ? $_SERVER['HTTP_SEC_GPC'] : '';
-			$dnt_header = isset( $_SERVER['HTTP_DNT'] ) ? $_SERVER['HTTP_DNT'] : '';
+			$gpc_header = isset( $_SERVER['HTTP_SEC_GPC'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_SEC_GPC'] ) ) : '';
+			$dnt_header = isset( $_SERVER['HTTP_DNT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_DNT'] ) ) : '';
 
 			$browser_gpc = ( $gpc_header === '1' );
 			$browser_dnt = ( $dnt_header === '1' );
@@ -82,7 +82,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php if( $the_options['cookie_usage_for'] !== "ccpa" || $the_options['cookie_usage_for'] === "both" ) { ?>
 
-<div class="gdprmodal gdprfade" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_html( $cookie_data['backdrop'] ); ?>" >
+<div class="gdprmodal gdprfade" id="gdpr-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_attr( $cookie_data['backdrop'] ); ?>" >
 	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
 		<!-- Modal content-->
 		<div class="gdprmodal-content" 
@@ -188,8 +188,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 										if ( 'necessary' === $category['gdpr_cookie_category_slug'] ) {
 											?>
 											<div class="toggle-group">
-												<div class="always-active" style="color: <?php echo esc_html( $cookieSettingsPopupAccentColor ); ?>"><?php echo esc_html( $cookie_data['always'] ); ?></div>
-												<input id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" type="hidden" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+												<div class="always-active" style="color: <?php echo esc_attr( $cookieSettingsPopupAccentColor ); ?>"><?php echo esc_attr( $cookie_data['always'] ); ?></div>
+												<input id="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" type="hidden" name="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
 											</div>
 											<?php
 										} else {
@@ -210,9 +210,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 															<?php
 														}
 														?>
-														id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
-														class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
-														<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+														id="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" 
+														class="category-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
+														<label for="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
 															<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
 														</label>
 														<!-- DYNAMICALLY GENERATE Input ID  -->
@@ -451,8 +451,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 																<?php
 															} 
 															?>
-															id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="<?php echo esc_html($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" value=<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>>
-															<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+															id="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" class="<?php echo esc_attr($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" value=<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>>
+															<label for="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
 																<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
 															</label>
 															<!-- DYNAMICALLY GENERATE Input ID  -->
@@ -497,7 +497,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																	if( $display ) {
 																	?>
 																	<div class="toggle-group">
-																		<div class="<?php echo esc_html($classnames)?>-switch-wrapper">
+																		<div class="<?php echo esc_attr($classnames)?>-switch-wrapper">
 																			<?php
 																			$legInt = false;
 																			if( $purposeLegIntMap[$key] && $displayLegint) {
@@ -519,9 +519,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 																							id="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_html($value->id); ?>" 
 																							class="purposes-switch-handler <?php echo esc_html("legint-switch", "gdpr-cookie-consent");?> <?php echo esc_html($value->id);?>"  
 																							type="checkbox" 
-																							name="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_html($value->id); ?>" 
-																							value=<?php echo esc_html( $value->id ); ?>>
-																							<label for="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_html($value->id); ?>" >
+																							name="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_attr($value->id); ?>" 
+																							value=<?php echo esc_attr( $value->id ); ?>>
+																							<label for="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_attr($value->id); ?>" >
 																								<span class="label-text"><?php echo esc_html( $value->id ); ?></span>
 																							</label>
 																							<!-- DYNAMICALLY GENERATE Input ID  -->
@@ -529,8 +529,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 																					</div>
 																				</div>
 																				<?php }?>
-																				<div class="<?php echo esc_html($classnames)?>-consent-switch-wrapper">
-																					<div class="<?php echo esc_html($classnames)?>-switch-label">Consent</div>
+																				<div class="<?php echo esc_attr($classnames)?>-consent-switch-wrapper">
+																					<div class="<?php echo esc_attr($classnames)?>-switch-label">Consent</div>
 																					<div class="toggle">
 																						<div class="checkbox">
 																							<!-- DYNAMICALLY GENERATE Input ID  -->
@@ -545,9 +545,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 																							id="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
 																							class="<?php echo esc_html($classnames)?>-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($value->id);?>"
 																							type="checkbox" 
-																							name="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
-																							value=<?php echo esc_html( $value->id ); ?> >
-																							<label for="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>">
+																							name="gdpr_messagebar_body_button_consent_<?php echo esc_attr($classnames)?>_<?php echo esc_attr($value->id); ?>"
+																							value=<?php echo esc_attr( $value->id ); ?> >
+																							<label for="gdpr_messagebar_body_button_consent_<?php echo esc_attr($classnames)?>_<?php echo esc_html($value->id); ?>">
 																								<span class="label-text"><?php echo esc_html( $value->id ); ?></span>
 																							</label>
 																							<!-- DYNAMICALLY GENERATE Input ID  -->
@@ -650,7 +650,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																		class="vendor-all-switch-handler" 
 																		type="checkbox" 
 																		name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
-																		value="<?php echo esc_html( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
+																		value="<?php echo esc_attr( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
 																		<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 																			<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
 																		</label>
@@ -716,7 +716,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																	class="gacm-vendor-all-switch-handler" 
 																	type="checkbox" 
 																	name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
-																	value=<?php echo esc_html( $data->allvendors ); ?>>
+																	value=<?php echo esc_attr( $data->allvendors ); ?>>
 																	<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 																		<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
 																	</label>
@@ -771,7 +771,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																									class="gacm-vendor-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor[0]);?>" 
 																									type="checkbox" 
 																									name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
-																									value=<?php echo esc_html( $vendor[0]); ?>>
+																									value=<?php echo esc_attr( $vendor[0]); ?>>
 																									<label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>">
 																										<span class="label-text"><?php echo esc_html( $vendor[0] ); ?></span>
 																									</label>
@@ -988,7 +988,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if( $the_options['cookie_usage_for'] === "ccpa" || $the_options['cookie_usage_for'] === "us_state_laws" ) { ?>
 
-<div class="gdprmodal gdprfade" id="gdpr-ccpa-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_html( $cookie_data['backdrop'] ); ?>">
+<div class="gdprmodal gdprfade" id="gdpr-ccpa-gdprmodal" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_attr( $cookie_data['backdrop'] ); ?>">
 	<div class="gdprmodal-dialog gdprmodal-dialog-centered">
 		<div class="gdprmodal-content"
 		style="
@@ -996,12 +996,12 @@ if( $the_options['cookie_usage_for'] === "ccpa" || $the_options['cookie_usage_fo
 				echo  esc_attr($finalColor)
 				?>;
             color: <?php 
-				echo esc_html(( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+				echo esc_attr(( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 			 		? ( $the_options[ 'cookie_text_color' . $chosenBanner ] )
 			 		: $the_options['cookie_text_color'] 
 				); ?>;
             border-style: <?php 
-				echo esc_html(( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
+				echo esc_attr(( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
 			 		? ( $the_options[ 'border_style' . $chosenBanner ] )
 			 		: $the_options['background_border_style'] 
 			 	); ?>;
@@ -1065,7 +1065,7 @@ if( $the_options['cookie_usage_for'] === "ccpa" || $the_options['cookie_usage_fo
 					</p>
 				<?php endif; ?>
 				<div class="gdprmodal-footer-buttons">
-					<?php if( $us_state_law_variant !== 'default_opt_out' ) { ?><button id="cookie_action_cancel" type="button" class="<?php echo esc_html( $the_options['button_cancel_classes'] ); ?>" data-gdpr_action="cancel" data-dismiss="gdprmodal"
+					<?php if( $us_state_law_variant !== 'default_opt_out' ) { ?><button id="cookie_action_cancel" type="button" class="<?php echo esc_attr( $the_options['button_cancel_classes'] ); ?>" data-gdpr_action="cancel" data-dismiss="gdprmodal"
 					style="
 						background-color: <?php
 							echo esc_html(( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')
@@ -1100,7 +1100,7 @@ if( $the_options['cookie_usage_for'] === "ccpa" || $the_options['cookie_usage_fo
 						padding: 12px 29px;
 						width: 100%;
 					"><?php echo esc_html( $the_options['button_cancel_text1'] );//phpcs:ignore ?></button> <?php } ?>
-					<button id="cookie_action_confirm" type="button" class="<?php echo esc_html( $the_options['button_confirm_classes'] ); ?>" data-gdpr_action="confirm" data-dismiss="gdprmodal"
+					<button id="cookie_action_confirm" type="button" class="<?php echo esc_attr( $the_options['button_confirm_classes'] ); ?>" data-gdpr_action="confirm" data-dismiss="gdprmodal"
 					style="
 						background-color: <?php
 							echo esc_html(( $ab_options['ab_testing_enabled'] === true || $ab_options['ab_testing_enabled'] === 'true')

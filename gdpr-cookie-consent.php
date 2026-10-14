@@ -341,7 +341,8 @@ add_action( 'admin_init', 'activation_redirect' );
 function activation_redirect() {
 	if ( get_option( 'redirect_after_activation_option', false ) ) {
 		delete_option( 'redirect_after_activation_option' );
-		exit( esc_html( wp_redirect( admin_url( 'admin.php?page=wplp-dashboard' ) ) ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=wplp-dashboard' ) );
+		exit;
 	}
 }
 

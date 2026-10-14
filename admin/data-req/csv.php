@@ -54,6 +54,8 @@ function array_to_csv_download(
 	echo "\xEF\xBB\xBF"; // UTF-8 BOM
 	// open the "output" stream
 	// see http://www.php.net/manual/en/wrappers.php.php#refsect2-wrappers.php-unknown-unknown-unknown-descriptioq
+	
+	// phpcs:disable WordPress.WP.AlternativeFunctions -- Streams to php://output, not the filesystem.
 	$f = fopen( 'php://output', 'w' );
 
 	foreach ( $array as $line ) {
@@ -75,7 +77,7 @@ function get_requests( $args ) {
 
 	global $wpdb;
 	$table_name = $wpdb->prefix . 'wpl_data_req';
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) !== $table_name ) {
+	if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $wpdb->esc_like( $table_name ) ) ) !== $table_name ) {
 		// Table doesn't exist yet, return empty result set or handle as needed
 		return array();
 	}

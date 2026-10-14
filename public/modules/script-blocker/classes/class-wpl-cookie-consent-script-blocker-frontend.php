@@ -210,9 +210,6 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 		if ( preg_match( $pattern, $buffer, $m ) ) {
 			$splitted = preg_split( $pattern, $buffer );
 			if ( 2 !== count( $splitted ) ) {
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					error_log( 'WPL: Could not split content into head/body.' );
-				}
 				return false; // fail gracefully
 			}
 			$parts['head']  = $splitted[0];
@@ -409,16 +406,10 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 		}
 		if ( ! isset( $parts['head'] ) || ! isset( $parts['body'] ) ) {
 			// the data in the $type is not the user generated code.
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'Parts array is not valid for ' . $type . ': head or body entry not found.' );
-			}
 			return false; // fail gracefully
 		}
 		$parts['head'] = $this->wpl_script_replace_callback( $parts['head'], $pattern, $data, 'head' );
 		if ( null === $parts['head'] ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'An error occurred calling preg_replace_callback() context head.' );
-			}
 			return false; // fail gracefully
 		}
 		$wrap_pattern = '#%s#' . $modifiers;
@@ -429,9 +420,6 @@ class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Sc
 		$parts['body'] = $this->wpl_script_replace_callback( $parts['body'], $pattern, $data, 'body' );
 
 		if ( null === $parts['body'] ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( 'An error occurred calling preg_replace_callback() context body.' );
-			}
 			return false; // fail gracefully
 		}
 

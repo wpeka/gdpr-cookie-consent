@@ -95,13 +95,16 @@ class WPL_Consent_Logs extends WP_List_Table {
 	public function search_box( $text, $input_id ) {
 		$input_id = $input_id . '-search-input';
 	
-		if ( ! empty( $_REQUEST['orderby'] ) ) {
-			echo '<input type="hidden" name="orderby" value="'
-				. esc_attr( wp_unslash( $_REQUEST['orderby'] ) ) . '" />';
+		$order_by = isset( $_REQUEST['orderby'] ) ? sanitize_key( wp_unslash( $_REQUEST['orderby'] ) ) : '';
+
+		if ( '' !== $order_by && array_key_exists( $order_by, $this->get_sortable_columns() ) ) {
+			echo '<input type="hidden" name="orderby" value="' . esc_attr( $order_by ) . '" />';
 		}
-		if ( ! empty( $_REQUEST['order'] ) ) {
-			echo '<input type="hidden" name="order" value="'
-				. esc_attr( wp_unslash( $_REQUEST['order'] ) ) . '" />';
+		
+		$order = isset( $_REQUEST['order'] ) ? strtolower( sanitize_key( wp_unslash( $_REQUEST['order'] ) ) ) : '';
+
+		if ( in_array( $order, array( 'asc', 'desc' ), true ) ) {
+			echo '<input type="hidden" name="order" value="' . esc_attr( $order ) . '" />';
 		}
 		$search = $this->get_search();
 		?>
@@ -111,7 +114,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
 					<?php echo esc_html( $text ); ?>:
 				</label>
-				<input placeholder="Search Consent Logs using IP address" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
+				<input placeholder="Search Consent Logs using IP address" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_attr( $search ); ?>"/>
 				<img id="search-logo-consent-log" v-on:click="submitConsentLogSearch" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 			</div>
 			<?php
@@ -266,11 +269,13 @@ class WPL_Consent_Logs extends WP_List_Table {
 			wp_die( 'Unauthorized request.' );
 		}
 
-		$ids    = isset( $_GET['user_id'] ) ? $_GET['user_id'] : false;
+		$ids = isset( $_GET['user_id'] ) ? array_filter( array_map( 'absint', (array) wp_unslash( $_GET['user_id'] ) ) ) : array();
+
 		$action = $this->current_action();
 		if ( ! $action ) {
 			// If no action was found, check for action2 (bottom dropdown)
-			$action = isset( $_GET['action2'] ) && $_GET['action2'] != '-1' ? $_GET['action2'] : false;
+			$action2 = isset( $_GET['action2'] ) ? sanitize_text_field( wp_unslash( $_GET['action2'] ) ) : '';
+			$action  = ( '' !== $action2 && '-1' !== $action2 ) ? $action2 : false;
 		}
 		if ( ! $action || ! $ids ) {
 			return;
@@ -314,7 +319,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 	 * @since 3.0.0
 	 */
 	public function get_search() {
-		return ! empty( $_GET['s'] ) ? sanitize_text_field( urldecode( wp_unslash( $_GET['s'] ) ) ) : false;
+		return ! empty( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : false;
 	}
 
 	/**
@@ -430,8 +435,10 @@ class WPL_Consent_Logs extends WP_List_Table {
 		// Add an 'ALL Dates' option at the beginning of the array
 		array_unshift( $options, __( 'ALL Dates', 'gdpr-cookie-consent' ) );
 
-		if ( isset( $_GET['wpl_resolved_select'] ) ) {
-			$args['month'] = $options[$_GET['wpl_resolved_select']];
+		$resolved_select = isset( $_GET['wpl_resolved_select'] ) ? sanitize_text_field( wp_unslash( $_GET['wpl_resolved_select'] ) ) : '';
+
+		if ( '' !== $resolved_select && isset( $options[ $resolved_select ] ) ) {
+			$args['month'] = $options[ $resolved_select ];
 		}
 		$this->options = $options;
 
@@ -593,11 +600,11 @@ class WPL_Consent_Logs extends WP_List_Table {
 		// consent forwarding.
 
 		if ( ! is_multisite() ) {
-			foreach ( $custom_posts as $post ) {
+			foreach ( $custom_posts as $custom_post ) {
 
-				setup_postdata( $post ); // Setup post data for each post.
+				setup_postdata( $custom_post ); // Setup post data for each post.
 
-				$post_id = $post->ID;
+				$post_id = $custom_post->ID;
 
 				// Fetch specific values from post meta using keys.
 				$wplconsentlogs_ip = get_post_meta( $post_id, '_wplconsentlogs_ip', true );
@@ -756,7 +763,7 @@ class WPL_Consent_Logs extends WP_List_Table {
 				);
 			}
 		} else {
-			foreach ( $custom_posts as $post ) {
+			foreach ( $custom_posts as $custom_post ) {
 				$curentid            = get_current_blog_id();
 				$custom              = get_post_custom();
 				$siteurl             = site_url();
@@ -766,8 +773,8 @@ class WPL_Consent_Logs extends WP_List_Table {
 				$forwarded_site_url1 = isset( $custom['_wplconsentlogs_siteurl'][0] ) ? $custom['_wplconsentlogs_siteurl'][0] : '';
 				$is_consent_status1  = isset( $custom['_wplconsentlogs_consent_forward'][0] ) ? $custom['_wplconsentlogs_consent_forward'][0] : '';
 
-				setup_postdata( $post ); // Setup post data for each post.
-				$post_id = $post->ID;
+				setup_postdata( $custom_post ); // Setup post data for each post.
+				$post_id = $custom_post->ID;
 
 				if ( $siteurl == $forwarded_site_url1 && $is_consent_status1 != true ) {
 					// Fetch specific values from post meta using keys.

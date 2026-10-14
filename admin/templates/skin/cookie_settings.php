@@ -465,7 +465,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                        <?php
                                           } 
                                           ?>
-                                       id="gdpr_messagebar_body_button" class="<?php echo esc_html($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button">
+                                       id="gdpr_messagebar_body_button" class="<?php echo esc_attr($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button">
                                     <label for="gdpr_messagebar_body_button">
                                     <span class="label-text"></span>
                                     </label>
@@ -474,7 +474,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                               </div>
                            </div>
                            <?php } ?>
-                           <div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
+                           <div class="gdpr-column gdpr-category-toggle <?php echo esc_attr( $the_options['template_parts'] ); ?>">
                               <div class="gdpr-columns">
                                  <span class="dashicons dashicons-arrow-down-alt2"></span>
                                  <a href="#" class="btn category-header" tabindex="0"><?php echo esc_html( $value ); // phpcs:ignore ?></a>
@@ -490,7 +490,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                        if( $display ) {
                                        ?>
                                     <div class="toggle-group">
-                                       <div class="<?php echo esc_html($classnames)?>-switch-wrapper">
+                                       <div class="<?php echo esc_attr($classnames)?>-switch-wrapper">
                                           <?php
                                              $legInt = false;
                                              if( $purposeLegIntMap[$key] && $displayLegint) {
@@ -509,12 +509,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                       <?php
                                                          }
                                                          ?>
-                                                      id="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_html($value->id); ?>" 
-                                                      class="purposes-switch-handler <?php echo esc_html("legint-switch");?> <?php echo esc_html($value->id);?>"  
+                                                      id="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_attr($value->id); ?>" 
+                                                      class="purposes-switch-handler <?php echo esc_attr("legint-switch");?> <?php echo esc_attr($value->id);?>"  
                                                       type="checkbox" 
-                                                      name="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_html($value->id); ?>" 
-                                                      value=<?php echo esc_html( $value->id ); ?>>
-                                                   <label for="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_html($value->id); ?>" >
+                                                      name="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_attr($value->id); ?>" 
+                                                      value=<?php echo esc_attr( $value->id ); ?>>
+                                                   <label for="gdpr_messagebar_body_button_legint_purpose_<?php echo esc_attr($value->id); ?>" >
                                                    <span class="label-text"><?php echo esc_html( $value->id ); ?></span>
                                                    </label>
                                                    <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -522,8 +522,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                              </div>
                                           </div>
                                           <?php }?>
-                                          <div class="<?php echo esc_html($classnames)?>-consent-switch-wrapper">
-                                             <div class="<?php echo esc_html($classnames)?>-switch-label">Consent</div>
+                                          <div class="<?php echo esc_attr($classnames)?>-consent-switch-wrapper">
+                                             <div class="<?php echo esc_attr($classnames)?>-switch-label">Consent</div>
                                              <div class="toggle">
                                                 <div class="checkbox">
                                                    <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -535,12 +535,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                       <?php
                                                          } 
                                                          ?>
-                                                      id="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
-                                                      class="<?php echo esc_html($classnames)?>-switch-handler <?php echo esc_html("consent-switch");?> <?php echo esc_html($value->id);?>"
+                                                      id="gdpr_messagebar_body_button_consent_<?php echo esc_attr($classnames)?>_<?php echo esc_attr($value->id); ?>"
+                                                      class="<?php echo esc_attr($classnames)?>-switch-handler <?php echo esc_attr("consent-switch");?> <?php echo esc_attr($value->id);?>"
                                                       type="checkbox" 
-                                                      name="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>"
-                                                      value=<?php echo esc_html( $value->id ); ?> >
-                                                   <label for="gdpr_messagebar_body_button_consent_<?php echo esc_html($classnames)?>_<?php echo esc_html($value->id); ?>">
+                                                      name="gdpr_messagebar_body_button_consent_<?php echo esc_attr($classnames)?>_<?php echo esc_attr($value->id); ?>"
+                                                      value=<?php echo esc_attr( $value->id ); ?> >
+                                                   <label for="gdpr_messagebar_body_button_consent_<?php echo esc_attr($classnames)?>_<?php echo esc_attr($value->id); ?>">
                                                    <span class="label-text"><?php echo esc_html( $value->id ); ?></span>
                                                    </label>
                                                    <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -624,7 +624,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                        class="vendor-all-switch-handler" 
                                        type="checkbox" 
                                        name="gdpr_messagebar_body_button" 
-                                       value="<?php echo esc_html( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
+                                       value="<?php echo esc_attr( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
                                     <label for="gdpr_messagebar_body_button">
                                     <span class="label-text"></span>
                                     </label>
@@ -632,7 +632,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                  </div>
                               </div>
                            </div>
-                           <div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
+                           <div class="gdpr-column gdpr-category-toggle <?php echo esc_attr( $the_options['template_parts'] ); ?>">
                               <div class="gdpr-columns">
                                  <span class="dashicons dashicons-arrow-down-alt2"></span>
                                  <a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html( $vendor ); // phpcs:ignore ?></a>
@@ -665,13 +665,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                       <?php
                                                          } 
                                                          ?>
-                                                      id="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_html($vendor->id);?>" 
-                                                      class="vendor-switch-handler <?php echo esc_html("legint-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor->id);?>"  
+                                                      id="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_attr($vendor->id);?>" 
+                                                      class="vendor-switch-handler <?php echo esc_attr("legint-switch", "gdpr-cookie-consent");?> <?php echo esc_attr($vendor->id);?>"  
                                                       type="checkbox" 
-                                                      name="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_html($vendor->id);?>" 
-                                                      value=<?php echo esc_html( $vendor->id ); ?>>
-                                                   <label for="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_html($vendor->id);?>">
-                                                   <span class="label-text"><?php echo esc_html($vendor->id);?></span>
+                                                      name="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_attr($vendor->id);?>" 
+                                                      value=<?php echo esc_attr( $vendor->id ); ?>>
+                                                   <label for="gdpr_messagebar_body_button_legint_vendor_<?php echo esc_attr($vendor->id);?>">
+                                                   <span class="label-text"><?php echo esc_html( $vendor->id ); ?></span>
                                                    </label>
                                                    <!-- DYNAMICALLY GENERATE Input ID  -->
                                                 </div>
@@ -691,12 +691,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                       <?php
                                                          }
                                                          ?>
-                                                      id="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>" 
-                                                      class="vendor-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor->id);?>" 
+                                                      id="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_attr($vendor->id);?>" 
+                                                      class="vendor-switch-handler <?php echo esc_attr("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_attr($vendor->id);?>" 
                                                       type="checkbox" 
-                                                      name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>" 
-                                                      value=<?php echo esc_html( $vendor->id ); ?>>
-                                                   <label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor->id);?>">
+                                                      name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_attr($vendor->id);?>" 
+                                                      value=<?php echo esc_attr( $vendor->id ); ?>>
+                                                   <label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_attr($vendor->id);?>">
                                                    <span class="label-text"><?php echo esc_html( $vendor->id ); ?></span>
                                                    </label>
                                                    <!-- DYNAMICALLY GENERATE Input ID  -->
@@ -827,7 +827,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															class="gacm-vendor-all-switch-handler" 
 															type="checkbox" 
 															name="gdpr_messagebar_body_button" 
-															value=<?php echo esc_html( $data->allvendors ); ?>>
+															value=<?php echo esc_attr( $data->allvendors ); ?>>
 															<label for="gdpr_messagebar_body_button">
 																<span class="label-text"></span>
 															</label>
@@ -836,10 +836,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 													</div>
 												</div>
 												
-												<div class="gdpr-column gdpr-category-toggle <?php echo esc_html( $the_options['template_parts'] ); ?>">
+												<div class="gdpr-column gdpr-category-toggle <?php echo esc_attr( $the_options['template_parts'] ); ?>">
 													<div class="gdpr-columns">
 														<span class="dashicons dashicons-arrow-down-alt2"></span>
-														<a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_html( $vendor ); // phpcs:ignore ?></a>
+														<a href="#" class="btn category-header vendors" tabindex="0"><?php echo esc_attr( $vendor ); // phpcs:ignore ?></a>
 													</div>
 												</div>
 												<div class="description-container hide">
@@ -865,12 +865,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 																										<?php
 																									}	
 																									?>
-																									id="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
-																									class="vendor-switch-handler <?php echo esc_html("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_html($vendor[0]);?>" 
+																									id="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_attr($vendor[0]);?>" 
+																									class="vendor-switch-handler <?php echo esc_attr("consent-switch", "gdpr-cookie-consent");?> <?php echo esc_attr($vendor[0]);?>" 
 																									type="checkbox" 
-																									name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>" 
-																									value=<?php echo esc_html( $vendor[0]); ?>>
-																									<label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_html($vendor[0]);?>">
+																									name="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_attr($vendor[0]);?>" 
+																									value=<?php echo esc_attr( $vendor[0]); ?>>
+																									<label for="gdpr_messagebar_body_button_consent_vendor_<?php echo esc_attr($vendor[0]);?>">
 																										<span class="label-text"><?php echo esc_html( $vendor[0] ); ?></span>
 																									</label>
 																									<!-- DYNAMICALLY GENERATE Input ID  -->

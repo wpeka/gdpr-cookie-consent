@@ -70,19 +70,19 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
 		<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
-			<th scope="row"><label for="is_eu_on_field"><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></th>
+			<th scope="row"><label for="is_eu_on_field"><?php esc_html_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></th>
 			<td>
-				<input type="radio" id="is_eu_on_field_yes" name="is_eu_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['is_eu_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
-				<input type="radio" id="is_eu_on_field_no" name="is_eu_on_field" class="styled" value="false" <?php echo ( false === $the_options['is_eu_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
-				<span class="gdpr_form_help"><?php esc_attr_e( 'GDPR message will be displayed to only EU visitors if enabled.', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="is_eu_on_field_yes" name="is_eu_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['is_eu_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_html_e( 'On', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="is_eu_on_field_no" name="is_eu_on_field" class="styled" value="false" <?php echo ( false === $the_options['is_eu_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_html_e( 'Off', 'gdpr-cookie-consent' ); ?>
+				<span class="gdpr_form_help"><?php esc_html_e( 'GDPR message will be displayed to only EU visitors if enabled.', 'gdpr-cookie-consent' ); ?>
 			</td>
 		</tr>
 		<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="ccpa">
-			<th scope="row"><label for="is_ccpa_on_field"><?php esc_attr_e( 'Show only for CCPA visitors', 'gdpr-cookie-consent' ); ?></label></th>
+			<th scope="row"><label for="is_ccpa_on_field"><?php esc_html_e( 'Show only for CCPA visitors', 'gdpr-cookie-consent' ); ?></label></th>
 			<td>
-				<input type="radio" id="is_ccpa_on_field_yes" name="is_ccpa_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['is_ccpa_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
-				<input type="radio" id="is_ccpa_on_field_no" name="is_ccpa_on_field" class="styled" value="false" <?php echo ( false === $the_options['is_ccpa_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
-				<span class="gdpr_form_help"><?php esc_attr_e( 'CCPA message will be displayed to only CCPA visitors if enabled.', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="is_ccpa_on_field_yes" name="is_ccpa_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['is_ccpa_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_html_e( 'On', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="is_ccpa_on_field_no" name="is_ccpa_on_field" class="styled" value="false" <?php echo ( false === $the_options['is_ccpa_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_html_e( 'Off', 'gdpr-cookie-consent' ); ?>
+				<span class="gdpr_form_help"><?php esc_html_e( 'CCPA message will be displayed to only CCPA visitors if enabled.', 'gdpr-cookie-consent' ); ?>
 			</td>
 		</tr>
 		<?php

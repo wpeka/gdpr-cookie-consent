@@ -78,13 +78,16 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	public function search_box( $text, $input_id ) {
 		$input_id = $input_id . '-search-input-data-request';
 
-		if ( ! empty( $_REQUEST['orderby'] ) ) {
-			echo '<input type="hidden" name="orderby" value="'
-				. esc_attr( $_REQUEST['orderby'] ) . '" />';
+		$order_by = isset( $_REQUEST['orderby'] ) ? sanitize_key( wp_unslash( $_REQUEST['orderby'] ) ) : '';
+
+		if ( '' !== $order_by && array_key_exists( $order_by, $this->get_sortable_columns() ) ) {
+			echo '<input type="hidden" name="orderby" value="' . esc_attr( $order_by ) . '" />';
 		}
-		if ( ! empty( $_REQUEST['order'] ) ) {
-			echo '<input type="hidden" name="order" value="'
-				. esc_attr( $_REQUEST['order'] ) . '" />';
+		
+		$order = isset( $_REQUEST['order'] ) ? strtolower( sanitize_key( wp_unslash( $_REQUEST['order'] ) ) ) : '';
+
+		if ( in_array( $order, array( 'asc', 'desc' ), true ) ) {
+			echo '<input type="hidden" name="order" value="' . esc_attr( $order ) . '" />';
 		}
 		$search = $this->get_search();
 		?>
@@ -93,7 +96,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
 					<?php echo esc_html( $text ); ?>:
 				</label>
-				<input placeholder="Search Requests" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
+				<input placeholder="Search Requests" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_attr( $search ); ?>"/>
 				<img id="search-logo-data-request" v-on:click="submitDataRequestSearch" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 			</div>
 			<?php
@@ -266,11 +269,12 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		    wp_die( 'Unauthorized request.' );
 		}
 		
-		$ids = isset( $_GET['user_id'] ) ? $_GET['user_id'] : false;
+		$ids = isset( $_GET['user_id'] ) ? array_filter( array_map( 'absint', (array) wp_unslash( $_GET['user_id'] ) ) ) : array();
 		$action = $this->current_action();
 		if ( ! $action ) {
 			// If no action was found, check for action2 (bottom dropdown)
-			$action = isset($_GET['action2']) && $_GET['action2'] != '-1' ? $_GET['action2'] : false;
+			$action2 = isset( $_GET['action2'] ) ? sanitize_text_field( wp_unslash( $_GET['action2'] ) ) : '';
+			$action  = ( '' !== $action2 && '-1' !== $action2 ) ? $action2 : false;
 		}
 		if ( !$action || ! $ids ) {
 			return;
@@ -297,7 +301,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				);
 				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
 				wp_redirect( admin_url( 'admin.php?page=wpl-datarequests' . $paged ) );
-
+				exit;
 			}
 		}
 	}
@@ -479,7 +483,8 @@ class WPL_Data_Req_Table extends WP_List_Table {
 
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'wpl_data_req';
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) !== $table_name ) {
+		
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) ) ) !== $table_name ) {
 			// Table doesn't exist yet, return empty result set or handle as needed
 			return array();
 		}

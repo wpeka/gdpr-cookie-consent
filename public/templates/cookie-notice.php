@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( 'popup' === $the_options['cookie_bar_as'] ) {
 	?>
-	<div class="gdprmodal gdprfade" id="gdpr-<?php echo esc_html( $the_options['cookie_bar_as'] ); ?>" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_html( $the_options['backdrop'] ); ?>">
+	<div class="gdprmodal gdprfade" id="gdpr-<?php echo esc_attr( $the_options['cookie_bar_as'] ); ?>" role="dialog" data-keyboard="false" data-backdrop="<?php echo esc_attr( $the_options['backdrop'] ); ?>">
         <div class="gdprmodal-dialog gdprmodal-dialog-centered">
             <!-- Modal content-->
             <div class="gdprmodal-content">
@@ -251,11 +251,11 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 			case 'decline':
 				if ( ! in_array( $the_options['cookie_usage_for'], array( 'pipeda', 'au_app' ), true )
 					&& filter_var( $the_options['button_decline_is_on' . $suffix] ?? false, FILTER_VALIDATE_BOOLEAN ) ) : ?>
-					<a id="cookie_action_reject" class="<?php echo esc_html( $the_options['button_decline_classes'] ); ?>" tabindex="0" aria-label="Reject"
+					<a id="cookie_action_reject" class="<?php echo esc_attr( $the_options['button_decline_classes'] ); ?>" tabindex="0" aria-label="Reject"
 						<?php
 						if ( 'CONSTANT_OPEN_URL' === $the_options['button_decline_action' . $suffix] ) {
 							?>
-							href="<?php echo esc_html( $the_options['button_decline_url' . $suffix] ); ?>"
+							href="<?php echo esc_url( $the_options['button_decline_url' . $suffix] ); ?>"
 							<?php
 							if ( ! empty( $the_options['button_decline_new_win' . $suffix] ) ) {
 								?>
@@ -280,7 +280,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 
 			case 'settings':
 				if ( $the_options['cookie_usage_for'] !== 'eprivacy' && ! empty( $the_options['button_settings_is_on' . $suffix] ) && filter_var( $the_options['button_settings_is_on' . $suffix], FILTER_VALIDATE_BOOLEAN ) ) : ?>
-					<a id="cookie_action_settings" class="<?php echo esc_html( $the_options['button_settings_classes'] ); ?>" tabindex="0" aria-label="Cookie Settings" href="#"
+					<a id="cookie_action_settings" class="<?php echo esc_attr( $the_options['button_settings_classes'] ); ?>" tabindex="0" aria-label="Cookie Settings" href="#"
 						data-gdpr_action="settings" data-toggle="gdprmodal" data-target="#gdpr-gdprmodal" style="<?php echo esc_attr( $settings_style_attr ); ?>">
 						<?php
 						echo isset( $the_options['is_dynamic_lang_on'] ) && ( $the_options['is_dynamic_lang_on'] === 'true' || $the_options['is_dynamic_lang_on'] === true || $the_options['is_dynamic_lang_on'] === '1' )
@@ -293,11 +293,11 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 
 			case 'accept':
 				if ( filter_var( $the_options['button_accept_is_on' . $suffix] ?? false, FILTER_VALIDATE_BOOLEAN ) ) : ?>
-					<a id="cookie_action_accept" class="<?php echo esc_html( $the_options['button_accept_classes'] ); ?>" tabindex="0" aria-label="Accept"
+					<a id="cookie_action_accept" class="<?php echo esc_attr( $the_options['button_accept_classes'] ); ?>" tabindex="0" aria-label="Accept"
 						<?php
 						if ( 'CONSTANT_OPEN_URL' === $the_options['button_accept_action' . $suffix] ) {
 							?>
-							href="<?php echo esc_html( $the_options['button_accept_url' . $suffix] ); ?>"
+							href="<?php echo esc_url( $the_options['button_accept_url' . $suffix] ); ?>"
 							<?php
 							if ( ! empty( $the_options['button_accept_new_win' . $suffix] ) ) {
 								?>
@@ -323,11 +323,11 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 			case 'accept_all':
 			case 'acceptAll':
 				if ( filter_var( $the_options['button_accept_all_is_on' . $suffix] , FILTER_VALIDATE_BOOLEAN ) ) : ?>
-					<a id="cookie_action_accept_all" class="<?php echo esc_html( $the_options['button_accept_all_classes'] ); ?>" tabindex="0" aria-label="Accept All"
+					<a id="cookie_action_accept_all" class="<?php echo esc_attr( $the_options['button_accept_all_classes'] ); ?>" tabindex="0" aria-label="Accept All"
 						<?php
 						if ( 'CONSTANT_OPEN_URL' === $the_options['button_accept_all_action' . $suffix] ) {
 							?>
-							href="<?php echo esc_html( $the_options['button_accept_all_url' . $suffix] ); ?>"
+							href="<?php echo esc_url( $the_options['button_accept_all_url' . $suffix] ); ?>"
 							<?php
 							if ( ! empty( $the_options['button_accept_all_new_win' . $suffix] ) ) {
 								?>
@@ -353,9 +353,9 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 	};
 ?>
 
-<div id="<?php echo esc_html( $the_options['container_id'] ); ?>" class="<?php echo esc_html( $the_options['container_class'] ); ?> <?php echo esc_html( $the_options['theme_class'] ); ?>"  style="<?php echo esc_attr($notice_container_styles); ?>; --vendor-link-color: <?php echo esc_attr($vendor_link_color); ?>;">	
+<div id="<?php echo esc_attr( $the_options['container_id'] ); ?>" class="<?php echo esc_attr( $the_options['container_class'] ); ?> <?php echo esc_attr( $the_options['theme_class'] ); ?>"  style="<?php echo esc_attr($notice_container_styles); ?>; --vendor-link-color: <?php echo esc_attr($vendor_link_color); ?>;">	
 	<?php if(filter_var( $the_options['bypass_button_is_on' . $suffix] ?? false, FILTER_VALIDATE_BOOLEAN )) { ?>
-	<span id="cookie-banner-cancle-img" style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; position: absolute; top:5px; right: <?php echo esc_attr( 5 + ( (int) $the_options[ ( $ab_testing_enabled === "true" ? 'cookie_bar_spacing' . $chosenBanner : 'cookie_bar_spacing' ) ] ) / 2 + ( (int) $the_options[ ( $ab_testing_enabled === "true" ? 'cookie_bar_border_radius' . $chosenBanner : 'background_border_radius' ) ] ) / 2 ); ?>px; height: 20px; width: 20px; border-radius: 50%; color: <?php echo esc_html($the_options['bypass_button_text_color' . $suffix]);?>; scale: <?php echo esc_html($the_options['bypass_button_size'. $suffix]) == 'lg' ? '115%' : (esc_html($the_options['bypass_button_size'. $suffix]) == 'sm' ? '85%' : '100%'); ?>;">
+	<span id="cookie-banner-cancle-img" style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; position: absolute; top:5px; right: <?php echo esc_attr( 5 + ( (int) $the_options[ ( $ab_testing_enabled === "true" ? 'cookie_bar_spacing' . $chosenBanner : 'cookie_bar_spacing' ) ] ) / 2 + ( (int) $the_options[ ( $ab_testing_enabled === "true" ? 'cookie_bar_border_radius' . $chosenBanner : 'background_border_radius' ) ] ) / 2 ); ?>px; height: 20px; width: 20px; border-radius: 50%; color: <?php echo esc_attr($the_options['bypass_button_text_color' . $suffix]);?>; scale: <?php echo esc_attr($the_options['bypass_button_size'. $suffix]) == 'lg' ? '115%' : (esc_attr($the_options['bypass_button_size'. $suffix]) == 'sm' ? '85%' : '100%'); ?>;">
 		<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 			<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
 		</svg>
@@ -666,13 +666,13 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 						</span>
 					<?php endif; ?>
 					<?php if ( in_array( $the_options['cookie_usage_for'], array( 'ccpa', 'us_state_laws' ), true ) ) : ?>
-						<a style="<?php echo esc_attr($opt_out_style_attr); ?>" data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+						<a style="<?php echo esc_attr($opt_out_style_attr); ?>" data-toggle="gdprmodal" href="#" class="<?php echo esc_attr( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
 						>
 							<?php echo esc_html($cookie_data['dash_button_donotsell_text'], 'gdpr-cookie-consent' ); ?>
 						</a>
 
 					<?php elseif( ! in_array( $the_options['cookie_usage_for'], array( 'ccpa', 'us_state_laws' ), true ) &&  ! empty( $the_options['button_readmore_is_on'] ) ) : ?>
-						<a style="<?php echo esc_attr($readmore_style_attr); ?>" id="cookie_action_link" href="<?php echo esc_html( $the_options['button_readmore_url_link'] ); ?>" 
+						<a style="<?php echo esc_attr($readmore_style_attr); ?>" id="cookie_action_link" href="<?php echo esc_url( $the_options['button_readmore_url_link'] ); ?>" 
 						<?php if ( ! empty( $the_options['button_readmore_new_win'] ) ) { ?>
 							target="_blank"
 						<?php } ?>
@@ -709,7 +709,7 @@ if ( 'popup' === $the_options['cookie_bar_as'] ) {
 					);
 					?>
 				</span>
-				<a style="<?php echo esc_attr($opt_out_style_attr); ?>" data-toggle="gdprmodal" href="#" class="<?php echo esc_html( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
+				<a style="<?php echo esc_attr($opt_out_style_attr); ?>" data-toggle="gdprmodal" href="#" class="<?php echo esc_attr( $the_options['button_donotsell_classes'] ); ?>" data-gdpr_action="donotsell" id="cookie_donotsell_link"
 				>	
 					<?php echo isset($the_options["is_dynamic_lang_on"]) && ($the_options["is_dynamic_lang_on"] === "true" || $the_options["is_dynamic_lang_on"] === true || $the_options["is_dynamic_lang_on"] === "1")
 						? esc_html( $cookie_data['dash_button_donotsell_text'] )
@@ -797,22 +797,22 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 	if ( ! empty( $the_options['show_again' . $suffix] ) ) {
 		?>
 		<?php if ( $the_options['show_again_as' . $suffix] === "text" ) { ?>
-			<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
+			<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
 				<span><?php echo esc_html( $cookie_data['dash_show_again_text'] ); //phpcs:ignore ?></span>
 			</div>
 			<?php } elseif ( $the_options['show_again_as' . $suffix] === "icon" ) { ?>			
 				<?php if ( $the_options['show_again_icon' . $suffix] === "cookie" ) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 						style="
 							position: fixed; 
 							display:none; 
 							bottom: 10px; 
-							color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
-							background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
+							color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
+							background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
-								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+								echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
-								echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+								echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 							border-radius: 50%; 
 							height: 50px;
 							width: 50px;
@@ -824,17 +824,17 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 						</svg>
 					</div>
 				<?php } elseif ( $the_options['show_again_icon' . $suffix] === "shield" ) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 						style="
 							position: fixed; 
 							display:none; 
 							bottom: 10px; 
-							color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
-							background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
+							color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
+							background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
-								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+								echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
-								echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+								echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 							border-radius: 50%; 
 							height: 50px;
 							width: 50px;
@@ -846,17 +846,17 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 						</svg>
 					</div>
 				<?php } elseif ( $the_options['show_again_icon' . $suffix] === "gear" ) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 						style="
 							position: fixed; 
 							display:none; 
 							bottom: 10px; 
-							color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
-							background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
+							color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
+							background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
-								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+								echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
-								echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+								echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 							border-radius: 50%; 
 							height: 50px;
 							width: 50px;
@@ -871,7 +871,7 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 					$revoke_icon_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_REVOKE_ICON . $suffix );
 					
 					if (!empty($revoke_icon_img)) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>"
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>"
 						style="
 							position: fixed; 
 							display:none; 
@@ -879,9 +879,9 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 							height: 50px;
 							width: 50px;
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
-								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+								echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
-								echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+								echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 							padding:0 !important;"
 					>
 						<img 
@@ -897,17 +897,17 @@ if ( ! empty( $the_options['lgpd_notify'] )) {
 						>
 					</div>
 					<?php } else { ?>
-						<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+						<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 							style="
 								position: fixed; 
 								display:none; 
 								bottom: 10px; 
-								color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
-								background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
+								color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
+								background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
 								<?php if($the_options['show_again_position' . $suffix] === 'right') 
-									echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+									echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 								else 
-									echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+									echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 								border-radius: 50%; 
 								height: 50px;
 								width: 50px;
@@ -934,22 +934,22 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 	if ( ! empty( $the_options['show_again' . $suffix] ) ) {
 		?>
 		<?php if ( $the_options['show_again_as' . $suffix] === "text" ) { ?>
-			<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
-				<span><?php echo esc_html( $cookie_data['dash_show_again_text'] ); //phpcs:ignore ?></span>
+			<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
+				<span><?php echo esc_attr( $cookie_data['dash_show_again_text'] ); //phpcs:ignore ?></span>
 			</div>
 		<?php } elseif ( $the_options['show_again_as' . $suffix] === "icon" ) { ?>
 				<?php if ( $the_options['show_again_icon' . $suffix] === "cookie" ) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 						style="
 							position: fixed; 
 							display:none; 
 							bottom: 10px; 
-							color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
-							background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
+							color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
+							background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
-								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+								echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
-								echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+								echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 							border-radius: 50%; 
 							height: 50px;
 							width: 50px;
@@ -961,17 +961,17 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 						</svg>
 					</div>
 				<?php } elseif ( $the_options['show_again_icon' . $suffix] === "shield" ) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 						style="
 							position: fixed; 
 							display:none; 
 							bottom: 10px; 
-							color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
-							background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
+							color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
+							background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
-								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+								echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
-								echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+								echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 							border-radius: 50%; 
 							height: 50px;
 							width: 50px;
@@ -983,17 +983,17 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 						</svg>
 					</div>
 				<?php } elseif ( $the_options['show_again_icon' . $suffix] === "gear" ) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 						style="
 							position: fixed; 
 							display:none; 
 							bottom: 10px; 
-							color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
-							background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
+							color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
+							background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
-								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+								echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
-								echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+								echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 							border-radius: 50%; 
 							height: 50px;
 							width: 50px;
@@ -1008,7 +1008,7 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 					$revoke_icon_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_REVOKE_ICON . $suffix );
 					
 					if (!empty($revoke_icon_img)) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>"
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>"
 						style="
 							position: fixed; 
 							display:none; 
@@ -1016,9 +1016,9 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 							height: 50px;
 							width: 50px;
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
-								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+								echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
-								echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+								echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 							padding:0 !important"
 					>
 						<img 
@@ -1034,17 +1034,17 @@ if ( ! empty( $the_options['gdpr_notify'] )) {
 						>
 					</div>
 					<?php } else { ?>
-						<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+						<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 							style="
 								position: fixed; 
 								display:none; 
 								bottom: 10px; 
-								color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
-								background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
+								color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
+								background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
 								<?php if($the_options['show_again_position' . $suffix] === 'right') 
-									echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+									echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 								else 
-									echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+									echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 								border-radius: 50%; 
 								height: 50px;
 								width: 50px;
@@ -1064,22 +1064,22 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 	if ( ! empty( $the_options['show_again' . $suffix] ) ) {
 		?>
 		<?php if ( $the_options['show_again_as' . $suffix] === "text" ) { ?>
-			<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
-				<span><?php echo esc_html( $cookie_data['dash_show_again_text'] );//phpcs:ignore ?></span>
+			<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['show_again_position' . $suffix] === 'right') echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
+				<span><?php echo esc_attr( $cookie_data['dash_show_again_text'] );//phpcs:ignore ?></span>
 			</div>
 		<?php } elseif ( $the_options['show_again_as' . $suffix] === "icon" ) {?>
 				<?php if ( $the_options['show_again_icon' . $suffix] === "cookie" ) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 						style="
 							position: fixed; 
 							display:none; 
 							bottom: 10px; 
-							color: <?php echo esc_html($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
-							background-color: <?php echo esc_html($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
+							color: <?php echo esc_attr($the_options['button_revoke_consent_text_color' . $suffix]); ?>; 
+							background-color: <?php echo esc_attr($the_options['button_revoke_consent_background_color' . $suffix]); ?>; 
 							<?php if($the_options['show_again_position' . $suffix] === 'right') 
-								echo "right: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; 
+								echo "right: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; 
 							else 
-								echo "left: ". esc_html($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
+								echo "left: ". esc_attr($the_options['show_again_margin' . $suffix]) . "%;"; ?> 
 							border-radius: 50%; 
 							height: 50px;
 							width: 50px;
@@ -1091,7 +1091,7 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 						</svg>
 					</div>
 				<?php } elseif ( $the_options['show_again_icon' . $suffix] === "shield" ) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 						style="
 							position: fixed; 
 							display:none; 
@@ -1113,7 +1113,7 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 						</svg>
 					</div>
 				<?php } elseif ( $the_options['show_again_icon' . $suffix] === "gear" ) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 						style="
 							position: fixed; 
 							display:none; 
@@ -1138,7 +1138,7 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 					$revoke_icon_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_REVOKE_ICON . $suffix );
 					
 					if (!empty($revoke_icon_img)) { ?>
-					<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>"
+					<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>"
 						style="
 							position: fixed; 
 							display:none; 
@@ -1164,7 +1164,7 @@ if ( ! empty( $the_options['eprivacy_notify'] ) ) {
 						>
 					</div>
 					<?php } else { ?>
-						<div id="<?php echo esc_html( $the_options['show_again_container_id'] ); ?>" 
+						<div id="<?php echo esc_attr( $the_options['show_again_container_id'] ); ?>" 
 							style="
 								position: fixed; 
 								display:none; 
@@ -1201,7 +1201,7 @@ if ( ! empty( $the_options['ccpa_notify'] ) ) {
 		if ( ! empty( $the_options['ccpa_show_again' . $suffix] ) ) {
 		?>
 		
-		<div id="<?php echo esc_html( $the_options['ccpa_show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['ccpa_button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['ccpa_button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['ccpa_show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['ccpa_show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['ccpa_show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
+		<div id="<?php echo esc_attr( $the_options['ccpa_show_again_container_id'] ); ?>" style="position: fixed; display:none; bottom: 10px; color: <?php echo esc_html($the_options['ccpa_button_revoke_consent_text_color' . $suffix]); ?>; background-color: <?php echo esc_html($the_options['ccpa_button_revoke_consent_background_color' . $suffix]); ?>; <?php if($the_options['ccpa_show_again_position' . $suffix] === 'right') echo "right: ". esc_html($the_options['ccpa_show_again_margin' . $suffix]) . "%;"; else echo "left: ". esc_html($the_options['ccpa_show_again_margin' . $suffix]) . "%;"; ?> border-radius: 5px; box-shadow: 0px 6px 11px gray;">
 			<?php
 		?>
 			<span><?php echo esc_html( $cookie_data['ccpa_dash_show_again_text'] );//phpcs:ignore ?></span>

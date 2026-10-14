@@ -1264,7 +1264,8 @@ class Gdpr_Cookie_Consent_Public {
 			
 			//code to change the language according to user's preferences
 			if(isset($the_options["is_dynamic_lang_on"]) && ($this->convert_boolean($the_options["is_dynamic_lang_on"]) === true)){
-				$languages = parseLanguageList($_SERVER['HTTP_ACCEPT_LANGUAGE']);	//user's preffered language
+				$accept_language = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) : '';
+				$languages       = parseLanguageList( $accept_language ); // User's preferred languages.
 				$cookie_data                      = array();
 				$cookie_data['categories']        = $categories_data;
 				$cookie_data['dash_notify_message']               = $about_message;
