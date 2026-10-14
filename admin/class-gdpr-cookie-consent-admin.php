@@ -700,7 +700,7 @@ class Gdpr_Cookie_Consent_Admin {
 			wp_send_json_error( 'Permission denied' );
 		}
 		if ( ! empty( $_POST ) && isset( $_POST['reason'] ) ) {
-			$reason = $_POST['reason'];
+			$reason = sanitize_text_field( wp_unslash( $_POST['reason'] ) );
 
 			if ( $reason === 'gdpr-plugin-deactivate-with-data' ) {
 
@@ -776,7 +776,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 				foreach ( $tables_arr as $table ) {
 					$tablename = $wpdb->prefix . $table;
-					$wpdb->query( "DROP TABLE IF EXISTS `$tablename`" ); // SQL query included to drop tables
+					$wpdb->query( $wpdb->prepare( "DROP TABLE IF EXISTS %i", $tablename ) );  // SQL query included to drop tables
 				}
 
 				$option_name = 'GDPRCookieConsent-9.0';
@@ -1444,6 +1444,7 @@ class Gdpr_Cookie_Consent_Admin {
 			'data_req_obj',
 			array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'ajax_nonce' => wp_create_nonce( 'wp_rest_data_request_save' ),
 			)
 		);
 		ob_start();
@@ -1459,11 +1460,11 @@ class Gdpr_Cookie_Consent_Admin {
 				</label>
 				<div>
 					<label for="wpl_datarequest_name"><?php echo esc_html__( 'Name', 'gdpr-cookie-consent' ); ?></label>
-					<input type="text" required value="" placeholder="<?php echo esc_html__( 'Your name', 'gdpr-cookie-consent' ); ?>" id="wpl_datarequest_name" name="wpl_datarequest_name">
+					<input type="text" required value="" placeholder="<?php echo esc_attr__( 'Your name', 'gdpr-cookie-consent' ); ?>" id="wpl_datarequest_name" name="wpl_datarequest_name">
 				</div>
 				<div>
 					<label for="wpl_datarequest_email"><?php echo esc_html__( 'Email', 'gdpr-cookie-consent' ); ?></label>
-					<input type="email" required value="" placeholder="<?php echo esc_html__( 'email@email.com', 'gdpr-cookie-consent' ); ?>" id="wpl_datarequest_email" name="wpl_datarequest_email">
+					<input type="email" required value="" placeholder="<?php echo esc_attr__( 'email@email.com', 'gdpr-cookie-consent' ); ?>" id="wpl_datarequest_email" name="wpl_datarequest_email">
 				</div>
 				<?php
 					$options = $this->wpl_data_reqs_options();
@@ -1476,7 +1477,7 @@ class Gdpr_Cookie_Consent_Admin {
 							</label>
 						</div>
 				<?php } ?>
-				<input type="button" id="wpl-datarequest-submit"  value="<?php echo esc_html__( 'Send', 'gdpr-cookie-consent' ); ?>">
+				<input type="button" id="wpl-datarequest-submit"  value="<?php echo esc_attr__( 'Send', 'gdpr-cookie-consent' ); ?>">
 			</form>
 			<style>
 				/* first-name is honeypot */
@@ -1535,9 +1536,20 @@ class Gdpr_Cookie_Consent_Admin {
 	 * @return void
 	 */
 	public function wpl_data_reqs_handle_form_submit() {
+		// Verify AJAX nonce.
+		if ( ! check_ajax_referer( 'wp_rest_data_request_save', 'security', false ) ) {
+			wp_send_json(
+				array(
+					'success' => false,
+					'message' => __( 'Security check failed. Please refresh the page and try again.', 'gdpr-cookie-consent' ),
+				)
+			);
+		}
 			// Get the form data from the post.
+			$form_data = '';
 		if ( isset( $_POST['form_data'] ) && ! empty( $_POST['form_data'] ) ) {
-			$form_data = $_POST['form_data'];
+			// Raw URL-encoded query string; each field is sanitized after parse_str() below.
+			$form_data = wp_unslash( $_POST['form_data'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}
 			$new_request = false;
 			$error       = false;
@@ -1546,6 +1558,8 @@ class Gdpr_Cookie_Consent_Admin {
 			$decoded_data = array();
 			// Parse the serialized form data into an associative array.
 			parse_str( $form_data, $decoded_data );
+			// Sanitize every parsed field.
+			$decoded_data = map_deep( $decoded_data, 'sanitize_text_field' );
 			// Now, $decoded_data contains the form data as an array.
 			// Submit form nonce verification.
 		if ( isset( $_POST['form_data'] ) ) {
@@ -1580,7 +1594,7 @@ class Gdpr_Cookie_Consent_Admin {
 			foreach ( $options as $fieldname => $label ) {
 				$value = isset( $params[ 'wpl_datarequest_' . $fieldname ] ) ? intval( $params[ 'wpl_datarequest_' . $fieldname ] ) : false;
 				if ( $value === 1 ) {
-					$count = $wpdb->get_var( $wpdb->prepare( "SELECT count(*) from {$wpdb->prefix}wpl_data_req WHERE email = %s and $fieldname=1", $email ) );
+					$count = $wpdb->get_var( $wpdb->prepare( 'SELECT count(*) FROM %i WHERE email = %s AND %i = 1', $wpdb->prefix . 'wpl_data_req', $email, $fieldname ) );
 					if ( $count == 0 ) {
 						$new_request = true;
 						$wpdb->insert(
@@ -1724,7 +1738,7 @@ class Gdpr_Cookie_Consent_Admin {
 				</c-row>
 				<?php if ( ! $is_pro_active ) { ?>
 				<c-row>
-					<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Enable Data Request Form', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr_data_req_tooltip" text="<?php esc_html_e( 'Enable to add data request form to your Privacy Statement.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+					<c-col class="col-sm-4 relative"><label><?php esc_html_e( 'Enable Data Request Form', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr_data_req_tooltip" text="<?php esc_attr_e( 'Enable to add data request form to your Privacy Statement.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 					</c-col>
 					<c-col class="col-sm-8">
 						<c-switch v-bind="labelIcon " v-model="data_reqs_on" id="gdpr-cookie-data-reqs" variant="3d" color="success" :checked="data_reqs_on" v-on:update:checked="onSwitchDataReqsEnable"></c-switch>
@@ -1733,7 +1747,7 @@ class Gdpr_Cookie_Consent_Admin {
 				</c-row>
 				<!-- clipboard for shortcode to copy  -->
 				<c-row v-show="data_reqs_on">
-					<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+					<c-col class="col-sm-4 relative"><label><?php esc_html_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_attr_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 					</c-col>
 					<c-col class="col-sm-8">
 						<c-button id="data-request-btn" class="btn btn-info" variant="outline" @click="copyTextToClipboard">{{ shortcode_copied ? 'Shortcode Copied!' : 'Click to Copy' }}</c-button>
@@ -2190,23 +2204,18 @@ class Gdpr_Cookie_Consent_Admin {
 	}
 	
 	public function gdpr_reorder_admin_menu(){
-		global $submenu;
-	
-		if (isset($submenu['wp-legal-pages'])) {
-			// Extract the "Help" menu
-			$help_menu = null;
-			foreach ($submenu['wp-legal-pages'] as $key => $item) {
-				if ($item[2] === 'wplp-dashboard#help-page') {
-					$help_menu = $item;
-					unset($submenu['wp-legal-pages'][$key]);
-					break;
-				}
-			}
-	
-			// Re-add "Help" menu at the end
-			if ($help_menu) {
-				$submenu['wp-legal-pages'][] = $help_menu;
-			}
+		// Remove the "Help" menu and re-add it so it is appended at the end.
+		$help_menu = remove_submenu_page( 'wp-legal-pages', 'wplp-dashboard#help-page' );
+
+		if ( $help_menu ) {
+			// The page callback stays hooked from the original registration, so none is passed here.
+			add_submenu_page(
+				'wp-legal-pages',
+				isset( $help_menu[3] ) ? $help_menu[3] : $help_menu[0], // Page title
+				$help_menu[0], // Menu title
+				$help_menu[1], // Capability
+				$help_menu[2]  // Menu slug
+			);
 		}
 	}
 	/**
@@ -2454,17 +2463,27 @@ class Gdpr_Cookie_Consent_Admin {
 		// Check if the user is logged in and has the necessary capability
 		if ( is_user_logged_in() && current_user_can( 'manage_options' ) ) {
 			// Verify nonce
-			if ( isset( $_GET['page'], $_GET['action'], $_GET['id'], $_GET['_wpnonce'] )
-			&& $_GET['page'] == 'gdpr-cookie-consent'
-			&& $_GET['action'] == 'policy_delete'
-			&& wp_verify_nonce( $_GET['_wpnonce'], 'gdpr_policy_delete_nonce_' . $_GET['id'] ) ) { // Verify nonce using the ID appended to the nonce name
+			if ( ! isset( $_GET['page'], $_GET['action'], $_GET['id'], $_GET['_wpnonce'] ) ) {
+				return;
+			}
+
+			$page    = sanitize_key( wp_unslash( $_GET['page'] ) );
+			$action  = sanitize_key( wp_unslash( $_GET['action'] ) );
+			$post_id = absint( wp_unslash( $_GET['id'] ) );
+			$nonce   = sanitize_key( wp_unslash( $_GET['_wpnonce'] ) );
+
+			if ( 'gdpr-cookie-consent' === $page
+			&& 'policy_delete' === $action
+			&& $post_id
+			&& wp_verify_nonce( $nonce, 'gdpr_policy_delete_nonce_' . $post_id ) // Verify nonce using the ID appended to the nonce name
+			&& 'gdprpolicies' === get_post_type( $post_id ) ) {
 
 				// Delete the post
-				wp_delete_post( $_GET['id'], true );
+				wp_delete_post( $post_id, true );
 
 				// Redirect back to the admin page
-				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-				wp_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent' . ( $paged ? '&' . $paged : '' ) . '#compliance_records' ) );
+				$paged = isset( $_GET['paged'] ) ? 'paged=' . absint( wp_unslash( $_GET['paged'] ) ) : '';
+				wp_safe_redirect( admin_url( 'admin.php?page=gdpr-cookie-consent' . ( $paged ? '&' . $paged : '' ) . '#compliance_records' ) );
 				exit; // Always exit after a wp_redirect()
 			}
 		}
@@ -2766,7 +2785,7 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		// Lock out non-admins.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+			wp_die( esc_html__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
 		// Get options.
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -2789,7 +2808,7 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 				$the_options = apply_filters( 'gdpr_module_after_save_settings', $the_options );
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
-				echo '<div class="updated"><p><strong>' . esc_attr__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+				echo '<div class="updated"><p><strong>' . esc_html__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
 			}
 		}
 		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) ) === 'xmlhttprequest' ) {
@@ -3842,7 +3861,7 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		// Lock out non-admins.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+			wp_die( esc_html__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
 		// Get options.
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -3865,7 +3884,7 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 				$the_options = apply_filters( 'gdpr_module_after_save_settings', $the_options );
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
-				echo '<div class="updated"><p><strong>' . esc_attr__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+				echo '<div class="updated"><p><strong>' . esc_html__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
 			}
 		}
 		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) ) === 'xmlhttprequest' ) {
@@ -3910,7 +3929,7 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		// Lock out non-admins.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+			wp_die( esc_html__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
 		// Get options.
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -3954,7 +3973,7 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		// Lock out non-admins.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+			wp_die( esc_html__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
 		// Get options.
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -3977,7 +3996,7 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 				$the_options = apply_filters( 'gdpr_module_after_save_settings', $the_options );
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
-				echo '<div class="updated"><p><strong>' . esc_attr__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+				echo '<div class="updated"><p><strong>' . esc_html__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
 			}
 		}
 		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) ) === 'xmlhttprequest' ) {
@@ -4023,7 +4042,7 @@ class Gdpr_Cookie_Consent_Admin {
 		);
 		// Lock out non-admins.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+			wp_die( esc_html__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
 		// Get options.
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -4081,7 +4100,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 	    $cookies_table = $wpdb->prefix . 'wpl_cookie_scan_cookies';
 	    $cookies = $wpdb->get_results(
-	        "SELECT name, domain, duration, category FROM {$cookies_table} ORDER BY id_wpl_cookie_scan_cookies DESC",
+	        $wpdb->prepare( 'SELECT name, domain, duration, category FROM %i ORDER BY id_wpl_cookie_scan_cookies DESC', $cookies_table ),
 	        ARRAY_A
 	    );
 
@@ -4379,7 +4398,7 @@ class Gdpr_Cookie_Consent_Admin {
 	 */
 	public function gdpr_policies_import_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You do not have sufficient permissions to access this page.', 'gdpr-cookie-consent' ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'gdpr-cookie-consent' ) );
 		}
 		include plugin_dir_path( __FILE__ ) . 'views/gdpr-policies-import-page.php';
 	}
@@ -7822,7 +7841,7 @@ class Gdpr_Cookie_Consent_Admin {
 
 		// Lock out non-admins.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+			wp_die( esc_html__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
 		// Get options.
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
@@ -7845,7 +7864,7 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 				$the_options = apply_filters( 'gdpr_module_after_save_settings', $the_options );
 				update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
-				echo '<div class="updated"><p><strong>' . esc_attr__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+				echo '<div class="updated"><p><strong>' . esc_html__( 'Settings Updated.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
 			}
 		}
 		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) ) === 'xmlhttprequest' ) {
@@ -8929,7 +8948,7 @@ class Gdpr_Cookie_Consent_Admin {
 	public function gdpr_cookie_consent_dashboard() {
 		// Lock out non-admins.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_attr__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
+			wp_die( esc_html__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 

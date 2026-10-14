@@ -40,7 +40,7 @@ $law_selection_mode = get_option( 'gdpr_law_selection_mode', 'manual' );
 				    				<div class="gdpr-cooki-list-tabs-popup-content">
 				    					<div class="cookie-list-tittle-bar">
 				    						<div></div>
-				    						<div class="cookie-list-tittle" slot="header"><?php esc_attr_e('Create Custom Cookie', 'gdpr-cookie-consent'); ?></div>
+				    						<div class="cookie-list-tittle" slot="header"><?php esc_html_e('Create Custom Cookie', 'gdpr-cookie-consent'); ?></div>
 				    						<div><img  @click="showCreateCookiePopup" class="cookie-list-close-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/Close_round.svg'; ?>" alt="Add new entry logo"></div>
 				    					</div>
 				    					<div class="gdpr-add-custom-cookie-form">
@@ -67,8 +67,8 @@ $law_selection_mode = get_option( 'gdpr_law_selection_mode', 'manual' );
 				    									<input type="button" @click="onSaveCustomCookie" class="gdpr-custom-cookie-box-save-btn gdpr-custom-cookie-link gdpr-custom-save-cookie" value="Save Cookie">
 				    									<input type="button" @click="showCreateCookiePopup" class="gdpr-custom-cookie-box-cancle-btn" value="Cancel">
 				    								</div>
-				    									<!-- <a class="table-cols-left gdpr-custom-cookie-link gdpr-custom-save-cookie" @click="onSaveCustomCookie"><?php esc_attr_e( 'Save', 'gdpr-cookie-consent' ); ?></a>
-				    									<a class="gdpr-custom-cookie-link" @click="hideCookieForm"><?php esc_attr_e( 'Cancel', 'gdpr-cookie-consent' ); ?></a> -->
+				    									<!-- <a class="table-cols-left gdpr-custom-cookie-link gdpr-custom-save-cookie" @click="onSaveCustomCookie"><?php esc_html_e( 'Save', 'gdpr-cookie-consent' ); ?></a>
+				    									<a class="gdpr-custom-cookie-link" @click="hideCookieForm"><?php esc_html_e( 'Cancel', 'gdpr-cookie-consent' ); ?></a> -->
 				    								</div>
 				    							</div>
 				    							<!-- <c-col class="col-sm-3"></c-col> -->
