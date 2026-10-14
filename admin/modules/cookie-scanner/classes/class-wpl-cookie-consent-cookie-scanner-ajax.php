@@ -91,7 +91,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 						'gcm_scan_data'			  => $data['wpl_gcm_latest_scan_result'],
 						'site_admin_mail'		  => $api_user_email
 					),
-					'timeout' => 60,
+					'timeout' => 60, // phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout
 				)
 			);
 			$data['wpl_gcm_latest_scan_result'] = '';
@@ -205,19 +205,15 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		$the_options    = get_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD );
 		$restrict_posts = isset( $the_options['restrict_posts'] ) ? array_map( 'absint', $the_options['restrict_posts'] ) : [];
 
-		if (empty($restrict_posts) ) {
-			$placeholders = implode( ',', array_fill( 0, count( $post_types ), '%s' ) );
+		if ( empty( $restrict_posts ) ) {
 			$sql = $wpdb->prepare(
-				"SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ($placeholders) AND post_status = 'publish'",
-				...$post_types
+				"SELECT post_name, post_title, post_type, ID FROM %i WHERE post_type IN (" . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ") AND post_status = 'publish'",
+				array_merge( array( $post_table ), $post_types )
 			);
 		} else {
-			$post_type_placeholders = implode( ',', array_fill( 0, count( $post_types ), '%s' ) );
-			$restrict_placeholders  = implode( ',', array_fill( 0, count( $restrict_posts ), '%d' ) );
 			$sql = $wpdb->prepare(
-				"SELECT post_name, post_title, post_type, ID FROM $post_table WHERE post_type IN ($post_type_placeholders) AND post_status = 'publish' AND ID NOT IN ($restrict_placeholders)",
-				...$post_types,
-				...$restrict_posts
+				"SELECT post_name, post_title, post_type, ID FROM %i WHERE post_type IN (" . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ") AND post_status = 'publish' AND ID NOT IN (" . implode( ',', array_fill( 0, count( $restrict_posts ), '%d' ) ) . ')',
+				array_merge( array( $post_table ), $post_types, $restrict_posts )
 			);
 		}
 		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
@@ -244,8 +240,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		$account_details = $this->settings->get();
 
 		$instance_id = get_option( 'wc_am_client_gdpr_cookie_consent_instance' );
-		$hash        = isset( $_POST['hash'] ) ? sanitize_text_field( wp_unslash( $_POST['hash'] ) ) : substr( strtolower( base_convert( wp_rand(), 10, 36 ) ), 0, 10 );
-
+		$hash		 = isset( $_POST['hash'] ) ? sanitize_text_field( wp_unslash( $_POST['hash'] ) ) : substr( strtolower( base_convert( wp_rand(), 10, 36 ) ), 0, 10 ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is verified by the calling AJAX handler.
 		$body = array(
 			'site_url'            => rawurlencode( get_site_url() ),
 			'user_email' 	      => $maxLen === -1 ? $this->settings->get_email() : '', 
@@ -261,7 +256,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 			'https://app.wplegalpages.com/wp-json/wplcookies/v2/start_scan',
 			array(
 				'method'      => 'POST',
-				'timeout'     => 20,
+				'timeout'     => 20, // phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout -- Scanner server needs more than 15s to respond.
 				'headers'     => array(
 					'Content-Type' => 'application/json',
 				),
@@ -475,8 +470,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 
 					$exists = $wpdb->get_var(
 						$wpdb->prepare(
-							"SELECT COUNT(*) FROM {$cookie_table_name} 
-							WHERE name = %s AND domain = %s",
+							'SELECT COUNT(*) FROM %i WHERE name = %s AND domain = %s',
+							$cookie_table_name,
 							$name,
 							$domain
 						)
@@ -488,23 +483,20 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 
 					$category_id = $wpdb->get_var(
 						$wpdb->prepare(
-							"SELECT id_gdpr_cookie_category 
-							FROM `{$category_table}` 
-							WHERE gdpr_cookie_category_slug = %s 
-							LIMIT 1",
+							'SELECT id_gdpr_cookie_category FROM %i WHERE gdpr_cookie_category_slug = %s LIMIT 1',
+							$category_table,
 							$category
 						)
 					);
 					if ( empty( $category_id ) ) {
 						$category_id = $wpdb->get_var(
 							$wpdb->prepare(
-								"SELECT id_gdpr_cookie_category 
-								FROM `{$category_table}` 
-								WHERE gdpr_cookie_category_slug = %s LIMIT 1",'unclassified'
+								'SELECT id_gdpr_cookie_category FROM %i WHERE gdpr_cookie_category_slug = %s LIMIT 1',
+								$category_table,
+								'unclassified'
 							)
 						);
 					}
-
 					// Use REPLACE to avoid duplicate (based on UNIQUE constraint)
 					$wpdb->replace(
 						$cookie_table_name,
@@ -563,7 +555,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 						'is_scheduled_scan'        => $is_scheduled_scan,
 						'new_cookies_found'        => $new_cookies_count,
 					),
-					'timeout' => 60,
+					'timeout' => 60, // phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout
 				)
 			);
 		}
@@ -573,22 +565,22 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 	public function ajax_cookies_deletion(){
 		global $wpdb;
 		
-		if( !isset( $_REQUEST['security'] ) || ! wp_verify_nonce( wp_unslash( $_REQUEST['security'] ), 'gdpr_cookie_custom' ) ) {
+		if ( ! isset( $_REQUEST['security'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['security'] ) ), 'gdpr_cookie_custom' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid security token.', 'gdpr-cookie-consent' ) ), 403 );
-        	wp_die();
+			wp_die();
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-    	    wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'gdpr-cookie-consent' ) ), 403 );
-    	    wp_die();
-    	}
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'gdpr-cookie-consent' ) ), 403 );
+			wp_die();
+		}
 
 		$scan_table    = $wpdb->prefix . 'wpl_cookie_scan_cookies';
-		$result = $wpdb->query("TRUNCATE TABLE {$scan_table}");
+		$result     = $wpdb->query( $wpdb->prepare( 'TRUNCATE TABLE %i', $scan_table ) );
 		if ( 'free' === $this->plan ) {
 			set_transient( 'gdpr_clear_cookies_action', 1 );
 		}
-    	return $result !== false;
+		return $result !== false;
 	}
 	/**
 	 * Returns scanned cookies list.

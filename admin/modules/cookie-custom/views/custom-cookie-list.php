@@ -21,7 +21,7 @@ if ( isset( $post_cookie_list ) && $post_cookie_list['total'] > 0 ) :
 			?>
 			<div class="form-table post-cookie-list">
 				<div class="left">
-					<span class="cookie-text"><?php echo esc_attr( strtoupper( substr( stripslashes( $cookies_arr['name'] ), 0, 1 ) ) ); ?></span>
+					<span class="cookie-text"><?php echo esc_html( strtoupper( substr( stripslashes( $cookies_arr['name'] ), 0, 1 ) ) ); ?></span>
 				</div>
 				<div class="right">
 					<div class="right-grid-1">
@@ -39,9 +39,9 @@ if ( isset( $post_cookie_list ) && $post_cookie_list['total'] > 0 ) :
 						<div class="input-box"><input type="text" name="cookie_duration_field_<?php echo esc_attr( $cookies_arr['id_gdpr_cookie_post_cookies'] ); ?>" value="<?php echo esc_attr( stripslashes( $cookies_arr['duration'] ) ); ?>" class="cookie-duration-field" placeholder="<?php esc_attr_e( 'Duration (in days/Session)', 'gdpr-cookie-consent' ); ?>" /></div>
 					</div>
 					<div class="right-grid-3">
-						<div class="input-box"><textarea name="cookie_description_field_<?php echo esc_attr( $cookies_arr['id_gdpr_cookie_post_cookies'] ); ?>" class="vvv_textbox" placeholder="<?php esc_attr_e( 'Cookie Purpose', 'gdpr-cookie-consent' ); ?>" ><?php echo esc_attr( stripslashes( $cookies_arr['description'] ) ); ?></textarea></div>
+						<div class="input-box"><textarea name="cookie_description_field_<?php echo esc_attr( $cookies_arr['id_gdpr_cookie_post_cookies'] ); ?>" class="vvv_textbox" placeholder="<?php esc_attr_e( 'Cookie Purpose', 'gdpr-cookie-consent' ); ?>" ><?php echo esc_textarea( stripslashes( $cookies_arr['description'] ) ); ?></textarea></div>
 					</div>
-					<a style="text-decoration:underline;cursor:pointer" class="primary pull-right gdpr_delete_post_cookie"><?php esc_attr_e( 'Delete Cookie', 'gdpr-cookie-consent' ); ?></a>
+					<a style="text-decoration:underline;cursor:pointer" class="primary pull-right gdpr_delete_post_cookie"><?php esc_html_e( 'Delete Cookie', 'gdpr-cookie-consent' ); ?></a>
 				</div>
 			</div>
 	<?php }

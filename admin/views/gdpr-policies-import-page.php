@@ -15,26 +15,26 @@ if ( ! defined( 'WPINC' ) ) {
 }
 ?>
 <div class="wrap">
-	<h2><?php esc_attr_e( 'Import from a CSV file', 'gdpr-cookie-consent' ); ?></h2>
+	<h2><?php esc_html_e( 'Import from a CSV file', 'gdpr-cookie-consent' ); ?></h2>
 	<?php
 	if ( isset( $_GET['nonce'] ) ) {
 		if ( wp_verify_nonce( sanitize_key( wp_unslash( $_GET['nonce'] ) ), 'gdpr_policy_import_nonce' ) ) {
 			if ( isset( $_GET['import'] ) ) {
 				switch ( sanitize_title( wp_unslash( $_GET['import'] ) ) ) {
 					case 'file':
-						echo '<div class="error"><p><strong>' . esc_attr__( 'Error during file upload.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+						echo '<div class="error"><p><strong>' . esc_html__( 'Error during file upload.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
 						break;
 					case 'data':
-						echo '<div class="error"><p><strong>' . esc_attr__( 'Cannot extract data from uploaded file or no file was uploaded.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+						echo '<div class="error"><p><strong>' . esc_html__( 'Cannot extract data from uploaded file or no file was uploaded.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
 						break;
 					case 'fail':
-						echo '<div class="error"><p><strong>' . esc_attr__( 'No posts was successfully imported.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+						echo '<div class="error"><p><strong>' . esc_html__( 'No posts was successfully imported.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
 						break;
 					case 'errors':
-						echo '<div class="error"><p><strong>' . esc_attr__( 'Some posts were successfully imported but some were not.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+						echo '<div class="error"><p><strong>' . esc_html__( 'Some posts were successfully imported but some were not.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
 						break;
 					case 'success':
-						echo '<div class="updated"><p><strong>' . esc_attr__( 'Post import was successful.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
+						echo '<div class="updated"><p><strong>' . esc_html__( 'Post import was successful.', 'gdpr-cookie-consent' ) . '</strong></p></div>';
 						break;
 					default:
 						break;
@@ -47,7 +47,7 @@ if ( ! defined( 'WPINC' ) ) {
 		<?php wp_nonce_field( 'gdpr-policies-import-page', '_wpnonce-gdpr-policies-import-page' ); ?>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><label for="policies_csv"><?php esc_attr_e( 'CSV File', 'gdpr-cookie-consent' ); ?></label></th>
+				<th scope="row"><label for="policies_csv"><?php esc_html__( 'CSV File', 'gdpr-cookie-consent' ); ?></label></th>
 				<td>
 					<input type="file" id="policies_csv" name="policies_csv" value="" class="all-options" />
 				</td>
@@ -55,7 +55,7 @@ if ( ! defined( 'WPINC' ) ) {
 			<tr valign="top">
 				<th scope="row"></th>
 				<td>
-					<input type="submit" class="button-primary" value="<?php esc_attr_e( 'Import', 'gdpr-cookie-consent' ); ?>" />
+					<input type="submit" class="button-primary" value="<?php esc_html__( 'Import', 'gdpr-cookie-consent' ); ?>" />
 				</td>
 			</tr>
 		</table>

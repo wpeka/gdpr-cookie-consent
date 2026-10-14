@@ -137,7 +137,7 @@ class Gdpr_Cookie_Consent_AB_Testing {
 								'negative_percentage2'	  => $negative_percentage2,
 
 							),
-							'timeout' => 60,
+							'timeout' => 60, // phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout
 						)
 					);
 				if ( is_wp_error( $response_ab_testing ) ) {

@@ -635,7 +635,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 				</div>
 				<div class="gdpr-preview-publish-btn">
 					<div class="gdpr-preview-toggle-btn">
-						<label class="gdpr-btn-label"><?php esc_attr_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
+						<label class="gdpr-btn-label"><?php esc_html_e( 'Preview Banner', 'gdpr-cookie-consent' ); ?></label>
 							<c-switch class="gdpr-btn-switch" v-model="banner_preview_is_on" id="gdpr-banner-preview" variant="3d"  color="success" :checked="banner_preview_is_on" v-on:update:checked="onSwitchBannerPreviewEnable"></c-switch>
 					</div>
 					<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
@@ -662,15 +662,15 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									}
 								?>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Cookie Notice', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Enable Cookie Notice', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
-										<label for="gdpr-cookie-consent-cookie-on" class="screen-reader-text"><?php esc_attr_e( 'Enable Cookie Consent', 'gdpr-cookie-consent' ); ?></label>
+										<label for="gdpr-cookie-consent-cookie-on" class="screen-reader-text"><?php esc_html_e( 'Enable Cookie Consent', 'gdpr-cookie-consent' ); ?></label>
 										<div class="gdpr-disabled-cookie-notice-integration">
 										<c-switch v-bind="labelIcon" v-model="cookie_is_on" id="gdpr-cookie-consent-cookie-on" variant="3d"  color="success" :checked="<?php echo $gdpr_monthly_page_views_percent === 100 ? 'false' : 'cookie_is_on'; ?>" v-on:update:checked="onSwitchCookieEnable" <?php echo $gdpr_monthly_page_views_percent === 100 ? 'disabled' : ''; ?>></c-switch>
 										<input type="hidden" name="gcc-cookie-enable" v-model="cookie_is_on">
 										<?php if ($gdpr_monthly_page_views_percent === 100): ?>
 											<p class="gdpr-cookie_notice_message">
-												<?php esc_attr_e( 'Page views limit exhausted, upgrade to continue.', 'gdpr-cookie-consent' ); ?>
+												<?php esc_html_e( 'Page views limit exhausted, upgrade to continue.', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php endif; ?>
 										</div>
@@ -678,7 +678,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select the Type of Law', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Select the Type of Law', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 
 										<div class="gcc-law-mode-toggle">
@@ -686,13 +686,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												<input type="radio" value="auto" v-model="law_selection_mode"
 													:disabled="disabled_for_free"
 													@change="onLawModeChange">
-												<?php esc_attr_e( 'Detect Automatically', 'gdpr-cookie-consent' ); ?>
-												<small><?php esc_attr_e( '(based on visitor location)', 'gdpr-cookie-consent' ); ?></small>
+												<?php esc_html_e( 'Detect Automatically', 'gdpr-cookie-consent' ); ?>
+												<small><?php esc_html_e( '(based on visitor location)', 'gdpr-cookie-consent' ); ?></small>
 												<a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=law_detector&utm_campaign=plugin_upgrade" v-if="disabled_for_free" class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a>
 											</label>
 											<label class="gcc-radio">
 												<input type="radio" value="manual" v-model="law_selection_mode" @change="onLawModeChange">
-												<?php esc_attr_e( 'Choose Manually', 'gdpr-cookie-consent' ); ?>
+												<?php esc_html_e( 'Choose Manually', 'gdpr-cookie-consent' ); ?>
 											</label>
 										</div>
 
@@ -761,7 +761,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									<c-col class="col-sm-8">
 										<div class="cookie-notice-readmore-container">
 											<a class="cookie-notice-readmore" href="https://wplegalpages.com/blog/eprivacy-directive-vs-gdpr/" target="_blank">
-												<?php esc_attr_e( 'Learn more about setting up an ePrivacy notice', 'gdpr-cookie-consent' ); ?>
+												<?php esc_html_e( 'Learn more about setting up an ePrivacy notice', 'gdpr-cookie-consent' ); ?>
 											</a>
 										</div>
 									</c-col>
@@ -776,11 +776,11 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 								<!-- Visitors Condition -->
 								<c-row>
-									<c-col class="col-sm-32"><div style="display: flex; align-items: center; gap:3px;" id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Banner Geo-Targeting', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Display different cookie banners based on the visitor’s region.', 'gdpr-cookie-consent' ); ?>"></tooltip>  <a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=geo_targetting&utm_campaign=plugin_upgrade" style="margin-bottom:3px;" class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></div></c-col>
+									<c-col class="col-sm-32"><div style="display: flex; align-items: center; gap:3px;" id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Banner Geo-Targeting', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Display different cookie banners based on the visitor’s region.', 'gdpr-cookie-consent' ); ?>"></tooltip>  <a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=geo_targetting&utm_campaign=plugin_upgrade" style="margin-bottom:3px;" class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></div></c-col>
 								</c-row>
 								<div class="gdpr-visitors-condition">
 									<div>
-										<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable" v-model="selectedRadioWorldWide" @click="onSwitchWorldWideEnable" id="gcc-worldwide-enable"><label for="gcc-worldwide-enable"><?php esc_attr_e( 'Show to users from all countries', 'gdpr-cookie-consent' ); ?></label></div>
+										<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable" v-model="selectedRadioWorldWide" @click="onSwitchWorldWideEnable" id="gcc-worldwide-enable"><label for="gcc-worldwide-enable"><?php esc_html_e( 'Show to users from all countries', 'gdpr-cookie-consent' ); ?></label></div>
 										<div>
 											<input type="hidden" name="gcc-worldwide-enable" v-model="is_worldwide_on">
 										</div>
@@ -794,7 +794,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													<label style="display: inline-flex; align-items: center; gap: 3px;" for="gdpr-visitors-condition-radio-btn-disabled-gdpr">{{ region_label }} <a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=geo_targetting&utm_campaign=plugin_upgrade" style="margin-bottom: 4px;"  class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></label>
 												</div>
 												<p class="gdpr-law_region_visitors_message-gdpr">
-													<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
+													<?php esc_html_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 												</p>
 											<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
 												<div v-show="is_auto_mode ? false : !!region_label" class="gdpr-disabled-geo-integration">
@@ -802,7 +802,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													<label for="gdpr-visitors-condition-radio-btn-disabled-gdpr">{{ region_label }}</label>
 												</div>
 												<p class="gdpr-law_region_visitors_message-gdpr">
-													<?php esc_attr_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+													<?php esc_html_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 												</p>
 											<?php else : ?>
 												<div v-show="is_auto_mode ? false : !!region_label">
@@ -818,17 +818,17 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											$geo_options = get_option( 'wpl_geo_options' );
 										if ( !$is_user_connected || empty($is_user_connected) || $api_user_plan === 'free') :
 											?>
-											<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="checkbox" name="gcc-select-countries-enable" disabled><label  style="display: inline-flex; align-items: center; gap: 3px;"><?php esc_attr_e( 'Show to specific countries', 'gdpr-cookie-consent' ); ?><a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=geo_targetting&utm_campaign=plugin_upgrade" style="margin-bottom: 4px;"  class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></label></div>
+											<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="checkbox" name="gcc-select-countries-enable" disabled><label  style="display: inline-flex; align-items: center; gap: 3px;"><?php esc_html_e( 'Show to specific countries', 'gdpr-cookie-consent' ); ?><a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=geo_targetting&utm_campaign=plugin_upgrade" style="margin-bottom: 4px;"  class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></label></div>
 											<p class="gdpr-eu_visitors_message-both">
-											<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
-											<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_attr_e( 'Show to specific countries', 'gdpr-cookie-consent' ); ?></label></div>
+											<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_html_e( 'Show to specific countries', 'gdpr-cookie-consent' ); ?></label></div>
 											<p class="gdpr-eu_visitors_message-both">
-												<?php esc_attr_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+												<?php esc_html_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php else : ?>
-											<div><input id="gdpr-select-countries" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label for="gdpr-select-countries"><?php esc_attr_e( 'Show to specific countries', 'gdpr-cookie-consent' ); ?></label></div>
+											<div><input id="gdpr-select-countries" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label for="gdpr-select-countries"><?php esc_html_e( 'Show to specific countries', 'gdpr-cookie-consent' ); ?></label></div>
 											<input type="hidden" name="gcc-select-countries-enable" v-model="is_selectedCountry_on">
 										<?php endif; ?>
 									</div>
@@ -844,9 +844,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row>
 									<c-col class="col-sm-4 relative">
 										<label>
-											<?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?>  
-											<tooltip v-if="!is_us_state_laws" text="<?php esc_html_e( 'Automatically deny cookies for users who have enabled DNT or GPC in their browser settings.', 'gdpr-cookie-consent'); ?>"></tooltip>
-											<tooltip v-if="is_us_state_laws" text="<?php esc_html_e( 'Automatically deny cookies for users who have enabled DNT or GPC in their browser settings.(Cumpolsary for US State Laws)', 'gdpr-cookie-consent'); ?>"></tooltip>
+											<?php esc_html_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?>  
+											<tooltip v-if="!is_us_state_laws" text="<?php esc_attr_e( 'Automatically deny cookies for users who have enabled DNT or GPC in their browser settings.', 'gdpr-cookie-consent'); ?>"></tooltip>
+											<tooltip v-if="is_us_state_laws" text="<?php esc_attr_e( 'Automatically deny cookies for users who have enabled DNT or GPC in their browser settings.(Cumpolsary for US State Laws)', 'gdpr-cookie-consent'); ?>"></tooltip>
 										</label>
 									</c-col>
 									<c-col class="col-sm-8">
@@ -856,7 +856,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto-Detect Banner Language ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( " Automatically sets the cookie banner language to match your visitor's preferred browser language, providing a more localized experience. ", 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Auto-Detect Banner Language ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_attr_e( " Automatically sets the cookie banner language to match your visitor's preferred browser language, providing a more localized experience. ", 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="dynamic_lang_is_on" id="gdpr-cookie-consent-dynamic-lang-on" variant="3d"  color="success" :checked="dynamic_lang_is_on" v-on:update:checked="onSwitchDynamicLang"></c-switch>
 										<input type="hidden" name="gcc-dynamic-lang-enable" v-model="dynamic_lang_is_on">
@@ -869,7 +869,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										:class="{'gdpr_disabled_langauge' : dynamic_lang_is_on}"
 									>
 										<label>
-											<?php esc_attr_e( 'Select a language for your cookie consent banner', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'Select a language for your cookie consent banner', 'gdpr-cookie-consent' ); ?>
 
 											
 										
@@ -896,7 +896,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									if ( ! $is_pro_active ) :
 										?>
 										<c-row>
-											<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Hide cookie banner on specific pages', 'gdpr-cookie-consent' ); ?></label>
+											<c-col class="col-sm-4 relative"><label><?php esc_html_e( 'Hide cookie banner on specific pages', 'gdpr-cookie-consent' ); ?></label>
 												<div class="gdpr-pro-label absolute" style="top: -1.5px;" ><div class="gdpr-pro-label-text">Pro</div></div>
 											</c-col>
 											<c-col class="col-sm-8">
@@ -910,7 +910,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								} else {
 									?>
 										<c-row>
-											<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Hide cookie banner on specific pages', 'gdpr-cookie-consent' ); ?></label>
+											<c-col class="col-sm-4 relative"><label><?php esc_html_e( 'Hide cookie banner on specific pages', 'gdpr-cookie-consent' ); ?></label>
 											</c-col>
 											<c-col class="col-sm-8">
 												<v-select id="gdpr-cookie-consent-hide-banner" placeholder="Select pages":reduce="label => label.code" class="form-group" :options="list_of_pages" multiple v-model="select_pages_array" @input="onPageSelect"></v-select>
@@ -920,7 +920,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<?php } ?>
 
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Restrict Pages and/or Posts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Restrict Pages and/or Posts', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Restrict Pages and/or Posts during scanning of your website for cookies.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select  placeholder="Select Pages and Posts" id="gdpr-cookie-consent-restrict-posts" :reduce="label => label.code" class="form-group" :options="list_of_contents" multiple v-model="restrict_array" @input="onPostsSelect"></v-select>
 										<input type="hidden" name="gcc-restrict-posts" v-model="restrict_posts">
@@ -929,14 +929,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Initialization', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Control when the cookie banner should appear, immediately on page load or after user interaction.', 'gdpr-cookie-consent'); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Banner Initialization', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Control when the cookie banner should appear, immediately on page load or after user interaction.', 'gdpr-cookie-consent'); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="auto_banner_initialize" id="gdpr-cookie-consent-auto_initialize" variant="3d"  color="success" :checked="auto_banner_initialize" v-on:update:checked="onSwitchAutoBannerInitialize"></c-switch>
 										<input type="hidden" name="gcc-auto-banner-initialize" v-model="auto_banner_initialize">
 									</c-col>
 								</c-row>
 								<c-row v-show="auto_banner_initialize">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Initialization Delay (in milliseconds)', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Banner Initialization Delay (in milliseconds)', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<c-input type="number" min="0" max="60000" step="1000" name="gcc-auto-banner-initialize-delay" v-model="auto_banner_initialize_delay"></c-input>
 									</c-col>
@@ -944,7 +944,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 								<!-- renew consent free  -->
 								<c-row>
-									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Renew User Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( "If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent' ); ?>"></tooltip>
+									<c-col class="col-sm-4 relative"><label><?php esc_html_e( 'Renew User Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( "If you modify your website's data collection methods, such as manually introducing new cookies or revising your cookie policy/banner message, we strongly advise renewing the consents granted by your existing users. Taking this step will prompt the cookie banner to reappear for all users who had previously provided consent", 'gdpr-cookie-consent' ); ?>"></tooltip>
 									</label>
 									</c-col>
 									<c-col class="col-sm-8">
@@ -964,7 +964,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										if ( $last_renewed_at ) {
 											echo esc_attr( gmdate( 'F j, Y g:i a T', get_option( 'wpl_consent_timestamp' ) ) );
 										} else {
-											echo esc_attr_e( ' Not renewed yet', 'gdpr-cookie-consent' );
+											echo esc_html_e( ' Not renewed yet', 'gdpr-cookie-consent' );
 										}
 										?>
 										</div>
@@ -997,18 +997,18 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								
 								<c-row v-show="is_gdpr && ad_tech_expanded">
-									<c-col class="col-sm-4"><label style="display: flex; align-items: center; gap: 3px;"><?php esc_attr_e( 'Support IAB TCF v2.3', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to show a consent banner that complies with IAB Europe’s Transparency and Consent Framework v2.3 for ad personalization and tracking.', 'gdpr-cookie-consent'  ); ?>"></tooltip>  <a style="margin-bottom: 3px;" href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=iab_tcf&utm_campaign=plugin_upgrade" class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></label></c-col>
+									<c-col class="col-sm-4"><label style="display: flex; align-items: center; gap: 3px;"><?php esc_html_e( 'Support IAB TCF v2.3', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enable this to show a consent banner that complies with IAB Europe’s Transparency and Consent Framework v2.3 for ad personalization and tracking.', 'gdpr-cookie-consent'  ); ?>"></tooltip>  <a style="margin-bottom: 3px;" href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=iab_tcf&utm_campaign=plugin_upgrade" class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></label></c-col>
 									<c-col class="col-sm-8">
 										<?php 
 											$is_disabled = (!$is_user_connected || $api_user_plan === 'free');
 										?>
-										<label for="gdpr-cookie-consent-iabtcf-on" class="screen-reader-text"><?php esc_attr_e( 'IAB On','gdpr-cookie-consent'); ?></label>
+										<label for="gdpr-cookie-consent-iabtcf-on" class="screen-reader-text"><?php esc_html_e( 'IAB On','gdpr-cookie-consent'); ?></label>
 										<div class="gdpr-disabled-iab-integration">
 										<c-switch v-bind="labelIcon" v-model="iabtcf_is_on" id="gdpr-cookie-consent-iabtcf-on" variant="3d"  color="success" :checked="<?php echo $is_disabled ? 'false' : 'iabtcf_is_on'; ?>" v-on:update:checked="onSwitchIabtcfEnable"  <?php echo $is_disabled ? 'disabled' : ''; ?>></c-switch>
 										<input type="hidden" name="gcc-iabtcf-enable" v-model="iabtcf_is_on">
 										<?php if (!$is_user_connected): ?>
 											<p class="gdpr-iab_message">
-												<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
+												<?php esc_html_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php endif; ?>
 										</div>
@@ -1016,46 +1016,46 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-row>
 								<c-row v-show="is_gdpr && iabtcf_is_on && ad_tech_expanded">
 									<?php if (strtolower($api_user_plan) !== 'free') { ?>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
-										<label for="gdpr-cookie-consent-gacm-on" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gacm-on','gdpr-cookie-consent'); ?></label>
+										<label for="gdpr-cookie-consent-gacm-on" class="screen-reader-text"><?php esc_html_e( 'gdpr-cookie-consent-gacm-on','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable"></c-switch>
 										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
 									</c-col>
 									<?php } else if($is_user_connected) { ?>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gacm-slider">
-										<label for="gdpr-cookie-consent-gacm-on" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gacm-on','gdpr-cookie-consent'); ?></label>
+										<label for="gdpr-cookie-consent-gacm-on" class="screen-reader-text"><?php esc_html_e( 'gdpr-cookie-consent-gacm-on','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable" disabled></c-switch>
 										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
 										<p class=" gdpr-gacm_message-gdpr">
-											<?php esc_attr_e( 'To enable this feature, upgrade to a pro plan', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'To enable this feature, upgrade to a pro plan', 'gdpr-cookie-consent' ); ?>
 										</p>
 									</c-col>
 									<?php } else { ?>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Support Google Additional Consent Mode', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8 gacm-slider">
-										<label for="gdpr-cookie-consent-gacm-on" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gacm-on','gdpr-cookie-consent'); ?></label>
+										<label for="gdpr-cookie-consent-gacm-on" class="screen-reader-text"><?php esc_html_e( 'gdpr-cookie-consent-gacm-on','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gacm_is_on" id="gdpr-cookie-consent-gacm-on" variant="3d"  color="success" :checked="gacm_is_on" v-on:update:checked="onSwitchGacmEnable" disabled></c-switch>
 										<input type="hidden" name="gcc-gacm-enable" v-model="gacm_is_on">
 										<p class=" gdpr-gacm_message-gdpr">
-											<?php esc_attr_e( 'To enable this feature, connect to an account and purchase a paid plan.', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'To enable this feature, connect to an account and purchase a paid plan.', 'gdpr-cookie-consent' ); ?>
 										</p>
 									</c-col>
 									<?php }?>
 								</c-row>
 								<div :class="{ 'gdpr-gcm-card': gcm_is_on }" v-show="ad_tech_expanded">
 									<c-row v-show="!is_us_state_laws || is_gdpr">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Support Google Consent Mode(GCM)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Activate this to integrate Google Consent Mode and control how Google tags behave based on user consent.', 'gdpr-cookie-consent'  ); ?>"></tooltip></label></c-col>
+										<c-col class="col-sm-4"><label><?php esc_html_e( 'Support Google Consent Mode(GCM)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Activate this to integrate Google Consent Mode and control how Google tags behave based on user consent.', 'gdpr-cookie-consent'  ); ?>"></tooltip></label></c-col>
 										<c-col class="col-sm-8">
-											<label for="gdpr-cookie-consent-gcm-on" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-on','gdpr-cookie-consent'); ?></label>
+											<label for="gdpr-cookie-consent-gcm-on" class="screen-reader-text"><?php esc_html_e( 'gdpr-cookie-consent-gcm-on','gdpr-cookie-consent'); ?></label>
 											<c-switch v-bind="labelIcon" v-model="gcm_is_on" id="gdpr-cookie-c:onsent-gcm-on" variant="3d"  color="success" :checked="gcm_is_on" v-on:update:checked="onSwitchGCMEnable"></c-switch>
 											<input type="hidden" name="gcc-gcm-enable" v-model="gcm_is_on">
 										</c-col>
 									</c-row>
 									<c-row v-show="!is_us_state_laws || is_gdpr" style="margin-top: -30px;"><c-col class="col-sm-4"></c-col><c-col class="col-sm-8"><p style="color:gray; font-weight:400;">Follow the guide <a class="cookie-notice-readmore" href = "https://wplegalpages.com/docs/wplp-docs/guides/implementing-google-consent-mode-using-wp-cookie-consent/" target="_blank">here</a> to correctly implement Google Consent Mode</p></c-col></c-row>
 									<c-row v-show="gcm_is_on" style="margin-bottom: 0px;">
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Default consent settings', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-4"><label><?php esc_html_e( 'Default consent settings', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-12">
 											<p class="policy-description">
 												<?php echo esc_html__("The default consent state, 'Denied', will apply until consent is recieved. You can customize the default consent states for users in different geographical regions. ", 'gdpr-cookie-consent'); ?>
@@ -1103,16 +1103,16 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												:centered="centered"
 											>
 											<div class="optout-settings-tittle-bar">
-													<div class="optout-setting-tittle"><?php esc_attr_e( 'New Region', 'gdpr-cookie-consent' ); ?></div>
+													<div class="optout-setting-tittle"><?php esc_html_e( 'New Region', 'gdpr-cookie-consent' ); ?></div>
 													<img @click="close_region_popup" class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Add new entry logo">
 													</div>
 													<div class="optout-settings-main-container" style="margin-top:20px">
 											<c-row class="gdpr-label-row">
 												<c-col class="col-sm-6">
-													<label><?php esc_attr_e( 'Advertisment', 'gdpr-cookie-consent' ); ?></label>
+													<label><?php esc_html_e( 'Advertisment', 'gdpr-cookie-consent' ); ?></label>
 												</c-col>
 												<c-col class="col-sm-6">
-													<label><?php esc_attr_e( 'Analytics', 'gdpr-cookie-consent' ); ?></label>
+													<label><?php esc_html_e( 'Analytics', 'gdpr-cookie-consent' ); ?></label>
 												</c-col>
 											</c-row>
 											<c-row>
@@ -1127,10 +1127,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</c-row>
 											<c-row  class="gdpr-label-row">
 												<c-col class="col-sm-6">
-													<label><?php esc_attr_e( 'User ad data', 'gdpr-cookie-consent' ); ?></label>
+													<label><?php esc_html_e( 'User ad data', 'gdpr-cookie-consent' ); ?></label>
 												</c-col>
 												<c-col class="col-sm-6">
-													<label><?php esc_attr_e( 'Ad personalization data', 'gdpr-cookie-consent' ); ?>	</label>
+													<label><?php esc_html_e( 'Ad personalization data', 'gdpr-cookie-consent' ); ?>	</label>
 												</c-col>
 											</c-row>
 											<c-row>
@@ -1145,10 +1145,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</c-row>
 											<c-row   class="gdpr-label-row">
 												<c-col class="col-sm-6">
-													<label><?php esc_attr_e( 'Functional storage', 'gdpr-cookie-consent' ); ?></label>
+													<label><?php esc_html_e( 'Functional storage', 'gdpr-cookie-consent' ); ?></label>
 												</c-col>
 												<c-col class="col-sm-6">
-													<label><?php esc_attr_e( 'Personalization storage', 'gdpr-cookie-consent' ); ?></label>
+													<label><?php esc_html_e( 'Personalization storage', 'gdpr-cookie-consent' ); ?></label>
 												</c-col>
 											</c-row>
 											<c-row >
@@ -1163,10 +1163,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</c-row>
 											<c-row   class="gdpr-label-row">
 												<c-col class="col-sm-6">
-													<label><?php esc_attr_e( 'Security storage', 'gdpr-cookie-consent' ); ?></label>
+													<label><?php esc_html_e( 'Security storage', 'gdpr-cookie-consent' ); ?></label>
 												</c-col>
 												<c-col class="col-sm-6">
-													<label><?php esc_attr_e( 'Regions', 'gdpr-cookie-consent' ); ?></label>
+													<label><?php esc_html_e( 'Regions', 'gdpr-cookie-consent' ); ?></label>
 												</c-col>
 											</c-row>
 											<c-row >
@@ -1175,7 +1175,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													<input type="hidden" name="gdpr-gcm-security-permission" v-model="newRegion.security_storage">
 												</c-col>
 												<c-col class="col-sm-6">
-													<label for="gdpr-gcm-region" class="screen-reader-text"><?php esc_attr_e( 'GCM Region', 'gdpr-cookie-consent' ); ?></label>
+													<label for="gdpr-gcm-region" class="screen-reader-text"><?php esc_html_e( 'GCM Region', 'gdpr-cookie-consent' ); ?></label>
 													<c-input id="gdpr-gcm-region" name="gdpr-gcm-region" v-model="newRegion.region"></c-input>
 
 												</c-col>
@@ -1189,9 +1189,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												
 											</c-modal>
 										</div>
-										<c-col class="col-sm-4" style="align-items:start; margin-top: -35px;"><label><?php esc_attr_e( 'Wait for update', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-4" style="align-items:start; margin-top: -35px;"><label><?php esc_html_e( 'Wait for update', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8" style="margin-top: 20px;">
-											<label for="gcm_wait_for_update_duration_field" class="screen-reader-text"><?php esc_attr_e('GCM wait for update', 'gdpr-cookie-consent' ); ?></label>
+											<label for="gcm_wait_for_update_duration_field" class="screen-reader-text"><?php esc_html_e('GCM wait for update', 'gdpr-cookie-consent' ); ?></label>
 											<c-input id="gcm_wait_for_update_duration_field" name="gcm_wait_for_update_duration_field" v-model="gcm_wait_for_update_duration"></c-input>
 											<p class="policy-description">
 												<?php 
@@ -1213,9 +1213,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 												?>
 											</p>
 										</c-col>
-										<c-col class="col-sm-4" style="align-items:start; margin-top: -50px;"><label><?php esc_attr_e( 'Pass ad click information through URLs', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-4" style="align-items:start; margin-top: -50px;"><label><?php esc_html_e( 'Pass ad click information through URLs', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8" style="margin-top: 20px;">
-											<label for="gdpr-cookie-consent-gcm-url-passthrough" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-url-passthrough','gdpr-cookie-consent'); ?></label>
+											<label for="gdpr-cookie-consent-gcm-url-passthrough" class="screen-reader-text"><?php esc_html_e( 'gdpr-cookie-consent-gcm-url-passthrough','gdpr-cookie-consent'); ?></label>
 											<c-switch v-bind="labelIcon" v-model="gcm_url_passthrough" id="gdpr-cookie-consent-gcm-url-passthrough" variant="3d"  color="success" :checked="gcm_url_passthrough" v-on:update:checked="onSwitchGCMUrlPass"></c-switch>
 											<input type="hidden" name="gcc-gcm-url-pass" v-model="gcm_url_passthrough">
 											<p class="policy-description cookie-notice-readmore-container">
@@ -1238,9 +1238,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													?>
 											</p>
 										</c-col>
-										<c-col class="col-sm-4" style="align-items:start; margin-top: -75px;"><label><?php esc_attr_e( 'Redact ads data', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-4" style="align-items:start; margin-top: -75px;"><label><?php esc_html_e( 'Redact ads data', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8" style="margin-top: 20px;">
-											<label for="gdpr-cookie-consent-gcm-ads-redact" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-ads-redact','gdpr-cookie-consent'); ?></label>
+											<label for="gdpr-cookie-consent-gcm-ads-redact" class="screen-reader-text"><?php esc_html_e( 'gdpr-cookie-consent-gcm-ads-redact','gdpr-cookie-consent'); ?></label>
 											<c-switch v-bind="labelIcon" v-model="gcm_ads_redact" id="gdpr-cookie-consent-gcm-ads-redact" variant="3d"  color="success" :checked="gcm_ads_redact" v-on:update:checked="onSwitchGCMAdsRedact"></c-switch>
 											<input type="hidden" name="gcc-gcm-ads-redact" v-model="gcm_ads_redact">
 											<p class="policy-description cookie-notice-readmore-container">
@@ -1260,9 +1260,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											</p>
 										</c-col>
 
-									<c-col class="col-sm-4" style="align-items:start; margin-top: -75px;"><label><?php esc_attr_e( 'Enable debug mode', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4" style="align-items:start; margin-top: -75px;"><label><?php esc_html_e( 'Enable debug mode', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8" style="margin-top: 20px;">
-										<label for="gdpr-cookie-consent-gcm-debug_mode" class="screen-reader-text"><?php esc_attr_e( 'gdpr-cookie-consent-gcm-debug_mode','gdpr-cookie-consent'); ?></label>
+										<label for="gdpr-cookie-consent-gcm-debug_mode" class="screen-reader-text"><?php esc_html_e( 'gdpr-cookie-consent-gcm-debug_mode','gdpr-cookie-consent'); ?></label>
 										<c-switch v-bind="labelIcon" v-model="gcm_debug_mode" id="gdpr-cookie-consent-gcm-debug_mode" variant="3d"  color="success" :checked="gcm_debug_mode" v-on:update:checked="onSwitchGCMDebugMode"></c-switch>
 										<input type="hidden" name="gcc-gcm-debug-mode" v-model="gcm_debug_mode">
 										<p class="policy-description cookie-notice-readmore-container">
@@ -1286,7 +1286,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 											?>
 										</p>
 									</c-col>
-									<c-col class="col-sm-4" style="align-items:start; margin-top: 10px;"><label><?php esc_attr_e( 'Check GCM Status', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4" style="align-items:start; margin-top: 10px;"><label><?php esc_html_e( 'Check GCM Status', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8" style="margin-top: 10px; margin-bottom: 20px;">
 										<c-button v-show="gcm_scan_flag === false" id="checkGcmStatusButton" class="btn btn-info" variant="outline" @click="checkGCMStatus">{{ 'Check' }}</c-button>
 										<c-button v-show="gcm_scan_flag === true" id="checkGcmStatusLoadingButton" class="btn btn-info" variant="outline" disabled><span class="checkGCMloader"></span>{{ 'Checking Now' }}</c-button>
@@ -1327,14 +1327,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-configure-cookie-bar-top"><?php esc_html_e( 'Configure Cookie Bar', 'gdpr-cookie-consent' ); ?></div></c-col>
 							</c-row>
 							<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show Cookie Notice as', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Show Cookie Notice as', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
 									<input type="hidden" name="show-cookie-as" v-model="show_cookie_as">
 									<v-select class="form-group" id="gdpr-show-cookie-as" :reduce="label => label.code" :options="show_cookie_as_options" v-model="show_cookie_as"  @input="cookieTypeChange"></v-select>
 								</c-col>
 							</c-row>
 							<c-row style="margin-top:-28px;"v-show="show_cookie_as === 'banner'">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Position', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
 								<div @click="cookiebannerPositionChange('bottom')" style="display: inline-block; cursor: pointer;position:relative;">
 									<div>
@@ -1363,7 +1363,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-row>
 							<c-row style="margin-top:-28px;" v-show="show_cookie_as === 'widget'">
 							<!-- notify_position_horizontal -->
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Position', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Position', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
 							<div style="display: flex; align-items: flex-start; gap: 18px;">
 
@@ -1412,7 +1412,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 							</c-row>
 							<c-row v-show="show_cookie_as === 'popup'">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Add Overlay', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Add Overlay', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
 									<c-switch v-bind="labelIcon" v-model="cookie_accept_on" id="gdpr-cookie-add-overlay" variant="3d"  color="success" :checked="cookie_add_overlay" v-on:update:checked="onSwitchAddOverlay"></c-switch>
 									<input type="hidden" name="gdpr-cookie-add-overlay" v-model="cookie_add_overlay">
@@ -1443,7 +1443,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-configure-cookie-bar-top"><?php esc_html_e( 'Banner Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
 						</c-row>
 						<c-row v-show="is_auto_mode">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select a privacy law', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'Select the privacy law whose banner message you want to customize.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Select a privacy law', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_attr_e( 'Select the privacy law whose banner message you want to customize.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<v-select class="form-group" id="gdpr-cookie-bar-edit-law" :reduce="label => label.code" :options="policy_options" :selectable="option => isOptionSelectable(option)" label="label" v-model="banner_edit_law">
 									<template #option="option">
@@ -1458,7 +1458,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</c-col>
 						</c-row>
 						<c-row v-show="(!is_auto_mode && is_us_state_laws) || (is_auto_mode && banner_edit_law === 'us_state_laws')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Select a banner type', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'Choose which type of opt-out banner you want to customize.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Select a banner type', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_attr_e( 'Choose which type of opt-out banner you want to customize.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<v-select class="form-group" id="gdpr-cookie-bar-edit-law" :reduce="label => label.code" :options="us_policy_options" v-model="us_state_laws_edit_law">
 								</v-select>
@@ -1468,7 +1468,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						
 						<!-- Message Heading -->
 						<c-row >
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Message Heading', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Leave it blank, If you do not need a heading.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="bar_heading_text_field" v-model="gdpr_message_heading"  @input="onHeadingInput"></c-textarea>
 							</c-col>
@@ -1476,7 +1476,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 						<!-- ePrivacy -->
 						<c-row v-show="(!is_auto_mode && is_eprivacy) || (is_auto_mode && banner_edit_law === 'eprivacy')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'ePrivacy Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as ePrivacy notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'ePrivacy Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the text you want to display as ePrivacy notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_eprivacy_field" v-model="eprivacy_message"></c-textarea>
 							</c-col>
@@ -1484,38 +1484,38 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 						<!-- GDPR, UK-GDPR, PDPL PIPEDA, APP -->
 						<c-row v-show="(!is_auto_mode && is_gdpr) || (is_auto_mode && banner_edit_law === 'gdpr')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_field" v-model="gdpr_message" :readonly="iabtcf_is_on"></c-textarea>
 							</c-col>
 						</c-row>
 						<c-row v-show="(!is_auto_mode && is_uk_gdpr) || (is_auto_mode && banner_edit_law === 'uk_gdpr')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'UK GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'UK GDPR Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_uk_gdpr_field" v-model="uk_gdpr_message"></c-textarea>
 							</c-col>
 						</c-row>
 						<c-row v-show="(!is_auto_mode && is_sa_pdpl) || (is_auto_mode && banner_edit_law === 'sa_pdpl')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Saudi Arabia PDPL Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Saudi Arabia PDPL Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_pdpl_field" v-model="pdpl_message"></c-textarea>
 							</c-col>
 						</c-row>
 						<c-row v-show="(!is_auto_mode && is_pipeda) || (is_auto_mode && banner_edit_law === 'pipeda')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'PIPEDA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'PIPEDA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_pipeda_field" v-model="pipeda_message"></c-textarea>
 							</c-col>
 						</c-row>
 						<c-row v-show="(!is_auto_mode && is_au_app) || (is_auto_mode && banner_edit_law === 'au_app')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Australia(APP) Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Australia(APP) Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_app_field" v-model="app_message"></c-textarea>
 							</c-col>
 						</c-row>
 
 						<c-row v-show="(!is_auto_mode && (is_gdpr || is_au_app || is_pipeda || is_sa_pdpl || is_uk_gdpr)) || (is_auto_mode && (banner_edit_law === 'gdpr' || banner_edit_law === 'uk_gdpr' || banner_edit_law === 'sa_pdpl' || banner_edit_law === 'pipeda' || banner_edit_law === 'au_app'))">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Preferences" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Text shown under "About Cookies" section when users click on "Preferences" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea :rows="6" name="about_message_field" v-model="gdpr_about_cookie_message" :readonly="iabtcf_is_on"></c-textarea>
 							</c-col>
@@ -1523,25 +1523,25 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 						<!-- US State Laws -->
 						<c-row v-show="(!is_auto_mode && is_us_state_laws && us_state_laws_edit_law === 'ccpa') || (is_auto_mode && banner_edit_law === 'us_state_laws' && us_state_laws_edit_law === 'ccpa')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'CCPA Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_ccpa_field" v-model="ccpa_message"></c-textarea>
 							</c-col>
 						</c-row>
 						<c-row v-show="(!is_auto_mode && is_us_state_laws && us_state_laws_edit_law === 'default_opt_out') || (is_auto_mode && banner_edit_law === 'us_state_laws' && us_state_laws_edit_law === 'default_opt_out')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as banner notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Banner Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the text you want to display as banner notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_ccpa_field" v-model="default_opt_out_message"></c-textarea>
 							</c-col>
 						</c-row>
 						<c-row v-show="(!is_auto_mode && is_us_state_laws && us_state_laws_edit_law === 'pure_opt_out') || (is_auto_mode && banner_edit_law === 'us_state_laws' && us_state_laws_edit_law === 'pure_opt_out')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Banner Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as banner notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Banner Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the text you want to display as banner notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_ccpa_field" v-model="pure_opt_out_message"></c-textarea>
 							</c-col>
 						</c-row>
 						<c-row v-show="(!is_auto_mode && is_us_state_laws) || (is_auto_mode && banner_edit_law === 'us_state_laws')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'CCPA Opt-out Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the text you want to display as CCPA notice.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_ccpa_optout_field" v-model="ccpa_optout_message"></c-textarea>
 							</c-col>
@@ -1549,13 +1549,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						
 						<!-- LGPD -->
 						<c-row v-show="(!is_auto_mode && is_lgpd) || (is_auto_mode && banner_edit_law === 'lgpd')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'LGPD Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'LGPD Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enter the message you want to display on your cookie notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea name="notify_message_lgpd_field" v-model="lgpd_message"></c-textarea>
 							</c-col>
 						</c-row>
 						<c-row v-show="(!is_auto_mode && is_lgpd) || (is_auto_mode && banner_edit_law === 'lgpd')">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Text shown under "About Cookies" section when users click on "Preferences" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Text shown under "About Cookies" section when users click on "Preferences" button.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-8">
 								<c-textarea :rows="6" name="about_message_lgpd_field" v-model="lgpd_about_cookie_message"></c-textarea>
 							</c-col>
@@ -1589,7 +1589,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div></c-col>
 						</c-row>
 						<c-row class="privacy-policy-row" v-show="is_auto_mode || show_revoke_card || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Enable Privacy Policy Link', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enable this to provide a link to your Privacy & Cookie Policy on your Cookie Notice', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-2">
 								<c-switch v-bind="labelIcon" v-model="button_readmore_is_on" id="gdpr-cookie-consent-readmore-is-on" variant="3d"  color="success" :checked="button_readmore_is_on" v-on:update:checked="onSwitchButtonReadMoreIsOn"></c-switch>
 								<input type="hidden" name="gcc-readmore-is-on" v-model="button_readmore_is_on">
@@ -1609,7 +1609,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Revoke Consent', 'gdpr-cookie-consent' ); ?></div></c-col>
 						</c-row>
 						<c-row  class="privacy-policy-row" v-show="is_auto_mode || show_revoke_card || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Enable Revoke Consent', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 							<c-col class="col-sm-2">
 								<c-switch v-bind="labelIcon" v-model="is_revoke_consent_on" id="gdpr-cookie-consent-revoke-consent" variant="3d"  color="success" :checked="is_revoke_consent_on" v-on:update:checked="onSwitchRevokeConsentEnable"></c-switch>
 								<input type="hidden" name="gcc-revoke-consent-enable" v-model="is_revoke_consent_on">
@@ -1630,7 +1630,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Accept Button', 'gdpr-cookie-consent' ); ?></div></c-col>
 						</c-row>
 						<c-row  class="privacy-policy-row" v-show="is_auto_mode || is_gdpr || is_eprivacy || is_lgpd || is_uk_gdpr || is_sa_pdpl">
-							<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-4"><label><?php esc_html_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
 							<c-col class="col-sm-2">
 								<c-switch v-bind="labelIcon" v-model="cookie_accept_on" id="gdpr-cookie-consent-cookie" variant="3d"  color="success" :checked="cookie_accept_on" v-on:update:checked="onSwitchCookieAcceptEnable"></c-switch>
 								<input type="hidden" name="gcc-cookie-accept-enable" v-model="cookie_accept_on">
@@ -1640,7 +1640,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									for="button_accept_text_field"
 									class="screen-reader-text"
 								>
-									<?php esc_attr_e( 'button accept text field', 'gdpr-cookie-consent' ); ?>
+									<?php esc_html_e( 'button accept text field', 'gdpr-cookie-consent' ); ?>
 								</label>
 
 								<c-input
@@ -1661,7 +1661,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Accept All Button', 'gdpr-cookie-consent' ); ?></div></c-col>
 							</c-row>
 							<c-row class="privacy-policy-row" v-show="is_auto_mode || is_gdpr || is_eprivacy || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-2">
 									<c-switch v-bind="labelIcon" v-model="cookie_accept_all_on" id="gdpr-cookie-consent-cookie-acceptall-on" variant="3d"  color="success" :checked="cookie_accept_all_on" v-on:update:checked="onSwitchCookieAcceptAllEnable"></c-switch>
 									<input type="hidden" name="gcc-cookie-accept-all-enable" v-model="cookie_accept_all_on">
@@ -1671,7 +1671,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="button_accept_all_text_field"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'button accept all text field', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'button accept all text field', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -1692,7 +1692,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Reject All Button', 'gdpr-cookie-consent' ); ?></div></c-col>
 							</c-row>
 							<c-row class="privacy-policy-row" v-show="is_auto_mode || is_gdpr || is_eprivacy || is_lgpd || is_uk_gdpr || is_sa_pdpl"> 
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-2">
 									<c-switch v-bind="labelIcon" v-model="cookie_decline_on" id="gdpr-cookie-consent-decline-on" variant="3d"  color="success" :checked="cookie_decline_on" v-on:update:checked="onSwitchCookieDeclineEnable"></c-switch>
 									<input type="hidden" name="gcc-cookie-decline-enable" v-model="cookie_decline_on">
@@ -1702,7 +1702,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="button_decline_text_field"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'button decline text field', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'button decline text field', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -1723,14 +1723,14 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col  class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Preferences Button', 'gdpr-cookie-consent' ); ?></div></c-col>
 							</c-row>
 							<c-row class="privacy-policy-row" v-show="is_auto_mode || is_gdpr || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Enable', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-2">
 									<c-switch v-bind="labelIcon" v-model="cookie_settings_on" id="gdpr-cookie-consent-settings-on" variant="3d"  color="success" :checked="cookie_settings_on" v-on:update:checked="onSwitchCookieSettingsEnable"></c-switch>
 									<input type="hidden" name="gcc-cookie-settings-enable" v-model="cookie_settings_on">
 								</c-col>
 								<c-col class="col-sm-5">
 									<label for="button_settings_text_field" class="screen-reader-text">
-										<?php esc_attr_e( 'button settings text field', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'button settings text field', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -1746,7 +1746,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-button>
 								</c-col>
 									<c-col class="col-sm-4">
-										<label><?php esc_attr_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
+										<label><?php esc_html_e( 'Display Cookies List on Frontend', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="col-sm-4">
 										<c-switch v-bind="labelIcon" v-model="cookie_on_frontend" id="gdpr-cookie-consent-cookie-frontend" variant="3d"  color="success" :checked="cookie_on_frontend" v-on:update:checked="onSwitchCookieOnFrontend" :disabled="!cookie_settings_on"></c-switch>
@@ -1764,13 +1764,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Save Preferences Button', 'gdpr-cookie-consent' ); ?></div></c-col>
 							</c-row>
 							<c-row class="privacy-policy-row" v-show="is_auto_mode || is_us_state_laws">
-								<c-col class="col-sm-5"><label><?php esc_attr_e( 'Save Preferences Button Settings', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-5"><label><?php esc_html_e( 'Save Preferences Button Settings', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-6">
 									<label
 										for="button_confirm_text_field"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'button confirm text field', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'button confirm text field', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -1789,10 +1789,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cancel Button', 'gdpr-cookie-consent' ); ?></div></c-col>
 							</c-row>
 							<c-row class="privacy-policy-row" v-show="is_auto_mode || is_us_state_laws">
-								<c-col class="col-sm-5"><label><?php esc_attr_e( 'Cancel Button Settings', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-5"><label><?php esc_html_e( 'Cancel Button Settings', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-6">
 									<label for="button_cancel_text_field" class="screen-reader-text">
-										<?php esc_attr_e( 'button cancel text field', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'button cancel text field', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -1813,13 +1813,13 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Opt-out Button', 'gdpr-cookie-consent' ); ?></div></c-col>
 							</c-row>
 							<c-row class="privacy-policy-row" v-show="is_auto_mode || is_us_state_laws">
-								<c-col class="col-sm-5"><label><?php esc_attr_e( 'Opt-out Link Settings', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-5"><label><?php esc_html_e( 'Opt-out Link Settings', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-6">
 									<label
 										for="button_donotsell_text_field"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'button donotsell text field', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'button donotsell text field', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -1846,8 +1846,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row class="privacy-policy-row" v-show="is_auto_mode || is_us_state_laws">
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Enable Revoke Consent(US State Laws)', 'gdpr-cookie-consent' ); ?>
-										<tooltip text="<?php esc_html_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip>
+										<?php esc_html_e( 'Enable Revoke Consent(US State Laws)', 'gdpr-cookie-consent' ); ?>
+										<tooltip text="<?php esc_attr_e( 'Enable to give user the option to revoke their consent.', 'gdpr-cookie-consent' ); ?>"></tooltip>
 									</label>
 								</c-col>
 								<c-col class="col-sm-1">
@@ -1892,30 +1892,30 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							</button></c-col>
 							</c-row>
 							<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Cookie Bar Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick" >
 								<c-input class="gdpr-color-input" type="text" v-model="cookie_bar_color"  aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
 								<c-input class="gdpr-color-select" id="gdpr-cookie-bar-color" type="color" name="gdpr-cookie-bar-color" v-model="cookie_bar_color"   aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
 								</c-col>
 							</c-row>
 							<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( ' Cookie Bar Opacity', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick">
 								<c-input class="gdpr-slider-select" type="range" min="0" max="1" step="0.01" v-model="cookie_bar_opacity" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
-								<label for="gdpr-cookie-bar-opacity" class="screen-reader-text"><?php esc_attr_e('gdpr cookie bar opacity', 'gdpr-cookie-consent'); ?></label>
+								<label for="gdpr-cookie-bar-opacity" class="screen-reader-text"><?php esc_html_e('gdpr cookie bar opacity', 'gdpr-cookie-consent'); ?></label>
 								<c-input id="gdpr-cookie-bar-opacity" class="gdpr-slider-input opacity-slider" type="number"  min="0" max="1" step="0.01" name="gdpr-cookie-bar-opacity" v-model="cookie_bar_opacity"></c-input>
 								</c-col>
 							</c-row>
 							<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick" >
 								<c-input class="gdpr-color-input" type="text" v-model="cookie_text_color"   aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
-								<label for="gdpr-cookie-text-color" class="screen-reader-text"><?php esc_attr_e('Email address', 'gdpr-cookie-consent'); ?></label>
+								<label for="gdpr-cookie-text-color" class="screen-reader-text"><?php esc_html_e('Email address', 'gdpr-cookie-consent'); ?></label>
 								<c-input class="gdpr-color-select" id="gdpr-cookie-text-color" type="color" name="gdpr-cookie-text-color" v-model="cookie_text_color"></c-input>
 								</c-col>
 							</c-row>
 							<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Styles', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Border Styles', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8">
 									<v-select class="form-group" id="gdpr-cookie-border-style" :reduce="label => label.code" :options="border_style_options" v-model="border_style">
 									</v-select>
@@ -1923,25 +1923,25 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								</c-col>
 							</c-row>
 							<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick">
 								<c-input class="gdpr-slider-select" type="range" min="0" max="10" step="0.5" v-model="cookie_bar_border_width" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
-								<label for="gdpr-cookie-bar-border-width" class="screen-reader-text"><?php esc_attr_e('gdpr cookie bar border width', 'gdpr-cookie-consent'); ?></label>
+								<label for="gdpr-cookie-bar-border-width" class="screen-reader-text"><?php esc_html_e('gdpr cookie bar border width', 'gdpr-cookie-consent'); ?></label>
 								<c-input id="gdpr-cookie-bar-border-width" class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-width" v-model="cookie_bar_border_width"></c-input>
 								</c-col>
 							</c-row>
 							<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick">
 								<c-input class="gdpr-color-input" type="text" v-model="cookie_border_color"></c-input>
 								<c-input class="gdpr-color-select" id="gdpr-cookie-border-color" type="color" name="gdpr-cookie-border-color" v-model="cookie_border_color"  aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
 								</c-col>
 							</c-row>
 							<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label></c-col>
 								<c-col class="col-sm-8 gdpr-color-pick">
 								<c-input class="gdpr-slider-select" type="range" min="0" max="100" step="0.5" v-model="cookie_bar_border_radius" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
-								<label for="gdpr-cookie-bar-border-radius" class="screen-reader-text"><?php esc_attr_e('gdpr cookie bar border radius', 'gdpr-cookie-consent'); ?></label>
+								<label for="gdpr-cookie-bar-border-radius" class="screen-reader-text"><?php esc_html_e('gdpr cookie bar border radius', 'gdpr-cookie-consent'); ?></label>
 								<c-input id="gdpr-cookie-bar-border-radius" class="gdpr-slider-input"type="number" name="gdpr-cookie-bar-border-radius" v-model="cookie_bar_border_radius"></c-input>
 								</c-col>
 							</c-row>
@@ -1951,7 +1951,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								if ( ! $is_pro_active ) :
 									?>
 									<c-row>
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Font', 'gdpr-cookie-consent' ); ?></label>
+										<c-col class="col-sm-4"><label><?php esc_html_e( 'Font', 'gdpr-cookie-consent' ); ?></label>
 											<div class="gdpr-pro-label"><div class="gdpr-pro-label-text">Pro</div></div>
 										</c-col>
 										<c-col class="col-sm-8">
@@ -1966,7 +1966,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							} else {
 								?>
 									<c-row>
-										<c-col class="col-sm-4"><label><?php esc_attr_e( 'Font', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="col-sm-4"><label><?php esc_html_e( 'Font', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="col-sm-8">
 											<v-select class="form-group" id="gdpr-cookie-font" :reduce="label => label.code" :options="font_options" v-model="cookie_font">
 											</v-select>
@@ -1980,21 +1980,21 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								?>
 								<c-row>
 									<c-col class="col-sm-4">
-										<label><?php esc_attr_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip><a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=upload_logo&utm_campaign=plugin_upgrade" style="margin-left:5px;" class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></label>
+										<label><?php esc_html_e( 'Upload Logo ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_attr_e( 'To preview the logo, simply upload a logo and then click the "Save Changes" button ', 'gdpr-cookie-consent' ); ?>"></tooltip><a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=upload_logo&utm_campaign=plugin_upgrade" style="margin-left:5px;" class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></label>
 									</c-col>
 									<c-col class="col-sm-8 ">
 										<c-button color="info" class="button" id="image-upload-button" name="image-upload-button" @click="openMediaModal" style="margin: 10px;" <?php echo $is_disabled ? 'disabled' : ''; ?>>
-											<?php esc_attr_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'Add Image', 'gdpr-cookie-consent' ); ?>
 										</c-button>
 										<c-button color="info" class="button" id="image-delete-button" @click="deleteSelectedimage" style="margin: 10px; ">
-											<?php esc_attr_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'Remove Image', 'gdpr-cookie-consent' ); ?>
 										</c-button>
 										<?php
 										$get_banner_img = get_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD );
 										?>
 										<img id="gdpr-cookie-bar-logo-holder" name="gdpr-cookie-bar-logo-holder" src="<?php echo esc_url_raw( $get_banner_img ); ?>" alt="">
 										<p class="image-upload-notice" style="margin-left: 10px; font-size:14px; font-weight:14px;color:#d4d4d8;">
-											<?php esc_attr_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'We recommend 50 x 50 pixels.', 'gdpr-cookie-consent' ); ?>
 										</p>
 										<c-input type="hidden" name="gdpr-cookie-bar-logo-url-holder" id="gdpr-cookie-bar-logo-url-holder"  class="regular-text"> </c-input>
 									</c-col>
@@ -2005,7 +2005,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 					v-show="button_readmore_popup"
 					class="gdpr-privacy-policy-settings-panel">
 						<div class="optout-settings-tittle-bar">
-							<div class="optout-setting-tittle"><?php esc_attr_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div>
+							<div class="optout-setting-tittle"><?php esc_html_e( 'Privacy Policy Settings', 'gdpr-cookie-consent' ); ?></div>
 							<img @click="button_readmore_popup=false" class="add-new-entry-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/cancel.svg'; ?>" alt="Add new entry logo">
 						</div>
 
@@ -2013,7 +2013,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<div v-show="(is_auto_mode || show_revoke_card || is_lgpd || is_uk_gdpr || is_pipeda || is_au_app || is_sa_pdpl) && button_readmore_is_on">
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
-										<label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label>
+										<label><?php esc_html_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="col-sm-8 gdpr-color-pick">
 										<c-input class="gdpr-color-input" type="text" v-model="button_readmore_link_color"></c-input>
@@ -2023,7 +2023,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
-										<label><?php esc_attr_e( 'Show as', 'gdpr-cookie-consent' ); ?></label>
+										<label><?php esc_html_e( 'Show as', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="col-sm-8">
 										<v-select
@@ -2039,7 +2039,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
-										<label><?php esc_attr_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label>
+										<label><?php esc_html_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="col-sm-8">
 										<v-select
@@ -2057,7 +2057,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 									<c-row class="gdpr-label-row">
 										<c-col class="col-sm-4">
-											<label><?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label>
+											<label><?php esc_html_e( 'Background Color', 'gdpr-cookie-consent' ); ?></label>
 										</c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
 											<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_color"></c-input>
@@ -2067,7 +2067,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 									<c-row class="gdpr-label-row">
 										<c-col class="col-sm-4">
-											<label><?php esc_attr_e( 'Button Size', 'gdpr-cookie-consent' ); ?></label>
+											<label><?php esc_html_e( 'Button Size', 'gdpr-cookie-consent' ); ?></label>
 										</c-col>
 										<c-col class="col-sm-8">
 											<v-select
@@ -2083,7 +2083,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 									<c-row class="gdpr-label-row">
 										<c-col class="col-sm-4">
-											<label><?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label>
+											<label><?php esc_html_e( 'Border Style', 'gdpr-cookie-consent' ); ?></label>
 										</c-col>
 										<c-col class="col-sm-8">
 											<v-select
@@ -2099,7 +2099,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 									<c-row class="gdpr-label-row">
 										<c-col class="col-sm-4">
-											<label><?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label>
+											<label><?php esc_html_e( 'Border Color', 'gdpr-cookie-consent' ); ?></label>
 										</c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
 											<c-input class="gdpr-color-input" type="text" v-model="button_readmore_button_border_color"></c-input>
@@ -2111,8 +2111,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
-										<label v-show="button_readmore_url_type"><?php esc_attr_e( 'Page', 'gdpr-cookie-consent' ); ?></label>
-										<label v-show="!button_readmore_url_type"><?php esc_attr_e( 'URL', 'gdpr-cookie-consent' ); ?></label>
+										<label v-show="button_readmore_url_type"><?php esc_html_e( 'Page', 'gdpr-cookie-consent' ); ?></label>
+										<label v-show="!button_readmore_url_type"><?php esc_html_e( 'URL', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 
 									<c-col class="col-sm-8">
@@ -2140,8 +2140,8 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row v-show="button_readmore_url_type" class="gdpr-label-row">
 									<c-col class="col-sm-4">
 										<label>
-											<?php esc_attr_e( 'Sync with WordPress Policy Page', 'gdpr-cookie-consent' ); ?>
-											<tooltip text="<?php esc_html_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip>
+											<?php esc_html_e( 'Sync with WordPress Policy Page', 'gdpr-cookie-consent' ); ?>
+											<tooltip text="<?php esc_attr_e( 'If enabled visitor will be redirected to Privacy Policy Page set in WordPress settings irrespective of Page set in the previous setting.', 'gdpr-cookie-consent' ); ?>"></tooltip>
 										</label>
 									</c-col>
 									<c-col class="col-sm-8 gdpr-readmore-toggle-row">
@@ -2160,7 +2160,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
-										<label><?php esc_attr_e( 'Open URL in New Window?', 'gdpr-cookie-consent' ); ?></label>
+										<label><?php esc_html_e( 'Open URL in New Window?', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="col-sm-8 gdpr-readmore-toggle-row">
 										<c-switch
@@ -2180,7 +2180,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 									<c-row class="gdpr-label-row">
 										<c-col class="col-sm-4">
-											<label><?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label>
+											<label><?php esc_html_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?></label>
 										</c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
 											<c-input
@@ -2202,7 +2202,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 									<c-row class="gdpr-label-row">
 										<c-col class="col-sm-4">
-											<label><?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label>
+											<label><?php esc_html_e( 'Border Width', 'gdpr-cookie-consent' ); ?></label>
 										</c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
 											<c-input
@@ -2224,7 +2224,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 									<c-row class="gdpr-label-row">
 										<c-col class="col-sm-4">
-											<label><?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label>
+											<label><?php esc_html_e( 'Border Radius', 'gdpr-cookie-consent' ); ?></label>
 										</c-col>
 										<c-col class="col-sm-8 gdpr-color-pick">
 											<c-input
@@ -2256,7 +2256,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						>
 						<div class="optout-settings-tittle-bar">
 							<div class="optout-setting-tittle">
-								<?php esc_attr_e( 'Revoke Consent Settings', 'gdpr-cookie-consent' ); ?>
+								<?php esc_html_e( 'Revoke Consent Settings', 'gdpr-cookie-consent' ); ?>
 							</div>
 
 							<img
@@ -2275,7 +2275,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
 										<label>
-											<?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'Text Color', 'gdpr-cookie-consent' ); ?>
 										</label>
 									</c-col>
 
@@ -2299,7 +2299,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
 										<label>
-											<?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'Background Color', 'gdpr-cookie-consent' ); ?>
 										</label>
 									</c-col>
 
@@ -2323,7 +2323,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
 										<label>
-											<?php esc_attr_e( 'Tab Position', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'Tab Position', 'gdpr-cookie-consent' ); ?>
 										</label>
 									</c-col>
 
@@ -2347,7 +2347,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
 										<label>
-											<?php esc_attr_e( 'Tab margin (in percent)', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'Tab margin (in percent)', 'gdpr-cookie-consent' ); ?>
 										</label>
 									</c-col>
 
@@ -2371,7 +2371,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						>
 						<div class="optout-settings-tittle-bar">
 							<div class="optout-setting-tittle">
-								<?php esc_attr_e( 'Accept Button', 'gdpr-cookie-consent' ); ?>
+								<?php esc_html_e( 'Accept Button', 'gdpr-cookie-consent' ); ?>
 							</div>
 
 							<img
@@ -2385,7 +2385,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<div class="optout-settings-main-container">
 							<c-row class="gdpr-label-row">
 								<c-col class="col-sm-4">
-									<label><?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label>
+									<label><?php esc_html_e( 'Text Color', 'gdpr-cookie-consent' ); ?></label>
 								</c-col>
 
 								<c-col class="col-sm-8 gdpr-color-pick">
@@ -2400,7 +2400,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-text-color"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept text color', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept text color', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -2415,7 +2415,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 
 							<c-row class="gdpr-label-row">
 								<c-col class="col-sm-4">
-									<label><?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?></label>
+									<label><?php esc_html_e( 'Show As', 'gdpr-cookie-consent' ); ?></label>
 								</c-col>
 
 								<c-col class="col-sm-8">
@@ -2439,10 +2439,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row class="gdpr-label-row">
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Action ', 'gdpr-cookie-consent' ); ?>
 
 										<tooltip
-											text="<?php esc_html_e( 'Select action to do once the user clicks on button.', 'gdpr-cookie-consent' ); ?>"
+											text="<?php esc_attr_e( 'Select action to do once the user clicks on button.', 'gdpr-cookie-consent' ); ?>"
 										></tooltip>
 									</label>
 								</c-col>
@@ -2470,7 +2470,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								class="gdpr-label-row"
 							>
 								<c-col class="col-sm-4">
-									<label><?php esc_attr_e( 'URL ', 'gdpr-cookie-consent' ); ?></label>
+									<label><?php esc_html_e( 'URL ', 'gdpr-cookie-consent' ); ?></label>
 								</c-col>
 
 								<c-col class="col-sm-8">
@@ -2478,7 +2478,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-url"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept url', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept url', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -2495,7 +2495,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Open URL in new window', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Open URL in new window', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2522,7 +2522,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Background Color', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2551,7 +2551,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Border Style', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2578,7 +2578,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Border Color', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2606,7 +2606,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2625,7 +2625,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-opacity"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept opacity', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept opacity', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -2647,7 +2647,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Border Width', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2666,7 +2666,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-border-width"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept border width', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept border width', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -2685,7 +2685,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Border Radius', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2704,7 +2704,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-border-radius"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept border radius', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept border radius', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -2726,15 +2726,15 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<div class="optout-settings-tittle-bar">
 							<div class="optout-setting-tittle">
 								<template v-if="is_auto_mode || is_gdpr || is_eprivacy || is_lgpd || is_uk_gdpr || is_sa_pdpl">
-									<?php esc_attr_e( 'Accept All Button', 'gdpr-cookie-consent' ); ?>
+									<?php esc_html_e( 'Accept All Button', 'gdpr-cookie-consent' ); ?>
 								</template>
 
 								<template v-else-if="is_pipeda">
-									<?php esc_attr_e( 'Accept Button', 'gdpr-cookie-consent' ); ?>
+									<?php esc_html_e( 'Accept Button', 'gdpr-cookie-consent' ); ?>
 								</template>
 
 								<template v-else>
-									<?php esc_attr_e( 'Got it Button', 'gdpr-cookie-consent' ); ?>
+									<?php esc_html_e( 'Got it Button', 'gdpr-cookie-consent' ); ?>
 								</template>
 							</div>
 
@@ -2750,7 +2750,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row class="gdpr-label-row">
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Text Color', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Text Color', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2766,7 +2766,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-all-text-color"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept all text color', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept all text color', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -2783,7 +2783,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row class="gdpr-label-row">
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Show As', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Show As', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2808,10 +2808,10 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							<c-row class="gdpr-label-row">
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Action ', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Action ', 'gdpr-cookie-consent' ); ?>
 
 										<tooltip
-											text="<?php esc_html_e( 'Select action to do once the user clicks on button.', 'gdpr-cookie-consent' ); ?>"
+											text="<?php esc_attr_e( 'Select action to do once the user clicks on button.', 'gdpr-cookie-consent' ); ?>"
 										></tooltip>
 									</label>
 								</c-col>
@@ -2840,7 +2840,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'URL ', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'URL ', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2849,7 +2849,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-all-url"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept all url', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept all url', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -2866,7 +2866,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Open URL in new window', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Open URL in new window', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2893,7 +2893,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Background Color', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Background Color', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2909,7 +2909,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-all-background-color"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept all background color', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept all background color', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -2928,7 +2928,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Border Style', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Border Style', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2955,7 +2955,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Border Color', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Border Color', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -2971,7 +2971,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-all-border-color"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept all border color', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept all border color', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -2990,7 +2990,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Background Opacity', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -3009,7 +3009,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-all-opacity"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'Email', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Email', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -3031,7 +3031,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Border Width', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Border Width', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -3050,7 +3050,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-all-border-width"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept all border width', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept all border width', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -3069,7 +3069,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 							>
 								<c-col class="col-sm-4">
 									<label>
-										<?php esc_attr_e( 'Border Radius', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Border Radius', 'gdpr-cookie-consent' ); ?>
 									</label>
 								</c-col>
 
@@ -3088,7 +3088,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										for="gdpr-cookie-accept-all-border-radius"
 										class="screen-reader-text"
 									>
-										<?php esc_attr_e( 'gdpr cookie accept all border radius', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'gdpr cookie accept all border radius', 'gdpr-cookie-consent' ); ?>
 									</label>
 
 									<c-input
@@ -3110,7 +3110,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 						<div class="optout-settings-tittle-bar">
 							<div class="optout-setting-tittle">
 								<template>
-									<?php esc_attr_e( 'Reject All Button', 'gdpr-cookie-consent' ); ?>
+									<?php esc_html_e( 'Reject All Button', 'gdpr-cookie-consent' ); ?>
 								</template>
 							</div>
 

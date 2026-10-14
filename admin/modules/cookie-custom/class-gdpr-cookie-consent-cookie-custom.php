@@ -79,7 +79,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
 			<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
-				<th scope="row"><label for="about_message_field"><?php esc_attr_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?></label></th>
+				<th scope="row"><label for="about_message_field"><?php esc_html_e( 'About Cookies Message', 'gdpr-cookie-consent' ); ?></label></th>
 				<td>
 					<?php
 					echo '<textarea name="about_message_field" class="vvv_textbox">';
@@ -206,7 +206,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	 */
 	public static function print_combobox_options( $options, $selected ) {
 		foreach ( $options as $key => $value ) {
-			echo '<option value="' . esc_html( $key ) . '"';
+			echo '<option value="' . esc_attr( $key ) . '"';
 			if ( strval( $key ) === $selected ) {
 				echo ' selected="selected"';
 			}
