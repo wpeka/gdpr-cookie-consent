@@ -6286,8 +6286,8 @@ class Gdpr_Cookie_Consent_Admin {
 				}
 				
 				if ( isset( $_POST['gcc-worldwide-enable'] ) ) {
-					if ( filter_var( $the_options['is_worldwide_on'] ?? false, FILTER_VALIDATE_BOOLEAN ) !== filter_var( $_POST['gcc-worldwide-enable'], FILTER_VALIDATE_BOOLEAN ) ) {
-						$is_maxmind_turned_on = filter_var( $_POST['gcc-worldwide-enable'], FILTER_VALIDATE_BOOLEAN ) ? 'Turned Off' : 'Turned On';
+					if ( filter_var( $the_options['is_worldwide_on'] ?? false, FILTER_VALIDATE_BOOLEAN ) !== filter_var( wp_unslash( $_POST['gcc-worldwide-enable'] ), FILTER_VALIDATE_BOOLEAN ) ) {
+						$is_maxmind_turned_on = filter_var( wp_unslash( $_POST['gcc-worldwide-enable'] ), FILTER_VALIDATE_BOOLEAN ) ? 'Turned Off' : 'Turned On';
 						$data_args            = array(
 							'Status' => 'Maxmind ' . $is_maxmind_turned_on,
 						);

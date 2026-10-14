@@ -807,8 +807,8 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		}
 		if ( ! $error ) {
 			$id      = intval( $_POST['id'] );
-			$type    = sanitize_text_field( $_POST['type'] );
-			$action  = sanitize_title( $_POST['button_action'] );
+			$type    = sanitize_text_field( wp_unslash( $_POST['type'] ) );
+			$action  = sanitize_title( wp_unslash( $_POST['button_action'] ) );
 			$data = json_decode( isset( $_POST['data'] ) ? wp_unslash( $_POST['data'] ) : '', true );
 			$data = is_array( $data ) ? map_deep( $data, 'sanitize_text_field' ) : array();
 			$scripts = get_option( 'wpl_options_custom-scripts', array() );
