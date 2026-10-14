@@ -55,7 +55,7 @@ if ( ! defined( 'WPINC' ) ) {
 			<tr valign="top">
 				<th scope="row"></th>
 				<td>
-					<input type="submit" class="button-primary" value="<?php esc_html__( 'Import', 'gdpr-cookie-consent' ); ?>" />
+					<input type="submit" class="button-primary" value="<?php esc_attr__( 'Import', 'gdpr-cookie-consent' ); ?>" />
 				</td>
 			</tr>
 		</table>

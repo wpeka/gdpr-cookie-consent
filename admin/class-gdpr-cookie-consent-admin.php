@@ -9340,7 +9340,7 @@ class Gdpr_Cookie_Consent_Admin {
 			wp_send_json_error( array( 'message' => 'Unauthorized access' ) );
 			exit;
 		}
-		$banner_preview_state = sanitize_text_field($_POST['banner_preview_state']);
+		$banner_preview_state = isset( $_POST['banner_preview_state'] ) ? sanitize_text_field( wp_unslash( $_POST['banner_preview_state'] ) ) : 'false';
 		$banner_preview_state = ($banner_preview_state === 'true' || $banner_preview_state === true) ? 'true' : 'false';
 		
     	update_option('gdpr_preview_banner_state', $banner_preview_state);
@@ -10908,7 +10908,7 @@ class Gdpr_Cookie_Consent_Admin {
 			return $signature_check;
 		}
 
-		$auth_header = sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) ) ?? '';
+		$auth_header = isset( $_SERVER['HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) ) : '';
 
 		if ( ! preg_match( '/Bearer\s(\S+)/', $auth_header, $matches ) ) {
 			return new WP_Error(
@@ -11834,7 +11834,7 @@ public function gdpr_support_request_handler() {
 	public function gdpr_get_user_os() {
 		$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] )
 			? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) )
-			: '';
+			: ''; // phpcs:ignore WordPressVIPMinimum.Variables.RestrictedVariables.cache_constraints___SERVER__HTTP_USER_AGENT__ -- Called only during AJAX/REST, not page-cached.
 	
 		if ( stripos( $user_agent, 'Windows' ) !== false ) return 'Windows';
 		if ( stripos( $user_agent, 'Mac' ) !== false ) return 'Mac OS';

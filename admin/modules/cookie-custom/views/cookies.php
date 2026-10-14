@@ -35,8 +35,8 @@ $cookie_sub_tab['custom-cookies'] = __( 'Custom Cookies', 'gdpr-cookie-consent' 
 				</div>
 				<div class="right">
 					<div class="right-grid-1">
-						<div class="input-box"><input type="text" name="cookie_name_field" value="" placeholder="<?php esc_html_e( 'Cookie Name', 'gdpr-cookie-consent' ); ?>"/></div>
-						<div class="input-box"><input type="text" name="cookie_domain_field" value="" placeholder="<?php esc_html_e( 'Cookie Domain', 'gdpr-cookie-consent' ); ?>" /></div>
+						<div class="input-box"><input type="text" name="cookie_name_field" value="" placeholder="<?php esc_attr_e( 'Cookie Name', 'gdpr-cookie-consent' ); ?>"/></div>
+						<div class="input-box"><input type="text" name="cookie_domain_field" value="" placeholder="<?php esc_attr_e( 'Cookie Domain', 'gdpr-cookie-consent' ); ?>" /></div>
 					</div>
 					<div class="right-grid-2">
 						<div class="input-box"><select name="cookie_category_field" class="vvv_combobox">
@@ -45,10 +45,10 @@ $cookie_sub_tab['custom-cookies'] = __( 'Custom Cookies', 'gdpr-cookie-consent' 
 						<div class="input-box"><select name="cookie_type_field" class="vvv_combobox cookie-type-field">
 								<?php Gdpr_Cookie_Consent_Cookie_Custom::print_combobox_options( Gdpr_Cookie_Consent_Cookie_Custom::get_types(), 'HTTP' ); ?>
 							</select></div>
-						<div class="input-box"><input type="text" name="cookie_duration_field" class="cookie-duration-field" value="" placeholder="<?php esc_html_e( 'Duration (in days/Session)', 'gdpr-cookie-consent' ); ?>"/></div>
+						<div class="input-box"><input type="text" name="cookie_duration_field" class="cookie-duration-field" value="" placeholder="<?php esc_attr_e( 'Duration (in days/Session)', 'gdpr-cookie-consent' ); ?>"/></div>
 					</div>
 					<div class="right-grid-3">
-						<div class="input-box"><textarea name="cookie_description_field" class="vvv_textbox" placeholder="<?php esc_html_e( 'Cookie Purpose', 'gdpr-cookie-consent' ); ?>"></textarea></div>
+						<div class="input-box"><textarea name="cookie_description_field" class="vvv_textbox" placeholder="<?php esc_attr_e( 'Cookie Purpose', 'gdpr-cookie-consent' ); ?>"></textarea></div>
 					</div>
 					<a class="primary pull-right gdpr_delete_cookie"><?php esc_html_e( 'Cancel', 'gdpr-cookie-consent' ); ?></a>
 					<a class="primary pull-right gdpr_save_cookie"><?php esc_html_e( 'Save', 'gdpr-cookie-consent' ); ?></a>
