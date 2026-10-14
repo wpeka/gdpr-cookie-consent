@@ -216,7 +216,7 @@ function print_template_boxes( ) {
 
 					<div class="select-rule">
 						<div class="general-tab-content-heading">General</div>
-						<div class="select-law-rule-label"><label for="gdpr-cookie-consent-policy-type" class="gdpr-cookie-consent-policy-text"><?php esc_attr_e( 'Which privacy law or guideline do you want to use as the default for your worldwide visitors?', 'gdpr-cookie-consent' ); ?></label></div>
+						<div class="select-law-rule-label"><label for="gdpr-cookie-consent-policy-type" class="gdpr-cookie-consent-policy-text"><?php esc_html_e( 'Which privacy law or guideline do you want to use as the default for your worldwide visitors?', 'gdpr-cookie-consent' ); ?></label></div>
 						<div class="select-law-rule-options">
 							<div class="form-group" id="gdpr-cookie-consent-policy-type">
 							<label class="wp-selec-law-container">
@@ -251,11 +251,11 @@ function print_template_boxes( ) {
 							<c-col class="col-sm-32 select-law-rule-sublabel"><div id="gdpr-cookie-consent-settings-cookie-notice"><?php esc_html_e( 'Cookie Banner Geo-Targeting', 'gdpr-cookie-consent' ); ?></div></c-col>
 						</c-row>
 						<c-row v-show="gdpr_policy === 'both'" style="margin-bottom: 5px;">
-							<c-col class="col-sm-4 wp-select-law-test"><label><?php esc_attr_e( 'GDPR Banner', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-4 wp-select-law-test"><label><?php esc_html_e( 'GDPR Banner', 'gdpr-cookie-consent' ); ?></label></c-col>
 						</c-row>
 						<div style="margin-top: 10px;" v-show="gdpr_policy === 'gdpr' || gdpr_policy === 'both'" class="gdpr-visitors-condition">
 							<div>
-								<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable" v-model="selectedRadioWorldWide" @click="onSwitchWorldWideEnable" id="gcc-worldwide-enable"><label for="gcc-worldwide-enable"><?php esc_attr_e( 'Worldwide', 'gdpr-cookie-consent' ); ?></label></div>
+								<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable" v-model="selectedRadioWorldWide" @click="onSwitchWorldWideEnable" id="gcc-worldwide-enable"><label for="gcc-worldwide-enable"><?php esc_html_e( 'Worldwide', 'gdpr-cookie-consent' ); ?></label></div>
 								<div>
 									<input type="hidden" name="gcc-worldwide-enable" v-model="is_worldwide_on">
 								</div>
@@ -266,23 +266,23 @@ function print_template_boxes( ) {
 									 if ( !$is_user_connected || empty($is_user_connected) || $api_user_plan === 'free' ) : ?>
 										<div class="gdpr-disabled-geo-integration">
 											<input id="gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled>
-											<label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
+											<label><?php esc_html_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
 										</div>
 										<p class="gdpr-eu_visitors_message-gdpr">
-											<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 										</p>
 									<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
 										<div class="gdpr-disabled-geo-integration">
 											<input id="gdpr-visitors-condition-radio-btn-disabled-gdpr-wizard" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" disabled>
-											<label><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
+											<label><?php esc_html_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
 										</div>
 										<p class="gdpr-eu_visitors_message-gdpr">
-											<?php esc_attr_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+											<?php esc_html_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 										</p>
 									<?php else : ?>
 										<div>
 											<input id="gdpr-eu-id" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-eu-enable" v-model="is_eu_on" @click="onSwitchEUEnable($event.target.checked)">
-											<label for="gdpr-eu-id"><?php esc_attr_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
+											<label for="gdpr-eu-id"><?php esc_html_e( 'EU Countries & UK', 'gdpr-cookie-consent' ); ?></label>
 										</div>
 										<input type="hidden" name="gcc-eu-enable" v-model="is_eu_on">
 									<?php endif; ?>
@@ -292,17 +292,17 @@ function print_template_boxes( ) {
 									$geo_options = get_option( 'wpl_geo_options' );
 								if ( !$is_user_connected || empty($is_user_connected) || $api_user_plan === 'free') :
 									?>
-									<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+									<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_html_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 									<p class="gdpr-eu_visitors_message-both">
-									<?php esc_attr_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
+									<?php esc_html_e( 'To enable this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 									</p>
 								<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
-									<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+									<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-wizard" type="checkbox" name="gcc-select-countries-enable" disabled><label><?php esc_html_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 									<p class="gdpr-eu_visitors_message-both">
-										<?php esc_attr_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 									</p>
 								<?php else : ?>
-									<div><input id="gdpr-select-countries" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label for="gdpr-select-countries"><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+									<div><input id="gdpr-select-countries" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable" v-model="selectedRadioCountry" @click="onSwitchSelectedCountryEnable($event.target.checked)"><label for="gdpr-select-countries"><?php esc_html_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 									<input type="hidden" name="gcc-select-countries-enable" v-model="is_selectedCountry_on">
 								<?php endif; ?>
 							</div>
@@ -312,11 +312,11 @@ function print_template_boxes( ) {
 							<input type="hidden" name="gcc-selected-countries" v-model="select_countries">
 						</div>
 						<c-row v-show="gdpr_policy === 'both'" style="margin-bottom: 5px; margin-top: 1.5rem;">
-							<c-col class="col-sm-4 wp-select-law-test"><label><?php esc_attr_e( 'CCPA Banner', 'gdpr-cookie-consent' ); ?></label></c-col>
+							<c-col class="col-sm-4 wp-select-law-test"><label><?php esc_html_e( 'CCPA Banner', 'gdpr-cookie-consent' ); ?></label></c-col>
 						</c-row>
 						<div style="margin-top: 10px;" v-show="gdpr_policy === 'ccpa' || gdpr_policy === 'both'" class="gdpr-visitors-condition">
 							<div>
-								<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable-ccpa" v-model="selectedRadioWorldWideCcpa" @click="onSwitchWorldWideEnableCcpa" id="gcc-worldwide-enable-ccpa"><label for="gcc-worldwide-enable-ccpa"><?php esc_attr_e( 'Worldwide', 'gdpr-cookie-consent' ); ?></label></div>
+								<div><input class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-worldwide-enable-ccpa" v-model="selectedRadioWorldWideCcpa" @click="onSwitchWorldWideEnableCcpa" id="gcc-worldwide-enable-ccpa"><label for="gcc-worldwide-enable-ccpa"><?php esc_html_e( 'Worldwide', 'gdpr-cookie-consent' ); ?></label></div>
 								<div>
 									<input type="hidden" name="gcc-worldwide-enable-ccpa" v-model="is_worldwide_on_ccpa">
 								</div>
@@ -326,17 +326,17 @@ function print_template_boxes( ) {
 									$geo_options = get_option( 'wpl_geo_options' );
 								if ( !$is_user_connected || empty($is_user_connected) ) :
 									?>
-									<div class="gdpr-disabled-geo-integration"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+									<div class="gdpr-disabled-geo-integration"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;"><?php esc_html_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 									<p class="gdpr-eu_visitors_message-ccpa">
-									<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+									<?php esc_html_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
 									</p>
 								<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
-									<div class="gdpr-disabled-geo-integration"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+									<div class="gdpr-disabled-geo-integration"><input id="gdpr-visitors-condition-radio-btn-disabled-ccpa-wizard"class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" disabled><label style="width:114px;"><?php esc_html_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 									<p class="gdpr-eu_visitors_message-ccpa">
-										<?php esc_attr_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 									</p>
 								<?php else : ?>
-									<div><input id="gdpr-united-enabled" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" v-model="is_ccpa_on" @click="onSwitchCCPAEnable($event.target.checked)"><label for="gdpr-united-enabled"><?php esc_attr_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
+									<div><input id="gdpr-united-enabled" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-ccpa-enable" v-model="is_ccpa_on" @click="onSwitchCCPAEnable($event.target.checked)"><label for="gdpr-united-enabled"><?php esc_html_e( 'United States', 'gdpr-cookie-consent' ); ?></label></div>
 									<input type="hidden" name="gcc-ccpa-enable" v-model="is_ccpa_on">
 								<?php endif; ?>
 							</div>
@@ -345,17 +345,17 @@ function print_template_boxes( ) {
 									$geo_options = get_option( 'wpl_geo_options' );
 								if ( !$is_user_connected || empty($is_user_connected)) :
 									?>
-									<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-ccpa-wizard" type="checkbox" name="gcc-select-countries-enable-ccpa" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+									<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-ccpa-wizard" type="checkbox" name="gcc-select-countries-enable-ccpa" disabled><label><?php esc_html_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 									<p class="gdpr-eu_visitors_message-both-ccpa">
-									<?php esc_attr_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
+									<?php esc_html_e( 'To enable this feature, connect to your free account', 'gdpr-cookie-consent' ); ?>
 									</p>
 								<?php elseif ( $the_options['enable_safe'] === true || $the_options['enable_safe'] === 'true' ) : ?>
-									<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-ccpa-wizard" type="checkbox" name="gcc-select-countries-enable-ccpa" disabled><label><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+									<div class="gdpr-disabled-geo-integration"><input class="gdpr-visiotrs-condition-radio-btn" id="gdpr-visitors-condition-radio-btn-disabled-both-ccpa-wizard" type="checkbox" name="gcc-select-countries-enable-ccpa" disabled><label><?php esc_html_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 									<p class="gdpr-eu_visitors_message-both-ccpa">
-										<?php esc_attr_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
+										<?php esc_html_e( 'Safe Mode enabled. Disable it in Advanced > Cookie & Privacy to configure Geo-Targeting settings.', 'gdpr-cookie-consent' ); ?>
 									</p>
 								<?php else : ?>
-									<div><input id="gdpr-select-countries" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable-ccpa" v-model="selectedRadioCountryCcpa" @click="onSwitchSelectedCountryEnableCcpa($event.target.checked)"><label for="gdpr-select-countries-ccpa"><?php esc_attr_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
+									<div><input id="gdpr-select-countries" class="gdpr-visiotrs-condition-radio-btn" type="checkbox" name="gcc-select-countries-enable-ccpa" v-model="selectedRadioCountryCcpa" @click="onSwitchSelectedCountryEnableCcpa($event.target.checked)"><label for="gdpr-select-countries-ccpa"><?php esc_html_e( 'Select Countries', 'gdpr-cookie-consent' ); ?></label></div>
 									<input type="hidden" name="gcc-select-countries-enable-ccpa" v-model="is_selectedCountry_on_ccpa">
 								<?php endif; ?>
 							</div>
@@ -381,7 +381,7 @@ function print_template_boxes( ) {
 							<div class="enable-consent-log">
 
 								<div class="enable-consent-log-content">
-									<c-col class="enable-consent-log-content-label"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="enable-consent-log-content-label"><label><?php esc_html_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="enable-consent-log-switch">
 										<c-switch v-bind="labelIcon" v-model="logging_on" id="gdpr-cookie-consent-logging" variant="3d"  color="success" :checked="logging_on"  :disabled="disableSwitch" v-on:update:checked="onSwitchLoggingOn"></c-switch>
 										<input type="hidden" name="gcc-logging-on" v-model="logging_on">
@@ -392,7 +392,7 @@ function print_template_boxes( ) {
 							<!-- enable/disbale script blocker  -->
 							<div class="enable-script-blocker" v-show="gdpr_policy !== 'ccpa'">
 								<div class="enable-script-blocker-content">
-									<c-col class="enable-script-blocker-label"><label><?php esc_attr_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="enable-script-blocker-label"><label><?php esc_html_e( 'Script Blocker', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="enable-consent-log-switch">
 										<c-switch v-bind="labelIcon" v-model="is_script_blocker_on" id="gdpr-cookie-consent-script-blocker" variant="3d"  color="success" :checked="is_script_blocker_on"  v-on:update:checked="onSwitchingScriptBlocker"></c-switch>
 										<input type="hidden" name="gcc-script-blocker-on" v-model="is_script_blocker_on">
@@ -403,7 +403,7 @@ function print_template_boxes( ) {
 							<!-- Respect do not track  -->
 							<div class="enable-respect-do-not-track">
 								<div class="enable-respect-do-not-track-content">
-									<c-col class="enable-respect-do-not-track-label"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
+									<c-col class="enable-respect-do-not-track-label"><label><?php esc_html_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="enable-respect-do-not-track-switch">
 										<c-switch v-bind= labelIcon v-model="do_not_track_on" id="gdpr-cookie-do-not-track" variant="3d" color="success" :checked="do_not_track_on" v-on:update:checked="onSwitchDntEnable"></c-switch>
@@ -415,7 +415,7 @@ function print_template_boxes( ) {
 							<!-- Data Request -->
 							<div class="enable-data-request">
 								<div class="enable-data-request-content">
-									<c-col class="enable-respect-data-request-label"><label><?php esc_attr_e( 'Enable Data Request Form', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr_data_req_tooltip" text="<?php esc_html_e( 'Enable to add data request form to your Privacy Statement.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+									<c-col class="enable-respect-data-request-label"><label><?php esc_html_e( 'Enable Data Request Form', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr_data_req_tooltip" text="<?php esc_attr_e( 'Enable to add data request form to your Privacy Statement.', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 									</c-col>
 									<c-col class="enable-data-request-switch">
 										<c-switch v-bind="labelIcon " v-model="data_reqs_on" id="gdpr-cookie-data-reqs" variant="3d" color="success" :checked="data_reqs_on" v-on:update:checked="onSwitchDataReqsEnable"></c-switch>
@@ -427,7 +427,7 @@ function print_template_boxes( ) {
 							<div class="enable-data-request">
 								<div class="enable-data-request-content">
 									<c-col v-show="data_reqs_on">
-										<c-col class="enable-respect-data-request-shortcode-label"><label><?php esc_attr_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_html_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
+										<c-col class="enable-respect-data-request-shortcode-label"><label><?php esc_html_e( 'Shortcode for Data Request', 'gdpr-cookie-consent' ); ?><tooltip class="gdpr-sc-tooltip" text="<?php esc_attr_e( 'You can use this Shortcode [wpl_data_request] to display the data request form on any page', 'gdpr-cookie-consent' ); ?>"></tooltip></label>
 										</c-col>
 										<c-col class="enable-data-request-switch">
 											<c-button class="wizard-data-request-btn" variant="outline" @click="copyTextToClipboard">{{ shortcode_copied ? 'Shortcode Copied!' : 'Click to Copy' }}</c-button>
@@ -453,7 +453,7 @@ function print_template_boxes( ) {
 																	<path fill="#00CF21"d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
 																</svg>
 															</div>
-															<label for="email-input" class="screen-reader-text"><?php esc_attr_e('Email address','gdpr-cookie-consent'); ?></label>
+															<label for="email-input" class="screen-reader-text"><?php esc_html_e('Email address','gdpr-cookie-consent'); ?></label>
 															<c-input name="data_req_email_text_field"  placeholder="example@example.com" v-model="data_req_email_address"  id="email-input"></c-input>
 
 														</c-col>
@@ -495,7 +495,7 @@ function print_template_boxes( ) {
 																	<path fill="#00CF21" d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"></path>
 																</svg>
 															</div>
-															<label for="subject-input" class="screen-reader-text"><?php esc_attr_e( 'Email Subject', 'gdpr-cookie-consent' ); ?></label>
+															<label for="subject-input" class="screen-reader-text"><?php esc_html_e( 'Email Subject', 'gdpr-cookie-consent' ); ?></label>
 															<c-input name="data_req_subject_text_field" placeholder="We have received your request" v-model="data_req_subject" id="subject-input" aria-label="<?php esc_attr_e('GDPR Cookie input fields data', 'gdpr-cookie-consent'); ?>"></c-input>
 														</c-col>
 													</div>
@@ -534,7 +534,7 @@ function print_template_boxes( ) {
 							<!-- show cookie notice  -->
 							<div class="show-cookie-notice">
 									<div class="show-cookie-notice-content">
-										<c-col class="show-cookie-content-label"><label><?php esc_attr_e( 'Show Cookie Notice as', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="show-cookie-content-label"><label><?php esc_html_e( 'Show Cookie Notice as', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col class="show-cookie-content-dropdown">
 											<input type="hidden" name="show-cookie-as" v-model="show_cookie_as">
 											<v-select class="form-group" id="gdpr-show-cookie-as" :reduce="label => label.code" :options="show_cookie_as_options" v-model="show_cookie_as"  @input="cookieTypeChange"></v-select>
@@ -545,7 +545,7 @@ function print_template_boxes( ) {
 							<!-- Banner’s Layout & Positions -->
 							<div class="show-banner-layoout-position">
 									<div class="show-cookie-notice-content">
-										<c-col class="show-banner-layout-label"><label><?php esc_attr_e( 'Banner’s Layout & Positions', 'gdpr-cookie-consent' ); ?></label></c-col>
+										<c-col class="show-banner-layout-label"><label><?php esc_html_e( 'Banner’s Layout & Positions', 'gdpr-cookie-consent' ); ?></label></c-col>
 										<c-col v-show="show_cookie_as === 'banner'">
 											<div
 											@click="cookiebannerPositionChange('bottom')"

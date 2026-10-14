@@ -108,9 +108,9 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 		if ( isset( $_POST['cookie_arr'] ) ) {
 			check_admin_referer( 'gdpr_cookie_custom', 'security' );
 			// Store sanitised values only.
-			$cookie_arr = gdprcc_clean((wp_unslash( $_POST['cookie_arr'] ) ) ); // phpcs:ignore input var ok, CSRF ok, sanitization ok.
-			if( is_string( $cookie_arr )){
-				return sanitize_text_field($cookie_arr);
+			$cookie_arr = gdprcc_clean( wp_unslash( $_POST['cookie_arr'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized using gdprcc_clean().
+			if ( ! is_array( $cookie_arr ) ) {
+				return $out;
 			}
 			$flag       = 0;
 			
