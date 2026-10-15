@@ -188,7 +188,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										if ( 'necessary' === $category['gdpr_cookie_category_slug'] ) {
 											?>
 											<div class="toggle-group">
-												<div class="always-active" style="color: <?php echo esc_attr( $cookieSettingsPopupAccentColor ); ?>"><?php echo esc_attr( $cookie_data['always'] ); ?></div>
+												<div class="always-active" style="color: <?php echo esc_attr( $cookieSettingsPopupAccentColor ); ?>"><?php echo esc_html( $cookie_data['always'] ); ?></div>
 												<input id="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" type="hidden" name="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" value="<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
 											</div>
 											<?php

@@ -429,7 +429,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 
 			if ( ! empty( $_FILES['policies_csv']['tmp_name'] ) ) {
 				// Setup settings variables.
-				$filename = sanitize_text_field( $_FILES['policies_csv']['tmp_name'] );
+				$filename = sanitize_text_field( wp_unslash( $_FILES['policies_csv']['tmp_name'] ) );
 
 				$result = $this->gdpr_import_csv_policies( $filename );
 

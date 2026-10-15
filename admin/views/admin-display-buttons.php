@@ -147,7 +147,7 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 				<tr valign="top">
 					<th scope="row"><label for="button_decline_text_field"><?php esc_html_e( 'Text', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<input type="text" name="button_decline_text_field" value="<?php echo esc_html( stripslashes( $the_options['button_decline_text'] ) ); ?>" />
+						<input type="text" name="button_decline_text_field" value="<?php echo esc_attr( stripslashes( $the_options['button_decline_text'] ) ); ?>" />
 					</td>
 				</tr>
 				<tr valign="top">
@@ -469,7 +469,7 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 				<tr valign="top">
 					<th scope="row"><label for="button_confirm_text_field"><?php esc_html_e( 'Text', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<input type="text" name="button_confirm_text_field" value="<?php echo esc_html( stripslashes( $the_options['button_confirm_text'] ) ); ?>" />
+						<input type="text" name="button_confirm_text_field" value="<?php echo esc_attr( stripslashes( $the_options['button_confirm_text'] ) ); ?>" />
 					</td>
 				</tr>
 				<tr valign="top">
@@ -532,7 +532,7 @@ $buttons_sub_tab = apply_filters( 'gdprcookieconsent_buttons_sub_tabs', $buttons
 				<tr valign="top">
 					<th scope="row"><label for="button_cancel_text_field"><?php esc_html_e( 'Text', 'gdpr-cookie-consent' ); ?></label></th>
 					<td>
-						<input type="text" name="button_cancel_text_field" value="<?php echo esc_html( stripslashes( $the_options['button_cancel_text'] ) ); ?>" />
+						<input type="text" name="button_cancel_text_field" value="<?php echo esc_attr( stripslashes( $the_options['button_cancel_text'] ) ); ?>" />
 					</td>
 				</tr>
 				<tr valign="top">

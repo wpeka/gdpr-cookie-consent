@@ -380,9 +380,9 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		$offset  = $this->per_page * ( $paged - 1 );
 		$search  = $this->get_search();
 		$order   = isset( $_GET['order'] )
-			? sanitize_text_field( $_GET['order'] ) : 'DESC';
+			? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : 'DESC';
 		$orderby = isset( $_GET['orderby'] )
-			? sanitize_text_field( $_GET['orderby'] ) : 'id';
+			? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : 'id';
 
 		$args = array(
 			'number'  => $this->per_page,
