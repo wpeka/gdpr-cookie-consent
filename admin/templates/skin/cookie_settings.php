@@ -77,7 +77,7 @@ if ( ! defined( 'ABSPATH' ) ) {
           : undefined,
          }">
             <div class="gdprmodal-header">
-               <p>Preferences</p>
+               <p><?php echo esc_html( $the_options['show_again_text'] ); ?></p>
                <span  type="button" class="cookie-settings-popup-close-ccpa" data-dismiss="gdprmodal" data-gdpr_action="close" :style="{ 'border': 'none', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'border-radius': '50%', 'color': cookieSettingsPopupAccentColor, 'background-color': 'transparent' }">
                   <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
                      <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
@@ -195,7 +195,7 @@ if ( ! defined( 'ABSPATH' ) ) {
           : undefined,
          }">
 			<div class="gdprmodal-header">
-            <p>Preferences</p>
+            <p><?php echo esc_html( $the_options['show_again_text'] ); ?></p>
             <span  type="button" class="cookie-settings-popup-close" data-dismiss="gdprmodal" data-gdpr_action="close" :style="{ 'border': 'none', 'display':'inline-flex','justify-content': 'center', 'align-items': 'center', 'height':'20px', 'width': '20px', 'border-radius': '50%', 'color': cookieSettingsPopupAccentColor, 'background-color': 'transparent' }">
 					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
@@ -257,7 +257,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                                  :style="{
                                     'color': cookieSettingsPopupAccentColor
                                  }"
-                              >Always Active</div>
+                              ><?php
+                                 $always_text = isset( $the_options['always_active_text'] ) ? $the_options['always_active_text'] : '';
+                                 if ( '' === $always_text || 'dash_always_active_text' === $always_text ) {
+                                    $always_text = __( 'Always Active', 'gdpr-cookie-consent' );
+                                 }
+                                 echo esc_html( $always_text );
+                                 ?></div>
                               <input id="gdpr_messagebar_body_button_necessary" type="hidden" name="gdpr_messagebar_body_button_necessary" value="necessary">
                            </div>
                            <div class="gdpr-column gdpr-category-toggle default">
@@ -990,7 +996,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 ? this[`accept_all_border_radius${active_test_banner_tab}`] + 'px'
                 : accept_all_border_radius + 'px',
                'padding': '12px 29px',
-               }" ><?php echo esc_html__("Save And Accept", "gdpr-cookie-consent")?></button>
+               }" ><?php echo esc_html( ! empty( $the_options['button_save_and_accept_text'] ) ? $the_options['button_save_and_accept_text'] : __( 'Save And Accept', 'gdpr-cookie-consent' ) ); ?></button>
                </div>
                   <div style="width:100%;">
 				         <div v-show="show_credits" class="powered-by-credits"  :style="{'--popup_accent_color': cookieSettingsPopupAccentColor, 'text-align':'center', 'font-size': '10px', 'margin-right': 'auto'}">

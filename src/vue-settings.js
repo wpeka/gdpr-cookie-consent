@@ -5854,7 +5854,11 @@ var gen = new Vue({
         .ajax({
           type: "POST",
           url: settings_obj.ajaxurl,
-          data: "regionArray=" + JSON.stringify(that.regions) + "&action=gcc_save_gcm_region_settings",
+          data: {
+            action: "gcc_save_gcm_region_settings",
+            regionArray: JSON.stringify(that.regions),
+            _wpnonce: settings_obj.nonce
+          },
         })
         .done(function (data) {
           that.success_error_message = "Region removed";
