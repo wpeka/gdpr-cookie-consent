@@ -491,22 +491,39 @@ class WPL_Consent_Logs extends WP_List_Table {
 	 * @return int
 	 */
 	public function count_requests() {
-
-		global $wpdb;
-		$post_type = 'wplconsentlogs';
-
-		// Efficient query to count the total entries directly in the database
-		$count = $wpdb->get_var(
-			$wpdb->prepare(
-				"SELECT COUNT(*) 
-				FROM $wpdb->posts 
-				WHERE post_type = %s 
-				AND post_status = 'publish'",
-				$post_type
-			)
+		$args = array(
+			'post_type'      => 'wplconsentlogs',
+			'post_status'    => 'publish',
+			'fields'         => 'ids',
+			'posts_per_page' => 1,
 		);
 
-		return $count;
+		$search = $this->get_search();
+		if ( $search ) {
+			$args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				array(
+					'key'     => '_wplconsentlogs_ip',
+					'value'   => $search,
+					'compare' => 'LIKE',
+				),
+			);
+		}
+
+		$month_year = isset( $this->args['month'] ) ? $this->args['month'] : '';
+		if ( '' !== $month_year ) {
+			$parts = explode( ' ', $month_year );
+			if ( 2 === count( $parts ) && (int) $parts[0] >= 1 && (int) $parts[0] <= 12 ) {
+				$args['date_query'] = array(
+					array(
+						'month' => (int) $parts[0],
+						'year'  => (int) $parts[1],
+					),
+				);
+			}
+		}
+
+		$query = new WP_Query( $args );
+		return (int) $query->found_posts;
 	}
 	/**
 	 * Decode a stored wpl_user_preference value into a clean {key:"yes"|"no"} JSON string.

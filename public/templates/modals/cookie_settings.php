@@ -126,7 +126,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				 ?>);
         ">
 			<div class="gdprmodal-header">
-				<p>Preferences</p>
+				<p><?php echo esc_html( $the_options['show_again_text'] ); ?></p>
 				<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close" 
                 style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; right: <?php echo 20 + ((int)$the_options[($ab_testing_enabled === "true" ? 'cookie_bar_border_radius' . $chosenBanner : 'background_border_radius')]) / 2;?>px; height: 20px; width: 20px; border-radius: 50%; color: <?php echo $the_options['cookie_usage_for'] == 'ccpa' ?  esc_html($the_options['button_donotsell_link_color' . $suffix]) : ((bool)$the_options['button_accept_all_as_button' . $suffix] === 'true' || (bool)$the_options['button_accept_all_as_button' . $suffix] === true || (bool)$the_options['button_accept_all_as_button' . $suffix] === 1 ? esc_html($the_options['button_accept_all_button_color' . $suffix]) : esc_html($the_options["button_accept_all_link_color" . $suffix]));?>;background-color: transparent;">
 					<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
@@ -1022,7 +1022,7 @@ if( $the_options['cookie_usage_for'] === "ccpa" || $the_options['cookie_usage_fo
 				); ?>;
         ">
 			<div class="gdprmodal-header">
-				<p>Preferences</p>
+				 <p><?php echo esc_html( $the_options['show_again_text'] ); ?></p>
 			<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close" 
                 style="
                     border: none;

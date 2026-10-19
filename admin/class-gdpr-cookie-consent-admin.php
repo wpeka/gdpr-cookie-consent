@@ -7608,6 +7608,8 @@ class Gdpr_Cookie_Consent_Admin {
 					'gdpr_cookie_category_name_marketing',
 					'gdpr_cookie_category_name_preference',
 					'gdpr_cookie_category_name_unclassified',
+					'dash_button_save_and_accept_text',
+					'dash_always_active_text'
 				);
 
 				$target_language = isset( $the_options['lang_selected'] ) ? $the_options['lang_selected'] : 'en';   //phpcs:ignore

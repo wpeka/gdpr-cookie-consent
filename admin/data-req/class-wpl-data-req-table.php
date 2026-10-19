@@ -299,11 +299,16 @@ class WPL_Data_Req_Table extends WP_List_Table {
 					),
 					array( 'ID' => intval( $id ) )
 				);
-				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-				wp_redirect( admin_url( 'admin.php?page=wpl-datarequests' . $paged ) );
-				exit;
 			}
 		}
+		$paged = isset( $_GET['paged'] ) ? 'paged=' . absint( $_GET['paged'] ) : '';
+		$redirect_url = admin_url( 'admin.php?page=gdpr-cookie-consent' . ( $paged ? '&' . $paged : '' ) . '#compliance_records#data_request' );
+		if ( headers_sent() ) {
+			echo '<script>window.location.replace(' . wp_json_encode( esc_url_raw( $redirect_url ) ) . ');</script>';
+		} else {
+			wp_safe_redirect( $redirect_url );
+		}
+		exit;
 	}
 
 	/**
